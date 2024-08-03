@@ -18,7 +18,7 @@ export async function GET(request: Request) {
     request.url,
   );
   if (!isValid) {
-    return new Response("Invalid secret", { status: 401 });
+    return new Response("invalid secret", { status: 401 });
   }
 
   draftMode().enable();

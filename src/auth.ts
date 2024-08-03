@@ -7,8 +7,8 @@ import Credentials from "next-auth/providers/credentials";
 import { LoginSchema } from "@/form-schemas";
 import bcrypt from "bcryptjs";
 
-import { getUserById } from "@/data/user";
-import { getAccountByUserId } from "@/data/account";
+import { getUserById } from "@/sanity/data/user";
+import { getAccountByUserId } from "@/sanity/data/account";
 
 // https://authjs.dev/getting-started/installation#configure
 // providers for authorization, adapters for user data persistence

@@ -43,7 +43,6 @@ export default defineConfig({
 
     // https://www.sanity.io/docs/configuring-the-presentation-tool
     // The Presentation tool enables Visual Editing for interactive live previews.
-    // TODO: implement /api/draft
     presentationTool({
       previewUrl: { previewMode: { enable: "/api/draft" } },
     }),

@@ -1,16 +1,13 @@
 import { createClient } from 'next-sanity';
 import { SanityClient } from 'sanity';
-import { apiVersion, dataset, projectId, token } from './api';
+import { apiVersion, dataset, projectId } from './api';
 
-const client: SanityClient | any = createClient({
+
+export const sanityClient: SanityClient = createClient({
   projectId,
   dataset,
   apiVersion,
-  token,
   perspective: "published",
   useCdn: process.env.NODE_ENV === 'production',
+  // token, // when write data to sanity, token with write permission is required!
 });
-
-const sanityClient: SanityClient = (client as SanityClient);
-
-export default sanityClient;

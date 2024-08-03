@@ -51,6 +51,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@next/env": "latest",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^22.1.0",
     "@types/react": "^18.3.3",

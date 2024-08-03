@@ -1,14 +1,14 @@
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
-import { SanityAdapter } from "./adapters/sanity-adapter";
-import sanityClient from "./lib/sanityClient";
+import { SanityAdapter } from "@/adapters/sanity-adapter";
+import sanityClient from "@/lib/sanityClient";
 import Credentials from "next-auth/providers/credentials";
-import { LoginSchema } from "./form-schemas";
+import { LoginSchema } from "@/form-schemas";
 import bcrypt from "bcryptjs";
 
-import { getUserById } from "./data/user";
-import { getAccountByUserId } from "./data/account";
+import { getUserById } from "@/data/user";
+import { getAccountByUserId } from "@/data/account";
 
 // https://authjs.dev/getting-started/installation#configure
 // providers for authorization, adapters for user data persistence

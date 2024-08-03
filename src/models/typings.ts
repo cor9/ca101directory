@@ -1,10 +1,8 @@
 
-
 export enum UserRole {
     ADMIN = 'ADMIN',
     USER = 'USER',
 }
-
 
 export type User = {
     _id: string;
@@ -17,7 +15,6 @@ export type User = {
     accounts: Account[];
     sessions: Session[];
 }
-
 
 export type Account = {
     _id: string;

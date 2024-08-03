@@ -4,7 +4,6 @@ import {
   CardContent, 
   CardHeader
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 interface UserInfoProps {
   user?: ExtendedUser;

@@ -1,9 +1,7 @@
 import sanityClient from './sanityClient';
 import { getVerificationTokenByEmail } from '@/data/verification-token';
 import { getPasswordResetTokenByEmail } from '@/data/password-reset-token';
-
 import { uuid } from '@sanity/uuid';
-import crypto from "crypto";
 
 export const generateVerificationToken = async (email: string) => {
     const token = `token.${uuid()}`;

@@ -7,6 +7,7 @@ import category from './documents/category';
 import item from './documents/item';
 import tag from './documents/tag';
 import localizedString from './objects/localizedString';
+import settings from './documents/settings';
 
 export const schemaTypes = [
     // documents
@@ -19,6 +20,8 @@ export const schemaTypes = [
     account,
     verificationToken,
     passwordResetToken,
+
+    settings,
 
     // objects
     localizedString,

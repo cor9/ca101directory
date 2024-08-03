@@ -6,8 +6,8 @@ import localizedString from "@/sanity/schemas/objects/localizedString";
 export default defineType({
   name: "category",
   title: "Category",
-  icon: TiersIcon,
   type: "document",
+  icon: TiersIcon,
   fields: [
     defineField({
       name: "name",

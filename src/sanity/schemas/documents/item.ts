@@ -4,10 +4,10 @@ import { defineField, defineType } from "sanity";
 import localizedString from "@/sanity/schemas/objects/localizedString";
 
 export default defineType({
-  name: "Item",
-  title: "item",
-  icon: ProjectsIcon,
+  name: "item",
+  title: "Item",
   type: "document",
+  icon: ProjectsIcon,
   fields: [
     defineField({
       name: "name",

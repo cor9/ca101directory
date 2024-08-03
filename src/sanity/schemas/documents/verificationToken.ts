@@ -3,7 +3,7 @@ import { TokenIcon } from '@sanity/icons';
 
 const verificationToken = {
   name: 'verificationToken',
-  title: 'verification Token',
+  title: 'Verification Token',
   type: 'document',
   icon: TokenIcon,
   fields: [

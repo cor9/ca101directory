@@ -1,16 +1,19 @@
 import { type SanityDocument } from 'sanity';
 import { Iframe } from 'sanity-plugin-iframe-pane';
 import type { DefaultDocumentNodeResolver } from 'sanity/structure';
+import { previewUrl } from './lib/api';
 
-const previewUrl = process.env.NEXT_PUBLIC_APP_URL;
-
-const defaultDocumentNode: DefaultDocumentNodeResolver = (
+/**
+ * The default document node used when editing documents.
+ */
+const documentNode: DefaultDocumentNodeResolver = (
 	S,
 	{ schemaType },
 ) => {
 	const editorView = S.view.form();
 
 	switch (schemaType) {
+		// support preview ItemPage in Sanity Studio
 		case 'item':
 			return S.document().views([
 				editorView,
@@ -27,9 +30,9 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (
 							const slug = doc?.slug?.current;
 							const path = slug === 'index' ? '' : slug;
 							const directory = 'item';
-
-							console.log('preview, url', [base, directory, path].filter(Boolean).join('/'));
-							return [base, directory, path].filter(Boolean).join('/');
+							const url = [base, directory, path].filter(Boolean).join('/');
+							console.log('preview, url:', url);
+							return url;
 						},
 						reload: {
 							button: true,
@@ -42,4 +45,4 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (
 	}
 }
 
-export default defaultDocumentNode
+export default documentNode;

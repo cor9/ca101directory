@@ -7,7 +7,8 @@ import {
 } from "@/routes";
 
 
-// TODO: fix type here or // @ts-ignore
+// TODO: fix type here or 
+// @ts-ignore
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;

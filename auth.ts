@@ -77,14 +77,15 @@ export const {
 
       return true;
     },
-    // @ts-ignore
+    
     async session({ session, token }) {
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
 
-      // TODO: fix type or // @ts-ignore 
+      // TODO: fix type or 
       if (token.role && session.user) {
+        // @ts-ignore
         session.user.role = token.role;
       }
 
@@ -97,6 +98,7 @@ export const {
 
       return session;
     },
+    
     async jwt({ token }) {
       if (!token.sub) return token;
 

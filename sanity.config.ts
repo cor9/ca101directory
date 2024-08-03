@@ -6,17 +6,18 @@ import { colorInput } from '@sanity/color-input';
 import { dashboardTool, projectInfoWidget, projectUsersWidget, sanityTutorialsWidget } from "@sanity/dashboard";
 import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
 import { media } from 'sanity-plugin-media';
-import { schemaTypes } from '@/sanity/schemas/documents';
+import { schemaTypes } from '@/sanity/schemas';
+import defaultDocumentNode from '@/sanity/defaultDocumentNode';
+import { pageStructure } from '@/sanity/pageStructure';
 
 export default defineConfig({
   name: 'default',
   title: 'NextDir',
+  basePath: '/studio',
 
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID as string,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET as string,
 
-  basePath: '/studio',
-  
   schema: {
     types: schemaTypes,
   },
@@ -25,14 +26,28 @@ export default defineConfig({
     // https://www.sanity.io/docs/structure-tool-api
     // The Structure Tool is a top-level view within Sanity Studio 
     // where editors can drill down to specific documents to edit them.
-    structureTool(), 
+    // structureTool(), 
+    structureTool({
+      // defaultDocumentNode,
+      structure: pageStructure([]),
+    }),
     
     // https://www.sanity.io/docs/the-vision-plugin
     // Vision is a plugin that lets you quickly test your GROQ queries right from the Studio.
     visionTool({
       defaultApiVersion: '2024-08-01',
-      defaultDataset: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+      defaultDataset: process.env.NEXT_PUBLIC_SANITY_DATASET as string,
     }),
+
+    // presentationTool({
+		// 	title: 'Editor',
+		// 	previewUrl: {
+		// 		draftMode: {
+		// 			enable: `${BASE_URL}/api/draft`,
+		// 		},
+		// 	},
+		// 	resolve: { locations },
+		// }),
 
     // https://www.sanity.io/docs/dashboard
     // Dashboard is a Sanity Studio tool that allows you to add widgets that display information 

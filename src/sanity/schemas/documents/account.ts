@@ -1,11 +1,11 @@
 import { defineField } from 'sanity';
-import { DocumentTextIcon } from '@sanity/icons';
+import { UsersIcon } from '@sanity/icons';
 
 const account = {
   name: 'account',
   title: 'Account',
   type: 'document',
-  icon: DocumentTextIcon,
+  icon: UsersIcon,
   fields: [
     defineField({
       name: 'userId',

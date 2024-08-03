@@ -22,7 +22,7 @@ export default defineType({
       title: "Slug",
       type: "slug",
       options: {
-        source: "name",
+        source: "name.en",
         maxLength: 96,
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
@@ -37,7 +37,7 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: "name",
+      title: "name.en",
       order: "order",
       date: "_createdAt",
     },

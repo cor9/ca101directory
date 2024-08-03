@@ -2,6 +2,14 @@ import { type DocumentDefinition } from "sanity";
 import { type StructureResolver } from "sanity/structure";
 import settings from "./schemas/documents/settings";
 import { schemaTypes } from "./schemas";
+import item from "./schemas/documents/item";
+import category from "./schemas/documents/category";
+import user from "./schemas/documents/user";
+import account from "./schemas/documents/account";
+import session from "./schemas/documents/session";
+import verificationToken from "./schemas/documents/verificationToken";
+import passwordResetToken from "./schemas/documents/passwordResetToken";
+import tag from "./schemas/documents/tag";
 
 const singletonTypes: DocumentDefinition[] = [settings];
 
@@ -33,17 +41,17 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
       .items([
         S.divider(),
         
-        S.documentTypeListItem('item'),
-        S.documentTypeListItem('category'),
-        S.documentTypeListItem('tag'),
+        S.documentTypeListItem(item.name),
+        S.documentTypeListItem(category.name),
+        S.documentTypeListItem(tag.name),
         
         S.divider(),
 
-        S.documentTypeListItem('user'),
-        S.documentTypeListItem('account'),
-        S.documentTypeListItem('session'),
-        S.documentTypeListItem('verificationToken'),
-        S.documentTypeListItem('passwordResetToken'),
+        S.documentTypeListItem(user.name),
+        S.documentTypeListItem(account.name),
+        S.documentTypeListItem(session.name),
+        S.documentTypeListItem(verificationToken.name),
+        S.documentTypeListItem(passwordResetToken.name),
         
         S.divider(),
         

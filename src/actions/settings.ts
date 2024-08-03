@@ -4,7 +4,7 @@ import * as z from "zod";
 import bcrypt from "bcryptjs";
 
 import { unstable_update}  from "@/auth";
-import sanityClient from "@/lib/sanityClient";
+import sanityClient from "@/sanity/lib/sanityClient";
 import { SettingsSchema } from "@/form-schemas";
 import { getUserByEmail, getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";

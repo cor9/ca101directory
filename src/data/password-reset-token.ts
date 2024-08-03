@@ -1,4 +1,4 @@
-import sanityClient from "@/lib/sanityClient";
+import sanityClient from "@/sanity/lib/sanityClient";
 
 export const getPasswordResetTokenByEmail = async ( email: string ) => {
     try {

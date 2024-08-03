@@ -1,4 +1,4 @@
-import sanityClient from "@/lib/sanityClient";
+import sanityClient from "@/sanity/lib/sanityClient";
 
 export const getAccountByUserId = async (userId: string) => {
     try {

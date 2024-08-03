@@ -13,7 +13,6 @@ import { apiVersion, dataset, projectId, studioUrl } from '@/sanity/lib/api';
 import { singletonPlugin } from '@/sanity/plugins/singleton';
 import settings from '@/sanity/schemas/documents/settings';
 import documentNode from '@/sanity/documentNode';
-import { location } from '@/sanity/plugins/location';
 
 export default defineConfig({
   name: 'default',

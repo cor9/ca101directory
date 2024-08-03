@@ -14,10 +14,10 @@ export function SanityAdapter(
   sanityClient: SanityClient,
   options = {
     schemas: {
-      account: 'account',
-      verificationToken: 'verificationToken',
       user: 'user',
-      session: 'session'
+      account: 'account',
+      session: 'session',
+      verificationToken: 'verificationToken',
     }
   }
 ): Adapter {
@@ -40,6 +40,7 @@ export function SanityAdapter(
           image: user.image,
           emailVerified: user.emailVerified
         });
+        console.log('createUser, user:', user);
 
         return {
           id: createdUser._id,
@@ -70,6 +71,7 @@ export function SanityAdapter(
 
         const user_qry = `*[_type == "user" && _id== "${account.userId}"][0]`;
         const user = await sanityClient.fetch(user_qry);
+        console.log('getUserByAccount, user:', user);
 
         return {
           id: user._id,
@@ -97,6 +99,7 @@ export function SanityAdapter(
             ...existingUser
           })
           .commit();
+        console.log('updateUser, user:', patchedUser);
 
         return patchedUser as any;
       } catch (error) {
@@ -114,6 +117,31 @@ export function SanityAdapter(
 
     async linkAccount(account) {
       try {
+        console.log('linkAccount, accountId:', account.userId);
+        console.log('linkAccount, account:', account);
+        // Github account
+        // linkAccount, account: {
+        //   access_token: 'xxx',
+        //   scope: 'read:user,user:email',
+        //   token_type: 'bearer',
+        //   providerAccountId: '1982582',
+        //   provider: 'github',
+        //   type: 'oauth',
+        //   userId: 'user.7f3a261a-d6ea-42d8-80b9-b1e8310258c4'
+        // }
+
+        // Google account
+        // linkAccount, account: {
+        //   access_token: 'xxx',
+        //   id_token: 'xxx',
+        //   expires_at: 1722666512,
+        //   scope: 'openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+        //   token_type: 'bearer',
+        //   providerAccountId: '106050797306543125930',
+        //   provider: 'google',
+        //   type: 'oidc',
+        //   userId: 'user.1d2c06f6-2bcc-4f5e-95ba-014aadfb4580'
+        // }
         const createdAccount = await sanityClient.create({
           _type: options.schemas.account,
           userId: account.userId,
@@ -159,6 +187,7 @@ export function SanityAdapter(
         if (!account) return;
 
         const accountUser = await sanityClient.getDocument<User>(account.userId);
+        console.log('unlinkAccount, user:', accountUser);
 
         // Filter out the user account to be deleted
         const updatedUserAccounts = (accountUser?.accounts || []).filter(
@@ -204,6 +233,7 @@ export function SanityAdapter(
 
         const user_qry = `*[_type == "user" && _id== "${session.userId}"][0]`;
         const user = await sanityClient.fetch(user_qry);
+        console.log('getSessionAndUser, user:', user);
 
         return {
           session: session,
@@ -247,6 +277,7 @@ export function SanityAdapter(
       try {
         const user_qry = `*[_type == "user" && email== "${email}"][0]`;
         const user = await sanityClient.fetch(user_qry);
+        console.log('getUserByEmail, user:', user);
 
         return user;
       } catch (error) {

@@ -1,11 +1,6 @@
 import type { SanityClient } from '@sanity/client';
 import { uuid } from '@sanity/uuid';
-
-import type {
-  Adapter,
-  AdapterSession,
-  AdapterUser,
-} from "@auth/core/adapters";
+import type { Adapter, AdapterSession, AdapterUser, } from "@auth/core/adapters";
 import { User, UserRole } from "@/models/typings";
 
 // https://authjs.dev/reference/core/adapters
@@ -115,6 +110,8 @@ export function SanityAdapter(
       }
     },
 
+    // sometimes failed when a google account attempts to sign in 
+    // because of userId is undefined
     async linkAccount(account) {
       try {
         console.log('linkAccount, accountId:', account.userId);
@@ -161,7 +158,8 @@ export function SanityAdapter(
         });
 
         const userToUpdate = await sanityClient.getDocument(account.userId);
-
+        console.log('unlinkAccount, user:', userToUpdate);
+        
         await sanityClient.createOrReplace<User>({
           ...userToUpdate,
           emailVerified: new Date().toISOString(),

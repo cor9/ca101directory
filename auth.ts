@@ -10,7 +10,8 @@ import bcrypt from "bcryptjs";
 import { getUserById } from "./data/user";
 import { getAccountByUserId } from "./data/account";
 
-
+// https://authjs.dev/getting-started/installation#configure
+// providers for authorization, adapters for user data persistence
 export const {
   handlers: { GET, POST },
   auth,
@@ -25,6 +26,7 @@ export const {
     error: "/auth/error"
   },
   providers: [
+    // https://authjs.dev/getting-started/authentication/oauth
     GitHub({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
@@ -35,10 +37,12 @@ export const {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true
     }),
+    // https://authjs.dev/getting-started/authentication/credentials
     Credentials({
-      async authorize(credentials) {
+      authorize: async (credentials) => {
+        // called when user attempts to sign in with credentials
         console.log('authorize, credentials:', credentials);
-        //if not using zod resolvers validated fields arent necessary
+        
         const validatedFields = LoginSchema.safeParse(credentials);
         if (!validatedFields.success) return null;
 
@@ -65,11 +69,9 @@ export const {
     })
   ],
   session: { strategy: "jwt" },
-  // TODO: fix type or add @ts-ignore
-  // 类型 "SanityClient" 中的属性 "#private" 引用了不能从类型 "SanityClient" 内访问的其他成员。
   adapter: SanityAdapter(sanityClient),
   callbacks: {
-    async signIn({ user, account }) {
+    signIn: async({ user, account }) => {
       console.log('auth callbacks signIn, user:', user);
       if (account?.provider !== "credentials") return true;
 
@@ -81,7 +83,7 @@ export const {
       return true;
     },
     
-    async session({ session, token }) {
+    session: async ({ session, token }) => {
       console.log('auth callbacks session, token:', token);
       // auth callbacks session, token: {
       //   name: 'hujiawei',
@@ -115,7 +117,7 @@ export const {
       return session;
     },
     
-    async jwt({ token }) {
+    jwt: async ({ token }) => {
       console.log('auth callbacks jwt, token:', token);
       // auth callbacks jwt, token: {
       //   name: 'hujiawei',

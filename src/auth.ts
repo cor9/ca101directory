@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
-import { SanityAdapter } from "@/adapters/sanity-adapter";
+import { SanityAdapter } from "@/sanity/adapters/sanity-adapter";
 import sanityClient from "@/sanity/lib/client";
 import Credentials from "next-auth/providers/credentials";
 import { LoginSchema } from "@/form-schemas";

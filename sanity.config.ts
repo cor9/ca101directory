@@ -31,7 +31,7 @@ export default defineConfig({
     // where editors can drill down to specific documents to edit them.
     structureTool({
       defaultDocumentNode: documentNode,
-      structure: structure([settings]),
+      structure: structure(),
     }),
 
     // https://www.sanity.io/docs/the-vision-plugin
@@ -43,6 +43,7 @@ export default defineConfig({
 
     // https://www.sanity.io/docs/configuring-the-presentation-tool
     // The Presentation tool enables Visual Editing for interactive live previews.
+    // demo: https://github.com/javayhu/sanity-press/blob/main/sanity/src/presentation.ts#L4
     // TODO: fix this error: Unable to connect to visual editing. Make sure you've setup '@sanity/visual-editing' correctly
     presentationTool({
       previewUrl: { previewMode: { enable: "/api/draft" } },

@@ -12,7 +12,6 @@ export const urlForImage = (source: any) => {
   if (!source?.asset?._ref) {
     return undefined;
   }
-
   return imageBuilder?.image(source).auto("format").fit("max");
 };
 
@@ -31,7 +30,7 @@ export function resolveHref(
     case "item":
       return slug ? `/item/${slug}` : undefined;
     default:
-      console.warn("Invalid document type:", documentType);
+      console.warn("resolveHref, invalid document type:", documentType);
       return undefined;
   }
 }

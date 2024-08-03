@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import { NewPasswordSchema } from "@/form-schemas";
 import { getPasswordResetTokenByToken } from "@/sanity/data/password-reset-token";
 import { getUserByEmail } from "@/sanity/data/user";
-import sanityClient from "@/sanity/lib/client";
+import { sanityClient } from "@/sanity/lib/client";
 
 export const newPassword = async (
   values: z.infer<typeof NewPasswordSchema>,

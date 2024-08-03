@@ -1,4 +1,4 @@
-import sanityClient from "@/sanity/lib/client";
+import { sanityClient } from "@/sanity/lib/client";
 
 export const getUserByEmail = async (email: string) => {
     try {

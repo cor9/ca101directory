@@ -1,6 +1,6 @@
 "use server";
 
-import sanityClient from "@/sanity/lib/client";
+import { sanityClient } from "@/sanity/lib/client";
 import { getUserByEmail } from "@/sanity/data/user";
 import { getVerificationTokenByToken } from "@/sanity/data/verification-token";
 

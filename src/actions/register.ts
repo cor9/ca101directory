@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import bcrypt from "bcryptjs";
-import sanityClient from "@/sanity/lib/client";
+import { sanityClient } from "@/sanity/lib/client";
 import { RegisterSchema } from "@/form-schemas";
 import { getUserByEmail } from "@/sanity/data/user";
 import { UserRole } from "@/models/typings";

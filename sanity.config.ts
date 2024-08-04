@@ -42,6 +42,7 @@ export default defineConfig({
     }),
 
     // https://www.sanity.io/docs/configuring-the-presentation-tool
+    // https://www.sanity.io/docs/draft-mode
     // The Presentation tool enables Visual Editing for interactive live previews.
     // demo: https://github.com/javayhu/sanity-press/blob/main/sanity/src/presentation.ts#L4
     // TODO: fix this error: Unable to connect to visual editing. Make sure you've setup '@sanity/visual-editing' correctly

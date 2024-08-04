@@ -78,6 +78,7 @@ export default defineConfig({
         { id: 'fr', title: 'French' }
       ],
       defaultLanguages: ['en'],
+      // internationalizedArray + string => internationalizedArrayString
       fieldTypes: ['string'],
     }),
 

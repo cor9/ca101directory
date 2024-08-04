@@ -19,7 +19,11 @@ export default defineType({
       title: "Slug",
       type: "slug",
       options: {
-        source: "name.en",
+        source: (document, context) => {
+          // @ts-ignore
+          const enName = document.name.find(item => item._key === "en");
+          return enName ? enName.value : "";
+        },
         maxLength: 96,
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
@@ -44,8 +48,12 @@ export default defineType({
         order && `Order:${order}`,
         date && `${format(parseISO(date), "yyyy/MM/dd")}`,
       ].filter(Boolean);
+
+      // @ts-ignore
+      const enName = name.find(item => item._key === "en");
+      const title = enName ? enName.value : "Unknown";
       return {
-        title: name[0].value,
+        title,
         media,
         subtitle: subtitles.join(" ")
       };

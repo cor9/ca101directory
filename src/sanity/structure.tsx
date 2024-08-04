@@ -10,6 +10,7 @@ import session from "./schemas/documents/session";
 import verificationToken from "./schemas/documents/verificationToken";
 import passwordResetToken from "./schemas/documents/passwordResetToken";
 import tag from "./schemas/documents/tag";
+import { UsersIcon } from "@sanity/icons";
 
 const singletonTypes: DocumentDefinition[] = [settings];
 
@@ -40,25 +41,39 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
       .title("Content")
       .items([
         S.divider(),
-        
+
         S.documentTypeListItem(item.name),
         S.documentTypeListItem(category.name),
         S.documentTypeListItem(tag.name),
-        
+
         S.divider(),
 
-        S.documentTypeListItem(user.name),
-        S.documentTypeListItem(account.name),
-        S.documentTypeListItem(session.name),
-        S.documentTypeListItem(verificationToken.name),
-        S.documentTypeListItem(passwordResetToken.name),
-        
+        // group the user management
+        S.listItem().title('User management')
+          .icon(UsersIcon)
+          .child(
+            S.list()
+              .title('User management')
+              .items([
+                S.documentTypeListItem(user.name),
+                S.documentTypeListItem(account.name),
+                S.documentTypeListItem(session.name),
+                S.documentTypeListItem(verificationToken.name),
+                S.documentTypeListItem(passwordResetToken.name),
+              ]),
+          ),
+        // S.documentTypeListItem(user.name),
+        // S.documentTypeListItem(account.name),
+        // S.documentTypeListItem(session.name),
+        // S.documentTypeListItem(verificationToken.name),
+        // S.documentTypeListItem(passwordResetToken.name),
+
         S.divider(),
-        
+
         ...singletonItems,
-        
+
         S.divider(),
-        
+
         ...otherListItems,
       ]);
   };

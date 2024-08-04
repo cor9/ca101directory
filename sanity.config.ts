@@ -5,6 +5,7 @@ import { codeInput } from '@sanity/code-input';
 import { colorInput } from '@sanity/color-input';
 import { dashboardTool, projectInfoWidget, projectUsersWidget, sanityTutorialsWidget } from "@sanity/dashboard";
 import { presentationTool } from 'sanity/presentation';
+import { internationalizedArray } from 'sanity-plugin-internationalized-array';
 import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
 import { media } from 'sanity-plugin-media';
 import { schemaTypes } from '@/sanity/schemas';
@@ -45,6 +46,7 @@ export default defineConfig({
     // https://www.sanity.io/docs/draft-mode
     // The Presentation tool enables Visual Editing for interactive live previews.
     // demo: https://github.com/javayhu/sanity-press/blob/main/sanity/src/presentation.ts#L4
+    // demo: https://github.com/javayhu/sanity-press/blob/main/sanity/sanity.config.ts#L32
     // TODO: fix this error: Unable to connect to visual editing. Make sure you've setup '@sanity/visual-editing' correctly
     presentationTool({
       previewUrl: { previewMode: { enable: "/api/draft" } },
@@ -65,6 +67,18 @@ export default defineConfig({
         ),
         sanityTutorialsWidget()
       ],
+    }),
+
+    // https://www.sanity.io/plugins/internationalized-array
+    // Store localised fields in an array to save on attributes
+    internationalizedArray({
+      languages: [
+        { id: 'en', title: 'English' },
+        { id: 'zh', title: 'Chinese' },
+        { id: 'fr', title: 'French' }
+      ],
+      defaultLanguages: ['en'],
+      fieldTypes: ['string'],
     }),
 
     // Configures the global "new document" button, and document actions, 

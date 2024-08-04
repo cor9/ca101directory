@@ -1,7 +1,6 @@
 import { ProjectsIcon } from "@sanity/icons";
 import { format, parseISO } from "date-fns";
 import { defineField, defineType } from "sanity";
-import localizedString from "@/sanity/schemas/objects/localizedString";
 
 export default defineType({
   name: "item",
@@ -12,9 +11,7 @@ export default defineType({
     defineField({
       name: "name",
       title: "Name",
-      // type: "string",
-      // type: localizedString.name,
-      type: "localizedString",
+      type: "internationalizedArrayString",
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -31,9 +28,7 @@ export default defineType({
     defineField({
       name: "desc",
       title: "Description",
-      // type: "string",
-      // type: localizedString.name,
-      type: "localizedString",
+      type: "internationalizedArrayString",
     }),
     defineField({
       name: "link",
@@ -99,19 +94,26 @@ export default defineType({
       },
     })
   ],
+  // https://www.sanity.io/docs/previews-list-views
+  // Configure and customize how documents are displayed 
+  // within Sanity Studio's document lists.
   preview: {
     select: {
-      title: "name.en",
+      name: "name",
       media: "logo",
       order: "order",
       date: "_createdAt",
     },
-    prepare({ title, media, order, date }) {
+    prepare({ name, media, order, date }) {
       const subtitles = [
-        order && `order:${order}`,
+        order && `Order:${order}`,
         date && `${format(parseISO(date), "yyyy/MM/dd")}`,
       ].filter(Boolean);
-      return { title, media, subtitle: subtitles.join(" ") };
+      return {
+        title: name[0].value,
+        media,
+        subtitle: subtitles.join(" ")
+      };
     },
   },
 });

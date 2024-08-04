@@ -1,7 +1,6 @@
 import { TagsIcon } from "@sanity/icons";
 import { format, parseISO } from "date-fns";
 import { defineField, defineType } from "sanity";
-import localizedString from "@/sanity/schemas/objects/localizedString";
 
 export default defineType({
   name: "tag",
@@ -12,9 +11,7 @@ export default defineType({
     defineField({
       name: "name",
       title: "Name",
-      // type: "string",
-      // type: localizedString.name,
-      type: "localizedString",
+      type: "internationalizedArrayString",
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -37,16 +34,21 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: "name.en",
+      name: "name",
+      media: "logo",
       order: "order",
       date: "_createdAt",
     },
-    prepare({ title, order, date }) {
+    prepare({ name, media, order, date }) {
       const subtitles = [
-        order && `order:${order}`,
+        order && `Order:${order}`,
         date && `${format(parseISO(date), "yyyy/MM/dd")}`,
       ].filter(Boolean);
-      return { title, subtitle: subtitles.join(" ") };
-    }
+      return {
+        title: name[0].value,
+        media,
+        subtitle: subtitles.join(" ")
+      };
+    },
   },
 });

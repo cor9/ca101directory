@@ -1,7 +1,8 @@
 import { sanityClient } from "@/sanity/lib/client";
+import { groq } from "next-sanity";
 
 export default async function ItemsPage() {
-    const itemListQuery = `*[_type == "item"]`;
+    const itemListQuery = groq`*[_type == "item"]`;
     const itemList = await sanityClient.fetch(itemListQuery);
     console.log('ItemsPage, itemList:', itemList);
 

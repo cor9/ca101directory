@@ -2,7 +2,7 @@ import { sanityClient } from "@/sanity/lib/client";
 
 export const getUserByEmail = async (email: string) => {
     try {
-        // Fetch user by email
+        // @sanity-typegen-ignore
         const userQry = `*[_type == "user" && email == "${email}"][0]`;
         const user = await sanityClient.fetch(userQry);
         console.log('getUserByEmail, user:', user);
@@ -15,7 +15,7 @@ export const getUserByEmail = async (email: string) => {
 
 export const getUserById = async (_id: string) => {
     try {
-        // Fetch user by ID
+        // @sanity-typegen-ignore
         const userQry = `*[_type == "user" && _id == "${_id}"][0]`;
         const user = await sanityClient.fetch(userQry);
         console.log('getUserById, user:', user);

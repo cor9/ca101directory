@@ -21,6 +21,7 @@ export function SanityAdapter(
     // https://authjs.dev/guides/creating-a-database-adapter#methods-and-models
     async createUser(user) {
       try {
+        // @sanity-typegen-ignore
         const existingUser_qry = `*[_type == "user" && email == "${user.email}"][0]`;
         const existingUser = await sanityClient.fetch(existingUser_qry);
 
@@ -48,6 +49,7 @@ export function SanityAdapter(
 
     async getUser(id) {
       try {
+        // @sanity-typegen-ignore
         const user_qry = `*[_type == "user" && _id== "${id}"][0]`;
         const user = await sanityClient.fetch(user_qry);
 
@@ -59,11 +61,13 @@ export function SanityAdapter(
 
     async getUserByAccount({ providerAccountId, provider }) {
       try {
+        // @sanity-typegen-ignore
         const account_qry = `*[_type == "account" && provider == "${provider}" && providerAccountId == "${providerAccountId}"][0]`;
         const account = await sanityClient.fetch(account_qry);
 
         if (!account) return;
 
+        // @sanity-typegen-ignore
         const user_qry = `*[_type == "user" && _id== "${account.userId}"][0]`;
         const user = await sanityClient.fetch(user_qry);
         console.log('getUserByAccount, user:', user);
@@ -81,6 +85,7 @@ export function SanityAdapter(
 
     async updateUser(updatedUser) {
       try {
+        // @sanity-typegen-ignore
         const existingUser_qry = `*[_type == "user" && _id == "${updatedUser?.id}"][0]`;
         const existingUser = await sanityClient.fetch(existingUser_qry);
 
@@ -179,6 +184,7 @@ export function SanityAdapter(
 
     async unlinkAccount({ providerAccountId, provider }) {
       try {
+        // @sanity-typegen-ignore
         const account_qry = `*[_type == "account" && provider == "${provider}" && providerAccountId == "${providerAccountId}"][0]`;
         const account = await sanityClient.fetch(account_qry);
 
@@ -224,11 +230,13 @@ export function SanityAdapter(
 
     async getSessionAndUser(sessionToken: string): Promise<{ session: AdapterSession; user: AdapterUser; } | null> {
       try {
+        // @sanity-typegen-ignore
         const session_qry = `*[_type == "session" && sessionToken == "${sessionToken}"][0]`;
         const session = await sanityClient.fetch(session_qry);
 
         if (!session) return null;
 
+        // @sanity-typegen-ignore
         const user_qry = `*[_type == "user" && _id== "${session.userId}"][0]`;
         const user = await sanityClient.fetch(user_qry);
         console.log('getSessionAndUser, user:', user);
@@ -244,6 +252,7 @@ export function SanityAdapter(
 
     async updateSession({ sessionToken }) {
       try {
+        // @sanity-typegen-ignore
         const session_qry = `*[_type == "session" && sessionToken == "${sessionToken}"][0]`;
         const session = await sanityClient.fetch(session_qry);
 
@@ -259,6 +268,7 @@ export function SanityAdapter(
 
     async deleteSession(sessionToken) {
       try {
+        // @sanity-typegen-ignore
         const session_qry = `*[_type == "session" && sessionToken == "${sessionToken}"][0]`;
         const session = await sanityClient.fetch(session_qry);
 
@@ -273,6 +283,7 @@ export function SanityAdapter(
     // https://authjs.dev/guides/creating-a-database-adapter#verification-tokens
     async getUserByEmail(email) {
       try {
+        // @sanity-typegen-ignore
         const user_qry = `*[_type == "user" && email== "${email}"][0]`;
         const user = await sanityClient.fetch(user_qry);
         console.log('getUserByEmail, user:', user);
@@ -300,6 +311,7 @@ export function SanityAdapter(
 
     async useVerificationToken({ identifier, token }) {
       try {
+        // @sanity-typegen-ignore
         const verToken_qry = `*[_type == "verificationToken" && identifier == "${identifier}" && token == "${token}"][0]`;
         const verToken = await sanityClient.fetch(verToken_qry);
 

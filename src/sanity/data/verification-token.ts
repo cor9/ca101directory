@@ -2,6 +2,7 @@ import { sanityClient } from "@/sanity/lib/client";
 
 export const getVerificationTokenByEmail = async ( email: string ) => {
     try {
+        // @sanity-typegen-ignore
         const verTokenQry = `*[_type == "verificationToken" && identifier == "${email}"][0]`;
         const verToken = await sanityClient.fetch(verTokenQry);
         return verToken;
@@ -12,6 +13,7 @@ export const getVerificationTokenByEmail = async ( email: string ) => {
 
 export const getVerificationTokenByToken = async ( token: string ) => {
     try {
+        // @sanity-typegen-ignore
         const verTokenQry = `*[_type == "verificationToken" && token == "${token}"][0]`;
         const verToken = await sanityClient.fetch(verTokenQry);
         return verToken;

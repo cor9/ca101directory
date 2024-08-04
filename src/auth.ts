@@ -46,6 +46,7 @@ export const {
         const validatedFields = LoginSchema.safeParse(credentials);
         if (!validatedFields.success) return null;
 
+        // @sanity-typegen-ignore
         const user_qry = `*[_type == "user" && email== "${credentials?.email}"][0]`;
         const user = await sanityClient.fetch(user_qry);
 

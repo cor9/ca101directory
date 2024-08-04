@@ -1,8 +1,14 @@
 import { dataset, projectId } from "@/sanity/lib/api";
-import { loadEnvConfig } from "@next/env";
 import { defineCliConfig } from "sanity/cli";
 
-const dev = process.env.NODE_ENV !== "production";
-loadEnvConfig(__dirname, dev, { info: () => null, error: console.error });
-
-export default defineCliConfig({ api: { projectId, dataset } });
+/**
+ * https://www.sanity.io/docs/cli
+ * Build, deploy, init plugin boilerplate, run scripts, 
+ * and wrangle datasets and webhooks, all from the command line
+ */
+export default defineCliConfig({
+    api: {
+        projectId,
+        dataset
+    }
+});

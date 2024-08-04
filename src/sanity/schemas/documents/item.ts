@@ -36,8 +36,8 @@ export default defineType({
       type: "localizedString",
     }),
     defineField({
-      name: "website",
-      title: "Website",
+      name: "link",
+      title: "Link",
       type: "string",
     }),
     defineField({

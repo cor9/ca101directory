@@ -68,6 +68,12 @@ export type Geopoint = {
   alt?: number;
 };
 
+export type LocalizedString = {
+  _type: "localizedString";
+  en?: string;
+  zh?: string;
+};
+
 export type Settings = {
   _id: string;
   _type: "settings";
@@ -122,9 +128,10 @@ export type Tag = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: LocalizedString;
+  name?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
   slug?: Slug;
-  order?: number;
 };
 
 export type Item = {
@@ -133,11 +140,14 @@ export type Item = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: LocalizedString;
+  name?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
   slug?: Slug;
-  desc?: LocalizedString;
+  desc?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
   link?: string;
-  order?: number;
   category?: {
     _ref: string;
     _type: "reference";
@@ -320,15 +330,10 @@ export type Category = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: LocalizedString;
+  name?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
   slug?: Slug;
-  order?: number;
-};
-
-export type LocalizedString = {
-  _type: "localizedString";
-  en?: string;
-  zh?: string;
 };
 
 export type Code = {
@@ -372,6 +377,15 @@ export type HslaColor = {
   a?: number;
 };
 
+export type InternationalizedArrayStringValue = {
+  _type: "internationalizedArrayStringValue";
+  value?: string;
+};
+
+export type InternationalizedArrayString = Array<{
+  _key: string;
+} & InternationalizedArrayStringValue>;
+
 export type MediaTag = {
   _id: string;
   _type: "media.tag";
@@ -397,11 +411,14 @@ export type ItemListQueryResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: LocalizedString;
+  name?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
   slug?: Slug;
-  desc?: LocalizedString;
+  desc?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
   link?: string;
-  order?: number;
   category?: {
     _ref: string;
     _type: "reference";

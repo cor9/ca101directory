@@ -29,33 +29,22 @@ export default defineType({
       },
       validation: (rule) => rule.required(),
     }),
-    defineField({
-      name: "order",
-      title: "Order",
-      type: "number",
-      initialValue: -1,
-    })
   ],
   preview: {
     select: {
       name: "name",
       media: "logo",
-      order: "order",
       date: "_createdAt",
     },
-    prepare({ name, media, order, date }) {
-      const subtitles = [
-        order && `Order:${order}`,
-        date && `${format(parseISO(date), "yyyy/MM/dd")}`,
-      ].filter(Boolean);
-
+    prepare({ name, media, date }) {
       // @ts-ignore
       const enName = name.find(item => item._key === "en");
       const title = enName ? enName.value : "Unknown";
+      const subtitle = format(parseISO(date), "yyyy/MM/dd");
       return {
         title,
         media,
-        subtitle: subtitles.join(" ")
+        subtitle
       };
     },
   },

@@ -241,6 +241,7 @@ export type Item = {
     alt?: string;
     _type: "image";
   };
+  publishDate?: string;
 };
 
 export type SanityImageCrop = {
@@ -503,6 +504,7 @@ export type ItemListQueryResult = Array<{
     alt?: string;
     _type: "image";
   };
+  publishDate?: string;
 }>;
 // Variable: itemQuery
 // Query: *[_type == "item" && slug.current == $slug][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
@@ -595,6 +597,7 @@ export type ItemQueryResult = {
     alt?: string;
     _type: "image";
   };
+  publishDate?: string;
 } | null;
 // Variable: searchItemQuery
 // Query: *[_type == "item" && defined(slug.current)] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
@@ -687,6 +690,7 @@ export type SearchItemQueryResult = Array<{
     alt?: string;
     _type: "image";
   };
+  publishDate?: string;
 }>;
 // Variable: itemListOfCategoryQuery
 // Query: *[_type == "item" && defined(slug.current)   && $slug in categories[]->slug.current] | order(_createdAt asc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
@@ -779,6 +783,7 @@ export type ItemListOfCategoryQueryResult = Array<{
     alt?: string;
     _type: "image";
   };
+  publishDate?: string;
 }>;
 // Variable: categoryListQuery
 // Query: *[_type == "category" && defined(slug.current)] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}

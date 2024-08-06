@@ -109,7 +109,12 @@ export default defineType({
           title: "Alternative Text",
         },
       ],
-    })
+    }),
+		defineField({
+			name: 'publishDate',
+			type: 'datetime',
+      initialValue: () => new Date().toISOString(),
+		}),
   ],
   // https://www.sanity.io/docs/previews-list-views
   // Configure and customize how documents are displayed 
@@ -118,7 +123,7 @@ export default defineType({
     select: {
       name: "name",
       media: "logo",
-      date: "_createdAt",
+      date: "publishDate",
     },
     prepare({ name, media, date }) {
       // @ts-ignore
@@ -132,4 +137,16 @@ export default defineType({
       };
     },
   },
+	orderings: [
+		{
+			title: 'Date',
+			name: 'date',
+			by: [{ field: 'publishDate', direction: 'desc' }],
+		},
+		{
+			title: 'Title',
+			name: 'title',
+			by: [{ field: 'title', direction: 'asc' }],
+		},
+	],
 });

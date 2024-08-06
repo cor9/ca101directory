@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import { unstable_update}  from "@/auth";
 import { sanityClient } from "@/sanity/lib/client";
 import { SettingsSchema } from "@/form-schemas";
-import { getUserByEmail, getUserById } from "@/sanity/data/user";
+import { getUserByEmail, getUserById } from "@/sanity/auth/user";
 import { currentUser } from "@/lib/auth";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";

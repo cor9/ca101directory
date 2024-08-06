@@ -3,7 +3,7 @@
 import * as z from "zod";
 
 import { ResetSchema } from "@/form-schemas";
-import { getUserByEmail } from "@/sanity/data/user";
+import { getUserByEmail } from "@/sanity/auth/user";
 import { sendPasswordResetEmail } from "@/lib/mail";
 import { generatePasswordResetToken } from "@/lib/tokens";
 

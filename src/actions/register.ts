@@ -4,7 +4,7 @@ import * as z from "zod";
 import bcrypt from "bcryptjs";
 import { sanityClient } from "@/sanity/lib/client";
 import { RegisterSchema } from "@/form-schemas";
-import { getUserByEmail } from "@/sanity/data/user";
+import { getUserByEmail } from "@/sanity/auth/user";
 import { UserRole } from "@/models/typings";
 import { uuid } from '@sanity/uuid';
 import { generateVerificationToken } from "@/lib/tokens";

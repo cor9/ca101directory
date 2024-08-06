@@ -1,17 +1,20 @@
-import { sanityClient } from "@/sanity/lib/client";
-import { groq } from "next-sanity";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { itemListQuery } from "@/sanity/lib/queries";
+import { ItemListQueryResult } from "@sanity/types";
 
 export default async function ItemsPage() {
-    const itemListQuery = groq`*[_type == "item"]`;
-    const itemList = await sanityClient.fetch(itemListQuery);
+    const itemList = await sanityFetch<ItemListQueryResult>({
+        query: itemListQuery
+    });
     console.log('ItemsPage, itemList:', itemList);
 
     return (
         <div>
             {
-                itemList.map((item: { _id: string; }) => (
+                itemList.map(item => (
                     <div key={item._id}>
-                        {item._id}
+                        {item.name?.find(item => item._key === "en")?.value}
+                        {item.description?.find(item => item._key === "en")?.value}
                     </div>
                 ))
             }

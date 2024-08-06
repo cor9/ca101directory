@@ -4,7 +4,7 @@ import Google from "next-auth/providers/google";
 import { SanityAdapter } from "@/sanity/auth/sanity-adapter";
 import { sanityClient } from "@/sanity/lib/client";
 import Credentials from "next-auth/providers/credentials";
-import { LoginSchema } from "@/form-schemas";
+import { LoginSchema } from "@/lib/schemas";
 import bcrypt from "bcryptjs";
 
 import { getUserById } from "@/sanity/auth/user";

@@ -3,7 +3,7 @@
 import * as z from "zod";
 import bcrypt from "bcryptjs";
 import { sanityClient } from "@/sanity/lib/client";
-import { RegisterSchema } from "@/form-schemas";
+import { RegisterSchema } from "@/lib/schemas";
 import { getUserByEmail } from "@/sanity/auth/user";
 import { UserRole } from "@/models/typings";
 import { uuid } from '@sanity/uuid';

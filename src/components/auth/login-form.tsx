@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 
-import { LoginSchema } from "@/form-schemas";
+import { LoginSchema } from "@/lib/schemas";
 import { Input } from "@/components/ui/input";
 import {
   Form,

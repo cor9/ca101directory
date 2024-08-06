@@ -413,7 +413,7 @@ export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: ./src/sanity/lib/queries.ts
 // Variable: itemListQuery
-// Query: *[_type == "item"] {    ...,  "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "item"] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
 export type ItemListQueryResult = Array<{
   _id: string;
   _type: "item";
@@ -423,7 +423,7 @@ export type ItemListQueryResult = Array<{
   name?: Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
-  slug: string | null;
+  slug?: Slug;
   description?: Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
@@ -505,7 +505,7 @@ export type ItemListQueryResult = Array<{
   };
 }>;
 // Variable: itemQuery
-// Query: *[_type == "item" && slug.current == $slug][0] {    ...,  "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "item" && slug.current == $slug][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
 export type ItemQueryResult = {
   _id: string;
   _type: "item";
@@ -515,7 +515,7 @@ export type ItemQueryResult = {
   name?: Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
-  slug: string | null;
+  slug?: Slug;
   description?: Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
@@ -597,7 +597,7 @@ export type ItemQueryResult = {
   };
 } | null;
 // Variable: categoryListQuery
-// Query: *[_type == "category"] {    ...,  "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "category"] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
 export type CategoryListQueryResult = Array<{
   _id: string;
   _type: "category";
@@ -607,13 +607,13 @@ export type CategoryListQueryResult = Array<{
   name?: Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
-  slug: string | null;
+  slug?: Slug;
   description?: Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
 }>;
 // Variable: categoryQuery
-// Query: *[_type == "category" && slug.current == $slug][0] {    ...,  "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "category" && slug.current == $slug][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
 export type CategoryQueryResult = {
   _id: string;
   _type: "category";
@@ -623,13 +623,13 @@ export type CategoryQueryResult = {
   name?: Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
-  slug: string | null;
+  slug?: Slug;
   description?: Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
 } | null;
 // Variable: tagListQuery
-// Query: *[_type == "tag"] {    ...,  "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "tag"] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
 export type TagListQueryResult = Array<{
   _id: string;
   _type: "tag";
@@ -639,13 +639,13 @@ export type TagListQueryResult = Array<{
   name?: Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
-  slug: string | null;
+  slug?: Slug;
   description?: Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
 }>;
 // Variable: tagQuery
-// Query: *[_type == "tag" && slug.current == $slug][0] {    ...,  "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "tag" && slug.current == $slug][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
 export type TagQueryResult = {
   _id: string;
   _type: "tag";
@@ -655,7 +655,7 @@ export type TagQueryResult = {
   name?: Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
-  slug: string | null;
+  slug?: Slug;
   description?: Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;

@@ -612,9 +612,9 @@ export type CategoryListQueryResult = Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
 }>;
-// Variable: cateogryQuery
+// Variable: categoryQuery
 // Query: *[_type == "category" && slug.current == $slug][0] {    ...,  "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
-export type CateogryQueryResult = {
+export type CategoryQueryResult = {
   _id: string;
   _type: "category";
   _createdAt: string;

@@ -39,7 +39,7 @@ export const categoryListQuery = groq`*[_type == "category"] {
   ${categoryFields}
 }`;
 
-export const cateogryQuery = groq`*[_type == "category" && slug.current == $slug][0] {
+export const categoryQuery = groq`*[_type == "category" && slug.current == $slug][0] {
   ${categoryFields}
 }`;
 

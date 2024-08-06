@@ -1,6 +1,6 @@
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { itemQuery } from "@/sanity/lib/queries";
-import { ItemQueryResult } from "@sanity/types";
+import { categoryQuery } from "@/sanity/lib/queries";
+import { CategoryQueryResult } from "@sanity/types";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -8,24 +8,24 @@ type Props = {
   params: { slug: string };
 };
 
-export default async function ItemPage({ params }: Props) {
+export default async function CategoryPage({ params }: Props) {
   const slug = params.slug;
-  const item = await sanityFetch<ItemQueryResult>({
-    query: itemQuery,
+  const category = await sanityFetch<CategoryQueryResult>({
+    query: categoryQuery,
     params: { slug }
   });
-  if (!item) {
+  if (!category) {
     return notFound();
   }
-  console.log('ItemPage, item:', item);
+  console.log('CategoryPage, category:', category);
 
   return (
     <div>
       <Link href={`/item`} className="block">Item List</Link>
       <Link href={`/tag`} className="block">Tag List</Link>
       <Link href={`/category`} className="block">Category List</Link>
-      {item.name?.find(kv => kv._key === "en")?.value}
-      {item.description?.find(kv => kv._key === "en")?.value}
+      {category.name?.find(kv => kv._key === "en")?.value}
+      {category.description?.find(kv => kv._key === "en")?.value}
     </div>
   );
 }

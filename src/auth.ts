@@ -73,7 +73,7 @@ export const {
   adapter: SanityAdapter(sanityClient),
   callbacks: {
     signIn: async({ user, account }) => {
-      console.log('auth callbacks signIn, user:', user);
+      // console.log('auth callbacks signIn, user:', user);
       if (account?.provider !== "credentials") return true;
 
       const existingUser = await getUserById(user.id!);
@@ -85,7 +85,7 @@ export const {
     },
     
     session: async ({ session, token }) => {
-      console.log('auth callbacks session, token:', token);
+      // console.log('auth callbacks session, token:', token);
       // auth callbacks session, token: {
       //   name: 'hujiawei',
       //   email: 'hujiawei090807@gmail.com',
@@ -119,7 +119,7 @@ export const {
     },
     
     jwt: async ({ token }) => {
-      console.log('auth callbacks jwt, token:', token);
+      // console.log('auth callbacks jwt, token:', token);
       // auth callbacks jwt, token: {
       //   name: 'hujiawei',
       //   email: 'hujiawei090807@gmail.com',

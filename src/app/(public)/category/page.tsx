@@ -1,6 +1,6 @@
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryListQuery } from "@/sanity/lib/queries";
-import { CategoryListQueryResult } from "@sanity/types";
+import { CategoryListQueryResult } from "@/sanity.types";
 import Link from "next/link";
 
 export default async function CategoryListPage() {

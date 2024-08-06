@@ -1,6 +1,6 @@
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemQuery } from "@/sanity/lib/queries";
-import { ItemQueryResult } from "@sanity/types";
+import { ItemQueryResult } from "@/sanity.types";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 

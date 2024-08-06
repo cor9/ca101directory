@@ -1,6 +1,6 @@
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { tagQuery } from "@/sanity/lib/queries";
-import { TagQueryResult } from "@sanity/types";
+import { TagQueryResult } from "@/sanity.types";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 

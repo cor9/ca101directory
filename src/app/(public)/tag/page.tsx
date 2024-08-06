@@ -1,6 +1,6 @@
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { tagListQuery } from "@/sanity/lib/queries";
-import { TagListQueryResult } from "@sanity/types";
+import { TagListQueryResult } from "@/sanity.types";
 import Link from "next/link";
 
 export default async function TagListPage() {

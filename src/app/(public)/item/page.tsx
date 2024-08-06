@@ -1,6 +1,6 @@
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemListQuery } from "@/sanity/lib/queries";
-import { ItemListQueryResult } from "@sanity/types";
+import { ItemListQueryResult } from "@/sanity.types";
 import Link from "next/link";
 
 export default async function ItemListPage() {

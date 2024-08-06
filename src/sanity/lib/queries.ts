@@ -34,3 +34,19 @@ export const itemListQuery = groq`*[_type == "item"] {
 export const itemQuery = groq`*[_type == "item" && slug.current == $slug][0] {
   ${itemFields}
 }`;
+
+export const categoryListQuery = groq`*[_type == "category"] {
+  ${categoryFields}
+}`;
+
+export const cateogryQuery = groq`*[_type == "category" && slug.current == $slug][0] {
+  ${categoryFields}
+}`;
+
+export const tagListQuery = groq`*[_type == "tag"] {
+  ${tagFields}
+}`;
+
+export const tagQuery = groq`*[_type == "tag" && slug.current == $slug][0] {
+  ${tagFields}
+}`;

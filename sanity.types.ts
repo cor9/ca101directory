@@ -596,4 +596,68 @@ export type ItemQueryResult = {
     _type: "image";
   };
 } | null;
+// Variable: categoryListQuery
+// Query: *[_type == "category"] {    ...,  "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+export type CategoryListQueryResult = Array<{
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
+  slug: string | null;
+  description?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
+}>;
+// Variable: cateogryQuery
+// Query: *[_type == "category" && slug.current == $slug][0] {    ...,  "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+export type CateogryQueryResult = {
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
+  slug: string | null;
+  description?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
+} | null;
+// Variable: tagListQuery
+// Query: *[_type == "tag"] {    ...,  "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+export type TagListQueryResult = Array<{
+  _id: string;
+  _type: "tag";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
+  slug: string | null;
+  description?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
+}>;
+// Variable: tagQuery
+// Query: *[_type == "tag" && slug.current == $slug][0] {    ...,  "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+export type TagQueryResult = {
+  _id: string;
+  _type: "tag";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
+  slug: string | null;
+  description?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
+} | null;
 

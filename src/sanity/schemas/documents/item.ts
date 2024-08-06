@@ -30,7 +30,7 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "desc",
+      name: "description",
       title: "Description",
       type: "internationalizedArrayString",
     }),
@@ -40,10 +40,15 @@ export default defineType({
       type: "string",
     }),
     defineField({
-      name: "category",
-      title: "Category",
-      type: "reference",
-      to: [{ type: "category" }],
+      name: "categories",
+      title: "Categories",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "category" }],
+        }
+      ],
     }),
     defineField({
       name: "tags",
@@ -82,6 +87,13 @@ export default defineType({
       name: "logo",
       title: "Logo",
       type: "image",
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alternative Text",
+        },
+      ],
     }),
     defineField({
       name: "image",
@@ -90,6 +102,13 @@ export default defineType({
       options: {
         hotspot: true,
       },
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alternative Text",
+        },
+      ],
     })
   ],
   // https://www.sanity.io/docs/previews-list-views
@@ -104,7 +123,7 @@ export default defineType({
     prepare({ name, media, date }) {
       // @ts-ignore
       const enName = name.find(item => item._key === "en");
-      const title = enName ? enName.value : "Unknown";
+      const title = enName ? enName.value : "No Name";
       const subtitle = format(parseISO(date), "yyyy/MM/dd");
       return {
         title,

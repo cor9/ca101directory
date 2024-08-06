@@ -122,6 +122,21 @@ export type Session = {
   };
 };
 
+export type Category = {
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
+  slug?: Slug;
+  description?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
+};
+
 export type Tag = {
   _id: string;
   _type: "tag";
@@ -132,6 +147,9 @@ export type Tag = {
     _key: string;
   } & InternationalizedArrayStringValue>;
   slug?: Slug;
+  description?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
 };
 
 export type Item = {
@@ -144,16 +162,17 @@ export type Item = {
     _key: string;
   } & InternationalizedArrayStringValue>;
   slug?: Slug;
-  desc?: Array<{
+  description?: Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
   link?: string;
-  category?: {
+  categories?: Array<{
     _ref: string;
     _type: "reference";
     _weak?: boolean;
+    _key: string;
     [internalGroqTypeReferenceTo]?: "category";
-  };
+  }>;
   tags?: Array<{
     _ref: string;
     _type: "reference";
@@ -207,6 +226,7 @@ export type Item = {
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt?: string;
     _type: "image";
   };
   image?: {
@@ -218,6 +238,7 @@ export type Item = {
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt?: string;
     _type: "image";
   };
 };
@@ -324,18 +345,6 @@ export type Account = {
   };
 };
 
-export type Category = {
-  _id: string;
-  _type: "category";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
-  slug?: Slug;
-};
-
 export type Code = {
   _type: "code";
   language?: string;
@@ -415,16 +424,17 @@ export type ItemListQueryResult = Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
   slug?: Slug;
-  desc?: Array<{
+  description?: Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
   link?: string;
-  category?: {
+  categories?: Array<{
     _ref: string;
     _type: "reference";
     _weak?: boolean;
+    _key: string;
     [internalGroqTypeReferenceTo]?: "category";
-  };
+  }>;
   tags?: Array<{
     _ref: string;
     _type: "reference";
@@ -478,6 +488,7 @@ export type ItemListQueryResult = Array<{
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt?: string;
     _type: "image";
   };
   image?: {
@@ -489,6 +500,7 @@ export type ItemListQueryResult = Array<{
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt?: string;
     _type: "image";
   };
 }>;

@@ -29,6 +29,11 @@ export default defineType({
       },
       validation: (rule) => rule.required(),
     }),
+    defineField({
+      name: "description",
+      title: "Description",
+      type: "internationalizedArrayString",
+    }),
   ],
   preview: {
     select: {
@@ -39,7 +44,7 @@ export default defineType({
     prepare({ name, media, date }) {
       // @ts-ignore
       const enName = name.find(item => item._key === "en");
-      const title = enName ? enName.value : "Unknown";
+      const title = enName ? enName.value : "No Name";
       const subtitle = format(parseISO(date), "yyyy/MM/dd");
       return {
         title,

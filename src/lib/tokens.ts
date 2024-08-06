@@ -1,5 +1,5 @@
 import { sanityClient } from '@/sanity/lib/client';
-import { getVerificationTokenByEmail } from '@/sanity/data/verification-token';
+import { getVerificationTokenByEmail } from '@/sanity/auth/verification-token';
 import { getPasswordResetTokenByEmail } from '@/sanity/data/password-reset-token';
 import { uuid } from '@sanity/uuid';
 

@@ -1,22 +1,24 @@
 export type SortFilterItem = {
   title: string;
   slug: string | null;
-  sortKey: '_createdAt' | '_updatedAt';
+  sortKey: 'publishDate' | '_createdAt' | '_updatedAt';
   reverse: boolean;
 };
 
 export const defaultSort: SortFilterItem = {
-  title: 'created: newest',
+  title: 'publish: newest',
   slug: null,
-  sortKey: '_createdAt',
-  reverse: false
+  sortKey: 'publishDate',
+  reverse: true
 };
 
 export const sorting: SortFilterItem[] = [
   defaultSort,
-  { title: 'created: oldest', slug: 'created-desc', sortKey: '_createdAt', reverse: true },
-  { title: 'updated: newest', slug: 'updated-asc', sortKey: '_updatedAt', reverse: false },
-  { title: 'updated: oldest', slug: 'updated-desc', sortKey: '_updatedAt', reverse: true },
+  { title: 'publish: oldest', slug: 'publish-asc', sortKey: 'publishDate', reverse: false },
+  { title: 'created: newest', slug: 'created-desc', sortKey: '_createdAt', reverse: true },
+  { title: 'created: oldest', slug: 'created-asc', sortKey: '_createdAt', reverse: false },
+  { title: 'updated: newest', slug: 'updated-desc', sortKey: '_updatedAt', reverse: true },
+  { title: 'updated: oldest', slug: 'updated-asc', sortKey: '_updatedAt', reverse: false },
 ];
 
 

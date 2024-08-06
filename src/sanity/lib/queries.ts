@@ -41,7 +41,7 @@ export const searchItemQuery = groq`*[_type == "item" && defined(slug.current)] 
 }`;
 
 export const itemListOfCategoryQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate)
-  && $slug in categories[]->slug.current] | order(_createdAt asc) {
+  && $slug in categories[]->slug.current] | order(publishDate desc) {
   ${itemFields}
 }`;
 

@@ -17,8 +17,8 @@ export default async function TagListPage() {
             {
                 tagList.map(tag => (
                     <div key={tag._id}>
-                        <Link href={`/tag/${tag.slug}`}>
-                            {tag.name?.find(kv => kv._key === "en")?.value}
+                        <Link href={`/tag/${tag.slug?.current}`}>
+                            {tag.name?.find(entry => entry._key === "en")?.value}
                         </Link>
                     </div>
                 ))

@@ -24,8 +24,8 @@ export default async function CategoryPage({ params }: Props) {
       <Link href={`/item`} className="block">Item List</Link>
       <Link href={`/tag`} className="block">Tag List</Link>
       <Link href={`/category`} className="block">Category List</Link>
-      {category.name?.find(kv => kv._key === "en")?.value}
-      {category.description?.find(kv => kv._key === "en")?.value}
+      {category.name?.find(entry => entry._key === "en")?.value}
+      {category.description?.find(entry => entry._key === "en")?.value}
     </div>
   );
 }

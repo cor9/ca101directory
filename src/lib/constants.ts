@@ -58,3 +58,8 @@ export type Money = {
   amount: string;
   currencyCode: string;
 };
+
+export type Menu = {
+  title: string;
+  path: string;
+};

@@ -17,8 +17,8 @@ export default async function CategoryListPage() {
             {
                 categoryList.map(category => (
                     <div key={category._id}>
-                        <Link href={`/tag/${category.slug}`}>
-                            {category.name?.find(kv => kv._key === "en")?.value}
+                        <Link href={`/category/${category.slug?.current}`}>
+                            {category.name?.find(entry => entry._key === "en")?.value}
                         </Link>
                     </div>
                 ))

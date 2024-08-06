@@ -24,8 +24,8 @@ export default async function TagPage({ params }: Props) {
       <Link href={`/item`} className="block">Item List</Link>
       <Link href={`/tag`} className="block">Tag List</Link>
       <Link href={`/category`} className="block">Category List</Link>
-      {tag.name?.find(kv => kv._key === "en")?.value}
-      {tag.description?.find(kv => kv._key === "en")?.value}
+      {tag.name?.find(entry => entry._key === "en")?.value}
+      {tag.description?.find(entry => entry._key === "en")?.value}
     </div>
   );
 }

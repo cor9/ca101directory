@@ -17,10 +17,10 @@ export default async function ItemListPage() {
             {
                 itemList.map(item => (
                     <div key={item._id}>
-                        <Link href={`/item/${item.slug}`}>
-                            {item.name?.find(kv => kv._key === "en")?.value}
+                        <Link href={`/item/${item.slug?.current}`}>
+                            {item.name?.find(entry => entry._key === "en")?.value}
                         </Link>
-                        {/* {item.description?.find(kv => kv._key === "en")?.value} */}
+                        {/* {item.description?.find(entry => entry._key === "en")?.value} */}
                     </div>
                 ))
             }

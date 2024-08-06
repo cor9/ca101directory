@@ -144,9 +144,9 @@ export default defineType({
 			by: [{ field: 'publishDate', direction: 'desc' }],
 		},
 		{
-			title: 'Title',
-			name: 'title',
-			by: [{ field: 'title', direction: 'asc' }],
+			title: 'Slug',
+			name: 'slug',
+			by: [{ field: 'slug.current', direction: 'asc' }],
 		},
 	],
 });

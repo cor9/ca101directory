@@ -27,7 +27,8 @@ const itemFields = /* groq */ `
 /**
  * Queries
  */
-export const itemListQuery = groq`*[_type == "item" && defined(slug.current)] {
+export const itemListQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate)] 
+  | order(publishDate desc) {
   ${itemFields}
 }`;
 
@@ -39,12 +40,12 @@ export const searchItemQuery = groq`*[_type == "item" && defined(slug.current)] 
   ${itemFields}
 }`;
 
-export const itemListOfCategoryQuery = groq`*[_type == "item" && defined(slug.current) 
+export const itemListOfCategoryQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate)
   && $slug in categories[]->slug.current] | order(_createdAt asc) {
   ${itemFields}
 }`;
 
-export const categoryListQuery = groq`*[_type == "category" && defined(slug.current)] {
+export const categoryListQuery = groq`*[_type == "category" && defined(slug.current)] | order(order desc) {
   ${categoryFields}
 }`;
 
@@ -52,7 +53,7 @@ export const categoryQuery = groq`*[_type == "category" && slug.current == $slug
   ${categoryFields}
 }`;
 
-export const tagListQuery = groq`*[_type == "tag" && defined(slug.current)] {
+export const tagListQuery = groq`*[_type == "tag" && defined(slug.current)] | order(slug.current desc) {
   ${tagFields}
 }`;
 

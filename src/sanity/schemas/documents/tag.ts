@@ -53,4 +53,11 @@ export default defineType({
       };
     },
   },
+	orderings: [
+		{
+			title: 'Slug',
+			name: 'slug',
+			by: [{ field: 'slug.current', direction: 'asc' }],
+		},
+	],
 });

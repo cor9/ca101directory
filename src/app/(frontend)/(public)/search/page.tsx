@@ -15,10 +15,14 @@ const buildQuery = (sortKey?: string, reverse?: boolean, query?: string, current
   const itemsPerPage = 3;
   const offset = (currentPage - 1) * itemsPerPage;
 
-  return groq`*[_type == "item" && defined(slug.current) 
+  const countQuery = groq`count(*[_type == "item" && defined(slug.current) ${queryCondition}])`;
+  const dataQuery = groq`*[_type == "item" && defined(slug.current) 
     ${queryCondition}] ${sortOrder} [${offset}...${offset + itemsPerPage}]{
     ...
   }`;
+  console.log('buildQuery, countQuery', countQuery);
+  console.log('buildQuery, dataQuery', dataQuery);
+  return { countQuery, dataQuery };
 };
 
 async function getItems({
@@ -33,13 +37,10 @@ async function getItems({
   currentPage: number
 }) {
   console.log('getItems, query', query, 'sortKey', sortKey, 'reverse', reverse);
-  const queryStr = buildQuery(sortKey, reverse, query, currentPage);
-  console.log('getItems, queryStr', queryStr);
-  const results = await sanityFetch<SearchItemQueryResult>({
-    query: queryStr
-  });
-
-  return results;
+  const { countQuery, dataQuery } = buildQuery(sortKey, reverse, query, currentPage);
+  const totalCount = await sanityFetch<number>({ query: countQuery });
+  const items = await sanityFetch<SearchItemQueryResult>({ query: dataQuery });
+  return { items, totalCount };
 }
 
 export default async function SearchPage({
@@ -51,9 +52,10 @@ export default async function SearchPage({
   const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort;
   const currentPage = page ? Number(page) : 1;
 
-  const items = await getItems({ sortKey, reverse, query, currentPage });
-  const resultsText = items.length > 1 ? 'results' : 'result';
-  const totalPages = Math.ceil(items.length / 3);
+  const { items, totalCount } = await getItems({ sortKey, reverse, query, currentPage });
+  console.log('getItems, totalCount', totalCount);
+  const resultsText = totalCount > 1 ? 'results' : 'result';
+  const totalPages = Math.ceil(totalCount / 3);
 
   return (
     <>

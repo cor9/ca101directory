@@ -1,4 +1,4 @@
-import Collections from '@/components/layout/search/collections';
+import Collections from '@/components/layout/collections';
 import FilterList from '@/components/layout/filter/filter-list';
 import { sorting } from '@/lib/constants';
 

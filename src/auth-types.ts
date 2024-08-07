@@ -1,6 +1,4 @@
-/**
- * user models
- */
+
 export enum UserRole {
     ADMIN = 'ADMIN',
     USER = 'USER',

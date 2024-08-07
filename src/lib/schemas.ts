@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { UserRole } from "@/models/typings";
+import { UserRole } from "@/auth-types";
 
 export const SettingsSchema = z.object({
   name: z.optional(z.string()),

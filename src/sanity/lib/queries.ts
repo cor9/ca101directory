@@ -41,11 +41,13 @@ export const searchItemQuery = groq`*[_type == "item" && defined(slug.current)] 
 }`;
 
 export const itemListOfCategoryQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate)
-  && $slug in categories[]->slug.current] | order(publishDate desc) {
+  && $slug in categories[]->slug.current] 
+  | order(publishDate desc) {
   ${itemFields}
 }`;
 
-export const categoryListQuery = groq`*[_type == "category" && defined(slug.current)] | order(order desc) {
+export const categoryListQuery = groq`*[_type == "category" && defined(slug.current)] 
+  | order(order desc) {
   ${categoryFields}
 }`;
 
@@ -53,7 +55,8 @@ export const categoryQuery = groq`*[_type == "category" && slug.current == $slug
   ${categoryFields}
 }`;
 
-export const tagListQuery = groq`*[_type == "tag" && defined(slug.current)] | order(slug.current desc) {
+export const tagListQuery = groq`*[_type == "tag" && defined(slug.current)] 
+  | order(slug.current asc) {f
   ${tagFields}
 }`;
 

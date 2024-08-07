@@ -54,20 +54,11 @@ export default async function SearchPage({
 
   const { items, totalCount } = await getItems({ sortKey, reverse, query, currentPage });
   console.log('SearchPage, totalCount', totalCount);
-  const resultsText = totalCount > 1 ? 'results' : 'result';
   const totalPages = Math.ceil(totalCount / 3);
 
   return (
     <section>
-      <h1 className="text-3xl">{items.length}</h1>
-      {query ? (
-        <p className="mb-4">
-          {items.length === 0
-            ? 'There are no items that match '
-            : `Showing ${items.length} ${resultsText} for `}
-          <span className="font-bold">&quot;{query}&quot;</span>
-        </p>
-      ) : null}
+      <h1 className="text-3xl">{totalCount}</h1>
       {
         items.length > 0 && items.map((item) => (
           <div key={item._id}>

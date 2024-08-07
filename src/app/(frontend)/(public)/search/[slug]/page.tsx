@@ -59,7 +59,7 @@ export default async function CategoryPage({
 
   return (
     <section>
-      <h1 className="text-3xl">{items.length}</h1>
+      <h1 className="text-3xl">{totalCount}</h1>
       {
         items.length > 0 && items.map((item) => (
           <div key={item._id}>

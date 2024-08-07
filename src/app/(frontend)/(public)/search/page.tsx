@@ -1,19 +1,22 @@
-import Grid from '@/components/grid';
+import Pagination from '@/components/pagination';
 import { defaultSort, sorting } from '@/lib/constants';
 import { SearchItemQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { groq } from 'next-sanity';
 import Link from 'next/link';
 
-const buildQuery = (sortKey?: string, reverse?: boolean, query?: string) => {
+const buildQuery = (sortKey?: string, reverse?: boolean, query?: string, currentPage: number = 1) => {
   const orderDirection = reverse ? 'desc' : 'asc';
   const sortOrder = sortKey ? `| order(${sortKey} ${orderDirection})` : '| order(publishDate desc)';
   const queryPattern = query ? `*${query}*` : '';
   const queryCondition = query
     ? `&& (name[].value match "${queryPattern}" || description[].value match "${queryPattern}")`
     : '';
+  const itemsPerPage = 3;
+  const offset = (currentPage - 1) * itemsPerPage;
 
-  return groq`*[_type == "item" && defined(slug.current) ${queryCondition}] ${sortOrder} {
+  return groq`*[_type == "item" && defined(slug.current) 
+    ${queryCondition}] ${sortOrder} [${offset}...${offset + itemsPerPage}]{
     ...
   }`;
 };
@@ -21,14 +24,16 @@ const buildQuery = (sortKey?: string, reverse?: boolean, query?: string) => {
 async function getItems({
   sortKey,
   reverse,
-  query
+  query,
+  currentPage
 }: {
   sortKey?: string;
   reverse?: boolean;
-  query?: string
+  query?: string;
+  currentPage: number
 }) {
   console.log('getItems, query', query, 'sortKey', sortKey, 'reverse', reverse);
-  const queryStr = buildQuery(sortKey, reverse, query);
+  const queryStr = buildQuery(sortKey, reverse, query, currentPage);
   console.log('getItems, queryStr', queryStr);
   const results = await sanityFetch<SearchItemQueryResult>({
     query: queryStr
@@ -42,11 +47,13 @@ export default async function SearchPage({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { sort, q: query } = searchParams as { [key: string]: string };
+  const { sort, page, q: query } = searchParams as { [key: string]: string };
   const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort;
+  const currentPage = page ? Number(page) : 1;
 
-  const items = await getItems({ sortKey, reverse, query });
+  const items = await getItems({ sortKey, reverse, query, currentPage });
   const resultsText = items.length > 1 ? 'results' : 'result';
+  const totalPages = Math.ceil(items.length / 3);
 
   return (
     <>
@@ -62,13 +69,15 @@ export default async function SearchPage({
       {
         items.length > 0 && items.map((item) => (
           <div key={item._id}>
-            {/* <h1>{item.slug?.current}</h1> */}
             <Link href={`/item/${item.slug?.current}`}>
               {item.name?.find(entry => entry._key === "en")?.value}
             </Link>
           </div>
         ))
       }
+      <div className="mt-5 flex w-full justify-center">
+        <Pagination totalPages={totalPages} />
+      </div>
     </>
   );
 }

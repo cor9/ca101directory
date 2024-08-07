@@ -15,8 +15,10 @@ const buildQuery = (sortKey?: string, reverse?: boolean, query?: string, current
   const offsetStart = (currentPage - 1) * ITEMS_PER_PAGE;
   const offsetEnd = offsetStart + ITEMS_PER_PAGE;
 
-  const countQuery = groq`count(*[_type == "item" && defined(slug.current) ${queryCondition}])`;
-  const dataQuery = groq`*[_type == "item" && defined(slug.current) 
+  // @sanity-typegen-ignore
+  const countQuery = `count(*[_type == "item" && defined(slug.current) ${queryCondition}])`;
+  // @sanity-typegen-ignore
+  const dataQuery = `*[_type == "item" && defined(slug.current) 
     ${queryCondition}] ${sortOrder} [${offsetStart}...${offsetEnd}] {
     ...
   }`;

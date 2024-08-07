@@ -36,14 +36,18 @@ export const itemQuery = groq`*[_type == "item" && slug.current == $slug][0] {
   ${itemFields}
 }`;
 
-export const searchItemQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate)
-  && (name[].value match $query || description[].value match $query)] 
-  | order(publishDate desc) {
+export const searchItemQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate)] {
   ${itemFields}
 }`;
 
 export const itemListOfCategoryQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate)
   && $slug in categories[]->slug.current] 
+  | order(publishDate desc) {
+  ${itemFields}
+}`;
+
+export const itemListOfTagQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate)
+  && $slug in tags[]->slug.current] 
   | order(publishDate desc) {
   ${itemFields}
 }`;

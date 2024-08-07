@@ -14,9 +14,11 @@ const buildQuery = (slug: string, sortKey?: string, reverse?: boolean, currentPa
   const offsetStart = (currentPage - 1) * ITEMS_PER_PAGE;
   const offsetEnd = offsetStart + ITEMS_PER_PAGE;
 
-  const countQuery = groq`count(*[_type == "item" && defined(slug.current) && defined(publishDate) 
+  // @sanity-typegen-ignore
+  const countQuery = `count(*[_type == "item" && defined(slug.current) && defined(publishDate) 
     ${queryCondition}])`;
-  const dataQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate) 
+  // @sanity-typegen-ignore
+  const dataQuery = `*[_type == "item" && defined(slug.current) && defined(publishDate) 
     ${queryCondition}] ${sortOrder} [${offsetStart}...${offsetEnd}] {
     ...
   }`;

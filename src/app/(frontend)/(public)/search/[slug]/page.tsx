@@ -26,7 +26,7 @@ async function getCategoryItems({
   console.log('getCategoryItems, slug', slug, 'sortKey', sortKey, 'reverse', reverse);
   const query = buildQuery(sortKey, reverse);
   console.log('getCategoryItems, query', query);
-  const params = { slug: slug };
+  const params = { slug };
   const results = await sanityFetch<ItemListOfCategoryQueryResult>({
     query,
     params

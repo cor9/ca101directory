@@ -601,7 +601,7 @@ export type ItemQueryResult = {
   publishDate?: string;
 } | null;
 // Variable: searchItemQuery
-// Query: *[_type == "item" && defined(slug.current)] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && (name[].value match $query || description[].value match $query)]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
 export type SearchItemQueryResult = Array<{
   _id: string;
   _type: "item";
@@ -694,7 +694,7 @@ export type SearchItemQueryResult = Array<{
   publishDate?: string;
 }>;
 // Variable: itemListOfCategoryQuery
-// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in categories[]->slug.current] | order(_createdAt asc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in categories[]->slug.current]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
 export type ItemListOfCategoryQueryResult = Array<{
   _id: string;
   _type: "item";
@@ -787,7 +787,7 @@ export type ItemListOfCategoryQueryResult = Array<{
   publishDate?: string;
 }>;
 // Variable: categoryListQuery
-// Query: *[_type == "category" && defined(slug.current)] | order(order desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "category" && defined(slug.current)]   | order(order desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
 export type CategoryListQueryResult = Array<{
   _id: string;
   _type: "category";
@@ -821,7 +821,7 @@ export type CategoryQueryResult = {
   priority?: number;
 } | null;
 // Variable: tagListQuery
-// Query: *[_type == "tag" && defined(slug.current)] | order(slug.current desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "tag" && defined(slug.current)]   | order(slug.current asc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
 export type TagListQueryResult = Array<{
   _id: string;
   _type: "tag";

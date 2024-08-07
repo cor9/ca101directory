@@ -15,6 +15,7 @@ function PathFilterItem({ item }: { item: PathFilterItem }) {
 
   const newParams = new URLSearchParams(searchParams.toString());
   newParams.delete('q');
+  newParams.delete('page');
 
   return (
     <li className="mt-2 flex text-black dark:text-white" key={item.title}>

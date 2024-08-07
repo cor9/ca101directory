@@ -5,19 +5,15 @@ import { sanityFetch } from '@/sanity/lib/fetch';
 import { groq } from 'next-sanity';
 import Link from 'next/link';
 
-const buildQuery = (sortKey?: string, reverse?: boolean, query?: string, currentPage: number = 1) => {
+const buildQuery = (sortKey?: string, reverse?: boolean, currentPage: number = 1) => {
   const orderDirection = reverse ? 'desc' : 'asc';
   const sortOrder = sortKey ? `| order(${sortKey} ${orderDirection})` : '| order(publishDate desc)';
-  const queryPattern = query ? `*${query}*` : '';
-  const queryCondition = query
-    ? `&& (name[].value match "${queryPattern}" || description[].value match "${queryPattern}")`
-    : '';
   const offsetStart = (currentPage - 1) * ITEMS_PER_PAGE;
   const offsetEnd = offsetStart + ITEMS_PER_PAGE;
 
-  const countQuery = groq`count(*[_type == "item" && defined(slug.current) ${queryCondition}])`;
-  const dataQuery = groq`*[_type == "item" && defined(slug.current) 
-    ${queryCondition}] ${sortOrder} [${offsetStart}...${offsetEnd}] {
+  const countQuery = groq`count(*[_type == "item" && defined(slug.current)])`;
+  const dataQuery = groq`*[_type == "item" && defined(slug.current)] 
+    ${sortOrder} [${offsetStart}...${offsetEnd}] {
     ...
   }`;
   console.log('buildQuery, countQuery', countQuery);
@@ -28,16 +24,14 @@ const buildQuery = (sortKey?: string, reverse?: boolean, query?: string, current
 async function getItems({
   sortKey,
   reverse,
-  query,
   currentPage
 }: {
   sortKey?: string;
   reverse?: boolean;
-  query?: string;
   currentPage: number
 }) {
-  console.log('getItems, query', query, 'sortKey', sortKey, 'reverse', reverse);
-  const { countQuery, dataQuery } = buildQuery(sortKey, reverse, query, currentPage);
+  console.log('getItems, sortKey', sortKey, 'reverse', reverse);
+  const { countQuery, dataQuery } = buildQuery(sortKey, reverse, currentPage);
   const totalCount = await sanityFetch<number>({ query: countQuery });
   const items = await sanityFetch<SearchItemQueryResult>({ query: dataQuery });
   return { items, totalCount };
@@ -48,11 +42,11 @@ export default async function CategoryListPage({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { sort, page, q: query } = searchParams as { [key: string]: string };
+  const { sort, page } = searchParams as { [key: string]: string };
   const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort;
   const currentPage = page ? Number(page) : 1;
 
-  const { items, totalCount } = await getItems({ sortKey, reverse, query, currentPage });
+  const { items, totalCount } = await getItems({ sortKey, reverse, currentPage });
   console.log('CategoryListPage, totalCount', totalCount);
   const totalPages = Math.ceil(totalCount / 3);
 

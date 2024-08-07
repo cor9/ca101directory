@@ -6,6 +6,12 @@
     export const publicRoutes = [
         "/",
         "/studio",
+
+        "/search",
+        "/item",
+        "/category",
+        "/tag",
+        
         "/auth/new-verification"
     ];
   

@@ -1,6 +1,5 @@
 import CategoryList from '@/components/layout/category-list';
-import FilterList from '@/components/layout/filter/filter-list';
-import { sorting } from '@/lib/constants';
+import SortList from '@/components/layout/sort-list';
 
 export default function SearchLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -13,7 +12,7 @@ export default function SearchLayout({ children }: { children: React.ReactNode }
           {children}
         </div>
         <div className="order-none flex-none md:order-last md:w-[125px]">
-          <FilterList list={sorting} title="Sort by" />
+          <SortList />
         </div>
       </div>
     </>

@@ -1,3 +1,5 @@
+export const ITEMS_PER_PAGE = 3;
+
 export type SortFilterItem = {
   title: string;
   slug: string | null;

@@ -1,5 +1,5 @@
 import Pagination from '@/components/pagination';
-import { defaultSort, sorting } from '@/lib/constants';
+import { defaultSort, ITEMS_PER_PAGE, sorting } from '@/lib/constants';
 import { SearchItemQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { groq } from 'next-sanity';
@@ -12,12 +12,12 @@ const buildQuery = (sortKey?: string, reverse?: boolean, query?: string, current
   const queryCondition = query
     ? `&& (name[].value match "${queryPattern}" || description[].value match "${queryPattern}")`
     : '';
-  const itemsPerPage = 3;
-  const offset = (currentPage - 1) * itemsPerPage;
+  const offsetStart = (currentPage - 1) * ITEMS_PER_PAGE;
+  const offsetEnd = offsetStart + ITEMS_PER_PAGE;
 
   const countQuery = groq`count(*[_type == "item" && defined(slug.current) ${queryCondition}])`;
   const dataQuery = groq`*[_type == "item" && defined(slug.current) 
-    ${queryCondition}] ${sortOrder} [${offset}...${offset + itemsPerPage}]{
+    ${queryCondition}] ${sortOrder} [${offsetStart}...${offsetEnd}] {
     ...
   }`;
   console.log('buildQuery, countQuery', countQuery);
@@ -53,12 +53,12 @@ export default async function SearchPage({
   const currentPage = page ? Number(page) : 1;
 
   const { items, totalCount } = await getItems({ sortKey, reverse, query, currentPage });
-  console.log('getItems, totalCount', totalCount);
+  console.log('SearchPage, totalCount', totalCount);
   const resultsText = totalCount > 1 ? 'results' : 'result';
   const totalPages = Math.ceil(totalCount / 3);
 
   return (
-    <>
+    <section>
       <h1 className="text-3xl">{items.length}</h1>
       {query ? (
         <p className="mb-4">
@@ -80,6 +80,6 @@ export default async function SearchPage({
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>
-    </>
+    </section>
   );
 }

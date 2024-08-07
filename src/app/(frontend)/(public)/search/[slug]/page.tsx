@@ -1,38 +1,46 @@
-import Grid from '@/components/grid';
-import { defaultSort, sorting } from '@/lib/constants';
+import Pagination from '@/components/pagination';
+import { defaultSort, ITEMS_PER_PAGE, sorting } from '@/lib/constants';
 import { ItemListOfCategoryQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { groq } from 'next-sanity';
 import Link from 'next/link';
 
-const buildQuery = (sortKey?: string, reverse?: boolean) => {
+const buildQuery = (slug: string, sortKey?: string, reverse?: boolean, currentPage: number = 1) => {
   const orderDirection = reverse ? 'desc' : 'asc';
   const sortOrder = sortKey ? `| order(${sortKey} ${orderDirection})` : '| order(publishDate desc)';
-  console.log('buildQuery, sortKey', sortKey, 'reverse', reverse, 'sortOrder', sortOrder);
-  return groq`*[_type == "item" && defined(slug.current) && defined(publishDate) 
-    && $slug in categories[]->slug.current] ${sortOrder} {
+  const queryCondition = slug
+    ? `&& "${slug}" in categories[]->slug.current`
+    : '';
+  const offsetStart = (currentPage - 1) * ITEMS_PER_PAGE;
+  const offsetEnd = offsetStart + ITEMS_PER_PAGE;
+
+  const countQuery = groq`count(*[_type == "item" && defined(slug.current) && defined(publishDate) 
+    ${queryCondition}])`;
+  const dataQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate) 
+    ${queryCondition}] ${sortOrder} [${offsetStart}...${offsetEnd}] {
     ...
   }`;
+  console.log('buildQuery, countQuery', countQuery);
+  console.log('buildQuery, dataQuery', dataQuery);
+  return { countQuery, dataQuery };
 };
 
-async function getCategoryItems({
+async function getItems({
   slug,
   sortKey,
-  reverse
+  reverse,
+  currentPage
 }: {
-  slug?: string;
+  slug: string;
   sortKey?: string;
-  reverse?: boolean
+  reverse?: boolean;
+  currentPage: number
 }) {
-  console.log('getCategoryItems, slug', slug, 'sortKey', sortKey, 'reverse', reverse);
-  const query = buildQuery(sortKey, reverse);
-  console.log('getCategoryItems, query', query);
-  const params = { slug };
-  const results = await sanityFetch<ItemListOfCategoryQueryResult>({
-    query,
-    params
-  });
-  return results;
+  console.log('getItems, slug', slug, 'sortKey', sortKey, 'reverse', reverse);
+  const { countQuery, dataQuery } = buildQuery(slug, sortKey, reverse, currentPage);
+  const totalCount = await sanityFetch<number>({ query: countQuery });
+  const items = await sanityFetch<ItemListOfCategoryQueryResult>({ query: dataQuery });
+  return { items, totalCount };
 }
 
 export default async function CategoryPage({
@@ -42,15 +50,18 @@ export default async function CategoryPage({
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { sort } = searchParams as { [key: string]: string };
+  const { sort, page } = searchParams as { [key: string]: string };
   const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort;
-  const items = await getCategoryItems({ slug: params.slug, sortKey, reverse });
+  const currentPage = page ? Number(page) : 1;
+  const { items, totalCount } = await getItems({ slug: params.slug, sortKey, reverse, currentPage });
+  console.log('CategoryPage, totalCount', totalCount);
+  const totalPages = Math.ceil(totalCount / 3);
 
   return (
     <section>
       <h1 className="text-3xl">{items.length}</h1>
       {
-        items.map((item) => (
+        items.length > 0 && items.map((item) => (
           <div key={item._id}>
             <Link href={`/item/${item.slug?.current}`}>
               {item.name?.find(entry => entry._key === "en")?.value}
@@ -58,6 +69,9 @@ export default async function CategoryPage({
           </div>
         ))
       }
+      <div className="mt-5 flex w-full justify-center">
+        <Pagination totalPages={totalPages} />
+      </div>
     </section>
   );
 }

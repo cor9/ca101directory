@@ -3,6 +3,7 @@ import { defaultSort, sorting } from '@/lib/constants';
 import { ItemListOfCategoryQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { groq } from 'next-sanity';
+import Link from 'next/link';
 
 const buildQuery = (sortKey?: string, reverse?: boolean) => {
   const orderDirection = reverse ? 'desc' : 'asc';
@@ -51,17 +52,12 @@ export default async function CategoryPage({
       {
         items.map((item) => (
           <div key={item._id}>
-            <h1>{item.slug?.current}</h1>
+            <Link href={`/item/${item.slug?.current}`}>
+              {item.name?.find(entry => entry._key === "en")?.value}
+            </Link>
           </div>
         ))
       }
-      {/* {items.length === 0 ? (
-        <p className="py-3 text-lg">{`No items found in this collection`}</p>
-      ) : (
-        <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          <ProductGridItems items={items} />
-        </Grid>
-      )} */}
     </section>
   );
 }

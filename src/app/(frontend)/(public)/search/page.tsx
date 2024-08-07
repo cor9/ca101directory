@@ -3,12 +3,13 @@ import { defaultSort, sorting } from '@/lib/constants';
 import { SearchItemQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { groq } from 'next-sanity';
+import Link from 'next/link';
 
 const buildQuery = (sortKey?: string, reverse?: boolean, query?: string) => {
   const orderDirection = reverse ? 'desc' : 'asc';
   const sortOrder = sortKey ? `| order(${sortKey} ${orderDirection})` : '| order(publishDate desc)';
   const queryPattern = query ? `*${query}*` : '';
-  const queryCondition = query 
+  const queryCondition = query
     ? `&& (name[].value match "${queryPattern}" || description[].value match "${queryPattern}")`
     : '';
 
@@ -49,6 +50,7 @@ export default async function SearchPage({
 
   return (
     <>
+      <h1 className="text-3xl">{items.length}</h1>
       {query ? (
         <p className="mb-4">
           {items.length === 0
@@ -60,15 +62,13 @@ export default async function SearchPage({
       {
         items.length > 0 && items.map((item) => (
           <div key={item._id}>
-            <h1>{item.slug?.current}</h1>
+            {/* <h1>{item.slug?.current}</h1> */}
+            <Link href={`/item/${item.slug?.current}`}>
+              {item.name?.find(entry => entry._key === "en")?.value}
+            </Link>
           </div>
         ))
       }
-      {/* {items.length > 0 ? (
-        <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          <ProductGridItems items={items} />
-        </Grid>
-      ) : null} */}
     </>
   );
 }

@@ -7,10 +7,10 @@ export const publicRoutes = [
   "/",
   "/studio",
 
-  "/search",
-  "/item",
-  "/category",
-  "/tag",
+  "/search(/.*)?", // match /search and /search/xxx
+  "/item(/.*)?",
+  "/category(/.*)?",
+  "/tag(/.*)?",
   
   "/auth/new-verification"
 ];

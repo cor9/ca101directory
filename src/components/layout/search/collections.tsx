@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { Suspense } from 'react';
-import FilterList from './filter';
+import FilterList from '../filter/filter-list';
 import { CategoryListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { categoryListQuery } from '@/sanity/lib/queries';

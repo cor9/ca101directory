@@ -1,5 +1,5 @@
 import Collections from '@/components/layout/search/collections';
-import FilterList from '@/components/layout/search/filter';
+import FilterList from '@/components/layout/filter/filter-list';
 import { sorting } from '@/lib/constants';
 
 export default function SearchLayout({ children }: { children: React.ReactNode }) {

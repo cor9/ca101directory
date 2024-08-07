@@ -1,19 +1,19 @@
 'use client';
 
 import clsx from 'clsx';
-import type { SortFilterItem } from '@/lib/constants';
-import { createUrl } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import type { ListItem, PathFilterItem } from '.';
+import { createUrl } from '@/lib/utils';
+import type { ListItem, PathFilterItem } from './filter-list';
+import type { SortFilterItem } from '@/lib/constants';
 
 function PathFilterItem({ item }: { item: PathFilterItem }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const active = pathname === item.path;
-  const newParams = new URLSearchParams(searchParams.toString());
   const DynamicTag = active ? 'p' : Link;
 
+  const newParams = new URLSearchParams(searchParams.toString());
   newParams.delete('q');
 
   return (

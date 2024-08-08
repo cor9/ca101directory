@@ -29,6 +29,14 @@ async function getMenu(menuId: string) {
       title: 'Item',
       path: '/item',
     },
+    {
+      title: 'Docs',
+      path: '/docs',
+    },
+    {
+      title: 'Guides',
+      path: '/guides',
+    },
   ];
   return menu;
 }

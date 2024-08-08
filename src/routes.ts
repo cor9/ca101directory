@@ -12,6 +12,9 @@ export const publicRoutes = [
   "/category(/.*)?",
   "/tag(/.*)?",
   
+  "/docs(/.*)?",
+  "/guides(/.*)?",
+  
   "/auth/new-verification"
 ];
 

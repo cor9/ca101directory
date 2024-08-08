@@ -1,10 +1,8 @@
 "use client";
 
 import React from "react";
-
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
 import { Icons } from "./icons";
 
 interface CopyButtonProps extends React.HTMLAttributes<HTMLButtonElement> {

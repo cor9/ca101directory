@@ -3,7 +3,6 @@
 import { useState } from "react";
 import type { ComponentProps } from "react";
 import Image from "next/image";
-
 import { cn } from "@/lib/utils";
 
 export default function BlurImage(props: ComponentProps<typeof Image>) {

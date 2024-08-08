@@ -1,20 +1,17 @@
-import { allGuides } from "contentlayer/generated";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import "@/styles/mdx.css";
 
+import Link from "next/link";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Mdx } from "@/components/content/mdx-components";
 import { DocsPageHeader } from "@/components/docs/page-header";
 import { Icons } from "@/components/shared/icons";
 import { DashboardTableOfContents } from "@/components/shared/toc";
 import { getTableOfContents } from "@/lib/toc";
-
-import "@/styles/mdx.css";
-
-import { Metadata } from "next";
-
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 import { buttonVariants } from "@/components/ui/button";
 import { cn, constructMetadata } from "@/lib/utils";
+import { allGuides } from "contentlayer/generated";
 
 export async function generateStaticParams() {
   return allGuides.map((guide) => ({
@@ -35,7 +32,7 @@ export async function generateMetadata({
   const { title, description } = guide;
 
   return constructMetadata({
-    title: `${title} – SaaS Starter`,
+    title: `${title}`,
     description: description,
   });
 }
@@ -50,7 +47,7 @@ export default async function GuidePage({
   const guide = allGuides.find((guide) => guide.slugAsParams === params.slug);
 
   if (!guide) {
-    notFound();
+    return notFound();
   }
 
   const toc = await getTableOfContents(guide.body.raw);

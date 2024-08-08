@@ -1,17 +1,14 @@
-import { notFound } from "next/navigation";
-import { allDocs } from "contentlayer/generated";
+import "@/styles/mdx.css";
 
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { constructMetadata, getBlurDataURL } from "@/lib/utils";
 import { getTableOfContents } from "@/lib/toc";
 import { Mdx } from "@/components/content/mdx-components";
 import { DocsPageHeader } from "@/components/docs/page-header";
 import { DocsPager } from "@/components/docs/pager";
 import { DashboardTableOfContents } from "@/components/shared/toc";
-
-import "@/styles/mdx.css";
-
-import { Metadata } from "next";
-
-import { constructMetadata, getBlurDataURL } from "@/lib/utils";
+import { allDocs } from "contentlayer/generated";
 
 interface DocPageProps {
   params: {
@@ -38,7 +35,7 @@ export async function generateMetadata({
   const { title, description } = doc;
 
   return constructMetadata({
-    title: `${title} – SaaS Starter`,
+    title: `${title}`,
     description: description,
   });
 }
@@ -55,7 +52,7 @@ export default async function DocPage({ params }: DocPageProps) {
   const doc = await getDocFromParams(params);
 
   if (!doc) {
-    notFound();
+    return notFound();
   }
 
   const toc = await getTableOfContents(doc.body.raw);

@@ -1,6 +1,6 @@
 "use client";
 
-import { UserRole } from "@/auth-types";
+import { UserRole } from "@/types";
 
 import { useCurrentRole } from "@/hooks/use-current-role";
 import { FormError } from "@/components/form-error";

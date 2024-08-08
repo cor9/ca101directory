@@ -1,5 +1,5 @@
 import { currentRole } from "@/lib/auth";
-import { UserRole } from "@/types";
+import { UserRole } from "@/types/auth-types";
 import { NextResponse } from "next/server";
 
 export async function GET() {

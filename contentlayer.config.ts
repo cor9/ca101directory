@@ -153,7 +153,7 @@ export const Page = defineDocumentType(() => ({
 
 // https://contentlayer.dev/docs/reference/source-files/make-source-a5ba4922
 export default makeSource({
-  contentDirPath: "./src/content",
+  contentDirPath: "./content",
   documentTypes: [Page, Doc, Guide, Post],
   // https://contentlayer.dev/docs/reference/source-files/make-source-a5ba4922#mdx
   mdx: {

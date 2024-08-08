@@ -14,6 +14,7 @@ export const publicRoutes = [
   
   "/docs(/.*)?",
   "/guides(/.*)?",
+  "/blog(/.*)?",
   
   "/auth/new-verification"
 ];

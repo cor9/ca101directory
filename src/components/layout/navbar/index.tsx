@@ -22,12 +22,8 @@ async function getMenu(menuId: string) {
       path: '/tag',
     },
     {
-      title: 'Search',
-      path: '/search',
-    },
-    {
-      title: 'Item',
-      path: '/item',
+      title: 'Blog',
+      path: '/blog',
     },
     {
       title: 'Docs',
@@ -36,6 +32,14 @@ async function getMenu(menuId: string) {
     {
       title: 'Guides',
       path: '/guides',
+    },
+    {
+      title: 'Search',
+      path: '/search',
+    },
+    {
+      title: 'Item',
+      path: '/item',
     },
   ];
   return menu;

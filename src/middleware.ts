@@ -39,10 +39,24 @@ export default auth((req) => {
 
 // Optionally, don't invoke Middleware on some paths
 // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
+// export const config = {
+//   matcher: [
+//     '/((?!.+\\.[\\w]+$|_next).*)',
+//     '/',
+//     '/(api|trpc)(.*)'
+//   ],
+// }
+
+// https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
 export const config = {
   matcher: [
-    '/((?!.+\\.[\\w]+$|_next).*)',
-    '/',
-    '/(api|trpc)(.*)'
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 }

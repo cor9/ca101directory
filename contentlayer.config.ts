@@ -213,6 +213,6 @@ export default makeSource({
   },
   onSuccess: async (importData) => {
     const { allDocuments } = await importData();
-    console.log('generate documents count:', allDocuments.length);
+    // console.log('generate documents count:', allDocuments.length);
   }
 });

@@ -152,16 +152,17 @@ export function formatDate(input: string | number): string {
 }
 
 export function absoluteUrl(path: string) {
-  return `${env.NEXT_PUBLIC_APP_URL}${path}`;
+  return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;
 }
 
+// TODO: fix dependency of ms
 // Utils from precedent.dev
-export const timeAgo = (timestamp: Date, timeOnly?: boolean): string => {
-  if (!timestamp) return "never";
-  return `${ms(Date.now() - new Date(timestamp).getTime())}${
-    timeOnly ? "" : " ago"
-  }`;
-};
+// export const timeAgo = (timestamp: Date, timeOnly?: boolean): string => {
+//   if (!timestamp) return "never";
+//   return `${ms(Date.now() - new Date(timestamp).getTime())}${
+//     timeOnly ? "" : " ago"
+//   }`;
+// };
 
 export async function fetcher<JSON = any>(
   input: RequestInfo,

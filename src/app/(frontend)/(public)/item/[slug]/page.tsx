@@ -21,9 +21,6 @@ export default async function ItemPage({ params }: Props) {
 
   return (
     <div>
-      <Link href={`/item`} className="block">Item List</Link>
-      <Link href={`/tag`} className="block">Tag List</Link>
-      <Link href={`/category`} className="block">Category List</Link>
       {item.name?.find(entry => entry._key === "en")?.value}
       {item.description?.find(entry => entry._key === "en")?.value}
     </div>

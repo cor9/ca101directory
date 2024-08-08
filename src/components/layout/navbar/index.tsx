@@ -14,16 +14,16 @@ async function getMenu(menuId: string) {
       path: '/',
     },
     {
-      title: 'Search',
-      path: '/search',
-    },
-    {
-      title: 'Category',
+      title: 'Categories',
       path: '/category',
     },
     {
-      title: 'Tag',
+      title: 'Tags',
       path: '/tag',
+    },
+    {
+      title: 'Search',
+      path: '/search',
     },
     {
       title: 'Item',

@@ -11,9 +11,6 @@ export default async function ItemListPage() {
 
     return (
         <div>
-            <Link href={`/item`} className="block">Item List</Link>
-            <Link href={`/tag`} className="block">Tag List</Link>
-            <Link href={`/category`} className="block">Category List</Link>
             {
                 itemList.map(item => (
                     <div key={item._id}>

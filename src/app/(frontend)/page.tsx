@@ -17,7 +17,7 @@ export default function Home() {
           "text-6xl font-semibold text-white drop-shadow-md",
           font.className,
         )}>
-          🔐 Authy
+          MkDirs
         </h1>
         <p className="text-white text-lg">
           The Next Auth V5 & Sanity CMS Experience

@@ -109,6 +109,7 @@ export const LoginForm = () => {
                         type="password"
                       />
                     </FormControl>
+                    <FormMessage />
                     <ButtonWrapper
                       size="sm"
                       variant="link"
@@ -119,7 +120,6 @@ export const LoginForm = () => {
                         Forgot password?
                       </Link>
                     </ButtonWrapper>
-                    <FormMessage />
                   </FormItem>
                 )}
               />

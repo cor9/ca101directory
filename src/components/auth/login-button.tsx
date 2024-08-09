@@ -1,13 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import {
   Dialog,
   DialogContent,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/auth/dialog-wrapper";
 import { LoginForm } from "@/components/auth/login-form";
+import { useRouter } from "next/navigation";
 
 interface LoginButtonProps {
   children: React.ReactNode;

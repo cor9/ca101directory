@@ -1,22 +1,20 @@
 "use client";
 
-import { useContext } from "react";
 import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useSelectedLayoutSegment } from "next/navigation";
+import { DocsSearch } from "@/components/docs/search";
+import { Icons } from "@/components/shared/icons";
+import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { docsConfig } from "@/config/docs";
 import { marketingConfig } from "@/config/marketing";
 import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
 import { useScroll } from "@/hooks/use-scroll";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { DocsSearch } from "@/components/docs/search";
-// import { ModalContext } from "@/components/modals/providers";
-import { Icons } from "@/components/shared/icons";
-import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
-import { LoginButton } from "../auth/login-button";
-import { ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { ArrowRight, Github, Search, Sparkle, Sparkles } from "lucide-react";
+import { LoginButton } from "@/components/auth/login-button";
 
 interface NavBarProps {
   scroll?: boolean;
@@ -26,10 +24,8 @@ interface NavBarProps {
 export function NavBar({ scroll = false }: NavBarProps) {
   const scrolled = useScroll(50);
   const { data: session, status } = useSession();
-  // const { setShowSignInModal } = useContext(ModalContext);
-
   const selectedLayout = useSelectedLayoutSegment();
-  const documentation = selectedLayout === "docs";
+  const documentation = (selectedLayout === "docs");
 
   const configMap = {
     docs: docsConfig.mainNav,
@@ -40,16 +36,18 @@ export function NavBar({ scroll = false }: NavBarProps) {
 
   return (
     <header
-      className={`sticky top-0 z-40 flex w-full justify-center bg-background/60 backdrop-blur-xl transition-all ${scroll ? (scrolled ? "border-b" : "bg-transparent") : "border-b"
-        }`}
+      className={cn(
+        'sticky top-0 z-40 flex w-full justify-center bg-background/60 backdrop-blur-xl transition-all',
+        scroll ? (scrolled ? "border-b" : "bg-transparent") : "border-b"
+      )}
     >
+      {/* large={documentation} */}
       <MaxWidthWrapper
-        className="flex h-14 items-center justify-between py-4"
-        large={documentation}
+        className="flex h-16 items-center justify-between"
       >
         <div className="flex gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-1.5">
-            <Icons.logo />
+            <Sparkles />
             <span className="font-urban text-xl font-bold">
               {siteConfig.name}
             </span>
@@ -78,14 +76,14 @@ export function NavBar({ scroll = false }: NavBarProps) {
         </div>
 
         <div className="flex items-center space-x-3">
-          {/* right header for docs */}
-          {documentation ? (
+          {/* TODO: removed right header for docs */}
+          {/* {documentation ? (
             <div className="hidden flex-1 items-center space-x-4 sm:justify-end lg:flex">
               <div className="hidden lg:flex lg:grow-0">
                 <DocsSearch />
               </div>
               <div className="flex lg:hidden">
-                <Icons.search className="size-6 text-muted-foreground" />
+                <Search className="size-6 text-muted-foreground" />
               </div>
               <div className="flex space-x-4">
                 <Link
@@ -93,18 +91,17 @@ export function NavBar({ scroll = false }: NavBarProps) {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <Icons.gitHub className="size-7" />
+                  <Github className="size-7" />
                   <span className="sr-only">GitHub</span>
                 </Link>
               </div>
             </div>
-          ) : null}
+          ) : null} */}
 
           {session ? (
             <Link
               href={session.user.role === "ADMIN" ? "/admin" : "/dashboard"}
-              className="hidden md:block"
-            >
+              className="hidden md:block">
               <Button
                 className="gap-2 px-5"
                 variant="default"

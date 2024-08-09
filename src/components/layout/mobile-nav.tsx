@@ -21,7 +21,8 @@ export function NavMobile() {
     docs: docsConfig.mainNav,
   };
 
-  const links = (selectedLayout && configMap[selectedLayout]) || marketingConfig.mainNav;
+  const links = (selectedLayout && configMap[selectedLayout]) 
+    || marketingConfig.mainNav;
 
   // prevent body scroll when modal is open
   useEffect(() => {
@@ -50,7 +51,7 @@ export function NavMobile() {
 
       <nav
         className={cn(
-          "fixed inset-0 z-20 hidden w-full overflow-auto bg-background px-5 py-16 lg:hidden",
+          "fixed inset-0 z-20 hidden w-full overflow-auto bg-background px-5 py-16 md:hidden",
           open && "block",
         )}
       >

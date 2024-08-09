@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Icons } from "@/components/shared/icons";
+import { ChevronRight } from "lucide-react";
 
 interface DocsPageHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   heading: string;
@@ -16,7 +16,7 @@ export function DocsPageHeader({
     <>
       <div className="mb-4 flex items-center space-x-1 text-sm text-muted-foreground">
         <div className="truncate">Docs</div>
-        <Icons.chevronRight className="size-4" />
+        <ChevronRight className="size-4" />
         <div className="font-medium text-purple-600/95 dark:text-purple-400">
           {heading}
         </div>

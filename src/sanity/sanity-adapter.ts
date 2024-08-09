@@ -1,7 +1,7 @@
 import type { SanityClient } from '@sanity/client';
 import { uuid } from '@sanity/uuid';
 import type { Adapter, AdapterSession, AdapterUser, } from "@auth/core/adapters";
-import { UserRole } from "@/types/auth-types";
+import { UserRole } from "@/types/user-role";
 import { User } from "@/types/next-auth";
 
 // https://authjs.dev/reference/core/adapters

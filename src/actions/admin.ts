@@ -1,7 +1,7 @@
 "use server";
 
 import { currentRole } from "@/lib/auth";
-import { UserRole } from "@/types/auth-types";
+import { UserRole } from "@/types/user-role";
 
 export const admin = async () => {
 

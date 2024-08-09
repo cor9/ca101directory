@@ -122,10 +122,10 @@ export function UserAccountNav() {
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger>
-        <UserAvatar
+        {/* <UserAvatar
           user={{ name: user.name || null, image: user.image || null }}
           className="size-8 border"
-        />
+        /> */}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <div className="flex items-center justify-start gap-2 p-2">

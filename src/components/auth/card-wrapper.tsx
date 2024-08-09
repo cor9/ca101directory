@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader
 } from "@/components/ui/card";
-import { Header } from "@/components/auth/header";
+import { Header } from "@/components/auth/header-wrapper";
 import { Social } from "@/components/auth/social-button";
 import { BackButton } from "@/components/auth/back-button";
 

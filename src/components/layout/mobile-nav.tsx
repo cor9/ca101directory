@@ -1,16 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
-import { Menu, X } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { useSelectedLayoutSegment } from "next/navigation";
+import { DocsSidebarNav } from "@/components/docs/sidebar-nav";
 import { docsConfig } from "@/config/docs";
 import { marketingConfig } from "@/config/marketing";
-import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { DocsSidebarNav } from "@/components/docs/sidebar-nav";
-import { Icons } from "@/components/shared/icons";
+import { Menu, X } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
 
 export function NavMobile() {
@@ -23,8 +21,7 @@ export function NavMobile() {
     docs: docsConfig.mainNav,
   };
 
-  const links =
-    (selectedLayout && configMap[selectedLayout]) || marketingConfig.mainNav;
+  const links = (selectedLayout && configMap[selectedLayout]) || marketingConfig.mainNav;
 
   // prevent body scroll when modal is open
   useEffect(() => {
@@ -102,7 +99,7 @@ export function NavMobile() {
                   onClick={() => setOpen(false)}
                   className="flex w-full font-medium capitalize"
                 >
-                  Login
+                  Sign in
                 </Link>
               </li>
 
@@ -126,10 +123,12 @@ export function NavMobile() {
         ) : null}
 
         <div className="mt-5 flex items-center justify-end space-x-4">
-          <Link href={siteConfig.links.github} target="_blank" rel="noreferrer">
-            <Icons.gitHub className="size-6" />
-            <span className="sr-only">GitHub</span>
-          </Link>
+          {/* <ButtonWrapper asChild variant="ghost" size="sm" className="size-8 px-0">
+            <Link href={siteConfig.links.github} target="_blank" rel="noreferrer">
+              <Github className="size-5" />
+              <span className="sr-only">GitHub</span>
+            </Link>
+          </ButtonWrapper> */}
           <ModeToggle />
         </div>
       </nav>

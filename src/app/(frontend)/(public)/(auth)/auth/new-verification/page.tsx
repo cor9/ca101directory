@@ -6,7 +6,8 @@ const NewVerificationPage = () => {
   //   <NewVerificationForm />
   //  );
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    // <div>Loading...</div>
+    <Suspense fallback={null}>
       <NewVerificationForm />
     </Suspense>
   );

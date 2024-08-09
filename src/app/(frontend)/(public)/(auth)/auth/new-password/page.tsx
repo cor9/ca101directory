@@ -6,7 +6,8 @@ const NewPasswordPage = () => {
   //   <NewPasswordForm />
   //  );
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    // <div>Loading...</div>
+    <Suspense fallback={null}>
       <NewPasswordForm />
     </Suspense>
   );

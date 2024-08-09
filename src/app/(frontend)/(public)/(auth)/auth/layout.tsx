@@ -1,3 +1,5 @@
+import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+
 const AuthLayout = ({ 
     children
   }: { 
@@ -5,10 +7,9 @@ const AuthLayout = ({
   }) => {
     
     return ( 
-      //  bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-red-400 to-orange-800
-      <div className="min-h-screen flex items-center justify-center">
+      <MaxWidthWrapper className="min-h-screen flex items-center justify-center">
         {children}
-      </div>
+      </MaxWidthWrapper>
      );
   }
    

@@ -6,7 +6,8 @@ const ResetPage = () => {
   //   <ResetForm />
   // );
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    // <div>Loading...</div>
+    <Suspense fallback={null}>
       <ResetForm />
     </Suspense>
   );

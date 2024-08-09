@@ -83,7 +83,8 @@ export default async function PostPage({
 
   return (
     <>
-      <MaxWidthWrapper className="pt-6 md:pt-10">
+      {/* pt-6 md:pt-10 */}
+      <div className="">
         <div className="flex flex-col space-y-4">
           <div className="flex items-center space-x-4">
             <Link
@@ -118,12 +119,13 @@ export default async function PostPage({
             ))}
           </div>
         </div>
-      </MaxWidthWrapper>
+      </div>
 
       <div className="relative">
-        <div className="absolute top-52 w-full border-t" />
+        {/*  border-t */}
+        <div className="absolute w-full" />
 
-        <MaxWidthWrapper className="grid grid-cols-4 gap-10 pt-8 max-md:px-0">
+        <div className="grid grid-cols-4 gap-10 pt-8 max-md:px-0">
           <div className="relative col-span-4 mb-10 flex flex-col space-y-8 border-y bg-background md:rounded-xl md:border lg:col-span-3">
             <BlurImage
               alt={post.title}
@@ -141,13 +143,14 @@ export default async function PostPage({
             </div>
           </div>
 
-          <div className="sticky top-20 col-span-1 mt-52 hidden flex-col divide-y divide-muted self-start pb-24 lg:flex">
+          {/* mt-52 */}
+          <div className="sticky top-20 col-span-1  hidden flex-col divide-y divide-muted self-start pb-24 lg:flex">
             <DashboardTableOfContents toc={toc} />
           </div>
-        </MaxWidthWrapper>
+        </div>
       </div>
 
-      <MaxWidthWrapper>
+      <div>
         {relatedArticles.length > 0 && (
           <div className="flex flex-col space-y-4 pb-16">
             <p className="font-heading text-2xl text-foreground">
@@ -175,7 +178,7 @@ export default async function PostPage({
             </div>
           </div>
         )}
-      </MaxWidthWrapper>
+      </div>
     </>
   );
 }

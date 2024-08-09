@@ -20,8 +20,9 @@ export function BlogHeaderLayout() {
 
   return (
     <>
-      <MaxWidthWrapper className="py-6 md:pb-8 md:pt-10">
-        <div className="max-w-screen-sm">
+    {/* py-6  md:pt-10 */}
+      <MaxWidthWrapper className="md:pb-8">
+        {/* <div className="max-w-screen-sm">
           <h1 className="font-heading text-3xl md:text-4xl">
             {data?.title || "Blog"}
           </h1>
@@ -29,7 +30,7 @@ export function BlogHeaderLayout() {
             {data?.description ||
               "Latest news and updates from Next SaaS Starter."}
           </p>
-        </div>
+        </div> */}
 
         <nav className="mt-8 hidden w-full md:flex">
           <ul

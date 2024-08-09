@@ -4,7 +4,6 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { ResetSchema } from "@/lib/schemas";
 import { Input } from "@/components/ui/input";
 import {
@@ -68,7 +67,7 @@ export const ResetForm = () => {
                     <Input
                       {...field}
                       disabled={isPending}
-                      placeholder="john.doe@example.com"
+                      placeholder="name@example.com"
                       type="email"
                     />
                   </FormControl>

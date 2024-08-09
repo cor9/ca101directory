@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-
-import { Button } from "@/components/ui/button-asChild";
+import { Button as ButtonWrapper } from "@/components/shared/button-wrapper";
 
 interface BackButtonProps {
   href: string;
@@ -14,7 +13,7 @@ export const BackButton = ({
   label,
 }: BackButtonProps) => {
   return (
-    <Button
+    <ButtonWrapper
       variant="link"
       className="font-normal w-full"
       size="sm"
@@ -23,6 +22,6 @@ export const BackButton = ({
       <Link href={href}>
         {label}
       </Link>
-    </Button>
+    </ButtonWrapper>
   );
 };

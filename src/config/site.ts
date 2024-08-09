@@ -4,7 +4,7 @@ import { SidebarNavItem, SiteConfig } from "@/types";
 const site_url = process.env.NEXT_PUBLIC_APP_URL!!;
 
 export const siteConfig: SiteConfig = {
-  name: "SaaS Starter",
+  name: "MkDirs",
   description:
     "Get your project off to an explosive start with SaaS Starter! Harness the power of Next.js 14, Prisma, Neon, Auth.js v5, Resend, React Email, Shadcn/ui and Stripe to build your next big thing.",
   url: site_url,

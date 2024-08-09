@@ -17,14 +17,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { CardWrapper } from "@/components/auth/card-wrapper"
-import { Button } from "@/components/ui/button-asChild";
+import { Button as ButtonWrapper } from "@/components/shared/button-wrapper";
+import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
 
 export const LoginForm = () => {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
+  // const callbackUrl = searchParams.get("callbackUrl");
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
     ? "Email already in use with different provider!"
     : "";
@@ -108,7 +109,7 @@ export const LoginForm = () => {
                         type="password"
                       />
                     </FormControl>
-                    <Button
+                    <ButtonWrapper
                       size="sm"
                       variant="link"
                       asChild
@@ -117,7 +118,7 @@ export const LoginForm = () => {
                       <Link href="/auth/reset">
                         Forgot password?
                       </Link>
-                    </Button>
+                    </ButtonWrapper>
                     <FormMessage />
                   </FormItem>
                 )}

@@ -1,6 +1,5 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { DocsSidebarNav } from "@/components/docs/sidebar-nav";
-import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface DocsLayoutProps {
   children: React.ReactNode;

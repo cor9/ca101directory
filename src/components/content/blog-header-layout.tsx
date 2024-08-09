@@ -45,7 +45,7 @@ export function BlogHeaderLayout() {
                 active={category.slug === slug}
               />
             ))}
-            <CategoryLink title="Guides" href="/guides" active={false} />
+            {/* <CategoryLink title="Guides" href="/guides" active={false} /> */}
           </ul>
         </nav>
       </MaxWidthWrapper>

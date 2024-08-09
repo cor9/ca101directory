@@ -12,14 +12,6 @@ declare module "next-auth" {
   }
 }
 
-/**
- * auth types
- */
-export enum UserRole {
-  ADMIN = 'ADMIN',
-  USER = 'USER',
-}
-
 export type User = {
   _id: string;
   name: string;

@@ -1,10 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { useSession } from "next-auth/react";
-import { useSelectedLayoutSegment } from "next/navigation";
-import { DocsSearch } from "@/components/docs/search";
-import { Icons } from "@/components/shared/icons";
+import { LoginButton } from "@/components/auth/login-button";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -13,8 +9,10 @@ import { marketingConfig } from "@/config/marketing";
 import { siteConfig } from "@/config/site";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
-import { ArrowRight, Github, Search, Sparkle, Sparkles } from "lucide-react";
-import { LoginButton } from "@/components/auth/login-button";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { useSelectedLayoutSegment } from "next/navigation";
 
 interface NavBarProps {
   scroll?: boolean;
@@ -25,7 +23,7 @@ export function NavBar({ scroll = false }: NavBarProps) {
   const scrolled = useScroll(50);
   const { data: session, status } = useSession();
   const selectedLayout = useSelectedLayoutSegment();
-  const documentation = (selectedLayout === "docs");
+  // const documentation = (selectedLayout === "docs");
 
   const configMap = {
     docs: docsConfig.mainNav,
@@ -42,9 +40,7 @@ export function NavBar({ scroll = false }: NavBarProps) {
       )}
     >
       {/* large={documentation} */}
-      <MaxWidthWrapper
-        className="flex h-16 items-center justify-between"
-      >
+      <MaxWidthWrapper className="flex h-16 items-center justify-between">
         <div className="flex gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-1.5">
             <Sparkles />

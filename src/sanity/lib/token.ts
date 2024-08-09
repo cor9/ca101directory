@@ -1,4 +1,5 @@
-import "server-only";
+// TODO: fix token is server-only, otherwise sanity adapter can not create user!!!
+// import "server-only";
 
 /**
  * As this file is reused in several other files, try to keep it lean and small.

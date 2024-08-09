@@ -9,7 +9,6 @@ export default function BlogLayout({
   return (
     <>
       <BlogHeaderLayout />
-      {/* min-h-screen */}
       <MaxWidthWrapper className="pb-16">
         {children}
       </MaxWidthWrapper>

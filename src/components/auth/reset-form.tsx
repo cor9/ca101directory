@@ -47,7 +47,7 @@ export const ResetForm = () => {
 
   return (
     <CardWrapper
-      headerLabel="Send reset email"
+      headerLabel="Froget password?"
       backButtonLabel="Back to login"
       backButtonHref="/auth/login"
     >

@@ -6,7 +6,7 @@ const AuthLayout = ({
     
     return ( 
       //  bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-red-400 to-orange-800
-      <div className="h-full min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         {children}
       </div>
      );

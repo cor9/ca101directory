@@ -1,6 +1,6 @@
 import { NavBar } from "@/components/layout/navbar";
 import { SiteFooter } from "@/components/layout/site-footer";
-import { NavMobile } from "@/components/layout/mobile-nav";
+import { NavMobile } from "@/components/layout/navbar-mobile";
 
 interface MarketingLayoutProps {
   children: React.ReactNode;

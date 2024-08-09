@@ -15,7 +15,7 @@ export function NavMobile() {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const selectedLayout = useSelectedLayoutSegment();
-  const documentation = selectedLayout === "docs";
+  // const documentation = selectedLayout === "docs";
 
   const configMap = {
     docs: docsConfig.mainNav,
@@ -117,11 +117,11 @@ export function NavMobile() {
           )}
         </ul>
 
-        {documentation ? (
+        {/* {documentation ? (
           <div className="mt-8 block md:hidden">
             <DocsSidebarNav setOpen={setOpen} />
           </div>
-        ) : null}
+        ) : null} */}
 
         <div className="mt-5 flex items-center justify-end space-x-4">
           {/* <ButtonWrapper asChild variant="ghost" size="sm" className="size-8 px-0">

@@ -3,7 +3,7 @@ import { Menu } from '@/lib/constants';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import MobileMenu from './mobile-menu';
-import Search, { SearchSkeleton } from './search';
+import Search, { SearchSkeleton } from '../../search';
 
 const { SITE_NAME } = process.env;
 

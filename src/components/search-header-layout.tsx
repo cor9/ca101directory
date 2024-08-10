@@ -1,7 +1,7 @@
 import { sorting } from '@/lib/constants';
 import MaxWidthWrapper from './shared/max-width-wrapper';
 import { SortList } from './sort-list';
-import Search, { SearchSkeleton } from './layout/navbar/search';
+import Search, { SearchSkeleton } from './search';
 import { Suspense } from 'react';
 
 export async function SearchHeaderLayout() {

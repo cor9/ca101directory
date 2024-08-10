@@ -2,7 +2,6 @@ import Pagination from '@/components/pagination';
 import { defaultSort, ITEMS_PER_PAGE, sorting } from '@/lib/constants';
 import { SearchItemQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
-import { groq } from 'next-sanity';
 import Link from 'next/link';
 
 const buildQuery = (sortKey?: string, reverse?: boolean, currentPage: number = 1) => {

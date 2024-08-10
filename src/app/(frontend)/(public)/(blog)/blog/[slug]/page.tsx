@@ -15,7 +15,7 @@ import { buttonVariants } from "@/components/ui/button";
 import Author from "@/components/content/author";
 import BlurImage from "@/components/shared/blur-image";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
-import { DashboardTableOfContents } from "@/components/shared/toc";
+import { TableOfContentsLayout } from "@/components/shared/toc";
 import { Mdx } from "@/components/content/mdx-components";
 import { BLOG_CATEGORIES } from "@/config/blog";
 import { allPosts } from "contentlayer/generated";
@@ -145,7 +145,7 @@ export default async function PostPage({
 
           {/* mt-52 */}
           <div className="sticky top-20 col-span-1  hidden flex-col divide-y divide-muted self-start pb-24 lg:flex">
-            <DashboardTableOfContents toc={toc} />
+            <TableOfContentsLayout toc={toc} />
           </div>
         </div>
       </div>

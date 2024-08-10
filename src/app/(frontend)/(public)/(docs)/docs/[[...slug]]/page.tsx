@@ -7,7 +7,7 @@ import { getTableOfContents } from "@/lib/toc";
 import { Mdx } from "@/components/content/mdx-components";
 import { DocsPageHeader } from "@/components/docs/page-header";
 import { DocsPager } from "@/components/docs/pager";
-import { DashboardTableOfContents } from "@/components/shared/toc";
+import { TableOfContentsLayout } from "@/components/shared/toc";
 import { allDocs } from "contentlayer/generated";
 
 interface DocPageProps {
@@ -78,7 +78,7 @@ export default async function DocPage({ params }: DocPageProps) {
       {/* set toc width to 150px, show in xl */}
       <div className="hidden text-sm xl:block">
         <div className="sticky top-16 -mt-10 max-h-[calc(var(--vh)-4rem)] overflow-y-auto pt-8">
-          <DashboardTableOfContents toc={toc} />
+          <TableOfContentsLayout toc={toc} />
         </div>
       </div>
     </main>

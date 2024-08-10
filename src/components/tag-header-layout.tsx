@@ -5,26 +5,28 @@ import { tagListQuery } from '@/sanity/lib/queries';
 import MaxWidthWrapper from './shared/max-width-wrapper';
 import { SortList } from './sort-list';
 import { TagList } from './tag-list';
+import { Suspense } from 'react';
 
-// TODO: change to Suspense
-async function getTagList() {
+async function GetTagList() {
   const tagList = await sanityFetch<TagListQueryResult>({
     query: tagListQuery
   });
-  console.log('getTagList, tagList:', tagList);
-  return tagList;
+  console.log('GetTagList, tagList:', tagList);
+  return (
+    <TagList tagList={tagList} />
+  );
 }
 
 export async function TagHeaderLayout() {
-  const tagList = await getTagList();
-
   return (
     <>
       {/* Desktop View, has MaxWidthWrapper */}
       <MaxWidthWrapper className="hidden md:block">
         <div className='grid grid-cols-[1fr_150px] gap-8 items-center justify-between'>
           <div className="w-full min-w-0 mt-4">
-            <TagList tagList={tagList} />
+            <Suspense fallback={null}>
+              <GetTagList />
+            </Suspense>
           </div>
 
           {/* set width to 150px */}
@@ -37,7 +39,9 @@ export async function TagHeaderLayout() {
       {/* Mobile View, no MaxWidthWrapper */}
       <div className="md:hidden flex flex-col gap-8">
         <div className='w-full mt-4'>
-          <TagList tagList={tagList} />
+          <Suspense fallback={null}>
+            <GetTagList />
+          </Suspense>
         </div>
 
         {/* set width to full */}

@@ -5,26 +5,28 @@ import { SortList } from './sort-list';
 import { CategoryList } from "./category-list";
 import MaxWidthWrapper from './shared/max-width-wrapper';
 import { sorting } from '@/lib/constants';
+import { Suspense } from 'react';
 
-// TODO: change to Suspense
-async function getCategoryList() {
+async function GetCategoryList() {
   const categoryList = await sanityFetch<CategoryListQueryResult>({
     query: categoryListQuery
   });
-  console.log('getCategoryList, categoryList:', categoryList);
-  return categoryList;
+  console.log('GetCategoryList, categoryList:', categoryList);
+  return (
+    <CategoryList categoryList={categoryList} />
+  );
 }
 
 export async function CategoryHeaderLayout() {
-  const categoryList = await getCategoryList();
-
   return (
     <>
       {/* Desktop View, has MaxWidthWrapper */}
       <MaxWidthWrapper className="hidden md:block">
         <div className='grid grid-cols-[1fr_150px] gap-8 items-center justify-between'>
           <div className="w-full min-w-0 mt-4">
-            <CategoryList categoryList={categoryList} />
+            <Suspense fallback={null}>
+              <GetCategoryList />
+            </Suspense>
           </div>
 
           {/* set width to 150px */}
@@ -37,7 +39,9 @@ export async function CategoryHeaderLayout() {
       {/* Mobile View, no MaxWidthWrapper */}
       <div className="md:hidden flex flex-col gap-8">
         <div className='w-full mt-4'>
-          <CategoryList categoryList={categoryList} />
+          <Suspense fallback={null}>
+            <GetCategoryList />
+          </Suspense>
         </div>
 
         {/* set width to full */}

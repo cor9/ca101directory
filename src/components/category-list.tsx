@@ -1,13 +1,14 @@
 "use client";
 
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { Check, List } from "lucide-react";
+import { CategoryListQueryResult } from '@/sanity.types';
+import { Check, LayoutList } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Drawer } from "vaul";
-import { CategoryListQueryResult } from '@/sanity.types';
-import MaxWidthWrapper from "./shared/max-width-wrapper";
+import { Button } from "./ui/button";
 
 export type CategoryListProps = {
   categoryList: CategoryListQueryResult;
@@ -23,34 +24,34 @@ export function CategoryList({ categoryList }: CategoryListProps) {
 
   return (
     <>
-      <MaxWidthWrapper className="md:pb-8">
-        <nav className="mt-8 hidden w-full md:flex">
-          <ul role="list" className="flex w-full flex-1 gap-x-2 border-b text-[15px] text-muted-foreground" >
+      {/* show in desktop, wrapped in MaxWidthWrapper */}
+      <ScrollArea className="hidden md:flex w-full py-4">
+        <ul role="list" className="w-full flex flex-1 gap-x-2" >
+          <CategoryLink
+            title="All"
+            href="/category"
+            active={!slug}
+          />
+
+          {categoryList.map((category) => (
             <CategoryLink
-              title="All"
-              href="/category"
-              active={!slug}
+              key={category.slug.current}
+              title={category.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
+              href={`/category/${category.slug.current}`}
+              active={category.slug.current === slug}
             />
+          ))}
+        </ul>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
 
-            {categoryList.map((category) => (
-              <CategoryLink
-                key={category.slug.current}
-                title={category.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
-                href={`/category/${category.slug.current}`}
-                active={category.slug.current === slug}
-              />
-            ))}
-          </ul>
-        </nav>
-      </MaxWidthWrapper>
-
-      {/* show Drawer in mobile, no MaxWidthWrapper */}
+      {/* show in mobile, no MaxWidthWrapper */}
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
           onClick={() => setOpen(true)}
-          className="mb-8 flex w-full items-center border-y p-3 text-foreground/90 md:hidden"
+          className="md:hidden flex w-full p-3 items-center border-y text-foreground/90"
         >
-          <List className="size-[18px]" />
+          <LayoutList className="size-[18px]" />
           <p className="ml-2.5 text-sm font-medium">Categories</p>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm" onClick={closeDrawer} />
@@ -101,26 +102,32 @@ const CategoryLink = ({
   clickAction?: () => void;
 }) => {
   return (
-    <Link href={href} onClick={clickAction}>
-      {mobile ? (
-        <li className="rounded-lg text-foreground hover:bg-muted">
-          <div className="flex items-center justify-between px-3 py-2 text-sm">
-            <span>{title}</span>
-            {active && <Check className="size-4" />}
-          </div>
-        </li>
-      ) : (
-        <li
-          className={cn(
-            "-mb-px border-b-2 border-transparent font-medium text-muted-foreground hover:text-foreground",
-            {
-              "border-purple-600 text-foreground dark:border-purple-400/80": active,
-            },
-          )}
-        >
-          <div className="px-3 pb-3">{title}</div>
-        </li>
+    <>
+      {/* shwo in mobile, wrapped in Link and shwo in a Drawer */}
+      {mobile && (
+        <Link href={href} onClick={clickAction}>
+          <li className="rounded-lg text-foreground hover:bg-muted">
+            <div className="flex items-center justify-between px-3 py-2 text-sm">
+              <span>{title}</span>
+              {active && <Check className="size-4" />}
+            </div>
+          </li>
+        </Link>
       )}
-    </Link>
+
+      {/* show in desktop, wrapped in Link and Button and show as Button */}
+      {!mobile && (
+        <Button asChild variant="outline" size="sm" className={cn(
+          'px-3 py-3',
+          active ? 'bg-accent font-medium text-foregroun' : 'text-muted-foreground border-transparent',
+        )}>
+          <Link href={href} onClick={clickAction}>
+            <li>
+              <div className="">{title}</div>
+            </li>
+          </Link>
+        </Button>
+      )}
+    </>
   );
 };

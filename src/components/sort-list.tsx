@@ -1,18 +1,27 @@
 "use client";
 
-import { Check, List } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { SortFilterItem } from "@/lib/constants";
+import { cn } from "@/lib/utils";
+import { Check, ListChecks } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Drawer } from "vaul";
-import { cn } from "@/lib/utils";
-import { BLOG_CATEGORIES } from "@/config/blog";
-import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 
-export function BlogHeaderLayout() {
+export type SortListProps = {
+  sortList: SortFilterItem[];
+};
+
+export function SortList({ sortList }: SortListProps) {
   const [open, setOpen] = useState(false);
   const { slug } = useParams() as { slug?: string };
-  const data = BLOG_CATEGORIES.find((category) => category.slug === slug);
 
   const closeDrawer = () => {
     setOpen(false);
@@ -20,35 +29,32 @@ export function BlogHeaderLayout() {
 
   return (
     <>
-      <MaxWidthWrapper className="md:pb-8">
-        <nav className="hidden mt-8 w-full md:flex">
-          <ul role="list" className="w-full flex flex-1 gap-x-2 border-b text-[15px] text-muted-foreground" >
-            <CategoryLink
-              title="All"
-              href="/blog"
-              active={!slug}
-            />
+      {/* show in desktop, wrapped in MaxWidthWrapper */}
+      <div className="hidden md:block w-full py-4">
+        <Select>
+          <SelectTrigger className="w-[150px] h-8 text-sm">
+            <SelectValue placeholder="Sort by Time" />
+          </SelectTrigger>
+          <SelectContent className="text-sm">
+            {
+              sortList.map((item) => (
+                <SelectItem key={item.slug} value={item.slug}>
+                  {item.title}
+                </SelectItem>
+              ))
+            }
+          </SelectContent>
+        </Select>
+      </div>
 
-            {BLOG_CATEGORIES.map((category) => (
-              <CategoryLink
-                key={category.slug}
-                title={category.title}
-                href={`/blog/category/${category.slug}`}
-                active={category.slug === slug}
-              />
-            ))}
-          </ul>
-        </nav>
-      </MaxWidthWrapper>
-
-      {/* show Drawer in mobile, no MaxWidthWrapper */}
+      {/* show in mobile, no MaxWidthWrapper */}
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
           onClick={() => setOpen(true)}
-          className="mb-8 flex w-full items-center border-y p-3 text-foreground/90 md:hidden"
+          className="md:hidden flex w-full p-3 items-center border-y text-foreground/90"
         >
-          <List className="size-[18px]" />
-          <p className="ml-2.5 text-sm font-medium">Categories</p>
+          <ListChecks className="size-[18px]" />
+          <p className="ml-2.5 text-sm font-medium">Sort</p>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm" onClick={closeDrawer} />
         <Drawer.Portal>
@@ -59,22 +65,22 @@ export function BlogHeaderLayout() {
             <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
               <CategoryLink
                 title="All"
-                href="/blog"
+                href="/category"
                 active={!slug}
                 clickAction={closeDrawer}
                 mobile
               />
 
-              {BLOG_CATEGORIES.map((category) => (
+              {/* {categoryList.map((category) => (
                 <CategoryLink
-                  key={category.slug}
-                  title={category.title}
-                  href={`/blog/category/${category.slug}`}
-                  active={category.slug === slug}
+                  key={category.slug.current}
+                  title={category.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
+                  href={`/category/${category.slug.current}`}
+                  active={category.slug.current === slug}
                   clickAction={closeDrawer}
                   mobile
                 />
-              ))}
+              ))} */}
             </ul>
           </Drawer.Content>
           <Drawer.Overlay />
@@ -111,8 +117,7 @@ const CategoryLink = ({
           className={cn(
             "-mb-px border-b-2 border-transparent font-medium text-muted-foreground hover:text-foreground",
             {
-              "border-purple-600 text-foreground dark:border-purple-400/80":
-                active,
+              "border-purple-600 text-foreground dark:border-purple-400/80": active,
             },
           )}
         >

@@ -46,6 +46,7 @@ export default function FilterItemDropdown({ list }: { list: ListItem[] }) {
         <div>{active}</div>
         <ChevronDownIcon className="h-4" />
       </div>
+      
       {openSelect && (
         <div
           onClick={() => {

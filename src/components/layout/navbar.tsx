@@ -39,7 +39,7 @@ export function NavBar({ scroll = false }: NavBarProps) {
         scroll ? (scrolled ? "border-b" : "bg-transparent") : "border-b"
       )}
     >
-      {/* large={documentation} */}
+
       <MaxWidthWrapper className="flex h-16 items-center justify-between">
         <div className="flex gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-1.5">
@@ -99,21 +99,18 @@ export function NavBar({ scroll = false }: NavBarProps) {
               href={session.user.role === "ADMIN" ? "/admin" : "/dashboard"}
               className="hidden md:block">
               <Button
-                className="gap-2 px-5"
+                className="gap-2 px-5 rounded-full"
                 variant="default"
-                size="sm"
-                rounded="full"
-              >
+                size="sm">
                 <span>Dashboard</span>
               </Button>
             </Link>
           ) : status === "unauthenticated" ? (
             <LoginButton mode="modal" asChild>
               <Button
-                className="hidden gap-2 px-5 md:flex"
+                className="hidden gap-2 px-5 rounded-full md:flex"
                 variant="default"
-                size="sm"
-                rounded="full">
+                size="sm">
                 <span>Sign In</span>
                 <ArrowRight className="size-4" />
               </Button>

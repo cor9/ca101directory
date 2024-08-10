@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Drawer } from "vaul";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 
 export type CategoryListProps = {
   categoryList: CategoryListQueryResult;
@@ -19,6 +19,9 @@ export function CategoryList({ categoryList }: CategoryListProps) {
   const { slug } = useParams() as { slug?: string };
   // get the category with the slug
   const category = categoryList.find((category) => category.slug.current === slug);
+  if (!category) {
+    return null;
+  }
 
   const closeDrawer = () => {
     setOpen(false);
@@ -35,12 +38,12 @@ export function CategoryList({ categoryList }: CategoryListProps) {
             active={!slug}
           />
 
-          {categoryList.map((category) => (
+          {categoryList.map((item) => (
             <DesktopLink
-              key={category.slug.current}
-              title={category.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
-              href={`/category/${category.slug.current}`}
-              active={category.slug.current === slug}
+              key={item.slug.current}
+              title={item.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
+              href={`/category/${item.slug.current}`}
+              active={item.slug.current === slug}
             />
           ))}
         </ul>
@@ -74,12 +77,12 @@ export function CategoryList({ categoryList }: CategoryListProps) {
                 clickAction={closeDrawer}
               />
 
-              {categoryList.map((category) => (
+              {categoryList.map((item) => (
                 <MobileLink
-                  key={category.slug.current}
-                  title={category.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
-                  href={`/category/${category.slug.current}`}
-                  active={category.slug.current === slug}
+                  key={item.slug.current}
+                  title={item.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
+                  href={`/category/${item.slug.current}`}
+                  active={item.slug.current === slug}
                   clickAction={closeDrawer}
                 />
               ))}
@@ -107,9 +110,13 @@ const DesktopLink = ({
     <>
       {/* show in desktop, wrapped in Link and Button and show as Button */}
       {/* text-muted-foreground  border-transparent */}
-      <Button asChild variant="outline" size="sm" className={cn(
+      {/* active ? 'bg-accent font-medium text-accent-foreground' : '' */}
+      {/* variant="outline" */}
+      <Button asChild size="sm" className={cn(
         'px-3 py-3',
-        active ? 'bg-accent font-medium text-accent-foreground' : '',
+        buttonVariants({
+          variant: active ? "outline" : "ghost",
+        }),
       )}>
         <Link href={href}
           prefetch={false}

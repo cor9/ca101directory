@@ -19,6 +19,9 @@ export function TagList({ tagList }: TagListProps) {
   const { slug } = useParams() as { slug?: string };
   // get the tag with the slug
   const tag = tagList.find((tag) => tag.slug.current === slug);
+  if (!tag) {
+    return null;
+  }
 
   const closeDrawer = () => {
     setOpen(false);
@@ -35,12 +38,12 @@ export function TagList({ tagList }: TagListProps) {
             active={!slug}
           />
 
-          {tagList.map((tag) => (
+          {tagList.map((item) => (
             <DesktopLink
-              key={tag.slug.current}
-              title={tag.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
-              href={`/tag/${tag.slug.current}`}
-              active={tag.slug.current === slug}
+              key={item.slug.current}
+              title={item.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
+              href={`/tag/${item.slug.current}`}
+              active={item.slug.current === slug}
             />
           ))}
         </ul>
@@ -74,12 +77,12 @@ export function TagList({ tagList }: TagListProps) {
                 clickAction={closeDrawer}
               />
 
-              {tagList.map((tag) => (
+              {tagList.map((item) => (
                 <MobileLink
-                  key={tag.slug.current}
-                  title={tag.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
-                  href={`/tag/${tag.slug.current}`}
-                  active={tag.slug.current === slug}
+                  key={item.slug.current}
+                  title={item.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
+                  href={`/tag/${item.slug.current}`}
+                  active={item.slug.current === slug}
                   clickAction={closeDrawer}
                 />
               ))}

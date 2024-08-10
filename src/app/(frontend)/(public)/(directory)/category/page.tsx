@@ -1,4 +1,5 @@
 import Pagination from '@/components/pagination';
+import ItemCard from '@/components/item-card';
 import { defaultSort, ITEMS_PER_PAGE, sorting } from '@/lib/constants';
 import { SearchItemQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
@@ -49,12 +50,13 @@ export default async function CategoryListPage({
 
   const { items, totalCount } = await getItems({ sortKey, reverse, currentPage });
   console.log('CategoryListPage, totalCount', totalCount);
-  const totalPages = Math.ceil(totalCount / 3);
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   return (
     <section>
-      <h1 className="text-3xl">{totalCount}</h1>
-      {
+      {/* <h1 className="text-3xl">{totalCount}</h1> */}
+
+      {/* {
         items.length > 0 && items.map((item) => (
           <div key={item._id}>
             <Link href={`/item/${item.slug?.current}`}>
@@ -62,7 +64,14 @@ export default async function CategoryListPage({
             </Link>
           </div>
         ))
-      }
+      } */}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+        {items.length > 0 && items.map((item) => {
+          return <ItemCard key={item._id} item={item} />;
+        })}
+      </div>
+
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>

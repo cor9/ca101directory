@@ -55,7 +55,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
         >
           <LayoutList className="size-[18px]" />
           <p className="ml-2.5 text-sm font-medium">
-            Categories {`(${category.name.find((kv) => kv._key === 'en')?.value || 'No Name'})`}
+            Categories {`(${category?.name.find((kv) => kv._key === 'en')?.value || 'No Name'})`}
           </p>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"

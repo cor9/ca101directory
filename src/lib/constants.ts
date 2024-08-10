@@ -1,4 +1,4 @@
-export const ITEMS_PER_PAGE = 3;
+export const ITEMS_PER_PAGE = 4;
 
 export type SortFilterItem = {
   title: string;

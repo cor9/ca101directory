@@ -1,8 +1,11 @@
 import "@/styles/mdx.css";
 
-import Link from "next/link";
-import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import Author from "@/components/content/author";
+import { Mdx } from "@/components/content/mdx-components";
+import BlurImage from "@/components/shared/blur-image";
+import { TableOfContentsLayout } from "@/components/shared/toc";
+import { buttonVariants } from "@/components/ui/button";
+import { BLOG_CATEGORIES } from "@/config/blog";
 import { getTableOfContents } from "@/lib/toc";
 import {
   cn,
@@ -11,14 +14,10 @@ import {
   getBlurDataURL,
   placeholderBlurhash,
 } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import Author from "@/components/content/author";
-import BlurImage from "@/components/shared/blur-image";
-import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
-import { TableOfContentsLayout } from "@/components/shared/toc";
-import { Mdx } from "@/components/content/mdx-components";
-import { BLOG_CATEGORIES } from "@/config/blog";
 import { allPosts } from "contentlayer/generated";
+import { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
   return allPosts.map((post) => ({
@@ -83,7 +82,6 @@ export default async function PostPage({
 
   return (
     <>
-      {/* pt-6 md:pt-10 */}
       <div className="">
         <div className="flex flex-col space-y-4">
           <div className="flex items-center space-x-4">
@@ -93,9 +91,8 @@ export default async function PostPage({
                 buttonVariants({
                   variant: "outline",
                   size: "sm",
-                  rounded: "lg",
                 }),
-                "h-8",
+                "h-8 rounded-lg",
               )}
             >
               {category.title}
@@ -122,7 +119,6 @@ export default async function PostPage({
       </div>
 
       <div className="relative">
-        {/*  border-t */}
         <div className="absolute w-full" />
 
         <div className="grid grid-cols-4 gap-10 pt-8 max-md:px-0">
@@ -143,7 +139,6 @@ export default async function PostPage({
             </div>
           </div>
 
-          {/* mt-52 */}
           <div className="sticky top-20 col-span-1  hidden flex-col divide-y divide-muted self-start pb-24 lg:flex">
             <TableOfContentsLayout toc={toc} />
           </div>

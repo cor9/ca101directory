@@ -78,9 +78,9 @@ export default defineType({
         {
           type: 'image'
         },
-        {
-          type: 'code'
-        }
+        // {
+        //   type: 'code'
+        // }
       ],
     }),
     defineField({

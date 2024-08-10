@@ -92,7 +92,7 @@ export default defineConfig({
 
     // https://www.sanity.io/plugins/code-input
     // Syntax highlighted editor for code.
-    codeInput(),
+    // codeInput(),
 
     // https://www.sanity.io/plugins/sanity-plugin-asset-source-unsplash
     // Search photos on Unsplash and insert them directly inside of your Sanity Studio.

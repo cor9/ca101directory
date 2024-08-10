@@ -2,7 +2,7 @@
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { CategoryListQueryResult } from '@/sanity.types';
+import { TagListQueryResult } from '@/sanity.types';
 import { Check, LayoutList } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -10,15 +10,15 @@ import { useState } from "react";
 import { Drawer } from "vaul";
 import { Button } from "./ui/button";
 
-export type CategoryListProps = {
-  categoryList: CategoryListQueryResult;
+export type TagListProps = {
+  tagList: TagListQueryResult;
 };
 
-export function CategoryList({ categoryList }: CategoryListProps) {
+export function TagList({ tagList }: TagListProps) {
   const [open, setOpen] = useState(false);
   const { slug } = useParams() as { slug?: string };
-  // get the category with the slug
-  const category = categoryList.find((category) => category.slug.current === slug);
+  // get the tag with the slug
+  const tag = tagList.find((tag) => tag.slug.current === slug);
 
   const closeDrawer = () => {
     setOpen(false);
@@ -31,16 +31,16 @@ export function CategoryList({ categoryList }: CategoryListProps) {
         <ul role="list" className="w-full flex flex-1 gap-x-2" >
           <DesktopLink
             title="All"
-            href="/category"
+            href="/tag"
             active={!slug}
           />
 
-          {categoryList.map((category) => (
+          {tagList.map((tag) => (
             <DesktopLink
-              key={category.slug.current}
-              title={category.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
-              href={`/category/${category.slug.current}`}
-              active={category.slug.current === slug}
+              key={tag.slug.current}
+              title={tag.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
+              href={`/tag/${tag.slug.current}`}
+              active={tag.slug.current === slug}
             />
           ))}
         </ul>
@@ -55,7 +55,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
         >
           <LayoutList className="size-[18px]" />
           <p className="ml-2.5 text-sm font-medium">
-            Categories {`(${category?.name.find((kv) => kv._key === 'en')?.value || 'No Name'})`}
+            Tags {`(${tag?.name.find((kv) => kv._key === 'en')?.value || 'No Name'})`}
           </p>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
@@ -69,17 +69,17 @@ export function CategoryList({ categoryList }: CategoryListProps) {
             <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
               <MobileLink
                 title="All"
-                href="/category"
+                href="/tag"
                 active={!slug}
                 clickAction={closeDrawer}
               />
 
-              {categoryList.map((category) => (
+              {tagList.map((tag) => (
                 <MobileLink
-                  key={category.slug.current}
-                  title={category.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
-                  href={`/category/${category.slug.current}`}
-                  active={category.slug.current === slug}
+                  key={tag.slug.current}
+                  title={tag.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
+                  href={`/tag/${tag.slug.current}`}
+                  active={tag.slug.current === slug}
                   clickAction={closeDrawer}
                 />
               ))}

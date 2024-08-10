@@ -1,20 +1,14 @@
-import SortList from '@/components/layout/sort-list';
-import TagList from '@/components/layout/tag-list';
+import MaxWidthWrapper from '@/components/shared/max-width-wrapper';
+import { TagHeaderLayout } from '@/components/tag-header-layout';
 
-export default function SearchLayout({ children }: { children: React.ReactNode }) {
+export default function CategoryLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <div className="mx-auto flex flex-col gap-8 px-4 pb-4 text-black md:flex-row dark:text-white">
-        <div className="order-first w-full flex-none md:max-w-[125px]">
-          <TagList />
-        </div>
-        <div className="order-last min-h-screen w-full md:order-none">
-          {children}
-        </div>
-        <div className="order-none flex-none md:order-last md:w-[125px]">
-          <SortList />
-        </div>
-      </div>
+      <TagHeaderLayout />
+
+      <MaxWidthWrapper className="pb-16">
+        {children}
+      </MaxWidthWrapper>
     </>
   );
 }

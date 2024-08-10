@@ -1,0 +1,41 @@
+import { sorting } from '@/lib/constants';
+import MaxWidthWrapper from './shared/max-width-wrapper';
+import { SortList } from './sort-list';
+import Search, { SearchSkeleton } from './layout/navbar/search';
+import { Suspense } from 'react';
+
+export async function SearchHeaderLayout() {
+  return (
+    <>
+      {/* Desktop View, has MaxWidthWrapper */}
+      <MaxWidthWrapper className="hidden md:block">
+        <div className='grid grid-cols-[1fr_150px] gap-8 items-center justify-between'>
+          <div className="w-full min-w-0 mt-4">
+            <Suspense fallback={<SearchSkeleton />}>
+              <Search />
+            </Suspense>
+          </div>
+
+          {/* set width to 150px */}
+          <div className="mt-4">
+            <SortList sortList={sorting} />
+          </div>
+        </div>
+      </MaxWidthWrapper>
+
+      {/* Mobile View, no MaxWidthWrapper */}
+      <div className="md:hidden flex flex-col gap-8">
+        <div className='w-full min-w-0 mt-4'>
+          <Suspense fallback={<SearchSkeleton />}>
+            <Search />
+          </Suspense>
+        </div>
+
+        {/* set width to full */}
+        <div className="w-full mb-8">
+          <SortList sortList={sorting} />
+        </div>
+      </div>
+    </>
+  );
+}

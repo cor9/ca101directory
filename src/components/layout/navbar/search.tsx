@@ -1,7 +1,7 @@
 'use client';
 
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { createUrl } from '@/lib/utils';
+import { SearchIcon } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Search() {
@@ -25,32 +25,34 @@ export default function Search() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="w-max-[550px] relative w-full lg:w-80 xl:w-full">
-      <input
-        key={searchParams?.get('q')}
-        type="text"
-        name="search"
-        placeholder="Search..."
-        autoComplete="off"
-        defaultValue={searchParams?.get('q') || ''}
-        className="text-md w-full rounded-lg border bg-white px-4 py-2 text-black placeholder:text-neutral-500 md:text-sm dark:border-neutral-800 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-400"
-      />
-      <div className="absolute right-0 top-0 mr-3 flex h-full items-center">
-        <MagnifyingGlassIcon className="h-4" />
-      </div>
-    </form>
+    <div className='px-8 md:px-0'>
+      <form onSubmit={onSubmit} className="w-full md:w-80 relative">
+        <input
+          key={searchParams?.get('q')}
+          type="text"
+          name="search"
+          placeholder="Search..."
+          autoComplete="off"
+          defaultValue={searchParams?.get('q') || ''}
+          className="text-md w-full rounded-full border bg-white px-4 py-2 text-black placeholder:text-neutral-500 md:text-sm dark:border-neutral-800 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-400"
+        />
+        <div className="absolute right-0 top-0 mr-4 flex h-full items-center">
+          <SearchIcon className="h-4" />
+        </div>
+      </form>
+    </div>
   );
 }
 
 export function SearchSkeleton() {
   return (
-    <form className="w-max-[550px] relative w-full lg:w-80 xl:w-full">
+    <form className="w-full md:w-80 relative">
       <input
         placeholder="Search..."
-        className="w-full rounded-lg border bg-white px-4 py-2 text-sm text-black placeholder:text-neutral-500 dark:border-neutral-800 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-400"
+        className="text-md w-full rounded-lg border bg-white px-4 py-2 text-sm text-black placeholder:text-neutral-500 dark:border-neutral-800 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-400"
       />
-      <div className="absolute right-0 top-0 mr-3 flex h-full items-center">
-        <MagnifyingGlassIcon className="h-4" />
+      <div className="absolute right-0 top-0 mr-4 flex h-full items-center">
+        <SearchIcon className="h-4" />
       </div>
     </form>
   );

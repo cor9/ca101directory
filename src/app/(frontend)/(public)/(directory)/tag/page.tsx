@@ -3,8 +3,6 @@ import Pagination from '@/components/pagination';
 import { defaultSort, ITEMS_PER_PAGE, sorting } from '@/lib/constants';
 import { SearchItemQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
-import { groq } from 'next-sanity';
-import Link from 'next/link';
 
 const buildQuery = (sortKey?: string, reverse?: boolean, currentPage: number = 1) => {
   const orderDirection = reverse ? 'desc' : 'asc';
@@ -14,7 +12,7 @@ const buildQuery = (sortKey?: string, reverse?: boolean, currentPage: number = 1
 
   // @sanity-typegen-ignore
   const countQuery = `count(*[_type == "item" && defined(slug.current)])`;
-// @sanity-typegen-ignore
+  // @sanity-typegen-ignore
   const dataQuery = `*[_type == "item" && defined(slug.current)] 
     ${sortOrder} [${offsetStart}...${offsetEnd}] {
     ...

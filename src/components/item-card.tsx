@@ -15,6 +15,7 @@ export default function ItemCard({ item }: ItemCardProps) {
     const imageUrl = urlForImageWithSize(item.image, 960, 540);
 
     return (
+        // transition-all hover:bg-accent md:scale-100 md:hover:scale-105
         <div key={item._id}
             className="group cursor-pointer overflow-hidden rounded-lg border
                 transition-all hover:bg-accent md:scale-100 md:hover:scale-105">

@@ -1,9 +1,8 @@
-import Pagination from '@/components/pagination';
 import ItemCard from '@/components/item-card';
+import Pagination from '@/components/pagination';
 import { defaultSort, ITEMS_PER_PAGE, sorting } from '@/lib/constants';
 import { SearchItemQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
-import Link from 'next/link';
 
 const buildQuery = (sortKey?: string, reverse?: boolean, currentPage: number = 1) => {
   const orderDirection = reverse ? 'desc' : 'asc';
@@ -47,32 +46,19 @@ export default async function CategoryListPage({
   const { sort, page } = searchParams as { [key: string]: string };
   const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort;
   const currentPage = page ? Number(page) : 1;
-
   const { items, totalCount } = await getItems({ sortKey, reverse, currentPage });
-  console.log('CategoryListPage, totalCount', totalCount);
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+  console.log('CategoryListPage, totalCount', totalCount, ", totalPages", totalPages);
 
   return (
-    <section>
-      {/* <h1 className="text-3xl">{totalCount}</h1> */}
-
-      {/* {
-        items.length > 0 && items.map((item) => (
-          <div key={item._id}>
-            <Link href={`/item/${item.slug?.current}`}>
-              {item.name?.find(entry => entry._key === "en")?.value}
-            </Link>
-          </div>
-        ))
-      } */}
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+    <section className=''>
+      <div className="mt-8 gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {items.length > 0 && items.map((item) => {
           return <ItemCard key={item._id} item={item} />;
         })}
       </div>
 
-      <div className="mt-5 flex w-full justify-center">
+      <div className="mt-8 w-full flex items-center justify-center">
         <Pagination totalPages={totalPages} />
       </div>
     </section>

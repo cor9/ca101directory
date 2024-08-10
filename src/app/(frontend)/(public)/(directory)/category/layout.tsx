@@ -6,8 +6,7 @@ export default function CategoryLayout({ children }: { children: React.ReactNode
     <>
       <CategoryHeaderLayout />
 
-      {/* min-h-screen */}
-      <MaxWidthWrapper className="">
+      <MaxWidthWrapper className="pb-16">
         {children}
       </MaxWidthWrapper>
     </>

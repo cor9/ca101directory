@@ -2,7 +2,7 @@ import type { Icon } from "lucide-react";
 import { Icons } from "@/components/shared/icons";
 
 import { SearchItemQueryResult } from '@/sanity.types';
-export type SearchItem = SearchItemQueryResult[number];
+export type ItemInfo = SearchItemQueryResult[number];
 
 export type SiteConfig = {
   name: string;

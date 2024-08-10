@@ -2,12 +2,12 @@
 
 import Image from 'next/image';
 import { cn, urlForImageWithSize } from "@/lib/utils";
-import { SearchItem } from "@/types";
+import { ItemInfo } from "@/types";
 import { ExternalLink } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 type ItemCardProps = {
-    item: SearchItem;
+    item: ItemInfo;
 };
 
 export default function ItemCard({ item }: ItemCardProps) {

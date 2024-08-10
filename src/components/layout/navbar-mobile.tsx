@@ -8,8 +8,9 @@ import { DocsSidebarNav } from "@/components/docs/sidebar-nav";
 import { docsConfig } from "@/config/docs";
 import { marketingConfig } from "@/config/marketing";
 import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
+import { Menu, Search, X } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
+import { Button } from "../ui/button";
 
 export function NavMobile() {
   const { data: session } = useSession();
@@ -21,7 +22,7 @@ export function NavMobile() {
     docs: docsConfig.mainNav,
   };
 
-  const links = (selectedLayout && configMap[selectedLayout]) 
+  const links = (selectedLayout && configMap[selectedLayout])
     || marketingConfig.mainNav;
 
   // prevent body scroll when modal is open
@@ -74,6 +75,7 @@ export function NavMobile() {
                 <li className="py-3">
                   <Link
                     href="/admin"
+                    prefetch={false}
                     onClick={() => setOpen(false)}
                     className="flex w-full font-medium capitalize"
                   >
@@ -85,6 +87,7 @@ export function NavMobile() {
               <li className="py-3">
                 <Link
                   href="/dashboard"
+                  prefetch={false}
                   onClick={() => setOpen(false)}
                   className="flex w-full font-medium capitalize"
                 >
@@ -97,6 +100,7 @@ export function NavMobile() {
               <li className="py-3">
                 <Link
                   href="/login"
+                  prefetch={false}
                   onClick={() => setOpen(false)}
                   className="flex w-full font-medium capitalize"
                 >
@@ -107,6 +111,7 @@ export function NavMobile() {
               <li className="py-3">
                 <Link
                   href="/register"
+                  prefetch={false}
                   onClick={() => setOpen(false)}
                   className="flex w-full font-medium capitalize"
                 >
@@ -123,13 +128,15 @@ export function NavMobile() {
           </div>
         ) : null} */}
 
-        <div className="mt-5 flex items-center justify-end space-x-4">
-          {/* <ButtonWrapper asChild variant="ghost" size="sm" className="size-8 px-0">
-            <Link href={siteConfig.links.github} target="_blank" rel="noreferrer">
-              <Github className="size-5" />
-              <span className="sr-only">GitHub</span>
+        <div className="mt-8 flex items-center justify-end space-x-2">
+          <Button asChild variant="ghost" size="sm" className="size-8 px-0">
+            <Link href={'/search'}
+              prefetch={false}
+              onClick={() => setOpen(false)}>
+              <Search className="size-5" />
+              <span className="sr-only">Search</span>
             </Link>
-          </ButtonWrapper> */}
+          </Button>
           <ModeToggle />
         </div>
       </nav>

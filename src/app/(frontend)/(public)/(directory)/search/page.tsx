@@ -39,8 +39,10 @@ async function getItems({
 }) {
   console.log('getItems, query', query, 'sortKey', sortKey, 'reverse', reverse);
   const { countQuery, dataQuery } = buildQuery(sortKey, reverse, query, currentPage);
-  const totalCount = await sanityFetch<number>({ query: countQuery });
-  const items = await sanityFetch<SearchItemQueryResult>({ query: dataQuery });
+  const [totalCount, items] = await Promise.all([
+    sanityFetch<number>({ query: countQuery }),
+    sanityFetch<SearchItemQueryResult>({ query: dataQuery })
+  ]);
   return { items, totalCount };
 }
 
@@ -52,7 +54,6 @@ export default async function SearchPage({
   const { sort, page, q: query } = searchParams as { [key: string]: string };
   const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort;
   const currentPage = page ? Number(page) : 1;
-
   const { items, totalCount } = await getItems({ sortKey, reverse, query, currentPage });
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
   console.log('SearchPage, totalCount', totalCount, ", totalPages", totalPages);

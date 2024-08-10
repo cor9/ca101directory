@@ -39,8 +39,10 @@ async function getItems({
 }) {
   console.log('getItems, slug', slug, 'sortKey', sortKey, 'reverse', reverse);
   const { countQuery, dataQuery } = buildQuery(slug, sortKey, reverse, currentPage);
-  const totalCount = await sanityFetch<number>({ query: countQuery });
-  const items = await sanityFetch<ItemListOfCategoryQueryResult>({ query: dataQuery });
+  const [totalCount, items] = await Promise.all([
+    sanityFetch<number>({ query: countQuery }),
+    sanityFetch<ItemListOfCategoryQueryResult>({ query: dataQuery })
+  ]);
   return { items, totalCount };
 }
 

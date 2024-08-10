@@ -1,7 +1,7 @@
 import ItemCard from '@/components/item-card';
 import Pagination from '@/components/pagination';
 import { defaultSort, ITEMS_PER_PAGE, sorting } from '@/lib/constants';
-import { ItemListOfCategoryQueryResult } from '@/sanity.types';
+import { ItemListOfTagQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 
 const buildQuery = (slug: string, sortKey?: string, reverse?: boolean, currentPage: number = 1) => {
@@ -39,8 +39,10 @@ async function getItems({
 }) {
   console.log('getItems, slug', slug, 'sortKey', sortKey, 'reverse', reverse);
   const { countQuery, dataQuery } = buildQuery(slug, sortKey, reverse, currentPage);
-  const totalCount = await sanityFetch<number>({ query: countQuery });
-  const items = await sanityFetch<ItemListOfCategoryQueryResult>({ query: dataQuery });
+  const [totalCount, items] = await Promise.all([
+    sanityFetch<number>({ query: countQuery }),
+    sanityFetch<ItemListOfTagQueryResult>({ query: dataQuery })
+  ]);
   return { items, totalCount };
 }
 
@@ -56,7 +58,7 @@ export default async function TagPage({
   const currentPage = page ? Number(page) : 1;
   const { items, totalCount } = await getItems({ slug: params.slug, sortKey, reverse, currentPage });
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-  console.log('CategoryPage, totalCount', totalCount, ', totalPages', totalPages);
+  console.log('TagPage, totalCount', totalCount, ', totalPages', totalPages);
 
   return (
     <section className=''>

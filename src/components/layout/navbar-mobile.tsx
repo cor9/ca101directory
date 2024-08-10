@@ -129,7 +129,7 @@ export function NavMobile() {
         ) : null} */}
 
         <div className="mt-8 flex items-center justify-end space-x-2">
-          <Button asChild variant="ghost" size="sm" className="size-8 px-0">
+          <Button asChild variant="ghost" size="icon" className="px-0">
             <Link href={'/search'}
               prefetch={false}
               onClick={() => setOpen(false)}>

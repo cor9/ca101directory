@@ -16,6 +16,9 @@ export function BlogPosts({
         {posts.slice(1).map((post, idx) => (
           <BlogCard data={post} key={post._id} priority={idx <= 2} />
         ))}
+        {posts.slice(1).map((post, idx) => (
+          <BlogCard data={post} key={post._id} priority={idx <= 2} />
+        ))}
       </div>
     </main>
   );

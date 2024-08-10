@@ -20,24 +20,15 @@ export function BlogHeaderLayout() {
 
   return (
     <>
-      {/*  md:pt-10 */}
       <MaxWidthWrapper className="md:pb-8">
-        {/* <div className="max-w-screen-sm">
-          <h1 className="font-heading text-3xl md:text-4xl">
-            {data?.title || "Blog"}
-          </h1>
-          <p className="mt-3.5 text-base text-muted-foreground md:text-lg">
-            {data?.description ||
-              "Latest news and updates from Next SaaS Starter."}
-          </p>
-        </div> */}
-
         <nav className="mt-8 hidden w-full md:flex">
-          <ul
-            role="list"
-            className="flex w-full flex-1 gap-x-2 border-b text-[15px] text-muted-foreground"
-          >
-            <CategoryLink title="All" href="/blog" active={!slug} />
+          <ul role="list" className="flex w-full flex-1 gap-x-2 border-b text-[15px] text-muted-foreground" >
+            <CategoryLink
+              title="All"
+              href="/blog"
+              active={!slug}
+            />
+
             {BLOG_CATEGORIES.map((category) => (
               <CategoryLink
                 key={category.slug}
@@ -46,11 +37,11 @@ export function BlogHeaderLayout() {
                 active={category.slug === slug}
               />
             ))}
-            {/* <CategoryLink title="Guides" href="/guides" active={false} /> */}
           </ul>
         </nav>
       </MaxWidthWrapper>
 
+      {/* show Drawer in mobile, no MaxWidthWrapper */}
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
           onClick={() => setOpen(true)}
@@ -73,6 +64,7 @@ export function BlogHeaderLayout() {
                 clickAction={closeDrawer}
                 mobile
               />
+
               {BLOG_CATEGORIES.map((category) => (
                 <CategoryLink
                   key={category.slug}
@@ -83,12 +75,6 @@ export function BlogHeaderLayout() {
                   mobile
                 />
               ))}
-              <CategoryLink
-                title="Guides"
-                href="/guides"
-                active={false}
-                mobile
-              />
             </ul>
           </Drawer.Content>
           <Drawer.Overlay />

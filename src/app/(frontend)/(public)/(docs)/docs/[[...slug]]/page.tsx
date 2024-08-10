@@ -74,6 +74,8 @@ export default async function DocPage({ params }: DocPageProps) {
         <hr className="my-6" />
         <DocsPager doc={doc} />
       </div>
+
+      {/* set toc width to 150px, show in xl */}
       <div className="hidden text-sm xl:block">
         <div className="sticky top-16 -mt-10 max-h-[calc(var(--vh)-4rem)] overflow-y-auto pt-8">
           <DashboardTableOfContents toc={toc} />

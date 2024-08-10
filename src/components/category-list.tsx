@@ -25,10 +25,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
     <>
       <MaxWidthWrapper className="md:pb-8">
         <nav className="mt-8 hidden w-full md:flex">
-          <ul
-            role="list"
-            className="flex w-full flex-1 gap-x-2 border-b text-[15px] text-muted-foreground"
-          >
+          <ul role="list" className="flex w-full flex-1 gap-x-2 border-b text-[15px] text-muted-foreground" >
             <CategoryLink
               title="All"
               href="/category"

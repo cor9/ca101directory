@@ -20,7 +20,7 @@ export async function CategoryHeaderLayout() {
 
   return (
     <>
-      {/* show in desktop, has MaxWidthWrapper */}
+      {/* Desktop View, has MaxWidthWrapper */}
       <MaxWidthWrapper className="hidden md:block">
         <div className='grid grid-cols-[1fr_150px] gap-8 items-center justify-between'>
           <div className="w-full min-w-0 mt-4">
@@ -34,7 +34,7 @@ export async function CategoryHeaderLayout() {
         </div>
       </MaxWidthWrapper>
 
-      {/* show in mobile, no MaxWidthWrapper */}
+      {/* Mobile View, no MaxWidthWrapper */}
       <div className="md:hidden flex flex-col gap-8">
         <div className='w-full mt-4'>
           <CategoryList categoryList={categoryList} />

@@ -17,6 +17,8 @@ export type CategoryListProps = {
 export function CategoryList({ categoryList }: CategoryListProps) {
   const [open, setOpen] = useState(false);
   const { slug } = useParams() as { slug?: string };
+  // get the category with the slug
+  const category = categoryList.find((category) => category.slug.current === slug);
 
   const closeDrawer = () => {
     setOpen(false);
@@ -24,7 +26,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
 
   return (
     <>
-      {/* show in desktop, wrapped in MaxWidthWrapper */}
+      {/* Desktop View */}
       <ScrollArea className="hidden md:flex w-full py-4">
         <ul role="list" className="w-full flex flex-1 gap-x-2" >
           <CategoryLink
@@ -45,14 +47,16 @@ export function CategoryList({ categoryList }: CategoryListProps) {
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
 
-      {/* show in mobile, no MaxWidthWrapper */}
+      {/* Mobile View */}
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
           onClick={() => setOpen(true)}
           className="md:hidden flex w-full p-3 items-center border-y text-foreground/90"
         >
           <LayoutList className="size-[18px]" />
-          <p className="ml-2.5 text-sm font-medium">Categories</p>
+          <p className="ml-2.5 text-sm font-medium">
+            Categories {`(${category.name.find((kv) => kv._key === 'en')?.value || 'No Name'})`}
+          </p>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
           onClick={closeDrawer}

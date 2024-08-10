@@ -1,3 +1,4 @@
+import { CategoryListLayout } from "@/components/category-list-layout";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 
 export default function DirectoryLayout({
@@ -7,6 +8,7 @@ export default function DirectoryLayout({
 }) {
   return (
     <>
+      <CategoryListLayout />
       <MaxWidthWrapper className="">
         {children}
       </MaxWidthWrapper>

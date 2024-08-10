@@ -31,7 +31,9 @@ export async function CategoryHeaderLayout() {
 
           {/* set width to 150px */}
           <div className="mt-4">
-            <SortList sortList={sorting} />
+            <Suspense fallback={null}>
+              <SortList sortList={sorting} />
+            </Suspense>
           </div>
         </div>
       </MaxWidthWrapper>
@@ -46,7 +48,9 @@ export async function CategoryHeaderLayout() {
 
         {/* set width to full */}
         <div className="w-full mb-8">
-          <SortList sortList={sorting} />
+          <Suspense fallback={null}>
+            <SortList sortList={sorting} />
+          </Suspense>
         </div>
       </div>
     </>

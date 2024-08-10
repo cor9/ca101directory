@@ -1,11 +1,10 @@
 "use client";
 
-import Image from 'next/image';
-import { cn, urlForImageWithSize } from "@/lib/utils";
+import { urlForImageWithSize } from "@/lib/utils";
 import { ItemInfo } from "@/types";
-import { ExternalLink } from "lucide-react";
-import { useRouter } from "next/navigation";
+import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
 
 type ItemCardProps = {
     item: ItemInfo;
@@ -20,7 +19,8 @@ export default function ItemCard({ item }: ItemCardProps) {
             className="group cursor-pointer overflow-hidden rounded-lg border
                 transition-all hover:bg-accent md:scale-100 md:hover:scale-105">
             <Link target="_blank" href={`/item/${item.slug.current}`}>
-                <div className="item-bg-linear rounded-t-lg px-4 pt-4">
+                {/* item-bg-linear px-4 pt-4 */}
+                <div className="rounded-t-lg">
                     {/* website screenshot from magikimg is 1920x1080 */}
                     {/* 960x540 => 480x270 */}
                     <Image width={480} height={270}

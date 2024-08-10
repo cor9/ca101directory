@@ -25,8 +25,8 @@ export default function Search() {
   }
 
   return (
-    <div className='px-8 md:px-0'>
-      <form onSubmit={onSubmit} className="w-full md:w-80 relative">
+    <div className='flex items-center justify-center md:justify-start'>
+      <form onSubmit={onSubmit} className="w-80 relative">
         <input
           key={searchParams?.get('q')}
           type="text"

@@ -54,29 +54,29 @@ export function CategoryList({ categoryList }: CategoryListProps) {
           <LayoutList className="size-[18px]" />
           <p className="ml-2.5 text-sm font-medium">Categories</p>
         </Drawer.Trigger>
-        <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm" onClick={closeDrawer} />
+        <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
+          onClick={closeDrawer}
+        />
         <Drawer.Portal>
           <Drawer.Content className="fixed inset-x-0 bottom-0 z-50 mt-24 overflow-hidden rounded-t-[10px] border bg-background">
             <div className="sticky top-0 z-20 flex w-full items-center justify-center bg-inherit">
               <div className="my-3 h-1.5 w-16 rounded-full bg-muted-foreground/20" />
             </div>
             <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
-              <CategoryLink
+              <CategoryLinkMobile
                 title="All"
                 href="/category"
                 active={!slug}
                 clickAction={closeDrawer}
-                mobile
               />
 
               {categoryList.map((category) => (
-                <CategoryLink
+                <CategoryLinkMobile
                   key={category.slug.current}
                   title={category.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
                   href={`/category/${category.slug.current}`}
                   active={category.slug.current === slug}
                   clickAction={closeDrawer}
-                  mobile
                 />
               ))}
             </ul>
@@ -92,42 +92,59 @@ const CategoryLink = ({
   title,
   href,
   active,
-  mobile = false,
   clickAction,
 }: {
   title: string;
   href: string;
   active: boolean;
-  mobile?: boolean;
+  clickAction?: () => void;
+}) => {
+  return (
+    <>
+      {/* show in desktop, wrapped in Link and Button and show as Button */}
+      {/* text-muted-foreground  border-transparent */}
+      <Button asChild variant="outline" size="sm" className={cn(
+        'px-3 py-3',
+        active ? 'bg-accent font-medium text-accent-foreground' : '',
+      )}>
+        <Link href={href}
+          prefetch={false}
+          onClick={clickAction}>
+          <li>
+            <div className="">
+              <span>{title}</span>
+            </div>
+          </li>
+        </Link>
+      </Button>
+    </>
+  );
+};
+
+const CategoryLinkMobile = ({
+  title,
+  href,
+  active,
+  clickAction,
+}: {
+  title: string;
+  href: string;
+  active: boolean;
   clickAction?: () => void;
 }) => {
   return (
     <>
       {/* shwo in mobile, wrapped in Link and shwo in a Drawer */}
-      {mobile && (
-        <Link href={href} onClick={clickAction}>
-          <li className="rounded-lg text-foreground hover:bg-muted">
-            <div className="flex items-center justify-between px-3 py-2 text-sm">
-              <span>{title}</span>
-              {active && <Check className="size-4" />}
-            </div>
-          </li>
-        </Link>
-      )}
-
-      {/* show in desktop, wrapped in Link and Button and show as Button */}
-      {!mobile && (
-        <Button asChild variant="outline" size="sm" className={cn(
-          'px-3 py-3',
-          active ? 'bg-accent font-medium text-foregroun' : 'text-muted-foreground border-transparent',
-        )}>
-          <Link href={href} onClick={clickAction}>
-            <li>
-              <div className="">{title}</div>
-            </li>
-          </Link>
-        </Button>
-      )}
+      <Link href={href}
+        prefetch={false}
+        onClick={clickAction}>
+        <li className="rounded-lg text-foreground hover:bg-muted">
+          <div className="flex items-center justify-between px-3 py-2 text-sm">
+            <span>{title}</span>
+            {active && <Check className="size-4" />}
+          </div>
+        </li>
+      </Link>
     </>
   );
 };

@@ -1,5 +1,4 @@
 import Link from "next/link";
-
 import { features } from "@/config/landing";
 import { Button } from "@/components/ui/button";
 import { HeaderSection } from "@/components/shared/header-section";
@@ -43,8 +42,7 @@ export default function Features() {
                       <Button
                         variant="secondary"
                         size="sm"
-                        rounded="xl"
-                        className="px-4"
+                        className="px-4 rounded-xl"
                       >
                         <Link href="/" className="flex items-center gap-2">
                           <span>Visit the site</span>

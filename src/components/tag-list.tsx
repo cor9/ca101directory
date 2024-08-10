@@ -19,9 +19,6 @@ export function TagList({ tagList }: TagListProps) {
   const { slug } = useParams() as { slug?: string };
   // get the tag with the slug
   const tag = tagList.find((tag) => tag.slug.current === slug);
-  if (!tag) {
-    return null;
-  }
 
   const closeDrawer = () => {
     setOpen(false);
@@ -109,11 +106,10 @@ const DesktopLink = ({
   return (
     <>
       {/* show in desktop, wrapped in Link and Button and show as Button */}
-      {/* text-muted-foreground  border-transparent */}
-      <Button asChild variant="outline" size="sm" className={cn(
-        'px-3 py-3',
-        active ? 'bg-accent font-medium text-accent-foreground' : '',
-      )}>
+      <Button asChild
+        variant={active ? 'default' : 'outline'}
+        size="sm"
+        className='px-3 py-3'>
         <Link href={href}
           prefetch={false}
           onClick={clickAction}>

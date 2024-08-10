@@ -19,9 +19,6 @@ export function CategoryList({ categoryList }: CategoryListProps) {
   const { slug } = useParams() as { slug?: string };
   // get the category with the slug
   const category = categoryList.find((category) => category.slug.current === slug);
-  if (!category) {
-    return null;
-  }
 
   const closeDrawer = () => {
     setOpen(false);
@@ -109,15 +106,10 @@ const DesktopLink = ({
   return (
     <>
       {/* show in desktop, wrapped in Link and Button and show as Button */}
-      {/* text-muted-foreground  border-transparent */}
-      {/* active ? 'bg-accent font-medium text-accent-foreground' : '' */}
-      {/* variant="outline" */}
-      <Button asChild size="sm" className={cn(
-        'px-3 py-3',
-        buttonVariants({
-          variant: active ? "outline" : "ghost",
-        }),
-      )}>
+      <Button asChild
+        variant={active ? 'default' : 'outline'}
+        size="sm"
+        className='px-3 py-3'>
         <Link href={href}
           prefetch={false}
           onClick={clickAction}>

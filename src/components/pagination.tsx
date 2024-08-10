@@ -1,16 +1,27 @@
 'use client';
 
-import { generatePagination } from '@/lib/utils';
 import clsx from 'clsx';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { generatePagination } from '@/lib/utils';
+import { Button } from './ui/button';
 
+/**
+ * 1. Create custom pagination from Nextjs documentation, not the pageination component from shadcn/ui
+ * https://github.com/vercel/next-learn/blob/main/dashboard/starter-example/app/ui/invoices/pagination.tsx
+ * 2. Support Light and Dark mode
+ */
 export default function Pagination({ totalPages }: { totalPages: number }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get('page')) || 1;
 
+  if (totalPages === 0) {
+    // TODO: add a message saying there are no items
+    return null;
+  };
+
+  const currentPage = Number(searchParams.get('page')) || 1;
   const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
     params.set('page', pageNumber.toString());
@@ -73,18 +84,23 @@ function PaginationNumber({
     {
       'rounded-l-md': position === 'first' || position === 'single',
       'rounded-r-md': position === 'last' || position === 'single',
-      'z-10 bg-blue-600 border-blue-600 text-white': isActive,
-      'hover:bg-gray-100': !isActive && position !== 'middle',
+      'z-10 pointer-events-none': isActive,
       'text-gray-300': position === 'middle',
     },
   );
 
   return isActive || position === 'middle' ? (
-    <div className={className}>{page}</div>
+    <Button asChild variant={isActive ? 'default' : 'outline'}
+      size='icon' className='rounded-none'>
+      <div className={className}>{page}</div>
+    </Button>
   ) : (
-    <Link href={href} className={className}>
-      {page}
-    </Link>
+    <Button asChild variant={isActive ? 'default' : 'outline'}
+      size='icon' className='rounded-none'>
+      <Link href={href} className={className}>
+        {page}
+      </Link>
+    </Button>
   );
 }
 
@@ -101,24 +117,26 @@ function PaginationArrow({
     'flex h-10 w-10 items-center justify-center rounded-md border',
     {
       'pointer-events-none text-gray-300': isDisabled,
-      'hover:bg-gray-100': !isDisabled,
       'mr-2 md:mr-4': direction === 'left',
       'ml-2 md:ml-4': direction === 'right',
     },
   );
 
-  const icon =
-    direction === 'left' ? (
-      <ArrowLeft className="w-4" />
-    ) : (
-      <ArrowRight className="w-4" />
-    );
+  const icon = direction === 'left' ? (
+    <ArrowLeft className="w-4" />
+  ) : (
+    <ArrowRight className="w-4" />
+  );
 
   return isDisabled ? (
-    <div className={className}>{icon}</div>
+    <Button asChild variant="outline" size='icon'>
+      <div className={className}>{icon}</div>
+    </Button>
   ) : (
-    <Link className={className} href={href}>
-      {icon}
-    </Link>
+    <Button asChild variant="outline" size='icon'>
+      <Link className={className} href={href}>
+        {icon}
+      </Link>
+    </Button>
   );
 }

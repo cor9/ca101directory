@@ -17,7 +17,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { CardWrapper } from "@/components/auth/card-wrapper"
-import { Button as ButtonWrapper } from "@/components/shared/button-wrapper";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
@@ -110,7 +109,7 @@ export const LoginForm = () => {
                       />
                     </FormControl>
                     <FormMessage />
-                    <ButtonWrapper
+                    <Button
                       size="sm"
                       variant="link"
                       asChild
@@ -119,7 +118,7 @@ export const LoginForm = () => {
                       <Link href="/auth/reset">
                         Forgot password?
                       </Link>
-                    </ButtonWrapper>
+                    </Button>
                   </FormItem>
                 )}
               />

@@ -3,6 +3,7 @@ import Pagination from '@/components/pagination';
 import { defaultSort, ITEMS_PER_PAGE, sorting } from '@/lib/constants';
 import { SearchItemQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
+import { Suspense } from 'react';
 
 const buildQuery = (sortKey?: string, reverse?: boolean, currentPage: number = 1) => {
   const orderDirection = reverse ? 'desc' : 'asc';
@@ -61,7 +62,9 @@ export default async function TagListPage({
       </div>
 
       <div className="mt-8 w-full flex items-center justify-center">
-        <Pagination totalPages={totalPages} />
+        <Suspense fallback={null}>
+          <Pagination totalPages={totalPages} />
+        </Suspense>
       </div>
     </section>
   );

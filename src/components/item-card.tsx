@@ -4,14 +4,12 @@ import { urlForImageWithSize } from "@/lib/utils";
 import { ItemInfo } from "@/types";
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from "next/navigation";
 
 type ItemCardProps = {
     item: ItemInfo;
 };
 
 export default function ItemCard({ item }: ItemCardProps) {
-    const router = useRouter();
     const imageUrl = urlForImageWithSize(item.image, 960, 540);
 
     return (

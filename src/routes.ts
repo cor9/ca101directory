@@ -16,6 +16,9 @@ export const publicRoutes = [
   "/guides(/.*)?",
   "/blog(/.*)?",
   
+  "/terms(/.*)?",
+  "/privacy(/.*)?",
+  
   "/auth/new-verification"
 ];
 

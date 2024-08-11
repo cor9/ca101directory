@@ -1,10 +1,30 @@
 import { SidebarNavItem } from "@/types";
 import { UserRole } from "@/types/user-role";
-// import { UserRole } from "@prisma/client";
 
 export const sidebarLinks: SidebarNavItem[] = [
   {
     title: "MENU",
+    items: [
+      {
+        href: "/dashboard",
+        icon: "dashboard",
+        title: "Dashboard"
+      },
+      {
+        href: "/dashboard/billing",
+        icon: "billing",
+        title: "Billing",
+        authorizeOnly: UserRole.USER,
+      },
+      {
+        href: "/dashboard/settings",
+        icon: "settings",
+        title: "Settings"
+      },
+    ],
+  },
+  {
+    title: "ADMIN",
     items: [
       {
         href: "/admin",
@@ -12,14 +32,6 @@ export const sidebarLinks: SidebarNavItem[] = [
         title: "Admin Panel",
         authorizeOnly: UserRole.ADMIN,
       },
-      { href: "/dashboard", icon: "dashboard", title: "Dashboard" },
-      {
-        href: "/dashboard/billing",
-        icon: "billing",
-        title: "Billing",
-        authorizeOnly: UserRole.USER,
-      },
-      { href: "/dashboard/charts", icon: "lineChart", title: "Charts" },
       {
         href: "/admin/orders",
         icon: "package",
@@ -27,27 +39,27 @@ export const sidebarLinks: SidebarNavItem[] = [
         badge: 2,
         authorizeOnly: UserRole.ADMIN,
       },
-      {
-        href: "#/dashboard/posts",
-        icon: "post",
-        title: "User Posts",
-        authorizeOnly: UserRole.USER,
-        disabled: true,
-      },
     ],
   },
   {
-    title: "OPTIONS",
+    title: "RESOURCES",
     items: [
-      { href: "/dashboard/settings", icon: "settings", title: "Settings" },
-      { href: "/", icon: "home", title: "Homepage" },
-      { href: "/docs", icon: "bookOpen", title: "Documentation" },
       {
-        href: "#",
+        href: "/",
+        icon: "home",
+        title: "Homepage"
+      },
+      {
+        href: "/docs",
+        icon: "bookOpen",
+        title: "Documentation"
+      },
+      {
+        href: "/support",
         icon: "messages",
         title: "Support",
-        authorizeOnly: UserRole.USER,
-        disabled: true,
+        // authorizeOnly: UserRole.USER,
+        // disabled: true,
       },
     ],
   },

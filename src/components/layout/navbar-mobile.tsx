@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { SearchButton } from "../search-button";
 import { ModeToggle } from "./mode-toggle";
 
-export function NavMobile() {
+export function NavbarMobile() {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const selectedLayout = useSelectedLayoutSegment();

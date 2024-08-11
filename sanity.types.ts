@@ -372,7 +372,7 @@ export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: ./src/sanity/lib/queries.ts
 // Variable: itemQuery
-// Query: *[_type == "item" && slug.current == $slug][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "item" && slug.current == $slug][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  categories[]->{    ...,  },  tags[]->{    ...,  }}
 export type ItemQueryResult = {
   _id: string;
   _type: "item";
@@ -387,20 +387,35 @@ export type ItemQueryResult = {
     _key: string;
   } & InternationalizedArrayStringValue>;
   link?: string;
-  categories?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "category";
-  }>;
-  tags?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "tag";
-  }>;
+  categories: Array<{
+    _id: string;
+    _type: "category";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+    slug?: Slug;
+    description?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+    priority?: number;
+  }> | null;
+  tags: Array<{
+    _id: string;
+    _type: "tag";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+    slug?: Slug;
+    description?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+  }> | null;
   submitter?: {
     _ref: string;
     _type: "reference";
@@ -463,7 +478,7 @@ export type ItemQueryResult = {
   publishDate?: string;
 } | null;
 // Variable: itemListQuery
-// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  categories[]->{    ...,  },  tags[]->{    ...,  }}
 export type ItemListQueryResult = Array<{
   _id: string;
   _type: "item";
@@ -478,20 +493,35 @@ export type ItemListQueryResult = Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
   link?: string;
-  categories?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "category";
-  }>;
-  tags?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "tag";
-  }>;
+  categories: Array<{
+    _id: string;
+    _type: "category";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+    slug?: Slug;
+    description?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+    priority?: number;
+  }> | null;
+  tags: Array<{
+    _id: string;
+    _type: "tag";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+    slug?: Slug;
+    description?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+  }> | null;
   submitter?: {
     _ref: string;
     _type: "reference";
@@ -554,7 +584,7 @@ export type ItemListQueryResult = Array<{
   publishDate?: string;
 }>;
 // Variable: itemListOfCategoryQuery
-// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in categories[]->slug.current]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in categories[]->slug.current]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  categories[]->{    ...,  },  tags[]->{    ...,  }}
 export type ItemListOfCategoryQueryResult = Array<{
   _id: string;
   _type: "item";
@@ -569,20 +599,35 @@ export type ItemListOfCategoryQueryResult = Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
   link?: string;
-  categories?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "category";
-  }>;
-  tags?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "tag";
-  }>;
+  categories: Array<{
+    _id: string;
+    _type: "category";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+    slug?: Slug;
+    description?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+    priority?: number;
+  }> | null;
+  tags: Array<{
+    _id: string;
+    _type: "tag";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+    slug?: Slug;
+    description?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+  }> | null;
   submitter?: {
     _ref: string;
     _type: "reference";
@@ -645,7 +690,7 @@ export type ItemListOfCategoryQueryResult = Array<{
   publishDate?: string;
 }>;
 // Variable: itemListOfTagQuery
-// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in tags[]->slug.current]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in tags[]->slug.current]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  categories[]->{    ...,  },  tags[]->{    ...,  }}
 export type ItemListOfTagQueryResult = Array<{
   _id: string;
   _type: "item";
@@ -660,20 +705,35 @@ export type ItemListOfTagQueryResult = Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
   link?: string;
-  categories?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "category";
-  }>;
-  tags?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "tag";
-  }>;
+  categories: Array<{
+    _id: string;
+    _type: "category";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+    slug?: Slug;
+    description?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+    priority?: number;
+  }> | null;
+  tags: Array<{
+    _id: string;
+    _type: "tag";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+    slug?: Slug;
+    description?: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue>;
+  }> | null;
   submitter?: {
     _ref: string;
     _type: "reference";

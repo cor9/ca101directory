@@ -22,6 +22,12 @@ const itemFields = /* groq */ `
   // "slug": slug.current,
   // "name": coalesce(name[$locale], name[$defaultLocale]),
   // "description": coalesce(description[$locale], description[$defaultLocale]),
+  categories[]->{
+    ...,
+  },
+  tags[]->{
+    ...,
+  }
 `;
 
 /**

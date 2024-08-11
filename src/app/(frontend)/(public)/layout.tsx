@@ -28,9 +28,9 @@ export default async function MarketingLayout({ children }: MarketingLayoutProps
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Mobile Navbar */}
+      {/* Navbar in Mobile View */}
       <NavbarMobile />
-      {/* Desktop Navbar */}
+      {/* Navbar in Desktop View */}
       <Navbar scroll={true} />
 
       <main className="flex-1">{children}</main>

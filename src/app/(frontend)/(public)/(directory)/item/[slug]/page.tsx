@@ -1,7 +1,8 @@
+import ItemDetailClient from "@/components/item-detail-client";
+import ItemHeaderClient from "@/components/item-header-client";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemQuery } from "@/sanity/lib/queries";
-import { ItemQueryResult } from "@/sanity.types";
-import Link from "next/link";
+import { ItemFullInfo } from "@/types";
 import { notFound } from "next/navigation";
 
 type Props = {
@@ -10,7 +11,7 @@ type Props = {
 
 export default async function ItemPage({ params }: Props) {
   const slug = params.slug;
-  const item = await sanityFetch<ItemQueryResult>({
+  const item = await sanityFetch<ItemFullInfo>({
     query: itemQuery,
     params: { slug }
   });
@@ -20,9 +21,32 @@ export default async function ItemPage({ params }: Props) {
   console.log('ItemPage, item:', item);
 
   return (
-    <div>
-      {item.name?.find(entry => entry._key === "en")?.value}
-      {item.description?.find(entry => entry._key === "en")?.value}
-    </div>
+    <>
+      <div className="space-y-8">
+        {/* item info */}
+        <ItemHeaderClient item={item} />
+
+        <div className="grid gap-8 md:grid-cols-12">
+          <div className="order-2 md:order-1 md:col-span-6 lg:col-span-7 flex flex-col gap-4">
+            {/* introduction */}
+            <h2 className="text-xl font-semibold mb-4">
+              Introduction
+            </h2>
+
+            {/* description */}
+            <p className="text-base text-muted-foreground leading-loose">
+              {item.description?.find(entry => entry._key === "en")?.value}
+            </p>
+          </div>
+
+          <div className="order-3 md:order-2 md:col-span-1"></div>
+
+          {/* details */}
+          <div className='order-1 md:order-3 md:col-span-5 lg:col-span-4'>
+            <ItemDetailClient item={item} />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

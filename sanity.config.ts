@@ -1,19 +1,17 @@
-import { defineConfig } from 'sanity';
-import { structureTool } from 'sanity/structure';
-import { visionTool } from '@sanity/vision';
-import { codeInput } from '@sanity/code-input';
-import { colorInput } from '@sanity/color-input';
-import { dashboardTool, projectInfoWidget, projectUsersWidget, sanityTutorialsWidget } from "@sanity/dashboard";
-import { presentationTool } from 'sanity/presentation';
-import { internationalizedArray } from 'sanity-plugin-internationalized-array';
-import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
-import { media } from 'sanity-plugin-media';
-import { schemaTypes } from '@/sanity/schemas';
-import { structure } from '@/sanity/structure';
+import documentNode from '@/sanity/documentNode';
 import { apiVersion, dataset, projectId, studioUrl } from '@/sanity/lib/api';
 import { singletonPlugin } from '@/sanity/plugins/singleton';
+import { schemaTypes } from '@/sanity/schemas';
 import settings from '@/sanity/schemas/documents/settings';
-import documentNode from '@/sanity/documentNode';
+import { structure } from '@/sanity/structure';
+import { dashboardTool, projectInfoWidget, projectUsersWidget, sanityTutorialsWidget } from "@sanity/dashboard";
+import { visionTool } from '@sanity/vision';
+import { defineConfig } from 'sanity';
+import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
+import { internationalizedArray } from 'sanity-plugin-internationalized-array';
+import { media } from 'sanity-plugin-media';
+import { presentationTool } from 'sanity/presentation';
+import { structureTool } from 'sanity/structure';
 
 export default defineConfig({
   name: 'default',

@@ -17,7 +17,7 @@ export default function ItemCard({ item }: ItemCardProps) {
         <div key={item._id}
             className="group cursor-pointer overflow-hidden rounded-lg border
                 transition-all hover:bg-accent md:scale-100 md:hover:scale-105">
-            <Link target="_blank" href={`/item/${item.slug.current}`}>
+            <Link href={`/item/${item.slug.current}`}>
                 {/* item-bg-linear px-4 pt-4 */}
                 <div className="rounded-t-lg">
                     {/* website screenshot from magikimg is 1920x1080 */}
@@ -40,46 +40,6 @@ export default function ItemCard({ item }: ItemCardProps) {
                     </p>
                 </div>
             </Link>
-
-            {/* show special tags not all tags */}
-            {
-                // (item.price === 'Free' || item.github) &&
-                <div className="flex px-4 pb-4 gap-2">
-                    {/* {item.tags && item.tags.map((tag) => (
-                <Link key={tag._id} href={`/product?category=${tag.slug}`}>
-                  <Badge key={tag._id} variant="outline" className="text-xs py-1 px-3 
-                        text-primary dark:text-foreground/80
-                        hover:border-transparent dark:hover:border-transparent
-                        hover:bg-primary hover:text-primary-foreground dark:hover:text-primary-foreground
-                        dark:hover:bg-primary-800 dark:border-primary-foreground/20">
-                    {tag.name}
-                  </Badge>
-                </Link>
-              ))} */}
-
-                    {/* {
-                        item.price === 'Free' &&
-                        <Badge variant="outline" className="text-xs py-1 px-3
-                        text-primary dark:text-foreground/80
-                        hover:border-transparent dark:hover:border-transparent
-                        hover:bg-primary hover:text-primary-foreground dark:hover:text-primary-foreground
-                        dark:hover:bg-primary-800 dark:border-primary-foreground/20">
-                            {productConfig.free}
-                        </Badge>
-                    } */}
-                    {/* {
-                        item.github &&
-                        <Badge variant="outline" className="text-xs py-1 px-3
-                        text-primary dark:text-foreground/80
-                        hover:border-transparent dark:hover:border-transparent
-                        hover:bg-primary hover:text-primary-foreground dark:hover:text-primary-foreground
-                        dark:hover:bg-primary-800 dark:border-primary-foreground/20">
-                            {productConfig.opensource}
-                        </Badge>
-                    } */}
-                </div>
-            }
-
         </div>
     );
 }

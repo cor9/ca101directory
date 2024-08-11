@@ -22,6 +22,9 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
 
+/**
+ * TODO: show loading when logging in
+ */
 export const LoginForm = () => {
   const searchParams = useSearchParams();
   // const callbackUrl = searchParams.get("callbackUrl");

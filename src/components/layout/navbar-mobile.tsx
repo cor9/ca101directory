@@ -14,12 +14,14 @@ import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { UserAccountNav } from "./user-account-nav";
+import { usePathname } from "next/navigation";
 
 /**
  * TODO: fix links for mobile, maybe use sections
  */
 export function NavbarMobile() {
-  const { data: session } = useSession();
+  const path = usePathname();
+  const { data: session, status } = useSession();
   const [open, setOpen] = useState(false);
   const links = marketingConfig.mainNav;
 
@@ -82,9 +84,9 @@ export function NavbarMobile() {
                                   href={item.disabled ? "#" : item.href}
                                   className={cn(
                                     "flex items-center gap-3 rounded-md p-2 text-sm font-medium hover:bg-muted",
-                                    // path === item.href
-                                    //   ? "bg-muted"
-                                    //   : "text-muted-foreground hover:text-accent-foreground",
+                                    path === item.href
+                                      ? "bg-muted"
+                                      : "text-muted-foreground hover:text-accent-foreground",
                                     item.disabled &&
                                     "cursor-not-allowed opacity-80 hover:bg-transparent hover:text-muted-foreground",
                                   )}

@@ -7,6 +7,10 @@ import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
+/**
+ * TODO: show loading when logging in
+ * TODO: remove react-icons maybe, react-icons has no Google icon
+ */
 export const SocialButton = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");

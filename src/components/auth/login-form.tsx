@@ -115,6 +115,7 @@ export const LoginForm = () => {
                       asChild
                       className="px-0 font-normal"
                     >
+                      {/* TODO: how to close the modal on click? */}
                       <Link href="/auth/reset">
                         Forgot password?
                       </Link>

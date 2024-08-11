@@ -1,7 +1,7 @@
 "use client";
 
 import { BackButton } from "@/components/auth/back-button";
-import { Social } from "@/components/auth/social-button";
+import { SocialButton } from "@/components/auth/social-button";
 import {
   Card,
   CardContent,
@@ -38,7 +38,7 @@ export const CardWrapper = ({
       </CardContent>
       {showSocial && (
         <CardFooter>
-          <Social />
+          <SocialButton />
         </CardFooter>
       )}
       <CardFooter>

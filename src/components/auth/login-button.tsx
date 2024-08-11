@@ -6,6 +6,7 @@ import {
   DialogTrigger,
 } from "@/components/auth/dialog-wrapper";
 import { LoginForm } from "@/components/auth/login-form";
+import { authRoutes } from "@/routes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -35,8 +36,8 @@ export const LoginButton = ({
   }, [pathname, searchParams]);
 
   // don't open the modal if the user is already in the auth pages
-  const isAuthPage = pathname?.startsWith("/auth");
-  if (mode === "modal" && !isAuthPage) {
+  const isAuthRoute = authRoutes.includes(pathname);
+  if (mode === "modal" && !isAuthRoute) {
     return (
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogTrigger asChild={asChild}>

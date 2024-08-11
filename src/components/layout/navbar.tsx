@@ -13,6 +13,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
+import { UserAccountNav } from "./user-account-nav";
 
 interface NavBarProps {
   scroll?: boolean;
@@ -23,14 +24,13 @@ export function NavBar({ scroll = false }: NavBarProps) {
   const scrolled = useScroll(50);
   const { data: session, status } = useSession();
   const selectedLayout = useSelectedLayoutSegment();
-  // const documentation = (selectedLayout === "docs");
 
   const configMap = {
     docs: docsConfig.mainNav,
   };
 
-  const links =
-    (selectedLayout && configMap[selectedLayout]) || marketingConfig.mainNav;
+  const links = (selectedLayout && configMap[selectedLayout]) 
+    || marketingConfig.mainNav;
 
   return (
     <header
@@ -72,40 +72,10 @@ export function NavBar({ scroll = false }: NavBarProps) {
         </div>
 
         <div className="flex items-center space-x-3">
-          {/* TODO: removed right header for docs */}
-          {/* {documentation ? (
-            <div className="hidden flex-1 items-center space-x-4 sm:justify-end lg:flex">
-              <div className="hidden lg:flex lg:grow-0">
-                <DocsSearch />
-              </div>
-              <div className="flex lg:hidden">
-                <Search className="size-6 text-muted-foreground" />
-              </div>
-              <div className="flex space-x-4">
-                <Link
-                  href={siteConfig.links.github}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Github className="size-7" />
-                  <span className="sr-only">GitHub</span>
-                </Link>
-              </div>
-            </div>
-          ) : null} */}
-
-          {/* href={session.user.role === "ADMIN" ? "/admin" : "/dashboard"} */}
           {session ? (
-            <Link
-              href={'/dashboard'}
-              className="hidden md:block">
-              <Button
-                className="gap-2 px-5 rounded-full"
-                variant="default"
-                size="sm">
-                <span>Dashboard</span>
-              </Button>
-            </Link>
+            <div className="hidden md:block">
+              <UserAccountNav />
+            </div>
           ) : status === "unauthenticated" ? (
             <LoginButton mode="modal" asChild>
               <Button
@@ -117,7 +87,7 @@ export function NavBar({ scroll = false }: NavBarProps) {
               </Button>
             </LoginButton>
           ) : (
-            <Skeleton className="hidden h-9 w-28 rounded-full lg:flex" />
+            <Skeleton className="hidden h-9 w-28 rounded-full md:flex" />
           )}
         </div>
       </MaxWidthWrapper>

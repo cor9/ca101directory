@@ -26,18 +26,20 @@ export function UserAccountNav() {
 
   const { isMobile } = useMediaQuery();
 
-  if (!user)
+  if (!user) {
     return (
       <div className="size-8 animate-pulse rounded-full border bg-muted" />
     );
+  }
 
+  // Mobile View, use Drawer
   if (isMobile) {
     return (
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger onClick={() => setOpen(true)}>
           <UserAvatar
             user={{ name: user.name || null, image: user.image || null }}
-            className="size-9 border"
+            className="size-8 border"
           />
         </Drawer.Trigger>
         <Drawer.Portal>
@@ -119,6 +121,7 @@ export function UserAccountNav() {
     );
   }
 
+  // Desktop View, use DropdownMenu
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger>
@@ -177,7 +180,7 @@ export function UserAccountNav() {
         >
           <div className="flex items-center space-x-2.5">
             <LogOut className="size-4" />
-            <p className="text-sm">Log out </p>
+            <p className="text-sm">Log out</p>
           </div>
         </DropdownMenuItem>
       </DropdownMenuContent>

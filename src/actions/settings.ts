@@ -9,6 +9,7 @@ import { getUserByEmail, getUserById } from "@/sanity/auth/user";
 import { currentUser } from "@/lib/auth";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
+import { revalidatePath } from "next/cache";
 
 export const settings = async (
   values: z.infer<typeof SettingsSchema>
@@ -78,5 +79,6 @@ export const settings = async (
     }
   });
 
+  revalidatePath('/dashboard/settings');
   return { success: "Settings Updated!" };
 }

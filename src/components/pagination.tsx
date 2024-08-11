@@ -116,7 +116,7 @@ function PaginationArrow({
   const className = clsx(
     'flex h-10 w-10 items-center justify-center rounded-md border',
     {
-      'pointer-events-none text-gray-300': isDisabled,
+      'pointer-events-none text-gray-300 dark:text-gray-600': isDisabled,
       'mr-2 md:mr-4': direction === 'left',
       'ml-2 md:ml-4': direction === 'right',
     },
@@ -129,7 +129,7 @@ function PaginationArrow({
   );
 
   return isDisabled ? (
-    <Button asChild variant="outline" size='icon'>
+    <Button asChild variant="outline" size='icon' disabled>
       <div className={className}>{icon}</div>
     </Button>
   ) : (

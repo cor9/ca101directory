@@ -1,7 +1,7 @@
 import ItemCard from '@/components/item-card';
 import Pagination from '@/components/pagination';
 import { defaultSort, ITEMS_PER_PAGE, sorting } from '@/lib/constants';
-import { SearchItemQueryResult } from '@/sanity.types';
+import { ItemListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { Suspense } from 'react';
 
@@ -42,7 +42,7 @@ async function getItems({
   const { countQuery, dataQuery } = buildQuery(sortKey, reverse, query, currentPage);
   const [totalCount, items] = await Promise.all([
     sanityFetch<number>({ query: countQuery }),
-    sanityFetch<SearchItemQueryResult>({ query: dataQuery })
+    sanityFetch<ItemListQueryResult>({ query: dataQuery })
   ]);
   return { items, totalCount };
 }

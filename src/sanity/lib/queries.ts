@@ -27,16 +27,12 @@ const itemFields = /* groq */ `
 /**
  * Queries
  */
-export const itemListQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate)] 
-  | order(publishDate desc) {
-  ${itemFields}
-}`;
-
 export const itemQuery = groq`*[_type == "item" && slug.current == $slug][0] {
   ${itemFields}
 }`;
 
-export const searchItemQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate)] {
+export const itemListQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate)] 
+  | order(publishDate desc) {
   ${itemFields}
 }`;
 

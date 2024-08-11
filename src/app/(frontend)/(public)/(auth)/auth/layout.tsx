@@ -5,9 +5,9 @@ const AuthLayout = ({
   }: { 
     children: React.ReactNode
   }) => {
-    
+    // min-h-screen 
     return ( 
-      <MaxWidthWrapper className="min-h-screen flex items-center justify-center">
+      <MaxWidthWrapper className="flex items-center justify-center p-16">
         {children}
       </MaxWidthWrapper>
      );

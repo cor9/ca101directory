@@ -3,8 +3,6 @@
 import { LoginButton } from "@/components/auth/login-button";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { docsConfig } from "@/config/docs";
 import { marketingConfig } from "@/config/marketing";
 import { siteConfig } from "@/config/site";
 import { useScroll } from "@/hooks/use-scroll";
@@ -17,30 +15,23 @@ import { UserAccountNav } from "./user-account-nav";
 
 interface NavBarProps {
   scroll?: boolean;
-  large?: boolean;
 }
 
-export function NavBar({ scroll = false }: NavBarProps) {
+export function Navbar({ scroll = false }: NavBarProps) {
   const scrolled = useScroll(50);
   const { data: session, status } = useSession();
   const selectedLayout = useSelectedLayoutSegment();
-
-  const configMap = {
-    docs: docsConfig.mainNav,
-  };
-
-  const links = (selectedLayout && configMap[selectedLayout]) 
-    || marketingConfig.mainNav;
+  const links = marketingConfig.mainNav;
 
   return (
     <header
       className={cn(
-        'sticky top-0 z-40 flex w-full justify-center bg-background/60 backdrop-blur-xl transition-all',
+        'hidden md:flex sticky top-0 z-40 w-full justify-center bg-background/60 backdrop-blur-xl transition-all',
         scroll ? (scrolled ? "border-b" : "bg-transparent") : "border-b"
       )}
     >
-
       <MaxWidthWrapper className="flex h-16 items-center justify-between">
+        {/* navbar left show logo and links */}
         <div className="flex gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-1.5">
             <Sparkles />
@@ -71,15 +62,16 @@ export function NavBar({ scroll = false }: NavBarProps) {
           ) : null}
         </div>
 
-        <div className="flex items-center space-x-3">
+        {/* navbar right show sign in or account */}
+        <div className="flex items-center gap-x-4">
           {session ? (
-            <div className="hidden md:block">
+            <div className="">
               <UserAccountNav />
             </div>
           ) : status === "unauthenticated" ? (
             <LoginButton mode="modal" asChild>
               <Button
-                className="hidden gap-2 px-5 rounded-full md:flex"
+                className="flex gap-2 px-5 rounded-full"
                 variant="default"
                 size="sm">
                 <span>Sign In</span>
@@ -87,8 +79,11 @@ export function NavBar({ scroll = false }: NavBarProps) {
               </Button>
             </LoginButton>
           ) : (
-            <Skeleton className="hidden h-9 w-28 rounded-full md:flex" />
+            null
           )}
+
+          {/* uncomment to enable mode toggle  */}
+          {/* <ModeToggle /> */}
         </div>
       </MaxWidthWrapper>
     </header>

@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { UserAvatar } from "@/components/shared/user-avatar";
+import { logout } from "@/actions/logout";
 
 export function UserAccountNav() {
   const { data: session } = useSession();
@@ -106,6 +107,8 @@ export function UserAccountNav() {
                   signOut({
                     callbackUrl: `${window.location.origin}/`,
                   });
+
+                  // logout();
                 }}
               >
                 <div className="flex w-full items-center gap-3 px-2.5 py-2">
@@ -176,6 +179,8 @@ export function UserAccountNav() {
             signOut({
               callbackUrl: `${window.location.origin}/`,
             });
+            
+            // logout();
           }}
         >
           <div className="flex items-center space-x-2.5">

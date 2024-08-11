@@ -102,7 +102,7 @@ export function DashboardSidebar({ links }: DashboardSidebarProps) {
               </div>
 
               <nav className="flex flex-1 flex-col gap-4 p-2">
-                {links.map((section) => (
+                {links && links.map((section) => (
                   <section
                     key={section.title}
                     className="flex flex-col gap-1"

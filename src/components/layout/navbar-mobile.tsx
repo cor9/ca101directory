@@ -1,27 +1,32 @@
 "use client";
 
-import { docsConfig } from "@/config/docs";
 import { marketingConfig } from "@/config/marketing";
-import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
+import { ArrowRight, Menu } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { Fragment, useEffect, useState } from "react";
+import { LoginButton } from "../auth/login-button";
+import MaxWidthWrapper from "../shared/max-width-wrapper";
+import { Button } from "../ui/button";
+import { UserAccountNav } from "./user-account-nav";
+import { ScrollArea } from "../ui/scroll-area";
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { Badge } from "../ui/badge";
 import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
-import { useEffect, useState } from "react";
-import { SearchButton } from "../search-button";
-import { ModeToggle } from "./mode-toggle";
+import { cn } from "@/lib/utils";
+import { Icons } from "../shared/icons";
+import { sidebarLinks } from "@/config/dashboard";
 
 export function NavbarMobile() {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
-  const selectedLayout = useSelectedLayoutSegment();
+  const links = marketingConfig.mainNav;
 
-  const configMap = {
-    docs: docsConfig.mainNav,
-  };
-
-  const links = (selectedLayout && configMap[selectedLayout])
-    || marketingConfig.mainNav;
+  const filteredLinks = sidebarLinks.map((section) => ({
+    ...section,
+    items: section.items/* .filter(
+      ({ authorizeOnly }) => !authorizeOnly || authorizeOnly === user.role,
+    ) */,
+  }));
 
   // prevent body scroll when modal is open
   useEffect(() => {
@@ -34,84 +39,108 @@ export function NavbarMobile() {
 
   return (
     <>
-      <button
-        onClick={() => setOpen(!open)}
-        className={cn(
-          "fixed right-2 top-3 z-50 rounded-full p-2 transition-colors duration-200 hover:bg-muted focus:outline-none active:bg-muted md:hidden",
-          open && "hover:bg-muted active:bg-muted",
-        )}
-      >
-        {open ? (
-          <X className="size-5 text-muted-foreground" />
-        ) : (
-          <Menu className="size-5 text-muted-foreground" />
-        )}
-      </button>
-
-      <nav
-        className={cn(
-          "fixed inset-0 z-20 hidden w-full overflow-auto bg-background px-5 py-16 md:hidden",
-          open && "block",
-        )}
-      >
-        <ul className="grid divide-y divide-muted">
-          {links && links.length > 0 && links.map(({ title, href }) => (
-            <li key={href} className="py-3">
-              <Link
-                href={href}
-                onClick={() => setOpen(false)}
-                className="flex w-full font-medium capitalize"
+      <header className="md:hidden sticky top-0 z-40 flex w-full justify-center bg-background/60 backdrop-blur-xl transition-all">
+        <div className="w-full px-4 flex h-16 items-center justify-between">
+          {/* mobile navbar left show menu icon & show sheet when menu is open */}
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="size-9 shrink-0"
               >
-                {title}
-              </Link>
-            </li>
-          ))}
+                <Menu className="size-5" />
+                <span className="sr-only">Toggle navigation menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="flex flex-col p-0">
+              <ScrollArea className="h-full overflow-y-auto">
+                <div className="flex h-screen flex-col">
+                  <nav className="flex flex-1 flex-col gap-4 p-2 pt-8 text-lg font-medium">
 
-          {session ? (
-            <>
-              <li className="py-3">
-                <Link
-                  href="/dashboard"
-                  prefetch={false}
-                  onClick={() => setOpen(false)}
-                  className="flex w-full font-medium capitalize"
-                >
-                  Dashboard
-                </Link>
-              </li>
-            </>
-          ) : (
-            <>
-              <li className="py-3">
-                <Link
-                  href="/login"
-                  prefetch={false}
-                  onClick={() => setOpen(false)}
-                  className="flex w-full font-medium capitalize"
-                >
-                  Sign in
-                </Link>
-              </li>
+                    {filteredLinks && filteredLinks.map((section) => (
+                      <section
+                        key={section.title}
+                        className="flex flex-col gap-1"
+                      >
+                        <p className="text-xs text-muted-foreground p-2">
+                          {section.title}
+                        </p>
 
-              <li className="py-3">
-                <Link
-                  href="/register"
-                  prefetch={false}
-                  onClick={() => setOpen(false)}
-                  className="flex w-full font-medium capitalize"
-                >
-                  Sign up
-                </Link>
-              </li>
-            </>
-          )}
-        </ul>
+                        {section.items.map((item) => {
+                          const Icon = Icons[item.icon || "arrowRight"];
+                          return (
+                            item.href && (
+                              <Fragment key={`link-fragment-${item.title}`}>
+                                <Link
+                                  key={`link-${item.title}`}
+                                  onClick={() => {
+                                    if (!item.disabled) setOpen(false);
+                                  }}
+                                  href={item.disabled ? "#" : item.href}
+                                  className={cn(
+                                    "flex items-center gap-3 rounded-md p-2 text-sm font-medium hover:bg-muted",
+                                    // path === item.href
+                                    //   ? "bg-muted"
+                                    //   : "text-muted-foreground hover:text-accent-foreground",
+                                    item.disabled &&
+                                    "cursor-not-allowed opacity-80 hover:bg-transparent hover:text-muted-foreground",
+                                  )}
+                                >
+                                  <Icon className="size-5" />
+                                  {item.title}
+                                  {item.badge && (
+                                    <Badge className="ml-auto flex size-5 shrink-0 items-center justify-center rounded-full">
+                                      {item.badge}
+                                    </Badge>
+                                  )}
+                                </Link>
+                              </Fragment>
+                            )
+                          );
+                        })}
+                      </section>
+                    ))}
 
-        <div className="mt-8 flex items-center justify-end space-x-2">
-          <SearchButton clickAction={() => setOpen(false)} />
-          <ModeToggle />
+                    {/* <div className="mt-auto">
+                  <UpgradeCard />
+                </div> */}
+                  </nav>
+                </div>
+              </ScrollArea>
+            </SheetContent>
+          </Sheet>
+
+          <div className="w-full flex-1">
+            {/* TODO: show something here later */}
+            {/* <SearchCommand links={filteredLinks} /> */}
+          </div>
+
+          {/* navbar right show sign in or account */}
+          <div className="flex items-center gap-x-4">
+            {session ? (
+              <div className="">
+                <UserAccountNav />
+              </div>
+            ) : status === "unauthenticated" ? (
+              <LoginButton mode="modal" asChild>
+                <Button
+                  className="flex gap-2 px-5 rounded-full"
+                  variant="default"
+                  size="sm">
+                  <span>Sign In</span>
+                  <ArrowRight className="size-4" />
+                </Button>
+              </LoginButton>
+            ) : (
+              null
+            )}
+
+            {/* uncomment to enable mode toggle  */}
+            {/* <ModeToggle /> */}
+          </div>
         </div>
-      </nav>
+      </header>
     </>
   );
 }

@@ -41,7 +41,7 @@ export function DashboardSidebarMobile({ links }: DashboardSidebarMobileProps) {
             <div className="flex h-screen flex-col">
               <nav className="flex flex-1 flex-col gap-4 p-2 pt-8 text-lg font-medium">
 
-                {links.map((section) => (
+                {links && links.map((section) => (
                   <section
                     key={section.title}
                     className="flex flex-col gap-1"

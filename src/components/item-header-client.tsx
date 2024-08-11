@@ -30,7 +30,7 @@ export default function ItemHeaderClient({ item }: { item: ItemFullInfo }) {
               <div className="flex items-center gap-6">
                 <Image height={48} width={48} priority
                   alt={`${item.name}`} title={`${item.name}`}
-                  className="rounded-sm border"
+                  className="rounded-full border"
                   placeholder='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgBAMAAAAQtmoLAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAASUExURe7u8LO0vunq7N7e4sHCyszM05J1rm8AAAB2SURBVFjD7dXdCYAwDEbRmAkMOEDQBZRMUHCBIu6/iq2tj4IVxL/vQClC74MVIhEAAPwNt0l6yju3uhsMsmrSwbxXUt8YdGZOJrPDQeCl324AwVsDGSNXEGQXBnPkS16aSRVfGsGJoHjyPXB6EymHhV8xAMDnLNyhJR10BfPFAAAAAElFTkSuQmCC'
                   src={urlForImageWithSize(item.image, 96, 96)} />
 
@@ -60,10 +60,7 @@ export default function ItemHeaderClient({ item }: { item: ItemFullInfo }) {
             item.image &&
             <>
               <div className="md:col-span-4 transition-all md:scale-100 md:hover:scale-105">
-                <Link
-                  href={`${item.link}`}
-                  target="_blank"
-                >
+                <Link href={`${item.link}`} target="_blank" prefetch={false} >
                   <Image width={480} height={270}
                     alt={`${item.name}`} title={`${item.name}`}
                     className="rounded-lg border w-full"

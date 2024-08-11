@@ -4,6 +4,7 @@ import { formatDate } from '@/lib/utils';
 import { ItemFullInfo } from '@/types';
 import { Clock3Icon, GlobeIcon } from 'lucide-react';
 import Link from 'next/link';
+import { Button } from './ui/button';
 
 export default function ItemDetailClient({ item }: { item: ItemFullInfo }) {
   console.log('ItemDetailClient, item:', item);
@@ -31,16 +32,13 @@ export default function ItemDetailClient({ item }: { item: ItemFullInfo }) {
                   Website
                 </h3>
               </div>
-              <Link
-                href={`${item.link}`}
-                target="_blank"
-                className="line-clamp-1 underline underline-offset-4 
-                        hover:text-primary dark:hover:text-primary-400"
-              >
-                {/* if no http or https, new URL will return invalid URL */}
-                {item.link.includes('http') ? new URL(item.link).hostname
-                  : new URL(`https://${item.link}`).hostname}
-              </Link>
+              <Button asChild variant="link">
+                <Link href={`${item.link}`} target="_blank" className="line-clamp-1" >
+                  {/* if no http or https, new URL will return invalid URL */}
+                  {item.link.includes('http') ? new URL(item.link).hostname
+                    : new URL(`https://${item.link}`).hostname}
+                </Link>
+              </Button>
             </div>
           </>
         }
@@ -56,7 +54,7 @@ export default function ItemDetailClient({ item }: { item: ItemFullInfo }) {
                   Date
                 </h3>
               </div>
-              <span className="line-clamp-1 text-muted-foreground">
+              <span className="line-clamp-1 text-muted-foreground text-sm">
                 {formatDate(item.publishDate)}
               </span>
             </div>

@@ -14,11 +14,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useState } from "react";
 
-interface DashboardSidebarProps {
+interface DashboardSidebarMobileProps {
   links: SidebarNavItem[];
 }
 
-export function DashboardSidebarMobile({ links }: DashboardSidebarProps) {
+export function DashboardSidebarMobile({ links }: DashboardSidebarMobileProps) {
   const path = usePathname();
   const [open, setOpen] = useState(false);
   const { isSm, isMobile } = useMediaQuery();
@@ -40,7 +40,6 @@ export function DashboardSidebarMobile({ links }: DashboardSidebarProps) {
           <ScrollArea className="h-full overflow-y-auto">
             <div className="flex h-screen flex-col">
               <nav className="flex flex-1 flex-col gap-4 p-2 pt-8 text-lg font-medium">
-                {/* <ProjectSwitcher large /> */}
 
                 {links.map((section) => (
                   <section

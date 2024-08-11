@@ -69,8 +69,6 @@ export function DashboardSidebar({ links }: DashboardSidebarProps) {
           >
             <div className="flex h-full max-h-screen flex-1 flex-col gap-2">
               <div className="flex h-16 items-center p-4">
-                {/* {isSidebarExpanded ? <ProjectSwitcher /> : null} */}
-
                 {
                   isSidebarExpanded && (
                     <Link href="/" className="flex items-center space-x-1.5">

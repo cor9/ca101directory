@@ -2,7 +2,6 @@
 
 import * as z from "zod";
 import bcrypt from "bcryptjs";
-
 import { unstable_update}  from "@/auth";
 import { sanityClient } from "@/sanity/lib/client";
 import { SettingsSchema } from "@/lib/schemas";
@@ -15,13 +14,11 @@ export const settings = async (
   values: z.infer<typeof SettingsSchema>
 ) => {
   const user = await currentUser();
-
   if (!user) {
     return { error: "Unauthorized" };
   }
 
   const dbUser = await getUserById(user.id!);
-
   if (!dbUser) {
     return { error: "Unauthorized" };
   }
@@ -33,9 +30,7 @@ export const settings = async (
   }
 
   if (values.email && values.email !== user.email) {
-
     const existingUser = await getUserByEmail(values.email);
-
     if (existingUser && existingUser.id !== user.id) {
       return { error: "Email already in use!" };
     }
@@ -74,7 +69,7 @@ export const settings = async (
     ...values
   }).commit()
 
-  //unstable update in Beta version
+  // unstable update in Beta version
   unstable_update({
     user: {
       name: updatedUser.name,

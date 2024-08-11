@@ -1,36 +1,223 @@
-import { redirect } from "next/navigation";
+"use client";
 
-// import { getCurrentUser } from "@/lib/session";
-import { constructMetadata } from "@/lib/utils";
-import { DeleteAccountSection } from "@/components/dashboard/delete-account";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition, useState } from "react";
+import { useSession } from "next-auth/react";
+
+import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { SettingsSchema } from "@/lib/schemas";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { settings } from "@/actions/settings";
+import {
+  Form,
+  FormField,
+  FormControl,
+  FormItem,
+  FormLabel,
+  FormDescription,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { FormError } from "@/components/form-error";
+import { FormSuccess } from "@/components/form-success";
+import { UserRole } from "@/types/user-role";
 import { DashboardHeader } from "@/components/dashboard/header";
-// import { UserNameForm } from "@/components/forms/user-name-form";
-// import { UserRoleForm } from "@/components/forms/user-role-form";
-import { currentUser } from "@/lib/auth";
+import { Loader2 } from "lucide-react";
 
-export const metadata = constructMetadata({
-  title: "Settings",
-  description: "Configure your account and website settings.",
-});
+export default function SettingsPage() {
+  const user = useCurrentUser();
 
-export default async function SettingsPage() {
-  // const user = await getCurrentUser();
-  const user = await currentUser();
+  const [error, setError] = useState<string | undefined>();
+  const [success, setSuccess] = useState<string | undefined>();
+  const { update } = useSession();
+  const [isPending, startTransition] = useTransition();
 
-  if (!user?.id) {
-    redirect("/login");
+  const form = useForm<z.infer<typeof SettingsSchema>>({
+    resolver: zodResolver(SettingsSchema),
+    defaultValues: {
+      password: undefined,
+      newPassword: undefined,
+      name: user?.name || undefined,
+      email: user?.email || undefined,
+      role: user?.role || undefined,
+    }
+  });
+
+  const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
+    startTransition(() => {
+      settings(values)
+        .then((data) => {
+          if (data.error) {
+            setError(data.error);
+          }
+
+          if (data.success) {
+            update();
+            setSuccess(data.success);
+          }
+        })
+        .catch(() => setError("Something went wrong!"));
+    });
   }
 
   return (
     <>
       <DashboardHeader
         heading="Settings"
-        text="Manage account and website settings."
+        text="Manage account settings."
       />
       <div className="divide-y divide-muted pb-10">
-        {/* <UserNameForm user={{ id: user.id, name: user.name || "" }} /> */}
-        {/* <UserRoleForm user={{ id: user.id, role: user.role }} /> */}
-        <DeleteAccountSection />
+        <Card className="max-w-[600px]">
+          <CardHeader>
+            {/* <p className="text-2xl font-semibold text-center">
+              ⚙️ Settings
+            </p> */}
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form
+                className="space-y-6"
+                onSubmit={form.handleSubmit(onSubmit)}
+              >
+                <div className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="name"
+                            disabled={isPending}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {user?.isOAuth === false && (
+                    <>
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                placeholder="name@example.com"
+                                type="email"
+                                disabled={isPending}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                placeholder="******"
+                                type="password"
+                                disabled={isPending}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="newPassword"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>New Password</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                placeholder="******"
+                                type="password"
+                                disabled={isPending}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </>
+                  )}
+                  <FormField
+                    control={form.control}
+                    name="role"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Role</FormLabel>
+                        <Select
+                          disabled={isPending}
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a role" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value={UserRole.ADMIN}>
+                              Admin
+                            </SelectItem>
+                            <SelectItem value={UserRole.USER}>
+                              User
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <FormError message={error} />
+                <FormSuccess message={success} />
+                <Button
+                  disabled={isPending}
+                  type="submit"
+                >
+                  {
+                    isPending ? (
+                      <>
+                        <Loader2 className="size-4 animate-spin" />&nbsp;
+                      </>
+                    ) : null
+                  } Save
+                </Button>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
       </div>
     </>
   );

@@ -6,7 +6,8 @@ import {
   DialogTrigger,
 } from "@/components/auth/dialog-wrapper";
 import { LoginForm } from "@/components/auth/login-form";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface LoginButtonProps {
   children: React.ReactNode;
@@ -20,14 +21,24 @@ export const LoginButton = ({
   asChild
 }: LoginButtonProps) => {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onClick = () => {
     router.push("/auth/login");
   };
 
-  if (mode === "modal") {
+  // Close the modal on route change
+  useEffect(() => {
+    setIsModalOpen(false);
+  }, [pathname, searchParams]);
+
+  // don't open the modal if the user is already in the auth pages
+  const isAuthPage = pathname?.startsWith("/auth");
+  if (mode === "modal" && !isAuthPage) {
     return (
-      <Dialog>
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogTrigger asChild={asChild}>
           {children}
         </DialogTrigger>

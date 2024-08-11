@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ItemBreadCrumb from './item-bread-crumb';
 import { Badge } from './ui/badge';
+import { Button } from './ui/button';
 
 export default function ItemHeaderClient({ item }: { item: ItemFullInfo }) {
   console.log('ItemHeaderClient, item:', item);
@@ -42,15 +43,12 @@ export default function ItemHeaderClient({ item }: { item: ItemFullInfo }) {
               {item.tags && (
                 <div className="flex flex-wrap gap-2 items-center">
                   {item.tags.map((tag) => (
-                    <Link key={tag._id} href={`/tag/${tag.slug.current}`}>
-                      <Badge variant="outline" className="text-xs py-1 px-4 cursor-pointer
-                            text-primary dark:text-foreground/80
-                            hover:border-transparent dark:hover:border-transparent
-                            hover:bg-primary hover:text-primary-foreground dark:hover:text-primary-foreground
-                            dark:hover:bg-primary-800 dark:border-primary-foreground/20">
+                    <Button asChild key={tag._id} variant="outline" size='sm'
+                      className="text-xs py-1 px-3">
+                      <Link key={tag._id} href={`/tag/${tag.slug.current}`}>
                         {tag.name.find(item => item._key === "en")?.value}
-                      </Badge>
-                    </Link>
+                      </Link>
+                    </Button>
                   ))}
                 </div>
               )}

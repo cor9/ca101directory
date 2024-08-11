@@ -9,6 +9,7 @@ export default function BlogLayout({
   return (
     <>
       <BlogHeaderLayout />
+      
       <MaxWidthWrapper className="pb-16">
         {children}
       </MaxWidthWrapper>

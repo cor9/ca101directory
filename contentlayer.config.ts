@@ -10,6 +10,7 @@ import remarkGfm from "remark-gfm";
 import { visit } from "unist-util-visit";
 
 // https://contentlayer.dev/docs/reference/source-files/define-document-type-eb9db60e#issingleton-default-false
+// https://github.com/contentlayerdev/website/blob/main/content/config/global.yaml
 // TODO: add global config here and set isSingleton to true
 defineDocumentType(() => ({
   name: 'GlobalConfig',
@@ -54,34 +55,6 @@ export const Doc = defineDocumentType(() => ({
     published: {
       type: "boolean",
       default: true,
-    },
-  },
-  computedFields: defaultComputedFields,
-}));
-
-export const Guide = defineDocumentType(() => ({
-  name: "Guide",
-  filePathPattern: `guides/**/*.mdx`,
-  contentType: "mdx",
-  fields: {
-    title: {
-      type: "string",
-      required: true,
-    },
-    description: {
-      type: "string",
-    },
-    date: {
-      type: "date",
-      required: true,
-    },
-    published: {
-      type: "boolean",
-      default: true,
-    },
-    featured: {
-      type: "boolean",
-      default: false,
     },
   },
   computedFields: defaultComputedFields,
@@ -154,7 +127,7 @@ export const Page = defineDocumentType(() => ({
 // https://contentlayer.dev/docs/reference/source-files/make-source-a5ba4922
 export default makeSource({
   contentDirPath: "./content",
-  documentTypes: [Page, Doc, Guide, Post],
+  documentTypes: [Page, Doc, Post],
   // https://contentlayer.dev/docs/reference/source-files/make-source-a5ba4922#mdx
   mdx: {
     remarkPlugins: [remarkGfm],

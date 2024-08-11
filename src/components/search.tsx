@@ -20,7 +20,7 @@ export default function Search() {
     } else {
       newParams.delete('q');
     }
-
+    newParams.delete('page');
     router.push(createUrl('/search', newParams));
   }
 
@@ -49,7 +49,7 @@ export function SearchSkeleton() {
     <form className="w-full md:w-80 relative">
       <input
         placeholder="Search..."
-        className="text-md w-full rounded-lg border bg-white px-4 py-2 text-sm text-black placeholder:text-neutral-500 dark:border-neutral-800 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-400"
+        className="text-md w-full rounded-full border bg-white px-4 py-2 text-sm text-black placeholder:text-neutral-500 dark:border-neutral-800 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-400"
       />
       <div className="absolute right-0 top-0 mr-4 flex h-full items-center">
         <SearchIcon className="h-4" />

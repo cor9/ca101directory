@@ -1,22 +1,20 @@
 "use client";
 
-import Link from "next/link";
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { useSelectedLayoutSegment } from "next/navigation";
-import { DocsSidebarNav } from "@/components/docs/sidebar-nav";
 import { docsConfig } from "@/config/docs";
 import { marketingConfig } from "@/config/marketing";
 import { cn } from "@/lib/utils";
-import { Menu, Search, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { useSelectedLayoutSegment } from "next/navigation";
+import { useEffect, useState } from "react";
+import { SearchButton } from "../search-button";
 import { ModeToggle } from "./mode-toggle";
-import { Button } from "../ui/button";
 
 export function NavMobile() {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const selectedLayout = useSelectedLayoutSegment();
-  // const documentation = selectedLayout === "docs";
 
   const configMap = {
     docs: docsConfig.mainNav,
@@ -71,19 +69,6 @@ export function NavMobile() {
 
           {session ? (
             <>
-              {session.user.role === "ADMIN" ? (
-                <li className="py-3">
-                  <Link
-                    href="/admin"
-                    prefetch={false}
-                    onClick={() => setOpen(false)}
-                    className="flex w-full font-medium capitalize"
-                  >
-                    Admin
-                  </Link>
-                </li>
-              ) : null}
-
               <li className="py-3">
                 <Link
                   href="/dashboard"
@@ -122,21 +107,8 @@ export function NavMobile() {
           )}
         </ul>
 
-        {/* {documentation ? (
-          <div className="mt-8 block md:hidden">
-            <DocsSidebarNav setOpen={setOpen} />
-          </div>
-        ) : null} */}
-
         <div className="mt-8 flex items-center justify-end space-x-2">
-          <Button asChild variant="ghost" size="icon" className="px-0">
-            <Link href={'/search'}
-              prefetch={false}
-              onClick={() => setOpen(false)}>
-              <Search className="size-5" />
-              <span className="sr-only">Search</span>
-            </Link>
-          </Button>
+          <SearchButton clickAction={() => setOpen(false)} />
           <ModeToggle />
         </div>
       </nav>

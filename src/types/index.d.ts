@@ -16,6 +16,14 @@ export type SiteConfig = {
   };
 };
 
+export type MarketingConfig = {
+  mainNav: NavItem[];
+};
+
+export type DocsConfig = {
+  sidebarNav: SidebarNavItem[];
+};
+
 export type NavItem = {
   title: string;
   href: string;
@@ -26,22 +34,11 @@ export type NavItem = {
   icon?: keyof typeof Icons;
 };
 
-export type MainNavItem = NavItem;
-
-export type MarketingConfig = {
-  mainNav: MainNavItem[];
-};
-
 export type SidebarNavItem = {
   title: string;
   items: NavItem[];
   authorizeOnly?: UserRole;
   icon?: keyof typeof Icons;
-};
-
-export type DocsConfig = {
-  mainNav: MainNavItem[];
-  sidebarNav: SidebarNavItem[];
 };
 
 // subcriptions

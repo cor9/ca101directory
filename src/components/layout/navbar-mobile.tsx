@@ -1,21 +1,23 @@
 "use client";
 
+import { sidebarLinks } from "@/config/dashboard";
 import { marketingConfig } from "@/config/marketing";
+import { cn } from "@/lib/utils";
 import { ArrowRight, Menu } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
 import { LoginButton } from "../auth/login-button";
-import MaxWidthWrapper from "../shared/max-width-wrapper";
+import { Icons } from "../shared/icons";
+import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { UserAccountNav } from "./user-account-nav";
 import { ScrollArea } from "../ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import { Badge } from "../ui/badge";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { Icons } from "../shared/icons";
-import { sidebarLinks } from "@/config/dashboard";
+import { UserAccountNav } from "./user-account-nav";
 
+/**
+ * TODO: fix links for mobile, maybe use sections
+ */
 export function NavbarMobile() {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);

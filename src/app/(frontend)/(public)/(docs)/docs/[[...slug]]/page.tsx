@@ -21,7 +21,6 @@ async function getDocFromParams(params) {
   const doc = allDocs.find((doc) => doc.slugAsParams === slug);
 
   if (!doc) return null;
-
   return doc;
 }
 
@@ -29,11 +28,9 @@ export async function generateMetadata({
   params,
 }: DocPageProps): Promise<Metadata> {
   const doc = await getDocFromParams(params);
-
   if (!doc) return {};
 
   const { title, description } = doc;
-
   return constructMetadata({
     title: `${title}`,
     description: description,
@@ -65,7 +62,7 @@ export default async function DocPage({ params }: DocPageProps) {
   );
 
   return (
-    <main className="relative py-6 lg:gap-10 xl:grid xl:grid-cols-[1fr_150px]">
+    <main className="relative w-full py-6 xl:grid xl:grid-cols-[1fr_150px] xl:gap-10">
       <div className="w-full min-w-0">
         <DocsPageHeader heading={doc.title} text={doc.description} />
         <div className="pb-4 pt-8">

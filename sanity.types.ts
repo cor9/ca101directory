@@ -68,12 +68,6 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type LocalizedString = {
-  _type: "localizedString";
-  en?: string;
-  zh?: string;
-};
-
 export type Settings = {
   _id: string;
   _type: "settings";

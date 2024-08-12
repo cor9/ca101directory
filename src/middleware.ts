@@ -6,7 +6,6 @@ import {
   publicRoutes
 } from "@/routes";
 
-
 // TODO: fix type here or add @ts-ignore for now
 // @ts-ignore
 export default auth((req) => {

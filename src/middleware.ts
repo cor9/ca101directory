@@ -48,6 +48,8 @@ export default auth((req) => {
 // }
 
 // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
+// if disable image optimization by vercel, static images in the public folder will not be served
+// under the /_next/image or /_next/static route, so we need to add '_static' the matcher
 export const config = {
   matcher: [
     /*
@@ -57,6 +59,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/((?!api|_next/static|_next/image|_static|favicon.ico).*)',
   ],
 }

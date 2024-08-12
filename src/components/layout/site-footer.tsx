@@ -1,12 +1,9 @@
-import * as React from "react";
 import Link from "next/link";
-
+import * as React from "react";
+import { ModeToggle } from "@/components/layout/mode-toggle";
 import { footerLinks, siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { ModeToggle } from "@/components/layout/mode-toggle";
-
 // import { NewsletterForm } from "../forms/newsletter-form";
-import { Icons } from "../shared/icons";
 
 export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
@@ -72,14 +69,6 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
           </p>
 
           <div className="flex items-center gap-3">
-            {/* <Link
-              href={siteConfig.links.github}
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              <Icons.gitHub className="size-5" />
-            </Link> */}
             <ModeToggle />
           </div>
         </div>

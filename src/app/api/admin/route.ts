@@ -3,7 +3,6 @@ import { UserRole } from "@/types/user-role";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-    
   const role = await currentRole();
 
   if (role === UserRole.ADMIN) {

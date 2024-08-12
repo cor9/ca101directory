@@ -48,7 +48,8 @@ export const Icons = {
   copy: Copy,
   dashboard: LayoutPanelLeft,
   ellipsis: MoreVertical,
-  gitHub: ({ ...props }: LucideProps) => (
+  // Github Logo is deprecated in Lucide Icons
+  Github: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
       focusable="false"
@@ -65,7 +66,8 @@ export const Icons = {
       ></path>
     </svg>
   ),
-  google: ({ ...props }: LucideProps) => (
+  // Google Logo is missing in Lucide Icons
+  Google: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
       focusable="false"

@@ -9,7 +9,6 @@ import { FaBrandsGoogle } from "../icons/google";
 
 /**
  * TODO: show loading when logging in
- * TODO: remove react-icons maybe, react-icons has no Google icon
  */
 export const SocialButton = () => {
   const searchParams = useSearchParams();

@@ -1,5 +1,6 @@
 "use client";
 
+import { FaUser } from "react-icons/fa";
 import { LogoutButton } from "@/components/auth/logout-button";
 import {
   Avatar,
@@ -13,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { LogOut, User } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 export const UserButton = () => {
   const user = useCurrentUser();
@@ -24,7 +25,7 @@ export const UserButton = () => {
         <Avatar>
           <AvatarImage src={user?.image || ""} />
           <AvatarFallback className="bg-orange-500">
-            <User className="text-white" />
+            <FaUser className="text-white" />
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

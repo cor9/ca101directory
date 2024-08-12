@@ -7,6 +7,12 @@ export default defineType({
   title: "Tag",
   type: "document",
   icon: TagsIcon,
+  groups: [
+    {
+      name: 'intl',
+      title: 'Internationalization',
+    },
+  ],
   fields: [
     defineField({
       name: "name",

@@ -7,6 +7,16 @@ export default defineType({
   title: "Item",
   type: "document",
   icon: ProjectsIcon,
+  groups: [
+    {
+      name: 'intl',
+      title: 'Internationalization',
+    },
+    {
+      name: 'media',
+      title: 'Media',
+    },
+  ],
   fields: [
     defineField({
       name: "name",

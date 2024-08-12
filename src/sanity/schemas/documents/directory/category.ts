@@ -7,6 +7,12 @@ export default defineType({
   title: "Category",
   type: "document",
   icon: TiersIcon,
+  groups: [
+    {
+      name: 'intl',
+      title: 'Internationalization',
+    },
+  ],
   fields: [
     defineField({
       name: "name",

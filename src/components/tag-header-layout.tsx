@@ -11,7 +11,7 @@ async function GetTagList() {
   const tagList = await sanityFetch<TagListQueryResult>({
     query: tagListQuery
   });
-  console.log('GetTagList, tagList:', tagList);
+  // console.log('GetTagList, tagList:', tagList);
   return (
     <TagList tagList={tagList} />
   );

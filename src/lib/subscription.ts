@@ -24,14 +24,6 @@ export async function getUserSubscriptionPlan(
   //   },
   // });
 
-  // const subscription = await sanityClient.fetch(`*[_type == "subscription" && userId == "${userId}"]{
-  //   ...,
-  //   user->{
-  //     ...
-  //   }
-  // }`);
-  // const user = subscription.user;
-
   const user = await sanityClient.fetch(`*[_type == "user" && _id == "${userId}"]`);
 
   if (!user) {

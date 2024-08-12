@@ -11,7 +11,7 @@ async function GetCategoryList() {
   const categoryList = await sanityFetch<CategoryListQueryResult>({
     query: categoryListQuery
   });
-  console.log('GetCategoryList, categoryList:', categoryList);
+  // console.log('GetCategoryList, categoryList:', categoryList);
   return (
     <CategoryList categoryList={categoryList} />
   );

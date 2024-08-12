@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { sanityClient } from "@/sanity/lib/client";
+import { getUserById } from "@/sanity/auth/user";
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -20,7 +21,8 @@ export async function POST(req: Request) {
     return new Response(`Webhook Error: ${error.message}`, { status: 400 });
   }
 
-  console.log('stripe webhook event:', event);
+  // console.log('stripe webhook event:', event);
+  console.log('stripe webhook event.type:', event.type);
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
@@ -33,8 +35,6 @@ export async function POST(req: Request) {
     // Update the user stripe into in our database.
     // Since this is the initial subscription, we need to update
     // the subscription id and customer id.
-
-    // TODO: update query
     // await prisma.user.update({
     //   where: {
     //     id: session?.metadata?.userId,
@@ -49,23 +49,37 @@ export async function POST(req: Request) {
     //   },
     // });
 
+    // change query from Prisma to Sanity
     console.log('checkout.session.completed event');
-    console.log('session:', session);
-    console.log('subscription:', subscription);
+    // console.log('session:', session);
+    // console.log('subscription:', subscription);
     console.log('session?.metadata?.userId:', session?.metadata?.userId);
     console.log('subscription.id:', subscription.id);
     console.log('subscription.customer:', subscription.customer);
     console.log('subscription.items.data[0].price.id:', subscription.items.data[0].price.id);
     console.log('subscription.current_period_end:', subscription.current_period_end);
 
-    sanityClient.patch(session?.metadata?.userId).set({
-      stripeSubscriptionId: subscription.id,
-      stripeCustomerId: subscription.customer as string,
-      stripePriceId: subscription.items.data[0].price.id,
-      stripeCurrentPeriodEnd: new Date(
-        subscription.current_period_end * 1000,
-      ),
-    });
+    const user = await getUserById(session?.metadata?.userId);
+    // console.log('user:', user);
+    
+    if (user) {
+      const result = await sanityClient.patch(user._id).set({
+        stripeSubscriptionId: subscription.id,
+        stripeCustomerId: subscription.customer as string,
+        stripePriceId: subscription.items.data[0].price.id,
+        stripeCurrentPeriodEnd: new Date(
+          subscription.current_period_end * 1000,
+        ),
+      }).commit();
+
+      if (!result) {
+        console.log("checkout.session.completed, update data failed");
+        return new Response(null, { status: 500 });
+      }
+    } else {
+      console.log("checkout.session.completed, user not found");
+      return new Response(null, { status: 404 });
+    }
   }
 
   if (event.type === "invoice.payment_succeeded") {
@@ -80,8 +94,6 @@ export async function POST(req: Request) {
       );
 
       // Update the price id and set the new period end.
-      
-      // TODO: update query
       // await prisma.user.update({
       //   where: {
       //     stripeSubscriptionId: subscription.id,
@@ -94,6 +106,7 @@ export async function POST(req: Request) {
       //   },
       // });
 
+      // change query from Prisma to Sanity
       console.log('invoice.payment_succeeded event');
       console.log('session:', session);
       console.log('subscription:', subscription);
@@ -102,12 +115,25 @@ export async function POST(req: Request) {
       const user = await sanityClient.fetch(`*[_type == "user" && stripeSubscriptionId == $subscriptionId][0]`, {
         subscriptionId: subscription.id,
       });
-      sanityClient.patch( user._id ).set({
-        stripePriceId: subscription.items.data[0].price.id,
-        stripeCurrentPeriodEnd: new Date(
-          subscription.current_period_end * 1000,
-        ),
-      })
+      console.log('user:', user);
+
+      if (user) {
+        const result = await sanityClient.patch( user._id ).set({
+            stripePriceId: subscription.items.data[0].price.id,
+            stripeCurrentPeriodEnd: new Date(
+              subscription.current_period_end * 1000,
+            ),
+          })
+          .commit();
+        
+        if (!result) {
+          console.log("invoice.payment_succeeded, update data failed");
+          return new Response(null, { status: 500 });
+        }
+      } else {
+        console.log("invoice.payment_succeeded, user not found");
+        return new Response(null, { status: 404 });
+      }
     }
   }
 

@@ -1,11 +1,11 @@
 "use client";
 
-import { signIn } from "next-auth/react";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
-import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import { FaBrandsGithub } from "../icons/github";
+import { FaBrandsGoogle } from "../icons/google";
 
 /**
  * TODO: show loading when logging in
@@ -29,7 +29,7 @@ export const SocialButton = () => {
         variant="outline"
         onClick={() => onClick("google")}
       >
-        <FcGoogle className="h-5 w-5" />
+        <FaBrandsGoogle className="h-4 w-4 mr-2" />Google
       </Button>
       <Button
         size="lg"
@@ -37,7 +37,7 @@ export const SocialButton = () => {
         variant="outline"
         onClick={() => onClick("github")}
       >
-        <FaGithub className="h-5 w-5" />
+        <FaBrandsGithub className="h-5 w-5 mr-2" />Github
       </Button>
     </div>
   );

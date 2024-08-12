@@ -11,12 +11,14 @@ export default defineType({
     defineField({
       name: "name",
       title: "Name",
+      group: 'intl',
       type: "internationalizedArrayString",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
+      group: 'intl',
       type: "slug",
       options: {
         source: (document, context) => {
@@ -32,6 +34,7 @@ export default defineType({
     defineField({
       name: "description",
       title: "Description",
+      group: 'intl',
       type: "internationalizedArrayString",
     }),
     defineField({
@@ -86,6 +89,7 @@ export default defineType({
     defineField({
       name: "logo",
       title: "Logo",
+      group: 'media',
       type: "image",
       fields: [
         {
@@ -98,6 +102,7 @@ export default defineType({
     defineField({
       name: "image",
       title: "Image",
+      group: 'media',
       type: "image",
       options: {
         hotspot: true,
@@ -112,6 +117,7 @@ export default defineType({
     }),
 		defineField({
 			name: 'publishDate',
+      title: 'Publish Date',
 			type: 'datetime',
       initialValue: () => new Date().toISOString(),
 		}),

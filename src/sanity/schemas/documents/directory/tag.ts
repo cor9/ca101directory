@@ -11,12 +11,14 @@ export default defineType({
     defineField({
       name: "name",
       title: "Name",
+      group: 'intl',
       type: "internationalizedArrayString",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
+      group: 'intl',
       type: "slug",
       options: {
         source: (document, context) => {
@@ -32,6 +34,7 @@ export default defineType({
     defineField({
       name: "description",
       title: "Description",
+      group: 'intl',
       type: "internationalizedArrayString",
     }),
   ],

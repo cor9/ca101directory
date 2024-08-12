@@ -7,6 +7,7 @@ export const getVerificationTokenByEmail = async ( email: string ) => {
         const verToken = await sanityClient.fetch(verTokenQry);
         return verToken;
     } catch (error) {
+        console.error('getVerificationTokenByEmail, error:', error);
         return null;
     }
 }
@@ -18,6 +19,7 @@ export const getVerificationTokenByToken = async ( token: string ) => {
         const verToken = await sanityClient.fetch(verTokenQry);
         return verToken;
     } catch (error) {
+        console.error('getVerificationTokenByToken, error:', error);
         return null;
     }
 }

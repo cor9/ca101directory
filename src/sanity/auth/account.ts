@@ -1,3 +1,4 @@
+import { SHOW_AUTH_LOGS } from "@/lib/constants";
 import { sanityClient } from "@/sanity/lib/client";
 
 export const getAccountByUserId = async (userId: string) => {
@@ -5,10 +6,13 @@ export const getAccountByUserId = async (userId: string) => {
         // @sanity-typegen-ignore
         const accountQry = `*[_type == "account" && userId == "${userId}"][0]`;
         const account = await sanityClient.fetch(accountQry);
-        console.log('getAccountByUserId, account:', account);
+        if (SHOW_AUTH_LOGS) {
+            console.log('getAccountByUserId, account:', account);
+        }
 
         return account;
-    } catch {
+    } catch (error) {
+        console.error('getAccountByUserId, error:', error);
         return null;
     }
 }

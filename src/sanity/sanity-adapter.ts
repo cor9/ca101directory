@@ -3,6 +3,7 @@ import { uuid } from '@sanity/uuid';
 import type { Adapter, AdapterSession, AdapterUser } from "@auth/core/adapters";
 import { UserRole } from "@/types/user-role";
 import { User } from "@/types/next-auth";
+import { SHOW_AUTH_LOGS } from '@/lib/constants';
 
 // https://authjs.dev/reference/core/adapters
 // https://authjs.dev/guides/creating-a-database-adapter
@@ -37,7 +38,9 @@ export function SanityAdapter(
           image: user.image,
           emailVerified: user.emailVerified
         });
-        console.log('createUser, user:', user);
+        if (SHOW_AUTH_LOGS) {
+          console.log('createUser, user:', user);
+        }
 
         return {
           id: createdUser._id,
@@ -56,7 +59,7 @@ export function SanityAdapter(
 
         return user;
       } catch (error) {
-        throw new Error('getUser, Couldnt get the user');
+        throw new Error('getUser, Could not get the user');
       }
     },
 
@@ -71,7 +74,9 @@ export function SanityAdapter(
         // @sanity-typegen-ignore
         const user_qry = `*[_type == "user" && _id== "${account.userId}"][0]`;
         const user = await sanityClient.fetch(user_qry);
-        console.log('getUserByAccount, user:', user);
+        if (SHOW_AUTH_LOGS) {
+          console.log('getUserByAccount, user:', user);
+        }
 
         return {
           id: user._id,
@@ -80,7 +85,7 @@ export function SanityAdapter(
         };
 
       } catch (error) {
-        throw new Error('getUserByAccount, Couldnt get the user');
+        throw new Error('getUserByAccount, Could not get the user');
       }
     },
 
@@ -100,11 +105,13 @@ export function SanityAdapter(
             ...existingUser
           })
           .commit();
-        console.log('updateUser, user:', patchedUser);
+        if (SHOW_AUTH_LOGS) {
+          console.log('updateUser, user:', patchedUser);
+        }
 
         return patchedUser as any;
       } catch (error) {
-        throw new Error('updateUser, Couldnt update the user');
+        throw new Error('updateUser, Could not update the user');
       }
     },
 
@@ -120,8 +127,10 @@ export function SanityAdapter(
     // because of userId is undefined
     async linkAccount(account) {
       try {
-        console.log('linkAccount, accountId:', account.userId);
-        console.log('linkAccount, account:', account);
+        if (SHOW_AUTH_LOGS) {
+          console.log('linkAccount, accountId:', account.userId);
+          console.log('linkAccount, account:', account);
+        }
         // Github account
         // linkAccount, account: {
         //   access_token: 'xxx',
@@ -164,7 +173,9 @@ export function SanityAdapter(
         });
 
         const userToUpdate = await sanityClient.getDocument(account.userId);
-        console.log('unlinkAccount, user:', userToUpdate);
+        if (SHOW_AUTH_LOGS) {
+          console.log('unlinkAccount, user:', userToUpdate);
+        }
         
         await sanityClient.createOrReplace<User>({
           ...userToUpdate,
@@ -192,7 +203,9 @@ export function SanityAdapter(
         if (!account) return;
 
         const accountUser = await sanityClient.getDocument<User>(account.userId);
-        console.log('unlinkAccount, user:', accountUser);
+        if (SHOW_AUTH_LOGS) {
+          console.log('unlinkAccount, user:', accountUser);
+        }
 
         // Filter out the user account to be deleted
         const updatedUserAccounts = (accountUser?.accounts || []).filter(
@@ -240,7 +253,9 @@ export function SanityAdapter(
         // @sanity-typegen-ignore
         const user_qry = `*[_type == "user" && _id== "${session.userId}"][0]`;
         const user = await sanityClient.fetch(user_qry);
-        console.log('getSessionAndUser, user:', user);
+        if (SHOW_AUTH_LOGS) {
+          console.log('getSessionAndUser, user:', user);
+        }
 
         return {
           session: session,
@@ -287,11 +302,13 @@ export function SanityAdapter(
         // @sanity-typegen-ignore
         const user_qry = `*[_type == "user" && email== "${email}"][0]`;
         const user = await sanityClient.fetch(user_qry);
-        console.log('getUserByEmail, user:', user);
+        if (SHOW_AUTH_LOGS) {
+          console.log('getUserByEmail, user:', user);
+        }
 
         return user;
       } catch (error) {
-        throw new Error('getUserByEmail, Couldnt get the user');
+        throw new Error('getUserByEmail, Could not get the user');
       }
     },
 
@@ -306,7 +323,7 @@ export function SanityAdapter(
 
         return verificationToken;
       } catch (error) {
-        throw new Error('createVerificationToken, Couldnt create verification token');
+        throw new Error('createVerificationToken, Could not create verification token');
       }
     },
 
@@ -318,6 +335,9 @@ export function SanityAdapter(
 
         if (!verToken) return null;
 
+        if (SHOW_AUTH_LOGS) {
+          console.log('useVerificationToken, verToken:', verToken);
+        }
         await sanityClient.delete(verToken._id);
 
         return {
@@ -325,7 +345,7 @@ export function SanityAdapter(
           ...verToken
         };
       } catch (error) {
-        throw new Error('useVerificationToken, Couldnt delete verification token');
+        throw new Error('useVerificationToken, Could not delete verification token');
       }
     },
   }

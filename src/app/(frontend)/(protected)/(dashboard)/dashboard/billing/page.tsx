@@ -5,7 +5,7 @@ import { DashboardHeader } from "@/components/dashboard/header";
 import { BillingInfo } from "@/components/pricing/billing-info";
 import { Icons } from "@/components/shared/icons";
 import { currentUser } from "@/lib/auth";
-// import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
 
 export const metadata = constructMetadata({
   title: "Billing",
@@ -17,7 +17,7 @@ export default async function BillingPage() {
 
   let userSubscriptionPlan;
   if (user && user.id && user.role === "USER") {
-    // userSubscriptionPlan = await getUserSubscriptionPlan(user.id);
+    userSubscriptionPlan = await getUserSubscriptionPlan(user.id);
   } else {
     redirect("/auth/login");
   }

@@ -1,5 +1,6 @@
 import { defineField } from 'sanity';
 import { UsersIcon } from '@sanity/icons';
+import { format, parseISO } from 'date-fns';
 
 const account = {
   name: 'account',
@@ -73,9 +74,23 @@ const account = {
       to: [{ type: 'user' }],
     }),
   ],
+  
   preview: {
     select: {
-      title: '_id',
+      id: 'userId',
+      name: "user.name",
+      provider: "provider",
+      date: "_createdAt",
+    },
+    prepare({ id, name, provider, date }) {
+      const title = `${name} (${provider})`;
+      // get simple user id by concating the first 4 and last 4 characters
+      const userid = id.substring(5, 9) + '...' + id.substring(id.length - 4);
+      const subtitle = `${format(parseISO(date), "yyyy/MM/dd")}-${userid}`;
+      return {
+        title,
+        subtitle
+      };
     },
   },
 };

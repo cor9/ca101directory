@@ -1,3 +1,4 @@
+import { SHOW_AUTH_LOGS } from "@/lib/constants";
 import { sanityClient } from "@/sanity/lib/client";
 
 export const getUserByEmail = async (email: string) => {
@@ -5,10 +6,13 @@ export const getUserByEmail = async (email: string) => {
         // @sanity-typegen-ignore
         const userQry = `*[_type == "user" && email == "${email}"][0]`;
         const user = await sanityClient.fetch(userQry);
-        console.log('getUserByEmail, user:', user);
+        if (SHOW_AUTH_LOGS) {
+            console.log('getUserByEmail, user:', user);
+        }
 
         return user;
-    } catch {
+    } catch (error) {
+        console.error('getUserByEmail, error:', error);
         return null;
     }
 }
@@ -18,7 +22,9 @@ export const getUserById = async (_id: string) => {
         // @sanity-typegen-ignore
         const userQry = `*[_type == "user" && _id == "${_id}"][0]`;
         const user = await sanityClient.fetch(userQry);
-        console.log('getUserById, user:', user);
+        if (SHOW_AUTH_LOGS) {
+            console.log('getUserById, user:', user);
+        }
         // getUserById, user: {
         //     name: 'hujiawei',
         //     _id: 'user.1d2c06f6-2bcc-4f5e-95ba-014aadfb4580',
@@ -37,7 +43,8 @@ export const getUserById = async (_id: string) => {
         //     _rev: 'uSG6j0nzFMARMpT3a2WEU8'
         //   }
         return user;
-    } catch {
+    } catch (error) {
+        console.error('getUserById, error:', error);
         return null;
     }
 }

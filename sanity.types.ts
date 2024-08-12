@@ -312,6 +312,10 @@ export type User = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "account";
   };
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+  stripePriceId?: string;
+  stripeCurrentPeriodEnd?: string;
 };
 
 export type Account = {

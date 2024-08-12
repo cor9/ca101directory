@@ -9,6 +9,7 @@ import bcrypt from "bcryptjs";
 
 import { getUserById } from "@/sanity/auth/user";
 import { getAccountByUserId } from "@/sanity/auth/account";
+import { SHOW_AUTH_LOGS } from "./lib/constants";
 
 // https://authjs.dev/getting-started/installation#configure
 // providers for authorization, adapters for user data persistence
@@ -55,7 +56,9 @@ export const {
           return null;
         }
 
-        console.log('authorize, user:', user);
+        if (SHOW_AUTH_LOGS) {
+          console.log('authorize, user:', user);
+        }
         const passwordsMatch = await bcrypt.compare(credentials?.password as string, user.password);
         if (passwordsMatch) {
           return {

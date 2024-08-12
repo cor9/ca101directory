@@ -1,11 +1,18 @@
 import { defineField } from 'sanity';
 import { UserIcon } from "@sanity/icons";
+import { format, parseISO } from 'date-fns';
 
 const user = {
   name: 'user',
   title: 'User',
   type: 'document',
   icon: UserIcon,
+  groups: [
+    {
+      name: 'stripe',
+      title: 'Stripe',
+    },
+  ],
   fields: [
     defineField({
       name: 'name',
@@ -47,11 +54,51 @@ const user = {
       title: 'Accounts',
       type: 'reference',
       to: [{ type: 'account' }],
-    })
+    }),
+    defineField({
+      name: 'stripeCustomerId',
+      title: 'Stripe Customer Id',
+      type: 'string',
+      group: 'stripe',
+      // validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'stripeSubscriptionId',
+      title: 'Stripe Subscription Id',
+      type: 'string',
+      group: 'stripe',
+      // validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'stripePriceId',
+      title: 'Stripe Price Id',
+      type: 'string',
+      group: 'stripe',
+      // validation: Rule => Rule.required(),
+    }),
+    defineField({
+			name: 'stripeCurrentPeriodEnd',
+      title: 'Stripe Current Period End',
+			type: 'datetime',
+      group: 'stripe',
+      // initialValue: () => new Date().toISOString(),
+		}),
   ],
   preview: {
     select: {
-      title: 'name',
+      id: '_id',
+      name: "name",
+      date: "_createdAt",
+    },
+    prepare({ id, name, date }) {
+      const title = name;
+      // get simple user id by concating the first 4 and last 4 characters
+      const userid = id.substring(5, 9) + '...' + id.substring(id.length - 4);
+      const subtitle = `${format(parseISO(date), "yyyy/MM/dd")}-${userid}`;
+      return {
+        title,
+        subtitle
+      };
     },
   },
 };

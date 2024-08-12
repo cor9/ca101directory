@@ -27,7 +27,7 @@ export const SocialButton = () => {
         variant="outline"
         onClick={() => onClick("google")}
       >
-        <Icons.Google className="h-5 w-5" />
+        <Icons.Google className="h-5 w-5 mr-2" />Google
       </Button>
       <Button
         size="lg"
@@ -35,7 +35,7 @@ export const SocialButton = () => {
         variant="outline"
         onClick={() => onClick("github")}
       >
-        <Icons.Github className="h-5 w-5" />
+        <Icons.Github className="h-5 w-5 mr-2" />Github
       </Button>
     </div>
   );

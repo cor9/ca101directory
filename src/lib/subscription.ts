@@ -11,7 +11,6 @@ export async function getUserSubscriptionPlan(
     throw new Error("Missing parameters");
   }
 
-  // TODO: update query
   // const user = await prisma.user.findFirst({
   //   where: {
   //     id: userId,
@@ -24,18 +23,24 @@ export async function getUserSubscriptionPlan(
   //   },
   // });
 
-  const user = await sanityClient.fetch(`*[_type == "user" && _id == "${userId}"]`);
+  // change query from Prisma to Sanity
+  // TODO: what if there is no user?
+  const user = await sanityClient.fetch(`*[_type == "user" && _id == "${userId}"][0]`);
 
   if (!user) {
     throw new Error("User not found");
   } else {
-    console.log('getUserSubscriptionPlan, user:', user);
+    console.log('getUserSubscriptionPlan, userId:', user._id);
   }
+
+  // user.stripeCurrentPeriodEnd is a string like "2024-03-15T00:00:00Z"
+  // convert user.stripeCurrentPeriodEnd to timestamp (number)
+  const stripeCurrentPeriodEndTime = new Date(user.stripeCurrentPeriodEnd).getTime();
 
   // Check if user is on a paid plan. 86_400_000 means 24 hours
   const isPaid =
     user.stripePriceId &&
-    user.stripeCurrentPeriodEnd?.getTime() + 86_400_000 > Date.now() ? true : false;
+    stripeCurrentPeriodEndTime + 86_400_000 > Date.now() ? true : false;
 
   // Find the pricing data corresponding to the user's plan
   const userPlan =
@@ -63,7 +68,7 @@ export async function getUserSubscriptionPlan(
   return {
     ...plan,
     ...user,
-    stripeCurrentPeriodEnd: user.stripeCurrentPeriodEnd?.getTime(),
+    stripeCurrentPeriodEnd: stripeCurrentPeriodEndTime,
     isPaid,
     interval,
     isCanceled

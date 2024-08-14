@@ -144,8 +144,8 @@ importers:
         specifier: 1.0.0
         version: 1.0.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       contentlayer2:
-        specifier: ^0.5.0
-        version: 0.5.0(esbuild@0.21.5)
+        specifier: ^0.4.6
+        version: 0.4.6(esbuild@0.21.5)
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
@@ -159,8 +159,8 @@ importers:
         specifier: 5.0.0-beta.20
         version: 5.0.0-beta.20(next@14.2.5(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       next-contentlayer2:
-        specifier: ^0.5.0
-        version: 0.5.0(contentlayer2@0.5.0(esbuild@0.21.5))(esbuild@0.21.5)(next@14.2.5(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.4.6
+        version: 0.4.6(contentlayer2@0.4.6(esbuild@0.21.5))(esbuild@0.21.5)(next@14.2.5(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-sanity:
         specifier: ^9.4.3
         version: 9.4.3(@sanity/client@6.21.1)(@sanity/icons@3.3.1(react@18.3.1))(@sanity/types@3.52.4)(@sanity/ui@2.8.8(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)(styled-components@6.1.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(next@14.2.5(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sanity@3.52.4(@types/node@22.1.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(terser@5.31.3))(styled-components@6.1.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
@@ -211,7 +211,7 @@ importers:
         version: 2.4.0
       tailwindcss-animate:
         specifier: ^1.0.7
-        version: 1.0.7(tailwindcss@3.4.7)
+        version: 1.0.7(tailwindcss@3.4.9)
       vaul:
         specifier: ^0.9.1
         version: 0.9.1(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -221,7 +221,7 @@ importers:
     devDependencies:
       '@tailwindcss/typography':
         specifier: ^0.5.13
-        version: 0.5.14(tailwindcss@3.4.7)
+        version: 0.5.14(tailwindcss@3.4.9)
       '@types/bcryptjs':
         specifier: ^2.4.6
         version: 2.4.6
@@ -259,7 +259,7 @@ importers:
         specifier: ^7.1.0
         version: 7.1.0
       rehype-pretty-code:
-        specifier: ^0.13.2
+        specifier: ^0.13.1
         version: 0.13.2(shiki@1.12.1)
       rehype-slug:
         specifier: ^6.0.0
@@ -271,8 +271,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       tailwindcss:
-        specifier: ^3.4.7
-        version: 3.4.7
+        specifier: ^3.4.8
+        version: 3.4.9
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
@@ -987,16 +987,16 @@ packages:
   '@codemirror/view@6.30.0':
     resolution: {integrity: sha512-96Nmn8OeLh6aONQprIeYk8hGVnEuYpWuxKSkdsODOx9hWPxyuyZGvmvxV/JmLsp+CubMO1PsLaN5TNNgrl0UrQ==}
 
-  '@contentlayer2/cli@0.5.0':
-    resolution: {integrity: sha512-V6mhjqFN1GNlea75TRsTAdJaT/wG2EwaRUwl13Zv3302682TB8Pkewfew19JvNX+V3c8y7zMYhQ44c2QgR2h9w==}
+  '@contentlayer2/cli@0.4.3':
+    resolution: {integrity: sha512-ZJ+Iiu2rVI50x60XoqnrsO/Q8eqFX5AlP1L0U/3ygaAas3tnOqTzQZ1UsxYQMpJzcLok24ddlhKfQKbCMUJPiQ==}
 
-  '@contentlayer2/client@0.5.0':
-    resolution: {integrity: sha512-YEsGjKWZvp+wanyK2I38r5X50NQKfRvnQ8BL23H51WeB5Y4J8KrjaDm1fF4qg91RZQCSe+l3z2t7wN6IqunXkQ==}
+  '@contentlayer2/client@0.4.3':
+    resolution: {integrity: sha512-Znz6zW0ShVRq3OCQ6SwsfPQ1Wn28dQpiL33r53OjWuiirXhaSdam4MXRjYSFzCq5JK0kY6Hx0CF0fk3oVbsiVQ==}
 
-  '@contentlayer2/core@0.5.0':
-    resolution: {integrity: sha512-yf6sBc2wov/TNVtEms0X5VBzdYf3kxRUObGcn68+G0EE1/mrS7Ynl3aILghxAT//7Re+KeovNkLl+UdTTPF7sg==}
+  '@contentlayer2/core@0.4.3':
+    resolution: {integrity: sha512-jNagCFHLB8u/qfjoAI+JUuz3jf2hxYFYusgfh+oSq9+jHala4bbLEJOhJmmaY1Dmv2AV6BI7W8Jjy6WIu5g5Yg==}
     peerDependencies:
-      esbuild: '>=0.17'
+      esbuild: 0.17.x || 0.18.x || 0.19.x || 0.20.x
       markdown-wasm: 1.x
     peerDependenciesMeta:
       esbuild:
@@ -1004,14 +1004,14 @@ packages:
       markdown-wasm:
         optional: true
 
-  '@contentlayer2/source-files@0.5.0':
-    resolution: {integrity: sha512-jdRgHvXy9BQ45BgrNleqx9aWlcUgvZUiakQIk+A1vqGUFpzSFh03TnTUKZw2sC/8QH6Aqtg7+YP1F5C/gCPVLg==}
+  '@contentlayer2/source-files@0.4.3':
+    resolution: {integrity: sha512-NaLkK9iJcjS7xdqbtEJElEXhdEXv47yj4Ju2TCiZU7/8veQQ67QwtTDesyRMSw4mBt5+hxiAcqvf0hKaHh6lxw==}
 
-  '@contentlayer2/source-remote-files@0.5.0':
-    resolution: {integrity: sha512-Sj4F0QNHJKzJkfPalWtf8Yb0HJkvAL751sC4LiEevvoqFhIkNMEuVVyPzBA81c8aNBxnSw7NEjPHOlKH1dKJNA==}
+  '@contentlayer2/source-remote-files@0.4.3':
+    resolution: {integrity: sha512-uow1teWiAJA0WNbqqjEz4FfLPQF6BpdhRfF8JHgX7r8jzqChB5zS8bXX9xJDGhn41oEqR/FDDI1Pn7564H8lsA==}
 
-  '@contentlayer2/utils@0.5.0':
-    resolution: {integrity: sha512-7rE37WJrP9U/oz7Y9jC2BPUwNw1/Vz1Xf7LT9C0ontF2uVlAbAzDmZMDxku+aIm+i912563ZZ11HRm7pkfZvCw==}
+  '@contentlayer2/utils@0.4.3':
+    resolution: {integrity: sha512-E360wNhvGemU1X+uhIwkzA5v+b8U5Q+Gps50uIDAVW6TWV9boUgAGPspSXXcFAIYG+H4z2eV3jTZjFCwyXGMxg==}
     peerDependencies:
       '@effect-ts/otel-node': '*'
     peerDependenciesMeta:
@@ -3727,9 +3727,9 @@ packages:
   console-table-printer@2.12.1:
     resolution: {integrity: sha512-wKGOQRRvdnd89pCeH96e2Fn4wkbenSP6LMHfjfyNLMbGuHEFbMqQNuxXqd0oXG9caIOQ1FTvc5Uijp9/4jujnQ==}
 
-  contentlayer2@0.5.0:
-    resolution: {integrity: sha512-Q8OqhJv+mGIl/yqLOTJd6hNIs0241PGMAFfobCSq/A29dOQeOTvA1CwlePx/QxgrvLfqsx/stga8rb/1SRNz2Q==}
-    engines: {node: '>=18'}
+  contentlayer2@0.4.6:
+    resolution: {integrity: sha512-EhdabpVsn8u3EkoovGrLB/sIxWUlVJGNiYal9rZn0XJRjIyncGrhz9EJ9gn+z3cRHYUdHCuCMLW/ev6isgKXYw==}
+    engines: {node: '>=14.18'}
     hasBin: true
 
   convert-source-map@1.9.0:
@@ -5601,11 +5601,11 @@ packages:
       nodemailer:
         optional: true
 
-  next-contentlayer2@0.5.0:
-    resolution: {integrity: sha512-pcJGCvxbYfpxD3oBFCsfTNyIPGbz5Aj/n2EU08Db2VgXC0T/vbzfG3cihRFRh1/YmnsoGHXLhnmfh3oeCVfiZg==}
+  next-contentlayer2@0.4.6:
+    resolution: {integrity: sha512-r1g/zCl3dXFfMlMI87n2+V90Jz7inMrfyRzmMSQdDfCBy3uexnsoM43wPbklza2teyd/pdfUT0I0gw/IE+YA4Q==}
     peerDependencies:
-      contentlayer2: 0.5.0
-      next: '>=12.0.0'
+      contentlayer2: 0.4.6
+      next: ^12 || ^13 || ^14
       react: '*'
       react-dom: '*'
 
@@ -6931,8 +6931,8 @@ packages:
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
 
-  tailwindcss@3.4.7:
-    resolution: {integrity: sha512-rxWZbe87YJb4OcSopb7up2Ba4U82BoiSGUdoDr3Ydrg9ckxFS/YWsvhN323GMcddgU65QRy7JndC7ahhInhvlQ==}
+  tailwindcss@3.4.9:
+    resolution: {integrity: sha512-1SEOvRr6sSdV5IDf9iC+NU4dhwdqzF4zKKq3sAbasUWHEM6lsMhX+eNN5gkPx1BvLFEnZQEUFbXnGj8Qlp83Pg==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -8465,10 +8465,10 @@ snapshots:
       style-mod: 4.1.2
       w3c-keyname: 2.2.8
 
-  '@contentlayer2/cli@0.5.0(esbuild@0.21.5)':
+  '@contentlayer2/cli@0.4.3(esbuild@0.21.5)':
     dependencies:
-      '@contentlayer2/core': 0.5.0(esbuild@0.21.5)
-      '@contentlayer2/utils': 0.5.0
+      '@contentlayer2/core': 0.4.3(esbuild@0.21.5)
+      '@contentlayer2/utils': 0.4.3
       clipanion: 3.2.1(typanion@3.14.0)
       typanion: 3.14.0
     transitivePeerDependencies:
@@ -8477,18 +8477,18 @@ snapshots:
       - markdown-wasm
       - supports-color
 
-  '@contentlayer2/client@0.5.0(esbuild@0.21.5)':
+  '@contentlayer2/client@0.4.3(esbuild@0.21.5)':
     dependencies:
-      '@contentlayer2/core': 0.5.0(esbuild@0.21.5)
+      '@contentlayer2/core': 0.4.3(esbuild@0.21.5)
     transitivePeerDependencies:
       - '@effect-ts/otel-node'
       - esbuild
       - markdown-wasm
       - supports-color
 
-  '@contentlayer2/core@0.5.0(esbuild@0.21.5)':
+  '@contentlayer2/core@0.4.3(esbuild@0.21.5)':
     dependencies:
-      '@contentlayer2/utils': 0.5.0
+      '@contentlayer2/utils': 0.4.3
       camel-case: 4.1.2
       comment-json: 4.2.4
       gray-matter: 4.0.3
@@ -8506,10 +8506,10 @@ snapshots:
       - '@effect-ts/otel-node'
       - supports-color
 
-  '@contentlayer2/source-files@0.5.0(esbuild@0.21.5)':
+  '@contentlayer2/source-files@0.4.3(esbuild@0.21.5)':
     dependencies:
-      '@contentlayer2/core': 0.5.0(esbuild@0.21.5)
-      '@contentlayer2/utils': 0.5.0
+      '@contentlayer2/core': 0.4.3(esbuild@0.21.5)
+      '@contentlayer2/utils': 0.4.3
       chokidar: 3.6.0
       fast-glob: 3.3.2
       gray-matter: 4.0.3
@@ -8525,18 +8525,18 @@ snapshots:
       - markdown-wasm
       - supports-color
 
-  '@contentlayer2/source-remote-files@0.5.0(esbuild@0.21.5)':
+  '@contentlayer2/source-remote-files@0.4.3(esbuild@0.21.5)':
     dependencies:
-      '@contentlayer2/core': 0.5.0(esbuild@0.21.5)
-      '@contentlayer2/source-files': 0.5.0(esbuild@0.21.5)
-      '@contentlayer2/utils': 0.5.0
+      '@contentlayer2/core': 0.4.3(esbuild@0.21.5)
+      '@contentlayer2/source-files': 0.4.3(esbuild@0.21.5)
+      '@contentlayer2/utils': 0.4.3
     transitivePeerDependencies:
       - '@effect-ts/otel-node'
       - esbuild
       - markdown-wasm
       - supports-color
 
-  '@contentlayer2/utils@0.5.0':
+  '@contentlayer2/utils@0.4.3':
     dependencies:
       '@effect-ts/core': 0.60.5
       '@effect-ts/otel': 0.15.1(@effect-ts/core@0.60.5)(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.25.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.25.1(@opentelemetry/api@1.9.0))
@@ -10631,13 +10631,13 @@ snapshots:
       '@swc/counter': 0.1.3
       tslib: 2.6.3
 
-  '@tailwindcss/typography@0.5.14(tailwindcss@3.4.7)':
+  '@tailwindcss/typography@0.5.14(tailwindcss@3.4.9)':
     dependencies:
       lodash.castarray: 4.4.0
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
-      tailwindcss: 3.4.7
+      tailwindcss: 3.4.9
 
   '@tanem/react-nprogress@5.0.51(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -11517,14 +11517,14 @@ snapshots:
     dependencies:
       simple-wcswidth: 1.0.1
 
-  contentlayer2@0.5.0(esbuild@0.21.5):
+  contentlayer2@0.4.6(esbuild@0.21.5):
     dependencies:
-      '@contentlayer2/cli': 0.5.0(esbuild@0.21.5)
-      '@contentlayer2/client': 0.5.0(esbuild@0.21.5)
-      '@contentlayer2/core': 0.5.0(esbuild@0.21.5)
-      '@contentlayer2/source-files': 0.5.0(esbuild@0.21.5)
-      '@contentlayer2/source-remote-files': 0.5.0(esbuild@0.21.5)
-      '@contentlayer2/utils': 0.5.0
+      '@contentlayer2/cli': 0.4.3(esbuild@0.21.5)
+      '@contentlayer2/client': 0.4.3(esbuild@0.21.5)
+      '@contentlayer2/core': 0.4.3(esbuild@0.21.5)
+      '@contentlayer2/source-files': 0.4.3(esbuild@0.21.5)
+      '@contentlayer2/source-remote-files': 0.4.3(esbuild@0.21.5)
+      '@contentlayer2/utils': 0.4.3
     transitivePeerDependencies:
       - '@effect-ts/otel-node'
       - esbuild
@@ -13984,11 +13984,11 @@ snapshots:
       next: 14.2.5(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
 
-  next-contentlayer2@0.5.0(contentlayer2@0.5.0(esbuild@0.21.5))(esbuild@0.21.5)(next@14.2.5(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  next-contentlayer2@0.4.6(contentlayer2@0.4.6(esbuild@0.21.5))(esbuild@0.21.5)(next@14.2.5(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@contentlayer2/core': 0.5.0(esbuild@0.21.5)
-      '@contentlayer2/utils': 0.5.0
-      contentlayer2: 0.5.0(esbuild@0.21.5)
+      '@contentlayer2/core': 0.4.3(esbuild@0.21.5)
+      '@contentlayer2/utils': 0.4.3
+      contentlayer2: 0.4.6(esbuild@0.21.5)
       next: 14.2.5(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -15647,11 +15647,11 @@ snapshots:
 
   tailwind-merge@2.4.0: {}
 
-  tailwindcss-animate@1.0.7(tailwindcss@3.4.7):
+  tailwindcss-animate@1.0.7(tailwindcss@3.4.9):
     dependencies:
-      tailwindcss: 3.4.7
+      tailwindcss: 3.4.9
 
-  tailwindcss@3.4.7:
+  tailwindcss@3.4.9:
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2

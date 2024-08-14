@@ -35,7 +35,7 @@ const nextConfig = {
     },
 };
 
+// https://contentlayer.dev/docs/reference/next-contentlayer-e6e7eb3a#withcontentlayer
 import { withContentlayer } from 'next-contentlayer2';
 
-// https://contentlayer.dev/docs/reference/next-contentlayer-e6e7eb3a#withcontentlayer
 export default withContentlayer(nextConfig);

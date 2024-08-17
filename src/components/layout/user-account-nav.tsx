@@ -1,11 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { LayoutDashboard, Lock, LogOut, Settings } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
-import { Drawer } from "vaul";
-import { useMediaQuery } from "@/hooks/use-media-query";
+import { UserAvatar } from "@/components/shared/user-avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,8 +8,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UserAvatar } from "@/components/shared/user-avatar";
-import { logout } from "@/actions/logout";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { LayoutDashboard, LogOut, Settings } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
+import { useState } from "react";
+import { Drawer } from "vaul";
 
 export function UserAccountNav() {
   const { data: session } = useSession();
@@ -107,8 +106,6 @@ export function UserAccountNav() {
                   signOut({
                     callbackUrl: `${window.location.origin}/`,
                   });
-
-                  // logout();
                 }}
               >
                 <div className="flex w-full items-center gap-3 px-2.5 py-2">
@@ -179,8 +176,6 @@ export function UserAccountNav() {
             signOut({
               callbackUrl: `${window.location.origin}/`,
             });
-            
-            // logout();
           }}
         >
           <div className="flex items-center space-x-2.5">

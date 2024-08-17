@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
+import { usePathname, useSelectedLayoutSegment } from "next/navigation";
 import { UserAccountNav } from "./user-account-nav";
 
 interface NavBarProps {
@@ -23,6 +23,16 @@ export function Navbar({ scroll = false }: NavBarProps) {
   const { data: session, status } = useSession();
   const selectedLayout = useSelectedLayoutSegment();
   const links = marketingConfig.mainNav;
+  const pathname = usePathname();
+
+  const isLinkActive = (href: string) => {
+    if (href === '/') {
+      return pathname === href;
+    }
+    return pathname.startsWith(href);
+  };
+
+  console.log(`Navbar, selectedLayout: ${selectedLayout}`);
 
   return (
     <header
@@ -43,7 +53,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
             </span>
           </Link>
 
-          {/* Updated navigation menu */}
+          {/* links */}
           {links && links.length > 0 ? (
             <NavigationMenu>
               <NavigationMenuList>
@@ -53,7 +63,8 @@ export function Navbar({ scroll = false }: NavBarProps) {
                       <NavigationMenuLink
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          item.href.startsWith(`/${selectedLayout}`)
+                          'bg-transparent',
+                          isLinkActive(item.href)
                             ? "text-foreground"
                             : "text-foreground/60",
                           item.disabled && "cursor-not-allowed opacity-80"
@@ -89,9 +100,6 @@ export function Navbar({ scroll = false }: NavBarProps) {
           ) : (
             null
           )}
-
-          {/* uncomment to enable mode toggle  */}
-          {/* <ModeToggle /> */}
         </div>
       </MaxWidthWrapper>
     </header>

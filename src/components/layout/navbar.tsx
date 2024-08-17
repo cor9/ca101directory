@@ -3,6 +3,7 @@
 import { LoginButton } from "@/components/auth/login-button";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 import { Button } from "@/components/ui/button";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { marketingConfig } from "@/config/marketing";
 import { siteConfig } from "@/config/site";
 import { useScroll } from "@/hooks/use-scroll";
@@ -33,6 +34,8 @@ export function Navbar({ scroll = false }: NavBarProps) {
       <MaxWidthWrapper className="flex h-16 items-center justify-between">
         {/* navbar left show logo and links */}
         <div className="flex gap-6 md:gap-10">
+
+          {/* logo */}
           <Link href="/" className="flex items-center space-x-1.5">
             <Sparkles />
             <span className="font-urban text-xl font-bold">
@@ -40,26 +43,31 @@ export function Navbar({ scroll = false }: NavBarProps) {
             </span>
           </Link>
 
+          {/* Updated navigation menu */}
           {links && links.length > 0 ? (
-            <nav className="hidden gap-6 md:flex">
-              {links.map((item, index) => (
-                <Link
-                  key={index}
-                  href={item.disabled ? "#" : item.href}
-                  prefetch={true}
-                  className={cn(
-                    "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
-                    item.href.startsWith(`/${selectedLayout}`)
-                      ? "text-foreground"
-                      : "text-foreground/60",
-                    item.disabled && "cursor-not-allowed opacity-80",
-                  )}
-                >
-                  {item.title}
-                </Link>
-              ))}
-            </nav>
+            <NavigationMenu>
+              <NavigationMenuList>
+                {links.map((item, index) => (
+                  <NavigationMenuItem key={index}>
+                    <Link href={item.disabled ? "#" : item.href} legacyBehavior passHref>
+                      <NavigationMenuLink
+                        className={cn(
+                          navigationMenuTriggerStyle(),
+                          item.href.startsWith(`/${selectedLayout}`)
+                            ? "text-foreground"
+                            : "text-foreground/60",
+                          item.disabled && "cursor-not-allowed opacity-80"
+                        )}
+                      >
+                        {item.title}
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
           ) : null}
+          
         </div>
 
         {/* navbar right show sign in or account */}

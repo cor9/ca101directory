@@ -73,7 +73,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
               <Button
                 className="flex gap-2 px-5 rounded-full"
                 variant="default"
-                size="sm">
+                size="default">
                 <span>Sign In</span>
                 <ArrowRight className="size-4" />
               </Button>

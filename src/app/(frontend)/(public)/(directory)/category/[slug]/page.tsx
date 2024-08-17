@@ -1,5 +1,5 @@
 import ItemCard from '@/components/item-card';
-import Pagination from '@/components/pagination';
+import CustomPagination from '@/components/pagination';
 import { defaultSort, ITEMS_PER_PAGE, sorting } from '@/lib/constants';
 import { ItemListOfCategoryQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
@@ -71,7 +71,7 @@ export default async function CategoryPage({
 
       <div className="mt-8 w-full flex items-center justify-center">
         <Suspense fallback={null}>
-          <Pagination totalPages={totalPages} />
+          <CustomPagination totalPages={totalPages} />
         </Suspense>
       </div>
     </section>

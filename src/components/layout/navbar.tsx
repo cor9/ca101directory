@@ -3,7 +3,7 @@
 import { LoginButton } from "@/components/auth/login-button";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 import { Button } from "@/components/ui/button";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { marketingConfig } from "@/config/marketing";
 import { siteConfig } from "@/config/site";
 import { useScroll } from "@/hooks/use-scroll";
@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { usePathname, useSelectedLayoutSegment } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { UserAccountNav } from "./user-account-nav";
 
 interface NavBarProps {
@@ -21,9 +21,8 @@ interface NavBarProps {
 export function Navbar({ scroll = false }: NavBarProps) {
   const scrolled = useScroll(50);
   const { data: session, status } = useSession();
-  const selectedLayout = useSelectedLayoutSegment();
-  const links = marketingConfig.mainNav;
   const pathname = usePathname();
+  const links = marketingConfig.mainNav;
 
   const isLinkActive = (href: string) => {
     if (href === '/') {
@@ -32,7 +31,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
     return pathname.startsWith(href);
   };
 
-  console.log(`Navbar, selectedLayout: ${selectedLayout}`);
+  console.log(`Navbar, pathname: ${pathname}`);
 
   return (
     <header

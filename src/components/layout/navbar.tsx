@@ -68,7 +68,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
                       <NavigationMenuLink
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          'px-2 !bg-transparent',
+                          'px-2 bg-transparent focus:bg-transparent',
                           isLinkActive(item.href)
                             ? "text-foreground"
                             : "text-foreground/60",
@@ -89,8 +89,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
         <div className="flex items-center gap-x-4">
           {/* if in docs page show search */}
           {isDocsPage && (
-            // <DocsSearch />
-            <DocsSearchCommand links={docsConfig.sidebarNav} />
+            <DocsSearchCommand />
           )}
 
           {session ? (

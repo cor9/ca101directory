@@ -10,4 +10,7 @@ export const sanityClient: SanityClient = createClient({
   perspective: "published",
   useCdn: process.env.NODE_ENV === 'production',
   token, // when write data to sanity, token with write permission is required!
+  // proxy: 'socks5://127.0.0.1:7890',
+  // maxRetries: 1,
+  // timeout: 10000,
 });

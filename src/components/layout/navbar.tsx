@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSelectedLayoutSegment } from "next/navigation";
 import { UserAccountNav } from "./user-account-nav";
 import DocsSearch from "@/components/docs/search";
 
@@ -24,16 +24,21 @@ export function Navbar({ scroll = false }: NavBarProps) {
   const scrolled = useScroll(50);
   const { data: session, status } = useSession();
   const pathname = usePathname();
-  // console.log(`Navbar, pathname: ${pathname}`);
-  
+  console.log(`Navbar, pathname: ${pathname}`);
+  // const selectedLayout = useSelectedLayoutSegment();
+  // console.log(`Navbar, selectedLayout: ${selectedLayout}`);
+  // const isDocsPage = selectedLayout === "(docs)";
   const isDocsPage = pathname.startsWith('/docs');
-  let links = isDocsPage ? docsConfig.mainNav : marketingConfig.mainNav;
+  console.log(`Navbar, isDocsPage: ${isDocsPage}`);
+  const links = isDocsPage ? docsConfig.mainNav : marketingConfig.mainNav;
+  console.log(`Navbar, links: ${links.map((link) => link.title)}`);
 
   const isLinkActive = (href: string) => {
     if (href === '/') {
       return pathname === href;
     }
-    return pathname.startsWith(href);
+    console.log(`Navbar, href: ${href}, pathname: ${pathname}`);
+    return href.startsWith(pathname);
   };
 
   return (
@@ -84,7 +89,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
 
         {/* navbar right show sign in or account */}
         <div className="flex items-center gap-x-4">
-          {/* if pathname is /docs, then show a button that says "Documentation" */}
+          {/* if in docs page show search */}
           {isDocsPage && (
             <DocsSearch />
           )}

@@ -4,7 +4,7 @@ import { marketingConfig } from "@/config/marketing";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSelectedLayoutSegment } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LoginButton } from "../auth/login-button";
 import { Button } from "../ui/button";
@@ -12,13 +12,31 @@ import { ScrollArea } from "../ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { UserAccountNav } from "./user-account-nav";
 import { ArrowRight, MenuIcon } from "lucide-react";
+import { docsConfig } from "@/config/docs";
+import { DocsSidebarNav } from "../docs/sidebar-nav";
+import DocsSearch from "../docs/search";
 
 export function NavbarMobile() {
-  const path = usePathname();
   const { data: session, status } = useSession();
-  const [open, setOpen] = useState(false);
-  const links = marketingConfig.mainNav;
+  const pathname = usePathname();
+  console.log(`Navbar, pathname: ${pathname}`);
+  // const selectedLayout = useSelectedLayoutSegment();
+  // console.log(`Navbar, selectedLayout: ${selectedLayout}`);
+  // const isDocsPage = selectedLayout === "(docs)";
+  const isDocsPage = pathname.startsWith('/docs');
+  console.log(`Navbar, isDocsPage: ${isDocsPage}`);
+  const links = isDocsPage ? docsConfig.mainNav : marketingConfig.mainNav;
+  console.log(`Navbar, links: ${links.map((link) => link.title)}`);
 
+  const isLinkActive = (href: string) => {
+    if (href === '/') {
+      return pathname === href;
+    }
+    console.log(`Navbar, href: ${href}, pathname: ${pathname}`);
+    return href.startsWith(pathname);
+  };
+
+  const [open, setOpen] = useState(false);
   // prevent body scroll when modal is open
   useEffect(() => {
     if (open) {
@@ -57,16 +75,22 @@ export function NavbarMobile() {
                         }}
                         className={cn(
                           "flex items-center gap-3 rounded-md p-2 text-sm font-medium hover:bg-muted",
-                          path === item.href
+                          isLinkActive(item.href)
                             ? "bg-muted text-foreground"
                             : "text-muted-foreground hover:text-foreground",
                           item.disabled &&
-                            "cursor-not-allowed opacity-80 hover:bg-transparent hover:text-muted-foreground"
+                          "cursor-not-allowed opacity-80 hover:bg-transparent hover:text-muted-foreground"
                         )}
                       >
                         {item.title}
                       </Link>
                     ))}
+
+                    {isDocsPage ? (
+                      <div className="p-4">
+                        <DocsSidebarNav setOpen={setOpen} />
+                      </div>
+                    ) : null}
                   </nav>
                 </div>
               </ScrollArea>
@@ -75,6 +99,11 @@ export function NavbarMobile() {
 
           {/* mobile navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
+            {/* if in docs page show search */}
+            {isDocsPage && (
+              <DocsSearch />
+            )}
+
             {session ? (
               <div className="">
                 <UserAccountNav />

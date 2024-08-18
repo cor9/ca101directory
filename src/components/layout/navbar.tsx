@@ -16,6 +16,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserAccountNav } from "./user-account-nav";
 import { DocsSearchCommand } from "../docs/docs-search-command";
+import CommandMenu from "../docs/docs-command-menu";
 
 interface NavBarProps {
   scroll?: boolean;
@@ -90,9 +91,10 @@ export function Navbar({ scroll = false }: NavBarProps) {
           {/* if in docs page show search */}
           {isDocsPage && (
             <DocsSearchCommand />
+            // <CommandMenu />
           )}
 
-          {session ? (
+          {/* {session ? (
             <div className="">
               <UserAccountNav />
             </div>
@@ -108,7 +110,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
             </LoginButton>
           ) : (
             null
-          )}
+          )} */}
         </div>
       </MaxWidthWrapper>
     </header>

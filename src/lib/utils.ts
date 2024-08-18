@@ -5,6 +5,7 @@ import { siteConfig } from "@/config/site";
 import { Metadata } from "next";
 import createImageUrlBuilder from "@sanity/image-url";
 import { dataset, projectId } from "@/sanity/lib/api";
+import { allDocs } from 'contentlayer/generated';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -54,6 +55,25 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     totalPages,
   ];
 };
+
+/**
+ * Search docs
+ */
+export function searchDocs(query: string) {
+  const lowercaseQuery = query.toLowerCase();
+  console.log("searchDocs, query:", query);
+  return allDocs.filter((doc) => {
+    const lowercaseTitle = doc.title.toLowerCase();
+    const lowercaseBody = doc.body.raw.toLowerCase();
+    console.log("searchDocs, doc:", lowercaseTitle, lowercaseBody.slice(0, 100));
+    const isMatch = lowercaseTitle.includes(lowercaseQuery) || lowercaseBody.includes(lowercaseQuery);
+    console.log("searchDocs, isMatch:", isMatch);
+    return isMatch;
+  }).map((doc) => ({
+    title: doc.title,
+    href: doc.slug,
+  }))
+}
 
 /**
  * Construct the metadata object for the current page (in docs/guides)

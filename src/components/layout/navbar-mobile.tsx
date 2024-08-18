@@ -9,7 +9,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LoginButton } from "../auth/login-button";
-import DocsSearch from "../docs/docs-search";
+import { DocsSearchCommand } from "../docs/docs-search-command";
 import { DocsSidebarNav } from "../docs/docs-sidebar-nav";
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
@@ -62,7 +62,7 @@ export function NavbarMobile() {
             <SheetContent side="left" className="flex flex-col p-0">
               <ScrollArea className="h-full overflow-y-auto">
                 <div className="flex h-screen flex-col">
-                  <nav className="flex flex-1 flex-col gap-3 p-2 pt-10 text-lg font-medium">
+                  <nav className="flex flex-1 flex-col gap-1 p-2 pt-11 text-lg font-medium">
                     {links.map((item) => (
                       <Link
                         key={item.title}
@@ -71,7 +71,7 @@ export function NavbarMobile() {
                           if (!item.disabled) setOpen(false);
                         }}
                         className={cn(
-                          "flex items-center gap-3 rounded-md p-2 text-sm font-medium hover:bg-muted",
+                          "flex items-center gap-1 rounded-md p-2 text-sm font-medium hover:bg-muted",
                           isLinkActive(item.href)
                             ? "bg-muted text-foreground"
                             : "text-muted-foreground hover:text-foreground",
@@ -98,7 +98,7 @@ export function NavbarMobile() {
           <div className="flex items-center gap-x-4">
             {/* if in docs page show search */}
             {isDocsPage && (
-              <DocsSearch />
+              <DocsSearchCommand />
             )}
 
             {session ? (

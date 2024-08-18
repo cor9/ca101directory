@@ -25,9 +25,6 @@ export function Navbar({ scroll = false }: NavBarProps) {
   const { data: session, status } = useSession();
   const pathname = usePathname();
   console.log(`Navbar, pathname: ${pathname}`);
-  // const selectedLayout = useSelectedLayoutSegment();
-  // console.log(`Navbar, selectedLayout: ${selectedLayout}`);
-  // const isDocsPage = selectedLayout === "(docs)";
   const isDocsPage = pathname.startsWith('/docs');
   console.log(`Navbar, isDocsPage: ${isDocsPage}`);
   const links = isDocsPage ? docsConfig.mainNav : marketingConfig.mainNav;
@@ -35,10 +32,10 @@ export function Navbar({ scroll = false }: NavBarProps) {
 
   const isLinkActive = (href: string) => {
     if (href === '/') {
-      return pathname === href;
+      return pathname === '/';
     }
-    console.log(`Navbar, href: ${href}, pathname: ${pathname}`);
-    return href.startsWith(pathname);
+    // console.log(`Navbar, href: ${href}, pathname: ${pathname}`);
+    return pathname.startsWith(href);
   };
 
   return (
@@ -70,7 +67,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
                       <NavigationMenuLink
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          'px-2 bg-transparent !bg-transparent',
+                          'px-2 !bg-transparent',
                           isLinkActive(item.href)
                             ? "text-foreground"
                             : "text-foreground/60",

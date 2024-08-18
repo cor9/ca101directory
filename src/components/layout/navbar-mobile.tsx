@@ -20,9 +20,6 @@ export function NavbarMobile() {
   const { data: session, status } = useSession();
   const pathname = usePathname();
   console.log(`Navbar, pathname: ${pathname}`);
-  // const selectedLayout = useSelectedLayoutSegment();
-  // console.log(`Navbar, selectedLayout: ${selectedLayout}`);
-  // const isDocsPage = selectedLayout === "(docs)";
   const isDocsPage = pathname.startsWith('/docs');
   console.log(`Navbar, isDocsPage: ${isDocsPage}`);
   const links = isDocsPage ? docsConfig.mainNav : marketingConfig.mainNav;
@@ -30,10 +27,10 @@ export function NavbarMobile() {
 
   const isLinkActive = (href: string) => {
     if (href === '/') {
-      return pathname === href;
+      return pathname === '/';
     }
-    console.log(`Navbar, href: ${href}, pathname: ${pathname}`);
-    return href.startsWith(pathname);
+    // console.log(`Navbar, href: ${href}, pathname: ${pathname}`);
+    return pathname.startsWith(href);
   };
 
   const [open, setOpen] = useState(false);

@@ -7,7 +7,7 @@ import { toast } from "@/components/ui/use-toast";
 
 interface DocsSearchProps extends React.HTMLAttributes<HTMLFormElement> {}
 
-export function DocsSearch({ className, ...props }: DocsSearchProps) {
+export default function DocsSearch({ className, ...props }: DocsSearchProps) {
   function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
 

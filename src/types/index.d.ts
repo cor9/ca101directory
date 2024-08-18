@@ -22,6 +22,7 @@ export type MarketingConfig = {
 };
 
 export type DocsConfig = {
+  mainNav: NavItem[];
   sidebarNav: SidebarNavItem[];
 };
 

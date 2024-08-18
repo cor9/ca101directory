@@ -4,6 +4,7 @@ import { LoginButton } from "@/components/auth/login-button";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+import { docsConfig } from "@/config/docs";
 import { marketingConfig } from "@/config/marketing";
 import { siteConfig } from "@/config/site";
 import { useScroll } from "@/hooks/use-scroll";
@@ -13,6 +14,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserAccountNav } from "./user-account-nav";
+import DocsSearch from "@/components/docs/search";
 
 interface NavBarProps {
   scroll?: boolean;
@@ -22,8 +24,10 @@ export function Navbar({ scroll = false }: NavBarProps) {
   const scrolled = useScroll(50);
   const { data: session, status } = useSession();
   const pathname = usePathname();
-  const links = marketingConfig.mainNav;
   // console.log(`Navbar, pathname: ${pathname}`);
+  
+  const isDocsPage = pathname.startsWith('/docs');
+  let links = isDocsPage ? docsConfig.mainNav : marketingConfig.mainNav;
 
   const isLinkActive = (href: string) => {
     if (href === '/') {
@@ -80,6 +84,11 @@ export function Navbar({ scroll = false }: NavBarProps) {
 
         {/* navbar right show sign in or account */}
         <div className="flex items-center gap-x-4">
+          {/* if pathname is /docs, then show a button that says "Documentation" */}
+          {isDocsPage && (
+            <DocsSearch />
+          )}
+
           {session ? (
             <div className="">
               <UserAccountNav />

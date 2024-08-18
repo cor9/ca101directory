@@ -9,7 +9,7 @@ interface DocsSearchProps extends React.HTMLAttributes<HTMLFormElement> {}
 
 export default function DocsSearch({ className, ...props }: DocsSearchProps) {
   function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault()
+    event.preventDefault();
 
     return toast({
       title: "Not implemented",

@@ -15,6 +15,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserAccountNav } from "./user-account-nav";
+import { DocsSearchCommand } from "../docs/docs-search-command";
 
 interface NavBarProps {
   scroll?: boolean;
@@ -88,7 +89,8 @@ export function Navbar({ scroll = false }: NavBarProps) {
         <div className="flex items-center gap-x-4">
           {/* if in docs page show search */}
           {isDocsPage && (
-            <DocsSearch />
+            // <DocsSearch />
+            <DocsSearchCommand links={docsConfig.sidebarNav} />
           )}
 
           {session ? (

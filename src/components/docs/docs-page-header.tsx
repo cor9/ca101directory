@@ -14,13 +14,13 @@ export function DocsPageHeader({
 }: DocsPageHeaderProps) {
   return (
     <>
-      <div className="mb-4 flex items-center space-x-1 text-sm text-muted-foreground">
+      {/* <div className="mb-4 flex items-center space-x-1 text-sm text-muted-foreground">
         <div className="truncate">Docs</div>
         <ChevronRight className="size-4" />
         <div className="font-medium text-purple-600/95 dark:text-purple-400">
           {heading}
         </div>
-      </div>
+      </div> */}
 
       <div className={cn("space-y-2", className)} {...props}>
         <h1 className="inline-block scroll-m-20 font-heading text-4xl">

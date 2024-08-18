@@ -47,7 +47,7 @@ export function NavbarMobile() {
             <SheetContent side="left" className="flex flex-col p-0">
               <ScrollArea className="h-full overflow-y-auto">
                 <div className="flex h-screen flex-col">
-                  <nav className="flex flex-1 flex-col gap-4 p-2 pt-10 text-lg font-medium">
+                  <nav className="flex flex-1 flex-col gap-3 p-2 pt-10 text-lg font-medium">
                     {links.map((item) => (
                       <Link
                         key={item.title}

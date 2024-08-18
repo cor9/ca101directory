@@ -23,6 +23,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
   const { data: session, status } = useSession();
   const pathname = usePathname();
   const links = marketingConfig.mainNav;
+  // console.log(`Navbar, pathname: ${pathname}`);
 
   const isLinkActive = (href: string) => {
     if (href === '/') {
@@ -30,8 +31,6 @@ export function Navbar({ scroll = false }: NavBarProps) {
     }
     return pathname.startsWith(href);
   };
-
-  console.log(`Navbar, pathname: ${pathname}`);
 
   return (
     <header
@@ -42,7 +41,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
     >
       <MaxWidthWrapper className="flex h-16 items-center justify-between">
         {/* navbar left show logo and links */}
-        <div className="flex gap-6 md:gap-10">
+        <div className="flex items-center gap-6 md:gap-10">
 
           {/* logo */}
           <Link href="/" className="flex items-center space-x-1.5">
@@ -62,7 +61,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
                       <NavigationMenuLink
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          'bg-transparent',
+                          'px-2 bg-transparent !bg-transparent',
                           isLinkActive(item.href)
                             ? "text-foreground"
                             : "text-foreground/60",
@@ -77,7 +76,6 @@ export function Navbar({ scroll = false }: NavBarProps) {
               </NavigationMenuList>
             </NavigationMenu>
           ) : null}
-          
         </div>
 
         {/* navbar right show sign in or account */}

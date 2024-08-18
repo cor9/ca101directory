@@ -1,6 +1,7 @@
 "use client";
 
 import { LoginButton } from "@/components/auth/login-button";
+import DocsSearch from "@/components/docs/docs-search";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
@@ -12,9 +13,8 @@ import { cn } from "@/lib/utils";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { usePathname, useSelectedLayoutSegment } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { UserAccountNav } from "./user-account-nav";
-import DocsSearch from "@/components/docs/search";
 
 interface NavBarProps {
   scroll?: boolean;

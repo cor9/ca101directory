@@ -1,20 +1,20 @@
 "use client";
 
+import { docsConfig } from "@/config/docs";
 import { marketingConfig } from "@/config/marketing";
 import { cn } from "@/lib/utils";
+import { ArrowRight, MenuIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { usePathname, useSelectedLayoutSegment } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LoginButton } from "../auth/login-button";
+import DocsSearch from "../docs/docs-search";
+import { DocsSidebarNav } from "../docs/docs-sidebar-nav";
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { UserAccountNav } from "./user-account-nav";
-import { ArrowRight, MenuIcon } from "lucide-react";
-import { docsConfig } from "@/config/docs";
-import { DocsSidebarNav } from "../docs/sidebar-nav";
-import DocsSearch from "../docs/search";
 
 export function NavbarMobile() {
   const { data: session, status } = useSession();

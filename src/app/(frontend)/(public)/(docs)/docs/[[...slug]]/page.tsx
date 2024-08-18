@@ -5,8 +5,8 @@ import { notFound } from "next/navigation";
 import { constructMetadata, getBlurDataURL } from "@/lib/utils";
 import { getTableOfContents } from "@/lib/toc";
 import { Mdx } from "@/components/content/mdx-components";
-import { DocsPageHeader } from "@/components/docs/page-header";
-import { DocsPager } from "@/components/docs/pager";
+import { DocsPageHeader } from "@/components/docs/docs-page-header";
+import { DocsPager } from "@/components/docs/docs-pager";
 import { TableOfContentsLayout } from "@/components/shared/toc";
 import { allDocs } from "contentlayer/generated";
 

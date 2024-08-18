@@ -1,4 +1,4 @@
-import { DocsSidebarNav } from "@/components/docs/sidebar-nav";
+import { DocsSidebarNav } from "@/components/docs/docs-sidebar-nav";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 import { ScrollArea } from "@/components/ui/scroll-area";
 

@@ -17,7 +17,27 @@ export default function CustomPagination({ totalPages }: { totalPages: number })
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
 
-  if (totalPages <= 1) return null;
+  if (totalPages <= 1) {
+    return (
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" aria-disabled="true" className="cursor-not-allowed">
+              <PaginationLink>Previous</PaginationLink>
+            </PaginationPrevious>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink isActive>1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href="#" aria-disabled="true" className="cursor-not-allowed">
+              <PaginationLink>Next</PaginationLink>
+            </PaginationNext>
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    );
+  }
 
   const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
@@ -31,14 +51,18 @@ export default function CustomPagination({ totalPages }: { totalPages: number })
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious href={createPageURL(currentPage - 1)} />
+          <PaginationPrevious 
+            href={currentPage > 1 ? createPageURL(currentPage - 1) : undefined} 
+            aria-disabled={currentPage === 1}
+            className={currentPage === 1 ? "cursor-not-allowed" : ""}
+          />
         </PaginationItem>
         {allPages.map((page, index) => (
           <PaginationItem key={`${page}-${index}`}>
             {page === '...' ? (
               <PaginationEllipsis />
             ) : (
-              <PaginationLink 
+              <PaginationLink
                 href={createPageURL(page)}
                 isActive={currentPage === page}
               >
@@ -49,7 +73,11 @@ export default function CustomPagination({ totalPages }: { totalPages: number })
         ))}
 
         <PaginationItem>
-          <PaginationNext href={createPageURL(currentPage + 1)} />
+          <PaginationNext 
+            href={currentPage < totalPages ? createPageURL(currentPage + 1) : undefined} 
+            aria-disabled={currentPage === totalPages}
+            className={currentPage === totalPages ? "cursor-not-allowed" : ""}
+          />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

@@ -5,7 +5,7 @@ import { footerLinks, siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 // import { NewsletterForm } from "../forms/newsletter-form";
 
-export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
+export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
     <footer className={cn("border-t", className)}>
       <div className="container grid max-w-6xl grid-cols-2 gap-6 py-14 md:grid-cols-5">

@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/layout/navbar";
 import { NavbarMobile } from "@/components/layout/navbar-mobile";
-import { SiteFooter } from "@/components/layout/site-footer";
+import { Footer } from "@/components/layout/site-footer";
 
 interface MarketingLayoutProps {
   children: React.ReactNode;
@@ -16,7 +16,7 @@ export default async function MarketingLayout({ children }: MarketingLayoutProps
 
       <main className="flex-1">{children}</main>
 
-      <SiteFooter />
+      <Footer />
     </div>
   );
 }

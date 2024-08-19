@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/layout/navbar";
 import { NavbarMobile } from "@/components/layout/navbar-mobile";
-import { Footer } from "@/components/layout/site-footer";
+import { Footer } from "@/components/layout/footer";
 
 interface MarketingLayoutProps {
   children: React.ReactNode;

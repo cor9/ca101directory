@@ -1,7 +1,6 @@
 "use client";
 
 import { LoginButton } from "@/components/auth/login-button";
-import DocsSearch from "@/components/docs/docs-search";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
@@ -14,9 +13,8 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { DocsSearchCommand } from "../docs/docs-search";
 import { UserAccountNav } from "./user-account-nav";
-import { DocsSearchCommand } from "../docs/docs-search-command";
-import CommandMenu from "../docs/docs-command-menu";
 
 interface NavBarProps {
   scroll?: boolean;
@@ -90,8 +88,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
         <div className="flex items-center gap-x-4">
           {/* if in docs page show search */}
           {isDocsPage && (
-            <DocsSearchCommand />
-            // <CommandMenu />
+            <DocsSearchCommand enableShortcut={true} />
           )}
 
           {/* {session ? (

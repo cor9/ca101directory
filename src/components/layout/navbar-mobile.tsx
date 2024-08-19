@@ -9,7 +9,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LoginButton } from "../auth/login-button";
-import { DocsSearchCommand } from "../docs/docs-search-command";
+import { DocsSearchCommand } from "../docs/docs-search";
 import { DocsSidebarNav } from "../docs/docs-sidebar-nav";
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
@@ -97,11 +97,11 @@ export function NavbarMobile() {
           {/* mobile navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
             {/* if in docs page show search */}
-            {/* {isDocsPage && (
-              <DocsSearchCommand />
-            )} */}
+            {isDocsPage && (
+              <DocsSearchCommand enableShortcut={false} />
+            )}
 
-            {session ? (
+            {/* {session ? (
               <div className="">
                 <UserAccountNav />
               </div>
@@ -118,7 +118,7 @@ export function NavbarMobile() {
               </LoginButton>
             ) : (
               null
-            )}
+            )} */}
           </div>
         </div>
       </header>

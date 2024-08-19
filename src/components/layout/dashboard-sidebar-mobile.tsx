@@ -96,6 +96,7 @@ export function DashboardSidebarMobile({ links }: DashboardSidebarMobileProps) {
     );
   }
 
+  // a fake component for desktop view, rounded rectangle of size-9
   return (
     <div className="flex size-9 animate-pulse rounded-lg bg-muted md:hidden" />
   );

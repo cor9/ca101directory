@@ -6,7 +6,7 @@ import { constructMetadata, getBlurDataURL } from "@/lib/utils";
 import { getTableOfContents } from "@/lib/toc";
 import { Mdx } from "@/components/content/mdx-components";
 import { DocsPageHeader } from "@/components/docs/docs-page-header";
-import { DocsPager } from "@/components/docs/docs-pager";
+import { DocsPagination } from "@/components/docs/docs-pagination";
 import { TableOfContentsLayout } from "@/components/shared/toc";
 import { allDocs } from "contentlayer/generated";
 
@@ -69,7 +69,7 @@ export default async function DocPage({ params }: DocPageProps) {
           <Mdx code={doc.body.code} images={images} />
         </div>
         <hr className="my-6" />
-        <DocsPager doc={doc} />
+        <DocsPagination doc={doc} />
       </div>
 
       {/* set toc width to 150px, show in xl */}

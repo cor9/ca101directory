@@ -11,7 +11,7 @@ export function UserAvatar({ user, ...props }: UserAvatarProps) {
   return (
     <Avatar {...props}>
       {user.image ? (
-        <AvatarImage alt="Picture" src={user.image} referrerPolicy="no-referrer" />
+        <AvatarImage alt="user avatar" src={user.image} referrerPolicy="no-referrer" />
       ) : (
         <AvatarFallback>
           <span className="sr-only">{user.name}</span>

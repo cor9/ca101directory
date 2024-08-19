@@ -5,11 +5,11 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Icons } from "@/components/shared/icons";
 
-interface DocsPagerProps {
+interface DocsPaginationProps {
   doc: Doc
 }
 
-export function DocsPager({ doc }: DocsPagerProps) {
+export function DocsPagination({ doc }: DocsPaginationProps) {
   const pager = getPagerForDoc(doc)
 
   if (!pager) {

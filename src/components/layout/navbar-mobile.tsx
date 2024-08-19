@@ -97,9 +97,9 @@ export function NavbarMobile() {
           {/* mobile navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
             {/* if in docs page show search */}
-            {isDocsPage && (
+            {/* {isDocsPage && (
               <DocsSearchCommand />
-            )}
+            )} */}
 
             {session ? (
               <div className="">

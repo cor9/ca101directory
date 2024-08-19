@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { fontGeist, fontHeading, fontSans, fontUrban } from "@/assets/fonts";
-import { CommandDialogProvider } from "@/hooks/command-dialog-context";
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -32,9 +31,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             enableSystem
             disableTransitionOnChange
           >
-            <CommandDialogProvider>
-              {children}
-            </CommandDialogProvider>
+            {children}
             <Toaster richColors closeButton />
             <TailwindIndicator />
           </ThemeProvider>

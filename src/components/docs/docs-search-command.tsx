@@ -13,10 +13,10 @@ import { CommandDialog,
 } from '@/components/ui/command';
 import { FileIcon } from "lucide-react";
 import { useDebounce } from "use-debounce";
-import { useCommandDialog } from "@/hooks/command-dialog-context";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 export function DocsSearchCommand() {
-  // const { open, setOpen } = useCommandDialog();
+  const { isSm, isMobile } = useMediaQuery();
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState("");
   const [debouncedQuery] = useDebounce(query, 300); // 300ms debounce
@@ -49,6 +49,20 @@ export function DocsSearchCommand() {
     console.log(`command dialog state update, open: ${open}`);
   }, [open]);
 
+  // if (!isMobile && !isSm) {
+    // React.useEffect(() => {
+    //   const down = (e: KeyboardEvent) => {
+    //     if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+    //       e.preventDefault();
+    //       console.log(`command key pressed, key: ${e.key}, open: ${open}`);
+    //       setOpen((open) => !open);
+    //     }
+    //   }
+    //   document.addEventListener("keydown", down);
+    //   return () => document.removeEventListener("keydown", down);
+    // }, []);
+  // }
+
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
@@ -57,9 +71,13 @@ export function DocsSearchCommand() {
         setOpen((open) => !open);
       }
     }
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
-  }, [])
+
+    // Only add the event listener if this component should handle the shortcut
+    if (!isMobile) {
+      document.addEventListener("keydown", down);
+      return () => document.removeEventListener("keydown", down);
+    }
+  }, [isMobile, open]); // Add isMobile to the dependency array
 
   const runCommand = React.useCallback((href: string) => {
     console.log("run command, href:", href);

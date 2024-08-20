@@ -4,6 +4,9 @@ import session from './documents/auth/session';
 import subscription from './documents/auth/subscription';
 import user from './documents/auth/user';
 import verificationToken from './documents/auth/verificationToken';
+import blockContent from './documents/blog/blockContent';
+import blogCategory from './documents/blog/blogCategory';
+import blogPost from './documents/blog/blogPost';
 import category from './documents/directory/category';
 import item from './documents/directory/item';
 import tag from './documents/directory/tag';
@@ -14,7 +17,13 @@ export const schemaTypes = [
     item,
     tag,
     category,
-    
+
+    // blog
+    blogPost,
+    blogCategory,
+    blockContent,
+
+    // auth
     user,
     session,
     account,

@@ -1,16 +1,18 @@
+import { DocumentsIcon, UsersIcon } from "@sanity/icons";
 import { type DocumentDefinition } from "sanity";
 import { type StructureResolver } from "sanity/structure";
-import settings from "./schemas/documents/settings";
 import { schemaTypes } from "./schemas";
-import item from "./schemas/documents/directory/item";
-import category from "./schemas/documents/directory/category";
-import user from "./schemas/documents/auth/user";
 import account from "./schemas/documents/auth/account";
-import session from "./schemas/documents/auth/session";
-import verificationToken from "./schemas/documents/auth/verificationToken";
 import passwordResetToken from "./schemas/documents/auth/passwordResetToken";
+import session from "./schemas/documents/auth/session";
+import user from "./schemas/documents/auth/user";
+import verificationToken from "./schemas/documents/auth/verificationToken";
+import blogCategory from "./schemas/documents/blog/blogCategory";
+import blogPost from "./schemas/documents/blog/blogPost";
+import category from "./schemas/documents/directory/category";
+import item from "./schemas/documents/directory/item";
 import tag from "./schemas/documents/directory/tag";
-import { UsersIcon } from "@sanity/icons";
+import settings from "./schemas/documents/settings";
 
 const singletonTypes: DocumentDefinition[] = [settings];
 
@@ -67,6 +69,20 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
         // S.documentTypeListItem(session.name),
         // S.documentTypeListItem(verificationToken.name),
         // S.documentTypeListItem(passwordResetToken.name),
+
+        S.divider(),
+        
+        // group the user management
+        S.listItem().title('Blog management')
+          .icon(DocumentsIcon)
+          .child(
+            S.list()
+              .title('Blog management')
+              .items([
+                S.documentTypeListItem(blogPost.name),
+                S.documentTypeListItem(blogCategory.name),
+              ]),
+          ),
 
         S.divider(),
 

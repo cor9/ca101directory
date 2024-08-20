@@ -1,5 +1,6 @@
 import ItemDetailClient from "@/components/item-detail-client";
 import ItemHeaderClient from "@/components/item-header-client";
+import { PortableText } from "@/components/portable-text";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
@@ -37,6 +38,10 @@ export default async function ItemPage({ params }: Props) {
             <p className="text-base text-muted-foreground leading-loose">
               {item.description?.find(entry => entry._key === "en")?.value}
             </p>
+
+            <div className="mt-4 prose prose-violet prose-a:text-violet-500 max-w-none prose-pre:bg-slate-100 prose-pre:text-slate-700 prose-headings:scroll-m-20">
+              {item.body && <PortableText value={item.body} />}
+            </div>
           </div>
 
           <div className="order-3 md:order-2 md:col-span-1"></div>

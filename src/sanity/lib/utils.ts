@@ -14,6 +14,14 @@ export const urlForImage = (source: any) => {
   return imageBuilder?.image(source).auto("format").fit("max");
 };
 
+export const urlForImageWithSize = (source: any, width: number, height: number) => {
+  return urlForImage(source)
+    ?.height(height)
+    .width(width)
+    .fit("crop")
+    .url() as string;
+}
+
 export function resolveOpenGraphImage(image: any, width = 1200, height = 627) {
   if (!image) return;
   const url = urlForImage(image)?.width(1200).height(627).fit("crop").url();

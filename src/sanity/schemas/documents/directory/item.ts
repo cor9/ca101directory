@@ -97,6 +97,11 @@ export default defineType({
       ],
     }),
     defineField({
+      name: "body",
+      title: "Body",
+      type: "blockContent"
+    }),
+    defineField({
       name: "logo",
       title: "Logo",
       group: 'media',

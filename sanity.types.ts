@@ -116,6 +116,46 @@ export type Session = {
   };
 };
 
+export type BlockContent = Array<{
+  children?: Array<{
+    marks?: Array<string>;
+    text?: string;
+    _type: "span";
+    _key: string;
+  }>;
+  style?: "normal" | "h2" | "h3" | "h4" | "blockquote";
+  listItem?: "bullet" | "number";
+  markDefs?: Array<{
+    reference?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "blogPost";
+    };
+    _type: "internalLink";
+    _key: string;
+  } | {
+    href?: string;
+    _type: "link";
+    _key: string;
+  }>;
+  level?: number;
+  _type: "block";
+  _key: string;
+} | {
+  asset?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+  };
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  alt?: string;
+  _type: "image";
+  _key: string;
+}>;
+
 export type Category = {
   _id: string;
   _type: "category";
@@ -210,6 +250,7 @@ export type Item = {
     _type: "image";
     _key: string;
   }>;
+  body?: BlockContent;
   logo?: {
     asset?: {
       _ref: string;
@@ -235,6 +276,34 @@ export type Item = {
     _type: "image";
   };
   publishDate?: string;
+};
+
+export type BlogPost = {
+  _id: string;
+  _type: "blogPost";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  blogCategory?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "blogCategory";
+  };
+  body?: BlockContent;
+};
+
+export type BlogCategory = {
+  _id: string;
+  _type: "blogCategory";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  description?: string;
 };
 
 export type SanityImageCrop = {
@@ -366,8 +435,9 @@ export type Slug = {
   current?: string;
   source?: string;
 };
-export declare const internalGroqTypeReferenceTo: unique symbol;
 
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Settings | PasswordResetToken | VerificationToken | Session | BlockContent | Category | Tag | Item | BlogPost | BlogCategory | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | InternationalizedArrayStringValue | InternationalizedArrayString | MediaTag | Slug;
+export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: itemQuery
 // Query: *[_type == "item" && slug.current == $slug][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  categories[]->{    ...,  },  tags[]->{    ...,  }}
@@ -421,17 +491,6 @@ export type ItemQueryResult = {
     [internalGroqTypeReferenceTo]?: "user";
   };
   content?: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-    _key: string;
-  } | {
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -448,7 +507,19 @@ export type ItemQueryResult = {
     level?: number;
     _type: "block";
     _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
   }>;
+  body?: BlockContent;
   logo?: {
     asset?: {
       _ref: string;
@@ -527,17 +598,6 @@ export type ItemListQueryResult = Array<{
     [internalGroqTypeReferenceTo]?: "user";
   };
   content?: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-    _key: string;
-  } | {
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -554,7 +614,19 @@ export type ItemListQueryResult = Array<{
     level?: number;
     _type: "block";
     _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
   }>;
+  body?: BlockContent;
   logo?: {
     asset?: {
       _ref: string;
@@ -633,17 +705,6 @@ export type ItemListOfCategoryQueryResult = Array<{
     [internalGroqTypeReferenceTo]?: "user";
   };
   content?: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-    _key: string;
-  } | {
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -660,7 +721,19 @@ export type ItemListOfCategoryQueryResult = Array<{
     level?: number;
     _type: "block";
     _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
   }>;
+  body?: BlockContent;
   logo?: {
     asset?: {
       _ref: string;
@@ -739,17 +812,6 @@ export type ItemListOfTagQueryResult = Array<{
     [internalGroqTypeReferenceTo]?: "user";
   };
   content?: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-    _key: string;
-  } | {
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -766,7 +828,19 @@ export type ItemListOfTagQueryResult = Array<{
     level?: number;
     _type: "block";
     _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
   }>;
+  body?: BlockContent;
   logo?: {
     asset?: {
       _ref: string;

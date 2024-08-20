@@ -91,7 +91,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
             <DocsSearchCommand enableShortcut={true} />
           )}
 
-          {/* {session ? (
+          {session ? (
             <div className="">
               <UserAccountNav />
             </div>
@@ -107,7 +107,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
             </LoginButton>
           ) : (
             null
-          )} */}
+          )}
         </div>
       </MaxWidthWrapper>
     </header>

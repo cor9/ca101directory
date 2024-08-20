@@ -101,7 +101,7 @@ export function NavbarMobile() {
               <DocsSearchCommand enableShortcut={false} />
             )}
 
-            {/* {session ? (
+            {session ? (
               <div className="">
                 <UserAccountNav />
               </div>
@@ -118,7 +118,7 @@ export function NavbarMobile() {
               </LoginButton>
             ) : (
               null
-            )} */}
+            )}
           </div>
         </div>
       </header>

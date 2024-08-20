@@ -3,7 +3,7 @@
 import { createUrl } from '@/lib/utils';
 import { SearchIcon } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
 export default function Search() {
@@ -11,32 +11,23 @@ export default function Search() {
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams?.get('q') || '');
   const [debouncedQuery] = useDebounce(searchQuery, 300); // 300ms debounce
-  const lastExecutedQuery = useRef<string | null>(null);
-
-  const updateSearchParams = useCallback((query: string) => {
-    const newParams = new URLSearchParams(searchParams?.toString() || '');
-    if (query) {
-      newParams.set('q', query);
-    } else {
-      newParams.delete('q');
-    }
-    newParams.delete('page');
-    return newParams;
-  }, [searchParams]);
+  const lastExecutedQuery = useRef(searchParams?.get('q') || '');
 
   useEffect(() => {
-    const currentQuery = searchParams?.get('q');
-    console.log(`useEffect, currentQuery: ${currentQuery}, 
-      debouncedQuery: ${debouncedQuery}, 
-      lastExecutedQuery: ${lastExecutedQuery.current}`);
-    if (debouncedQuery !== currentQuery && debouncedQuery !== lastExecutedQuery.current) {
-      const newParams = updateSearchParams(debouncedQuery);
+    if (debouncedQuery !== lastExecutedQuery.current) {
+      const newParams = new URLSearchParams(searchParams?.toString());
+      if (debouncedQuery) {
+        newParams.set('q', debouncedQuery);
+      } else {
+        newParams.delete('q');
+      }
+      newParams.delete('page');
       const newUrl = createUrl('/search', newParams);
       console.log(`useEffect, newUrl: ${newUrl}`);
       lastExecutedQuery.current = debouncedQuery;
       router.push(newUrl, { scroll: false });
     }
-  }, [debouncedQuery, router, updateSearchParams, searchParams]);
+  }, [debouncedQuery, router, searchParams]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);

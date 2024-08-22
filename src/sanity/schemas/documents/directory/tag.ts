@@ -24,8 +24,8 @@ export default defineType({
     defineField({
       name: "slug",
       title: "Slug",
-      group: 'intl',
       type: "slug",
+      group: 'intl',
       options: {
         source: (document, context) => {
           // @ts-ignore
@@ -47,17 +47,15 @@ export default defineType({
   preview: {
     select: {
       name: "name",
-      media: "logo",
       date: "_createdAt",
     },
-    prepare({ name, media, date }) {
+    prepare({ name, date }) {
       // @ts-ignore
       const enName = name.find(item => item._key === "en");
       const title = enName ? enName.value : "No Name";
       const subtitle = format(parseISO(date), "yyyy/MM/dd");
       return {
         title,
-        media,
         subtitle
       };
     },

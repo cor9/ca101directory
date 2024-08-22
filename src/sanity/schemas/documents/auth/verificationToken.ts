@@ -16,13 +16,13 @@ const verificationToken = {
       name: 'token',
       title: 'Token',
       type: 'string',
-      validation: Rule => Rule.required(),
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'expires',
       title: 'Token Expiry',
       type: 'datetime',
-      validation: Rule => Rule.required(),
+      validation: (rule) => rule.required(),
     }),
   ],
   preview: {

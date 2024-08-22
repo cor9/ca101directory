@@ -14,19 +14,19 @@ const session = {
       name: 'sessionToken',
       title: 'Session Token',
       type: 'string',
-      validation: Rule => Rule.required(),
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'userId',
       title: 'User Id',
       type: 'string',
-      validation: Rule => Rule.required(),
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'expires',
       title: 'Session Expiry',
       type: 'datetime',
-      validation: Rule => Rule.required(),
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'user',

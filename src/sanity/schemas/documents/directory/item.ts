@@ -28,8 +28,8 @@ export default defineType({
     defineField({
       name: "slug",
       title: "Slug",
-      group: 'intl',
       type: "slug",
+      group: 'intl',
       options: {
         source: (document, context) => {
           // @ts-ignore

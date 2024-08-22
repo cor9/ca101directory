@@ -1,9 +1,5 @@
-// import {
-//     orderRankField,
-//     orderRankOrdering
-//   } from "@sanity/orderable-document-list";
-
 import { TiersIcon } from "@sanity/icons";
+import { format, parseISO } from "date-fns";
 import { defineField, defineType } from "sanity";
 
 export default defineType({
@@ -11,28 +7,74 @@ export default defineType({
     title: "Blog Category",
     type: "document",
     icon: TiersIcon,
-    // orderings: [orderRankOrdering],
+    groups: [
+        {
+            name: 'intl',
+            title: 'Internationalization',
+        }
+    ],
     fields: [
-        //   orderRankField({ type: "category" }),
         defineField({
-            name: "title",
-            title: "Title",
-            type: "string"
+            name: "name",
+            title: "Name",
+            type: "internationalizedArrayString",
+            validation: rule => rule.required()
         }),
         defineField({
             name: "slug",
             title: "Slug",
             type: "slug",
+            group: 'intl',
             options: {
-                source: "title",
-                maxLength: 96
+                source: (document, context) => {
+                    // @ts-ignore
+                    const enName = document.name.find(item => item._key === "en");
+                    return enName ? enName.value : "";
+                },
+                maxLength: 96,
+                isUnique: (value, context) => context.defaultIsUnique(value, context),
             },
-            validation: Rule => Rule.required()
+            validation: (rule) => rule.required(),
         }),
         defineField({
             name: "description",
             title: "Description",
-            type: "text"
-        })
-    ]
+            type: "internationalizedArrayString",
+        }),
+        defineField({
+            name: "priority",
+            title: "Priority",
+            type: "number",
+            initialValue: 0,
+        }),
+    ],
+    preview: {
+        select: {
+            name: "name",
+            priority: "priority",
+            date: "_createdAt",
+        },
+        prepare({ name, priority, date }) {
+            // @ts-ignore
+            const enName = name.find(item => item._key === "en");
+            const title = enName ? enName.value : "No Name";
+            const subtitle = `Priority: ${priority} ` + format(parseISO(date), "yyyy/MM/dd");
+            return {
+                title,
+                subtitle
+            };
+        },
+    },
+    orderings: [
+        {
+            title: 'Priority',
+            name: 'priority',
+            by: [{ field: 'priority', direction: 'desc' }],
+        },
+        {
+            title: 'Slug',
+            name: 'slug',
+            by: [{ field: 'slug.current', direction: 'asc' }],
+        },
+    ],
 });

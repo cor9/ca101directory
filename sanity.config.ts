@@ -15,7 +15,7 @@ import { structureTool } from 'sanity/structure';
 
 export default defineConfig({
   name: 'default',
-  title: 'NextDir', // TODO: extract to site configs
+  title: 'MkWeb', // TODO: extract to site configs
   basePath: studioUrl,
   projectId,
   dataset,

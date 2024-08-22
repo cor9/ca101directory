@@ -72,7 +72,7 @@
     "react-spinners": "^0.14.1",
     "resend": "^3.5.0",
     "rimraf": "^6.0.1",
-    "sanity": "^3.54.0",
+    "sanity": "^3.55.0",
     "sanity-plugin-asset-source-unsplash": "^3.0.1",
     "sanity-plugin-iframe-pane": "^3.1.6",
     "sanity-plugin-internationalized-array": "^2.1.0",

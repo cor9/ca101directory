@@ -6,7 +6,7 @@ import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 
-import { getUserByEmail } from "@/sanity/auth/user";
+import { getUserByEmail } from "@/data/user";
 import { sendVerificationEmail, } from "@/lib/mail";
 import { generateVerificationToken, } from "@/lib/tokens";
 

@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { sanityClient } from "@/sanity/lib/client";
-import { getUserById } from "@/sanity/auth/user";
+import { getUserById } from "@/data/user";
 
 export async function POST(req: Request) {
   const body = await req.text();

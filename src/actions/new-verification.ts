@@ -1,8 +1,8 @@
 "use server";
 
 import { sanityClient } from "@/sanity/lib/client";
-import { getUserByEmail } from "@/sanity/auth/user";
-import { getVerificationTokenByToken } from "@/sanity/auth/verification-token";
+import { getUserByEmail } from "@/data/user";
+import { getVerificationTokenByToken } from "@/data/verification-token";
 
 export const newVerification = async (token: string) => {
   const existingToken = await getVerificationTokenByToken(token);

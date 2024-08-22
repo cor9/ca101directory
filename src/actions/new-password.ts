@@ -4,8 +4,8 @@ import * as z from "zod";
 import bcrypt from "bcryptjs";
 
 import { NewPasswordSchema } from "@/lib/schemas";
-import { getPasswordResetTokenByToken } from "@/sanity/auth/password-reset-token";
-import { getUserByEmail } from "@/sanity/auth/user";
+import { getPasswordResetTokenByToken } from "@/data/password-reset-token";
+import { getUserByEmail } from "@/data/user";
 import { sanityClient } from "@/sanity/lib/client";
 
 export const newPassword = async (

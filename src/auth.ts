@@ -1,8 +1,8 @@
 import { sanityClient } from "@/sanity/lib/client";
 import { SanityAdapter } from "@/sanity/sanity-adapter";
 import NextAuth from "next-auth";
-import { getAccountByUserId } from "@/sanity/auth/account";
-import { getUserById } from "@/sanity/auth/user";
+import { getAccountByUserId } from "@/data/account";
+import { getUserById } from "@/data/user";
 import authConfig from "@/auth.config";
 import { UserRole } from "@/types/user-role";
 

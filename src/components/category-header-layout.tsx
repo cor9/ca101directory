@@ -6,11 +6,18 @@ import { CategoryList } from "./category-list";
 import MaxWidthWrapper from './shared/max-width-wrapper';
 import { sorting } from '@/lib/constants';
 import { Suspense } from 'react';
+import { sanityClient } from '@/sanity/lib/client';
 
+/**
+ * if using sanityClient directly, the type is CategoryListQueryResult,
+ * but if using sanityFetch, the type is unknown!
+ */
 async function GetCategoryList() {
-  const categoryList = await sanityFetch<CategoryListQueryResult>({
-    query: categoryListQuery
-  });
+  // const categoryList = await sanityFetch({
+  //   query: categoryListQuery
+  // });
+
+  const categoryList = await sanityClient.fetch(categoryListQuery);
   // console.log('GetCategoryList, categoryList:', categoryList);
   return (
     <CategoryList categoryList={categoryList} />

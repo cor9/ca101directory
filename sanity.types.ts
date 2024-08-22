@@ -131,6 +131,11 @@ export type BlockContent = Array<{
       _type: "reference";
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "blogPost";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "item";
     };
     _type: "internalLink";
     _key: string;
@@ -934,3 +939,17 @@ export type TagQueryResult = {
   } & InternationalizedArrayStringValue>;
 } | null;
 
+// Query TypeMap
+import "@sanity/client";
+declare module "@sanity/client" {
+  interface SanityQueries {
+    "*[_type == \"item\" && slug.current == $slug][0] {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": ItemQueryResult;
+    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)] \n  | order(publishDate desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": ItemListQueryResult;
+    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in categories[]->slug.current] \n  | order(publishDate desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": ItemListOfCategoryQueryResult;
+    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in tags[]->slug.current] \n  | order(publishDate desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": ItemListOfTagQueryResult;
+    "*[_type == \"category\" && defined(slug.current)] \n  | order(order desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": CategoryListQueryResult;
+    "*[_type == \"category\" && slug.current == $slug][0] {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": CategoryQueryResult;
+    "*[_type == \"tag\" && defined(slug.current)] \n  | order(slug.current asc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": TagListQueryResult;
+    "*[_type == \"tag\" && slug.current == $slug][0] {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": TagQueryResult;
+  }
+}

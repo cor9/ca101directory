@@ -1,4 +1,4 @@
-import { groq } from "next-sanity";
+import {defineQuery} from 'groq';
 
 /**
  * Fields used in queries
@@ -33,41 +33,41 @@ const itemFields = /* groq */ `
 /**
  * Queries
  */
-export const itemQuery = groq`*[_type == "item" && slug.current == $slug][0] {
+export const itemQuery = defineQuery(`*[_type == "item" && slug.current == $slug][0] {
   ${itemFields}
-}`;
+}`);
 
-export const itemListQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate)] 
+export const itemListQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)] 
   | order(publishDate desc) {
   ${itemFields}
-}`;
+}`);
 
-export const itemListOfCategoryQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate)
+export const itemListOfCategoryQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)
   && $slug in categories[]->slug.current] 
   | order(publishDate desc) {
   ${itemFields}
-}`;
+}`);
 
-export const itemListOfTagQuery = groq`*[_type == "item" && defined(slug.current) && defined(publishDate)
+export const itemListOfTagQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)
   && $slug in tags[]->slug.current] 
   | order(publishDate desc) {
   ${itemFields}
-}`;
+}`);
 
-export const categoryListQuery = groq`*[_type == "category" && defined(slug.current)] 
+export const categoryListQuery = defineQuery(`*[_type == "category" && defined(slug.current)] 
   | order(order desc) {
   ${categoryFields}
-}`;
+}`);
 
-export const categoryQuery = groq`*[_type == "category" && slug.current == $slug][0] {
+export const categoryQuery = defineQuery(`*[_type == "category" && slug.current == $slug][0] {
   ${categoryFields}
-}`;
+}`);
 
-export const tagListQuery = groq`*[_type == "tag" && defined(slug.current)] 
+export const tagListQuery = defineQuery(`*[_type == "tag" && defined(slug.current)] 
   | order(slug.current asc) {
   ${tagFields}
-}`;
+}`);
 
-export const tagQuery = groq`*[_type == "tag" && slug.current == $slug][0] {
+export const tagQuery = defineQuery(`*[_type == "tag" && slug.current == $slug][0] {
   ${tagFields}
-}`;
+}`);

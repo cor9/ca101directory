@@ -6,8 +6,10 @@ import {
   publicRoutes
 } from "@/routes";
 
-// TODO: fix type here or add @ts-ignore for now
-// @ts-ignore
+/**
+ * https://www.youtube.com/watch?v=1MTyCvS05V4
+ * Next Auth V5 - Advanced Guide (2024)
+ */
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
@@ -18,46 +20,32 @@ export default auth((req) => {
     new RegExp(`^${route}$`).test(nextUrl.pathname));
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
+  // do nothing if on api auth routes
   if (isApiAuthRoute) {
     return null;
   }
 
+  // redirect to dashboard if logged in and on auth routes
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
+      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
     return null;
   }
 
+  // redirect to login if not logged in and not on public routes
   if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL("/auth/login", nextUrl))
+    return Response.redirect(new URL("/auth/login", nextUrl));
   }
 
   return null;
 })
 
-// Optionally, don't invoke Middleware on some paths
 // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
-// export const config = {
-//   matcher: [
-//     '/((?!.+\\.[\\w]+$|_next).*)',
-//     '/',
-//     '/(api|trpc)(.*)'
-//   ],
-// }
-
-// https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
-// if disable image optimization by vercel, static images in the public folder will not be served
-// under the /_next/image or /_next/static route, so we need to add '_static' the matcher
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    '/((?!api|_next/static|_next/image|_static|favicon.ico).*)',
+    '/((?!.+\\.[\\w]+$|_next).*)',
+    '/',
+    '/(api|trpc)(.*)'
   ],
 }

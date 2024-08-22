@@ -53,10 +53,8 @@ export const {
         session.user.id = token.sub;
       }
 
-      // TODO: fix type or add @ts-ignore
-      // 'USER' to UserRole.USER
+      // https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.ts#L59
       if (token.role && session.user) {
-        // https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.ts#L59
         session.user.role = token.role as UserRole;
       }
 

@@ -1,16 +1,12 @@
-import NextAuth from "next-auth";
-import GitHub from "next-auth/providers/github";
-import Google from "next-auth/providers/google";
-import { SanityAdapter } from "@/sanity/sanity-adapter";
 import { sanityClient } from "@/sanity/lib/client";
-import Credentials from "next-auth/providers/credentials";
-import { LoginSchema } from "@/lib/schemas";
-import bcrypt from "bcryptjs";
-
-import { getUserById } from "@/sanity/auth/user";
+import { SanityAdapter } from "@/sanity/sanity-adapter";
+import NextAuth from "next-auth";
 import { getAccountByUserId } from "@/sanity/auth/account";
-import { SHOW_AUTH_LOGS } from "./lib/constants";
+import { getUserById } from "@/sanity/auth/user";
+import authConfig from "@/auth.config";
+import { UserRole } from "@/types/user-role";
 
+// https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.ts
 // https://authjs.dev/getting-started/installation#configure
 // providers for authorization, adapters for user data persistence
 export const {
@@ -21,57 +17,10 @@ export const {
   //unstable update in Beta version
   unstable_update
 } = NextAuth({
-  // debug: process.env.NODE_ENV === "development",
   pages: {
     signIn: "/auth/login",
-    error: "/auth/error"
+    error: "/auth/error",
   },
-  providers: [
-    // https://authjs.dev/getting-started/authentication/oauth
-    GitHub({
-      clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      allowDangerousEmailAccountLinking: true
-    }),
-    Google({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      allowDangerousEmailAccountLinking: true
-    }),
-    // https://authjs.dev/getting-started/authentication/credentials
-    Credentials({
-      authorize: async (credentials) => {
-        // called when user attempts to sign in with credentials
-        console.log('authorize, credentials:', credentials);
-        
-        const validatedFields = LoginSchema.safeParse(credentials);
-        if (!validatedFields.success) return null;
-
-        // @sanity-typegen-ignore
-        const user_qry = `*[_type == "user" && email== "${credentials?.email}"][0]`;
-        const user = await sanityClient.fetch(user_qry);
-
-        if (!user || !user.password) {
-          console.error('authorize error: user not found or password invalid');
-          return null;
-        }
-
-        if (SHOW_AUTH_LOGS) {
-          console.log('authorize, user:', user);
-        }
-        const passwordsMatch = await bcrypt.compare(credentials?.password as string, user.password);
-        if (passwordsMatch) {
-          return {
-            id: user._id,
-            role: user.role,
-            ...user
-          };
-        }
-
-        return null;
-      }
-    })
-  ],
   session: { strategy: "jwt" },
   adapter: SanityAdapter(sanityClient),
   callbacks: {
@@ -107,13 +56,12 @@ export const {
       // TODO: fix type or add @ts-ignore
       // 'USER' to UserRole.USER
       if (token.role && session.user) {
-        // @ts-ignore
-        session.user.role = token.role;
+        // https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.ts#L59
+        session.user.role = token.role as UserRole;
       }
 
       if (session.user) {
         session.user.name = token.name;
-        // TODO: fix type or add @ts-ignore, add ?? '' for now
         session.user.email = token.email ?? '';
         session.user.isOAuth = token.isOAuth as boolean;
       }
@@ -150,4 +98,5 @@ export const {
       return token;
     },
   },
+  ...authConfig,
 })

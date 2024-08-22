@@ -42,14 +42,6 @@ export type Account = {
   user: User;
 }
 
-export type Session = {
-  _id: string;
-  sessionToken: string;
-  userId: string;
-  expires: string;
-  user: User;
-}
-
 export type VerificationToken = {
   _id: string;
   identifier: string;
@@ -62,4 +54,13 @@ export type PasswordResetToken = {
   email: string;
   token: string;
   expires: string;
+}
+
+// database session not used, relying on JWTs for stateless session management
+export type Session = {
+  _id: string;
+  sessionToken: string;
+  userId: string;
+  expires: string;
+  user: User;
 }

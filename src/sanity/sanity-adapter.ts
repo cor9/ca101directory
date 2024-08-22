@@ -224,6 +224,60 @@ export function SanityAdapter(
       }
     },
 
+    // https://authjs.dev/guides/creating-a-database-adapter#verification-tokens
+    async getUserByEmail(email) {
+      try {
+        // @sanity-typegen-ignore
+        const user_qry = `*[_type == "user" && email== "${email}"][0]`;
+        const user = await sanityClient.fetch(user_qry);
+        if (SHOW_AUTH_LOGS) {
+          console.log('getUserByEmail, user:', user);
+        }
+
+        return user;
+      } catch (error) {
+        throw new Error('getUserByEmail, Could not get the user');
+      }
+    },
+
+    async createVerificationToken({ identifier, expires, token }) {
+      try {
+        const verificationToken = await sanityClient.create({
+          _type: options.schemas.verificationToken,
+          identifier,
+          token,
+          expires
+        });
+
+        return verificationToken;
+      } catch (error) {
+        throw new Error('createVerificationToken, Could not create verification token');
+      }
+    },
+
+    async useVerificationToken({ identifier, token }) {
+      try {
+        // @sanity-typegen-ignore
+        const verToken_qry = `*[_type == "verificationToken" && identifier == "${identifier}" && token == "${token}"][0]`;
+        const verToken = await sanityClient.fetch(verToken_qry);
+
+        if (!verToken) return null;
+
+        if (SHOW_AUTH_LOGS) {
+          console.log('useVerificationToken, verToken:', verToken);
+        }
+        await sanityClient.delete(verToken._id);
+
+        return {
+          id: verToken._id,
+          ...verToken
+        };
+      } catch (error) {
+        throw new Error('useVerificationToken, Could not delete verification token');
+      }
+    },
+
+    // database session not used, relying on JWTs for stateless session management
     // https://authjs.dev/guides/creating-a-database-adapter#database-session-management
     async createSession(session) {
       try {
@@ -293,59 +347,6 @@ export function SanityAdapter(
         await sanityClient.delete(session._id);
       } catch (error) {
         throw new Error('deleteSession, Operation Failed');
-      }
-    },
-
-    // https://authjs.dev/guides/creating-a-database-adapter#verification-tokens
-    async getUserByEmail(email) {
-      try {
-        // @sanity-typegen-ignore
-        const user_qry = `*[_type == "user" && email== "${email}"][0]`;
-        const user = await sanityClient.fetch(user_qry);
-        if (SHOW_AUTH_LOGS) {
-          console.log('getUserByEmail, user:', user);
-        }
-
-        return user;
-      } catch (error) {
-        throw new Error('getUserByEmail, Could not get the user');
-      }
-    },
-
-    async createVerificationToken({ identifier, expires, token }) {
-      try {
-        const verificationToken = await sanityClient.create({
-          _type: options.schemas.verificationToken,
-          identifier,
-          token,
-          expires
-        });
-
-        return verificationToken;
-      } catch (error) {
-        throw new Error('createVerificationToken, Could not create verification token');
-      }
-    },
-
-    async useVerificationToken({ identifier, token }) {
-      try {
-        // @sanity-typegen-ignore
-        const verToken_qry = `*[_type == "verificationToken" && identifier == "${identifier}" && token == "${token}"][0]`;
-        const verToken = await sanityClient.fetch(verToken_qry);
-
-        if (!verToken) return null;
-
-        if (SHOW_AUTH_LOGS) {
-          console.log('useVerificationToken, verToken:', verToken);
-        }
-        await sanityClient.delete(verToken._id);
-
-        return {
-          id: verToken._id,
-          ...verToken
-        };
-      } catch (error) {
-        throw new Error('useVerificationToken, Could not delete verification token');
       }
     },
   }

@@ -2,7 +2,8 @@ import { defineField } from 'sanity';
 import { DatabaseIcon } from '@sanity/icons';
 
 /**
- * Database sessions are not used, this adapter relies on usage of JSON Web Tokens for stateless session management.
+ * Database sessions are not used, this adapter relies on usage of 
+ * JSON Web Tokens for stateless session management.
  */
 const session = {
   name: 'session',

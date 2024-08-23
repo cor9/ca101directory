@@ -1,5 +1,4 @@
 import "@/styles/mdx.css";
-
 import Author from "@/components/content/author";
 import { Mdx } from "@/components/content/mdx-components";
 import BlurImage from "@/components/shared/blur-image";

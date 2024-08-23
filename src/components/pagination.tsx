@@ -36,7 +36,7 @@ export default function CustomPagination({ totalPages }: { totalPages: number })
           <PaginationPrevious 
             href={currentPage > 1 ? createPageURL(currentPage - 1) : undefined} 
             aria-disabled={currentPage === 1}
-            className={currentPage === 1 ? "pointer-events-none text-muted" : ""}
+            className={currentPage === 1 ? "pointer-events-none text-gray-300 dark:text-gray-600" : ""}
           />
         </PaginationItem>
         {allPages.map((page, index) => (
@@ -58,7 +58,7 @@ export default function CustomPagination({ totalPages }: { totalPages: number })
           <PaginationNext 
             href={currentPage < totalPages ? createPageURL(currentPage + 1) : undefined} 
             aria-disabled={currentPage === totalPages}
-            className={currentPage === totalPages ? "cursor-default" : ""}
+            className={currentPage === totalPages ? "pointer-events-none text-gray-300 dark:text-gray-600" : ""}
           />
         </PaginationItem>
       </PaginationContent>
@@ -71,7 +71,7 @@ function SinglePagePagination() {
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious href="#" aria-disabled="true" className="cursor-default">
+          <PaginationPrevious href="#" aria-disabled="true" className="pointer-events-none text-gray-300 dark:text-gray-600">
             <PaginationLink>Previous</PaginationLink>
           </PaginationPrevious>
         </PaginationItem>
@@ -79,7 +79,7 @@ function SinglePagePagination() {
           <PaginationLink isActive>1</PaginationLink>
         </PaginationItem>
         <PaginationItem>
-          <PaginationNext href="#" aria-disabled="true" className="cursor-default">
+          <PaginationNext href="#" aria-disabled="true" className="pointer-events-none text-gray-300 dark:text-gray-600">
             <PaginationLink>Next</PaginationLink>
           </PaginationNext>
         </PaginationItem>

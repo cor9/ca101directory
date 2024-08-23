@@ -51,6 +51,7 @@ export default {
           };
         }
 
+        // Return `null` to indicate that the credentials are invalid
         return null;
       }
     })

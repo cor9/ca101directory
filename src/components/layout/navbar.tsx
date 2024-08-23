@@ -3,18 +3,27 @@
 import { LoginButton } from "@/components/auth/login-button";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 import { Button } from "@/components/ui/button";
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+import { NavigationMenu, 
+  NavigationMenuItem, 
+  NavigationMenuLink, 
+  NavigationMenuList, 
+  navigationMenuTriggerStyle 
+} from "@/components/ui/navigation-menu";
 import { docsConfig } from "@/config/docs";
 import { marketingConfig } from "@/config/marketing";
 import { siteConfig } from "@/config/site";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, MenuIcon, Sparkles } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { DocsSearchCommand } from "../docs/docs-search";
 import { UserAccountNav } from "./user-account-nav";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { DocsSidebarNav } from "../docs/docs-sidebar-nav";
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { useEffect, useState } from "react";
 
 interface NavBarProps {
   scroll?: boolean;
@@ -38,78 +47,171 @@ export function Navbar({ scroll = false }: NavBarProps) {
     return pathname.startsWith(href);
   };
 
+  const [open, setOpen] = useState(false);
+  // prevent body scroll when modal is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [open]);
+
   return (
-    <header
-      className={cn(
-        'hidden md:flex sticky top-0 z-40 w-full justify-center bg-background/60 backdrop-blur-xl transition-all',
-        scroll ? (scrolled ? "border-b" : "bg-transparent") : "border-b"
-      )}
-    >
-      <MaxWidthWrapper className="flex h-16 items-center justify-between">
-        {/* navbar left show logo and links */}
-        <div className="flex items-center gap-6 md:gap-10">
+    <>
+      {/* Desktop View */}
+      <header
+        className={cn(
+          'hidden md:flex sticky top-0 z-40 w-full justify-center bg-background/60 backdrop-blur-xl transition-all',
+          scroll ? (scrolled ? "border-b" : "bg-transparent") : "border-b"
+        )}
+      >
+        <MaxWidthWrapper className="flex h-16 items-center justify-between">
+          {/* navbar left show logo and links */}
+          <div className="flex items-center gap-6 md:gap-10">
 
-          {/* logo */}
-          <Link href="/" className="flex items-center space-x-1.5">
-            <Sparkles />
-            <span className="font-urban text-xl font-bold">
-              {siteConfig.name}
-            </span>
-          </Link>
+            {/* logo */}
+            <Link href="/" className="flex items-center space-x-1.5">
+              <Sparkles />
+              <span className="font-urban text-xl font-bold">
+                {siteConfig.name}
+              </span>
+            </Link>
 
-          {/* links */}
-          {links && links.length > 0 ? (
-            <NavigationMenu>
-              <NavigationMenuList>
-                {links.map((item, index) => (
-                  <NavigationMenuItem key={index}>
-                    <Link href={item.disabled ? "#" : item.href} legacyBehavior passHref>
-                      <NavigationMenuLink
+            {/* links */}
+            {links && links.length > 0 ? (
+              <NavigationMenu>
+                <NavigationMenuList>
+                  {links.map((item, index) => (
+                    <NavigationMenuItem key={index}>
+                      <Link href={item.disabled ? "#" : item.href} legacyBehavior passHref>
+                        <NavigationMenuLink
+                          className={cn(
+                            navigationMenuTriggerStyle(),
+                            'px-2 bg-transparent focus:bg-transparent',
+                            isLinkActive(item.href)
+                              ? "text-foreground"
+                              : "text-foreground/60",
+                            item.disabled && "cursor-not-allowed opacity-80"
+                          )}
+                        >
+                          {item.title}
+                        </NavigationMenuLink>
+                      </Link>
+                    </NavigationMenuItem>
+                  ))}
+                </NavigationMenuList>
+              </NavigationMenu>
+            ) : null}
+          </div>
+
+          {/* navbar right show sign in or account */}
+          <div className="flex items-center gap-x-4">
+            {/* if in docs page show search */}
+            {isDocsPage && (
+              <DocsSearchCommand enableShortcut={true} />
+            )}
+
+            {session ? (
+              <div className="">
+                <UserAccountNav />
+              </div>
+            ) : status === "unauthenticated" ? (
+              <LoginButton mode="modal" asChild>
+                <Button
+                  className="flex gap-2 px-5 rounded-full"
+                  variant="default"
+                  size="default">
+                  <span>Sign In</span>
+                  <ArrowRight className="size-4" />
+                </Button>
+              </LoginButton>
+            ) : (
+              null
+            )}
+          </div>
+        </MaxWidthWrapper>
+      </header>
+      
+      {/* Mobile View */}
+      <header className="md:hidden sticky top-0 z-40 flex w-full justify-center bg-background/60 backdrop-blur-xl transition-all">
+        <div className="w-full px-4 flex h-16 items-center justify-between">
+          {/* mobile navbar left show menu icon when closed & show sheet when menu is open */}
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="size-9 shrink-0"
+              >
+                <MenuIcon className="size-5" />
+                <span className="sr-only">Toggle navigation menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="flex flex-col p-0">
+              <ScrollArea className="h-full overflow-y-auto">
+                <div className="flex h-screen flex-col">
+                  <nav className="flex flex-1 flex-col gap-1 p-2 pt-11 text-lg font-medium">
+                    {links.map((item) => (
+                      <Link
+                        key={item.title}
+                        href={item.disabled ? "#" : item.href}
+                        onClick={() => {
+                          if (!item.disabled) setOpen(false);
+                        }}
                         className={cn(
-                          navigationMenuTriggerStyle(),
-                          'px-2 bg-transparent focus:bg-transparent',
+                          "flex items-center gap-1 rounded-md p-2 text-sm font-medium hover:bg-muted",
                           isLinkActive(item.href)
-                            ? "text-foreground"
-                            : "text-foreground/60",
-                          item.disabled && "cursor-not-allowed opacity-80"
+                            ? "bg-muted text-foreground"
+                            : "text-muted-foreground hover:text-foreground",
+                          item.disabled &&
+                          "cursor-not-allowed opacity-80 hover:bg-transparent hover:text-muted-foreground"
                         )}
                       >
                         {item.title}
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                ))}
-              </NavigationMenuList>
-            </NavigationMenu>
-          ) : null}
-        </div>
+                      </Link>
+                    ))}
 
-        {/* navbar right show sign in or account */}
-        <div className="flex items-center gap-x-4">
-          {/* if in docs page show search */}
-          {isDocsPage && (
-            <DocsSearchCommand enableShortcut={true} />
-          )}
+                    {isDocsPage ? (
+                      <div className="p-4">
+                        <DocsSidebarNav setOpen={setOpen} />
+                      </div>
+                    ) : null}
+                  </nav>
+                </div>
+              </ScrollArea>
+            </SheetContent>
+          </Sheet>
 
-          {session ? (
-            <div className="">
-              <UserAccountNav />
-            </div>
-          ) : status === "unauthenticated" ? (
-            <LoginButton mode="modal" asChild>
-              <Button
-                className="flex gap-2 px-5 rounded-full"
-                variant="default"
-                size="default">
-                <span>Sign In</span>
-                <ArrowRight className="size-4" />
-              </Button>
-            </LoginButton>
-          ) : (
-            null
-          )}
+          {/* mobile navbar right show sign in or account */}
+          <div className="flex items-center gap-x-4">
+            {/* if in docs page show search */}
+            {isDocsPage && (
+              <DocsSearchCommand enableShortcut={false} />
+            )}
+
+            {session ? (
+              <div className="">
+                <UserAccountNav />
+              </div>
+            ) : status === "unauthenticated" ? (
+              <LoginButton mode="modal" asChild>
+                <Button
+                  className="flex gap-2 px-5 rounded-full"
+                  variant="default"
+                  size="default"
+                >
+                  <span>Sign In</span>
+                  <ArrowRight className="size-4" />
+                </Button>
+              </LoginButton>
+            ) : (
+              null
+            )}
+          </div>
         </div>
-      </MaxWidthWrapper>
-    </header>
+      </header>
+    </>
+
   );
 }

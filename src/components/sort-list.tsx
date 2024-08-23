@@ -81,7 +81,9 @@ export function SortList({ sortList }: SortListProps) {
             {sortList.find((item) => item.slug === active)?.title || 'Sort by Time'}
           </p>
         </Drawer.Trigger>
-        <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm" />
+        <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
+          onClick={closeDrawer}
+        />
         <Drawer.Portal>
           <Drawer.Content className="fixed inset-x-0 bottom-0 z-50 mt-24 overflow-hidden rounded-t-[10px] border bg-background">
             <div className="sticky top-0 z-20 flex w-full items-center justify-center bg-inherit">

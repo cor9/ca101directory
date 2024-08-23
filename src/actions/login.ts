@@ -10,7 +10,10 @@ import { getUserByEmail } from "@/data/user";
 import { sendVerificationEmail, } from "@/lib/mail";
 import { generateVerificationToken, } from "@/lib/tokens";
 
-export const login = async (values: z.infer<typeof LoginSchema>) => {
+export const login = async (
+    values: z.infer<typeof LoginSchema>, 
+    callbackUrl?: string | null
+) => {
     const validatedFields = LoginSchema.safeParse(values);
 
     if (!validatedFields.success) {
@@ -21,7 +24,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
     const existingUser = await getUserByEmail(email);
     if (!existingUser || !existingUser.email || !existingUser.password) {
-        return { error: "Account does not exist!" };
+        return { error: "User does not exist!" };
     }
 
     if (!existingUser.emailVerified) {
@@ -39,7 +42,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         await signIn("credentials", {
             email,
             password,
-            redirectTo: DEFAULT_LOGIN_REDIRECT
+            redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
         });
     } catch (error) {
         if (error instanceof AuthError) {
@@ -47,7 +50,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
                 case "CredentialsSignin":
                     return { error: "Invalid credentials!" };
                 default:
-                    return { error: "Something went wrong" };
+                    return { error: "Something went wrong!" };
             }
         }
         throw error;

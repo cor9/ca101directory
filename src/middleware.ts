@@ -37,8 +37,18 @@ export default auth((req) => {
   }
 
   // redirect to login if not logged in and not on public routes
+  // https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/middleware.ts#L32
   if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL("/auth/login", nextUrl));
+    let callbackUrl = nextUrl.pathname;
+    if (nextUrl.search) {
+      callbackUrl += nextUrl.search;
+    }
+
+    const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+
+    return Response.redirect(
+      new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
+    );
   }
 
   return null;

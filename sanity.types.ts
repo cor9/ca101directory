@@ -289,7 +289,9 @@ export type BlogPost = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
+  title?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
   slug?: Slug;
   blogCategory?: {
     _ref: string;
@@ -297,7 +299,26 @@ export type BlogPost = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "blogCategory";
   };
+  submitter?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  };
   body?: BlockContent;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  publishDate?: string;
 };
 
 export type BlogCategory = {
@@ -306,9 +327,14 @@ export type BlogCategory = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
+  name?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
   slug?: Slug;
-  description?: string;
+  description?: Array<{
+    _key: string;
+  } & InternationalizedArrayStringValue>;
+  priority?: number;
 };
 
 export type SanityImageCrop = {
@@ -443,7 +469,7 @@ export type Slug = {
 
 export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Settings | PasswordResetToken | VerificationToken | Session | BlockContent | Category | Tag | Item | BlogPost | BlogCategory | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | InternationalizedArrayStringValue | InternationalizedArrayString | MediaTag | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ./src/sanity/lib/queries.ts
+// Source: src/sanity/lib/queries.ts
 // Variable: itemQuery
 // Query: *[_type == "item" && slug.current == $slug][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  categories[]->{    ...,  },  tags[]->{    ...,  }}
 export type ItemQueryResult = {

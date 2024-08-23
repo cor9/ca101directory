@@ -8,6 +8,7 @@ import { SHOW_AUTH_LOGS } from "@/lib/constants";
 import { sanityClient } from "@/sanity/lib/client";
 
 // https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.config.ts
+// authConfig is used in middleware.ts and support edge runtime
 export default {
   providers: [
     // https://authjs.dev/getting-started/authentication/oauth
@@ -22,6 +23,8 @@ export default {
       allowDangerousEmailAccountLinking: true
     }),
     // https://authjs.dev/getting-started/authentication/credentials
+    // https://youtu.be/1MTyCvS05V4?t=11279
+    // Credentials won't affect the edge compatibility because it won't run on the edge
     Credentials({
       authorize: async (credentials) => {
         // called when user attempts to sign in with credentials

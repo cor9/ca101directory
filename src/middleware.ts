@@ -13,6 +13,7 @@ import NextAuth from 'next-auth';
  */
 const { auth } = NextAuth(authConfig);
 
+// since we have put role in user session, so we can know the role of the user
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;

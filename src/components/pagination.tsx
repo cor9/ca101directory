@@ -22,7 +22,7 @@ export default function CustomPagination({ totalPages }: { totalPages: number })
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#" aria-disabled="true" className="cursor-not-allowed">
+            <PaginationPrevious href="#" aria-disabled="true" className="cursor-default">
               <PaginationLink>Previous</PaginationLink>
             </PaginationPrevious>
           </PaginationItem>
@@ -30,7 +30,7 @@ export default function CustomPagination({ totalPages }: { totalPages: number })
             <PaginationLink isActive>1</PaginationLink>
           </PaginationItem>
           <PaginationItem>
-            <PaginationNext href="#" aria-disabled="true" className="cursor-not-allowed">
+            <PaginationNext href="#" aria-disabled="true" className="cursor-default">
               <PaginationLink>Next</PaginationLink>
             </PaginationNext>
           </PaginationItem>
@@ -54,7 +54,7 @@ export default function CustomPagination({ totalPages }: { totalPages: number })
           <PaginationPrevious 
             href={currentPage > 1 ? createPageURL(currentPage - 1) : undefined} 
             aria-disabled={currentPage === 1}
-            className={currentPage === 1 ? "cursor-not-allowed" : ""}
+            className={currentPage === 1 ? "cursor-default" : ""}
           />
         </PaginationItem>
         {allPages.map((page, index) => (
@@ -76,7 +76,7 @@ export default function CustomPagination({ totalPages }: { totalPages: number })
           <PaginationNext 
             href={currentPage < totalPages ? createPageURL(currentPage + 1) : undefined} 
             aria-disabled={currentPage === totalPages}
-            className={currentPage === totalPages ? "cursor-not-allowed" : ""}
+            className={currentPage === totalPages ? "cursor-default" : ""}
           />
         </PaginationItem>
       </PaginationContent>

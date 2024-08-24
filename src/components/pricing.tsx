@@ -3,10 +3,13 @@
 import { HeaderSection } from "./shared/header-section";
 import MaxWidthWrapper from "./shared/max-width-wrapper";
 
+/**
+ * TODO: other info: https://preview.tailus.io/astrolus/
+ */
 export default function Pricing() {
 
     const plan = {
-        name: "One-Time Submission",
+        name: "One-Time Submit",
         desc: "Pay once to submit your product",
         price: 9,
         isMostPop: true,
@@ -22,7 +25,7 @@ export default function Pricing() {
         {
             name: "Pay Once",
             desc: "Pay once for one product, get listed permanently",
-            icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
+            icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-dollar-sign"><circle cx="12" cy="12" r="10" /><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" /><path d="M12 18V6" /></svg>
         },
         {
             name: "Instant Listing",
@@ -47,58 +50,69 @@ export default function Pricing() {
             <section className='relative py-8'>
                 <HeaderSection label="Pricing" title="Start growing at full speed" />
 
-                <div className='mt-16 mx-auto px-0 xl:px-8 lg:px-4 gap-4 md:flex md:items-center md:justify-between'>
-                    <ul className="flex-1 order-2 md:order-1 space-y-10">
-                        {
-                            features.map((item, idx) => (
-                                <li key={idx} className="flex gap-x-3">
-                                    <div className="flex-none w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center">
-                                        {item.icon}
-                                    </div>
-                                    <div>
-                                        <h4 className="text-lg font-medium">
-                                            {item.name}
-                                        </h4>
-                                        <p className="mt-2 text-muted-foreground md:text-sm">
-                                            {item.desc}
-                                        </p>
-                                    </div>
-                                </li>
-                            ))
-                        }
-                    </ul>
-                    <div className="mt-16 md:mt-0 flex-1 order-1 md:order-2 flex flex-col rounded-xl border border-x-none shadow-lg">
-                        <div className="p-8 border-b md:p-8">
-                            <div className="justify-between flex">
-                                <div className="max-w-xs">
-                                    <span className='text-x font-semibold sm:text-3xl'>
-                                        {plan.name}
-                                    </span>
-                                    <p className="mt-3 text-muted-foreground sm:text-sm">
-                                        {plan.desc}
-                                    </p>
-                                </div>
-                                <div className='flex-none text-2xl font-semibold sm:text-3xl'>
-                                    ${plan.price}
-                                </div>
-                            </div>
-                            <button className='mt-8 px-3 py-3 rounded-lg w-full font-semibold text-sm duration-150 text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700'>
-                                Get Started
-                            </button>
-                        </div>
-                        <ul className='p-4 space-y-3 sm:grid sm:grid-cols-2 md:block md:p-8 lg:grid'>
-                            <div className="pb-2 col-span-2 font-medium">
-                                <p>Features</p>
-                            </div>
+                {/* center the pricing section */}
+                <div className="mt-16 w-full flex items-center justify-center">
+                    <div className='gap-8 md:flex md:items-center'>
+                        {/* features on the left or top */}
+                        <ul className="space-y-10">
                             {
-                                plan.features.map((featureItem, idx) => (
-                                    <li key={idx} className='flex items-center gap-4'>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-check text-indigo-600"><path d="M20 6 9 17l-5-5"/></svg>
-                                        {featureItem}
+                                features.map((item, idx) => (
+                                    <li key={idx} className="flex gap-x-3">
+                                        {/* bg-indigo-50 */}
+                                        <div className="flex-none w-12 h-12 rounded-full text-indigo-600 flex items-center justify-center">
+                                            {item.icon}
+                                        </div>
+                                        <div>
+                                            <h4 className="text-lg font-medium">
+                                                {item.name}
+                                            </h4>
+                                            <p className="mt-2 text-muted-foreground md:text-sm">
+                                                {item.desc}
+                                            </p>
+                                        </div>
                                     </li>
                                 ))
                             }
                         </ul>
+
+                        {/* pricing on the right or bottom */}
+                        <div className="mt-16 md:mt-0 flex flex-col rounded-xl border border-x-none shadow-lg">
+
+                            {/* pricing & call to action button */}
+                            <div className="p-8 border-b">
+                                <div className="flex items-center justify-between gap-4">
+                                    <div className="max-w-xs">
+                                        <span className='text-xl font-semibold sm:text-3xl'>
+                                            {plan.name}
+                                        </span>
+                                        <p className="mt-3 text-muted-foreground sm:text-sm">
+                                            {plan.desc}
+                                        </p>
+                                    </div>
+                                    <div className='text-5xl font-bold text-indigo-600'>
+                                        ${plan.price}
+                                    </div>
+                                </div>
+                                <button className='mt-8 px-3 py-3 rounded-lg w-full font-semibold text-sm duration-150 text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700'>
+                                    Get Started
+                                </button>
+                            </div>
+
+                            {/* simplified features on the bottom */}
+                            <ul className='p-4 space-y-3 sm:grid sm:grid-cols-2 md:block md:p-8 lg:grid'>
+                                <div className="pb-2 col-span-2 font-medium">
+                                    <p>Features</p>
+                                </div>
+                                {
+                                    plan.features.map((featureItem, idx) => (
+                                        <li key={idx} className='flex items-center gap-4'>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-check text-indigo-600"><path d="M20 6 9 17l-5-5" /></svg>
+                                            {featureItem}
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </section>

@@ -1,15 +1,10 @@
-// import { AllSiteConfigs } from "@/config/site";
 import Link from "next/link";
 import { Icons } from "@/components/shared/icons";
-// import { Logo } from "@/components/shared/logo";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { Sparkles } from "lucide-react";
 
 export function SiteFooterInfo() {
-  // console.log('SiteFooterInfo, lang:', lang);
-  // const siteConfig = AllSiteConfigs[lang];
-  // const siteConfig = siteConfig;
 
   return (
     <section>
@@ -18,7 +13,7 @@ export function SiteFooterInfo() {
         <div className="items-center space-x-2 flex">
           {/* <Logo /> */}
           <Sparkles />
-          <span className="dark:text-foreground text-xl font-bold sm:inline-block text-gradient-indigo-purple">
+          <span className="font-geist-mono text-xl font-bold">
             {siteConfig.name}
           </span>
         </div>

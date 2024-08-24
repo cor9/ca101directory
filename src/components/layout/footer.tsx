@@ -10,13 +10,12 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
     <footer className={cn("border-t", className)}>
       <MaxWidthWrapper className="grid grid-cols-2 gap-6 py-12 md:grid-cols-6">
-        {/* <div className="col-span-full flex flex-col items-end sm:col-span-1 md:col-span-2"> */}
         <div className="flex flex-col items-start col-span-full md:col-span-2">
           <SiteFooterInfo />
         </div>
         {footerLinks.map((section) => (
           <div key={section.title} className="col-span-1 md:col-span-1 items-start">
-            <span className="text-sm font-semibold text-foreground">
+            <span className="text-sm font-medium text-foreground">
               {section.title}
             </span>
             <ul className="mt-4 list-inside space-y-3">

@@ -5,7 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
-import { fontGeist, fontHeading, fontSans, fontUrban } from "@/assets/fonts";
+import { fontGeist, fontHeading, fontSans, fontUrban, fontSourceSerif, fontSourceCode, fontSourceSans } from "@/assets/fonts";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 
@@ -17,10 +17,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      {/* font-sans  */}
       <body
         className={cn(
           "min-h-screen bg-background antialiased",
+          // fontSourceSans.className,
+          // fontSourceCode.className,
+          // fontSourceSerif.className,
           GeistSans.className,
           // GeistMono.className,
           GeistSans.variable,

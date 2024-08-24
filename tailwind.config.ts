@@ -57,6 +57,9 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
+        "geist-sans": ['var(--font-geist-sans)', ...fontFamily.sans],
+        "geist-mono": ['var(--font-geist-mono)', ...fontFamily.mono],
+        
         // sans: ['var(--font-geist-sans)'],
         // mono: ['var(--font-geist-mono)'],
 

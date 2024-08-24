@@ -72,9 +72,9 @@ export function Navbar({ scroll = false }: NavBarProps) {
           <div className="flex items-center gap-6 md:gap-10">
 
             {/* logo */}
-            <Link href="/" className="flex items-center space-x-1.5">
+            <Link href="/" className="flex items-center space-x-2">
               <Sparkles />
-              <span className="font-urban text-xl font-bold">
+              <span className="font-geist-mono text-xl font-bold">
                 {siteConfig.name}
               </span>
             </Link>

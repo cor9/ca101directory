@@ -17,10 +17,6 @@ export default function CustomPagination({ totalPages }: { totalPages: number })
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
 
-  if (totalPages <= 1) {
-    return <SinglePagePagination />;
-  }
-
   const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
     params.set('page', pageNumber.toString());
@@ -35,8 +31,8 @@ export default function CustomPagination({ totalPages }: { totalPages: number })
         <PaginationItem>
           <PaginationPrevious 
             href={currentPage > 1 ? createPageURL(currentPage - 1) : undefined} 
-            aria-disabled={currentPage === 1}
-            className={currentPage === 1 ? "pointer-events-none text-gray-300 dark:text-gray-600" : ""}
+            aria-disabled={currentPage <= 1}
+            className={currentPage <= 1 ? "pointer-events-none text-gray-300 dark:text-gray-600" : ""}
           />
         </PaginationItem>
         {allPages.map((page, index) => (
@@ -57,31 +53,9 @@ export default function CustomPagination({ totalPages }: { totalPages: number })
         <PaginationItem>
           <PaginationNext 
             href={currentPage < totalPages ? createPageURL(currentPage + 1) : undefined} 
-            aria-disabled={currentPage === totalPages}
-            className={currentPage === totalPages ? "pointer-events-none text-gray-300 dark:text-gray-600" : ""}
+            aria-disabled={currentPage >= totalPages}
+            className={currentPage >= totalPages ? "pointer-events-none text-gray-300 dark:text-gray-600" : ""}
           />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
-  );
-}
-
-function SinglePagePagination() {
-  return (
-    <Pagination>
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious href="#" aria-disabled="true" className="pointer-events-none text-gray-300 dark:text-gray-600">
-            <PaginationLink>Previous</PaginationLink>
-          </PaginationPrevious>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink isActive>1</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationNext href="#" aria-disabled="true" className="pointer-events-none text-gray-300 dark:text-gray-600">
-            <PaginationLink>Next</PaginationLink>
-          </PaginationNext>
         </PaginationItem>
       </PaginationContent>
     </Pagination>

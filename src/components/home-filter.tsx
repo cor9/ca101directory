@@ -1,122 +1,65 @@
-"use client";
+import { sorting } from '@/lib/constants';
+import { CategoryListQueryResult, TagListQueryResult } from '@/sanity.types';
+import { sanityFetch } from '@/sanity/lib/fetch';
+import { categoryListQuery, tagListQuery } from '@/sanity/lib/queries';
+import { Suspense } from 'react';
+import { HomeFilterClient } from './home-filter-client';
+import { SearchSkeleton } from './search';
+import MaxWidthWrapper from './shared/max-width-wrapper';
 
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { SortFilterItem } from "@/lib/constants";
-import { useRouter, useSearchParams } from "next/navigation";
+export async function HomeFilter() {
+  const [categoryList, tagList] = await Promise.all([
+    sanityFetch<CategoryListQueryResult>({
+      query: categoryListQuery
+    }),
+    sanityFetch<TagListQueryResult>({
+      query: tagListQuery
+    })
+  ]);
 
-interface HomeFilterProps {
-  tagList: TagFilterItem[];
-  categoryList: CategoryFilterItem[];
-  sortList: SortFilterItem[];
-  selectedTag?: string;
-  selectedCategory?: string;
-  selectedSort?: string;
-}
-
-interface TagFilterItem {
-  slug: string;
-  name: string;
-}
-
-interface CategoryFilterItem {
-  slug: string;
-  name: string;
-}
-
-interface HomeFilterProps {
-  tagList: TagFilterItem[];
-  categoryList: CategoryFilterItem[];
-  sortList: SortFilterItem[];
-}
-
-export async function HomeFilter({
-  tagList,
-  categoryList,
-  sortList,
-}: HomeFilterProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const selectedCategory = searchParams.get("category");
-  const selectedTag = searchParams.get("tag");
-  const selectedSort = searchParams.get("sort");
-
-  const handleFilterChange = (type: string, value: string) => {
-    console.log(`Filter changed: ${type} -> ${value}`);
-    const newParams = new URLSearchParams(window.location.search);
-    if (value === null) {
-      newParams.delete(type);
-    } else {
-      newParams.set(type, value);
-    }
-    router.push(`/?${newParams.toString()}`);
-  };
-
-  const handleResetFilters = () => {
-    router.push("/");
-  };
+  // convert categoryList/tagList to CategoryFilterItem[]/TagFilterItem[]
+  const categories = categoryList.map((category) => ({
+    slug: category.slug.current,
+    name: category.name.find((name) => name._key === 'en')?.value || '',
+  }));
+  const tags = tagList.map((tag) => ({
+    slug: tag.slug.current,
+    name: tag.name.find((name) => name._key === 'en')?.value || '',
+  }));
 
   return (
-    <div className="grid md:grid-cols-[1fr_1fr_1fr_0.5fr] gap-2 my-4 z-10">
-      <Select
-        value={selectedCategory || null}
-        onValueChange={(value) => handleFilterChange("category", value)}
-      >
-        <SelectTrigger>
-          <SelectValue placeholder="All Categories" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value={null}>All Categories</SelectItem>
-          {categoryList.map((item) => (
-            <SelectItem key={item.slug} value={item.slug}>
-              {item.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      
-      <Select
-        value={selectedTag || null}
-        onValueChange={(value) => handleFilterChange("tag", value)}
-      >
-        <SelectTrigger>
-          <SelectValue placeholder="All Tags" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value={null}>All Tags</SelectItem>
-          {tagList.map((item) => (
-            <SelectItem key={item.slug} value={item.slug}>
-              {item.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+    <>
+      {/* Desktop View, has MaxWidthWrapper */}
+      <MaxWidthWrapper className="hidden md:flex md:flex-col">
+        {/* <div className='w-full'>
+          <Suspense fallback={<SearchSkeleton />}>
+            <HomeSearch />
+          </Suspense>
+        </div> */}
 
-      <Select 
-        value={selectedSort || null}
-        onValueChange={(value) => handleFilterChange("sort", value)}
-      >
-          <SelectTrigger>
-            <SelectValue placeholder="Sort by Time" />
-          </SelectTrigger>
-          <SelectContent>
-            {sortList.map((item) => (
-              <SelectItem key={item.slug} value={item.slug}>
-                {item.title}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className='flex items-center justify-between'>
+          <div className="w-full">
+            <Suspense fallback={<SearchSkeleton />}>
+              <HomeFilterClient tagList={tags} categoryList={categories} sortList={sorting} />
+            </Suspense>
+          </div>
+        </div>
+      </MaxWidthWrapper>
 
-      <Button variant="outline" onClick={handleResetFilters}>
-        Reset
-      </Button>
-    </div>
+      {/* Mobile View, no MaxWidthWrapper */}
+      <div className="md:hidden flex flex-col">
+        {/* <div className='w-full'>
+          <Suspense fallback={<SearchSkeleton />}>
+            <HomeSearch />
+          </Suspense>
+        </div> */}
+
+        <div className="mx-4">
+          <Suspense fallback={<SearchSkeleton />}>
+            <HomeFilterClient tagList={tags} categoryList={categories} sortList={sorting} />
+          </Suspense>
+        </div>
+      </div>
+    </>
   );
 }

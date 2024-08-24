@@ -62,7 +62,7 @@ export default async function DocPage({ params }: DocPageProps) {
   );
 
   return (
-    <main className="relative w-full py-6 xl:grid xl:grid-cols-[1fr_150px] xl:gap-10">
+    <main className="relative w-full py-6 xl:grid xl:grid-cols-[1fr_180px] xl:gap-8">
       <div className="w-full min-w-0">
         <DocsPageHeader heading={doc.title} text={doc.description} />
         <div className="pb-4 pt-8">

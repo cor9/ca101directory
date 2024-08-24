@@ -11,6 +11,10 @@ export const marketingConfig: MarketingConfig = {
       href: "/tag",
     },
     {
+      title: "Search",
+      href: "/search",
+    },
+    {
       title: "Blog",
       href: "/blog",
     },
@@ -18,10 +22,6 @@ export const marketingConfig: MarketingConfig = {
     //   title: "Documentation",
     //   href: "/docs",
     // },
-    {
-      title: "Search",
-      href: "/search",
-    },
     {
       title: "Pricing",
       href: "/pricing",

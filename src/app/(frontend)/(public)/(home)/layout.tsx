@@ -1,5 +1,5 @@
-import { HomeFilter } from '@/components/home-filter';
-import { HomeHero } from '@/components/home-hero';
+import { HomeFilter } from '@/components/home/home-filter';
+import { HomeHero } from '@/components/home/home-hero';
 import MaxWidthWrapper from '@/components/shared/max-width-wrapper';
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {

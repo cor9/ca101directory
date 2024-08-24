@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import HomeSearch from './home-search';
-import { SearchSkeleton } from './search';
-import MaxWidthWrapper from './shared/max-width-wrapper';
+import { SearchSkeleton } from '../search';
+import MaxWidthWrapper from '../shared/max-width-wrapper';
 
 export async function HomeHero() {
   // const categoryList = await sanityFetch<CategoryListQueryResult>({

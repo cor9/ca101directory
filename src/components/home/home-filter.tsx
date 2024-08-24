@@ -3,9 +3,9 @@ import { CategoryListQueryResult, TagListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { categoryListQuery, tagListQuery } from '@/sanity/lib/queries';
 import { Suspense } from 'react';
-import { HomeFilterClient } from './home/home-filter-client';
-import { SearchSkeleton } from './search';
-import MaxWidthWrapper from './shared/max-width-wrapper';
+import { HomeFilterClient } from './home-filter-client';
+import { SearchSkeleton } from '../search';
+import MaxWidthWrapper from '../shared/max-width-wrapper';
 
 export async function HomeFilter() {
   const [categoryList, tagList] = await Promise.all([

@@ -24,7 +24,7 @@ export async function HomeHero() {
   return (
     <>
       {/* Desktop View, has MaxWidthWrapper */}
-      <MaxWidthWrapper className="hidden md:flex md:flex-col">
+      <MaxWidthWrapper className="hidden md:flex md:flex-col mt-8">
         <div className='w-full'>
           <Suspense fallback={<SearchSkeleton />}>
             <HomeSearch />
@@ -41,7 +41,7 @@ export async function HomeHero() {
       </MaxWidthWrapper>
 
       {/* Mobile View, no MaxWidthWrapper */}
-      <div className="md:hidden flex flex-col">
+      <div className="md:hidden flex flex-col mt-8">
         <div className='w-full'>
           <Suspense fallback={<SearchSkeleton />}>
             <HomeSearch />

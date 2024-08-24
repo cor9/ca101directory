@@ -28,8 +28,8 @@ export default function ItemGrid({ items, totalPages }: ItemGridProps) {
           </section>
         ) : (
           // border rounded-lg bg-accent/25 
-          <div className="my-8 h-24 w-full flex items-center justify-center">
-            <p>No Results Found</p>
+          <div className="my-8 h-32 w-full flex items-center justify-center">
+            <p className='font-medium text-muted-foreground'>No Results Found</p>
           </div>
         )
       }

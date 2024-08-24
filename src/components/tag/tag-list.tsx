@@ -1,14 +1,13 @@
 "use client";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils";
 import { TagListQueryResult } from '@/sanity.types';
 import { Check, LayoutList } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Drawer } from "vaul";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 export type TagListProps = {
   tagList: TagListQueryResult;
@@ -30,7 +29,7 @@ export function TagList({ tagList }: TagListProps) {
       <ScrollArea className="hidden md:flex w-full py-4">
         <ul role="list" className="w-full flex flex-1 gap-x-2" >
           <DesktopLink
-            title="All"
+            title="All Tags"
             href="/tag"
             active={!slug}
           />
@@ -68,7 +67,7 @@ export function TagList({ tagList }: TagListProps) {
             </div>
             <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
               <MobileLink
-                title="All"
+                title="All Tags"
                 href="/tag"
                 active={!slug}
                 clickAction={closeDrawer}

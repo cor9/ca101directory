@@ -1,23 +1,28 @@
 import { sorting } from '@/lib/constants';
-import { TagListQueryResult } from '@/sanity.types';
-import { sanityFetch } from '@/sanity/lib/fetch';
-import { tagListQuery } from '@/sanity/lib/queries';
-import MaxWidthWrapper from './shared/max-width-wrapper';
-import { SortList } from './sort-list';
-import { TagList } from './tag-list';
+import { sanityClient } from '@/sanity/lib/client';
+import { categoryListQuery } from '@/sanity/lib/queries';
 import { Suspense } from 'react';
+import { CategoryList } from "./category-list";
+import MaxWidthWrapper from '../shared/max-width-wrapper';
+import { SortList } from '../sort-list';
 
-async function GetTagList() {
-  const tagList = await sanityFetch<TagListQueryResult>({
-    query: tagListQuery
-  });
-  // console.log('GetTagList, tagList:', tagList);
+/**
+ * if using sanityClient directly, the type is CategoryListQueryResult,
+ * but if using sanityFetch, the type is unknown!
+ */
+async function GetCategoryList() {
+  // const categoryList = await sanityFetch({
+  //   query: categoryListQuery
+  // });
+
+  const categoryList = await sanityClient.fetch(categoryListQuery);
+  // console.log('GetCategoryList, categoryList:', categoryList);
   return (
-    <TagList tagList={tagList} />
+    <CategoryList categoryList={categoryList} />
   );
 }
 
-export async function TagHeaderLayout() {
+export async function CategoryFilter() {
   return (
     <>
       {/* Desktop View, has MaxWidthWrapper */}
@@ -25,7 +30,7 @@ export async function TagHeaderLayout() {
         <div className='grid grid-cols-[1fr_150px] gap-8 items-center justify-between'>
           <div className="w-full min-w-0 mt-4">
             <Suspense fallback={null}>
-              <GetTagList />
+              <GetCategoryList />
             </Suspense>
           </div>
 
@@ -42,7 +47,7 @@ export async function TagHeaderLayout() {
       <div className="md:hidden flex flex-col gap-8">
         <div className='w-full mt-4'>
           <Suspense fallback={null}>
-            <GetTagList />
+            <GetCategoryList />
           </Suspense>
         </div>
 

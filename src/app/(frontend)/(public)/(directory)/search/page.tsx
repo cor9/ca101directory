@@ -1,9 +1,7 @@
-import ItemCard from '@/components/item-card';
-import CustomPagination from '@/components/pagination';
+import ItemGrid from '@/components/item-grid';
 import { defaultSort, ITEMS_PER_PAGE, sorting } from '@/lib/constants';
 import { ItemListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
-import { Suspense } from 'react';
 
 const buildQuery = (sortKey?: string, reverse?: boolean, query?: string, currentPage: number = 1) => {
   const orderDirection = reverse ? 'desc' : 'asc';
@@ -60,18 +58,6 @@ export default async function SearchPage({
   console.log('SearchPage, totalCount', totalCount, ", totalPages", totalPages);
 
   return (
-    <section className=''>
-      <div className="mt-8 gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {items.length > 0 && items.map((item) => {
-          return <ItemCard key={item._id} item={item} />;
-        })}
-      </div>
-
-      <div className="mt-8 w-full flex items-center justify-center">
-        <Suspense fallback={null}>
-          <CustomPagination totalPages={totalPages} />
-        </Suspense>
-      </div>
-    </section>
+    <ItemGrid items={items} totalPages={totalPages} />
   );
 }

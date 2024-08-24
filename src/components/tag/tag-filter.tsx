@@ -1,30 +1,23 @@
-import { CategoryListQueryResult } from '@/sanity.types';
-import { sanityFetch } from '@/sanity/lib/fetch';
-import { categoryListQuery } from '@/sanity/lib/queries';
-import { SortList } from './sort-list';
-import { CategoryList } from "./category-list";
-import MaxWidthWrapper from './shared/max-width-wrapper';
 import { sorting } from '@/lib/constants';
+import { TagListQueryResult } from '@/sanity.types';
+import { sanityFetch } from '@/sanity/lib/fetch';
+import { tagListQuery } from '@/sanity/lib/queries';
+import MaxWidthWrapper from '../shared/max-width-wrapper';
+import { SortList } from '../sort-list';
+import { TagList } from './tag-list';
 import { Suspense } from 'react';
-import { sanityClient } from '@/sanity/lib/client';
 
-/**
- * if using sanityClient directly, the type is CategoryListQueryResult,
- * but if using sanityFetch, the type is unknown!
- */
-async function GetCategoryList() {
-  // const categoryList = await sanityFetch({
-  //   query: categoryListQuery
-  // });
-
-  const categoryList = await sanityClient.fetch(categoryListQuery);
-  // console.log('GetCategoryList, categoryList:', categoryList);
+async function GetTagList() {
+  const tagList = await sanityFetch<TagListQueryResult>({
+    query: tagListQuery
+  });
+  // console.log('GetTagList, tagList:', tagList);
   return (
-    <CategoryList categoryList={categoryList} />
+    <TagList tagList={tagList} />
   );
 }
 
-export async function CategoryHeaderLayout() {
+export async function TagFilter() {
   return (
     <>
       {/* Desktop View, has MaxWidthWrapper */}
@@ -32,7 +25,7 @@ export async function CategoryHeaderLayout() {
         <div className='grid grid-cols-[1fr_150px] gap-8 items-center justify-between'>
           <div className="w-full min-w-0 mt-4">
             <Suspense fallback={null}>
-              <GetCategoryList />
+              <GetTagList />
             </Suspense>
           </div>
 
@@ -49,7 +42,7 @@ export async function CategoryHeaderLayout() {
       <div className="md:hidden flex flex-col gap-8">
         <div className='w-full mt-4'>
           <Suspense fallback={null}>
-            <GetCategoryList />
+            <GetTagList />
           </Suspense>
         </div>
 

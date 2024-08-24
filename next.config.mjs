@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: true,
+    // https://www.npmjs.com/package/geist#using-with-nextjs
+    transpilePackages: ["geist"],
     swcMinify: true,
     images: {
         // https://vercel.com/docs/image-optimization/managing-image-optimization-costs#minimizing-image-optimization-costs

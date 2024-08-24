@@ -10,7 +10,7 @@ export type SortFilterItem = {
 };
 
 export const defaultSort: SortFilterItem = {
-  title: 'Sort by Time (Latest)',
+  title: 'Sort by Time',
   slug: null,
   sortKey: 'publishDate',
   reverse: true

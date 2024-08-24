@@ -7,6 +7,7 @@ export type ItemFullInfo = ItemQueryResult; // FullInfo has more fields (eg. con
 
 export type SiteConfig = {
   name: string;
+  slogan: string;
   description: string;
   url: string;
   ogImage: string;

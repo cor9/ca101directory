@@ -1,17 +1,22 @@
+import { ModeToggle } from "@/components/layout/mode-toggle";
+import { footerLinks } from "@/config/site";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import * as React from "react";
-import { ModeToggle } from "@/components/layout/mode-toggle";
-import { footerLinks, siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-// import { NewsletterForm } from "../forms/newsletter-form";
+import MaxWidthWrapper from "../shared/max-width-wrapper";
+import { SiteFooterInfo } from "../site-footer-info";
 
 export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
     <footer className={cn("border-t", className)}>
-      <div className="container grid max-w-6xl grid-cols-2 gap-6 py-14 md:grid-cols-5">
+      <MaxWidthWrapper className="grid grid-cols-2 gap-6 py-12 md:grid-cols-6">
+        {/* <div className="col-span-full flex flex-col items-end sm:col-span-1 md:col-span-2"> */}
+        <div className="flex flex-col items-start col-span-full md:col-span-2">
+          <SiteFooterInfo />
+        </div>
         {footerLinks.map((section) => (
-          <div key={section.title}>
-            <span className="text-sm font-medium text-foreground">
+          <div key={section.title} className="col-span-1 md:col-span-1 items-start">
+            <span className="text-sm font-semibold text-foreground">
               {section.title}
             </span>
             <ul className="mt-4 list-inside space-y-3">
@@ -28,50 +33,18 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
             </ul>
           </div>
         ))}
-        <div className="col-span-full flex flex-col items-end sm:col-span-1 md:col-span-2">
-          {/* <NewsletterForm /> */}
-        </div>
-      </div>
+      </MaxWidthWrapper>
 
       <div className="border-t py-4">
-        <div className="container flex max-w-6xl items-center justify-between">
-          {/* <span className="text-muted-foreground text-sm">
-            Copyright &copy; 2024. All rights reserved.
-          </span> */}
-          <p className="text-left text-sm text-muted-foreground">
-            Built by{" "}
-            <Link
-              href={siteConfig.links.twitter}
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              mickasmt
-            </Link>
-            . Hosted on{" "}
-            <Link
-              href="https://vercel.com"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              Vercel
-            </Link>
-            . Illustrations by{" "}
-            <Link
-              href="https://popsy.co"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              Popsy
-            </Link>
-          </p>
+        <MaxWidthWrapper className="flex items-center justify-between">
+          <span className="text-muted-foreground text-sm">
+            &copy; 2024. All rights reserved.
+          </span>
 
           <div className="flex items-center gap-3">
             <ModeToggle />
           </div>
-        </div>
+        </MaxWidthWrapper>
       </div>
     </footer>
   );

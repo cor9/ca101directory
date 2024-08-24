@@ -1,8 +1,13 @@
 export const BLOG_CATEGORIES: {
   title: string;
-  slug: "news" | "education";
+  slug: "all" | "news" | "education";
   description: string;
 }[] = [
+  {
+    title: "All",
+    slug: "all",
+    description: "All blog posts.",
+  },
   {
     title: "News",
     slug: "news",

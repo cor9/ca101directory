@@ -1,6 +1,5 @@
 "use client";
 
-import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 import { BLOG_CATEGORIES } from "@/config/blog";
 import { cn } from "@/lib/utils";
 import { Check, List } from "lucide-react";
@@ -8,12 +7,12 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Drawer } from "vaul";
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+import MaxWidthWrapper from "../shared/max-width-wrapper";
 
 export function BlogHeaderLayout() {
   const [open, setOpen] = useState(false);
   const { slug } = useParams() as { slug?: string };
-  const data = BLOG_CATEGORIES.find((category) => category.slug === slug);
+  // const data = BLOG_CATEGORIES.find((category) => category.slug === slug);
 
   const closeDrawer = () => {
     setOpen(false);
@@ -21,50 +20,37 @@ export function BlogHeaderLayout() {
 
   return (
     <>
-      {/* <MaxWidthWrapper className="md:pb-8">
-        <Tabs defaultValue={slug || "all"} className="hidden mt-8 w-full md:flex">
-          <TabsList className="w-full flex flex-1 gap-x-2 border-b text-[15px]">
-            <TabsTrigger value="all" asChild>
-              <Link href="/blog">All</Link>
-            </TabsTrigger>
-            {BLOG_CATEGORIES.map((category) => (
-              <TabsTrigger key={category.slug} value={category.slug} asChild>
-                <Link href={`/blog/category/${category.slug}`}>{category.title}</Link>
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
-      </MaxWidthWrapper> */}
-
-      <MaxWidthWrapper className="md:pb-8">
-        <nav className="hidden mt-8 w-full md:flex">
-          <ul role="list" className="w-full flex flex-1 gap-x-2 border-b text-[15px] text-muted-foreground" >
-            <CategoryLink
-              title="All"
-              href="/blog"
-              active={!slug}
-            />
-
-            {BLOG_CATEGORIES.map((category) => (
+      <MaxWidthWrapper>
+        <div className="md:pb-8">
+          <nav className="hidden mt-8 w-full md:flex">
+            <ul role="list" className="w-full flex flex-1 gap-x-2 border-b text-[15px] text-muted-foreground" >
               <CategoryLink
-                key={category.slug}
-                title={category.title}
-                href={`/blog/category/${category.slug}`}
-                active={category.slug === slug}
+                title="All"
+                href="/blog"
+                active={!slug}
               />
-            ))}
-          </ul>
-        </nav>
+
+              {BLOG_CATEGORIES.map((category) => (
+                <CategoryLink
+                  key={category.slug}
+                  title={category.title}
+                  href={`/blog/category/${category.slug}`}
+                  active={category.slug === slug}
+                />
+              ))}
+            </ul>
+          </nav>
+        </div>
       </MaxWidthWrapper>
 
       {/* show Drawer in mobile, no MaxWidthWrapper */}
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
           onClick={() => setOpen(true)}
-          className="mb-8 flex w-full items-center border-y p-3 text-foreground/90 md:hidden"
+          className="my-8 flex w-screen items-center border-y p-3 text-foreground/90 md:hidden"
         >
           <List className="size-[18px]" />
-          <p className="ml-2.5 text-sm font-medium">Categories</p>
+          <p className="ml-2.5 text-sm font-medium">All Categories</p>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm" onClick={closeDrawer} />
         <Drawer.Portal>
@@ -74,7 +60,7 @@ export function BlogHeaderLayout() {
             </div>
             <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
               <CategoryLink
-                title="All"
+                title="All Categories"
                 href="/blog"
                 active={!slug}
                 clickAction={closeDrawer}
@@ -127,7 +113,7 @@ const CategoryLink = ({
           className={cn(
             "-mb-px border-b-2 border-transparent font-medium text-muted-foreground hover:text-foreground",
             {
-              "border-purple-600 text-foreground dark:border-purple-400/80":
+              "text-foreground border-purple-600 dark:border-purple-400/80":
                 active,
             },
           )}

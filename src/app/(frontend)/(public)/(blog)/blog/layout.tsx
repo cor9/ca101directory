@@ -7,9 +7,9 @@ export default function BlogLayout({
 }) {
   return (
     <>
-      <MaxWidthWrapper className="pb-16">
+      <div className="pb-16">
         {children}
-      </MaxWidthWrapper>
+      </div>
     </>
   );
 }

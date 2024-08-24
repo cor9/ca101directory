@@ -39,7 +39,7 @@ export async function HomeFilter() {
 
         <div className='flex items-center justify-between'>
           <div className="w-full">
-            <Suspense fallback={<SearchSkeleton />}>
+            <Suspense fallback={null}>
               <HomeFilterClient tagList={tags} categoryList={categories} sortList={sorting} />
             </Suspense>
           </div>
@@ -55,7 +55,7 @@ export async function HomeFilter() {
         </div> */}
 
         <div className="mx-4">
-          <Suspense fallback={<SearchSkeleton />}>
+          <Suspense fallback={null}>
             <HomeFilterClient tagList={tags} categoryList={categories} sortList={sorting} />
           </Suspense>
         </div>

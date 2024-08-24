@@ -1,4 +1,4 @@
-import { SidebarNavItem, SiteConfig } from "@/types";
+import { NestedNavItem, SiteConfig } from "@/types";
 
 // TODO: fix !!
 const site_url = process.env.NEXT_PUBLIC_APP_URL!!;
@@ -17,16 +17,7 @@ export const siteConfig: SiteConfig = {
   mailSupport: "support@mkdirs.com",
 };
 
-export const footerLinks: SidebarNavItem[] = [
-  {
-    title: "Company",
-    items: [
-      { title: "Features", href: "/features" },
-      { title: "Pricing", href: "/pricing" },
-      { title: "Terms", href: "/terms" },
-      { title: "Privacy", href: "/privacy" },
-    ],
-  },
+export const footerLinks: NestedNavItem[] = [
   {
     title: "Product",
     items: [
@@ -37,21 +28,29 @@ export const footerLinks: SidebarNavItem[] = [
     ],
   },
   {
-    title: "Blog",
+    title: "Support",
     items: [
-      { title: "Blog", href: "/blog" },
-      { title: "Docs", href: "/docs" },
-      { title: "Installation", href: "/installation" },
-      { title: "Deployment", href: "/deployment" },
+      { title: "Documentation", href: "/docs" },
+      { title: "Changelog", href: "/changelog" },
+      { title: "Feedback", href: "/feedback" },
+      { title: "Roadmap", href: "/roadmap" },
     ],
   },
   {
-    title: "Resources",
+    title: "Company",
     items: [
-      { title: "Showcase", href: "/showcase" },
-      { title: "Feedback", href: "/feedback" },
-      { title: "Changelog", href: "/changelog" },
-      { title: "Roadmap", href: "/roadmap" },
+      { title: "Blog", href: "/blog" },
+      { title: "Twitter", href: "https://twitter.com/mkdirs" },
+      { title: "Github", href: "https://github.com/mkdirs" },
+      { title: "Discord", href: "https://discord.gg/mkdirs" },
     ],
-  }
+  },
+  {
+    title: "Legal",
+    items: [
+      { title: "Terms", href: "/terms" },
+      { title: "Privacy", href: "/privacy" },
+      { title: "Sitemap", href: "/sitemap" },
+    ],
+  },
 ];

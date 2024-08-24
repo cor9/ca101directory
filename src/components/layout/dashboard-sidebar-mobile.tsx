@@ -8,14 +8,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
-import { SidebarNavItem } from "@/types";
+import { NestedNavItem } from "@/types";
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useState } from "react";
 
 interface DashboardSidebarMobileProps {
-  links: SidebarNavItem[];
+  links: NestedNavItem[];
 }
 
 export function DashboardSidebarMobile({ links }: DashboardSidebarMobileProps) {

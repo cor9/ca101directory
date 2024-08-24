@@ -1,9 +1,9 @@
 import type { Icon } from "lucide-react";
 import { Icons } from "@/components/shared/icons";
-
 import { ItemListQueryResult, ItemQueryResult } from '@/sanity.types';
 export type ItemInfo = ItemListQueryResult[number];
-export type ItemFullInfo = ItemQueryResult; // FullInfo has more fields (eg. content)
+// FullInfo has more fields (eg. content)
+export type ItemFullInfo = ItemQueryResult;
 
 export type SiteConfig = {
   name: string;
@@ -24,7 +24,7 @@ export type MarketingConfig = {
 
 export type DocsConfig = {
   mainNav: NavItem[];
-  sidebarNav: SidebarNavItem[];
+  sidebarNav: NestedNavItem[];
 };
 
 export type NavItem = {
@@ -37,7 +37,7 @@ export type NavItem = {
   icon?: keyof typeof Icons;
 };
 
-export type SidebarNavItem = {
+export type NestedNavItem = {
   title: string;
   items: NavItem[];
   authorizeOnly?: UserRole;

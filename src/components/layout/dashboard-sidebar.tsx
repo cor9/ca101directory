@@ -14,14 +14,14 @@ import {
 import { siteConfig } from "@/config/site";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
-import { SidebarNavItem } from "@/types";
+import { NestedNavItem } from "@/types";
 import { PanelLeftClose, PanelRightClose, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 
 interface DashboardSidebarProps {
-  links: SidebarNavItem[];
+  links: NestedNavItem[];
 }
 
 export function DashboardSidebar({ links }: DashboardSidebarProps) {

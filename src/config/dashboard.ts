@@ -1,7 +1,7 @@
-import { SidebarNavItem } from "@/types";
+import { NestedNavItem } from "@/types";
 import { UserRole } from "@/types/user-role";
 
-export const sidebarLinks: SidebarNavItem[] = [
+export const sidebarLinks: NestedNavItem[] = [
   {
     title: "MENU",
     items: [

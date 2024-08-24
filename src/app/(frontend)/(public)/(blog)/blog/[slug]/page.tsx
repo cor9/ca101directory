@@ -149,7 +149,7 @@ export default async function PostPage({
 
         <div>
           {relatedArticles.length > 0 && (
-            <div className="flex flex-col space-y-4 pb-16">
+            <div className="flex flex-col mt-16 space-y-4 pb-16">
               <p className="font-heading text-2xl text-foreground">
                 More Articles
               </p>

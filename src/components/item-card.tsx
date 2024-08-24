@@ -12,12 +12,12 @@ type ItemCardProps = {
 
 export default async function ItemCard({ item }: ItemCardProps) {
   const imageUrl = urlForImageWithSize(item.image, 960, 540);
-  // const date = new Date(item.publishDate).toLocaleDateString("en-US", {
-  //   month: "long",
-  //   day: "numeric",
-  //   year: "numeric",
-  // });
-  const date = format(parseISO(item.publishDate), "yyyy/MM/dd");
+  const date = new Date(item.publishDate).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+  // const date = format(parseISO(item.publishDate), "yyyy/MM/dd");
   const category = item.categories[0];
   // .name.find((kv) => kv._key === 'en')?.value || 'No Category';
 
@@ -33,7 +33,7 @@ export default async function ItemCard({ item }: ItemCardProps) {
       <div className="flex flex-col gap-4">
         <div className="h-48 w-full overflow-hidden relative rounded-t-md border-b flex items-center justify-center">
           <Image
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
             src={imageUrl}
             alt={item.name?.find(entry => entry._key === "en")?.value ?? ""}
             width={480}

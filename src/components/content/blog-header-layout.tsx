@@ -1,13 +1,14 @@
 "use client";
 
+import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import { BLOG_CATEGORIES } from "@/config/blog";
+import { cn } from "@/lib/utils";
 import { Check, List } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Drawer } from "vaul";
-import { cn } from "@/lib/utils";
-import { BLOG_CATEGORIES } from "@/config/blog";
-import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
 export function BlogHeaderLayout() {
   const [open, setOpen] = useState(false);
@@ -20,6 +21,21 @@ export function BlogHeaderLayout() {
 
   return (
     <>
+      {/* <MaxWidthWrapper className="md:pb-8">
+        <Tabs defaultValue={slug || "all"} className="hidden mt-8 w-full md:flex">
+          <TabsList className="w-full flex flex-1 gap-x-2 border-b text-[15px]">
+            <TabsTrigger value="all" asChild>
+              <Link href="/blog">All</Link>
+            </TabsTrigger>
+            {BLOG_CATEGORIES.map((category) => (
+              <TabsTrigger key={category.slug} value={category.slug} asChild>
+                <Link href={`/blog/category/${category.slug}`}>{category.title}</Link>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
+      </MaxWidthWrapper> */}
+
       <MaxWidthWrapper className="md:pb-8">
         <nav className="hidden mt-8 w-full md:flex">
           <ul role="list" className="w-full flex flex-1 gap-x-2 border-b text-[15px] text-muted-foreground" >

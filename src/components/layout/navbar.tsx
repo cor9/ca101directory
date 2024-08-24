@@ -24,6 +24,7 @@ import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { DocsSidebarNav } from "../docs/docs-sidebar-nav";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { useEffect, useState } from "react";
+import { ModeToggle } from "./mode-toggle";
 
 interface NavBarProps {
   scroll?: boolean;
@@ -129,6 +130,8 @@ export function Navbar({ scroll = false }: NavBarProps) {
             ) : (
               null
             )}
+
+            <ModeToggle />
           </div>
         </MaxWidthWrapper>
       </header>
@@ -208,6 +211,8 @@ export function Navbar({ scroll = false }: NavBarProps) {
             ) : (
               null
             )}
+
+            <ModeToggle />
           </div>
         </div>
       </header>

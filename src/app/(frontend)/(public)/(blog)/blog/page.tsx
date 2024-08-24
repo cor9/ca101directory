@@ -1,8 +1,9 @@
+import { BlogHeaderLayout } from "@/components/content/blog-header-layout";
 import { BlogPosts } from "@/components/content/blog-posts";
 import { getBlurDataURL } from "@/lib/utils";
 import { allPosts } from "contentlayer/generated";
 
-export default async function BlogPage() {
+export default async function BlogListPage() {
   const posts = await Promise.all(
     allPosts
       .filter((post) => post.published)
@@ -13,5 +14,11 @@ export default async function BlogPage() {
       })),
   );
 
-  return <BlogPosts posts={posts} />;
+  return (
+    <>
+      <BlogHeaderLayout />
+
+      <BlogPosts posts={posts} />
+    </>
+  );
 }

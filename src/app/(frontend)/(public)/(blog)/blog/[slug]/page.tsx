@@ -1,4 +1,5 @@
 import "@/styles/mdx.css";
+
 import Author from "@/components/content/author";
 import { Mdx } from "@/components/content/mdx-components";
 import BlurImage from "@/components/shared/blur-image";
@@ -81,7 +82,7 @@ export default async function PostPage({
 
   return (
     <>
-      <div className="">
+      <div className="mt-8">
         <div className="flex flex-col space-y-4">
           <div className="flex items-center space-x-4">
             <Link

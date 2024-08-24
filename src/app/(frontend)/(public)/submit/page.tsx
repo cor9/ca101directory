@@ -6,6 +6,7 @@ import { ComparePlans } from "@/components/pricing/compare-plans";
 import { PricingCards } from "@/components/pricing/pricing-cards";
 import { PricingFaq } from "@/components/pricing/pricing-faq";
 import { currentUser } from "@/lib/auth";
+import Pricing from "@/components/pricing";
 
 export const metadata = constructMetadata({
   title: "Pricing",
@@ -47,8 +48,9 @@ export default async function SubmitPage() {
 
   return (
     <div className="flex w-full flex-col gap-16 py-8 md:py-8">
-      <PricingCards userId={user?.id} subscriptionPlan={subscriptionPlan} />
-      <hr className="container" />
+      <Pricing />
+      {/* <PricingCards userId={user?.id} subscriptionPlan={subscriptionPlan} /> */}
+      {/* <hr className="container" /> */}
       <PricingFaq />
     </div>
   );

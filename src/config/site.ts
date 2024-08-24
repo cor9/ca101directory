@@ -21,7 +21,7 @@ export const footerLinks: NestedNavItem[] = [
   {
     title: "Product",
     items: [
-      { title: "Submit", href: "/submit" },
+      { title: "About", href: "/" },
       { title: "Search", href: "/search" },
       { title: "Category", href: "/category" },
       { title: "Tag", href: "/tag" },
@@ -30,10 +30,10 @@ export const footerLinks: NestedNavItem[] = [
   {
     title: "Support",
     items: [
+      { title: "Submit", href: "/submit" },
+      { title: "Pricing", href: "/pricing" },
+      { title: "FAQ", href: "/pricing#faq" },
       { title: "Documentation", href: "/docs" },
-      { title: "Changelog", href: "/changelog" },
-      { title: "Feedback", href: "/feedback" },
-      { title: "Roadmap", href: "/roadmap" },
     ],
   },
   {

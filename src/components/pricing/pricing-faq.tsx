@@ -46,9 +46,9 @@ export function PricingFaq() {
       <HeaderSection
         label="FAQ"
         title="Frequently Asked Questions"
-        subtitle="Explore our comprehensive FAQ to find quick answers to common
-          inquiries. If you need further assistance, don't hesitate to
-          contact us for personalized help."
+        // subtitle="Explore our comprehensive FAQ to find quick answers to common
+        //   inquiries. If you need further assistance, don't hesitate to
+        //   contact us for personalized help."
       />
 
       <Accordion type="single" collapsible className="my-12 w-full">

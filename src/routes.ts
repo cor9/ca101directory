@@ -22,7 +22,9 @@ export const publicRoutes = [
   "/terms(/.*)?",
   "/privacy(/.*)?",
   
-  "/auth/new-verification"
+  "/auth/new-verification",
+
+  "/landing(/.*)?",
 ];
 
 /**

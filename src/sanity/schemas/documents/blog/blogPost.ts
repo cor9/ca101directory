@@ -9,10 +9,6 @@ export default defineType({
     icon: DocumentsIcon,
     groups: [
         {
-            name: 'intl',
-            title: 'Internationalization',
-        },
-        {
             name: 'media',
             title: 'Media',
         },
@@ -21,21 +17,15 @@ export default defineType({
         defineField({
             name: "title",
             title: "Title",
-            group: 'intl',
-            type: "internationalizedArrayString",
+            type: "string",
             validation: (rule) => rule.required(),
         }),
         defineField({
             name: "slug",
             title: "Slug",
             type: "slug",
-            group: 'intl',
             options: {
-                source: (document, context) => {
-                    // @ts-ignore
-                    const enTitle = document.title.find(item => item._key === "en");
-                    return enTitle ? enTitle.value : "";
-                },
+                source: "name",
                 maxLength: 96,
                 isUnique: (value, context) => context.defaultIsUnique(value, context),
             },
@@ -49,8 +39,8 @@ export default defineType({
             validation: (rule) => rule.required(),
         }),
         defineField({
-            name: "submitter",
-            title: "Submitter",
+            name: "author",
+            title: "Author",
             type: "reference",
             to: [{ type: "user" }],
         }),
@@ -89,12 +79,9 @@ export default defineType({
             date: "publishDate",
         },
         prepare({ title, media, date }) {
-            // @ts-ignore
-            const enTitle = title.find((item: any) => item._key === "en");
-            const formattedTitle = enTitle ? enTitle.value : "No Title";
             const subtitle = format(parseISO(date), "yyyy/MM/dd");
             return {
-                title: formattedTitle,
+                title,
                 media,
                 subtitle
             };
@@ -107,9 +94,9 @@ export default defineType({
             by: [{ field: 'publishDate', direction: 'desc' }],
         },
         {
-            title: 'Slug',
-            name: 'slug',
-            by: [{ field: 'slug.current', direction: 'asc' }],
+            title: 'Title',
+            name: 'title',
+            by: [{ field: 'title', direction: 'asc' }],
         },
     ],
 });

@@ -7,31 +7,19 @@ export default defineType({
   title: "Tag",
   type: "document",
   icon: TagsIcon,
-  groups: [
-    {
-      name: 'intl',
-      title: 'Internationalization',
-    },
-  ],
   fields: [
     defineField({
       name: "name",
       title: "Name",
-      group: 'intl',
-      type: "internationalizedArrayString",
+      type: "string",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
-      group: 'intl',
       options: {
-        source: (document, context) => {
-          // @ts-ignore
-          const enName = document.name.find(item => item._key === "en");
-          return enName ? enName.value : "";
-        },
+        source: "name",
         maxLength: 96,
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
@@ -40,19 +28,15 @@ export default defineType({
     defineField({
       name: "description",
       title: "Description",
-      group: 'intl',
-      type: "internationalizedArrayString",
+      type: "string",
     }),
   ],
   preview: {
     select: {
-      name: "name",
+      title: "name",
       date: "_createdAt",
     },
-    prepare({ name, date }) {
-      // @ts-ignore
-      const enName = name.find(item => item._key === "en");
-      const title = enName ? enName.value : "No Name";
+    prepare({ title, date }) {
       const subtitle = format(parseISO(date), "yyyy/MM/dd");
       return {
         title,
@@ -62,9 +46,9 @@ export default defineType({
   },
 	orderings: [
 		{
-			title: 'Slug',
-			name: 'slug',
-			by: [{ field: 'slug.current', direction: 'asc' }],
+			title: 'name',
+			name: 'name',
+			by: [{ field: 'name', direction: 'asc' }],
 		},
 	],
 });

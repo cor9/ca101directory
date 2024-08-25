@@ -14,8 +14,7 @@ import { presentationTool } from 'sanity/presentation';
 import { structureTool } from 'sanity/structure';
 
 export default defineConfig({
-  name: 'default',
-  title: 'MkWeb', // TODO: extract to site configs
+  name: 'Studio',
   basePath: studioUrl,
   projectId,
   dataset,
@@ -69,16 +68,16 @@ export default defineConfig({
 
     // https://www.sanity.io/plugins/internationalized-array
     // Store localised fields in an array to save on attributes
-    internationalizedArray({
-      languages: [
-        { id: 'en', title: 'English' },
-        { id: 'zh', title: 'Chinese' },
-        { id: 'fr', title: 'French' }
-      ],
-      defaultLanguages: ['en'],
-      // internationalizedArray + string => internationalizedArrayString
-      fieldTypes: ['string'],
-    }),
+    // internationalizedArray + fieldTypes/string => internationalizedArrayString
+    // internationalizedArray({
+    //   languages: [
+    //     { id: 'en', title: 'English' },
+    //     { id: 'zh', title: 'Chinese' },
+    //     { id: 'fr', title: 'French' }
+    //   ],
+    //   defaultLanguages: ['en'],
+    //   fieldTypes: ['string'],
+    // }),
 
     // Configures the global "new document" button, and document actions, 
     // hide the "duplicate" action on the Singletons (such as Settings)

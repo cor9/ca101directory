@@ -167,13 +167,9 @@ export type Category = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  name?: string;
   slug?: Slug;
-  description?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  description?: string;
   priority?: number;
 };
 
@@ -183,13 +179,9 @@ export type Tag = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  name?: string;
   slug?: Slug;
-  description?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  description?: string;
 };
 
 export type Item = {
@@ -198,13 +190,9 @@ export type Item = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  name?: string;
   slug?: Slug;
-  description?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  description?: string;
   link?: string;
   categories?: Array<{
     _ref: string;
@@ -289,9 +277,7 @@ export type BlogPost = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  title?: string;
   slug?: Slug;
   blogCategory?: {
     _ref: string;
@@ -299,7 +285,7 @@ export type BlogPost = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "blogCategory";
   };
-  submitter?: {
+  author?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
@@ -327,13 +313,9 @@ export type BlogCategory = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  name?: string;
   slug?: Slug;
-  description?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  description?: string;
   priority?: number;
 };
 
@@ -443,15 +425,6 @@ export type Account = {
   };
 };
 
-export type InternationalizedArrayStringValue = {
-  _type: "internationalizedArrayStringValue";
-  value?: string;
-};
-
-export type InternationalizedArrayString = Array<{
-  _key: string;
-} & InternationalizedArrayStringValue>;
-
 export type MediaTag = {
   _id: string;
   _type: "media.tag";
@@ -467,7 +440,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Settings | PasswordResetToken | VerificationToken | Session | BlockContent | Category | Tag | Item | BlogPost | BlogCategory | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | InternationalizedArrayStringValue | InternationalizedArrayString | MediaTag | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Settings | PasswordResetToken | VerificationToken | Session | BlockContent | Category | Tag | Item | BlogPost | BlogCategory | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | MediaTag | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/sanity/lib/queries.ts
 // Variable: itemQuery
@@ -478,13 +451,9 @@ export type ItemQueryResult = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  name?: string;
   slug?: Slug;
-  description?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  description?: string;
   link?: string;
   categories: Array<{
     _id: string;
@@ -492,13 +461,9 @@ export type ItemQueryResult = {
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    name?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    name?: string;
     slug?: Slug;
-    description?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    description?: string;
     priority?: number;
   }> | null;
   tags: Array<{
@@ -507,13 +472,9 @@ export type ItemQueryResult = {
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    name?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    name?: string;
     slug?: Slug;
-    description?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    description?: string;
   }> | null;
   submitter?: {
     _ref: string;
@@ -585,13 +546,9 @@ export type ItemListQueryResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  name?: string;
   slug?: Slug;
-  description?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  description?: string;
   link?: string;
   categories: Array<{
     _id: string;
@@ -599,13 +556,9 @@ export type ItemListQueryResult = Array<{
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    name?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    name?: string;
     slug?: Slug;
-    description?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    description?: string;
     priority?: number;
   }> | null;
   tags: Array<{
@@ -614,13 +567,9 @@ export type ItemListQueryResult = Array<{
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    name?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    name?: string;
     slug?: Slug;
-    description?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    description?: string;
   }> | null;
   submitter?: {
     _ref: string;
@@ -692,13 +641,9 @@ export type ItemListOfCategoryQueryResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  name?: string;
   slug?: Slug;
-  description?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  description?: string;
   link?: string;
   categories: Array<{
     _id: string;
@@ -706,13 +651,9 @@ export type ItemListOfCategoryQueryResult = Array<{
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    name?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    name?: string;
     slug?: Slug;
-    description?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    description?: string;
     priority?: number;
   }> | null;
   tags: Array<{
@@ -721,13 +662,9 @@ export type ItemListOfCategoryQueryResult = Array<{
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    name?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    name?: string;
     slug?: Slug;
-    description?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    description?: string;
   }> | null;
   submitter?: {
     _ref: string;
@@ -799,13 +736,9 @@ export type ItemListOfTagQueryResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  name?: string;
   slug?: Slug;
-  description?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  description?: string;
   link?: string;
   categories: Array<{
     _id: string;
@@ -813,13 +746,9 @@ export type ItemListOfTagQueryResult = Array<{
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    name?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    name?: string;
     slug?: Slug;
-    description?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    description?: string;
     priority?: number;
   }> | null;
   tags: Array<{
@@ -828,13 +757,9 @@ export type ItemListOfTagQueryResult = Array<{
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    name?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    name?: string;
     slug?: Slug;
-    description?: Array<{
-      _key: string;
-    } & InternationalizedArrayStringValue>;
+    description?: string;
   }> | null;
   submitter?: {
     _ref: string;
@@ -906,13 +831,9 @@ export type CategoryListQueryResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  name?: string;
   slug?: Slug;
-  description?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  description?: string;
   priority?: number;
 }>;
 // Variable: categoryQuery
@@ -923,13 +844,9 @@ export type CategoryQueryResult = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  name?: string;
   slug?: Slug;
-  description?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  description?: string;
   priority?: number;
 } | null;
 // Variable: tagListQuery
@@ -940,13 +857,9 @@ export type TagListQueryResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  name?: string;
   slug?: Slug;
-  description?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  description?: string;
 }>;
 // Variable: tagQuery
 // Query: *[_type == "tag" && slug.current == $slug][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
@@ -956,13 +869,9 @@ export type TagQueryResult = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  name?: string;
   slug?: Slug;
-  description?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
+  description?: string;
 } | null;
 
 // Query TypeMap

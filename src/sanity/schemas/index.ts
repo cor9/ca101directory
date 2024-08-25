@@ -13,7 +13,7 @@ import tag from './documents/directory/tag';
 import settings from './documents/settings';
 
 export const schemaTypes = [
-    // documents
+    // directory
     item,
     tag,
     category,

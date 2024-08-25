@@ -948,22 +948,7 @@
       "name": {
         "type": "objectAttribute",
         "value": {
-          "type": "array",
-          "of": {
-            "type": "object",
-            "attributes": {
-              "_key": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                }
-              }
-            },
-            "rest": {
-              "type": "inline",
-              "name": "internationalizedArrayStringValue"
-            }
-          }
+          "type": "string"
         },
         "optional": true
       },
@@ -978,22 +963,7 @@
       "description": {
         "type": "objectAttribute",
         "value": {
-          "type": "array",
-          "of": {
-            "type": "object",
-            "attributes": {
-              "_key": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                }
-              }
-            },
-            "rest": {
-              "type": "inline",
-              "name": "internationalizedArrayStringValue"
-            }
-          }
+          "type": "string"
         },
         "optional": true
       },
@@ -1044,22 +1014,7 @@
       "name": {
         "type": "objectAttribute",
         "value": {
-          "type": "array",
-          "of": {
-            "type": "object",
-            "attributes": {
-              "_key": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                }
-              }
-            },
-            "rest": {
-              "type": "inline",
-              "name": "internationalizedArrayStringValue"
-            }
-          }
+          "type": "string"
         },
         "optional": true
       },
@@ -1074,22 +1029,7 @@
       "description": {
         "type": "objectAttribute",
         "value": {
-          "type": "array",
-          "of": {
-            "type": "object",
-            "attributes": {
-              "_key": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                }
-              }
-            },
-            "rest": {
-              "type": "inline",
-              "name": "internationalizedArrayStringValue"
-            }
-          }
+          "type": "string"
         },
         "optional": true
       }
@@ -1133,22 +1073,7 @@
       "name": {
         "type": "objectAttribute",
         "value": {
-          "type": "array",
-          "of": {
-            "type": "object",
-            "attributes": {
-              "_key": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                }
-              }
-            },
-            "rest": {
-              "type": "inline",
-              "name": "internationalizedArrayStringValue"
-            }
-          }
+          "type": "string"
         },
         "optional": true
       },
@@ -1163,22 +1088,7 @@
       "description": {
         "type": "objectAttribute",
         "value": {
-          "type": "array",
-          "of": {
-            "type": "object",
-            "attributes": {
-              "_key": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                }
-              }
-            },
-            "rest": {
-              "type": "inline",
-              "name": "internationalizedArrayStringValue"
-            }
-          }
+          "type": "string"
         },
         "optional": true
       },
@@ -1753,22 +1663,7 @@
       "title": {
         "type": "objectAttribute",
         "value": {
-          "type": "array",
-          "of": {
-            "type": "object",
-            "attributes": {
-              "_key": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                }
-              }
-            },
-            "rest": {
-              "type": "inline",
-              "name": "internationalizedArrayStringValue"
-            }
-          }
+          "type": "string"
         },
         "optional": true
       },
@@ -1810,7 +1705,7 @@
         },
         "optional": true
       },
-      "submitter": {
+      "author": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
@@ -1964,22 +1859,7 @@
       "name": {
         "type": "objectAttribute",
         "value": {
-          "type": "array",
-          "of": {
-            "type": "object",
-            "attributes": {
-              "_key": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                }
-              }
-            },
-            "rest": {
-              "type": "inline",
-              "name": "internationalizedArrayStringValue"
-            }
-          }
+          "type": "string"
         },
         "optional": true
       },
@@ -1994,22 +1874,7 @@
       "description": {
         "type": "objectAttribute",
         "value": {
-          "type": "array",
-          "of": {
-            "type": "object",
-            "attributes": {
-              "_key": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                }
-              }
-            },
-            "rest": {
-              "type": "inline",
-              "name": "internationalizedArrayStringValue"
-            }
-          }
+          "type": "string"
         },
         "optional": true
       },
@@ -2647,51 +2512,6 @@
           "dereferencesTo": "user"
         },
         "optional": true
-      }
-    }
-  },
-  {
-    "name": "internationalizedArrayStringValue",
-    "type": "type",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "internationalizedArrayStringValue"
-          }
-        },
-        "value": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": true
-        }
-      }
-    }
-  },
-  {
-    "name": "internationalizedArrayString",
-    "type": "type",
-    "value": {
-      "type": "array",
-      "of": {
-        "type": "object",
-        "attributes": {
-          "_key": {
-            "type": "objectAttribute",
-            "value": {
-              "type": "string"
-            }
-          }
-        },
-        "rest": {
-          "type": "inline",
-          "name": "internationalizedArrayStringValue"
-        }
       }
     }
   },

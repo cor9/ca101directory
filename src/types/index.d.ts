@@ -5,6 +5,33 @@ export type ItemInfo = ItemListQueryResult[number];
 // FullInfo has more fields (eg. content)
 export type ItemFullInfo = ItemQueryResult;
 
+export type SubmitAppConfig = {
+  title: string;
+  subtitle: string;
+  form: {
+    title: string;
+    name: string;
+    namePlaceHolder: string;
+    link: string;
+    linkPlaceHolder: string;
+    submit: string;
+    submiting: string;
+    desc: string;
+    descPlaceHolder: string;
+    types: string;
+    image: string;
+    coverImage: string;
+    update: string;
+    updating: string;
+    delete: string;
+    deleting: string;
+    imageUploading: string;
+    notice: string;
+    success: string;
+    error: string;
+  }
+}
+
 export type SiteConfig = {
   name: string;
   slogan: string;

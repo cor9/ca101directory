@@ -99,6 +99,17 @@ export function UserAccountNav() {
                 </Link>
               </li>
 
+              <li className="rounded-lg text-foreground hover:bg-muted">
+                <Link
+                  href="/dashboard/submit"
+                  onClick={closeDrawer}
+                  className="flex w-full items-center gap-3 px-2.5 py-2"
+                >
+                  <Settings className="size-4" />
+                  <p className="text-sm">Submit</p>
+                </Link>
+              </li>
+
               <li
                 className="rounded-lg text-foreground hover:bg-muted"
                 onClick={(event) => {
@@ -168,6 +179,17 @@ export function UserAccountNav() {
             <p className="text-sm">Settings</p>
           </Link>
         </DropdownMenuItem>
+
+        <DropdownMenuItem asChild>
+          <Link
+            href="/dashboard/submit"
+            className="flex items-center space-x-2.5"
+          >
+            <Settings className="size-4" />
+            <p className="text-sm">Submit</p>
+          </Link>
+        </DropdownMenuItem>
+
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer"

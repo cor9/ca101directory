@@ -11,7 +11,7 @@ export default function Pricing() {
     const plan = {
         name: "One-Time Submit",
         desc: "Pay once to submit your product",
-        price: 9,
+        price: 9.9,
         isMostPop: true,
         features: [
             "Pay once",
@@ -103,6 +103,8 @@ export default function Pricing() {
                                 <div className="pb-2 col-span-2 font-medium">
                                     <p>Features</p>
                                 </div>
+                                {/* TODO: fix stroke-width  */}
+                                {/* Warning: Invalid DOM property `stroke-width`. Did you mean `strokeWidth`? */}
                                 {
                                     plan.features.map((featureItem, idx) => (
                                         <li key={idx} className='flex items-center gap-4'>

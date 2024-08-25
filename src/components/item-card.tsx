@@ -1,16 +1,15 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { cn, urlForImageWithSize } from "@/lib/utils";
 import { ItemInfo } from "@/types";
-import { format, parseISO } from "date-fns";
+import Image from "next/image";
+import Link from "next/link";
 
 type ItemCardProps = {
   item: ItemInfo;
 };
 
-export default async function ItemCard({ item }: ItemCardProps) {
+export default function ItemCard({ item }: ItemCardProps) {
   const imageUrl = urlForImageWithSize(item.image, 960, 540);
   const date = new Date(item.publishDate).toLocaleDateString("en-US", {
     month: "long",

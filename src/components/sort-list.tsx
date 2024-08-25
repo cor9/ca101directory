@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SortFilterItem } from "@/lib/constants";
+import { defaultSort, SortFilterItem } from "@/lib/constants";
 import { createUrl } from "@/lib/utils";
 import { Check, ListChecks } from "lucide-react";
 import Link from "next/link";
@@ -55,10 +55,10 @@ export function SortList({ sortList }: SortListProps) {
   return (
     <>
       {/* Desktop View */}
-      <div className="hidden md:block w-full py-4">
+      <div className="hidden w-full md:block md:min-w-[180px]">
         <Select onValueChange={onSelectChange} value={active}>
-          <SelectTrigger className="w-[150px] h-8 text-sm">
-            <SelectValue placeholder="Sort by Time" />
+          <SelectTrigger className="h-8 text-sm">
+            <SelectValue placeholder={defaultSort.title} />
           </SelectTrigger>
           <SelectContent className="text-sm">
             {sortList.map((item) => (
@@ -78,7 +78,7 @@ export function SortList({ sortList }: SortListProps) {
         >
           <ListChecks className="size-[18px]" />
           <p className="ml-2.5 text-sm font-medium">
-            {sortList.find((item) => item.slug === active)?.title || 'Sort by Time'}
+            {sortList.find((item) => item.slug === active)?.title || defaultSort.title}
           </p>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"

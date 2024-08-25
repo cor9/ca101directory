@@ -37,7 +37,7 @@ export async function getItems({
     const sortOrder = sortKey ? `| order(${sortKey} ${orderDirection})` : '| order(publishDate desc)';
     const queryPattern = query ? `*${query}*` : '';
     const queryCondition = query
-      ? `&& (name[].value match "${queryPattern}" || description[].value match "${queryPattern}")`
+      ? `&& (name match "${queryPattern}" || description match "${queryPattern}")`
       : '';
     const categoryCondition = category ? `&& "${category}" in categories[]->slug.current` : '';
     const tagCondition = tag ? `&& "${tag}" in tags[]->slug.current` : '';

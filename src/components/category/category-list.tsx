@@ -1,14 +1,13 @@
 "use client";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils";
 import { CategoryListQueryResult } from '@/sanity.types';
 import { Check, LayoutList } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Drawer } from "vaul";
-import { Button, buttonVariants } from "../ui/button";
+import { Button } from "../ui/button";
 
 export type CategoryListProps = {
   categoryList: CategoryListQueryResult;
@@ -27,10 +26,10 @@ export function CategoryList({ categoryList }: CategoryListProps) {
   return (
     <>
       {/* Desktop View */}
-      <ScrollArea className="hidden md:flex w-full py-4">
+      <ScrollArea className="hidden md:flex w-full">
         <ul role="list" className="w-full flex flex-1 gap-x-2" >
           <DesktopLink
-            title="All"
+            title="All Categories"
             href="/category"
             active={!slug}
           />
@@ -43,6 +42,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
               active={item.slug.current === slug}
             />
           ))}
+
         </ul>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
@@ -55,7 +55,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
         >
           <LayoutList className="size-[18px]" />
           <p className="ml-2.5 text-sm font-medium">
-            Categories {`(${category?.name})`}
+            {category?.name ? `Category (${category?.name})` : 'All Categories'}
           </p>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
@@ -68,7 +68,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
             </div>
             <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
               <MobileLink
-                title="All"
+                title="All Categories"
                 href="/category"
                 active={!slug}
                 clickAction={closeDrawer}

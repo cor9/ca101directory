@@ -26,7 +26,7 @@ export function TagList({ tagList }: TagListProps) {
   return (
     <>
       {/* Desktop View */}
-      <ScrollArea className="hidden md:flex w-full py-4">
+      <ScrollArea className="hidden md:flex w-full">
         <ul role="list" className="w-full flex flex-1 gap-x-2" >
           <DesktopLink
             title="All Tags"
@@ -54,7 +54,7 @@ export function TagList({ tagList }: TagListProps) {
         >
           <LayoutList className="size-[18px]" />
           <p className="ml-2.5 text-sm font-medium">
-            Tags {`(${tag?.name})`}
+            {tag?.name ? `Tags (${tag?.name})` : 'All Tags'}
           </p>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"

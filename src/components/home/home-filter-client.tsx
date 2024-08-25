@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { SortFilterItem } from "@/lib/constants";
 import { useRouter, useSearchParams } from "next/navigation";
+import HomeSearch from "./home-search";
 
 interface HomeFilterProps {
   tagList: TagFilterItem[];
@@ -36,7 +37,7 @@ interface HomeFilterProps {
   sortList: SortFilterItem[];
 }
 
-export async function HomeFilterClient({
+export function HomeFilterClient({
   tagList,
   categoryList,
   sortList,
@@ -63,7 +64,9 @@ export async function HomeFilterClient({
   };
 
   return (
-    <div className="grid md:grid-cols-[1fr_1fr_1fr_0.5fr] gap-2 my-4 z-10">
+    <div className="grid md:grid-cols-[1fr_1fr_1fr_1fr_0.5fr] gap-2 z-10 items-center">
+      <HomeSearch />
+
       <Select
         value={selectedCategory || null}
         onValueChange={(value) => handleFilterChange("category", value)}
@@ -80,7 +83,7 @@ export async function HomeFilterClient({
           ))}
         </SelectContent>
       </Select>
-      
+
       <Select
         value={selectedTag || null}
         onValueChange={(value) => handleFilterChange("tag", value)}
@@ -98,21 +101,21 @@ export async function HomeFilterClient({
         </SelectContent>
       </Select>
 
-      <Select 
+      <Select
         value={selectedSort || null}
         onValueChange={(value) => handleFilterChange("sort", value)}
       >
-          <SelectTrigger>
-            <SelectValue placeholder="Sort by Time" />
-          </SelectTrigger>
-          <SelectContent>
-            {sortList.map((item) => (
-              <SelectItem key={item.slug} value={item.slug}>
-                {item.title}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <SelectTrigger>
+          <SelectValue placeholder="Sort by Time" />
+        </SelectTrigger>
+        <SelectContent>
+          {sortList.map((item) => (
+            <SelectItem key={item.slug} value={item.slug}>
+              {item.title}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
       <Button variant="outline" onClick={handleResetFilters}>
         Reset

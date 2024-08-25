@@ -3,42 +3,31 @@ import MaxWidthWrapper from './shared/max-width-wrapper';
 import { SortList } from './sort-list';
 import Search, { SearchSkeleton } from './search';
 import { Suspense } from 'react';
+import HomeSearch from './home/home-search';
 
 export async function SearchHeaderLayout() {
   return (
     <>
       {/* Desktop View, has MaxWidthWrapper */}
       <MaxWidthWrapper className="hidden md:block">
-        <div className='grid grid-cols-[1fr_150px] gap-8 items-center justify-between'>
-          <div className="w-full min-w-0 mt-4">
-            <Suspense fallback={<SearchSkeleton />}>
-              <Search />
-            </Suspense>
+        <div className='flex items-center justify-between gap-8 mt-4'>
+          <div className="">
+            {/* <HomeSearch /> */}
+            <Search />
           </div>
 
-          {/* set width to 150px */}
-          <div className="mt-4">
-          <Suspense fallback={null}>
+          <div className="">
             <SortList sortList={sorting} />
-          </Suspense>
           </div>
         </div>
       </MaxWidthWrapper>
 
       {/* Mobile View, no MaxWidthWrapper */}
-      <div className="md:hidden flex flex-col gap-8">
-        <div className='w-full min-w-0 mt-4'>
-          <Suspense fallback={<SearchSkeleton />}>
-            <Search />
-          </Suspense>
-        </div>
+      <div className="md:hidden flex flex-col gap-8 mt-4">
+        <HomeSearch />
 
         {/* set width to full */}
-        <div className="w-full mb-8">
-          <Suspense fallback={null}>
-            <SortList sortList={sorting} />
-          </Suspense>
-        </div>
+        <SortList sortList={sorting} />
       </div>
     </>
   );

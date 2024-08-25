@@ -14,6 +14,13 @@ export default function HomeSearch() {
   const lastExecutedQuery = useRef(searchParams?.get('q') || '');
 
   useEffect(() => {
+    const currentQuery = searchParams?.get('q') || '';
+    if (currentQuery !== searchQuery) {
+      setSearchQuery(currentQuery);
+    }
+  }, [searchParams]); 
+
+  useEffect(() => {
     if (debouncedQuery !== lastExecutedQuery.current) {
       const newParams = new URLSearchParams(searchParams?.toString());
       if (debouncedQuery) {
@@ -28,15 +35,15 @@ export default function HomeSearch() {
       lastExecutedQuery.current = debouncedQuery;
       router.push(newUrl, { scroll: false });
     }
-  }, [debouncedQuery, router, searchParams]);
+  }, [debouncedQuery, router, searchParams, searchQuery]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
   return (
-    <div className='flex items-center justify-center md:justify-start'>
-      <div className="w-80 relative">
+    <div className='flex items-center justify-start'>
+      <div className="w-full relative">
         <input
           type="text"
           name="search"
@@ -44,7 +51,7 @@ export default function HomeSearch() {
           autoComplete="off"
           value={searchQuery}
           onChange={handleSearch}
-          className="text-md w-full rounded-full border bg-white px-4 py-2 text-black placeholder:text-neutral-500 md:text-sm dark:border-neutral-800 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-400"
+          className="w-full rounded-none md:rounded-lg border px-4 py-2 text-sm"
         />
         <div className="absolute right-0 top-0 mr-4 flex h-full items-center">
           <SearchIcon className="h-4" />
@@ -54,12 +61,12 @@ export default function HomeSearch() {
   );
 }
 
-export function SearchSkeleton() {
+export function HomeSearchSkeleton() {
   return (
     <form className="w-full md:w-80 relative">
       <input
         placeholder="Search..."
-        className="text-md w-full rounded-full border bg-white px-4 py-2 text-sm text-black placeholder:text-neutral-500 dark:border-neutral-800 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-400"
+        className="w-full rounded-lg border px-4 py-2 text-sm"
       />
       <div className="absolute right-0 top-0 mr-4 flex h-full items-center">
         <SearchIcon className="h-4" />

@@ -6,7 +6,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       {/* hero section with search component */}
-      <HomeHero />
+      {/* <HomeHero /> */}
 
       {/* filter layout with filter components */}
       <HomeFilter />

@@ -18,8 +18,6 @@ export default async function ItemCard({ item }: ItemCardProps) {
     year: "numeric",
   });
   // const date = format(parseISO(item.publishDate), "yyyy/MM/dd");
-  const category = item.categories[0];
-  // .name.find((kv) => kv._key === 'en')?.value || 'No Category';
 
   return (
     <Link
@@ -35,16 +33,16 @@ export default async function ItemCard({ item }: ItemCardProps) {
           <Image
             className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
             src={imageUrl}
-            alt={item.name?.find(entry => entry._key === "en")?.value ?? ""}
+            alt={`image of ${item.name}`}
             width={480}
             height={270}
           />
         </div>
         <div className="px-4 text-xl text-primary font-medium transition-all" >
-          <p>{item.name?.find(entry => entry._key === "en")?.value || 'No Name'}</p>
+          <p>{item.name}</p>
         </div>
         <div className="px-4 text-sm text-muted-foreground line-clamp-3">
-          <p>{item.description?.find(entry => entry._key === "en")?.value}</p>
+          <p>{item.description}</p>
         </div>
       </div>
 
@@ -52,8 +50,8 @@ export default async function ItemCard({ item }: ItemCardProps) {
       <div className="flex flex-col gap-4">
         <hr />
         <div className="px-4 pb-4 flex justify-between items-center text-xs">
-          <p>{category.name?.find(entry => entry._key === "en")?.value || 'No Category'}</p>
-          <p>{date}</p>
+          <p className="font-medium">{item?.categories?.[0]?.name}</p>
+          <p className="text-muted-foreground">{date}</p>
         </div>
       </div>
     </Link>

@@ -37,7 +37,7 @@ export function TagList({ tagList }: TagListProps) {
           {tagList.map((item) => (
             <DesktopLink
               key={item.slug.current}
-              title={item.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
+              title={item.name}
               href={`/tag/${item.slug.current}`}
               active={item.slug.current === slug}
             />
@@ -54,7 +54,7 @@ export function TagList({ tagList }: TagListProps) {
         >
           <LayoutList className="size-[18px]" />
           <p className="ml-2.5 text-sm font-medium">
-            Tags {`(${tag?.name.find((kv) => kv._key === 'en')?.value || 'No Name'})`}
+            Tags {`(${tag?.name})`}
           </p>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
@@ -76,7 +76,7 @@ export function TagList({ tagList }: TagListProps) {
               {tagList.map((item) => (
                 <MobileLink
                   key={item.slug.current}
-                  title={item.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
+                  title={item.name}
                   href={`/tag/${item.slug.current}`}
                   active={item.slug.current === slug}
                   clickAction={closeDrawer}

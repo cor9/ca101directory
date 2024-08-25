@@ -36,7 +36,7 @@ export default async function ItemPage({ params }: Props) {
 
             {/* description */}
             <p className="text-base text-muted-foreground leading-loose">
-              {item.description?.find(entry => entry._key === "en")?.value}
+              {item.description}
             </p>
 
             <div className="mt-4 prose prose-violet prose-a:text-violet-500 max-w-none prose-pre:bg-slate-100 prose-pre:text-slate-700 prose-headings:scroll-m-20">

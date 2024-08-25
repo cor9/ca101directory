@@ -5,7 +5,6 @@ import { ItemFullInfo } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import ItemBreadCrumb from './item-bread-crumb';
-import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 
 export default function ItemHeaderClient({ item }: { item: ItemFullInfo }) {
@@ -35,7 +34,7 @@ export default function ItemHeaderClient({ item }: { item: ItemFullInfo }) {
                   src={urlForImageWithSize(item.image, 96, 96)} />
 
                 <h1 className="text-xl font-semibold font-heading">
-                  {item.name.find(item => item._key === "en")?.value}
+                  {item.name}
                 </h1>
               </div>
 
@@ -46,7 +45,7 @@ export default function ItemHeaderClient({ item }: { item: ItemFullInfo }) {
                     <Button asChild key={tag._id} variant="outline" size='sm'
                       className="text-xs py-1 px-3">
                       <Link key={tag._id} href={`/tag/${tag.slug.current}`}>
-                        {tag.name.find(item => item._key === "en")?.value}
+                        {tag.name}
                       </Link>
                     </Button>
                   ))}
@@ -55,7 +54,7 @@ export default function ItemHeaderClient({ item }: { item: ItemFullInfo }) {
             </div>
           </div>
 
-          {/* cover image */}
+          {/* image */}
           {
             item.image &&
             <>

@@ -14,11 +14,11 @@ export async function HomeHero() {
   // // convert categoryList/tagList to CategoryFilterItem[]/TagFilterItem[]
   // const categories = categoryList.map((category) => ({
   //   slug: category.slug.current,
-  //   name: category.name.find((name) => name._key === 'en')?.value || '',
+  //   name: category.name,
   // }));
   // const tags = tagList.map((tag) => ({
   //   slug: tag.slug.current,
-  //   name: tag.name.find((name) => name._key === 'en')?.value || '',
+  //   name: tag.name,
   // }));
 
   return (

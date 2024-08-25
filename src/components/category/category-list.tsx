@@ -38,7 +38,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
           {categoryList.map((item) => (
             <DesktopLink
               key={item.slug.current}
-              title={item.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
+              title={item.name}
               href={`/category/${item.slug.current}`}
               active={item.slug.current === slug}
             />
@@ -55,7 +55,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
         >
           <LayoutList className="size-[18px]" />
           <p className="ml-2.5 text-sm font-medium">
-            Categories {`(${category?.name.find((kv) => kv._key === 'en')?.value || 'No Name'})`}
+            Categories {`(${category?.name})`}
           </p>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
@@ -77,7 +77,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
               {categoryList.map((item) => (
                 <MobileLink
                   key={item.slug.current}
-                  title={item.name.find((kv) => kv._key === 'en')?.value || 'No Name'}
+                  title={item.name}
                   href={`/category/${item.slug.current}`}
                   active={item.slug.current === slug}
                   clickAction={closeDrawer}

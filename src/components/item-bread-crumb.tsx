@@ -5,9 +5,17 @@ interface ItemBreadCrumbProps {
   item: ItemFullInfo;
 }
 
+/**
+ * TODO: fix this, show which category???
+ */
 export default function ItemBreadCrumb({ item }: ItemBreadCrumbProps) {
   return <Breadcrumb className="">
     <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink href={`/`}>
+          Home
+        </BreadcrumbLink>
+      </BreadcrumbItem>
       <BreadcrumbItem>
         <BreadcrumbLink href={`/category`}>
           Category
@@ -16,13 +24,13 @@ export default function ItemBreadCrumb({ item }: ItemBreadCrumbProps) {
       <BreadcrumbSeparator />
       <BreadcrumbItem>
         <BreadcrumbLink href={`/category/${item?.categories?.[0]?.slug?.current}`}>
-          {item?.categories?.[0]?.name?.find(item => item._key === "en")?.value}
+          {item?.categories?.[0]?.name}
         </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
         <BreadcrumbPage className="font-medium">
-          {item?.name?.find(item => item._key === "en")?.value}
+          {item?.name}
         </BreadcrumbPage>
       </BreadcrumbItem>
     </BreadcrumbList>

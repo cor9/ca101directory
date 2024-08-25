@@ -14,6 +14,16 @@ export function BlogHeaderLayout() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
+  // add "All" to BLOG_CATEGORIES
+  const BLOG_CATEGORIES_WITH_ALL = [
+    {
+      title: "All",
+      slug: "all",
+      description: "All blog posts.",
+    },
+    ...BLOG_CATEGORIES,
+  ];
+
   const handleValueChange = (value: string) => {
     if (value === "all") {
       router.push("/blog");
@@ -31,7 +41,7 @@ export function BlogHeaderLayout() {
       <MaxWidthWrapper className="hidden mt-8 md:flex md:pb-8">
         <ToggleGroup variant="outline" type="single"
           defaultValue={"all"} value={slug} onValueChange={handleValueChange}>
-          {BLOG_CATEGORIES.map((category) => (
+          {BLOG_CATEGORIES_WITH_ALL.map((category) => (
             <ToggleGroupItem key={category.slug} value={category.slug}
               aria-label={category.title}>
               <span>{category.title}</span>
@@ -48,8 +58,8 @@ export function BlogHeaderLayout() {
         >
           <List className="size-[18px]" />
           <p className="ml-2.5 text-sm font-medium">
-            {slug ? BLOG_CATEGORIES.find((category) => category.slug === slug)?.title :
-              BLOG_CATEGORIES.find((category) => category.slug === "all")?.title}
+            {slug ? BLOG_CATEGORIES_WITH_ALL.find((category) => category.slug === slug)?.title :
+              BLOG_CATEGORIES_WITH_ALL.find((category) => category.slug === "all")?.title}
           </p>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm" onClick={closeDrawer} />
@@ -59,7 +69,7 @@ export function BlogHeaderLayout() {
               <div className="my-3 h-1.5 w-16 rounded-full bg-muted-foreground/20" />
             </div>
             <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
-              {BLOG_CATEGORIES.map((category) => (
+              {BLOG_CATEGORIES_WITH_ALL.map((category) => (
                 <Link key={category.slug} onClick={closeDrawer}
                   href={category.slug === "all" ? "/blog" : `/blog/category/${category.slug}`}>
                   <li className="rounded-lg text-foreground hover:bg-muted">

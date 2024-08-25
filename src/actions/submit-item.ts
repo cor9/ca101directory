@@ -1,38 +1,35 @@
 "use server";
 
 import { auth } from "@/auth";
-import { applicationSchema } from "@/lib/schemas";
-// import { UserQueryResult } from "@/sanity.types";
+import { SubmitSchema } from "@/lib/schemas";
 import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
 
-export type submitApplicationFormData = {
+export type submitItemFormData = {
   name: string;
   link: string;
+  description: string;
   logoImageId: string;
   coverImageId: string;
-  description: string;
   // types: string[]; // TODO: fix this
   // tags: string[];
   // categories: string[];
-  // sanityUser: UserQueryResult;
 };
 
 // https://nextjs.org/learn/dashboard-app/mutating-data
-export async function submitApplication(/* userId: string,  */data: submitApplicationFormData) {
+export async function submitItem(data: submitItemFormData) {
   try {
     const session = await auth();
-    if (!session?.user/*  || session?.user.id !== userId */) { // TODO: fix this, remove userId parameter
-      console.log("submitApplication, unauthorized");
+    if (!session?.user || !session?.user?.id) {
+      console.log("submitItem, unauthorized");
       throw new Error("Unauthorized");
     }
-    const userId = session?.user?.id; // TODO: fix this, remove userId parameter
-    console.log("submitApplication, username:", session?.user?.name);
+    console.log("submitItem, username:", session?.user?.name);
 
-    const { logoImageId, coverImageId, /* tags, categories, */ /* types, sanityUser */ } = data;
-    console.log("submitApplication, data:", data);
-    const { name, link, description } = applicationSchema.parse(data);
-    console.log("submitApplication, name:", name, "link:", link,
+    const { logoImageId, coverImageId, /* tags, categories, */ } = data;
+    console.log("submitItem, data:", data);
+    const { name, link, description } = SubmitSchema.parse(data);
+    console.log("submitItem, name:", name, "link:", link,
       "description:", description);
 
     const submitData = {
@@ -43,8 +40,7 @@ export async function submitApplication(/* userId: string,  */data: submitApplic
       // status: "reviewing",
       submitter: {
         _type: "reference",
-        // _ref: sanityUser?._id,
-        _ref: userId, // TODO: fix this
+        _ref: session.user.id,
       },
       publishDate: new Date().toISOString(),
       // types: types.map(type => ({ // TODO: fix this
@@ -84,15 +80,15 @@ export async function submitApplication(/* userId: string,  */data: submitApplic
         } : {})
     };
 
-    console.log("submitApplication, submitData:", submitData);
+    console.log("submitItem, submitData:", submitData);
 
     const res = await sanityClient.create(submitData);
     if (!res) {
-      console.log("submitApplication, fail");
+      console.log("submitItem, fail");
       return { status: "error" };
     }
 
-    console.log("submitApplication, success, res:", res);
+    console.log("submitItem, success, res:", res);
 
     // Next.js has a Client-side Router Cache that stores the route segments in the user's browser for a time. 
     // Along with prefetching, this cache ensures that users can quickly navigate between routes 
@@ -102,7 +98,7 @@ export async function submitApplication(/* userId: string,  */data: submitApplic
     revalidatePath('/dashboard/submit');
     return { status: "success" };
   } catch (error) {
-    console.log("submitApplication, error", error);
+    console.log("submitItem, error", error);
     return { status: "error" };
   }
 }

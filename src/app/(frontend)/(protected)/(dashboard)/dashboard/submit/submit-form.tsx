@@ -1,8 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { submitItem, submitItemFormData } from "@/actions/submit-item";
 import { Icons } from "@/components/shared/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,30 +13,28 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
-import { submitApplication, submitApplicationFormData } from "@/actions/submit-application";
-import { AllSubmitAppConfigs } from "./submit-app";
-import { applicationSchema } from "@/lib/schemas";
+import { submitConfig } from "@/config/submit";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { SubmitSchema } from "@/lib/schemas";
+import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { sanityClient } from "@/sanity/lib/client";
+import { zodResolver } from "@hookform/resolvers/zod";
 import confetti from 'canvas-confetti';
 import { HourglassIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useCurrentUser } from "@/hooks/use-current-user";
-// import { AppTypeListQueryResult, UserQueryResult } from "@/sanity.types";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-interface SubmitApplicationFormProps {
-  // lang: string;
-  // user: Pick<User, "id" | "name">;
-  // appTypeList: AppTypeListQueryResult;
-  // sanityUser: UserQueryResult;
+interface SubmitFormProps {
+  tagList: TagListQueryResult;
+  categoryList: CategoryListQueryResult;
 }
 
 // https://ui.shadcn.com/docs/components/form
 // https://nextjs.org/learn/dashboard-app/mutating-data
-export function SubmitApplicationForm({ /* lang, user, appTypeList, sanityUser */ }: SubmitApplicationFormProps) {
-  const formConfig = AllSubmitAppConfigs['en']; // lang
+export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
   const router = useRouter();
   const [logoImageId, setLogoImageId] = useState("");
   const [logoImageUrl, setLogoImageUrl] = useState("");
@@ -48,94 +44,89 @@ export function SubmitApplicationForm({ /* lang, user, appTypeList, sanityUser *
   const [isPending, startTransition] = useTransition();
 
   const user = useCurrentUser();
-  console.log("SubmitApplicationForm, user:", user);
-  console.log("SubmitApplicationForm, userId:", user?.id);
+  console.log("SubmitForm, user:", user);
 
   // https://nextjs.org/learn/dashboard-app/mutating-data#4-pass-the-id-to-the-server-action
   // Note: Using a hidden input field in your form also works (e.g. <input type="hidden" name="id" value={invoice.id} />). 
   // However, the values will appear as full text in the HTML source, which is not ideal for sensitive data like IDs.
-  
-  // TODO: fix this, user is not defined
-  // const submitApplicationWithId = submitApplication.bind(null, userId);
 
+  // TODO: fix here, change appTypeList to tagList and categoryList
   const appTypeList = [];
-  console.log("SubmitApplicationForm, appTypeList", appTypeList);
+  console.log("SubmitForm, appTypeList", appTypeList);
   const correntAppTypeList = appTypeList.filter(appType => {
     return appType.slug !== 'new' && appType.slug !== 'featured';
   });
-  console.log("SubmitApplicationForm, correntAppTypeList", correntAppTypeList);
+  console.log("SubmitForm, correntAppTypeList", correntAppTypeList);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  console.log("SubmitApplicationForm, selectedTypes", selectedTypes);
+  console.log("SubmitForm, selectedTypes", selectedTypes);
 
+  // when click submit button, first call this function to validate the form data, then call 
   const {
     handleSubmit,
     register,
     formState: { errors },
     reset,
-  } = useForm<submitApplicationFormData>({
+  } = useForm<submitItemFormData>({
     // resolver: zodResolver(applicationSchema),
     resolver: async (data, context, options) => {
       // customize schema validation, manual add types to form data
-      console.log("SubmitApplicationForm, validate formData", data);
+      console.log("SubmitForm, validate formData", data);
       // imageId and types input elements are not registered with react-hook-form,
       // so we need to add them manually in order to validate them.
       // 20240604, schema not validate imageId, so remove imageId
       const updatedFormData = {
         ...data,
-        // imageId,  // TODO: fix this
+        // logoImageId,  // TODO: fix this
         // coverImageId,
         types: selectedTypes,
       };
-      console.log("SubmitApplicationForm, validate updatedFormData", updatedFormData);
-      return zodResolver(applicationSchema)(updatedFormData, context, options);
+      console.log("SubmitForm, validate updatedFormData", updatedFormData);
+      return zodResolver(SubmitSchema)(updatedFormData, context, options);
     },
     defaultValues: {
       name: "",
       link: "",
-      logoImageId: "",
-      coverImageId: "", // defined in submitApplicationFormData
       description: "",
+      logoImageId: "",
+      coverImageId: "",
       // types: selectedTypes,  // TODO: fix this
       // tags: selectedTags,
     },
   })
 
   const onSubmit = handleSubmit(data => {
-    console.log('SubmitApplicationForm, onSubmit, data:', data);
+    console.log('SubmitForm, onSubmit, data:', data);
     startTransition(async () => {
-      const { status } = await submitApplication({
+      const { status } = await submitItem({
         ...data,
         logoImageId,
         coverImageId,
-        // types: selectedTypes,  // TODO: fix this
-        // sanityUser,
       });
-      console.log('SubmitApplicationForm, status:', status);
+      console.log('SubmitForm, status:', status);
       if (status === "success") {
         confetti();
         reset();
-        toast.success(formConfig.form.success);
-        // router.push(`/${lang}/dashboard/`); // TODO: fix this
+        toast.success(submitConfig.form.success);
         router.push(`/dashboard/`);
       } else {
-        toast.success(formConfig.form.error);
+        toast.success(submitConfig.form.error);
       }
     });
   });
 
-  const handleUpload = async (e) => {
-    console.log('SubmitApplicationForm, handleUpload, file:', e.target.files[0]);
+  const handleUploadLogoImage = async (e) => {
+    console.log('SubmitForm, handleUploadLogoImage, file:', e.target.files[0]);
     const file = e.target.files[0];
     if (!file) {
-      console.log('SubmitApplicationForm, handleUpload, file is null');
+      console.log('SubmitForm, handleUploadLogoImage, file is null');
       return;
     }
 
     const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
     if (file.size > maxSizeInBytes) {
       e.target.value = '';
-      console.error('SubmitApplicationForm, Image size should be less than 1MB.');
-      toast.error('Image size should be less than 1MB.'); // TODO: translate
+      console.error('SubmitForm, handleUploadLogoImage, Image size should be less than 1MB.');
+      toast.error('Image size should be less than 1MB.');
       return;
     }
 
@@ -143,21 +134,21 @@ export function SubmitApplicationForm({ /* lang, user, appTypeList, sanityUser *
     const imageAsset = await uploadImage(file);
     if (!imageAsset) {
       e.target.value = '';
-      console.log('SubmitApplicationForm, Upload Image failed, please try again.');
-      toast.error('Upload Image failed, please try again.'); // TODO: translate
+      console.log('SubmitForm, handleUploadLogoImage, Upload Image failed, please try again.');
+      toast.error('Upload Image failed, please try again.');
       return;
     }
-    console.log('SubmitApplicationForm, handleUpload, imageId:', imageAsset._id);
+    console.log('SubmitForm, handleUploadLogoImage, imageId:', imageAsset._id);
     setLogoImageId(imageAsset._id);
     setLogoImageUrl(imageAsset.url);
     setIsUploading(false);
   };
 
   const handleUploadCoverImage = async (e) => {
-    console.log('SubmitApplicationForm, handleUploadCoverImage, file:', e.target.files[0]);
+    console.log('SubmitForm, handleUploadCoverImage, file:', e.target.files[0]);
     const file = e.target.files[0];
     if (!file) {
-      console.log('SubmitApplicationForm, handleUploadCoverImage, file is null');
+      console.log('SubmitForm, handleUploadCoverImage, file is null');
       return;
     }
 
@@ -172,10 +163,10 @@ export function SubmitApplicationForm({ /* lang, user, appTypeList, sanityUser *
     const coverImageAsset = await uploadImage(file);
     if (!coverImageAsset) {
       e.target.value = '';
-      toast.error('Upload Image failed, please try again.'); // TODO: translate
+      toast.error('Upload Image failed, please try again.');
       return;
     }
-    console.log('SubmitApplicationForm, handleUploadCoverImage, coverImageId:', coverImageAsset._id);
+    console.log('SubmitForm, handleUploadCoverImage, coverImageId:', coverImageAsset._id);
     setCoverImageId(coverImageAsset._id);
     setCoverImageUrl(coverImageAsset.url);
     setIsUploading(false);
@@ -183,7 +174,7 @@ export function SubmitApplicationForm({ /* lang, user, appTypeList, sanityUser *
 
   const uploadImage = async (file) => {
     const asset = await sanityClient.assets.upload('image', file);
-    console.log('SubmitApplicationForm, uploadImage, asset url:', asset.url);
+    console.log('SubmitForm, uploadImage, asset url:', asset.url);
     return asset;
   };
 
@@ -200,14 +191,14 @@ export function SubmitApplicationForm({ /* lang, user, appTypeList, sanityUser *
           <div className="grid gap-6">
             <div className="flex gap-4 items-center">
               <Label className="min-w-[100px]" htmlFor="name">
-                {formConfig.form.name}
+                {submitConfig.form.name}
               </Label>
               <div className="w-full flex flex-col">
                 <Input
                   id="name"
                   className="w-full"
                   autoComplete="off"
-                  placeholder={formConfig.form.namePlaceHolder}
+                  placeholder={submitConfig.form.namePlaceHolder}
                   {...register("name")}
                 />
               </div>
@@ -222,7 +213,7 @@ export function SubmitApplicationForm({ /* lang, user, appTypeList, sanityUser *
 
             {/* <div className="flex gap-4 items-center">
               <Label className="min-w-[100px]" htmlFor="name">
-                {formConfig.form.tags}
+                {submitConfig.form.tags}
               </Label>
               <div className="w-full flex flex-wrap items-center gap-4">
                 <ToggleGroup type="multiple" variant="outline" size={"sm"}
@@ -249,14 +240,14 @@ export function SubmitApplicationForm({ /* lang, user, appTypeList, sanityUser *
 
             <div className="flex gap-4 items-center">
               <Label className="min-w-[100px]" htmlFor="link">
-                {formConfig.form.link}
+                {submitConfig.form.link}
               </Label>
               <div className="w-full flex flex-col">
                 <Input
                   id="link"
                   className="w-full"
                   autoComplete="off"
-                  placeholder={formConfig.form.linkPlaceHolder}
+                  placeholder={submitConfig.form.linkPlaceHolder}
                   {...register("link")}
                 />
               </div>
@@ -271,14 +262,14 @@ export function SubmitApplicationForm({ /* lang, user, appTypeList, sanityUser *
 
             <div className="flex gap-4 items-center">
               <Label className="min-w-[100px]" htmlFor="description">
-                {formConfig.form.desc}
+                {submitConfig.form.desc}
               </Label>
               <div className="w-full flex flex-col">
                 <Textarea
                   id="description"
                   className="w-full"
                   autoComplete="off"
-                  placeholder={formConfig.form.descPlaceHolder}
+                  placeholder={submitConfig.form.descPlaceHolder}
                   {...register("description")}
                 />
               </div>
@@ -293,12 +284,12 @@ export function SubmitApplicationForm({ /* lang, user, appTypeList, sanityUser *
 
             <div className="flex gap-4 items-center">
               <Label className="min-w-[100px]" htmlFor="imageFile">
-                {formConfig.form.image}
+                {submitConfig.form.logo}
               </Label>
               <Input id="imageFile" type="file"
                 className="w-full"
                 required
-                onChange={handleUpload}
+                onChange={handleUploadLogoImage}
                 accept="image/*" />
 
               {logoImageUrl &&
@@ -318,7 +309,7 @@ export function SubmitApplicationForm({ /* lang, user, appTypeList, sanityUser *
 
             <div className="flex gap-4 items-center">
               <Label className="min-w-[100px]" htmlFor="coverImageFile">
-                {formConfig.form.coverImage}
+                {submitConfig.form.image}
               </Label>
               <Input id="coverImageFile" type="file"
                 className="w-full"
@@ -355,14 +346,14 @@ export function SubmitApplicationForm({ /* lang, user, appTypeList, sanityUser *
               {(isPending || isUploading) && (
                 <Icons.spinner className="mr-2 size-4 animate-spin" />
               )}
-              <span>{isPending ? formConfig.form.submiting :
-                (isUploading ? formConfig.form.imageUploading : formConfig.form.submit)}
+              <span>{isPending ? submitConfig.form.submiting :
+                (isUploading ? submitConfig.form.imageUploading : submitConfig.form.submit)}
               </span>
             </Button>
 
             <div className="text-sm text-primary dark:text-foreground flex items-center gap-2">
               <HourglassIcon className="size-4 inline-block" />
-              <span>{formConfig.form.notice}</span>
+              <span>{submitConfig.form.notice}</span>
             </div>
           </div>
         </CardFooter>

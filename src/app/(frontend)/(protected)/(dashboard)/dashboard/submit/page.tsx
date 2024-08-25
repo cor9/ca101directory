@@ -1,5 +1,5 @@
 import { DashboardHeader } from "@/components/dashboard/header";
-import { SubmitForm } from "./submit-form";
+import { SubmitItemForm } from "./submit-form";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryListQuery, tagListQuery } from "@/sanity/lib/queries";
@@ -21,7 +21,7 @@ export default async function SubmitPage() {
         text="Submit your product to get listed."
       />
       <div className="divide-y divide-muted pb-10">
-        <SubmitForm tagList={tagList} categoryList={categoryList} />
+        <SubmitItemForm tagList={tagList} categoryList={categoryList} />
       </div>
     </>
   );

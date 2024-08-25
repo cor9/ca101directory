@@ -27,14 +27,14 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-interface SubmitFormProps {
+interface SubmitItemFormProps {
   tagList: TagListQueryResult;
   categoryList: CategoryListQueryResult;
 }
 
 // https://ui.shadcn.com/docs/components/form
 // https://nextjs.org/learn/dashboard-app/mutating-data
-export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
+export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const router = useRouter();
   const [logoImageId, setLogoImageId] = useState("");
   const [logoImageUrl, setLogoImageUrl] = useState("");
@@ -44,7 +44,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
   const [isPending, startTransition] = useTransition();
 
   const user = useCurrentUser();
-  console.log("SubmitForm, user:", user);
+  console.log("SubmitItemForm, user:", user);
 
   // https://nextjs.org/learn/dashboard-app/mutating-data#4-pass-the-id-to-the-server-action
   // Note: Using a hidden input field in your form also works (e.g. <input type="hidden" name="id" value={invoice.id} />). 
@@ -52,13 +52,13 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
 
   // TODO: fix here, change appTypeList to tagList and categoryList
   const appTypeList = [];
-  console.log("SubmitForm, appTypeList", appTypeList);
+  console.log("SubmitItemForm, appTypeList", appTypeList);
   const correntAppTypeList = appTypeList.filter(appType => {
     return appType.slug !== 'new' && appType.slug !== 'featured';
   });
-  console.log("SubmitForm, correntAppTypeList", correntAppTypeList);
+  console.log("SubmitItemForm, correntAppTypeList", correntAppTypeList);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  console.log("SubmitForm, selectedTypes", selectedTypes);
+  console.log("SubmitItemForm, selectedTypes", selectedTypes);
 
   // when click submit button, first call this function to validate the form data, then call 
   const {
@@ -70,7 +70,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
     // resolver: zodResolver(applicationSchema),
     resolver: async (data, context, options) => {
       // customize schema validation, manual add types to form data
-      console.log("SubmitForm, validate formData", data);
+      console.log("SubmitItemForm, validate formData", data);
       // imageId and types input elements are not registered with react-hook-form,
       // so we need to add them manually in order to validate them.
       // 20240604, schema not validate imageId, so remove imageId
@@ -80,7 +80,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
         // coverImageId,
         types: selectedTypes,
       };
-      console.log("SubmitForm, validate updatedFormData", updatedFormData);
+      console.log("SubmitItemForm, validate updatedFormData", updatedFormData);
       return zodResolver(SubmitSchema)(updatedFormData, context, options);
     },
     defaultValues: {
@@ -95,14 +95,14 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
   })
 
   const onSubmit = handleSubmit(data => {
-    console.log('SubmitForm, onSubmit, data:', data);
+    console.log('SubmitItemForm, onSubmit, data:', data);
     startTransition(async () => {
       const { status } = await submitItem({
         ...data,
         logoImageId,
         coverImageId,
       });
-      console.log('SubmitForm, status:', status);
+      console.log('SubmitItemForm, status:', status);
       if (status === "success") {
         confetti();
         reset();
@@ -115,17 +115,17 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
   });
 
   const handleUploadLogoImage = async (e) => {
-    console.log('SubmitForm, handleUploadLogoImage, file:', e.target.files[0]);
+    console.log('SubmitItemForm, handleUploadLogoImage, file:', e.target.files[0]);
     const file = e.target.files[0];
     if (!file) {
-      console.log('SubmitForm, handleUploadLogoImage, file is null');
+      console.log('SubmitItemForm, handleUploadLogoImage, file is null');
       return;
     }
 
     const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
     if (file.size > maxSizeInBytes) {
       e.target.value = '';
-      console.error('SubmitForm, handleUploadLogoImage, Image size should be less than 1MB.');
+      console.error('SubmitItemForm, handleUploadLogoImage, Image size should be less than 1MB.');
       toast.error('Image size should be less than 1MB.');
       return;
     }
@@ -134,21 +134,21 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
     const imageAsset = await uploadImage(file);
     if (!imageAsset) {
       e.target.value = '';
-      console.log('SubmitForm, handleUploadLogoImage, Upload Image failed, please try again.');
+      console.log('SubmitItemForm, handleUploadLogoImage, Upload Image failed, please try again.');
       toast.error('Upload Image failed, please try again.');
       return;
     }
-    console.log('SubmitForm, handleUploadLogoImage, imageId:', imageAsset._id);
+    console.log('SubmitItemForm, handleUploadLogoImage, imageId:', imageAsset._id);
     setLogoImageId(imageAsset._id);
     setLogoImageUrl(imageAsset.url);
     setIsUploading(false);
   };
 
   const handleUploadCoverImage = async (e) => {
-    console.log('SubmitForm, handleUploadCoverImage, file:', e.target.files[0]);
+    console.log('SubmitItemForm, handleUploadCoverImage, file:', e.target.files[0]);
     const file = e.target.files[0];
     if (!file) {
-      console.log('SubmitForm, handleUploadCoverImage, file is null');
+      console.log('SubmitItemForm, handleUploadCoverImage, file is null');
       return;
     }
 
@@ -166,7 +166,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
       toast.error('Upload Image failed, please try again.');
       return;
     }
-    console.log('SubmitForm, handleUploadCoverImage, coverImageId:', coverImageAsset._id);
+    console.log('SubmitItemForm, handleUploadCoverImage, coverImageId:', coverImageAsset._id);
     setCoverImageId(coverImageAsset._id);
     setCoverImageUrl(coverImageAsset.url);
     setIsUploading(false);
@@ -174,7 +174,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
 
   const uploadImage = async (file) => {
     const asset = await sanityClient.assets.upload('image', file);
-    console.log('SubmitForm, uploadImage, asset url:', asset.url);
+    console.log('SubmitItemForm, uploadImage, asset url:', asset.url);
     return asset;
   };
 

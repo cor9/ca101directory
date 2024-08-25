@@ -1,23 +1,23 @@
 "use server";
 
 import { auth } from "@/auth";
-import { SubmitSchema } from "@/lib/schemas";
+import { SubmitItemSchema } from "@/lib/schemas";
+import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
 
-export type submitItemFormData = {
+export type SubmitItemFormData = {
   name: string;
   link: string;
   description: string;
+  tags: string[];
+  categories: string[];
   logoImageId: string;
   coverImageId: string;
-  // types: string[]; // TODO: fix this
-  // tags: string[];
-  // categories: string[];
 };
 
 // https://nextjs.org/learn/dashboard-app/mutating-data
-export async function submitItem(data: submitItemFormData) {
+export async function SubmitItem(data: SubmitItemFormData) {
   try {
     const session = await auth();
     if (!session?.user || !session?.user?.id) {
@@ -26,15 +26,18 @@ export async function submitItem(data: submitItemFormData) {
     }
     console.log("submitItem, username:", session?.user?.name);
 
-    const { logoImageId, coverImageId, /* tags, categories, */ } = data;
     console.log("submitItem, data:", data);
-    const { name, link, description } = SubmitSchema.parse(data);
-    console.log("submitItem, name:", name, "link:", link,
-      "description:", description);
+    const { name, link, description, logoImageId, coverImageId, 
+      tags, categories } = SubmitItemSchema.parse(data);
+    console.log("submitItem, name:", name, "link:", link);
 
     const submitData = {
       _type: "item",
       name,
+      slug: {
+        _type: "slug",
+        current: slugify(name),
+      },
       link,
       description,
       // status: "reviewing",
@@ -43,21 +46,16 @@ export async function submitItem(data: submitItemFormData) {
         _ref: session.user.id,
       },
       publishDate: new Date().toISOString(),
-      // types: types.map(type => ({ // TODO: fix this
-      //   _type: 'reference',
-      //   _ref: type,
-      //   _key: `key-${type}`,
-      // })),
-      // tags: tags.map(tag => ({
-      //   _type: 'reference',
-      //   _ref: tag,
-      //   _key: `key-${tag}`,
-      // })),
-      // categories: categories.map(category => ({
-      //   _type: 'reference',
-      //   _ref: category,
-      //   _key: `key-${category}`,
-      // })),
+      tags: tags.map(tag => ({
+        _type: 'reference',
+        _ref: tag,
+        _key: `key-${tag}`,
+      })),
+      categories: categories.map(category => ({
+        _type: 'reference',
+        _ref: category,
+        _key: `key-${category}`,
+      })),
       ...(logoImageId ?
         {
           logo: {

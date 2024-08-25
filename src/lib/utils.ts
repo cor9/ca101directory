@@ -282,6 +282,60 @@ export function slug(str: string) {
     .replace(/-+$/, '');
 }
 
+/**
+ * slugify by ChatGPT
+ */
+export function slugify(input: string): string {
+  let slug = input.trim().toLowerCase();
+
+  const charMap: { [key: string]: string } = {
+    'à': 'a', 'á': 'a', 'ä': 'a', 'â': 'a',
+    'è': 'e', 'é': 'e', 'ë': 'e', 'ê': 'e',
+    'ì': 'i', 'í': 'i', 'ï': 'i', 'î': 'i',
+    'ò': 'o', 'ó': 'o', 'ö': 'o', 'ô': 'o',
+    'ù': 'u', 'ú': 'u', 'ü': 'u', 'û': 'u',
+    'ñ': 'n', 'ç': 'c',
+    'ß': 'ss',
+    'ÿ': 'y',
+    'œ': 'oe', 'æ': 'ae',
+    'ś': 's', 'ş': 's', 'š': 's', 'ș': 's',
+    'ł': 'l',
+    'ž': 'z', 'ź': 'z', 'ż': 'z',
+    /* 'á': 'a', 'â': 'a', */ 'ă': 'a', 'å': 'a', 'ą': 'a',
+    /* 'ç': 'c', */
+    'ć': 'c',
+    'č': 'c',
+    'ď': 'd',
+    'đ': 'd',
+    'ē': 'e', 'ė': 'e', 'ę': 'e',
+    'ğ': 'g',
+    'ģ': 'g',
+    'ī': 'i', 'į': 'i',
+    'ķ': 'k',
+    'ļ': 'l',
+    'ń': 'n',
+    'ņ': 'n', 'ň': 'n',
+    'ō': 'o', 'ő': 'o', 'ø': 'o',
+    'ŕ': 'r', 'ř': 'r',
+    /* 'ś': 's', 'ş': 's', 'š': 's', */ 'ț': 't',
+    'ŭ': 'u', 'ű': 'u', 'ų': 'u',
+    'ŵ': 'w',
+    'ŷ': 'y',
+    /* 'ž': 'z', 'ź': 'z', 'ż': 'z' */
+  };
+
+  // replace all non-alphanumeric characters with the corresponding character from charMap
+  slug = slug.replace(/[^A-Za-z0-9]/g, (char) => charMap[char] || char);
+
+  // replace all non-alphanumeric characters with a dash
+  slug = slug.replace(/[^a-z0-9]+/g, '-');
+
+  // remove all dashes at the beginning and end
+  slug = slug.replace(/^-+|-+$/g, '');
+
+  return slug;
+}
+
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-US', {
     style: 'currency',

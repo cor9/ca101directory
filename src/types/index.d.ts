@@ -19,6 +19,8 @@ export type SubmitConfig = {
     desc: string;
     descPlaceHolder: string;
     types: string;
+    tags: string;
+    categories: string;
     logo: string;
     image: string;
     update: string;

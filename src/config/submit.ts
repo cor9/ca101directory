@@ -14,6 +14,8 @@ export const submitConfig: SubmitConfig = {
         desc: "Desc",
         descPlaceHolder: "256 characters maximum, example: MkDirs is a directory website starter kit",
         types: "Type",
+        tags: "Tag",
+        categories: "Category",
         logo: "Logo",
         image: "Image",
         update: "Update",

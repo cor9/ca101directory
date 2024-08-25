@@ -2,7 +2,7 @@ import * as z from "zod";
 import { UserRole } from "@/types/user-role";
 
 // https://nextjs.org/learn/dashboard-app/mutating-data
-export const SubmitSchema = z.object({
+export const SubmitItemSchema = z.object({
   name: z.string()
       .min(1, { message: "Must be 1 or more characters long" })
       .max(32, { message: "Must be 32 or fewer characters long" }),
@@ -11,10 +11,14 @@ export const SubmitSchema = z.object({
   description: z.string()
       .min(3, { message: "Must be 3 or more characters long" })
       .max(256, { message: "Must be 256 or fewer characters long" }),
-  // types: z.array(z.string())
-  //     .min(1, { message: "Must select at least one type" }),
-  // imageId: z.string()
-  //     .min(1, { message: "Must upload an image" })
+  tags: z.array(z.string())
+      .min(1, { message: "Must select at least one tag" }),
+  categories: z.array(z.string())
+      .min(1, { message: "Must select at least one category" }),
+  logoImageId: z.string()
+      .min(1, { message: "Must upload an image" }),
+  coverImageId: z.string()
+      .min(1, { message: "Must upload an image" }),
 })
 
 export const SettingsSchema = z.object({

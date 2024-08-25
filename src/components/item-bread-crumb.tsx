@@ -16,6 +16,7 @@ export default function ItemBreadCrumb({ item }: ItemBreadCrumbProps) {
           Home
         </BreadcrumbLink>
       </BreadcrumbItem>
+      <BreadcrumbSeparator />
       <BreadcrumbItem>
         <BreadcrumbLink href={`/category`}>
           Category

@@ -30,7 +30,9 @@ export async function TagFilter() {
           </div>
 
           <div className="">
-            <SortList sortList={sorting} />
+            <Suspense fallback={null}>
+              <SortList sortList={sorting} />
+            </Suspense>
           </div>
         </div>
       </MaxWidthWrapper>
@@ -42,7 +44,9 @@ export async function TagFilter() {
         </Suspense>
 
         {/* set width to full */}
-        <SortList sortList={sorting} />
+        <Suspense fallback={null}>
+          <SortList sortList={sorting} />
+        </Suspense>
       </div>
     </>
   );

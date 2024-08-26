@@ -35,11 +35,11 @@ export async function HomeFilter() {
           </Suspense>
         </div> */}
 
-        <div className='flex items-center justify-between'>
+        {/* <div className='flex items-center justify-between'> */}
           <div className="w-full">
             <HomeFilterClient tagList={tags} categoryList={categories} sortList={sorting} />
           </div>
-        </div>
+        {/* </div> */}
       </MaxWidthWrapper>
 
       {/* Mobile View, no MaxWidthWrapper */}

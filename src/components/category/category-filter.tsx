@@ -30,8 +30,12 @@ export async function CategoryFilter() {
             </Suspense>
           </div>
 
-          <div className="flex-shrink-0">
-            <SortList sortList={sorting} />
+          <div className="">
+            {/* useSearchParams() should be wrapped in a suspense boundary at page "/category". */}
+            {/* Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout */}
+            <Suspense fallback={null}>
+              <SortList sortList={sorting} />
+            </Suspense>
           </div>
         </div>
       </MaxWidthWrapper>
@@ -43,7 +47,9 @@ export async function CategoryFilter() {
         </Suspense>
 
         {/* set width to full */}
-        <SortList sortList={sorting} />
+        <Suspense fallback={null}>
+          <SortList sortList={sorting} />
+        </Suspense>
       </div>
     </>
   );

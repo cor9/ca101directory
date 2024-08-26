@@ -13,7 +13,9 @@ export async function SearchHeaderLayout() {
         <div className='flex items-center justify-between gap-8 mt-4'>
           <div className="">
             {/* <HomeSearch /> */}
-            <Search />
+            <Suspense fallback={null}>
+              <Search />
+            </Suspense>
           </div>
 
           <div className="">

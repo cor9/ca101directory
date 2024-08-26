@@ -2,7 +2,7 @@
 
 import { createUrl } from '@/lib/utils';
 import { SearchIcon } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
@@ -13,12 +13,13 @@ export default function HomeSearch() {
   const [debouncedQuery] = useDebounce(searchQuery, 300); // 300ms debounce
   const lastExecutedQuery = useRef(searchParams?.get('q') || '');
 
+  // TODO: fix here, this will also work when in search path
   useEffect(() => {
     const currentQuery = searchParams?.get('q') || '';
     if (currentQuery !== searchQuery) {
       setSearchQuery(currentQuery);
     }
-  }, [searchParams]); 
+  }, [searchParams]);
 
   useEffect(() => {
     if (debouncedQuery !== lastExecutedQuery.current) {

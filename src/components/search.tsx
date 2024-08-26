@@ -13,12 +13,13 @@ export default function Search() {
   const [debouncedQuery] = useDebounce(searchQuery, 300); // 300ms debounce
   const lastExecutedQuery = useRef(searchParams?.get('q') || '');
 
-  useEffect(() => {
-    const currentQuery = searchParams?.get('q') || '';
-    if (currentQuery !== searchQuery) {
-      setSearchQuery(currentQuery);
-    }
-  }, [searchParams]);
+  // TODO: fix here, if input something, page will redirect to home page search.
+  // useEffect(() => {
+  //   const currentQuery = searchParams?.get('q') || '';
+  //   if (currentQuery !== searchQuery) {
+  //     setSearchQuery(currentQuery);
+  //   }
+  // }, [searchParams]);
 
   useEffect(() => {
     if (debouncedQuery !== lastExecutedQuery.current) {

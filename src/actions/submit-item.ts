@@ -27,7 +27,7 @@ export async function SubmitItem(data: SubmitItemFormData) {
     console.log("submitItem, username:", session?.user?.name);
 
     console.log("submitItem, data:", data);
-    const { name, link, description, logoImageId, coverImageId, 
+    const { name, link, description, logoImageId, coverImageId,
       tags, categories } = SubmitItemSchema.parse(data);
     console.log("submitItem, name:", name, "link:", link);
 
@@ -40,6 +40,16 @@ export async function SubmitItem(data: SubmitItemFormData) {
       },
       link,
       description,
+      body: {
+        _type: 'block',
+        style: 'h3',
+        children: [
+          {
+            _type: 'span',
+            text: 'Hello world!'
+          }
+        ]
+      },
       // status: "reviewing",
       submitter: {
         _type: "reference",

@@ -34,6 +34,7 @@ interface SubmitItemFormProps {
 
 // https://ui.shadcn.com/docs/components/form
 // https://nextjs.org/learn/dashboard-app/mutating-data
+// TODO: fix bug when quick upload 2 images, while one finish one uploading, submit button becomes active
 export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const router = useRouter();
   const [logoImageUrl, setLogoImageUrl] = useState("");
@@ -47,15 +48,17 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   console.log("SubmitItemForm, selectedCategories", selectedCategories);
 
   const handleTagChange = (tags) => {
+    console.log("SubmitItemForm, handleTagChange, tags", tags);
+    resetField("tags");
     setSelectedTags(tags);
     setValue("tags", tags); // Update the form value for tags
-    resetField("tags");
   };
 
   const handleCategoryChange = (categories) => {
+    console.log("SubmitItemForm, handleCategoryChange, categories", categories);
+    resetField("categories");
     setSelectedCategories(categories);
     setValue("categories", categories); // Update the form value for categories
-    resetField("categories");
   };
 
   const {

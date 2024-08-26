@@ -3,7 +3,6 @@ import MaxWidthWrapper from './shared/max-width-wrapper';
 import { SortList } from './sort-list';
 import Search, { SearchSkeleton } from './search';
 import { Suspense } from 'react';
-import HomeSearch from './home/home-search';
 
 export async function SearchHeaderLayout() {
   return (
@@ -12,7 +11,6 @@ export async function SearchHeaderLayout() {
       <MaxWidthWrapper className="hidden md:block">
         <div className='flex items-center justify-between gap-8 mt-4'>
           <div className="">
-            {/* <HomeSearch /> */}
             <Suspense fallback={null}>
               <Search />
             </Suspense>
@@ -28,7 +26,9 @@ export async function SearchHeaderLayout() {
 
       {/* Mobile View, no MaxWidthWrapper */}
       <div className="md:hidden flex flex-col gap-8 mt-4">
-        <HomeSearch />
+        <Suspense fallback={null}>
+          <Search />
+        </Suspense>
 
         {/* set width to full */}
         <Suspense fallback={null}>

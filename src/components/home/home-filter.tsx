@@ -4,6 +4,7 @@ import { sanityFetch } from '@/sanity/lib/fetch';
 import { categoryListQuery, tagListQuery } from '@/sanity/lib/queries';
 import MaxWidthWrapper from '../shared/max-width-wrapper';
 import { HomeFilterClient } from './home-filter-client';
+import { Suspense } from 'react';
 
 export async function HomeFilter() {
   const [categoryList, tagList] = await Promise.all([
@@ -36,9 +37,11 @@ export async function HomeFilter() {
         </div> */}
 
         {/* <div className='flex items-center justify-between'> */}
-          <div className="w-full">
+        <div className="w-full">
+          <Suspense fallback={null}>
             <HomeFilterClient tagList={tags} categoryList={categories} sortList={sorting} />
-          </div>
+          </Suspense>
+        </div>
         {/* </div> */}
       </MaxWidthWrapper>
 
@@ -51,7 +54,9 @@ export async function HomeFilter() {
         </div> */}
 
         <div className="mx-4">
-          <HomeFilterClient tagList={tags} categoryList={categories} sortList={sorting} />
+          <Suspense fallback={null}>
+            <HomeFilterClient tagList={tags} categoryList={categories} sortList={sorting} />
+          </Suspense>
         </div>
       </div>
     </>

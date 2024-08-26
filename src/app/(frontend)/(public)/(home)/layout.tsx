@@ -9,7 +9,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
       {/* <HomeHero /> */}
 
       {/* filter layout with filter components */}
-      <HomeFilter />
+      {/* <HomeFilter /> */}
 
       {/* main content shows the list of items*/}
       <MaxWidthWrapper className="pb-16">

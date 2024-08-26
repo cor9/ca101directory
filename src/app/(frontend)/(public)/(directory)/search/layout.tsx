@@ -1,10 +1,10 @@
-import { SearchHeaderLayout } from '@/components/search-header-layout';
+import { SearchFilter } from '@/components/search/search-filter';
 import MaxWidthWrapper from '@/components/shared/max-width-wrapper';
 
 export default function SearchLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <SearchHeaderLayout />
+      <SearchFilter />
 
       <MaxWidthWrapper className="pb-16">
         {children}

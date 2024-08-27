@@ -3,13 +3,13 @@ import { footerLinks } from "@/config/site";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import * as React from "react";
-import MaxWidthWrapper from "../shared/max-width-wrapper";
+import MaxWidthContainer from "../shared/max-width-container";
 import { SiteFooterInfo } from "../site-footer-info";
 
 export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
     <footer className={cn("border-t", className)}>
-      <MaxWidthWrapper className="grid grid-cols-2 gap-6 py-12 md:grid-cols-6">
+      <MaxWidthContainer className="grid grid-cols-2 gap-6 py-12 md:grid-cols-6">
         <div className="flex flex-col items-start col-span-full md:col-span-2">
           <SiteFooterInfo />
         </div>
@@ -32,10 +32,10 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
             </ul>
           </div>
         ))}
-      </MaxWidthWrapper>
+      </MaxWidthContainer>
 
       <div className="border-t py-4">
-        <MaxWidthWrapper className="flex items-center justify-between">
+        <MaxWidthContainer className="flex items-center justify-between">
           <span className="text-muted-foreground text-sm">
             &copy; 2024. All rights reserved.
           </span>
@@ -43,7 +43,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
           <div className="flex items-center gap-3">
             <ModeToggle />
           </div>
-        </MaxWidthWrapper>
+        </MaxWidthContainer>
       </div>
     </footer>
   );

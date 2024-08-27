@@ -3,13 +3,13 @@ import { features } from "@/config/landing";
 import { Button } from "@/components/ui/button";
 import { HeaderSection } from "@/components/shared/header-section";
 import { Icons } from "@/components/shared/icons";
-import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import MaxWidthContainer from "@/components/shared/max-width-container";
 
 export default function Features() {
   return (
     <section>
       <div className="pb-6 pt-28">
-        <MaxWidthWrapper>
+        <MaxWidthContainer>
           <HeaderSection
             label="Features"
             title="Discover all features."
@@ -55,7 +55,7 @@ export default function Features() {
               );
             })}
           </div>
-        </MaxWidthWrapper>
+        </MaxWidthContainer>
       </div>
     </section>
   );

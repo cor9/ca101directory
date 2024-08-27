@@ -1,5 +1,5 @@
 import { BlogHeaderLayout } from "@/components/content/blog-header-layout";
-import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import MaxWidthContainer from "@/components/shared/max-width-container";
 
 export default function BlogLayout({
   children,
@@ -10,9 +10,9 @@ export default function BlogLayout({
     <>
       <BlogHeaderLayout />
 
-      <MaxWidthWrapper>
+      <MaxWidthContainer>
         {children}
-      </MaxWidthWrapper>
+      </MaxWidthContainer>
     </>
   );
 }

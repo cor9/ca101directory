@@ -1,4 +1,4 @@
-import MaxWidthWrapper from '@/components/shared/max-width-wrapper';
+import MaxWidthContainer from '@/components/shared/max-width-container';
 import { TagFilter } from '@/components/tag/tag-filter';
 
 export default function TagLayout({ children }: { children: React.ReactNode }) {
@@ -6,9 +6,9 @@ export default function TagLayout({ children }: { children: React.ReactNode }) {
     <>
       <TagFilter />
 
-      <MaxWidthWrapper className="pb-16">
+      <MaxWidthContainer className="pb-16">
         {children}
-      </MaxWidthWrapper>
+      </MaxWidthContainer>
     </>
   );
 }

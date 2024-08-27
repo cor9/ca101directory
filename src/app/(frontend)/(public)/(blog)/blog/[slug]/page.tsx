@@ -3,7 +3,7 @@ import "@/styles/mdx.css";
 import Author from "@/components/content/author";
 import { Mdx } from "@/components/content/mdx-components";
 import BlurImage from "@/components/shared/blur-image";
-import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import MaxWidthContainer from "@/components/shared/max-width-container";
 import { TableOfContentsLayout } from "@/components/shared/toc";
 import { buttonVariants } from "@/components/ui/button";
 import { BLOG_CATEGORIES } from "@/config/blog";
@@ -86,7 +86,7 @@ export default async function PostPage({
 
   return (
     <>
-      <MaxWidthWrapper>
+      <MaxWidthContainer>
         <div className="mt-8">
           <div className="flex flex-col space-y-4">
             <div className="flex items-center space-x-4">
@@ -179,7 +179,7 @@ export default async function PostPage({
             </div>
           )}
         </div>
-      </MaxWidthWrapper>
+      </MaxWidthContainer>
     </>
   );
 }

@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { HeaderSection } from "@/components/shared/header-section";
-import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import MaxWidthContainer from "@/components/shared/max-width-container";
 
 export function ComparePlans() {
   const renderCell = (value: string | boolean | null) => {
@@ -18,7 +18,7 @@ export function ComparePlans() {
   };
 
   return (
-    <MaxWidthWrapper>
+    <MaxWidthContainer>
       <HeaderSection
         label="Plans"
         title="Compare Our Plans"
@@ -79,6 +79,6 @@ export function ComparePlans() {
           </tbody>
         </table>
       </div>
-    </MaxWidthWrapper>
+    </MaxWidthContainer>
   );
 }

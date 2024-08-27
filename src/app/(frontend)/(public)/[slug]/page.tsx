@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { allPages } from "contentlayer/generated";
 import { Mdx } from "@/components/content/mdx-components";
 import { constructMetadata, getBlurDataURL } from "@/lib/utils";
-import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import MaxWidthContainer from "@/components/shared/max-width-container";
 
 export async function generateStaticParams() {
   return allPages.map((page) => ({
@@ -52,7 +52,7 @@ export default async function PagePage({
   );
 
   return (
-    <MaxWidthWrapper>
+    <MaxWidthContainer>
       <article className="py-6 lg:py-12">
         <div className="space-y-4">
           <h1 className="inline-block font-heading text-4xl lg:text-5xl">
@@ -65,6 +65,6 @@ export default async function PagePage({
         <hr className="my-4" />
         <Mdx code={page.body.code} images={images} />
       </article>
-    </MaxWidthWrapper>
+    </MaxWidthContainer>
   );
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import MaxWidthContainer from "@/components/shared/max-width-container";
 
 const logos = [
   {
@@ -240,7 +240,7 @@ const logos = [
 export default function Powered() {
   return (
     <section className="py-14 text-muted-foreground">
-      <MaxWidthWrapper>
+      <MaxWidthContainer>
         <h2 className="text-center text-sm font-semibold uppercase">
           Powered by
         </h2>
@@ -272,7 +272,7 @@ export default function Powered() {
             </Link>
           ))}
         </div>
-      </MaxWidthWrapper>
+      </MaxWidthContainer>
     </section>
   );
 }

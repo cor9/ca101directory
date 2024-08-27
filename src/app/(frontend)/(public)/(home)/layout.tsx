@@ -1,6 +1,6 @@
 import { HomeFilter } from '@/components/home/home-filter';
 import { HomeHero } from '@/components/home/home-hero';
-import MaxWidthWrapper from '@/components/shared/max-width-wrapper';
+import MaxWidthContainer from '@/components/shared/max-width-container';
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,9 +12,9 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
       {/* <HomeFilter /> */}
 
       {/* main content shows the list of items*/}
-      <MaxWidthWrapper className="pb-16">
+      <MaxWidthContainer className="pb-16">
         {children}
-      </MaxWidthWrapper>
+      </MaxWidthContainer>
     </>
   );
 }

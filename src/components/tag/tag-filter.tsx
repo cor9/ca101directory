@@ -2,7 +2,7 @@ import { sorting } from '@/lib/constants';
 import { TagListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { tagListQuery } from '@/sanity/lib/queries';
-import MaxWidthWrapper from '../shared/max-width-wrapper';
+import MaxWidthContainer from '../shared/max-width-container';
 import { SortList } from '../sort-list';
 import { TagList } from './tag-list';
 import { Suspense } from 'react';
@@ -21,7 +21,7 @@ export async function TagFilter() {
   return (
     <>
       {/* Desktop View, has MaxWidthWrapper */}
-      <MaxWidthWrapper className="hidden md:block">
+      <MaxWidthContainer className="hidden md:block">
         <div className='flex items-center justify-between gap-8 mt-4'>
           <div className="w-full">
             <Suspense fallback={null}>
@@ -35,7 +35,7 @@ export async function TagFilter() {
             </Suspense>
           </div>
         </div>
-      </MaxWidthWrapper>
+      </MaxWidthContainer>
 
       {/* Mobile View, no MaxWidthWrapper */}
       <div className="md:hidden flex flex-col gap-8 mt-4">

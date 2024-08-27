@@ -2,7 +2,7 @@ import { sorting } from '@/lib/constants';
 import { CategoryListQueryResult, TagListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { categoryListQuery, tagListQuery } from '@/sanity/lib/queries';
-import MaxWidthWrapper from '../shared/max-width-wrapper';
+import MaxWidthContainer from '../shared/max-width-container';
 import { SearchFilterClient } from './search-filter-client';
 import { Suspense } from 'react';
 
@@ -28,13 +28,13 @@ export async function SearchFilter() {
   return (
     <>
       {/* Desktop View, has MaxWidthWrapper */}
-      <MaxWidthWrapper className="hidden md:flex md:flex-col md:mt-4">
+      <MaxWidthContainer className="hidden md:flex md:flex-col md:mt-4">
         <div className="w-full">
           <Suspense fallback={null}>
             <SearchFilterClient tagList={tags} categoryList={categories} sortList={sorting} />
           </Suspense>
         </div>
-      </MaxWidthWrapper>
+      </MaxWidthContainer>
 
       {/* Mobile View, no MaxWidthWrapper */}
       <div className="md:hidden flex flex-col mt-4">

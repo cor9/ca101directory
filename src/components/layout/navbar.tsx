@@ -1,7 +1,7 @@
 "use client";
 
 import { LoginButton } from "@/components/auth/login-button";
-import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import MaxWidthContainer from "@/components/shared/max-width-container";
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, 
   NavigationMenuItem, 
@@ -67,7 +67,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
           scroll ? (scrolled ? "border-b" : "bg-transparent") : "border-b"
         )}
       >
-        <MaxWidthWrapper className="flex h-16 items-center justify-between">
+        <MaxWidthContainer className="flex h-16 items-center justify-between">
           {/* navbar left show logo and links */}
           <div className="flex items-center gap-6 md:gap-10">
 
@@ -133,7 +133,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
 
             <ModeToggle />
           </div>
-        </MaxWidthWrapper>
+        </MaxWidthContainer>
       </header>
       
       {/* Mobile View */}

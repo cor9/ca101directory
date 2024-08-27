@@ -1,11 +1,11 @@
 import Image from "next/image";
 
-import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import MaxWidthContainer from "@/components/shared/max-width-container";
 
 export default function BentoGrid() {
   return (
     <section className="py-32">
-      <MaxWidthWrapper>
+      <MaxWidthContainer>
         <div className="relative z-10 grid grid-cols-6 gap-3">
           {/* First card */}
           <div className="relative col-span-full flex overflow-hidden rounded-2xl border bg-background p-8 lg:col-span-2">
@@ -361,7 +361,7 @@ export default function BentoGrid() {
             </div>
           </div>
         </div>
-      </MaxWidthWrapper>
+      </MaxWidthContainer>
     </section>
   );
 }

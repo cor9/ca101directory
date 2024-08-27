@@ -1,4 +1,4 @@
-import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
+import MaxWidthContainer from "@/components/shared/max-width-container";
 
 export default function BlogLayout({
   children,

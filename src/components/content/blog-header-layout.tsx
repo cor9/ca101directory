@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Drawer } from "vaul";
-import MaxWidthWrapper from "../shared/max-width-wrapper";
+import MaxWidthContainer from "../shared/max-width-container";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 export function BlogHeaderLayout() {
@@ -38,7 +38,7 @@ export function BlogHeaderLayout() {
 
   return (
     <>
-      <MaxWidthWrapper className="hidden mt-8 md:flex md:pb-8">
+      <MaxWidthContainer className="hidden mt-8 md:flex md:pb-8">
         <ToggleGroup variant="outline" type="single"
           defaultValue={"all"} value={slug} onValueChange={handleValueChange}>
           {BLOG_CATEGORIES_WITH_ALL.map((category) => (
@@ -48,7 +48,7 @@ export function BlogHeaderLayout() {
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
-      </MaxWidthWrapper>
+      </MaxWidthContainer>
 
       {/* show Drawer in mobile, no MaxWidthWrapper */}
       <Drawer.Root open={open} onClose={closeDrawer}>

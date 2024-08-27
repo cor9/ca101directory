@@ -1,14 +1,14 @@
 import { SearchFilter } from '@/components/search/search-filter';
-import MaxWidthWrapper from '@/components/shared/max-width-wrapper';
+import MaxWidthContainer from '@/components/shared/max-width-container';
 
 export default function SearchLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <SearchFilter />
 
-      <MaxWidthWrapper className="pb-16">
+      <MaxWidthContainer className="pb-16">
         {children}
-      </MaxWidthWrapper>
+      </MaxWidthContainer>
     </>
   );
 }

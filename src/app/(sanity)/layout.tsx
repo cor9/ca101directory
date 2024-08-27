@@ -1,3 +1,4 @@
+import 'easymde/dist/easymde.min.css';
 
 export default function StudioLayout({
   children,

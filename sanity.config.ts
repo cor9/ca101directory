@@ -12,6 +12,7 @@ import { internationalizedArray } from 'sanity-plugin-internationalized-array';
 import { media } from 'sanity-plugin-media';
 import { presentationTool } from 'sanity/presentation';
 import { structureTool } from 'sanity/structure';
+import { markdownSchema } from "sanity-plugin-markdown";
 
 export default defineConfig({
   name: 'Studio',
@@ -52,6 +53,9 @@ export default defineConfig({
     // https://www.sanity.io/plugins/sanity-plugin-media
     // A convenient way to browse, manage and select all your Sanity assets.
     media(),
+
+    // https://www.sanity.io/plugins/sanity-plugin-markdown
+    markdownSchema(),
 
     // https://www.sanity.io/docs/dashboard
     // Dashboard is a Sanity Studio tool that allows you to add widgets that display information 

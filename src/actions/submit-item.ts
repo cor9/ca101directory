@@ -39,37 +39,67 @@ export async function SubmitItem(data: SubmitItemFormData) {
         current: slugify(name),
       },
       link,
+      // TODO: rename to excerpt
       description,
-      body: {
+      content: [{
         _type: 'block',
         style: 'h3',
+        _key: 'key_12345',
         children: [
           {
             _type: 'span',
-            text: 'Hello world!'
+            text: 'Hello world!',
+            _key: 'key_67890',
           }
         ]
       },
+      {
+        _type: 'block',
+        style: 'h4',
+        _key: 'key_123456',
+        children: [
+          {
+            _type: 'span',
+            text: 'Hello world!',
+            _key: 'key_567890',
+          }
+        ]
+      },
+      {
+        _type: 'block',
+        style: 'normal',
+        _key: 'key_1234567',
+        children: [
+          {
+            _type: 'span',
+            text: 'Hello world!',
+            _key: 'key_4567890',
+          }
+        ]
+      }],
       // status: "reviewing",
       submitter: {
         _type: "reference",
         _ref: session.user.id,
       },
       publishDate: new Date().toISOString(),
+      // TODO: fix key- prefix here
       tags: tags.map(tag => ({
         _type: 'reference',
         _ref: tag,
-        _key: `key-${tag}`,
+        _key: `key_${tag}`,
       })),
       categories: categories.map(category => ({
         _type: 'reference',
         _ref: category,
-        _key: `key-${category}`,
+        _key: `key_${category}`,
       })),
+      // TODO: maybe remove logo image
       ...(logoImageId ?
         {
           logo: {
             _type: "image",
+            alt: `logo of ${name}`,
             asset: {
               _type: 'reference',
               _ref: logoImageId
@@ -80,6 +110,7 @@ export async function SubmitItem(data: SubmitItemFormData) {
         {
           image: {
             _type: "image",
+            alt: `screenshot of ${name}`,
             asset: {
               _type: 'reference',
               _ref: coverImageId

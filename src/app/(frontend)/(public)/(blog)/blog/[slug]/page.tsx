@@ -45,6 +45,9 @@ export async function generateMetadata({
   });
 }
 
+/**
+ * TODO: https://vercel.com/templates/next.js/blog-next-sanity
+ */
 export default async function PostPage({
   params,
 }: {

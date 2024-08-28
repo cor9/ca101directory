@@ -1,3 +1,4 @@
+import { Mdx } from "@/components/content/mdx-components";
 import ItemDetailClient from "@/components/item-detail-client";
 import ItemHeaderClient from "@/components/item-header-client";
 import { PortableText } from "@/components/portable-text";
@@ -21,6 +22,32 @@ export default async function ItemPage({ params }: Props) {
   }
   console.log('ItemPage, item:', item);
 
+  console.log(`ItemPage, item.content:`, item.content);
+  // const content = toMarkdown(item.content);
+  // console.log(`ItemPage, content: ${content}`);
+  // convert to markdown using toMarkdown from @sanity/block-content-to-markdown
+
+// const client = require('@sanity/client')({
+//   projectId: '<your project id>',
+//   dataset: '<some dataset>',
+//   useCdn: true
+// })
+
+// const serializers = {
+//   types: {
+//     code: props => '```' + props.node.language + '\n' + props.node.code + '\n```'
+//   }
+// }
+
+// client.fetch('*[_type == "article"][0]').then(article => {
+//   console.log(toMarkdown(article.body, {serializers}))
+// })
+
+  const toMarkdown = require('@sanity/block-content-to-markdown');
+  const content = toMarkdown(item.content);
+  console.log(`ItemPage, content: ${content}`);
+
+
   return (
     <>
       <div className="space-y-8">
@@ -41,6 +68,10 @@ export default async function ItemPage({ params }: Props) {
 
             <div className="mt-4 prose prose-violet prose-a:text-violet-500 max-w-none prose-pre:bg-slate-100 prose-pre:text-slate-700 prose-headings:scroll-m-20">
               {item.body && <PortableText value={item.body} />}
+            </div>
+
+            <div className="mt-4">
+              {item.content && <Mdx code={content} />}
             </div>
           </div>
 

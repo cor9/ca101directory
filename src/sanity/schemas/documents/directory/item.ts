@@ -77,9 +77,9 @@ export default defineType({
         {
           type: "block"
         },
-        {
-          type: 'image'
-        },
+        // {
+        //   type: 'image'
+        // },
         // {
         //   type: 'code'
         // }

@@ -206,6 +206,7 @@ interface MdxProps {
 }
 
 export function Mdx({ code, images }: MdxProps) {
+  console.log(`Mdx, code: ${code}`);
   const Component = useMDXComponent(code);
 
   const MDXImage = (props: any) => {

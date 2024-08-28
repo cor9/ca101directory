@@ -231,17 +231,6 @@ export type Item = {
     level?: number;
     _type: "block";
     _key: string;
-  } | {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-    _key: string;
   }>;
   body?: BlockContent;
   logo?: {
@@ -307,18 +296,6 @@ export type BlogPost = {
   publishDate?: string;
 };
 
-export type BlogCategory = {
-  _id: string;
-  _type: "blogCategory";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-  priority?: number;
-};
-
 export type SanityImageCrop = {
   _type: "sanity.imageCrop";
   top?: number;
@@ -374,6 +351,18 @@ export type SanityImageMetadata = {
   blurHash?: string;
   hasAlpha?: boolean;
   isOpaque?: boolean;
+};
+
+export type BlogCategory = {
+  _id: string;
+  _type: "blogCategory";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  description?: string;
+  priority?: number;
 };
 
 export type User = {
@@ -440,7 +429,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Settings | PasswordResetToken | VerificationToken | Session | BlockContent | Category | Tag | Item | BlogPost | BlogCategory | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | MediaTag | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Settings | PasswordResetToken | VerificationToken | Session | BlockContent | Category | Tag | Item | BlogPost | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | BlogCategory | User | Account | MediaTag | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/sanity/lib/queries.ts
 // Variable: itemQuery
@@ -498,17 +487,6 @@ export type ItemQueryResult = {
     }>;
     level?: number;
     _type: "block";
-    _key: string;
-  } | {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
     _key: string;
   }>;
   body?: BlockContent;
@@ -594,17 +572,6 @@ export type ItemListQueryResult = Array<{
     level?: number;
     _type: "block";
     _key: string;
-  } | {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-    _key: string;
   }>;
   body?: BlockContent;
   logo?: {
@@ -689,17 +656,6 @@ export type ItemListOfCategoryQueryResult = Array<{
     level?: number;
     _type: "block";
     _key: string;
-  } | {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-    _key: string;
   }>;
   body?: BlockContent;
   logo?: {
@@ -783,17 +739,6 @@ export type ItemListOfTagQueryResult = Array<{
     }>;
     level?: number;
     _type: "block";
-    _key: string;
-  } | {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
     _key: string;
   }>;
   body?: BlockContent;

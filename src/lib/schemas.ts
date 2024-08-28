@@ -11,12 +11,15 @@ export const SubmitItemSchema = z.object({
   description: z.string()
       .min(3, { message: "Must be 3 or more characters long" })
       .max(256, { message: "Must be 256 or fewer characters long" }),
+  mdContent: z.string()
+      .min(1, { message: "Must be 32 or more characters long" }),
+      // .max(1024, { message: "Must be 1024 or fewer characters long" }),
   tags: z.array(z.string())
       .min(1, { message: "Must select at least one tag" }),
   categories: z.array(z.string())
       .min(1, { message: "Must select at least one category" }),
-  logoImageId: z.string()
-      .min(1, { message: "Must upload an image" }),
+  // logoImageId: z.string()
+  //     .min(1, { message: "Must upload an image" }),
   coverImageId: z.string()
       .min(1, { message: "Must upload an image" }),
 })

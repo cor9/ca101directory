@@ -232,6 +232,7 @@ export type Item = {
     _type: "block";
     _key: string;
   }>;
+  mdContent?: string;
   body?: BlockContent;
   logo?: {
     asset?: {
@@ -414,6 +415,8 @@ export type Account = {
   };
 };
 
+export type Markdown = string;
+
 export type MediaTag = {
   _id: string;
   _type: "media.tag";
@@ -429,7 +432,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Settings | PasswordResetToken | VerificationToken | Session | BlockContent | Category | Tag | Item | BlogPost | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | BlogCategory | User | Account | MediaTag | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Settings | PasswordResetToken | VerificationToken | Session | BlockContent | Category | Tag | Item | BlogPost | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | BlogCategory | User | Account | Markdown | MediaTag | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/sanity/lib/queries.ts
 // Variable: itemQuery
@@ -489,6 +492,7 @@ export type ItemQueryResult = {
     _type: "block";
     _key: string;
   }>;
+  mdContent?: string;
   body?: BlockContent;
   logo?: {
     asset?: {
@@ -573,6 +577,7 @@ export type ItemListQueryResult = Array<{
     _type: "block";
     _key: string;
   }>;
+  mdContent?: string;
   body?: BlockContent;
   logo?: {
     asset?: {
@@ -657,6 +662,7 @@ export type ItemListOfCategoryQueryResult = Array<{
     _type: "block";
     _key: string;
   }>;
+  mdContent?: string;
   body?: BlockContent;
   logo?: {
     asset?: {
@@ -741,6 +747,7 @@ export type ItemListOfTagQueryResult = Array<{
     _type: "block";
     _key: string;
   }>;
+  mdContent?: string;
   body?: BlockContent;
   logo?: {
     asset?: {

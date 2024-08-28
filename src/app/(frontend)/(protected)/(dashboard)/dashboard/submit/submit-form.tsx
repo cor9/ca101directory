@@ -26,6 +26,11 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import dynamic from 'next/dynamic';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
+const QuillEditor = dynamic(() => import('react-quill'), { ssr: false });
 
 interface SubmitItemFormProps {
   tagList: TagListQueryResult;
@@ -37,7 +42,43 @@ interface SubmitItemFormProps {
 // TODO: fix bug when quick upload 2 images, while one finish one uploading, submit button becomes active
 export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const router = useRouter();
-  const [logoImageUrl, setLogoImageUrl] = useState("");
+
+  const [editorContent, setEditorContent] = useState('');
+  const quillModules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link', 'image'],
+      [{ align: [] }],
+      [{ color: [] }],
+      ['code-block'],
+      ['clean'],
+    ],
+  };
+  const quillFormats = [
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'list',
+    'bullet',
+    'link',
+    'image',
+    'align',
+    'color',
+    'code-block',
+  ];
+  const handleEditorChange = (newContent) => {
+    console.log("SubmitItemForm, handleEditorChange, newContent:", newContent);
+    resetField("mdContent");
+    setEditorContent(newContent);
+    setValue("mdContent", newContent);
+  };
+
+  // const [logoImageUrl, setLogoImageUrl] = useState("");
   const [coverImageUrl, setCoverImageUrl] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -79,7 +120,8 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
       name: "",
       link: "",
       description: "",
-      logoImageId: "",
+      mdContent: "",
+      // logoImageId: "",
       coverImageId: "",
       tags: selectedTags,
       categories: selectedCategories,
@@ -105,36 +147,36 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
     });
   });
 
-  const handleUploadLogoImage = async (e) => {
-    console.log('SubmitItemForm, handleUploadLogoImage, file:', e.target.files[0]);
-    const file = e.target.files[0];
-    if (!file) {
-      console.log('SubmitItemForm, handleUploadLogoImage, file is null');
-      return;
-    }
+  // const handleUploadLogoImage = async (e) => {
+  //   console.log('SubmitItemForm, handleUploadLogoImage, file:', e.target.files[0]);
+  //   const file = e.target.files[0];
+  //   if (!file) {
+  //     console.log('SubmitItemForm, handleUploadLogoImage, file is null');
+  //     return;
+  //   }
 
-    const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
-    if (file.size > maxSizeInBytes) {
-      e.target.value = '';
-      console.error('SubmitItemForm, handleUploadLogoImage, Image size should be less than 1MB.');
-      toast.error('Image size should be less than 1MB.');
-      return;
-    }
+  //   const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
+  //   if (file.size > maxSizeInBytes) {
+  //     e.target.value = '';
+  //     console.error('SubmitItemForm, handleUploadLogoImage, Image size should be less than 1MB.');
+  //     toast.error('Image size should be less than 1MB.');
+  //     return;
+  //   }
 
-    setIsUploading(true);
-    const imageAsset = await uploadImage(file);
-    if (!imageAsset) {
-      e.target.value = '';
-      console.log('SubmitItemForm, handleUploadLogoImage, Upload Image failed, please try again.');
-      toast.error('Upload Image failed, please try again.');
-      return;
-    }
-    console.log('SubmitItemForm, handleUploadLogoImage, imageId:', imageAsset._id);
-    resetField("logoImageId");
-    setValue("logoImageId", imageAsset._id);
-    setLogoImageUrl(imageAsset.url);
-    setIsUploading(false);
-  };
+  //   setIsUploading(true);
+  //   const imageAsset = await uploadImage(file);
+  //   if (!imageAsset) {
+  //     e.target.value = '';
+  //     console.log('SubmitItemForm, handleUploadLogoImage, Upload Image failed, please try again.');
+  //     toast.error('Upload Image failed, please try again.');
+  //     return;
+  //   }
+  //   console.log('SubmitItemForm, handleUploadLogoImage, imageId:', imageAsset._id);
+  //   resetField("logoImageId");
+  //   setValue("logoImageId", imageAsset._id);
+  //   setLogoImageUrl(imageAsset.url);
+  //   setIsUploading(false);
+  // };
 
   const handleUploadCoverImage = async (e) => {
     console.log('SubmitItemForm, handleUploadCoverImage, file:', e.target.files[0]);
@@ -182,6 +224,24 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
         </CardHeader>
         <CardContent>
           <div className="grid gap-6">
+          
+          <QuillEditor
+            value={editorContent}
+            onChange={handleEditorChange}
+            modules={quillModules}
+            formats={quillFormats}
+            className="w-full h-[200px] bg-white"
+          />
+          {/* Hidden input to register mdContent */}
+          <input type="hidden" id="mdContent" {...register("mdContent")} /> 
+          {errors?.mdContent && (
+              <div className="flex gap-4 items-center">
+                <Label className="min-w-[100px]" htmlFor="error_mdContent">
+                </Label>
+                <p className="px-1 text-xs text-red-600">{errors.mdContent.message}</p>
+              </div>
+            )}
+
             <div className="flex gap-4 items-center">
               <Label className="min-w-[100px]" htmlFor="name">
                 {submitConfig.form.name}
@@ -306,7 +366,7 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
               </div>
             )}
 
-            <div className="flex gap-4 items-center">
+            {/* <div className="flex gap-4 items-center">
               <Label className="min-w-[100px]" htmlFor="imageFile">
                 {submitConfig.form.logo}
               </Label>
@@ -322,7 +382,6 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
                   src={logoImageUrl} />
               }
             </div>
-            {/* Hidden input to register logoImageId */}
             <input type="hidden" id="logoImageId" {...register("logoImageId")} />
             {errors?.logoImageId && (
               <div className="flex gap-4 items-center">
@@ -330,7 +389,7 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
                 </Label>
                 <p className="px-1 text-xs text-red-600">{errors.logoImageId.message}</p>
               </div>
-            )}
+            )} */}
 
             {/* TODO: reset errors when upload image success */}
             <div className="flex gap-4 items-center">

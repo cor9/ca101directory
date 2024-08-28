@@ -1,4 +1,3 @@
-import { Mdx } from "@/components/content/mdx-components";
 import ItemDetailClient from "@/components/item-detail-client";
 import ItemHeaderClient from "@/components/item-header-client";
 import { PortableText } from "@/components/portable-text";
@@ -27,26 +26,25 @@ export default async function ItemPage({ params }: Props) {
   // console.log(`ItemPage, content: ${content}`);
   // convert to markdown using toMarkdown from @sanity/block-content-to-markdown
 
-// const client = require('@sanity/client')({
-//   projectId: '<your project id>',
-//   dataset: '<some dataset>',
-//   useCdn: true
-// })
+  // const client = require('@sanity/client')({
+  //   projectId: '<your project id>',
+  //   dataset: '<some dataset>',
+  //   useCdn: true
+  // })
 
-// const serializers = {
-//   types: {
-//     code: props => '```' + props.node.language + '\n' + props.node.code + '\n```'
-//   }
-// }
+  // const serializers = {
+  //   types: {
+  //     code: props => '```' + props.node.language + '\n' + props.node.code + '\n```'
+  //   }
+  // }
 
-// client.fetch('*[_type == "article"][0]').then(article => {
-//   console.log(toMarkdown(article.body, {serializers}))
-// })
+  // client.fetch('*[_type == "article"][0]').then(article => {
+  //   console.log(toMarkdown(article.body, {serializers}))
+  // })
 
   const toMarkdown = require('@sanity/block-content-to-markdown');
   const content = toMarkdown(item.content);
   console.log(`ItemPage, content: ${content}`);
-
 
   return (
     <>
@@ -70,8 +68,15 @@ export default async function ItemPage({ params }: Props) {
               {item.body && <PortableText value={item.body} />}
             </div>
 
+            {/* {item.content && <Mdx code={content} />} */}
             <div className="mt-4">
-              {item.content && <Mdx code={content} />}
+              {item.content && <PortableText value={item.content} />}
+            </div>
+
+            <div className="mt-4">
+              {/* {item.mdContent && <Mdx code={item.mdContent} />} */}
+              {/* {item.mdContent && <Markdown>{item.mdContent}</Markdown>} */}
+              {/* <div dangerouslySetInnerHTML={{ __html: item.mdContent }}></div> */}
             </div>
           </div>
 

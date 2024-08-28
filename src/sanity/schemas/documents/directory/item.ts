@@ -88,7 +88,7 @@ export default defineType({
     defineField({
       name: "mdContent",
       title: "Markdown Content",
-      type: "markdown",
+      type: "string",
       description: "A Github flavored markdown field with image uploading",
     }),
     defineField({

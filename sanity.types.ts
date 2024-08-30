@@ -771,6 +771,759 @@ export type TagQueryResult = {
   slug?: Slug;
   description?: string;
 } | null;
+// Variable: postquery
+// Query: *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) {  _id,  _createdAt,  publishedDate,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "ImageColor": asset->metadata.palette.dominant.background,  },  featured,  excerpt,  slug,  title,  author-> {    _id,    image,    "slug": name, // use name as slug    name  },  categories[]->,}
+export type PostqueryResult = Array<{
+  _id: string;
+  _createdAt: string;
+  publishedDate: null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    blurDataURL: string | null;
+    ImageColor: string | null;
+  } | null;
+  featured: boolean | null;
+  excerpt: string | null;
+  slug: Slug | null;
+  title: string | null;
+  author: {
+    _id: string;
+    image: string | null;
+    slug: string | null;
+    name: string | null;
+  } | null;
+  categories: Array<{
+    _id: string;
+    _type: "blogCategory";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+    priority?: number;
+    color?: "blue" | "green" | "orange" | "purple";
+  }> | null;
+}>;
+// Variable: limitquery
+// Query: *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) [0..$limit] {  ...,  author->,  categories[]->}
+export type LimitqueryResult = Array<{
+  _id: string;
+  _type: "blogPost";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  excerpt?: string;
+  featured?: boolean;
+  categories: Array<{
+    _id: string;
+    _type: "blogCategory";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+    priority?: number;
+    color?: "blue" | "green" | "orange" | "purple";
+  }> | null;
+  author: {
+    _id: string;
+    _type: "user";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    email?: string;
+    emailVerified?: string;
+    image?: string;
+    password?: string;
+    role?: "ADMIN" | "USER";
+    accounts?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "account";
+    };
+    stripeCustomerId?: string;
+    stripeSubscriptionId?: string;
+    stripePriceId?: string;
+    stripeCurrentPeriodEnd?: string;
+  } | null;
+  body?: BlockContent;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  publishDate?: string;
+}>;
+// Variable: paginatedquery
+// Query: *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) [$pageIndex...$limit] {  ...,  author->,  categories[]->}
+export type PaginatedqueryResult = Array<{
+  _id: string;
+  _type: "blogPost";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  excerpt?: string;
+  featured?: boolean;
+  categories: Array<{
+    _id: string;
+    _type: "blogCategory";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+    priority?: number;
+    color?: "blue" | "green" | "orange" | "purple";
+  }> | null;
+  author: {
+    _id: string;
+    _type: "user";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    email?: string;
+    emailVerified?: string;
+    image?: string;
+    password?: string;
+    role?: "ADMIN" | "USER";
+    accounts?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "account";
+    };
+    stripeCustomerId?: string;
+    stripeSubscriptionId?: string;
+    stripePriceId?: string;
+    stripeCurrentPeriodEnd?: string;
+  } | null;
+  body?: BlockContent;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  publishDate?: string;
+}>;
+// Variable: singlequery
+// Query: *[_type == "blogPost" && slug.current == $slug][0] {  ...,  body[]{    ...,    markDefs[]{      ...,      _type == "internalLink" => {        "slug": @.reference->slug      }    }  },  author->,  categories[]->,  "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),  "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {    title,    slug,    "date": coalesce(publishedDate,_createdAt),    "image": image  },}
+export type SinglequeryResult = {
+  _id: string;
+  _type: "blogPost";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  excerpt?: string;
+  featured?: boolean;
+  categories: Array<{
+    _id: string;
+    _type: "blogCategory";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+    priority?: number;
+    color?: "blue" | "green" | "orange" | "purple";
+  }> | null;
+  author: {
+    _id: string;
+    _type: "user";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    email?: string;
+    emailVerified?: string;
+    image?: string;
+    password?: string;
+    role?: "ADMIN" | "USER";
+    accounts?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "account";
+    };
+    stripeCustomerId?: string;
+    stripeSubscriptionId?: string;
+    stripePriceId?: string;
+    stripeCurrentPeriodEnd?: string;
+  } | null;
+  body: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h2" | "h3" | "h4" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs: Array<{
+      reference?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "blogPost";
+      };
+      _type: "internalLink";
+      _key: string;
+      slug: Slug | null;
+    } | {
+      href?: string;
+      _type: "link";
+      _key: string;
+    }> | null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+    markDefs: null;
+  }> | null;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  publishDate?: string;
+  estReadingTime: number;
+  related: Array<{
+    title: string | null;
+    slug: Slug | null;
+    date: null | string;
+    image: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    } | null;
+  }>;
+} | null;
+// Variable: pathquery
+// Query: *[_type == "blogPost" && defined(slug.current)][].slug.current
+export type PathqueryResult = Array<string | null>;
+// Variable: catpathquery
+// Query: *[_type == "blogCategory" && defined(slug.current)][].slug.current
+export type CatpathqueryResult = Array<string | null>;
+// Variable: postsbyauthorquery
+// Query: *[_type == "blogPost" && $slug match author->slug.current ] {  ...,  author->,  categories[]->,}
+export type PostsbyauthorqueryResult = Array<{
+  _id: string;
+  _type: "blogPost";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  excerpt?: string;
+  featured?: boolean;
+  categories: Array<{
+    _id: string;
+    _type: "blogCategory";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+    priority?: number;
+    color?: "blue" | "green" | "orange" | "purple";
+  }> | null;
+  author: {
+    _id: string;
+    _type: "user";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    email?: string;
+    emailVerified?: string;
+    image?: string;
+    password?: string;
+    role?: "ADMIN" | "USER";
+    accounts?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "account";
+    };
+    stripeCustomerId?: string;
+    stripeSubscriptionId?: string;
+    stripePriceId?: string;
+    stripeCurrentPeriodEnd?: string;
+  } | null;
+  body?: BlockContent;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  publishDate?: string;
+}>;
+// Variable: postsbycatquery
+// Query: *[_type == "blogPost" && $slug in categories[]->slug.current ] {  ...,  author->,  categories[]->,}
+export type PostsbycatqueryResult = Array<{
+  _id: string;
+  _type: "blogPost";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  excerpt?: string;
+  featured?: boolean;
+  categories: Array<{
+    _id: string;
+    _type: "blogCategory";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+    priority?: number;
+    color?: "blue" | "green" | "orange" | "purple";
+  }> | null;
+  author: {
+    _id: string;
+    _type: "user";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    email?: string;
+    emailVerified?: string;
+    image?: string;
+    password?: string;
+    role?: "ADMIN" | "USER";
+    accounts?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "account";
+    };
+    stripeCustomerId?: string;
+    stripeSubscriptionId?: string;
+    stripePriceId?: string;
+    stripeCurrentPeriodEnd?: string;
+  } | null;
+  body?: BlockContent;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  publishDate?: string;
+}>;
+// Variable: catquery
+// Query: *[_type == "blogCategory"] {  ...,  "count": count(*[_type == "blogPost" && references(^._id)])} | order(count desc) [0...5]
+export type CatqueryResult = Array<{
+  _id: string;
+  _type: "blogCategory";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  description?: string;
+  priority?: number;
+  color?: "blue" | "green" | "orange" | "purple";
+  count: number;
+}>;
+// Variable: searchquery
+// Query: *[_type == "blogPost" && _score > 0]| score(title match $query || excerpt match $query || pt::text(body) match $query)| order(_score desc){  _score,  _id,  _createdAt,  image,  author->,  categories[]->,   title,   slug}
+export type SearchqueryResult = Array<{
+  _score: null;
+  _id: string;
+  _createdAt: string;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  author: {
+    _id: string;
+    _type: "user";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    email?: string;
+    emailVerified?: string;
+    image?: string;
+    password?: string;
+    role?: "ADMIN" | "USER";
+    accounts?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "account";
+    };
+    stripeCustomerId?: string;
+    stripeSubscriptionId?: string;
+    stripePriceId?: string;
+    stripeCurrentPeriodEnd?: string;
+  } | null;
+  categories: Array<{
+    _id: string;
+    _type: "blogCategory";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+    priority?: number;
+    color?: "blue" | "green" | "orange" | "purple";
+  }> | null;
+  title: string | null;
+  slug: Slug | null;
+}>;
+// Variable: getAll
+// Query: *[]
+export type GetAllResult = Array<{
+  _id: string;
+  _type: "account";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  userId?: string;
+  type?: string;
+  provider?: string;
+  providerAccountId?: string;
+  refreshToken?: string;
+  accessToken?: string;
+  expiresAt?: number;
+  tokenType?: string;
+  scope?: string;
+  idToken?: string;
+  sessionState?: string;
+  user?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  };
+} | {
+  _id: string;
+  _type: "blogCategory";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  description?: string;
+  priority?: number;
+  color?: "blue" | "green" | "orange" | "purple";
+} | {
+  _id: string;
+  _type: "blogPost";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  excerpt?: string;
+  featured?: boolean;
+  categories?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "blogCategory";
+  }>;
+  author?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  };
+  body?: BlockContent;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  publishDate?: string;
+} | {
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  description?: string;
+  priority?: number;
+} | {
+  _id: string;
+  _type: "item";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  description?: string;
+  link?: string;
+  categories?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "category";
+  }>;
+  tags?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "tag";
+  }>;
+  submitter?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  };
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  mdContent?: string;
+  body?: BlockContent;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  publishDate?: string;
+} | {
+  _id: string;
+  _type: "media.tag";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: Slug;
+} | {
+  _id: string;
+  _type: "passwordResetToken";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  identifier?: string;
+  token?: string;
+  expires?: string;
+} | {
+  _id: string;
+  _type: "sanity.fileAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+  source?: SanityAssetSourceData;
+} | {
+  _id: string;
+  _type: "sanity.imageAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+  metadata?: SanityImageMetadata;
+  source?: SanityAssetSourceData;
+} | {
+  _id: string;
+  _type: "session";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  sessionToken?: string;
+  userId?: string;
+  expires?: string;
+  user?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  };
+} | {
+  _id: string;
+  _type: "settings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+} | {
+  _id: string;
+  _type: "tag";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  description?: string;
+} | {
+  _id: string;
+  _type: "user";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  email?: string;
+  emailVerified?: string;
+  image?: string;
+  password?: string;
+  role?: "ADMIN" | "USER";
+  accounts?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "account";
+  };
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+  stripePriceId?: string;
+  stripeCurrentPeriodEnd?: string;
+} | {
+  _id: string;
+  _type: "verificationToken";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  identifier?: string;
+  token?: string;
+  expires?: string;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -784,5 +1537,16 @@ declare module "@sanity/client" {
     "*[_type == \"category\" && slug.current == $slug][0] {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": CategoryQueryResult;
     "*[_type == \"tag\" && defined(slug.current)] \n  | order(slug.current asc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": TagListQueryResult;
     "*[_type == \"tag\" && slug.current == $slug][0] {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": TagQueryResult;
+    "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) {\n  _id,\n  _createdAt,\n  publishedDate,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"ImageColor\": asset->metadata.palette.dominant.background,\n  },\n  featured,\n  excerpt,\n  slug,\n  title,\n  author-> {\n    _id,\n    image,\n    \"slug\": name, // use name as slug\n    name\n  },\n  categories[]->,\n}\n": PostqueryResult;
+    "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) [0..$limit] {\n  ...,\n  author->,\n  categories[]->\n}\n": LimitqueryResult;
+    "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) [$pageIndex...$limit] {\n  ...,\n  author->,\n  categories[]->\n}\n": PaginatedqueryResult;
+    "\n*[_type == \"blogPost\" && slug.current == $slug][0] {\n  ...,\n  body[]{\n    ...,\n    markDefs[]{\n      ...,\n      _type == \"internalLink\" => {\n        \"slug\": @.reference->slug\n      }\n    }\n  },\n  author->,\n  categories[]->,\n  \"estReadingTime\": round(length(pt::text(body)) / 5 / 180 ),\n  \"related\": *[_type == \"blogPost\" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {\n    title,\n    slug,\n    \"date\": coalesce(publishedDate,_createdAt),\n    \"image\": image\n  },\n}\n": SinglequeryResult;
+    "\n*[_type == \"blogPost\" && defined(slug.current)][].slug.current\n": PathqueryResult;
+    "\n*[_type == \"blogCategory\" && defined(slug.current)][].slug.current\n": CatpathqueryResult;
+    "\n*[_type == \"blogPost\" && $slug match author->slug.current ] {\n  ...,\n  author->,\n  categories[]->,\n}\n": PostsbyauthorqueryResult;
+    "\n*[_type == \"blogPost\" && $slug in categories[]->slug.current ] {\n  ...,\n  author->,\n  categories[]->,\n}\n": PostsbycatqueryResult;
+    "*[_type == \"blogCategory\"] {\n  ...,\n  \"count\": count(*[_type == \"blogPost\" && references(^._id)])\n} | order(count desc) [0...5]": CatqueryResult;
+    "*[_type == \"blogPost\" && _score > 0]\n| score(title match $query || excerpt match $query || pt::text(body) match $query)\n| order(_score desc)\n{\n  _score,\n  _id,\n  _createdAt,\n  image,\n  author->,\n  categories[]->,\n   title,\n   slug\n}": SearchqueryResult;
+    "*[]": GetAllResult;
   }
 }

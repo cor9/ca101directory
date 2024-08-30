@@ -25,11 +25,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import 'react-quill/dist/quill.snow.css';
 import { toast } from "sonner";
-
-// import dynamic from 'next/dynamic';
-// const QuillEditor = dynamic(() => import('react-quill'), { ssr: false });
 
 import type SimpleMDE from "easymde";
 import { SimpleMdeReact } from "react-simplemde-editor";
@@ -174,13 +170,6 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
         <CardContent>
           <div className="grid gap-6">
 
-            {/* <QuillEditor
-            value={editorContent}
-            onChange={handleEditorChange}
-            modules={quillModules}
-            formats={quillFormats}
-            className="w-full h-[200px] bg-white"
-          /> */}
             <SimpleMdeReact
               options={autofocusNoSpellcheckerOptions}
               value={mdContent}

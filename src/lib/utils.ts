@@ -5,7 +5,6 @@ import { siteConfig } from "@/config/site";
 import { Metadata } from "next";
 import createImageUrlBuilder from "@sanity/image-url";
 import { dataset, projectId } from "@/sanity/lib/api";
-// import { allDocs } from 'contentlayer/generated';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

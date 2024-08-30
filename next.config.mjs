@@ -43,10 +43,3 @@ const nextConfig = {
 };
 
 export default nextConfig;
-
-// https://nextjs.org/docs/pages/building-your-application/configuring/mdx
-// const withMDX = createMDX({
-    // Add markdown plugins here, as desired
-// });
-
-// export default withContentlayer(withMDX(nextConfig));

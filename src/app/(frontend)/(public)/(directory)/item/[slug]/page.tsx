@@ -1,23 +1,11 @@
-// import "@/styles/mdx.css";
+import "@/styles/mdx.css";
 
-import { Mdx } from "@/components/content/mdx-components";
 import ItemDetailClient from "@/components/item-detail-client";
 import ItemHeaderClient from "@/components/item-header-client";
-import MdxLayout from "@/components/mdx-layout";
-import { PortableText } from "@/components/portable-text";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
 import { notFound } from "next/navigation";
-
-import Markdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-
-// import { serialize } from 'next-mdx-remote/serialize';
-// import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
-import { MDXRemote } from 'next-mdx-remote/rsc';
-import { CustomMDX, MdxRemote } from "@/components/mdx-remote";
-import { CustomMarkdown } from "@/components/md-react";
 import { MdxRemoteClient } from "@/components/mdx-remote-client";
 
 type Props = {
@@ -96,7 +84,7 @@ export default async function ItemPage({ params }: Props) {
             <hr />
             <h1>MdxRemoteClient</h1>
 
-            {/* <article className="prose prose-slate dark:prose-invert"> */}
+            {/* <article className="prose prose-stone dark:prose-invert"> */}
             <div className="mt-4">
               {item.mdContent &&
                 <MdxRemoteClient source={item.mdContent} />

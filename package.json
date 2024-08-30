@@ -73,6 +73,7 @@
     "react-day-picker": "^9.0.8",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.2",
+    "react-iframe": "^1.8.5",
     "react-simplemde-editor": "^5.2.0",
     "react-spinners": "^0.14.1",
     "resend": "^3.5.0",

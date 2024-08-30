@@ -51,6 +51,7 @@ export default defineType({
             title: "Author",
             type: "reference",
             to: [{ type: "user" }],
+            validation: (rule) => rule.required(),
         }),
         defineField({
             name: "body",

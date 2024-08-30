@@ -197,6 +197,9 @@ importers:
       react-hook-form:
         specifier: ^7.52.2
         version: 7.52.2(react@18.3.1)
+      react-iframe:
+        specifier: ^1.8.5
+        version: 1.8.5(react@18.3.1)
       react-simplemde-editor:
         specifier: ^5.2.0
         version: 5.2.0(easymde@2.18.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -6043,6 +6046,11 @@ packages:
         optional: true
       react-native:
         optional: true
+
+  react-iframe@1.8.5:
+    resolution: {integrity: sha512-F4cQJGs3ydaG6fJWfuz9yLwOU0Trzl6kttXuUG+vYwosH8enOOFxZWEDQCSbNVO8ayjfYZeqLxEvdvcsSy4GvA==}
+    peerDependencies:
+      react: '>=16.x.x'
 
   react-infinite-scroll-component@6.1.0:
     resolution: {integrity: sha512-SQu5nCqy8DxQWpnUVLx7V7b7LcA37aM7tvoWjTLZp1dk6EJibM5/4EJKzOnl07/BsM1Y40sKLuqjCwwH/xV0TQ==}
@@ -14265,6 +14273,11 @@ snapshots:
       react: 18.3.1
     optionalDependencies:
       react-dom: 18.3.1(react@18.3.1)
+
+  react-iframe@1.8.5(react@18.3.1):
+    dependencies:
+      object-assign: 4.1.1
+      react: 18.3.1
 
   react-infinite-scroll-component@6.1.0(react@18.3.1):
     dependencies:

@@ -1,35 +1,32 @@
 import "@/styles/mdx.css";
 
-import { Mdx } from "@/components/content/mdx-components";
 import MaxWidthContainer from "@/components/shared/max-width-container";
-import { constructMetadata, getBlurDataURL } from "@/lib/utils";
-import { allPages } from "contentlayer/generated";
-import { Metadata } from "next";
+import { getBlurDataURL } from "@/lib/utils";
 import { notFound } from "next/navigation";
 
-export async function generateStaticParams() {
-  return allPages.map((page) => ({
-    slug: page.slugAsParams,
-  }));
-}
+// export async function generateStaticParams() {
+//   return allPages.map((page) => ({
+//     slug: page.slugAsParams,
+//   }));
+// }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata | undefined> {
-  const page = allPages.find((page) => page.slugAsParams === params.slug);
-  if (!page) {
-    return;
-  }
+// export async function generateMetadata({
+//   params,
+// }: {
+//   params: { slug: string };
+// }): Promise<Metadata | undefined> {
+//   const page = allPages.find((page) => page.slugAsParams === params.slug);
+//   if (!page) {
+//     return;
+//   }
 
-  const { title, description } = page;
+//   const { title, description } = page;
 
-  return constructMetadata({
-    title: `${title}`,
-    description: description,
-  });
-}
+//   return constructMetadata({
+//     title: `${title}`,
+//     description: description,
+//   });
+// }
 
 export default async function PagePage({
   params,
@@ -38,34 +35,34 @@ export default async function PagePage({
     slug: string;
   };
 }) {
-  const page = allPages.find((page) => page.slugAsParams === params.slug);
+  // const page = allPages.find((page) => page.slugAsParams === params.slug);
 
-  if (!page) {
-    notFound();
-  }
+  // if (!page) {
+  //   notFound();
+  // }
 
-  const images = await Promise.all(
-    page.images.map(async (src: string) => ({
-      src,
-      blurDataURL: await getBlurDataURL(src),
-    })),
-  );
+  // const images = await Promise.all(
+  //   page.images.map(async (src: string) => ({
+  //     src,
+  //     blurDataURL: await getBlurDataURL(src),
+  //   })),
+  // );
 
-  console.log(`PagePage, page.body.code: ${page.body.code}`);
+  // console.log(`PagePage, page.body.code: ${page.body.code}`);
 
   return (
     <MaxWidthContainer>
       <article className="py-6 lg:py-12">
         <div className="space-y-4">
-          <h1 className="inline-block font-heading text-4xl lg:text-5xl">
+          {/* <h1 className="inline-block font-heading text-4xl lg:text-5xl">
             {page.title}
-          </h1>
-          {page.description && (
+          </h1> */}
+          {/* {page.description && (
             <p className="text-xl text-muted-foreground">{page.description}</p>
-          )}
+          )} */}
         </div>
-        <hr className="my-4" />
-        <Mdx code={page.body.code} images={images} />
+        {/* <hr className="my-4" /> */}
+        {/* <Mdx code={page.body.code} images={images} /> */}
       </article>
     </MaxWidthContainer>
   );

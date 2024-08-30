@@ -21,9 +21,9 @@ export default async function ItemPage({ params }: Props) {
   if (!item) {
     return notFound();
   }
-  console.log('ItemPage, item:', item);
-  console.log(`ItemPage, item.content:`, item.content);
-  console.log(`ItemPage, item.mdContent:`, item.mdContent);
+  // console.log('ItemPage, item:', item);
+  // console.log(`ItemPage, item.content:`, item.content);
+  // console.log(`ItemPage, item.mdContent:`, item.mdContent);
   return (
     <>
       <div className="space-y-8">

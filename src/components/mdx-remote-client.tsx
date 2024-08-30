@@ -1,11 +1,10 @@
-import { MdxCard } from '@/components/content/mdx-card';
+// import { MdxCard } from '@/components/content/mdx-card';
 import { Callout } from '@/components/shared/callout';
 import { CopyButton } from '@/components/shared/copy-button';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import BlurImage from './shared/blur-image';
 
-// import { MDXRemote } from 'next-mdx-remote/rsc';
 import { evaluate, MDXRemote, MDXRemoteOptions } from "next-mdx-remote-client/rsc";
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
@@ -179,7 +178,7 @@ const customComponents = {
         />
     ),
     Callout,
-    Card: MdxCard,
+    // Card: MdxCard,
     Step: ({ className, ...props }: React.ComponentProps<"h3">) => (
         <h3
             className={cn(

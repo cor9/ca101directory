@@ -13,7 +13,6 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": ".", // https://contentlayer.dev/docs/getting-started-cddd76b7#typescript-configuration
     "plugins": [
       {
         "name": "next"
@@ -21,16 +20,13 @@
     ],
     "paths": {
       "@/*": ["./src/*", "./*"],
-      "contentlayer/generated": ["./.contentlayer/generated"]
     }
   },
   "include": [
     "next-env.d.ts", 
     "**/*.ts", 
     "**/*.tsx", 
-    ".next/types/**/*.ts",
-    ".contentlayer/generated",
-    "contentlayer.config.ts"
+    ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

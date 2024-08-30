@@ -6,10 +6,9 @@ const nextConfig = {
     // https://nextjs.org/docs/pages/building-your-application/configuring/mdx
     // pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
 
-    reactStrictMode: true,
     // https://www.npmjs.com/package/geist#using-with-nextjs
     transpilePackages: ["geist"],
-    swcMinify: true,
+
     images: {
         // https://vercel.com/docs/image-optimization/managing-image-optimization-costs#minimizing-image-optimization-costs
         // vercel has limits on image optimization, 1000 images per month
@@ -43,10 +42,7 @@ const nextConfig = {
     },
 };
 
-// https://contentlayer.dev/docs/reference/next-contentlayer-e6e7eb3a#withcontentlayer
-import { withContentlayer } from 'next-contentlayer2';
-
-export default withContentlayer(nextConfig);
+export default nextConfig;
 
 // https://nextjs.org/docs/pages/building-your-application/configuring/mdx
 // const withMDX = createMDX({

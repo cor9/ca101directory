@@ -35,9 +35,11 @@ export function Navbar({ scroll = false }: NavBarProps) {
   const { data: session, status } = useSession();
   const pathname = usePathname();
   console.log(`Navbar, pathname: ${pathname}`);
-  const isDocsPage = pathname.startsWith('/docs');
+  // const isDocsPage = pathname.startsWith('/docs');
+  const isDocsPage = false;
   console.log(`Navbar, isDocsPage: ${isDocsPage}`);
-  const links = isDocsPage ? docsConfig.mainNav : marketingConfig.mainNav;
+  // const links = isDocsPage ? docsConfig.mainNav : marketingConfig.mainNav;
+  const links = marketingConfig.mainNav;
   console.log(`Navbar, links: ${links.map((link) => link.title)}`);
 
   const isLinkActive = (href: string) => {

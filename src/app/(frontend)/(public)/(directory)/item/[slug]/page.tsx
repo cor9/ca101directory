@@ -42,19 +42,11 @@ export default async function ItemPage({ params }: Props) {
               {item.description}
             </p>
 
-            {/* 由于我是自定义了组件，所有就没有使用tailwindcss的typography定义的样式，也就是prose那些 */}
-            {/* 如果不自定义组件的话，那么就可以将 article className="prose" 这部分打开，效果其实也不错 */}
-            {/* 为什么选择 React Markdown 而不是 next-remote-mdx，因为后者似乎不支持 table */}
-
-            {/* https://github.com/tailwindlabs/tailwindcss-typography */}
-
-            {/* <article className="prose prose-slate dark:prose-invert"> */}
             <article className="mt-4">
               {item.mdContent &&
                 <MdxRemoteClient source={item.mdContent} />
               }
             </article>
-            {/* </article> */}
 
           </div>
 

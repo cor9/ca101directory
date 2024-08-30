@@ -22,7 +22,7 @@ export default function ItemCard({ item }: ItemCardProps) {
     <Link
       href={`/item/${item.slug.current}`}
       className={cn(
-        "border rounded-lg group flex flex-col justify-between not-prose gap-8",
+        "border rounded-lg group flex flex-col justify-between gap-8",
         "hover:bg-accent transition-all"
       )}
     >

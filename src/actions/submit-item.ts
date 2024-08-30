@@ -6,10 +6,9 @@ import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
 
-import { Schema } from '@sanity/schema';
-import { htmlToBlocks, normalizeBlock } from '@sanity/block-tools';
-import SchemaItem from '@/sanity/schemas/documents/directory/item';
-
+// import { Schema } from '@sanity/schema';
+// import { htmlToBlocks, normalizeBlock } from '@sanity/block-tools';
+// import SchemaItem from '@/sanity/schemas/documents/directory/item';
 
 export type SubmitItemFormData = {
   name: string;
@@ -18,7 +17,6 @@ export type SubmitItemFormData = {
   mdContent: string;
   tags: string[];
   categories: string[];
-  // logoImageId: string;
   coverImageId: string;
 };
 
@@ -33,7 +31,7 @@ export async function SubmitItem(data: SubmitItemFormData) {
     console.log("submitItem, username:", session?.user?.name);
 
     console.log("submitItem, data:", data);
-    const { name, link, description, mdContent, /* logoImageId,  */coverImageId,
+    const { name, link, description, mdContent, coverImageId,
       tags, categories } = SubmitItemSchema.parse(data);
     console.log("submitItem, name:", name, "link:", link);
 
@@ -56,6 +54,7 @@ export async function SubmitItem(data: SubmitItemFormData) {
       link,
       // TODO: rename to excerpt
       description,
+      mdContent,
       // content: normalizedBlocks,
       // content: [{
       //   _type: 'block',
@@ -110,18 +109,6 @@ export async function SubmitItem(data: SubmitItemFormData) {
         _ref: category,
         _key: `key_${category}`,
       })),
-      // TODO: maybe remove logo image
-      // ...(logoImageId ?
-      //   {
-      //     logo: {
-      //       _type: "image",
-      //       alt: `logo of ${name}`,
-      //       asset: {
-      //         _type: 'reference',
-      //         _ref: logoImageId
-      //       }
-      //     }
-      //   } : {}),
       ...(coverImageId ?
         {
           image: {

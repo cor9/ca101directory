@@ -23,14 +23,17 @@ import confetti from 'canvas-confetti';
 import { HourglassIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useCallback, useMemo, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import dynamic from 'next/dynamic';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { toast } from "sonner";
 
-const QuillEditor = dynamic(() => import('react-quill'), { ssr: false });
+// import dynamic from 'next/dynamic';
+// const QuillEditor = dynamic(() => import('react-quill'), { ssr: false });
+
+import type SimpleMDE from "easymde";
+import { SimpleMdeReact } from "react-simplemde-editor";
+import "easymde/dist/easymde.min.css";
 
 interface SubmitItemFormProps {
   tagList: TagListQueryResult;
@@ -43,46 +46,24 @@ interface SubmitItemFormProps {
 export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const router = useRouter();
 
-  const [editorContent, setEditorContent] = useState('');
-  const quillModules = {
-    toolbar: [
-      [{ header: [1, 2, 3, false] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link', 'image'],
-      [{ align: [] }],
-      [{ color: [] }],
-      ['code-block'],
-      ['clean'],
-    ],
-  };
-  const quillFormats = [
-    'header',
-    'bold',
-    'italic',
-    'underline',
-    'strike',
-    'blockquote',
-    'list',
-    'bullet',
-    'link',
-    'image',
-    'align',
-    'color',
-    'code-block',
-  ];
-  const handleEditorChange = (newContent) => {
-    console.log("SubmitItemForm, handleEditorChange, newContent:", newContent);
+  const [mdContent, setMdContent] = useState("Initial Content");
+  const onMdContentChange = useCallback((value: string) => {
     resetField("mdContent");
-    setEditorContent(newContent);
-    setValue("mdContent", newContent);
-  };
+    setMdContent(value);
+    setValue("mdContent", value);
+  }, []);
+  const autofocusNoSpellcheckerOptions = useMemo(() => {
+    return {
+      autofocus: true,
+      spellChecker: false,
+    } as SimpleMDE.Options;
+  }, []);
 
   // const [logoImageUrl, setLogoImageUrl] = useState("");
   const [coverImageUrl, setCoverImageUrl] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [isPending, startTransition] = useTransition();
-  
+
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   console.log("SubmitItemForm, selectedTags", selectedTags);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -121,7 +102,6 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
       link: "",
       description: "",
       mdContent: "",
-      // logoImageId: "",
       coverImageId: "",
       tags: selectedTags,
       categories: selectedCategories,
@@ -146,37 +126,6 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
       }
     });
   });
-
-  // const handleUploadLogoImage = async (e) => {
-  //   console.log('SubmitItemForm, handleUploadLogoImage, file:', e.target.files[0]);
-  //   const file = e.target.files[0];
-  //   if (!file) {
-  //     console.log('SubmitItemForm, handleUploadLogoImage, file is null');
-  //     return;
-  //   }
-
-  //   const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
-  //   if (file.size > maxSizeInBytes) {
-  //     e.target.value = '';
-  //     console.error('SubmitItemForm, handleUploadLogoImage, Image size should be less than 1MB.');
-  //     toast.error('Image size should be less than 1MB.');
-  //     return;
-  //   }
-
-  //   setIsUploading(true);
-  //   const imageAsset = await uploadImage(file);
-  //   if (!imageAsset) {
-  //     e.target.value = '';
-  //     console.log('SubmitItemForm, handleUploadLogoImage, Upload Image failed, please try again.');
-  //     toast.error('Upload Image failed, please try again.');
-  //     return;
-  //   }
-  //   console.log('SubmitItemForm, handleUploadLogoImage, imageId:', imageAsset._id);
-  //   resetField("logoImageId");
-  //   setValue("logoImageId", imageAsset._id);
-  //   setLogoImageUrl(imageAsset.url);
-  //   setIsUploading(false);
-  // };
 
   const handleUploadCoverImage = async (e) => {
     console.log('SubmitItemForm, handleUploadCoverImage, file:', e.target.files[0]);
@@ -224,17 +173,21 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
         </CardHeader>
         <CardContent>
           <div className="grid gap-6">
-          
-          <QuillEditor
+
+            {/* <QuillEditor
             value={editorContent}
             onChange={handleEditorChange}
             modules={quillModules}
             formats={quillFormats}
             className="w-full h-[200px] bg-white"
-          />
-          {/* Hidden input to register mdContent */}
-          <input type="hidden" id="mdContent" {...register("mdContent")} /> 
-          {errors?.mdContent && (
+          /> */}
+            <SimpleMdeReact
+              options={autofocusNoSpellcheckerOptions}
+              value={mdContent}
+              onChange={onMdContentChange}
+            />
+            <input type="hidden" id="mdContent" {...register("mdContent")} />
+            {errors?.mdContent && (
               <div className="flex gap-4 items-center">
                 <Label className="min-w-[100px]" htmlFor="error_mdContent">
                 </Label>
@@ -284,7 +237,7 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
               </div>
             </div>
             {/* Hidden input to register categories */}
-            <input type="hidden" id="categories" {...register("categories")} /> 
+            <input type="hidden" id="categories" {...register("categories")} />
             {errors?.categories && (
               <div className="flex gap-4 items-center">
                 <Label className="min-w-[100px]" htmlFor="error_categories">
@@ -313,7 +266,7 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
               </div>
             </div>
             {/* Hidden input to register tags */}
-            <input type="hidden" id="tags" {...register("tags")} /> 
+            <input type="hidden" id="tags" {...register("tags")} />
             {errors?.tags && (
               <div className="flex gap-4 items-center">
                 <Label className="min-w-[100px]" htmlFor="error_tags">

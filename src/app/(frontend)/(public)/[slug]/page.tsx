@@ -6,6 +6,8 @@ import { allPages } from "contentlayer/generated";
 import { Mdx } from "@/components/content/mdx-components";
 import { constructMetadata, getBlurDataURL } from "@/lib/utils";
 import MaxWidthContainer from "@/components/shared/max-width-container";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export async function generateStaticParams() {
   return allPages.map((page) => ({
@@ -50,6 +52,8 @@ export default async function PagePage({
       blurDataURL: await getBlurDataURL(src),
     })),
   );
+
+  console.log(`PagePage, page.body.code: ${page.body.code}`);
 
   return (
     <MaxWidthContainer>

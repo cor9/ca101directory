@@ -1,5 +1,11 @@
+import createMDX from '@next/mdx';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    // Configure `pageExtensions` to include markdown and MDX files
+    // https://nextjs.org/docs/pages/building-your-application/configuring/mdx
+    pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+
     reactStrictMode: true,
     // https://www.npmjs.com/package/geist#using-with-nextjs
     transpilePackages: ["geist"],
@@ -40,4 +46,9 @@ const nextConfig = {
 // https://contentlayer.dev/docs/reference/next-contentlayer-e6e7eb3a#withcontentlayer
 import { withContentlayer } from 'next-contentlayer2';
 
-export default withContentlayer(nextConfig);
+// https://nextjs.org/docs/pages/building-your-application/configuring/mdx
+const withMDX = createMDX({
+    // Add markdown plugins here, as desired
+});
+
+export default withContentlayer(withMDX(nextConfig));

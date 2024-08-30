@@ -18,8 +18,6 @@ export const SubmitItemSchema = z.object({
       .min(1, { message: "Must select at least one tag" }),
   categories: z.array(z.string())
       .min(1, { message: "Must select at least one category" }),
-  // logoImageId: z.string()
-  //     .min(1, { message: "Must upload an image" }),
   coverImageId: z.string()
       .min(1, { message: "Must upload an image" }),
 })

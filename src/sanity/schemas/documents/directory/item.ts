@@ -88,7 +88,7 @@ export default defineType({
     defineField({
       name: "mdContent",
       title: "Markdown Content",
-      type: "string",
+      type: "markdown",
       description: "A Github flavored markdown field with image uploading",
     }),
     defineField({
@@ -96,19 +96,25 @@ export default defineType({
       title: "Body",
       type: "blockContent"
     }),
-    defineField({
-      name: "logo",
-      title: "Logo",
-      group: 'media',
-      type: "image",
-      fields: [
-        {
-          name: "alt",
-          type: "string",
-          title: "Alternative Text",
-        },
-      ],
-    }),
+    // defineField({
+    //   name: "markdown",
+    //   title: "Markdown",
+    //   type: "markdown",
+    //   description: "Sanity Plugin Markdown Editor",
+    // }),
+    // defineField({
+    //   name: "logo",
+    //   title: "Logo",
+    //   group: 'media',
+    //   type: "image",
+    //   fields: [
+    //     {
+    //       name: "alt",
+    //       type: "string",
+    //       title: "Alternative Text",
+    //     },
+    //   ],
+    // }),
     defineField({
       name: "image",
       title: "Image",

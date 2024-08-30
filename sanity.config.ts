@@ -8,11 +8,11 @@ import { dashboardTool, projectInfoWidget, projectUsersWidget, sanityTutorialsWi
 import { visionTool } from '@sanity/vision';
 import { defineConfig } from 'sanity';
 import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
-import { internationalizedArray } from 'sanity-plugin-internationalized-array';
+import { markdownSchema } from "sanity-plugin-markdown";
 import { media } from 'sanity-plugin-media';
 import { presentationTool } from 'sanity/presentation';
 import { structureTool } from 'sanity/structure';
-import { markdownSchema } from "sanity-plugin-markdown";
+import { codeInput } from '@sanity/code-input';
 
 export default defineConfig({
   name: 'Studio',
@@ -95,7 +95,7 @@ export default defineConfig({
     // https://www.sanity.io/plugins/code-input
     // Syntax highlighted editor for code.
     // if you need codeInput, you need to install @sanity/code-input
-    // codeInput(),
+    codeInput(),
 
     // https://www.sanity.io/plugins/sanity-plugin-asset-source-unsplash
     // Search photos on Unsplash and insert them directly inside of your Sanity Studio.

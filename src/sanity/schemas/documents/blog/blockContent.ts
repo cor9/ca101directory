@@ -1,17 +1,24 @@
+// import IframePreview from "@/sanity/previews/iframe";
+// import TablePreview from "@/sanity/previews/table";
 import { BlockContentIcon } from "@sanity/icons";
 import { defineType } from "sanity";
 
 export default defineType({
     title: "Block Content",
     name: "blockContent",
-    type: "array",
     icon: BlockContentIcon,
+    type: "array",
     of: [
         {
             title: "Block",
             type: "block",
+            // Styles let you set what your user can mark up blocks with. These
+            // correspond with HTML tags, but you can set any title or value
+            // you want and decide how you want to deal with it where you want to
+            // use your content.
             styles: [
                 { title: "Normal", value: "normal" },
+                // {title: 'H1', value: 'h1'},
                 { title: "H2", value: "h2" },
                 { title: "H3", value: "h3" },
                 { title: "H4", value: "h4" },
@@ -21,9 +28,10 @@ export default defineType({
                 { title: "Bullet", value: "bullet" },
                 { title: "Numbered", value: "number" }
             ],
-
             // Marks let you mark up inline text in the block editor.
             marks: {
+                // Decorators usually describe a single property – e.g. a typographic
+                // preference or highlighting by editors.
                 decorators: [
                     { title: "Strong", value: "strong" },
                     { title: "Emphasis", value: "em" },
@@ -43,8 +51,7 @@ export default defineType({
                                 type: "reference",
                                 title: "Reference",
                                 to: [
-                                    { type: "blogPost" },
-                                    { type: "item" }
+                                    { type: "blogPost" }
                                     // other types you may want to link to
                                 ]
                             }
@@ -65,89 +72,46 @@ export default defineType({
                 ]
             }
         },
+        // You can add additional types here. Note that you can't use
+        // primitive types such as 'string' and 'number' in the same array
+        // as a block type.
+
         {
             type: "image",
-            options: { hotspot: true },
-            fields: [
-                {
-                    name: "alt",
-                    type: "string",
-                    title: "Alternative Text",
-                },
-            ],
+            options: { hotspot: true }
         },
-
+        
         // {
         //     type: "code"
         // },
 
         // {
-        //     name: "alert",
-        //     title: "Alerts",
         //     type: "object",
+        //     name: "embed",
+        //     title: "Embed",
         //     fields: [
         //         {
-        //             name: "type",
-        //             title: "Type",
-        //             type: "string",
-        //             options: {
-        //                 layout: "dropdown",
-        //                 list: [
-        //                     { value: "info", title: "Info" },
-        //                     { value: "success", title: "Success" },
-        //                     { value: "warning", title: "Warning" },
-        //                     { value: "error", title: "Error" }
-        //                 ]
-        //             }
+        //             name: "url",
+        //             type: "url",
+        //             description:
+        //                 "Enter the URL to Embed \r\n(eg: https://youtube.com/embed/xxx or https://open.spotify.com/embed/track/xxxx)"
         //         },
         //         {
-        //             name: "title",
-        //             title: "Title",
-        //             type: "string"
-        //         },
-        //         {
-        //             name: "description",
-        //             title: "Description",
-        //             type: "text"
-        //         },
-        //         {
-        //             name: "link",
-        //             title: "Link",
-        //             type: "object",
-        //             fields: [
-        //                 {
-        //                     title: "URL",
-        //                     name: "href",
-        //                     type: "url",
-        //                     validation: Rule =>
-        //                         Rule.uri({
-        //                             allowRelative: true
-        //                         })
-        //                 },
-        //                 {
-        //                     title: "Text",
-        //                     name: "text",
-        //                     type: "string"
-        //                 }
-        //             ]
+        //             name: "height",
+        //             type: "number",
+        //             description:
+        //                 "Enter Required Height for this Embed. Leave it blank for 16:9 ratio."
         //         }
         //     ],
+        //     components: {
+        //         preview: IframePreview
+        //     },
         //     preview: {
-        //         select: {
-        //             title: "title",
-        //             description: "description"
-        //         },
-        //         prepare({ title, description, type }) {
-        //             return {
-        //                 title: title,
-        //                 subtitle: description
-        //             };
-        //         }
+        //         select: { url: "url", height: "height" }
         //     }
         // },
-
         // {
-        //     name: "table",
+        //     name: "tables",
         //     title: "Table",
         //     type: "object",
         //     fields: [
@@ -158,92 +122,12 @@ export default defineType({
         //                 "The first row will be treated as the header. If you want to skip, just leave the first row empty.",
         //             type: "table"
         //         }
-        //     ]
-        // },
-
-        // {
-        //     name: "box",
-        //     title: "Feature Box",
-        //     type: "object",
-        //     fields: [
-        //         {
-        //             name: "columns",
-        //             title: "Number of Columns",
-        //             type: "string",
-        //             options: {
-        //                 list: [
-        //                     { value: "1", title: "One Column" },
-        //                     { value: "2", title: "Two Columns" }
-        //                 ]
-        //             }
-        //         },
-        //         {
-        //             name: "items",
-        //             title: "Items",
-        //             type: "array",
-        //             description: "Add featured boxes. Maximum of 4 items.",
-        //             validation: Rule => Rule.max(4),
-        //             of: [
-        //                 {
-        //                     type: "object",
-        //                     fields: [
-        //                         {
-        //                             name: "icon",
-        //                             title: "Icon",
-        //                             description: "SVG Icons only. Preferred 24x24px.",
-        //                             type: "image",
-        //                             options: {
-        //                                 accept: "image/svg+xml"
-        //                             }
-        //                         },
-        //                         {
-        //                             name: "title",
-        //                             title: "Title",
-        //                             type: "string"
-        //                         },
-        //                         {
-        //                             name: "description",
-        //                             title: "Description",
-        //                             type: "text",
-        //                             rows: 2
-        //                         },
-
-        //                         {
-        //                             name: "link",
-        //                             title: "Link",
-        //                             type: "object",
-        //                             fields: [
-        //                                 {
-        //                                     title: "URL",
-        //                                     name: "href",
-        //                                     type: "url",
-        //                                     validation: Rule =>
-        //                                         Rule.uri({
-        //                                             allowRelative: true
-        //                                         })
-        //                                 },
-        //                                 {
-        //                                     title: "Text",
-        //                                     name: "text",
-        //                                     type: "string"
-        //                                 }
-        //                             ]
-        //                         }
-        //                     ]
-        //                 }
-        //             ]
-        //         }
         //     ],
+        //     components: {
+        //         preview: TablePreview
+        //     },
         //     preview: {
-        //         select: {
-        //             subtitle: "columns"
-        //         },
-        //         prepare({ subtitle }) {
-        //             return {
-        //                 title: `Featured Boxes`,
-        //                 subtitle: `${subtitle} Columns`
-        //             };
-        //         }
+        //         select: { table: "table" }
         //     }
         // }
     ]

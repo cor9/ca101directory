@@ -34,7 +34,22 @@ export default defineType({
             name: "priority",
             title: "Priority",
             type: "number",
+            description: "Priority of the category, used to sort the categories",
             initialValue: 0,
+        }),
+        defineField({
+            name: "color",
+            title: "Color",
+            type: "string",
+            description: "Color of the category, used to style the category",
+            options: {
+                list: [
+                    { title: "Green", value: "green" },
+                    { title: "Blue", value: "blue" },
+                    { title: "Purple", value: "purple" },
+                    { title: "Orange", value: "orange" }
+                ]
+            }
         }),
     ],
     preview: {

@@ -7,12 +7,6 @@ export default defineType({
     title: "Blog Post",
     type: "document",
     icon: DocumentsIcon,
-    groups: [
-        {
-            name: 'media',
-            title: 'Media',
-        },
-    ],
     fields: [
         defineField({
             name: "title",
@@ -32,12 +26,26 @@ export default defineType({
             validation: (rule) => rule.required(),
         }),
         defineField({
-            name: "blogCategory",
-            title: "Blog Category",
-            type: "reference",
-            to: [{ type: "blogCategory" }],
-            validation: (rule) => rule.required(),
+            name: "excerpt",
+            title: "Excerpt",
+            description: "The excerpt is used in blog feeds, and also for search results",
+            type: "text",
+            rows: 3,
+            validation: rule => rule.max(200)
         }),
+        defineField({
+            name: "featured",
+            title: "Mark as Featured",
+            type: "boolean",
+            initialValue: false,
+            description: "Featured posts will be displayed on the home page."
+        }),
+        defineField({
+            name: "categories",
+            title: "Categories",
+            type: "array",
+            of: [{ type: "reference", to: { type: "blogCategory" } }]
+          }),
         defineField({
             name: "author",
             title: "Author",
@@ -52,7 +60,6 @@ export default defineType({
         defineField({
             name: "image",
             title: "Image",
-            group: 'media',
             type: "image",
             options: {
                 hotspot: true,
@@ -62,6 +69,7 @@ export default defineType({
                     name: "alt",
                     type: "string",
                     title: "Alternative Text",
+                    description: "Important for SEO and accessiblity."
                 },
             ],
         }),

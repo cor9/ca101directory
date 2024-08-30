@@ -22,14 +22,8 @@ export default async function ItemPage({ params }: Props) {
     return notFound();
   }
   console.log('ItemPage, item:', item);
-
   console.log(`ItemPage, item.content:`, item.content);
   console.log(`ItemPage, item.mdContent:`, item.mdContent);
-
-  // const mdxSource = await serialize(item.mdContent); // , { scope: item }
-  // console.log(`ItemPage, mdxSource:`, mdxSource);
-
-
   return (
     <>
       <div className="space-y-8">
@@ -48,42 +42,18 @@ export default async function ItemPage({ params }: Props) {
               {item.description}
             </p>
 
-            {/* <div className="mt-4 prose prose-violet prose-a:text-violet-500 max-w-none prose-pre:bg-slate-100 prose-pre:text-slate-700 prose-headings:scroll-m-20">
-              {item.body && <PortableText value={item.body} />}
-            </div> */}
-
-            {/* {item.content && <Mdx code={content} />} */}
-            {/* <div className="mt-4">
-              {item.content && <PortableText value={item.content} />}
-            </div> */}
-
             {/* 由于我是自定义了组件，所有就没有使用tailwindcss的typography定义的样式，也就是prose那些 */}
             {/* 如果不自定义组件的话，那么就可以将 article className="prose" 这部分打开，效果其实也不错 */}
             {/* 为什么选择 React Markdown 而不是 next-remote-mdx，因为后者似乎不支持 table */}
 
             {/* https://github.com/tailwindlabs/tailwindcss-typography */}
-            <hr />
-            <h1>MdxRemoteClient</h1>
 
-            {/* <article className="prose prose-stone dark:prose-invert"> */}
-            <div className="mt-4">
+            {/* <article className="prose prose-slate dark:prose-invert"> */}
+            <article className="mt-4">
               {item.mdContent &&
                 <MdxRemoteClient source={item.mdContent} />
               }
-            </div>
-            {/* </article> */}
-
-            <hr />
-            <h1>MdxRemote</h1>
-
-            {/* 使用 next-mdx-remote比前面的 React Markdown有个不同点是，这里可以支持显示自定义组件，例如 Callout */}
-
-            {/* <article className="prose prose-slate dark:prose-invert"> */}
-            {/* <div className="mt-4">
-                {item.mdContent &&
-                  <MdxRemote source={item.mdContent} />
-                }
-            </div> */}
+            </article>
             {/* </article> */}
 
           </div>

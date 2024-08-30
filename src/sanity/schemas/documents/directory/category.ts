@@ -34,6 +34,7 @@ export default defineType({
       name: "priority",
       title: "Priority",
       type: "number",
+      description: "Priority of the category, used to sort the categories",
       initialValue: 0,
     }),
   ],

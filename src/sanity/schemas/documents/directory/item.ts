@@ -7,12 +7,6 @@ export default defineType({
   title: "Item",
   type: "document",
   icon: ProjectsIcon,
-  groups: [
-    {
-      name: 'media',
-      title: 'Media',
-    },
-  ],
   fields: [
     defineField({
       name: "name",
@@ -96,29 +90,9 @@ export default defineType({
       title: "Body",
       type: "blockContent"
     }),
-    // defineField({
-    //   name: "markdown",
-    //   title: "Markdown",
-    //   type: "markdown",
-    //   description: "Sanity Plugin Markdown Editor",
-    // }),
-    // defineField({
-    //   name: "logo",
-    //   title: "Logo",
-    //   group: 'media',
-    //   type: "image",
-    //   fields: [
-    //     {
-    //       name: "alt",
-    //       type: "string",
-    //       title: "Alternative Text",
-    //     },
-    //   ],
-    // }),
     defineField({
       name: "image",
       title: "Image",
-      group: 'media',
       type: "image",
       options: {
         hotspot: true,
@@ -128,6 +102,7 @@ export default defineType({
           name: "alt",
           type: "string",
           title: "Alternative Text",
+          description: "Important for SEO and accessiblity."
         },
       ],
     }),
@@ -144,7 +119,7 @@ export default defineType({
   preview: {
     select: {
       title: "name",
-      media: "logo",
+      media: "image",
       date: "publishDate",
     },
     prepare({ title, media, date }) {

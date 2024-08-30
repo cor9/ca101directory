@@ -6,10 +6,6 @@ import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
 
-// import { Schema } from '@sanity/schema';
-// import { htmlToBlocks, normalizeBlock } from '@sanity/block-tools';
-// import SchemaItem from '@/sanity/schemas/documents/directory/item';
-
 export type SubmitItemFormData = {
   name: string;
   link: string;
@@ -35,15 +31,6 @@ export async function SubmitItem(data: SubmitItemFormData) {
       tags, categories } = SubmitItemSchema.parse(data);
     console.log("submitItem, name:", name, "link:", link);
 
-    // if use sanity block-tools, can't go to here!!!
-    // const itemSchema = Schema.compile(SchemaItem);
-    // const blockContentType = itemSchema.get('item')
-    //   .fields.find(field => field.name === 'content').type;
-    // const blocks = htmlToBlocks(mdContent, blockContentType);
-    // console.log("submitItem, blocks:", blocks);
-    // const normalizedBlocks = normalizeBlock(blocks[0]);
-    // console.log("submitItem, normalizedBlocks:", normalizedBlocks);
-
     const submitData = {
       _type: "item",
       name,
@@ -55,43 +42,6 @@ export async function SubmitItem(data: SubmitItemFormData) {
       // TODO: rename to excerpt
       description,
       mdContent,
-      // content: normalizedBlocks,
-      // content: [{
-      //   _type: 'block',
-      //   style: 'h3',
-      //   _key: 'key_12345',
-      //   children: [
-      //     {
-      //       _type: 'span',
-      //       text: 'Hello world!',
-      //       _key: 'key_67890',
-      //     }
-      //   ]
-      // },
-      // {
-      //   _type: 'block',
-      //   style: 'h4',
-      //   _key: 'key_123456',
-      //   children: [
-      //     {
-      //       _type: 'span',
-      //       text: 'Hello world!',
-      //       _key: 'key_567890',
-      //     }
-      //   ]
-      // },
-      // {
-      //   _type: 'block',
-      //   style: 'normal',
-      //   _key: 'key_1234567',
-      //   children: [
-      //     {
-      //       _type: 'span',
-      //       text: 'Hello world!',
-      //       _key: 'key_4567890',
-      //     }
-      //   ]
-      // }],
       // status: "reviewing",
       submitter: {
         _type: "reference",

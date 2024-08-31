@@ -132,7 +132,7 @@ export const paginatedquery = defineQuery(`
 // `;
 
 // Single Post
-export const singlequery = groq`
+export const singlequery = defineQuery(`
 *[_type == "blogPost" && slug.current == $slug][0] {
   ...,
   body[]{
@@ -154,15 +154,17 @@ export const singlequery = groq`
     "image": image
   },
 }
-`;
+`);
 
 // Paths for generateStaticParams
 export const pathquery = groq`
 *[_type == "blogPost" && defined(slug.current)][].slug.current
 `;
-export const catpathquery = groq`
+
+export const catpathquery = defineQuery(`
 *[_type == "blogCategory" && defined(slug.current)][].slug.current
-`;
+`);
+
 // export const authorsquery = groq`
 // *[_type == "author" && defined(slug.current)][].slug.current
 // `;

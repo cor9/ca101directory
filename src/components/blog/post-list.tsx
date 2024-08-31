@@ -1,4 +1,4 @@
-import CategoryLabel from "@/components/blog/blog-category";
+import BlogCategoryList from "@/components/blog/blog-category";
 import { urlForImage } from "@/lib/image";
 import { cn } from "@/lib/utils";
 import { PaginatedqueryResult } from "@/sanity.types";
@@ -63,12 +63,10 @@ export default function PostList({
         </div>
 
         {/* post info */}
-        <div className="">
+        <div className="mt-4">
           <div>
             {/* post categories */}
-            <CategoryLabel
-              categories={post.categories}
-            />
+            <BlogCategoryList categories={post.categories} />
 
             {/* post title */}
             <h2
@@ -104,27 +102,24 @@ export default function PostList({
 
             {/* post author & date */}
             <div className="mt-4 flex items-center justify-between space-x-4 text-muted-foreground">
-              {/* <Link href={`/author/${post?.author?.name}`}> */}
-                <div className="flex items-center gap-2">
-                  <div className="relative h-5 w-5 flex-shrink-0">
-                    {post?.author?.image && (
-                      <Image
-                        src={post?.author?.image}
-                        alt={`author image for ${post?.author?.name}`}
-                        className="rounded-full object-cover border"
-                        fill
-                        sizes="24px"
-                      />
-                    )}
-                  </div>
-                  <span className="truncate text-sm">
-                    {post?.author?.name}
-                  </span>
+              <div className="flex items-center gap-2">
+                <div className="relative h-5 w-5 flex-shrink-0">
+                  {post?.author?.image && (
+                    <Image
+                      src={post?.author?.image}
+                      alt={`avatar for ${post?.author?.name}`}
+                      className="rounded-full object-cover border"
+                      fill
+                      sizes="24px"
+                    />
+                  )}
                 </div>
-              {/* </Link> */}
-              
-              <time
-                className="truncate text-sm"
+                <span className="truncate text-sm">
+                  {post?.author?.name}
+                </span>
+              </div>
+
+              <time className="truncate text-sm"
                 dateTime={post?.publishDate || post._createdAt}>
                 {date}
               </time>

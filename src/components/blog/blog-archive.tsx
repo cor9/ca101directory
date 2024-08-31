@@ -22,9 +22,10 @@ export default async function BlogArchive({ searchParams }) {
     paginatedquery,
     params,
     {
+      useCdn: false,
       next: {
-        revalidate: 0, // no cache
-      },
+        revalidate: 0,
+      }
     }
   )
   console.log("BlogArchive, posts size", posts ? posts.length : 0);

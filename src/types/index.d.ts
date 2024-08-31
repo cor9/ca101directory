@@ -1,9 +1,12 @@
 import type { Icon } from "lucide-react";
 import { Icons } from "@/components/shared/icons";
 import { ItemListQueryResult, ItemQueryResult } from '@/sanity.types';
+
 export type ItemInfo = ItemListQueryResult[number];
 // FullInfo has more fields (eg. content)
 export type ItemFullInfo = ItemQueryResult;
+// Blog Category
+export type BlogCategoryInfo = CatPathQueryResult[number];
 
 export type SubmitConfig = {
   title: string;

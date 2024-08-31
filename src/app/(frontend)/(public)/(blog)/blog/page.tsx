@@ -2,11 +2,19 @@ import { Suspense } from "react";
 import Archive from "@/components/blog/blog-archive";
 import MaxWidthContainer from "@/components/shared/max-width-container";
 
-export default async function ArchivePage({ searchParams }) {
+export default async function ArchivePage({
+  searchParams
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const { page } = searchParams as { [key: string]: string };
+  const pageIndex = parseInt(page, 10) || 1;
+  console.log("ArchivePage, page", pageIndex);
+
   return (
     <>
       <MaxWidthContainer className="relative pb-16">
-        <h1 className="mt-4 text-center text-3xl font-semibold tracking-tight dark:text-white lg:text-4xl lg:leading-snug">
+        <h1 className="mt-4 text-center text-3xl font-semibold tracking-tight lg:text-4xl lg:leading-snug">
           Blog
         </h1>
         <div className="text-center">
@@ -17,7 +25,7 @@ export default async function ArchivePage({ searchParams }) {
 
         {/* TODO: add loading */}
         <Suspense fallback={null}
-          key={searchParams.page || "1"}>
+          key={pageIndex}>
           <Archive searchParams={searchParams} />
         </Suspense>
       </MaxWidthContainer>

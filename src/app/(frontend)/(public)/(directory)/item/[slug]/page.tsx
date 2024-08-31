@@ -19,6 +19,7 @@ export default async function ItemPage({ params }: Props) {
     params: { slug }
   });
   if (!item) {
+    console.error("ItemPage, item not found");
     return notFound();
   }
   // console.log('ItemPage, item:', item);

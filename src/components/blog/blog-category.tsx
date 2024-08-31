@@ -1,29 +1,22 @@
+import { BlogCategoryInfo } from "@/types";
 import Link from "next/link";
 
-interface Category {
-  slug: {
-    current: string;
-  };
-  color: string;
-  name: string;
+interface BlogCategoryListProps {
+  categories: BlogCategoryInfo[];
 }
 
-interface CategoryLabelProps {
-  categories: Category[];
-}
-
-export default function CategoryLabel({
+export default function BlogCategoryList({
   categories
-}: CategoryLabelProps) {
-  console.log("categories", categories);
+}: BlogCategoryListProps) {
+  console.log("BlogCategoryList, categories", categories);
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-4">
       {categories?.length &&
         categories.slice(0).map((category, index) => (
           <Link key={index}
             href={`/blog?category=${category.slug.current}`}>
-            <span className="text-md font-medium"
+            <span className="text-md font-medium capitalize"
               style={{ color: category.color }}>
               {category.name}
             </span>

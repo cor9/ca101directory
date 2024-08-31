@@ -1,7 +1,6 @@
 import account from './documents/auth/account';
 import passwordResetToken from './documents/auth/passwordResetToken';
 import session from './documents/auth/session';
-import subscription from './documents/auth/subscription';
 import user from './documents/auth/user';
 import verificationToken from './documents/auth/verificationToken';
 import blockContent from './documents/blog/blockContent';

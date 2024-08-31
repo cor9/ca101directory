@@ -72,7 +72,7 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
 
         S.divider(),
         
-        // group the user management
+        // group the blog management
         S.listItem().title('Blog management')
           .icon(DocumentsIcon)
           .child(

@@ -153,7 +153,9 @@ export type BlockContent = Array<{
   crop?: SanityImageCrop;
   _type: "image";
   _key: string;
-}>;
+} | ({
+  _key: string;
+} & Code)>;
 
 export type BlogCategory = {
   _id: string;
@@ -1012,6 +1014,14 @@ export type SinglequeryResult = {
     level?: number;
     _type: "block";
     _key: string;
+  } | {
+    _key: string;
+    _type: "code";
+    language?: string;
+    filename?: string;
+    code?: string;
+    highlightedLines?: Array<number>;
+    markDefs: null;
   } | {
     asset?: {
       _ref: string;

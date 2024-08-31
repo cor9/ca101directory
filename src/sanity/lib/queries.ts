@@ -108,13 +108,21 @@ export const limitquery = groq`
 `;
 // [(($pageIndex - 1) * 10)...$pageIndex * 10]{
 // Get subsequent paginated posts
-export const paginatedquery = groq`
+// export const paginatedquery = groq`
+// *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) [$pageIndex...$limit] {
+//   ...,
+//   author->,
+//   categories[]->
+// }
+// `;
+
+export const paginatedquery = defineQuery(`
 *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) [$pageIndex...$limit] {
   ...,
   author->,
   categories[]->
 }
-`;
+`);
 
 // Get Site Config
 // export const configQuery = groq`

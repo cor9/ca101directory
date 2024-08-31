@@ -2,7 +2,7 @@ import { createClient } from 'next-sanity';
 import { SanityClient } from 'sanity';
 import { apiVersion, dataset, projectId } from './api';
 import { token } from './token';
-
+import { postquery, singlequery, pathquery, postsbyauthorquery, catpathquery, postsbycatquery, catquery, paginatedquery } from './queries';
 
 export const sanityClient: SanityClient = createClient({
   projectId,
@@ -18,7 +18,7 @@ export const sanityClient: SanityClient = createClient({
 
 
 // Blog queries
-import { postquery, singlequery, pathquery, authorsquery, postsbyauthorquery, allauthorsquery, catpathquery, postsbycatquery, catquery, paginatedquery } from './queries';
+// import { postquery, singlequery, pathquery, authorsquery, postsbyauthorquery, allauthorsquery, catpathquery, postsbycatquery, catquery, paginatedquery } from './queries';
 export async function getAllPosts() {
   if (sanityClient) {
     return (await sanityClient.fetch(postquery)) || [];
@@ -48,13 +48,13 @@ export async function getAllPostsSlugs() {
   return [];
 }
 // Author
-export async function getAllAuthorsSlugs() {
-  if (sanityClient) {
-    const slugs = (await sanityClient.fetch(authorsquery)) || [];
-    return slugs.map(slug => ({ author: slug }));
-  }
-  return [];
-}
+// export async function getAllAuthorsSlugs() {
+//   if (sanityClient) {
+//     const slugs = (await sanityClient.fetch(authorsquery)) || [];
+//     return slugs.map(slug => ({ author: slug }));
+//   }
+//   return [];
+// }
 
 export async function getAuthorPostsBySlug(slug) {
   if (sanityClient) {
@@ -63,12 +63,12 @@ export async function getAuthorPostsBySlug(slug) {
   return {};
 }
 
-export async function getAllAuthors() {
-  if (sanityClient) {
-    return (await sanityClient.fetch(allauthorsquery)) || [];
-  }
-  return [];
-}
+// export async function getAllAuthors() {
+//   if (sanityClient) {
+//     return (await sanityClient.fetch(allauthorsquery)) || [];
+//   }
+//   return [];
+// }
 
 // Category
 
@@ -95,6 +95,7 @@ export async function getTopCategories() {
 }
 
 export async function getPaginatedPosts({ limit, pageIndex = 0 }) {
+  console.log(paginatedquery);
   if (sanityClient) {
     return (
       (await sanityClient.fetch(paginatedquery, {

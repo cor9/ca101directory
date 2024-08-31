@@ -81,9 +81,9 @@ export default defineType({
             options: { hotspot: true }
         },
         
-        // {
-        //     type: "code"
-        // },
+        {
+            type: "code"
+        },
 
         // {
         //     type: "object",

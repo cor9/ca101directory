@@ -19,7 +19,7 @@ export default defineType({
             title: "Slug",
             type: "slug",
             options: {
-                source: "name",
+                source: "title",
                 maxLength: 96,
                 isUnique: (value, context) => context.defaultIsUnique(value, context),
             },

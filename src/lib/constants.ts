@@ -1,7 +1,7 @@
 // export const SHOW_AUTH_LOGS = true;
 export const SHOW_AUTH_LOGS = false;
 // number of items per page 
-export const ITEMS_PER_PAGE = 4;
+export const ITEMS_PER_PAGE = 8;
 // number of posts per page
 export const POSTS_PER_PAGE = 3;
 

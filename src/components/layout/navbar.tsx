@@ -118,7 +118,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
             )}
 
             {session ? (
-              <div className="">
+              <div className="flex items-center">
                 <UserAccountNav />
               </div>
             ) : status === "unauthenticated" ? (
@@ -198,7 +198,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
             )}
 
             {session ? (
-              <div className="">
+              <div className="flex items-center">
                 <UserAccountNav />
               </div>
             ) : status === "unauthenticated" ? (

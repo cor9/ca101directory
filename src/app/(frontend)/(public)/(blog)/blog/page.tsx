@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Archive from "@/components/blog/blog-archive";
 import MaxWidthContainer from "@/components/shared/max-width-container";
+import Loading from "../loading";
 
 export default async function ArchivePage({
   searchParams
@@ -24,7 +25,7 @@ export default async function ArchivePage({
         </div>
 
         {/* TODO: add loading */}
-        <Suspense fallback={null}
+        <Suspense fallback={<Loading />}
           key={pageIndex}>
           <Archive searchParams={searchParams} />
         </Suspense>

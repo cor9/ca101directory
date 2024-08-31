@@ -7,12 +7,13 @@ import { parseISO, format } from "date-fns";
 // import { PhotoIcon } from "@heroicons/react/24/outline";
 // import CategoryLabel from "@/components/blog/category";
 import { ImageIcon } from "lucide-react";
-import CategoryLabel from "./category";
+import CategoryLabel from "@/components/blog/blog-category";
 import { PaginatedqueryResult } from "@/sanity.types";
 // import { Post } from '@/types/Post'; // 假设你有一个 Post 类型定义
 
 export type Post = PaginatedqueryResult[number];
 
+// not used, just for reference
 export default function PostList({
   post,
   aspect,
@@ -85,7 +86,7 @@ export default function PostList({
           <div>
             <CategoryLabel
               categories={post.categories}
-              nomargin={minimal}
+              // nomargin={minimal}
             />
             <h2
               className={cn(
@@ -97,7 +98,7 @@ export default function PostList({
                 fontWeight === "normal"
                   ? "line-clamp-2 font-medium  tracking-normal text-black"
                   : "font-semibold leading-snug tracking-tight",
-                "mt-2    dark:text-white"
+                  "mt-2 dark:text-white"
               )}>
               <Link
                 href={`/post/${pathPrefix ? `${pathPrefix}/` : ""}${

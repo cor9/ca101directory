@@ -71,18 +71,21 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
         // S.documentTypeListItem(passwordResetToken.name),
 
         S.divider(),
-        
+
         // group the blog management
-        S.listItem().title('Blog management')
-          .icon(DocumentsIcon)
-          .child(
-            S.list()
-              .title('Blog management')
-              .items([
-                S.documentTypeListItem(blogPost.name),
-                S.documentTypeListItem(blogCategory.name),
-              ]),
-          ),
+        // S.listItem().title('Blog management')
+        //   .icon(DocumentsIcon)
+        //   .child(
+        //     S.list()
+        //       .title('Blog management')
+        //       .items([
+        //         S.documentTypeListItem(blogPost.name),
+        //         S.documentTypeListItem(blogCategory.name),
+        //       ]),
+        //   ),
+
+        S.documentTypeListItem(blogPost.name),
+        S.documentTypeListItem(blogCategory.name),
 
         S.divider(),
 

@@ -1,6 +1,5 @@
 'use client';
 
-import { formatDate } from '@/lib/utils';
 import { ItemFullInfo } from '@/types';
 import { Clock3Icon, GlobeIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -12,6 +11,13 @@ export default function ItemDetailClient({ item }: { item: ItemFullInfo }) {
     console.error('ItemDetailClient, item not found');
     return null;
   }
+
+  const publishDate = item.publishDate || item._createdAt;
+  const date = new Date(publishDate).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
 
   return (
     <>
@@ -54,9 +60,10 @@ export default function ItemDetailClient({ item }: { item: ItemFullInfo }) {
                   Date
                 </h3>
               </div>
-              <span className="line-clamp-1 text-muted-foreground text-sm">
-                {formatDate(item.publishDate)}
-              </span>
+              
+              <time className="line-clamp-1 text-muted-foreground text-sm">
+                {date}
+              </time>
             </div>
           </>
         }

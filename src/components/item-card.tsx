@@ -50,8 +50,13 @@ export default function ItemCard({ item }: ItemCardProps) {
       <div className="flex flex-col gap-4">
         <hr />
         <div className="px-4 pb-4 flex justify-between items-center text-xs">
-          <p className="font-medium">{item?.categories?.[0]?.name}</p>
-          <p className="text-muted-foreground">{date}</p>
+          <p className="font-medium">
+            {item?.categories?.[0]?.name}
+          </p>
+
+          <time className="text-muted-foreground">
+            {date}
+          </time>
         </div>
       </div>
     </Link>

@@ -11,7 +11,8 @@ type ItemCardProps = {
 
 export default function ItemCard({ item }: ItemCardProps) {
   const imageUrl = urlForImageWithSize(item.image, 960, 540);
-  const date = new Date(item.publishDate).toLocaleDateString("en-US", {
+  const publishDate = item.publishDate || item._createdAt;
+  const date = new Date(publishDate).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",

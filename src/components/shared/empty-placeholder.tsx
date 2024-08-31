@@ -17,7 +17,7 @@ export function EmptyPlaceholder({
       )}
       {...props}
     >
-      <div className="flex max-w-[420px] flex-col items-center text-center">
+      <div className="flex flex-col items-center text-center">
         {children}
       </div>
     </div>

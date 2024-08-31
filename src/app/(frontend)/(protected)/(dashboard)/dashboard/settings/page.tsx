@@ -82,7 +82,8 @@ export default function SettingsPage() {
         text="Manage account settings."
       />
       <div className="divide-y divide-muted pb-10">
-        <Card className="max-w-[600px]">
+        {/* remove max-w-[600px] */}
+        <Card className="">
           <CardHeader>
             {/* <p className="text-2xl font-semibold text-center">
               ⚙️ Settings

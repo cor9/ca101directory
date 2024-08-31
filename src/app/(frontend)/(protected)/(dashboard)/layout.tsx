@@ -30,7 +30,8 @@ export default async function Dashboard({ children }: ProtectedLayoutProps) {
 
       <div className="flex flex-1 flex-col">
         <header className="sticky top-0 z-50 flex h-16 bg-background px-4">
-          <Container className="flex max-w-7xl items-center gap-x-4 px-0">
+          {/* remove max-w-7xl  */}
+          <Container className="flex items-center gap-x-4 px-0">
             <DashboardSidebarMobile links={filteredLinks} />
 
             <div className="w-full flex-1">
@@ -44,7 +45,8 @@ export default async function Dashboard({ children }: ProtectedLayoutProps) {
         </header>
 
         <main className="flex-1 p-4">
-          <Container className="flex h-full max-w-7xl flex-col gap-4 px-0">
+          {/* remove max-w-7xl  */}
+          <Container className="flex h-full flex-col gap-4 px-0">
             {children}
           </Container>
         </main>

@@ -6,6 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { FaBrandsGithub } from "../icons/github";
+import Container from "../shared/container";
 
 export default async function HeroLanding() {
   // const { stargazers_count: stars } = await fetch(
@@ -26,7 +27,7 @@ export default async function HeroLanding() {
 
   return (
     <section className="space-y-6 py-12 sm:py-20 lg:py-20">
-      <div className="container flex max-w-5xl flex-col items-center gap-5 text-center">
+      <Container className="max-w-5xl flex flex-col items-center gap-5 text-center">
         <Link
           href="https://twitter.com/miickasmt/status/1810465801649938857"
           className={cn(
@@ -89,7 +90,7 @@ export default async function HeroLanding() {
             </p>
           </Link>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

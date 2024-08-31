@@ -136,13 +136,6 @@ export default async function PostPage({ params }: Props) {
                     </div>
 
                     {/* blog post content */}
-                    {/* https://github.com/tailwindlabs/tailwindcss-typography */}
-                    {/* https://github.com/tailwindlabs/tailwindcss-typography?tab=readme-ov-file#overriding-max-width */}
-                    {/* 使用 PortableText 组件的话，需要额外加上 prose prose-slate dark:prose-invert 作为样式 */}
-                    {/* 使用 MdxRemoteClient 组件的话，不需要额外加样式，因为组件内都是自定义组件了 */}
-                    {/* <article className="max-w-none mx-auto mt-8 prose prose-slate dark:prose-invert">
-                        {post.body && <PortableText value={post.body} />}
-                    </article> */}
                     <article className="mt-4 mx-auto">
                         {markdownContent && <MdxRemoteClient source={markdownContent} /> }
                     </article>

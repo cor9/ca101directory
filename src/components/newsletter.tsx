@@ -5,7 +5,6 @@ export default function Newsletter() {
     return (
         <section className="py-14 max-w-screen-xl mx-auto">
             <div className="relative overflow-hidden mx-4 px-4 py-14 rounded-2xl bg-blue-600 md:px-8 md:mx-8">
-                {/* max-w-xl  */}
                 <div className="relative z-10 mx-auto sm:text-center">
                     <div className="space-y-3">
 

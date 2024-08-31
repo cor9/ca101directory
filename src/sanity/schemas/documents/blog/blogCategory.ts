@@ -44,10 +44,28 @@ export default defineType({
             description: "Color of the category, used to style the category",
             options: {
                 list: [
+                    { title: "Slate", value: "slate" },
+                    { title: "Gray", value: "gray" },
+                    { title: "Zinc", value: "zinc" },
+                    { title: "Neutral", value: "neutral" },
+                    { title: "Stone", value: "stone" },
+                    { title: "Red", value: "red" },
+                    { title: "Orange", value: "orange" },
+                    { title: "Amber", value: "amber" },
+                    { title: "Yellow", value: "yellow" },
+                    { title: "Lime", value: "lime" },
                     { title: "Green", value: "green" },
+                    { title: "Emerald", value: "emerald" },
+                    { title: "Teal", value: "teal" },
+                    { title: "Cyan", value: "cyan" },
+                    { title: "Sky", value: "sky" },
                     { title: "Blue", value: "blue" },
+                    { title: "Indigo", value: "indigo" },
+                    { title: "Violet", value: "violet" },
                     { title: "Purple", value: "purple" },
-                    { title: "Orange", value: "orange" }
+                    { title: "Fuchsia", value: "fuchsia" },
+                    { title: "Pink", value: "pink" },
+                    { title: "Rose", value: "rose" },
                 ]
             }
         }),
@@ -77,6 +95,6 @@ export default defineType({
             title: 'Name',
             name: 'name',
             by: [{ field: 'name', direction: 'asc' }],
-        },
+        }
     ],
 });

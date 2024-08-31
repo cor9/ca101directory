@@ -958,7 +958,63 @@
           "of": [
             {
               "type": "string",
+              "value": "slate"
+            },
+            {
+              "type": "string",
+              "value": "gray"
+            },
+            {
+              "type": "string",
+              "value": "zinc"
+            },
+            {
+              "type": "string",
+              "value": "neutral"
+            },
+            {
+              "type": "string",
+              "value": "stone"
+            },
+            {
+              "type": "string",
+              "value": "red"
+            },
+            {
+              "type": "string",
+              "value": "orange"
+            },
+            {
+              "type": "string",
+              "value": "amber"
+            },
+            {
+              "type": "string",
+              "value": "yellow"
+            },
+            {
+              "type": "string",
+              "value": "lime"
+            },
+            {
+              "type": "string",
               "value": "green"
+            },
+            {
+              "type": "string",
+              "value": "emerald"
+            },
+            {
+              "type": "string",
+              "value": "teal"
+            },
+            {
+              "type": "string",
+              "value": "cyan"
+            },
+            {
+              "type": "string",
+              "value": "sky"
             },
             {
               "type": "string",
@@ -966,11 +1022,27 @@
             },
             {
               "type": "string",
+              "value": "indigo"
+            },
+            {
+              "type": "string",
+              "value": "violet"
+            },
+            {
+              "type": "string",
               "value": "purple"
             },
             {
               "type": "string",
-              "value": "orange"
+              "value": "fuchsia"
+            },
+            {
+              "type": "string",
+              "value": "pink"
+            },
+            {
+              "type": "string",
+              "value": "rose"
             }
           ]
         },

@@ -167,7 +167,7 @@ export type BlogCategory = {
   slug?: Slug;
   description?: string;
   priority?: number;
-  color?: "green" | "blue" | "purple" | "orange";
+  color?: "slate" | "gray" | "zinc" | "neutral" | "stone" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose";
 };
 
 export type Category = {
@@ -813,7 +813,7 @@ export type PostqueryResult = Array<{
     slug?: Slug;
     description?: string;
     priority?: number;
-    color?: "blue" | "green" | "orange" | "purple";
+    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
   }> | null;
 }>;
 // Variable: limitquery
@@ -838,7 +838,7 @@ export type LimitqueryResult = Array<{
     slug?: Slug;
     description?: string;
     priority?: number;
-    color?: "blue" | "green" | "orange" | "purple";
+    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
   }> | null;
   author: {
     _id: string;
@@ -900,7 +900,7 @@ export type PaginatedqueryResult = Array<{
     slug?: Slug;
     description?: string;
     priority?: number;
-    color?: "blue" | "green" | "orange" | "purple";
+    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
   }> | null;
   author: {
     _id: string;
@@ -962,7 +962,7 @@ export type SinglequeryResult = {
     slug?: Slug;
     description?: string;
     priority?: number;
-    color?: "blue" | "green" | "orange" | "purple";
+    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
   }> | null;
   author: {
     _id: string;
@@ -1095,7 +1095,7 @@ export type PostsbyauthorqueryResult = Array<{
     slug?: Slug;
     description?: string;
     priority?: number;
-    color?: "blue" | "green" | "orange" | "purple";
+    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
   }> | null;
   author: {
     _id: string;
@@ -1157,7 +1157,7 @@ export type PostsbycatqueryResult = Array<{
     slug?: Slug;
     description?: string;
     priority?: number;
-    color?: "blue" | "green" | "orange" | "purple";
+    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
   }> | null;
   author: {
     _id: string;
@@ -1209,7 +1209,7 @@ export type CatqueryResult = Array<{
   slug?: Slug;
   description?: string;
   priority?: number;
-  color?: "blue" | "green" | "orange" | "purple";
+  color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
   count: number;
 }>;
 // Variable: searchquery
@@ -1263,7 +1263,7 @@ export type SearchqueryResult = Array<{
     slug?: Slug;
     description?: string;
     priority?: number;
-    color?: "blue" | "green" | "orange" | "purple";
+    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
   }> | null;
   title: string | null;
   slug: Slug | null;
@@ -1303,7 +1303,7 @@ export type GetAllResult = Array<{
   slug?: Slug;
   description?: string;
   priority?: number;
-  color?: "blue" | "green" | "orange" | "purple";
+  color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
 } | {
   _id: string;
   _type: "blogPost";

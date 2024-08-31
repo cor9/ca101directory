@@ -5,16 +5,16 @@ import { ThemeProvider } from "next-themes";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
-
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import { fontGeist, 
-  fontHeading, 
-  fontSans, 
-  fontUrban, 
-  fontSourceSerif, 
-  fontSourceCode, 
-  fontSourceSans 
+import {
+  fontGeist,
+  fontHeading,
+  fontSans,
+  fontUrban,
+  fontSourceSerif,
+  fontSourceCode,
+  fontSourceSans
 } from "@/assets/fonts";
 
 interface RootLayoutProps {
@@ -36,7 +36,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           // GeistMono.className,
           GeistSans.variable,
           GeistMono.variable,
-          
+
           // fontSans.variable,
           // fontUrban.variable,
           // fontHeading.variable,
@@ -48,11 +48,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
             attribute="class"
             defaultTheme="system"
             enableSystem
-            disableTransitionOnChange
-          >
+            disableTransitionOnChange>
+            
             {children}
+
             <Toaster richColors closeButton />
+            
             <TailwindIndicator />
+
           </ThemeProvider>
         </SessionProvider>
       </body>

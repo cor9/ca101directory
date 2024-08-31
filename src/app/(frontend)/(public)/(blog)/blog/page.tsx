@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Archive from "@/components/blog/blog-archive";
 import Container from "@/components/shared/container";
 import Loading from "../loading";
+import { HeaderSection } from "@/components/shared/header-section";
 
 export default async function ArchivePage({
   searchParams
@@ -14,15 +15,11 @@ export default async function ArchivePage({
 
   return (
     <>
-      <Container className="relative pb-16">
-        <h1 className="mt-4 text-center text-3xl font-semibold tracking-tight lg:text-4xl lg:leading-snug">
-          Blog
-        </h1>
-        <div className="text-center">
-          <p className="mt-2 text-lg">
-            See all posts we have ever written.
-          </p>
-        </div>
+      <Container className="pb-16">
+        {/* blog header section */}
+        <HeaderSection className="mt-8"
+          title="Blog"
+          subtitle="See all posts we have ever written." />
 
         {/* TODO: add loading */}
         <Suspense fallback={<Loading />}

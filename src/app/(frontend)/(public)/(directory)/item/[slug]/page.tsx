@@ -1,5 +1,3 @@
-import "@/styles/mdx.css";
-
 import ItemDetailClient from "@/components/item-detail-client";
 import ItemHeaderClient from "@/components/item-header-client";
 import { sanityFetch } from "@/sanity/lib/fetch";

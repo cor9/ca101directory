@@ -1,3 +1,5 @@
+import "@/styles/mdx.css";
+
 import { Callout } from '@/components/shared/callout';
 import { CopyButton } from '@/components/shared/copy-button';
 import { cn } from '@/lib/utils';

@@ -39,7 +39,7 @@ export default function PostList({
               "relative block",
               "aspect-square"
             )}
-            href={`/post/${post.slug.current}`}>
+            href={`/blog/${post.slug.current}`}>
             {imageProps ? (
               <Image
                 src={imageProps.src}
@@ -74,7 +74,7 @@ export default function PostList({
                 "tracking-normal"
               )}>
               <Link
-                href={`/post/${post.slug.current}`}>
+                href={`/blog/${post.slug.current}`}>
                 <span
                   className="bg-gradient-to-r from-green-200 to-green-100 
                     bg-[length:0px_10px] bg-left-bottom bg-no-repeat
@@ -93,7 +93,7 @@ export default function PostList({
               {post.excerpt && (
                 <p className="mt-2 line-clamp-3 text-sm text-gray-500 dark:text-gray-400">
                   <Link
-                    href={`/post/${post.slug.current}`}>
+                    href={`/blog/${post.slug.current}`}>
                     {post.excerpt}
                   </Link>
                 </p>

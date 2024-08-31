@@ -151,7 +151,7 @@ const components = {
     },
     internalLink: ({ children, value }) => { // <Link>
       return (
-        <Link href={`/post/${value?.slug?.current}`}
+        <Link href={`/blog/${value?.slug?.current}`}
           className="font-medium underline underline-offset-4">
           {children}
         </Link>

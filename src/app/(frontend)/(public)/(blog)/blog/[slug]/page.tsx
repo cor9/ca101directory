@@ -1,11 +1,12 @@
 import BlogCategoryList from "@/components/blog/blog-category";
-import { PortableText } from "@/components/blog/portable-text";
+import { MdxRemoteClient } from "@/components/mdx-remote-client";
 import MaxWidthContainer from "@/components/shared/max-width-container";
 import { buttonVariants } from "@/components/ui/button";
 import { urlForImage } from "@/lib/image";
 import { cn } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { singlequery } from "@/sanity/lib/queries";
+import toMarkdown from '@sanity/block-content-to-markdown';
 import { ArrowLeftIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -45,14 +46,14 @@ export default async function PostPage({ params }: Props) {
         day: "numeric",
         year: "numeric",
     });
-    //   const AuthorimageProps = post?.author?.image
-    //     ? urlForImage(post.author.image)
-    //     : null;
+
+    const markdownContent = toMarkdown(post.body);
+    console.log("markdownContent", markdownContent);
 
     return (
         <>
             {/* set max width to keep blog post content in the middle of screen */}
-            <MaxWidthContainer className="mt-8 max-w-screen-lg p-16">
+            <MaxWidthContainer className="max-w-screen-lg mt-4">
                 <div className="relative z-0 mx-auto aspect-video overflow-hidden rounded-lg">
                     {imageProps && (
                         <Image
@@ -66,7 +67,7 @@ export default async function PostPage({ params }: Props) {
                     )}
                 </div>
 
-                <div className="mt-8 mx-auto">
+                <div className="mt-8 mx-auto max-w-screen-md">
                     {/* blog post categories */}
                     <div className="flex justify-center">
                         <BlogCategoryList categories={post.categories} />
@@ -114,27 +115,35 @@ export default async function PostPage({ params }: Props) {
                             <span>{post.estReadingTime || "5"} min read</span>
                         </div>
                     </div>
-                </div>
 
-                {/* blog post content */}
-                {/* https://github.com/tailwindlabs/tailwindcss-typography */}
-                {/* https://github.com/tailwindlabs/tailwindcss-typography?tab=readme-ov-file#overriding-max-width */}
-                {/* prose prose-slate dark:prose-invert */}
-                <article className="max-w-none mx-auto mt-8 prose prose-slate dark:prose-invert">
-                    {post.body && <PortableText value={post.body} />}
-                </article>
+                    {/* blog post content */}
+                    {/* https://github.com/tailwindlabs/tailwindcss-typography */}
+                    {/* https://github.com/tailwindlabs/tailwindcss-typography?tab=readme-ov-file#overriding-max-width */}
+                    {/* 使用 PortableText 组件的话，需要额外加上 prose prose-slate dark:prose-invert 作为样式 */}
+                    {/* 使用 MdxRemoteClient 组件的话，不需要额外加样式，因为组件内都是自定义组件了 */}
+                    {/* <article className="max-w-none mx-auto mt-8 prose prose-slate dark:prose-invert">
+                        {post.body && <PortableText value={post.body} />}
+                    </article> */}
+                    <article className="mt-4 mx-auto">
+                        {post.body &&
+                            <MdxRemoteClient
+                                source={markdownContent}
+                            />
+                        }
+                    </article>
 
-                {/* back to all posts button */}
-                {/* TODO: back to last page? */}
-                <div className="mt-16 flex justify-center">
-                    <Link href="/blog"
-                        className={cn(
-                            buttonVariants({ variant: "outline", size: "lg" }),
-                            "flex items-center gap-2"
-                        )}>
-                        <ArrowLeftIcon className="w-5 h-5" />
-                        Back to all posts
-                    </Link>
+                    {/* back to all posts button */}
+                    {/* TODO: back to last page? add animations */}
+                    <div className="my-16 flex justify-center">
+                        <Link href="/blog"
+                            className={cn(
+                                buttonVariants({ variant: "outline", size: "lg" }),
+                                "flex items-center gap-2"
+                            )}>
+                            <ArrowLeftIcon className="w-5 h-5" />
+                            Back to all posts
+                        </Link>
+                    </div>
                 </div>
             </MaxWidthContainer>
         </>

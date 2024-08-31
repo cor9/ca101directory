@@ -13,7 +13,9 @@ export function SiteFooterInfo() {
         <div className="items-center space-x-2 flex">
           {/* <Logo /> */}
           <Sparkles />
-          <span className="font-geist-mono text-xl font-bold">
+
+          {/* font-geist-mono  */}
+          <span className="text-xl font-bold">
             {siteConfig.name}
           </span>
         </div>

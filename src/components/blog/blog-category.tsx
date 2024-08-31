@@ -16,7 +16,7 @@ export default function BlogCategoryList({
         categories.slice(0).map((category, index) => (
           <Link key={index}
             href={`/blog?category=${category.slug.current}`}>
-            <span className="text-md font-medium capitalize"
+            <span className="text-md font-medium uppercase transition-colors duration-200 ease-in-out"
               style={{ color: category.color }}>
               {category.name}
             </span>

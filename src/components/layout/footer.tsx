@@ -13,6 +13,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
         <div className="flex flex-col items-start col-span-full md:col-span-2">
           <SiteFooterInfo />
         </div>
+        
         {footerLinks.map((section) => (
           <div key={section.title} className="col-span-1 md:col-span-1 items-start">
             <span className="text-sm font-medium text-foreground">

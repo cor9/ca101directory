@@ -1,7 +1,7 @@
 'use client';
 
 import { HeaderSection } from "./shared/header-section";
-import MaxWidthContainer from "./shared/max-width-container";
+import Container from "./shared/container";
 
 /**
  * TODO: other info: https://preview.tailus.io/astrolus/
@@ -46,7 +46,7 @@ export default function Pricing() {
     ]
 
     return (
-        <MaxWidthContainer>
+        <Container>
             <section className='relative py-8'>
                 <HeaderSection label="Pricing" title="Start growing at full speed" />
 
@@ -118,6 +118,6 @@ export default function Pricing() {
                     </div>
                 </div>
             </section>
-        </MaxWidthContainer>
+        </Container>
     );
 };

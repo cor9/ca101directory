@@ -1,6 +1,6 @@
 import BlogCategoryList from "@/components/blog/blog-category";
 import { MdxRemoteClient } from "@/components/mdx-remote-client";
-import MaxWidthContainer from "@/components/shared/max-width-container";
+import Container from "@/components/shared/container";
 import { buttonVariants } from "@/components/ui/button";
 import { urlForImage } from "@/lib/image";
 import { cn } from "@/lib/utils";
@@ -72,7 +72,7 @@ export default async function PostPage({ params }: Props) {
     return (
         <>
             {/* set max width to keep blog post content in the middle of screen */}
-            <MaxWidthContainer className="max-w-screen-lg mt-4">
+            <Container className="max-w-screen-lg mt-4">
                 <div className="relative z-0 mx-auto aspect-video overflow-hidden rounded-lg">
                     {imageProps && (
                         <Image
@@ -160,7 +160,7 @@ export default async function PostPage({ params }: Props) {
                         </Link>
                     </div>
                 </div>
-            </MaxWidthContainer>
+            </Container>
         </>
     );
 }

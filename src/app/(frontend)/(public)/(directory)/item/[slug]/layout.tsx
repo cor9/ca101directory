@@ -1,11 +1,11 @@
-import MaxWidthContainer from '@/components/shared/max-width-container';
+import Container from '@/components/shared/container';
 
 export default function ItemLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <MaxWidthContainer className="pb-16">
+      <Container className="pb-16">
         {children}
-      </MaxWidthContainer>
+      </Container>
     </>
   );
 }

@@ -2,7 +2,7 @@ import { sorting } from '@/lib/constants';
 import { CategoryListQueryResult, TagListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { categoryListQuery, tagListQuery } from '@/sanity/lib/queries';
-import MaxWidthContainer from '../shared/max-width-container';
+import Container from '../shared/container';
 import { HomeFilterClient } from './home-filter-client';
 import { Suspense } from 'react';
 
@@ -29,7 +29,7 @@ export async function HomeFilter() {
   return (
     <>
       {/* Desktop View, has MaxWidthWrapper */}
-      <MaxWidthContainer className="hidden md:flex md:flex-col md:mt-4">
+      <Container className="hidden md:flex md:flex-col md:mt-4">
         {/* <div className='w-full'>
           <Suspense fallback={<SearchSkeleton />}>
             <HomeSearch />
@@ -43,7 +43,7 @@ export async function HomeFilter() {
           </Suspense>
         </div>
         {/* </div> */}
-      </MaxWidthContainer>
+      </Container>
 
       {/* Mobile View, no MaxWidthWrapper */}
       <div className="md:hidden flex flex-col mt-4">

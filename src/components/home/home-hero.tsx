@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import HomeSearch from './home-search';
 import { SearchSkeleton } from '../search';
-import MaxWidthContainer from '../shared/max-width-container';
+import Container from '../shared/container';
 
 export async function HomeHero() {
   // const categoryList = await sanityFetch<CategoryListQueryResult>({
@@ -24,7 +24,7 @@ export async function HomeHero() {
   return (
     <>
       {/* Desktop View, has MaxWidthWrapper */}
-      <MaxWidthContainer className="hidden md:flex md:flex-col mt-8">
+      <Container className="hidden md:flex md:flex-col mt-8">
         <div className='w-full'>
           <Suspense fallback={<SearchSkeleton />}>
             <HomeSearch />
@@ -38,7 +38,7 @@ export async function HomeHero() {
             </Suspense>
           </div>
         </div> */}
-      </MaxWidthContainer>
+      </Container>
 
       {/* Mobile View, no MaxWidthWrapper */}
       <div className="md:hidden flex flex-col mt-8">

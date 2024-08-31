@@ -1,4 +1,4 @@
-import MaxWidthContainer from "@/components/shared/max-width-container";
+import Container from "@/components/shared/container";
 
 export default function AuthLayout({
   children,
@@ -7,9 +7,9 @@ export default function AuthLayout({
 }) {
   return (
     <>
-      <MaxWidthContainer className="flex items-center justify-center p-16">
+      <Container className="flex items-center justify-center p-16">
         {children}
-      </MaxWidthContainer>
+      </Container>
     </>
   );
 }

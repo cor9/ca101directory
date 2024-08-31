@@ -5,7 +5,7 @@ import { categoryListQuery, tagListQuery } from '@/sanity/lib/queries';
 import { Suspense } from 'react';
 import { HomeFilterClient } from './home/home-filter-client';
 import { SearchSkeleton } from './search';
-import MaxWidthContainer from './shared/max-width-container';
+import Container from './shared/container';
 
 export async function HomeFilter() {
   const [categoryList, tagList] = await Promise.all([
@@ -30,7 +30,7 @@ export async function HomeFilter() {
   return (
     <>
       {/* Desktop View, has MaxWidthWrapper */}
-      <MaxWidthContainer className="hidden md:flex md:flex-col">
+      <Container className="hidden md:flex md:flex-col">
         {/* <div className='w-full'>
           <Suspense fallback={<SearchSkeleton />}>
             <HomeSearch />
@@ -44,7 +44,7 @@ export async function HomeFilter() {
             </Suspense>
           </div>
         </div>
-      </MaxWidthContainer>
+      </Container>
 
       {/* Mobile View, no MaxWidthWrapper */}
       <div className="md:hidden flex flex-col">

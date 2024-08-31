@@ -3,7 +3,7 @@ import { sanityClient } from '@/sanity/lib/client';
 import { categoryListQuery } from '@/sanity/lib/queries';
 import { Suspense } from 'react';
 import { CategoryList } from "./category-list";
-import MaxWidthContainer from '../shared/max-width-container';
+import Container from '../shared/container';
 import { SortList } from '../sort-list';
 
 /**
@@ -22,7 +22,7 @@ export async function CategoryFilter() {
   return (
     <>
       {/* Desktop View, has MaxWidthWrapper */}
-      <MaxWidthContainer className="hidden md:block">
+      <Container className="hidden md:block">
         <div className='flex items-center justify-between gap-8 mt-4'>
           <div className="w-full">
             <Suspense fallback={null}>
@@ -38,7 +38,7 @@ export async function CategoryFilter() {
             </Suspense>
           </div>
         </div>
-      </MaxWidthContainer>
+      </Container>
 
       {/* Mobile View, no MaxWidthWrapper */}
       <div className="md:hidden flex flex-col gap-8 mt-4">

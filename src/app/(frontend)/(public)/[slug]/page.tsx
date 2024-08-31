@@ -1,6 +1,6 @@
 import "@/styles/mdx.css";
 
-import MaxWidthContainer from "@/components/shared/max-width-container";
+import Container from "@/components/shared/container";
 import { getBlurDataURL } from "@/lib/utils";
 import { notFound } from "next/navigation";
 
@@ -51,7 +51,7 @@ export default async function PagePage({
   // console.log(`PagePage, page.body.code: ${page.body.code}`);
 
   return (
-    <MaxWidthContainer>
+    <Container>
       <article className="py-6 lg:py-12">
         <div className="space-y-4">
           {/* <h1 className="inline-block font-heading text-4xl lg:text-5xl">
@@ -64,6 +64,6 @@ export default async function PagePage({
         {/* <hr className="my-4" /> */}
         {/* <Mdx code={page.body.code} images={images} /> */}
       </article>
-    </MaxWidthContainer>
+    </Container>
   );
 }

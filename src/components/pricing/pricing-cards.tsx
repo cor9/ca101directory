@@ -12,7 +12,7 @@ import { BillingFormButton } from "@/components/forms/billing-form-button";
 // import { ModalContext } from "@/components/modals/providers";
 import { HeaderSection } from "@/components/shared/header-section";
 import { Icons } from "@/components/shared/icons";
-import MaxWidthContainer from "@/components/shared/max-width-container";
+import Container from "@/components/shared/container";
 import { LoginButton } from "../auth/login-button";
 
 interface PricingCardsProps {
@@ -137,7 +137,7 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
   };
 
   return (
-    <MaxWidthContainer>
+    <Container>
       <section className="flex flex-col items-center text-center">
         <HeaderSection label="Pricing" title="Start at full speed !" />
 
@@ -188,6 +188,6 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
           </strong>
         </p>
       </section>
-    </MaxWidthContainer>
+    </Container>
   );
 }

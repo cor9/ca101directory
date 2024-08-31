@@ -1,11 +1,11 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { HeaderSection } from "@/components/shared/header-section";
-import MaxWidthContainer from "@/components/shared/max-width-container";
+import Container from "@/components/shared/container";
 
 export default function Loading() {
   return (
     <div className="flex w-full flex-col gap-16 py-8 md:py-8">
-      <MaxWidthContainer>
+      <Container>
         <section className="flex flex-col items-center">
           <div className="mx-auto flex w-full flex-col items-center gap-5">
             <HeaderSection label="Pricing" title="Start at full speed !" />
@@ -23,7 +23,7 @@ export default function Loading() {
             <Skeleton className="h-4 w-1/6" />
           </div>
         </section>
-      </MaxWidthContainer>
+      </Container>
 
       <hr className="container" />
     </div>

@@ -1,14 +1,14 @@
 import { CategoryFilter } from '@/components/category/category-filter';
-import MaxWidthContainer from '@/components/shared/max-width-container';
+import Container from '@/components/shared/container';
 
 export default function CategoryLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <CategoryFilter />
 
-      <MaxWidthContainer className="pb-16">
+      <Container className="pb-16">
         {children}
-      </MaxWidthContainer>
+      </Container>
     </>
   );
 }

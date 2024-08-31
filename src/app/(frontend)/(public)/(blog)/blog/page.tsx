@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Archive from "@/components/blog/blog-archive";
-import MaxWidthContainer from "@/components/shared/max-width-container";
+import Container from "@/components/shared/container";
 import Loading from "../loading";
 
 export default async function ArchivePage({
@@ -14,7 +14,7 @@ export default async function ArchivePage({
 
   return (
     <>
-      <MaxWidthContainer className="relative pb-16">
+      <Container className="relative pb-16">
         <h1 className="mt-4 text-center text-3xl font-semibold tracking-tight lg:text-4xl lg:leading-snug">
           Blog
         </h1>
@@ -29,7 +29,7 @@ export default async function ArchivePage({
           key={pageIndex}>
           <Archive searchParams={searchParams} />
         </Suspense>
-      </MaxWidthContainer>
+      </Container>
     </>
   );
 }

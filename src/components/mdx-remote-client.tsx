@@ -1,26 +1,17 @@
-// import { MdxCard } from '@/components/content/mdx-card';
 import { Callout } from '@/components/shared/callout';
 import { CopyButton } from '@/components/shared/copy-button';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import BlurImage from './shared/blur-image';
-
-import { evaluate, MDXRemote, MDXRemoteOptions } from "next-mdx-remote-client/rsc";
-import remarkGfm from 'remark-gfm';
-import rehypeSlug from 'rehype-slug';
-import rehypePrettyCode from 'rehype-pretty-code';
+import { MDXRemote, MDXRemoteOptions } from "next-mdx-remote-client/rsc";
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypePrettyCode from 'rehype-pretty-code';
+import rehypeSlug from 'rehype-slug';
+import remarkGfm from 'remark-gfm';
 import { visit } from 'unist-util-visit';
 
-// https://github.com/hashicorp/next-mdx-remote?tab=readme-ov-file#custom-components
-// const components = {
-//   h1: (props) => (
-//     <h1 {...props} className="large-text">
-//       {props.children}
-//     </h1>
-//   ),
-// }
-
+/**
+ * https://github.com/ipikuka/next-mdx-remote-client
+ */
 const customComponents = {
     h1: ({ className, ...props }) => (
         <h1
@@ -218,7 +209,7 @@ export function MdxRemoteClient(props) {
         // const blurDataURL = images.find(
         //   (image) => image.src === props.src,
         // )?.blurDataURL;
-    
+
         // return (
         //   <div className="mt-5 w-full overflow-hidden rounded-lg border">
         //     <BlurImage
@@ -228,86 +219,86 @@ export function MdxRemoteClient(props) {
         //     />
         //   </div>
         // );
-      };
+    };
 
     // remarkGfm的作用是显示table，以及链接形式的文字自动变成带下划线的链接样式
     // rehypePrettyCode的作用是代码高亮，以及复制代码的功能
     // rehypeAutolinkHeadings的作用是自动生成锚点，目的是给toc组件用的
     // 有了这几个插件，就不用tailwindcss的typography插件了
     // 同时，实际要生效的话，还需要搭配mdx.css文件
-      const options: MDXRemoteOptions = {
+    const options: MDXRemoteOptions = {
         mdxOptions: {
-          remarkPlugins: [
-            // ...
-            // remarkFlexibleToc, // <---------
-            remarkGfm,
-          ], 
-          rehypePlugins: [
-            rehypeSlug,
-            () => (tree) => {
-              visit(tree, (node) => {
-                if (node?.type === "element" && node?.tagName === "pre") {
-                  const [codeEl] = node.children;
-      
-                  if (codeEl.tagName !== "code") return;
-      
-                  node.__rawString__ = codeEl.children?.[0].value;
-                }
-              });
-            },
-            [
-              rehypePrettyCode,
-              {
-                theme: "github-dark",
-                keepBackground: false,
-                onVisitLine(node) {
-                  // Prevent lines from collapsing in `display: grid` mode, and allow empty lines to be copy/pasted
-                  if (node.children.length === 0) {
-                    node.children = [{ type: "text", value: " " }];
-                  }
-                },
-              },
+            remarkPlugins: [
+                // ...
+                // remarkFlexibleToc, // <---------
+                remarkGfm,
             ],
-            () => (tree) => {
-              visit(tree, (node) => {
-                if (node?.type === "element" && node?.tagName === "figure") {
-                  if (!("data-rehype-pretty-code-figure" in node.properties)) {
-                    return;
-                  }
-      
-                  const preElement = node.children.at(-1);
-                  if (preElement.tagName !== "pre") {
-                    return;
-                  }
-      
-                  preElement.properties["__rawString__"] = node.__rawString__;
-                }
-              });
-            },
-            [
-              rehypeAutolinkHeadings,
-              {
-                properties: {
-                  className: ["subheading-anchor"],
-                  ariaLabel: "Link to section",
+            rehypePlugins: [
+                rehypeSlug,
+                () => (tree) => {
+                    visit(tree, (node) => {
+                        if (node?.type === "element" && node?.tagName === "pre") {
+                            const [codeEl] = node.children;
+
+                            if (codeEl.tagName !== "code") return;
+
+                            node.__rawString__ = codeEl.children?.[0].value;
+                        }
+                    });
                 },
-              },
+                [
+                    rehypePrettyCode,
+                    {
+                        theme: "github-dark",
+                        keepBackground: false,
+                        onVisitLine(node) {
+                            // Prevent lines from collapsing in `display: grid` mode, and allow empty lines to be copy/pasted
+                            if (node.children.length === 0) {
+                                node.children = [{ type: "text", value: " " }];
+                            }
+                        },
+                    },
+                ],
+                () => (tree) => {
+                    visit(tree, (node) => {
+                        if (node?.type === "element" && node?.tagName === "figure") {
+                            if (!("data-rehype-pretty-code-figure" in node.properties)) {
+                                return;
+                            }
+
+                            const preElement = node.children.at(-1);
+                            if (preElement.tagName !== "pre") {
+                                return;
+                            }
+
+                            preElement.properties["__rawString__"] = node.__rawString__;
+                        }
+                    });
+                },
+                [
+                    rehypeAutolinkHeadings,
+                    {
+                        properties: {
+                            className: ["subheading-anchor"],
+                            ariaLabel: "Link to section",
+                        },
+                    },
+                ],
             ],
-          ],
         },
         // parseFrontmatter: true,
         // scope: {
         //   readingTime: calculateSomeHow(source),
         // },
         // vfileDataIntoScope: "toc", // <---------
-      };
+    };
 
     return (
         <MDXRemote
             {...props}
             options={options}
-            components={{ 
-                ...customComponents, 
+            components={{
+                ...customComponents,
                 ...(props.components || {}),
                 Image: MDXImage
             }}

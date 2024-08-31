@@ -118,11 +118,11 @@ export default async function PostPage({ params }: Props) {
 
                 {/* blog post content */}
                 {/* https://github.com/tailwindlabs/tailwindcss-typography */}
-                {/* <article className="mx-auto"> */}
-                <article className="max-w-screen-lg mx-auto mt-8 prose prose-slate dark:prose-invert">
+                {/* https://github.com/tailwindlabs/tailwindcss-typography?tab=readme-ov-file#overriding-max-width */}
+                {/* prose prose-slate dark:prose-invert */}
+                <article className="max-w-none mx-auto mt-8 prose prose-slate dark:prose-invert">
                     {post.body && <PortableText value={post.body} />}
                 </article>
-                {/* </article> */}
 
                 {/* back to all posts button */}
                 {/* TODO: back to last page? */}

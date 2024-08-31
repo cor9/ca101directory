@@ -45,7 +45,7 @@ export default defineType({
             title: "Categories",
             type: "array",
             of: [{ type: "reference", to: { type: "blogCategory" } }]
-          }),
+        }),
         defineField({
             name: "author",
             title: "Author",
@@ -70,7 +70,8 @@ export default defineType({
                     name: "alt",
                     type: "string",
                     title: "Alternative Text",
-                    description: "Important for SEO and accessiblity."
+                    description: "Important for SEO and accessiblity.",
+                    initialValue: () => "Blog Post Image",
                 },
             ],
         }),
@@ -98,9 +99,14 @@ export default defineType({
     },
     orderings: [
         {
-            title: 'Date',
-            name: 'date',
+            title: 'Date (new to old)',
+            name: 'dateDesc',
             by: [{ field: 'publishDate', direction: 'desc' }],
+        },
+        {
+            title: 'Date (old to new)',
+            name: 'dateAsc',
+            by: [{ field: 'publishDate', direction: 'asc' }],
         },
         {
             title: 'Title',

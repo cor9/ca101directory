@@ -102,7 +102,9 @@ export default defineType({
           name: "alt",
           type: "string",
           title: "Alternative Text",
-          description: "Important for SEO and accessiblity."
+          description: "Important for SEO and accessiblity.",
+          initialValue: () => "Screenshot Image",
+          // TODO: add initial value from name or optimize accessibility in frontend
         },
       ],
     }),
@@ -133,10 +135,15 @@ export default defineType({
   },
 	orderings: [
 		{
-			title: 'Date',
-			name: 'date',
-			by: [{ field: 'publishDate', direction: 'desc' }],
-		},
+      title: 'Date (new to old)',
+      name: 'dateDesc',
+      by: [{ field: 'publishDate', direction: 'desc' }],
+    },
+    {
+      title: 'Date (old to new)',
+      name: 'dateAsc',
+      by: [{ field: 'publishDate', direction: 'asc' }],
+    },
 		{
 			title: 'Name',
 			name: 'name',

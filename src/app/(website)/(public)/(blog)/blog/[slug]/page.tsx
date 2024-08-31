@@ -67,7 +67,7 @@ export default async function PostPage({ params }: Props) {
       }
 
     const markdownContent = toMarkdown(post.body, { serializers });
-    console.log("markdownContent", markdownContent);
+    // console.log("markdownContent", markdownContent);
 
     return (
         <>

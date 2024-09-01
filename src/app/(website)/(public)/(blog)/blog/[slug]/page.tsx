@@ -1,5 +1,5 @@
 import BlogCategoryList from "@/components/blog/blog-category";
-import { MdxRemoteClient } from "@/components/mdx-remote-client";
+import { CustomMdx } from "@/components/custom-mdx";
 import Container from "@/components/shared/container";
 import { buttonVariants } from "@/components/ui/button";
 import { urlForImage } from "@/lib/image";
@@ -12,11 +12,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-type Props = {
+interface PostPageProps {
     params: { slug: string };
 };
 
-export default async function PostPage({ params }: Props) {
+export default async function PostPage({ params }: PostPageProps) {
     const slug = params.slug;
     const queryParams = { slug };
     const post = await sanityClient.fetch(
@@ -137,7 +137,7 @@ export default async function PostPage({ params }: Props) {
 
                     {/* blog post content */}
                     <article className="mt-4 mx-auto">
-                        {markdownContent && <MdxRemoteClient source={markdownContent} /> }
+                        {markdownContent && <CustomMdx source={markdownContent} /> }
                     </article>
 
                     {/* back to all posts button */}

@@ -4,13 +4,13 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
 import { notFound } from "next/navigation";
-import { MdxRemoteClient } from "@/components/mdx-remote-client";
+import { CustomMdx } from "@/components/custom-mdx";
 
-type Props = {
+interface ItemPageProps {
   params: { slug: string };
 };
 
-export default async function ItemPage({ params }: Props) {
+export default async function ItemPage({ params }: ItemPageProps) {
   const slug = params.slug;
   const item = await sanityFetch<ItemFullInfo>({
     query: itemQuery,
@@ -43,7 +43,7 @@ export default async function ItemPage({ params }: Props) {
 
             <article className="mt-4">
               {item.mdContent &&
-                <MdxRemoteClient source={item.mdContent} />
+                <CustomMdx source={item.mdContent} />
               }
             </article>
 

@@ -13,6 +13,7 @@ import { media } from 'sanity-plugin-media';
 import { presentationTool } from 'sanity/presentation';
 import { structureTool } from 'sanity/structure';
 import { codeInput } from '@sanity/code-input';
+import { CustomMarkdownInput } from '@/sanity/components/CustomMarkdownInput';
 
 export default defineConfig({
   name: 'Studio',
@@ -55,7 +56,7 @@ export default defineConfig({
     media(),
 
     // https://www.sanity.io/plugins/sanity-plugin-markdown
-    markdownSchema(),
+    markdownSchema({input: CustomMarkdownInput}),
 
     // https://www.sanity.io/docs/dashboard
     // Dashboard is a Sanity Studio tool that allows you to add widgets that display information 

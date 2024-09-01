@@ -64,31 +64,10 @@ export default defineType({
       to: [{ type: "user" }],
     }),
     defineField({
-      name: "content",
-      title: "Content",
-      type: "array",
-      of: [
-        {
-          type: "block"
-        },
-        // {
-        //   type: 'image'
-        // },
-        // {
-        //   type: 'code'
-        // }
-      ],
-    }),
-    defineField({
       name: "mdContent",
       title: "Markdown Content",
       type: "markdown",
-      description: "A Github flavored markdown field with image uploading",
-    }),
-    defineField({
-      name: "body",
-      title: "Body",
-      type: "blockContent"
+      description: "",
     }),
     defineField({
       name: "image",

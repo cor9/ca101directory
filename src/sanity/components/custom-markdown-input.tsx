@@ -22,7 +22,7 @@ export function CustomMarkdownInput(props: MarkdownInputProps) {
                     // remove the image button, it just inserts a empty image tag;
                     toolbar: ["heading", "bold", "italic", "strikethrough",
                         "|", "code", "quote", "unordered-list", "ordered-list",
-                        "|", "link", "upload-image",
+                        "|", "link", "upload-image", "horizontal-rule",
                         "|", "preview", "side-by-side"],
                 },
                 // more props available, see:

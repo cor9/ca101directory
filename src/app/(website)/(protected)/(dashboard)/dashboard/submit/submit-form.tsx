@@ -27,8 +27,12 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 // https://github.com/RIP21/react-simplemde-editor
-import type SimpleMDE from "easymde";
 import { SimpleMdeReact } from "react-simplemde-editor";
+// if import SimpleMDE from react-simplemde-editor, SimpleMDE.Options can't be found
+// import SimpleMDE from "react-simplemde-editor";
+// but import type SimpleMDE from "easymde" is ok
+import type SimpleMDE from "easymde";
+
 // import this css to style the editor
 import "easymde/dist/easymde.min.css";
 
@@ -56,6 +60,8 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [introduction, setIntroduction] = useState('');
 
+  // https://github.com/RIP21/react-simplemde-editor?tab=readme-ov-file#options
+  // useMemo to memoize options so they do not change on each rerender
   // https://github.com/Ionaru/easy-markdown-editor?tab=readme-ov-file#options-example
   // dont't show image or upload-image button, images are uploaded in the image field of form
   const mdeOptions = useMemo(() => {
@@ -66,8 +72,8 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
       placeholder: 'Enter the introduction of your product (Markdown supported)',
       toolbar: ["heading", "bold", "italic", "strikethrough",
         "|", "code", "quote", "unordered-list", "ordered-list",
-        "|", "link",
-        "|", "preview", "side-by-side"],
+        "|", "link", "horizontal-rule",
+        "|", "preview", "side-by-side", "guide"],
     } as SimpleMDE.Options;
   }, []);
 
@@ -312,8 +318,8 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
               </Label>
               <div className="w-full flex flex-col">
                 <SimpleMdeReact
-                  options={mdeOptions}
                   value={introduction}
+                  options={mdeOptions}
                   onChange={handleEditorChange}
                 />
               </div>

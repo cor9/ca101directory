@@ -20,9 +20,9 @@ export default async function CustomPage({ params }: CustomPageProps) {
   }
 
   console.log(`CustomPage, page title: ${page.title}`);
-  console.log('CustomPage, page body: ', page.body);
+  // console.log('CustomPage, page body: ', page.body);
   const markdownContent = portableTextToMarkdown(page.body);
-  console.log("markdownContent", markdownContent);
+  // console.log("markdownContent", markdownContent);
 
   return (
     <Container>

@@ -5,7 +5,7 @@ import { useMemo } from 'react';
  * https://www.sanity.io/plugins/sanity-plugin-markdown
  */
 export function CustomMarkdownInput(props: MarkdownInputProps) {
-    // @ts-ignore
+    // @ts-ignore for warning caused by "upload-image" 
     const reactMdeProps: MarkdownInputProps['reactMdeProps'] =
         useMemo(() => {
             return {

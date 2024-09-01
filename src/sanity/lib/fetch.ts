@@ -1,6 +1,5 @@
 import type { ClientPerspective, QueryParams } from "next-sanity";
 import { draftMode } from "next/headers";
-
 import { sanityClient } from "@/sanity/lib/client";
 import { token } from "@/sanity/lib/token";
 
@@ -21,6 +20,7 @@ export async function sanityFetch<QueryResponse>({
   params?: QueryParams;
   perspective?: Omit<ClientPerspective, "raw">;
 }) {
+  console.log('sanityFetch, perspective', perspective, 'query', query);
   if (perspective === "previewDrafts") {
     return sanityClient.fetch<QueryResponse>(query, params, {
       perspective: "previewDrafts",

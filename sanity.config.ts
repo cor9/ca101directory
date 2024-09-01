@@ -1,4 +1,4 @@
-import documentNode from '@/sanity/documentNode';
+import documentNode from '@/sanity/document-node';
 import { apiVersion, dataset, projectId, studioUrl } from '@/sanity/lib/api';
 import { singletonPlugin } from '@/sanity/plugins/singleton';
 import { schemaTypes } from '@/sanity/schemas';
@@ -13,7 +13,7 @@ import { media } from 'sanity-plugin-media';
 import { presentationTool } from 'sanity/presentation';
 import { structureTool } from 'sanity/structure';
 import { codeInput } from '@sanity/code-input';
-import { CustomMarkdownInput } from '@/sanity/components/CustomMarkdownInput';
+import { CustomMarkdownInput } from '@/sanity/components/custom-markdown-input';
 
 export default defineConfig({
   name: 'Studio',
@@ -37,6 +37,7 @@ export default defineConfig({
     // https://www.sanity.io/docs/the-vision-plugin
     // Vision is a plugin that lets you quickly test your GROQ queries right from the Studio.
     visionTool({
+      title: 'Query',
       defaultApiVersion: apiVersion,
       defaultDataset: dataset,
     }),

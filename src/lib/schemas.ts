@@ -1,7 +1,9 @@
 import * as z from "zod";
 import { UserRole } from "@/types/user-role";
 
-// https://nextjs.org/learn/dashboard-app/mutating-data
+/**
+ * submit item
+ */
 export const SubmitItemSchema = z.object({
   name: z.string()
       .min(1, { message: "Must be 1 or more characters long" })
@@ -9,19 +11,22 @@ export const SubmitItemSchema = z.object({
   link: z.string()
       .url({ message: "Invalid url" }),
   description: z.string()
-      .min(3, { message: "Must be 3 or more characters long" })
+      .min(1, { message: "Must be 1 or more characters long" })
       .max(256, { message: "Must be 256 or fewer characters long" }),
-  mdContent: z.string()
-      .min(1, { message: "Must be 32 or more characters long" }),
+  introduction: z.string()
+      .min(1, { message: "Must be 1 or more characters long" }),
       // .max(1024, { message: "Must be 1024 or fewer characters long" }),
   tags: z.array(z.string())
       .min(1, { message: "Must select at least one tag" }),
   categories: z.array(z.string())
       .min(1, { message: "Must select at least one category" }),
-  coverImageId: z.string()
+  imageId: z.string()
       .min(1, { message: "Must upload an image" }),
 })
 
+/**
+ * account settings
+ */
 export const SettingsSchema = z.object({
   name: z.optional(z.string()),
   role: z.enum([UserRole.ADMIN, UserRole.USER]),
@@ -50,6 +55,9 @@ export const SettingsSchema = z.object({
     path: ["password"]
   })
 
+/**
+ * auth related schemas
+ */
 export const NewPasswordSchema = z.object({
   password: z.string().min(6, {
     message: "Minimum of 6 characters required",

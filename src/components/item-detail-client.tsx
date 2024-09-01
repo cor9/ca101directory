@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from './ui/button';
 
 export default function ItemDetailClient({ item }: { item: ItemFullInfo }) {
-  console.log('ItemDetailClient, item:', item);
+  // console.log('ItemDetailClient, item:', item);
   if (!item) {
     console.error('ItemDetailClient, item not found');
     return null;

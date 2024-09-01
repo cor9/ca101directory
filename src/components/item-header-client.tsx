@@ -8,7 +8,7 @@ import ItemBreadCrumb from './item-bread-crumb';
 import { Button } from './ui/button';
 
 export default function ItemHeaderClient({ item }: { item: ItemFullInfo }) {
-  console.log('ItemHeaderClient, item:', item);
+  // console.log('ItemHeaderClient, item:', item);
   if (!item) {
     console.error('ItemHeaderClient, item not found');
     return null;

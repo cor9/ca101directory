@@ -5,15 +5,16 @@ import { SubmitItemSchema } from "@/lib/schemas";
 import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
+import { nanoid } from 'nanoid';
 
 export type SubmitItemFormData = {
   name: string;
   link: string;
   description: string;
-  mdContent: string;
+  introduction: string;
   tags: string[];
   categories: string[];
-  coverImageId: string;
+  imageId: string;
 };
 
 // https://nextjs.org/learn/dashboard-app/mutating-data
@@ -27,7 +28,7 @@ export async function SubmitItem(data: SubmitItemFormData) {
     console.log("submitItem, username:", session?.user?.name);
 
     console.log("submitItem, data:", data);
-    const { name, link, description, mdContent, coverImageId,
+    const { name, link, description, introduction, imageId,
       tags, categories } = SubmitItemSchema.parse(data);
     console.log("submitItem, name:", name, "link:", link);
 
@@ -39,34 +40,34 @@ export async function SubmitItem(data: SubmitItemFormData) {
         current: slugify(name),
       },
       link,
-      // TODO: rename to excerpt
       description,
-      mdContent,
+      introduction,
       // status: "reviewing",
       submitter: {
         _type: "reference",
         _ref: session.user.id,
       },
       publishDate: new Date().toISOString(),
-      // TODO: fix key- prefix here
+      // The _key only needs to be unique within the array itself
+      // use nanoid to generate a random string with 12 characters like sanity
       tags: tags.map(tag => ({
         _type: 'reference',
         _ref: tag,
-        _key: `key_${tag}`,
+        _key: nanoid(12),
       })),
       categories: categories.map(category => ({
         _type: 'reference',
         _ref: category,
-        _key: `key_${category}`,
+        _key: nanoid(12),
       })),
-      ...(coverImageId ?
+      ...(imageId ?
         {
           image: {
             _type: "image",
-            alt: `screenshot of ${name}`,
+            alt: `image of ${name}`,
             asset: {
               _type: 'reference',
-              _ref: coverImageId
+              _ref: imageId
             }
           }
         } : {})

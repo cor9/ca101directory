@@ -27,35 +27,45 @@ import { useCallback, useMemo, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-// Markdown Editor
-import "easymde/dist/easymde.min.css";
+// React SimpleMDE (EasyMDE) Markdown Editor
+// https://github.com/RIP21/react-simplemde-editor
 import type SimpleMDE from "easymde";
 import { SimpleMdeReact } from "react-simplemde-editor";
+// import this css to style the editor
+import "easymde/dist/easymde.min.css";
 
 interface SubmitItemFormProps {
   tagList: TagListQueryResult;
   categoryList: CategoryListQueryResult;
 }
 
-// https://ui.shadcn.com/docs/components/form
-// https://nextjs.org/learn/dashboard-app/mutating-data
+/**
+ * 1. form component form shadcn/ui
+ * https://ui.shadcn.com/docs/components/form
+ * 
+ * 2. React Hook Form
+ * https://react-hook-form.com/get-started
+ * https://nextjs.org/learn/dashboard-app/mutating-data
+ */
 export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const router = useRouter();
 
-  const [mdContent, setMdContent] = useState("Please enter the information of your product (Markdown is supported).");
-  const onMdContentChange = useCallback((value: string) => {
-    resetField("mdContent");
-    setMdContent(value);
-    setValue("mdContent", value);
+  const [introduction, setIntroduction] = useState('');
+  const onEditorValueChange = useCallback((value: string) => {
+    resetField("introduction");
+    setIntroduction(value);
+    setValue("introduction", value);
   }, []);
-  const autofocusNoSpellcheckerOptions = useMemo(() => {
+  // https://github.com/Ionaru/easy-markdown-editor?tab=readme-ov-file#options-example
+  const mdeOptions = useMemo(() => {
     return {
       autofocus: true,
       spellChecker: false,
+      placeholder: 'Type here...',
     } as SimpleMDE.Options;
   }, []);
 
-  const [coverImageUrl, setCoverImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -96,8 +106,8 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
       name: "",
       link: "",
       description: "",
-      mdContent: "",
-      coverImageId: "",
+      introduction: "",
+      imageId: "",
       tags: selectedTags,
       categories: selectedCategories,
     },
@@ -122,11 +132,11 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
     });
   });
 
-  const handleUploadCoverImage = async (e) => {
-    console.log('SubmitItemForm, handleUploadCoverImage, file:', e.target.files[0]);
+  const handleUploadImage = async (e) => {
+    console.log('SubmitItemForm, handleUploadImage, file:', e.target.files[0]);
     const file = e.target.files[0];
     if (!file) {
-      console.log('SubmitItemForm, handleUploadCoverImage, file is null');
+      console.log('SubmitItemForm, handleUploadImage, file is null');
       return;
     }
 
@@ -138,16 +148,16 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
     }
 
     setIsUploading(true);
-    const coverImageAsset = await uploadImage(file);
-    if (!coverImageAsset) {
+    const imageAsset = await uploadImage(file);
+    if (!imageAsset) {
       e.target.value = '';
       toast.error('Upload Image failed, please try again.');
       return;
     }
-    console.log('SubmitItemForm, handleUploadCoverImage, coverImageId:', coverImageAsset._id);
-    resetField("coverImageId");
-    setValue("coverImageId", coverImageAsset._id);
-    setCoverImageUrl(coverImageAsset.url);
+    console.log('SubmitItemForm, handleUploadImage, imageId:', imageAsset._id);
+    resetField("imageId");
+    setValue("imageId", imageAsset._id);
+    setImageUrl(imageAsset.url);
     setIsUploading(false);
   };
 
@@ -170,17 +180,17 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
           <div className="grid gap-6">
 
             <SimpleMdeReact
-              options={autofocusNoSpellcheckerOptions}
-              value={mdContent}
-              onChange={onMdContentChange}
+              options={mdeOptions}
+              value={introduction}
+              onChange={onEditorValueChange}
             />
-            {/* Hidden input to register mdContent */}
-            <input type="hidden" id="mdContent" {...register("mdContent")} />
-            {errors?.mdContent && (
+            {/* Hidden input to register introduction */}
+            <input type="hidden" id="introduction" {...register("introduction")} />
+            {errors?.introduction && (
               <div className="flex gap-4 items-center">
-                <Label className="min-w-[100px]" htmlFor="error_mdContent">
+                <Label className="min-w-[100px]" htmlFor="error_introduction">
                 </Label>
-                <p className="px-1 text-xs text-red-600">{errors.mdContent.message}</p>
+                <p className="px-1 text-xs text-red-600">{errors.introduction.message}</p>
               </div>
             )}
 
@@ -309,30 +319,30 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
             )}
 
             <div className="flex gap-4 items-center">
-              <Label className="min-w-[100px]" htmlFor="coverImageFile">
+              <Label className="min-w-[100px]" htmlFor="imageFile">
                 {submitConfig.form.image}
               </Label>
-              <Input id="coverImageFile" type="file"
+              <Input id="imageFile" type="file"
                 className="w-full"
-                onChange={handleUploadCoverImage}
+                onChange={handleUploadImage}
                 accept="image/*" />
 
               {/* 960x540 => 480x270 => 128x64 */}
-              {coverImageUrl &&
-                <Image alt="product cover image"
+              {imageUrl &&
+                <Image alt="image"
                   className="border sm:w-max-[600px]"
                   height={64} width={128}
-                  src={coverImageUrl}
+                  src={imageUrl}
                 />
               }
             </div>
-            {/* Hidden input to register coverImageId */}
-            <input type="hidden" id="coverImageId" {...register("coverImageId")} />
-            {errors?.coverImageId && (
+            {/* Hidden input to register imageId */}
+            <input type="hidden" id="imageId" {...register("imageId")} />
+            {errors?.imageId && (
               <div className="flex gap-4 items-center">
-                <Label className="min-w-[100px]" htmlFor="error_coverImageId">
+                <Label className="min-w-[100px]" htmlFor="error_imageId">
                 </Label>
-                <p className="px-1 text-xs text-red-600">{errors.coverImageId.message}</p>
+                <p className="px-1 text-xs text-red-600">{errors.imageId.message}</p>
               </div>
             )}
 

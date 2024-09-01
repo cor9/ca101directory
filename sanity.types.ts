@@ -262,8 +262,7 @@ export type Item = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "user";
   };
-  content?: string;
-  mdContent?: string;
+  introduction?: string;
   image?: {
     asset?: {
       _ref: string;
@@ -452,8 +451,7 @@ export type ItemQueryResult = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "user";
   };
-  content?: string;
-  mdContent?: string;
+  introduction?: string;
   image?: {
     asset?: {
       _ref: string;
@@ -507,8 +505,7 @@ export type ItemListQueryResult = Array<{
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "user";
   };
-  content?: string;
-  mdContent?: string;
+  introduction?: string;
   image?: {
     asset?: {
       _ref: string;
@@ -562,8 +559,7 @@ export type ItemListOfCategoryQueryResult = Array<{
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "user";
   };
-  content?: string;
-  mdContent?: string;
+  introduction?: string;
   image?: {
     asset?: {
       _ref: string;
@@ -617,8 +613,7 @@ export type ItemListOfTagQueryResult = Array<{
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "user";
   };
-  content?: string;
-  mdContent?: string;
+  introduction?: string;
   image?: {
     asset?: {
       _ref: string;
@@ -1291,8 +1286,7 @@ export type GetAllResult = Array<{
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "user";
   };
-  content?: string;
-  mdContent?: string;
+  introduction?: string;
   image?: {
     asset?: {
       _ref: string;

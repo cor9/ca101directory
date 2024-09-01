@@ -65,16 +65,10 @@ export default defineType({
       to: [{ type: "user" }],
     }),
     defineField({
-      name: "content",
-      title: "Content",
+      name: "introduction",
+      title: "Introduction",
       type: "markdown",
-      description: "This content will be displayed on the detail page of the item.",
-    }),
-    defineField({
-      name: "mdContent",
-      title: "Markdown Content",
-      type: "markdown",
-      description: "This content will be displayed on the detail page of the item.",
+      description: "This introduction will be displayed on the detail page of the item.",
     }),
     defineField({
       name: "image",

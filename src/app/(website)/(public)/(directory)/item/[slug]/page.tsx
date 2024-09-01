@@ -21,8 +21,8 @@ export default async function ItemPage({ params }: ItemPageProps) {
     return notFound();
   }
   // console.log('ItemPage, item:', item);
-  // console.log(`ItemPage, item.content:`, item.content);
-  // console.log(`ItemPage, item.mdContent:`, item.mdContent);
+  // console.log(`ItemPage, item.introduction:`, item.introduction);
+
   return (
     <>
       <div className="space-y-8">
@@ -31,19 +31,23 @@ export default async function ItemPage({ params }: ItemPageProps) {
 
         <div className="grid gap-8 md:grid-cols-12">
           <div className="order-2 md:order-1 md:col-span-6 lg:col-span-7 flex flex-col gap-4">
+            {/* description */}
+            <h2 className="text-xl font-semibold mb-4">
+              Description
+            </h2>
+
+            <p className="text-base text-muted-foreground leading-loose">
+              {item.description}
+            </p>
+
             {/* introduction */}
             <h2 className="text-xl font-semibold mb-4">
               Introduction
             </h2>
 
-            {/* description */}
-            <p className="text-base text-muted-foreground leading-loose">
-              {item.description}
-            </p>
-
             <article className="mt-4">
-              {item.mdContent &&
-                <CustomMdx source={item.mdContent} />
+              {item.introduction &&
+                <CustomMdx source={item.introduction} />
               }
             </article>
 

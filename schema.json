@@ -1581,14 +1581,7 @@
         },
         "optional": true
       },
-      "content": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "mdContent": {
+      "introduction": {
         "type": "objectAttribute",
         "value": {
           "type": "string"

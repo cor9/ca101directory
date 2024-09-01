@@ -342,6 +342,16 @@ const marddownComponents = {
 const customComponents = {
     Callout,
     // Card: MdxCard,
+    // TODO: maybe change to MDXImage below
+    Image: ({ className, ...props }: React.ComponentProps<"img">) => (
+        <img
+            className={cn(
+                "rounded-md border",
+                className
+            )}
+            {...props}
+        />
+    ),
     Step: ({ className, ...props }: React.ComponentProps<"h3">) => (
         <h3
             className={cn(
@@ -383,7 +393,6 @@ const customComponents = {
 // const blurDataURL = images.find(
 //   (image) => image.src === props.src,
 // )?.blurDataURL;
-
 // return (
 //   <div className="mt-5 w-full overflow-hidden rounded-lg border">
 //     <BlurImage

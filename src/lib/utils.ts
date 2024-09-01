@@ -24,9 +24,9 @@ export function slugify(str: string): string {
 }
 
 /**
- * get Date
+ * get locale date string
  */
-export function getDate(date: string | number): string {
+export function getLocaleDate(date: string | number): string {
   const dateObj = new Date(date);
   return dateObj.toLocaleDateString("en-US", {
     month: "long",

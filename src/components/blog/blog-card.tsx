@@ -1,6 +1,6 @@
 import BlogCategoryList from "@/components/blog/blog-category";
 import { urlForImage } from "@/lib/image";
-import { cn, getDate } from "@/lib/utils";
+import { cn, getLocaleDate } from "@/lib/utils";
 import { PostInfo } from "@/types";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
@@ -16,7 +16,7 @@ export default function BlogCard({ post }: BlogCardProps) {
     : null;
   // const imageProps = null; // for testing
   const publishDate = post.publishDate || post._createdAt;
-  const date = getDate(publishDate);
+  const date = getLocaleDate(publishDate);
 
   return (
     <>

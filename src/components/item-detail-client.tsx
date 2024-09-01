@@ -4,6 +4,7 @@ import { ItemFullInfo } from '@/types';
 import { Clock3Icon, GlobeIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from './ui/button';
+import { getLocaleDate } from '@/lib/utils';
 
 export default function ItemDetailClient({ item }: { item: ItemFullInfo }) {
   // console.log('ItemDetailClient, item:', item);
@@ -13,11 +14,7 @@ export default function ItemDetailClient({ item }: { item: ItemFullInfo }) {
   }
 
   const publishDate = item.publishDate || item._createdAt;
-  const date = new Date(publishDate).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+  const date = getLocaleDate(publishDate);
 
   return (
     <>

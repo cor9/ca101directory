@@ -1,15 +1,13 @@
 import BlogCategoryList from "@/components/blog/blog-category";
 import { CustomMdx } from "@/components/custom-mdx";
+import BackButton from "@/components/shared/back-button";
 import Container from "@/components/shared/container";
-import { buttonVariants } from "@/components/ui/button";
 import { urlForImage } from "@/lib/image";
 import { portableTextToMarkdown } from "@/lib/mdx";
-import { cn } from "@/lib/utils";
+import { getLocaleDate } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { singlequery } from "@/sanity/lib/queries";
-import { ArrowLeftIcon } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 interface PostPageProps {
@@ -35,17 +33,11 @@ export default async function PostPage({ params }: PostPageProps) {
     }
 
     // console.log("PostPage, post", post);
-
     const imageProps = post?.image
         ? urlForImage(post?.image)
         : null;
-
     const publishDate = post.publishDate || post._createdAt;
-    const date = new Date(publishDate).toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-    });
+    const date = getLocaleDate(publishDate);
 
     const markdownContent = portableTextToMarkdown(post.body);
     // console.log("markdownContent", markdownContent);
@@ -121,17 +113,9 @@ export default async function PostPage({ params }: PostPageProps) {
                         {markdownContent && <CustomMdx source={markdownContent} /> }
                     </article>
 
-                    {/* back to all posts button */}
-                    {/* TODO: back to last page? add animations */}
+                    {/* back button */}
                     <div className="my-16 flex justify-center">
-                        <Link href="/blog"
-                            className={cn(
-                                buttonVariants({ variant: "outline", size: "lg" }),
-                                "flex items-center gap-2"
-                            )}>
-                            <ArrowLeftIcon className="w-5 h-5" />
-                            Back to all posts
-                        </Link>
+                        <BackButton />
                     </div>
                 </div>
             </Container>

@@ -5,23 +5,22 @@ import { siteConfig } from "@/config/site";
 import { Metadata } from "next";
 import createImageUrlBuilder from "@sanity/image-url";
 import { dataset, projectId } from "@/sanity/lib/api";
-import { getSlug } from "speakingurl";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 /**
- * slugify: https://www.npmjs.com/package/speakingurl
+ * slugify
  */
 export function slugify(str: string): string {
-  return getSlug(str, {
-    lang: 'en',
-    separator: '-',
-    maintainCase: false,
-    titleCase: false,
-    truncate: 100,
-  });
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')  // Remove non-word chars (except spaces and dashes)
+    .replace(/[\s_-]+/g, '-')  // Replace spaces and underscores with a single dash
+    .replace(/^-+|-+$/g, '')   // Remove leading/trailing dashes
+    .slice(0, 100);
 }
 
 /**

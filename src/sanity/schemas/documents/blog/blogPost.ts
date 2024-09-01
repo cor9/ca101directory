@@ -28,10 +28,9 @@ export default defineType({
         defineField({
             name: "excerpt",
             title: "Excerpt",
-            description: "The excerpt is used in blog feeds, and also for search results",
+            description: "The excerpt is used in blog feeds",
             type: "text",
-            rows: 3,
-            validation: rule => rule.max(200)
+            rows: 3
         }),
         defineField({
             name: "featured",

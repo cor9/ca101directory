@@ -28,7 +28,8 @@ export default defineType({
         defineField({
             name: "description",
             title: "Description",
-            type: "string",
+            type: "text",
+            rows: 3,
         }),
         defineField({
             name: "priority",

@@ -28,7 +28,8 @@ export default defineType({
     defineField({
       name: "description",
       title: "Description",
-      type: "string",
+      type: "text",
+      rows: 3,
     }),
   ],
   preview: {
@@ -44,11 +45,11 @@ export default defineType({
       };
     },
   },
-	orderings: [
-		{
-			title: 'name',
-			name: 'name',
-			by: [{ field: 'name', direction: 'asc' }],
-		},
-	],
+  orderings: [
+    {
+      title: 'name',
+      name: 'name',
+      by: [{ field: 'name', direction: 'asc' }],
+    },
+  ],
 });

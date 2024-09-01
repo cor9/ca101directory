@@ -28,7 +28,8 @@ export default defineType({
     defineField({
       name: "description",
       title: "Description",
-      type: "string",
+      type: "text",
+      rows: 3,
     }),
     defineField({
       name: "link",
@@ -64,10 +65,16 @@ export default defineType({
       to: [{ type: "user" }],
     }),
     defineField({
+      name: "content",
+      title: "Content",
+      type: "markdown",
+      description: "This content will be displayed on the detail page of the item.",
+    }),
+    defineField({
       name: "mdContent",
       title: "Markdown Content",
       type: "markdown",
-      description: "",
+      description: "This content will be displayed on the detail page of the item.",
     }),
     defineField({
       name: "image",

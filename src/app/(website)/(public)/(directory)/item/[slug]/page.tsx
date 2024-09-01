@@ -12,10 +12,9 @@ interface ItemPageProps {
 };
 
 export default async function ItemPage({ params }: ItemPageProps) {
-  const slug = params.slug;
   const item = await sanityFetch<ItemFullInfo>({
     query: itemQuery,
-    params: { slug }
+    params: { slug: params.slug }
   });
   if (!item) {
     console.error("ItemPage, item not found");

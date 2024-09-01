@@ -13,6 +13,7 @@ import category from "./schemas/documents/directory/category";
 import item from "./schemas/documents/directory/item";
 import tag from "./schemas/documents/directory/tag";
 import settings from "./schemas/documents/settings";
+import page from "./schemas/documents/page/page";
 
 const singletonTypes: DocumentDefinition[] = [settings];
 
@@ -50,6 +51,27 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
 
         S.divider(),
 
+        // group the blog management
+        // S.listItem().title('Blog management')
+        //   .icon(DocumentsIcon)
+        //   .child(
+        //     S.list()
+        //       .title('Blog management')
+        //       .items([
+        //         S.documentTypeListItem(blogPost.name),
+        //         S.documentTypeListItem(blogCategory.name),
+        //       ]),
+        //   ),
+
+        S.documentTypeListItem(blogPost.name),
+        S.documentTypeListItem(blogCategory.name),
+
+        S.divider(),
+
+        S.documentTypeListItem(page.name),
+
+        S.divider(),
+
         // group the user management
         S.listItem().title('User management')
           .icon(UsersIcon)
@@ -69,23 +91,6 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
         // S.documentTypeListItem(session.name),
         // S.documentTypeListItem(verificationToken.name),
         // S.documentTypeListItem(passwordResetToken.name),
-
-        S.divider(),
-
-        // group the blog management
-        // S.listItem().title('Blog management')
-        //   .icon(DocumentsIcon)
-        //   .child(
-        //     S.list()
-        //       .title('Blog management')
-        //       .items([
-        //         S.documentTypeListItem(blogPost.name),
-        //         S.documentTypeListItem(blogCategory.name),
-        //       ]),
-        //   ),
-
-        S.documentTypeListItem(blogPost.name),
-        S.documentTypeListItem(blogCategory.name),
 
         S.divider(),
 

@@ -1,5 +1,3 @@
-// import IframePreview from "@/sanity/previews/iframe";
-// import TablePreview from "@/sanity/previews/table";
 import { BlockContentIcon } from "@sanity/icons";
 import { defineType } from "sanity";
 
@@ -22,6 +20,8 @@ export default defineType({
                 { title: "H2", value: "h2" },
                 { title: "H3", value: "h3" },
                 { title: "H4", value: "h4" },
+                { title: "H5", value: "h5" },
+                { title: "H6", value: "h6" },
                 { title: "Quote", value: "blockquote" }
             ],
             lists: [
@@ -51,7 +51,9 @@ export default defineType({
                                 type: "reference",
                                 title: "Reference",
                                 to: [
-                                    { type: "blogPost" }
+                                    { type: "blogPost" },
+                                    { type: "item" },
+                                    { type: "page" }
                                     // other types you may want to link to
                                 ]
                             }
@@ -84,51 +86,5 @@ export default defineType({
         {
             type: "code"
         },
-
-        // {
-        //     type: "object",
-        //     name: "embed",
-        //     title: "Embed",
-        //     fields: [
-        //         {
-        //             name: "url",
-        //             type: "url",
-        //             description:
-        //                 "Enter the URL to Embed \r\n(eg: https://youtube.com/embed/xxx or https://open.spotify.com/embed/track/xxxx)"
-        //         },
-        //         {
-        //             name: "height",
-        //             type: "number",
-        //             description:
-        //                 "Enter Required Height for this Embed. Leave it blank for 16:9 ratio."
-        //         }
-        //     ],
-        //     components: {
-        //         preview: IframePreview
-        //     },
-        //     preview: {
-        //         select: { url: "url", height: "height" }
-        //     }
-        // },
-        // {
-        //     name: "tables",
-        //     title: "Table",
-        //     type: "object",
-        //     fields: [
-        //         {
-        //             name: "table",
-        //             title: "Add Table",
-        //             description:
-        //                 "The first row will be treated as the header. If you want to skip, just leave the first row empty.",
-        //             type: "table"
-        //         }
-        //     ],
-        //     components: {
-        //         preview: TablePreview
-        //     },
-        //     preview: {
-        //         select: { table: "table" }
-        //     }
-        // }
     ]
 });

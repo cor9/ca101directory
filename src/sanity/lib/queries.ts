@@ -72,6 +72,21 @@ export const tagQuery = defineQuery(`*[_type == "tag" && slug.current == $slug][
   ${tagFields}
 }`);
 
+// Page Queries
+export const pageQuery = defineQuery(`
+  *[_type == "page" && slug.current == $slug][0] {
+    ...,
+    body[]{
+      ...,
+      markDefs[]{
+        ...,
+        _type == "internalLink" => {
+          "slug": @.reference->slug
+        }
+      }
+    },
+  }
+`);
 
 // Blog Queries
 // Get all posts

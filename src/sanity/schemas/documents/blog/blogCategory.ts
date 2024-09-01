@@ -76,10 +76,11 @@ export default defineType({
             name: "name",
             priority: "priority",
             date: "_createdAt",
+            color: "color",
         },
-        prepare({ name, priority, date }) {
+        prepare({ name, priority, date, color }) {
             const title = `${priority} - ${name}`
-            const subtitle = format(parseISO(date), "yyyy/MM/dd");
+            const subtitle = `${color} - ${format(parseISO(date), "yyyy/MM/dd")}`;
             return {
                 title,
                 subtitle

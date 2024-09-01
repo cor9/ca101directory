@@ -92,7 +92,7 @@ export default defineType({
           type: "string",
           title: "Alternative Text",
           description: "Important for SEO and accessiblity.",
-          initialValue: () => "Screenshot Image",
+          initialValue: () => "Product Image",
           // TODO: add initial value from name or optimize accessibility in frontend
         },
       ],

@@ -25,19 +25,19 @@ export default async function CustomPage({ params }: CustomPageProps) {
   // console.log("markdownContent", markdownContent);
 
   return (
-    <Container>
-      <article className="py-6 lg:py-12">
-        <div className="space-y-4">
-          <h1 className="inline-block font-heading text-4xl lg:text-5xl">
-            {page.title}
-          </h1>
-          {page.excerpt && (
-            <p className="text-xl text-muted-foreground">
-              {page.excerpt}
-            </p>
-          )}
-        </div>
-        <hr className="my-4" />
+    <Container className="max-w-screen-lg mt-8 pb-16">
+      <div className="flex flex-col items-center justify-center">
+        <h1 className="inline-block text-2xl font-bold">
+          {page.title}
+        </h1>
+        {page.excerpt && (
+          <p className="mt-4 text-lg text-muted-foreground">
+            {page.excerpt}
+          </p>
+        )}
+      </div>
+      <hr className="my-4" />
+      <article className="">
         {markdownContent &&
           <CustomMdx source={markdownContent} />
         }

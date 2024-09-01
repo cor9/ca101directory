@@ -31,7 +31,6 @@ export default defineType({
         defineField({
             name: "excerpt",
             title: "Excerpt",
-            description: "The excerpt is used in blog feeds",
             type: "text",
             rows: 3
         }),

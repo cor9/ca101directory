@@ -80,9 +80,19 @@ export default defineType({
 
         {
             type: "image",
-            options: { hotspot: true }
+            options: { 
+                hotspot: true 
+            },
+            fields: [
+                {
+                    name: "alt",
+                    type: "string",
+                    title: "Alternative Text",
+                    description: "Important for SEO and accessiblity.",
+                    initialValue: () => "Image",
+                },
+            ],
         },
-        
         {
             type: "code"
         },

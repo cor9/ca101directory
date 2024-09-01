@@ -7,7 +7,7 @@ interface BlogCategoryListProps {
 export default function BlogCategoryList({
   categories
 }: BlogCategoryListProps) {
-  console.log("BlogCategoryList, categories", categories);
+  // console.log("BlogCategoryList, categories", categories);
 
   return (
     <div className="flex gap-4">

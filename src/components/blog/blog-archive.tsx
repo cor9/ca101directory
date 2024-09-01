@@ -29,7 +29,7 @@ export default async function BlogArchive({ searchParams }) {
     }
   )
   console.log("BlogArchive, posts size", posts ? posts.length : 0);
-  console.log("BlogArchive, posts", posts);
+  // console.log("BlogArchive, posts", posts);
 
   // Check if the current page is the first or the last
   const isFirstPage = pageIndex < 2;

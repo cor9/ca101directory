@@ -21,6 +21,7 @@ interface MdxProps {
  */
 export function CustomMdx({ source, components }: MdxProps) {
     if (!source) {
+        console.error("CustomMdx, source is empty");
         return <ErrorComponent error={new Error("Sorry, the content could not found")} />;
     }
 
@@ -45,8 +46,10 @@ export function CustomMdx({ source, components }: MdxProps) {
 const ErrorComponent = ({ error }: { error: Error }) => {
     return (
         <div className="flex flex-col items-start justify-start">
-            <h3 className="text-xl font-bold">Oops! Something went wrong</h3>
-            <p className="text-base mt-4 text-muted-foreground">
+            <h3 className="text-xl font-bold">
+                Oops! Something went wrong
+            </h3>
+            <p className="mt-4 text-muted-foreground">
                 {error.message}
             </p>
         </div>

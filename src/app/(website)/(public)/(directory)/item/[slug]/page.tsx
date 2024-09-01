@@ -5,6 +5,7 @@ import { itemQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
 import { notFound } from "next/navigation";
 import { CustomMdx } from "@/components/custom-mdx";
+import { cn } from "@/lib/utils";
 
 interface ItemPageProps {
   params: { slug: string };
@@ -47,7 +48,8 @@ export default async function ItemPage({ params }: ItemPageProps) {
 
             <article className="mt-4">
               {item.introduction &&
-                <CustomMdx source={item.introduction} />
+                <CustomMdx source={item.introduction}
+                  components={markdownComponents} />
               }
             </article>
 
@@ -64,3 +66,38 @@ export default async function ItemPage({ params }: ItemPageProps) {
     </>
   );
 }
+
+/**
+ * submitters may use h1, h2, h3 to define the heading of introduction section,
+ * but we use h4, h5, h6 to define the heading of introduction section,
+ * so we need to map h1, h2, h3 to h4, h5, h6
+ */
+const markdownComponents = {
+  h1: ({ className, ...props }) => (
+    <h4
+      className={cn(
+        "mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
+        className,
+      )}
+      {...props}
+    />
+  ),
+  h2: ({ className, ...props }) => (
+    <h5
+      className={cn(
+        "mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
+        className,
+      )}
+      {...props}
+    />
+  ),
+  h3: ({ className, ...props }) => (
+    <h6
+      className={cn(
+        "mt-8 scroll-m-20 text-base font-semibold tracking-tight",
+        className,
+      )}
+      {...props}
+    />
+  ),
+};

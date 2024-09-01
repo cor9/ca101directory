@@ -29,7 +29,7 @@ export function CustomMdx({ source, components }: MdxProps) {
             source={source}
             options={options}
             components={{
-                ...marddownComponents,
+                ...markdownComponents,
                 ...customComponents,
                 ...(components || {})
             }}
@@ -140,7 +140,7 @@ const options: MDXRemoteOptions = {
 /**
  * common markdown components
  */
-const marddownComponents = {
+const markdownComponents = {
     h1: ({ className, ...props }) => (
         <h1
             className={cn(

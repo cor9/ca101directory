@@ -27,7 +27,12 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 // https://github.com/RIP21/react-simplemde-editor
-import { SimpleMdeReact } from "react-simplemde-editor";
+// if directly import, frontend error: document is not defined
+// import { SimpleMdeReact } from "react-simplemde-editor";
+// but if dynamic import, no error reported
+import dynamic from 'next/dynamic';
+const SimpleMdeReact = dynamic(() => import('react-simplemde-editor'), { ssr: false });
+
 // if import SimpleMDE from react-simplemde-editor, SimpleMDE.Options can't be found
 // import SimpleMDE from "react-simplemde-editor";
 // but import type SimpleMDE from "easymde" is ok
@@ -48,8 +53,6 @@ interface SubmitItemFormProps {
  * 2. React Hook Form
  * https://react-hook-form.com/get-started
  * https://nextjs.org/learn/dashboard-app/mutating-data
- * 
- * 3. TODO: fix issue: Error: document is not defined
  */
 export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const router = useRouter();

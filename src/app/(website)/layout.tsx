@@ -30,9 +30,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
           "min-h-screen bg-background antialiased",
           // fontSourceSans.className,
           // fontSourceCode.className,
-          // fontSourceSerif.className,
+          fontSourceSerif.className,
 
-          GeistSans.className,
+          // GeistSans.className,
           // GeistMono.className,
           GeistSans.variable,
           GeistMono.variable,

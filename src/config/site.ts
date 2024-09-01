@@ -32,25 +32,27 @@ export const footerLinks: NestedNavItem[] = [
     items: [
       { title: "Submit", href: "/submit" },
       { title: "Pricing", href: "/pricing" },
+      { title: "Blog", href: "/blog" },
       { title: "FAQ", href: "/pricing#faq" },
-      { title: "Documentation", href: "/docs" },
     ],
   },
   {
     title: "Company",
     items: [
-      { title: "Blog", href: "/blog" },
+      // TODO: add icons here, put this column as the last column
       { title: "Twitter", href: "https://twitter.com/mkdirs" },
       { title: "Github", href: "https://github.com/mkdirs" },
       { title: "Discord", href: "https://discord.gg/mkdirs" },
     ],
   },
   {
-    title: "Legal",
+    // title: "Legal",
+    title: "General",
     items: [
+      { title: "Changelog", href: "/changelog" },
+      { title: "Sitemap", href: "/sitemap" },
       { title: "Terms", href: "/terms" },
       { title: "Privacy", href: "/privacy" },
-      { title: "Sitemap", href: "/sitemap" },
     ],
   },
 ];

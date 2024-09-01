@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, urlForImageWithSize } from "@/lib/utils";
+import { cn, getDate, urlForImageWithSize } from "@/lib/utils";
 import { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,12 +12,7 @@ type ItemCardProps = {
 export default function ItemCard({ item }: ItemCardProps) {
   const imageUrl = urlForImageWithSize(item.image, 960, 540);
   const publishDate = item.publishDate || item._createdAt;
-  const date = new Date(publishDate).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-  // const date = format(parseISO(item.publishDate), "yyyy/MM/dd");
+  const date = getDate(publishDate);
 
   return (
     <Link

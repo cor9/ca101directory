@@ -24,6 +24,18 @@ export function slugify(str: string): string {
 }
 
 /**
+ * get Date
+ */
+export function getDate(date: string | number): string {
+  const dateObj = new Date(date);
+  return dateObj.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+/**
  * build url for search or filter list item
  */
 export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyURLSearchParams) => {

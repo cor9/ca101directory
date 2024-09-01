@@ -1,17 +1,20 @@
-import { Suspense } from "react";
-import Archive from "@/components/blog/blog-archive";
+import BlogGrid from "@/components/blog/blog-list";
 import Container from "@/components/shared/container";
-import Loading from "../loading";
 import { HeaderSection } from "@/components/shared/header-section";
+import { getBlogs } from "@/data/blog";
+import { POSTS_PER_PAGE } from "@/lib/constants";
 
-export default async function ArchivePage({
+export default async function BlogListPage({
   searchParams
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { page } = searchParams as { [key: string]: string };
-  const pageIndex = parseInt(page, 10) || 1;
-  console.log("ArchivePage, page", pageIndex);
+  console.log('BlogListPage, searchParams', searchParams);
+  const { category, page } = searchParams as { [key: string]: string };
+  const currentPage = page ? Number(page) : 1;
+  const { posts, totalCount } = await getBlogs({ category, currentPage });
+  const totalPages = Math.ceil(totalCount / POSTS_PER_PAGE);
+  console.log('BlogListPage, totalCount', totalCount, ", totalPages", totalPages);
 
   return (
     <>
@@ -21,11 +24,8 @@ export default async function ArchivePage({
           title="Blog"
           subtitle="See all posts we have ever written." />
 
-        {/* TODO: add loading */}
-        <Suspense fallback={<Loading />}
-          key={pageIndex}>
-          <Archive searchParams={searchParams} />
-        </Suspense>
+        {/* blog grid */}
+        <BlogGrid posts={posts} totalPages={totalPages} />
       </Container>
     </>
   );

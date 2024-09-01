@@ -89,6 +89,18 @@ export const pageQuery = defineQuery(`
 `);
 
 // Blog Queries
+const blogFields = /* groq */ `
+  ...,
+  author->,
+  categories[]->
+`;
+
+export const blogListQuery = defineQuery(`
+  *[_type == "blogPost" && defined(slug.current) && defined(publishDate)] 
+  | order(publishDate desc) {
+  ${blogFields}
+}`);
+
 // Get all posts
 export const postquery = groq`
 *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) {
@@ -113,6 +125,7 @@ export const postquery = groq`
   categories[]->,
 }
 `;
+
 // Get all posts with 0..limit
 export const limitquery = groq`
 *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) [0..$limit] {
@@ -121,6 +134,7 @@ export const limitquery = groq`
   categories[]->
 }
 `;
+
 // [(($pageIndex - 1) * 10)...$pageIndex * 10]{
 // Get subsequent paginated posts
 // export const paginatedquery = groq`

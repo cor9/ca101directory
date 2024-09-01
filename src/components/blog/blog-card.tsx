@@ -1,29 +1,22 @@
 import BlogCategoryList from "@/components/blog/blog-category";
 import { urlForImage } from "@/lib/image";
-import { cn } from "@/lib/utils";
-import { PaginatedqueryResult } from "@/sanity.types";
+import { cn, getDate } from "@/lib/utils";
+import { PostInfo } from "@/types";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export type Post = PaginatedqueryResult[number];
+type BlogCardProps = {
+  post: PostInfo;
+};
 
-export default function PostList({
-  post
-}: {
-  post: Post;
-}) {
+export default function BlogCard({ post }: BlogCardProps) {
   const imageProps = post?.image
     ? urlForImage(post.image)
     : null;
   // const imageProps = null; // for testing
-
   const publishDate = post.publishDate || post._createdAt;
-  const date = new Date(publishDate).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+  const date = getDate(publishDate);
 
   return (
     <>
@@ -31,7 +24,8 @@ export default function PostList({
         className="group cursor-pointer">
         {/* bg-muted is used when imageProps is null */}
         <div
-          className={cn("overflow-hidden rounded-md bg-muted",
+          className={cn(
+            "overflow-hidden rounded-md bg-muted",
             "transition-all hover:scale-105"
           )}>
           <Link
@@ -54,8 +48,10 @@ export default function PostList({
               />
             ) : (
               // show image icon when no image is found
-              <span className="absolute w-16 h-16 left-1/2 top-1/2 
-                -translate-x-1/2 -translate-y-1/2 text-muted-foreground">
+              <span className={cn(
+                "absolute w-16 h-16 text-muted-foreground",
+                "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              )}>
                 <ImageIcon className="w-16 h-16" />
               </span>
             )}
@@ -69,10 +65,10 @@ export default function PostList({
             <BlogCategoryList categories={post.categories} />
 
             {/* post title */}
-            <h2
-              className={cn("mt-4 text-lg line-clamp-2 font-medium",
-                "tracking-normal"
-              )}>
+            <h2 className={cn(
+              "mt-4 text-lg line-clamp-2 font-medium",
+              "tracking-normal"
+            )}>
               <Link
                 href={`/blog/${post.slug.current}`}>
                 <span
@@ -88,7 +84,7 @@ export default function PostList({
               </Link>
             </h2>
 
-            {/* post excerpt */}
+            {/* post excerpt, hidden for now */}
             <div className="hidden">
               {post.excerpt && (
                 <p className="mt-2 line-clamp-3 text-sm text-gray-500 dark:text-gray-400">

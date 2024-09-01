@@ -14,7 +14,7 @@ export default async function SearchPage({
   const currentPage = page ? Number(page) : 1;
   const { items, totalCount } = await getItems({ category, tag, sortKey, reverse, query, currentPage });
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-  console.log('HomePage, totalCount', totalCount, ", totalPages", totalPages);
+  console.log('SearchPage, totalCount', totalCount, ", totalPages", totalPages);
   // console.log('SearchPage, items', items);
 
   return (

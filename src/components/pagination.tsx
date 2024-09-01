@@ -11,7 +11,12 @@ import {
 } from "@/components/ui/pagination";
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function CustomPagination({ totalPages }: { totalPages: number }) {
+type CustomPaginationProps = {
+  totalPages: number;
+  routePreix: string;
+};
+
+export default function CustomPagination({ totalPages, routePreix }: CustomPaginationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
@@ -19,7 +24,7 @@ export default function CustomPagination({ totalPages }: { totalPages: number })
   const handlePageChange = (page: number | string) => {
     const params = new URLSearchParams(searchParams);
     params.set('page', page.toString());
-    router.push(`/?${params.toString()}`); // 使用 router.push 进行导航
+    router.push(`${routePreix}?${params.toString()}`);
   };
 
   const allPages = generatePagination(currentPage, totalPages);

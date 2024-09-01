@@ -161,6 +161,7 @@ export type BlockContent = Array<{
   };
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
+  alt?: string;
   _type: "image";
   _key: string;
 } | ({
@@ -766,12 +767,58 @@ export type PageQueryResult = {
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt?: string;
     _type: "image";
     _key: string;
     markDefs: null;
   }> | null;
   publishDate?: string;
 } | null;
+// Variable: blogListQuery
+// Query: *[_type == "blogPost" && defined(slug.current) && defined(publishDate)]   | order(publishDate desc) {    ...,  categories[]->{    ...,  },}
+export type BlogListQueryResult = Array<{
+  _id: string;
+  _type: "blogPost";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  excerpt?: string;
+  featured?: boolean;
+  categories: Array<{
+    _id: string;
+    _type: "blogCategory";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+    priority?: number;
+    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
+  }> | null;
+  author?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  };
+  body?: BlockContent;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  publishDate?: string;
+}>;
 // Variable: postquery
 // Query: *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) {  _id,  _createdAt,  publishedDate,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "ImageColor": asset->metadata.palette.dominant.background,  },  featured,  excerpt,  slug,  title,  author-> {    _id,    image,    "slug": name, // use name as slug    name  },  categories[]->,}
 export type PostqueryResult = Array<{
@@ -1040,6 +1087,7 @@ export type SinglequeryResult = {
     };
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
+    alt?: string;
     _type: "image";
     _key: string;
     markDefs: null;
@@ -1549,6 +1597,7 @@ declare module "@sanity/client" {
     "*[_type == \"tag\" && defined(slug.current)] \n  | order(slug.current asc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": TagListQueryResult;
     "*[_type == \"tag\" && slug.current == $slug][0] {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": TagQueryResult;
     "\n  *[_type == \"page\" && slug.current == $slug][0] {\n    ...,\n    body[]{\n      ...,\n      markDefs[]{\n        ...,\n        _type == \"internalLink\" => {\n          \"slug\": @.reference->slug\n        }\n      }\n    },\n  }\n": PageQueryResult;
+    "\n  *[_type == \"blogPost\" && defined(slug.current) && defined(publishDate)] \n  | order(publishDate desc) {\n  \n  ...,\n  categories[]->{\n    ...,\n  },\n\n}": BlogListQueryResult;
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) {\n  _id,\n  _createdAt,\n  publishedDate,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"ImageColor\": asset->metadata.palette.dominant.background,\n  },\n  featured,\n  excerpt,\n  slug,\n  title,\n  author-> {\n    _id,\n    image,\n    \"slug\": name, // use name as slug\n    name\n  },\n  categories[]->,\n}\n": PostqueryResult;
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) [0..$limit] {\n  ...,\n  author->,\n  categories[]->\n}\n": LimitqueryResult;
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) [$pageIndex...$limit] {\n  ...,\n  author->,\n  categories[]->\n}\n": PaginatedqueryResult;

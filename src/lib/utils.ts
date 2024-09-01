@@ -5,9 +5,23 @@ import { siteConfig } from "@/config/site";
 import { Metadata } from "next";
 import createImageUrlBuilder from "@sanity/image-url";
 import { dataset, projectId } from "@/sanity/lib/api";
+import { getSlug } from "speakingurl";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+/**
+ * slugify: https://www.npmjs.com/package/speakingurl
+ */
+export function slugify(str: string): string {
+  return getSlug(str, {
+    lang: 'en',
+    separator: '-',
+    maintainCase: false,
+    titleCase: false,
+    truncate: 100,
+  });
 }
 
 /**
@@ -17,42 +31,6 @@ export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyUR
   const paramsString = params.toString();
   const queryString = `${paramsString.length ? '?' : ''}${paramsString}`;
   return `${pathname}${queryString}`;
-};
-
-/**
- * Generate an array of page numbers to display in the pagination component
- */
-export const generatePagination = (currentPage: number, totalPages: number) => {
-  // If the total number of pages is 7 or less,
-  // display all pages without any ellipsis.
-  if (totalPages <= 7) {
-    return Array.from({ length: totalPages }, (_, i) => i + 1);
-  }
-
-  // If the current page is among the first 3 pages,
-  // show the first 3, an ellipsis, and the last 2 pages.
-  if (currentPage <= 3) {
-    return [1, 2, 3, '...', totalPages - 1, totalPages];
-  }
-
-  // If the current page is among the last 3 pages,
-  // show the first 2, an ellipsis, and the last 3 pages.
-  if (currentPage >= totalPages - 2) {
-    return [1, 2, '...', totalPages - 2, totalPages - 1, totalPages];
-  }
-
-  // If the current page is somewhere in the middle,
-  // show the first page, an ellipsis, the current page and its neighbors,
-  // another ellipsis, and the last page.
-  return [
-    1,
-    '...',
-    currentPage - 1,
-    currentPage,
-    currentPage + 1,
-    '...',
-    totalPages,
-  ];
 };
 
 /**
@@ -272,80 +250,6 @@ export const truncate = (str: string, length: number) => {
 export function nl2br(str?: string) {
   if (!str) return '';
   return str.split('\n').join('<br>');
-}
-
-export function slug(str: string) {
-  return str
-    .toLowerCase()
-    .replace(/[\s\W]+/g, '-')
-    .replace(/^-+/, '')
-    .replace(/-+$/, '');
-}
-
-/**
- * slugify by ChatGPT
- */
-// export function slugify(input: string): string {
-//   let slug = input.trim().toLowerCase();
-
-//   const charMap: { [key: string]: string } = {
-//     'à': 'a', 'á': 'a', 'ä': 'a', 'â': 'a',
-//     'è': 'e', 'é': 'e', 'ë': 'e', 'ê': 'e',
-//     'ì': 'i', 'í': 'i', 'ï': 'i', 'î': 'i',
-//     'ò': 'o', 'ó': 'o', 'ö': 'o', 'ô': 'o',
-//     'ù': 'u', 'ú': 'u', 'ü': 'u', 'û': 'u',
-//     'ñ': 'n', 'ç': 'c',
-//     'ß': 'ss',
-//     'ÿ': 'y',
-//     'œ': 'oe', 'æ': 'ae',
-//     'ś': 's', 'ş': 's', 'š': 's', 'ș': 's',
-//     'ł': 'l',
-//     'ž': 'z', 'ź': 'z', 'ż': 'z',
-//     /* 'á': 'a', 'â': 'a', */ 'ă': 'a', 'å': 'a', 'ą': 'a',
-//     /* 'ç': 'c', */
-//     'ć': 'c',
-//     'č': 'c',
-//     'ď': 'd',
-//     'đ': 'd',
-//     'ē': 'e', 'ė': 'e', 'ę': 'e',
-//     'ğ': 'g',
-//     'ģ': 'g',
-//     'ī': 'i', 'į': 'i',
-//     'ķ': 'k',
-//     'ļ': 'l',
-//     'ń': 'n',
-//     'ņ': 'n', 'ň': 'n',
-//     'ō': 'o', 'ő': 'o', 'ø': 'o',
-//     'ŕ': 'r', 'ř': 'r',
-//     /* 'ś': 's', 'ş': 's', 'š': 's', */ 'ț': 't',
-//     'ŭ': 'u', 'ű': 'u', 'ų': 'u',
-//     'ŵ': 'w',
-//     'ŷ': 'y',
-//     /* 'ž': 'z', 'ź': 'z', 'ż': 'z' */
-//   };
-
-//   // replace all non-alphanumeric characters with the corresponding character from charMap
-//   slug = slug.replace(/[^A-Za-z0-9]/g, (char) => charMap[char] || char);
-
-//   // replace all non-alphanumeric characters with a dash
-//   slug = slug.replace(/[^a-z0-9]+/g, '-');
-
-//   // remove all dashes at the beginning and end
-//   slug = slug.replace(/^-+|-+$/g, '');
-
-//   return slug;
-// }
-
-// https://vercel.com/templates/next.js/portfolio-starter-kit
-export function slugify(str: string): string {
-  return str
-    .toString()
-    .toLowerCase()
-    .trim() // Remove whitespace from both ends of a string
-    .replace(/\s+/g, '-') // Replace spaces with -
-    .replace(/&/g, '-and-') // Replace & with 'and'
-    .replace(/[^\w\-]+/g, '') // Remove all non-word characters except for -
-    .replace(/\-\-+/g, '-') // Replace multiple - with single -
 }
 
 export const formatCurrency = (amount: number) => {

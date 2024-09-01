@@ -40,6 +40,33 @@ const documentNode: DefaultDocumentNodeResolver = (
 					}),
 			])
 
+		// support preview BlogPage in Sanity Studio
+		case 'blogPost':
+			return S.document().views([
+				editorView,
+				S.view
+					.component(Iframe)
+					.title('Preview')
+					.options({
+						url: (
+							doc: SanityDocument & {
+								slug?: { current: string }
+							},
+						) => {
+							const base = previewUrl;
+							const slug = doc?.slug?.current;
+							const path = slug === 'index' ? '' : slug;
+							const directory = 'blog';
+							const url = [base, directory, path].filter(Boolean).join('/');
+							console.log('preview, url:', url);
+							return url;
+						},
+						reload: {
+							button: true,
+						},
+					}),
+			])
+
 		default:
 			return S.document().views([editorView])
 	}

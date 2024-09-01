@@ -46,6 +46,8 @@ interface SubmitItemFormProps {
  * 2. React Hook Form
  * https://react-hook-form.com/get-started
  * https://nextjs.org/learn/dashboard-app/mutating-data
+ * 
+ * 3. TODO: fix issue: Error: document is not defined
  */
 export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const router = useRouter();
@@ -57,11 +59,17 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
     setValue("introduction", value);
   }, []);
   // https://github.com/Ionaru/easy-markdown-editor?tab=readme-ov-file#options-example
+  // dont't show upload-image button, images are uploaded in the image field
   const mdeOptions = useMemo(() => {
     return {
-      autofocus: true,
+      status: false,
+      autofocus: false,
       spellChecker: false,
       placeholder: 'Type here...',
+      toolbar: ["heading", "bold", "italic", "strikethrough",
+        "|", "code", "quote", "unordered-list", "ordered-list",
+        "|", "link", 
+        "|", "preview", "side-by-side"],
     } as SimpleMDE.Options;
   }, []);
 

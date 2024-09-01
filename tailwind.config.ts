@@ -56,16 +56,8 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        "geist-sans": ['var(--font-geist-sans)', ...fontFamily.sans],
-        "geist-mono": ['var(--font-geist-mono)', ...fontFamily.mono],
-        
-        // sans: ['var(--font-geist-sans)'],
-        // mono: ['var(--font-geist-mono)'],
-
-        // sans: ["var(--font-sans)", ...fontFamily.sans],
-        // urban: ["var(--font-urban)", ...fontFamily.sans],
-        // heading: ["var(--font-heading)", ...fontFamily.sans],
-        // geist: ["var(--font-geist)", ...fontFamily.sans],
+        // "sans": ['var(--font-geist-sans)', ...fontFamily.sans],
+        // "mono": ['var(--font-geist-mono)', ...fontFamily.mono],        
       },
       keyframes: {
         "accordion-down": {

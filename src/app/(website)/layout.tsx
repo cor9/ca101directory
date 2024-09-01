@@ -1,21 +1,13 @@
 import "@/styles/globals.css";
 
+import {
+  fontSourceSerif,
+} from "@/assets/fonts";
+import { TailwindIndicator } from "@/components/tailwind-indicator";
+import { Toaster } from "@/components/ui/sonner";
+import { cn } from "@/lib/utils";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
-import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/sonner";
-import { TailwindIndicator } from "@/components/tailwind-indicator";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-import {
-  fontGeist,
-  fontHeading,
-  fontSans,
-  fontUrban,
-  fontSourceSerif,
-  fontSourceCode,
-  fontSourceSans
-} from "@/assets/fonts";
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -28,19 +20,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body
         className={cn(
           "min-h-screen bg-background antialiased",
-          // fontSourceSans.className,
-          // fontSourceCode.className,
           fontSourceSerif.className,
-
-          // GeistSans.className,
-          // GeistMono.className,
-          GeistSans.variable,
-          GeistMono.variable,
-
-          // fontSans.variable,
-          // fontUrban.variable,
-          // fontHeading.variable,
-          // fontGeist.variable,
         )}
       >
         <SessionProvider>

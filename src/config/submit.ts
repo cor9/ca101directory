@@ -11,7 +11,7 @@ export const submitConfig: SubmitConfig = {
         linkPlaceHolder: "app website, example: https://mkdirs.com",
         submit: "Submit",
         submiting: "Submiting",
-        desc: "Desc",
+        desc: "Description",
         descPlaceHolder: "256 characters maximum, example: MkDirs is a directory website starter kit",
         types: "Type",
         tags: "Tag",

@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { submitConfig } from "@/config/submit";
 import { SubmitItemSchema } from "@/lib/schemas";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { sanityClient } from "@/sanity/lib/client";
@@ -27,7 +26,6 @@ import { useCallback, useMemo, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-// React SimpleMDE (EasyMDE) Markdown Editor
 // https://github.com/RIP21/react-simplemde-editor
 import type SimpleMDE from "easymde";
 import { SimpleMdeReact } from "react-simplemde-editor";
@@ -59,16 +57,16 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
     setValue("introduction", value);
   }, []);
   // https://github.com/Ionaru/easy-markdown-editor?tab=readme-ov-file#options-example
-  // dont't show upload-image button, images are uploaded in the image field
+  // dont't show image or upload-image button, images are uploaded in the image field of form
   const mdeOptions = useMemo(() => {
     return {
       status: false,
       autofocus: false,
       spellChecker: false,
-      placeholder: 'Type here...',
+      placeholder: 'Enter the introduction of your product (Markdown supported)',
       toolbar: ["heading", "bold", "italic", "strikethrough",
         "|", "code", "quote", "unordered-list", "ordered-list",
-        "|", "link", 
+        "|", "link",
         "|", "preview", "side-by-side"],
     } as SimpleMDE.Options;
   }, []);
@@ -132,10 +130,10 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
       if (status === "success") {
         confetti();
         reset();
-        toast.success(submitConfig.form.success);
+        toast.success("Submission successful");
         router.push(`/dashboard/`);
       } else {
-        toast.success(submitConfig.form.error);
+        toast.success("Something went wrong. Please try again.");
       }
     });
   });
@@ -187,31 +185,16 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
         <CardContent>
           <div className="grid gap-6">
 
-            <SimpleMdeReact
-              options={mdeOptions}
-              value={introduction}
-              onChange={onEditorValueChange}
-            />
-            {/* Hidden input to register introduction */}
-            <input type="hidden" id="introduction" {...register("introduction")} />
-            {errors?.introduction && (
-              <div className="flex gap-4 items-center">
-                <Label className="min-w-[100px]" htmlFor="error_introduction">
-                </Label>
-                <p className="px-1 text-xs text-red-600">{errors.introduction.message}</p>
-              </div>
-            )}
-
             <div className="flex gap-4 items-center">
               <Label className="min-w-[100px]" htmlFor="name">
-                {submitConfig.form.name}
+                Name
               </Label>
               <div className="w-full flex flex-col">
                 <Input
                   id="name"
                   className="w-full"
                   autoComplete="off"
-                  placeholder={submitConfig.form.namePlaceHolder}
+                  placeholder="Enter the name of your product"
                   {...register("name")}
                 />
               </div>
@@ -225,8 +208,52 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
             )}
 
             <div className="flex gap-4 items-center">
+              <Label className="min-w-[100px]" htmlFor="link">
+                Link
+              </Label>
+              <div className="w-full flex flex-col">
+                <Input
+                  id="link"
+                  className="w-full"
+                  autoComplete="off"
+                  placeholder="Enter the link to your product"
+                  {...register("link")}
+                />
+              </div>
+            </div>
+            {errors?.link && (
+              <div className="flex gap-4 items-center">
+                <Label className="min-w-[100px]" htmlFor="error_link">
+                </Label>
+                <p className="px-1 text-xs text-red-600">{errors.link.message}</p>
+              </div>
+            )}
+
+            <div className="flex gap-4 items-center">
+              <Label className="min-w-[100px]" htmlFor="description">
+                Description
+              </Label>
+              <div className="w-full flex flex-col">
+                <Textarea
+                  id="description"
+                  className="w-full"
+                  autoComplete="off"
+                  placeholder="Enter a brief description of your product"
+                  {...register("description")}
+                />
+              </div>
+            </div>
+            {errors?.description && (
+              <div className="flex gap-4 items-center">
+                <Label className="min-w-[100px]" htmlFor="error_description">
+                </Label>
+                <p className="px-1 text-xs text-red-600">{errors.description.message}</p>
+              </div>
+            )}
+
+            <div className="flex gap-4 items-center">
               <Label className="min-w-[100px]" htmlFor="name">
-                {submitConfig.form.categories}
+                Categories
               </Label>
               <div className="w-full flex flex-wrap items-center gap-4">
                 <ToggleGroup type="multiple" variant="outline" size={"sm"}
@@ -255,7 +282,7 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
 
             <div className="flex gap-4 items-center">
               <Label className="min-w-[100px]" htmlFor="name">
-                {submitConfig.form.tags}
+                Tags
               </Label>
               <div className="w-full flex flex-wrap items-center gap-4">
                 <ToggleGroup type="multiple" variant="outline" size={"sm"}
@@ -283,52 +310,30 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
             )}
 
             <div className="flex gap-4 items-center">
-              <Label className="min-w-[100px]" htmlFor="link">
-                {submitConfig.form.link}
+              <Label className="min-w-[100px]" htmlFor="introduction">
+                Introduction
               </Label>
               <div className="w-full flex flex-col">
-                <Input
-                  id="link"
-                  className="w-full"
-                  autoComplete="off"
-                  placeholder={submitConfig.form.linkPlaceHolder}
-                  {...register("link")}
+                <SimpleMdeReact
+                  options={mdeOptions}
+                  value={introduction}
+                  onChange={onEditorValueChange}
                 />
               </div>
             </div>
-            {errors?.link && (
+            {/* Hidden input to register introduction */}
+            <input type="hidden" id="introduction" {...register("introduction")} />
+            {errors?.introduction && (
               <div className="flex gap-4 items-center">
-                <Label className="min-w-[100px]" htmlFor="error_link">
+                <Label className="min-w-[100px]" htmlFor="error_introduction">
                 </Label>
-                <p className="px-1 text-xs text-red-600">{errors.link.message}</p>
-              </div>
-            )}
-
-            <div className="flex gap-4 items-center">
-              <Label className="min-w-[100px]" htmlFor="description">
-                {submitConfig.form.desc}
-              </Label>
-              <div className="w-full flex flex-col">
-                <Textarea
-                  id="description"
-                  className="w-full"
-                  autoComplete="off"
-                  placeholder={submitConfig.form.descPlaceHolder}
-                  {...register("description")}
-                />
-              </div>
-            </div>
-            {errors?.description && (
-              <div className="flex gap-4 items-center">
-                <Label className="min-w-[100px]" htmlFor="error_description">
-                </Label>
-                <p className="px-1 text-xs text-red-600">{errors.description.message}</p>
+                <p className="px-1 text-xs text-red-600">{errors.introduction.message}</p>
               </div>
             )}
 
             <div className="flex gap-4 items-center">
               <Label className="min-w-[100px]" htmlFor="imageFile">
-                {submitConfig.form.image}
+                Image
               </Label>
               <Input id="imageFile" type="file"
                 className="w-full"
@@ -367,14 +372,14 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
               {(isPending || isUploading) && (
                 <Icons.spinner className="mr-2 size-4 animate-spin" />
               )}
-              <span>{isPending ? submitConfig.form.submiting :
-                (isUploading ? submitConfig.form.imageUploading : submitConfig.form.submit)}
+              <span>{isPending ? "Submitting..." :
+                (isUploading ? "Uploading image..." : "Submit")}
               </span>
             </Button>
 
             <div className="text-sm text-primary dark:text-foreground flex items-center gap-2">
               <HourglassIcon className="size-4 inline-block" />
-              <span>{submitConfig.form.notice}</span>
+              <span>Your submission will be reviewed before being published.</span>
             </div>
           </div>
         </CardFooter>

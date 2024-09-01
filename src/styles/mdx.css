@@ -1,5 +1,4 @@
-/* for code blocks in mdx */
-
+/* for code blocks in mdx, works with rehype-pretty-code */
 code[data-theme*=" "],
 code[data-theme*=" "] span {
   color: var(--shiki-light);

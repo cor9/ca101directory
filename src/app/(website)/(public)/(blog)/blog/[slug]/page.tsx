@@ -109,7 +109,7 @@ export default async function PostPage({ params }: PostPageProps) {
                     </div>
 
                     {/* blog post content */}
-                    <article className="mt-4 mx-auto">
+                    <article className="mt-8 mx-auto">
                         {markdownContent && <CustomMdx source={markdownContent} /> }
                     </article>
 

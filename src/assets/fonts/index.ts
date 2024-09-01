@@ -8,7 +8,7 @@ import localFont from "next/font/local";
 // https://fonts.google.com/specimen/Source+Serif+4
 // https://gwfh.mranftl.com/fonts/source-serif-4?subsets=latin
 export const fontSourceSerif = localFont({
-  src: "./source-serif-4-v8-latin-regular.woff2",
+  src: "./source-serif-4-v8-latin-500.woff2",
   variable: "--font-source-serif",
 })
 

@@ -49,13 +49,13 @@ interface SubmitItemFormProps {
  */
 export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const router = useRouter();
-
+  const [isPending, startTransition] = useTransition();
+  const [imageUrl, setImageUrl] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [introduction, setIntroduction] = useState('');
-  const onEditorValueChange = useCallback((value: string) => {
-    resetField("introduction");
-    setIntroduction(value);
-    setValue("introduction", value);
-  }, []);
+
   // https://github.com/Ionaru/easy-markdown-editor?tab=readme-ov-file#options-example
   // dont't show image or upload-image button, images are uploaded in the image field of form
   const mdeOptions = useMemo(() => {
@@ -71,14 +71,11 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
     } as SimpleMDE.Options;
   }, []);
 
-  const [imageUrl, setImageUrl] = useState("");
-  const [isUploading, setIsUploading] = useState(false);
-  const [isPending, startTransition] = useTransition();
-
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  console.log("SubmitItemForm, selectedTags", selectedTags);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  console.log("SubmitItemForm, selectedCategories", selectedCategories);
+  const handleEditorChange = useCallback((value: string) => {
+    resetField("introduction");
+    setIntroduction(value);
+    setValue("introduction", value);
+  }, []);
 
   const handleTagChange = (tags) => {
     console.log("SubmitItemForm, handleTagChange, tags", tags);
@@ -95,12 +92,12 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   };
 
   const {
-    handleSubmit,
     register,
     setValue,
-    formState: { errors },
     reset,
-    resetField
+    resetField,
+    handleSubmit,
+    formState: { errors },
   } = useForm<SubmitItemFormData>({
     // when click submit button, or change the form data, validate the form data
     resolver: async (data, context, options) => {
@@ -120,7 +117,7 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   })
 
   // if form is valid, call submitItem action
-  const onSubmit = handleSubmit(data => {
+  const onSubmit = handleSubmit((data: SubmitItemFormData) => {
     console.log('SubmitItemForm, onSubmit, data:', data);
     startTransition(async () => {
       const { status } = await SubmitItem({
@@ -317,7 +314,7 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
                 <SimpleMdeReact
                   options={mdeOptions}
                   value={introduction}
-                  onChange={onEditorValueChange}
+                  onChange={handleEditorChange}
                 />
               </div>
             </div>
@@ -379,7 +376,9 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
 
             <div className="text-sm text-primary dark:text-foreground flex items-center gap-2">
               <HourglassIcon className="size-4 inline-block" />
-              <span>Your submission will be reviewed before being published.</span>
+              <span>
+                Your submission will be reviewed before being published.
+              </span>
             </div>
           </div>
         </CardFooter>

@@ -3,6 +3,12 @@ import { useMemo } from 'react';
 
 /**
  * https://www.sanity.io/plugins/sanity-plugin-markdown
+ * 
+ * 1. Customizing the default markdown input editor
+ * https://github.com/sanity-io/sanity-plugin-markdown?tab=readme-ov-file#customizing-the-default-markdown-input-editor
+ * 
+ * 2. Customizing editor preview
+ * https://github.com/sanity-io/sanity-plugin-markdown?tab=readme-ov-file#customizing-editor-preview
  */
 export function CustomMarkdownInput(props: MarkdownInputProps) {
     // @ts-ignore for warning caused by "upload-image" 

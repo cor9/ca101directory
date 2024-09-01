@@ -1,5 +1,6 @@
 import { ProjectsIcon } from "@sanity/icons";
 import { format, parseISO } from "date-fns";
+import { SanityImageAssetDocument } from "next-sanity";
 import { defineField, defineType } from "sanity";
 
 export default defineType({
@@ -69,6 +70,14 @@ export default defineType({
       title: "Introduction",
       type: "markdown",
       description: "This introduction will be displayed on the detail page of the item.",
+      // https://github.com/sanity-io/sanity-plugin-markdown?tab=readme-ov-file#custom-image-urls
+      // The function will be invoked whenever an image is pasted 
+      // or dragged into the markdown editor, after upload completes.
+      options: {
+        imageUrl: (imageAsset: SanityImageAssetDocument) => {
+          return `${imageAsset.url}?w=400&h=400`;
+        }
+      }
     }),
     defineField({
       name: "image",

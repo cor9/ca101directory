@@ -3,6 +3,7 @@ import { SubmitItemForm } from "./submit-form";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryListQuery, tagListQuery } from "@/sanity/lib/queries";
+import { Suspense } from "react";
 
 export default async function SubmitPage() {
   const [categoryList, tagList] = await Promise.all([
@@ -21,7 +22,9 @@ export default async function SubmitPage() {
         text="Submit your product to get listed."
       />
       <div className="divide-y divide-muted pb-10">
-        <SubmitItemForm tagList={tagList} categoryList={categoryList} />
+        <Suspense fallback={null}>
+          <SubmitItemForm tagList={tagList} categoryList={categoryList} />
+        </Suspense>
       </div>
     </>
   );

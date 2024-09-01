@@ -102,7 +102,6 @@
     "eslint": "^9.9.0",
     "eslint-config-next": "14.2.5",
     "html-loader": "^5.1.0",
-    "mdast-util-toc": "^7.1.0",
     "postcss": "^8.4.41",
     "rehype": "^13.0.1",
     "rehype-autolink-headings": "^7.1.0",

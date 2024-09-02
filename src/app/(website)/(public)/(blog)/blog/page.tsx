@@ -1,4 +1,4 @@
-import BlogGrid from "@/components/blog/blog-list";
+import BlogGrid from "@/components/blog/blog-grid";
 import Container from "@/components/shared/container";
 import { HeaderSection } from "@/components/shared/header-section";
 import { getBlogs } from "@/data/blog";

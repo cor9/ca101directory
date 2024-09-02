@@ -34,6 +34,7 @@ export default function BlogCard({ post }: BlogCardProps) {
               "aspect-square"
             )}
             href={`/blog/${post.slug.current}`}>
+            
             {imageProps ? (
               <Image
                 src={imageProps.src}

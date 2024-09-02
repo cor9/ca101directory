@@ -15,7 +15,7 @@ export function HeaderSection({ label, title, subtitle, className }: HeaderSecti
           {label}
         </div>
       ) : null}
-      <h2 className="font-heading text-3xl md:text-4xl">
+      <h2 className="font-serif text-3xl md:text-4xl">
         {title}
       </h2>
       {subtitle ? (

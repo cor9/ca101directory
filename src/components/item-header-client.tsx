@@ -33,7 +33,7 @@ export default function ItemHeaderClient({ item }: { item: ItemFullInfo }) {
                   placeholder='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgBAMAAAAQtmoLAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAASUExURe7u8LO0vunq7N7e4sHCyszM05J1rm8AAAB2SURBVFjD7dXdCYAwDEbRmAkMOEDQBZRMUHCBIu6/iq2tj4IVxL/vQClC74MVIhEAAPwNt0l6yju3uhsMsmrSwbxXUt8YdGZOJrPDQeCl324AwVsDGSNXEGQXBnPkS16aSRVfGsGJoHjyPXB6EymHhV8xAMDnLNyhJR10BfPFAAAAAElFTkSuQmCC'
                   src={urlForImageWithSize(item.image, 96, 96)} />
 
-                <h1 className="text-xl font-semibold font-heading">
+                <h1 className="text-xl font-semibold font-serif">
                   {item.name}
                 </h1>
               </div>

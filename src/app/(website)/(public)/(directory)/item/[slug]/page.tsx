@@ -75,7 +75,7 @@ const markdownComponents = {
   h1: ({ className, ...props }) => (
     <h4
       className={cn(
-        "mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
+        "mt-8 scroll-m-20 text-xl font-semibold",
         className,
       )}
       {...props}
@@ -84,7 +84,7 @@ const markdownComponents = {
   h2: ({ className, ...props }) => (
     <h5
       className={cn(
-        "mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
+        "mt-8 scroll-m-20 text-lg font-semibold",
         className,
       )}
       {...props}
@@ -93,7 +93,7 @@ const markdownComponents = {
   h3: ({ className, ...props }) => (
     <h6
       className={cn(
-        "mt-8 scroll-m-20 text-base font-semibold tracking-tight",
+        "mt-8 scroll-m-20 text-base font-semibold",
         className,
       )}
       {...props}

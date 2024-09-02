@@ -14,14 +14,12 @@ export function SiteFooterInfo() {
           {/* <Logo /> */}
           <Sparkles />
 
-          {/* font-geist-mono  */}
-          <span className="text-xl font-bold">
+          <span className="text-xl font-bold font-serif">
             {siteConfig.name}
           </span>
         </div>
 
-        {/*  text-balance */}
-        <p className="text-muted-foreground text-md p4-4 md:pr-12">
+        <p className="text-muted-foreground text-base p4-4 md:pr-12">
           {siteConfig.slogan}
         </p>
 
@@ -32,7 +30,7 @@ export function SiteFooterInfo() {
               target="_blank"
               rel="noreferrer"
             >
-              <Icons.twitter className="size-5" />
+              <Icons.twitter className="size-4" />
             </Link>
           </Button>
           <Button variant="ghost" size="sm" className="size-8 px-0">
@@ -44,15 +42,6 @@ export function SiteFooterInfo() {
               <Icons.gitHub className="size-5" />
             </Link>
           </Button>
-          {/* <Button variant="ghost" size="sm" className="size-8 px-0">
-            <Link
-              href={siteConfig.links.google}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Icons.google className="size-5" />
-            </Link>
-          </Button> */}
         </div>
       </div>
 

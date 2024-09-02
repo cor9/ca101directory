@@ -1,19 +1,31 @@
 import localFont from "next/font/local";
 
-// https://nextjs.org/docs/app/api-reference/components/font
-// https://nextjs.org/docs/app/building-your-application/optimizing/fonts#google-fonts
-// CSS and font files are downloaded at build time and self-hosted with the rest of your static assets. 
-// No requests are sent to Google by the browser.
-
-// https://fonts.google.com/specimen/Source+Serif+4
-// https://gwfh.mranftl.com/fonts/source-serif-4?subsets=latin
+/**
+ * use local font
+ * 
+ * 1. Get font file from https://gwfh.mranftl.com/fonts
+ * 2. Add font file to the assets/fonts folder
+ * 3. Add font variable to the font object
+ */
 export const fontSourceSerif = localFont({
-  src: "./source-serif-4-v8-latin-500.woff2",
+  src: "./source-serif-4-v8-latin-regular.woff2",
   variable: "--font-source-serif",
 })
 
-// https://fonts.google.com/specimen/Source+Serif+4
-// variable used in app/layout.tsx, then applyed in tailwind.config.ts
+export const fontSourceSans = localFont({
+  src: "./source-sans-3-v15-latin-regular.woff2",
+  variable: "--font-source-sans",
+})
+
+/**
+ * use google font
+ * 
+ * 1. You can browser fonts at Google Fonts
+ * https://fonts.google.com
+ * 
+ * 2. CSS and font files are downloaded at build time and self-hosted with the rest of your static assets.
+ * https://nextjs.org/docs/app/building-your-application/optimizing/fonts#google-fonts
+ */
 // export const fontSourceSerif4 = Source_Serif_4({
 //   subsets: ['latin'],
 //   display: 'swap',

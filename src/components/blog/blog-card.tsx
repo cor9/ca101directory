@@ -65,10 +65,7 @@ export default function BlogCard({ post }: BlogCardProps) {
             <BlogCategoryList categories={post.categories} />
 
             {/* post title */}
-            <h2 className={cn(
-              "mt-4 text-lg line-clamp-2 font-medium",
-              "tracking-normal"
-            )}>
+            <h2 className="mt-4 text-lg line-clamp-2 font-medium font-serif">
               <Link
                 href={`/blog/${post.slug.current}`}>
                 <span

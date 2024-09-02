@@ -30,7 +30,7 @@ export default function ItemCardIH({ item }: ItemCardProps) {
                 </div>
                 <div className="p-4">
                     <div className="flex justify-between items-center">
-                        <h5 className="text-lg font-bold font-heading line-clamp-1">
+                        <h5 className="text-lg font-bold font-serif line-clamp-1">
                             {item.name}
                         </h5>
                     </div>

@@ -147,7 +147,7 @@ const markdownComponents = {
     h1: ({ className, ...props }) => (
         <h1
             className={cn(
-                "mt-2 scroll-m-20 text-4xl font-bold tracking-tight",
+                "mt-2 scroll-m-20 text-4xl font-bold",
                 className,
             )}
             {...props}
@@ -156,7 +156,7 @@ const markdownComponents = {
     h2: ({ className, ...props }) => (
         <h2
             className={cn(
-                "mt-10 scroll-m-20 border-b pb-1 text-2xl font-semibold tracking-tight first:mt-0",
+                "mt-10 scroll-m-20 text-3xl font-semibold border-b pb-1 first:mt-0",
                 className,
             )}
             {...props}
@@ -165,7 +165,7 @@ const markdownComponents = {
     h3: ({ className, ...props }) => (
         <h3
             className={cn(
-                "mt-8 scroll-m-20 text-xl font-semibold tracking-tight",
+                "mt-8 scroll-m-20 text-2xl font-semibold",
                 className,
             )}
             {...props}
@@ -174,7 +174,7 @@ const markdownComponents = {
     h4: ({ className, ...props }) => (
         <h4
             className={cn(
-                "mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
+                "mt-8 scroll-m-20 text-xl font-semibold",
                 className,
             )}
             {...props}
@@ -183,7 +183,7 @@ const markdownComponents = {
     h5: ({ className, ...props }) => (
         <h5
             className={cn(
-                "mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
+                "mt-8 scroll-m-20 text-lg font-semibold",
                 className,
             )}
             {...props}
@@ -192,7 +192,7 @@ const markdownComponents = {
     h6: ({ className, ...props }) => (
         <h6
             className={cn(
-                "mt-8 scroll-m-20 text-base font-semibold tracking-tight",
+                "mt-8 scroll-m-20 text-base font-semibold",
                 className,
             )}
             {...props}
@@ -358,7 +358,7 @@ const customComponents = {
     Step: ({ className, ...props }: React.ComponentProps<"h3">) => (
         <h3
             className={cn(
-                "mt-8 scroll-m-20 font-heading text-xl font-semibold tracking-tight",
+                "mt-8 scroll-m-20 font-serif text-xl font-semibold",
                 className,
             )}
             {...props}

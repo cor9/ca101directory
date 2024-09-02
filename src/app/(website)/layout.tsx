@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 
 import {
+  fontSourceSans,
   fontSourceSerif,
 } from "@/assets/fonts";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
@@ -20,7 +21,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body
         className={cn(
           "min-h-screen bg-background antialiased",
-          fontSourceSerif.className,
+          fontSourceSans.className,
+          fontSourceSerif.variable,
+          fontSourceSans.variable,
         )}
       >
         <SessionProvider>

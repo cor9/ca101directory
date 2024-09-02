@@ -14,7 +14,7 @@ export function SiteFooterInfo() {
           {/* <Logo /> */}
           <Sparkles />
 
-          <span className="text-xl font-bold font-serif">
+          <span className="text-xl font-bold">
             {siteConfig.name}
           </span>
         </div>

@@ -26,16 +26,19 @@ export function CustomMdx({ source, components }: MdxProps) {
     }
 
     return (
-        <MDXRemote
-            source={source}
-            options={options}
-            components={{
-                ...markdownComponents,
-                ...customComponents,
-                ...(components || {})
-            }}
-            onError={ErrorComponent}
-        />
+        // font-serif or font-sans
+        <div className="">
+            <MDXRemote
+                source={source}
+                options={options}
+                components={{
+                    ...markdownComponents,
+                    ...customComponents,
+                    ...(components || {})
+                }}
+                onError={ErrorComponent}
+            />
+        </div>
     )
 }
 
@@ -358,7 +361,7 @@ const customComponents = {
     Step: ({ className, ...props }: React.ComponentProps<"h3">) => (
         <h3
             className={cn(
-                "mt-8 scroll-m-20 font-serif text-xl font-semibold",
+                "mt-8 scroll-m-20 text-xl font-semibold",
                 className,
             )}
             {...props}

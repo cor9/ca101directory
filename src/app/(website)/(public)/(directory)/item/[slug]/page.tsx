@@ -36,7 +36,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
               Description
             </h2>
 
-            <p className="text-base text-muted-foreground leading-loose">
+            <p className="text-base text-muted-foreground">
               {item.description}
             </p>
 

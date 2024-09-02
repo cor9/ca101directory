@@ -16,7 +16,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
         
         {footerLinks.map((section) => (
           <div key={section.title} className="col-span-1 md:col-span-1 items-start">
-            <span className="text-sm font-semibold text-foreground font-serif">
+            <span className="text-sm font-semibold">
               {section.title}
             </span>
             <ul className="mt-4 list-inside space-y-3">

@@ -7,8 +7,10 @@ import {
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader
+  CardHeader,
+  CardTitle
 } from "@/components/ui/card";
+import { siteConfig } from "@/config/site";
 
 interface CardWrapperProps {
   children: React.ReactNode;
@@ -30,7 +32,7 @@ export const CardWrapper = ({
     // border-none shadow-none
     <Card className="w-[400px] shadow-sm">
       <CardHeader className="items-center">
-        {/* <CardTitle>{siteConfig.name}</CardTitle> */}
+        <CardTitle>{siteConfig.name}</CardTitle>
         <CardDescription>{headerLabel}</CardDescription>
       </CardHeader>
       <CardContent>

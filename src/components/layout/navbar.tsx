@@ -78,7 +78,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
               <Sparkles />
               
               {/* font-geist-mono */}
-              <span className="text-xl font-bold font-serif">
+              <span className="text-xl font-bold">
                 {siteConfig.name}
               </span>
             </Link>
@@ -93,7 +93,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
                         <NavigationMenuLink
                           className={cn(
                             navigationMenuTriggerStyle(),
-                            'px-2 bg-transparent focus:bg-transparent text-base font-serif',
+                            'px-2 bg-transparent focus:bg-transparent text-base',
                             isLinkActive(item.href)
                               ? "text-foreground font-semibold"
                               : "text-foreground/60",

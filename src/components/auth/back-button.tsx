@@ -19,7 +19,7 @@ export const BackButton = ({
       size="sm"
       asChild
     >
-      <Link href={href}>
+      <Link href={href} className="underline">
         {label}
       </Link>
     </Button>

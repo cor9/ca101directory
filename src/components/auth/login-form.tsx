@@ -118,7 +118,7 @@ export const LoginForm = () => {
                       asChild
                       className="px-0 font-normal"
                     >
-                      <Link href="/auth/reset">
+                      <Link href="/auth/reset" className="underline">
                         Forgot password?
                       </Link>
                     </Button>

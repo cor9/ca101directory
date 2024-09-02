@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { Sparkles } from "lucide-react";
 
-export function SiteFooterInfo() {
+export function FooterInfo() {
 
   return (
     <section>

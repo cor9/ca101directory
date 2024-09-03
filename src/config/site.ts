@@ -21,8 +21,7 @@ export const footerLinks: NestedNavItem[] = [
   {
     title: "Product",
     items: [
-      { title: "About", href: "/" },
-      { title: "Search", href: "/search" },
+      { title: "Features", href: "/features" },
       { title: "Category", href: "/category" },
       { title: "Tag", href: "/tag" },
     ],
@@ -31,9 +30,8 @@ export const footerLinks: NestedNavItem[] = [
     title: "Support",
     items: [
       { title: "Submit", href: "/submit" },
-      { title: "Pricing", href: "/pricing" },
       { title: "Blog", href: "/blog" },
-      { title: "FAQ", href: "/pricing#faq" },
+      { title: "Pricing", href: "/pricing" },
     ],
   },
   {
@@ -50,9 +48,8 @@ export const footerLinks: NestedNavItem[] = [
     title: "General",
     items: [
       { title: "Changelog", href: "/changelog" },
-      { title: "Sitemap", href: "/sitemap" },
-      { title: "Terms of Service", href: "/terms" },
       { title: "Privacy Policy", href: "/privacy" },
+      { title: "Terms of Service", href: "/terms" },
     ],
   },
 ];

@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 
 import {
+  fontBricolageGrotesque as fontBricolage,
   fontSourceSans,
   fontSourceSerif,
   fontWorkSans,
@@ -22,10 +23,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body
         className={cn(
           "min-h-screen bg-background antialiased",
-          fontSourceSans.className,
+          // fontSourceSans.className,
+          fontBricolage.className,
           fontSourceSerif.variable,
           fontSourceSans.variable,
           fontWorkSans.variable,
+          fontBricolage.variable,
         )}
       >
         <SessionProvider>

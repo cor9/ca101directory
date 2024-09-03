@@ -26,7 +26,6 @@ export function CustomMdx({ source, components }: MdxProps) {
     }
 
     return (
-        // font-serif or font-sans
         <div className="">
             <MDXRemote
                 source={source}

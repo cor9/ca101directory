@@ -14,7 +14,7 @@ export function FooterInfo() {
           {/* <Logo /> */}
           <Sparkles />
 
-          <span className="text-xl font-bold font-title">
+          <span className="text-xl font-bold">
             {siteConfig.name}
           </span>
         </div>

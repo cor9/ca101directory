@@ -64,11 +64,11 @@ export default function BlogCard({ post }: BlogCardProps) {
           <BlogCategoryList categories={post.categories} />
 
           {/* Post title */}
-          <h2 className="mt-4 text-lg line-clamp-2 font-medium font-sans">
+          <h2 className="mt-4 text-lg line-clamp-2 font-medium">
             <Link
               href={`/blog/${post.slug.current}`}>
               <span
-                className="font-serif bg-gradient-to-r from-green-200 to-green-100 
+                className="bg-gradient-to-r from-green-200 to-green-100 
                   bg-[length:0px_10px] bg-left-bottom bg-no-repeat
                   transition-[background-size]
                   duration-500

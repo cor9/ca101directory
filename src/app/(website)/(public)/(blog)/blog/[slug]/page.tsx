@@ -66,7 +66,7 @@ export default async function PostPage({ params }: PostPageProps) {
                     </div>
 
                     {/* blog post title */}
-                    <h1 className="mt-8 text-center text-3xl font-semibold font-serif">
+                    <h1 className="mt-8 text-center text-3xl font-semibold">
                         {post.title}
                     </h1>
 

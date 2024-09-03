@@ -56,9 +56,11 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        serif: ['var(--font-source-serif)', ...fontFamily.serif],
-        sans: ['var(--font-source-sans)', ...fontFamily.sans],
-        title: ['var(--font-work-sans)', ...fontFamily.sans],
+        // serif: ['var(--font-source-serif)', ...fontFamily.serif],
+        // serif: ['var(--font-heading)', ...fontFamily.serif],
+        // sans: ['var(--font-source-sans)', ...fontFamily.sans],
+        // sans: ['var(--font-heading)', ...fontFamily.sans],
+        // heading: ['var(--font-bricolage)', ...fontFamily.sans],
       },
       keyframes: {
         "accordion-down": {

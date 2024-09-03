@@ -23,6 +23,12 @@ export const fontWorkSans = localFont({
   variable: "--font-work-sans",
 })
 
+// https://gwfh.mranftl.com/fonts/bricolage-grotesque?subsets=latin
+export const fontBricolageGrotesque = localFont({
+  src: "./bricolage-grotesque-v7-latin-regular.woff2",
+  variable: "--font-bricolage",
+})
+
 /**
  * use google font
  * 

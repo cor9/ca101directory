@@ -53,7 +53,7 @@ export function DashboardSidebar({ links }: DashboardSidebarProps) {
                   isSidebarExpanded && (
                     <Link href="/" className="flex items-center space-x-1.5">
                       <Sparkles />
-                      <span className="font-urban text-xl font-bold">
+                      <span className="font-heading text-xl font-bold">
                         {siteConfig.name}
                       </span>
                     </Link>

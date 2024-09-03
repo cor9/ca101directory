@@ -58,6 +58,7 @@ const config = {
       fontFamily: {
         serif: ['var(--font-source-serif)', ...fontFamily.serif],
         sans: ['var(--font-source-sans)', ...fontFamily.sans],
+        title: ['var(--font-work-sans)', ...fontFamily.sans],
       },
       keyframes: {
         "accordion-down": {

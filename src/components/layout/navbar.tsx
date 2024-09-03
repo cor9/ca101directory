@@ -78,7 +78,7 @@ export function Navbar({ scroll = false }: NavBarProps) {
               <Sparkles />
               
               {/* font-geist-mono */}
-              <span className="text-xl font-bold">
+              <span className="text-xl font-bold font-title">
                 {siteConfig.name}
               </span>
             </Link>

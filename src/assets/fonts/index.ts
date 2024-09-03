@@ -17,6 +17,12 @@ export const fontSourceSans = localFont({
   variable: "--font-source-sans",
 })
 
+// https://gwfh.mranftl.com/fonts/work-sans?subsets=latin
+export const fontWorkSans = localFont({
+  src: "./work-sans-v19-latin-regular.woff2",
+  variable: "--font-work-sans",
+})
+
 /**
  * use google font
  * 

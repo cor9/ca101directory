@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import {
   fontSourceSans,
   fontSourceSerif,
+  fontWorkSans,
 } from "@/assets/fonts";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { Toaster } from "@/components/ui/sonner";
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           fontSourceSans.className,
           fontSourceSerif.variable,
           fontSourceSans.variable,
+          fontWorkSans.variable,
         )}
       >
         <SessionProvider>

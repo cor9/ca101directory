@@ -40,7 +40,21 @@ import type SimpleMDE from "easymde";
 
 // import this css to style the editor
 import "easymde/dist/easymde.min.css";
-import { MultiSelect } from "@/components/multi-select";
+
+import MultipleSelector, { Option } from '@/components/shared/multiple-selector';
+const OPTIONS: Option[] = [
+  { label: 'nextjs', value: 'Nextjs' },
+  { label: 'React', value: 'react' },
+  { label: 'Remix', value: 'remix' },
+  { label: 'Vite', value: 'vite' },
+  { label: 'Nuxt', value: 'nuxt' },
+  { label: 'Vue', value: 'vue' },
+  { label: 'Svelte', value: 'svelte' },
+  { label: 'Angular', value: 'angular' },
+  { label: 'Ember', value: 'ember' },
+  { label: 'Gatsby', value: 'gatsby' },
+  { label: 'Astro', value: 'astro' },
+];
 
 interface SubmitItemFormProps {
   tagList: TagListQueryResult;
@@ -63,6 +77,8 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [introduction, setIntroduction] = useState('');
+
+  const [options, setOptions] = useState<Option[]>([]);
 
   // https://github.com/RIP21/react-simplemde-editor?tab=readme-ov-file#options
   // useMemo to memoize options so they do not change on each rerender
@@ -192,7 +208,20 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
         <CardContent>
           <div className="grid gap-6">
 
-            <MultiSelect />
+            <div className="flex w-full flex-col gap-5 px-10">
+              <p className="text-primary">Your selection: {options.map((val) => val.label).join(', ')}</p>
+              <MultipleSelector
+                value={options}
+                onChange={setOptions}
+                defaultOptions={OPTIONS}
+                placeholder="Select frameworks you like..."
+                emptyIndicator={
+                  <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                    no results found.
+                  </p>
+                }
+              />
+            </div>
 
             <div className="flex gap-4 items-center">
               <Label className="min-w-[100px]" htmlFor="name">

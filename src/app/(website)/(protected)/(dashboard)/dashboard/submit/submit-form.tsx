@@ -40,6 +40,7 @@ import type SimpleMDE from "easymde";
 
 // import this css to style the editor
 import "easymde/dist/easymde.min.css";
+import { MultiSelect } from "@/components/multi-select";
 
 interface SubmitItemFormProps {
   tagList: TagListQueryResult;
@@ -190,6 +191,8 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
         </CardHeader>
         <CardContent>
           <div className="grid gap-6">
+
+            <MultiSelect />
 
             <div className="flex gap-4 items-center">
               <Label className="min-w-[100px]" htmlFor="name">

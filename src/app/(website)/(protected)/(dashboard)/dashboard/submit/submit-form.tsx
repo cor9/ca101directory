@@ -26,6 +26,7 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import MultipleSelector from '@/components/shared/multiple-selector';
 
 // https://github.com/RIP21/react-simplemde-editor
 // if directly import, frontend error: document is not defined
@@ -41,21 +42,6 @@ import type SimpleMDE from "easymde";
 
 // import this css to style the editor
 import "easymde/dist/easymde.min.css";
-
-import { Option } from '@/components/shared/multiple-selector';
-const OPTIONS: Option[] = [
-  { label: 'nextjs', value: 'Nextjs' },
-  { label: 'React', value: 'react' },
-  { label: 'Remix', value: 'remix' },
-  { label: 'Vite', value: 'vite' },
-  { label: 'Nuxt', value: 'nuxt' },
-  { label: 'Vue', value: 'vue' },
-  { label: 'Svelte', value: 'svelte' },
-  { label: 'Angular', value: 'angular' },
-  { label: 'Ember', value: 'ember' },
-  { label: 'Gatsby', value: 'gatsby' },
-  { label: 'Astro', value: 'astro' },
-];
 
 interface SubmitItemFormProps {
   tagList: TagListQueryResult;
@@ -210,20 +196,24 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
             <FormItem>
               <FormLabel>Categories</FormLabel>
               <FormControl>
-                <ToggleGroup
-                  type="multiple"
-                  variant="outline"
-                  size="sm"
-                  className="flex flex-wrap items-start justify-start"
-                  value={field.value}
-                  onValueChange={field.onChange}
-                >
-                  {categoryList.map((item) => (
-                    <ToggleGroupItem key={item._id} value={item._id}>
-                      {item.name}
-                    </ToggleGroupItem>
-                  ))}
-                </ToggleGroup>
+                <MultipleSelector
+                  {...field}
+                  placeholder="Select categories"
+                  defaultOptions={categoryList.map(cat => ({ value: cat.name, label: cat.name || '' }))}
+                  value={field.value.map(value => {
+                    const category = categoryList.find(cat => cat.name === value);
+                    return { value, label: category?.name || '' };
+                  })}
+                  onChange={(options) => {
+                    const selected = options.map(option => option.value);
+                    field.onChange(selected);
+                  }}
+                  emptyIndicator={
+                    <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                      no results found.
+                    </p>
+                  }
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -237,20 +227,24 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
             <FormItem>
               <FormLabel>Tags</FormLabel>
               <FormControl>
-                <ToggleGroup
-                  type="multiple"
-                  variant="outline"
-                  size="sm"
-                  className="flex flex-wrap items-start justify-start"
-                  value={field.value}
-                  onValueChange={field.onChange}
-                >
-                  {tagList.map((item) => (
-                    <ToggleGroupItem key={item._id} value={item._id}>
-                      {item.name}
-                    </ToggleGroupItem>
-                  ))}
-                </ToggleGroup>
+                <MultipleSelector
+                  {...field}
+                  placeholder="Select tags"
+                  defaultOptions={tagList.map(tag => ({ value: tag.name || '', label: tag.name || '' }))}
+                  value={field.value.map(value => {
+                    const tag = tagList.find(t => t.name === value);
+                    return { value, label: tag?.name || '' };
+                  })}
+                  onChange={(options) => {
+                    const selected = options.map(option => option.value);
+                    field.onChange(selected);
+                  }}
+                  emptyIndicator={
+                    <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                      no results found.
+                    </p>
+                  }
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

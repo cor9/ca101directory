@@ -12,15 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { SubmitItemSchema } from "@/lib/schemas";
@@ -31,7 +23,7 @@ import confetti from 'canvas-confetti';
 import { HourglassIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -50,7 +42,7 @@ import type SimpleMDE from "easymde";
 // import this css to style the editor
 import "easymde/dist/easymde.min.css";
 
-import MultipleSelector, { Option } from '@/components/shared/multiple-selector';
+import { Option } from '@/components/shared/multiple-selector';
 const OPTIONS: Option[] = [
   { label: 'nextjs', value: 'Nextjs' },
   { label: 'React', value: 'react' },
@@ -80,11 +72,8 @@ interface SubmitItemFormProps {
 export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [imageUrl, setImageUrl] = useState("");
   const [isUploading, setIsUploading] = useState(false);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [introduction, setIntroduction] = useState('');
+  const [imageUrl, setImageUrl] = useState("");
 
   // https://github.com/RIP21/react-simplemde-editor?tab=readme-ov-file#options
   // useMemo to memoize options so they do not change on each rerender
@@ -226,11 +215,8 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
                   variant="outline"
                   size="sm"
                   className="flex flex-wrap items-start justify-start"
-                  value={selectedCategories}
-                  onValueChange={(value) => {
-                    setSelectedCategories(value);
-                    field.onChange(value);
-                  }}
+                  value={field.value}
+                  onValueChange={field.onChange}
                 >
                   {categoryList.map((item) => (
                     <ToggleGroupItem key={item._id} value={item._id}>
@@ -256,11 +242,8 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
                   variant="outline"
                   size="sm"
                   className="flex flex-wrap items-start justify-start"
-                  value={selectedTags}
-                  onValueChange={(value) => {
-                    setSelectedTags(value);
-                    field.onChange(value);
-                  }}
+                  value={field.value}
+                  onValueChange={field.onChange}
                 >
                   {tagList.map((item) => (
                     <ToggleGroupItem key={item._id} value={item._id}>
@@ -282,12 +265,8 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
               <FormLabel>Introduction</FormLabel>
               <FormControl>
                 <SimpleMdeReact
-                  value={introduction}
                   options={mdeOptions}
-                  onChange={(value) => {
-                    setIntroduction(value);
-                    field.onChange(value);
-                  }}
+                  {...field}
                 />
               </FormControl>
               <FormMessage />

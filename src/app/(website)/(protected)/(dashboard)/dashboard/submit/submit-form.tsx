@@ -67,7 +67,6 @@ interface SubmitItemFormProps {
  * 
  * 2. React Hook Form
  * https://react-hook-form.com/get-started
- * https://nextjs.org/learn/dashboard-app/mutating-data
  */
 export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const router = useRouter();
@@ -207,21 +206,6 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
         </CardHeader>
         <CardContent>
           <div className="grid gap-6">
-
-            <div className="flex w-full flex-col gap-5 px-10">
-              <p className="text-primary">Your selection: {options.map((val) => val.label).join(', ')}</p>
-              <MultipleSelector
-                value={options}
-                onChange={setOptions}
-                defaultOptions={OPTIONS}
-                placeholder="Select frameworks you like..."
-                emptyIndicator={
-                  <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
-                    no results found.
-                  </p>
-                }
-              />
-            </div>
 
             <div className="flex gap-4 items-center">
               <Label className="min-w-[100px]" htmlFor="name">

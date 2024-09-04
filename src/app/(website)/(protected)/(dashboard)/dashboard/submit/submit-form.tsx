@@ -4,6 +4,15 @@ import { SubmitItem, SubmitItemFormData } from "@/actions/submit-item";
 import { Icons } from "@/components/shared/icons";
 import { Button } from "@/components/ui/button";
 import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
   Card,
   CardContent,
   CardDescription,
@@ -77,8 +86,6 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [introduction, setIntroduction] = useState('');
 
-  const [options, setOptions] = useState<Option[]>([]);
-
   // https://github.com/RIP21/react-simplemde-editor?tab=readme-ov-file#options
   // useMemo to memoize options so they do not change on each rerender
   // https://github.com/Ionaru/easy-markdown-editor?tab=readme-ov-file#options-example
@@ -96,62 +103,29 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
     } as SimpleMDE.Options;
   }, []);
 
-  const handleEditorChange = useCallback((value: string) => {
-    resetField("introduction");
-    setIntroduction(value);
-    setValue("introduction", value);
-  }, []);
-
-  const handleTagChange = (tags) => {
-    console.log("SubmitItemForm, handleTagChange, tags", tags);
-    resetField("tags");
-    setSelectedTags(tags);
-    setValue("tags", tags); // Update the form value for tags
-  };
-
-  const handleCategoryChange = (categories) => {
-    console.log("SubmitItemForm, handleCategoryChange, categories", categories);
-    resetField("categories");
-    setSelectedCategories(categories);
-    setValue("categories", categories); // Update the form value for categories
-  };
-
-  const {
-    register,
-    setValue,
-    reset,
-    resetField,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SubmitItemFormData>({
-    // when click submit button, or change the form data, validate the form data
-    resolver: async (data, context, options) => {
-      console.log("SubmitItemForm, validate formData", data);
-      return zodResolver(SubmitItemSchema)(data, context, options);
-    },
-    // default values for SubmitItemFormData
+  // set default values for form fields and validation schema
+  const form = useForm<SubmitItemFormData>({
+    resolver: zodResolver(SubmitItemSchema),
     defaultValues: {
       name: "",
       link: "",
       description: "",
       introduction: "",
       imageId: "",
-      tags: selectedTags,
-      categories: selectedCategories,
+      tags: [],
+      categories: [],
     },
-  })
+  });
 
-  // if form is valid, call submitItem action
-  const onSubmit = handleSubmit((data: SubmitItemFormData) => {
+  // submit form if data is valid
+  const onSubmit = form.handleSubmit((data: SubmitItemFormData) => {
     console.log('SubmitItemForm, onSubmit, data:', data);
     startTransition(async () => {
-      const { status } = await SubmitItem({
-        ...data
-      });
+      const { status } = await SubmitItem(data);
       console.log('SubmitItemForm, status:', status);
       if (status === "success") {
         confetti();
-        reset();
+        form.reset();
         toast.success("Submission successful");
         router.push(`/dashboard/`);
       } else {
@@ -160,7 +134,7 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
     });
   });
 
-  const handleUploadImage = async (e) => {
+  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('SubmitItemForm, handleUploadImage, file:', e.target.files[0]);
     const file = e.target.files[0];
     if (!file) {
@@ -183,231 +157,192 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
       return;
     }
     console.log('SubmitItemForm, handleUploadImage, imageId:', imageAsset._id);
-    resetField("imageId");
-    setValue("imageId", imageAsset._id);
+    form.resetField("imageId");
+    form.setValue("imageId", imageAsset._id);
     setImageUrl(imageAsset.url);
     setIsUploading(false);
   };
 
-  const uploadImage = async (file) => {
+  const uploadImage = async (file: File) => {
     const asset = await sanityClient.assets.upload('image', file);
     console.log('SubmitItemForm, uploadImage, asset url:', asset.url);
     return asset;
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <Card>
-        <CardHeader>
-          {/* <CardTitle>Submit</CardTitle> */}
-          <CardDescription>
-            {/* Please enter the information of your product. */}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-6">
+    <Form {...form}>
+      <form onSubmit={onSubmit} className="space-y-6">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the name of your product" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            <div className="flex gap-4 items-center">
-              <Label className="min-w-[100px]" htmlFor="name">
-                Name
-              </Label>
-              <div className="w-full flex flex-col">
-                <Input
-                  id="name"
-                  className="w-full"
-                  autoComplete="off"
-                  placeholder="Enter the name of your product"
-                  {...register("name")}
-                />
-              </div>
-            </div>
-            {errors?.name && (
-              <div className="flex gap-4 items-center">
-                <Label className="min-w-[100px]" htmlFor="error_name">
-                </Label>
-                <p className="px-1 text-xs text-red-600">{errors.name.message}</p>
-              </div>
-            )}
+        <FormField
+          control={form.control}
+          name="link"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Link</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the link to your product" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            <div className="flex gap-4 items-center">
-              <Label className="min-w-[100px]" htmlFor="link">
-                Link
-              </Label>
-              <div className="w-full flex flex-col">
-                <Input
-                  id="link"
-                  className="w-full"
-                  autoComplete="off"
-                  placeholder="Enter the link to your product"
-                  {...register("link")}
-                />
-              </div>
-            </div>
-            {errors?.link && (
-              <div className="flex gap-4 items-center">
-                <Label className="min-w-[100px]" htmlFor="error_link">
-                </Label>
-                <p className="px-1 text-xs text-red-600">{errors.link.message}</p>
-              </div>
-            )}
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Enter a brief description of your product" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            <div className="flex gap-4 items-center">
-              <Label className="min-w-[100px]" htmlFor="description">
-                Description
-              </Label>
-              <div className="w-full flex flex-col">
-                <Textarea
-                  id="description"
-                  className="w-full"
-                  autoComplete="off"
-                  placeholder="Enter a brief description of your product"
-                  {...register("description")}
-                />
-              </div>
-            </div>
-            {errors?.description && (
-              <div className="flex gap-4 items-center">
-                <Label className="min-w-[100px]" htmlFor="error_description">
-                </Label>
-                <p className="px-1 text-xs text-red-600">{errors.description.message}</p>
-              </div>
-            )}
-
-            <div className="flex gap-4 items-center">
-              <Label className="min-w-[100px]" htmlFor="name">
-                Categories
-              </Label>
-              <div className="w-full flex flex-wrap items-center gap-4">
-                <ToggleGroup type="multiple" variant="outline" size={"sm"}
+        <FormField
+          control={form.control}
+          name="categories"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Categories</FormLabel>
+              <FormControl>
+                <ToggleGroup
+                  type="multiple"
+                  variant="outline"
+                  size="sm"
                   className="flex flex-wrap items-start justify-start"
                   value={selectedCategories}
-                  onValueChange={handleCategoryChange}>
-                  {categoryList && categoryList.length > 0 && categoryList.map((item) => (
-                    <ToggleGroupItem key={item._id} value={item._id}
-                      aria-label={item.name ?? ''}
-                      className={`${selectedCategories.includes(item._id) ? '' : ''}`}>
+                  onValueChange={(value) => {
+                    setSelectedCategories(value);
+                    field.onChange(value);
+                  }}
+                >
+                  {categoryList.map((item) => (
+                    <ToggleGroupItem key={item._id} value={item._id}>
                       {item.name}
                     </ToggleGroupItem>
                   ))}
                 </ToggleGroup>
-              </div>
-            </div>
-            {/* Hidden input to register categories */}
-            <input type="hidden" id="categories" {...register("categories")} />
-            {errors?.categories && (
-              <div className="flex gap-4 items-center">
-                <Label className="min-w-[100px]" htmlFor="error_categories">
-                </Label>
-                <p className="px-1 text-xs text-red-600">{errors.categories.message}</p>
-              </div>
-            )}
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            <div className="flex gap-4 items-center">
-              <Label className="min-w-[100px]" htmlFor="name">
-                Tags
-              </Label>
-              <div className="w-full flex flex-wrap items-center gap-4">
-                <ToggleGroup type="multiple" variant="outline" size={"sm"}
+        <FormField
+          control={form.control}
+          name="tags"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Tags</FormLabel>
+              <FormControl>
+                <ToggleGroup
+                  type="multiple"
+                  variant="outline"
+                  size="sm"
                   className="flex flex-wrap items-start justify-start"
                   value={selectedTags}
-                  onValueChange={handleTagChange}>
-                  {tagList && tagList.length > 0 && tagList.map((item) => (
-                    <ToggleGroupItem key={item._id} value={item._id}
-                      aria-label={item.name ?? ''}
-                      className={`${selectedTags.includes(item._id) ? '' : ''}`}>
+                  onValueChange={(value) => {
+                    setSelectedTags(value);
+                    field.onChange(value);
+                  }}
+                >
+                  {tagList.map((item) => (
+                    <ToggleGroupItem key={item._id} value={item._id}>
                       {item.name}
                     </ToggleGroupItem>
                   ))}
                 </ToggleGroup>
-              </div>
-            </div>
-            {/* Hidden input to register tags */}
-            <input type="hidden" id="tags" {...register("tags")} />
-            {errors?.tags && (
-              <div className="flex gap-4 items-center">
-                <Label className="min-w-[100px]" htmlFor="error_tags">
-                </Label>
-                <p className="px-1 text-xs text-red-600">{errors.tags.message}</p>
-              </div>
-            )}
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            <div className="flex gap-4 items-center">
-              <Label className="min-w-[100px]" htmlFor="introduction">
-                Introduction
-              </Label>
-              <div className="w-full flex flex-col">
+        <FormField
+          control={form.control}
+          name="introduction"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Introduction</FormLabel>
+              <FormControl>
                 <SimpleMdeReact
                   value={introduction}
                   options={mdeOptions}
-                  onChange={handleEditorChange}
+                  onChange={(value) => {
+                    setIntroduction(value);
+                    field.onChange(value);
+                  }}
                 />
-              </div>
-            </div>
-            {/* Hidden input to register introduction */}
-            <input type="hidden" id="introduction" {...register("introduction")} />
-            {errors?.introduction && (
-              <div className="flex gap-4 items-center">
-                <Label className="min-w-[100px]" htmlFor="error_introduction">
-                </Label>
-                <p className="px-1 text-xs text-red-600">{errors.introduction.message}</p>
-              </div>
-            )}
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            <div className="flex gap-4 items-center">
-              <Label className="min-w-[100px]" htmlFor="imageFile">
-                Image
-              </Label>
-              <Input id="imageFile" type="file"
-                className="w-full"
-                onChange={handleUploadImage}
-                accept="image/*" />
+        <FormField
+          control={form.control}
+          name="imageId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Image</FormLabel>
+              <FormControl>
+                <div className="flex items-center gap-4">
+                  <Input
+                    type="file"
+                    onChange={(e) => handleUploadImage(e)}
+                    accept="image/*"
+                  />
+                  {imageUrl && (
+                    <Image
+                      alt="image"
+                      className="border sm:w-max-[600px]"
+                      height={64}
+                      width={128}
+                      src={imageUrl}
+                    />
+                  )}
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-              {/* 960x540 => 480x270 => 128x64 */}
-              {imageUrl &&
-                <Image alt="image"
-                  className="border sm:w-max-[600px]"
-                  height={64} width={128}
-                  src={imageUrl}
-                />
-              }
-            </div>
-            {/* Hidden input to register imageId */}
-            <input type="hidden" id="imageId" {...register("imageId")} />
-            {errors?.imageId && (
-              <div className="flex gap-4 items-center">
-                <Label className="min-w-[100px]" htmlFor="error_imageId">
-                </Label>
-                <p className="px-1 text-xs text-red-600">{errors.imageId.message}</p>
-              </div>
-            )}
+        <Button
+          type="submit"
+          variant={"default"}
+          className=""
+          disabled={isPending || isUploading}
+        >
+          {(isPending || isUploading) && (
+            <Icons.spinner className="mr-2 size-4 animate-spin" />
+          )}
+          <span>{isPending ? "Submitting..." :
+            (isUploading ? "Uploading image..." : "Submit")}
+          </span>
+        </Button>
 
-          </div>
-        </CardContent>
-        <CardFooter className="border-t bg-muted/25 pt-6">
-          <div className="w-full flex items-center justify-between gap-8">
-            <Button
-              type="submit"
-              variant={"default"}
-              className=""
-              disabled={isPending}
-            >
-              {(isPending || isUploading) && (
-                <Icons.spinner className="mr-2 size-4 animate-spin" />
-              )}
-              <span>{isPending ? "Submitting..." :
-                (isUploading ? "Uploading image..." : "Submit")}
-              </span>
-            </Button>
-
-            <div className="text-sm text-primary dark:text-foreground flex items-center gap-2">
-              <HourglassIcon className="size-4 inline-block" />
-              <span>
-                Your submission will be reviewed before being published.
-              </span>
-            </div>
-          </div>
-        </CardFooter>
-      </Card>
-    </form>
+        <FormDescription className="text-sm text-primary dark:text-foreground flex items-center gap-2">
+          <HourglassIcon className="size-4 inline-block" />
+          <span>Your submission will be reviewed before being published.</span>
+        </FormDescription>
+      </form>
+    </Form >
   )
 }

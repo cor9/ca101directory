@@ -6,16 +6,16 @@ import { UserRole } from "@/types/user-role";
  */
 export const SubmitItemSchema = z.object({
   name: z.string()
-      .min(1, { message: "Must be 1 or more characters long" })
-      .max(32, { message: "Must be 32 or fewer characters long" }),
+      .min(1, { message: "Name is required" })
+      .max(32, { message: "Name must be 32 or fewer characters long" }),
   link: z.string()
       .url({ message: "Invalid url" }),
   description: z.string()
-      .min(1, { message: "Must be 1 or more characters long" })
-      .max(256, { message: "Must be 256 or fewer characters long" }),
+      .min(1, { message: "Description is required" })
+      .max(256, { message: "Description must be 256 or fewer characters long" }),
   introduction: z.string()
-      .min(1, { message: "Must be 1 or more characters long" }),
-      // .max(1024, { message: "Must be 1024 or fewer characters long" }),
+      .min(1, { message: "Introduction is required" })
+      .max(4096, { message: "Introduction must be 4096 or fewer characters long" }),
   tags: z.array(z.string())
       .min(1, { message: "Must select at least one tag" }),
   categories: z.array(z.string())

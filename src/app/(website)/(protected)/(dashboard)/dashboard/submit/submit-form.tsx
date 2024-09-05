@@ -22,6 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import confetti from 'canvas-confetti';
 import { HourglassIcon } from "lucide-react";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -41,6 +42,7 @@ const SimpleMdeReact = dynamic(() => import('react-simplemde-editor'), { ssr: fa
 import type SimpleMDE from "easymde";
 
 // import this css to style the editor
+import "@/styles/easymde-dark.css";
 import "easymde/dist/easymde.min.css";
 
 interface SubmitItemFormProps {
@@ -57,6 +59,7 @@ interface SubmitItemFormProps {
  */
 export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const router = useRouter();
+  const { theme } = useTheme();
   const [isPending, startTransition] = useTransition();
   const [isUploading, setIsUploading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
@@ -258,10 +261,12 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
             <FormItem>
               <FormLabel>Introduction</FormLabel>
               <FormControl>
-                <SimpleMdeReact
-                  options={mdeOptions}
-                  {...field}
-                />
+                <div data-theme={theme}>
+                  <SimpleMdeReact
+                    options={mdeOptions}
+                    {...field}
+                  />
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

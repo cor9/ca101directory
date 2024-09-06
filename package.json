@@ -77,7 +77,6 @@
     "react-iframe": "^1.8.5",
     "react-simplemde-editor": "^5.2.0",
     "react-spinners": "^0.14.1",
-    "redux": "^5.0.1",
     "resend": "^3.5.0",
     "rimraf": "^6.0.1",
     "sanity": "^3.55.0",

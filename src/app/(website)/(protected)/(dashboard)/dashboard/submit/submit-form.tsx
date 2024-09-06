@@ -1,7 +1,9 @@
 "use client";
 
 import { SubmitItem, SubmitItemFormData } from "@/actions/submit-item";
+import ImageUpload from "@/components/image-upload";
 import { Icons } from "@/components/shared/icons";
+import MultipleSelector from '@/components/shared/multiple-selector';
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,20 +16,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { SubmitItemSchema } from "@/lib/schemas";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
-import { sanityClient } from "@/sanity/lib/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import confetti from 'canvas-confetti';
 import { HourglassIcon } from "lucide-react";
-import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import MultipleSelector from '@/components/shared/multiple-selector';
 
 // https://github.com/RIP21/react-simplemde-editor
 // if directly import, frontend error: document is not defined
@@ -62,7 +60,6 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const { theme } = useTheme();
   const [isPending, startTransition] = useTransition();
   const [isUploading, setIsUploading] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
 
   // https://github.com/RIP21/react-simplemde-editor?tab=readme-ov-file#options
   // useMemo to memoize options so they do not change on each rerender
@@ -112,39 +109,11 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
     });
   });
 
-  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('SubmitItemForm, handleUploadImage, file:', e.target.files[0]);
-    const file = e.target.files[0];
-    if (!file) {
-      console.log('SubmitItemForm, handleUploadImage, file is null');
-      return;
+  const handleUploadChange = (status: { isUploading: boolean; imageId?: string }) => {
+    setIsUploading(status.isUploading);
+    if (status.imageId) {
+      form.setValue("imageId", status.imageId);
     }
-
-    const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
-    if (file.size > maxSizeInBytes) {
-      e.target.value = '';
-      toast.error('Image size should be less than 1MB.');
-      return;
-    }
-
-    setIsUploading(true);
-    const imageAsset = await uploadImage(file);
-    if (!imageAsset) {
-      e.target.value = '';
-      toast.error('Upload Image failed, please try again.');
-      return;
-    }
-    console.log('SubmitItemForm, handleUploadImage, imageId:', imageAsset._id);
-    form.resetField("imageId");
-    form.setValue("imageId", imageAsset._id);
-    setImageUrl(imageAsset.url);
-    setIsUploading(false);
-  };
-
-  const uploadImage = async (file: File) => {
-    const asset = await sanityClient.assets.upload('image', file);
-    console.log('SubmitItemForm, uploadImage, asset url:', asset.url);
-    return asset;
   };
 
   return (
@@ -280,21 +249,8 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
             <FormItem>
               <FormLabel>Image</FormLabel>
               <FormControl>
-                <div className="flex items-center gap-4">
-                  <Input
-                    type="file"
-                    onChange={(e) => handleUploadImage(e)}
-                    accept="image/*"
-                  />
-                  {imageUrl && (
-                    <Image
-                      alt="image"
-                      className="border sm:w-max-[600px]"
-                      height={64}
-                      width={128}
-                      src={imageUrl}
-                    />
-                  )}
+                <div className="mt-4 w-full h-[300px]">
+                  <ImageUpload onUploadChange={handleUploadChange} />
                 </div>
               </FormControl>
               <FormMessage />

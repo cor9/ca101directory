@@ -1,82 +1,77 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
-import { useDropzone } from "react-dropzone";
-import { Button, buttonVariants } from "./ui/button";
-import { Input } from "./ui/input";
-import { IoCloudUploadOutline } from "react-icons/io5";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { sanityClient } from "@/sanity/lib/client";
 import Image from "next/image";
 import Link from "next/link";
-import RadialProgress from "@/components/shared/radial-progress";
-// import { uploadImageToCloudinary } from "@/lib/api";
-// import { AxiosProgressEvent } from "axios";
-
-// const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-// const uploadPreset = process.env.NEXT_PUBLIC_UPLOAD_PRESET;
+import React, { useCallback, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import { IoCloudUploadOutline } from "react-icons/io5";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 interface ImageUploadProps {
-  onUploadComplete?: (url: string) => void;
+  onUploadChange: (status: { isUploading: boolean; imageId?: string }) => void;
 }
 
-const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadComplete }) => {
+export default function ImageUpload({ onUploadChange }: ImageUploadProps) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [progress, setProgress] = useState<number>(0);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [uploadedImagePath, setUploadedImagePath] = useState<string | null>(
-    null
-  );
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  // const onUploadProgress = (progressEvent: AxiosProgressEvent) => {
-  //   if (progressEvent.total) {
-  //     const percentage = Math.round(
-  //       (progressEvent.loaded * 100) / progressEvent.total
-  //     );
-  //     setProgress(percentage);
-  //   }
-  // };
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files?.length) {
-      const image = event.target.files[0];
-      setSelectedImage(image);
-      handleImageUpload(image);
+  const uploadImage = async (file: File) => {
+    const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
+    if (file.size > maxSizeInBytes) {
+      console.error('uploadImage, image size should be less than 1MB.');
+      toast.error('Image size should be less than 1MB.');
+      return null;
     }
-  };
 
-  const removeSelectedImage = () => {
-    setLoading(false);
-    setUploadedImagePath(null);
-    setSelectedImage(null);
+    try {
+      const asset = await sanityClient.assets.upload('image', file);
+      return asset;
+    } catch (error) {
+      console.error("uploadImage, error uploading image:", error);
+      toast.error('Upload Image failed, please try again.');
+      return null;
+    }
   };
 
   const handleImageUpload = async (image: File) => {
     if (!image) return;
     setLoading(true);
-
-    const formData = new FormData();
-    formData.append("file", image);
-    // formData.append("upload_preset", uploadPreset as string);
-    // formData.append("api_key", apiKey as string);
+    onUploadChange({ isUploading: true });
 
     try {
-      // const res = await uploadImageToCloudinary(formData, onUploadProgress);
-      // if (res.status === 200) {
-      //   setLoading(false);
-      //   setUploadedImagePath(res.data.url);
-      //   if (onUploadComplete) {
-      //     onUploadComplete(res.data.url);
-      //   }
-      // }
+      const asset = await uploadImage(image);
+      if (asset) {
+        setImageUrl(asset.url);
+        onUploadChange({ isUploading: false, imageId: asset._id });
+      }
     } catch (error) {
+      console.error("handleImageUpload, error uploading image:", error);
+    } finally {
       setLoading(false);
-      console.error("Error uploading image:", error);
+      onUploadChange({ isUploading: false });
     }
+  };
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files?.length) {
+      const image = event.target.files[0];
+      handleImageUpload(image);
+    }
+  };
+
+  const removeUploadedImage = () => {
+    setLoading(false);
+    setImageUrl(null);
+    onUploadChange({ isUploading: false });
   };
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
       const image = acceptedFiles[0];
-      setSelectedImage(image);
       handleImageUpload(image);
     }
   }, []);
@@ -88,20 +83,22 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadComplete }) => {
       <div {...getRootProps()} className="h-full">
         <label
           htmlFor="dropzone-file"
-          className="relative flex flex-col items-center justify-center p-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 w-full visually-hidden-focusable h-full"
+          className="relative flex flex-col items-center justify-center p-6 border-2 
+          border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 
+          hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 
+          w-full visually-hidden-focusable h-full"
         >
           {loading && (
             <div className="text-center max-w-md">
-              <RadialProgress progress={progress} />
-              <p className="text-sm font-semibold">Uploading Picture</p>
+              <Loader2 className="h-8 w-8 animate-spin mx-auto" />
+              <p className="text-sm font-semibold mt-2">Uploading Picture</p>
               <p className="text-xs text-gray-400">
-                Do not refresh or perform any other action while the picture is
-                being uploaded
+                Please wait while the picture is being uploaded
               </p>
             </div>
           )}
 
-          {!loading && !uploadedImagePath && (
+          {!loading && !imageUrl && (
             <div className="text-center">
               <div className="border p-2 rounded-md max-w-min mx-auto">
                 <IoCloudUploadOutline size="1.6em" />
@@ -111,17 +108,17 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadComplete }) => {
                 <span className="font-semibold">Drag an image</span>
               </p>
               <p className="text-xs text-gray-400 dark:text-gray-400">
-                Select a image or drag here to upload directly
+                Select an image or drag here to upload directly
               </p>
             </div>
           )}
 
-          {uploadedImagePath && !loading && (
+          {imageUrl && !loading && (
             <div className="text-center space-y-2">
               <Image
                 width={1000}
                 height={1000}
-                src={uploadedImagePath}
+                src={imageUrl}
                 className="w-full object-contain max-h-16 opacity-70"
                 alt="uploaded image"
               />
@@ -141,31 +138,29 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadComplete }) => {
           accept="image/png, image/jpeg"
           type="file"
           className="hidden"
-          disabled={loading || uploadedImagePath !== null}
+          disabled={loading || imageUrl !== null}
           onChange={handleImageChange}
         />
       </div>
 
-      {!!uploadedImagePath && (
+      {!!imageUrl && (
         <div className="flex items-center justify-between">
           <Link
-            href={uploadedImagePath}
-            className=" text-gray-500 text-xs hover:underline "
+            href={imageUrl}
+            className="text-gray-500 text-xs hover:underline"
           >
-            Click here to see uploaded image :D
+            Click here to see uploaded image
           </Link>
 
           <Button
-            onClick={removeSelectedImage}
+            onClick={removeUploadedImage}
             type="button"
             variant="secondary"
           >
-            {uploadedImagePath ? "Remove" : "Close"}
+            Remove
           </Button>
         </div>
       )}
     </div>
   );
-};
-
-export default ImageUpload;
+}

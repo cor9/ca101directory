@@ -76,9 +76,8 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
       spellChecker: false,
       placeholder: 'Enter the introduction of your product',
       toolbar: ["heading", "bold", "italic", "strikethrough",
-        "|", "code", "quote", "unordered-list", "ordered-list",
-        "|", "link", "horizontal-rule",
-        "|", "preview", "guide"],
+        "code", "quote", "unordered-list", "ordered-list",
+        "link", "preview", "guide"],
       previewClass: ['prose', 'prose-slate', 'dark:prose-invert', 
         'bg-background', 'text-foreground'],
     } as SimpleMDE.Options;

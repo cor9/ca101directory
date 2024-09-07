@@ -65,7 +65,10 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   // https://github.com/RIP21/react-simplemde-editor?tab=readme-ov-file#options
   // useMemo to memoize options so they do not change on each rerender
   // https://github.com/Ionaru/easy-markdown-editor?tab=readme-ov-file#options-example
-  // dont't show image or upload-image button, images are uploaded in the image field of form
+  // don't show image or upload-image button, images are uploaded in the image field of form
+  // don't show side-by-side, it will trigger fullscreen
+  // show preview? tailwindcss reset all styles, so by default the preview is not working,
+  // but if add class `prose` to the previewClass, it will work, but not perfect
   const mdeOptions = useMemo(() => {
     return {
       status: false,
@@ -75,19 +78,9 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
       toolbar: ["heading", "bold", "italic", "strikethrough",
         "|", "code", "quote", "unordered-list", "ordered-list",
         "|", "link", "horizontal-rule",
-        "|", "preview", "side-by-side", "guide"],
-      // previewRender: (markdownPlaintext: string, previewElement: HTMLElement) => {
-      //   let html = '';
-
-      //   // 使用startTransition来处理可能导致挂起的操作
-      //   startTransition(() => {
-      //     html = renderToStaticMarkup(
-      //       <CustomMdx source={markdownPlaintext} />
-      //     );
-      //   });
-
-      //   return html; // 返回渲染后的HTML
-      // },
+        "|", "preview", "guide"],
+      previewClass: ['prose', 'prose-slate', 'dark:prose-invert', 
+        'bg-background', 'text-foreground'],
     } as SimpleMDE.Options;
   }, []);
 
@@ -239,7 +232,7 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
                   </FormLabel>
                   <FormControl>
                     {/* value and onChange */}
-                    <div data-theme={theme} className="no-reset">
+                    <div data-theme={theme}>
                       <SimpleMdeReact
                         options={mdeOptions}
                         {...field}

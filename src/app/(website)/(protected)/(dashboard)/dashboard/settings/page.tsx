@@ -31,13 +31,14 @@ import { SettingsSchema } from "@/lib/schemas";
 import { UserRole } from "@/types/user-role";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
-import { useTransition } from "react";
+import { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
 export default function SettingsPage() {
   const user = useCurrentUser();
+  console.log('SettingsPage, user:', user);
   const { update } = useSession();
   const [isPending, startTransition] = useTransition();
 
@@ -51,6 +52,16 @@ export default function SettingsPage() {
       role: user?.role || undefined,
     }
   });
+
+  useEffect(() => {
+    if (user) {
+      form.reset({
+        name: user?.name || undefined,
+        email: user?.email || undefined,
+        role: user?.role || undefined,
+      });
+    }
+  }, [user, form]);
 
   const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
     startTransition(() => {
@@ -169,6 +180,7 @@ export default function SettingsPage() {
                       <Select
                         disabled={isPending}
                         onValueChange={field.onChange}
+                        value={field.value}
                         defaultValue={field.value}
                       >
                         <FormControl>

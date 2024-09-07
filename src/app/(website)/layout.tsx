@@ -37,11 +37,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange>
-            
+
             {children}
 
-            <Toaster richColors closeButton />
-            
+            {/* https://sonner.emilkowal.ski/toaster */}
+            {/* <Toaster richColors position="top-right" offset={64} /> */}
+            <Toaster richColors position="top-center" />
+
             <TailwindIndicator />
 
           </ThemeProvider>

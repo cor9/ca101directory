@@ -7,9 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { IoCloudUploadOutline } from "react-icons/io5";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, UploadIcon } from "lucide-react";
 
 interface ImageUploadProps {
   onUploadChange: (status: { isUploading: boolean; imageId?: string }) => void;
@@ -81,10 +80,13 @@ export default function ImageUpload({ onUploadChange }: ImageUploadProps) {
   return (
     <div className="space-y-3 h-full">
       <div {...getRootProps()} className="h-full">
+        {/* bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 
+          hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600  */}
         <label
           htmlFor="dropzone-file"
           className="relative flex flex-col items-center justify-center p-6 border-2 
-          border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 
+          border-gray-300 border-dashed rounded-lg cursor-pointer 
+          bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 
           hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 
           w-full visually-hidden-focusable h-full"
         >
@@ -101,13 +103,13 @@ export default function ImageUpload({ onUploadChange }: ImageUploadProps) {
           {!loading && !imageUrl && (
             <div className="text-center">
               <div className="border p-2 rounded-md max-w-min mx-auto">
-                <IoCloudUploadOutline size="1.6em" />
+                <UploadIcon className="w-8 h-8" />
               </div>
 
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              {/* <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                 <span className="font-semibold">Drag an image</span>
-              </p>
-              <p className="text-xs text-gray-400 dark:text-gray-400">
+              </p> */}
+              <p className="mt-4 text-sm text-muted-foreground">
                 Select an image or drag here to upload directly
               </p>
             </div>

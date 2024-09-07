@@ -3,6 +3,7 @@
 import { SubmitItem, SubmitItemFormData } from "@/actions/submit-item";
 import ImageUpload from "@/components/image-upload";
 import { Icons } from "@/components/shared/icons";
+import { MultiSelect } from "@/components/shared/multi-select";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import {
@@ -40,7 +41,6 @@ const SimpleMdeReact = dynamic(() => import('react-simplemde-editor'), { ssr: fa
 import type SimpleMDE from "easymde";
 
 // import this css to style the editor
-import { MultiSelect } from "@/components/shared/multi-select";
 import "@/styles/easymde-dark.css";
 import "easymde/dist/easymde.min.css";
 
@@ -76,6 +76,18 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
         "|", "code", "quote", "unordered-list", "ordered-list",
         "|", "link", "horizontal-rule",
         "|", "preview", "side-by-side", "guide"],
+      // previewRender: (markdownPlaintext: string, previewElement: HTMLElement) => {
+      //   let html = '';
+
+      //   // 使用startTransition来处理可能导致挂起的操作
+      //   startTransition(() => {
+      //     html = renderToStaticMarkup(
+      //       <CustomMdx source={markdownPlaintext} />
+      //     );
+      //   });
+
+      //   return html; // 返回渲染后的HTML
+      // },
     } as SimpleMDE.Options;
   }, []);
 
@@ -175,7 +187,7 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
                 <FormItem>
                   <FormLabel>Categories</FormLabel>
                   <FormControl>
-                  <MultiSelect
+                    <MultiSelect
                       className="shadow-none"
                       options={categoryList.map(category => ({ value: category._id, label: category.name || '' }))}
                       onValueChange={(selected) => field.onChange(selected)}
@@ -226,7 +238,8 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
                     </div>
                   </FormLabel>
                   <FormControl>
-                    <div data-theme={theme}>
+                    {/* value and onChange */}
+                    <div data-theme={theme} className="no-reset">
                       <SimpleMdeReact
                         options={mdeOptions}
                         {...field}

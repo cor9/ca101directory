@@ -90,3 +90,9 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+@layer components {
+  .no-reset {
+      @apply prose;
+  }
+}

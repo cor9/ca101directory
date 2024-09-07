@@ -70,7 +70,7 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
       status: false,
       autofocus: false,
       spellChecker: false,
-      placeholder: 'Enter the introduction of your product (Markdown supported)',
+      placeholder: 'Enter the introduction of your product',
       toolbar: ["heading", "bold", "italic", "strikethrough",
         "|", "code", "quote", "unordered-list", "ordered-list",
         "|", "link", "horizontal-rule",
@@ -228,7 +228,14 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
           name="introduction"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Introduction</FormLabel>
+              <FormLabel>
+                <div className="flex items-center gap-2">
+                  <span>Introduction</span>
+                  <span className="text-sm text-muted-foreground">
+                    (Markdown supported)
+                  </span>
+                </div>
+              </FormLabel>
               <FormControl>
                 <div data-theme={theme}>
                   <SimpleMdeReact

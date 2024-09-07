@@ -7,7 +7,7 @@
 .dark .EasyMDEContainer .CodeMirror {
     color: hsl(var(--foreground));
     background-color: hsl(var(--background));
-    border: none;
+    /* border: none; */
     border-radius: 0;
 }
 
@@ -31,7 +31,7 @@
 
 /* 确保编辑器容器本身也没有边框 */
 .dark .EasyMDEContainer {
-    border: none;
+    /* border: none; */
     border-radius: 0.375rem; /* 为整个容器添加圆角 */
     overflow: hidden; /* 确保内部元素不会超出圆角 */
 }
@@ -53,7 +53,7 @@
 .dark .editor-toolbar {
     background-color: hsl(var(--card));
     border: 1px solid hsl(var(--border)); /* 为工具栏添加边框 */
-    border-bottom: none; /* 移除底部边框，与编辑区域连接 */
+    /* border-bottom: none;  */
     border-top-left-radius: 0.375rem; /* 添加顶部圆角 */
     border-top-right-radius: 0.375rem;
 }

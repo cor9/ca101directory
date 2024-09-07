@@ -3,8 +3,8 @@
 import { SubmitItem, SubmitItemFormData } from "@/actions/submit-item";
 import ImageUpload from "@/components/image-upload";
 import { Icons } from "@/components/shared/icons";
-import MultipleSelector from '@/components/shared/multiple-selector';
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -26,7 +26,6 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useRef } from 'react';
 
 // https://github.com/RIP21/react-simplemde-editor
 // if directly import, frontend error: document is not defined
@@ -41,9 +40,9 @@ const SimpleMdeReact = dynamic(() => import('react-simplemde-editor'), { ssr: fa
 import type SimpleMDE from "easymde";
 
 // import this css to style the editor
+import { MultiSelect } from "@/components/shared/multi-select";
 import "@/styles/easymde-dark.css";
 import "easymde/dist/easymde.min.css";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 
 interface SubmitItemFormProps {
   tagList: TagListQueryResult;
@@ -62,7 +61,6 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const { theme } = useTheme();
   const [isPending, startTransition] = useTransition();
   const [isUploading, setIsUploading] = useState(false);
-  const formRef = useRef<HTMLFormElement>(null);
 
   // https://github.com/RIP21/react-simplemde-editor?tab=readme-ov-file#options
   // useMemo to memoize options so they do not change on each rerender
@@ -107,7 +105,7 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
         toast.success("Submission successful");
         router.push(`/dashboard/`);
       } else {
-        toast.success("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again.");
       }
     });
   });
@@ -116,12 +114,6 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
     setIsUploading(status.isUploading);
     if (status.imageId) {
       form.setValue("imageId", status.imageId);
-    }
-  };
-
-  const handleSubmit = () => {
-    if (formRef.current) {
-      formRef.current.requestSubmit();
     }
   };
 
@@ -183,23 +175,14 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
                 <FormItem>
                   <FormLabel>Categories</FormLabel>
                   <FormControl>
-                    <MultipleSelector
-                      {...field}
+                  <MultiSelect
+                      className="shadow-none"
+                      options={categoryList.map(category => ({ value: category._id, label: category.name || '' }))}
+                      onValueChange={(selected) => field.onChange(selected)}
+                      defaultValue={field.value}
                       placeholder="Select categories"
-                      defaultOptions={categoryList.map(cat => ({ value: cat.name, label: cat.name || '' }))}
-                      value={field.value.map(value => {
-                        const category = categoryList.find(cat => cat.name === value);
-                        return { value, label: category?.name || '' };
-                      })}
-                      onChange={(options) => {
-                        const selected = options.map(option => option.value);
-                        field.onChange(selected);
-                      }}
-                      emptyIndicator={
-                        <p className="text-center text-lg leading-10 text-muted-foreground">
-                          no results found.
-                        </p>
-                      }
+                      variant="default"
+                      maxCount={5}
                     />
                   </FormControl>
                   <FormMessage />
@@ -214,23 +197,14 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
                 <FormItem>
                   <FormLabel>Tags</FormLabel>
                   <FormControl>
-                    <MultipleSelector
-                      {...field}
+                    <MultiSelect
+                      className="shadow-none"
+                      options={tagList.map(tag => ({ value: tag._id, label: tag.name || '' }))}
+                      onValueChange={(selected) => field.onChange(selected)}
+                      defaultValue={field.value}
                       placeholder="Select tags"
-                      defaultOptions={tagList.map(tag => ({ value: tag.name || '', label: tag.name || '' }))}
-                      value={field.value.map(value => {
-                        const tag = tagList.find(t => t.name === value);
-                        return { value, label: tag?.name || '' };
-                      })}
-                      onChange={(options) => {
-                        const selected = options.map(option => option.value);
-                        field.onChange(selected);
-                      }}
-                      emptyIndicator={
-                        <p className="text-center text-lg leading-10 text-mut">
-                          no results found.
-                        </p>
-                      }
+                      variant="default"
+                      maxCount={5}
                     />
                   </FormControl>
                   <FormMessage />

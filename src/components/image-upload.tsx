@@ -1,6 +1,8 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { cn } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { ImageUpIcon, Loader2 } from "lucide-react";
 import Image from "next/image";
@@ -74,69 +76,67 @@ export default function ImageUpload({ onUploadChange }: ImageUploadProps) {
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
-    <div className="space-y-3 h-full">
-      <div {...getRootProps()} className="h-full">
-        {/* bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 
+    <div {...getRootProps()} className="h-full">
+      {/* bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 
           hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600  */}
-        <label
-          htmlFor="dropzone-file"
-          className="relative flex flex-col items-center justify-center p-6 border-2 
-          border-gray-300 border-dashed rounded-lg cursor-pointer 
-          bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 
-          hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 
-          w-full visually-hidden-focusable h-full"
-        >
+      <label
+        htmlFor="dropzone-file"
+        className={cn(
+          "w-full h-full visually-hidden-focusable rounded-lg cursor-pointer",
+          "relative flex flex-col items-center justify-center",
+          "border-2 border-dashed",
+          "hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+        )}>
 
-          {/* initial state */}
-          {!uploading && !imageUrl && (
-            <div className="flex flex-col items-center justify-center gap-4">
-              <ImageUpIcon className="h-8 w-8 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">
-                Select an image or drag here to upload directly
-              </p>
+        {/* initial state */}
+        {!uploading && !imageUrl && (
+          <div className="flex flex-col items-center justify-center gap-4">
+            <ImageUpIcon className="h-8 w-8 text-muted-foreground" />
+            <p className="text-sm text-muted-foreground">
+              Select an image or drag here to upload directly
+            </p>
+          </div>
+        )}
+
+        {/* uploading state */}
+        {uploading && (
+          <div className="flex flex-col items-center justify-center gap-4">
+            <Loader2 className="h-8 w-8 text-muted-foreground animate-spin mx-auto" />
+            <p className="text-sm text-muted-foreground">
+              Please wait while the image is being uploaded
+            </p>
+          </div>
+        )}
+
+        {/* uploaded state */}
+        {imageUrl && !uploading && (
+          <div className="py-4 flex flex-col items-center justify-center gap-4 w-full h-full">
+            <div className="relative w-full h-[80%] flex items-center justify-center">
+              <Image
+                src={imageUrl}
+                alt="uploaded image"
+                layout="fill"
+                objectFit="contain"
+                className="rounded-lg transition-opacity duration-300 hover:opacity-90"
+              />
             </div>
-          )}
+            <p className="text-sm text-muted-foreground">
+              Click here to upload another image
+            </p>
+          </div>
+        )}
+      </label>
 
-          {/* uploading state */}
-          {uploading && (
-            <div className="flex flex-col items-center justify-center gap-4">
-              <Loader2 className="h-8 w-8 text-muted-foreground animate-spin mx-auto" />
-              <p className="text-sm text-muted-foreground">
-                Please wait while the image is being uploaded
-              </p>
-            </div>
-          )}
-
-          {/* uploaded state */}
-          {imageUrl && !uploading && (
-            <div className="flex flex-col items-center justify-center gap-4 w-full h-full">
-              <div className="relative w-full h-[80%] flex items-center justify-center">
-                <Image
-                  src={imageUrl}
-                  alt="uploaded image"
-                  layout="fill"
-                  objectFit="contain"
-                  className="rounded-lg transition-opacity duration-300 hover:opacity-90"
-                />
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Click here to upload another image
-              </p>
-            </div>
-          )}
-        </label>
-
-        {/* input to upload image */}
-        <Input
-          {...getInputProps()}
-          id="dropzone-file"
-          accept="image/png, image/jpeg"
-          type="file"
-          className="hidden"
-          disabled={uploading || imageUrl !== null}
-          onChange={handleImageChange}
-        />
-      </div>
+      {/* input to upload image */}
+      <Input
+        {...getInputProps()}
+        id="dropzone-file"
+        accept="image/png, image/jpeg"
+        type="file"
+        className="hidden"
+        disabled={uploading || imageUrl !== null}
+        onChange={handleImageChange}
+      />
     </div>
   );
 }

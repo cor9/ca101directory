@@ -41,7 +41,7 @@ const SimpleMdeReact = dynamic(() => import('react-simplemde-editor'), { ssr: fa
 import type SimpleMDE from "easymde";
 
 // import this css to style the editor
-import "@/styles/easymde-dark.css";
+import "@/styles/mde.css";
 import "easymde/dist/easymde.min.css";
 
 interface SubmitItemFormProps {

@@ -1,21 +1,19 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { sanityClient } from "@/sanity/lib/client";
+import { ImageUpIcon, Loader2 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
-import { Loader2, UploadIcon } from "lucide-react";
 
 interface ImageUploadProps {
   onUploadChange: (status: { isUploading: boolean; imageId?: string }) => void;
 }
 
 export default function ImageUpload({ onUploadChange }: ImageUploadProps) {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [uploading, setUploading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const uploadImage = async (file: File) => {
@@ -30,7 +28,7 @@ export default function ImageUpload({ onUploadChange }: ImageUploadProps) {
       const asset = await sanityClient.assets.upload('image', file);
       return asset;
     } catch (error) {
-      console.error("uploadImage, error uploading image:", error);
+      console.error('uploadImage, error uploading image:', error);
       toast.error('Upload Image failed, please try again.');
       return null;
     }
@@ -38,7 +36,7 @@ export default function ImageUpload({ onUploadChange }: ImageUploadProps) {
 
   const handleImageUpload = async (image: File) => {
     if (!image) return;
-    setLoading(true);
+    setUploading(true);
     onUploadChange({ isUploading: true });
 
     try {
@@ -50,7 +48,7 @@ export default function ImageUpload({ onUploadChange }: ImageUploadProps) {
     } catch (error) {
       console.error("handleImageUpload, error uploading image:", error);
     } finally {
-      setLoading(false);
+      setUploading(false);
       onUploadChange({ isUploading: false });
     }
   };
@@ -62,16 +60,14 @@ export default function ImageUpload({ onUploadChange }: ImageUploadProps) {
     }
   };
 
-  const removeUploadedImage = () => {
-    setLoading(false);
-    setImageUrl(null);
-    onUploadChange({ isUploading: false });
-  };
-
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
-      const image = acceptedFiles[0];
-      handleImageUpload(image);
+      const file = acceptedFiles[0];
+      if (file.type === 'image/png' || file.type === 'image/jpeg') {
+        handleImageUpload(file);
+      } else {
+        toast.error('Only PNG and JPEG images are allowed.');
+      }
     }
   }, []);
 
@@ -90,79 +86,57 @@ export default function ImageUpload({ onUploadChange }: ImageUploadProps) {
           hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 
           w-full visually-hidden-focusable h-full"
         >
-          {loading && (
-            <div className="text-center max-w-md">
-              <Loader2 className="h-8 w-8 animate-spin mx-auto" />
-              <p className="text-sm font-semibold mt-2">Uploading Picture</p>
-              <p className="text-xs text-gray-400">
-                Please wait while the picture is being uploaded
-              </p>
-            </div>
-          )}
 
-          {!loading && !imageUrl && (
-            <div className="text-center">
-              <div className="border p-2 rounded-md max-w-min mx-auto">
-                <UploadIcon className="w-8 h-8" />
-              </div>
-
-              {/* <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                <span className="font-semibold">Drag an image</span>
-              </p> */}
-              <p className="mt-4 text-sm text-muted-foreground">
+          {/* initial state */}
+          {!uploading && !imageUrl && (
+            <div className="flex flex-col items-center justify-center gap-4">
+              <ImageUpIcon className="h-8 w-8 text-muted-foreground" />
+              <p className="text-sm text-muted-foreground">
                 Select an image or drag here to upload directly
               </p>
             </div>
           )}
 
-          {imageUrl && !loading && (
-            <div className="text-center space-y-2">
-              <Image
-                width={1000}
-                height={1000}
-                src={imageUrl}
-                className="w-full object-contain max-h-16 opacity-70"
-                alt="uploaded image"
-              />
-              <div className="space-y-1">
-                <p className="text-sm font-semibold">Image Uploaded</p>
-                <p className="text-xs text-gray-400">
-                  Click here to upload another image
-                </p>
+          {/* uploading state */}
+          {uploading && (
+            <div className="flex flex-col items-center justify-center gap-4">
+              <Loader2 className="h-8 w-8 text-muted-foreground animate-spin mx-auto" />
+              <p className="text-sm text-muted-foreground">
+                Please wait while the image is being uploaded
+              </p>
+            </div>
+          )}
+
+          {/* uploaded state */}
+          {imageUrl && !uploading && (
+            <div className="flex flex-col items-center justify-center gap-4 w-full h-full">
+              <div className="relative w-full h-[80%] flex items-center justify-center">
+                <Image
+                  src={imageUrl}
+                  alt="uploaded image"
+                  layout="fill"
+                  objectFit="contain"
+                  className="rounded-lg transition-opacity duration-300 hover:opacity-90"
+                />
               </div>
+              <p className="text-sm text-muted-foreground">
+                Click here to upload another image
+              </p>
             </div>
           )}
         </label>
 
+        {/* input to upload image */}
         <Input
           {...getInputProps()}
           id="dropzone-file"
           accept="image/png, image/jpeg"
           type="file"
           className="hidden"
-          disabled={loading || imageUrl !== null}
+          disabled={uploading || imageUrl !== null}
           onChange={handleImageChange}
         />
       </div>
-
-      {!!imageUrl && (
-        <div className="flex items-center justify-between">
-          <Link
-            href={imageUrl}
-            className="text-gray-500 text-xs hover:underline"
-          >
-            Click here to see uploaded image
-          </Link>
-
-          <Button
-            onClick={removeUploadedImage}
-            type="button"
-            variant="secondary"
-          >
-            Remove
-          </Button>
-        </div>
-      )}
     </div>
   );
 }

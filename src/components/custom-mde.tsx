@@ -3,7 +3,6 @@
 import { useMemo } from 'react';
 import { useTheme } from 'next-themes';
 
-// https://github.com/RIP21/react-simplemde-editor
 // if directly import, frontend error: document is not defined
 // import { SimpleMdeReact } from "react-simplemde-editor";
 // but if dynamic import, no error reported
@@ -24,6 +23,11 @@ interface CustomMdeProps {
   onChange: (value: string) => void;
 }
 
+/**
+ * https://github.com/RIP21/react-simplemde-editor
+ * 
+ * https://github.com/sanity-io/sanity-plugin-markdown?tab=readme-ov-file#customizing-editor-preview
+ */
 const CustomMde: React.FC<CustomMdeProps> = ({ value, onChange }) => {
   const theme = useTheme();
 

@@ -8,7 +8,7 @@ export const sidebarLinks: NestedNavItem[] = [
       {
         href: "/dashboard",
         icon: "dashboard",
-        title: "Dashboard"
+        title: "Submissions"
       },
       {
         href: "/dashboard/submit",

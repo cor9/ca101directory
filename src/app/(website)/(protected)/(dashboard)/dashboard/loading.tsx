@@ -4,7 +4,7 @@ import { DashboardHeader } from "@/components/dashboard/header";
 export default function DashboardLoading() {
   return (
     <>
-      <DashboardHeader heading="Dashboard" text="Current Role :" />
+      <DashboardHeader heading="Submissions" text="" />
       <Skeleton className="size-full rounded-lg" />
     </>
   );

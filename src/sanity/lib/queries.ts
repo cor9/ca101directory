@@ -22,6 +22,7 @@ const itemFields = /* groq */ `
   // "slug": slug.current,
   // "name": coalesce(name[$locale], name[$defaultLocale]),
   // "description": coalesce(description[$locale], description[$defaultLocale]),
+  submitter->,
   categories[]->{
     ...,
   },
@@ -70,6 +71,12 @@ export const tagListQuery = defineQuery(`*[_type == "tag" && defined(slug.curren
 
 export const tagQuery = defineQuery(`*[_type == "tag" && slug.current == $slug][0] {
   ${tagFields}
+}`);
+
+// Submissions
+export const submissionListQuery = defineQuery(`*[_type == "item" && defined(slug.current)
+  && submitter._ref == $userId] | order(_createdAt desc) {
+  ${itemFields}
 }`);
 
 // Page Queries

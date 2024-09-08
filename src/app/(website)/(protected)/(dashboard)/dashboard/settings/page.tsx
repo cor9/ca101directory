@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
@@ -83,13 +84,16 @@ export default function SettingsPage() {
     <>
       <DashboardHeader
         heading="Settings"
-        text="Manage account settings."
+      // text="Manage account settings."
       />
       <div className="space-y-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <Card className="overflow-hidden">
               <CardHeader>
+                <CardDescription>
+                  Manage account settings.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <FormField

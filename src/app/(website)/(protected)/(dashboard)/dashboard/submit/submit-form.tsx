@@ -6,7 +6,7 @@ import ImageUpload from "@/components/image-upload";
 import { Icons } from "@/components/shared/icons";
 import { MultiSelect } from "@/components/shared/multi-select";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -88,6 +88,11 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
       <form onSubmit={onSubmit}>
         <Card className="overflow-hidden">
           <CardHeader>
+            {/* <CardTitle>Submit your product</CardTitle> */}
+            <CardDescription>
+              {/* Please fill in the form to submit your product. */}
+              Submit your product to get listed.
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <FormField

@@ -10,7 +10,6 @@ export async function getBlogs({
     currentPage
 }: {
     category?: string;
-    query?: string;
     currentPage: number
 }) {
     const { countQuery, dataQuery } = buildQuery(category, currentPage);

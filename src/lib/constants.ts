@@ -4,6 +4,8 @@ export const SHOW_AUTH_LOGS = false;
 export const ITEMS_PER_PAGE = 8;
 // number of posts per page
 export const POSTS_PER_PAGE = 3;
+// number of submissions per page
+export const SUBMISSIONS_PER_PAGE = 5;
 
 export type SortFilterItem = {
   title: string;

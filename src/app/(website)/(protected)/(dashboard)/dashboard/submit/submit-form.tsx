@@ -1,6 +1,7 @@
 "use client";
 
 import { SubmitItem, SubmitItemFormData } from "@/actions/submit-item";
+import CustomMde from "@/components/custom-mde";
 import ImageUpload from "@/components/image-upload";
 import { Icons } from "@/components/shared/icons";
 import { MultiSelect } from "@/components/shared/multi-select";
@@ -22,27 +23,10 @@ import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import confetti from 'canvas-confetti';
 import { HourglassIcon } from "lucide-react";
-import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
-import { useMemo, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-
-// https://github.com/RIP21/react-simplemde-editor
-// if directly import, frontend error: document is not defined
-// import { SimpleMdeReact } from "react-simplemde-editor";
-// but if dynamic import, no error reported
-import dynamic from 'next/dynamic';
-const SimpleMdeReact = dynamic(() => import('react-simplemde-editor'), { ssr: false });
-
-// if import SimpleMDE from react-simplemde-editor, SimpleMDE.Options can't be found
-// import SimpleMDE from "react-simplemde-editor";
-// but import type SimpleMDE from "easymde" is ok
-import type SimpleMDE from "easymde";
-
-// import this css to style the editor
-import "@/styles/mde.css";
-import "easymde/dist/easymde.min.css";
 
 interface SubmitItemFormProps {
   tagList: TagListQueryResult;
@@ -58,30 +42,8 @@ interface SubmitItemFormProps {
  */
 export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   const router = useRouter();
-  const { theme } = useTheme();
   const [isPending, startTransition] = useTransition();
   const [isUploading, setIsUploading] = useState(false);
-
-  // https://github.com/RIP21/react-simplemde-editor?tab=readme-ov-file#options
-  // useMemo to memoize options so they do not change on each rerender
-  // https://github.com/Ionaru/easy-markdown-editor?tab=readme-ov-file#options-example
-  // don't show image or upload-image button, images are uploaded in the image field of form
-  // don't show side-by-side, it will trigger fullscreen
-  // show preview? tailwindcss reset all styles, so by default the preview is not working,
-  // but if add class `prose` to the previewClass, it will work, but not perfect
-  const mdeOptions = useMemo(() => {
-    return {
-      status: false,
-      autofocus: false,
-      spellChecker: false,
-      placeholder: 'Enter the introduction of your product',
-      toolbar: ["heading", "bold", "italic", "strikethrough",
-        "code", "quote", "unordered-list", "ordered-list",
-        "link", "preview", "guide"],
-      previewClass: ['prose', 'prose-slate', 'dark:prose-invert', 
-        'bg-background', 'text-foreground'],
-    } as SimpleMDE.Options;
-  }, []);
 
   // set default values for form fields and validation schema
   const form = useForm<SubmitItemFormData>({
@@ -126,8 +88,6 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
       <form onSubmit={onSubmit}>
         <Card className="overflow-hidden">
           <CardHeader>
-            {/* <CardTitle>Submit Your Product</CardTitle>
-            <CardDescription>Fill in the details of your product for submission.</CardDescription> */}
           </CardHeader>
           <CardContent className="space-y-6">
             <FormField
@@ -230,13 +190,7 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
                     </div>
                   </FormLabel>
                   <FormControl>
-                    {/* value and onChange */}
-                    <div data-theme={theme}>
-                      <SimpleMdeReact
-                        options={mdeOptions}
-                        {...field}
-                      />
-                    </div>
+                    <CustomMde {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

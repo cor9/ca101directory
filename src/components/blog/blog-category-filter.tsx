@@ -4,6 +4,9 @@ import { Suspense } from 'react';
 import Container from '@/components/shared/container';
 import { BlogCategoryList } from "./blog-category-list";
 
+/**
+ * TODO: maybe change to CustomSwitch
+ */
 export async function BlogCategoryFilter() {
   const categoryList = await sanityClient.fetch(blogCategoryListQuery);
 

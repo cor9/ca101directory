@@ -23,6 +23,10 @@ export interface CustomSwitchProps
   highlighterStyle?: React.CSSProperties
 }
 
+/**
+ * https://react-fancy-radio.vercel.app/
+ * https://github.com/Aslam97/react-fancy-switch
+ */
 export const CustomSwitch = React.forwardRef<HTMLDivElement, CustomSwitchProps>(
   (
     {
@@ -243,7 +247,7 @@ export const CustomSwitch = React.forwardRef<HTMLDivElement, CustomSwitchProps>(
         {memoizedOptions.map((option, index) => (
           <div
             key={index}
-            ref={(el) => (radioRefs.current[index] = el)}
+            ref={(el) => { if (el) radioRefs.current[index] = el; }}
             role="radio"
             aria-checked={index === activeIndex}
             tabIndex={index === activeIndex ? 0 : -1}

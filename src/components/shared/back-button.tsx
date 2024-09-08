@@ -15,10 +15,10 @@ export default function BackButton() {
             onClick={() => router.back()}
             className={cn(
                 buttonVariants({ variant: "outline", size: "lg" }),
-                "flex items-center gap-2"
+                "flex items-center gap-2 group"
             )}
         >
-            <ArrowLeftIcon className="w-5 h-5" />
+            <ArrowLeftIcon className="w-5 h-5 transition-transform duration-200 group-hover:-translate-x-1" />
             Back
         </Link>
     );

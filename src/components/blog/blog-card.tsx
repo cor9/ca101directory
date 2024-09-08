@@ -62,10 +62,10 @@ export default function BlogCard({ post }: BlogCardProps) {
       <div className="mt-4 flex flex-col flex-grow">
         <div>
           {/* Post categories */}
-          <BlogCategoryLabel categories={post.categories} />
+          {/* <BlogCategoryLabel categories={post.categories} /> */}
 
           {/* Post title */}
-          <h2 className="mt-4 text-lg line-clamp-2 font-medium">
+          <h2 className="text-lg line-clamp-2 font-medium">
             <Link
               href={`${postUrlPrefix}/${post.slug.current}`}>
               <span

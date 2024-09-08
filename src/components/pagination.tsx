@@ -21,6 +21,7 @@ export default function CustomPagination({ totalPages, routePreix }: CustomPagin
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
 
+  // TODO: can we remove routePrefix?
   const handlePageChange = (page: number | string) => {
     const params = new URLSearchParams(searchParams);
     params.set('page', page.toString());

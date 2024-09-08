@@ -55,6 +55,14 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                                 View
                             </Link>
 
+                            <Link href={`/dashboard/pay/${submission._id}`}
+                                className={cn(
+                                    buttonVariants({ variant: "outline", size: "sm" })
+                                )}
+                            >
+                                Pay
+                            </Link>
+
                             <Link href={`/dashboard/update/${submission._id}`}
                                 className={cn(
                                     buttonVariants({ variant: "outline", size: "sm" })

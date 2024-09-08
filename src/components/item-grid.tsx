@@ -6,9 +6,10 @@ import { ItemListQueryResult } from '@/sanity.types';
 interface ItemGridProps {
   items: ItemListQueryResult;
   totalPages: number;
+  paginationPrefix: string;
 }
 
-export default function ItemGrid({ items, totalPages }: ItemGridProps) {
+export default function ItemGrid({ items, totalPages, paginationPrefix }: ItemGridProps) {
   return (
     <>
       {/* when no items are found */}
@@ -31,7 +32,7 @@ export default function ItemGrid({ items, totalPages }: ItemGridProps) {
 
             <div className="mt-12 flex items-center justify-center">
               <Suspense fallback={null}>
-                <CustomPagination routePreix='/search' totalPages={totalPages} />
+                <CustomPagination routePreix={paginationPrefix} totalPages={totalPages} />
               </Suspense>
             </div>
           </section>

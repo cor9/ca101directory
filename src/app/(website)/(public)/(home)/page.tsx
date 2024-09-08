@@ -18,6 +18,6 @@ export default async function HomePage({
   // console.log('HomePage, items', items);
 
   return (
-    <ItemGrid items={items} totalPages={totalPages} />
+    <ItemGrid items={items} totalPages={totalPages} paginationPrefix='/' />
   );
 }

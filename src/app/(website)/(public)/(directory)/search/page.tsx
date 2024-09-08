@@ -18,6 +18,6 @@ export default async function SearchPage({
   // console.log('SearchPage, items', items);
 
   return (
-    <ItemGrid items={items} totalPages={totalPages} />
+    <ItemGrid items={items} totalPages={totalPages} paginationPrefix='/search' />
   );
 }

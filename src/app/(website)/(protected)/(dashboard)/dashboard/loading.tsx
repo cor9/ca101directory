@@ -1,11 +1,7 @@
-import { Skeleton } from "@/components/ui/skeleton";
-import { DashboardHeader } from "@/components/dashboard/header";
+import { Loader2 } from "lucide-react";
 
-export default function DashboardLoading() {
-  return (
-    <>
-      <DashboardHeader heading="Submissions" text="" />
-      <Skeleton className="size-full rounded-lg" />
-    </>
-  );
+export default function Loading() {
+    return (
+        <Loader2 className="my-32 mx-auto size-6 animate-spin" />
+    )
 }

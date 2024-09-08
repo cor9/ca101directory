@@ -1,18 +1,7 @@
-import { DashboardHeader } from "@/components/dashboard/header";
-import { SkeletonSection } from "@/components/shared/section-skeleton";
+import { Loader2 } from "lucide-react";
 
-export default function DashboardSettingsLoading() {
-  return (
-    <>
-      <DashboardHeader
-        heading="Submit"
-        text="Submit your product to get listed."
-      />
-      <div className="divide-y divide-muted pb-10">
-        <SkeletonSection />
-        <SkeletonSection />
-        <SkeletonSection card />
-      </div>
-    </>
-  );
+export default function Loading() {
+    return (
+        <Loader2 className="my-32 mx-auto size-6 animate-spin" />
+    )
 }

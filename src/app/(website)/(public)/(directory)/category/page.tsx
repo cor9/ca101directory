@@ -15,6 +15,6 @@ export default async function CategoryIndexPage({
   console.log('CategoryIndexPage, totalCount', totalCount, ", totalPages", totalPages);
 
   return (
-    <ItemGrid items={items} totalPages={totalPages} />
+    <ItemGrid items={items} totalPages={totalPages} paginationPrefix={`/category`} />
   );
 }

@@ -17,6 +17,6 @@ export default async function CategoryPage({
   console.log('CategoryPage, totalCount', totalCount, ', totalPages', totalPages);
 
   return (
-    <ItemGrid items={items} totalPages={totalPages} />
+    <ItemGrid items={items} totalPages={totalPages} paginationPrefix={`/category/${params.slug}`} />
   );
 }

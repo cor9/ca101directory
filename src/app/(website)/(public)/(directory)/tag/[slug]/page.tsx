@@ -17,6 +17,6 @@ export default async function TagPage({
   console.log('TagPage, totalCount', totalCount, ', totalPages', totalPages);
 
   return (
-    <ItemGrid items={items} totalPages={totalPages} />
+    <ItemGrid items={items} totalPages={totalPages} paginationPrefix={`/tag/${params.slug}`} />
   );
 }

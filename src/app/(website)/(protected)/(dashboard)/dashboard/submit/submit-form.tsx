@@ -88,7 +88,7 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
       <form onSubmit={onSubmit}>
         <Card className="overflow-hidden">
           <CardHeader>
-            {/* <CardTitle>Submit your product</CardTitle> */}
+            <CardTitle>Submit</CardTitle>
             <CardDescription>
               {/* Please fill in the form to submit your product. */}
               Submit your product to get listed.
@@ -225,7 +225,7 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
               )}
             />
           </CardContent>
-          <CardFooter className="flex flex-col items-stretch space-y-4 bg-muted px-6 py-4 sm:flex-row sm:justify-between sm:space-y-0">
+          <CardFooter className="flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4 sm:flex-row sm:justify-between sm:space-y-0">
             <Button size="lg"
               type="submit"
               className="w-full sm:w-auto"

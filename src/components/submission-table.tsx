@@ -20,9 +20,13 @@ import {
     TableRow
 } from '@/components/ui/table';
 import { SUBMISSIONS_PER_PAGE } from '@/lib/constants';
+import { cn } from '@/lib/utils';
 import { ItemInfo } from '@/types';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+import { Button, buttonVariants } from './ui/button';
+import { PlusIcon } from 'lucide-react';
+import Link from 'next/link';
 
 export function SubmissionTable({
     submissions,
@@ -41,11 +45,23 @@ export function SubmissionTable({
     return (
         <Card>
             <CardHeader>
-                {/* <CardTitle>
+                <CardTitle>
                     Submissions
-                </CardTitle> */}
+                </CardTitle>
                 <CardDescription>
-                    Manage your submissions.
+                    <div className='flex items-center justify-between'>
+                        <span>
+                            Manage your submissions.
+                        </span>
+                        <div>
+                            <Link href="/dashboard/submit"
+                                className={cn(buttonVariants({ variant: 'default' }),
+                                    "flex items-center gap-1")}>
+                                <PlusIcon className="h-4 w-4" />
+                                Submit
+                            </Link>
+                        </div>
+                    </div>
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -82,8 +98,9 @@ export function SubmissionTable({
                 </Table>
             </CardContent>
             <CardFooter className='px-0 pb-0'>
-                <div className="flex w-full justify-between
-                items-center space-y-4 bg-muted/50 px-6 py-4 sm:flex-row sm:justify-between sm:space-y-0">
+                <div className={cn("flex w-full justify-between items-center",
+                    "space-y-4 border-t bg-accent/50 px-6 py-4",
+                    "sm:flex-row sm:justify-between sm:space-y-0")}>
                     <div className="text-sm text-muted-foreground">
                         Showing{' '}
                         <strong>

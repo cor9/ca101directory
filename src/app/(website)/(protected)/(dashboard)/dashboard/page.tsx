@@ -32,10 +32,10 @@ export default async function DashboardPage({
 
   return (
     <>
-      <DashboardHeader
+      {/* <DashboardHeader
         heading="Submissions"
-      // text="Overview of your submissions."
-      />
+        text="Overview of your submissions."
+      /> */}
 
       {submissions.length === 0 ? (
         <EmptyPlaceholder>

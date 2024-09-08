@@ -10,6 +10,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import {
   Form,
@@ -82,15 +83,19 @@ export default function SettingsPage() {
 
   return (
     <>
-      <DashboardHeader
+      {/* <DashboardHeader
         heading="Settings"
-      // text="Manage account settings."
-      />
+        text="Manage account settings."
+      /> */}
+      
       <div className="space-y-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <Card className="overflow-hidden">
               <CardHeader>
+                <CardTitle>
+                  Settings
+                </CardTitle>
                 <CardDescription>
                   Manage account settings.
                 </CardDescription>
@@ -206,7 +211,7 @@ export default function SettingsPage() {
                   )}
                 />
               </CardContent>
-              <CardFooter className="flex flex-col items-stretch space-y-4 bg-muted px-6 py-4 sm:flex-row sm:justify-between sm:space-y-0">
+              <CardFooter className="flex flex-col items-center space-y-4 border-t bg-accent px-6 py-4 sm:flex-row sm:justify-between sm:space-y-0">
                 <Button
                   size="lg"
                   type="submit"

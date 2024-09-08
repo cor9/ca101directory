@@ -17,10 +17,10 @@ export default async function SubmitPage() {
 
   return (
     <>
-      <DashboardHeader
+      {/* <DashboardHeader
         heading="Submit"
-        // text="Submit your product to get listed."
-      />
+        text="Submit your product to get listed."
+      /> */}
       <div className="divide-y divide-muted pb-10">
         <Suspense fallback={null}>
           <SubmitItemForm tagList={tagList} categoryList={categoryList} />

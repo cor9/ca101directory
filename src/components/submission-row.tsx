@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -9,10 +9,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { urlForImage } from '@/lib/image';
-import { getLocaleDate } from '@/lib/utils';
+import { cn, getLocaleDate } from '@/lib/utils';
 import { SubmissionInfo } from '@/types';
 import { MoreHorizontal } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
     return (
@@ -20,7 +21,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
             <TableCell className="hidden sm:table-cell">
                 <Image
                     alt="Product image"
-                    className="aspect-square rounded-md object-cover"
+                    className="aspect-square rounded-md object-cover my-0.5"
                     src={urlForImage(submission.image).src}
                     width="64"
                     height="64"
@@ -44,9 +45,17 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                 <>
                     <div className='hidden sm:block'>
                         <div className='flex items-center gap-2'>
-                            <Button variant="outline" size="sm">View</Button>
+                            <Link href={`/item/${submission.slug.current}`} target='_blank'
+                                className={cn(
+                                    buttonVariants({ variant: "default", size: "sm" })
+                                )}
+                            >
+                                View
+                            </Link>
                             <Button variant="outline" size="sm">Edit</Button>
-                            <Button variant="outline" size="sm">Delete</Button>
+                            <Button variant="outline" size="sm">
+                                Unpublish
+                            </Button>
                         </div>
                     </div>
                     <div className='sm:hidden'>

@@ -1,5 +1,5 @@
 import BlogGrid from "@/components/blog/blog-grid";
-import { BlogHeaderLayout } from "@/components/blog/blog-header-layout";
+import { BlogCategoryFilter } from "@/components/blog/blog-category-filter";
 import Container from "@/components/shared/container";
 import { HeaderSection } from "@/components/shared/header-section";
 import { getBlogs } from "@/data/blog";
@@ -24,7 +24,7 @@ export default async function BlogListPage({
         subtitle={""} /> */}
 
       {/* blog header */}
-      <BlogHeaderLayout />
+      <BlogCategoryFilter />
 
       {/* blog grid */}
       <Container className="pb-16">

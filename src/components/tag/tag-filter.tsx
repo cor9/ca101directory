@@ -1,23 +1,17 @@
+import { Suspense } from 'react';
 import { sorting } from '@/lib/constants';
 import { TagListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { tagListQuery } from '@/sanity/lib/queries';
-import Container from '../shared/container';
-import { SortList } from '../sort-list';
+import Container from '@/components/shared/container';
+import { SortList } from '@/components/sort-list';
 import { TagList } from './tag-list';
-import { Suspense } from 'react';
 
-async function GetTagList() {
+export async function TagFilter() {
   const tagList = await sanityFetch<TagListQueryResult>({
     query: tagListQuery
   });
-  // console.log('GetTagList, tagList:', tagList);
-  return (
-    <TagList tagList={tagList} />
-  );
-}
 
-export async function TagFilter() {
   return (
     <>
       {/* Desktop View, has Container */}
@@ -25,7 +19,7 @@ export async function TagFilter() {
         <div className='flex items-center justify-between gap-8 mt-4'>
           <div className="w-full">
             <Suspense fallback={null}>
-              <GetTagList />
+              <TagList tagList={tagList} />
             </Suspense>
           </div>
 
@@ -40,7 +34,7 @@ export async function TagFilter() {
       {/* Mobile View, no Container */}
       <div className="md:hidden flex flex-col gap-8 mt-4">
         <Suspense fallback={null}>
-          <GetTagList />
+          <TagList tagList={tagList} />
         </Suspense>
 
         {/* set width to full */}

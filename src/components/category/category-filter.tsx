@@ -2,23 +2,12 @@ import { sorting } from '@/lib/constants';
 import { sanityClient } from '@/sanity/lib/client';
 import { categoryListQuery } from '@/sanity/lib/queries';
 import { Suspense } from 'react';
+import Container from '@/components/shared/container';
+import { SortList } from '@/components/sort-list';
 import { CategoryList } from "./category-list";
-import Container from '../shared/container';
-import { SortList } from '../sort-list';
-
-/**
- * if using sanityClient directly, the type is CategoryListQueryResult,
- * but if using sanityFetch, the type is unknown!
- */
-async function GetCategoryList() {
-  const categoryList = await sanityClient.fetch(categoryListQuery);
-  // console.log('GetCategoryList, categoryList:', categoryList);
-  return (
-    <CategoryList categoryList={categoryList} />
-  );
-}
 
 export async function CategoryFilter() {
+  const categoryList = await sanityClient.fetch(categoryListQuery);
   return (
     <>
       {/* Desktop View, has Container */}
@@ -26,7 +15,7 @@ export async function CategoryFilter() {
         <div className='flex items-center justify-between gap-8 mt-4'>
           <div className="w-full">
             <Suspense fallback={null}>
-              <GetCategoryList />
+              <CategoryList categoryList={categoryList} />
             </Suspense>
           </div>
 
@@ -43,7 +32,7 @@ export async function CategoryFilter() {
       {/* Mobile View, no Container */}
       <div className="md:hidden flex flex-col gap-8 mt-4">
         <Suspense fallback={null}>
-          <GetCategoryList />
+          <CategoryList categoryList={categoryList} />
         </Suspense>
 
         {/* set width to full */}

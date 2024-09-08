@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import Container from '@/components/shared/container';
 import { BlogCategoryList } from "./blog-category-list";
 
-export async function BlogHeaderLayout() {
+export async function BlogCategoryFilter() {
   const categoryList = await sanityClient.fetch(blogCategoryListQuery);
 
   return (

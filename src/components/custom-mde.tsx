@@ -31,7 +31,7 @@ const CustomMde: React.FC<CustomMdeProps> = ({ value, onChange }) => {
   // useMemo to memoize options so they do not change on each rerender
   // https://github.com/Ionaru/easy-markdown-editor?tab=readme-ov-file#options-example
   // don't show image or upload-image button, images are uploaded in the image field of form
-  // don't show side-by-side, it will trigger fullscreen
+  // don't show side-by-side, it will trigger fullscreen and has some bugs in UI
   // show preview? tailwindcss reset all styles, so by default the preview is not working,
   // but if add class `prose` to the previewClass, it will work, but not perfect
   const mdeOptions = useMemo(() => {

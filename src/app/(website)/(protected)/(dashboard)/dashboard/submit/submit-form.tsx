@@ -1,6 +1,6 @@
 "use client";
 
-import { SubmitItem, SubmitItemFormData } from "@/actions/submit-item";
+import { SubmitItem, SubmitFormData } from "@/actions/submit-item";
 import CustomMde from "@/components/custom-mde";
 import ImageUpload from "@/components/image-upload";
 import { Icons } from "@/components/shared/icons";
@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { SubmitItemSchema } from "@/lib/schemas";
+import { SubmitSchema } from "@/lib/schemas";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import confetti from 'canvas-confetti';
@@ -28,7 +28,7 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-interface SubmitItemFormProps {
+interface SubmitFormProps {
   tagList: TagListQueryResult;
   categoryList: CategoryListQueryResult;
 }
@@ -40,14 +40,14 @@ interface SubmitItemFormProps {
  * 2. React Hook Form
  * https://react-hook-form.com/get-started
  */
-export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
+export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [isUploading, setIsUploading] = useState(false);
 
   // set default values for form fields and validation schema
-  const form = useForm<SubmitItemFormData>({
-    resolver: zodResolver(SubmitItemSchema),
+  const form = useForm<SubmitFormData>({
+    resolver: zodResolver(SubmitSchema),
     defaultValues: {
       name: "",
       link: "",
@@ -60,11 +60,11 @@ export function SubmitItemForm({ tagList, categoryList }: SubmitItemFormProps) {
   });
 
   // submit form if data is valid
-  const onSubmit = form.handleSubmit((data: SubmitItemFormData) => {
-    console.log('SubmitItemForm, onSubmit, data:', data);
+  const onSubmit = form.handleSubmit((data: SubmitFormData) => {
+    console.log('SubmitForm, onSubmit, data:', data);
     startTransition(async () => {
       const { status } = await SubmitItem(data);
-      console.log('SubmitItemForm, status:', status);
+      console.log('SubmitForm, status:', status);
       if (status === "success") {
         confetti();
         form.reset();

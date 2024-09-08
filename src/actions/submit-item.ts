@@ -1,13 +1,13 @@
 "use server";
 
 import { auth } from "@/auth";
-import { SubmitItemSchema } from "@/lib/schemas";
+import { SubmitSchema } from "@/lib/schemas";
 import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
 import { nanoid } from 'nanoid';
 
-export type SubmitItemFormData = {
+export type SubmitFormData = {
   name: string;
   link: string;
   description: string;
@@ -18,7 +18,7 @@ export type SubmitItemFormData = {
 };
 
 // https://nextjs.org/learn/dashboard-app/mutating-data
-export async function SubmitItem(data: SubmitItemFormData) {
+export async function SubmitItem(data: SubmitFormData) {
   try {
     const session = await auth();
     if (!session?.user || !session?.user?.id) {
@@ -29,7 +29,7 @@ export async function SubmitItem(data: SubmitItemFormData) {
 
     console.log("submitItem, data:", data);
     const { name, link, description, introduction, imageId,
-      tags, categories } = SubmitItemSchema.parse(data);
+      tags, categories } = SubmitSchema.parse(data);
     console.log("submitItem, name:", name, "link:", link);
 
     const submitData = {

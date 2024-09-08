@@ -4,7 +4,7 @@ import { UserRole } from "@/types/user-role";
 /**
  * submit item
  */
-export const SubmitItemSchema = z.object({
+export const SubmitSchema = z.object({
   name: z.string()
       .min(1, { message: "Name is required" })
       .max(32, { message: "Name must be 32 or fewer characters long" }),

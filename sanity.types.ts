@@ -507,6 +507,77 @@ export type ItemQueryResult = {
   };
   publishDate?: string;
 } | null;
+// Variable: itemByIdQuery
+// Query: *[_type == "item" && _id == $id][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
+export type ItemByIdQueryResult = {
+  _id: string;
+  _type: "item";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  description?: string;
+  link?: string;
+  categories: Array<{
+    _id: string;
+    _type: "category";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+    priority?: number;
+  }> | null;
+  tags: Array<{
+    _id: string;
+    _type: "tag";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+  }> | null;
+  submitter: {
+    _id: string;
+    _type: "user";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    email?: string;
+    emailVerified?: string;
+    image?: string;
+    password?: string;
+    role?: "ADMIN" | "USER";
+    accounts?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "account";
+    };
+    stripeCustomerId?: string;
+    stripeSubscriptionId?: string;
+    stripePriceId?: string;
+    stripeCurrentPeriodEnd?: string;
+  } | null;
+  introduction?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  publishDate?: string;
+} | null;
 // Variable: itemListQuery
 // Query: *[_type == "item" && defined(slug.current) && defined(publishDate)]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
 export type ItemListQueryResult = Array<{
@@ -721,7 +792,7 @@ export type ItemListOfTagQueryResult = Array<{
   publishDate?: string;
 }>;
 // Variable: categoryListQuery
-// Query: *[_type == "category" && defined(slug.current)]   | order(order desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "category" && defined(slug.current)]   | order(priority desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
 export type CategoryListQueryResult = Array<{
   _id: string;
   _type: "category";
@@ -974,6 +1045,20 @@ export type BlogListQueryResult = Array<{
     _type: "image";
   };
   publishDate?: string;
+}>;
+// Variable: blogCategoryListQuery
+// Query: *[_type == "blogCategory" && defined(slug.current)]   | order(priority desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+export type BlogCategoryListQueryResult = Array<{
+  _id: string;
+  _type: "blogCategory";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  description?: string;
+  priority?: number;
+  color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
 }>;
 // Variable: postquery
 // Query: *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) {  _id,  _createdAt,  publishedDate,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "ImageColor": asset->metadata.palette.dominant.background,  },  featured,  excerpt,  slug,  title,  author-> {    _id,    image,    "slug": name, // use name as slug    name  },  categories[]->,}
@@ -1745,16 +1830,18 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"item\" && slug.current == $slug][0] {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  submitter->,\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": ItemQueryResult;
+    "*[_type == \"item\" && _id == $id][0] {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  submitter->,\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": ItemByIdQueryResult;
     "*[_type == \"item\" && defined(slug.current) && defined(publishDate)] \n  | order(publishDate desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  submitter->,\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": ItemListQueryResult;
     "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in categories[]->slug.current] \n  | order(publishDate desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  submitter->,\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": ItemListOfCategoryQueryResult;
     "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in tags[]->slug.current] \n  | order(publishDate desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  submitter->,\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": ItemListOfTagQueryResult;
-    "*[_type == \"category\" && defined(slug.current)] \n  | order(order desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": CategoryListQueryResult;
+    "*[_type == \"category\" && defined(slug.current)] \n  | order(priority desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": CategoryListQueryResult;
     "*[_type == \"category\" && slug.current == $slug][0] {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": CategoryQueryResult;
     "*[_type == \"tag\" && defined(slug.current)] \n  | order(slug.current asc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": TagListQueryResult;
     "*[_type == \"tag\" && slug.current == $slug][0] {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": TagQueryResult;
     "*[_type == \"item\" && defined(slug.current)\n  && submitter._ref == $userId] | order(_createdAt desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  submitter->,\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": SubmissionListQueryResult;
     "\n  *[_type == \"page\" && slug.current == $slug][0] {\n    ...,\n    body[]{\n      ...,\n      markDefs[]{\n        ...,\n        _type == \"internalLink\" => {\n          \"slug\": @.reference->slug\n        }\n      }\n    },\n  }\n": PageQueryResult;
     "\n  *[_type == \"blogPost\" && defined(slug.current) && defined(publishDate)] \n  | order(publishDate desc) {\n  \n  ...,\n  author->,\n  categories[]->\n\n}": BlogListQueryResult;
+    "*[_type == \"blogCategory\" && defined(slug.current)] \n  | order(priority desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": BlogCategoryListQueryResult;
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) {\n  _id,\n  _createdAt,\n  publishedDate,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"ImageColor\": asset->metadata.palette.dominant.background,\n  },\n  featured,\n  excerpt,\n  slug,\n  title,\n  author-> {\n    _id,\n    image,\n    \"slug\": name, // use name as slug\n    name\n  },\n  categories[]->,\n}\n": PostqueryResult;
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) [0..$limit] {\n  ...,\n  author->,\n  categories[]->\n}\n": LimitqueryResult;
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) [$pageIndex...$limit] {\n  ...,\n  author->,\n  categories[]->\n}\n": PaginatedqueryResult;

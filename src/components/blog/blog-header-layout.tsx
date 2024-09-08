@@ -1,0 +1,31 @@
+import { sanityClient } from '@/sanity/lib/client';
+import { blogCategoryListQuery } from '@/sanity/lib/queries';
+import { Suspense } from 'react';
+import Container from '@/components/shared/container';
+import { BlogCategoryList } from "./blog-category-list";
+
+export async function BlogHeaderLayout() {
+  const categoryList = await sanityClient.fetch(blogCategoryListQuery);
+
+  return (
+    <>
+      {/* Desktop View, has Container */}
+      <Container className="hidden md:block">
+        <div className='flex items-center justify-between gap-8 mt-4'>
+          <div className="w-full">
+            <Suspense fallback={null}>
+              <BlogCategoryList categoryList={categoryList} />
+            </Suspense>
+          </div>
+        </div>
+      </Container>
+
+      {/* Mobile View, no Container */}
+      <div className="md:hidden flex flex-col gap-8 mt-4">
+        <Suspense fallback={null}>
+          <BlogCategoryList categoryList={categoryList} />
+        </Suspense>
+      </div>
+    </>
+  );
+}

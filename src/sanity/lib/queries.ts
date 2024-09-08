@@ -60,7 +60,7 @@ export const itemListOfTagQuery = defineQuery(`*[_type == "item" && defined(slug
 }`);
 
 export const categoryListQuery = defineQuery(`*[_type == "category" && defined(slug.current)] 
-  | order(order desc) {
+  | order(priority desc) {
   ${categoryFields}
 }`);
 
@@ -106,10 +106,22 @@ const blogFields = /* groq */ `
   categories[]->
 `;
 
+const blogCategoryFields = /* groq */ `
+  ...,
+  // "slug": slug.current,
+  // "name": coalesce(name[$locale], name[$defaultLocale]),
+  // "description": coalesce(description[$locale], description[$defaultLocale]),
+`;
+
 export const blogListQuery = defineQuery(`
   *[_type == "blogPost" && defined(slug.current) && defined(publishDate)] 
   | order(publishDate desc) {
   ${blogFields}
+}`);
+
+export const blogCategoryListQuery = defineQuery(`*[_type == "blogCategory" && defined(slug.current)] 
+  | order(priority desc) {
+  ${blogCategoryFields}
 }`);
 
 // Get all posts

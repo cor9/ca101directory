@@ -1,4 +1,4 @@
-import BlogCategoryList from "@/components/blog/blog-category";
+import BlogCategoryLabel from "@/components/blog/blog-category-label";
 import { CustomMdx } from "@/components/custom-mdx";
 import BackButton from "@/components/shared/back-button";
 import Container from "@/components/shared/container";
@@ -64,7 +64,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 <div className="mt-8 mx-auto max-w-screen-md">
                     {/* blog post categories */}
                     <div className="flex justify-center">
-                        <BlogCategoryList categories={post.categories} />
+                        <BlogCategoryLabel categories={post.categories} />
                     </div>
 
                     {/* blog post title */}

@@ -1,14 +1,14 @@
 import { BlogCategoryInfo } from "@/types";
 import Link from "next/link";
 
-interface BlogCategoryListProps {
+interface BlogCategoryLabelProps {
   categories: BlogCategoryInfo[];
 }
 
-export default function BlogCategoryList({
+export default function BlogCategoryLabel({
   categories
-}: BlogCategoryListProps) {
-  // console.log("BlogCategoryList, categories", categories);
+}: BlogCategoryLabelProps) {
+  // console.log("BlogCategoryLabelProps, categories", categories);
 
   return (
     <div className="flex gap-4">

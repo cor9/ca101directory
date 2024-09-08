@@ -1,4 +1,4 @@
-import BlogCategoryList from "@/components/blog/blog-category";
+import BlogCategoryLabel from "@/components/blog/blog-category-label";
 import { urlForImage } from "@/lib/image";
 import { cn, getLocaleDate } from "@/lib/utils";
 import { PostInfo } from "@/types";
@@ -61,7 +61,7 @@ export default function BlogCard({ post }: BlogCardProps) {
       <div className="mt-4 flex flex-col flex-grow">
         <div>
           {/* Post categories */}
-          <BlogCategoryList categories={post.categories} />
+          <BlogCategoryLabel categories={post.categories} />
 
           {/* Post title */}
           <h2 className="mt-4 text-lg line-clamp-2 font-medium">

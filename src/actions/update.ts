@@ -7,7 +7,7 @@ import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
 import { nanoid } from 'nanoid';
 
-export type SubmitFormData = {
+export type UpdateFormData = {
   name: string;
   link: string;
   description: string;
@@ -18,19 +18,19 @@ export type SubmitFormData = {
 };
 
 // https://nextjs.org/learn/dashboard-app/mutating-data
-export async function Submit(data: SubmitFormData) {
+export async function Update(data: UpdateFormData) {
   try {
     const session = await auth();
     if (!session?.user || !session?.user?.id) {
-      console.log("submit, unauthorized");
+      console.log("update, unauthorized");
       throw new Error("Unauthorized");
     }
-    console.log("submit, username:", session?.user?.name);
+    console.log("update, username:", session?.user?.name);
 
-    console.log("submit, data:", data);
+    console.log("update, data:", data);
     const { name, link, description, introduction, imageId,
       tags, categories } = SubmitSchema.parse(data);
-    console.log("submit, name:", name, "link:", link);
+    console.log("update, name:", name, "link:", link);
 
     const submitData = {
       _type: "item",
@@ -73,25 +73,25 @@ export async function Submit(data: SubmitFormData) {
         } : {})
     };
 
-    console.log("submit, data:", submitData);
+    console.log("update, data:", submitData);
 
     const res = await sanityClient.create(submitData);
     if (!res) {
-      console.log("submit, fail");
+      console.log("update, fail");
       return { status: "error" };
     }
 
-    console.log("submit, success, res:", res);
+    console.log("update, success, res:", res);
 
     // Next.js has a Client-side Router Cache that stores the route segments in the user's browser for a time. 
     // Along with prefetching, this cache ensures that users can quickly navigate between routes 
     // while reducing the number of requests made to the server.
     // Since you're updating the data displayed in the invoices route, you want to clear this cache and trigger a new request to the server. 
     // You can do this with the revalidatePath function from Next.js.
-    revalidatePath('/dashboard/submit');
+    revalidatePath('/dashboard/update');
     return { status: "success" };
   } catch (error) {
-    console.log("submit, error", error);
+    console.log("update, error", error);
     return { status: "error" };
   }
 }

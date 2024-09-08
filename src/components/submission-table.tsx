@@ -72,7 +72,7 @@ export function SubmissionTable({
                                 {/* <span className="sr-only">Image</span> */}
                                 Image
                             </TableHead>
-                            <TableHead>
+                            <TableHead className='max-w-[300px]'>
                                 Name
                             </TableHead>
                             <TableHead>

@@ -18,7 +18,7 @@ import Link from 'next/link';
 export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
     return (
         <TableRow>
-            <TableCell className="hidden sm:table-cell">
+            <TableCell className="hidden sm:table-cell w-[100px]">
                 <Image
                     alt="Product image"
                     className="aspect-square rounded-md object-cover my-0.5"
@@ -27,8 +27,10 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                     height="64"
                 />
             </TableCell>
-            <TableCell className="font-medium">
-                {submission.name}
+            <TableCell className="max-w-[300px] items-center font-medium">
+                <span className='line-clamp-1'>
+                    {submission.name}
+                </span>
             </TableCell>
             <TableCell>
                 <Badge variant="default" className="capitalize">
@@ -52,7 +54,15 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                             >
                                 View
                             </Link>
-                            <Button variant="outline" size="sm">Edit</Button>
+
+                            <Link href={`/dashboard/update/${submission._id}`}
+                                className={cn(
+                                    buttonVariants({ variant: "outline", size: "sm" })
+                                )}
+                            >
+                                Update
+                            </Link>
+
                             <Button variant="outline" size="sm">
                                 Unpublish
                             </Button>

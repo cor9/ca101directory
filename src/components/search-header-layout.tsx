@@ -7,7 +7,7 @@ import { Suspense } from 'react';
 export async function SearchHeaderLayout() {
   return (
     <>
-      {/* Desktop View, has MaxWidthWrapper */}
+      {/* Desktop View, has Container */}
       <Container className="hidden md:block">
         <div className='flex items-center justify-between gap-8 mt-4'>
           <div className="">
@@ -24,7 +24,7 @@ export async function SearchHeaderLayout() {
         </div>
       </Container>
 
-      {/* Mobile View, no MaxWidthWrapper */}
+      {/* Mobile View, no Container */}
       <div className="md:hidden flex flex-col gap-8 mt-4">
         <Suspense fallback={null}>
           <Search />

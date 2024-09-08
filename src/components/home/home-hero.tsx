@@ -23,7 +23,7 @@ export async function HomeHero() {
 
   return (
     <>
-      {/* Desktop View, has MaxWidthWrapper */}
+      {/* Desktop View, has Container */}
       <Container className="hidden md:flex md:flex-col mt-8">
         <div className='w-full'>
           <Suspense fallback={<SearchSkeleton />}>
@@ -40,7 +40,7 @@ export async function HomeHero() {
         </div> */}
       </Container>
 
-      {/* Mobile View, no MaxWidthWrapper */}
+      {/* Mobile View, no Container */}
       <div className="md:hidden flex flex-col mt-8">
         <div className='w-full'>
           <Suspense fallback={<SearchSkeleton />}>

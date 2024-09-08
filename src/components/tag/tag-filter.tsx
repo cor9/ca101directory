@@ -20,7 +20,7 @@ async function GetTagList() {
 export async function TagFilter() {
   return (
     <>
-      {/* Desktop View, has MaxWidthWrapper */}
+      {/* Desktop View, has Container */}
       <Container className="hidden md:block">
         <div className='flex items-center justify-between gap-8 mt-4'>
           <div className="w-full">
@@ -37,7 +37,7 @@ export async function TagFilter() {
         </div>
       </Container>
 
-      {/* Mobile View, no MaxWidthWrapper */}
+      {/* Mobile View, no Container */}
       <div className="md:hidden flex flex-col gap-8 mt-4">
         <Suspense fallback={null}>
           <GetTagList />

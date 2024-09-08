@@ -27,7 +27,7 @@ export async function SearchFilter() {
 
   return (
     <>
-      {/* Desktop View, has MaxWidthWrapper */}
+      {/* Desktop View, has Container */}
       <Container className="hidden md:flex md:flex-col md:mt-4">
         <div className="w-full">
           <Suspense fallback={null}>
@@ -36,7 +36,7 @@ export async function SearchFilter() {
         </div>
       </Container>
 
-      {/* Mobile View, no MaxWidthWrapper */}
+      {/* Mobile View, no Container */}
       <div className="md:hidden flex flex-col mt-4">
         <div className="mx-4">
           <Suspense fallback={null}>

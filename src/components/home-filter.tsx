@@ -29,7 +29,7 @@ export async function HomeFilter() {
 
   return (
     <>
-      {/* Desktop View, has MaxWidthWrapper */}
+      {/* Desktop View, has Container */}
       <Container className="hidden md:flex md:flex-col">
         {/* <div className='w-full'>
           <Suspense fallback={<SearchSkeleton />}>
@@ -46,7 +46,7 @@ export async function HomeFilter() {
         </div>
       </Container>
 
-      {/* Mobile View, no MaxWidthWrapper */}
+      {/* Mobile View, no Container */}
       <div className="md:hidden flex flex-col">
         {/* <div className='w-full'>
           <Suspense fallback={<SearchSkeleton />}>

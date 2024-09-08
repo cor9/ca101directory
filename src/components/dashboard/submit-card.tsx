@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -6,6 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { PlusIcon } from "lucide-react";
+import Link from "next/link";
 
 export function SubmitCard() {
   return (
@@ -19,9 +22,15 @@ export function SubmitCard() {
         </CardDescription>
       </CardHeader>
       <CardContent className="md:max-xl:px-4">
-        <Button className="w-full">
+        {/* <Button className="w-full">
           Submit
-        </Button>
+        </Button> */}
+        <Link href="/dashboard/submit"
+          className={cn(buttonVariants({ variant: 'default' }),
+            "flex items-center gap-1")}>
+          <PlusIcon className="h-4 w-4" />
+          Submit
+        </Link>
       </CardContent>
     </Card>
   );

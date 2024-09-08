@@ -46,30 +46,27 @@ export function SubmissionTable({
         <Card>
             <CardHeader>
                 <CardTitle>
-                    Submissions
-                </CardTitle>
-                <CardDescription>
                     <div className='flex items-center justify-between'>
                         <span>
-                            Manage your submissions.
+                            Submissions.
                         </span>
-                        <div>
-                            <Link href="/dashboard/submit"
-                                className={cn(buttonVariants({ variant: 'default' }),
-                                    "flex items-center gap-1")}>
-                                <PlusIcon className="h-4 w-4" />
-                                Submit
-                            </Link>
-                        </div>
+                        <Link href="/dashboard/submit"
+                            className={cn(buttonVariants({ variant: 'default' }),
+                                "flex items-center gap-1")}>
+                            <PlusIcon className="h-4 w-4" />
+                            Submit
+                        </Link>
                     </div>
+                </CardTitle>
+                <CardDescription>
+                    Manage your submissions.
                 </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className='px-0 py-2'>
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="hidden w-[100px] sm:table-cell">
-                                {/* <span className="sr-only">Image</span> */}
+                            <TableHead className="hidden sm:table-cell w-[100px] px-6">
                                 Image
                             </TableHead>
                             <TableHead className='max-w-[300px]'>
@@ -85,7 +82,6 @@ export function SubmissionTable({
                                 Published at
                             </TableHead>
                             <TableHead>
-                                {/* <span className="sr-only">Actions</span> */}
                                 Actions
                             </TableHead>
                         </TableRow>
@@ -104,7 +100,7 @@ export function SubmissionTable({
                     <div className="text-sm text-muted-foreground">
                         Showing{' '}
                         <strong>
-                            {startItem}-{endItem}
+                            {startItem}{' '}-{' '}{endItem}
                         </strong>{' '}
                         of <strong>{totalCount}</strong> submissions
                     </div>

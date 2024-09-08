@@ -18,13 +18,13 @@ import Link from 'next/link';
 export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
     return (
         <TableRow>
-            <TableCell className="hidden sm:table-cell w-[100px]">
+            <TableCell className="hidden sm:table-cell w-[100px] px-6">
                 <Image
                     alt="Product image"
-                    className="aspect-square rounded-md object-cover my-0.5"
+                    className="aspect-square rounded-md object-cover my-2"
                     src={urlForImage(submission.image).src}
-                    width="64"
-                    height="64"
+                    width="72"
+                    height="72"
                 />
             </TableCell>
             <TableCell className="max-w-[300px] items-center font-medium">

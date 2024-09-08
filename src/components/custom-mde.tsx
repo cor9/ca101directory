@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from 'react';
+import { useTheme } from 'next-themes';
 
 // https://github.com/RIP21/react-simplemde-editor
 // if directly import, frontend error: document is not defined
@@ -17,7 +18,6 @@ import type SimpleMDE from "easymde";
 // import this css to style the editor
 import "@/styles/mde.css";
 import "easymde/dist/easymde.min.css";
-import { useTheme } from 'next-themes';
 
 interface CustomMdeProps {
   value: string;

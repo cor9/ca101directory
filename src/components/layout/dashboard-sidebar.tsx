@@ -1,6 +1,6 @@
 "use client";
 
-import { UpgradeCard } from "@/components/dashboard/upgrade-card";
+import { SubmitCard } from "@/components/dashboard/submit-card";
 import { Icons } from "@/components/shared/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -155,7 +155,7 @@ export function DashboardSidebar({ links }: DashboardSidebarProps) {
               </nav>
 
               <div className="mt-auto p-4">
-                {isSidebarExpanded ? <UpgradeCard /> : null}
+                {isSidebarExpanded ? <SubmitCard /> : null}
               </div>
             </div>
           </aside>

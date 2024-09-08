@@ -1,6 +1,6 @@
 "use client";
 
-import { SubmitItem, SubmitFormData } from "@/actions/submit-item";
+import { Submit, SubmitFormData } from "@/actions/submit";
 import CustomMde from "@/components/custom-mde";
 import ImageUpload from "@/components/image-upload";
 import { Icons } from "@/components/shared/icons";
@@ -63,7 +63,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
   const onSubmit = form.handleSubmit((data: SubmitFormData) => {
     console.log('SubmitForm, onSubmit, data:', data);
     startTransition(async () => {
-      const { status } = await SubmitItem(data);
+      const { status } = await Submit(data);
       console.log('SubmitForm, status:', status);
       if (status === "success") {
         confetti();

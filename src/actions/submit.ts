@@ -18,19 +18,19 @@ export type SubmitFormData = {
 };
 
 // https://nextjs.org/learn/dashboard-app/mutating-data
-export async function SubmitItem(data: SubmitFormData) {
+export async function Submit(data: SubmitFormData) {
   try {
     const session = await auth();
     if (!session?.user || !session?.user?.id) {
-      console.log("submitItem, unauthorized");
+      console.log("submit, unauthorized");
       throw new Error("Unauthorized");
     }
-    console.log("submitItem, username:", session?.user?.name);
+    console.log("submit, username:", session?.user?.name);
 
-    console.log("submitItem, data:", data);
+    console.log("submit, data:", data);
     const { name, link, description, introduction, imageId,
       tags, categories } = SubmitSchema.parse(data);
-    console.log("submitItem, name:", name, "link:", link);
+    console.log("submit, name:", name, "link:", link);
 
     const submitData = {
       _type: "item",
@@ -73,15 +73,15 @@ export async function SubmitItem(data: SubmitFormData) {
         } : {})
     };
 
-    console.log("submitItem, submitData:", submitData);
+    console.log("submit, submitData:", submitData);
 
     const res = await sanityClient.create(submitData);
     if (!res) {
-      console.log("submitItem, fail");
+      console.log("submit, fail");
       return { status: "error" };
     }
 
-    console.log("submitItem, success, res:", res);
+    console.log("submit, success, res:", res);
 
     // Next.js has a Client-side Router Cache that stores the route segments in the user's browser for a time. 
     // Along with prefetching, this cache ensures that users can quickly navigate between routes 
@@ -91,7 +91,7 @@ export async function SubmitItem(data: SubmitFormData) {
     revalidatePath('/dashboard/submit');
     return { status: "success" };
   } catch (error) {
-    console.log("submitItem, error", error);
+    console.log("submit, error", error);
     return { status: "error" };
   }
 }

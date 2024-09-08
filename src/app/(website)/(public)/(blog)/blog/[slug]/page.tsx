@@ -47,6 +47,8 @@ export default async function PostPage({ params }: PostPageProps) {
             {/* set max width to keep blog post content in the middle of screen */}
             <Container className="max-w-screen-lg mt-4">
                 <div className="relative z-0 mx-auto aspect-video overflow-hidden rounded-lg">
+                    {/* https://ui.shadcn.com/docs/components/aspect-ratio */}
+                    {/* TODO: use aspect ratio component to make the image responsive */}
                     {imageProps && (
                         <Image
                             src={imageProps.src}

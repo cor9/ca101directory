@@ -48,7 +48,7 @@ export function SubmissionTable({
                 <CardTitle>
                     <div className='flex items-center justify-between'>
                         <span>
-                            Submissions.
+                            Submissions
                         </span>
                         <Link href="/dashboard/submit"
                             className={cn(buttonVariants({ variant: 'default' }),

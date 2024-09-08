@@ -17,6 +17,7 @@ export default function BlogCard({ post }: BlogCardProps) {
   // const imageProps = null; // for testing
   const publishDate = post.publishDate || post._createdAt;
   const date = getLocaleDate(publishDate);
+  const postUrlPrefix = '/blog/post';
 
   return (
     <div className="group cursor-pointer flex flex-col h-full">
@@ -31,7 +32,7 @@ export default function BlogCard({ post }: BlogCardProps) {
             "relative block",
             "aspect-square"
           )}
-          href={`/blog/${post.slug.current}`}>
+          href={`${postUrlPrefix}/${post.slug.current}`}>
           
           {imageProps ? (
             <Image
@@ -66,7 +67,7 @@ export default function BlogCard({ post }: BlogCardProps) {
           {/* Post title */}
           <h2 className="mt-4 text-lg line-clamp-2 font-medium">
             <Link
-              href={`/blog/${post.slug.current}`}>
+              href={`${postUrlPrefix}/${post.slug.current}`}>
               <span
                 className="bg-gradient-to-r from-green-200 to-green-100 
                   bg-[length:0px_10px] bg-left-bottom bg-no-repeat
@@ -85,7 +86,7 @@ export default function BlogCard({ post }: BlogCardProps) {
             {post.excerpt && (
               <p className="mt-2 line-clamp-3 text-sm text-gray-500 dark:text-gray-400">
                 <Link
-                  href={`/blog/${post.slug.current}`}>
+                  href={`${postUrlPrefix}/${post.slug.current}`}>
                   {post.excerpt}
                 </Link>
               </p>

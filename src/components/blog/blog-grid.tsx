@@ -1,14 +1,15 @@
 import BlogCard from "@/components/blog/blog-card";
 import { BlogListQueryResult } from "@/sanity.types";
 import { Suspense } from "react";
-import CustomPagination from "../pagination";
+import CustomPagination from "@/components/pagination";
 
 interface BlogGridProps {
   posts: BlogListQueryResult;
   totalPages: number;
+  paginationPrefix: string;
 }
 
-export default async function BlogGrid({ posts, totalPages }: BlogGridProps) {
+export default async function BlogGrid({ posts, totalPages, paginationPrefix }: BlogGridProps) {
   return (
     <>
       {/* when no posts are found */}
@@ -31,7 +32,7 @@ export default async function BlogGrid({ posts, totalPages }: BlogGridProps) {
           
           <div className="mt-12 flex items-center justify-center">
             <Suspense fallback={null}>
-              <CustomPagination routePreix="/blog" totalPages={totalPages} />
+              <CustomPagination routePreix={paginationPrefix} totalPages={totalPages} />
             </Suspense>
           </div>
         </>

@@ -16,7 +16,6 @@ export type TagListProps = {
 export function TagList({ tagList }: TagListProps) {
   const [open, setOpen] = useState(false);
   const { slug } = useParams() as { slug?: string };
-  // get the tag with the slug
   const tag = tagList.find((tag) => tag.slug.current === slug);
 
   const closeDrawer = () => {

@@ -14,7 +14,7 @@ export default function BlogCategoryLabel({
     <div className="flex gap-4">
       {categories?.length &&
         categories.slice(0).map((category, index) => (
-          <Link key={index} href={`/blog?category=${category.slug.current}`}>
+          <Link key={index} href={`/blog/${category.slug.current}`}>
             <span className="text-sm font-medium uppercase"
               style={{ color: category.color }}>
               {category.name}

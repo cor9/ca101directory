@@ -2,7 +2,7 @@ import ItemGrid from '@/components/item-grid';
 import { defaultSort, ITEMS_PER_PAGE, sorting } from '@/lib/constants';
 import { getItems } from '@/data/item';
 
-export default async function TagListPage({
+export default async function TagIndexPage({
   searchParams
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
@@ -12,7 +12,7 @@ export default async function TagListPage({
   const currentPage = page ? Number(page) : 1;
   const { items, totalCount } = await getItems({ sortKey, reverse, currentPage });
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-  console.log('TagListPage, totalCount', totalCount, ", totalPages", totalPages);
+  console.log('TagIndexPage, totalCount', totalCount, ", totalPages", totalPages);
 
   return (
     <ItemGrid items={items} totalPages={totalPages} />

@@ -1,13 +1,13 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { BlogCategoryListQueryResult } from '@/sanity.types';
 import { Check, LayoutList } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useState } from "react";
 import { Drawer } from "vaul";
-import { Button } from "@/components/ui/button";
 
 export type BlogCategoryListProps = {
   categoryList: BlogCategoryListQueryResult;
@@ -15,9 +15,8 @@ export type BlogCategoryListProps = {
 
 export function BlogCategoryList({ categoryList }: BlogCategoryListProps) {
   const [open, setOpen] = useState(false);
-  const searchParams = useSearchParams();
-  const categorySlug = searchParams.get('category');
-  const category = categoryList.find((category) => category.slug.current === categorySlug);
+  const { slug } = useParams() as { slug?: string };
+  const category = categoryList.find((category) => category.slug.current === slug);
 
   const closeDrawer = () => {
     setOpen(false);
@@ -31,15 +30,15 @@ export function BlogCategoryList({ categoryList }: BlogCategoryListProps) {
           <DesktopLink
             title="All"
             href="/blog"
-            active={!categorySlug}
+            active={!slug}
           />
 
           {categoryList.map((item) => (
             <DesktopLink
               key={item.slug.current}
               title={item.name}
-              href={`/blog?category=${item.slug.current}`}
-              active={item.slug.current === categorySlug}
+              href={`/blog/${item.slug.current}`}
+              active={item.slug.current === slug}
             />
           ))}
 
@@ -70,7 +69,7 @@ export function BlogCategoryList({ categoryList }: BlogCategoryListProps) {
               <MobileLink
                 title="All"
                 href="/blog"
-                active={!categorySlug}
+                active={!slug}
                 clickAction={closeDrawer}
               />
 
@@ -78,8 +77,8 @@ export function BlogCategoryList({ categoryList }: BlogCategoryListProps) {
                 <MobileLink
                   key={item.slug.current}
                   title={item.name}
-                  href={`/blog?category=${item.slug.current}`}
-                  active={item.slug.current === categorySlug}
+                  href={`/blog/${item.slug.current}`}
+                  active={item.slug.current === slug}
                   clickAction={closeDrawer}
                 />
               ))}

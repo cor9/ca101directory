@@ -18,7 +18,7 @@ import Link from 'next/link';
 export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
     return (
         <TableRow>
-            <TableCell className="hidden sm:table-cell w-[100px] px-6">
+            <TableCell className="hidden sm:table-cell w-[100px] sm:px-6">
                 <Image
                     alt="Product image"
                     className="aspect-square rounded-md object-cover my-2"
@@ -27,7 +27,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                     height="72"
                 />
             </TableCell>
-            <TableCell className="max-w-[300px] items-center font-medium">
+            <TableCell className='px-6 sm:px-0 max-w-[300px] font-medium'>
                 <span className='line-clamp-1'>
                     {submission.name}
                 </span>

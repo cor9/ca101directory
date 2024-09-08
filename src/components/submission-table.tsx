@@ -66,10 +66,10 @@ export function SubmissionTable({
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="hidden sm:table-cell w-[100px] px-6">
+                            <TableHead className="hidden sm:table-cell w-[100px] sm:px-6">
                                 Image
                             </TableHead>
-                            <TableHead className='max-w-[300px]'>
+                            <TableHead className='px-6 sm:px-0 max-w-[300px]'>
                                 Name
                             </TableHead>
                             <TableHead>

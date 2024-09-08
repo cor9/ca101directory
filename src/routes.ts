@@ -44,9 +44,7 @@ export const authRoutes = [
 ];
 
 export const restrictedRoutes = [
-  "/settings",
   "/dashboard",
-  "/admin"
 ];
 
 /**

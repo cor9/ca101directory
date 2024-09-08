@@ -1,7 +1,6 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { cn } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { ImageUpIcon, Loader2 } from "lucide-react";
@@ -11,12 +10,13 @@ import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 
 interface ImageUploadProps {
+  currentImageUrl?: string;
   onUploadChange: (status: { isUploading: boolean; imageId?: string }) => void;
 }
 
-export default function ImageUpload({ onUploadChange }: ImageUploadProps) {
+export default function ImageUpload({ currentImageUrl, onUploadChange }: ImageUploadProps) {
   const [uploading, setUploading] = useState<boolean>(false);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(currentImageUrl);
 
   const uploadImage = async (file: File) => {
     const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
@@ -77,8 +77,6 @@ export default function ImageUpload({ onUploadChange }: ImageUploadProps) {
 
   return (
     <div {...getRootProps()} className="h-full">
-      {/* bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 
-          hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600  */}
       <label
         htmlFor="dropzone-file"
         className={cn(

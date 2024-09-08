@@ -1,13 +1,14 @@
 "use server";
 
 import { auth } from "@/auth";
-import { SubmitSchema } from "@/lib/schemas";
+import { UpdateSchema } from "@/lib/schemas";
 import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
-import { revalidatePath } from "next/cache";
 import { nanoid } from 'nanoid';
+import { revalidatePath } from "next/cache";
 
 export type UpdateFormData = {
+  id: string;
   name: string;
   link: string;
   description: string;
@@ -17,8 +18,10 @@ export type UpdateFormData = {
   imageId: string;
 };
 
-// https://nextjs.org/learn/dashboard-app/mutating-data
-export async function Update(data: UpdateFormData) {
+/**
+ * https://nextjs.org/learn/dashboard-app/mutating-data
+ */
+export async function Update(formData: UpdateFormData) {
   try {
     const session = await auth();
     if (!session?.user || !session?.user?.id) {
@@ -27,12 +30,15 @@ export async function Update(data: UpdateFormData) {
     }
     console.log("update, username:", session?.user?.name);
 
-    console.log("update, data:", data);
-    const { name, link, description, introduction, imageId,
-      tags, categories } = SubmitSchema.parse(data);
+    console.log("update, data:", formData);
+    const { id, name, link, description, introduction, imageId,
+      tags, categories } = UpdateSchema.parse(formData);
     console.log("update, name:", name, "link:", link);
 
-    const submitData = {
+    // TODO: check if the user is the submitter of the item
+
+    const data = {
+      _id: id,
       _type: "item",
       name,
       slug: {
@@ -42,12 +48,16 @@ export async function Update(data: UpdateFormData) {
       link,
       description,
       introduction,
-      // status: "reviewing",
-      submitter: {
-        _type: "reference",
-        _ref: session.user.id,
-      },
-      publishDate: new Date().toISOString(),
+
+      // don't update submitter
+      // submitter: {
+      //   _type: "reference",
+      //   _ref: session.user.id,
+      // },
+
+      // don't update publishDate
+      // publishDate: new Date().toISOString(),
+
       // The _key only needs to be unique within the array itself
       // use nanoid to generate a random string with 12 characters like sanity
       tags: tags.map(tag => ({
@@ -73,9 +83,9 @@ export async function Update(data: UpdateFormData) {
         } : {})
     };
 
-    console.log("update, data:", submitData);
+    console.log("update, data:", data);
 
-    const res = await sanityClient.create(submitData);
+    const res = await sanityClient.patch(id).set(data).commit();
     if (!res) {
       console.log("update, fail");
       return { status: "error" };

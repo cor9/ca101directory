@@ -68,7 +68,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
       if (status === "success") {
         confetti();
         form.reset();
-        toast.success("Submission successful");
+        toast.success("Submit success");
         router.push(`/dashboard/`);
       } else {
         toast.error("Something went wrong. Please try again.");
@@ -211,7 +211,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                     <div className="flex items-center gap-2">
                       <span>Image</span>
                       <span className="text-sm text-muted-foreground">
-                        (maximum size 1MB)
+                        (PNG or JPEG, maximum size 1MB)
                       </span>
                     </div>
                   </FormLabel>

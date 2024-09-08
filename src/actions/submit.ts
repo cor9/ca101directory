@@ -18,7 +18,7 @@ export type SubmitFormData = {
 };
 
 // https://nextjs.org/learn/dashboard-app/mutating-data
-export async function Submit(data: SubmitFormData) {
+export async function Submit(formData: SubmitFormData) {
   try {
     const session = await auth();
     if (!session?.user || !session?.user?.id) {
@@ -27,12 +27,12 @@ export async function Submit(data: SubmitFormData) {
     }
     console.log("submit, username:", session?.user?.name);
 
-    console.log("submit, data:", data);
+    console.log("submit, data:", formData);
     const { name, link, description, introduction, imageId,
-      tags, categories } = SubmitSchema.parse(data);
+      tags, categories } = SubmitSchema.parse(formData);
     console.log("submit, name:", name, "link:", link);
 
-    const submitData = {
+    const data = {
       _type: "item",
       name,
       slug: {
@@ -47,7 +47,10 @@ export async function Submit(data: SubmitFormData) {
         _type: "reference",
         _ref: session.user.id,
       },
+      
+      // TODO: maybe not set publishDate
       publishDate: new Date().toISOString(),
+
       // The _key only needs to be unique within the array itself
       // use nanoid to generate a random string with 12 characters like sanity
       tags: tags.map(tag => ({
@@ -73,9 +76,9 @@ export async function Submit(data: SubmitFormData) {
         } : {})
     };
 
-    console.log("submit, data:", submitData);
+    console.log("submit, data:", data);
 
-    const res = await sanityClient.create(submitData);
+    const res = await sanityClient.create(data);
     if (!res) {
       console.log("submit, fail");
       return { status: "error" };

@@ -25,6 +25,13 @@ export const SubmitSchema = z.object({
 })
 
 /**
+ * update item
+ */
+export const UpdateSchema = SubmitSchema.extend({
+  id: z.string().min(1, { message: "ID is required" }),
+})
+
+/**
  * account settings
  */
 export const SettingsSchema = z.object({

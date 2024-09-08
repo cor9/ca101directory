@@ -38,6 +38,10 @@ export const itemQuery = defineQuery(`*[_type == "item" && slug.current == $slug
   ${itemFields}
 }`);
 
+export const itemByIdQuery = defineQuery(`*[_type == "item" && _id == $id][0] {
+  ${itemFields}
+}`);
+
 export const itemListQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)] 
   | order(publishDate desc) {
   ${itemFields}

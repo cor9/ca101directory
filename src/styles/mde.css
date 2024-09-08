@@ -4,6 +4,7 @@
 
 .editor-preview-full {
     max-width: none !important;
+    padding: 1rem !important;
 }
 
 .dark .EasyMDEContainer {

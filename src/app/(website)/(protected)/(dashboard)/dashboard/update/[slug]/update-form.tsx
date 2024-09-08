@@ -25,8 +25,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { SubmitSchema } from "@/lib/schemas";
+import { urlForImage } from "@/lib/image";
+import { UpdateSchema } from "@/lib/schemas";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
+import { ItemFullInfo } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import confetti from 'canvas-confetti';
 import { HourglassIcon } from "lucide-react";
@@ -36,6 +38,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 interface UpdateFormProps {
+  item: ItemFullInfo;
   tagList: TagListQueryResult;
   categoryList: CategoryListQueryResult;
 }
@@ -47,22 +50,23 @@ interface UpdateFormProps {
  * 2. React Hook Form
  * https://react-hook-form.com/get-started
  */
-export function UpdateForm({ tagList, categoryList }: UpdateFormProps) {
+export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [isUploading, setIsUploading] = useState(false);
 
   // set default values for form fields and validation schema
   const form = useForm<UpdateFormData>({
-    resolver: zodResolver(SubmitSchema),
+    resolver: zodResolver(UpdateSchema),
     defaultValues: {
-      name: "",
-      link: "",
-      description: "",
-      introduction: "",
-      imageId: "",
-      tags: [],
-      categories: [],
+      id: item._id,
+      name: item.name,
+      link: item.link,
+      description: item.description,
+      introduction: item.introduction,
+      imageId: item.image?.asset?._ref,
+      tags: item.tags.map(tag => tag._id),
+      categories: item.categories.map(category => category._id),
     },
   });
 
@@ -75,7 +79,7 @@ export function UpdateForm({ tagList, categoryList }: UpdateFormProps) {
       if (status === "success") {
         confetti();
         form.reset();
-        toast.success("Submission successful");
+        toast.success("Update success");
         router.push(`/dashboard/`);
       } else {
         toast.error("Something went wrong. Please try again.");
@@ -217,13 +221,16 @@ export function UpdateForm({ tagList, categoryList }: UpdateFormProps) {
                     <div className="flex items-center gap-2">
                       <span>Image</span>
                       <span className="text-sm text-muted-foreground">
-                        (maximum size 1MB)
+                        (PNG or JPEG, maximum size 1MB)
                       </span>
                     </div>
                   </FormLabel>
                   <FormControl>
                     <div className="mt-4 w-full h-[300px]">
-                      <ImageUpload onUploadChange={handleUploadChange} />
+                      <ImageUpload
+                        currentImageUrl={urlForImage(item.image).src}
+                        onUploadChange={handleUploadChange}
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -241,7 +248,7 @@ export function UpdateForm({ tagList, categoryList }: UpdateFormProps) {
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
               <span>
-                {isPending ? "Submitting..." : (isUploading ? "Uploading image..." : "Submit")}
+                {isPending ? "Updating..." : (isUploading ? "Uploading image..." : "Update")}
               </span>
             </Button>
             <FormDescription className="text-sm text-muted-foreground flex items-center justify-center sm:justify-start gap-2">

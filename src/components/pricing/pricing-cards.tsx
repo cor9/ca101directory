@@ -1,19 +1,19 @@
 "use client";
 
-import { useContext, useState } from "react";
-import Link from "next/link";
-import { UserSubscriptionPlan } from "@/types";
-import { SubscriptionPlan } from "@/types/index";
-import { pricingData } from "@/config/subscriptions";
-import { cn } from "@/lib/utils";
+import { BillingFormButton } from "@/components/forms/billing-form-button";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { BillingFormButton } from "@/components/forms/billing-form-button";
-// import { ModalContext } from "@/components/modals/providers";
+import { pricingData } from "@/config/subscriptions";
+import { cn } from "@/lib/utils";
+import { UserSubscriptionPlan } from "@/types";
+import { SubscriptionPlan } from "@/types/index";
+import Link from "next/link";
+import { useState } from "react";
+import Container from "@/components/shared/container";
 import { HeaderSection } from "@/components/shared/header-section";
 import { Icons } from "@/components/shared/icons";
-import Container from "@/components/shared/container";
-import { LoginButton } from "../auth/login-button";
+import { LoginButton } from "@/components/auth/login-button";
+// import { ModalContext } from "@/components/modals/providers";
 
 interface PricingCardsProps {
   userId?: string;
@@ -139,9 +139,9 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
   return (
     <Container>
       <section className="flex flex-col items-center text-center">
-        <HeaderSection label="Pricing" title="Start at full speed !" />
+        {/* <HeaderSection label="Pricing" title="Start at full speed !" /> */}
 
-        <div className="mb-4 mt-10 flex items-center gap-5">
+        {/* <div className="mb-4 mt-10 flex items-center gap-5">
           <ToggleGroup
             type="single"
             size="sm"
@@ -165,7 +165,7 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
               Monthly
             </ToggleGroupItem>
           </ToggleGroup>
-        </div>
+        </div> */}
 
         <div className="grid gap-5 bg-inherit py-5 lg:grid-cols-3">
           {pricingData.map((offer) => (
@@ -173,7 +173,7 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
           ))}
         </div>
 
-        <p className="mt-3 text-balance text-center text-base text-muted-foreground">
+        {/* <p className="mt-3 text-balance text-center text-base text-muted-foreground">
           Email{" "}
           <a
             className="font-medium text-primary hover:underline"
@@ -186,7 +186,7 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
           <strong>
             You can test the subscriptions and won&apos;t be charged.
           </strong>
-        </p>
+        </p> */}
       </section>
     </Container>
   );

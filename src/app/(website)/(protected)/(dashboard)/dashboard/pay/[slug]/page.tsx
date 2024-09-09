@@ -1,11 +1,11 @@
-import { redirect } from "next/navigation";
-import { constructMetadata } from "@/lib/utils";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { DashboardHeader } from "@/components/dashboard/header";
-import { BillingInfo } from "@/components/pricing/billing-info";
+import { PricingCards } from "@/components/pricing/pricing-cards";
 import { Icons } from "@/components/shared/icons";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { currentUser } from "@/lib/auth";
 import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { constructMetadata } from "@/lib/utils";
+import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
   title: "Billing",
@@ -29,7 +29,7 @@ export default async function PayPage() {
         text="Pay for your submission."
       />
       <div className="grid gap-8">
-        <Alert className="!pl-14">
+        {/* <Alert className="!pl-14">
           <Icons.warning />
           <AlertTitle>This is a demo app.</AlertTitle>
           <AlertDescription className="text-balance">
@@ -45,8 +45,11 @@ export default async function PayPage() {
             </a>
             .
           </AlertDescription>
-        </Alert>
-        <BillingInfo userSubscriptionPlan={userSubscriptionPlan} />
+        </Alert> */}
+        
+        {/* <BillingInfo userSubscriptionPlan={userSubscriptionPlan} /> */}
+
+        <PricingCards userId={user.id} subscriptionPlan={userSubscriptionPlan} />
       </div>
     </>
   );

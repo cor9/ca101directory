@@ -10,7 +10,7 @@ RUN apk add --no-cache libc6-compat \
   && npm config set fetch-retries 10 \
   && corepack enable pnpm \
   && pnpm i \
-  && mv next.config.docker.js next.config.js \
+  && mv next.config.docker.mjs next.config.mjs \
   && pnpm run build
 
 # Production image, copy all the files and run next

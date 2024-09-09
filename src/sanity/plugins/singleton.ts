@@ -1,5 +1,8 @@
 import { definePlugin } from "sanity";
 
+/**
+ * https://www.sanity.io/docs/developing-plugins
+ */
 export const singletonPlugin = definePlugin((types: string[]) => {
   return {
     name: "singletonPlugin",

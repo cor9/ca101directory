@@ -25,27 +25,28 @@ export default async function ItemPage({ params }: ItemPageProps) {
 
   return (
     <>
-      <div className="space-y-8">
+      <div className="space-y-4">
         {/* item info */}
         <ItemHeaderClient item={item} />
 
         <div className="grid gap-8 md:grid-cols-12">
           <div className="order-2 md:order-1 md:col-span-6 lg:col-span-7 flex flex-col gap-4">
             {/* description */}
-            <h2 className="text-xl font-semibold mb-4">
+            {/* <h2 className="text-xl font-semibold mb-4">
               Description
-            </h2>
+            </h2> */}
 
-            <p className="text-base text-muted-foreground">
+            {/* <p className="text-base text-muted-foreground">
               {item.description}
-            </p>
+            </p> */}
 
             {/* introduction */}
-            <h2 className="text-xl font-semibold mb-4">
+            {/* <h2 className="text-xl font-semibold mb-4">
               Introduction
-            </h2>
+            </h2> */}
 
-            <article className="mt-4">
+            {/* mt-4 */}
+            <article className="">
               {item.introduction &&
                 <CustomMdx source={item.introduction}
                   components={markdownComponents} />

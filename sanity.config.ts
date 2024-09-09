@@ -8,7 +8,8 @@ import { dashboardTool, projectInfoWidget, projectUsersWidget, sanityTutorialsWi
 import { visionTool } from '@sanity/vision';
 import { defineConfig } from 'sanity';
 import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
-import { markdownSchema } from "sanity-plugin-markdown";
+// import { markdownSchema } from "sanity-plugin-markdown";
+import { markdownSchema as milkdownSchema } from 'sanity-plugin-milkdown';
 import { media } from 'sanity-plugin-media';
 import { presentationTool } from 'sanity/presentation';
 import { structureTool } from 'sanity/structure';
@@ -57,7 +58,9 @@ export default defineConfig({
     media(),
 
     // https://www.sanity.io/plugins/sanity-plugin-markdown
-    markdownSchema({input: CustomMarkdownInput}),
+    // markdownSchema({ input: CustomMarkdownInput }),
+
+    milkdownSchema({}),
 
     // https://www.sanity.io/docs/dashboard
     // Dashboard is a Sanity Studio tool that allows you to add widgets that display information 

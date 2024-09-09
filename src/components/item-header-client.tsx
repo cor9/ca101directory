@@ -38,6 +38,10 @@ export default function ItemHeaderClient({ item }: { item: ItemFullInfo }) {
                 </h1>
               </div>
 
+              <p className="text-base text-muted-foreground">
+                {item.description}
+              </p>
+
               {/* tag list */}
               {item.tags && (
                 <div className="flex flex-wrap gap-2 items-center">

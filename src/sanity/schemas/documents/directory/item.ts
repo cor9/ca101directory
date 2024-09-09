@@ -69,7 +69,6 @@ export default defineType({
       name: "introduction",
       title: "Introduction",
       type: "markdown",
-      description: "This introduction will be displayed on the detail page of the item.",
       // https://github.com/sanity-io/sanity-plugin-markdown?tab=readme-ov-file#custom-image-urls
       // The function will be invoked whenever an image is pasted 
       // or dragged into the markdown editor, after upload completes.

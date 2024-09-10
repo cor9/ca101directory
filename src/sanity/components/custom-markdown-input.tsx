@@ -1,8 +1,24 @@
-import { MarkdownInput, MarkdownInputProps } from 'sanity-plugin-markdown'
 import { useMemo } from 'react';
+import { MarkdownInput, MarkdownInputProps } from 'sanity-plugin-markdown';
 
 import '@/styles/mde.css';
 import 'easymde/dist/easymde.min.css';
+
+// more options available, see:
+// https://github.com/Ionaru/easy-markdown-editor#options-list
+// remove the fullscreen button, looks bad in the studio;
+// remove the image button, it just inserts a empty image tag;
+// TODO: editor preview in dark mode is not working
+// so please use the preivew of item page instead 
+// if you want to see the preview in dark mode                    
+const mdeOptions = {
+    toolbar: ["heading", "bold", "italic", "strikethrough",
+        "code", "quote", "unordered-list", "ordered-list",
+        "link", "upload-image", "horizontal-rule",
+        "preview", "side-by-side"],
+    previewClass: ['prose', 'prose-slate', 'dark:prose-invert',
+        'bg-background', 'text-foreground'],
+};
 
 /**
  * https://www.sanity.io/plugins/sanity-plugin-markdown
@@ -18,21 +34,7 @@ export function CustomMarkdownInput(props: MarkdownInputProps) {
     const reactMdeProps: MarkdownInputProps['reactMdeProps'] =
         useMemo(() => {
             return {
-                options: {
-                    // more options available, see:
-                    // https://github.com/Ionaru/easy-markdown-editor#options-list
-                    // remove the fullscreen button, looks bad in the studio;
-                    // remove the image button, it just inserts a empty image tag;
-                    // TODO: editor preview in dark mode is not working
-                    // so please use the preivew of item page instead 
-                    // if you want to see the preview in dark mode
-                    toolbar: ["heading", "bold", "italic", "strikethrough",
-                        "code", "quote", "unordered-list", "ordered-list",
-                        "link", "upload-image", "horizontal-rule",
-                        "preview", "side-by-side"],
-                    previewClass: ['prose', 'prose-slate', 'dark:prose-invert',
-                        'bg-background', 'text-foreground'],
-                },
+                options: mdeOptions,
                 // more props available, see:
                 // https://github.com/RIP21/react-simplemde-editor#react-simplemde-easymde-markdown-editor
             }

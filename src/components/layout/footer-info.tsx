@@ -3,6 +3,7 @@ import { Icons } from "@/components/shared/icons";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { Sparkles } from "lucide-react";
+import { Logo } from "../logo";
 
 export function FooterInfo() {
 
@@ -11,8 +12,8 @@ export function FooterInfo() {
       <div className="space-y-4">
 
         <div className="items-center space-x-2 flex">
-          {/* <Logo /> */}
-          <Sparkles />
+          <Logo />
+          {/* <Sparkles /> */}
 
           <span className="text-xl font-bold">
             {siteConfig.name}

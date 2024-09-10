@@ -25,6 +25,7 @@ import { DocsSidebarNav } from "../docs/docs-sidebar-nav";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { useEffect, useState } from "react";
 import { ModeToggle } from "./mode-toggle";
+import { Logo } from "../logo";
 
 interface NavBarProps {
   scroll?: boolean;
@@ -75,7 +76,8 @@ export function Navbar({ scroll = false }: NavBarProps) {
 
             {/* logo */}
             <Link href="/" className="flex items-center space-x-2">
-              <Sparkles />
+              {/* <Sparkles /> */}
+              <Logo />
               
               {/* font-geist-mono */}
               <span className="text-xl font-bold">

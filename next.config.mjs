@@ -9,6 +9,27 @@ const nextConfig = {
     // https://www.npmjs.com/package/geist#using-with-nextjs
     transpilePackages: ["geist"],
 
+    // <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (306kiB) impacts deserialization performance 
+    // (consider using Buffer instead and decode when needed)
+    // ReferenceError: path is not defined
+    // webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    //     config.cache = {
+    //         type: 'filesystem',
+    //         cacheDirectory: path.resolve(__dirname, '.next/cache'),
+    //         store: 'pack',
+    //         buildDependencies: {
+    //             config: [__filename],
+    //         },
+    //         maxAge: 86400000, // 1 day
+    //         compression: 'gzip',
+    //         name: 'webpack-cache',
+    //         version: buildId,
+    //         // Increase the size limit (e.g., to 1MB)
+    //         memoryCacheUnaffected: 1024 * 1024,
+    //     };
+    //     return config;
+    // },
+
     images: {
         // https://vercel.com/docs/image-optimization/managing-image-optimization-costs#minimizing-image-optimization-costs
         // vercel has limits on image optimization, 1000 images per month

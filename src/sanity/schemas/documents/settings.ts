@@ -5,7 +5,7 @@ export default defineType({
 	name: 'settings',
 	title: 'Settings',
 	type: 'document',
-	icon: CogIcon,
+	// icon: CogIcon,
 	fields: [
 		defineField({
 			name: 'title',

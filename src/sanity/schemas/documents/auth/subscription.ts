@@ -5,7 +5,7 @@ const subscription = {
   name: 'subscription',
   title: 'Subscription',
   type: 'document',
-  icon: DatabaseIcon,
+  // icon: DatabaseIcon,
   fields: [
     defineField({
       name: 'userId',

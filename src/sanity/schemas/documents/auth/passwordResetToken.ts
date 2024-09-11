@@ -5,7 +5,7 @@ const passwordResetToken = {
   name: 'passwordResetToken',
   title: 'PasswordReset Token',
   type: 'document',
-  icon: TokenIcon,
+  // icon: TokenIcon,
   fields: [
     defineField({
       name: 'identifier',

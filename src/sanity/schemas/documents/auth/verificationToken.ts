@@ -5,7 +5,7 @@ const verificationToken = {
   name: 'verificationToken',
   title: 'Verification Token',
   type: 'document',
-  icon: TokenIcon,
+  // icon: TokenIcon,
   fields: [
     defineField({
       name: 'identifier',

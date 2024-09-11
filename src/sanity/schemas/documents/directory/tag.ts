@@ -6,7 +6,7 @@ export default defineType({
   name: "tag",
   title: "Tag",
   type: "document",
-  icon: TagsIcon,
+  // icon: TagsIcon,
   fields: [
     defineField({
       name: "name",

@@ -6,7 +6,7 @@ const user = {
   name: 'user',
   title: 'User',
   type: 'document',
-  icon: UserIcon,
+  // icon: UserIcon,
   groups: [
     {
       name: 'stripe',

@@ -7,7 +7,7 @@ export default defineType({
   name: "item",
   title: "Item",
   type: "document",
-  icon: ProjectsIcon,
+  // icon: ProjectsIcon,
   fields: [
     defineField({
       name: "name",

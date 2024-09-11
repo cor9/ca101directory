@@ -4,7 +4,7 @@ import { defineType } from "sanity";
 export default defineType({
     title: "Block Content",
     name: "blockContent",
-    icon: BlockContentIcon,
+    // icon: BlockContentIcon,
     type: "array",
     of: [
         {

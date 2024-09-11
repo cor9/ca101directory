@@ -6,7 +6,7 @@ const account = {
   name: 'account',
   title: 'Account',
   type: 'document',
-  icon: UsersIcon,
+  // icon: UsersIcon,
   fields: [
     defineField({
       name: 'userId',

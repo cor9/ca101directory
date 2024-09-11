@@ -6,7 +6,7 @@ export default defineType({
     name: "blogPost",
     title: "Blog Post",
     type: "document",
-    icon: DocumentsIcon,
+    // icon: DocumentsIcon,
     fields: [
         defineField({
             name: "title",

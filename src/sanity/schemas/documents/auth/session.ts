@@ -9,7 +9,7 @@ const session = {
   name: 'session',
   title: 'Session',
   type: 'document',
-  icon: DatabaseIcon,
+  // icon: DatabaseIcon,
   fields: [
     defineField({
       name: 'sessionToken',

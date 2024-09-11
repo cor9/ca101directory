@@ -9,7 +9,7 @@ export default defineType({
     name: "page",
     title: "Pages",
     type: "document",
-    icon: DocumentTextIcon,
+    // icon: DocumentTextIcon,
     fields: [
         defineField({
             name: "title",

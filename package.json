@@ -50,7 +50,7 @@
     "@sanity/image-url": "^1.0.2",
     "@sanity/preview-url-secret": "^1.6.20",
     "@sanity/uuid": "^3.0.2",
-    "@sanity/vision": "^3.57.2",
+    "@sanity/vision": "^3.54.0",
     "@sanity/visual-editing": "^2.1.9",
     "@tailwindcss/typography": "^0.5.15",
     "bcryptjs": "^2.4.3",

@@ -14,6 +14,7 @@ export default function BlogCard({ post }: BlogCardProps) {
   const imageProps = post?.image
     ? urlForImage(post.image)
     : null;
+  // const imageProps = null; // for testing
   const publishDate = post.publishDate || post._createdAt;
   const date = getLocaleDate(publishDate);
   const postUrlPrefix = '/blog/post';
@@ -24,7 +25,7 @@ export default function BlogCard({ post }: BlogCardProps) {
       <div
         className={cn(
           "overflow-hidden rounded-md bg-muted",
-          "transition-all"
+          "transition-all hover:scale-105"
         )}>
         <Link
           className={cn(
@@ -34,15 +35,17 @@ export default function BlogCard({ post }: BlogCardProps) {
           href={`${postUrlPrefix}/${post.slug.current}`}>
           
           {imageProps ? (
-            <div className="w-full h-full overflow-hidden">
-              <Image
-                src={imageProps.src}
-                alt={post.image.alt || "image for blog post"}
-                className="object-cover transition-all duration-300 group-hover:scale-110"
-                fill
-                sizes="(max-width: 768px) 30vw, 33vw"
-              />
-            </div>
+            <Image
+              src={imageProps.src}
+              // {...(post.image.blurDataURL && {
+              //   placeholder: "blur",
+              //   blurDataURL: post.image.blurDataURL
+              // })}
+              alt={post.image.alt || "image for blog post"}
+              className="object-cover transition-all"
+              fill
+              sizes="(max-width: 768px) 30vw, 33vw"
+            />
           ) : (
             // show image icon when no image is found
             <span className={cn(

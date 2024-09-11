@@ -26,16 +26,17 @@ export default function BlogCard({ post }: BlogCardProps) {
           "overflow-hidden rounded-md bg-muted",
           "transition-all",
           "aspect-[4/3]",
+          "relative" // 添加相对定位
         )}>
         <Link
           className={cn(
             "relative block",
-            "w-full h-full" // 使链接填满容器
+            "w-full h-full"
           )}
           href={`${postUrlPrefix}/${post.slug.current}`}>
           
           {imageProps ? (
-            <div className="w-full h-full overflow-hidden rounded-md"> {/* 添加圆角 */}
+            <div className="w-full h-full overflow-hidden rounded-md">
               <Image
                 src={imageProps.src}
                 alt={post.image.alt || "image for blog post"}
@@ -45,7 +46,6 @@ export default function BlogCard({ post }: BlogCardProps) {
               />
             </div>
           ) : (
-            // show image icon when no image is found
             <span className={cn(
               "absolute w-16 h-16 text-muted-foreground",
               "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -54,14 +54,16 @@ export default function BlogCard({ post }: BlogCardProps) {
             </span>
           )}
         </Link>
+
+        {/* Post category, hidden for now */}
+        <div className="hidden absolute bottom-6 left-6 z-10">
+          <BlogCategoryLabel categories={post.categories} />
+        </div>
       </div>
 
       {/* Post info container */}
       <div className="mt-4 flex flex-col flex-grow">
         <div>
-          {/* Post categories */}
-          {/* <BlogCategoryLabel categories={post.categories} /> */}
-
           {/* Post title */}
           <h2 className="text-lg line-clamp-2 font-medium">
             <Link

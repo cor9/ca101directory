@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { cn, formatDate } from "@/lib/utils";
+import { cn, getLocaleDate } from "@/lib/utils";
 import { UserSubscriptionPlan } from "@/types";
 // import { CustomerPortalButton } from "@/components/forms/customer-portal-button";
 
@@ -42,7 +42,7 @@ export function BillingInfo({ userSubscriptionPlan }: BillingInfoProps) {
             {isCanceled
               ? "Your plan will be canceled on "
               : "Your plan renews on "}
-            {formatDate(stripeCurrentPeriodEnd)}.
+            {getLocaleDate(stripeCurrentPeriodEnd)}.
           </p>
         ) : null}
 

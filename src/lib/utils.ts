@@ -26,14 +26,21 @@ export function slugify(str: string): string {
 /**
  * get locale date string
  */
-export function getLocaleDate(date: string | number): string {
-  const dateObj = new Date(date);
-  return dateObj.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+export function getLocaleDate(input: string | number): string {
+  const date = new Date(input);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${year}/${month}/${day}`;
 }
+// export function getLocaleDate(date: string | number): string {
+//   const dateObj = new Date(date);
+//   return dateObj.toLocaleDateString("en-US", {
+//     month: "long",
+//     day: "numeric",
+//     year: "numeric",
+//   });
+// }
 
 /**
  * build url for search or filter list item
@@ -130,14 +137,21 @@ export function constructMetadata({
 /**
  * Format the date for display
  */
-export function formatDate(input: string | number): string {
-  const date = new Date(input);
-  return date.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-}
+// export function formatDate(input: string | number): string {
+//   const date = new Date(input);
+//   const year = date.getFullYear();
+//   const month = (date.getMonth() + 1).toString().padStart(2, '0');
+//   const day = date.getDate().toString().padStart(2, '0');
+//   return `${year}/${month}/${day}`;
+// }
+// export function formatDate(input: string | number): string {
+//   const date = new Date(input);
+//   return date.toLocaleDateString("en-US", {
+//     month: "long",
+//     day: "numeric",
+//     year: "numeric",
+//   });
+// }
 
 /**
  * Get the blurDataURL for an image

@@ -6,7 +6,7 @@ import settings from '@/sanity/schemas/documents/settings';
 import { structure } from '@/sanity/structure';
 import { dashboardTool, projectInfoWidget, projectUsersWidget, sanityTutorialsWidget } from "@sanity/dashboard";
 import { visionTool } from '@sanity/vision';
-import { defineConfig, SchemaTypeDefinition } from 'sanity';
+import { defineConfig } from 'sanity';
 import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
 import { markdownSchema } from "sanity-plugin-markdown";
 import { media } from 'sanity-plugin-media';
@@ -22,7 +22,7 @@ export default defineConfig({
   dataset,
 
   schema: {
-    types: schemaTypes as SchemaTypeDefinition[],
+    types: schemaTypes,
   },
 
   plugins: [

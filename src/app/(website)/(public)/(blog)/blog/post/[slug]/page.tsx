@@ -9,6 +9,7 @@ import { sanityClient } from "@/sanity/lib/client";
 import { singlequery } from "@/sanity/lib/queries";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
 interface PostPageProps {
     params: { slug: string };
@@ -38,85 +39,115 @@ export default async function PostPage({ params }: PostPageProps) {
         : null;
     const publishDate = post.publishDate || post._createdAt;
     const date = getLocaleDate(publishDate);
-
     const markdownContent = portableTextToMarkdown(post.body);
     // console.log("markdownContent", markdownContent);
 
     return (
         <>
-            {/* set max width to keep blog post content in the middle of screen */}
-            <Container className="max-w-screen-lg mt-4">
-                {/* 修改图片容器 */}
-                <div className="relative mx-auto overflow-hidden rounded-lg aspect-[21/9] max-h-[400px]">
-                    {imageProps && (
-                        <Image
-                            src={imageProps.src}
-                            alt={post.image?.alt || `image for blog post`}
-                            loading="eager"
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 1024px"
-                            className="object-cover"
-                        />
-                    )}
-                </div>
+            <Container className="mt-8 pb-16">
+                <div className="flex flex-col lg:flex-row gap-8">
+                    {/* Content section */}
+                    <div className="lg:w-2/3">
+                        {/* blog post title */}
+                        <h1 className="text-4xl font-bold mb-4">
+                            {post.title}
+                        </h1>
 
-                <div className="mt-8 mx-auto max-w-screen-md">
-                    {/* blog post categories */}
-                    <div className="flex justify-center">
-                        <BlogCategoryLabel categories={post.categories} />
+                        {/* blog post description */}
+                        <p className="text-xl text-muted-foreground mb-8">
+                            {post.excerpt}
+                        </p>
+
+                        {/* blog post image */}
+                        <div className="relative overflow-hidden rounded-lg aspect-[16/9] mb-8">
+                            {imageProps && (
+                                <Image
+                                    src={imageProps.src}
+                                    alt={post.image?.alt || `image for blog post`}
+                                    loading="eager"
+                                    fill
+                                    sizes="(max-width: 1024px) 100vw, 1024px"
+                                    className="object-cover"
+                                />
+                            )}
+                        </div>
+
+                        {/* blog post content */}
+                        <article className="">
+                            {markdownContent && <CustomMdx source={markdownContent} />}
+                        </article>
+
+                        {/* back button */}
+                        <div className="mt-16">
+                            <BackButton />
+                        </div>
                     </div>
 
-                    {/* blog post title */}
-                    <h1 className="mt-8 text-center text-3xl font-semibold">
-                        {post.title}
-                    </h1>
-
-                    <div className="mt-8 flex items-center justify-center text-muted-foreground">
-                        <div className="w-full flex items-center justify-center gap-4">
-
-                            {/* author avatar and name */}
-                            <div className="flex items-center justify-start gap-2">
-                                <div className="relative h-8 w-8 flex-shrink-0">
+                    {/* Sidebar section */}
+                    <div className="lg:w-1/3 space-y-8">
+                        {/* author info */}
+                        <div className="bg-muted rounded-lg p-6">
+                            <h2 className="text-xl font-semibold mb-4">Written by</h2>
+                            <div className="flex items-center gap-4">
+                                <div className="relative h-16 w-16 flex-shrink-0">
                                     {post.author?.image && (
                                         <Image
                                             src={post?.author?.image}
                                             alt={`avatar for ${post.author.name}`}
                                             className="rounded-full object-cover border"
                                             fill
-                                            sizes="40px"
+                                            sizes="64px"
                                         />
                                     )}
                                 </div>
-
-                                <p className="">
-                                    {post.author.name}
-                                </p>
-                            </div>
-
-                            {/* published date and reading time */}
-                            <span>&bull;</span>
-                            <div>
-                                <div className="flex items-center space-x-2 text-sm">
-                                    <time
-                                        className=""
-                                        dateTime={post?.publishDate || post._createdAt}>
-                                        {date}
-                                    </time>
+                                <div>
+                                    <p className="font-medium text-lg">{post.author.name}</p>
+                                    <p className="text-sm text-muted-foreground">{date}</p>
                                 </div>
                             </div>
-                            <span>&bull;</span>
-                            <span>{post.estReadingTime || "5"} min read</span>
                         </div>
-                    </div>
 
-                    {/* blog post content */}
-                    <article className="mt-8 mx-auto">
-                        {markdownContent && <CustomMdx source={markdownContent} /> }
-                    </article>
+                        {/* table of contents */}
+                        <div className="bg-muted rounded-lg p-6">
+                            <h2 className="text-xl font-semibold mb-4">Table of Contents</h2>
+                            <ul className="space-y-2">
+                                {/* 这里需要根据实际内容生成目录 */}
+                                <li><a href="#section1" className="text-sm hover:underline">Section 1</a></li>
+                                <li><a href="#section2" className="text-sm hover:underline">Section 2</a></li>
+                                {/* ... 更多目录项 ... */}
+                            </ul>
+                        </div>
 
-                    {/* back button */}
-                    <div className="my-16 flex justify-center">
-                        <BackButton />
+                        {/* categories */}
+                        <div className="bg-muted rounded-lg p-6">
+                            <h2 className="text-xl font-semibold mb-4">Categories</h2>
+                            <ul className="space-y-2">
+                                {post.categories?.map((category: any) => (
+                                    <li key={category._id}>
+                                        <Link 
+                                            href={`/blog/category/${category.slug.current}`}
+                                            className="text-sm hover:underline"
+                                        >
+                                            {category.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        {/* related posts */}
+                        <div className="bg-muted rounded-lg p-6">
+                            <h2 className="text-xl font-semibold mb-4">Related Posts</h2>
+                            <ul className="space-y-4">
+                                {/* {relatedPosts.map((relatedPost: any) => (
+                                    <li key={relatedPost._id}>
+                                        <Link href={`/blog/post/${relatedPost.slug.current}`} className="text-sm hover:underline">
+                                            {relatedPost.title}
+                                        </Link>
+                                    </li>
+                                ))} */}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </Container>

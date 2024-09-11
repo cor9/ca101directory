@@ -19,10 +19,10 @@ export default function BlogCategoryLabel({
           <Link key={index}
             href={`/blog/${category.slug.current}`}
             className={cn(
-              buttonVariants({ variant: "outline", size: "sm" })
+              buttonVariants({ variant: "link", size: "sm" })
             )}
           >
-            <span className="text-sm font-semibold uppercase"
+            <span className="text-sm font-medium uppercase"
               // style={{ color: category.color }}
               >
               {category.name}

@@ -24,17 +24,18 @@ export default function BlogCard({ post }: BlogCardProps) {
       <div
         className={cn(
           "overflow-hidden rounded-md bg-muted",
-          "transition-all"
+          "transition-all",
+          "aspect-[4/3]",
         )}>
         <Link
           className={cn(
             "relative block",
-            "aspect-square"
+            "w-full h-full" // 使链接填满容器
           )}
           href={`${postUrlPrefix}/${post.slug.current}`}>
           
           {imageProps ? (
-            <div className="w-full h-full overflow-hidden">
+            <div className="w-full h-full overflow-hidden rounded-md"> {/* 添加圆角 */}
               <Image
                 src={imageProps.src}
                 alt={post.image.alt || "image for blog post"}

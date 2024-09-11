@@ -22,8 +22,9 @@ export default function BlogCategoryLabel({
               buttonVariants({ variant: "outline", size: "sm" })
             )}
           >
-            <span className="text-sm font-medium uppercase"
-              style={{ color: category.color }}>
+            <span className="text-sm font-semibold uppercase"
+              // style={{ color: category.color }}
+              >
               {category.name}
             </span>
           </Link>

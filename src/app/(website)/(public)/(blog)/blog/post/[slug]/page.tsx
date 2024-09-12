@@ -10,6 +10,7 @@ import { singlequery } from "@/sanity/lib/queries";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import TableOfContents from "./toc";
 
 interface PostPageProps {
     params: { slug: string };
@@ -48,16 +49,6 @@ export default async function PostPage({ params }: PostPageProps) {
                 <div className="flex flex-col lg:flex-row gap-8">
                     {/* Content section */}
                     <div className="lg:w-2/3">
-                        {/* blog post title */}
-                        <h1 className="text-4xl font-bold mb-4">
-                            {post.title}
-                        </h1>
-
-                        {/* blog post description */}
-                        <p className="text-xl text-muted-foreground mb-8">
-                            {post.excerpt}
-                        </p>
-
                         {/* blog post image */}
                         <div className="relative overflow-hidden rounded-lg aspect-[16/9] mb-8">
                             {imageProps && (
@@ -72,6 +63,16 @@ export default async function PostPage({ params }: PostPageProps) {
                             )}
                         </div>
 
+                        {/* blog post title */}
+                        <h1 className="text-4xl font-bold mb-4">
+                            {post.title}
+                        </h1>
+
+                        {/* blog post description */}
+                        <p className="text-xl text-muted-foreground mb-8">
+                            {post.excerpt}
+                        </p>
+
                         {/* blog post content */}
                         <article className="">
                             {markdownContent && <CustomMdx source={markdownContent} />}
@@ -84,69 +85,63 @@ export default async function PostPage({ params }: PostPageProps) {
                     </div>
 
                     {/* Sidebar section */}
-                    <div className="lg:w-1/3 space-y-8">
-                        {/* author info */}
-                        <div className="bg-muted rounded-lg p-6">
-                            <h2 className="text-xl font-semibold mb-4">Written by</h2>
-                            <div className="flex items-center gap-4">
-                                <div className="relative h-16 w-16 flex-shrink-0">
-                                    {post.author?.image && (
-                                        <Image
-                                            src={post?.author?.image}
-                                            alt={`avatar for ${post.author.name}`}
-                                            className="rounded-full object-cover border"
-                                            fill
-                                            sizes="64px"
-                                        />
-                                    )}
-                                </div>
-                                <div>
-                                    <p className="font-medium text-lg">{post.author.name}</p>
-                                    <p className="text-sm text-muted-foreground">{date}</p>
+                    <div className="lg:w-1/3">
+                        <div className="space-y-8 sticky top-24">
+                            {/* author info */}
+                            <div className="bg-muted rounded-lg p-6">
+                                <h2 className="text-xl font-semibold mb-4">Written by</h2>
+                                <div className="flex items-center gap-4">
+                                    <div className="relative h-16 w-16 flex-shrink-0">
+                                        {post.author?.image && (
+                                            <Image
+                                                src={post?.author?.image}
+                                                alt={`avatar for ${post.author.name}`}
+                                                className="rounded-full object-cover border"
+                                                fill
+                                                sizes="64px"
+                                            />
+                                        )}
+                                    </div>
+                                    <div>
+                                        <p className="font-medium text-lg">{post.author.name}</p>
+                                        <p className="text-sm text-muted-foreground">{date}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        {/* table of contents */}
-                        <div className="bg-muted rounded-lg p-6">
-                            <h2 className="text-xl font-semibold mb-4">Table of Contents</h2>
-                            <ul className="space-y-2">
-                                {/* 这里需要根据实际内容生成目录 */}
-                                <li><a href="#section1" className="text-sm hover:underline">Section 1</a></li>
-                                <li><a href="#section2" className="text-sm hover:underline">Section 2</a></li>
-                                {/* ... 更多目录项 ... */}
-                            </ul>
-                        </div>
+                            {/* categories */}
+                            <div className="bg-muted rounded-lg p-6">
+                                <h2 className="text-xl font-semibold mb-4">Categories</h2>
+                                <ul className="space-y-2">
+                                    {post.categories?.map((category: any) => (
+                                        <li key={category._id}>
+                                            <Link
+                                                href={`/blog/category/${category.slug.current}`}
+                                                className="text-sm hover:underline"
+                                            >
+                                                {category.name}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
 
-                        {/* categories */}
-                        <div className="bg-muted rounded-lg p-6">
-                            <h2 className="text-xl font-semibold mb-4">Categories</h2>
-                            <ul className="space-y-2">
-                                {post.categories?.map((category: any) => (
-                                    <li key={category._id}>
-                                        <Link 
-                                            href={`/blog/category/${category.slug.current}`}
-                                            className="text-sm hover:underline"
-                                        >
-                                            {category.name}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                            {/* table of contents */}
+                            <TableOfContents content={markdownContent} />
 
-                        {/* related posts */}
-                        <div className="bg-muted rounded-lg p-6">
-                            <h2 className="text-xl font-semibold mb-4">Related Posts</h2>
-                            <ul className="space-y-4">
-                                {/* {relatedPosts.map((relatedPost: any) => (
-                                    <li key={relatedPost._id}>
-                                        <Link href={`/blog/post/${relatedPost.slug.current}`} className="text-sm hover:underline">
-                                            {relatedPost.title}
-                                        </Link>
-                                    </li>
-                                ))} */}
-                            </ul>
+                            {/* related posts */}
+                            <div className="bg-muted rounded-lg p-6">
+                                <h2 className="text-xl font-semibold mb-4">Related Posts</h2>
+                                <ul className="space-y-4">
+                                    {/* {relatedPosts.map((relatedPost: any) => (
+                                        <li key={relatedPost._id}>
+                                            <Link href={`/blog/post/${relatedPost.slug.current}`} className="text-sm hover:underline">
+                                                {relatedPost.title}
+                                            </Link>
+                                        </li>
+                                    ))} */}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -4,15 +4,17 @@ import BackButton from "@/components/shared/back-button";
 import Container from "@/components/shared/container";
 import { urlForImage } from "@/lib/image";
 import { portableTextToMarkdown } from "@/lib/mdx";
-import { getLocaleDate } from "@/lib/utils";
+import { cn, getLocaleDate } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { singlequery } from "@/sanity/lib/queries";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 // import TableOfContents from "./toc";
-import { DashboardTableOfContents } from "./toc2";
-import { getTableOfContents } from "./toc-util";
+import { BlogToc } from "./toc";
+import { getTableOfContents } from "../../../../../../../lib/toc";
+import { ArrowLeftIcon } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
 
 interface PostPageProps {
     params: { slug: string };
@@ -84,13 +86,25 @@ export default async function PostPage({ params }: PostPageProps) {
 
                         {/* back button */}
                         <div className="mt-16">
-                            <BackButton />
+                            <div className="flex justify-center items-center">
+                                <Link
+                                    href="/blog"
+                                    className={cn(
+                                        buttonVariants({ variant: "outline", size: "lg" }),
+                                        "inline-flex items-center gap-2 group"
+                                    )}
+                                >
+                                    <ArrowLeftIcon className="w-5 h-5 
+                                        transition-transform duration-200 group-hover:-translate-x-1" />
+                                    All Posts
+                                </Link>
+                            </div>
                         </div>
                     </div>
 
                     {/* Sidebar section */}
                     <div className="lg:w-1/3">
-                        <div className="space-y-8 sticky top-24">
+                        <div className="space-y-8 lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:flex lg:flex-col">
                             {/* author info */}
                             <div className="bg-muted rounded-lg p-6">
                                 <h2 className="text-xl font-semibold mb-4">Written by</h2>
@@ -116,7 +130,7 @@ export default async function PostPage({ params }: PostPageProps) {
                             {/* categories */}
                             <div className="bg-muted rounded-lg p-6">
                                 <h2 className="text-xl font-semibold mb-4">Categories</h2>
-                                <ul className="space-y-2">
+                                <ul className="flex flex-wrap gap-4">
                                     {post.categories?.map((category: any) => (
                                         <li key={category._id}>
                                             <Link
@@ -131,22 +145,24 @@ export default async function PostPage({ params }: PostPageProps) {
                             </div>
 
                             {/* table of contents */}
-                            {/* <TableOfContents content={markdownContent} /> */}
-                            <DashboardTableOfContents toc={toc} />
-                            
+                            <div className="hidden lg:block bg-muted rounded-lg p-6 overflow-y-auto flex-grow">
+                                <h2 className="text-xl font-semibold mb-4">Table of Contents</h2>
+                                <BlogToc toc={toc} />
+                            </div>
+
                             {/* related posts */}
-                            <div className="bg-muted rounded-lg p-6">
+                            {/* <div className="bg-muted rounded-lg p-6">
                                 <h2 className="text-xl font-semibold mb-4">Related Posts</h2>
                                 <ul className="space-y-4">
-                                    {/* {relatedPosts.map((relatedPost: any) => (
+                                    {relatedPosts.map((relatedPost: any) => (
                                         <li key={relatedPost._id}>
                                             <Link href={`/blog/post/${relatedPost.slug.current}`} className="text-sm hover:underline">
                                                 {relatedPost.title}
                                             </Link>
                                         </li>
-                                    ))} */}
+                                    ))}
                                 </ul>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

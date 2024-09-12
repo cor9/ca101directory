@@ -1,34 +1,113 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import * as React from "react";
+import { useMounted } from "@/hooks/use-mounted";
+import { TableOfContents } from "@/lib/toc";
+import { cn } from "@/lib/utils";
 
-export default function TableOfContents({ content }: { content: string }) {
-    const [toc, setToc] = useState<{ id: string; title: string; level: number }[]>([]);
+interface TocProps {
+  toc: TableOfContents;
+}
 
-    useEffect(() => {
-        const headings = content.split('\n')
-            .filter(line => line.startsWith('#'))
-            .map(line => {
-                const level = line.indexOf(' ');
-                const title = line.slice(level + 1);
-                const id = title.toLowerCase().replace(/[^\w]+/g, '-');
-                return { id, title, level };
-            });
-        setToc(headings);
-    }, [content]);
+export function BlogToc({ toc }: TocProps) {
+  const itemIds = React.useMemo(
+    () =>
+      toc.items
+        ? toc.items
+            .flatMap((item) => [item.url, item?.items?.map((item) => item.url)])
+            .flat()
+            .filter(Boolean)
+            .map((id) => id?.split("#")[1])
+        : [],
+    [toc],
+  );
+  const activeHeading = useActiveItem(itemIds);
+  const mounted = useMounted();
 
-    return (
-        <div className="bg-muted rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Table of Contents</h2>
-            <ul className="space-y-2">
-                {toc.map((heading, index) => (
-                    <li key={index} style={{ marginLeft: `${(heading.level - 1) * 12}px` }}>
-                        <a href={`#${heading.id}`} className="text-sm hover:underline">
-                            {heading.title}
-                        </a>
-                    </li>
-                ))}
-            </ul>
-        </div>
+  if (!toc?.items) {
+    return null;
+  }
+
+  return mounted ? (
+    <div className="space-y-2">
+      {/* <p className="text-[15px] font-medium">On This Page</p> */}
+      <Tree tree={toc} activeItem={activeHeading} />
+    </div>
+  ) : null;
+}
+
+function useActiveItem(itemIds: (string | undefined)[]) {
+  const [activeId, setActiveId] = React.useState<string>("");
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: `0% 0% -80% 0%` },
     );
+
+    itemIds?.forEach((id) => {
+      if (!id) {
+        return;
+      }
+
+      const element = document.getElementById(id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => {
+      itemIds?.forEach((id) => {
+        if (!id) {
+          return;
+        }
+
+        const element = document.getElementById(id);
+        if (element) {
+          observer.unobserve(element);
+        }
+      });
+    };
+  }, [itemIds]);
+
+  return activeId;
+}
+
+interface TreeProps {
+  tree: TableOfContents;
+  level?: number;
+  activeItem?: string | null;
+}
+
+function Tree({ tree, level = 1, activeItem }: TreeProps) {
+  return tree?.items?.length && level < 3 ? (
+    <ul className={cn("m-0 list-none", { "pl-4": level !== 1 })}>
+      {tree.items.map((item, index) => {
+        return (
+          <li key={index} className={cn("mt-0 pt-1")}>
+            <a
+              href={item.url}
+              className={cn(
+                "inline-block text-sm no-underline",
+                item.url === `#${activeItem}`
+                  ? "font-medium text-primary"
+                  : "text-muted-foreground",
+              )}
+            >
+              {item.title}
+            </a>
+            {item.items?.length ? (
+              <Tree tree={item} level={level + 1} activeItem={activeItem} />
+            ) : null}
+          </li>
+        );
+      })}
+    </ul>
+  ) : null;
 }

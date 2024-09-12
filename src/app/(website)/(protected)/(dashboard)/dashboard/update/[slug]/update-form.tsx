@@ -197,7 +197,7 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-between gap-4">
                       <span>Introduction</span>
                       <span className="text-sm text-muted-foreground">
                         (Markdown supported)
@@ -218,7 +218,7 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-between gap-4">
                       <span>Image</span>
                       <span className="text-sm text-muted-foreground">
                         (PNG or JPEG, maximum size 1MB)

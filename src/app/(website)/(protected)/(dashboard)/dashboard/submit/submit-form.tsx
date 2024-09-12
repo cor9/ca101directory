@@ -6,7 +6,14 @@ import ImageUpload from "@/components/image-upload";
 import { Icons } from "@/components/shared/icons";
 import { MultiSelect } from "@/components/shared/multi-select";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -187,7 +194,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-between gap-4">
                       <span>Introduction</span>
                       <span className="text-sm text-muted-foreground">
                         (Markdown supported)
@@ -208,7 +215,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-between gap-4">
                       <span>Image</span>
                       <span className="text-sm text-muted-foreground">
                         (PNG or JPEG, maximum size 1MB)

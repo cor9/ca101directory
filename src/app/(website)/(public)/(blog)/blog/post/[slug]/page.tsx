@@ -133,10 +133,8 @@ export default async function PostPage({ params }: PostPageProps) {
                                 <ul className="flex flex-wrap gap-4">
                                     {post.categories?.map((category: any) => (
                                         <li key={category._id}>
-                                            <Link
-                                                href={`/blog/category/${category.slug.current}`}
-                                                className="text-sm hover:underline"
-                                            >
+                                            <Link href={`/blog/${category.slug.current}`}
+                                                className="text-sm hover:underline">
                                                 {category.name}
                                             </Link>
                                         </li>
@@ -145,9 +143,11 @@ export default async function PostPage({ params }: PostPageProps) {
                             </div>
 
                             {/* table of contents */}
-                            <div className="hidden lg:block bg-muted rounded-lg p-6 overflow-y-auto flex-grow">
+                            <div className="hidden lg:block bg-muted rounded-lg p-6 overflow-y-auto">
                                 <h2 className="text-xl font-semibold mb-4">Table of Contents</h2>
-                                <BlogToc toc={toc} />
+                                <div className="max-h-[calc(100vh-18rem)] overflow-y-auto">
+                                    <BlogToc toc={toc} />
+                                </div>
                             </div>
 
                             {/* related posts */}

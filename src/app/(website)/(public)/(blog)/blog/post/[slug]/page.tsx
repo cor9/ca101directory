@@ -10,7 +10,9 @@ import { singlequery } from "@/sanity/lib/queries";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import TableOfContents from "./toc";
+// import TableOfContents from "./toc";
+import { DashboardTableOfContents } from "./toc2";
+import { getTableOfContents } from "./toc-util";
 
 interface PostPageProps {
     params: { slug: string };
@@ -42,6 +44,8 @@ export default async function PostPage({ params }: PostPageProps) {
     const date = getLocaleDate(publishDate);
     const markdownContent = portableTextToMarkdown(post.body);
     // console.log("markdownContent", markdownContent);
+
+    const toc = await getTableOfContents(markdownContent);
 
     return (
         <>
@@ -127,8 +131,9 @@ export default async function PostPage({ params }: PostPageProps) {
                             </div>
 
                             {/* table of contents */}
-                            <TableOfContents content={markdownContent} />
-
+                            {/* <TableOfContents content={markdownContent} /> */}
+                            <DashboardTableOfContents toc={toc} />
+                            
                             {/* related posts */}
                             <div className="bg-muted rounded-lg p-6">
                                 <h2 className="text-xl font-semibold mb-4">Related Posts</h2>

@@ -11,7 +11,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 // import TableOfContents from "./toc";
-import { BlogToc } from "./toc";
+import { BlogToc } from "../../../../../../../components/blog/blog-toc";
 import { getTableOfContents } from "../../../../../../../lib/toc";
 import { ArrowLeftIcon } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";

@@ -104,7 +104,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
                     {/* Sidebar section */}
                     <div className="lg:w-1/3">
-                        <div className="space-y-8 lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:flex lg:flex-col">
+                        <div className="space-y-4 lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:flex lg:flex-col">
                             {/* author info */}
                             <div className="bg-muted rounded-lg p-6">
                                 <h2 className="text-xl font-semibold mb-4">Written by</h2>

@@ -21,7 +21,7 @@ export const SocialButton = () => {
   }
 
   return (
-    <div className="flex items-center w-full gap-x-2">
+    <div className="w-full flex flex-col sm:flex-row gap-2">
       <Button
         size="lg"
         className="w-full"

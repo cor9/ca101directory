@@ -28,9 +28,7 @@ export const CardWrapper = ({
   showSocial
 }: CardWrapperProps) => {
   return (
-    // shadow-md => shadow-sm
-    // border-none shadow-none
-    <Card className="w-[400px] shadow-sm">
+    <Card className="w-[90%] sm:w-[400px] max-w-[400px] shadow-sm">
       <CardHeader className="items-center">
         <CardTitle>{siteConfig.name}</CardTitle>
         <CardDescription>{headerLabel}</CardDescription>

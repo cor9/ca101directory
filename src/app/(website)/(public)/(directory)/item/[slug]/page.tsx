@@ -14,6 +14,7 @@ import Container from "@/components/shared/container";
 import BackButton from "@/components/shared/back-button";
 import ItemBreadCrumb from "@/components/item-bread-crumb";
 import { ExternalLinkIcon, FolderIcon, HeartIcon, TagIcon } from "lucide-react";
+import { TwitterLogoIcon } from "@radix-ui/react-icons";
 
 interface ItemPageProps {
   params: { slug: string };
@@ -39,8 +40,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
         <div className="space-y-8">
           <ItemBreadCrumb item={item} />
 
-          <div className="flex items-center space-x-4">
-            {/* maybe put logo here */}
+          <div className="flex items-center justify-between space-x-4">
             <div className="flex flex-col space-y-8">
               <h1 className="text-4xl font-bold">
                 {item.name}
@@ -83,22 +83,36 @@ export default async function ItemPage({ params }: ItemPageProps) {
             </ul>
           </div>
 
-          <div className="flex items-center space-x-4">
-            <Button size="lg" asChild className="group">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+            <Button size="lg" asChild className="group whitespace-nowrap w-full sm:w-auto">
               <Link href={item.link} target="_blank" prefetch={false}
-                className="flex items-center">
+                className="flex items-center justify-center">
                 View Website
                 <ExternalLinkIcon className="ml-2 w-4 h-4 
                   transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </Link>
             </Button>
 
-            <Button size="lg" variant="outline" asChild className="group">
-              <Link href={item.link} className="flex items-center">
-                <HeartIcon className="mr-2 w-4 h-4 transition-transform duration-300 ease-in-out group-hover:scale-125 group-hover:text-red-500" />
-                Add to favorites
-              </Link>
-            </Button>
+            <div className="flex flex-row gap-2 sm:gap-4">
+              <Button size="lg" variant="outline" asChild className="group flex-1">
+                <Link href={item.link} className="flex items-center justify-center">
+                  <HeartIcon className="w-4 h-4 sm:mr-2
+                    transition-transform duration-300 ease-in-out 
+                    group-hover:scale-125 group-hover:text-red-500" />
+                  <span className="hidden sm:inline">Add to favorites</span>
+                </Link>
+              </Button>
+
+              <Button size="lg" variant="outline" asChild className="group flex-1">
+                <Link href={item.link} target="_blank" prefetch={false}
+                  className="flex items-center justify-center group">
+                  <TwitterLogoIcon className="w-4 h-4 sm:mr-2
+                    transition-all duration-300 ease-in-out 
+                    group-hover:rotate-[15deg] group-hover:scale-110 group-hover:text-blue-400" />
+                  <span className="hidden sm:inline">Share on Twitter</span>
+                </Link>
+              </Button>
+            </div>
           </div>
 
           {/* <Image
@@ -145,7 +159,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
           </div>
 
           {/* details */}
-          <div className="bg-muted rounded-lg p-6">
+          <div className="bg-muted/50 rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-4">Details</h2>
             <ul className="space-y-2 text-sm">
               <li className="flex justify-between">
@@ -169,7 +183,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
           </div>
 
           {/* categories */}
-          <div className="bg-muted rounded-lg p-6">
+          <div className="bg-muted/50 rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-4">Categories</h2>
             <ul className="flex flex-wrap gap-4">
               {item.categories?.map((category: any) => (
@@ -184,7 +198,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
           </div>
 
           {/* tags */}
-          <div className="bg-muted rounded-lg p-6">
+          <div className="bg-muted/50 rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-4">Tags</h2>
             <ul className="flex flex-wrap gap-4">
               {item.tags?.map((tag: any) => (

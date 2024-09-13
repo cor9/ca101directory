@@ -106,7 +106,7 @@ export default async function PostPage({ params }: PostPageProps) {
                     <div className="lg:w-1/3">
                         <div className="space-y-4 lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:flex lg:flex-col">
                             {/* author info */}
-                            <div className="bg-muted rounded-lg p-6">
+                            <div className="bg-muted/50 rounded-lg p-6">
                                 <h2 className="text-xl font-semibold mb-4">Written by</h2>
                                 <div className="flex items-center gap-4">
                                     <div className="relative h-16 w-16 flex-shrink-0">
@@ -128,7 +128,7 @@ export default async function PostPage({ params }: PostPageProps) {
                             </div>
 
                             {/* categories */}
-                            <div className="bg-muted rounded-lg p-6">
+                            <div className="bg-muted/50 rounded-lg p-6">
                                 <h2 className="text-xl font-semibold mb-4">Categories</h2>
                                 <ul className="flex flex-wrap gap-4">
                                     {post.categories?.map((category: any) => (
@@ -143,7 +143,7 @@ export default async function PostPage({ params }: PostPageProps) {
                             </div>
 
                             {/* table of contents */}
-                            <div className="hidden lg:block bg-muted rounded-lg p-6 overflow-y-auto">
+                            <div className="hidden lg:block bg-muted/50 rounded-lg p-6 overflow-y-auto">
                                 <h2 className="text-xl font-semibold mb-4">Table of Contents</h2>
                                 <div className="max-h-[calc(100vh-18rem)] overflow-y-auto">
                                     <BlogToc toc={toc} />

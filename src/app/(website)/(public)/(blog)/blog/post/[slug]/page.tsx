@@ -134,7 +134,7 @@ export default async function PostPage({ params }: PostPageProps) {
                                     {post.categories?.map((category: any) => (
                                         <li key={category._id}>
                                             <Link href={`/blog/${category.slug.current}`}
-                                                className="text-sm hover:underline">
+                                                className="text-sm hover:underline underline-offset-4">
                                                 {category.name}
                                             </Link>
                                         </li>

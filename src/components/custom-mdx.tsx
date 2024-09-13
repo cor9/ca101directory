@@ -26,7 +26,7 @@ export function CustomMdx({ source, components }: MdxProps) {
     }
 
     return (
-        <div className="">
+        <article className="">
             <MDXRemote
                 source={source}
                 options={options}
@@ -37,7 +37,7 @@ export function CustomMdx({ source, components }: MdxProps) {
                 }}
                 onError={ErrorComponent}
             />
-        </div>
+        </article>
     )
 }
 

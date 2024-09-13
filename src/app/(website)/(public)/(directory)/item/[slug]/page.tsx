@@ -1,103 +1,175 @@
-import ItemDetailClient from "@/components/item-detail-client";
-import ItemHeaderClient from "@/components/item-header-client";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
+import Link from "next/link";
+import { ItemFullInfo } from "@/types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemQuery } from "@/sanity/lib/queries";
-import { ItemFullInfo } from "@/types";
 import { notFound } from "next/navigation";
 import { CustomMdx } from "@/components/custom-mdx";
-import { cn } from "@/lib/utils";
+import { getLocaleDate, urlForImageWithSize } from "@/lib/utils";
+import ItemCustomMdx from "./item-custom-mdx";
+import Container from "@/components/shared/container";
+import BackButton from "@/components/shared/back-button";
+import ItemBreadCrumb from "@/components/item-bread-crumb";
 
 interface ItemPageProps {
   params: { slug: string };
-};
+}
 
 export default async function ItemPage({ params }: ItemPageProps) {
   const item = await sanityFetch<ItemFullInfo>({
     query: itemQuery,
     params: { slug: params.slug }
   });
+
   if (!item) {
     console.error("ItemPage, item not found");
     return notFound();
   }
-  // console.log('ItemPage, item:', item);
-  // console.log(`ItemPage, item.introduction:`, item.introduction);
+
+  const publishDate = item.publishDate || item._createdAt;
+  const date = getLocaleDate(publishDate);
 
   return (
-    <>
-      <div className="space-y-4">
-        {/* item info */}
-        <ItemHeaderClient item={item} />
+    <div className="mt-8 flex flex-col lg:flex-row gap-16">
+      <div className="lg:w-2/3 space-y-8">
+        <div className="space-y-8">
+          <ItemBreadCrumb item={item} />
 
-        <div className="grid gap-8 md:grid-cols-12">
-          <div className="order-2 md:order-1 md:col-span-6 lg:col-span-7 flex flex-col gap-4">
-            {/* description */}
-            {/* <h2 className="text-xl font-semibold mb-4">
-              Description
-            </h2> */}
-
-            {/* <p className="text-base text-muted-foreground">
-              {item.description}
-            </p> */}
-
-            {/* introduction */}
-            {/* <h2 className="text-xl font-semibold mb-4">
-              Introduction
-            </h2> */}
-
-            {/* mt-4 */}
-            <article className="">
-              {item.introduction &&
-                <CustomMdx source={item.introduction}
-                  components={markdownComponents} />
-              }
-            </article>
-
+          <div className="flex items-center space-x-4">
+            {/* maybe put logo here */}
+            <div className="flex flex-col space-y-8">
+              <h1 className="text-4xl font-bold">
+                {item.name}
+              </h1>
+              <p className="text-muted-foreground">
+                {item.description}
+              </p>
+            </div>
           </div>
 
-          <div className="order-3 md:order-2 md:col-span-1"></div>
+          <ul className="flex flex-wrap gap-4">
+            {item.tags?.map((tag: any) => (
+              <li key={tag._id}>
+                <Link href={`/blog/${tag.slug.current}`}
+                  className="text-sm hover:underline underline-offset-4">
+                  #{tag.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex items-center space-x-4">
+            <Button size="lg" asChild>
+              <Link href={item.link}>View Website</Link>
+            </Button>
+
+            <Button size="lg" variant="outline" asChild>
+              <Link href={item.link}>Add to favorites</Link>
+            </Button>
+          </div>
+
+          {/* <Image
+            src={urlForImageWithSize(item.image, 960, 540)}
+            alt={`${item.name} screenshot`}
+            width={800}
+            height={400}
+            className="rounded-lg w-full mt-8"
+          /> */}
+        </div>
+
+        <div className="border rounded-lg p-6">
+          <ItemCustomMdx source={item.introduction} />
+        </div>
+
+        <div className="flex items-center justify-start my-8">
+          <BackButton />
+        </div>
+      </div>
+
+      <div className="lg:w-1/3">
+        <div className="space-y-4 lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:flex lg:flex-col">
+
+          {/* image */}
+          <div className="relative group overflow-hidden rounded-lg">
+            <Link href={`${item.link}`} target="_blank" prefetch={false}>
+              <Image
+                width={480}
+                height={270}
+                alt={`${item.name}`}
+                title={`${item.name}`}
+                className="rounded-lg border w-full 
+                  transition-transform duration-300 group-hover:scale-105"
+                src={urlForImageWithSize(item.image, 960, 540)}
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-black 
+                bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
+                <span className="text-white text-lg font-semibold 
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  Visit Website
+                </span>
+              </div>
+            </Link>
+          </div>
 
           {/* details */}
-          <div className='order-1 md:order-3 md:col-span-5 lg:col-span-4'>
-            <ItemDetailClient item={item} />
+          <div className="bg-muted rounded-lg p-6">
+            <h2 className="text-xl font-semibold mb-4">Details</h2>
+            <ul className="space-y-2 text-sm">
+              <li className="flex justify-between">
+                <span className="text-muted-foreground">
+                  Website
+                </span>
+                <Link href={item.link} target="_blank" prefetch={false}
+                  className="font-medium hover:underline underline-offset-4">
+                  {item.link}
+                </Link>
+              </li>
+              <li className="flex justify-between">
+                <span className="text-muted-foreground">
+                  Added On
+                </span>
+                <span className="font-medium">
+                  {date}
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          {/* categories */}
+          <div className="bg-muted rounded-lg p-6">
+            <h2 className="text-xl font-semibold mb-4">Categories</h2>
+            <ul className="flex flex-wrap gap-4">
+              {item.categories?.map((category: any) => (
+                <li key={category._id}>
+                  <Link href={`/blog/${category.slug.current}`}
+                    className="text-sm hover:underline underline-offset-4">
+                    {category.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* tags */}
+          <div className="bg-muted rounded-lg p-6">
+            <h2 className="text-xl font-semibold mb-4">Tags</h2>
+            <ul className="flex flex-wrap gap-4">
+              {item.tags?.map((tag: any) => (
+                <li key={tag._id}>
+                  <Link href={`/blog/${tag.slug.current}`}
+                    className="text-sm hover:underline underline-offset-4">
+                    #{tag.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
-/**
- * submitters may use h1, h2, h3 to define the heading of introduction section,
- * but we use h4, h5, h6 to define the heading of introduction section,
- * so we need to map h1, h2, h3 to h4, h5, h6
- */
-const markdownComponents = {
-  h1: ({ className, ...props }) => (
-    <h4
-      className={cn(
-        "mt-8 scroll-m-20 text-xl font-semibold",
-        className,
-      )}
-      {...props}
-    />
-  ),
-  h2: ({ className, ...props }) => (
-    <h5
-      className={cn(
-        "mt-8 scroll-m-20 text-lg font-semibold",
-        className,
-      )}
-      {...props}
-    />
-  ),
-  h3: ({ className, ...props }) => (
-    <h6
-      className={cn(
-        "mt-8 scroll-m-20 text-base font-semibold",
-        className,
-      )}
-      {...props}
-    />
-  ),
-};

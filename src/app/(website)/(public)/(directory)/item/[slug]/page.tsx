@@ -13,6 +13,7 @@ import ItemCustomMdx from "./item-custom-mdx";
 import Container from "@/components/shared/container";
 import BackButton from "@/components/shared/back-button";
 import ItemBreadCrumb from "@/components/item-bread-crumb";
+import { ExternalLinkIcon, FolderIcon, HeartIcon, TagIcon } from "lucide-react";
 
 interface ItemPageProps {
   params: { slug: string };
@@ -33,8 +34,8 @@ export default async function ItemPage({ params }: ItemPageProps) {
   const date = getLocaleDate(publishDate);
 
   return (
-    <div className="mt-8 flex flex-col lg:flex-row gap-16">
-      <div className="lg:w-2/3 space-y-8">
+    <div className="mt-8 flex flex-col lg:flex-row gap-8">
+      <div className="lg:w-2/3 lg:pr-8 space-y-8">
         <div className="space-y-8">
           <ItemBreadCrumb item={item} />
 
@@ -50,24 +51,53 @@ export default async function ItemPage({ params }: ItemPageProps) {
             </div>
           </div>
 
-          <ul className="flex flex-wrap gap-4">
-            {item.tags?.map((tag: any) => (
-              <li key={tag._id}>
-                <Link href={`/blog/${tag.slug.current}`}
-                  className="text-sm hover:underline underline-offset-4">
-                  #{tag.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {/* categories, hidden for now */}
+          <div className="hidden">
+            <ul className="flex flex-wrap gap-2">
+              {item.categories?.map((category: any) => (
+                <li key={category._id}>
+                  <Button size="sm" variant="secondary" asChild>
+                    <Link href={`/blog/${category.slug.current}`}
+                      className="hover:bg-secondary-foreground hover:text-secondary transition-colors">
+                      {category.name}
+                    </Link>
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* tags */}
+          <div>
+            <ul className="flex flex-wrap gap-2">
+              {item.tags?.map((tag: any) => (
+                <li key={tag._id}>
+                  <Button size="sm" variant="outline" asChild>
+                    <Link href={`/blog/${tag.slug.current}`}
+                      className="hover:bg-primary hover:text-primary-foreground transition-colors">
+                      #{tag.name}
+                    </Link>
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <div className="flex items-center space-x-4">
-            <Button size="lg" asChild>
-              <Link href={item.link}>View Website</Link>
+            <Button size="lg" asChild className="group">
+              <Link href={item.link} target="_blank" prefetch={false}
+                className="flex items-center">
+                View Website
+                <ExternalLinkIcon className="ml-2 w-4 h-4 
+                  transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </Link>
             </Button>
 
-            <Button size="lg" variant="outline" asChild>
-              <Link href={item.link}>Add to favorites</Link>
+            <Button size="lg" variant="outline" asChild className="group">
+              <Link href={item.link} className="flex items-center">
+                <HeartIcon className="mr-2 w-4 h-4 transition-transform duration-300 ease-in-out group-hover:scale-125 group-hover:text-red-500" />
+                Add to favorites
+              </Link>
             </Button>
           </div>
 

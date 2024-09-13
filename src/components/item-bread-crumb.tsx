@@ -1,5 +1,6 @@
 import { ItemFullInfo } from "@/types";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "./ui/breadcrumb";
+import { HomeIcon } from "lucide-react";
 
 interface ItemBreadCrumbProps {
   item: ItemFullInfo;
@@ -13,7 +14,10 @@ export default function ItemBreadCrumb({ item }: ItemBreadCrumbProps) {
     <BreadcrumbList>
       <BreadcrumbItem>
         <BreadcrumbLink href={`/`}>
-          Home
+          <div className="flex items-center gap-1">
+            <HomeIcon className="w-4 h-4" />
+            Home
+          </div>
         </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />

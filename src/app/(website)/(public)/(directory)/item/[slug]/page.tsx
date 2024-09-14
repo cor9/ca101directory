@@ -32,11 +32,12 @@ export default async function ItemPage({ params }: ItemPageProps) {
 
   return (
     <div className="mt-8 flex flex-col gap-8">
-
       {/* Content section */}
-      <div className="flex flex-col lg:flex-row gap-8">
-        <div className="lg:w-2/3 lg:pr-8 space-y-8">
-          <div className="space-y-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left column */}
+        <div className="lg:col-span-2 space-y-8 flex flex-col">
+          {/* Basic information */}
+          <div className="order-1 space-y-8">
             <ItemBreadCrumb item={item} />
 
             <div className="flex items-center justify-between space-x-4">
@@ -48,22 +49,6 @@ export default async function ItemPage({ params }: ItemPageProps) {
                   {item.description}
                 </p>
               </div>
-            </div>
-
-            {/* categories, hidden for now */}
-            <div className="hidden">
-              <ul className="flex flex-wrap gap-2">
-                {item.categories?.map((category: any) => (
-                  <li key={category._id}>
-                    <Button size="sm" variant="secondary" asChild>
-                      <Link href={`/category/${category.slug.current}`}
-                        className="hover:bg-secondary-foreground hover:text-secondary transition-colors">
-                        {category.name}
-                      </Link>
-                    </Button>
-                  </li>
-                ))}
-              </ul>
             </div>
 
             {/* tags */}
@@ -107,30 +92,23 @@ export default async function ItemPage({ params }: ItemPageProps) {
                     className="flex items-center justify-center group">
                     <TwitterLogoIcon className="w-4 h-4 mr-2
                     transition-all duration-300 ease-in-out 
-                    group-hover:rotate-[15deg] group-hover:scale-110 group-hover:text-blue-400" />
+                    group-hover:rotate-[15deg] group-hover:scale-110 group-hover:text-blue-500" />
                     <span className="">Share</span>
                   </Link>
                 </Button>
               </div>
             </div>
-
-            {/* <Image
-            src={urlForImageWithSize(item.image, 960, 540)}
-            alt={`${item.name} screenshot`}
-            width={800}
-            height={400}
-            className="rounded-lg w-full mt-8"
-          /> */}
           </div>
 
-          <div className="border rounded-lg p-6">
+          {/* Detailed content */}
+          <div className="order-3 border rounded-lg p-6">
             <ItemCustomMdx source={item.introduction} />
           </div>
         </div>
 
-        <div className="lg:w-1/3">
-          <div className="space-y-4 lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:flex lg:flex-col">
-
+        {/* Right column */}
+        <div className="order-2 lg:order-none">
+          <div className="space-y-4 lg:sticky lg:top-24">
             {/* image */}
             <div className="relative group overflow-hidden rounded-lg">
               <Link href={`${item.link}`} target="_blank" prefetch={false}>
@@ -211,7 +189,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
       </div>
 
       {/* back button */}
-      <div className="flex items-center justify-start mt-8">
+      <div className="flex items-center justify-start mt-8 order-4">
         <BackButton />
       </div>
     </div>

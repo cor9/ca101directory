@@ -47,43 +47,46 @@ export default async function PostPage({ params }: PostPageProps) {
 
     return (
         <div className="mt-8 flex flex-col gap-8">
-
             {/* Content section */}
-            <div className="flex flex-col lg:flex-row gap-8">
-                <div className="lg:w-2/3">
-                    {/* blog post image */}
-                    <div className="relative overflow-hidden rounded-lg aspect-[16/9] mb-8">
-                        {imageProps && (
-                            <Image
-                                src={imageProps.src}
-                                alt={post.image?.alt || `image for blog post`}
-                                loading="eager"
-                                fill
-                                sizes="(max-width: 1024px) 100vw, 1024px"
-                                className="object-cover"
-                            />
-                        )}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Left column */}
+                <div className="lg:col-span-2 space-y-8 flex flex-col">
+                    {/* Basic information */}
+                    <div className="order-1 space-y-8">
+                        {/* blog post image */}
+                        <div className="relative overflow-hidden rounded-lg aspect-[16/9]">
+                            {imageProps && (
+                                <Image
+                                    src={imageProps.src}
+                                    alt={post.image?.alt || `image for blog post`}
+                                    loading="eager"
+                                    fill
+                                    sizes="(max-width: 1024px) 100vw, 1024px"
+                                    className="object-cover"
+                                />
+                            )}
+                        </div>
+
+                        {/* blog post title */}
+                        <h1 className="text-4xl font-bold">
+                            {post.title}
+                        </h1>
+
+                        {/* blog post description */}
+                        <p className="text-xl text-muted-foreground">
+                            {post.excerpt}
+                        </p>                        
                     </div>
 
-                    {/* blog post title */}
-                    <h1 className="text-4xl font-bold mb-4">
-                        {post.title}
-                    </h1>
-
-                    {/* blog post description */}
-                    <p className="text-xl text-muted-foreground mb-8">
-                        {post.excerpt}
-                    </p>
-
                     {/* blog post content */}
-                    <div className="">
+                    <div className="order-3">
                         {markdownContent && <CustomMdx source={markdownContent} />}
                     </div>
                 </div>
 
-                {/* Sidebar section */}
-                <div className="lg:w-1/3">
-                    <div className="space-y-4 lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:flex lg:flex-col">
+                {/* Right column (sidebar) */}
+                <div className="order-2 lg:order-none">
+                    <div className="space-y-4 lg:sticky lg:top-24">
                         {/* author info */}
                         <div className="bg-muted/50 rounded-lg p-6">
                             <h2 className="text-xl font-semibold mb-4">Written by</h2>
@@ -122,7 +125,7 @@ export default async function PostPage({ params }: PostPageProps) {
                         </div>
 
                         {/* table of contents */}
-                        <div className="hidden lg:block bg-muted/50 rounded-lg p-6 overflow-y-auto">
+                        <div className="bg-muted/50 rounded-lg p-6">
                             <h2 className="text-xl font-semibold mb-4">Table of Contents</h2>
                             <div className="max-h-[calc(100vh-18rem)] overflow-y-auto">
                                 <BlogToc toc={toc} />
@@ -130,18 +133,7 @@ export default async function PostPage({ params }: PostPageProps) {
                         </div>
 
                         {/* related posts */}
-                        {/* <div className="bg-muted rounded-lg p-6">
-                                <h2 className="text-xl font-semibold mb-4">Related Posts</h2>
-                                <ul className="space-y-4">
-                                    {relatedPosts.map((relatedPost: any) => (
-                                        <li key={relatedPost._id}>
-                                            <Link href={`/blog/post/${relatedPost.slug.current}`} className="text-sm hover:underline">
-                                                {relatedPost.title}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div> */}
+                        {/* ... (if you have related posts, you can add them here) ... */}
                     </div>
                 </div>
             </div>

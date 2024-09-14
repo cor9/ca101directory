@@ -24,7 +24,7 @@ export default async function BlogGrid({ posts, totalPages, paginationPrefix }: 
       {/* when posts are found */}
       {posts && posts?.length > 0 && (
         <>
-          <div className="mt-12 gap-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {posts.map(post => (
               <BlogCard key={post._id} post={post} />
             ))}

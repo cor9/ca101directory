@@ -24,7 +24,7 @@ export default function ItemGrid({ items, totalPages, paginationPrefix }: ItemGr
       {/* when items are found */}
       { items && items.length > 0 && (
           <section className=''>
-            <div className="mt-12 gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+            <div className="mt-12 gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
               {items.map((item) => (
                 <ItemCard key={item._id} item={item} />
               ))}

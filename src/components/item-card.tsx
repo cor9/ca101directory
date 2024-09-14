@@ -71,7 +71,7 @@ export default function ItemCard({ item }: ItemCardProps) {
         {/* bottom */}
         <div className="flex flex-col gap-4">
           <hr />
-          <div className="px-4 pb-4 flex justify-between items-center text-xs">
+          <div className="px-4 pb-4 flex justify-between items-center text-sm">
             <p className="font-medium">
               {item?.categories?.[0]?.name}
             </p>

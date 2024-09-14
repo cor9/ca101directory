@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage,  
 } from "@/components/ui/form";
-import { CardWrapper } from "@/components/auth/card-wrapper"
+import { AuthCard } from "@/components/auth/auth-card"
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
@@ -48,10 +48,10 @@ export const RegisterForm = () => {
   };
 
   return (
-    <CardWrapper
+    <AuthCard
       headerLabel="Create an account"
-      backButtonLabel="Already have an account? Sign in"
-      backButtonHref="/auth/login"
+      bottomButtonLabel="Already have an account? Sign in"
+      bottomButtonHref="/auth/login"
       showSocial
     >
       <Form {...form}>
@@ -118,6 +118,7 @@ export const RegisterForm = () => {
           <FormSuccess message={success} />
           <Button
             disabled={isPending}
+            size="lg"
             type="submit"
             className="w-full"
           >
@@ -125,6 +126,6 @@ export const RegisterForm = () => {
           </Button>
         </form>
       </Form>
-    </CardWrapper>
+    </AuthCard>
   );
 };

@@ -21,14 +21,15 @@ export const SocialButton = () => {
   }
 
   return (
-    <div className="w-full flex flex-col sm:flex-row gap-2">
+    <div className="w-full flex flex-col gap-4">
       <Button
         size="lg"
         className="w-full"
         variant="outline"
         onClick={() => onClick("google")}
       >
-        <FaBrandsGoogle className="h-4 w-4 mr-2" />Google
+        <FaBrandsGoogle className="h-4 w-4 mr-2" />
+        Login with Google
       </Button>
       <Button
         size="lg"
@@ -36,7 +37,8 @@ export const SocialButton = () => {
         variant="outline"
         onClick={() => onClick("github")}
       >
-        <FaBrandsGithub className="h-5 w-5 mr-2" />Github
+        <FaBrandsGithub className="h-5 w-5 mr-2" />
+        Login with Github
       </Button>
     </div>
   );

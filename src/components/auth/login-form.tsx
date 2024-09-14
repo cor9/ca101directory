@@ -16,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { CardWrapper } from "@/components/auth/card-wrapper"
+import { AuthCard } from "@/components/auth/auth-card"
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
@@ -66,16 +66,16 @@ export const LoginForm = () => {
   };
 
   return (
-    <CardWrapper
+    <AuthCard
       headerLabel="Welcome back"
-      backButtonLabel="Don't have an account? Sign up"
-      backButtonHref="/auth/register"
+      bottomButtonLabel="Don't have an account? Sign up"
+      bottomButtonHref="/auth/register"
       showSocial
     >
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6"
+          className="space-y-8"
         >
           <div className="space-y-4">
             <>
@@ -133,6 +133,7 @@ export const LoginForm = () => {
           <FormSuccess message={success} />
           <Button
             disabled={isPending}
+            size="lg"
             type="submit"
             className="w-full"
           >
@@ -140,6 +141,6 @@ export const LoginForm = () => {
           </Button>
         </form>
       </Form>
-    </CardWrapper>
+    </AuthCard>
   );
 };

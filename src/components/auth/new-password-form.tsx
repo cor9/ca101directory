@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { NewPasswordSchema } from "@/lib/schemas";
 import { Input } from "@/components/ui/input";
 import { 
@@ -16,7 +15,7 @@ import {
   FormLabel,
   FormMessage,  
 } from "@/components/ui/form";
-import { CardWrapper } from "@/components/auth/card-wrapper"
+import { AuthCard } from "@/components/auth/auth-card"
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
@@ -51,10 +50,10 @@ export const NewPasswordForm = () => {
   };
 
   return (
-    <CardWrapper
+    <AuthCard
       headerLabel="Reset password"
-      backButtonLabel="Back to login"
-      backButtonHref="/auth/login"
+      bottomButtonLabel="Back to login"
+      bottomButtonHref="/auth/login"
     >
       <Form {...form}>
         <form 
@@ -85,6 +84,7 @@ export const NewPasswordForm = () => {
           <FormSuccess message={success} />
           <Button
             disabled={isPending}
+            size="lg"
             type="submit"
             className="w-full"
           >
@@ -92,6 +92,6 @@ export const NewPasswordForm = () => {
           </Button>
         </form>
       </Form>
-    </CardWrapper>
+    </AuthCard>
   );
 };

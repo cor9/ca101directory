@@ -1,16 +1,16 @@
-import { CardWrapper } from "@/components/auth/card-wrapper";
+import { AuthCard } from "@/components/auth/auth-card";
 import { TriangleAlert } from "lucide-react";
 
 export const ErrorCard = () => {
   return (
-    <CardWrapper
+    <AuthCard
       headerLabel="Oops! Something went wrong!"
-      backButtonHref="/auth/login"
-      backButtonLabel="Back to login"
+      bottomButtonHref="/auth/login"
+      bottomButtonLabel="Back to login"
     >
       <div className="w-full flex justify-center items-center">
       <TriangleAlert className="text-destructive" />
       </div>
-    </CardWrapper>
+    </AuthCard>
   );
 };

@@ -63,7 +63,7 @@ export default function ItemCard({ item }: ItemCardProps) {
           <div className="px-4 text-xl text-primary font-medium transition-all" >
             <p>{item.name}</p>
           </div>
-          <div className="px-4 text-sm text-muted-foreground line-clamp-3">
+          <div className="px-4 text-sm text-muted-foreground line-clamp-2">
             <p>{item.description}</p>
           </div>
         </div>

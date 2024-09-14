@@ -1,6 +1,6 @@
 "use client";
 
-import { BackButton } from "@/components/auth/back-button";
+import { BottomButton } from "@/components/auth/back-button";
 import { SocialButton } from "@/components/auth/social-button";
 import {
   Card,
@@ -11,24 +11,27 @@ import {
   CardTitle
 } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
+import { cn } from "@/lib/utils";
 
-interface CardWrapperProps {
+interface AuthCardProps {
   children: React.ReactNode;
   headerLabel: string;
-  backButtonLabel: string;
-  backButtonHref: string;
+  bottomButtonLabel: string;
+  bottomButtonHref: string;
   showSocial?: boolean;
+  className?: string;
 };
 
-export const CardWrapper = ({
+export const AuthCard = ({
   children,
   headerLabel,
-  backButtonLabel,
-  backButtonHref,
-  showSocial
-}: CardWrapperProps) => {
+  bottomButtonLabel,
+  bottomButtonHref,
+  showSocial,
+  className
+}: AuthCardProps) => {
   return (
-    <Card className="w-[90%] sm:w-[400px] max-w-[400px] shadow-sm">
+    <Card className={cn("w-[90%] sm:w-[400px] max-w-[400px]", className)}>
       <CardHeader className="items-center">
         <CardTitle>{siteConfig.name}</CardTitle>
         <CardDescription>{headerLabel}</CardDescription>
@@ -42,9 +45,9 @@ export const CardWrapper = ({
         </CardFooter>
       )}
       <CardFooter>
-        <BackButton
-          label={backButtonLabel}
-          href={backButtonHref}
+        <BottomButton
+          label={bottomButtonLabel}
+          href={bottomButtonHref}
         />
       </CardFooter>
     </Card>

@@ -50,7 +50,7 @@ export function SubmissionTable({
                         <span>
                             Submissions
                         </span>
-                        <Link href="/dashboard/submit"
+                        <Link href="/submit"
                             className={cn(buttonVariants({ variant: 'default' }),
                                 "flex items-center gap-1")}>
                             <PlusIcon className="h-4 w-4" />

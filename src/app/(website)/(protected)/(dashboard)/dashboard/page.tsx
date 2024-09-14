@@ -46,7 +46,7 @@ export default async function DashboardPage({
           <EmptyPlaceholder.Description>
             You don&apos;t have any submissions yet.
           </EmptyPlaceholder.Description>
-          <Link href="/dashboard/submit"
+          <Link href="/submit"
             className={cn(
               buttonVariants({ variant: "default" })
             )}

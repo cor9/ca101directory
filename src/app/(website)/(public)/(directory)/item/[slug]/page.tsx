@@ -103,7 +103,8 @@ export default async function ItemPage({ params }: ItemPageProps) {
             </div>
 
             {/* Detailed content */}
-            <div className="order-3 border rounded-lg p-6">
+            {/* border rounded-lg p-6 */}
+            <div className="order-3 ">
               <h2 className="text-xl font-semibold mb-4">Introduction</h2>
               <ItemCustomMdx source={item.introduction} />
             </div>
@@ -113,7 +114,8 @@ export default async function ItemPage({ params }: ItemPageProps) {
 
         {/* Right column */}
         <div className="order-2 lg:col-span-1 lg:order-none">
-          <div className="lg:sticky lg:top-24 flex flex-col space-y-8">
+          {/* lg:sticky lg:top-24 */}
+          <div className="flex flex-col space-y-8">
 
             {/* image */}
             <div className="relative group overflow-hidden rounded-lg">

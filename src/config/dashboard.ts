@@ -16,7 +16,7 @@ export const sidebarLinks: NestedNavItem[] = [
         title: "Submit"
       },
       {
-        href: "/dashboard/billing",
+        href: "/billing",
         icon: "billing",
         title: "Billing",
         authorizeOnly: UserRole.USER,

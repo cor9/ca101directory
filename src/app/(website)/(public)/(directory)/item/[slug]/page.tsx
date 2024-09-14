@@ -1,20 +1,16 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import ItemBreadCrumb from "@/components/item-bread-crumb";
+import BackButton from "@/components/shared/back-button";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
-import Link from "next/link";
-import { ItemFullInfo } from "@/types";
+import { getLocaleDate, urlForImageWithSize } from "@/lib/utils";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemQuery } from "@/sanity/lib/queries";
-import { notFound } from "next/navigation";
-import { CustomMdx } from "@/components/custom-mdx";
-import { getLocaleDate, urlForImageWithSize } from "@/lib/utils";
-import ItemCustomMdx from "./item-custom-mdx";
-import Container from "@/components/shared/container";
-import BackButton from "@/components/shared/back-button";
-import ItemBreadCrumb from "@/components/item-bread-crumb";
-import { ExternalLinkIcon, FolderIcon, HeartIcon, TagIcon } from "lucide-react";
+import { ItemFullInfo } from "@/types";
 import { TwitterLogoIcon } from "@radix-ui/react-icons";
+import { ExternalLinkIcon, HeartIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import ItemCustomMdx from "@/components/item-custom-mdx";
 
 interface ItemPageProps {
   params: { slug: string };
@@ -35,183 +31,188 @@ export default async function ItemPage({ params }: ItemPageProps) {
   const date = getLocaleDate(publishDate);
 
   return (
-    <div className="mt-8 flex flex-col lg:flex-row gap-8">
-      <div className="lg:w-2/3 lg:pr-8 space-y-8">
-        <div className="space-y-8">
-          <ItemBreadCrumb item={item} />
+    <div className="mt-8 flex flex-col gap-8">
 
-          <div className="flex items-center justify-between space-x-4">
-            <div className="flex flex-col space-y-8">
-              <h1 className="text-4xl font-bold">
-                {item.name}
-              </h1>
-              <p className="text-muted-foreground">
-                {item.description}
-              </p>
+      {/* Content section */}
+      <div className="flex flex-col lg:flex-row gap-8">
+        <div className="lg:w-2/3 lg:pr-8 space-y-8">
+          <div className="space-y-8">
+            <ItemBreadCrumb item={item} />
+
+            <div className="flex items-center justify-between space-x-4">
+              <div className="flex flex-col space-y-8">
+                <h1 className="text-4xl font-bold">
+                  {item.name}
+                </h1>
+                <p className="text-muted-foreground">
+                  {item.description}
+                </p>
+              </div>
             </div>
-          </div>
 
-          {/* categories, hidden for now */}
-          <div className="hidden">
-            <ul className="flex flex-wrap gap-2">
-              {item.categories?.map((category: any) => (
-                <li key={category._id}>
-                  <Button size="sm" variant="secondary" asChild>
-                    <Link href={`/blog/${category.slug.current}`}
-                      className="hover:bg-secondary-foreground hover:text-secondary transition-colors">
-                      {category.name}
-                    </Link>
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* categories, hidden for now */}
+            <div className="hidden">
+              <ul className="flex flex-wrap gap-2">
+                {item.categories?.map((category: any) => (
+                  <li key={category._id}>
+                    <Button size="sm" variant="secondary" asChild>
+                      <Link href={`/category/${category.slug.current}`}
+                        className="hover:bg-secondary-foreground hover:text-secondary transition-colors">
+                        {category.name}
+                      </Link>
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* tags */}
-          <div>
-            <ul className="flex flex-wrap gap-2">
-              {item.tags?.map((tag: any) => (
-                <li key={tag._id}>
-                  <Button size="sm" variant="outline" asChild>
-                    <Link href={`/blog/${tag.slug.current}`}
-                      className="hover:bg-primary hover:text-primary-foreground transition-colors">
-                      #{tag.name}
-                    </Link>
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* tags */}
+            <div>
+              <ul className="flex flex-wrap gap-2">
+                {item.tags?.map((tag: any) => (
+                  <li key={tag._id}>
+                    <Button size="sm" variant="outline" asChild>
+                      <Link href={`/tag/${tag.slug.current}`}
+                        className="hover:bg-primary hover:text-primary-foreground transition-colors">
+                        #{tag.name}
+                      </Link>
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-            <Button size="lg" asChild className="group whitespace-nowrap w-full sm:w-auto">
-              <Link href={item.link} target="_blank" prefetch={false}
-                className="flex items-center justify-center">
-                View Website
-                <ExternalLinkIcon className="ml-2 w-4 h-4 
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              <Button size="lg" asChild className="group whitespace-nowrap w-full sm:w-auto">
+                <Link href={item.link} target="_blank" prefetch={false}
+                  className="flex items-center justify-center">
+                  View Website
+                  <ExternalLinkIcon className="ml-2 w-4 h-4 
                   transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-              </Link>
-            </Button>
+                </Link>
+              </Button>
 
-            <div className="flex flex-row gap-2 sm:gap-4">
-              <Button size="lg" variant="outline" asChild className="group flex-1">
-                <Link href={item.link} className="flex items-center justify-center">
-                  <HeartIcon className="w-4 h-4 sm:mr-2
+              <div className="flex flex-row gap-2 sm:gap-4">
+                <Button size="lg" variant="outline" asChild className="group flex-1">
+                  <Link href={item.link} className="flex items-center justify-center">
+                    <HeartIcon className="w-4 h-4 mr-2
                     transition-transform duration-300 ease-in-out 
                     group-hover:scale-125 group-hover:text-red-500" />
-                  <span className="hidden sm:inline">Add to favorites</span>
-                </Link>
-              </Button>
+                    <span className="">Like</span>
+                  </Link>
+                </Button>
 
-              <Button size="lg" variant="outline" asChild className="group flex-1">
-                <Link href={item.link} target="_blank" prefetch={false}
-                  className="flex items-center justify-center group">
-                  <TwitterLogoIcon className="w-4 h-4 sm:mr-2
+                <Button size="lg" variant="outline" asChild className="group flex-1">
+                  <Link href={item.link} target="_blank" prefetch={false}
+                    className="flex items-center justify-center group">
+                    <TwitterLogoIcon className="w-4 h-4 mr-2
                     transition-all duration-300 ease-in-out 
                     group-hover:rotate-[15deg] group-hover:scale-110 group-hover:text-blue-400" />
-                  <span className="hidden sm:inline">Share on Twitter</span>
-                </Link>
-              </Button>
+                    <span className="">Share</span>
+                  </Link>
+                </Button>
+              </div>
             </div>
-          </div>
 
-          {/* <Image
+            {/* <Image
             src={urlForImageWithSize(item.image, 960, 540)}
             alt={`${item.name} screenshot`}
             width={800}
             height={400}
             className="rounded-lg w-full mt-8"
           /> */}
+          </div>
+
+          <div className="border rounded-lg p-6">
+            <ItemCustomMdx source={item.introduction} />
+          </div>
         </div>
 
-        <div className="border rounded-lg p-6">
-          <ItemCustomMdx source={item.introduction} />
-        </div>
+        <div className="lg:w-1/3">
+          <div className="space-y-4 lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:flex lg:flex-col">
 
-        <div className="flex items-center justify-start my-8">
-          <BackButton />
+            {/* image */}
+            <div className="relative group overflow-hidden rounded-lg">
+              <Link href={`${item.link}`} target="_blank" prefetch={false}>
+                <Image
+                  width={480}
+                  height={270}
+                  alt={`${item.name}`}
+                  title={`${item.name}`}
+                  className="rounded-lg border w-full 
+                  transition-transform duration-300 group-hover:scale-105"
+                  src={urlForImageWithSize(item.image, 960, 540)}
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black 
+                bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
+                  <span className="text-white text-lg font-semibold 
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Visit Website
+                  </span>
+                </div>
+              </Link>
+            </div>
+
+            {/* details */}
+            <div className="bg-muted/50 rounded-lg p-6">
+              <h2 className="text-xl font-semibold mb-4">Details</h2>
+              <ul className="space-y-2 text-sm">
+                <li className="flex justify-between">
+                  <span className="text-muted-foreground">
+                    Website
+                  </span>
+                  <Link href={item.link} target="_blank" prefetch={false}
+                    className="font-medium hover:underline underline-offset-4">
+                    {item.link}
+                  </Link>
+                </li>
+                <li className="flex justify-between">
+                  <span className="text-muted-foreground">
+                    Added On
+                  </span>
+                  <span className="font-medium">
+                    {date}
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            {/* categories */}
+            <div className="bg-muted/50 rounded-lg p-6">
+              <h2 className="text-xl font-semibold mb-4">Categories</h2>
+              <ul className="flex flex-wrap gap-4">
+                {item.categories?.map((category: any) => (
+                  <li key={category._id}>
+                    <Link href={`/category/${category.slug.current}`}
+                      className="text-sm hover:underline underline-offset-4">
+                      {category.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* tags */}
+            <div className="bg-muted/50 rounded-lg p-6">
+              <h2 className="text-xl font-semibold mb-4">Tags</h2>
+              <ul className="flex flex-wrap gap-4">
+                {item.tags?.map((tag: any) => (
+                  <li key={tag._id}>
+                    <Link href={`/tag/${tag.slug.current}`}
+                      className="text-sm hover:underline underline-offset-4">
+                      #{tag.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="lg:w-1/3">
-        <div className="space-y-4 lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:flex lg:flex-col">
-
-          {/* image */}
-          <div className="relative group overflow-hidden rounded-lg">
-            <Link href={`${item.link}`} target="_blank" prefetch={false}>
-              <Image
-                width={480}
-                height={270}
-                alt={`${item.name}`}
-                title={`${item.name}`}
-                className="rounded-lg border w-full 
-                  transition-transform duration-300 group-hover:scale-105"
-                src={urlForImageWithSize(item.image, 960, 540)}
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-black 
-                bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
-                <span className="text-white text-lg font-semibold 
-                  opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  Visit Website
-                </span>
-              </div>
-            </Link>
-          </div>
-
-          {/* details */}
-          <div className="bg-muted/50 rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Details</h2>
-            <ul className="space-y-2 text-sm">
-              <li className="flex justify-between">
-                <span className="text-muted-foreground">
-                  Website
-                </span>
-                <Link href={item.link} target="_blank" prefetch={false}
-                  className="font-medium hover:underline underline-offset-4">
-                  {item.link}
-                </Link>
-              </li>
-              <li className="flex justify-between">
-                <span className="text-muted-foreground">
-                  Added On
-                </span>
-                <span className="font-medium">
-                  {date}
-                </span>
-              </li>
-            </ul>
-          </div>
-
-          {/* categories */}
-          <div className="bg-muted/50 rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Categories</h2>
-            <ul className="flex flex-wrap gap-4">
-              {item.categories?.map((category: any) => (
-                <li key={category._id}>
-                  <Link href={`/blog/${category.slug.current}`}
-                    className="text-sm hover:underline underline-offset-4">
-                    {category.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* tags */}
-          <div className="bg-muted/50 rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Tags</h2>
-            <ul className="flex flex-wrap gap-4">
-              {item.tags?.map((tag: any) => (
-                <li key={tag._id}>
-                  <Link href={`/blog/${tag.slug.current}`}
-                    className="text-sm hover:underline underline-offset-4">
-                    #{tag.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+      {/* back button */}
+      <div className="flex items-center justify-start my-8">
+        <BackButton />
       </div>
     </div>
   );

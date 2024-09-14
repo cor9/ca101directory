@@ -98,7 +98,7 @@ export async function Update(formData: UpdateFormData) {
     // while reducing the number of requests made to the server.
     // Since you're updating the data displayed in the invoices route, you want to clear this cache and trigger a new request to the server. 
     // You can do this with the revalidatePath function from Next.js.
-    revalidatePath('/dashboard/update');
+    revalidatePath('/update');
     return { status: "success" };
   } catch (error) {
     console.log("update, error", error);

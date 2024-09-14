@@ -47,6 +47,7 @@ export const restrictedRoutes = [
   "/dashboard",
   "/settings",
   "/submit",
+  "/update",
 ];
 
 /**

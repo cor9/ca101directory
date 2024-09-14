@@ -10,7 +10,7 @@ import { ExternalLinkIcon, HeartIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ItemCustomMdx from "@/components/item-custom-mdx";
+import ItemCustomMdx from "../../../../../../components/item-custom-mdx";
 
 interface ItemPageProps {
   params: { slug: string };

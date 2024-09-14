@@ -12,8 +12,6 @@ export const publicRoutes = [
   "/category(/.*)?",
   "/tag(/.*)?",
   
-  // "/docs(/.*)?",
-  // "/guides(/.*)?",
   "/blog(/.*)?",
   "/archive(/.*)?",
   "/post(/.*)?",
@@ -21,13 +19,12 @@ export const publicRoutes = [
   
   "/submit(/.*)?",
   "/pricing(/.*)?",
+  "/landing(/.*)?",
   
   "/terms(/.*)?",
   "/privacy(/.*)?",
   
   "/auth/new-verification",
-
-  "/landing(/.*)?",
 ];
 
 /**
@@ -43,12 +40,15 @@ export const authRoutes = [
   "/auth/new-password"
 ];
 
-export const restrictedRoutes = [
-  "/dashboard",
-  "/settings",
-  "/submit",
-  "/update",
-];
+// restrictedRoutes is not used anywhere
+// export const restrictedRoutes = [
+//   "/dashboard",
+//   "/settings",
+//   "/submit",
+//   "/update",
+//   "/pay",
+//   "/billing",
+// ];
 
 /**
  * The prefix for API authentication routes

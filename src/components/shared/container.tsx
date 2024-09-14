@@ -12,7 +12,7 @@ export default function Container({
     <div
       className={cn(
         "container",
-        "max-w-screen-xl",
+        "max-w-6xl",
         className,
       )}
     >

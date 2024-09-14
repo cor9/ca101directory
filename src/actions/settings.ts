@@ -79,6 +79,6 @@ export const settings = async (
     }
   });
 
-  revalidatePath('/dashboard/settings');
+  revalidatePath('/settings');
   return { success: "Settings Updated!" };
 }

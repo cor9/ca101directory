@@ -22,7 +22,7 @@ export const sidebarLinks: NestedNavItem[] = [
         authorizeOnly: UserRole.USER,
       },
       {
-        href: "/dashboard/settings",
+        href: "/settings",
         icon: "settings",
         title: "Settings"
       },

@@ -10,7 +10,7 @@ import { ExternalLinkIcon, HeartIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ItemCustomMdx from "../../../../../../components/item-custom-mdx";
+import ItemCustomMdx from "@/components/item-custom-mdx";
 
 interface ItemPageProps {
   params: { slug: string };
@@ -33,13 +33,14 @@ export default async function ItemPage({ params }: ItemPageProps) {
   return (
     <div className="mt-8 flex flex-col gap-8">
       {/* Content section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left column */}
-        <div className="lg:col-span-2 space-y-8 flex flex-col">
+        <div className="lg:col-span-1 space-y-8 flex flex-col">
           {/* Basic information */}
           <div className="order-1 space-y-8">
             <ItemBreadCrumb item={item} />
 
+            {/* name and description */}
             <div className="flex items-center justify-between space-x-4">
               <div className="flex flex-col space-y-8">
                 <h1 className="text-4xl font-bold">
@@ -67,8 +68,9 @@ export default async function ItemPage({ params }: ItemPageProps) {
               </ul>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-              <Button size="lg" asChild className="group whitespace-nowrap w-full sm:w-auto">
+            {/* action buttons */}
+            <div className="flex flex-col items-stretch gap-4">
+              <Button size="lg" asChild className="group whitespace-nowrap w-full">
                 <Link href={item.link} target="_blank" prefetch={false}
                   className="flex items-center justify-center">
                   View Website
@@ -77,7 +79,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                 </Link>
               </Button>
 
-              <div className="flex flex-row gap-2 sm:gap-4">
+              <div className="flex flex-row gap-4">
                 <Button size="lg" variant="outline" asChild className="group flex-1">
                   <Link href={item.link} className="flex items-center justify-center">
                     <HeartIcon className="w-4 h-4 mr-2
@@ -97,27 +99,31 @@ export default async function ItemPage({ params }: ItemPageProps) {
                   </Link>
                 </Button>
               </div>
-            </div>
-          </div>
 
-          {/* Detailed content */}
-          <div className="order-3 border rounded-lg p-6">
-            <ItemCustomMdx source={item.introduction} />
+            </div>
+
+            {/* Detailed content */}
+            <div className="order-3 border rounded-lg p-6">
+              <h2 className="text-xl font-semibold mb-4">Introduction</h2>
+              <ItemCustomMdx source={item.introduction} />
+            </div>
+
           </div>
         </div>
 
         {/* Right column */}
-        <div className="order-2 lg:order-none">
-          <div className="space-y-4 lg:sticky lg:top-24">
+        <div className="order-2 lg:col-span-1 lg:order-none">
+          <div className="lg:sticky lg:top-24 flex flex-col space-y-8">
+
             {/* image */}
             <div className="relative group overflow-hidden rounded-lg">
               <Link href={`${item.link}`} target="_blank" prefetch={false}>
                 <Image
-                  width={480}
-                  height={270}
+                  width={360}
+                  height={240}
                   alt={`${item.name}`}
                   title={`${item.name}`}
-                  className="rounded-lg border w-full 
+                  className="rounded-lg border w-full shadow-lg
                   transition-transform duration-300 group-hover:scale-105"
                   src={urlForImageWithSize(item.image, 960, 540)}
                 />
@@ -131,65 +137,70 @@ export default async function ItemPage({ params }: ItemPageProps) {
               </Link>
             </div>
 
-            {/* details */}
-            <div className="bg-muted/50 rounded-lg p-6">
-              <h2 className="text-xl font-semibold mb-4">Details</h2>
-              <ul className="space-y-2 text-sm">
-                <li className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    Website
-                  </span>
-                  <Link href={item.link} target="_blank" prefetch={false}
-                    className="font-medium hover:underline underline-offset-4">
-                    {item.link}
-                  </Link>
-                </li>
-                <li className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    Added On
-                  </span>
-                  <span className="font-medium">
-                    {date}
-                  </span>
-                </li>
-              </ul>
-            </div>
+            <div className="flex flex-col space-y-4">
 
-            {/* categories */}
-            <div className="bg-muted/50 rounded-lg p-6">
-              <h2 className="text-xl font-semibold mb-4">Categories</h2>
-              <ul className="flex flex-wrap gap-4">
-                {item.categories?.map((category: any) => (
-                  <li key={category._id}>
-                    <Link href={`/category/${category.slug.current}`}
-                      className="text-sm hover:underline underline-offset-4">
-                      {category.name}
+              {/* information */}
+              <div className="bg-muted/50 rounded-lg p-6">
+                <h2 className="text-xl font-semibold mb-4">Information</h2>
+                <ul className="space-y-4 text-sm">
+                  <li className="flex justify-between">
+                    <span className="text-muted-foreground">
+                      Website
+                    </span>
+                    <Link href={item.link} target="_blank" prefetch={false}
+                      className="font-medium underline underline-offset-4">
+                      {item.link}
                     </Link>
                   </li>
-                ))}
-              </ul>
+                  <li className="flex justify-between">
+                    <span className="text-muted-foreground">
+                      Added On
+                    </span>
+                    <span className="font-medium">
+                      {date}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* categories */}
+              <div className="bg-muted/50 rounded-lg p-6">
+                <h2 className="text-xl font-semibold mb-4">Categories</h2>
+                <ul className="flex flex-wrap gap-4">
+                  {item.categories?.map((category: any) => (
+                    <li key={category._id}>
+                      <Link href={`/category/${category.slug.current}`}
+                        className="text-sm hover:underline underline-offset-4">
+                        {category.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* tags */}
+              <div className="bg-muted/50 rounded-lg p-6">
+                <h2 className="text-xl font-semibold mb-4">Tags</h2>
+                <ul className="flex flex-wrap gap-4">
+                  {item.tags?.map((tag: any) => (
+                    <li key={tag._id}>
+                      <Link href={`/tag/${tag.slug.current}`}
+                        className="text-sm hover:underline underline-offset-4">
+                        #{tag.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
             </div>
 
-            {/* tags */}
-            <div className="bg-muted/50 rounded-lg p-6">
-              <h2 className="text-xl font-semibold mb-4">Tags</h2>
-              <ul className="flex flex-wrap gap-4">
-                {item.tags?.map((tag: any) => (
-                  <li key={tag._id}>
-                    <Link href={`/tag/${tag.slug.current}`}
-                      className="text-sm hover:underline underline-offset-4">
-                      #{tag.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
         </div>
       </div>
 
       {/* back button */}
-      <div className="flex items-center justify-start mt-8 order-4">
+      <div className="flex items-center justify-center mt-8 order-4">
         <BackButton />
       </div>
     </div>

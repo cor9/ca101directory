@@ -147,7 +147,7 @@ export default async function PostPage({ params }: PostPageProps) {
             </div>
 
             {/* back button */}
-            <div className="flex justify-start items-center my-8">
+            <div className="flex justify-start items-center mt-8">
                 <Link
                     href="/blog"
                     className={cn(

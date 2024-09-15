@@ -33,7 +33,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                 </span>
             </TableCell>
             <TableCell>
-                <Badge variant="default" className="capitalize">
+                <Badge variant="outline" className="capitalize">
                     active
                 </Badge>
             </TableCell>

@@ -58,6 +58,7 @@ const CustomMde: React.FC<CustomMdeProps> = ({ value, onChange }) => {
         options={mdeOptions}
         value={value}
         onChange={onChange}
+        className="shadow-none"
       />
     </div>
   );

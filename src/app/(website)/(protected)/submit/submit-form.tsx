@@ -9,10 +9,7 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+  CardFooter
 } from "@/components/ui/card";
 import {
   Form,
@@ -29,7 +26,7 @@ import { SubmitSchema } from "@/lib/schemas";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import confetti from 'canvas-confetti';
-import { HourglassIcon } from "lucide-react";
+import { SmileIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -70,13 +67,15 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
   const onSubmit = form.handleSubmit((data: SubmitFormData) => {
     console.log('SubmitForm, onSubmit, data:', data);
     startTransition(async () => {
-      const { status } = await Submit(data);
+      const { status, id } = await Submit(data);
       console.log('SubmitForm, status:', status);
       if (status === "success") {
         confetti();
         form.reset();
         toast.success("Submit success");
-        router.push(`/dashboard/`);
+        
+        // router.push(`/dashboard/`);
+        router.push(`/pay/${id}`);
       } else {
         toast.error("Something went wrong. Please try again.");
       }
@@ -251,8 +250,8 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
               </span>
             </Button>
             <FormDescription className="text-sm text-muted-foreground flex items-center justify-center sm:justify-start gap-2">
-              <HourglassIcon className="h-4 w-4" />
-              <span>Your submission will be reviewed before being published.</span>
+              <SmileIcon className="h-4 w-4" />
+              <span>No worries, you can change your submission later.</span>
             </FormDescription>
           </CardFooter>
         </Card>

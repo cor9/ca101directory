@@ -23,6 +23,7 @@ interface SubmitStepperProps {
 export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
     const [currentStep, setCurrentStep] = useState(initialStep);
 
+    // TODO: change number indicators to icons
     const steps = [
         { title: "Submit", description: "Submit product details" },
         { title: "Pay", description: "Pay for listing" },

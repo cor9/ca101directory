@@ -36,7 +36,7 @@ export async function Submit(formData: SubmitFormData) {
     // 38e2ec20-bde4-49b3-ab5f-e3f723276ed5
     // 自测submit的时候指定id是可以提交成功的
     const data = {
-      _id: "38e2ec20-bde4-49b3-ab5f-e3f723276ed5",
+      // _id: "38e2ec20-bde4-49b3-ab5f-e3f723276ed5",
       _type: "item",
       name,
       slug: {
@@ -96,7 +96,8 @@ export async function Submit(formData: SubmitFormData) {
     // Since you're updating the data displayed in the invoices route, you want to clear this cache and trigger a new request to the server. 
     // You can do this with the revalidatePath function from Next.js.
     revalidatePath('/submit');
-    return { status: "success" };
+
+    return { status: "success", id: res._id };
   } catch (error) {
     console.log("submit, error", error);
     return { status: "error" };

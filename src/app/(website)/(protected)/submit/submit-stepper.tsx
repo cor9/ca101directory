@@ -34,14 +34,21 @@ export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
             {steps.map((step, index) => (
                 <React.Fragment key={index}>
                     <StepperItem step={index + 1}>
-                        <StepperTrigger onClick={() => setCurrentStep(index + 1)}>
-                            <StepperIndicator completed={currentStep > index + 1}>
+                        <StepperTrigger
+                            onClick={() => setCurrentStep(index + 1)}
+                            active={currentStep === index + 1}
+                        >
+                            <StepperIndicator
+                                completed={currentStep > index + 1}
+                                active={currentStep === index + 1}
+                            >
                                 {index + 1}
                             </StepperIndicator>
-                            <div className="text-center px-4">
-                                <StepperTitle>{step.title}</StepperTitle>
-                                <StepperDescription 
-                                    className='hidden md:block mt-1'>
+                            <div className="text-center">
+                                <StepperTitle>
+                                    {step.title}
+                                </StepperTitle>
+                                <StepperDescription>
                                     {step.description}
                                 </StepperDescription>
                             </div>

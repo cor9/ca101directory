@@ -1,6 +1,6 @@
-import * as React from "react";
-import { cn } from "@/lib/utils";
-import { CheckIcon } from "lucide-react";
+import * as React from "react"
+import { cn } from "@/lib/utils"
+import { Check } from "lucide-react"
 
 const Stepper = React.forwardRef<
   HTMLDivElement,
@@ -28,12 +28,15 @@ StepperItem.displayName = "StepperItem"
 
 const StepperTrigger = React.forwardRef<
   HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement>
->(({ className, ...props }, ref) => (
+  React.ButtonHTMLAttributes<HTMLButtonElement> & { active?: boolean }
+>(({ className, active, ...props }, ref) => (
   <button
     ref={ref}
     className={cn(
-      "flex flex-col items-center gap-2 p-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+      "flex flex-col items-center gap-4 py-4 px-4 rounded-md transition-colors",
+      active
+        ? "text-foreground"
+        : "text-muted-foreground hover:text-foreground",
       className
     )}
     {...props}
@@ -43,18 +46,22 @@ StepperTrigger.displayName = "StepperTrigger"
 
 const StepperIndicator = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & { completed?: boolean }
->(({ className, completed, children, ...props }, ref) => (
+  React.HTMLAttributes<HTMLDivElement> & { completed?: boolean; active?: boolean }
+>(({ className, completed, active, children, ...props }, ref) => (
   <div
     ref={ref}
     className={cn(
-      "flex items-center justify-center w-8 h-8 rounded-full border-2",
-      completed ? "bg-primary border-primary text-primary-foreground" : "border-input",
+      "flex items-center justify-center w-8 h-8 rounded-full transition-colors",
+      completed
+        ? "text-primary-foreground bg-primary"
+        : active
+        ? "text-primary-foreground bg-primary"
+        : "text-muted-foreground bg-muted",
       className
     )}
     {...props}
   >
-    {completed ? <CheckIcon className="h-4 w-4" /> : children}
+    {completed ? <Check className="h-4 w-4" /> : children}
   </div>
 ))
 StepperIndicator.displayName = "StepperIndicator"
@@ -77,7 +84,7 @@ const StepperDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    className={cn("mt-1 text-sm text-muted-foreground", className)}
     {...props}
   />
 ))

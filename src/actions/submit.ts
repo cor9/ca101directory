@@ -32,7 +32,11 @@ export async function Submit(formData: SubmitFormData) {
       tags, categories } = SubmitSchema.parse(formData);
     console.log("submit, name:", name, "link:", link);
 
+    // 38e2ec20-bde4-49b3-ab5f-e3f723276ed4
+    // 38e2ec20-bde4-49b3-ab5f-e3f723276ed5
+    // 自测submit的时候指定id是可以提交成功的
     const data = {
+      _id: "38e2ec20-bde4-49b3-ab5f-e3f723276ed5",
       _type: "item",
       name,
       slug: {

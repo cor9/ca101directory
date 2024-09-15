@@ -34,7 +34,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
             </TableCell>
             <TableCell>
                 <Badge variant="outline" className="capitalize">
-                    active
+                    published
                 </Badge>
             </TableCell>
             <TableCell className="hidden md:table-cell">

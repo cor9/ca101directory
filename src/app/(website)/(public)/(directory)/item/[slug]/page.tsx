@@ -6,7 +6,7 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
 import { TwitterLogoIcon } from "@radix-ui/react-icons";
-import { ExternalLinkIcon, HeartIcon } from "lucide-react";
+import { ExternalLinkIcon, HeartIcon, Share2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -73,7 +73,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
               <Button size="lg" asChild className="group whitespace-nowrap w-full">
                 <Link href={item.link} target="_blank" prefetch={false}
                   className="flex items-center justify-center">
-                  View Website
+                  Visit Website
                   <ExternalLinkIcon className="ml-2 w-4 h-4 
                   transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </Link>
@@ -92,9 +92,9 @@ export default async function ItemPage({ params }: ItemPageProps) {
                 <Button size="lg" variant="outline" asChild className="group flex-1">
                   <Link href={item.link} target="_blank" prefetch={false}
                     className="flex items-center justify-center group">
-                    <TwitterLogoIcon className="w-4 h-4 mr-2
+                    <Share2Icon className="w-4 h-4 mr-2
                     transition-all duration-300 ease-in-out 
-                    group-hover:rotate-[15deg] group-hover:scale-110 group-hover:text-blue-500" />
+                    group-hover:scale-125 group-hover:text-blue-500" />
                     <span className="">Share</span>
                   </Link>
                 </Button>

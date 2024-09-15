@@ -154,9 +154,9 @@ export function DashboardSidebar({ links }: DashboardSidebarProps) {
                 ))}
               </nav>
 
-              <div className="mt-auto px-4 pb-6">
+              {/* <div className="mt-auto px-4 pb-6">
                 {isSidebarExpanded ? <SubmitCard /> : null}
-              </div>
+              </div> */}
             </div>
           </aside>
         </ScrollArea>

@@ -85,9 +85,9 @@ export function DashboardSidebarMobile({ links }: DashboardSidebarMobileProps) {
                   </section>
                 ))}
 
-                <div className="mt-auto">
+                {/* <div className="mt-auto">
                   <SubmitCard />
-                </div>
+                </div> */}
               </nav>
             </div>
           </ScrollArea>

@@ -15,7 +15,7 @@ export function SubmitCard() {
     <Card className="md:max-xl:rounded-none md:max-xl:border-none md:max-xl:shadow-none">
       <CardHeader className="md:max-xl:px-4">
         <CardTitle>
-          Submit your product
+          Submit
         </CardTitle>
         <CardDescription>
           Submit your product, get listed immediately, more traffic means more sales.

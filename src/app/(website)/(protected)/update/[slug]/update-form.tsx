@@ -77,10 +77,15 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
       const { status } = await Update(data);
       console.log('UpdateForm, status:', status);
       if (status === "success") {
-        confetti();
+        // confetti();
         form.reset();
         toast.success("Update success");
-        router.push(`/dashboard/`);
+        
+        // TODO: not working, still showing the old item
+        // router.refresh();
+        // router.push(`/update/${item._id}`);
+
+        // router.push(`/dashboard/`);
       } else {
         toast.error("Something went wrong. Please try again.");
       }
@@ -98,13 +103,13 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
     <Form {...form}>
       <form onSubmit={onSubmit}>
         <Card className="overflow-hidden">
-          <CardHeader>
+          {/* <CardHeader>
             <CardTitle>Update</CardTitle>
             <CardDescription>
               Update your product info.
             </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+          </CardHeader> */}
+          <CardContent className="mt-4 space-y-6">
             <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
               <FormField
                 control={form.control}
@@ -186,7 +191,10 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Enter a brief description of your product" {...field} />
+                    <Textarea placeholder="Enter a brief description of your product" 
+                      {...field}
+                      className="resize-none"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

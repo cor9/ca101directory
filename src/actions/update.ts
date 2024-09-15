@@ -6,6 +6,7 @@ import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { nanoid } from 'nanoid';
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export type UpdateFormData = {
   id: string;
@@ -98,7 +99,10 @@ export async function Update(formData: UpdateFormData) {
     // while reducing the number of requests made to the server.
     // Since you're updating the data displayed in the invoices route, you want to clear this cache and trigger a new request to the server. 
     // You can do this with the revalidatePath function from Next.js.
-    revalidatePath('/update');
+
+    // TODO: redirect to the updated item, but not working, still showing the old item
+    revalidatePath(`/update/${id}`);
+    revalidatePath(`/item/${id}`);
     return { status: "success" };
   } catch (error) {
     console.log("update, error", error);

@@ -32,9 +32,8 @@ export default async function ProtectedLayout({ children }: ProtectedLayoutProps
       {/* content section flex-1 */}
       <div className="flex flex-1 flex-col">
         {/* header section */}
-        {/* border-b border-border */}
-        {/* removed px-4 bg-background */}
-        <header className="sticky top-0 z-50 flex h-16 bg-background border-b border-border">
+        {/* hide border for now: border-b border-border */}
+        <header className="sticky top-0 z-50 flex h-16 px-4 bg-background">
           <Container className="flex items-center gap-x-4 px-0">
             <DashboardSidebarMobile links={filteredLinks} />
 

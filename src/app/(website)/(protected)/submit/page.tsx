@@ -1,9 +1,10 @@
 import { DashboardHeader } from "@/components/dashboard/header";
-import { SubmitForm } from "./submit-form";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryListQuery, tagListQuery } from "@/sanity/lib/queries";
 import { Suspense } from "react";
+import { SubmitForm } from "./submit-form";
+import { SubmitStepper } from "./submit-stepper";
 
 export default async function SubmitPage() {
   const [categoryList, tagList] = await Promise.all([
@@ -17,10 +18,12 @@ export default async function SubmitPage() {
 
   return (
     <>
-      <DashboardHeader
+      {/* <DashboardHeader
         heading="Submit"
         text="Submit your product to get listed."
-      />
+      /> */}
+
+      <SubmitStepper initialStep={1} />
 
       <div className="mt-6">
         <Suspense fallback={null}>

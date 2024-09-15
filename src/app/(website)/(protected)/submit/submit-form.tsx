@@ -183,7 +183,9 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea placeholder="Enter a brief description of your product"
-                      {...field} />
+                      {...field}
+                      className="resize-none"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

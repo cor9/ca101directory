@@ -82,6 +82,24 @@ export type NestedNavItem = {
   icon?: keyof typeof Icons;
 };
 
+// price plans
+export type PricePlan = {
+  title: string;
+  description: string;
+  benefits: string[];
+  limitations: string[];
+  price: number;
+  stripeId: string | null;
+};
+
+export type UserPricePlan = PricePlan &
+  Pick<User, "stripeCustomerId" | "stripeSubscriptionId" | "stripePriceId"> & {
+    stripeCurrentPeriodEnd: number;
+    isPaid: boolean;
+    interval: "month" | "year" | null;
+    isCanceled?: boolean;
+  };
+
 // subcriptions
 export type SubscriptionPlan = {
   title: string;

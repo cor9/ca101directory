@@ -59,7 +59,7 @@ export const sidebarLinks: NestedNavItem[] = [
         icon: "bookOpen",
         title: "Documentation"
       },
-      {
+      { // TODO: add support, mail to support@mkdirs.com
         href: "/support",
         icon: "messages",
         title: "Support",

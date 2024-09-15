@@ -105,33 +105,79 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <FormField
-              control={form.control}
-              name="link"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Link</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter the link to your product" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
+              <FormField
+                control={form.control}
+                name="link"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Link</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter the link to your product" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter the name of your product" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter the name of your product" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
+              <FormField
+                control={form.control}
+                name="categories"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Categories</FormLabel>
+                    <FormControl>
+                      <MultiSelect
+                        className="shadow-none"
+                        options={categoryList.map(category => ({ value: category._id, label: category.name || '' }))}
+                        onValueChange={(selected) => field.onChange(selected)}
+                        defaultValue={field.value}
+                        placeholder="Select categories"
+                        variant="default"
+                        maxCount={5}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="tags"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Tags</FormLabel>
+                    <FormControl>
+                      <MultiSelect
+                        className="shadow-none"
+                        options={tagList.map(tag => ({ value: tag._id, label: tag.name || '' }))}
+                        onValueChange={(selected) => field.onChange(selected)}
+                        defaultValue={field.value}
+                        placeholder="Select tags"
+                        variant="default"
+                        maxCount={5}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={form.control}
@@ -147,96 +193,51 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="categories"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Categories</FormLabel>
-                  <FormControl>
-                    <MultiSelect
-                      className="shadow-none"
-                      options={categoryList.map(category => ({ value: category._id, label: category.name || '' }))}
-                      onValueChange={(selected) => field.onChange(selected)}
-                      defaultValue={field.value}
-                      placeholder="Select categories"
-                      variant="default"
-                      maxCount={5}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="tags"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tags</FormLabel>
-                  <FormControl>
-                    <MultiSelect
-                      className="shadow-none"
-                      options={tagList.map(tag => ({ value: tag._id, label: tag.name || '' }))}
-                      onValueChange={(selected) => field.onChange(selected)}
-                      defaultValue={field.value}
-                      placeholder="Select tags"
-                      variant="default"
-                      maxCount={5}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="introduction"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    <div className="flex items-center justify-between gap-4">
-                      <span>Introduction</span>
-                      <span className="text-sm text-muted-foreground">
-                        (Markdown supported)
-                      </span>
-                    </div>
-                  </FormLabel>
-                  <FormControl>
-                    <CustomMde {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="imageId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    <div className="flex items-center justify-between gap-4">
-                      <span>Image</span>
-                      <span className="text-sm text-muted-foreground">
-                        (PNG or JPEG, maximum size 1MB)
-                      </span>
-                    </div>
-                  </FormLabel>
-                  <FormControl>
-                    <div className="mt-4 w-full h-[300px]">
-                      <ImageUpload
-                        currentImageUrl={urlForImage(item.image).src}
-                        onUploadChange={handleUploadChange}
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
+              <FormField
+                control={form.control}
+                name="introduction"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>
+                      <div className="flex items-center justify-start gap-4">
+                        <span>Introduction</span>
+                        <span className="text-sm text-muted-foreground">
+                          (Markdown supported)
+                        </span>
+                      </div>
+                    </FormLabel>
+                    <FormControl>
+                      <CustomMde {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="imageId"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>
+                      <div className="flex items-center justify-start gap-4">
+                        <span>Image</span>
+                        <span className="text-sm text-muted-foreground">
+                          (PNG or JPEG, maximum size 1MB)
+                        </span>
+                      </div>
+                    </FormLabel>
+                    <FormControl>
+                      <div className="mt-4 w-full h-[370px]">
+                        <ImageUpload onUploadChange={handleUploadChange}
+                          currentImageUrl={urlForImage(item.image).src} />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </CardContent>
           <CardFooter className="flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4 sm:flex-row sm:justify-between sm:space-y-0">
             <Button size="lg"

@@ -12,7 +12,7 @@ export const sidebarLinks: NestedNavItem[] = [
       },
       {
         href: "/submit",
-        icon: "settings",
+        icon: "submit",
         title: "Submit"
       },
       {

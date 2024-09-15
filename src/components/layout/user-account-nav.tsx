@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { LayoutDashboard, LogOut, Settings } from "lucide-react";
+import { LayoutDashboard, LogOut, Settings, UploadIcon } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
@@ -174,7 +174,7 @@ export function UserAccountNav() {
           </Link>
         </DropdownMenuItem>
 
-        <DropdownMenuItem asChild>
+        {/* <DropdownMenuItem asChild>
           <Link
             href="/settings"
             className="flex items-center space-x-2.5"
@@ -182,14 +182,14 @@ export function UserAccountNav() {
             <Settings className="size-4" />
             <p className="text-sm">Settings</p>
           </Link>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
 
         <DropdownMenuItem asChild>
           <Link
             href="/submit"
             className="flex items-center space-x-2.5"
           >
-            <Settings className="size-4" />
+            <UploadIcon className="size-4" />
             <p className="text-sm">Submit</p>
           </Link>
         </DropdownMenuItem>

@@ -29,6 +29,7 @@ import {
   Settings,
   SunMedium,
   Trash,
+  UploadIcon,
   User,
   X,
 } from "lucide-react";
@@ -134,4 +135,5 @@ export const Icons = {
   ),
   user: User,
   warning: AlertTriangle,
+  submit: UploadIcon,
 };

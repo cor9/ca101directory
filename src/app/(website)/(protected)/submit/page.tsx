@@ -1,4 +1,4 @@
-import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryListQuery, tagListQuery } from "@/sanity/lib/queries";
@@ -19,8 +19,8 @@ export default async function SubmitPage() {
   return (
     <>
       {/* <DashboardHeader
-        heading="Submit"
-        text="Submit your product to get listed."
+        title="Submit"
+        subtitle="Submit your product to get listed."
       /> */}
 
       <SubmitStepper initialStep={1} />

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { constructMetadata } from "@/lib/utils";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { BillingInfo } from "@/components/pricing/billing-info";
 import { Icons } from "@/components/shared/icons";
 import { currentUser } from "@/lib/auth";
@@ -25,8 +25,8 @@ export default async function BillingPage() {
   return (
     <>
       <DashboardHeader
-        heading="Billing"
-        text="Manage billing and your subscription plan."
+        title="Billing"
+        subtitle="Manage billing and your subscription plan."
       />
       
       <div className="mt-6 grid gap-8">

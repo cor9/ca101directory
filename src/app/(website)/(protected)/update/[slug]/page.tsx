@@ -5,7 +5,7 @@ import { ItemFullInfo } from "@/types";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { UpdateForm } from "./update-form";
-import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 
 interface UpdatePageProps {
   params: { slug: string };
@@ -33,8 +33,8 @@ export default async function UpdatePage({ params }: UpdatePageProps) {
   return (
     <>
       <DashboardHeader
-        heading="Update"
-        text="Update your product info."
+        title="Update"
+        subtitle="Update your product info."
       />
 
       <div className="mt-4">

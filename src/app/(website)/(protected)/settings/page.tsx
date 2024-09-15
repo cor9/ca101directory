@@ -1,7 +1,7 @@
 "use client";
 
 import { settings } from "@/actions/settings";
-import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { Icons } from "@/components/shared/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -84,8 +84,8 @@ export default function SettingsPage() {
   return (
     <>
       <DashboardHeader
-        heading="Settings"
-        text="Manage account settings."
+        title="Settings"
+        subtitle="Manage account settings."
       />
       
       <div className="mt-6 space-y-6">

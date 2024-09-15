@@ -1,26 +1,27 @@
 interface DashboardHeaderProps {
-  heading: string;
-  text?: string;
+  title: string;
+  subtitle?: string;
   children?: React.ReactNode;
 }
 
 export function DashboardHeader({
-  heading,
-  text,
+  title,
+  subtitle,
   children,
 }: DashboardHeaderProps) {
   return (
     <div className="flex items-center justify-between">
       <div className="grid gap-1">
         <h1 className="text-2xl font-semibold">
-          {heading}
+          {title}
         </h1>
-        {text && (
+        {subtitle && (
           <p className="text-base text-muted-foreground">
-            {text}
+            {subtitle}
           </p>
         )}
       </div>
+      
       {children}
     </div>
   );

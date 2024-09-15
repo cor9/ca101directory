@@ -1,4 +1,4 @@
-import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { PricingCards } from "@/components/pricing/pricing-cards";
 import { Icons } from "@/components/shared/icons";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -25,9 +25,10 @@ export default async function PayPage() {
   return (
     <>
       <DashboardHeader
-        heading="Pay"
-        text="Pay for your submission."
+        title="Pay"
+        subtitle="Pay for your submission."
       />
+      
       <div className="grid gap-8">
         {/* <Alert className="!pl-14">
           <Icons.warning />

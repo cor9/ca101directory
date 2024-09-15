@@ -44,7 +44,7 @@ export function SubmissionTable({
 
     return (
         <Card>
-            <CardHeader>
+            {/* <CardHeader>
                 <CardTitle>
                     <div className='flex items-center justify-between'>
                         <span>
@@ -61,13 +61,13 @@ export function SubmissionTable({
                 <CardDescription>
                     Manage your submissions.
                 </CardDescription>
-            </CardHeader>
-            <CardContent className='px-0 py-2'>
+            </CardHeader> */}
+            <CardContent className='px-0 py-0'>
                 <Table>
-                    <TableHeader>
+                    <TableHeader className='py-2'>
                         <TableRow>
                             <TableHead className="hidden sm:table-cell w-[100px] sm:px-6">
-                                Image
+                                {/* Image */}
                             </TableHead>
                             <TableHead className='px-6 sm:px-0 max-w-[300px]'>
                                 Name

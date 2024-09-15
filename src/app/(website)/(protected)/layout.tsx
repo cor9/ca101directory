@@ -26,17 +26,19 @@ export default async function ProtectedLayout({ children }: ProtectedLayoutProps
 
   return (
     <div className="relative flex min-h-screen w-full">
+      {/* sidebar section */}
       <DashboardSidebar links={filteredLinks} />
 
+      {/* content section flex-1 */}
       <div className="flex flex-1 flex-col">
-        <header className="sticky top-0 z-50 flex h-16 bg-background px-4">
-          {/* remove max-w-7xl  */}
+        {/* header section */}
+        {/* border-b border-border */}
+        {/* removed px-4 bg-background */}
+        <header className="sticky top-0 z-50 flex h-16 bg-background border-b border-border">
           <Container className="flex items-center gap-x-4 px-0">
             <DashboardSidebarMobile links={filteredLinks} />
 
             <div className="w-full flex-1">
-              {/* TODO: show something here later */}
-              {/* <SearchCommand links={filteredLinks} /> */}
             </div>
 
             <UserAccountNav />
@@ -44,9 +46,10 @@ export default async function ProtectedLayout({ children }: ProtectedLayoutProps
           </Container>
         </header>
 
+        {/* p-8 is for set top padding of content */}
         <main className="flex-1 p-4">
-          {/* remove max-w-7xl  */}
-          <Container className="flex h-full flex-col gap-4 px-0">
+          {/* gap-4 is header section and content section, removed */}
+          <Container className="flex flex-col h-full px-0">
             {children}
           </Container>
         </main>

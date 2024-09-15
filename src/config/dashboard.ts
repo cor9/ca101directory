@@ -8,7 +8,7 @@ export const sidebarLinks: NestedNavItem[] = [
       {
         href: "/dashboard",
         icon: "dashboard",
-        title: "Submissions"
+        title: "Dashboard"
       },
       {
         href: "/submit",
@@ -28,24 +28,24 @@ export const sidebarLinks: NestedNavItem[] = [
       },
     ],
   },
-  {
-    title: "ADMIN",
-    items: [
-      {
-        href: "/admin",
-        icon: "laptop",
-        title: "Admin Panel",
-        authorizeOnly: UserRole.ADMIN,
-      },
-      {
-        href: "/admin/orders",
-        icon: "package",
-        title: "Orders",
-        badge: 2,
-        authorizeOnly: UserRole.ADMIN,
-      },
-    ],
-  },
+  // {
+  //   title: "ADMIN",
+  //   items: [
+  //     {
+  //       href: "/admin",
+  //       icon: "laptop",
+  //       title: "Admin Panel",
+  //       authorizeOnly: UserRole.ADMIN,
+  //     },
+  //     {
+  //       href: "/admin/orders",
+  //       icon: "package",
+  //       title: "Orders",
+  //       badge: 2,
+  //       authorizeOnly: UserRole.ADMIN,
+  //     },
+  //   ],
+  // },
   {
     title: "RESOURCES",
     items: [

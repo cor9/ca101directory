@@ -32,34 +32,36 @@ export default async function DashboardPage({
 
   return (
     <>
-      {/* <DashboardHeader
-        heading="Submissions"
+      <DashboardHeader
+        heading="Dashboard"
         text="Overview of your submissions."
-      /> */}
+      />
 
-      {submissions.length === 0 ? (
-        <EmptyPlaceholder>
-          <EmptyPlaceholder.Icon name="post" />
-          <EmptyPlaceholder.Title>
-            No submissions
-          </EmptyPlaceholder.Title>
-          <EmptyPlaceholder.Description>
-            You don&apos;t have any submissions yet.
-          </EmptyPlaceholder.Description>
-          <Link href="/submit"
-            className={cn(
-              buttonVariants({ variant: "default" })
-            )}
-          >
-            Submit
-          </Link>
-        </EmptyPlaceholder>
-      ) : (
-        <SubmissionTable submissions={submissions} 
-          totalCount={totalCount} 
-          totalPages={totalPages}
-        />
-      )}
+      <div className="mt-6">
+        {submissions.length === 0 ? (
+          <EmptyPlaceholder>
+            <EmptyPlaceholder.Icon name="post" />
+            <EmptyPlaceholder.Title>
+              No submissions
+            </EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Description>
+              You don&apos;t have any submissions yet.
+            </EmptyPlaceholder.Description>
+            <Link href="/submit"
+              className={cn(
+                buttonVariants({ variant: "default" })
+              )}
+            >
+              Submit
+            </Link>
+          </EmptyPlaceholder>
+        ) : (
+          <SubmissionTable submissions={submissions}
+            totalCount={totalCount}
+            totalPages={totalPages}
+          />
+        )}
+      </div>
 
     </>
   );

@@ -83,24 +83,24 @@ export default function SettingsPage() {
 
   return (
     <>
-      {/* <DashboardHeader
+      <DashboardHeader
         heading="Settings"
         text="Manage account settings."
-      /> */}
+      />
       
-      <div className="space-y-6">
+      <div className="mt-6 space-y-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <Card className="overflow-hidden">
-              <CardHeader>
+              {/* <CardHeader>
                 <CardTitle>
                   Settings
                 </CardTitle>
                 <CardDescription>
                   Manage account settings.
                 </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
+              </CardHeader> */}
+              <CardContent className="mt-4 space-y-6">
                 <FormField
                   control={form.control}
                   name="name"

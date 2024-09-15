@@ -94,13 +94,13 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
     <Form {...form}>
       <form onSubmit={onSubmit}>
         <Card className="overflow-hidden">
-          <CardHeader>
+          {/* <CardHeader>
             <CardTitle>Submit</CardTitle>
             <CardDescription>
               Submit your product to get listed.
             </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+          </CardHeader> */}
+          <CardContent className="mt-6 space-y-6">
             <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
               <FormField
                 control={form.control}
@@ -182,7 +182,8 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Enter a brief description of your product" {...field} />
+                    <Textarea placeholder="Enter a brief description of your product"
+                      {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

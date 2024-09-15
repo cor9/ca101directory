@@ -6,7 +6,7 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
 import { TwitterLogoIcon } from "@radix-ui/react-icons";
-import { ExternalLinkIcon, HeartIcon, Share2Icon } from "lucide-react";
+import { ExternalLinkIcon, HashIcon, HeartIcon, Share2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -59,8 +59,13 @@ export default async function ItemPage({ params }: ItemPageProps) {
                   <li key={tag._id}>
                     <Button size="sm" variant="outline" asChild>
                       <Link href={`/tag/${tag.slug.current}`}
-                        className="hover:bg-primary hover:text-primary-foreground transition-colors">
-                        #{tag.name}
+                      // hover:underline underline-offset-4
+                        className="text-sm 
+                          flex items-center justify-center group">
+                        <HashIcon className="w-3 h-3 mr-1
+                          transition-all duration-300 ease-in-out 
+                          group-hover:scale-125" />
+                        <span className="">{tag.name}</span>
                       </Link>
                     </Button>
                   </li>
@@ -187,8 +192,12 @@ export default async function ItemPage({ params }: ItemPageProps) {
                   {item.tags?.map((tag: any) => (
                     <li key={tag._id}>
                       <Link href={`/tag/${tag.slug.current}`}
-                        className="text-sm hover:underline underline-offset-4">
-                        #{tag.name}
+                        className="text-sm hover:underline underline-offset-4
+                          flex items-center justify-center group">
+                        <HashIcon className="w-3 h-3 mr-1
+                          transition-all duration-300 ease-in-out 
+                          group-hover:scale-125" />
+                        <span className="">{tag.name}</span>
                       </Link>
                     </li>
                   ))}

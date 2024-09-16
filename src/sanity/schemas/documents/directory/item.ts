@@ -112,6 +112,7 @@ export default defineType({
       title: 'Publish Date',
       description: "The lastest publish date when the item is published",
 			type: 'datetime',
+      initialValue: () => new Date().toISOString(),
       hidden: ({ parent }) => !parent.published,
 		}),
     // order related fields
@@ -175,13 +176,14 @@ export default defineType({
   // within Sanity Studio's document lists.
   preview: {
     select: {
-      title: "name",
+      name: "name",
       media: "image",
       date: "publishDate",
       published: "published",
     },
-    prepare({ title, media, date, published }) {
-      const subtitle = published ? "published at " + format(parseISO(date), "yyyy/MM/dd") : "unpublished";
+    prepare({ name, media, date, published }) {
+      const title = published ? `${name}` : `⏳ ${name}`;
+      const subtitle = published ? format(parseISO(date), "yyyy/MM/dd") : "unpublished";
       return {
         title,
         media,

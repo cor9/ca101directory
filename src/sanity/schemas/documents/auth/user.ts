@@ -54,13 +54,14 @@ const user = {
       type: 'reference',
       to: [{ type: 'account' }],
     }),
+    // stripe
     defineField({
       name: 'stripeCustomerId',
       title: 'Stripe Customer Id',
       type: 'string',
       group: 'stripe',
-      // validation: (rule) => rule.required(),
     }),
+    // TODO(javayhu): to be removed
     defineField({
       name: 'stripeSubscriptionId',
       title: 'Stripe Subscription Id',

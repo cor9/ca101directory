@@ -41,6 +41,7 @@ export default defineType({
         defineField({
             name: "categories",
             title: "Categories",
+            description: "The categories that the post belongs to, may have multiple categories.",
             type: "array",
             of: [{ type: "reference", to: { type: "blogCategory" } }]
         }),
@@ -72,6 +73,13 @@ export default defineType({
                     initialValue: () => "Blog Post Image",
                 },
             ],
+        }),
+        defineField({
+            name: "published",
+            title: "Published",
+            description: "If the post is published, it will be visible to the public",
+            type: "boolean",
+            initialValue: false,
         }),
         defineField({
             name: 'publishDate',

@@ -42,7 +42,12 @@ const order = {
       status: "status",
     },
     prepare({ name, media, date, status }) {
-      const title = name + " - " + status;
+      let title;
+      if (status === 'success') {
+        title = `✅ ${name}`;
+      } else {
+        title = `❌ ${name}`;
+      }
       const subtitle = format(parseISO(date), "yyyy/MM/dd");
       return {
         title,

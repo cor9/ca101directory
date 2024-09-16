@@ -11,7 +11,6 @@ import item from './documents/directory/item';
 import tag from './documents/directory/tag';
 import page from './documents/page/page';
 import order from './documents/order/order';
-import stripeCustomer from './documents/order/stripe-customer';
 import settings from './documents/settings';
 
 export const schemaTypes = [
@@ -39,7 +38,6 @@ export const schemaTypes = [
     
     // order
     order,
-    stripeCustomer,
     
     settings,
 

@@ -18,7 +18,7 @@ interface SubmitStepperProps {
 export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
     const [currentStep, setCurrentStep] = useState(initialStep);
 
-    // TODO: change number indicators to icons
+    // TODO(javayhu): change number indicators to icons
     const steps = [
         { title: "Submit", description: "Enter product information" },
         { title: "Pricing", description: "Select pricing plan" },
@@ -30,6 +30,7 @@ export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
             {steps.map((step, index) => (
                 <React.Fragment key={index}>
                     <StepperItem step={index + 1}>
+                        {/* disable click on stepper trigger */}
                         <StepperTrigger
                             // onClick={() => setCurrentStep(index + 1)}
                             active={currentStep === index + 1}

@@ -1,5 +1,5 @@
 // TODO: Fix this when we turn strict mode on. // @ts-nocheck
-import { PRICE_PLANS } from "@/config/pricing";
+import { PRICE_PLANS } from "@/config/pricing-plan";
 import { sanityClient } from "@/sanity/lib/client";
 import { UserPricePlan } from "@/types";
 

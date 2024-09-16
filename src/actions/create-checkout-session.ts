@@ -16,7 +16,7 @@ export type responseAction = {
 const billingUrl = absoluteUrl("/dashboard");
 
 // https://github.com/javayhu/lms-studio-antonio/blob/main/app/api/courses/%5BcourseId%5D/checkout/route.ts
-// stripe checkout session
+// TODO(javayhu): stripe checkout session, how to handle the errors???
 export async function createCheckoutSession(priceId: string, itemId: string): Promise<responseAction> {
   let redirectUrl: string = "";
 

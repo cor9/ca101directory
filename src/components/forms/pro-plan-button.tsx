@@ -4,17 +4,18 @@ import { createCheckoutSession } from "@/actions/create-checkout-session";
 import { Icons } from "@/components/shared/icons";
 import { Button } from "@/components/ui/button";
 import { ItemFullInfo, PricePlan } from "@/types";
+import { RocketIcon } from "lucide-react";
 import { useTransition } from "react";
 
-interface PayButtonProps {
+interface ProPlanButtonProps {
   item: ItemFullInfo;
   pricePlan: PricePlan;
 }
 
-export function PayButton({ item, pricePlan }: PayButtonProps) {
+export function ProPlanButton({ item, pricePlan }: ProPlanButtonProps) {
   let [isPending, startTransition] = useTransition();
 
-  // TODO(javayhu): server action bind id!!!
+  // TODO(javayhu): server action bind args!!!
   const createSubmissionCheckoutSessionAction = createCheckoutSession.bind(
     null,
     pricePlan.stripePriceId,
@@ -25,22 +26,16 @@ export function PayButton({ item, pricePlan }: PayButtonProps) {
     startTransition(async () => {
       try {
         const result = await createSubmissionCheckoutSessionAction();
-        if (result.status === "success") {
-          window.location.href = result.stripeUrl;
-        }
+        console.log('createCheckoutSessionAction, result:', result);
       } catch (error) {
-        console.error(error);
+        console.error('createCheckoutSessionAction, error:', error);
       }
     });
   };
 
-  // TODO(javayhu): what does uesrOffer means???
-  // const userOffer = pricePlan.stripePriceId === userPricePlan.stripePriceId;
-
   return (
     <Button
-      // variant={userOffer ? "default" : "outline"}
-      variant={"outline"}
+      variant={"default"}
       className="w-full rounded-full"
       disabled={isPending}
       onClick={createCheckoutSessionAction}
@@ -52,8 +47,8 @@ export function PayButton({ item, pricePlan }: PayButtonProps) {
         </>
       ) : (
         <>
-          {/* {userOffer ? "Manage" : "Upgrade"} */}
-          {"Pay"}
+          <RocketIcon className="mr-2 size-4" />
+          <span>Pay to Publish Right Now</span>
         </>
       )}
     </Button>

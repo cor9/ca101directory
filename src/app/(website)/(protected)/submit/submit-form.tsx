@@ -25,7 +25,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { SubmitSchema } from "@/lib/schemas";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import confetti from 'canvas-confetti';
+// import confetti from 'canvas-confetti';
 import { SmileIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -70,12 +70,12 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
       const { status, id } = await Submit(data);
       console.log('SubmitForm, status:', status);
       if (status === "success") {
-        confetti();
+        // confetti();
         form.reset();
         toast.success("Submit success");
         
         // router.push(`/dashboard/`);
-        router.push(`/pay/${id}`);
+        router.push(`/plan/${id}`);
       } else {
         toast.error("Something went wrong. Please try again.");
       }

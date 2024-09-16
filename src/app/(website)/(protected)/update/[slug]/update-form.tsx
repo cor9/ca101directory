@@ -30,7 +30,6 @@ import { UpdateSchema } from "@/lib/schemas";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { ItemFullInfo } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import confetti from 'canvas-confetti';
 import { HourglassIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -77,7 +76,6 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
       const { status } = await Update(data);
       console.log('UpdateForm, status:', status);
       if (status === "success") {
-        // confetti();
         form.reset();
         toast.success("Update success");
         
@@ -85,7 +83,7 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
         // router.refresh();
         // router.push(`/update/${item._id}`);
 
-        // router.push(`/dashboard/`);
+        router.push(`/dashboard/`);
       } else {
         toast.error("Something went wrong. Please try again.");
       }

@@ -1,5 +1,6 @@
 import { defineField } from 'sanity';
 import { DatabaseIcon } from '@sanity/icons';
+import { format, parseISO } from 'date-fns';
 
 const order = {
   name: 'order',
@@ -33,7 +34,23 @@ const order = {
       validation: (rule) => rule.required(),
     }),
   ],
-  // TODO(javayhu): add preview
+  preview: {
+    select: {
+      name: "item.name",
+      media: "item.image",
+      date: "_createdAt",
+      status: "status",
+    },
+    prepare({ name, media, date, status }) {
+      const title = name + " - " + status;
+      const subtitle = format(parseISO(date), "yyyy/MM/dd");
+      return {
+        title,
+        media,
+        subtitle
+      };
+    },
+  },
 };
 
 export default order;

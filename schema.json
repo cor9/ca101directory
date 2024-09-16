@@ -1891,7 +1891,7 @@
         },
         "optional": true
       },
-      "paied": {
+      "paid": {
         "type": "objectAttribute",
         "value": {
           "type": "boolean"

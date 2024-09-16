@@ -316,7 +316,7 @@ export type Item = {
   };
   published?: boolean;
   publishDate?: string;
-  paied?: boolean;
+  paid?: boolean;
   order?: {
     _ref: string;
     _type: "reference";
@@ -554,7 +554,7 @@ export type ItemQueryResult = {
   };
   published?: boolean;
   publishDate?: string;
-  paied?: boolean;
+  paid?: boolean;
   order?: {
     _ref: string;
     _type: "reference";
@@ -636,7 +636,7 @@ export type ItemByIdQueryResult = {
   };
   published?: boolean;
   publishDate?: string;
-  paied?: boolean;
+  paid?: boolean;
   order?: {
     _ref: string;
     _type: "reference";
@@ -718,7 +718,7 @@ export type ItemListQueryResult = Array<{
   };
   published?: boolean;
   publishDate?: string;
-  paied?: boolean;
+  paid?: boolean;
   order?: {
     _ref: string;
     _type: "reference";
@@ -800,7 +800,7 @@ export type ItemListOfCategoryQueryResult = Array<{
   };
   published?: boolean;
   publishDate?: string;
-  paied?: boolean;
+  paid?: boolean;
   order?: {
     _ref: string;
     _type: "reference";
@@ -882,7 +882,7 @@ export type ItemListOfTagQueryResult = Array<{
   };
   published?: boolean;
   publishDate?: string;
-  paied?: boolean;
+  paid?: boolean;
   order?: {
     _ref: string;
     _type: "reference";
@@ -1014,7 +1014,7 @@ export type SubmissionListQueryResult = Array<{
   };
   published?: boolean;
   publishDate?: string;
-  paied?: boolean;
+  paid?: boolean;
   order?: {
     _ref: string;
     _type: "reference";
@@ -1754,7 +1754,7 @@ export type GetAllResult = Array<{
   };
   published?: boolean;
   publishDate?: string;
-  paied?: boolean;
+  paid?: boolean;
   order?: {
     _ref: string;
     _type: "reference";

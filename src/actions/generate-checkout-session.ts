@@ -49,7 +49,7 @@ export async function generateCheckoutSession(priceId: string, itemId: string): 
 
     console.log('item.submitter._ref:', item.submitter._ref);
     console.log('user.id:', user.id);
-    if (item.paied && item.submitter._ref == user.id) {
+    if (item.paid && item.submitter._ref == user.id) {
       let stripeCustomer = await sanityFetch<StripeCustomer>({
         query: `*[_type == "stripeCustomer" && user._ref == "${user.id}"][0]`
       });

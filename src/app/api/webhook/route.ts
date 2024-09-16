@@ -61,14 +61,15 @@ export async function POST(req: Request) {
         return new Response(null, { status: 500 });
       }
 
-      // update payment & status of item
+      // update order & status of item
       const res = await sanityClient.patch(itemId).set({
-        paied: true,
-        payment: {
+        paid: true,
+        pricePlan: 'pro',
+        proPlanStatus: 'success',
+        order: {
           _type: 'reference',
           _ref: result._id,
         },
-        proPlanStatus: 'success',
       }).commit();
       
       if (!res) {

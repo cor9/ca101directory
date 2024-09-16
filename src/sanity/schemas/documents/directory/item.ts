@@ -40,6 +40,7 @@ export default defineType({
     defineField({
       name: "categories",
       title: "Categories",
+      description: "The categories of the item, may have multiple categories",
       type: "array",
       of: [
         {
@@ -51,6 +52,7 @@ export default defineType({
     defineField({
       name: "tags",
       title: "Tags",
+      description: "The tags of the item, may have multiple tags",
       type: "array",
       of: [
         {
@@ -68,6 +70,7 @@ export default defineType({
     defineField({
       name: "introduction",
       title: "Introduction",
+      description: "The introduction of the item, in markdown format",
       type: "markdown",
       // https://github.com/sanity-io/sanity-plugin-markdown?tab=readme-ov-file#custom-image-urls
       // The function will be invoked whenever an image is pasted 
@@ -100,33 +103,38 @@ export default defineType({
     defineField({
       name: "published",
       title: "Published",
+      description: "If the item is published, it will be visible to the public",
       type: "boolean",
       initialValue: false,
     }),
 		defineField({
 			name: 'publishDate',
       title: 'Publish Date',
+      description: "The lastest publish date when the item is published",
 			type: 'datetime',
       hidden: ({ parent }) => !parent.published,
 		}),
-    // payment related fields
+    // order related fields
     defineField({
-      name: "paied",
-      title: "Paied",
+      name: "paid",
+      title: "Paid",
+      description: "The submitter choose to pay for the item and the payment is successful",
       type: "boolean",
       initialValue: false,
     }),
     defineField({
       name: "order",
       title: "Order",
+      description: "The successful order of the item",
       type: "reference",
       to: [{ type: "order" }],
-      hidden: ({ parent }) => !parent.paied,
+      hidden: ({ parent }) => !parent.paid,
     }),
     // price plan related fields
     defineField({
       name: "pricePlan",
       title: "Price Plan",
+      description: "The price plan of the item, chosen by the submitter",
       type: 'string',
       initialValue: 'free',
       options: {
@@ -138,6 +146,7 @@ export default defineType({
     defineField({
       name: "freePlanStatus",
       title: "Free Plan Status",
+      description: "The status of the item when the submitter choose free plan",
       type: 'string',
       initialValue: 'submitted',
       options: {
@@ -150,6 +159,7 @@ export default defineType({
     defineField({
       name: "proPlanStatus",
       title: "Pro Plan Status",
+      description: "The status of the item when the submitter choose pro plan",
       type: 'string',
       initialValue: 'waiting',
       options: {
@@ -168,9 +178,10 @@ export default defineType({
       title: "name",
       media: "image",
       date: "publishDate",
+      published: "published",
     },
-    prepare({ title, media, date }) {
-      const subtitle = format(parseISO(date), "yyyy/MM/dd");
+    prepare({ title, media, date, published }) {
+      const subtitle = published ? "published at " + format(parseISO(date), "yyyy/MM/dd") : "unpublished";
       return {
         title,
         media,

@@ -5,29 +5,35 @@ import { Icons } from "@/components/shared/icons";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { PRICE_PLANS } from "@/config/pricing";
 import { cn } from "@/lib/utils";
-import { PricePlan, UserPricePlan } from "@/types/index";
+import { ItemFullInfo, PricePlan, UserPricePlan } from "@/types/index";
 import Link from "next/link";
 import { PayButton } from "../forms/pay-button";
+import { currentUser } from "@/lib/auth";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface PricingCardsProps {
   userId?: string;
-  itemId?: string;
-  userPricePlan?: UserPricePlan;
+  item: ItemFullInfo;
 }
 
-export function PricingCards({ userId, itemId, userPricePlan }: PricingCardsProps) {
+export function PricingCards({ item }: PricingCardsProps) {
+  const user = useCurrentUser();
+  if (!user || !user?.id) {
+    return null;
+  }
+  const userId = user.id;
+
   return (
     <section className="flex flex-col items-center text-center">
-      <div className="grid gap-8 py-4 lg:grid-cols-3">
+      <div className="grid gap-8 py-4 lg:grid-cols-2">
         {
           PRICE_PLANS &&
           PRICE_PLANS.length > 0 &&
           PRICE_PLANS.map((pricePlan) => (
             <PricingCard key={pricePlan.title}
               userId={userId}
-              itemId={itemId}
+              item={item}
               pricePlan={pricePlan}
-              userPricePlan={userPricePlan}
             />
           ))
         }
@@ -38,17 +44,16 @@ export function PricingCards({ userId, itemId, userPricePlan }: PricingCardsProp
 
 interface PricingCardProps {
   userId?: string;
-  itemId?: string;
+  item: ItemFullInfo;
   pricePlan?: PricePlan;
-  userPricePlan?: UserPricePlan;
 }
 
-const PricingCard = ({ userId, itemId, pricePlan, userPricePlan }: PricingCardProps) => {
+const PricingCard = ({ userId, item, pricePlan }: PricingCardProps) => {
   return (
     <div
       className={cn(
         "relative flex flex-col overflow-hidden rounded-3xl border shadow-sm",
-        pricePlan.title.toLocaleLowerCase() === "starter"
+        pricePlan.title.toLocaleLowerCase() === "pro"
           ? "-m-0.5 border-2 border-purple-400"
           : "",
       )}
@@ -110,9 +115,8 @@ const PricingCard = ({ userId, itemId, pricePlan, userPricePlan }: PricingCardPr
           ) : (
             <>
               <PayButton
-                itemId={itemId}
+                item={item}
                 pricePlan={pricePlan}
-                userPricePlan={userPricePlan}
               />
             </>
           )

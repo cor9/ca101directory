@@ -56,22 +56,35 @@ export async function POST(req: Request) {
     console.log('user:', user);
 
     // 获取 stripeCustomerId
-  const stripeCustomerId = session.customer as string;
-  console.log('stripeCustomerId:', stripeCustomerId);
+  // const stripeCustomerId = session.customer as string;
+  // console.log('stripeCustomerId:', stripeCustomerId);
 
   // 获取 stripePriceId
-  const stripePriceId = session.line_items?.data[0]?.price?.id;
-  console.log('stripePriceId:', stripePriceId);
+  // const stripePriceId = session.line_items?.data[0]?.price?.id;
+  // console.log('stripePriceId:', stripePriceId);
     
     if (user) {
-      const result = await sanityClient.patch(user._id).set({
+      // const result = await sanityClient.patch(user._id).set({
         // stripeSubscriptionId: subscription.id,
-        stripeCustomerId: stripeCustomerId,
-        stripePriceId: stripePriceId,
+        // stripeCustomerId: stripeCustomerId,
+        // stripePriceId: stripePriceId,
         // stripeCurrentPeriodEnd: new Date(
         //   subscription.current_period_end * 1000,
         // ),
-      }).commit();
+      // }).commit();
+
+      const result = await sanityClient.create({
+        _type: 'payment',
+        user: {
+          _type: 'reference',
+          _ref: user._id,
+        },
+        item: {
+          _type: 'reference',
+          _ref: itemId,
+        },
+        status: 'success',
+      });
 
       if (!result) {
         console.log("checkout.session.completed, update data failed");

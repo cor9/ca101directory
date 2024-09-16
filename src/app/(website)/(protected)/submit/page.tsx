@@ -4,7 +4,7 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryListQuery, tagListQuery } from "@/sanity/lib/queries";
 import { Suspense } from "react";
 import { SubmitForm } from "./submit-form";
-import { SubmitStepper } from "./submit-stepper";
+import { SubmitStepper } from "@/components/submit/submit-stepper";
 
 export default async function SubmitPage() {
   const [categoryList, tagList] = await Promise.all([

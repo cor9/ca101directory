@@ -14,6 +14,8 @@ import item from "./schemas/documents/directory/item";
 import tag from "./schemas/documents/directory/tag";
 import settings from "./schemas/documents/settings";
 import page from "./schemas/documents/page/page";
+import payment from "./schemas/documents/pay/payment";
+import stripeCustomer from "./schemas/documents/pay/stripe-customer";
 
 const singletonTypes: DocumentDefinition[] = [settings];
 
@@ -69,6 +71,11 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
         S.divider(),
 
         S.documentTypeListItem(page.name),
+
+        S.divider(),
+
+        S.documentTypeListItem(payment.name),
+        S.documentTypeListItem(stripeCustomer.name),
 
         S.divider(),
 

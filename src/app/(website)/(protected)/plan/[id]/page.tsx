@@ -1,23 +1,39 @@
 import { PricingCards } from "@/components/dashboard/pricing-cards";
+import { SubmitStepper } from "@/components/submit/submit-stepper";
 import { currentUser } from "@/lib/auth";
-import { getUserPricePlan } from "@/lib/payment";
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
-import { SubmitStepper } from "../../submit/submit-stepper";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { itemByIdQuery } from "@/sanity/lib/queries";
+import { ItemFullInfo } from "@/types";
+import { notFound, redirect } from "next/navigation";
 
-export default async function PayPage({ params }: { params: { id: string } }) {
+export default async function PlanPage({ params }: { params: { id: string } }) {
   const user = await currentUser();
-
-  let userPricePlan;
-  if (user && user.id && user.role === "USER") {
-    userPricePlan = await getUserPricePlan(user.id);
-  } else {
-    redirect("/auth/login");
+  if (!user) {
+    return redirect("/auth/login");
   }
-  console.log('PayPage, userPricePlan:', userPricePlan);
+
+  // let userPricePlan;
+  // if (user && user.id && user.role === "USER") {
+  //   userPricePlan = await getUserPricePlan(user.id);
+  // } else { // TODO: when user is admin???
+  //   redirect("/auth/login");
+  // }
+  // console.log('PlanPage, userPricePlan:', userPricePlan);
 
   const { id } = params;
-  console.log('PayPage, itemId:', id);
+  console.log('PlanPage, itemId:', id);
+
+  const item = await sanityFetch<ItemFullInfo>({
+    query: itemByIdQuery,
+    params: { id: id }
+  });
+
+  if (!item) {
+    console.error("PlanPage, item not found");
+    return notFound();
+  }
+
+  console.log('PlanPage, item:', item);
 
   return (
     <>
@@ -29,8 +45,7 @@ export default async function PayPage({ params }: { params: { id: string } }) {
       <SubmitStepper initialStep={2} />
 
       <div className="mt-6 flex justify-center items-center">
-        <PricingCards userId={user.id} itemId={id}
-          userPricePlan={userPricePlan} />
+        <PricingCards item={item} />
       </div>
     </>
   );

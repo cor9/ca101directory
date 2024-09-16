@@ -1,6 +1,8 @@
 import { PlansRow, PricePlan } from "@/types";
 
 // https://freeaitool.ai/submit
+// Free plan: update item leads to be unpublished and reviewed again
+// Pro plan: update item has no side effect
 export const PRICE_PLANS: PricePlan[] = [
   {
     title: "Free",

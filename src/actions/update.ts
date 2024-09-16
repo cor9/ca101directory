@@ -17,6 +17,7 @@ export type UpdateFormData = {
   tags: string[];
   categories: string[];
   imageId: string;
+  pricePlan: string;
 };
 
 /**
@@ -33,7 +34,7 @@ export async function Update(formData: UpdateFormData) {
 
     console.log("update, data:", formData);
     const { id, name, link, description, introduction, imageId,
-      tags, categories } = UpdateSchema.parse(formData);
+      tags, categories, pricePlan } = UpdateSchema.parse(formData);
     console.log("update, name:", name, "link:", link);
 
     // TODO: check if the user is the submitter of the item
@@ -42,6 +43,7 @@ export async function Update(formData: UpdateFormData) {
       _id: id,
       _type: "item",
       name,
+      // TODO(javayhu): should I change slug? change slug only if name changes!
       slug: {
         _type: "slug",
         current: slugify(name),
@@ -56,8 +58,12 @@ export async function Update(formData: UpdateFormData) {
       //   _ref: session.user.id,
       // },
 
-      // don't update publishDate
-      // publishDate: new Date().toISOString(),
+      // Free plan: update item leads to be unpublished and reviewed again
+      ...(pricePlan === "free" && {
+        published: false,
+        publishDate: null,
+        freePlanStatus: "reviewing",
+      }),
 
       // The _key only needs to be unique within the array itself
       // use nanoid to generate a random string with 12 characters like sanity

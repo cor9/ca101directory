@@ -182,7 +182,7 @@ export default defineType({
       published: "published",
     },
     prepare({ name, media, date, published }) {
-      const title = published ? `${name}` : `⏳ ${name}`;
+      const title = published ? `✅ ${name}` : `⏳ ${name}`;
       const subtitle = published ? format(parseISO(date), "yyyy/MM/dd") : "unpublished";
       return {
         title,

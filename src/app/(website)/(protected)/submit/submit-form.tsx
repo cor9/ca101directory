@@ -249,10 +249,10 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                 {isPending ? "Submitting..." : (isUploading ? "Uploading image..." : "Submit")}
               </span>
             </Button>
-            <FormDescription className="text-sm text-muted-foreground flex items-center justify-center sm:justify-start gap-2">
+            <div className="text-sm text-muted-foreground flex items-center justify-center sm:justify-start gap-2">
               <SmileIcon className="h-4 w-4" />
               <span>No worries, you can change these information later.</span>
-            </FormDescription>
+            </div>
           </CardFooter>
         </Card>
       </form>

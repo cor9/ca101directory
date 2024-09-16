@@ -29,6 +29,7 @@ export const SubmitSchema = z.object({
  */
 export const UpdateSchema = SubmitSchema.extend({
   id: z.string().min(1, { message: "ID is required" }),
+  pricePlan: z.string().min(1, { message: "Price plan is required" }),
 })
 
 /**

@@ -66,6 +66,7 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
       imageId: item.image?.asset?._ref,
       tags: item.tags.map(tag => tag._id),
       categories: item.categories.map(category => category._id),
+      pricePlan: item.pricePlan,
     },
   });
 
@@ -78,7 +79,7 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
       if (status === "success") {
         form.reset();
         toast.success("Update success");
-        
+
         // TODO: not working, still showing the old item
         // router.refresh();
         // router.push(`/update/${item._id}`);
@@ -189,7 +190,7 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Enter a brief description of your product" 
+                    <Textarea placeholder="Enter a brief description of your product"
                       {...field}
                       className="resize-none"
                     />
@@ -258,10 +259,16 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
                 {isPending ? "Updating..." : (isUploading ? "Uploading image..." : "Update")}
               </span>
             </Button>
-            <FormDescription className="text-sm text-muted-foreground flex items-center justify-center sm:justify-start gap-2">
-              <HourglassIcon className="h-4 w-4" />
-              <span>Your submission will be reviewed before being published.</span>
-            </FormDescription>
+
+            {/* NOTICE: if this item is in free plan, any update will cause this item to be reviewed again */}
+            {
+              item.pricePlan === 'free' && (
+                <div className="text-sm text-muted-foreground flex items-center justify-center sm:justify-start gap-2">
+                  <HourglassIcon className="h-4 w-4" />
+                  <span>Your submission will be reviewed before being published.</span>
+                </div>
+              )
+            }
           </CardFooter>
         </Card>
       </form>

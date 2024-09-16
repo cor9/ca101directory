@@ -22,6 +22,8 @@ export const {
     signIn: "/auth/login",
     error: "/auth/error",
   },
+  // https://authjs.dev/reference/core/errors#untrustedhost
+  trustHost: true,
   session: { strategy: "jwt" },
   adapter: SanityAdapter(sanityClient),
   callbacks: {

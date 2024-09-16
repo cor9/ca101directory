@@ -62,7 +62,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                                 View
                             </Link>
 
-                            <Link href={`/pay/${submission._id}`}
+                            <Link href={`/plan/${submission._id}`}
                                 className={cn(
                                     buttonVariants({ variant: "outline", size: "sm" })
                                 )}

@@ -11,11 +11,6 @@ import {
     StepperSeparator,
 } from "@/components/stepper";
 
-interface StepData {
-    title: string;
-    description: string;
-}
-
 interface SubmitStepperProps {
     initialStep?: number;
 }
@@ -25,8 +20,8 @@ export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
 
     // TODO: change number indicators to icons
     const steps = [
-        { title: "Submit", description: "Submit product details" },
-        { title: "Pay", description: "Pay for listing" },
+        { title: "Submit", description: "Enter product information" },
+        { title: "Pricing", description: "Select pricing plan" },
         { title: "Publish", description: "Publish your product" },
     ];
 
@@ -36,7 +31,7 @@ export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
                 <React.Fragment key={index}>
                     <StepperItem step={index + 1}>
                         <StepperTrigger
-                            onClick={() => setCurrentStep(index + 1)}
+                            // onClick={() => setCurrentStep(index + 1)}
                             active={currentStep === index + 1}
                         >
                             <StepperIndicator

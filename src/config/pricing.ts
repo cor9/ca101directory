@@ -19,23 +19,6 @@ export const PRICE_PLANS: PricePlan[] = [
     stripePriceId: null,
   },
   {
-    title: "Starter",
-    description: "For Starters",
-    benefits: [
-      "Up to 500 monthly posts",
-      "Advanced analytics and reporting",
-      "Access to business templates",
-      "Priority customer support",
-      "Exclusive webinars and training.",
-    ],
-    limitations: [
-      "No custom branding",
-      "Limited access to business resources.",
-    ],
-    price: 9.9,
-    stripePriceId: process.env.NEXT_PUBLIC_STRIPE_STARTER_PRICE_ID,
-  },
-  {
     title: "Pro",
     description: "For Pro Users",
     benefits: [
@@ -46,14 +29,13 @@ export const PRICE_PLANS: PricePlan[] = [
       "Personalized onboarding and account management.",
     ],
     limitations: [],
-    price: 19.9,
+    price: 9.9,
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID,
   },
 ];
 
 export const plansColumns = [
   "free",
-  "starter",
   "pro",
 ] as const;
 
@@ -61,68 +43,58 @@ export const comparePlans: PlansRow[] = [
   {
     feature: "Access to Analytics",
     free: true,
-    starter: true,
     pro: true,
     tooltip: "All plans include basic analytics for tracking performance.",
   },
   {
     feature: "Custom Branding",
     free: null,
-    starter: null,
     pro: "500/mo",
     tooltip: "Custom branding is available from the Pro plan onwards.",
   },
   {
     feature: "Priority Support",
     free: null,
-    starter: null,
     pro: "Email",
   },
   {
     feature: "Advanced Reporting",
     free: null,
-    starter: null,
     pro: null,
     tooltip: "Advanced reporting is available in Business and Enterprise plans.",
   },
   {
     feature: "Dedicated Manager",
     free: null,
-    starter: null,
     pro: null,
     tooltip: "Enterprise plan includes a dedicated account manager.",
   },
   {
     feature: "API Access",
     free: null,
-    starter: "Limited",
     pro: "Standard",
   },
   {
     feature: "Monthly Webinars",
     free: false,
-    starter: false,
     pro: true,
     tooltip: "Pro and higher plans include access to monthly webinars.",
   },
   {
     feature: "Custom Integrations",
     free: null,
-    starter: "Available",
     pro: "Available",
     tooltip: "Custom integrations are available in Business and Enterprise plans.",
   },
   {
     feature: "Roles and Permissions",
     free: null,
-    starter: "Basic",
     pro: "Advanced",
     tooltip: "User roles and permissions management improves with higher plans.",
   },
   {
     feature: "Onboarding Assistance",
     free: null,
-    starter: "Self-service",
     pro: "Assisted",
   },
   // Add more rows as needed

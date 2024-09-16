@@ -28,7 +28,7 @@ export default async function PayPage({ params }: { params: { id: string } }) {
 
       <SubmitStepper initialStep={2} />
 
-      <div className="mt-6">
+      <div className="mt-6 flex justify-center items-center">
         <PricingCards userId={user.id} itemId={id}
           userPricePlan={userPricePlan} />
       </div>

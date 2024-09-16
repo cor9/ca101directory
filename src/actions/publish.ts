@@ -5,24 +5,22 @@ import { sanityClient } from "@/sanity/lib/client";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
 
-export const submitToReview = async (itemId: string) => {
-  console.log('submitToReview, itemId:', itemId);
-
-  // TODO(javayhu): check if the item exists???
+export const publish = async (itemId: string) => {
+  console.log('publish, itemId:', itemId);
+  
   // const item = await sanityFetch<Item>({ query: itemByIdQuery, params: { id: itemId } });
   // if (!item) {
   //   return { error: "Item not found!" };
   // }
 
   const result = await sanityClient.patch(itemId).set({
-    pricePlan: "free",
-    freePlanStatus: "reviewing",
-    proPlanStatus: "paying",
+    published: true,
+    publishDate: new Date().toISOString(),
   }).commit();
-  console.log('submitToReview, result:', result);
+  console.log('publish, result:', result);
   if (!result) {
-    return { error: "Failed to submit item to review!" };
+    return { error: "Failed to publish item!" };
   }
 
-  return { success: "Item submitted to review!" };
+  return { success: "Item published!" };
 };

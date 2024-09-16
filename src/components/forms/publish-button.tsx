@@ -1,33 +1,33 @@
 "use client";
 
-import { submitToReview } from "@/actions/submit-to-review";
+import { publish } from "@/actions/publish";
 import { Button } from "@/components/ui/button";
 import { ItemFullInfo } from "@/types";
-import { HourglassIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Icons } from "../shared/icons";
-import { useRouter } from "next/navigation";
 
-interface FreePlanButtonProps {
+interface PublishButtonProps {
   item: ItemFullInfo;
 }
 
-export function FreePlanButton({ item }: FreePlanButtonProps) {
+export function PublishButton({ item }: PublishButtonProps) {
   const router = useRouter();
   let [isPending, startTransition] = useTransition();
 
-  const submitToReviewAction = () => {
+  const publishAction = () => {
     startTransition(async () => {
       try {
-        const result = await submitToReview(item._id);
-        console.log('submitToReviewAction, result:', result);
+        const result = await publish(item._id);
+        console.log('publishAction, result:', result);
         if (result.success) {
-          router.push(`/dashboard`);
+          // router.push(`/dashboard`);
+          router.refresh();
         } else { // TODO(javayhu): handle error
           throw new Error(result.error);
         }
       } catch (error) {
-        console.error('submitToReviewAction, error:', error);
+        console.error('publishAction, error:', error);
       }
     });
   };
@@ -35,19 +35,18 @@ export function FreePlanButton({ item }: FreePlanButtonProps) {
   return (
     <Button
       variant="outline"
-      className="w-full rounded-full"
+      size="sm"
       disabled={isPending}
-      onClick={submitToReviewAction}
+      onClick={publishAction}
     >
       {isPending ? (
         <>
           <Icons.spinner className="mr-2 size-4 animate-spin" />
-          <span>Submitting...</span>
+          <span>Publish</span>
         </>
       ) : (
         <>
-          <HourglassIcon className="mr-2 size-4" />
-          <span>Submit to waiting queue</span>
+          <span>Publish</span>
         </>
       )}
     </Button>

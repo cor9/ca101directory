@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -9,13 +9,20 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { urlForImage } from '@/lib/image';
-import { cn, getLocaleDate } from '@/lib/utils';
+import { getLocaleDate } from '@/lib/utils';
 import { SubmissionInfo } from '@/types';
 import { MoreHorizontal } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { PublishButton } from './forms/publish-button';
+import { UnpublishButton } from './forms/unpublish-button';
 
 export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
+
+    const publishable = (submission.pricePlan === 'free'
+        && submission.freePlanStatus === 'approved')
+        || (submission.pricePlan === 'pro'
+            && submission.proPlanStatus === 'success');
     return (
         <TableRow>
             <TableCell className="hidden sm:table-cell w-[100px] sm:px-6">
@@ -39,48 +46,52 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
             </TableCell>
             <TableCell>
                 <Badge variant="outline" className="capitalize">
-                    {submission.pricePlan == "free" ?
-                        submission.freePlanStatus :
-                        submission.proPlanStatus}
+                    {
+                        submission.pricePlan == "free" ?
+                            submission.freePlanStatus :
+                            submission.proPlanStatus
+                    }
                 </Badge>
             </TableCell>
             <TableCell className="hidden md:table-cell">
-                {getLocaleDate(submission._createdAt)}
+                {
+                    submission.published && submission.publishDate ?
+                        getLocaleDate(submission.publishDate) :
+                        'Not published'
+                }
             </TableCell>
             <TableCell className="hidden md:table-cell">
-                {submission.publishDate ? getLocaleDate(submission.publishDate) : 'Not published'}
+                {getLocaleDate(submission._createdAt)}
             </TableCell>
             <TableCell>
                 <>
                     <div className='hidden sm:block'>
                         <div className='flex items-center gap-2'>
-                            <Link href={`/item/${submission.slug.current}`} target='_blank'
-                                className={cn(
-                                    buttonVariants({ variant: "default", size: "sm" })
-                                )}
-                            >
-                                View
-                            </Link>
-
-                            <Link href={`/plan/${submission._id}`}
-                                className={cn(
-                                    buttonVariants({ variant: "outline", size: "sm" })
-                                )}
-                            >
-                                Pay
-                            </Link>
-
-                            <Link href={`/update/${submission._id}`}
-                                className={cn(
-                                    buttonVariants({ variant: "outline", size: "sm" })
-                                )}
-                            >
-                                Update
-                            </Link>
-
-                            <Button variant="outline" size="sm">
-                                Unpublish
+                            <Button asChild variant="default" size="sm">
+                                <Link href={`/item/${submission.slug.current}`} target='_blank'>
+                                    View
+                                </Link>
                             </Button>
+
+                            <Button asChild variant="outline" size="sm">
+                                <Link href={`/plan/${submission._id}`}>
+                                    Pay
+                                </Link>
+                            </Button>
+
+                            <Button asChild variant="outline" size="sm">
+                                <Link href={`/update/${submission._id}`}>
+                                    Update
+                                </Link>
+                            </Button>
+
+                            {
+                                publishable ? (
+                                    submission.published ?
+                                        <UnpublishButton item={submission} /> :
+                                        <PublishButton item={submission} />
+                                ) : null
+                            }
                         </div>
                     </div>
                     <div className='sm:hidden'>

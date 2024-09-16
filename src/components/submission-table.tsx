@@ -76,13 +76,16 @@ export function SubmissionTable({
                                 PricePlan
                             </TableHead>
                             <TableHead>
-                                Status
+                                PlanStatus
+                            </TableHead>
+                            {/* <TableHead>
+                                PublishStatus
+                            </TableHead> */}
+                            <TableHead className="hidden md:table-cell">
+                                Published at
                             </TableHead>
                             <TableHead className="hidden md:table-cell">
                                 Created at
-                            </TableHead>
-                            <TableHead className="hidden md:table-cell">
-                                Published at
                             </TableHead>
                             <TableHead>
                                 Actions

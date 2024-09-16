@@ -25,6 +25,10 @@ export const publicRoutes = [
   "/privacy(/.*)?",
   
   "/auth/new-verification",
+
+  // NOTICE: stripe webhook, must be public, otherwise can not receive stripe events
+  "/api/webhook",
+  "/api/webhooks/stripe",
 ];
 
 /**

@@ -73,6 +73,9 @@ export function SubmissionTable({
                                 Name
                             </TableHead>
                             <TableHead>
+                                PricePlan
+                            </TableHead>
+                            <TableHead>
                                 Status
                             </TableHead>
                             <TableHead className="hidden md:table-cell">

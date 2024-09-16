@@ -107,6 +107,7 @@ export default defineType({
 			name: 'publishDate',
       title: 'Publish Date',
 			type: 'datetime',
+      hidden: ({ parent }) => !parent.published,
 		}),
     // payment related fields
     defineField({
@@ -120,6 +121,7 @@ export default defineType({
       title: "Payment",
       type: "reference",
       to: [{ type: "payment" }],
+      hidden: ({ parent }) => !parent.paied,
     }),
     // price plan related fields
     defineField({
@@ -143,6 +145,7 @@ export default defineType({
         layout: 'radio',
         direction: 'horizontal',
       },
+      hidden: ({ parent }) => parent.pricePlan !== 'free',
     }),
     defineField({
       name: "proPlanStatus",
@@ -154,6 +157,7 @@ export default defineType({
         layout: 'radio',
         direction: 'horizontal',
       },
+      hidden: ({ parent }) => parent.pricePlan !== 'pro',
     }),
   ],
   // https://www.sanity.io/docs/previews-list-views

@@ -34,7 +34,14 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
             </TableCell>
             <TableCell>
                 <Badge variant="outline" className="capitalize">
-                    published
+                    {submission.pricePlan}
+                </Badge>
+            </TableCell>
+            <TableCell>
+                <Badge variant="outline" className="capitalize">
+                    {submission.pricePlan == "free" ?
+                        submission.freePlanStatus :
+                        submission.proPlanStatus}
                 </Badge>
             </TableCell>
             <TableCell className="hidden md:table-cell">

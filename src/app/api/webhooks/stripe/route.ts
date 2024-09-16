@@ -4,6 +4,13 @@ import { stripe } from "@/lib/stripe";
 import { sanityClient } from "@/sanity/lib/client";
 import { getUserById } from "@/data/user";
 
+
+// https://github.com/javayhu/lms-studio-antonio/blob/main/app/api/webhook/route.ts
+// This file handles webhook events from Stripe. It verifies the signature
+// of each request to ensure that the request is coming from Stripe. It also
+// handles the checkout.session.completed event type by creating a new purchase record in the database.
+
+
 export async function POST(req: Request) {
   const body = await req.text();
   const signature = headers().get("Stripe-Signature") as string;
@@ -26,6 +33,9 @@ export async function POST(req: Request) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
+
+    const userId = session?.metadata?.userId;
+    const itemId = session?.metadata?.itemId;
 
     // Retrieve the subscription details from Stripe.
     const subscription = await stripe.subscriptions.retrieve(

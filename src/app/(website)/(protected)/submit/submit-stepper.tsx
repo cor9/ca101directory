@@ -45,11 +45,12 @@ export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
                             >
                                 {index + 1}
                             </StepperIndicator>
-                            <div className="text-center">
+                            <div>
                                 <StepperTitle>
                                     {step.title}
                                 </StepperTitle>
-                                <StepperDescription>
+                                {/* hidden on mobile, to make separator visible */}
+                                <StepperDescription className='hidden sm:block'>
                                     {step.description}
                                 </StepperDescription>
                             </div>

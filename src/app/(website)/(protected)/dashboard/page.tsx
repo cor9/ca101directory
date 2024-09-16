@@ -29,7 +29,7 @@ export default async function DashboardPage({
   const { submissions, totalCount } = await getSubmissions({ userId, currentPage });
   const totalPages = Math.ceil(totalCount / SUBMISSIONS_PER_PAGE);
   console.log('DashboardPage, totalCount', totalCount, ", totalPages", totalPages);
-  console.log('DashboardPage, submissions:', submissions);
+  // console.log('DashboardPage, submissions:', submissions);
 
   return (
     <>

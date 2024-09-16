@@ -57,6 +57,7 @@ export const {
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.role = existingUser.role;
+      // TODO(javayhu): add userPricePlan to token
 
       return token;
     },

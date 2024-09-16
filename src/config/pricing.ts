@@ -1,6 +1,6 @@
-import { PlansRow, PricePlan, SubscriptionPlan } from "@/types";
+import { PlansRow, PricePlan } from "@/types";
 
-export const pricingData: PricePlan[] = [
+export const PRICE_PLANS: PricePlan[] = [
   {
     title: "Free",
     description: "For Beginners",
@@ -16,7 +16,7 @@ export const pricingData: PricePlan[] = [
       "Limited access to business resources.",
     ],
     price: 0,
-    stripeId: null,
+    stripePriceId: null,
   },
   {
     title: "Starter",
@@ -33,11 +33,11 @@ export const pricingData: PricePlan[] = [
       "Limited access to business resources.",
     ],
     price: 9.9,
-    stripeId: process.env.NEXT_PUBLIC_STRIPE_STARTER_PLAN_ID,
+    stripePriceId: process.env.NEXT_PUBLIC_STRIPE_STARTER_PRICE_ID,
   },
   {
     title: "Pro",
-    description: "For Power Users",
+    description: "For Pro Users",
     benefits: [
       "Unlimited posts",
       "Real-time analytics and reporting",
@@ -47,7 +47,7 @@ export const pricingData: PricePlan[] = [
     ],
     limitations: [],
     price: 19.9,
-    stripeId: process.env.NEXT_PUBLIC_STRIPE_STARTER_PLAN_ID,
+    stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID,
   },
 ];
 

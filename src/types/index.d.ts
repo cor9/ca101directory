@@ -89,14 +89,14 @@ export type PricePlan = {
   benefits: string[];
   limitations: string[];
   price: number;
-  stripeId: string | null;
+  stripePriceId: string | null;
 };
 
 export type UserPricePlan = PricePlan &
   Pick<User, "stripeCustomerId" | "stripeSubscriptionId" | "stripePriceId"> & {
-    stripeCurrentPeriodEnd: number;
+    // stripeCurrentPeriodEnd: number;
     isPaid: boolean;
-    interval: "month" | "year" | null;
+    // interval: "month" | "year" | null;
     isCanceled?: boolean;
   };
 

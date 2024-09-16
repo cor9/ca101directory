@@ -1,6 +1,6 @@
 "use client";
 
-import { generateCheckoutSession } from "@/actions/generate-checkout-session";
+import { createCheckoutSession } from "@/actions/create-checkout-session";
 import { Icons } from "@/components/shared/icons";
 import { Button } from "@/components/ui/button";
 import { ItemFullInfo, PricePlan } from "@/types";
@@ -14,16 +14,23 @@ interface PayButtonProps {
 export function PayButton({ item, pricePlan }: PayButtonProps) {
   let [isPending, startTransition] = useTransition();
 
-  // TODO: server action bind id!!!
-  const generateSubmissionCheckoutSession = generateCheckoutSession.bind(
+  // TODO(javayhu): server action bind id!!!
+  const createSubmissionCheckoutSessionAction = createCheckoutSession.bind(
     null,
     pricePlan.stripePriceId,
     item._id,
   );
 
-  const stripeCheckoutSessionAction = () => {
+  const createCheckoutSessionAction = () => {
     startTransition(async () => {
-      await generateSubmissionCheckoutSession();
+      try {
+        const result = await createSubmissionCheckoutSessionAction();
+        if (result.status === "success") {
+          window.location.href = result.stripeUrl;
+        }
+      } catch (error) {
+        console.error(error);
+      }
     });
   };
 
@@ -36,7 +43,7 @@ export function PayButton({ item, pricePlan }: PayButtonProps) {
       variant={"outline"}
       className="w-full rounded-full"
       disabled={isPending}
-      onClick={stripeCheckoutSessionAction}
+      onClick={createCheckoutSessionAction}
     >
       {isPending ? (
         <>

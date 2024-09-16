@@ -1,9 +1,9 @@
 "use server";
 
-import { redirect } from "next/navigation";
-import { auth } from "@/auth";
+import { currentUser } from "@/lib/auth";
 import { stripe } from "@/lib/stripe";
 import { absoluteUrl } from "@/lib/utils";
+import { redirect } from "next/navigation";
 
 export type responseAction = {
   status: "success" | "error";
@@ -12,28 +12,28 @@ export type responseAction = {
 
 const billingUrl = absoluteUrl("/billing");
 
+// TODO(javayhu): not used yet
 export async function openCustomerPortal(
-  userStripeId: string,
+  stripeCustomerId: string,
 ): Promise<responseAction> {
   let redirectUrl: string = "";
 
   try {
-    const session = await auth();
-
-    if (!session?.user || !session?.user.email) {
+    const user = await currentUser();
+    if (!user || !user.email) {
       throw new Error("Unauthorized");
     }
 
-    if (userStripeId) {
+    if (stripeCustomerId) {
       const stripeSession = await stripe.billingPortal.sessions.create({
-        customer: userStripeId,
+        customer: stripeCustomerId,
         return_url: billingUrl,
       });
 
       redirectUrl = stripeSession.url as string;
     }
   } catch (error) {
-    throw new Error("Failed to generate user stripe session");
+    throw new Error("Failed to open customer portal");
   }
 
   redirect(redirectUrl);

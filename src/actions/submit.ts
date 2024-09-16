@@ -80,7 +80,7 @@ export async function Submit(formData: SubmitFormData) {
         } : {})
     };
 
-    console.log("submit, data:", data);
+    // console.log("submit, data:", data);
 
     const res = await sanityClient.create(data);
     if (!res) {
@@ -88,7 +88,7 @@ export async function Submit(formData: SubmitFormData) {
       return { status: "error" };
     }
 
-    console.log("submit, success, res:", res);
+    // console.log("submit, success, res:", res);
 
     // Next.js has a Client-side Router Cache that stores the route segments in the user's browser for a time. 
     // Along with prefetching, this cache ensures that users can quickly navigate between routes 

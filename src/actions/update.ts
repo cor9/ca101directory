@@ -90,7 +90,7 @@ export async function Update(formData: UpdateFormData) {
         } : {})
     };
 
-    console.log("update, data:", data);
+    // console.log("update, data:", data);
 
     const res = await sanityClient.patch(id).set(data).commit();
     if (!res) {
@@ -98,7 +98,7 @@ export async function Update(formData: UpdateFormData) {
       return { status: "error" };
     }
 
-    console.log("update, success, res:", res);
+    // console.log("update, success, res:", res);
 
     // Next.js has a Client-side Router Cache that stores the route segments in the user's browser for a time. 
     // Along with prefetching, this cache ensures that users can quickly navigate between routes 

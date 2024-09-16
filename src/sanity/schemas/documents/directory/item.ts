@@ -164,7 +164,7 @@ export default defineType({
       type: 'string',
       initialValue: 'waiting',
       options: {
-        list: ['waiting', 'success', 'fail'],
+        list: ['paying', 'success', 'fail'],
         layout: 'radio',
         direction: 'horizontal',
       },

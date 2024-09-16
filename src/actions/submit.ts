@@ -46,7 +46,7 @@ export async function Submit(formData: SubmitFormData) {
       link,
       description,
       introduction,
-      // status: "reviewing",
+      status: "submitted",
       submitter: {
         _type: "reference",
         _ref: session.user.id,

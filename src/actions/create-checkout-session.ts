@@ -13,8 +13,6 @@ export type responseAction = {
   stripeUrl?: string;
 }
 
-const billingUrl = absoluteUrl("/dashboard");
-
 // https://github.com/javayhu/lms-studio-antonio/blob/main/app/api/courses/%5BcourseId%5D/checkout/route.ts
 // TODO(javayhu): stripe checkout session, how to handle the errors???
 export async function createCheckoutSession(priceId: string, itemId: string): Promise<responseAction> {
@@ -44,6 +42,7 @@ export async function createCheckoutSession(priceId: string, itemId: string): Pr
     // 2. if the item is paid and the submitter is the user, then redirect to the billing portal
     if (stripeCustomerId && item.paid && item.submitter._ref == user.id) {
       console.log('item is paid, redirect to billing portal');
+      const billingUrl = absoluteUrl("/billing");
       const stripeSession = await stripe.billingPortal.sessions.create({
         customer: stripeCustomerId,
         return_url: billingUrl,
@@ -78,10 +77,12 @@ export async function createCheckoutSession(priceId: string, itemId: string): Pr
         + ', priceId:', priceId,
         + ', userId:', user.id,
         + ', itemId:', itemId);
+      const successUrl = absoluteUrl(`/publish/${itemId}`);
+      const cancelUrl = absoluteUrl(`/plan/${itemId}`);
       const stripeSession = await stripe.checkout.sessions.create({
         customer: stripeCustomerId,
-        success_url: billingUrl,
-        cancel_url: billingUrl,
+        success_url: successUrl,
+        cancel_url: cancelUrl,
         mode: "payment",
         line_items: [
           {

@@ -1,6 +1,5 @@
-import { defineField } from 'sanity';
-import { UserIcon } from "@sanity/icons";
 import { format, parseISO } from 'date-fns';
+import { defineField } from 'sanity';
 
 const user = {
   name: 'user',

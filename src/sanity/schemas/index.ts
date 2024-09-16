@@ -10,6 +10,8 @@ import category from './documents/directory/category';
 import item from './documents/directory/item';
 import tag from './documents/directory/tag';
 import page from './documents/page/page';
+import payment from './documents/pay/payment';
+import stripeCustomer from './documents/pay/stripe-customer';
 import settings from './documents/settings';
 
 export const schemaTypes = [
@@ -35,7 +37,9 @@ export const schemaTypes = [
     verificationToken,
     passwordResetToken,
     
-    // subscription,
+    // payment
+    payment,
+    stripeCustomer,
     
     settings,
 

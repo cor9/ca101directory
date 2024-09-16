@@ -77,6 +77,21 @@ export type Settings = {
   title?: string;
 };
 
+export type StripeCustomer = {
+  _id: string;
+  _type: "stripeCustomer";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  user?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  };
+  stripeCustomerId?: string;
+};
+
 export type PasswordResetToken = {
   _id: string;
   _type: "passwordResetToken";
@@ -164,9 +179,9 @@ export type BlockContent = Array<{
   alt?: string;
   _type: "image";
   _key: string;
-} | ({
+} | {
   _key: string;
-} & Code)>;
+} & Code>;
 
 export type BlogCategory = {
   _id: string;
@@ -299,7 +314,39 @@ export type Item = {
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
+  paied?: boolean;
+  payment?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "payment";
+  };
+  pricePlan?: "free" | "pro";
+  freePlanStatus?: "submitted" | "reviewing" | "approved" | "rejected";
+  proPlanStatus?: "waiting" | "success" | "fail";
+};
+
+export type Payment = {
+  _id: string;
+  _type: "payment";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  user?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  };
+  item?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "item";
+  };
+  status?: "success" | "fail";
 };
 
 export type SanityImageCrop = {
@@ -433,7 +480,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Settings | PasswordResetToken | VerificationToken | Session | BlockContent | BlogCategory | BlogPost | Page | Category | Tag | Item | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | Code | Markdown | MediaTag | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Settings | StripeCustomer | PasswordResetToken | VerificationToken | Session | BlockContent | BlogCategory | BlogPost | Page | Category | Tag | Item | Payment | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | Code | Markdown | MediaTag | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/sanity/lib/queries.ts
 // Variable: itemQuery
@@ -505,7 +552,18 @@ export type ItemQueryResult = {
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
+  paied?: boolean;
+  payment?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "payment";
+  };
+  pricePlan?: "free" | "pro";
+  freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
+  proPlanStatus?: "fail" | "success" | "waiting";
 } | null;
 // Variable: itemByIdQuery
 // Query: *[_type == "item" && _id == $id][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
@@ -576,7 +634,18 @@ export type ItemByIdQueryResult = {
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
+  paied?: boolean;
+  payment?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "payment";
+  };
+  pricePlan?: "free" | "pro";
+  freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
+  proPlanStatus?: "fail" | "success" | "waiting";
 } | null;
 // Variable: itemListQuery
 // Query: *[_type == "item" && defined(slug.current) && defined(publishDate)]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
@@ -647,7 +716,18 @@ export type ItemListQueryResult = Array<{
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
+  paied?: boolean;
+  payment?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "payment";
+  };
+  pricePlan?: "free" | "pro";
+  freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
+  proPlanStatus?: "fail" | "success" | "waiting";
 }>;
 // Variable: itemListOfCategoryQuery
 // Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in categories[]->slug.current]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
@@ -718,7 +798,18 @@ export type ItemListOfCategoryQueryResult = Array<{
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
+  paied?: boolean;
+  payment?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "payment";
+  };
+  pricePlan?: "free" | "pro";
+  freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
+  proPlanStatus?: "fail" | "success" | "waiting";
 }>;
 // Variable: itemListOfTagQuery
 // Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in tags[]->slug.current]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
@@ -789,7 +880,18 @@ export type ItemListOfTagQueryResult = Array<{
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
+  paied?: boolean;
+  payment?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "payment";
+  };
+  pricePlan?: "free" | "pro";
+  freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
+  proPlanStatus?: "fail" | "success" | "waiting";
 }>;
 // Variable: categoryListQuery
 // Query: *[_type == "category" && defined(slug.current)]   | order(priority desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
@@ -910,7 +1012,18 @@ export type SubmissionListQueryResult = Array<{
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
+  paied?: boolean;
+  payment?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "payment";
+  };
+  pricePlan?: "free" | "pro";
+  freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
+  proPlanStatus?: "fail" | "success" | "waiting";
 }>;
 // Variable: pageQuery
 // Query: *[_type == "page" && slug.current == $slug][0] {    ...,    body[]{      ...,      markDefs[]{        ...,        _type == "internalLink" => {          "slug": @.reference->slug        }      }    },  }
@@ -1512,60 +1625,7 @@ export type CatqueryResult = Array<{
 }>;
 // Variable: searchquery
 // Query: *[_type == "blogPost" && _score > 0]| score(title match $query || excerpt match $query || pt::text(body) match $query)| order(_score desc){  _score,  _id,  _createdAt,  image,  author->,  categories[]->,   title,   slug}
-export type SearchqueryResult = Array<{
-  _score: null;
-  _id: string;
-  _createdAt: string;
-  image: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  } | null;
-  author: {
-    _id: string;
-    _type: "user";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    email?: string;
-    emailVerified?: string;
-    image?: string;
-    password?: string;
-    role?: "ADMIN" | "USER";
-    accounts?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "account";
-    };
-    stripeCustomerId?: string;
-    stripeSubscriptionId?: string;
-    stripePriceId?: string;
-    stripeCurrentPeriodEnd?: string;
-  } | null;
-  categories: Array<{
-    _id: string;
-    _type: "blogCategory";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    slug?: Slug;
-    description?: string;
-    priority?: number;
-    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
-  }> | null;
-  title: string | null;
-  slug: Slug | null;
-}>;
+export type SearchqueryResult = Array<never>;
 // Variable: getAll
 // Query: *[]
 export type GetAllResult = Array<{
@@ -1692,7 +1752,18 @@ export type GetAllResult = Array<{
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
+  paied?: boolean;
+  payment?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "payment";
+  };
+  pricePlan?: "free" | "pro";
+  freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
+  proPlanStatus?: "fail" | "success" | "waiting";
 } | {
   _id: string;
   _type: "media.tag";
@@ -1720,6 +1791,25 @@ export type GetAllResult = Array<{
   identifier?: string;
   token?: string;
   expires?: string;
+} | {
+  _id: string;
+  _type: "payment";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  user?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  };
+  item?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "item";
+  };
+  status?: "fail" | "success";
 } | {
   _id: string;
   _type: "sanity.fileAsset";
@@ -1783,6 +1873,19 @@ export type GetAllResult = Array<{
   _updatedAt: string;
   _rev: string;
   title?: string;
+} | {
+  _id: string;
+  _type: "stripeCustomer";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  user?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  };
+  stripeCustomerId?: string;
 } | {
   _id: string;
   _type: "tag";

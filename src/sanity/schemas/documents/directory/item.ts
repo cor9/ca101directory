@@ -96,12 +96,65 @@ export default defineType({
         },
       ],
     }),
+    // publish related fields
+    defineField({
+      name: "published",
+      title: "Published",
+      type: "boolean",
+      initialValue: false,
+    }),
 		defineField({
 			name: 'publishDate',
       title: 'Publish Date',
 			type: 'datetime',
-      initialValue: () => new Date().toISOString(),
 		}),
+    // payment related fields
+    defineField({
+      name: "paied",
+      title: "Paied",
+      type: "boolean",
+      initialValue: false,
+    }),
+    defineField({
+      name: "payment",
+      title: "Payment",
+      type: "reference",
+      to: [{ type: "payment" }],
+    }),
+    // price plan related fields
+    defineField({
+      name: "pricePlan",
+      title: "Price Plan",
+      type: 'string',
+      initialValue: 'free',
+      options: {
+        list: ['free', 'pro'],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+    }),
+    defineField({
+      name: "freePlanStatus",
+      title: "Free Plan Status",
+      type: 'string',
+      initialValue: 'submitted',
+      options: {
+        list: ['submitted', 'reviewing', 'approved', 'rejected'],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+    }),
+    defineField({
+      name: "proPlanStatus",
+      title: "Pro Plan Status",
+      type: 'string',
+      initialValue: 'waiting',
+      options: {
+        list: ['waiting', 'success', 'fail'],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+    }),
   ],
   // https://www.sanity.io/docs/previews-list-views
   // Configure and customize how documents are displayed 

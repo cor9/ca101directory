@@ -117,10 +117,10 @@ export default defineType({
       initialValue: false,
     }),
     defineField({
-      name: "payment",
-      title: "Payment",
+      name: "order",
+      title: "Order",
       type: "reference",
-      to: [{ type: "payment" }],
+      to: [{ type: "order" }],
       hidden: ({ parent }) => !parent.paied,
     }),
     // price plan related fields

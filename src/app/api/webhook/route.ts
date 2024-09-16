@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     
     if (user) {
       const result = await sanityClient.create({
-        _type: 'payment',
+        _type: 'order',
         user: {
           _type: 'reference',
           _ref: user._id,
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
       });
 
       if (!result) {
-        console.log("checkout.session.completed, update order failed");
+        console.log("checkout.session.completed, create order failed");
         return new Response(null, { status: 500 });
       }
 

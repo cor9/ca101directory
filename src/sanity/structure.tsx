@@ -14,8 +14,8 @@ import item from "./schemas/documents/directory/item";
 import tag from "./schemas/documents/directory/tag";
 import settings from "./schemas/documents/settings";
 import page from "./schemas/documents/page/page";
-import payment from "./schemas/documents/pay/payment";
-import stripeCustomer from "./schemas/documents/pay/stripe-customer";
+import order from "./schemas/documents/order/order";
+import stripeCustomer from "./schemas/documents/order/stripe-customer";
 
 const singletonTypes: DocumentDefinition[] = [settings];
 
@@ -53,18 +53,6 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
 
         S.divider(),
 
-        // group the blog management
-        // S.listItem().title('Blog management')
-        //   .icon(DocumentsIcon)
-        //   .child(
-        //     S.list()
-        //       .title('Blog management')
-        //       .items([
-        //         S.documentTypeListItem(blogPost.name),
-        //         S.documentTypeListItem(blogCategory.name),
-        //       ]),
-        //   ),
-
         S.documentTypeListItem(blogPost.name),
         S.documentTypeListItem(blogCategory.name),
 
@@ -74,7 +62,7 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
 
         S.divider(),
 
-        S.documentTypeListItem(payment.name),
+        S.documentTypeListItem(order.name),
         S.documentTypeListItem(stripeCustomer.name),
 
         S.divider(),

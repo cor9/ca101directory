@@ -317,20 +317,20 @@ export type Item = {
   published?: boolean;
   publishDate?: string;
   paied?: boolean;
-  payment?: {
+  order?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "payment";
+    [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "submitted" | "reviewing" | "approved" | "rejected";
   proPlanStatus?: "waiting" | "success" | "fail";
 };
 
-export type Payment = {
+export type Order = {
   _id: string;
-  _type: "payment";
+  _type: "order";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -480,7 +480,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Settings | StripeCustomer | PasswordResetToken | VerificationToken | Session | BlockContent | BlogCategory | BlogPost | Page | Category | Tag | Item | Payment | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | Code | Markdown | MediaTag | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Settings | StripeCustomer | PasswordResetToken | VerificationToken | Session | BlockContent | BlogCategory | BlogPost | Page | Category | Tag | Item | Order | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | Code | Markdown | MediaTag | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/sanity/lib/queries.ts
 // Variable: itemQuery
@@ -555,11 +555,11 @@ export type ItemQueryResult = {
   published?: boolean;
   publishDate?: string;
   paied?: boolean;
-  payment?: {
+  order?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "payment";
+    [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
@@ -637,11 +637,11 @@ export type ItemByIdQueryResult = {
   published?: boolean;
   publishDate?: string;
   paied?: boolean;
-  payment?: {
+  order?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "payment";
+    [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
@@ -719,11 +719,11 @@ export type ItemListQueryResult = Array<{
   published?: boolean;
   publishDate?: string;
   paied?: boolean;
-  payment?: {
+  order?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "payment";
+    [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
@@ -801,11 +801,11 @@ export type ItemListOfCategoryQueryResult = Array<{
   published?: boolean;
   publishDate?: string;
   paied?: boolean;
-  payment?: {
+  order?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "payment";
+    [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
@@ -883,11 +883,11 @@ export type ItemListOfTagQueryResult = Array<{
   published?: boolean;
   publishDate?: string;
   paied?: boolean;
-  payment?: {
+  order?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "payment";
+    [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
@@ -1015,11 +1015,11 @@ export type SubmissionListQueryResult = Array<{
   published?: boolean;
   publishDate?: string;
   paied?: boolean;
-  payment?: {
+  order?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "payment";
+    [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
@@ -1755,11 +1755,11 @@ export type GetAllResult = Array<{
   published?: boolean;
   publishDate?: string;
   paied?: boolean;
-  payment?: {
+  order?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "payment";
+    [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
@@ -1771,6 +1771,25 @@ export type GetAllResult = Array<{
   _updatedAt: string;
   _rev: string;
   name?: Slug;
+} | {
+  _id: string;
+  _type: "order";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  user?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  };
+  item?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "item";
+  };
+  status?: "fail" | "success";
 } | {
   _id: string;
   _type: "page";
@@ -1791,25 +1810,6 @@ export type GetAllResult = Array<{
   identifier?: string;
   token?: string;
   expires?: string;
-} | {
-  _id: string;
-  _type: "payment";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  user?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "user";
-  };
-  item?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "item";
-  };
-  status?: "fail" | "success";
 } | {
   _id: string;
   _type: "sanity.fileAsset";

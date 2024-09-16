@@ -1,9 +1,9 @@
 import { defineField } from 'sanity';
 import { DatabaseIcon } from '@sanity/icons';
 
-const payment = {
-  name: 'payment',
-  title: 'Payment',
+const order = {
+  name: 'order',
+  title: 'Order',
   type: 'document',
   // icon: DatabaseIcon,
   fields: [
@@ -36,4 +36,4 @@ const payment = {
   // TODO(javayhu): add preview
 };
 
-export default payment;
+export default order;

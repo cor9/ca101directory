@@ -1898,7 +1898,7 @@
         },
         "optional": true
       },
-      "payment": {
+      "order": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
@@ -1924,7 +1924,7 @@
               "optional": true
             }
           },
-          "dereferencesTo": "payment"
+          "dereferencesTo": "order"
         },
         "optional": true
       },
@@ -1994,7 +1994,7 @@
     }
   },
   {
-    "name": "payment",
+    "name": "order",
     "type": "document",
     "attributes": {
       "_id": {
@@ -2007,7 +2007,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "payment"
+          "value": "order"
         }
       },
       "_createdAt": {

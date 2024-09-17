@@ -6,6 +6,7 @@ import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { FaBrandsGithub } from "../icons/github";
 import { FaBrandsGoogle } from "../icons/google";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 /**
  * TODO: show loading when logging in
@@ -28,7 +29,7 @@ export const SocialButton = () => {
         variant="outline"
         onClick={() => onClick("google")}
       >
-        <FaBrandsGoogle className="h-4 w-4 mr-2" />
+        <FaBrandsGoogle className="size-5 mr-2" />
         Login with Google
       </Button>
       <Button
@@ -37,7 +38,7 @@ export const SocialButton = () => {
         variant="outline"
         onClick={() => onClick("github")}
       >
-        <FaBrandsGithub className="h-5 w-5 mr-2" />
+        <FaBrandsGithub className="size-5 mr-2" />
         Login with Github
       </Button>
     </div>

@@ -14,7 +14,7 @@ export async function BlogCategoryFilter() {
     <>
       {/* Desktop View, has Container */}
       <Container className="hidden md:block">
-        <div className='flex items-center justify-between gap-8 mt-4'>
+        <div className='flex items-center justify-between gap-8'>
           <div className="w-full">
             <Suspense fallback={null}>
               <BlogCategoryList categoryList={categoryList} />
@@ -24,7 +24,7 @@ export async function BlogCategoryFilter() {
       </Container>
 
       {/* Mobile View, no Container */}
-      <div className="md:hidden flex flex-col gap-8 mt-4">
+      <div className="md:hidden flex flex-col gap-8">
         <Suspense fallback={null}>
           <BlogCategoryList categoryList={categoryList} />
         </Suspense>

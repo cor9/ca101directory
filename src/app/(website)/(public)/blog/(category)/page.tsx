@@ -16,8 +16,6 @@ export default async function BlogIndexPage({
   console.log('BlogIndexPage, totalCount', totalCount, ", totalPages", totalPages);
 
   return (
-    <Container className="pb-16">
-      <BlogGrid posts={posts} totalPages={totalPages} paginationPrefix="/blog" />
-    </Container>
+    <BlogGrid posts={posts} totalPages={totalPages} paginationPrefix="/blog" />
   );
 }

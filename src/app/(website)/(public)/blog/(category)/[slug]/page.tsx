@@ -18,8 +18,6 @@ export default async function BlogCategoryPage({
   console.log('BlogCategoryPage, totalCount', totalCount, ", totalPages", totalPages);
 
   return (
-    <Container className="pb-16">
-      <BlogGrid posts={posts} totalPages={totalPages} paginationPrefix={`/blog/${params.slug}`} />
-    </Container>
+    <BlogGrid posts={posts} totalPages={totalPages} paginationPrefix={`/blog/${params.slug}`} />
   );
 }

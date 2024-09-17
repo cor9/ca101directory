@@ -9,10 +9,12 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
       {/* <HomeHero /> */}
 
       {/* filter layout with filter components */}
-      <HomeFilter />
+      <div className="mt-8">
+        <HomeFilter />
+      </div>
 
       {/* main content shows the list of items*/}
-      <Container className="pb-16">
+      <Container className="mt-8 pb-16">
         {children}
       </Container>
     </>

@@ -4,9 +4,11 @@ import Container from '@/components/shared/container';
 export default function SearchLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <SearchFilter />
+      <div className="mt-8">
+        <SearchFilter />
+      </div>
 
-      <Container className="pb-16">
+      <Container className="mt-8 pb-16">
         {children}
       </Container>
     </>

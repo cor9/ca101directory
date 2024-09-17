@@ -24,13 +24,13 @@ export default function ItemGrid({ items, totalPages, paginationPrefix }: ItemGr
       {/* when items are found */}
       { items && items.length > 0 && (
           <section className=''>
-            <div className="mt-12 gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+            <div className="gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
               {items.map((item) => (
                 <ItemCard key={item._id} item={item} />
               ))}
             </div>
 
-            <div className="mt-12 flex items-center justify-center">
+            <div className="flex items-center justify-center">
               <Suspense fallback={null}>
                 <CustomPagination routePreix={paginationPrefix} totalPages={totalPages} />
               </Suspense>

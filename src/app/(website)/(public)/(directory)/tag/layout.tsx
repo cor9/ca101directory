@@ -4,9 +4,11 @@ import { TagFilter } from '@/components/tag/tag-filter';
 export default function TagLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <TagFilter />
+      <div className="mt-8">
+        <TagFilter />
+      </div>
 
-      <Container className="pb-16">
+      <Container className="mt-8 pb-16">
         {children}
       </Container>
     </>

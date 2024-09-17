@@ -29,7 +29,7 @@ export async function HomeFilter() {
   return (
     <>
       {/* Desktop View, has Container */}
-      <Container className="hidden md:flex md:flex-col md:mt-4">
+      <Container className="hidden md:flex md:flex-col">
         {/* <div className='w-full'>
           <Suspense fallback={<SearchSkeleton />}>
             <HomeSearch />
@@ -46,7 +46,7 @@ export async function HomeFilter() {
       </Container>
 
       {/* Mobile View, no Container */}
-      <div className="md:hidden flex flex-col mt-4">
+      <div className="md:hidden flex flex-col">
         {/* <div className='w-full'>
           <Suspense fallback={<SearchSkeleton />}>
             <HomeSearch />

@@ -1,8 +1,7 @@
-import Link from "next/link";
-import { Icons } from "@/components/shared/icons";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import { Sparkles } from "lucide-react";
+import { GitHubLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 import { Logo } from "../logo";
 
 export function FooterInfo() {
@@ -31,7 +30,8 @@ export function FooterInfo() {
               target="_blank"
               rel="noreferrer"
             >
-              <Icons.twitter className="size-4" />
+              {/* <Icons.twitter className="size-4" /> */}
+              <TwitterLogoIcon className="size-5" />
             </Link>
           </Button>
           <Button variant="ghost" size="sm" className="size-8 px-0">
@@ -40,7 +40,8 @@ export function FooterInfo() {
               target="_blank"
               rel="noreferrer"
             >
-              <Icons.gitHub className="size-5" />
+              {/* <Icons.gitHub className="size-5" /> */}
+              <GitHubLogoIcon className="size-5" />
             </Link>
           </Button>
         </div>

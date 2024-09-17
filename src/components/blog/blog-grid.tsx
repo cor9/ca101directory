@@ -24,13 +24,13 @@ export default async function BlogGrid({ posts, totalPages, paginationPrefix }: 
       {/* when posts are found */}
       {posts && posts?.length > 0 && (
         <>
-          <div className="mt-12 gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {posts.map(post => (
               <BlogCard key={post._id} post={post} />
             ))}
           </div>
           
-          <div className="mt-12 flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <Suspense fallback={null}>
               <CustomPagination routePreix={paginationPrefix} totalPages={totalPages} />
             </Suspense>

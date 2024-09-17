@@ -153,7 +153,7 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
                         defaultValue={field.value}
                         placeholder="Select categories"
                         variant="default"
-                        maxCount={5}
+                        maxCount={3}
                       />
                     </FormControl>
                     <FormMessage />
@@ -174,7 +174,7 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
                         defaultValue={field.value}
                         placeholder="Select tags"
                         variant="default"
-                        maxCount={5}
+                        maxCount={3}
                       />
                     </FormControl>
                     <FormMessage />

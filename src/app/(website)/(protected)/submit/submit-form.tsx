@@ -144,7 +144,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                         defaultValue={field.value}
                         placeholder="Select categories"
                         variant="default"
-                        maxCount={5}
+                        maxCount={3}
                       />
                     </FormControl>
                     <FormMessage />
@@ -165,7 +165,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                         defaultValue={field.value}
                         placeholder="Select tags"
                         variant="default"
-                        maxCount={5}
+                        maxCount={3}
                       />
                     </FormControl>
                     <FormMessage />

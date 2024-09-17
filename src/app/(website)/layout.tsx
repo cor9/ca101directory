@@ -11,12 +11,15 @@ import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
+import { auth } from "@/auth";
 
 interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const session = await auth();
+  
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
@@ -31,7 +34,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
           fontBricolage.variable,
         )}
       >
-        <SessionProvider>
+        {/* 20240918，之前这里并没有加session={session}，但是看authy代码是有的，不知道为什么当初删掉了 */}
+        {/* https://github.com/javayhu/Authy/blob/main/app/layout.tsx#L24 */}
+        <SessionProvider session={session}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

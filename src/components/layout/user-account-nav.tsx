@@ -9,16 +9,29 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { LayoutDashboard, LogOut, Settings, UploadIcon } from "lucide-react";
+import { LayoutDashboard, LogOut, LogOutIcon, Settings, UploadIcon } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 import { Drawer } from "vaul";
 import { Icons } from "@/components/shared/icons";
+import { LogoutButton } from "../auth/logout-button";
+import { currentUser } from "@/lib/auth";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 export function UserAccountNav() {
-  const { data: session } = useSession();
-  const user = session?.user;
+  // 只有使用这种方式，用户退出时navbar的表现是正常的！
+  // const { data: session } = useSession();
+  // const user = session?.user;
+
+  // 使用这个会报错
+  // const user = currentUser();
+
+  // 这个可能导致navbar上没有退出 
+  // => 非也，其实上面的逻辑跟useCurrentUser方法的逻辑是一样的，所以其实改成这种形式也正常
+  // 难道是因为重启了Chrome恢复了？
+  // https://github.com/javayhu/Authy/blob/main/components/auth/user-button.tsx
+  const user = useCurrentUser();
 
   const [open, setOpen] = useState(false);
   const closeDrawer = () => {
@@ -164,16 +177,6 @@ export function UserAccountNav() {
           </Link>
         </DropdownMenuItem>
 
-        {/* <DropdownMenuItem asChild>
-          <Link
-            href="/settings"
-            className="flex items-center space-x-2.5"
-          >
-            <Settings className="size-4" />
-            <p className="text-sm">Settings</p>
-          </Link>
-        </DropdownMenuItem> */}
-
         <DropdownMenuItem asChild>
           <Link
             href="/submit"
@@ -185,12 +188,36 @@ export function UserAccountNav() {
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
+
+        {/* 这里使用LogoutButton后，点击退出，确实退出了，但是navbar还是显示用户头像，重新刷新下才好了 */}
+        {/* <DropdownMenuItem asChild >
+          <div className="flex items-center space-x-2.5 cursor-pointer">
+            <LogOut className="size-4" />
+            <LogoutButton >
+              <p className="text-sm">Log out</p>
+            </LogoutButton>
+          </div>
+        </DropdownMenuItem> */}
+
+        {/* 参考authy的代码，改成这样的形式也不对，navbar上用户头像还在 */}
+        {/* https://github.com/javayhu/Authy/blob/main/components/auth/user-button.tsx#L34 */}
+        {/* <LogoutButton>
+          <DropdownMenuItem>
+            <LogOutIcon className="h-4 w-4 mr-2" />
+            <span>Log out</span>
+          </DropdownMenuItem>
+        </LogoutButton> */}
+
+        {/* TODO(javayhu): 之前这里还好好的，现在点击退出，确实退出了，但是navbar还是显示用户头像，重新刷新下才好 */}
+        {/* 加了redirect: true后，还是有这个问题 */}
+        {/* https://next-auth.js.org/getting-started/client#using-the-redirect-false-option-1 */}
         <DropdownMenuItem
           className="cursor-pointer"
           onSelect={(event) => {
             event.preventDefault();
             signOut({
               callbackUrl: `${window.location.origin}/`,
+              redirect: true,
             });
           }}
         >

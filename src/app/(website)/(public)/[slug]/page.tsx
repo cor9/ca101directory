@@ -25,7 +25,8 @@ export default async function CustomPage({ params }: CustomPageProps) {
   // console.log("markdownContent", markdownContent);
 
   return (
-    <Container className="max-w-screen-lg mt-8 pb-16">
+    // max-w-screen-lg 
+    <Container className="mt-8 pb-16">
       <div className="flex flex-col items-center justify-center">
         <h1 className="inline-block text-2xl font-bold">
           {page.title}

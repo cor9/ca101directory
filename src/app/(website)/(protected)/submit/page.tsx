@@ -23,7 +23,7 @@ export default async function SubmitPage() {
 
       <SubmitStepper initialStep={1} />
 
-      <div className="mt-6">
+      <div className="mt-8">
         <SubmitForm tagList={tagList} categoryList={categoryList} />
       </div>
     </>

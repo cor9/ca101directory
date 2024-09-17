@@ -15,7 +15,7 @@ export default function Newsletter() {
                             Stay up to date with the roadmap progress, announcements and exclusive discounts feel free to sign up with your email.
                         </p>
                     </div>
-                    <div className="mt-6">
+                    <div className="mt-8">
                         <form
                             onSubmit={(e) => e.preventDefault()}
                             className="flex items-center justify-center bg-white rounded-lg p-1 sm:max-w-md sm:mx-auto">

@@ -1,3 +1,4 @@
+import DashboardPlanBreadCrumb from "@/components/dashboard/dashboard-plan-bread-crumb";
 import { PricingPlans } from "@/components/dashboard/pricing-plans";
 import { SubmitStepper } from "@/components/submit/submit-stepper";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -26,15 +27,19 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
 
   return (
     <>
-      {/* <DashboardHeader
+      <div className="flex flex-col gap-6">
+        {/* <DashboardHeader
         title="Plan"
         subtitle="Select a price plan."
       /> */}
 
-      <SubmitStepper initialStep={2} />
+        <DashboardPlanBreadCrumb item={item} />
 
-      <div className="mt-6">
-        <PricingPlans item={item} />
+        <SubmitStepper initialStep={2} />
+
+        <div className="mt-8">
+          <PricingPlans item={item} />
+        </div>
       </div>
     </>
   );

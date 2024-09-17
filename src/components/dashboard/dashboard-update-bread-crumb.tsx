@@ -9,14 +9,14 @@ import {
 } from "@/components/ui/breadcrumb";
 import { HomeIcon } from "lucide-react";
 
-interface ItemBreadCrumbProps {
+interface DashboardBreadCrumbProps {
   item: ItemFullInfo;
 }
 
 /**
- * TODO: fix this, show which category???
+ * 
  */
-export default function ItemBreadCrumb({ item }: ItemBreadCrumbProps) {
+export default function DashboardBreadCrumb({ item }: DashboardBreadCrumbProps) {
   return <Breadcrumb className="">
     <BreadcrumbList>
       <BreadcrumbItem>
@@ -29,14 +29,14 @@ export default function ItemBreadCrumb({ item }: ItemBreadCrumbProps) {
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
-        <BreadcrumbLink href={`/category`}>
-          <span>Category</span>
+        <BreadcrumbLink href={`/dashboard`}>
+          <span>Dashboard</span>
         </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
-        <BreadcrumbLink href={`/category/${item?.categories?.[0]?.slug?.current}`}>
-          {item?.categories?.[0]?.name}
+        <BreadcrumbLink>
+          <span>Update</span>
         </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />

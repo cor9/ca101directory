@@ -28,7 +28,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
 
       <SubmitStepper initialStep={3} />
 
-      <div className="mt-6">
+      <div className="mt-8">
         <div className="flex justify-center items-center">
           <PublishButton item={item} />
         </div>

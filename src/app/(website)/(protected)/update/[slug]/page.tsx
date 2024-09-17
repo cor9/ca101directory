@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { UpdateForm } from "./update-form";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import DashboardBreadCrumb from "@/components/dashboard/dashboard-update-bread-crumb";
 
 interface UpdatePageProps {
   params: { slug: string };
@@ -32,15 +33,19 @@ export default async function UpdatePage({ params }: UpdatePageProps) {
 
   return (
     <>
-      <DashboardHeader
-        title="Update"
-        subtitle="Update your product info."
-      />
+      <div className="flex flex-col gap-6">
+        <DashboardBreadCrumb item={item} />
 
-      <div className="mt-4">
-        <Suspense fallback={null}>
-          <UpdateForm item={item} tagList={tagList} categoryList={categoryList} />
-        </Suspense>
+        <DashboardHeader
+          title="Update"
+          subtitle="Update your product info."
+        />
+
+        <div className="mt-4">
+          <Suspense fallback={null}>
+            <UpdateForm item={item} tagList={tagList} categoryList={categoryList} />
+          </Suspense>
+        </div>
       </div>
     </>
   );

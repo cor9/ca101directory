@@ -1,11 +1,11 @@
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
 import { SubmissionTable } from "@/components/submission-table";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { getSubmissions } from "@/data/submission";
 import { currentUser } from "@/lib/auth";
 import { SUBMISSIONS_PER_PAGE } from "@/lib/constants";
-import { cn, constructMetadata } from "@/lib/utils";
+import { constructMetadata } from "@/lib/utils";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -45,7 +45,7 @@ export default async function DashboardPage({
         </Button>
       </DashboardHeader>
 
-      <div className="mt-6">
+      <div className="mt-8">
         {submissions.length === 0 ? (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon name="post" />
@@ -55,13 +55,13 @@ export default async function DashboardPage({
             <EmptyPlaceholder.Description>
               You don&apos;t have any submissions yet.
             </EmptyPlaceholder.Description>
-            <Link href="/submit"
-              className={cn(
-                buttonVariants({ variant: "default", size: "lg" })
-              )}
-            >
-              Submit
-            </Link>
+            <Button asChild className="group whitespace-nowrap">
+              <Link href="/submit" prefetch={false}
+                className="flex items-center justify-center">
+                <PlusIcon className="mr-1 w-4 h-4" />
+                Submit
+              </Link>
+            </Button>
           </EmptyPlaceholder>
         ) : (
           <SubmissionTable submissions={submissions}

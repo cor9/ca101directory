@@ -6,22 +6,27 @@ export const dashboardConfig: DashboardConfig = {
     {
       title: "Homepage",
       href: "/",
+      icon: "home",
     },
     {
       title: "Dashboard",
       href: "/dashboard",
+      icon: "dashboard",
     },
     {
       title: "Submit",
       href: "/submit",
+      icon: "submit",
     },
     {
       title: "Billing",
       href: "/billing",
+      icon: "billing",
     },
     {
       title: "Settings",
       href: "/settings",
+      icon: "settings",
     },
   ],
 }

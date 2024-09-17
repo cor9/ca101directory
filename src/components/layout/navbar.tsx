@@ -25,6 +25,7 @@ import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { ModeToggle } from "./mode-toggle";
 import { UserAccountNav } from "./user-account-nav";
 import { DashboardConfig, MarketingConfig } from "@/types";
+import { Icons } from "../shared/icons";
 
 interface NavBarProps {
   scroll?: boolean;
@@ -72,9 +73,8 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
 
             {/* logo */}
             <Link href="/" className="flex items-center space-x-2">
-              {/* <Sparkles /> */}
               <Logo />
-              
+
               {/* font-geist-mono */}
               <span className="text-xl font-bold">
                 {siteConfig.name}
@@ -132,10 +132,10 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
           </div>
         </Container>
       </header>
-      
+
       {/* Mobile View */}
       <header className="md:hidden sticky top-0 z-40 flex w-full justify-center bg-background/60 backdrop-blur-xl transition-all">
-        <div className="w-full px-4 flex h-16 items-center justify-between">
+        <div className="w-full px-4 h-16 flex items-center justify-between">
           {/* mobile navbar left show menu icon when closed & show sheet when menu is open */}
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
@@ -151,27 +151,40 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
             <SheetContent side="left" className="flex flex-col p-0">
               <ScrollArea className="h-full overflow-y-auto">
                 <div className="flex h-screen flex-col">
-                  <nav className="flex flex-1 flex-col gap-1 p-2 pt-11 text-lg font-medium">
-                    {links.map((item) => (
-                      <Link
-                        key={item.title}
-                        href={item.disabled ? "#" : item.href}
-                        onClick={() => {
-                          if (!item.disabled) setOpen(false);
-                        }}
-                        className={cn(
-                          "flex items-center gap-1 rounded-md p-2 text-sm font-medium hover:bg-muted",
-                          isLinkActive(item.href)
-                            ? "bg-muted text-foreground"
-                            : "text-muted-foreground hover:text-foreground",
-                          item.disabled &&
-                          "cursor-not-allowed opacity-80 hover:bg-transparent hover:text-muted-foreground"
-                        )}
-                      >
-                        {item.title}
-                      </Link>
-                    ))}
+                  {/* logo */}
+                  <Link href="/" className="flex items-center space-x-2 pl-4 pt-4">
+                    <Logo />
 
+                    {/* font-geist-mono */}
+                    <span className="text-xl font-bold">
+                      {siteConfig.name}
+                    </span>
+                  </Link>
+
+                  <nav className="flex flex-1 flex-col gap-2 p-2 pt-8 font-medium">
+                    {links.map((item) => {
+                      const Icon = Icons[item.icon || "arrowRight"];
+                      return (
+                        <Link
+                          key={item.title}
+                          href={item.disabled ? "#" : item.href}
+                          onClick={() => {
+                            if (!item.disabled) setOpen(false);
+                          }}
+                          className={cn(
+                            "flex items-center rounded-md gap-2 p-2 text-sm font-medium hover:bg-muted",
+                            isLinkActive(item.href)
+                              ? "bg-muted text-foreground"
+                              : "text-muted-foreground hover:text-foreground",
+                            item.disabled &&
+                            "cursor-not-allowed opacity-80 hover:bg-transparent hover:text-muted-foreground"
+                          )}
+                        >
+                          <Icon className="size-5" />
+                          {item.title}
+                        </Link>
+                      );
+                    })}
                   </nav>
                 </div>
               </ScrollArea>
@@ -185,7 +198,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                 <UserAccountNav />
               </div>
             ) : status === "unauthenticated" ? (
-              <LoginButton mode="modal" asChild>
+              <LoginButton mode="redirect" asChild>
                 <Button
                   className="flex gap-2 px-5 rounded-full"
                   variant="default"

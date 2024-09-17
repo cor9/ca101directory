@@ -84,10 +84,6 @@ export function DashboardSidebarMobile({ links }: DashboardSidebarMobileProps) {
                     })}
                   </section>
                 ))}
-
-                {/* <div className="mt-auto">
-                  <SubmitCard />
-                </div> */}
               </nav>
             </div>
           </ScrollArea>

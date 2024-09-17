@@ -14,6 +14,7 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 import { Drawer } from "vaul";
+import { Icons } from "@/components/shared/icons";
 
 export function UserAccountNav() {
   const { data: session } = useSession();
@@ -94,7 +95,7 @@ export function UserAccountNav() {
                   onClick={closeDrawer}
                   className="flex w-full items-center gap-3 px-2.5 py-2"
                 >
-                  <Settings className="size-4" />
+                  <Icons.submit className="size-4" />
                   <p className="text-sm">Submit</p>
                 </Link>
               </li>
@@ -110,7 +111,7 @@ export function UserAccountNav() {
               >
                 <div className="flex w-full items-center gap-3 px-2.5 py-2">
                   <LogOut className="size-4" />
-                  <p className="text-sm">Log out </p>
+                  <p className="text-sm">Log out</p>
                 </div>
               </li>
             </ul>

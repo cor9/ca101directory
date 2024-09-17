@@ -28,12 +28,12 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
   return (
     <>
       <div className="flex flex-col gap-6">
-        {/* <DashboardHeader
-        title="Plan"
-        subtitle="Select a price plan."
-      /> */}
+        {/* <DashboardPlanBreadCrumb item={item} /> */}
 
-        <DashboardPlanBreadCrumb item={item} />
+        {/* <DashboardHeader
+          title="Plan"
+          subtitle="Select a price plan."
+        /> */}
 
         <SubmitStepper initialStep={2} />
 

@@ -34,7 +34,7 @@ export default async function UpdatePage({ params }: UpdatePageProps) {
   return (
     <>
       <div className="flex flex-col gap-6">
-        <DashboardBreadCrumb item={item} />
+        {/* <DashboardBreadCrumb item={item} /> */}
 
         <DashboardHeader
           title="Update"

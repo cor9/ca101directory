@@ -19,7 +19,7 @@ export const publish = async (itemId: string) => {
   }).commit();
   console.log('publish, result:', result);
   
-  if (result. != 'success') {
+  if (!result) {
     return { error: "Failed to publish item!" };
   }
 

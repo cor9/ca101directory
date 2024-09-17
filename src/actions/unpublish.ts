@@ -18,6 +18,7 @@ export const unpublish = async (itemId: string) => {
     publishDate: null,
   }).commit();
   console.log('unpublish, result:', result);
+  
   if (!result) {
     return { error: "Failed to unpublish item!" };
   }

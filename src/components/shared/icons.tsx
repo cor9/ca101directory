@@ -45,6 +45,13 @@ import {
 
 export type Icon = LucideIcon;
 
+/**
+ * 1. Lucide Icons
+ * https://lucide.dev/icons/
+ * 
+ * 2. Radix Icons
+ * https://www.radix-ui.com/icons
+ */
 export const Icons = {
   add: Plus,
   arrowRight: ArrowRight,

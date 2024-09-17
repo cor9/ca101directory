@@ -27,7 +27,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
     <>
       {/* Desktop View */}
       <ScrollArea className="hidden md:flex w-full">
-        <ul role="list" className="w-full flex flex-1 gap-x-2" >
+        <ul role="list" className="flex gap-x-2" >
           <DesktopLink
             title="All Categories"
             href="/category"

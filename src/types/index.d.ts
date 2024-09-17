@@ -60,6 +60,10 @@ export type MarketingConfig = {
   mainNav: NavItem[];
 };
 
+export type DashboardConfig = {
+  mainNav: NavItem[];
+};
+
 export type DocsConfig = {
   mainNav: NavItem[];
   sidebarNav: NestedNavItem[];

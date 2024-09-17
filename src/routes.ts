@@ -17,7 +17,7 @@ export const publicRoutes = [
   "/post(/.*)?",
   "/author(/.*)?",
   
-  "/submit(/.*)?",
+  // "/submit(/.*)?",
   "/pricing(/.*)?",
   "/landing(/.*)?",
   

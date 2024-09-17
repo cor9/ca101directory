@@ -1,6 +1,6 @@
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
-import { marketingConfig } from "@/config/marketing";
+import Container from "@/components/shared/container";
 
 interface MarketingLayoutProps {
   children: React.ReactNode;
@@ -9,10 +9,12 @@ interface MarketingLayoutProps {
 export default async function MarketingLayout({ children }: MarketingLayoutProps) {
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar scroll={true} config={marketingConfig} />
+      <Navbar scroll={true} />
 
       <main className="flex-1">
-        {children}
+        <Container className="pb-16">
+          {children}
+        </Container>
       </main>
 
       <Footer />

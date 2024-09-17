@@ -3,44 +3,40 @@
 import { LoginButton } from "@/components/auth/login-button";
 import Container from "@/components/shared/container";
 import { Button } from "@/components/ui/button";
-import { NavigationMenu, 
-  NavigationMenuItem, 
-  NavigationMenuLink, 
-  NavigationMenuList, 
-  navigationMenuTriggerStyle 
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
-import { docsConfig } from "@/config/docs";
 import { marketingConfig } from "@/config/marketing";
 import { siteConfig } from "@/config/site";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
-import { ArrowRight, MenuIcon, Sparkles } from "lucide-react";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { ArrowRight, MenuIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { DocsSearchCommand } from "../docs/docs-search";
-import { UserAccountNav } from "./user-account-nav";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { DocsSidebarNav } from "../docs/docs-sidebar-nav";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { useEffect, useState } from "react";
-import { ModeToggle } from "./mode-toggle";
 import { Logo } from "../logo";
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { ModeToggle } from "./mode-toggle";
+import { UserAccountNav } from "./user-account-nav";
+import { DashboardConfig, MarketingConfig } from "@/types";
 
 interface NavBarProps {
   scroll?: boolean;
+  config: DashboardConfig | MarketingConfig;
 }
 
-export function Navbar({ scroll = false }: NavBarProps) {
+export function Navbar({ scroll = false, config }: NavBarProps) {
   const scrolled = useScroll(50);
   const { data: session, status } = useSession();
   const pathname = usePathname();
   console.log(`Navbar, pathname: ${pathname}`);
-  // const isDocsPage = pathname.startsWith('/docs');
-  const isDocsPage = false;
-  console.log(`Navbar, isDocsPage: ${isDocsPage}`);
-  // const links = isDocsPage ? docsConfig.mainNav : marketingConfig.mainNav;
-  const links = marketingConfig.mainNav;
+  const links = config.mainNav;
   console.log(`Navbar, links: ${links.map((link) => link.title)}`);
 
   const isLinkActive = (href: string) => {
@@ -114,11 +110,6 @@ export function Navbar({ scroll = false }: NavBarProps) {
 
           {/* navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
-            {/* if in docs page show search */}
-            {isDocsPage && (
-              <DocsSearchCommand enableShortcut={true} />
-            )}
-
             {session ? (
               <div className="flex items-center">
                 <UserAccountNav />
@@ -181,11 +172,6 @@ export function Navbar({ scroll = false }: NavBarProps) {
                       </Link>
                     ))}
 
-                    {isDocsPage ? (
-                      <div className="p-4">
-                        <DocsSidebarNav setOpen={setOpen} />
-                      </div>
-                    ) : null}
                   </nav>
                 </div>
               </ScrollArea>
@@ -194,11 +180,6 @@ export function Navbar({ scroll = false }: NavBarProps) {
 
           {/* mobile navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
-            {/* if in docs page show search */}
-            {isDocsPage && (
-              <DocsSearchCommand enableShortcut={false} />
-            )}
-
             {session ? (
               <div className="flex items-center">
                 <UserAccountNav />

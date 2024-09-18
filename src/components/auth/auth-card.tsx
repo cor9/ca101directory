@@ -1,6 +1,6 @@
 "use client";
 
-import { BottomButton } from "@/components/auth/back-button";
+import { BottomButton } from "@/components/auth/bottom-button";
 import { SocialButton } from "@/components/auth/social-button";
 import {
   Card,

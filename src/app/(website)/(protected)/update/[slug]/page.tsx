@@ -39,6 +39,7 @@ export default async function UpdatePage({ params }: UpdatePageProps) {
         <DashboardHeader
           title="Update"
           subtitle="Update your product info."
+          showBackButton={true}
         />
 
         <div className="mt-4">

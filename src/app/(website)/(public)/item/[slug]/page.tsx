@@ -1,16 +1,15 @@
 import ItemBreadCrumb from "@/components/item-bread-crumb";
+import ItemCustomMdx from "@/components/item-custom-mdx";
 import BackButton from "@/components/shared/back-button";
 import { Button } from "@/components/ui/button";
 import { getLocaleDate, urlForImageWithSize } from "@/lib/utils";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
-import { TwitterLogoIcon } from "@radix-ui/react-icons";
-import { ExternalLinkIcon, GlobeIcon, HashIcon, HeartIcon, NetworkIcon, Share2Icon } from "lucide-react";
+import { GlobeIcon, HashIcon, HeartIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ItemCustomMdx from "@/components/item-custom-mdx";
 
 interface ItemPageProps {
   params: { slug: string };
@@ -198,7 +197,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
       </div>
 
       {/* back button */}
-      <div className="flex items-center justify-center mt-8 order-4">
+      <div className="flex items-center justify-start mt-8 order-4">
         <BackButton />
       </div>
     </div>

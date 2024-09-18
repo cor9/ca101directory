@@ -9,6 +9,7 @@ import { LoginForm } from "@/components/auth/login-form";
 import { authRoutes } from "@/routes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface LoginButtonProps {
   children: React.ReactNode;
@@ -25,6 +26,7 @@ export const LoginButton = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isTablet, isDesktop } = useMediaQuery();
 
   const onClick = () => {
     router.push("/auth/login");
@@ -36,8 +38,9 @@ export const LoginButton = ({
   }, [pathname, searchParams]);
 
   // don't open the modal if the user is already in the auth pages
+  // keep isTablet or isDesktop open, if user resizes the window
   const isAuthRoute = authRoutes.includes(pathname);
-  if (mode === "modal" && !isAuthRoute) {
+  if (mode === "modal" && !isAuthRoute && (isTablet || isDesktop)) {
     return (
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogTrigger asChild={asChild}>

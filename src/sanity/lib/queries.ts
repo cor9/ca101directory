@@ -5,30 +5,17 @@ import groq, { defineQuery } from 'groq';
  */
 const tagFields = /* groq */ `
   ...,
-  // "slug": slug.current,
-  // "name": coalesce(name[$locale], name[$defaultLocale]),
-  // "description": coalesce(description[$locale], description[$defaultLocale]),
 `;
 
 const categoryFields = /* groq */ `
   ...,
-  // "slug": slug.current,
-  // "name": coalesce(name[$locale], name[$defaultLocale]),
-  // "description": coalesce(description[$locale], description[$defaultLocale]),
 `;
 
 const itemFields = /* groq */ `
   ...,
-  // "slug": slug.current,
-  // "name": coalesce(name[$locale], name[$defaultLocale]),
-  // "description": coalesce(description[$locale], description[$defaultLocale]),
   submitter->,
-  categories[]->{
-    ...,
-  },
-  tags[]->{
-    ...,
-  }
+  categories[]->,
+  tags[]->
 `;
 
 /**

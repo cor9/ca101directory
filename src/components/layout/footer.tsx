@@ -9,7 +9,7 @@ import { FooterInfo } from "./footer-info";
 export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
     <footer className={cn("border-t", className)}>
-      <Container className="grid grid-cols-2 gap-6 py-12 md:grid-cols-6">
+      <Container className="grid grid-cols-2 gap-8 py-12 md:grid-cols-6">
         <div className="flex flex-col items-start col-span-full md:col-span-2">
           <FooterInfo />
         </div>

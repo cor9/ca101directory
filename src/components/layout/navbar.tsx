@@ -36,9 +36,9 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
   const scrolled = useScroll(50);
   const { data: session, status } = useSession();
   const pathname = usePathname();
-  console.log(`Navbar, pathname: ${pathname}`);
+  // console.log(`Navbar, pathname: ${pathname}`);
   const links = config.mainNav;
-  console.log(`Navbar, links: ${links.map((link) => link.title)}`);
+  // console.log(`Navbar, links: ${links.map((link) => link.title)}`);
 
   const isLinkActive = (href: string) => {
     if (href === '/') {

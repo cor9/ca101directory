@@ -77,21 +77,6 @@ export type Settings = {
   title?: string;
 };
 
-export type StripeCustomer = {
-  _id: string;
-  _type: "stripeCustomer";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  user?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "user";
-  };
-  stripeCustomerId?: string;
-};
-
 export type PasswordResetToken = {
   _id: string;
   _type: "passwordResetToken";
@@ -232,6 +217,7 @@ export type BlogPost = {
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
 };
 
@@ -325,7 +311,7 @@ export type Item = {
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "submitted" | "reviewing" | "approved" | "rejected";
-  proPlanStatus?: "waiting" | "success" | "fail";
+  proPlanStatus?: "paying" | "success" | "fail";
 };
 
 export type Order = {
@@ -480,7 +466,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Settings | StripeCustomer | PasswordResetToken | VerificationToken | Session | BlockContent | BlogCategory | BlogPost | Page | Category | Tag | Item | Order | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | Code | Markdown | MediaTag | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Settings | PasswordResetToken | VerificationToken | Session | BlockContent | BlogCategory | BlogPost | Page | Category | Tag | Item | Order | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | Code | Markdown | MediaTag | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/sanity/lib/queries.ts
 // Variable: itemQuery
@@ -563,7 +549,7 @@ export type ItemQueryResult = {
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
-  proPlanStatus?: "fail" | "success" | "waiting";
+  proPlanStatus?: "fail" | "paying" | "success";
 } | null;
 // Variable: itemByIdQuery
 // Query: *[_type == "item" && _id == $id][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
@@ -645,7 +631,7 @@ export type ItemByIdQueryResult = {
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
-  proPlanStatus?: "fail" | "success" | "waiting";
+  proPlanStatus?: "fail" | "paying" | "success";
 } | null;
 // Variable: itemListQuery
 // Query: *[_type == "item" && defined(slug.current) && defined(publishDate)]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
@@ -727,7 +713,7 @@ export type ItemListQueryResult = Array<{
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
-  proPlanStatus?: "fail" | "success" | "waiting";
+  proPlanStatus?: "fail" | "paying" | "success";
 }>;
 // Variable: itemListOfCategoryQuery
 // Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in categories[]->slug.current]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
@@ -809,7 +795,7 @@ export type ItemListOfCategoryQueryResult = Array<{
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
-  proPlanStatus?: "fail" | "success" | "waiting";
+  proPlanStatus?: "fail" | "paying" | "success";
 }>;
 // Variable: itemListOfTagQuery
 // Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in tags[]->slug.current]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
@@ -891,7 +877,7 @@ export type ItemListOfTagQueryResult = Array<{
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
-  proPlanStatus?: "fail" | "success" | "waiting";
+  proPlanStatus?: "fail" | "paying" | "success";
 }>;
 // Variable: categoryListQuery
 // Query: *[_type == "category" && defined(slug.current)]   | order(priority desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
@@ -1023,7 +1009,7 @@ export type SubmissionListQueryResult = Array<{
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
-  proPlanStatus?: "fail" | "success" | "waiting";
+  proPlanStatus?: "fail" | "paying" | "success";
 }>;
 // Variable: pageQuery
 // Query: *[_type == "page" && slug.current == $slug][0] {    ...,    body[]{      ...,      markDefs[]{        ...,        _type == "internalLink" => {          "slug": @.reference->slug        }      }    },  }
@@ -1157,6 +1143,7 @@ export type BlogListQueryResult = Array<{
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
 }>;
 // Variable: blogCategoryListQuery
@@ -1276,6 +1263,7 @@ export type LimitqueryResult = Array<{
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
 }>;
 // Variable: paginatedquery
@@ -1338,6 +1326,7 @@ export type PaginatedqueryResult = Array<{
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
 }>;
 // Variable: singlequery
@@ -1458,6 +1447,7 @@ export type SinglequeryResult = {
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
   estReadingTime: number;
   related: Array<{
@@ -1544,6 +1534,7 @@ export type PostsbyauthorqueryResult = Array<{
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
 }>;
 // Variable: postsbycatquery
@@ -1606,6 +1597,7 @@ export type PostsbycatqueryResult = Array<{
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
 }>;
 // Variable: catquery
@@ -1698,6 +1690,7 @@ export type GetAllResult = Array<{
     alt?: string;
     _type: "image";
   };
+  published?: boolean;
   publishDate?: string;
 } | {
   _id: string;
@@ -1763,7 +1756,7 @@ export type GetAllResult = Array<{
   };
   pricePlan?: "free" | "pro";
   freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
-  proPlanStatus?: "fail" | "success" | "waiting";
+  proPlanStatus?: "fail" | "paying" | "success";
 } | {
   _id: string;
   _type: "media.tag";
@@ -1873,19 +1866,6 @@ export type GetAllResult = Array<{
   _updatedAt: string;
   _rev: string;
   title?: string;
-} | {
-  _id: string;
-  _type: "stripeCustomer";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  user?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "user";
-  };
-  stripeCustomerId?: string;
 } | {
   _id: string;
   _type: "tag";

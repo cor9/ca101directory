@@ -31,7 +31,7 @@ import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { ItemFullInfo } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
-import { HourglassIcon } from "lucide-react";
+import { BellRingIcon, HourglassIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -265,8 +265,8 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
             {
               item.pricePlan === 'free' && (
                 <div className="text-sm text-muted-foreground flex items-center justify-center sm:justify-start gap-2">
-                  <InfoCircledIcon className="h-4 w-4" />
-                  <span>Your submission will be reviewed again and become unpublished before being approved.</span>
+                  <BellRingIcon className="h-4 w-4" />
+                  <span>Your submission will be unpublished & reviewed again.</span>
                 </div>
               )
             }

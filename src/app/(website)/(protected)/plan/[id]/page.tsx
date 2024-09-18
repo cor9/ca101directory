@@ -37,7 +37,7 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
 
         <SubmitStepper initialStep={2} />
 
-        <div className="mt-8">
+        <div className="mt-4">
           <PricingPlans item={item} />
         </div>
       </div>

@@ -9,13 +9,14 @@ export const PRICE_PLANS: PricePlan[] = [
     description: "For Beginners",
     benefits: [
       "Get one dofollow link", //  to boost your SEO
-      "Review within 48 hours",
       "Permanent link with backlink maintenance",
+      "Review within 48 hours",
     ],
     limitations: [
       "Only one dofollow link",
       "Backlink to our site required",
       "No customer support",
+      "No email support",
     ],
     price: 0,
     stripePriceId: null,

@@ -35,6 +35,7 @@ export function ProPlanButton({ item, pricePlan }: ProPlanButtonProps) {
 
   return (
     <Button
+      size="lg"
       variant={"default"}
       className="w-full rounded-full"
       disabled={isPending}

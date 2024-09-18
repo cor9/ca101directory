@@ -34,6 +34,7 @@ export function FreePlanButton({ item }: FreePlanButtonProps) {
 
   return (
     <Button
+      size="lg"
       variant="outline"
       className="w-full rounded-full"
       disabled={isPending}

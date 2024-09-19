@@ -33,12 +33,12 @@ export default async function PublishPage({ params }: { params: { id: string } }
 
       <SubmitStepper initialStep={3} />
 
-      <div className="flex flex-col mt-8 px-6 gap-8">
+      <div className="flex flex-col gap-8 mt-8 px-6 w-full mx-auto">
         {/* Content section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
           {/* Left column */}
-          <div className="lg:col-span-1 flex flex-col">
+          <div className="md:col-span-1 flex flex-col">
             {/* image */}
             <div className="relative group overflow-hidden rounded-lg">
               <Image
@@ -54,7 +54,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
           </div>
 
           {/* Right column */}
-          <div className="lg:col-span-1 flex items-center">
+          <div className="md:col-span-1 flex items-center">
             <div className="flex flex-col w-full space-y-8">
               {/* name and description */}
               <h1 className="text-4xl font-bold text-center">

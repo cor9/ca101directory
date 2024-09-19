@@ -3,7 +3,7 @@
 import { submitToReview } from "@/actions/submit-to-review";
 import { Button } from "@/components/ui/button";
 import { ItemFullInfo } from "@/types";
-import { HourglassIcon } from "lucide-react";
+import { Clock3Icon, HourglassIcon } from "lucide-react";
 import { useTransition } from "react";
 import { Icons } from "../shared/icons";
 import { useRouter } from "next/navigation";
@@ -47,7 +47,7 @@ export function FreePlanButton({ item }: FreePlanButtonProps) {
         </>
       ) : (
         <>
-          <HourglassIcon className="mr-2 size-4" />
+          <Clock3Icon className="mr-2 size-4" />
           <span>Submit to waiting queue</span>
         </>
       )}

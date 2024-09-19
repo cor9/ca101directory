@@ -54,11 +54,11 @@ const PricingPlanCard = ({ item, pricePlan, isSelected, onSelect }: PricingPlanC
       )}
     >
       {/* price plan title and price */}
-      <div className="bg-muted/50 p-6 border-b flex flex-row items-center justify-between">
-        <span className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+      <div className="bg-muted/50 p-6 pr-10 border-b flex flex-row items-center justify-between">
+        <span className="text-base font-bold uppercase tracking-wider text-muted-foreground">
           {pricePlan.title}
         </span>
-        <div className="text-2xl font-semibold text-purple-500">
+        <div className="text-4xl font-semibold text-purple-500">
           ${pricePlan.price}
         </div>
       </div>
@@ -66,7 +66,7 @@ const PricingPlanCard = ({ item, pricePlan, isSelected, onSelect }: PricingPlanC
       {/* price plan features and limitations */}
       <div className="flex flex-col flex-grow px-6 py-8">
         <div className="flex-grow">
-          <div className="grid grid-cols-2 gap-4 text-left text-sm leading-normal mb-6">
+          <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal mb-6">
             {pricePlan.benefits.map((feature) => (
               <div key={feature} className="flex items-start gap-x-4">
                 <Icons.check className="size-4 shrink-0 text-purple-500 mt-0.5" />
@@ -74,7 +74,7 @@ const PricingPlanCard = ({ item, pricePlan, isSelected, onSelect }: PricingPlanC
               </div>
             ))}
           </div>
-          <div className="grid grid-cols-2 gap-4 text-left text-sm leading-normal text-muted-foreground">
+          <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal text-muted-foreground">
             {pricePlan.limitations.map((feature) => (
               <div key={feature} className="flex items-start gap-x-4">
                 <Icons.close className="size-4 shrink-0 mt-0.5" />

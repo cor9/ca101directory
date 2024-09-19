@@ -7,6 +7,8 @@ import { ItemFullInfo } from "@/types";
 import { notFound } from "next/navigation";
 
 export default async function PlanPage({ params }: { params: { id: string } }) {
+  // TODO: add user check, if user is not logged in, redirect to login page
+  // if use not the submitter, shows error message
   // const user = await currentUser();
   // if (!user) {
   //   return redirect("/auth/login");
@@ -37,7 +39,7 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
 
         <SubmitStepper initialStep={2} />
 
-        <div className="mt-4">
+        <div className="">
           <PricingPlans item={item} />
         </div>
       </div>

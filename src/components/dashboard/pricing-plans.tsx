@@ -49,7 +49,7 @@ const PricingPlanCard = ({ item, pricePlan, isSelected, onSelect }: PricingPlanC
   return (
     <div
       className={cn(
-        "relative flex flex-col overflow-hidden rounded-xl border shadow-sm h-full",
+        "relative flex flex-col overflow-hidden rounded-xl border shadow-sm",
         pricePlan.title === "Pro" ? "border-2 border-purple-500" : "border",
       )}
     >

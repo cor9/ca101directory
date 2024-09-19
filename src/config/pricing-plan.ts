@@ -16,7 +16,6 @@ export const PRICE_PLANS: PricePlan[] = [
       "Only one dofollow link",
       "Backlink to our site required",
       "No customer support",
-      "No email support",
     ],
     price: 0,
     stripePriceId: null,

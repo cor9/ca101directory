@@ -170,6 +170,23 @@ export default defineType({
       },
       hidden: ({ parent }) => parent.pricePlan !== 'pro',
     }),
+    defineField({
+      name: "rejectionReason",
+      title: "Rejection Reason",
+      description: "The reason for rejecting the item",
+      type: 'string',
+      hidden: ({ parent }) => parent.freePlanStatus !== 'rejected',
+      initialValue: 'Other reasons',
+      options: {
+        list: [
+          'The item is not a good fit for our directory', 
+          'The image of the item is not good quality', 
+          'The information of the item is not clear', 
+          'Other reasons', 
+        ],
+        layout: 'dropdown',
+      },
+    }),
   ],
   // https://www.sanity.io/docs/previews-list-views
   // Configure and customize how documents are displayed 

@@ -1,6 +1,7 @@
 import { BlogToc } from "@/components/blog/blog-toc";
 import { CustomMdx } from "@/components/custom-mdx";
-import { buttonVariants } from "@/components/ui/button";
+import AllPostsButton from "@/components/shared/all-posts-button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { urlForImage } from "@/lib/image";
 import { portableTextToMarkdown } from "@/lib/mdx";
 import { getTableOfContents } from "@/lib/toc";
@@ -75,7 +76,7 @@ export default async function PostPage({ params }: PostPageProps) {
                         {/* blog post description */}
                         <p className="text-xl text-muted-foreground">
                             {post.excerpt}
-                        </p>                        
+                        </p>
                     </div>
 
                     {/* blog post content */}
@@ -139,18 +140,8 @@ export default async function PostPage({ params }: PostPageProps) {
             </div>
 
             {/* back button */}
-            <div className="flex justify-start items-center mt-8">
-                <Link
-                    href="/blog"
-                    className={cn(
-                        buttonVariants({ variant: "default", size: "lg" }),
-                        "inline-flex items-center gap-2 group"
-                    )}
-                >
-                    <ArrowLeftIcon className="w-5 h-5
-                            transition-transform duration-200 group-hover:-translate-x-1" />
-                    All Posts
-                </Link>
+            <div className="flex items-center justify-start mt-8">
+                <AllPostsButton />
             </div>
         </div>
     );

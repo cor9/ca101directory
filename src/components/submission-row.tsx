@@ -16,6 +16,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { PublishButton } from './forms/publish-button';
 import { UnpublishButton } from './forms/unpublish-button';
+import { sub } from 'date-fns';
 
 export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
 
@@ -67,30 +68,41 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                 <>
                     <div className='hidden sm:block'>
                         <div className='flex items-center gap-2'>
-                            <Button asChild variant="default" size="sm">
-                                <Link href={`/item/${submission.slug.current}`} target='_blank'>
-                                    View
-                                </Link>
-                            </Button>
+                            {/* view button if published */}
+                            {
+                                submission.published ?
+                                    <Button asChild variant="default" size="sm">
+                                        <Link href={`/item/${submission.slug.current}`} target='_blank'>
+                                            View
+                                        </Link>
+                                    </Button> : null
+                            }
 
+                            {/* edit button always visible */}
                             <Button asChild variant="outline" size="sm">
                                 <Link href={`/update/${submission._id}`}>
-                                    Update
+                                    Edit
                                 </Link>
                             </Button>
 
-                            <Button asChild variant="outline" size="sm">
-                                <Link href={`/submit/plan/${submission._id}`}>
-                                    Pay
-                                </Link>
-                            </Button>
+                            {/* show upgrade plan button if in free plan */}
+                            {
+                                submission.pricePlan === 'free' ?
+                                    <Button asChild variant="outline" size="sm">
+                                        <Link href={`/submit/plan/${submission._id}`}>
+                                            Upgrade Plan
+                                        </Link>
+                                    </Button> : null
+                            }
 
-                            <Button asChild variant="outline" size="sm">
+                            {/* publish button currently visible for test */}
+                            {/* <Button asChild variant="outline" size="sm">
                                 <Link href={`/submit/publish/${submission._id}`}>
                                     Publish Page
                                 </Link>
-                            </Button>
+                            </Button> */}
 
+                            {/* publish or unpublish button if publishable */}
                             {
                                 publishable ? (
                                     submission.published ?
@@ -112,12 +124,50 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                <DropdownMenuItem>Edit</DropdownMenuItem>
+
+                                {/* view button if published */}
+                                {
+                                    submission.published ?
+                                        <DropdownMenuItem>
+                                            <Button asChild variant="default" size="sm">
+                                                <Link href={`/item/${submission.slug.current}`} target='_blank'>
+                                                    View
+                                                </Link>
+                                            </Button>
+                                        </DropdownMenuItem> : null
+                                }
+
+                                {/* show upgrade plan button if in free plan */}
+                                {
+                                    submission.pricePlan === 'free' ?
+                                        <DropdownMenuItem>
+                                            <Link href={`/submit/plan/${submission._id}`}>
+                                                Upgrade Plan
+                                            </Link>
+                                        </DropdownMenuItem> : null
+                                }
+
+                                {/* show upgrade plan button if in free plan */}
                                 <DropdownMenuItem>
-                                    {/* <form action={deleteProduct}>
-                <button type="submit">Delete</button>
-              </form> */}
+                                    <Button asChild variant="outline" size="sm">
+                                        <Link href={`/update/${submission._id}`}>
+                                            Edit
+                                        </Link>
+                                    </Button>
                                 </DropdownMenuItem>
+
+                                {/* publish or unpublish button if publishable */}
+                                {
+                                    publishable ? (
+                                        submission.published ?
+                                            <DropdownMenuItem>
+                                                <UnpublishButton item={submission} />
+                                            </DropdownMenuItem> :
+                                            <DropdownMenuItem>
+                                                <PublishButton item={submission} />
+                                            </DropdownMenuItem>
+                                    ) : null
+                                }
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>

@@ -48,7 +48,7 @@ export function ProPlanButton({ item, pricePlan }: ProPlanButtonProps) {
         </>
       ) : (
         <>
-          <RocketIcon className="mr-2 size-4" />
+          <RocketIcon className="mr-2 size-4 animate-pulse" />
           <span>Pay to Publish Right Now</span>
         </>
       )}

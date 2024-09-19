@@ -8,11 +8,11 @@ import { useTransition } from "react";
 import { Icons } from "../shared/icons";
 import { RocketIcon } from "lucide-react";
 
-interface PublishButtonProps {
+interface PublishNowButtonProps {
   item: ItemFullInfo;
 }
 
-export function PublishButton({ item }: PublishButtonProps) {
+export function PublishNowButton({ item }: PublishNowButtonProps) {
   const router = useRouter();
   let [isPending, startTransition] = useTransition();
 
@@ -35,8 +35,9 @@ export function PublishButton({ item }: PublishButtonProps) {
 
   return (
     <Button
-      size="sm"
-      variant="outline"
+      size="lg"
+      variant="default"
+      className="w-full rounded-full"
       disabled={isPending}
       onClick={publishAction}
     >
@@ -47,7 +48,9 @@ export function PublishButton({ item }: PublishButtonProps) {
         </>
       ) : (
         <>
-          <span>Publish</span>
+          <RocketIcon className="mr-2 size-4
+            transition-all duration-300 ease-in-out group-hover:scale-125" />
+          <span>Publish Now</span>
         </>
       )}
     </Button>

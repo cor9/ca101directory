@@ -77,7 +77,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                 <Link href={item.link} className="flex items-center justify-center space-x-2">
                   <GlobeIcon className="w-4 h-4
                     transition-all duration-300 ease-in-out 
-                    group-hover:scale-125 group-hover:text-blue-500" />
+                    group-hover:scale-125" />
                   <span>Visit Website</span>
                 </Link>
               </Button>
@@ -86,7 +86,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                 <Link href={item.link} className="flex items-center justify-center space-x-2">
                   <HeartIcon className="w-4 h-4
                     transition-transform duration-300 ease-in-out 
-                    group-hover:scale-125 group-hover:text-red-500" />
+                    group-hover:scale-125" />
                   <span className="">Favorite</span>
                 </Link>
               </Button>

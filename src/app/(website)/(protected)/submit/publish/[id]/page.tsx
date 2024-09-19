@@ -1,14 +1,14 @@
-import { PublishButton } from "@/components/forms/publish-button";
+import { PublishNowButton } from "@/components/forms/publish-now-button";
 import { SubmitStepper } from "@/components/submit/submit-stepper";
 import { Button } from "@/components/ui/button";
+import { urlForImageWithSize } from "@/lib/utils";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
-import { CalendarDaysIcon, GlobeIcon, HeartIcon, RocketIcon } from "lucide-react";
-import { notFound } from "next/navigation";
+import { CalendarDaysIcon, RocketIcon } from "lucide-react";
 import Image from "next/image";
-import { urlForImageWithSize } from "@/lib/utils";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 export default async function PublishPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -66,23 +66,20 @@ export default async function PublishPage({ params }: { params: { id: string } }
 
               {/* action buttons */}
               <div className="flex flex-row gap-4">
-                <Button size="lg" variant="default" asChild className="group flex-1">
-                  <Link href={item.link} className="flex items-center justify-center space-x-2">
-                    <RocketIcon className="w-4 h-4
-                        transition-all duration-300 ease-in-out 
-                        group-hover:scale-125 " />
-                    <span>Publish Now</span>
-                  </Link>
-                </Button>
+                <div className="group flex-1">
+                  <PublishNowButton item={item} />
+                </div>
 
-                <Button size="lg" variant="outline" asChild className="group flex-1">
-                  <Link href={item.link} className="flex items-center justify-center space-x-2">
-                    <CalendarDaysIcon className="w-4 h-4
-                        transition-transform duration-300 ease-in-out 
-                        group-hover:scale-125 " />
-                    <span className="">Publish Later</span>
-                  </Link>
-                </Button>
+                <div className="group flex-1">
+                  <Button size="lg" variant="outline" asChild
+                    className="group flex-1 w-full rounded-full">
+                    <Link href='/dashboard' className="flex items-center justify-center space-x-2">
+                      <CalendarDaysIcon className="w-4 h-4
+                        transition-transform duration-300 ease-in-out group-hover:scale-125" />
+                      <span className="">Publish Later</span>
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

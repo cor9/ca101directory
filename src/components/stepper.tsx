@@ -92,11 +92,15 @@ StepperDescription.displayName = "StepperDescription"
 
 const StepperSeparator = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
+  React.HTMLAttributes<HTMLDivElement> & { completed?: boolean }
+>(({ className, completed, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex-1 h-[2px] bg-border", className)}
+    className={cn(
+      "flex-1 h-[2px]",
+      completed ? "bg-primary/50" : "bg-muted",
+      className
+    )}
     {...props}
   />
 ))

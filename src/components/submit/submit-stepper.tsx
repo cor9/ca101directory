@@ -34,6 +34,7 @@ export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
                         <StepperTrigger
                             // onClick={() => setCurrentStep(index + 1)}
                             active={currentStep === index + 1}
+                            className='cursor-default'
                         >
                             <StepperIndicator
                                 completed={currentStep > index + 1}
@@ -52,7 +53,9 @@ export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
                             </div>
                         </StepperTrigger>
                     </StepperItem>
-                    {index < steps.length - 1 && <StepperSeparator />}
+                    {index < steps.length - 1 && (
+                        <StepperSeparator completed={currentStep > index + 1} />
+                    )}
                 </React.Fragment>
             ))}
         </Stepper>

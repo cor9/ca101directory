@@ -74,19 +74,19 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                             </Button>
 
                             <Button asChild variant="outline" size="sm">
-                                <Link href={`/plan/${submission._id}`}>
-                                    Pay
-                                </Link>
-                            </Button>
-
-                            <Button asChild variant="outline" size="sm">
                                 <Link href={`/update/${submission._id}`}>
                                     Update
                                 </Link>
                             </Button>
 
                             <Button asChild variant="outline" size="sm">
-                                <Link href={`/publish/${submission._id}`}>
+                                <Link href={`/submit/plan/${submission._id}`}>
+                                    Pay
+                                </Link>
+                            </Button>
+
+                            <Button asChild variant="outline" size="sm">
+                                <Link href={`/submit/publish/${submission._id}`}>
                                     Publish Page
                                 </Link>
                             </Button>

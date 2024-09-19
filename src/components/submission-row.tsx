@@ -85,6 +85,12 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                                 </Link>
                             </Button>
 
+                            <Button asChild variant="outline" size="sm">
+                                <Link href={`/publish/${submission._id}`}>
+                                    Publish Page
+                                </Link>
+                            </Button>
+
                             {
                                 publishable ? (
                                     submission.published ?

@@ -6,7 +6,7 @@ import { getSubmissions } from "@/data/submission";
 import { currentUser } from "@/lib/auth";
 import { SUBMISSIONS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/utils";
-import { PlusIcon } from "lucide-react";
+import { PlusIcon, UploadIcon } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = constructMetadata({
@@ -38,9 +38,9 @@ export default async function DashboardPage({
         subtitle="Overview of your submissions.">
         <Button asChild className="group whitespace-nowrap">
           <Link href="/submit" prefetch={false}
-            className="flex items-center justify-center">
-            <PlusIcon className="mr-1 w-4 h-4" />
-            Submit
+            className="flex items-center justify-center space-x-2">
+            <UploadIcon className="w-4 h-4" />
+            <span>Submit</span>
           </Link>
         </Button>
       </DashboardHeader>
@@ -57,9 +57,9 @@ export default async function DashboardPage({
             </EmptyPlaceholder.Description>
             <Button asChild className="group whitespace-nowrap">
               <Link href="/submit" prefetch={false}
-                className="flex items-center justify-center">
-                <PlusIcon className="mr-1 w-4 h-4" />
-                Submit
+                className="flex items-center justify-center space-x-2">
+                <UploadIcon className="w-4 h-4" />
+                <span>Submit</span>
               </Link>
             </Button>
           </EmptyPlaceholder>

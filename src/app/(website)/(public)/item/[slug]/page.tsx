@@ -59,9 +59,8 @@ export default async function ItemPage({ params }: ItemPageProps) {
                     <Button size="sm" variant="outline" asChild>
                       <Link href={`/tag/${tag.slug.current}`}
                         // hover:underline underline-offset-4
-                        className="text-sm 
-                          flex items-center justify-center group">
-                        <HashIcon className="w-3 h-3 mr-1
+                        className="text-sm flex items-center justify-center space-x-1 group">
+                        <HashIcon className="w-3 h-3
                           transition-all duration-300 ease-in-out 
                           group-hover:scale-125" />
                         <span className="">{tag.name}</span>
@@ -75,8 +74,8 @@ export default async function ItemPage({ params }: ItemPageProps) {
             {/* action buttons */}
             <div className="flex flex-row gap-4">
               <Button size="lg" variant="default" asChild className="group flex-1">
-                <Link href={item.link} className="flex items-center justify-center">
-                  <GlobeIcon className="w-4 h-4 mr-2
+                <Link href={item.link} className="flex items-center justify-center space-x-2">
+                  <GlobeIcon className="w-4 h-4
                     transition-all duration-300 ease-in-out 
                     group-hover:scale-125 group-hover:text-blue-500" />
                   <span>Visit Website</span>
@@ -84,8 +83,8 @@ export default async function ItemPage({ params }: ItemPageProps) {
               </Button>
 
               <Button size="lg" variant="outline" asChild className="group flex-1">
-                <Link href={item.link} className="flex items-center justify-center">
-                  <HeartIcon className="w-4 h-4 mr-2
+                <Link href={item.link} className="flex items-center justify-center space-x-2">
+                  <HeartIcon className="w-4 h-4
                     transition-transform duration-300 ease-in-out 
                     group-hover:scale-125 group-hover:text-red-500" />
                   <span className="">Favorite</span>
@@ -123,7 +122,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                 <div className="absolute inset-0 flex items-center justify-center bg-black 
                 bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
                   <span className="text-white text-lg font-semibold 
-                  opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     Visit Website
                   </span>
                 </div>
@@ -179,8 +178,8 @@ export default async function ItemPage({ params }: ItemPageProps) {
                     <li key={tag._id}>
                       <Link href={`/tag/${tag.slug.current}`}
                         className="text-sm hover:underline underline-offset-4
-                          flex items-center justify-center group">
-                        <HashIcon className="w-3 h-3 mr-1
+                          flex items-center justify-center space-x-1 group">
+                        <HashIcon className="w-3 h-3
                           transition-all duration-300 ease-in-out 
                           group-hover:scale-125" />
                         <span className="">{tag.name}</span>

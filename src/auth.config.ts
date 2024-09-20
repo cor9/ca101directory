@@ -10,6 +10,12 @@ import { sanityClient } from "@/sanity/lib/client";
 // https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.config.ts
 // authConfig is used in middleware.ts and support edge runtime
 export default {
+  // https://authjs.dev/getting-started/migrating-to-v5#environment-variables
+  // The AUTH_TRUST_HOST environment variable serves the same purpose as setting trustHost: true in your Auth.js configuration. 
+  // This is necessary when running Auth.js behind a proxy. 
+  // When set to true we will trust the X-Forwarded-Host and X-Forwarded-Proto headers 
+  // passed to the app by the proxy to auto-detect the host URL (AUTH_URL)
+  trustHost: true,
   providers: [
     // https://authjs.dev/getting-started/authentication/oauth
     GitHub,

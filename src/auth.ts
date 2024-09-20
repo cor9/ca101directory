@@ -18,12 +18,6 @@ export const {
   unstable_update
 } = NextAuth({
   ...authConfig,
-  // https://authjs.dev/getting-started/migrating-to-v5#environment-variables
-  // The AUTH_TRUST_HOST environment variable serves the same purpose as setting trustHost: true in your Auth.js configuration. 
-  // This is necessary when running Auth.js behind a proxy. 
-  // When set to true we will trust the X-Forwarded-Host and X-Forwarded-Proto headers 
-  // passed to the app by the proxy to auto-detect the host URL (AUTH_URL)
-  trustHost: true,
   pages: {
     signIn: "/auth/login",
     error: "/auth/error",

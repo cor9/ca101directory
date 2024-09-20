@@ -9,10 +9,11 @@ export default function Container({
   children: ReactNode;
 }) {
   return (
+    // max-w-6xl
     <div
       className={cn(
         "container",
-        "max-w-6xl",
+        "max-w-7xl",
         className,
       )}
     >

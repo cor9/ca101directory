@@ -29,20 +29,19 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
         {/* <DashboardPlanBreadCrumb item={item} /> */}
-
-        {/* <DashboardHeader
-          title="Plan"
-          subtitle="Select a price plan."
-        /> */}
 
         <SubmitStepper initialStep={2} />
 
-        <div className="px-2 md:px-4 lg:px-8">
-          <PricingPlans item={item} />
+        <div className="flex-grow flex items-center">
+          <div className="w-full max-w-6xl mx-auto">
+            <PricingPlans item={item} />
+          </div>
         </div>
+
       </div>
+
     </>
   );
 }

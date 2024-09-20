@@ -25,67 +25,64 @@ export default async function PublishPage({ params }: { params: { id: string } }
   // console.log('PublishPage, item:', item);
 
   return (
-    <>
-      {/* <DashboardHeader
-        title="Publish"
-        subtitle="Select a price plan."
-      /> */}
-
+    <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
       <SubmitStepper initialStep={3} />
 
-      <div className="flex flex-col gap-8 mt-8 px-6 w-full mx-auto">
-        {/* Content section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="flex-grow flex items-center">
+        <div className="w-full max-w-6xl mx-auto">
+          {/* Content section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-          {/* Left column */}
-          <div className="md:col-span-1 flex flex-col">
-            {/* image */}
-            <div className="relative group overflow-hidden rounded-lg">
-              <Image
-                width={360}
-                height={240}
-                alt={`${item.name}`}
-                title={`${item.name}`}
-                className="rounded-lg border w-full shadow-lg
-                      transition-transform duration-300 group-hover:scale-105"
-                src={urlForImageWithSize(item.image, 960, 540)}
-              />
+            {/* Left column */}
+            <div className="md:col-span-1 flex flex-col">
+              {/* image */}
+              <div className="relative group overflow-hidden rounded-lg">
+                <Image
+                  width={360}
+                  height={240}
+                  alt={`${item.name}`}
+                  title={`${item.name}`}
+                  className="rounded-lg border w-full shadow-lg
+                        transition-transform duration-300 group-hover:scale-105"
+                  src={urlForImageWithSize(item.image, 960, 540)}
+                />
+              </div>
             </div>
-          </div>
 
-          {/* Right column */}
-          <div className="md:col-span-1 flex items-center">
-            <div className="flex flex-col w-full space-y-8">
-              {/* name and description */}
-              <h1 className="text-4xl font-bold text-center">
-                {item.name}
-              </h1>
-              <p className="text-muted-foreground">
-                {item.description}
-              </p>
+            {/* Right column */}
+            <div className="md:col-span-1 flex items-center">
+              <div className="flex flex-col w-full space-y-8">
+                {/* name and description */}
+                <h1 className="text-4xl font-bold text-center">
+                  {item.name}
+                </h1>
+                <p className="text-muted-foreground">
+                  {item.description}
+                </p>
 
-              {/* action buttons */}
-              <div className="flex flex-row gap-4">
-                <div className="group flex-1">
-                  <PublishNowButton item={item} />
-                </div>
+                {/* action buttons */}
+                <div className="flex flex-row gap-4">
+                  <div className="group flex-1">
+                    <PublishNowButton item={item} />
+                  </div>
 
-                <div className="group flex-1">
-                  <Button size="lg" variant="outline" asChild
-                    className="group flex-1 w-full rounded-full">
-                    <Link href='/dashboard' className="flex items-center justify-center space-x-2">
-                      <CalendarDaysIcon className="w-4 h-4
-                        transition-transform duration-300 ease-in-out group-hover:scale-125" />
-                      <span className="">Publish Later</span>
-                    </Link>
-                  </Button>
+                  <div className="group flex-1">
+                    <Button size="lg" variant="outline" asChild
+                      className="group flex-1 w-full rounded-full">
+                      <Link href='/dashboard' className="flex items-center justify-center space-x-2">
+                        <CalendarDaysIcon className="w-4 h-4
+                          transition-transform duration-300 ease-in-out group-hover:scale-125" />
+                        <span className="">Publish Later</span>
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

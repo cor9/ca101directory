@@ -1,5 +1,4 @@
 import BlogGrid from "@/components/blog/blog-grid";
-import Container from "@/components/shared/container";
 import { getBlogs } from "@/data/blog";
 import { POSTS_PER_PAGE } from "@/lib/constants";
 

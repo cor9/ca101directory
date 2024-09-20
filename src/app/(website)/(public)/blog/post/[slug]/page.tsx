@@ -126,7 +126,7 @@ export default async function PostPage({ params }: PostPageProps) {
                         </div>
 
                         {/* table of contents */}
-                        <div className="bg-muted/50 rounded-lg p-6">
+                        <div className="bg-muted/50 rounded-lg p-6 hidden lg:block">
                             <h2 className="text-xl font-semibold mb-4">Table of Contents</h2>
                             <div className="max-h-[calc(100vh-18rem)] overflow-y-auto">
                                 <BlogToc toc={toc} />

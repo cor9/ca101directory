@@ -12,16 +12,8 @@ import { sanityClient } from "@/sanity/lib/client";
 export default {
   providers: [
     // https://authjs.dev/getting-started/authentication/oauth
-    GitHub({
-      clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      allowDangerousEmailAccountLinking: true
-    }),
-    Google({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      allowDangerousEmailAccountLinking: true
-    }),
+    GitHub,
+    Google,
     // https://authjs.dev/getting-started/authentication/credentials
     // https://youtu.be/1MTyCvS05V4?t=11279
     // Credentials won't affect the edge compatibility because it won't run on the edge

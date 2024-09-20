@@ -27,8 +27,7 @@ export const projectId = assertValue(
 /**
  * see https://www.sanity.io/docs/api-versioning for how versioning works
  */
-export const apiVersion =
-  process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-08-01";
+export const apiVersion = "2024-08-01";
 
 /**
  * Used to configure edit intent links, for Presentation Mode, as well as to configure where the Studio is mounted in the router.

@@ -1,3 +1,5 @@
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import { DashboardSubmitHeader } from "@/components/dashboard/dashboard-submit-header";
 import { PublishNowButton } from "@/components/forms/publish-now-button";
 import { SubmitStepper } from "@/components/submit/submit-stepper";
 import { Button } from "@/components/ui/button";
@@ -26,10 +28,18 @@ export default async function PublishPage({ params }: { params: { id: string } }
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
-      <SubmitStepper initialStep={3} />
+      {/* <SubmitStepper initialStep={3} /> */}
 
-      <div className="flex-grow flex items-center">
-        <div className="w-full max-w-6xl mx-auto">
+      <DashboardSubmitHeader
+        title="Submit"
+        subtitle="Submit your product to get listed."
+      >
+        <SubmitStepper initialStep={3} />
+      </DashboardSubmitHeader>
+
+      <div className="mt-8 flex-grow flex items-center">
+        {/* max-w-6xl mx-auto */}
+        <div className="w-full">
           {/* Content section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
@@ -53,7 +63,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
             <div className="md:col-span-1 flex items-center">
               <div className="flex flex-col w-full space-y-8">
                 {/* name and description */}
-                <h1 className="text-4xl font-bold text-center">
+                <h1 className="text-4xl font-bold text-start">
                   {item.name}
                 </h1>
                 <p className="text-muted-foreground">

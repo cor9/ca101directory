@@ -1,4 +1,6 @@
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import DashboardPlanBreadCrumb from "@/components/dashboard/dashboard-plan-bread-crumb";
+import { DashboardSubmitHeader } from "@/components/dashboard/dashboard-submit-header";
 import { PricingPlans } from "@/components/dashboard/pricing-plans";
 import { SubmitStepper } from "@/components/submit/submit-stepper";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -32,10 +34,18 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
       <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
         {/* <DashboardPlanBreadCrumb item={item} /> */}
 
-        <SubmitStepper initialStep={2} />
+        {/* <SubmitStepper initialStep={2} /> */}
 
-        <div className="flex-grow flex items-center">
-          <div className="w-full max-w-6xl mx-auto">
+        <DashboardSubmitHeader
+          title="Submit"
+          subtitle="Submit your product to get listed."
+        >
+          <SubmitStepper initialStep={2} />
+        </DashboardSubmitHeader>
+
+        <div className="mt-8 flex-grow flex items-center">
+          {/* max-w-6xl mx-auto */}
+          <div className="w-full">
             <PricingPlans item={item} />
           </div>
         </div>

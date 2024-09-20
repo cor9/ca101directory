@@ -10,8 +10,8 @@ export default function BackButtonSmall() {
 
     return (
         <Button
-            variant="outline"
             size="sm"
+            variant="outline"
             className="size-8 px-0"
             asChild
         >

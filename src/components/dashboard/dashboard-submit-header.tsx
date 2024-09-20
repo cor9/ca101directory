@@ -1,20 +1,20 @@
 import BackButtonSmall from "../shared/back-button-small";
 
-interface DashboardHeaderProps {
+interface DashboardSubmitHeaderProps {
   title: string;
   subtitle?: string;
   children?: React.ReactNode;
   showBackButton?: boolean;
 }
 
-export function DashboardHeader({
+export function DashboardSubmitHeader({
   title,
   subtitle,
   children,
   showBackButton = false,
-}: DashboardHeaderProps) {
+}: DashboardSubmitHeaderProps) {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-4 md:items-center md:flex-row md:justify-between">
       <div className="flex flex-col space-y-4">
 
         {/* title */}

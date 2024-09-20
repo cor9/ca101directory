@@ -20,8 +20,8 @@ export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
 
     // TODO(javayhu): change number indicators to icons
     const steps = [
-        { title: "Submit", description: "Enter product information" },
-        { title: "Plan", description: "Select pricing plan" },
+        { title: "Details", description: "Enter product information" },
+        { title: "Pricing", description: "Select pricing plan" },
         { title: "Publish", description: "Publish your product" },
     ];
 
@@ -47,7 +47,7 @@ export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
                                     {step.title}
                                 </StepperTitle>
                                 {/* hidden on mobile, to make separator visible */}
-                                <StepperDescription className='hidden sm:block'>
+                                <StepperDescription className='hidden md:block'>
                                     {step.description}
                                 </StepperDescription>
                             </div>

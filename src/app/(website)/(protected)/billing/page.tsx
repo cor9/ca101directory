@@ -7,10 +7,10 @@ import { Icons } from "@/components/shared/icons";
 import { currentUser } from "@/lib/auth";
 import { getUserSubscriptionPlan } from "@/lib/subscription";
 
-export const metadata = constructMetadata({
-  title: "Billing",
-  description: "Manage billing and your subscription plan.",
-});
+// export const metadata = constructMetadata({
+//   title: "Billing",
+//   description: "Manage billing and your subscription plan.",
+// });
 
 export default async function BillingPage() {
   const user = await currentUser();
@@ -26,9 +26,8 @@ export default async function BillingPage() {
     <>
       <DashboardHeader
         title="Billing"
-        subtitle="Manage billing and your subscription plan."
+        subtitle="Manage your billings."
       />
-      
       <div className="mt-6 grid gap-8">
         <Alert className="!pl-14">
           <Icons.warning />

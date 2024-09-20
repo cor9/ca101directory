@@ -37,7 +37,18 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
             </TableCell>
             <TableCell className='px-6 sm:px-0 max-w-[300px] font-medium'>
                 <span className='line-clamp-1'>
-                    {submission.name}
+                    {/* {submission.name} */}
+                    {
+                        submission.published ? (
+                            <Link target='_blank'
+                                href={`/item/${submission.slug.current}`}
+                                className='underline underline-offset-4'>
+                                {submission.name}
+                            </Link>
+                        ) : (
+                            <span>{submission.name}</span>
+                        )
+                    }
                 </span>
             </TableCell>
             <TableCell>
@@ -55,10 +66,15 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                 </Badge>
             </TableCell>
             <TableCell className="hidden md:table-cell">
+                {/* Not published */}
                 {
                     submission.published && submission.publishDate ?
                         getLocaleDate(submission.publishDate) :
-                        'Not published'
+                        (
+                            <span className='text-muted-foreground'>
+                                Not published
+                            </span>
+                        )
                 }
             </TableCell>
             <TableCell className="hidden md:table-cell">
@@ -69,14 +85,14 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                     <div className='hidden sm:block'>
                         <div className='flex items-center gap-2'>
                             {/* view button if published */}
-                            {
+                            {/* {
                                 submission.published ?
                                     <Button asChild variant="default" size="sm">
                                         <Link href={`/item/${submission.slug.current}`} target='_blank'>
                                             View
                                         </Link>
                                     </Button> : null
-                            }
+                            } */}
 
                             {/* edit button always visible */}
                             <Button asChild variant="outline" size="sm">
@@ -90,17 +106,10 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                                 submission.pricePlan === 'free' ?
                                     <Button asChild variant="outline" size="sm">
                                         <Link href={`/submit/plan/${submission._id}`}>
-                                            Upgrade Plan
+                                            Upgrade
                                         </Link>
                                     </Button> : null
                             }
-
-                            {/* publish button currently visible for test */}
-                            {/* <Button asChild variant="outline" size="sm">
-                                <Link href={`/submit/publish/${submission._id}`}>
-                                    Publish Page
-                                </Link>
-                            </Button> */}
 
                             {/* publish or unpublish button if publishable */}
                             {
@@ -110,6 +119,14 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                                         <PublishButton item={submission} />
                                 ) : null
                             }
+
+                            {/* publish button currently visible for test */}
+                            {/* <Button asChild variant="outline" size="sm">
+                                <Link href={`/submit/publish/${submission._id}`}>
+                                    Publish Page
+                                </Link>
+                            </Button> */}
+
                         </div>
                     </div>
                     <div className='sm:hidden'>
@@ -126,7 +143,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
                                 {/* view button if published */}
-                                {
+                                {/* {
                                     submission.published ?
                                         <DropdownMenuItem>
                                             <Button asChild variant="default" size="sm">
@@ -135,7 +152,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                                                 </Link>
                                             </Button>
                                         </DropdownMenuItem> : null
-                                }
+                                } */}
 
                                 {/* show upgrade plan button if in free plan */}
                                 {
@@ -149,23 +166,24 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
 
                                 {/* show upgrade plan button if in free plan */}
                                 <DropdownMenuItem>
-                                    <Button asChild variant="outline" size="sm">
-                                        <Link href={`/update/${submission._id}`}>
-                                            Edit
-                                        </Link>
-                                    </Button>
+                                    <Link href={`/update/${submission._id}`}>
+                                        Edit
+                                    </Link>
                                 </DropdownMenuItem>
 
                                 {/* publish or unpublish button if publishable */}
                                 {
                                     publishable ? (
-                                        submission.published ?
-                                            <DropdownMenuItem>
-                                                <UnpublishButton item={submission} />
-                                            </DropdownMenuItem> :
-                                            <DropdownMenuItem>
-                                                <PublishButton item={submission} />
-                                            </DropdownMenuItem>
+                                        <div className="">
+                                            {submission.published ?
+                                                <DropdownMenuItem>
+                                                    <UnpublishButton item={submission} />
+                                                </DropdownMenuItem> :
+                                                <DropdownMenuItem>
+                                                    <PublishButton item={submission} />
+                                                </DropdownMenuItem>
+                                            }
+                                        </div>
                                     ) : null
                                 }
                             </DropdownMenuContent>

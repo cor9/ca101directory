@@ -37,13 +37,14 @@ export function PublishButton({ item }: PublishButtonProps) {
     <Button
       size="sm"
       variant="outline"
+      className="w-[120px]"
       disabled={isPending}
       onClick={publishAction}
     >
       {isPending ? (
         <>
           <Icons.spinner className="mr-2 size-4 animate-spin" />
-          <span>Publishing...</span>
+          <span>Publish</span>
         </>
       ) : (
         <>

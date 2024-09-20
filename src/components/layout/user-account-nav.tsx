@@ -1,5 +1,6 @@
 "use client";
 
+import { Icons } from "@/components/shared/icons";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import {
   DropdownMenu,
@@ -8,18 +9,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { LayoutDashboard, LogOut, LogOutIcon, Settings, UploadIcon } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
+import { LayoutDashboard, LayoutDashboardIcon, LogOut, LogOutIcon, UploadIcon } from "lucide-react";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Drawer } from "vaul";
-import { Icons } from "@/components/shared/icons";
-import { LogoutButton } from "../auth/logout-button";
-import { currentUser } from "@/lib/auth";
-import { useCurrentUser } from "@/hooks/use-current-user";
 
 export function UserAccountNav() {
+  const router = useRouter();
   // 只有使用这种方式，用户退出时navbar的表现是正常的！
   // const { data: session } = useSession();
   // const user = session?.user;
@@ -119,6 +119,7 @@ export function UserAccountNav() {
                   event.preventDefault();
                   signOut({
                     callbackUrl: `${window.location.origin}/`,
+                    redirect: true,
                   });
                 }}
               >
@@ -170,21 +171,28 @@ export function UserAccountNav() {
           </DropdownMenuItem>
         ) : null} */}
 
-        <DropdownMenuItem asChild>
-          <Link href="/dashboard" className="flex items-center space-x-2.5">
-            <LayoutDashboard className="size-4" />
+        <DropdownMenuItem asChild
+          className="cursor-pointer"
+          onClick={() => {
+            router.push("/dashboard");
+          }}
+        >
+          <div className="flex items-center space-x-2.5">
+            <LayoutDashboardIcon className="size-4" />
             <p className="text-sm">Dashboard</p>
-          </Link>
+          </div>
         </DropdownMenuItem>
 
-        <DropdownMenuItem asChild>
-          <Link
-            href="/submit"
-            className="flex items-center space-x-2.5"
-          >
+        <DropdownMenuItem asChild
+          className="cursor-pointer"
+          onClick={() => {
+            router.push("/submit");
+          }}
+        >
+          <div className="flex items-center space-x-2.5">
             <UploadIcon className="size-4" />
             <p className="text-sm">Submit</p>
-          </Link>
+          </div>
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
@@ -222,7 +230,7 @@ export function UserAccountNav() {
           }}
         >
           <div className="flex items-center space-x-2.5">
-            <LogOut className="size-4" />
+            <LogOutIcon className="size-4" />
             <p className="text-sm">Log out</p>
           </div>
         </DropdownMenuItem>

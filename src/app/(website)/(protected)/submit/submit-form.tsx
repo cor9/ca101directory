@@ -198,10 +198,10 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                 render={({ field }) => (
                   <FormItem className="flex-1">
                     <FormLabel>
-                      <div className="flex items-center justify-start gap-4">
+                      <div className="flex items-center justify-between gap-4">
                         <span>Introduction</span>
-                        <span className="text-sm text-muted-foreground">
-                          (Markdown supported)
+                        <span className="text-xs text-muted-foreground">
+                          (Markdown supported, image link supported)
                         </span>
                       </div>
                     </FormLabel>
@@ -218,10 +218,10 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                 render={({ field }) => (
                   <FormItem className="flex-1">
                     <FormLabel>
-                      <div className="flex items-center justify-start gap-4">
+                      <div className="flex items-center justify-between gap-4">
                         <span>Image</span>
-                        <span className="text-sm text-muted-foreground">
-                          (PNG or JPEG, maximum size 1MB)
+                        <span className="text-xs text-muted-foreground">
+                          (PNG or JPEG, maximum file size 1MB)
                         </span>
                       </div>
                     </FormLabel>

@@ -39,6 +39,8 @@ export function FreePlanButton({ item }: FreePlanButtonProps) {
       router.push(`/submit/publish/${item._id}`);
     } else if (item.freePlanStatus === 'rejected') {
       router.push(`/update/${item._id}`);
+    } else if (item.freePlanStatus === 'reviewing') {
+      router.push(`/dashboard`);
     }
   };
 
@@ -47,7 +49,7 @@ export function FreePlanButton({ item }: FreePlanButtonProps) {
       size="lg"
       variant="outline"
       className="w-full rounded-full"
-      disabled={isPending || item.freePlanStatus === 'reviewing'}
+      disabled={isPending}
       onClick={handleClick}
     >
       {isPending ? (
@@ -57,12 +59,12 @@ export function FreePlanButton({ item }: FreePlanButtonProps) {
         </>
       ) : item.freePlanStatus === 'reviewing' ? (
         <>
-          <HourglassIcon className="mr-2 size-4 animate-spin" />
-          <span>Waiting for review</span>
+          <HourglassIcon className="mr-2 size-4" />
+          <span>Go back and wait for review</span>
         </>
       ) : item.freePlanStatus === 'approved' ? (
         <>
-          <CheckCircleIcon className="mr-2 size-4 text-green-500" />
+          <CheckCircleIcon className="mr-2 size-4" />
           <span>Go to Publish</span>
         </>
       ) : item.freePlanStatus === 'rejected' ? (

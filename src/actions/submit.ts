@@ -46,14 +46,16 @@ export async function Submit(formData: SubmitFormData) {
       link,
       description,
       introduction,
-      status: "submitted",
+      pricePlan: "free",
+      freePlanStatus: "submitted",
       submitter: {
         _type: "reference",
         _ref: session.user.id,
       },
       
       // TODO: maybe not set publishDate
-      publishDate: new Date().toISOString(),
+      published: false,
+      // publishDate: new Date().toISOString(),
 
       // The _key only needs to be unique within the array itself
       // use nanoid to generate a random string with 12 characters like sanity

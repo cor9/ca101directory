@@ -33,7 +33,7 @@ export default function ItemCard({ item }: ItemCardProps) {
       >
         {/* top */}
         <div className="flex flex-col gap-4">
-          <div className="h-64 sm:h-56 lg:h-48 w-full overflow-hidden relative rounded-t-md border-b flex items-center justify-center">
+          <div className="h-64 w-full overflow-hidden relative rounded-t-md border-b flex items-center justify-center">
             {imageProps ? (
               <Image
                 className={cn(

@@ -1,4 +1,4 @@
-import { SHOW_AUTH_LOGS } from "@/lib/constants";
+import { SHOW_QUERY_LOGS } from "@/lib/constants";
 import { sanityClient } from "@/sanity/lib/client";
 
 export const getUserByEmail = async (email: string) => {
@@ -6,7 +6,7 @@ export const getUserByEmail = async (email: string) => {
         // @sanity-typegen-ignore
         const userQry = `*[_type == "user" && email == "${email}"][0]`;
         const user = await sanityClient.fetch(userQry);
-        if (SHOW_AUTH_LOGS) {
+        if (SHOW_QUERY_LOGS) {
             console.log('getUserByEmail, user:', user);
         }
 
@@ -22,7 +22,7 @@ export const getUserById = async (_id: string) => {
         // @sanity-typegen-ignore
         const userQry = `*[_type == "user" && _id == "${_id}"][0]`;
         const user = await sanityClient.fetch(userQry);
-        if (SHOW_AUTH_LOGS) {
+        if (SHOW_QUERY_LOGS) {
             console.log('getUserById, user:', user);
         }
         // getUserById, user: {

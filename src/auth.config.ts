@@ -4,7 +4,7 @@ import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { LoginSchema } from "@/lib/schemas";
-import { SHOW_AUTH_LOGS } from "@/lib/constants";
+import { SHOW_QUERY_LOGS } from "@/lib/constants";
 import { sanityClient } from "@/sanity/lib/client";
 
 // https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.config.ts
@@ -40,7 +40,7 @@ export default {
           return null;
         }
 
-        if (SHOW_AUTH_LOGS) {
+        if (SHOW_QUERY_LOGS) {
           console.log('authorize, user:', user);
         }
         const passwordsMatch = await bcrypt.compare(credentials?.password as string, user.password);

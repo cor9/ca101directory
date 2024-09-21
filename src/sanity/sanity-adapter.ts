@@ -3,7 +3,7 @@ import { uuid } from '@sanity/uuid';
 import type { Adapter, AdapterSession, AdapterUser } from "@auth/core/adapters";
 import { UserRole } from "@/types/user-role";
 import { User } from "@/types/next-auth";
-import { SHOW_AUTH_LOGS } from '@/lib/constants';
+import { SHOW_QUERY_LOGS } from '@/lib/constants';
 
 // https://authjs.dev/reference/core/adapters
 // https://authjs.dev/guides/creating-a-database-adapter
@@ -38,7 +38,7 @@ export function SanityAdapter(
           image: user.image,
           emailVerified: user.emailVerified
         });
-        if (SHOW_AUTH_LOGS) {
+        if (SHOW_QUERY_LOGS) {
           console.log('createUser, user:', user);
         }
 
@@ -67,7 +67,7 @@ export function SanityAdapter(
       try {
         // @sanity-typegen-ignore
         const accountQry = `*[_type == "account" && provider == "${provider}" && providerAccountId == "${providerAccountId}"][0]`;
-        if (SHOW_AUTH_LOGS) {
+        if (SHOW_QUERY_LOGS) {
           console.log('getUserByAccount, accountQry:' + accountQry);
         }
         const account = await sanityClient.fetch(accountQry);
@@ -79,11 +79,11 @@ export function SanityAdapter(
 
         // @sanity-typegen-ignore
         const userQry = `*[_type == "user" && _id== "${account.userId}"][0]`;
-        if (SHOW_AUTH_LOGS) {
+        if (SHOW_QUERY_LOGS) {
           console.log('getUserByAccount, userQry:' + userQry);
         }
         const user = await sanityClient.fetch(userQry);
-        if (SHOW_AUTH_LOGS) {
+        if (SHOW_QUERY_LOGS) {
           console.log('getUserByAccount, user:', user);
         }
 
@@ -114,7 +114,7 @@ export function SanityAdapter(
             ...existingUser
           })
           .commit();
-        if (SHOW_AUTH_LOGS) {
+        if (SHOW_QUERY_LOGS) {
           console.log('updateUser, user:', patchedUser);
         }
 
@@ -136,7 +136,7 @@ export function SanityAdapter(
     // because of userId is undefined
     async linkAccount(account) {
       try {
-        if (SHOW_AUTH_LOGS) {
+        if (SHOW_QUERY_LOGS) {
           console.log('linkAccount, accountId:', account.userId);
           console.log('linkAccount, account:', account);
         }
@@ -182,7 +182,7 @@ export function SanityAdapter(
         });
 
         const userToUpdate = await sanityClient.getDocument(account.userId);
-        if (SHOW_AUTH_LOGS) {
+        if (SHOW_QUERY_LOGS) {
           console.log('unlinkAccount, user:', userToUpdate);
         }
         
@@ -215,7 +215,7 @@ export function SanityAdapter(
         }
 
         const accountUser = await sanityClient.getDocument<User>(account.userId);
-        if (SHOW_AUTH_LOGS) {
+        if (SHOW_QUERY_LOGS) {
           console.log('unlinkAccount, user:', accountUser);
         }
 
@@ -242,7 +242,7 @@ export function SanityAdapter(
         // @sanity-typegen-ignore
         const userQry = `*[_type == "user" && email== "${email}"][0]`;
         const user = await sanityClient.fetch(userQry);
-        if (SHOW_AUTH_LOGS) {
+        if (SHOW_QUERY_LOGS) {
           console.log('getUserByEmail, user:', user);
         }
 
@@ -275,7 +275,7 @@ export function SanityAdapter(
 
         if (!verToken) return null;
 
-        if (SHOW_AUTH_LOGS) {
+        if (SHOW_QUERY_LOGS) {
           console.log('useVerificationToken, verToken:', verToken);
         }
         await sanityClient.delete(verToken._id);
@@ -322,7 +322,7 @@ export function SanityAdapter(
         // @sanity-typegen-ignore
         const userQry = `*[_type == "user" && _id== "${session.userId}"][0]`;
         const user = await sanityClient.fetch(userQry);
-        if (SHOW_AUTH_LOGS) {
+        if (SHOW_QUERY_LOGS) {
           console.log('getSessionAndUser, user:', user);
         }
 

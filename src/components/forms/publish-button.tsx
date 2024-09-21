@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Icons } from "../shared/icons";
 import { RocketIcon } from "lucide-react";
+import { toast } from "sonner";
 
 interface PublishButtonProps {
   item: ItemFullInfo;
@@ -22,7 +23,7 @@ export function PublishButton({ item }: PublishButtonProps) {
         const result = await publish(item._id);
         console.log('publishAction, result:', result);
         if (result.success) {
-          // router.push(`/dashboard`);
+          toast.success('Published successfully');
           router.refresh();
         } else { // TODO(javayhu): handle error
           throw new Error(result.error);

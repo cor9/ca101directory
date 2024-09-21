@@ -17,7 +17,7 @@ export const publish = async (itemId: string) => {
     published: true,
     publishDate: new Date().toISOString(),
   }).commit();
-  console.log('publish, result:', result);
+  // console.log('publish, result:', result);
   
   if (!result) {
     return { error: "Failed to publish item!" };

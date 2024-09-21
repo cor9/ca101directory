@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Icons } from "../shared/icons";
 import { unpublish } from "@/actions/unpublish";
+import { toast } from "sonner";
 
 interface UnpublishButtonProps {
   item: ItemFullInfo;
@@ -21,7 +22,7 @@ export function UnpublishButton({ item }: UnpublishButtonProps) {
         const result = await unpublish(item._id);
         console.log('UnpublishAction, result:', result);
         if (result.success) {
-          // router.push(`/dashboard`);
+          toast.success('Unpublished successfully');
           router.refresh();
         } else { // TODO(javayhu): handle error
           throw new Error(result.error);

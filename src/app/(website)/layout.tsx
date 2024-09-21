@@ -47,7 +47,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
             {/* https://sonner.emilkowal.ski/toaster */}
             {/* <Toaster richColors position="top-right" offset={64} /> */}
-            <Toaster richColors position="top-center" />
+            <Toaster richColors position="bottom-right" offset={64} />
 
             <TailwindIndicator />
 

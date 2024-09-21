@@ -4,7 +4,12 @@ import { singletonPlugin } from '@/sanity/plugins/singleton';
 import { schemaTypes } from '@/sanity/schemas';
 import settings from '@/sanity/schemas/documents/settings';
 import { structure } from '@/sanity/structure';
-import { dashboardTool, projectInfoWidget, projectUsersWidget, sanityTutorialsWidget } from "@sanity/dashboard";
+import { 
+  dashboardTool, 
+  projectInfoWidget, 
+  projectUsersWidget, 
+  sanityTutorialsWidget 
+} from "@sanity/dashboard";
 import { visionTool } from '@sanity/vision';
 import { defineConfig } from 'sanity';
 import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";

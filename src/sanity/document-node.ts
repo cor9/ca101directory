@@ -13,7 +13,7 @@ const documentNode: DefaultDocumentNodeResolver = (
 	const editorView = S.view.form();
 
 	switch (schemaType) {
-		// support preview ItemPage in Sanity Studio
+		// support preview Item Page in Sanity Studio
 		case 'item':
 			return S.document().views([
 				editorView,
@@ -31,7 +31,7 @@ const documentNode: DefaultDocumentNodeResolver = (
 							const path = slug === 'index' ? '' : slug;
 							const directory = 'item';
 							const url = [base, directory, path].filter(Boolean).join('/');
-							console.log('preview, url:', url);
+							// console.log('preview, url:', url);
 							return url;
 						},
 						reload: {
@@ -40,7 +40,7 @@ const documentNode: DefaultDocumentNodeResolver = (
 					}),
 			])
 
-		// support preview BlogPage in Sanity Studio
+		// support preview Blog Post Page in Sanity Studio
 		case 'blogPost':
 			return S.document().views([
 				editorView,
@@ -58,7 +58,7 @@ const documentNode: DefaultDocumentNodeResolver = (
 							const path = slug === 'index' ? '' : slug;
 							const directory = 'blog';
 							const url = [base, directory, path].filter(Boolean).join('/');
-							console.log('preview, url:', url);
+							// console.log('preview, url:', url);
 							return url;
 						},
 						reload: {

@@ -57,14 +57,14 @@ export default async function ItemPage({ params }: ItemPageProps) {
             </div>
 
             {/* tags */}
-            <div>
+            {/* <div>
               <ul className="flex flex-wrap gap-2">
                 {item.tags?.map((tag: any) => (
                   <li key={tag._id}>
                     <Button size="sm" variant="outline" asChild>
                       <Link href={`/tag/${tag.slug.current}`}
                         // hover:underline underline-offset-4
-                        className="text-sm flex items-center justify-center space-x-1 group">
+                        className="text-sm flex items-center justify-center space-x-1 group hover:underline underline-offset-4">
                         <HashIcon className="w-3 h-3
                           transition-all duration-300 ease-in-out 
                           group-hover:scale-125" />
@@ -74,11 +74,11 @@ export default async function ItemPage({ params }: ItemPageProps) {
                   </li>
                 ))}
               </ul>
-            </div>
+            </div> */}
 
             {/* action buttons */}
-            <div className="flex flex-row gap-4">
-              <Button size="lg" variant="default" asChild className="group flex-1">
+            <div className="flex gap-4">
+              <Button size="lg" variant="default" asChild className="group">
                 <Link href={item.link}
                   target="_blank"
                   prefetch={false}
@@ -90,7 +90,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                 </Link>
               </Button>
 
-              <Button size="lg" variant="outline" asChild className="group flex-1">
+              <Button size="lg" variant="outline" asChild className="group">
                 <Link href={item.link} className="flex items-center justify-center space-x-2">
                   <HeartIcon className="w-4 h-4
                     transition-transform duration-300 ease-in-out 
@@ -155,7 +155,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                       Website
                     </span>
                     <Link href={item.link} target="_blank" prefetch={false}
-                      className="font-medium underline underline-offset-4">
+                      className="font-medium link-underline">
                       {item.link}
                     </Link>
                   </li>
@@ -177,7 +177,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                   {item.categories?.map((category: any) => (
                     <li key={category._id}>
                       <Link href={`/category/${category.slug.current}`}
-                        className="text-sm hover:underline underline-offset-4">
+                        className="text-sm link-underline">
                         {category.name}
                       </Link>
                     </li>
@@ -192,7 +192,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                   {item.tags?.map((tag: any) => (
                     <li key={tag._id}>
                       <Link href={`/tag/${tag.slug.current}`}
-                        className="text-sm hover:underline underline-offset-4
+                        className="text-sm link-underline
                           flex items-center justify-center space-x-1 group">
                         <HashIcon className="w-3 h-3
                           transition-all duration-300 ease-in-out 

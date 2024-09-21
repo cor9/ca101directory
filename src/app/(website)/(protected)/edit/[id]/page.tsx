@@ -3,21 +3,21 @@ import { ProPlanButton } from "@/components/forms/pro-plan-button";
 import { PRICE_PLANS } from "@/config/pricing-plan";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { categoryListQuery, itemByIdQuery, tagListQuery } from "@/sanity/lib/queries";
+import { categoryListQuery, itemFullInfoByIdQuery, tagListQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { EditForm } from "./edit-form";
 
 interface EditPageProps {
-  params: { slug: string };
+  params: { id: string };
 };
 
 export default async function EditPage({ params }: EditPageProps) {
   const [item, categoryList, tagList] = await Promise.all([
     sanityFetch<ItemFullInfo>({
-      query: itemByIdQuery,
-      params: { id: params.slug }
+      query: itemFullInfoByIdQuery,
+      params: { id: params.id }
     }),
     sanityFetch<CategoryListQueryResult>({
       query: categoryListQuery

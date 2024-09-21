@@ -45,6 +45,10 @@ export const itemQuery = defineQuery(`*[_type == "item" && slug.current == $slug
 }`);
 
 export const itemByIdQuery = defineQuery(`*[_type == "item" && _id == $id][0] {
+  ${itemSimpleFields}
+}`);
+
+export const itemFullInfoByIdQuery = defineQuery(`*[_type == "item" && _id == $id][0] {
   ${itemFields}
 }`);
 

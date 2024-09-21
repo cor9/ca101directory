@@ -50,12 +50,19 @@ export function BlogCategoryList({ categoryList }: BlogCategoryListProps) {
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
           onClick={() => setOpen(true)}
-          className="md:hidden flex w-full p-3 items-center border-y text-foreground/90"
+          className="md:hidden flex w-full p-4 items-center border-y text-foreground/90"
         >
-          <LayoutList className="size-[18px]" />
-          <p className="ml-2.5 text-sm font-medium">
-            {category?.name ? `Category (${category?.name})` : 'All'}
-          </p>
+          <div className="flex items-center gap-4 justify-between w-full">
+            <div className="flex items-center gap-2">
+              <LayoutList className="size-4" />
+              <span className="text-sm font-medium">
+                Category
+              </span>
+            </div>
+            <span className="text-sm font-semibold">
+              {category?.name ? `${category?.name}` : 'All'}
+            </span>
+          </div>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
           onClick={closeDrawer}

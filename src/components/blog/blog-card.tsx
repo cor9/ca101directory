@@ -1,13 +1,12 @@
-import BlogCategoryLabel from "@/components/blog/blog-category-label";
 import { urlForImage } from "@/lib/image";
 import { cn, getLocaleDate } from "@/lib/utils";
-import { PostInfo } from "@/types";
+import { BlogPostInfo } from "@/types";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 type BlogCardProps = {
-  post: PostInfo;
+  post: BlogPostInfo;
 };
 
 export default function BlogCard({ post }: BlogCardProps) {
@@ -56,9 +55,9 @@ export default function BlogCard({ post }: BlogCardProps) {
         </Link>
 
         {/* Post category, hidden for now */}
-        <div className="hidden absolute bottom-6 left-6 z-10">
+        {/* <div className="hidden absolute bottom-6 left-6 z-10">
           <BlogCategoryLabel categories={post.categories} />
-        </div>
+        </div> */}
       </div>
 
       {/* Post info container */}

@@ -1,10 +1,9 @@
-import { sanityClient } from '@/sanity/lib/client';
+import Container from '@/components/shared/container';
+import { BlogCategoryListQueryResult } from '@/sanity.types';
+import { sanityFetch } from '@/sanity/lib/fetch';
 import { blogCategoryListQuery } from '@/sanity/lib/queries';
 import { Suspense } from 'react';
-import Container from '@/components/shared/container';
 import { BlogCategoryList } from "./blog-category-list";
-import { sanityFetch } from '@/sanity/lib/fetch';
-import { BlogCategoryListQueryResult } from '@/sanity.types';
 
 /**
  * TODO: maybe change to CustomSwitch
@@ -16,6 +15,7 @@ export async function BlogCategoryFilter() {
 
   return (
     <>
+      {/* TODO: simplify this component */}
       {/* Desktop View, has Container */}
       <Container className="hidden md:block">
         <div className='flex items-center justify-between gap-8'>

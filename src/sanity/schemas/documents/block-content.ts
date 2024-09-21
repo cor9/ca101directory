@@ -14,7 +14,7 @@ export default defineType({
             // use your content.
             styles: [
                 { title: "Normal", value: "normal" },
-                // {title: 'H1', value: 'h1'},
+                { title: 'H1', value: 'h1' },
                 { title: "H2", value: "h2" },
                 { title: "H3", value: "h3" },
                 { title: "H4", value: "h4" },
@@ -75,11 +75,10 @@ export default defineType({
         // You can add additional types here. Note that you can't use
         // primitive types such as 'string' and 'number' in the same array
         // as a block type.
-
         {
             type: "image",
-            options: { 
-                hotspot: true 
+            options: {
+                hotspot: true
             },
             fields: [
                 {

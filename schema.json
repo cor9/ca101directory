@@ -394,6 +394,10 @@
                     },
                     {
                       "type": "string",
+                      "value": "h1"
+                    },
+                    {
+                      "type": "string",
                       "value": "h2"
                     },
                     {
@@ -1334,13 +1338,6 @@
               }
             }
           }
-        },
-        "optional": true
-      },
-      "published": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "boolean"
         },
         "optional": true
       },

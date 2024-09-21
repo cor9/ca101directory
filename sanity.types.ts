@@ -75,7 +75,7 @@ export type BlockContent = Array<{
     _type: "span";
     _key: string;
   }>;
-  style?: "normal" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+  style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
   listItem?: "bullet" | "number";
   markDefs?: Array<{
     reference?: {
@@ -217,7 +217,6 @@ export type BlogPost = {
     alt?: string;
     _type: "image";
   };
-  published?: boolean;
   publishDate?: string;
 };
 
@@ -1015,7 +1014,7 @@ export type PageQueryResult = {
       _type: "span";
       _key: string;
     }>;
-    style?: "blockquote" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
     listItem?: "bullet" | "number";
     markDefs: Array<{
       reference?: {
@@ -1069,30 +1068,37 @@ export type PageQueryResult = {
   }> | null;
   publishDate?: string;
 } | null;
-// Variable: blogListQuery
-// Query: *[_type == "blogPost" && defined(slug.current) && defined(publishDate)]   | order(publishDate desc) {    ...,  author->,  categories[]->}
-export type BlogListQueryResult = Array<{
+// Variable: blogCategoryListQuery
+// Query: *[_type == "blogCategory" && defined(slug.current)]     | order(priority desc) {    name,  slug,  description,  priority,  color,}
+export type BlogCategoryListQueryResult = Array<{
+  name: string | null;
+  slug: Slug | null;
+  description: string | null;
+  priority: number | null;
+  color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc" | null;
+}>;
+// Variable: blogPostQuery
+// Query: *[_type == "blogPost" && slug.current == $slug][0] {        _id,  _createdAt,  title,  slug,  excerpt,  featured,  image,  publishDate,  author->,  categories[]->,  body[]{    ...,    markDefs[]{      ...,      _type == "internalLink" => {        "slug": @.reference->slug      }    }  },  // "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),  // "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {  //   title,  //   slug,  //   "date": coalesce(publishedDate,_createdAt),  //   "image": image  // },}
+export type BlogPostQueryResult = {
   _id: string;
-  _type: "blogPost";
   _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  excerpt?: string;
-  featured?: boolean;
-  categories: Array<{
-    _id: string;
-    _type: "blogCategory";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    slug?: Slug;
-    description?: string;
-    priority?: number;
-    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
-  }> | null;
+  title: string | null;
+  slug: Slug | null;
+  excerpt: string | null;
+  featured: boolean | null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  publishDate: string | null;
   author: {
     _id: string;
     _type: "user";
@@ -1113,8 +1119,64 @@ export type BlogListQueryResult = Array<{
     };
     stripeCustomerId?: string;
   } | null;
-  body?: BlockContent;
-  image?: {
+  categories: Array<{
+    _id: string;
+    _type: "blogCategory";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+    priority?: number;
+    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
+  }> | null;
+  body: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs: Array<{
+      reference?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "blogPost";
+      } | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "item";
+      } | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "page";
+      };
+      _type: "internalLink";
+      _key: string;
+      slug: Slug | null;
+    } | {
+      href?: string;
+      _type: "link";
+      _key: string;
+    }> | null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    _key: string;
+    _type: "code";
+    language?: string;
+    filename?: string;
+    code?: string;
+    highlightedLines?: Array<number>;
+    markDefs: null;
+  } | {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -1125,23 +1187,64 @@ export type BlogListQueryResult = Array<{
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
-  };
-  published?: boolean;
-  publishDate?: string;
-}>;
-// Variable: blogCategoryListQuery
-// Query: *[_type == "blogCategory" && defined(slug.current)]   | order(priority desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
-export type BlogCategoryListQueryResult = Array<{
+    _key: string;
+    markDefs: null;
+  }> | null;
+} | null;
+// Variable: blogPostListQuery
+// Query: *[_type == "blogPost" && defined(slug.current) && defined(publishDate)]     | order(publishDate desc) {    _id,  _createdAt,  title,  slug,  excerpt,  featured,  image,  publishDate,  author->,  categories[]->,}
+export type BlogPostListQueryResult = Array<{
   _id: string;
-  _type: "blogCategory";
   _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-  priority?: number;
-  color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
+  title: string | null;
+  slug: Slug | null;
+  excerpt: string | null;
+  featured: boolean | null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  publishDate: string | null;
+  author: {
+    _id: string;
+    _type: "user";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    email?: string;
+    emailVerified?: string;
+    image?: string;
+    password?: string;
+    role?: "ADMIN" | "USER";
+    accounts?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "account";
+    };
+    stripeCustomerId?: string;
+  } | null;
+  categories: Array<{
+    _id: string;
+    _type: "blogCategory";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+    priority?: number;
+    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
+  }> | null;
 }>;
 // Variable: postquery
 // Query: *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) {  _id,  _createdAt,  publishedDate,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "ImageColor": asset->metadata.palette.dominant.background,  },  featured,  excerpt,  slug,  title,  author-> {    _id,    image,    "slug": name, // use name as slug    name  },  categories[]->,}
@@ -1243,7 +1346,6 @@ export type LimitqueryResult = Array<{
     alt?: string;
     _type: "image";
   };
-  published?: boolean;
   publishDate?: string;
 }>;
 // Variable: paginatedquery
@@ -1303,145 +1405,8 @@ export type PaginatedqueryResult = Array<{
     alt?: string;
     _type: "image";
   };
-  published?: boolean;
   publishDate?: string;
 }>;
-// Variable: blogPostQuery
-// Query: *[_type == "blogPost" && slug.current == $slug][0] {  ...,  body[]{    ...,    markDefs[]{      ...,      _type == "internalLink" => {        "slug": @.reference->slug      }    }  },  author->,  categories[]->,  "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),  "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {    title,    slug,    "date": coalesce(publishedDate,_createdAt),    "image": image  },}
-export type BlogPostQueryResult = {
-  _id: string;
-  _type: "blogPost";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  excerpt?: string;
-  featured?: boolean;
-  categories: Array<{
-    _id: string;
-    _type: "blogCategory";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    slug?: Slug;
-    description?: string;
-    priority?: number;
-    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
-  }> | null;
-  author: {
-    _id: string;
-    _type: "user";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    email?: string;
-    emailVerified?: string;
-    image?: string;
-    password?: string;
-    role?: "ADMIN" | "USER";
-    accounts?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "account";
-    };
-    stripeCustomerId?: string;
-  } | null;
-  body: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs: Array<{
-      reference?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "blogPost";
-      } | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "item";
-      } | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "page";
-      };
-      _type: "internalLink";
-      _key: string;
-      slug: Slug | null;
-    } | {
-      href?: string;
-      _type: "link";
-      _key: string;
-    }> | null;
-    level?: number;
-    _type: "block";
-    _key: string;
-  } | {
-    _key: string;
-    _type: "code";
-    language?: string;
-    filename?: string;
-    code?: string;
-    highlightedLines?: Array<number>;
-    markDefs: null;
-  } | {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-    _key: string;
-    markDefs: null;
-  }> | null;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  published?: boolean;
-  publishDate?: string;
-  estReadingTime: number;
-  related: Array<{
-    title: string | null;
-    slug: Slug | null;
-    date: null | string;
-    image: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      _type: "image";
-    } | null;
-  }>;
-} | null;
 // Variable: pathquery
 // Query: *[_type == "blogPost" && defined(slug.current)][].slug.current
 export type PathqueryResult = Array<string | null>;
@@ -1505,7 +1470,6 @@ export type PostsbyauthorqueryResult = Array<{
     alt?: string;
     _type: "image";
   };
-  published?: boolean;
   publishDate?: string;
 }>;
 // Variable: postsbycatquery
@@ -1565,7 +1529,6 @@ export type PostsbycatqueryResult = Array<{
     alt?: string;
     _type: "image";
   };
-  published?: boolean;
   publishDate?: string;
 }>;
 // Variable: catquery
@@ -1658,7 +1621,6 @@ export type GetAllResult = Array<{
     alt?: string;
     _type: "image";
   };
-  published?: boolean;
   publishDate?: string;
 } | {
   _id: string;
@@ -1889,12 +1851,12 @@ declare module "@sanity/client" {
     "*[_type == \"tag\" && slug.current == $slug][0] {\n  \n  ...,\n\n}": TagQueryResult;
     "*[_type == \"item\" && defined(slug.current)\n  && submitter._ref == $userId] | order(_createdAt desc) {\n  \n  ...,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": SubmissionListQueryResult;
     "\n  *[_type == \"page\" && slug.current == $slug][0] {\n    ...,\n    body[]{\n      ...,\n      markDefs[]{\n        ...,\n        _type == \"internalLink\" => {\n          \"slug\": @.reference->slug\n        }\n      }\n    },\n  }\n": PageQueryResult;
-    "\n  *[_type == \"blogPost\" && defined(slug.current) && defined(publishDate)] \n  | order(publishDate desc) {\n  \n  ...,\n  author->,\n  categories[]->\n\n}": BlogListQueryResult;
-    "*[_type == \"blogCategory\" && defined(slug.current)] \n  | order(priority desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": BlogCategoryListQueryResult;
+    "\n  *[_type == \"blogCategory\" && defined(slug.current)] \n    | order(priority desc) {\n  \n  name,\n  slug,\n  description,\n  priority,\n  color,\n\n}": BlogCategoryListQueryResult;
+    "\n  *[_type == \"blogPost\" && slug.current == $slug][0] {\n    \n  \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image,\n  publishDate,\n  author->,\n  categories[]->,\n\n  body[]{\n    ...,\n    markDefs[]{\n      ...,\n      _type == \"internalLink\" => {\n        \"slug\": @.reference->slug\n      }\n    }\n  },\n  // \"estReadingTime\": round(length(pt::text(body)) / 5 / 180 ),\n  // \"related\": *[_type == \"blogPost\" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {\n  //   title,\n  //   slug,\n  //   \"date\": coalesce(publishedDate,_createdAt),\n  //   \"image\": image\n  // },\n\n}": BlogPostQueryResult;
+    "\n  *[_type == \"blogPost\" && defined(slug.current) && defined(publishDate)] \n    | order(publishDate desc) {\n  \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image,\n  publishDate,\n  author->,\n  categories[]->,\n\n}": BlogPostListQueryResult;
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) {\n  _id,\n  _createdAt,\n  publishedDate,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"ImageColor\": asset->metadata.palette.dominant.background,\n  },\n  featured,\n  excerpt,\n  slug,\n  title,\n  author-> {\n    _id,\n    image,\n    \"slug\": name, // use name as slug\n    name\n  },\n  categories[]->,\n}\n": PostqueryResult;
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) [0..$limit] {\n  ...,\n  author->,\n  categories[]->\n}\n": LimitqueryResult;
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) [$pageIndex...$limit] {\n  ...,\n  author->,\n  categories[]->\n}\n": PaginatedqueryResult;
-    "\n*[_type == \"blogPost\" && slug.current == $slug][0] {\n  ...,\n  body[]{\n    ...,\n    markDefs[]{\n      ...,\n      _type == \"internalLink\" => {\n        \"slug\": @.reference->slug\n      }\n    }\n  },\n  author->,\n  categories[]->,\n  \"estReadingTime\": round(length(pt::text(body)) / 5 / 180 ),\n  \"related\": *[_type == \"blogPost\" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {\n    title,\n    slug,\n    \"date\": coalesce(publishedDate,_createdAt),\n    \"image\": image\n  },\n}\n": BlogPostQueryResult;
     "\n*[_type == \"blogPost\" && defined(slug.current)][].slug.current\n": PathqueryResult;
     "\n*[_type == \"blogCategory\" && defined(slug.current)][].slug.current\n": CatpathqueryResult;
     "\n*[_type == \"blogPost\" && $slug match author->slug.current ] {\n  ...,\n  author->,\n  categories[]->,\n}\n": PostsbyauthorqueryResult;

@@ -1,5 +1,5 @@
 import { POSTS_PER_PAGE } from "@/lib/constants";
-import { BlogListQueryResult } from "@/sanity.types";
+import { BlogPostListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 
 /**
@@ -15,7 +15,7 @@ export async function getBlogs({
     const { countQuery, dataQuery } = buildQuery(category, currentPage);
     const [totalCount, posts] = await Promise.all([
         sanityFetch<number>({ query: countQuery }),
-        sanityFetch<BlogListQueryResult>({ query: dataQuery })
+        sanityFetch<BlogPostListQueryResult>({ query: dataQuery })
     ]);
     return { posts, totalCount };
 }
@@ -29,14 +29,21 @@ const buildQuery = (category?: string, currentPage: number = 1) => {
     const offsetEnd = offsetStart + POSTS_PER_PAGE;
 
     // @sanity-typegen-ignore
-    const countQuery = `count(*[_type == "blogPost" && defined(slug.current) 
+    const countQuery = `count(*[_type == "blogPost" && defined(slug.current) && defined(publishDate) 
        ${categoryCondition} ])`;
     // @sanity-typegen-ignore
-    const dataQuery = `*[_type == "blogPost" && defined(slug.current) 
-       ${categoryCondition} ] [${offsetStart}...${offsetEnd}] {
-        ...,
+    const dataQuery = `*[_type == "blogPost" && defined(slug.current) && defined(publishDate) 
+       ${categoryCondition} ] | order(publishDate desc) [${offsetStart}...${offsetEnd}] {
+        _id,
+        _createdAt,
+        title,
+        slug,
+        excerpt,
+        featured,
+        image,
+        publishDate,
         author->,
-        categories[]->
+        categories[]->,
     }`;
     console.log('buildQuery, countQuery', countQuery);
     console.log('buildQuery, dataQuery', dataQuery);

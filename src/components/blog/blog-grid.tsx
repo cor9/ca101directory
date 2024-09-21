@@ -1,10 +1,10 @@
 import BlogCard from "@/components/blog/blog-card";
-import { BlogListQueryResult } from "@/sanity.types";
+import { BlogPostListQueryResult } from "@/sanity.types";
 import { Suspense } from "react";
 import CustomPagination from "@/components/pagination";
 
 interface BlogGridProps {
-  posts: BlogListQueryResult;
+  posts: BlogPostListQueryResult;
   totalPages: number;
   paginationPrefix: string;
 }

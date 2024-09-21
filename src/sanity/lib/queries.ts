@@ -90,30 +90,74 @@ export const pageQuery = defineQuery(`
   }
 `);
 
-// Blog Queries
-const blogFields = /* groq */ `
-  ...,
+/**
+ * Blog Queries
+ * 
+ * when change blogPostSimpleFields, please also update buildQuery in data/blog.ts
+ */
+const blogPostSimpleFields = /* groq */ `
+  _id,
+  _createdAt,
+  title,
+  slug,
+  excerpt,
+  featured,
+  image,
+  publishDate,
   author->,
-  categories[]->
+  categories[]->,
+`;
+
+const blogPostFields = /* groq */ `
+  ${blogPostSimpleFields}
+  body[]{
+    ...,
+    markDefs[]{
+      ...,
+      _type == "internalLink" => {
+        "slug": @.reference->slug
+      }
+    }
+  },
+  // "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),
+  // "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {
+  //   title,
+  //   slug,
+  //   "date": coalesce(publishedDate,_createdAt),
+  //   "image": image
+  // },
 `;
 
 const blogCategoryFields = /* groq */ `
-  ...,
-  // "slug": slug.current,
-  // "name": coalesce(name[$locale], name[$defaultLocale]),
-  // "description": coalesce(description[$locale], description[$defaultLocale]),
+  name,
+  slug,
+  description,
+  priority,
+  color,
 `;
 
-export const blogListQuery = defineQuery(`
-  *[_type == "blogPost" && defined(slug.current) && defined(publishDate)] 
-  | order(publishDate desc) {
-  ${blogFields}
-}`);
-
-export const blogCategoryListQuery = defineQuery(`*[_type == "blogCategory" && defined(slug.current)] 
-  | order(priority desc) {
+export const blogCategoryListQuery = defineQuery(`
+  *[_type == "blogCategory" && defined(slug.current)] 
+    | order(priority desc) {
   ${blogCategoryFields}
 }`);
+
+export const blogPostQuery = defineQuery(`
+  *[_type == "blogPost" && slug.current == $slug][0] {
+    ${blogPostFields}
+}`);
+
+/**
+ * this query is not directly used in the app, 
+ * but it is used to generate the BlogPostListQueryResult type
+ */
+export const blogPostListQuery = defineQuery(`
+  *[_type == "blogPost" && defined(slug.current) && defined(publishDate)] 
+    | order(publishDate desc) {
+  ${blogPostSimpleFields}
+}`);
+
+// ======================================================================================================================
 
 // Get all posts
 export const postquery = groq`
@@ -173,31 +217,6 @@ export const paginatedquery = defineQuery(`
 //   ...,
 // }
 // `;
-
-// Single Post
-export const blogPostQuery = defineQuery(`
-*[_type == "blogPost" && slug.current == $slug][0] {
-  ...,
-  body[]{
-    ...,
-    markDefs[]{
-      ...,
-      _type == "internalLink" => {
-        "slug": @.reference->slug
-      }
-    }
-  },
-  author->,
-  categories[]->,
-  "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),
-  "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {
-    title,
-    slug,
-    "date": coalesce(publishedDate,_createdAt),
-    "image": image
-  },
-}
-`);
 
 // Paths for generateStaticParams
 export const pathquery = groq`

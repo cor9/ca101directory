@@ -73,15 +73,9 @@ export default defineType({
             ],
         }),
         defineField({
-            name: "published",
-            title: "Published",
-            description: "If the post is published, it will be visible to the public",
-            type: "boolean",
-            initialValue: false,
-        }),
-        defineField({
             name: 'publishDate',
             title: 'Publish Date',
+            description: "The post will be visible to the public only if the publish date is set.",
             type: 'datetime',
             initialValue: () => new Date().toISOString(),
         }),
@@ -103,17 +97,17 @@ export default defineType({
     },
     orderings: [
         {
-            title: 'Date (new to old)',
+            title: 'Date (Newest)',
             name: 'dateDesc',
             by: [{ field: 'publishDate', direction: 'desc' }],
         },
         {
-            title: 'Date (old to new)',
+            title: 'Date (Oldest)',
             name: 'dateAsc',
             by: [{ field: 'publishDate', direction: 'asc' }],
         },
         {
-            title: 'Title',
+            title: 'Title (A-Z)',
             name: 'title',
             by: [{ field: 'title', direction: 'asc' }],
         },

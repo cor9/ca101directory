@@ -38,6 +38,22 @@ const documentNode: DefaultDocumentNodeResolver = (
 							button: true,
 						},
 					}),
+				S.view
+					.component(Iframe)
+					.title('Website')
+					.options({
+						url: (
+							doc: SanityDocument & {
+								link?: string
+							},
+						) => {
+							const url = doc?.link;
+							return url;
+						},
+						reload: {
+							button: true,
+						},
+					}),
 			])
 
 		// support preview Blog Post Page in Sanity Studio

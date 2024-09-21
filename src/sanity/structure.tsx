@@ -1,4 +1,4 @@
-import { ArchiveIcon, BillIcon, CogIcon, ComponentIcon, DatabaseIcon, DocumentsIcon, DocumentTextIcon, ProjectsIcon, TagsIcon, TiersIcon, TokenIcon, UserIcon, UsersIcon } from "@sanity/icons";
+import { ArchiveIcon, BillIcon, CogIcon, ComponentIcon, DashboardIcon, DatabaseIcon, DocumentsIcon, DocumentTextIcon, ProjectsIcon, TagsIcon, TiersIcon, TokenIcon, UserIcon, UsersIcon } from "@sanity/icons";
 import { type DocumentDefinition } from "sanity";
 import { type StructureResolver } from "sanity/structure";
 import { schemaTypes } from "./schemas";
@@ -26,7 +26,7 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
     const singletonItems = singletonTypes.map((singletonType) => {
       return S.listItem()
         .title(singletonType.title!)
-        .icon(singletonType.icon)
+        .icon(CogIcon)
         .child(
           S.editor()
             .id(singletonType.name)
@@ -47,7 +47,7 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
         S.divider(),
 
         S.documentTypeListItem(item.name)
-          .icon(ComponentIcon),
+          .icon(DashboardIcon),
         S.documentTypeListItem(category.name)
           .icon(TiersIcon),
         S.documentTypeListItem(tag.name)
@@ -94,17 +94,7 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
 
         S.divider(),
 
-        // ...singletonItems,
-
-        S.listItem()
-          .title(settings.title!)
-          .icon(CogIcon)
-          .child(
-            S.editor()
-              .id(settings.name)
-              .schemaType(settings.name)
-              .documentId(settings.name),
-          ),
+        ...singletonItems,
 
         S.divider(),
 

@@ -115,18 +115,18 @@ export default defineType({
       initialValue: () => new Date().toISOString(),
       hidden: ({ parent }) => !parent.published,
 		}),
-    // order related fields
+    // payment related fields
     defineField({
       name: "paid",
       title: "Paid",
-      description: "The submitter choose to pay for the item and the payment is successful",
+      description: "If the item is paid, it means the payment is successful",
       type: "boolean",
       initialValue: false,
     }),
     defineField({
       name: "order",
       title: "Order",
-      description: "The successful order of the item",
+      description: "The successful payment order of the submission",
       type: "reference",
       to: [{ type: "order" }],
       hidden: ({ parent }) => !parent.paid,
@@ -151,7 +151,7 @@ export default defineType({
       type: 'string',
       initialValue: 'submitted',
       options: {
-        list: ['submitted', 'reviewing', 'approved', 'rejected'],
+        list: ['submitted', 'pending', 'approved', 'rejected'],
         layout: 'radio',
         direction: 'horizontal',
       },
@@ -162,9 +162,9 @@ export default defineType({
       title: "Pro Plan Status",
       description: "The status of the item when the submitter choose pro plan",
       type: 'string',
-      initialValue: 'waiting',
+      initialValue: 'submitted',
       options: {
-        list: ['paying', 'success', 'fail'],
+        list: ['submitted', 'pending', 'success', 'failed'],
         layout: 'radio',
         direction: 'horizontal',
       },

@@ -17,6 +17,7 @@ import Link from 'next/link';
 import { PublishButton } from './forms/publish-button';
 import { UnpublishButton } from './forms/unpublish-button';
 import { sub } from 'date-fns';
+import { cn } from "@/lib/utils";
 
 export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
 
@@ -24,9 +25,31 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
         && submission.freePlanStatus === 'approved')
         || (submission.pricePlan === 'pro'
             && submission.proPlanStatus === 'success');
+    const getBadgeStatus = (plan: string, status: string): "default" | "secondary" | "destructive" | "outline" => {
+        if (plan === "free") {
+            switch (status) {
+                case "approved": return "default";
+                case "rejected": return "destructive";
+                case "pending": return "secondary";
+                default: return "outline";
+            }
+        } else if (plan === "pro") {
+            switch (status) {
+                case "success": return "default";
+                case "failed": return "destructive";
+                case "pending": return "secondary";
+                default: return "outline";
+            }
+        }
+        return "outline";
+    };
+
+    const status = submission.pricePlan === "free" ? submission.freePlanStatus : submission.proPlanStatus;
+    const badgeStatus = getBadgeStatus(submission.pricePlan, status);
+
     return (
         <TableRow>
-            <TableCell className="hidden sm:table-cell w-[100px] sm:px-6">
+            <TableCell className="w-[100px] hidden md:table-cell md:px-6">
                 <Image
                     alt="Product image"
                     className="aspect-square rounded-md object-cover my-2"
@@ -35,10 +58,10 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                     height="72"
                 />
             </TableCell>
-            <TableCell className='px-6 sm:px-0 max-w-[300px] font-medium'>
-                <span className='line-clamp-1'>
-                    {/* {submission.name} */}
-                    {
+            <TableCell className='px-6 md:px-0 min-w-[100px]'>
+                <span className='line-clamp-1 font-semibold'>
+                    {submission.name}
+                    {/* {
                         submission.published ? (
                             <Link target='_blank'
                                 href={`/item/${submission.slug.current}`}
@@ -48,28 +71,43 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                         ) : (
                             <span>{submission.name}</span>
                         )
-                    }
+                    } */}
                 </span>
             </TableCell>
-            <TableCell>
-                <Badge variant="outline" className="capitalize">
-                    {submission.pricePlan}
-                </Badge>
+            <TableCell className='w-[130px]'>
+                {
+                    submission.pricePlan === "free" ? (
+                        <Badge variant="secondary" className="capitalize">
+                            {submission.pricePlan}
+                        </Badge>
+                    ) : (
+                        <Badge variant="default" className="capitalize">
+                            {submission.pricePlan}
+                        </Badge>
+                    )
+                }
             </TableCell>
-            <TableCell>
-                <Badge variant="outline" className="capitalize">
-                    {
-                        submission.pricePlan == "free" ?
-                            submission.freePlanStatus :
-                            submission.proPlanStatus
-                    }
-                </Badge>
+            <TableCell className='w-[130px]'>
+                {
+
+                    <Badge variant='outline' className={cn(
+                        "capitalize",
+                        badgeStatus === "default" && "bg-green-100 text-green-800",
+                        badgeStatus === "destructive" && "bg-red-100 text-red-800",
+                        badgeStatus === "secondary" && "bg-yellow-100 text-yellow-800",
+                        badgeStatus === "outline" && "bg-gray-100 text-gray-800"
+                    )}>
+                        {status}
+                    </Badge>
+                }
+
             </TableCell>
-            <TableCell className="hidden md:table-cell">
-                {/* Not published */}
+            <TableCell className="w-[150px] hidden md:table-cell">
                 {
                     submission.published && submission.publishDate ?
-                        getLocaleDate(submission.publishDate) :
+                        (
+                            getLocaleDate(submission.publishDate)
+                        ) :
                         (
                             <span className='text-muted-foreground'>
                                 Not published
@@ -77,7 +115,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                         )
                 }
             </TableCell>
-            <TableCell className="hidden md:table-cell">
+            <TableCell className="w-[150px] hidden md:table-cell">
                 {getLocaleDate(submission._createdAt)}
             </TableCell>
             <TableCell>
@@ -85,14 +123,16 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                     <div className='hidden sm:block'>
                         <div className='flex items-center gap-2'>
                             {/* view button if published */}
-                            {/* {
+                            {
                                 submission.published ?
                                     <Button asChild variant="default" size="sm">
-                                        <Link href={`/item/${submission.slug.current}`} target='_blank'>
+                                        <Link target='_blank'
+                                            href={`/item/${submission.slug.current}`}
+                                        >
                                             View
                                         </Link>
                                     </Button> : null
-                            } */}
+                            }
 
                             {/* edit button always visible */}
                             <Button asChild variant="outline" size="sm">
@@ -143,23 +183,13 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
                                 {/* view button if published */}
-                                {/* {
+                                {
                                     submission.published ?
                                         <DropdownMenuItem>
-                                            <Button asChild variant="default" size="sm">
-                                                <Link href={`/item/${submission.slug.current}`} target='_blank'>
-                                                    View
-                                                </Link>
-                                            </Button>
-                                        </DropdownMenuItem> : null
-                                } */}
-
-                                {/* show upgrade plan button if in free plan */}
-                                {
-                                    submission.pricePlan === 'free' ?
-                                        <DropdownMenuItem>
-                                            <Link href={`/submit/plan/${submission._id}`}>
-                                                Upgrade Plan
+                                            <Link target='_blank'
+                                                href={`/item/${submission.slug.current}`}
+                                            >
+                                                View
                                             </Link>
                                         </DropdownMenuItem> : null
                                 }
@@ -170,6 +200,16 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                                         Edit
                                     </Link>
                                 </DropdownMenuItem>
+
+                                {/* show upgrade plan button if in free plan */}
+                                {
+                                    submission.pricePlan === 'free' ?
+                                        <DropdownMenuItem>
+                                            <Link href={`/submit/plan/${submission._id}`}>
+                                                Upgrade
+                                            </Link>
+                                        </DropdownMenuItem> : null
+                                }
 
                                 {/* publish or unpublish button if publishable */}
                                 {

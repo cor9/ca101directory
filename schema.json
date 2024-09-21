@@ -1889,7 +1889,7 @@
             },
             {
               "type": "string",
-              "value": "reviewing"
+              "value": "pending"
             },
             {
               "type": "string",
@@ -1910,7 +1910,11 @@
           "of": [
             {
               "type": "string",
-              "value": "paying"
+              "value": "submitted"
+            },
+            {
+              "type": "string",
+              "value": "pending"
             },
             {
               "type": "string",
@@ -1918,7 +1922,32 @@
             },
             {
               "type": "string",
-              "value": "fail"
+              "value": "failed"
+            }
+          ]
+        },
+        "optional": true
+      },
+      "rejectionReason": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "The item is not a good fit for our directory"
+            },
+            {
+              "type": "string",
+              "value": "The image of the item is not good quality"
+            },
+            {
+              "type": "string",
+              "value": "The information of the item is not clear"
+            },
+            {
+              "type": "string",
+              "value": "Other reasons"
             }
           ]
         },

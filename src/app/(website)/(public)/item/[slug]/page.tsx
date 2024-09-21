@@ -74,7 +74,10 @@ export default async function ItemPage({ params }: ItemPageProps) {
             {/* action buttons */}
             <div className="flex flex-row gap-4">
               <Button size="lg" variant="default" asChild className="group flex-1">
-                <Link href={item.link} className="flex items-center justify-center space-x-2">
+                <Link href={item.link}
+                  target="_blank"
+                  prefetch={false}
+                  className="flex items-center justify-center space-x-2">
                   <GlobeIcon className="w-4 h-4
                     transition-all duration-300 ease-in-out 
                     group-hover:scale-125" />
@@ -109,7 +112,9 @@ export default async function ItemPage({ params }: ItemPageProps) {
 
             {/* image */}
             <div className="relative group overflow-hidden rounded-lg">
-              <Link href={`${item.link}`} target="_blank" prefetch={false}>
+              <Link href={`${item.link}`}
+                target="_blank"
+                prefetch={false}>
                 <Image
                   width={360}
                   height={240}

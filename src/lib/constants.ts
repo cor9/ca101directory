@@ -5,7 +5,7 @@ export const ITEMS_PER_PAGE = 9;
 // number of posts per page
 export const POSTS_PER_PAGE = 6;
 // number of submissions per page
-export const SUBMISSIONS_PER_PAGE = 5;
+export const SUBMISSIONS_PER_PAGE = 6;
 
 export type SortFilterItem = {
   title: string;

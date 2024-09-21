@@ -66,25 +66,22 @@ export function SubmissionTable({
                 <Table>
                     <TableHeader className='py-2'>
                         <TableRow>
-                            <TableHead className="hidden sm:table-cell w-[100px] sm:px-6">
+                            <TableHead className="w-[100px] hidden md:table-cell md:px-6">
                                 {/* Image */}
                             </TableHead>
-                            <TableHead className='px-6 sm:px-0 max-w-[300px]'>
+                            <TableHead className='px-6 md:px-0 min-w-[100px]'>
                                 Name
                             </TableHead>
-                            <TableHead>
-                                PricePlan
+                            <TableHead className='w-[130px]'>
+                                Pricing
                             </TableHead>
-                            <TableHead>
-                                PlanStatus
+                            <TableHead className='w-[130px]'>
+                                Status
                             </TableHead>
-                            {/* <TableHead>
-                                PublishStatus
-                            </TableHead> */}
-                            <TableHead className="hidden md:table-cell">
+                            <TableHead className="w-[150px] hidden md:table-cell">
                                 Published at
                             </TableHead>
-                            <TableHead className="hidden md:table-cell">
+                            <TableHead className="w-[150px] hidden md:table-cell">
                                 Created at
                             </TableHead>
                             <TableHead>
@@ -100,17 +97,18 @@ export function SubmissionTable({
                 </Table>
             </CardContent>
             <CardFooter className='px-0 pb-0'>
-                <div className={cn("flex w-full justify-between items-center",
+                <div className={cn("flex w-full justify-center items-center",
                     "space-y-4 border-t bg-accent/50 px-6 py-4",
                     "sm:flex-row sm:justify-between sm:space-y-0")}>
-                    <div className="text-sm text-muted-foreground">
+                    <div className="hidden sm:block text-sm text-muted-foreground">
                         Showing{' '}
                         <strong>
                             {startItem}{' '}-{' '}{endItem}
                         </strong>{' '}
                         of <strong>{totalCount}</strong> submissions
                     </div>
-                    <div className="flex">
+                    <div className="flex items-center">
+                        {/* TODO: client component, remove suspense? */}
                         <Suspense fallback={null}>
                             <CustomPagination routePreix="/dashboard" totalPages={totalPages} />
                         </Suspense>

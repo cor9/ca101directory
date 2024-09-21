@@ -310,8 +310,9 @@ export type Item = {
     [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
-  freePlanStatus?: "submitted" | "reviewing" | "approved" | "rejected";
-  proPlanStatus?: "paying" | "success" | "fail";
+  freePlanStatus?: "submitted" | "pending" | "approved" | "rejected";
+  proPlanStatus?: "submitted" | "pending" | "success" | "failed";
+  rejectionReason?: "The item is not a good fit for our directory" | "The image of the item is not good quality" | "The information of the item is not clear" | "Other reasons";
 };
 
 export type Order = {
@@ -470,7 +471,7 @@ export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/sanity/lib/queries.ts
 // Variable: itemQuery
-// Query: *[_type == "item" && slug.current == $slug][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
+// Query: *[_type == "item" && slug.current == $slug][0] {    ...,  submitter->,  categories[]->,  tags[]->}
 export type ItemQueryResult = {
   _id: string;
   _type: "item";
@@ -548,11 +549,12 @@ export type ItemQueryResult = {
     [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
-  freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
-  proPlanStatus?: "fail" | "paying" | "success";
+  freePlanStatus?: "approved" | "pending" | "rejected" | "submitted";
+  proPlanStatus?: "failed" | "pending" | "submitted" | "success";
+  rejectionReason?: "Other reasons" | "The image of the item is not good quality" | "The information of the item is not clear" | "The item is not a good fit for our directory";
 } | null;
 // Variable: itemByIdQuery
-// Query: *[_type == "item" && _id == $id][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
+// Query: *[_type == "item" && _id == $id][0] {    ...,  submitter->,  categories[]->,  tags[]->}
 export type ItemByIdQueryResult = {
   _id: string;
   _type: "item";
@@ -630,11 +632,12 @@ export type ItemByIdQueryResult = {
     [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
-  freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
-  proPlanStatus?: "fail" | "paying" | "success";
+  freePlanStatus?: "approved" | "pending" | "rejected" | "submitted";
+  proPlanStatus?: "failed" | "pending" | "submitted" | "success";
+  rejectionReason?: "Other reasons" | "The image of the item is not good quality" | "The information of the item is not clear" | "The item is not a good fit for our directory";
 } | null;
 // Variable: itemListQuery
-// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
+// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)]   | order(publishDate desc) {    ...,  submitter->,  categories[]->,  tags[]->}
 export type ItemListQueryResult = Array<{
   _id: string;
   _type: "item";
@@ -712,11 +715,12 @@ export type ItemListQueryResult = Array<{
     [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
-  freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
-  proPlanStatus?: "fail" | "paying" | "success";
+  freePlanStatus?: "approved" | "pending" | "rejected" | "submitted";
+  proPlanStatus?: "failed" | "pending" | "submitted" | "success";
+  rejectionReason?: "Other reasons" | "The image of the item is not good quality" | "The information of the item is not clear" | "The item is not a good fit for our directory";
 }>;
 // Variable: itemListOfCategoryQuery
-// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in categories[]->slug.current]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
+// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in categories[]->slug.current]   | order(publishDate desc) {    ...,  submitter->,  categories[]->,  tags[]->}
 export type ItemListOfCategoryQueryResult = Array<{
   _id: string;
   _type: "item";
@@ -794,11 +798,12 @@ export type ItemListOfCategoryQueryResult = Array<{
     [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
-  freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
-  proPlanStatus?: "fail" | "paying" | "success";
+  freePlanStatus?: "approved" | "pending" | "rejected" | "submitted";
+  proPlanStatus?: "failed" | "pending" | "submitted" | "success";
+  rejectionReason?: "Other reasons" | "The image of the item is not good quality" | "The information of the item is not clear" | "The item is not a good fit for our directory";
 }>;
 // Variable: itemListOfTagQuery
-// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in tags[]->slug.current]   | order(publishDate desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
+// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in tags[]->slug.current]   | order(publishDate desc) {    ...,  submitter->,  categories[]->,  tags[]->}
 export type ItemListOfTagQueryResult = Array<{
   _id: string;
   _type: "item";
@@ -876,11 +881,12 @@ export type ItemListOfTagQueryResult = Array<{
     [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
-  freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
-  proPlanStatus?: "fail" | "paying" | "success";
+  freePlanStatus?: "approved" | "pending" | "rejected" | "submitted";
+  proPlanStatus?: "failed" | "pending" | "submitted" | "success";
+  rejectionReason?: "Other reasons" | "The image of the item is not good quality" | "The information of the item is not clear" | "The item is not a good fit for our directory";
 }>;
 // Variable: categoryListQuery
-// Query: *[_type == "category" && defined(slug.current)]   | order(priority desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "category" && defined(slug.current)]   | order(priority desc) {    ...,}
 export type CategoryListQueryResult = Array<{
   _id: string;
   _type: "category";
@@ -893,7 +899,7 @@ export type CategoryListQueryResult = Array<{
   priority?: number;
 }>;
 // Variable: categoryQuery
-// Query: *[_type == "category" && slug.current == $slug][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "category" && slug.current == $slug][0] {    ...,}
 export type CategoryQueryResult = {
   _id: string;
   _type: "category";
@@ -906,7 +912,7 @@ export type CategoryQueryResult = {
   priority?: number;
 } | null;
 // Variable: tagListQuery
-// Query: *[_type == "tag" && defined(slug.current)]   | order(slug.current asc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "tag" && defined(slug.current)]   | order(slug.current asc) {    ...,}
 export type TagListQueryResult = Array<{
   _id: string;
   _type: "tag";
@@ -918,7 +924,7 @@ export type TagListQueryResult = Array<{
   description?: string;
 }>;
 // Variable: tagQuery
-// Query: *[_type == "tag" && slug.current == $slug][0] {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),}
+// Query: *[_type == "tag" && slug.current == $slug][0] {    ...,}
 export type TagQueryResult = {
   _id: string;
   _type: "tag";
@@ -930,7 +936,7 @@ export type TagQueryResult = {
   description?: string;
 } | null;
 // Variable: submissionListQuery
-// Query: *[_type == "item" && defined(slug.current)  && submitter._ref == $userId] | order(_createdAt desc) {    ...,  // "slug": slug.current,  // "name": coalesce(name[$locale], name[$defaultLocale]),  // "description": coalesce(description[$locale], description[$defaultLocale]),  submitter->,  categories[]->{    ...,  },  tags[]->{    ...,  }}
+// Query: *[_type == "item" && defined(slug.current)  && submitter._ref == $userId] | order(_createdAt desc) {    ...,  submitter->,  categories[]->,  tags[]->}
 export type SubmissionListQueryResult = Array<{
   _id: string;
   _type: "item";
@@ -1008,8 +1014,9 @@ export type SubmissionListQueryResult = Array<{
     [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
-  freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
-  proPlanStatus?: "fail" | "paying" | "success";
+  freePlanStatus?: "approved" | "pending" | "rejected" | "submitted";
+  proPlanStatus?: "failed" | "pending" | "submitted" | "success";
+  rejectionReason?: "Other reasons" | "The image of the item is not good quality" | "The information of the item is not clear" | "The item is not a good fit for our directory";
 }>;
 // Variable: pageQuery
 // Query: *[_type == "page" && slug.current == $slug][0] {    ...,    body[]{      ...,      markDefs[]{        ...,        _type == "internalLink" => {          "slug": @.reference->slug        }      }    },  }
@@ -1755,8 +1762,9 @@ export type GetAllResult = Array<{
     [internalGroqTypeReferenceTo]?: "order";
   };
   pricePlan?: "free" | "pro";
-  freePlanStatus?: "approved" | "rejected" | "reviewing" | "submitted";
-  proPlanStatus?: "fail" | "paying" | "success";
+  freePlanStatus?: "approved" | "pending" | "rejected" | "submitted";
+  proPlanStatus?: "failed" | "pending" | "submitted" | "success";
+  rejectionReason?: "Other reasons" | "The image of the item is not good quality" | "The information of the item is not clear" | "The item is not a good fit for our directory";
 } | {
   _id: string;
   _type: "media.tag";
@@ -1912,16 +1920,16 @@ export type GetAllResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"item\" && slug.current == $slug][0] {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  submitter->,\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": ItemQueryResult;
-    "*[_type == \"item\" && _id == $id][0] {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  submitter->,\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": ItemByIdQueryResult;
-    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)] \n  | order(publishDate desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  submitter->,\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": ItemListQueryResult;
-    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in categories[]->slug.current] \n  | order(publishDate desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  submitter->,\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": ItemListOfCategoryQueryResult;
-    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in tags[]->slug.current] \n  | order(publishDate desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  submitter->,\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": ItemListOfTagQueryResult;
-    "*[_type == \"category\" && defined(slug.current)] \n  | order(priority desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": CategoryListQueryResult;
-    "*[_type == \"category\" && slug.current == $slug][0] {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": CategoryQueryResult;
-    "*[_type == \"tag\" && defined(slug.current)] \n  | order(slug.current asc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": TagListQueryResult;
-    "*[_type == \"tag\" && slug.current == $slug][0] {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": TagQueryResult;
-    "*[_type == \"item\" && defined(slug.current)\n  && submitter._ref == $userId] | order(_createdAt desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n  submitter->,\n  categories[]->{\n    ...,\n  },\n  tags[]->{\n    ...,\n  }\n\n}": SubmissionListQueryResult;
+    "*[_type == \"item\" && slug.current == $slug][0] {\n  \n  ...,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": ItemQueryResult;
+    "*[_type == \"item\" && _id == $id][0] {\n  \n  ...,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": ItemByIdQueryResult;
+    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)] \n  | order(publishDate desc) {\n  \n  ...,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": ItemListQueryResult;
+    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in categories[]->slug.current] \n  | order(publishDate desc) {\n  \n  ...,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": ItemListOfCategoryQueryResult;
+    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in tags[]->slug.current] \n  | order(publishDate desc) {\n  \n  ...,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": ItemListOfTagQueryResult;
+    "*[_type == \"category\" && defined(slug.current)] \n  | order(priority desc) {\n  \n  ...,\n\n}": CategoryListQueryResult;
+    "*[_type == \"category\" && slug.current == $slug][0] {\n  \n  ...,\n\n}": CategoryQueryResult;
+    "*[_type == \"tag\" && defined(slug.current)] \n  | order(slug.current asc) {\n  \n  ...,\n\n}": TagListQueryResult;
+    "*[_type == \"tag\" && slug.current == $slug][0] {\n  \n  ...,\n\n}": TagQueryResult;
+    "*[_type == \"item\" && defined(slug.current)\n  && submitter._ref == $userId] | order(_createdAt desc) {\n  \n  ...,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": SubmissionListQueryResult;
     "\n  *[_type == \"page\" && slug.current == $slug][0] {\n    ...,\n    body[]{\n      ...,\n      markDefs[]{\n        ...,\n        _type == \"internalLink\" => {\n          \"slug\": @.reference->slug\n        }\n      }\n    },\n  }\n": PageQueryResult;
     "\n  *[_type == \"blogPost\" && defined(slug.current) && defined(publishDate)] \n  | order(publishDate desc) {\n  \n  ...,\n  author->,\n  categories[]->\n\n}": BlogListQueryResult;
     "*[_type == \"blogCategory\" && defined(slug.current)] \n  | order(priority desc) {\n  \n  ...,\n  // \"slug\": slug.current,\n  // \"name\": coalesce(name[$locale], name[$defaultLocale]),\n  // \"description\": coalesce(description[$locale], description[$defaultLocale]),\n\n}": BlogCategoryListQueryResult;

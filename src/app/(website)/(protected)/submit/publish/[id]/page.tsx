@@ -29,7 +29,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
   // if (item.pricePlan === 'free' && item.freePlanStatus !== 'approved') {
   //   return redirect(`/edit/${item._id}`);
   // } else if (item.pricePlan === 'pro' && item.proPlanStatus !== 'success') {
-  //   return redirect(`/submit/plan/${item._id}`);
+  //   return redirect(`/submit/price/${item._id}`);
   // }
 
   const imageProps = item?.image
@@ -40,7 +40,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
     <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
       <DashboardSubmitHeader
         title="Submit"
-        subtitle="Submit your product to get listed."
+        subtitle="(3/3) Review and publish your product."
       >
         <SubmitStepper initialStep={3} />
       </DashboardSubmitHeader>

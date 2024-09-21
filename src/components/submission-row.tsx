@@ -145,7 +145,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                             {
                                 submission.pricePlan === 'free' ?
                                     <Button asChild variant="outline" size="sm">
-                                        <Link href={`/submit/plan/${submission._id}`}>
+                                        <Link href={`/submit/price/${submission._id}`}>
                                             Upgrade
                                         </Link>
                                     </Button> : null
@@ -205,7 +205,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                                 {
                                     submission.pricePlan === 'free' ?
                                         <DropdownMenuItem>
-                                            <Link href={`/submit/plan/${submission._id}`}>
+                                            <Link href={`/submit/price/${submission._id}`}>
                                                 Upgrade
                                             </Link>
                                         </DropdownMenuItem> : null

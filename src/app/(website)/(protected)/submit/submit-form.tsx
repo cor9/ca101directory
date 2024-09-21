@@ -74,7 +74,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
         toast.success("Submit success");
         
         // router.push(`/dashboard/`);
-        router.push(`/submit/plan/${id}`);
+        router.push(`/submit/price/${id}`);
       } else {
         toast.error("Something went wrong. Please try again.");
       }

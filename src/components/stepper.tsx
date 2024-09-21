@@ -53,7 +53,7 @@ const StepperIndicator = React.forwardRef<
     className={cn(
       "flex items-center justify-center w-8 h-8 rounded-full transition-colors",
       completed
-        ? "text-primary-foreground bg-primary"
+        ? "text-muted-foreground bg-muted"
         : active
         ? "text-primary-foreground bg-primary"
         : "text-muted-foreground bg-muted",
@@ -98,7 +98,7 @@ const StepperSeparator = React.forwardRef<
     ref={ref}
     className={cn(
       "flex-1 h-[2px]",
-      completed ? "bg-primary/50" : "bg-muted",
+      completed ? "bg-primary/20" : "bg-muted",
       className
     )}
     {...props}

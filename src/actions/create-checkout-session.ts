@@ -96,7 +96,7 @@ export async function createCheckoutSession(itemId: string, priceId: string): Pr
         + ', userId:' + user.id +
         + ', itemId:' + itemId);
       const successUrl = absoluteUrl(`/submit/publish/${itemId}`);
-      const cancelUrl = absoluteUrl(`/submit/plan/${itemId}`);
+      const cancelUrl = absoluteUrl(`/submit/price/${itemId}`);
       const stripeSession = await stripe.checkout.sessions.create({
         customer: stripeCustomerId,
         success_url: successUrl,

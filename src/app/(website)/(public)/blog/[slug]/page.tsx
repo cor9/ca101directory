@@ -116,7 +116,7 @@ export default async function PostPage({ params }: PostPageProps) {
                             <ul className="flex flex-wrap gap-4">
                                 {post.categories?.map((category: any) => (
                                     <li key={category._id}>
-                                        <Link href={`/blog/${category.slug.current}`}
+                                        <Link href={`/blog/category/${category.slug.current}`}
                                             className="text-sm hover:underline underline-offset-4">
                                             {category.name}
                                         </Link>

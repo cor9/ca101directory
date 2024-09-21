@@ -17,7 +17,7 @@ export default function BlogCategoryLabel({
       {categories?.length &&
         categories.slice(0).map((category, index) => (
           <Link key={index}
-            href={`/blog/${category.slug.current}`}
+            href={`/blog/category/${category.slug.current}`}
             className={cn(
               buttonVariants({ variant: "link", size: "sm" })
             )}

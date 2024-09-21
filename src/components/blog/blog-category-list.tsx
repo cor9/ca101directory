@@ -37,7 +37,7 @@ export function BlogCategoryList({ categoryList }: BlogCategoryListProps) {
             <DesktopLink
               key={item.slug.current}
               title={item.name}
-              href={`/blog/${item.slug.current}`}
+              href={`/blog/category/${item.slug.current}`}
               active={item.slug.current === slug}
             />
           ))}
@@ -77,7 +77,7 @@ export function BlogCategoryList({ categoryList }: BlogCategoryListProps) {
                 <MobileLink
                   key={item.slug.current}
                   title={item.name}
-                  href={`/blog/${item.slug.current}`}
+                  href={`/blog/category/${item.slug.current}`}
                   active={item.slug.current === slug}
                   clickAction={closeDrawer}
                 />

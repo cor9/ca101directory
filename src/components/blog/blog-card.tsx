@@ -16,7 +16,7 @@ export default function BlogCard({ post }: BlogCardProps) {
     : null;
   const publishDate = post.publishDate || post._createdAt;
   const date = getLocaleDate(publishDate);
-  const postUrlPrefix = '/blog/post';
+  const postUrlPrefix = '/blog';
 
   return (
     <div className="group cursor-pointer flex flex-col h-full">
@@ -26,7 +26,7 @@ export default function BlogCard({ post }: BlogCardProps) {
           "overflow-hidden rounded-md bg-muted",
           "transition-all",
           "aspect-[4/3]",
-          "relative" // 添加相对定位
+          "relative"
         )}>
         <Link
           className={cn(

@@ -66,16 +66,16 @@ export function SubmissionTable({
                 <Table>
                     <TableHeader className='py-2'>
                         <TableRow>
-                            <TableHead className="w-[110px] hidden md:table-cell md:px-6">
+                            <TableHead className="w-[110px] hidden lg:table-cell lg:px-6">
                                 {/* Image */}
                             </TableHead>
-                            <TableHead className='px-6 md:px-0 max-w-[150px]'>
+                            <TableHead className='px-6 lg:px-0 w-[150px]'>
                                 Name
                             </TableHead>
-                            <TableHead className='w-[130px]'>
+                            <TableHead className='w-[120px]'>
                                 Pricing
                             </TableHead>
-                            <TableHead className='w-[130px]'>
+                            <TableHead className='w-[120px]'>
                                 Status
                             </TableHead>
                             <TableHead className="w-[150px] hidden md:table-cell">

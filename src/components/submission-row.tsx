@@ -49,7 +49,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
 
     return (
         <TableRow>
-            <TableCell className="w-[110px] hidden md:table-cell md:px-6">
+            <TableCell className="w-[110px] hidden lg:table-cell lg:px-6">
                 <Image
                     alt="Product image"
                     className="aspect-square rounded-md object-cover my-2"
@@ -58,7 +58,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                     height="72"
                 />
             </TableCell>
-            <TableCell className='px-6 md:px-0 max-w-[150px]'>
+            <TableCell className='px-6 lg:px-0 w-[150px]'>
                 <span className='line-clamp-1 font-semibold'>
                     {submission.name}
                     {/* {
@@ -74,7 +74,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                     } */}
                 </span>
             </TableCell>
-            <TableCell className='w-[130px]'>
+            <TableCell className='w-[120px]'>
                 {
                     submission.pricePlan === "free" ? (
                         <Badge variant="secondary" className="capitalize">
@@ -87,7 +87,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                     )
                 }
             </TableCell>
-            <TableCell className='w-[130px]'>
+            <TableCell className='w-[120px]'>
                 {
 
                     <Badge variant='outline' className={cn(

@@ -49,7 +49,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
 
     return (
         <TableRow>
-            <TableCell className="w-[100px] hidden md:table-cell md:px-6">
+            <TableCell className="w-[110px] hidden md:table-cell md:px-6">
                 <Image
                     alt="Product image"
                     className="aspect-square rounded-md object-cover my-2"
@@ -58,7 +58,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                     height="72"
                 />
             </TableCell>
-            <TableCell className='px-6 md:px-0 min-w-[100px]'>
+            <TableCell className='px-6 md:px-0 max-w-[150px]'>
                 <span className='line-clamp-1 font-semibold'>
                     {submission.name}
                     {/* {

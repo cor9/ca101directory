@@ -1,7 +1,7 @@
 import { CustomMdx } from "@/components/custom-mdx";
-import Container from "@/components/shared/container";
 import { portableTextToMarkdown } from "@/lib/mdx";
-import { sanityClient } from "@/sanity/lib/client";
+import { PageQueryResult } from "@/sanity.types";
+import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageQuery } from "@/sanity/lib/queries";
 import { notFound } from "next/navigation";
 
@@ -11,8 +11,9 @@ interface CustomPageProps {
 
 export default async function CustomPage({ params }: CustomPageProps) {
   console.log(`CustomPage, params: ${JSON.stringify(params)}`);
-  const page = await sanityClient.fetch(pageQuery, {
-    slug: params.slug,
+  const page = await sanityFetch<PageQueryResult>({
+    query: pageQuery,
+    params: { slug: params.slug },
   });
 
   if (!page) {

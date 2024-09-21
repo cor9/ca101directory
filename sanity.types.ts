@@ -1306,9 +1306,9 @@ export type PaginatedqueryResult = Array<{
   published?: boolean;
   publishDate?: string;
 }>;
-// Variable: singlequery
+// Variable: blogPostQuery
 // Query: *[_type == "blogPost" && slug.current == $slug][0] {  ...,  body[]{    ...,    markDefs[]{      ...,      _type == "internalLink" => {        "slug": @.reference->slug      }    }  },  author->,  categories[]->,  "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),  "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {    title,    slug,    "date": coalesce(publishedDate,_createdAt),    "image": image  },}
-export type SinglequeryResult = {
+export type BlogPostQueryResult = {
   _id: string;
   _type: "blogPost";
   _createdAt: string;
@@ -1894,7 +1894,7 @@ declare module "@sanity/client" {
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) {\n  _id,\n  _createdAt,\n  publishedDate,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"ImageColor\": asset->metadata.palette.dominant.background,\n  },\n  featured,\n  excerpt,\n  slug,\n  title,\n  author-> {\n    _id,\n    image,\n    \"slug\": name, // use name as slug\n    name\n  },\n  categories[]->,\n}\n": PostqueryResult;
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) [0..$limit] {\n  ...,\n  author->,\n  categories[]->\n}\n": LimitqueryResult;
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) [$pageIndex...$limit] {\n  ...,\n  author->,\n  categories[]->\n}\n": PaginatedqueryResult;
-    "\n*[_type == \"blogPost\" && slug.current == $slug][0] {\n  ...,\n  body[]{\n    ...,\n    markDefs[]{\n      ...,\n      _type == \"internalLink\" => {\n        \"slug\": @.reference->slug\n      }\n    }\n  },\n  author->,\n  categories[]->,\n  \"estReadingTime\": round(length(pt::text(body)) / 5 / 180 ),\n  \"related\": *[_type == \"blogPost\" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {\n    title,\n    slug,\n    \"date\": coalesce(publishedDate,_createdAt),\n    \"image\": image\n  },\n}\n": SinglequeryResult;
+    "\n*[_type == \"blogPost\" && slug.current == $slug][0] {\n  ...,\n  body[]{\n    ...,\n    markDefs[]{\n      ...,\n      _type == \"internalLink\" => {\n        \"slug\": @.reference->slug\n      }\n    }\n  },\n  author->,\n  categories[]->,\n  \"estReadingTime\": round(length(pt::text(body)) / 5 / 180 ),\n  \"related\": *[_type == \"blogPost\" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {\n    title,\n    slug,\n    \"date\": coalesce(publishedDate,_createdAt),\n    \"image\": image\n  },\n}\n": BlogPostQueryResult;
     "\n*[_type == \"blogPost\" && defined(slug.current)][].slug.current\n": PathqueryResult;
     "\n*[_type == \"blogCategory\" && defined(slug.current)][].slug.current\n": CatpathqueryResult;
     "\n*[_type == \"blogPost\" && $slug match author->slug.current ] {\n  ...,\n  author->,\n  categories[]->,\n}\n": PostsbyauthorqueryResult;

@@ -3,12 +3,16 @@ import { blogCategoryListQuery } from '@/sanity/lib/queries';
 import { Suspense } from 'react';
 import Container from '@/components/shared/container';
 import { BlogCategoryList } from "./blog-category-list";
+import { sanityFetch } from '@/sanity/lib/fetch';
+import { BlogCategoryListQueryResult } from '@/sanity.types';
 
 /**
  * TODO: maybe change to CustomSwitch
  */
 export async function BlogCategoryFilter() {
-  const categoryList = await sanityClient.fetch(blogCategoryListQuery);
+  const categoryList = await sanityFetch<BlogCategoryListQueryResult>({
+    query: blogCategoryListQuery
+  });
 
   return (
     <>

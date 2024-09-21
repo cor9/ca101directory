@@ -1,13 +1,16 @@
-import { sorting } from '@/lib/constants';
-import { sanityClient } from '@/sanity/lib/client';
-import { categoryListQuery } from '@/sanity/lib/queries';
-import { Suspense } from 'react';
 import Container from '@/components/shared/container';
 import { SortList } from '@/components/sort-list';
+import { sorting } from '@/lib/constants';
+import { CategoryListQueryResult } from '@/sanity.types';
+import { sanityFetch } from '@/sanity/lib/fetch';
+import { categoryListQuery } from '@/sanity/lib/queries';
+import { Suspense } from 'react';
 import { CategoryList } from "./category-list";
 
 export async function CategoryFilter() {
-  const categoryList = await sanityClient.fetch(categoryListQuery);
+  const categoryList = await sanityFetch<CategoryListQueryResult>({
+    query: categoryListQuery
+  });
   return (
     <>
       {/* Desktop View, has Container */}

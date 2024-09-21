@@ -175,7 +175,7 @@ export const paginatedquery = defineQuery(`
 // `;
 
 // Single Post
-export const singlequery = defineQuery(`
+export const blogPostQuery = defineQuery(`
 *[_type == "blogPost" && slug.current == $slug][0] {
   ...,
   body[]{

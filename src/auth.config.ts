@@ -32,8 +32,8 @@ export default {
         if (!validatedFields.success) return null;
 
         // @sanity-typegen-ignore
-        const user_qry = `*[_type == "user" && email== "${credentials?.email}"][0]`;
-        const user = await sanityClient.fetch(user_qry);
+        const userQry = `*[_type == "user" && email== "${credentials?.email}"][0]`;
+        const user = await sanityClient.fetch(userQry);
 
         if (!user || !user.password) {
           console.error('authorize error: user not found or password invalid');

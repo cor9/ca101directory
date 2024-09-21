@@ -1,14 +1,13 @@
 import { BlogToc } from "@/components/blog/blog-toc";
 import { CustomMdx } from "@/components/custom-mdx";
 import AllPostsButton from "@/components/shared/all-posts-button";
-import { Button, buttonVariants } from "@/components/ui/button";
 import { urlForImage } from "@/lib/image";
 import { portableTextToMarkdown } from "@/lib/mdx";
 import { getTableOfContents } from "@/lib/toc";
-import { cn, getLocaleDate } from "@/lib/utils";
-import { sanityClient } from "@/sanity/lib/client";
-import { singlequery } from "@/sanity/lib/queries";
-import { ArrowLeftIcon } from "lucide-react";
+import { getLocaleDate } from "@/lib/utils";
+import { BlogPostQueryResult } from "@/sanity.types";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { blogPostQuery } from "@/sanity/lib/queries";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -20,16 +19,10 @@ interface PostPageProps {
 export default async function PostPage({ params }: PostPageProps) {
     const slug = params.slug;
     const queryParams = { slug };
-    const post = await sanityClient.fetch(
-        singlequery,
-        queryParams,
-        {
-            useCdn: false,
-            next: {
-                revalidate: 0,
-            }
-        }
-    );
+    const post = await sanityFetch<BlogPostQueryResult>({
+        query: blogPostQuery,
+        params: queryParams
+    });
     if (!post) {
         console.error("PostPage, post not found");
         return notFound();

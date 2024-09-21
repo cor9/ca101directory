@@ -1,4 +1,3 @@
-import { DocumentTextIcon } from "@sanity/icons";
 import { format, parseISO } from "date-fns";
 import { defineField, defineType } from "sanity";
 
@@ -9,7 +8,6 @@ export default defineType({
     name: "page",
     title: "Pages",
     type: "document",
-    // icon: DocumentTextIcon,
     fields: [
         defineField({
             name: "title",

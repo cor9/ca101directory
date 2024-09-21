@@ -26,9 +26,6 @@ export const schemaTypes = [
     // page
     page,
 
-    // block content
-    blockContent,
-
     // auth
     user,
     session,
@@ -39,7 +36,7 @@ export const schemaTypes = [
     // order
     order,
     
+    // others
     settings,
-
-    // objects
+    blockContent,
 ]

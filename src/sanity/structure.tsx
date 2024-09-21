@@ -1,4 +1,4 @@
-import { DocumentsIcon, UsersIcon } from "@sanity/icons";
+import { ArchiveIcon, BillIcon, CogIcon, ComponentIcon, DatabaseIcon, DocumentsIcon, DocumentTextIcon, ProjectsIcon, TagsIcon, TiersIcon, TokenIcon, UserIcon, UsersIcon } from "@sanity/icons";
 import { type DocumentDefinition } from "sanity";
 import { type StructureResolver } from "sanity/structure";
 import { schemaTypes } from "./schemas";
@@ -46,22 +46,29 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
       .items([
         S.divider(),
 
-        S.documentTypeListItem(item.name),
-        S.documentTypeListItem(category.name),
-        S.documentTypeListItem(tag.name),
+        S.documentTypeListItem(item.name)
+          .icon(ComponentIcon),
+        S.documentTypeListItem(category.name)
+          .icon(TiersIcon),
+        S.documentTypeListItem(tag.name)
+          .icon(TagsIcon),
 
         S.divider(),
 
-        S.documentTypeListItem(blogPost.name),
-        S.documentTypeListItem(blogCategory.name),
+        S.documentTypeListItem(blogPost.name)
+          .icon(DocumentsIcon),
+        S.documentTypeListItem(blogCategory.name)
+          .icon(TiersIcon),
 
         S.divider(),
 
-        S.documentTypeListItem(order.name),
+        S.documentTypeListItem(order.name)
+          .icon(BillIcon),
 
         S.divider(),
 
-        S.documentTypeListItem(page.name),
+        S.documentTypeListItem(page.name)
+          .icon(DocumentTextIcon),
 
         S.divider(),
 
@@ -72,22 +79,32 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
             S.list()
               .title('User management')
               .items([
-                S.documentTypeListItem(user.name),
-                S.documentTypeListItem(account.name),
-                S.documentTypeListItem(session.name),
-                S.documentTypeListItem(verificationToken.name),
-                S.documentTypeListItem(passwordResetToken.name),
+                S.documentTypeListItem(user.name)
+                  .icon(UserIcon),
+                S.documentTypeListItem(account.name)
+                  .icon(UsersIcon),
+                S.documentTypeListItem(verificationToken.name)
+                  .icon(TokenIcon),
+                S.documentTypeListItem(passwordResetToken.name)
+                  .icon(TokenIcon),
+                S.documentTypeListItem(session.name)
+                  .icon(ArchiveIcon),
               ]),
           ),
-        // S.documentTypeListItem(user.name),
-        // S.documentTypeListItem(account.name),
-        // S.documentTypeListItem(session.name),
-        // S.documentTypeListItem(verificationToken.name),
-        // S.documentTypeListItem(passwordResetToken.name),
 
         S.divider(),
 
-        ...singletonItems,
+        // ...singletonItems,
+
+        S.listItem()
+          .title(settings.title!)
+          .icon(CogIcon)
+          .child(
+            S.editor()
+              .id(settings.name)
+              .schemaType(settings.name)
+              .documentId(settings.name),
+          ),
 
         S.divider(),
 

@@ -1,4 +1,3 @@
-import { TagsIcon } from "@sanity/icons";
 import { format, parseISO } from "date-fns";
 import { defineField, defineType } from "sanity";
 
@@ -6,7 +5,6 @@ export default defineType({
   name: "tag",
   title: "Tag",
   type: "document",
-  // icon: TagsIcon,
   fields: [
     defineField({
       name: "name",

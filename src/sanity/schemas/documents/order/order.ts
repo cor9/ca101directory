@@ -1,12 +1,10 @@
 import { defineField } from 'sanity';
-import { DatabaseIcon } from '@sanity/icons';
 import { format, parseISO } from 'date-fns';
 
 const order = {
   name: 'order',
   title: 'Order',
   type: 'document',
-  // icon: DatabaseIcon,
   fields: [
     defineField({
       name: 'user',

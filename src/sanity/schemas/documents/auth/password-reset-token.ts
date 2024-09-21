@@ -1,11 +1,9 @@
 import { defineField } from 'sanity';
-import { TokenIcon } from '@sanity/icons';
 
 const passwordResetToken = {
   name: 'passwordResetToken',
   title: 'PasswordReset Token',
   type: 'document',
-  // icon: TokenIcon,
   fields: [
     defineField({
       name: 'identifier',

@@ -1,11 +1,9 @@
 import { defineField } from 'sanity';
-import { TokenIcon } from '@sanity/icons';
 
 const verificationToken = {
   name: 'verificationToken',
   title: 'Verification Token',
   type: 'document',
-  // icon: TokenIcon,
   fields: [
     defineField({
       name: 'identifier',

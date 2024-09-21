@@ -1,4 +1,3 @@
-import { ProjectsIcon } from "@sanity/icons";
 import { format, parseISO } from "date-fns";
 import { SanityImageAssetDocument } from "next-sanity";
 import { defineField, defineType } from "sanity";
@@ -7,7 +6,6 @@ export default defineType({
   name: "item",
   title: "Item",
   type: "document",
-  // icon: ProjectsIcon,
   fields: [
     defineField({
       name: "name",

@@ -1,10 +1,8 @@
-import { BlockContentIcon } from "@sanity/icons";
 import { defineType } from "sanity";
 
 export default defineType({
     title: "Block Content",
     name: "blockContent",
-    // icon: BlockContentIcon,
     type: "array",
     of: [
         {

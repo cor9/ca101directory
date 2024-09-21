@@ -1,4 +1,3 @@
-import { DocumentsIcon } from "@sanity/icons";
 import { format, parseISO } from "date-fns";
 import { defineField, defineType } from "sanity";
 
@@ -6,7 +5,6 @@ export default defineType({
     name: "blogPost",
     title: "Blog Post",
     type: "document",
-    // icon: DocumentsIcon,
     fields: [
         defineField({
             name: "title",

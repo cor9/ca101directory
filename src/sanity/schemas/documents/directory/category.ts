@@ -1,4 +1,3 @@
-import { TiersIcon } from "@sanity/icons";
 import { format, parseISO } from "date-fns";
 import { defineField, defineType } from "sanity";
 
@@ -6,7 +5,6 @@ export default defineType({
   name: "category",
   title: "Category",
   type: "document",
-  // icon: TiersIcon,
   fields: [
     defineField({
       name: "name",

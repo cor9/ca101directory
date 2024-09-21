@@ -9,18 +9,15 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { urlForImage } from '@/lib/image';
-import { getLocaleDate } from '@/lib/utils';
-import { SubmissionInfo } from '@/types';
+import { cn, getLocaleDate } from '@/lib/utils';
 import { MoreHorizontal } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PublishButton } from './forms/publish-button';
 import { UnpublishButton } from './forms/unpublish-button';
-import { sub } from 'date-fns';
-import { cn } from "@/lib/utils";
+import { ItemInfo } from '@/types';
 
-export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
-
+export function SubmissionRow({ submission }: { submission: ItemInfo }) {
     const publishable = (submission.pricePlan === 'free'
         && submission.freePlanStatus === 'approved')
         || (submission.pricePlan === 'pro'
@@ -104,7 +101,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
             </TableCell>
             <TableCell className="w-[150px] hidden md:table-cell">
                 {
-                    submission.published && submission.publishDate ?
+                    submission.publishDate ?
                         (
                             getLocaleDate(submission.publishDate)
                         ) :
@@ -124,7 +121,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                         <div className='flex items-center gap-2'>
                             {/* view button if published */}
                             {
-                                submission.published ?
+                                submission.publishDate ?
                                     <Button asChild variant="default" size="sm">
                                         <Link target='_blank'
                                             href={`/item/${submission.slug.current}`}
@@ -184,7 +181,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
 
                                 {/* view button if published */}
                                 {
-                                    submission.published ?
+                                    submission.publishDate ?
                                         <DropdownMenuItem>
                                             <Link target='_blank'
                                                 href={`/item/${submission.slug.current}`}
@@ -215,7 +212,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
                                 {
                                     publishable ? (
                                         <div className="">
-                                            {submission.published ?
+                                            {submission.publishDate ?
                                                 <DropdownMenuItem>
                                                     <UnpublishButton item={submission} />
                                                 </DropdownMenuItem> :

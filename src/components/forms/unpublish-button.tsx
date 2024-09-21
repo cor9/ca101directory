@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ItemFullInfo } from "@/types";
+import { ItemFullInfo, ItemInfo } from "@/types";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Icons } from "../shared/icons";
@@ -9,7 +9,7 @@ import { unpublish } from "@/actions/unpublish";
 import { toast } from "sonner";
 
 interface UnpublishButtonProps {
-  item: ItemFullInfo;
+  item: ItemInfo;
 }
 
 export function UnpublishButton({ item }: UnpublishButtonProps) {

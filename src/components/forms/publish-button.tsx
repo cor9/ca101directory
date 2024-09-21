@@ -2,15 +2,14 @@
 
 import { publish } from "@/actions/publish";
 import { Button } from "@/components/ui/button";
-import { ItemFullInfo } from "@/types";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { Icons } from "../shared/icons";
-import { RocketIcon } from "lucide-react";
 import { toast } from "sonner";
+import { Icons } from "../shared/icons";
+import { ItemInfo } from "@/types";
 
 interface PublishButtonProps {
-  item: ItemFullInfo;
+  item: ItemInfo;
 }
 
 export function PublishButton({ item }: PublishButtonProps) {

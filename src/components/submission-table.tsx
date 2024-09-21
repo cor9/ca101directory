@@ -5,16 +5,11 @@ import { SubmissionRow } from '@/components/submission-row';
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle
+    CardFooter
 } from '@/components/ui/card';
 import {
     Table,
     TableBody,
-    TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow
@@ -24,9 +19,6 @@ import { cn } from '@/lib/utils';
 import { ItemInfo } from '@/types';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
-import { Button, buttonVariants } from './ui/button';
-import { PlusIcon } from 'lucide-react';
-import Link from 'next/link';
 
 export function SubmissionTable({
     submissions,

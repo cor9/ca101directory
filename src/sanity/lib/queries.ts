@@ -16,6 +16,7 @@ const categoryFields = /* groq */ `
   ...,
 `;
 
+// when change the fields, please also update data/item.ts and data/submission.ts
 const itemSimpleFields = /* groq */ `
   _id,
   _createdAt,

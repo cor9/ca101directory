@@ -299,7 +299,6 @@ export type Item = {
     alt?: string;
     _type: "image";
   };
-  published?: boolean;
   publishDate?: string;
   paid?: boolean;
   order?: {
@@ -467,38 +466,37 @@ export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/sanity/lib/queries.ts
 // Variable: itemQuery
-// Query: *[_type == "item" && slug.current == $slug][0] {    ...,  submitter->,  categories[]->,  tags[]->}
+// Query: *[_type == "item" && slug.current == $slug][0] {      _id,  _createdAt,  name,  slug,  description,  link,  image,  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->  introduction,}
 export type ItemQueryResult = {
   _id: string;
-  _type: "item";
   _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-  link?: string;
-  categories: Array<{
-    _id: string;
-    _type: "category";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    slug?: Slug;
-    description?: string;
-    priority?: number;
-  }> | null;
-  tags: Array<{
-    _id: string;
-    _type: "tag";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    slug?: Slug;
-    description?: string;
-  }> | null;
+  name: string | null;
+  slug: Slug | null;
+  description: string | null;
+  link: string | null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  publishDate: string | null;
+  paid: boolean | null;
+  order: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "order";
+  } | null;
+  pricePlan: "free" | "pro" | null;
+  freePlanStatus: "approved" | "pending" | "rejected" | "submitted" | null;
+  proPlanStatus: "failed" | "pending" | "submitted" | "success" | null;
   submitter: {
     _id: string;
     _type: "user";
@@ -519,66 +517,51 @@ export type ItemQueryResult = {
     };
     stripeCustomerId?: string;
   } | null;
-  introduction?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  published?: boolean;
-  publishDate?: string;
-  paid?: boolean;
-  order?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "order";
-  };
-  pricePlan?: "free" | "pro";
-  freePlanStatus?: "approved" | "pending" | "rejected" | "submitted";
-  proPlanStatus?: "failed" | "pending" | "submitted" | "success";
-  rejectionReason?: "Other reasons" | "The image of the item is not good quality" | "The information of the item is not clear" | "The item is not a good fit for our directory";
+  categories: Array<{
+    _id: string;
+    _type: "category";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+    priority?: number;
+  }> | null;
+  tags: Array<null> | null;
 } | null;
 // Variable: itemByIdQuery
-// Query: *[_type == "item" && _id == $id][0] {    ...,  submitter->,  categories[]->,  tags[]->}
+// Query: *[_type == "item" && _id == $id][0] {      _id,  _createdAt,  name,  slug,  description,  link,  image,  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->  introduction,}
 export type ItemByIdQueryResult = {
   _id: string;
-  _type: "item";
   _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-  link?: string;
-  categories: Array<{
-    _id: string;
-    _type: "category";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    slug?: Slug;
-    description?: string;
-    priority?: number;
-  }> | null;
-  tags: Array<{
-    _id: string;
-    _type: "tag";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    slug?: Slug;
-    description?: string;
-  }> | null;
+  name: string | null;
+  slug: Slug | null;
+  description: string | null;
+  link: string | null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  publishDate: string | null;
+  paid: boolean | null;
+  order: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "order";
+  } | null;
+  pricePlan: "free" | "pro" | null;
+  freePlanStatus: "approved" | "pending" | "rejected" | "submitted" | null;
+  proPlanStatus: "failed" | "pending" | "submitted" | "success" | null;
   submitter: {
     _id: string;
     _type: "user";
@@ -599,45 +582,71 @@ export type ItemByIdQueryResult = {
     };
     stripeCustomerId?: string;
   } | null;
-  introduction?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  published?: boolean;
-  publishDate?: string;
-  paid?: boolean;
-  order?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "order";
-  };
-  pricePlan?: "free" | "pro";
-  freePlanStatus?: "approved" | "pending" | "rejected" | "submitted";
-  proPlanStatus?: "failed" | "pending" | "submitted" | "success";
-  rejectionReason?: "Other reasons" | "The image of the item is not good quality" | "The information of the item is not clear" | "The item is not a good fit for our directory";
+  categories: Array<{
+    _id: string;
+    _type: "category";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+    priority?: number;
+  }> | null;
+  tags: Array<null> | null;
 } | null;
 // Variable: itemListQuery
-// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)]   | order(publishDate desc) {    ...,  submitter->,  categories[]->,  tags[]->}
+// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)]   | order(publishDate desc) {    _id,  _createdAt,  name,  slug,  description,  link,  image,  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->}
 export type ItemListQueryResult = Array<{
   _id: string;
-  _type: "item";
   _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-  link?: string;
+  name: string | null;
+  slug: Slug | null;
+  description: string | null;
+  link: string | null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  publishDate: string | null;
+  paid: boolean | null;
+  order: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "order";
+  } | null;
+  pricePlan: "free" | "pro" | null;
+  freePlanStatus: "approved" | "pending" | "rejected" | "submitted" | null;
+  proPlanStatus: "failed" | "pending" | "submitted" | "success" | null;
+  submitter: {
+    _id: string;
+    _type: "user";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    email?: string;
+    emailVerified?: string;
+    image?: string;
+    password?: string;
+    role?: "ADMIN" | "USER";
+    accounts?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "account";
+    };
+    stripeCustomerId?: string;
+  } | null;
   categories: Array<{
     _id: string;
     _type: "category";
@@ -659,65 +668,59 @@ export type ItemListQueryResult = Array<{
     slug?: Slug;
     description?: string;
   }> | null;
-  submitter: {
-    _id: string;
-    _type: "user";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    email?: string;
-    emailVerified?: string;
-    image?: string;
-    password?: string;
-    role?: "ADMIN" | "USER";
-    accounts?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "account";
-    };
-    stripeCustomerId?: string;
-  } | null;
-  introduction?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  published?: boolean;
-  publishDate?: string;
-  paid?: boolean;
-  order?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "order";
-  };
-  pricePlan?: "free" | "pro";
-  freePlanStatus?: "approved" | "pending" | "rejected" | "submitted";
-  proPlanStatus?: "failed" | "pending" | "submitted" | "success";
-  rejectionReason?: "Other reasons" | "The image of the item is not good quality" | "The information of the item is not clear" | "The item is not a good fit for our directory";
 }>;
 // Variable: itemListOfCategoryQuery
-// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in categories[]->slug.current]   | order(publishDate desc) {    ...,  submitter->,  categories[]->,  tags[]->}
+// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in categories[]->slug.current]   | order(publishDate desc) {    _id,  _createdAt,  name,  slug,  description,  link,  image,  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->}
 export type ItemListOfCategoryQueryResult = Array<{
   _id: string;
-  _type: "item";
   _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-  link?: string;
+  name: string | null;
+  slug: Slug | null;
+  description: string | null;
+  link: string | null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  publishDate: string | null;
+  paid: boolean | null;
+  order: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "order";
+  } | null;
+  pricePlan: "free" | "pro" | null;
+  freePlanStatus: "approved" | "pending" | "rejected" | "submitted" | null;
+  proPlanStatus: "failed" | "pending" | "submitted" | "success" | null;
+  submitter: {
+    _id: string;
+    _type: "user";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    email?: string;
+    emailVerified?: string;
+    image?: string;
+    password?: string;
+    role?: "ADMIN" | "USER";
+    accounts?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "account";
+    };
+    stripeCustomerId?: string;
+  } | null;
   categories: Array<{
     _id: string;
     _type: "category";
@@ -739,65 +742,59 @@ export type ItemListOfCategoryQueryResult = Array<{
     slug?: Slug;
     description?: string;
   }> | null;
-  submitter: {
-    _id: string;
-    _type: "user";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    email?: string;
-    emailVerified?: string;
-    image?: string;
-    password?: string;
-    role?: "ADMIN" | "USER";
-    accounts?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "account";
-    };
-    stripeCustomerId?: string;
-  } | null;
-  introduction?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  published?: boolean;
-  publishDate?: string;
-  paid?: boolean;
-  order?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "order";
-  };
-  pricePlan?: "free" | "pro";
-  freePlanStatus?: "approved" | "pending" | "rejected" | "submitted";
-  proPlanStatus?: "failed" | "pending" | "submitted" | "success";
-  rejectionReason?: "Other reasons" | "The image of the item is not good quality" | "The information of the item is not clear" | "The item is not a good fit for our directory";
 }>;
 // Variable: itemListOfTagQuery
-// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in tags[]->slug.current]   | order(publishDate desc) {    ...,  submitter->,  categories[]->,  tags[]->}
+// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in tags[]->slug.current]   | order(publishDate desc) {    _id,  _createdAt,  name,  slug,  description,  link,  image,  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->}
 export type ItemListOfTagQueryResult = Array<{
   _id: string;
-  _type: "item";
   _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-  link?: string;
+  name: string | null;
+  slug: Slug | null;
+  description: string | null;
+  link: string | null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  publishDate: string | null;
+  paid: boolean | null;
+  order: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "order";
+  } | null;
+  pricePlan: "free" | "pro" | null;
+  freePlanStatus: "approved" | "pending" | "rejected" | "submitted" | null;
+  proPlanStatus: "failed" | "pending" | "submitted" | "success" | null;
+  submitter: {
+    _id: string;
+    _type: "user";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    email?: string;
+    emailVerified?: string;
+    image?: string;
+    password?: string;
+    role?: "ADMIN" | "USER";
+    accounts?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "account";
+    };
+    stripeCustomerId?: string;
+  } | null;
   categories: Array<{
     _id: string;
     _type: "category";
@@ -819,52 +816,6 @@ export type ItemListOfTagQueryResult = Array<{
     slug?: Slug;
     description?: string;
   }> | null;
-  submitter: {
-    _id: string;
-    _type: "user";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    email?: string;
-    emailVerified?: string;
-    image?: string;
-    password?: string;
-    role?: "ADMIN" | "USER";
-    accounts?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "account";
-    };
-    stripeCustomerId?: string;
-  } | null;
-  introduction?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  published?: boolean;
-  publishDate?: string;
-  paid?: boolean;
-  order?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "order";
-  };
-  pricePlan?: "free" | "pro";
-  freePlanStatus?: "approved" | "pending" | "rejected" | "submitted";
-  proPlanStatus?: "failed" | "pending" | "submitted" | "success";
-  rejectionReason?: "Other reasons" | "The image of the item is not good quality" | "The information of the item is not clear" | "The item is not a good fit for our directory";
 }>;
 // Variable: categoryListQuery
 // Query: *[_type == "category" && defined(slug.current)]   | order(priority desc) {    ...,}
@@ -917,38 +868,37 @@ export type TagQueryResult = {
   description?: string;
 } | null;
 // Variable: submissionListQuery
-// Query: *[_type == "item" && defined(slug.current)  && submitter._ref == $userId] | order(_createdAt desc) {    ...,  submitter->,  categories[]->,  tags[]->}
+// Query: *[_type == "item" && defined(slug.current)  && submitter._ref == $userId] | order(_createdAt desc) {      _id,  _createdAt,  name,  slug,  description,  link,  image,  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->  introduction,}
 export type SubmissionListQueryResult = Array<{
   _id: string;
-  _type: "item";
   _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-  link?: string;
-  categories: Array<{
-    _id: string;
-    _type: "category";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    slug?: Slug;
-    description?: string;
-    priority?: number;
-  }> | null;
-  tags: Array<{
-    _id: string;
-    _type: "tag";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    slug?: Slug;
-    description?: string;
-  }> | null;
+  name: string | null;
+  slug: Slug | null;
+  description: string | null;
+  link: string | null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  publishDate: string | null;
+  paid: boolean | null;
+  order: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "order";
+  } | null;
+  pricePlan: "free" | "pro" | null;
+  freePlanStatus: "approved" | "pending" | "rejected" | "submitted" | null;
+  proPlanStatus: "failed" | "pending" | "submitted" | "success" | null;
   submitter: {
     _id: string;
     _type: "user";
@@ -969,32 +919,18 @@ export type SubmissionListQueryResult = Array<{
     };
     stripeCustomerId?: string;
   } | null;
-  introduction?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  published?: boolean;
-  publishDate?: string;
-  paid?: boolean;
-  order?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "order";
-  };
-  pricePlan?: "free" | "pro";
-  freePlanStatus?: "approved" | "pending" | "rejected" | "submitted";
-  proPlanStatus?: "failed" | "pending" | "submitted" | "success";
-  rejectionReason?: "Other reasons" | "The image of the item is not good quality" | "The information of the item is not clear" | "The item is not a good fit for our directory";
+  categories: Array<{
+    _id: string;
+    _type: "category";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+    priority?: number;
+  }> | null;
+  tags: Array<null> | null;
 }>;
 // Variable: pageQuery
 // Query: *[_type == "page" && slug.current == $slug][0] {    ...,    body[]{      ...,      markDefs[]{        ...,        _type == "internalLink" => {          "slug": @.reference->slug        }      }    },  }
@@ -1675,7 +1611,6 @@ export type GetAllResult = Array<{
     alt?: string;
     _type: "image";
   };
-  published?: boolean;
   publishDate?: string;
   paid?: boolean;
   order?: {
@@ -1840,16 +1775,16 @@ export type GetAllResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"item\" && slug.current == $slug][0] {\n  \n  ...,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": ItemQueryResult;
-    "*[_type == \"item\" && _id == $id][0] {\n  \n  ...,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": ItemByIdQueryResult;
-    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)] \n  | order(publishDate desc) {\n  \n  ...,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": ItemListQueryResult;
-    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in categories[]->slug.current] \n  | order(publishDate desc) {\n  \n  ...,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": ItemListOfCategoryQueryResult;
-    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in tags[]->slug.current] \n  | order(publishDate desc) {\n  \n  ...,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": ItemListOfTagQueryResult;
+    "*[_type == \"item\" && slug.current == $slug][0] {\n  \n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image,\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n  introduction,\n\n}": ItemQueryResult;
+    "*[_type == \"item\" && _id == $id][0] {\n  \n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image,\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n  introduction,\n\n}": ItemByIdQueryResult;
+    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)] \n  | order(publishDate desc) {\n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image,\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": ItemListQueryResult;
+    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in categories[]->slug.current] \n  | order(publishDate desc) {\n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image,\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": ItemListOfCategoryQueryResult;
+    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in tags[]->slug.current] \n  | order(publishDate desc) {\n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image,\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": ItemListOfTagQueryResult;
     "*[_type == \"category\" && defined(slug.current)] \n  | order(priority desc) {\n  \n  ...,\n\n}": CategoryListQueryResult;
     "*[_type == \"category\" && slug.current == $slug][0] {\n  \n  ...,\n\n}": CategoryQueryResult;
     "*[_type == \"tag\" && defined(slug.current)] \n  | order(slug.current asc) {\n  \n  ...,\n\n}": TagListQueryResult;
     "*[_type == \"tag\" && slug.current == $slug][0] {\n  \n  ...,\n\n}": TagQueryResult;
-    "*[_type == \"item\" && defined(slug.current)\n  && submitter._ref == $userId] | order(_createdAt desc) {\n  \n  ...,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n}": SubmissionListQueryResult;
+    "*[_type == \"item\" && defined(slug.current)\n  && submitter._ref == $userId] | order(_createdAt desc) {\n  \n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image,\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->\n\n  introduction,\n\n}": SubmissionListQueryResult;
     "\n  *[_type == \"page\" && slug.current == $slug][0] {\n    ...,\n    body[]{\n      ...,\n      markDefs[]{\n        ...,\n        _type == \"internalLink\" => {\n          \"slug\": @.reference->slug\n        }\n      }\n    },\n  }\n": PageQueryResult;
     "\n  *[_type == \"blogCategory\" && defined(slug.current)] \n    | order(priority desc) {\n  \n  name,\n  slug,\n  description,\n  priority,\n  color,\n\n}": BlogCategoryListQueryResult;
     "\n  *[_type == \"blogPost\" && slug.current == $slug][0] {\n    \n  \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image,\n  publishDate,\n  author->,\n  categories[]->,\n\n  body[]{\n    ...,\n    markDefs[]{\n      ...,\n      _type == \"internalLink\" => {\n        \"slug\": @.reference->slug\n      }\n    }\n  },\n  // \"estReadingTime\": round(length(pt::text(body)) / 5 / 180 ),\n  // \"related\": *[_type == \"blogPost\" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {\n  //   title,\n  //   slug,\n  //   \"date\": coalesce(publishedDate,_createdAt),\n  //   \"image\": image\n  // },\n\n}": BlogPostQueryResult;

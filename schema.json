@@ -1807,13 +1807,6 @@
         },
         "optional": true
       },
-      "published": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "boolean"
-        },
-        "optional": true
-      },
       "publishDate": {
         "type": "objectAttribute",
         "value": {

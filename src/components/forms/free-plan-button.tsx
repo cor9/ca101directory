@@ -35,7 +35,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
   };
 
   const handleClick = () => {
-    if (item.published) {
+    if (item.publishDate) {
       router.push(`/dashboard`);
     } else if (item.freePlanStatus === 'submitted') {
       submitToReviewAction();
@@ -57,7 +57,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
       onClick={handleClick}
     >
       {
-        item.published ? (
+        item.publishDate ? (
           <>
             <ArrowLeftIcon className="mr-2 size-4" />
             <span>Go back to dashboard</span>

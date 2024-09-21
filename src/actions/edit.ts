@@ -6,7 +6,6 @@ import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { nanoid } from 'nanoid';
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export type EditFormData = {
   id: string;
@@ -52,15 +51,8 @@ export async function Edit(formData: EditFormData) {
       description,
       introduction,
 
-      // don't update submitter
-      // submitter: {
-      //   _type: "reference",
-      //   _ref: session.user.id,
-      // },
-
       // Free plan: update item leads to be unpublished and reviewed again
       ...(pricePlan === "free" && {
-        published: false,
         publishDate: null,
         freePlanStatus: "reviewing",
       }),
@@ -77,17 +69,14 @@ export async function Edit(formData: EditFormData) {
         _ref: category,
         _key: nanoid(12),
       })),
-      ...(imageId ?
-        {
-          image: {
-            _type: "image",
-            alt: `image of ${name}`,
-            asset: {
-              _type: 'reference',
-              _ref: imageId
-            }
-          }
-        } : {})
+      image: {
+        _type: "image",
+        alt: `image of ${name}`,
+        asset: {
+          _type: 'reference',
+          _ref: imageId
+        }
+      }
     };
 
     // console.log("edit, data:", data);

@@ -6,13 +6,10 @@ import { ItemListQueryResult, ItemQueryResult, BlogPostListQueryResult, Submissi
 export type ItemInfo = ItemListQueryResult[number];
 // FullInfo has more fields (eg. content)
 export type ItemFullInfo = ItemQueryResult;
-
-// Blog 
-export type BlogPostInfo = BlogPostListQueryResult[number];
-export type BlogCategoryInfo = CatPathQueryResult[number];
-
 // Submissions
 export type SubmissionInfo = SubmissionListQueryResult[number];
+// Blog 
+export type BlogPostInfo = BlogPostListQueryResult[number];
 
 export type SubmitConfig = {
   title: string;

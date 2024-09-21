@@ -47,18 +47,27 @@ const buildQuery = (category?: string, tag?: string, sortKey?: string, reverse?:
   const offsetEnd = offsetStart + ITEMS_PER_PAGE;
 
   // @sanity-typegen-ignore
-  const countQuery = `count(*[_type == "item" && defined(slug.current) 
+  const countQuery = `count(*[_type == "item" && defined(slug.current) && defined(publishDate)
       ${queryCondition} ${categoryCondition} ${tagCondition}])`;
   // @sanity-typegen-ignore
-  const dataQuery = `*[_type == "item" && defined(slug.current) 
+  const dataQuery = `*[_type == "item" && defined(slug.current) && defined(publishDate)
       ${queryCondition} ${categoryCondition} ${tagCondition}] ${sortOrder} [${offsetStart}...${offsetEnd}] {
-      ...,
-      categories[]->{
-        ...,
-      },
-      tags[]->{
-        ...,
-      }
+      _id,
+      _createdAt,
+      name,
+      slug,
+      description,
+      link,
+      image,
+      publishDate,
+      paid,
+      order,
+      pricePlan,
+      freePlanStatus,
+      proPlanStatus,
+      submitter->,
+      categories[]->,
+      tags[]->,
     }`;
   // console.log('buildQuery, countQuery', countQuery);
   // console.log('buildQuery, dataQuery', dataQuery);

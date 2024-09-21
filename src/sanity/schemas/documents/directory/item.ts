@@ -98,20 +98,19 @@ export default defineType({
       ],
     }),
     // publish related fields
-    defineField({
-      name: "published",
-      title: "Published",
-      description: "If the item is published, it will be visible to the public",
-      type: "boolean",
-      initialValue: false,
-    }),
+    // defineField({
+    //   name: "published",
+    //   title: "Published",
+    //   description: "If the item is published, it will be visible to the public",
+    //   type: "boolean",
+    //   initialValue: false,
+    // }),
 		defineField({
 			name: 'publishDate',
       title: 'Publish Date',
       description: "The lastest publish date when the item is published",
 			type: 'datetime',
-      initialValue: () => new Date().toISOString(),
-      hidden: ({ parent }) => !parent.published,
+      // hidden: ({ parent }) => !parent.published,
 		}),
     // payment related fields
     defineField({

@@ -1,9 +1,12 @@
 import groq, { defineQuery } from 'groq';
 
-// https://www.sanity.io/plugins/next-sanity#generate-typescript-types
+/**
+ * https://www.sanity.io/plugins/next-sanity#using-query-result-types
+ * https://www.sanity.io/plugins/next-sanity#generate-typescript-types
+ */
 
 /**
- * Fields used in queries
+ * Item Queries
  */
 const tagFields = /* groq */ `
   ...,
@@ -13,18 +16,30 @@ const categoryFields = /* groq */ `
   ...,
 `;
 
-const itemFields = /* groq */ `
-  ...,
+const itemSimpleFields = /* groq */ `
+  _id,
+  _createdAt,
+  name,
+  slug,
+  description,
+  link,
+  image,
+  publishDate,
+  paid,
+  order,
+  pricePlan,
+  freePlanStatus,
+  proPlanStatus,
   submitter->,
   categories[]->,
-  tags[]->
+  tags[]->,
 `;
 
-/**
- * Queries
- * 
- * https://www.sanity.io/plugins/next-sanity#using-query-result-types
- */
+const itemFields = /* groq */ `
+  ${itemSimpleFields}
+  introduction,
+`;
+
 export const itemQuery = defineQuery(`*[_type == "item" && slug.current == $slug][0] {
   ${itemFields}
 }`);
@@ -33,21 +48,25 @@ export const itemByIdQuery = defineQuery(`*[_type == "item" && _id == $id][0] {
   ${itemFields}
 }`);
 
+/**
+ * this query is not used in the app, 
+ * but it is used to generate the ItemListQueryResult type
+ */
 export const itemListQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)] 
   | order(publishDate desc) {
-  ${itemFields}
+  ${itemSimpleFields}
 }`);
 
 export const itemListOfCategoryQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)
   && $slug in categories[]->slug.current] 
   | order(publishDate desc) {
-  ${itemFields}
+  ${itemSimpleFields}
 }`);
 
 export const itemListOfTagQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)
   && $slug in tags[]->slug.current] 
   | order(publishDate desc) {
-  ${itemFields}
+  ${itemSimpleFields}
 }`);
 
 export const categoryListQuery = defineQuery(`*[_type == "category" && defined(slug.current)] 
@@ -119,6 +138,7 @@ const blogPostFields = /* groq */ `
       }
     }
   },
+  
   // "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),
   // "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {
   //   title,

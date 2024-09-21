@@ -53,11 +53,6 @@ export default function BlogCard({ post }: BlogCardProps) {
             </span>
           )}
         </Link>
-
-        {/* Post category, hidden for now */}
-        {/* <div className="hidden absolute bottom-6 left-6 z-10">
-          <BlogCategoryLabel categories={post.categories} />
-        </div> */}
       </div>
 
       {/* Post info container */}

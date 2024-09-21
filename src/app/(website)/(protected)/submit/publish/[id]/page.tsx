@@ -88,7 +88,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
 
                 {/* action buttons */}
                 {
-                  item.published ? (
+                  item.publishDate ? (
                     <div className="flex flex-row gap-4">
                       <div className="group flex-1">
                         <Button size="lg" variant="default" asChild

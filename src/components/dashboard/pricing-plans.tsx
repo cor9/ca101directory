@@ -5,7 +5,6 @@ import { Icons } from "@/components/shared/icons";
 import { PRICE_PLANS } from "@/config/pricing-plan";
 import { cn } from "@/lib/utils";
 import { ItemFullInfo, PricePlan } from "@/types/index";
-import { useState } from 'react';
 import { FreePlanButton } from "@/components/forms/free-plan-button";
 
 /**
@@ -16,18 +15,15 @@ interface PricingPlansProps {
 }
 
 export function PricingPlans({ item }: PricingPlansProps) {
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
   return (
     <section className="flex flex-col items-center text-center w-full mx-auto">
       <div className="grid gap-8 py-4 w-full sm:grid-cols-1 md:grid-cols-2">
         {PRICE_PLANS.map((pricePlan) => (
           <PricingPlanCard
-            key={pricePlan.title}
             item={item}
+            key={pricePlan.title}
             pricePlan={pricePlan}
-            isSelected={selectedPlan === pricePlan.title}
-            onSelect={() => setSelectedPlan(pricePlan.title)}
           />
         ))}
       </div>
@@ -41,11 +37,9 @@ export function PricingPlans({ item }: PricingPlansProps) {
 interface PricingPlanCardProps {
   item: ItemFullInfo;
   pricePlan: PricePlan;
-  isSelected: boolean;
-  onSelect: () => void;
 }
 
-const PricingPlanCard = ({ item, pricePlan, isSelected, onSelect }: PricingPlanCardProps) => {
+const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
   return (
     <div
       className={cn(

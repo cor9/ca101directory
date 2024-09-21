@@ -29,13 +29,27 @@ const buildQuery = (userId: string, currentPage: number = 1) => {
     const offsetEnd = offsetStart + SUBMISSIONS_PER_PAGE;
 
     // @sanity-typegen-ignore
-    const countQuery = `count(*[_type == "item" && defined(slug.current) 
+    const countQuery = `count(*[_type == "item" && defined(slug.current) && defined(publishDate)
        ${userCondition} ])`;
     // @sanity-typegen-ignore
-    const dataQuery = `*[_type == "item" && defined(slug.current) 
+    const dataQuery = `*[_type == "item" && defined(slug.current) && defined(publishDate)
        ${userCondition} ] [${offsetStart}...${offsetEnd}] {
-        ...,
-        submitter->
+        _id,
+        _createdAt,
+        name,
+        slug,
+        description,
+        link,
+        image,
+        publishDate,
+        paid,
+        order,
+        pricePlan,
+        freePlanStatus,
+        proPlanStatus,
+        submitter->,
+        categories[]->,
+        tags[]->,
     }`;
     // console.log('buildQuery, countQuery', countQuery);
     // console.log('buildQuery, dataQuery', dataQuery);

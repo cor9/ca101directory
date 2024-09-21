@@ -6,6 +6,8 @@ import { absoluteUrl } from "@/lib/utils";
 import { Item, User } from "@/sanity.types";
 import { sanityClient } from "@/sanity/lib/client";
 import { sanityFetch } from "@/sanity/lib/fetch";
+import { itemByIdQuery } from "@/sanity/lib/queries";
+import { ItemInfo } from "@/types";
 import { redirect } from "next/navigation";
 
 export type ServerActionResponse = {
@@ -29,8 +31,9 @@ export async function createCheckoutSession(itemId: string, priceId: string): Pr
       };
     }
 
-    const item = await sanityFetch<Item>({
-      query: `*[_type == "item" && _id == "${itemId}"][0]`
+    const item = await sanityFetch<ItemInfo>({
+      query: itemByIdQuery,
+      params: { id: itemId }
     });
     if (!item) {
       return {
@@ -43,7 +46,7 @@ export async function createCheckoutSession(itemId: string, priceId: string): Pr
     const sanityUser = await sanityFetch<User>({
       query: `*[_type == "user" && _id == "${user.id}"][0]`
     });
-    if (item.submitter._ref != user.id) {
+    if (item.submitter._id != user.id) {
       return {
         status: "error",
         message: "You are not the submitter of this item",

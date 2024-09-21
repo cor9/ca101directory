@@ -1,14 +1,17 @@
 /**
- * As this file is reused in several other files, try to keep it lean and small.
- * Importing other npm packages here could lead to needlessly increasing the client bundle size, or end up in a server-only function that don't need it.
+ * see https://www.sanity.io/docs/api-versioning for how versioning works
  */
-function assertValue<T>(value: T | undefined, errorMessage: string): T {
-  if (value === undefined) {
-    throw new Error(errorMessage);
-  }
+export const apiVersion = "2024-08-01";
 
-  return value;
-}
+/**
+ * Used to configure edit intent links, for Presentation Mode, as well as to configure where the Studio is mounted in the router.
+ */
+export const studioUrl = "/studio";
+
+/**
+ * Used to configure the Preview URL
+ */
+export const previewUrl = process.env.NEXT_PUBLIC_APP_URL;
 
 /**
  * As this file is reused in several other files, try to keep it lean and small.
@@ -25,16 +28,13 @@ export const projectId = assertValue(
 );
 
 /**
- * see https://www.sanity.io/docs/api-versioning for how versioning works
+ * As this file is reused in several other files, try to keep it lean and small.
+ * Importing other npm packages here could lead to needlessly increasing the client bundle size, or end up in a server-only function that don't need it.
  */
-export const apiVersion = "2024-08-01";
+function assertValue<T>(value: T | undefined, errorMessage: string): T {
+  if (value === undefined) {
+    throw new Error(errorMessage);
+  }
 
-/**
- * Used to configure edit intent links, for Presentation Mode, as well as to configure where the Studio is mounted in the router.
- */
-export const studioUrl = "/studio";
-
-/**
- * Used to configure the Preview URL
- */
-export const previewUrl = process.env.NEXT_PUBLIC_APP_URL;
+  return value;
+}

@@ -21,7 +21,7 @@ const serializers = {
             // const imageUrl = toMarkdown.getImageUrl({options: {}, node});
             const imageUrl = urlForImage(node);
             // console.log("node", node);
-            console.log("imageUrl", imageUrl);
+            console.log("mdx imageUrl", imageUrl);
             return `![${node.alt || 'image'}](${imageUrl.src})`;
         },
         code: ({ node }: any) => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { urlForImage } from "@/lib/image";
-import { cn, getLocaleDate, urlForImageWithSize } from "@/lib/utils";
+import { cn, getLocaleDate } from "@/lib/utils";
 import { ItemInfo } from "@/types";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
@@ -12,7 +12,6 @@ type ItemCardProps = {
 };
 
 export default function ItemCard({ item }: ItemCardProps) {
-  // const imageUrl = urlForImageWithSize(item.image, 960, 540);
   const imageProps = item?.image
     ? urlForImage(item.image)
     : null;
@@ -23,7 +22,6 @@ export default function ItemCard({ item }: ItemCardProps) {
   return (
     <>
       {/* bg-muted is used when imageProps is null */}
-
       <Link
         href={`/item/${item.slug.current}`}
         className={cn(

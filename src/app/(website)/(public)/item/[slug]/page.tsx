@@ -2,7 +2,8 @@ import ItemBreadCrumb from "@/components/item-bread-crumb";
 import ItemCustomMdx from "@/components/item-custom-mdx";
 import BackButton from "@/components/shared/back-button";
 import { Button } from "@/components/ui/button";
-import { getLocaleDate, urlForImageWithSize } from "@/lib/utils";
+import { urlForImage } from "@/lib/image";
+import { getLocaleDate } from "@/lib/utils";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
@@ -26,6 +27,9 @@ export default async function ItemPage({ params }: ItemPageProps) {
     return notFound();
   }
 
+  const imageProps = item?.image
+    ? urlForImage(item?.image)
+    : null;
   const publishDate = item.publishDate || item._createdAt;
   const date = getLocaleDate(publishDate);
 
@@ -111,21 +115,22 @@ export default async function ItemPage({ params }: ItemPageProps) {
           <div className="flex flex-col space-y-8">
 
             {/* image */}
-            <div className="relative group overflow-hidden rounded-lg">
+            <div className="relative group overflow-hidden rounded-lg aspect-[16/9]">
               <Link href={`${item.link}`}
                 target="_blank"
                 prefetch={false}>
-                <Image
-                  width={360}
-                  height={240}
-                  alt={`${item.name}`}
-                  title={`${item.name}`}
-                  className="rounded-lg border w-full shadow-lg
-                  transition-transform duration-300 group-hover:scale-105"
-                  src={urlForImageWithSize(item.image, 960, 540)}
-                />
+                {imageProps && (
+                  <Image
+                    src={imageProps.src}
+                    alt={item.image?.alt || `image for ${item.name}`}
+                    loading="eager"
+                    fill
+                    className="border w-full shadow-lg
+                    transition-all duration-300 ease-in-out group-hover:scale-105"
+                  />
+                )}
                 <div className="absolute inset-0 flex items-center justify-center bg-black 
-                bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
+                  bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
                   <span className="text-white text-lg font-semibold 
                     opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     Visit Website

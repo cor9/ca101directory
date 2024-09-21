@@ -1,16 +1,15 @@
-import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { DashboardSubmitHeader } from "@/components/dashboard/dashboard-submit-header";
 import { PublishNowButton } from "@/components/forms/publish-now-button";
 import { SubmitStepper } from "@/components/submit/submit-stepper";
 import { Button } from "@/components/ui/button";
-import { urlForImageWithSize } from "@/lib/utils";
+import { urlForImage } from "@/lib/image";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
-import { CalendarDaysIcon, PartyPopperIcon, RocketIcon } from "lucide-react";
+import { CalendarDaysIcon, PartyPopperIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 export default async function PublishPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -33,10 +32,12 @@ export default async function PublishPage({ params }: { params: { id: string } }
   //   return redirect(`/submit/plan/${item._id}`);
   // }
 
+  const imageProps = item?.image
+    ? urlForImage(item?.image)
+    : null;
+
   return (
     <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
-      {/* <SubmitStepper initialStep={3} /> */}
-
       <DashboardSubmitHeader
         title="Submit"
         subtitle="Submit your product to get listed."
@@ -53,16 +54,24 @@ export default async function PublishPage({ params }: { params: { id: string } }
             {/* Left column */}
             <div className="md:col-span-1 flex flex-col">
               {/* image */}
-              <div className="relative group overflow-hidden rounded-lg">
-                <Image
-                  width={360}
-                  height={240}
-                  alt={`${item.name}`}
-                  title={`${item.name}`}
-                  className="rounded-lg border w-full shadow-lg
-                        transition-transform duration-300 group-hover:scale-105"
-                  src={urlForImageWithSize(item.image, 960, 540)}
-                />
+              <div className="relative group overflow-hidden rounded-lg aspect-[16/9]">
+                {imageProps && (
+                  <Image
+                    src={imageProps.src}
+                    alt={item.image?.alt || `image for ${item.name}`}
+                    loading="eager"
+                    fill
+                    className="border w-full shadow-lg
+                    transition-all duration-300 ease-in-out group-hover:scale-105"
+                  />
+                )}
+                <div className="absolute inset-0 flex items-center justify-center bg-black 
+                  bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
+                  <span className="text-white text-lg font-semibold 
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Visit Website
+                  </span>
+                </div>
               </div>
             </div>
 

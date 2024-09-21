@@ -1,5 +1,7 @@
 import groq, { defineQuery } from 'groq';
 
+// https://www.sanity.io/plugins/next-sanity#generate-typescript-types
+
 /**
  * Fields used in queries
  */
@@ -20,6 +22,8 @@ const itemFields = /* groq */ `
 
 /**
  * Queries
+ * 
+ * https://www.sanity.io/plugins/next-sanity#using-query-result-types
  */
 export const itemQuery = defineQuery(`*[_type == "item" && slug.current == $slug][0] {
   ${itemFields}

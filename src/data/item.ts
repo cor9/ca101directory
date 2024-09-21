@@ -58,7 +58,11 @@ const buildQuery = (category?: string, tag?: string, sortKey?: string, reverse?:
       slug,
       description,
       link,
-      image,
+      image {
+        ...,
+        "blurDataURL": asset->metadata.lqip,
+        "imageColor": asset->metadata.palette.dominant.background,
+      },
       publishDate,
       paid,
       order,

@@ -30,6 +30,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
   const imageProps = item?.image
     ? urlForImage(item?.image)
     : null;
+  const imageBlurDataURL = item?.image?.blurDataURL || null;
   const publishDate = item.publishDate || item._createdAt;
   const date = getLocaleDate(publishDate);
 
@@ -127,6 +128,10 @@ export default async function ItemPage({ params }: ItemPageProps) {
                     fill
                     className="border w-full shadow-lg
                     transition-all duration-300 ease-in-out group-hover:scale-105"
+                    {...(imageBlurDataURL && {
+                      placeholder: "blur",
+                      blurDataURL: imageBlurDataURL
+                    })}
                   />
                 )}
                 <div className="absolute inset-0 flex items-center justify-center bg-black 

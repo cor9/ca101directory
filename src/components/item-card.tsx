@@ -15,7 +15,8 @@ export default function ItemCard({ item }: ItemCardProps) {
   const imageProps = item?.image
     ? urlForImage(item.image)
     : null;
-  // const imageProps = null; // for testing
+  const imageBlurDataURL = item?.image?.blurDataURL || null;
+  console.log(`ItemCard, imageBlurDataURL:${imageBlurDataURL}`);
   const publishDate = item.publishDate || item._createdAt;
   const date = getLocaleDate(publishDate);
 
@@ -42,6 +43,10 @@ export default function ItemCard({ item }: ItemCardProps) {
                 alt={item.image.alt || `image of ${item.name}`}
                 fill
                 sizes="(max-width: 639px) 100vw, (max-width: 767px) 50vw, (max-width: 1279px) 33.33vw, 25vw"
+                {...(imageBlurDataURL && {
+                  placeholder: "blur",
+                  blurDataURL: imageBlurDataURL
+                })}
               />
             ) : (
               // show image icon when no image is found

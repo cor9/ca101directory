@@ -32,6 +32,7 @@ export default async function PostPage({ params }: PostPageProps) {
     const imageProps = post?.image
         ? urlForImage(post?.image)
         : null;
+    const imageBlurDataURL = post?.image?.blurDataURL || null;
     const publishDate = post.publishDate || post._createdAt;
     const date = getLocaleDate(publishDate);
     const markdownContent = portableTextToMarkdown(post.body);
@@ -57,6 +58,10 @@ export default async function PostPage({ params }: PostPageProps) {
                                     fill
                                     sizes="(max-width: 1024px) 100vw, 1024px"
                                     className="object-cover"
+                                    {...(imageBlurDataURL && {
+                                        placeholder: "blur",
+                                        blurDataURL: imageBlurDataURL
+                                      })}
                                 />
                             )}
                         </div>

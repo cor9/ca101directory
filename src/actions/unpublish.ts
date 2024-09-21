@@ -14,7 +14,6 @@ export const unpublish = async (itemId: string) => {
   // }
 
   const result = await sanityClient.patch(itemId).set({
-    published: false,
     publishDate: null,
   }).commit();
   // console.log('unpublish, result:', result);

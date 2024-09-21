@@ -22,7 +22,7 @@ export async function sanityFetch<QueryResponse>({
   params?: QueryParams;
   perspective?: Omit<ClientPerspective, "raw">;
 }) {
-  console.log('sanityFetch, perspective', perspective, 'query', query);
+  // console.log('sanityFetch, perspective', perspective, 'query', query);
   if (perspective === "previewDrafts") {
     return sanityClient.fetch<QueryResponse>(query, params, {
       perspective: "previewDrafts",

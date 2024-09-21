@@ -13,6 +13,7 @@ export default function BlogCard({ post }: BlogCardProps) {
   const imageProps = post?.image
     ? urlForImage(post.image)
     : null;
+  const imageBlurDataURL = post?.image?.blurDataURL || null;
   const publishDate = post.publishDate || post._createdAt;
   const date = getLocaleDate(publishDate);
   const postUrlPrefix = '/blog';
@@ -42,6 +43,10 @@ export default function BlogCard({ post }: BlogCardProps) {
                 className="object-cover transition-all duration-300 group-hover:scale-110"
                 fill
                 sizes="(max-width: 768px) 30vw, 33vw"
+                {...(imageBlurDataURL && {
+                  placeholder: "blur",
+                  blurDataURL: imageBlurDataURL
+                })}
               />
             </div>
           ) : (

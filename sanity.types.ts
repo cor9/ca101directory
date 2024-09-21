@@ -466,7 +466,7 @@ export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/sanity/lib/queries.ts
 // Variable: itemQuery
-// Query: *[_type == "item" && slug.current == $slug][0] {      _id,  _createdAt,  name,  slug,  description,  link,  image,  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->,  introduction,}
+// Query: *[_type == "item" && slug.current == $slug][0] {      _id,  _createdAt,  name,  slug,  description,  link,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "imageColor": asset->metadata.palette.dominant.background,  },  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->,  introduction,}
 export type ItemQueryResult = {
   _id: string;
   _createdAt: string;
@@ -485,6 +485,8 @@ export type ItemQueryResult = {
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
+    blurDataURL: string | null;
+    imageColor: string | null;
   } | null;
   publishDate: string | null;
   paid: boolean | null;
@@ -541,7 +543,7 @@ export type ItemQueryResult = {
   introduction: string | null;
 } | null;
 // Variable: itemByIdQuery
-// Query: *[_type == "item" && _id == $id][0] {    _id,  _createdAt,  name,  slug,  description,  link,  image,  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->,}
+// Query: *[_type == "item" && _id == $id][0] {    _id,  _createdAt,  name,  slug,  description,  link,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "imageColor": asset->metadata.palette.dominant.background,  },  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->,}
 export type ItemByIdQueryResult = {
   _id: string;
   _createdAt: string;
@@ -560,6 +562,8 @@ export type ItemByIdQueryResult = {
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
+    blurDataURL: string | null;
+    imageColor: string | null;
   } | null;
   publishDate: string | null;
   paid: boolean | null;
@@ -615,7 +619,7 @@ export type ItemByIdQueryResult = {
   }> | null;
 } | null;
 // Variable: itemFullInfoByIdQuery
-// Query: *[_type == "item" && _id == $id][0] {      _id,  _createdAt,  name,  slug,  description,  link,  image,  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->,  introduction,}
+// Query: *[_type == "item" && _id == $id][0] {      _id,  _createdAt,  name,  slug,  description,  link,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "imageColor": asset->metadata.palette.dominant.background,  },  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->,  introduction,}
 export type ItemFullInfoByIdQueryResult = {
   _id: string;
   _createdAt: string;
@@ -634,6 +638,8 @@ export type ItemFullInfoByIdQueryResult = {
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
+    blurDataURL: string | null;
+    imageColor: string | null;
   } | null;
   publishDate: string | null;
   paid: boolean | null;
@@ -690,7 +696,7 @@ export type ItemFullInfoByIdQueryResult = {
   introduction: string | null;
 } | null;
 // Variable: itemListQuery
-// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)]   | order(publishDate desc) {    _id,  _createdAt,  name,  slug,  description,  link,  image,  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->,}
+// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)]   | order(publishDate desc) {    _id,  _createdAt,  name,  slug,  description,  link,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "imageColor": asset->metadata.palette.dominant.background,  },  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->,}
 export type ItemListQueryResult = Array<{
   _id: string;
   _createdAt: string;
@@ -709,6 +715,8 @@ export type ItemListQueryResult = Array<{
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
+    blurDataURL: string | null;
+    imageColor: string | null;
   } | null;
   publishDate: string | null;
   paid: boolean | null;
@@ -764,7 +772,7 @@ export type ItemListQueryResult = Array<{
   }> | null;
 }>;
 // Variable: itemListOfCategoryQuery
-// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in categories[]->slug.current]   | order(publishDate desc) {    _id,  _createdAt,  name,  slug,  description,  link,  image,  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->,}
+// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in categories[]->slug.current]   | order(publishDate desc) {    _id,  _createdAt,  name,  slug,  description,  link,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "imageColor": asset->metadata.palette.dominant.background,  },  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->,}
 export type ItemListOfCategoryQueryResult = Array<{
   _id: string;
   _createdAt: string;
@@ -783,6 +791,8 @@ export type ItemListOfCategoryQueryResult = Array<{
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
+    blurDataURL: string | null;
+    imageColor: string | null;
   } | null;
   publishDate: string | null;
   paid: boolean | null;
@@ -838,7 +848,7 @@ export type ItemListOfCategoryQueryResult = Array<{
   }> | null;
 }>;
 // Variable: itemListOfTagQuery
-// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in tags[]->slug.current]   | order(publishDate desc) {    _id,  _createdAt,  name,  slug,  description,  link,  image,  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->,}
+// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)  && $slug in tags[]->slug.current]   | order(publishDate desc) {    _id,  _createdAt,  name,  slug,  description,  link,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "imageColor": asset->metadata.palette.dominant.background,  },  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->,}
 export type ItemListOfTagQueryResult = Array<{
   _id: string;
   _createdAt: string;
@@ -857,6 +867,8 @@ export type ItemListOfTagQueryResult = Array<{
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
+    blurDataURL: string | null;
+    imageColor: string | null;
   } | null;
   publishDate: string | null;
   paid: boolean | null;
@@ -962,7 +974,7 @@ export type TagQueryResult = {
   description?: string;
 } | null;
 // Variable: submissionListQuery
-// Query: *[_type == "item" && defined(slug.current)  && submitter._ref == $userId] | order(_createdAt desc) {      _id,  _createdAt,  name,  slug,  description,  link,  image,  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->,  introduction,}
+// Query: *[_type == "item" && defined(slug.current)  && submitter._ref == $userId] | order(_createdAt desc) {      _id,  _createdAt,  name,  slug,  description,  link,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "imageColor": asset->metadata.palette.dominant.background,  },  publishDate,  paid,  order,  pricePlan,  freePlanStatus,  proPlanStatus,  submitter->,  categories[]->,  tags[]->,  introduction,}
 export type SubmissionListQueryResult = Array<{
   _id: string;
   _createdAt: string;
@@ -981,6 +993,8 @@ export type SubmissionListQueryResult = Array<{
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
+    blurDataURL: string | null;
+    imageColor: string | null;
   } | null;
   publishDate: string | null;
   paid: boolean | null;
@@ -1118,7 +1132,7 @@ export type BlogCategoryListQueryResult = Array<{
   color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc" | null;
 }>;
 // Variable: blogPostQuery
-// Query: *[_type == "blogPost" && slug.current == $slug][0] {        _id,  _createdAt,  title,  slug,  excerpt,  featured,  image,  publishDate,  author->,  categories[]->,  body[]{    ...,    markDefs[]{      ...,      _type == "internalLink" => {        "slug": @.reference->slug      }    }  },    // "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),  // "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {  //   title,  //   slug,  //   "date": coalesce(publishedDate,_createdAt),  //   "image": image  // },}
+// Query: *[_type == "blogPost" && slug.current == $slug][0] {        _id,  _createdAt,  title,  slug,  excerpt,  featured,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "imageColor": asset->metadata.palette.dominant.background,  },  publishDate,  author->,  categories[]->,  body[]{    ...,    markDefs[]{      ...,      _type == "internalLink" => {        "slug": @.reference->slug      }    }  },    // "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),  // "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {  //   title,  //   slug,  //   "date": coalesce(publishedDate,_createdAt),  //   "image": image  // },}
 export type BlogPostQueryResult = {
   _id: string;
   _createdAt: string;
@@ -1137,6 +1151,8 @@ export type BlogPostQueryResult = {
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
+    blurDataURL: string | null;
+    imageColor: string | null;
   } | null;
   publishDate: string | null;
   author: {
@@ -1232,7 +1248,7 @@ export type BlogPostQueryResult = {
   }> | null;
 } | null;
 // Variable: blogPostListQuery
-// Query: *[_type == "blogPost" && defined(slug.current) && defined(publishDate)]     | order(publishDate desc) {    _id,  _createdAt,  title,  slug,  excerpt,  featured,  image,  publishDate,  author->,  categories[]->,}
+// Query: *[_type == "blogPost" && defined(slug.current) && defined(publishDate)]     | order(publishDate desc) {    _id,  _createdAt,  title,  slug,  excerpt,  featured,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "imageColor": asset->metadata.palette.dominant.background,  },  publishDate,  author->,  categories[]->,}
 export type BlogPostListQueryResult = Array<{
   _id: string;
   _createdAt: string;
@@ -1251,6 +1267,8 @@ export type BlogPostListQueryResult = Array<{
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
+    blurDataURL: string | null;
+    imageColor: string | null;
   } | null;
   publishDate: string | null;
   author: {
@@ -1286,6 +1304,24 @@ export type BlogPostListQueryResult = Array<{
     color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
   }> | null;
 }>;
+// Variable: catquery
+// Query: *[_type == "blogCategory"] {  ...,  "count": count(*[_type == "blogPost" && references(^._id)])} | order(count desc) [0...5]
+export type CatqueryResult = Array<{
+  _id: string;
+  _type: "blogCategory";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  description?: string;
+  priority?: number;
+  color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
+  count: number;
+}>;
+// Variable: searchquery
+// Query: *[_type == "blogPost" && _score > 0]| score(title match $query || excerpt match $query || pt::text(body) match $query)| order(_score desc){  _score,  _id,  _createdAt,  image,  author->,  categories[]->,   title,   slug}
+export type SearchqueryResult = Array<never>;
 // Variable: postquery
 // Query: *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) {  _id,  _createdAt,  publishedDate,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "ImageColor": asset->metadata.palette.dominant.background,  },  featured,  excerpt,  slug,  title,  author-> {    _id,    image,    "slug": name, // use name as slug    name  },  categories[]->,}
 export type PostqueryResult = Array<{
@@ -1447,462 +1483,30 @@ export type PaginatedqueryResult = Array<{
   };
   publishDate?: string;
 }>;
-// Variable: pathquery
-// Query: *[_type == "blogPost" && defined(slug.current)][].slug.current
-export type PathqueryResult = Array<string | null>;
-// Variable: catpathquery
-// Query: *[_type == "blogCategory" && defined(slug.current)][].slug.current
-export type CatpathqueryResult = Array<string | null>;
-// Variable: postsbyauthorquery
-// Query: *[_type == "blogPost" && $slug match author->slug.current ] {  ...,  author->,  categories[]->,}
-export type PostsbyauthorqueryResult = Array<{
-  _id: string;
-  _type: "blogPost";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  excerpt?: string;
-  featured?: boolean;
-  categories: Array<{
-    _id: string;
-    _type: "blogCategory";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    slug?: Slug;
-    description?: string;
-    priority?: number;
-    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
-  }> | null;
-  author: {
-    _id: string;
-    _type: "user";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    email?: string;
-    emailVerified?: string;
-    image?: string;
-    password?: string;
-    role?: "ADMIN" | "USER";
-    accounts?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "account";
-    };
-    stripeCustomerId?: string;
-  } | null;
-  body?: BlockContent;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  publishDate?: string;
-}>;
-// Variable: postsbycatquery
-// Query: *[_type == "blogPost" && $slug in categories[]->slug.current ] {  ...,  author->,  categories[]->,}
-export type PostsbycatqueryResult = Array<{
-  _id: string;
-  _type: "blogPost";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  excerpt?: string;
-  featured?: boolean;
-  categories: Array<{
-    _id: string;
-    _type: "blogCategory";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    slug?: Slug;
-    description?: string;
-    priority?: number;
-    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
-  }> | null;
-  author: {
-    _id: string;
-    _type: "user";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    email?: string;
-    emailVerified?: string;
-    image?: string;
-    password?: string;
-    role?: "ADMIN" | "USER";
-    accounts?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "account";
-    };
-    stripeCustomerId?: string;
-  } | null;
-  body?: BlockContent;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  publishDate?: string;
-}>;
-// Variable: catquery
-// Query: *[_type == "blogCategory"] {  ...,  "count": count(*[_type == "blogPost" && references(^._id)])} | order(count desc) [0...5]
-export type CatqueryResult = Array<{
-  _id: string;
-  _type: "blogCategory";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-  priority?: number;
-  color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
-  count: number;
-}>;
-// Variable: searchquery
-// Query: *[_type == "blogPost" && _score > 0]| score(title match $query || excerpt match $query || pt::text(body) match $query)| order(_score desc){  _score,  _id,  _createdAt,  image,  author->,  categories[]->,   title,   slug}
-export type SearchqueryResult = Array<never>;
-// Variable: getAll
-// Query: *[]
-export type GetAllResult = Array<{
-  _id: string;
-  _type: "account";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  userId?: string;
-  type?: string;
-  provider?: string;
-  providerAccountId?: string;
-  refreshToken?: string;
-  accessToken?: string;
-  expiresAt?: number;
-  tokenType?: string;
-  scope?: string;
-  idToken?: string;
-  sessionState?: string;
-  user?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "user";
-  };
-} | {
-  _id: string;
-  _type: "blogCategory";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-  priority?: number;
-  color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
-} | {
-  _id: string;
-  _type: "blogPost";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  excerpt?: string;
-  featured?: boolean;
-  categories?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "blogCategory";
-  }>;
-  author?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "user";
-  };
-  body?: BlockContent;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  publishDate?: string;
-} | {
-  _id: string;
-  _type: "category";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-  priority?: number;
-} | {
-  _id: string;
-  _type: "item";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-  link?: string;
-  categories?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "category";
-  }>;
-  tags?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "tag";
-  }>;
-  submitter?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "user";
-  };
-  introduction?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  publishDate?: string;
-  paid?: boolean;
-  order?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "order";
-  };
-  pricePlan?: "free" | "pro";
-  freePlanStatus?: "approved" | "pending" | "rejected" | "submitted";
-  proPlanStatus?: "failed" | "pending" | "submitted" | "success";
-  rejectionReason?: "Other reasons" | "The image of the item is not good quality" | "The information of the item is not clear" | "The item is not a good fit for our directory";
-} | {
-  _id: string;
-  _type: "media.tag";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: Slug;
-} | {
-  _id: string;
-  _type: "order";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  user?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "user";
-  };
-  item?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "item";
-  };
-  status?: "fail" | "success";
-} | {
-  _id: string;
-  _type: "page";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  excerpt?: string;
-  body?: BlockContent;
-  publishDate?: string;
-} | {
-  _id: string;
-  _type: "passwordResetToken";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  identifier?: string;
-  token?: string;
-  expires?: string;
-} | {
-  _id: string;
-  _type: "sanity.fileAsset";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
-  uploadId?: string;
-  path?: string;
-  url?: string;
-  source?: SanityAssetSourceData;
-} | {
-  _id: string;
-  _type: "sanity.imageAsset";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
-  uploadId?: string;
-  path?: string;
-  url?: string;
-  metadata?: SanityImageMetadata;
-  source?: SanityAssetSourceData;
-} | {
-  _id: string;
-  _type: "session";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  sessionToken?: string;
-  userId?: string;
-  expires?: string;
-  user?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "user";
-  };
-} | {
-  _id: string;
-  _type: "settings";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-} | {
-  _id: string;
-  _type: "tag";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-} | {
-  _id: string;
-  _type: "user";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  email?: string;
-  emailVerified?: string;
-  image?: string;
-  password?: string;
-  role?: "ADMIN" | "USER";
-  accounts?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "account";
-  };
-  stripeCustomerId?: string;
-} | {
-  _id: string;
-  _type: "verificationToken";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  identifier?: string;
-  token?: string;
-  expires?: string;
-}>;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"item\" && slug.current == $slug][0] {\n  \n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image,\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n  introduction,\n\n}": ItemQueryResult;
-    "*[_type == \"item\" && _id == $id][0] {\n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image,\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n}": ItemByIdQueryResult;
-    "*[_type == \"item\" && _id == $id][0] {\n  \n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image,\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n  introduction,\n\n}": ItemFullInfoByIdQueryResult;
-    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)] \n  | order(publishDate desc) {\n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image,\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n}": ItemListQueryResult;
-    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in categories[]->slug.current] \n  | order(publishDate desc) {\n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image,\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n}": ItemListOfCategoryQueryResult;
-    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in tags[]->slug.current] \n  | order(publishDate desc) {\n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image,\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n}": ItemListOfTagQueryResult;
+    "*[_type == \"item\" && slug.current == $slug][0] {\n  \n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n  introduction,\n\n}": ItemQueryResult;
+    "*[_type == \"item\" && _id == $id][0] {\n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n}": ItemByIdQueryResult;
+    "*[_type == \"item\" && _id == $id][0] {\n  \n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n  introduction,\n\n}": ItemFullInfoByIdQueryResult;
+    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)] \n  | order(publishDate desc) {\n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n}": ItemListQueryResult;
+    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in categories[]->slug.current] \n  | order(publishDate desc) {\n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n}": ItemListOfCategoryQueryResult;
+    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)\n  && $slug in tags[]->slug.current] \n  | order(publishDate desc) {\n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n}": ItemListOfTagQueryResult;
     "*[_type == \"category\" && defined(slug.current)] \n  | order(priority desc) {\n  \n  ...,\n\n}": CategoryListQueryResult;
     "*[_type == \"category\" && slug.current == $slug][0] {\n  \n  ...,\n\n}": CategoryQueryResult;
     "*[_type == \"tag\" && defined(slug.current)] \n  | order(slug.current asc) {\n  \n  ...,\n\n}": TagListQueryResult;
     "*[_type == \"tag\" && slug.current == $slug][0] {\n  \n  ...,\n\n}": TagQueryResult;
-    "*[_type == \"item\" && defined(slug.current)\n  && submitter._ref == $userId] | order(_createdAt desc) {\n  \n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image,\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n  introduction,\n\n}": SubmissionListQueryResult;
+    "*[_type == \"item\" && defined(slug.current)\n  && submitter._ref == $userId] | order(_createdAt desc) {\n  \n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n  introduction,\n\n}": SubmissionListQueryResult;
     "\n  *[_type == \"page\" && slug.current == $slug][0] {\n    ...,\n    body[]{\n      ...,\n      markDefs[]{\n        ...,\n        _type == \"internalLink\" => {\n          \"slug\": @.reference->slug\n        }\n      }\n    },\n  }\n": PageQueryResult;
     "\n  *[_type == \"blogCategory\" && defined(slug.current)] \n    | order(priority desc) {\n  \n  name,\n  slug,\n  description,\n  priority,\n  color,\n\n}": BlogCategoryListQueryResult;
-    "\n  *[_type == \"blogPost\" && slug.current == $slug][0] {\n    \n  \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image,\n  publishDate,\n  author->,\n  categories[]->,\n\n  body[]{\n    ...,\n    markDefs[]{\n      ...,\n      _type == \"internalLink\" => {\n        \"slug\": @.reference->slug\n      }\n    }\n  },\n  \n  // \"estReadingTime\": round(length(pt::text(body)) / 5 / 180 ),\n  // \"related\": *[_type == \"blogPost\" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {\n  //   title,\n  //   slug,\n  //   \"date\": coalesce(publishedDate,_createdAt),\n  //   \"image\": image\n  // },\n\n}": BlogPostQueryResult;
-    "\n  *[_type == \"blogPost\" && defined(slug.current) && defined(publishDate)] \n    | order(publishDate desc) {\n  \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image,\n  publishDate,\n  author->,\n  categories[]->,\n\n}": BlogPostListQueryResult;
+    "\n  *[_type == \"blogPost\" && slug.current == $slug][0] {\n    \n  \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  author->,\n  categories[]->,\n\n  body[]{\n    ...,\n    markDefs[]{\n      ...,\n      _type == \"internalLink\" => {\n        \"slug\": @.reference->slug\n      }\n    }\n  },\n  \n  // \"estReadingTime\": round(length(pt::text(body)) / 5 / 180 ),\n  // \"related\": *[_type == \"blogPost\" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {\n  //   title,\n  //   slug,\n  //   \"date\": coalesce(publishedDate,_createdAt),\n  //   \"image\": image\n  // },\n\n}": BlogPostQueryResult;
+    "\n  *[_type == \"blogPost\" && defined(slug.current) && defined(publishDate)] \n    | order(publishDate desc) {\n  \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  author->,\n  categories[]->,\n\n}": BlogPostListQueryResult;
+    "*[_type == \"blogCategory\"] {\n  ...,\n  \"count\": count(*[_type == \"blogPost\" && references(^._id)])\n} | order(count desc) [0...5]": CatqueryResult;
+    "*[_type == \"blogPost\" && _score > 0]\n| score(title match $query || excerpt match $query || pt::text(body) match $query)\n| order(_score desc)\n{\n  _score,\n  _id,\n  _createdAt,\n  image,\n  author->,\n  categories[]->,\n   title,\n   slug\n}": SearchqueryResult;
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) {\n  _id,\n  _createdAt,\n  publishedDate,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"ImageColor\": asset->metadata.palette.dominant.background,\n  },\n  featured,\n  excerpt,\n  slug,\n  title,\n  author-> {\n    _id,\n    image,\n    \"slug\": name, // use name as slug\n    name\n  },\n  categories[]->,\n}\n": PostqueryResult;
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) [0..$limit] {\n  ...,\n  author->,\n  categories[]->\n}\n": LimitqueryResult;
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) [$pageIndex...$limit] {\n  ...,\n  author->,\n  categories[]->\n}\n": PaginatedqueryResult;
-    "\n*[_type == \"blogPost\" && defined(slug.current)][].slug.current\n": PathqueryResult;
-    "\n*[_type == \"blogCategory\" && defined(slug.current)][].slug.current\n": CatpathqueryResult;
-    "\n*[_type == \"blogPost\" && $slug match author->slug.current ] {\n  ...,\n  author->,\n  categories[]->,\n}\n": PostsbyauthorqueryResult;
-    "\n*[_type == \"blogPost\" && $slug in categories[]->slug.current ] {\n  ...,\n  author->,\n  categories[]->,\n}\n": PostsbycatqueryResult;
-    "*[_type == \"blogCategory\"] {\n  ...,\n  \"count\": count(*[_type == \"blogPost\" && references(^._id)])\n} | order(count desc) [0...5]": CatqueryResult;
-    "*[_type == \"blogPost\" && _score > 0]\n| score(title match $query || excerpt match $query || pt::text(body) match $query)\n| order(_score desc)\n{\n  _score,\n  _id,\n  _createdAt,\n  image,\n  author->,\n  categories[]->,\n   title,\n   slug\n}": SearchqueryResult;
-    "*[]": GetAllResult;
   }
 }

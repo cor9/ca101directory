@@ -24,7 +24,11 @@ const itemSimpleFields = /* groq */ `
   slug,
   description,
   link,
-  image,
+  image {
+    ...,
+    "blurDataURL": asset->metadata.lqip,
+    "imageColor": asset->metadata.palette.dominant.background,
+  },
   publishDate,
   paid,
   order,
@@ -184,6 +188,27 @@ export const blogPostListQuery = defineQuery(`
 
 // ======================================================================================================================
 
+
+// Get top 5 categories
+export const catquery = groq`*[_type == "blogCategory"] {
+  ...,
+  "count": count(*[_type == "blogPost" && references(^._id)])
+} | order(count desc) [0...5]`;
+
+export const searchquery = groq`*[_type == "blogPost" && _score > 0]
+| score(title match $query || excerpt match $query || pt::text(body) match $query)
+| order(_score desc)
+{
+  _score,
+  _id,
+  _createdAt,
+  image,
+  author->,
+  categories[]->,
+   title,
+   slug
+}`;
+
 // Get all posts
 export const postquery = groq`
 *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) {
@@ -218,16 +243,6 @@ export const limitquery = groq`
 }
 `;
 
-// [(($pageIndex - 1) * 10)...$pageIndex * 10]{
-// Get subsequent paginated posts
-// export const paginatedquery = groq`
-// *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) [$pageIndex...$limit] {
-//   ...,
-//   author->,
-//   categories[]->
-// }
-// `;
-
 export const paginatedquery = defineQuery(`
 *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) [$pageIndex...$limit] {
   ...,
@@ -235,73 +250,3 @@ export const paginatedquery = defineQuery(`
   categories[]->
 }
 `);
-
-// Get Site Config
-// export const configQuery = groq`
-// *[_type == "settings"][0] {
-//   ...,
-// }
-// `;
-
-// Paths for generateStaticParams
-export const pathquery = groq`
-*[_type == "blogPost" && defined(slug.current)][].slug.current
-`;
-
-export const catpathquery = defineQuery(`
-*[_type == "blogCategory" && defined(slug.current)][].slug.current
-`);
-
-// export const authorsquery = groq`
-// *[_type == "author" && defined(slug.current)][].slug.current
-// `;
-
-// Get Posts by Authors
-export const postsbyauthorquery = groq`
-*[_type == "blogPost" && $slug match author->slug.current ] {
-  ...,
-  author->,
-  categories[]->,
-}
-`;
-
-// Get Posts by Category
-export const postsbycatquery = groq`
-*[_type == "blogPost" && $slug in categories[]->slug.current ] {
-  ...,
-  author->,
-  categories[]->,
-}
-`;
-
-// Get top 5 categories
-export const catquery = groq`*[_type == "blogCategory"] {
-  ...,
-  "count": count(*[_type == "blogPost" && references(^._id)])
-} | order(count desc) [0...5]`;
-
-export const searchquery = groq`*[_type == "blogPost" && _score > 0]
-| score(title match $query || excerpt match $query || pt::text(body) match $query)
-| order(_score desc)
-{
-  _score,
-  _id,
-  _createdAt,
-  image,
-  author->,
-  categories[]->,
-   title,
-   slug
-}`;
-
-// Get all Authors
-// export const allauthorsquery = groq`
-// *[_type == "author"] {
-//  ...,
-//  'slug': slug.current,
-// }
-// `;
-
-// get everything from sanity
-// to test connection
-export const getAll = groq`*[]`;

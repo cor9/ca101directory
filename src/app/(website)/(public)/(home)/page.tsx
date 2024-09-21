@@ -7,8 +7,7 @@ export default async function HomePage({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  console.log('HomePage, searchParams', searchParams);
-
+  // console.log('HomePage, searchParams', searchParams);
   const { category, tag, sort, page, q: query } = searchParams as { [key: string]: string };
   const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort;
   const currentPage = page ? Number(page) : 1;

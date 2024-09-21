@@ -35,6 +35,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
   const imageProps = item?.image
     ? urlForImage(item?.image)
     : null;
+    const imageBlurDataURL = item?.image?.blurDataURL || null;
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
@@ -63,6 +64,10 @@ export default async function PublishPage({ params }: { params: { id: string } }
                     fill
                     className="border w-full shadow-lg
                     transition-all duration-300 ease-in-out group-hover:scale-105"
+                    {...(imageBlurDataURL && {
+                      placeholder: "blur",
+                      blurDataURL: imageBlurDataURL
+                    })}
                   />
                 )}
                 <div className="absolute inset-0 flex items-center justify-center bg-black 

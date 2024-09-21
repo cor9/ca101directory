@@ -14,7 +14,6 @@ export const publish = async (itemId: string) => {
   // }
 
   const result = await sanityClient.patch(itemId).set({
-    published: true,
     publishDate: new Date().toISOString(),
   }).commit();
   // console.log('publish, result:', result);

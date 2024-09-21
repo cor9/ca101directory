@@ -58,17 +58,6 @@ export function SubmissionRow({ submission }: { submission: ItemInfo }) {
             <TableCell className='px-6 lg:px-0 w-[150px]'>
                 <span className='line-clamp-1 font-semibold'>
                     {submission.name}
-                    {/* {
-                        submission.published ? (
-                            <Link target='_blank'
-                                href={`/item/${submission.slug.current}`}
-                                className='underline underline-offset-4'>
-                                {submission.name}
-                            </Link>
-                        ) : (
-                            <span>{submission.name}</span>
-                        )
-                    } */}
                 </span>
             </TableCell>
             <TableCell className='w-[120px]'>
@@ -151,7 +140,7 @@ export function SubmissionRow({ submission }: { submission: ItemInfo }) {
                             {/* publish or unpublish button if publishable */}
                             {
                                 publishable ? (
-                                    submission.published ?
+                                    submission.publishDate ?
                                         <UnpublishButton item={submission} /> :
                                         <PublishButton item={submission} />
                                 ) : null

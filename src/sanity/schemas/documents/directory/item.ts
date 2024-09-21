@@ -203,11 +203,10 @@ export default defineType({
       name: "name",
       media: "image",
       date: "publishDate",
-      published: "published",
     },
-    prepare({ name, media, date, published }) {
-      const title = published ? `✅ ${name}` : `⏳ ${name}`;
-      const subtitle = published ? format(parseISO(date), "yyyy/MM/dd") : "unpublished";
+    prepare({ name, media, date }) {
+      const title = date ? `✅ ${name}` : `⏳ ${name}`;
+      const subtitle = date ? format(parseISO(date), "yyyy/MM/dd") : "not published";
       return {
         title,
         media,
@@ -217,17 +216,17 @@ export default defineType({
   },
 	orderings: [
 		{
-      title: 'Date (new to old)',
+      title: 'Date (Newest)',
       name: 'dateDesc',
       by: [{ field: 'publishDate', direction: 'desc' }],
     },
     {
-      title: 'Date (old to new)',
+      title: 'Date (Oldest)',
       name: 'dateAsc',
       by: [{ field: 'publishDate', direction: 'asc' }],
     },
 		{
-			title: 'Name',
+			title: 'Name (A-Z)',
 			name: 'name',
 			by: [{ field: 'name', direction: 'asc' }],
 		},

@@ -1,11 +1,8 @@
-import { redirect } from "next/navigation";
-import { constructMetadata } from "@/lib/utils";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
-import { BillingInfo } from "@/components/pricing/billing-info";
 import { Icons } from "@/components/shared/icons";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { currentUser } from "@/lib/auth";
-import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { redirect } from "next/navigation";
 
 // export const metadata = constructMetadata({
 //   title: "Billing",
@@ -15,9 +12,9 @@ import { getUserSubscriptionPlan } from "@/lib/subscription";
 export default async function BillingPage() {
   const user = await currentUser();
 
-  let userSubscriptionPlan;
+  // let userSubscriptionPlan;
   if (user && user.id && user.role === "USER") {
-    userSubscriptionPlan = await getUserSubscriptionPlan(user.id);
+    // userSubscriptionPlan = await getUserSubscriptionPlan(user.id);
   } else {
     redirect("/auth/login");
   }
@@ -46,7 +43,7 @@ export default async function BillingPage() {
             .
           </AlertDescription>
         </Alert>
-        <BillingInfo userSubscriptionPlan={userSubscriptionPlan} />
+        {/* <BillingInfo userSubscriptionPlan={userSubscriptionPlan} /> */}
       </div>
     </>
   );

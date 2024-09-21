@@ -60,28 +60,6 @@ const user = {
       type: 'string',
       group: 'stripe',
     }),
-    // TODO(javayhu): to be removed
-    defineField({
-      name: 'stripeSubscriptionId',
-      title: 'Stripe Subscription Id',
-      type: 'string',
-      group: 'stripe',
-      // validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: 'stripePriceId',
-      title: 'Stripe Price Id',
-      type: 'string',
-      group: 'stripe',
-      // validation: (rule) => rule.required(),
-    }),
-    defineField({
-			name: 'stripeCurrentPeriodEnd',
-      title: 'Stripe Current Period End',
-			type: 'datetime',
-      group: 'stripe',
-      // initialValue: () => new Date().toISOString(),
-		}),
   ],
   preview: {
     select: {

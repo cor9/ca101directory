@@ -412,9 +412,6 @@ export type User = {
     [internalGroqTypeReferenceTo]?: "account";
   };
   stripeCustomerId?: string;
-  stripeSubscriptionId?: string;
-  stripePriceId?: string;
-  stripeCurrentPeriodEnd?: string;
 };
 
 export type Account = {
@@ -522,9 +519,6 @@ export type ItemQueryResult = {
       [internalGroqTypeReferenceTo]?: "account";
     };
     stripeCustomerId?: string;
-    stripeSubscriptionId?: string;
-    stripePriceId?: string;
-    stripeCurrentPeriodEnd?: string;
   } | null;
   introduction?: string;
   image?: {
@@ -605,9 +599,6 @@ export type ItemByIdQueryResult = {
       [internalGroqTypeReferenceTo]?: "account";
     };
     stripeCustomerId?: string;
-    stripeSubscriptionId?: string;
-    stripePriceId?: string;
-    stripeCurrentPeriodEnd?: string;
   } | null;
   introduction?: string;
   image?: {
@@ -688,9 +679,6 @@ export type ItemListQueryResult = Array<{
       [internalGroqTypeReferenceTo]?: "account";
     };
     stripeCustomerId?: string;
-    stripeSubscriptionId?: string;
-    stripePriceId?: string;
-    stripeCurrentPeriodEnd?: string;
   } | null;
   introduction?: string;
   image?: {
@@ -771,9 +759,6 @@ export type ItemListOfCategoryQueryResult = Array<{
       [internalGroqTypeReferenceTo]?: "account";
     };
     stripeCustomerId?: string;
-    stripeSubscriptionId?: string;
-    stripePriceId?: string;
-    stripeCurrentPeriodEnd?: string;
   } | null;
   introduction?: string;
   image?: {
@@ -854,9 +839,6 @@ export type ItemListOfTagQueryResult = Array<{
       [internalGroqTypeReferenceTo]?: "account";
     };
     stripeCustomerId?: string;
-    stripeSubscriptionId?: string;
-    stripePriceId?: string;
-    stripeCurrentPeriodEnd?: string;
   } | null;
   introduction?: string;
   image?: {
@@ -987,9 +969,6 @@ export type SubmissionListQueryResult = Array<{
       [internalGroqTypeReferenceTo]?: "account";
     };
     stripeCustomerId?: string;
-    stripeSubscriptionId?: string;
-    stripePriceId?: string;
-    stripeCurrentPeriodEnd?: string;
   } | null;
   introduction?: string;
   image?: {
@@ -1133,9 +1112,6 @@ export type BlogListQueryResult = Array<{
       [internalGroqTypeReferenceTo]?: "account";
     };
     stripeCustomerId?: string;
-    stripeSubscriptionId?: string;
-    stripePriceId?: string;
-    stripeCurrentPeriodEnd?: string;
   } | null;
   body?: BlockContent;
   image?: {
@@ -1253,9 +1229,6 @@ export type LimitqueryResult = Array<{
       [internalGroqTypeReferenceTo]?: "account";
     };
     stripeCustomerId?: string;
-    stripeSubscriptionId?: string;
-    stripePriceId?: string;
-    stripeCurrentPeriodEnd?: string;
   } | null;
   body?: BlockContent;
   image?: {
@@ -1316,9 +1289,6 @@ export type PaginatedqueryResult = Array<{
       [internalGroqTypeReferenceTo]?: "account";
     };
     stripeCustomerId?: string;
-    stripeSubscriptionId?: string;
-    stripePriceId?: string;
-    stripeCurrentPeriodEnd?: string;
   } | null;
   body?: BlockContent;
   image?: {
@@ -1379,9 +1349,6 @@ export type SinglequeryResult = {
       [internalGroqTypeReferenceTo]?: "account";
     };
     stripeCustomerId?: string;
-    stripeSubscriptionId?: string;
-    stripePriceId?: string;
-    stripeCurrentPeriodEnd?: string;
   } | null;
   body: Array<{
     children?: Array<{
@@ -1524,9 +1491,6 @@ export type PostsbyauthorqueryResult = Array<{
       [internalGroqTypeReferenceTo]?: "account";
     };
     stripeCustomerId?: string;
-    stripeSubscriptionId?: string;
-    stripePriceId?: string;
-    stripeCurrentPeriodEnd?: string;
   } | null;
   body?: BlockContent;
   image?: {
@@ -1587,9 +1551,6 @@ export type PostsbycatqueryResult = Array<{
       [internalGroqTypeReferenceTo]?: "account";
     };
     stripeCustomerId?: string;
-    stripeSubscriptionId?: string;
-    stripePriceId?: string;
-    stripeCurrentPeriodEnd?: string;
   } | null;
   body?: BlockContent;
   image?: {
@@ -1902,9 +1863,6 @@ export type GetAllResult = Array<{
     [internalGroqTypeReferenceTo]?: "account";
   };
   stripeCustomerId?: string;
-  stripeSubscriptionId?: string;
-  stripePriceId?: string;
-  stripeCurrentPeriodEnd?: string;
 } | {
   _id: string;
   _type: "verificationToken";

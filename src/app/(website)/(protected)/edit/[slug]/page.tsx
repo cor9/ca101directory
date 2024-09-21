@@ -4,15 +4,18 @@ import { categoryListQuery, itemByIdQuery, itemQuery, tagListQuery } from "@/san
 import { ItemFullInfo } from "@/types";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { UpdateForm } from "./update-form";
+import { EditForm } from "./edit-form";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import DashboardBreadCrumb from "@/components/dashboard/dashboard-update-bread-crumb";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { RocketIcon } from "lucide-react";
 
-interface UpdatePageProps {
+interface EditPageProps {
   params: { slug: string };
 };
 
-export default async function UpdatePage({ params }: UpdatePageProps) {
+export default async function EditPage({ params }: EditPageProps) {
   const [item, categoryList, tagList] = await Promise.all([
     sanityFetch<ItemFullInfo>({
       query: itemByIdQuery,
@@ -27,7 +30,7 @@ export default async function UpdatePage({ params }: UpdatePageProps) {
   ]);
 
   if (!item) {
-    console.error("UpdatePage, item not found");
+    console.error("EditPage, item not found");
     return notFound();
   }
 
@@ -37,14 +40,29 @@ export default async function UpdatePage({ params }: UpdatePageProps) {
         {/* <DashboardBreadCrumb item={item} /> */}
 
         <DashboardHeader
-          title="Update"
+          title="Edit"
           subtitle="Update your product info."
           showBackButton={true}
-        />
+        >
+
+          {
+            item.pricePlan === 'free' ? (
+              <>
+                <Button asChild className="group whitespace-nowrap">
+                  <Link href={`/submit/plan/${item._id}`} prefetch={false}
+                    className="flex items-center justify-center space-x-2">
+                    <RocketIcon className="w-4 h-4" />
+                    <span>Upgrade to PRO Plan</span>
+                  </Link>
+                </Button>
+              </>
+            ) : null
+          }
+        </DashboardHeader>
 
         <div className="mt-4">
           <Suspense fallback={null}>
-            <UpdateForm item={item} tagList={tagList} categoryList={categoryList} />
+            <EditForm item={item} tagList={tagList} categoryList={categoryList} />
           </Suspense>
         </div>
       </div>

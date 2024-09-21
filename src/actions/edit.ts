@@ -1,14 +1,14 @@
 "use server";
 
 import { auth } from "@/auth";
-import { UpdateSchema } from "@/lib/schemas";
+import { EditSchema } from "@/lib/schemas";
 import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { nanoid } from 'nanoid';
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export type UpdateFormData = {
+export type EditFormData = {
   id: string;
   name: string;
   link: string;
@@ -23,19 +23,19 @@ export type UpdateFormData = {
 /**
  * https://nextjs.org/learn/dashboard-app/mutating-data
  */
-export async function Update(formData: UpdateFormData) {
+export async function Edit(formData: EditFormData) {
   try {
     const session = await auth();
     if (!session?.user || !session?.user?.id) {
-      console.log("update, unauthorized");
+      console.log("edit, unauthorized");
       throw new Error("Unauthorized");
     }
-    console.log("update, username:", session?.user?.name);
+    console.log("edit, username:", session?.user?.name);
 
-    console.log("update, data:", formData);
+    console.log("edit, data:", formData);
     const { id, name, link, description, introduction, imageId,
-      tags, categories, pricePlan } = UpdateSchema.parse(formData);
-    console.log("update, name:", name, "link:", link);
+      tags, categories, pricePlan } = EditSchema.parse(formData);
+    console.log("edit, name:", name, "link:", link);
 
     // TODO: check if the user is the submitter of the item
 
@@ -90,15 +90,15 @@ export async function Update(formData: UpdateFormData) {
         } : {})
     };
 
-    // console.log("update, data:", data);
+    // console.log("edit, data:", data);
 
     const res = await sanityClient.patch(id).set(data).commit();
     if (!res) {
-      console.log("update, fail");
+      console.log("edit, fail");
       return { status: "error" };
     }
 
-    // console.log("update, success, res:", res);
+    // console.log("edit, success, res:", res);
 
     // Next.js has a Client-side Router Cache that stores the route segments in the user's browser for a time. 
     // Along with prefetching, this cache ensures that users can quickly navigate between routes 
@@ -107,11 +107,11 @@ export async function Update(formData: UpdateFormData) {
     // You can do this with the revalidatePath function from Next.js.
 
     // TODO: redirect to the updated item, but not working, still showing the old item
-    revalidatePath(`/update/${id}`);
+    revalidatePath(`/edit/${id}`);
     revalidatePath(`/item/${id}`);
     return { status: "success" };
   } catch (error) {
-    console.log("update, error", error);
+    console.log("edit, error", error);
     return { status: "error" };
   }
 }

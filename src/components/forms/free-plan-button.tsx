@@ -38,7 +38,7 @@ export function FreePlanButton({ item }: FreePlanButtonProps) {
     } else if (item.freePlanStatus === 'approved') {
       router.push(`/submit/publish/${item._id}`);
     } else if (item.freePlanStatus === 'rejected') {
-      router.push(`/update/${item._id}`);
+      router.push(`/edit/${item._id}`);
     } else if (item.freePlanStatus === 'pending') {
       router.push(`/dashboard`);
     }

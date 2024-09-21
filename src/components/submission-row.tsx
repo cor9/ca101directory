@@ -136,7 +136,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
 
                             {/* edit button always visible */}
                             <Button asChild variant="outline" size="sm">
-                                <Link href={`/update/${submission._id}`}>
+                                <Link href={`/edit/${submission._id}`}>
                                     Edit
                                 </Link>
                             </Button>
@@ -196,7 +196,7 @@ export function SubmissionRow({ submission }: { submission: SubmissionInfo }) {
 
                                 {/* show upgrade plan button if in free plan */}
                                 <DropdownMenuItem>
-                                    <Link href={`/update/${submission._id}`}>
+                                    <Link href={`/edit/${submission._id}`}>
                                         Edit
                                     </Link>
                                 </DropdownMenuItem>

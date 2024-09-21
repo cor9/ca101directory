@@ -1,6 +1,6 @@
 "use client";
 
-import { Update, UpdateFormData } from "@/actions/update";
+import { Edit, EditFormData } from "@/actions/edit";
 import CustomMde from "@/components/custom-mde";
 import ImageUpload from "@/components/image-upload";
 import { Icons } from "@/components/shared/icons";
@@ -26,7 +26,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { urlForImage } from "@/lib/image";
-import { UpdateSchema } from "@/lib/schemas";
+import { EditSchema } from "@/lib/schemas";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { ItemFullInfo } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -37,7 +37,7 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-interface UpdateFormProps {
+interface EditFormProps {
   item: ItemFullInfo;
   tagList: TagListQueryResult;
   categoryList: CategoryListQueryResult;
@@ -50,14 +50,14 @@ interface UpdateFormProps {
  * 2. React Hook Form
  * https://react-hook-form.com/get-started
  */
-export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
+export function EditForm({ item, tagList, categoryList }: EditFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [isUploading, setIsUploading] = useState(false);
 
   // set default values for form fields and validation schema
-  const form = useForm<UpdateFormData>({
-    resolver: zodResolver(UpdateSchema),
+  const form = useForm<EditFormData>({
+    resolver: zodResolver(EditSchema),
     defaultValues: {
       id: item._id,
       name: item.name,
@@ -72,11 +72,11 @@ export function UpdateForm({ item, tagList, categoryList }: UpdateFormProps) {
   });
 
   // submit form if data is valid
-  const onSubmit = form.handleSubmit((data: UpdateFormData) => {
-    console.log('UpdateFormonSubmit, data:', data);
+  const onSubmit = form.handleSubmit((data: EditFormData) => {
+    console.log('EditFormonSubmit, data:', data);
     startTransition(async () => {
-      const { status } = await Update(data);
-      console.log('UpdateForm, status:', status);
+      const { status } = await Edit(data);
+      console.log('EditForm, status:', status);
       if (status === "success") {
         form.reset();
         toast.success("Update success");

@@ -39,7 +39,7 @@ export function FreePlanButton({ item }: FreePlanButtonProps) {
       router.push(`/submit/publish/${item._id}`);
     } else if (item.freePlanStatus === 'rejected') {
       router.push(`/update/${item._id}`);
-    } else if (item.freePlanStatus === 'reviewing') {
+    } else if (item.freePlanStatus === 'pending') {
       router.push(`/dashboard`);
     }
   };
@@ -57,7 +57,7 @@ export function FreePlanButton({ item }: FreePlanButtonProps) {
           <Icons.spinner className="mr-2 size-4 animate-spin" />
           <span>Submitting to review...</span>
         </>
-      ) : item.freePlanStatus === 'reviewing' ? (
+      ) : item.freePlanStatus === 'pending' ? (
         <>
           <HourglassIcon className="mr-2 size-4" />
           <span>Go back and wait for review</span>

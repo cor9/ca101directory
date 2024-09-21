@@ -29,7 +29,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
       <ScrollArea className="hidden md:flex w-full">
         <ul role="list" className="flex gap-x-2" >
           <DesktopLink
-            title="All Categories"
+            title="All"
             href="/category"
             active={!slug}
           />
@@ -55,7 +55,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
         >
           <LayoutList className="size-[18px]" />
           <p className="ml-2.5 text-sm font-medium">
-            {category?.name ? `Category (${category?.name})` : 'All Categories'}
+            {category?.name ? `Category (${category?.name})` : 'All'}
           </p>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
@@ -68,7 +68,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
             </div>
             <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
               <MobileLink
-                title="All Categories"
+                title="All"
                 href="/category"
                 active={!slug}
                 clickAction={closeDrawer}

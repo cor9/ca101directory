@@ -28,7 +28,7 @@ export function TagList({ tagList }: TagListProps) {
       <ScrollArea className="hidden md:flex w-full">
         <ul role="list" className="w-full flex flex-1 gap-x-2" >
           <DesktopLink
-            title="All Tags"
+            title="All"
             href="/tag"
             active={!slug}
           />
@@ -53,7 +53,7 @@ export function TagList({ tagList }: TagListProps) {
         >
           <LayoutList className="size-[18px]" />
           <p className="ml-2.5 text-sm font-medium">
-            {tag?.name ? `Tags (${tag?.name})` : 'All Tags'}
+            {tag?.name ? `Tags (${tag?.name})` : 'All'}
           </p>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
@@ -66,7 +66,7 @@ export function TagList({ tagList }: TagListProps) {
             </div>
             <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
               <MobileLink
-                title="All Tags"
+                title="All"
                 href="/tag"
                 active={!slug}
                 clickAction={closeDrawer}

@@ -72,10 +72,10 @@ export function HomeFilterClient({
         onValueChange={(value) => handleFilterChange("category", value)}
       >
         <SelectTrigger>
-          <SelectValue placeholder="All Categories" />
+          <SelectValue placeholder="All" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value={null}>All Categories</SelectItem>
+          <SelectItem value={null}>All</SelectItem>
           {categoryList.map((item) => (
             <SelectItem key={item.slug} value={item.slug}>
               {item.name}
@@ -89,10 +89,10 @@ export function HomeFilterClient({
         onValueChange={(value) => handleFilterChange("tag", value)}
       >
         <SelectTrigger>
-          <SelectValue placeholder="All Tags" />
+          <SelectValue placeholder="All" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value={null}>All Tags</SelectItem>
+          <SelectItem value={null}>All</SelectItem>
           {tagList.map((item) => (
             <SelectItem key={item.slug} value={item.slug}>
               {item.name}

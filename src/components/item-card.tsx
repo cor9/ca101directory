@@ -16,7 +16,7 @@ export default function ItemCard({ item }: ItemCardProps) {
     ? urlForImage(item.image)
     : null;
   const imageBlurDataURL = item?.image?.blurDataURL || null;
-  console.log(`ItemCard, imageBlurDataURL:${imageBlurDataURL}`);
+  // console.log(`ItemCard, imageBlurDataURL:${imageBlurDataURL}`);
   const publishDate = item.publishDate || item._createdAt;
   const date = getLocaleDate(publishDate);
 

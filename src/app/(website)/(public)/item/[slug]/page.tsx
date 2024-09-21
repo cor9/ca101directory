@@ -102,7 +102,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
 
             {/* Detailed content */}
             {/* border rounded-lg p-6 */}
-            <div className="order-3 ">
+            <div className="order-3 bg-muted/50 rounded-lg p-6">
               <h2 className="text-xl font-semibold mb-4">Introduction</h2>
               <ItemCustomMdx source={item.introduction} />
             </div>

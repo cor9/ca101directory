@@ -1,3 +1,4 @@
+import { UserIcon } from '@sanity/icons';
 import { format, parseISO } from 'date-fns';
 import { defineField } from 'sanity';
 
@@ -5,7 +6,7 @@ const user = {
   name: 'user',
   title: 'User',
   type: 'document',
-  // icon: UserIcon,
+  icon: UserIcon,
   groups: [
     {
       name: 'stripe',

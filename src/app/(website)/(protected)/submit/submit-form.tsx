@@ -25,7 +25,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { SubmitSchema } from "@/lib/schemas";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import confetti from 'canvas-confetti';
 import { SmileIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";

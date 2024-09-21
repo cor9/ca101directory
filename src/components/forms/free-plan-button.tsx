@@ -7,12 +7,14 @@ import { Clock3Icon, HourglassIcon, CheckCircleIcon, FilePenLineIcon, ChevronLef
 import { useTransition } from "react";
 import { Icons } from "../shared/icons";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 interface FreePlanButtonProps {
   item: ItemFullInfo;
+  className?: string;
 }
 
-export function FreePlanButton({ item }: FreePlanButtonProps) {
+export function FreePlanButton({ item, className }: FreePlanButtonProps) {
   const router = useRouter();
   let [isPending, startTransition] = useTransition();
 
@@ -50,7 +52,7 @@ export function FreePlanButton({ item }: FreePlanButtonProps) {
     <Button
       size="lg"
       variant="outline"
-      className="w-full rounded-full"
+      className={cn("rounded-full", className)}
       disabled={isPending}
       onClick={handleClick}
     >

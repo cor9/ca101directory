@@ -3,6 +3,7 @@
 import { createCheckoutSession } from "@/actions/create-checkout-session";
 import { Icons } from "@/components/shared/icons";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { ItemFullInfo, PricePlan } from "@/types";
 import { RocketIcon } from "lucide-react";
 import { useTransition } from "react";
@@ -10,22 +11,23 @@ import { useTransition } from "react";
 interface ProPlanButtonProps {
   item: ItemFullInfo;
   pricePlan: PricePlan;
+  className?: string;
 }
 
-export function ProPlanButton({ item, pricePlan }: ProPlanButtonProps) {
+export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps) {
   let [isPending, startTransition] = useTransition();
 
   // TODO(javayhu): server action bind args!!!
-  const createSubmissionCheckoutSessionAction = createCheckoutSession.bind(
+  const createCheckoutSessionAction = createCheckoutSession.bind(
     null,
-    pricePlan.stripePriceId,
     item._id,
+    pricePlan.stripePriceId,
   );
 
-  const createCheckoutSessionAction = () => {
+  const createStripeCheckoutSession = () => {
     startTransition(async () => {
       try {
-        const result = await createSubmissionCheckoutSessionAction();
+        const result = await createCheckoutSessionAction();
         console.log('createCheckoutSessionAction, result:', result);
       } catch (error) {
         console.error('createCheckoutSessionAction, error:', error);
@@ -37,9 +39,9 @@ export function ProPlanButton({ item, pricePlan }: ProPlanButtonProps) {
     <Button
       size="lg"
       variant={"default"}
-      className="w-full rounded-full"
+      className={cn("rounded-full", className)}
       disabled={isPending}
-      onClick={createCheckoutSessionAction}
+      onClick={createStripeCheckoutSession}
     >
       {isPending ? (
         <>

@@ -8,39 +8,52 @@ import { sanityClient } from "@/sanity/lib/client";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { redirect } from "next/navigation";
 
-export type responseAction = {
+export type ServerActionResponse = {
   status: "success" | "error";
+  message?: string;
   stripeUrl?: string;
 }
 
 // https://github.com/javayhu/lms-studio-antonio/blob/main/app/api/courses/%5BcourseId%5D/checkout/route.ts
 // TODO(javayhu): stripe checkout session, how to handle the errors???
-export async function createCheckoutSession(priceId: string, itemId: string): Promise<responseAction> {
+export async function createCheckoutSession(itemId: string, priceId: string): Promise<ServerActionResponse> {
   let redirectUrl: string = "";
 
   try {
     // TODO(javayhu): can not useCurrentUser but can use currentUser() here, don't know why
     const user = await currentUser();
     if (!user || !user.email || !user.id) {
-      throw new Error("Unauthorized");
+      return {
+        status: "error",
+        message: "Unauthorized",
+      };
     }
 
     const item = await sanityFetch<Item>({
       query: `*[_type == "item" && _id == "${itemId}"][0]`
     });
     if (!item) {
-      throw new Error("Item not found");
+      return {
+        status: "error",
+        message: "Not found",
+      };
     }
 
     // 1. get user's stripeCustomerId
     const sanityUser = await sanityFetch<User>({
       query: `*[_type == "user" && _id == "${user.id}"][0]`
     });
+    if (item.submitter._ref != user.id) {
+      return {
+        status: "error",
+        message: "You are not the submitter of this item",
+      }
+    }
     let stripeCustomerId = sanityUser?.stripeCustomerId;
     console.log('stripeCustomerId:', stripeCustomerId);
 
     // 2. if the item is paid and the submitter is the user, then redirect to the billing portal
-    if (stripeCustomerId && item.paid && item.submitter._ref == user.id) {
+    if (stripeCustomerId && item.paid) {
       console.log('item is paid, redirect to billing portal');
       const billingUrl = absoluteUrl("/billing");
       const stripeSession = await stripe.billingPortal.sessions.create({
@@ -58,27 +71,32 @@ export async function createCheckoutSession(priceId: string, itemId: string): Pr
           email: user.email,
         });
         if (!customer) {
-          throw new Error("Failed to create customer in Stripe");
+          return {
+            status: "error",
+            message: "Failed to create customer in Stripe",
+          };
         }
 
         const result = await sanityClient.patch(user.id).set({
           stripeCustomerId: customer.id,
         }).commit();
-
         if (!result) {
-          throw new Error("Failed to save customer in Sanity");
+          return {
+            status: "error",
+            message: "Failed to save customer in Sanity",
+          };
         }
         stripeCustomerId = customer.id;
       }
 
       // 4. create stripe checkout session
       console.log('creating stripe checkout session'
-        + ', customerId:', stripeCustomerId,
-        + ', priceId:', priceId,
-        + ', userId:', user.id,
-        + ', itemId:', itemId);
-      const successUrl = absoluteUrl(`/publish/${itemId}`);
-      const cancelUrl = absoluteUrl(`/plan/${itemId}`);
+        + ', customerId:' + stripeCustomerId +
+        + ', priceId:' + priceId +
+        + ', userId:' + user.id +
+        + ', itemId:' + itemId);
+      const successUrl = absoluteUrl(`/submit/publish/${itemId}`);
+      const cancelUrl = absoluteUrl(`/submit/plan/${itemId}`);
       const stripeSession = await stripe.checkout.sessions.create({
         customer: stripeCustomerId,
         success_url: successUrl,
@@ -103,7 +121,10 @@ export async function createCheckoutSession(priceId: string, itemId: string): Pr
       console.log('stripe checkout session created, url:', redirectUrl);
     }
   } catch (error) {
-    throw new Error("Failed to generate stripe checkout session");
+    return {
+      status: "error",
+      message: "Failed to generate stripe checkout session",
+    };
   }
 
   // 5. redirect to new url, no revalidatePath because redirect

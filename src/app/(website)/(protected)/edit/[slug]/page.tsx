@@ -1,15 +1,13 @@
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import { ProPlanButton } from "@/components/forms/pro-plan-button";
+import { PRICE_PLANS } from "@/config/pricing-plan";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { categoryListQuery, itemByIdQuery, itemQuery, tagListQuery } from "@/sanity/lib/queries";
+import { categoryListQuery, itemByIdQuery, tagListQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { EditForm } from "./edit-form";
-import { DashboardHeader } from "@/components/dashboard/dashboard-header";
-import DashboardBreadCrumb from "@/components/dashboard/dashboard-update-bread-crumb";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { RocketIcon } from "lucide-react";
 
 interface EditPageProps {
   params: { slug: string };
@@ -34,6 +32,8 @@ export default async function EditPage({ params }: EditPageProps) {
     return notFound();
   }
 
+  const pricePlan = PRICE_PLANS.find(plan => plan.title === 'Pro');
+
   return (
     <>
       <div className="flex flex-col gap-6">
@@ -48,13 +48,7 @@ export default async function EditPage({ params }: EditPageProps) {
           {
             item.pricePlan === 'free' ? (
               <>
-                <Button asChild className="group whitespace-nowrap">
-                  <Link href={`/submit/plan/${item._id}`} prefetch={false}
-                    className="flex items-center justify-center space-x-2">
-                    <RocketIcon className="w-4 h-4" />
-                    <span>Upgrade to PRO Plan</span>
-                  </Link>
-                </Button>
+                <ProPlanButton item={item} pricePlan={pricePlan} />
               </>
             ) : null
           }

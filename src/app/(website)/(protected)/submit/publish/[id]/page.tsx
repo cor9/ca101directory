@@ -7,10 +7,10 @@ import { urlForImageWithSize } from "@/lib/utils";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
-import { CalendarDaysIcon, RocketIcon } from "lucide-react";
+import { CalendarDaysIcon, PartyPopperIcon, RocketIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 export default async function PublishPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -25,6 +25,13 @@ export default async function PublishPage({ params }: { params: { id: string } }
     return notFound();
   }
   // console.log('PublishPage, item:', item);
+
+  // TODO: check status, if status is not 'approved', redirect to edit page
+  // if (item.pricePlan === 'free' && item.freePlanStatus !== 'approved') {
+  //   return redirect(`/edit/${item._id}`);
+  // } else if (item.pricePlan === 'pro' && item.proPlanStatus !== 'success') {
+  //   return redirect(`/submit/plan/${item._id}`);
+  // }
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
@@ -41,7 +48,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
         {/* max-w-6xl mx-auto */}
         <div className="w-full">
           {/* Content section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
 
             {/* Left column */}
             <div className="md:col-span-1 flex flex-col">
@@ -71,22 +78,42 @@ export default async function PublishPage({ params }: { params: { id: string } }
                 </p>
 
                 {/* action buttons */}
-                <div className="flex flex-row gap-4">
-                  <div className="group flex-1">
-                    <PublishNowButton item={item} />
-                  </div>
+                {
+                  item.published ? (
+                    <div className="flex flex-row gap-4">
+                      <div className="group flex-1">
+                        <Button size="lg" variant="default" asChild
+                          className="group rounded-full">
+                          <Link href={`/item/${item.slug.current}`}
+                            className="flex items-center justify-center space-x-2">
+                            <PartyPopperIcon className="w-4 h-4
+                              transition-transform duration-300 ease-in-out group-hover:scale-125" />
+                            <span className="">View on site</span>
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-row gap-4">
+                      <div className="group flex-1">
+                        <PublishNowButton item={item} />
+                      </div>
 
-                  <div className="group flex-1">
-                    <Button size="lg" variant="outline" asChild
-                      className="group flex-1 w-full rounded-full">
-                      <Link href='/dashboard' className="flex items-center justify-center space-x-2">
-                        <CalendarDaysIcon className="w-4 h-4
+                      <div className="group flex-1">
+                        <Button size="lg" variant="outline" asChild
+                          className="group flex-1 w-full rounded-full">
+                          <Link href='/dashboard' className="flex items-center justify-center space-x-2">
+                            <CalendarDaysIcon className="w-4 h-4
                           transition-transform duration-300 ease-in-out group-hover:scale-125" />
-                        <span className="">Publish Later</span>
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
+                            <span className="">Publish Later</span>
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  )
+                }
+
+
               </div>
             </div>
 

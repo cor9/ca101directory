@@ -122,6 +122,8 @@ export default defineType({
       description: "If the item is paid, it means the payment is successful",
       type: "boolean",
       initialValue: false,
+      // TODO(javayhu) read only
+      // readOnly: true,
     }),
     defineField({
       name: "order",
@@ -130,6 +132,8 @@ export default defineType({
       type: "reference",
       to: [{ type: "order" }],
       hidden: ({ parent }) => !parent.paid,
+      // TODO(javayhu) read only
+      // readOnly: true,
     }),
     // price plan related fields
     defineField({
@@ -143,6 +147,8 @@ export default defineType({
         layout: 'radio',
         direction: 'horizontal',
       },
+      // TODO(javayhu) read only
+      // readOnly: true,
     }),
     defineField({
       name: "freePlanStatus",
@@ -156,6 +162,8 @@ export default defineType({
         direction: 'horizontal',
       },
       hidden: ({ parent }) => parent.pricePlan !== 'free',
+      // TODO(javayhu) read only
+      // readOnly: true,
     }),
     defineField({
       name: "proPlanStatus",
@@ -169,6 +177,8 @@ export default defineType({
         direction: 'horizontal',
       },
       hidden: ({ parent }) => parent.pricePlan !== 'pro',
+      // TODO(javayhu) read only
+      // readOnly: true,
     }),
     defineField({
       name: "rejectionReason",

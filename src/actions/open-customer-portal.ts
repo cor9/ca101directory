@@ -5,7 +5,7 @@ import { stripe } from "@/lib/stripe";
 import { absoluteUrl } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
-export type responseAction = {
+export type ServerActionResponse = {
   status: "success" | "error";
   stripeUrl?: string;
 };
@@ -15,7 +15,7 @@ const billingUrl = absoluteUrl("/billing");
 // TODO(javayhu): not used yet
 export async function openCustomerPortal(
   stripeCustomerId: string,
-): Promise<responseAction> {
+): Promise<ServerActionResponse> {
   let redirectUrl: string = "";
 
   try {

@@ -79,11 +79,11 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
         </div>
 
         {/* action buttons */}
-        <div className="mt-6">
+        <div className="mt-6 px-6">
           {pricePlan.title === "Free" ? (
-            <FreePlanButton item={item} />
+            <FreePlanButton item={item} className="w-full" />
           ) : (
-            <ProPlanButton item={item} pricePlan={pricePlan} />
+            <ProPlanButton item={item} pricePlan={pricePlan} className="w-full" />
           )}
         </div>
       </div>

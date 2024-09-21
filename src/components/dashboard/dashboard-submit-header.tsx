@@ -47,7 +47,7 @@ export function DashboardSubmitHeader({
       </div>
 
       {/* actions */}
-      <div className="flex-1">
+      <div className="flex-1 md:max-w-[50%]">
         {children}
       </div>
     </div>

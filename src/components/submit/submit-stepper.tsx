@@ -47,9 +47,9 @@ export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
                                     {step.title}
                                 </StepperTitle>
                                 {/* hidden on mobile, to make separator visible */}
-                                <StepperDescription className='hidden lg:block'>
+                                {/* <StepperDescription className='hidden lg:block'>
                                     {step.description}
-                                </StepperDescription>
+                                </StepperDescription> */}
                             </div>
                         </StepperTrigger>
                     </StepperItem>

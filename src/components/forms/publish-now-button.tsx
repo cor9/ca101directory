@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Icons } from "../shared/icons";
 import { RocketIcon } from "lucide-react";
+import confetti from 'canvas-confetti';
 
 interface PublishNowButtonProps {
   item: ItemFullInfo;
@@ -22,6 +23,7 @@ export function PublishNowButton({ item }: PublishNowButtonProps) {
         const result = await publish(item._id);
         console.log('publishAction, result:', result);
         if (result.success) {
+          confetti();
           // router.push(`/dashboard`);
           router.refresh();
         } else { // TODO(javayhu): handle error

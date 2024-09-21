@@ -68,54 +68,6 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type Settings = {
-  _id: string;
-  _type: "settings";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-};
-
-export type PasswordResetToken = {
-  _id: string;
-  _type: "passwordResetToken";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  identifier?: string;
-  token?: string;
-  expires?: string;
-};
-
-export type VerificationToken = {
-  _id: string;
-  _type: "verificationToken";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  identifier?: string;
-  token?: string;
-  expires?: string;
-};
-
-export type Session = {
-  _id: string;
-  _type: "session";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  sessionToken?: string;
-  userId?: string;
-  expires?: string;
-  user?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "user";
-  };
-};
-
 export type BlockContent = Array<{
   children?: Array<{
     marks?: Array<string>;
@@ -167,6 +119,54 @@ export type BlockContent = Array<{
 } | {
   _key: string;
 } & Code>;
+
+export type Settings = {
+  _id: string;
+  _type: "settings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+};
+
+export type PasswordResetToken = {
+  _id: string;
+  _type: "passwordResetToken";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  identifier?: string;
+  token?: string;
+  expires?: string;
+};
+
+export type VerificationToken = {
+  _id: string;
+  _type: "verificationToken";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  identifier?: string;
+  token?: string;
+  expires?: string;
+};
+
+export type Session = {
+  _id: string;
+  _type: "session";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  sessionToken?: string;
+  userId?: string;
+  expires?: string;
+  user?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "user";
+  };
+};
 
 export type BlogCategory = {
   _id: string;
@@ -467,7 +467,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Settings | PasswordResetToken | VerificationToken | Session | BlockContent | BlogCategory | BlogPost | Page | Category | Tag | Item | Order | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | Code | Markdown | MediaTag | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | BlockContent | Settings | PasswordResetToken | VerificationToken | Session | BlogCategory | BlogPost | Page | Category | Tag | Item | Order | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | Code | Markdown | MediaTag | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/sanity/lib/queries.ts
 // Variable: itemQuery

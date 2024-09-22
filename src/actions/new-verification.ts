@@ -24,6 +24,7 @@ export const newVerification = async (token: string) => {
     emailVerified: new Date().toISOString(),
     email: existingToken.identifier,
   }).commit();
+  console.log("Email verified!");
 
   await sanityClient.delete(existingToken._id);
   return { success: "Email verified!" };

@@ -209,9 +209,6 @@ importers:
       react-simplemde-editor:
         specifier: ^5.2.0
         version: 5.2.0(easymde@2.18.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-spinners:
-        specifier: ^0.14.1
-        version: 0.14.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       resend:
         specifier: ^3.5.0
         version: 3.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -6169,12 +6166,6 @@ packages:
       easymde: '>= 2.0.0 < 3.0.0'
       react: '>=16.8.2'
       react-dom: '>=16.8.2'
-
-  react-spinners@0.14.1:
-    resolution: {integrity: sha512-2Izq+qgQ08HTofCVEdcAQCXFEYfqTDdfeDQJeo/HHQiQJD4imOicNLhkfN2eh1NYEWVOX4D9ok2lhuDB0z3Aag==}
-    peerDependencies:
-      react: ^16.0.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
 
   react-style-proptype@3.2.2:
     resolution: {integrity: sha512-ywYLSjNkxKHiZOqNlso9PZByNEY+FTyh3C+7uuziK0xFXu9xzdyfHwg4S9iyiRRoPCR4k2LqaBBsWVmSBwCWYQ==}
@@ -14444,11 +14435,6 @@ snapshots:
     dependencies:
       '@types/codemirror': 5.60.15
       easymde: 2.18.0
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-
-  react-spinners@0.14.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 

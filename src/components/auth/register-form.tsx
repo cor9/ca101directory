@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { register } from "@/actions/register";
+import { Icons } from "@/components/shared/icons";
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -120,9 +121,10 @@ export const RegisterForm = () => {
             disabled={isPending}
             size="lg"
             type="submit"
-            className="w-full"
+            className="w-full flex items-center justify-center gap-2"
           >
-            Create an account
+            {isPending ? <Icons.spinner className="w-4 h-4 animate-spin" /> : ""}
+            <span>Create an account</span>
           </Button>
         </form>
       </Form>

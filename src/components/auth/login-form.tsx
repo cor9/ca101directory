@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
+import { Icons } from "@/components/shared/icons";
 
 /**
  * TODO: show loading when logging in
@@ -135,9 +136,10 @@ export const LoginForm = () => {
             disabled={isPending}
             size="lg"
             type="submit"
-            className="w-full"
+            className="w-full flex items-center justify-center gap-2"
           >
-            Login
+            {isPending ? <Icons.spinner className="w-4 h-4 animate-spin" /> : ""}
+            <span>Login</span>
           </Button>
         </form>
       </Form>

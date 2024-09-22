@@ -10,6 +10,7 @@ import { getUserByEmail } from "@/data/user";
 // https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.config.ts
 // authConfig is used in middleware.ts and support edge runtime
 export default {
+  debug: true,
   // https://authjs.dev/getting-started/migrating-to-v5#environment-variables
   // The AUTH_TRUST_HOST environment variable serves the same purpose as setting trustHost: true in your Auth.js configuration. 
   // This is necessary when running Auth.js behind a proxy. 

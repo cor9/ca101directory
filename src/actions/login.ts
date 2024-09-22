@@ -34,14 +34,18 @@ export const login = async (
     }
 
     try {
+        console.log('login, start signIn');
         // https://youtu.be/1MTyCvS05V4?t=9828
-        await signIn("credentials", {
+        const result = await signIn("credentials", {
             email,
             password,
-            // redirect: true,
+            redirect: true,
             redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
         });
-        // console.log('login, result:', result);
+        console.log('login, result:', result);
+        return { success: "Login successful!" };
+
+
         // if (result?.error) {
         //     return { error: `Login failed: ${result.error}` };
         // }

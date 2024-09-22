@@ -22,9 +22,12 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
 import { Icons } from "@/components/shared/icons";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { signIn, useSession } from "next-auth/react";
 
 export const LoginForm = () => {
   const router = useRouter();
+  const { update } = useSession();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
@@ -50,6 +53,14 @@ export const LoginForm = () => {
     startTransition(() => {
       login(values, callbackUrl)
         .then((data) => {
+          console.log('login, data:', data);
+
+          // console.log('update session');
+          // update();
+
+          // console.log('push to callbackUrl:', callbackUrl);
+          // router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT);
+
           if (data?.error) {
             form.reset();
             setError(data.error);
@@ -63,6 +74,13 @@ export const LoginForm = () => {
 
             // 加了这个也没有用
             // router.refresh();
+
+            // 手动刷新 session，加了这个也没有用
+            // console.log('update session');
+            // update();
+
+            // console.log('push to callbackUrl:', callbackUrl);
+            // router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT);
           }
         })
         .catch(() => {
@@ -70,6 +88,35 @@ export const LoginForm = () => {
         });
     });
   };
+
+  // const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  //   setError("");
+  //   setSuccess("");
+
+  //   startTransition(() => {
+  //     signIn("credentials", {
+  //       email: values.email,
+  //       password: values.password,
+  //       // redirect: false,
+  //       redirect: true,
+  //       redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+  //     })
+  //       .then((response) => {
+  //         if (response?.error) {
+  //           setError(response.error);
+  //           console.log('login, error:', response.error);
+  //         } else if (response?.ok) {
+  //           setSuccess("Logged in successfully");
+  //           console.log('login, success: Logged in successfully');
+  //           // You might want to redirect here
+  //           // router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT);
+  //         }
+  //       })
+  //       .catch(() => {
+  //         setError("Something went wrong");
+  //       });
+  //   });
+  // };
 
   return (
     <AuthCard

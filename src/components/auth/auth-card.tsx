@@ -1,7 +1,7 @@
 "use client";
 
 import { BottomButton } from "@/components/auth/bottom-button";
-import { SocialLoginButton } from "@/components/auth/social-button";
+import { SocialLoginButton } from "@/components/auth/social-login-button";
 import {
   Card,
   CardContent,

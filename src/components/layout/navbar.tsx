@@ -36,10 +36,9 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
   console.log(`navbar: component rendering`);
   const scrolled = useScroll(50);
 
-  // const { data: session } = useSession();
-  // const user = session?.user;
-  // console.log('navbar, session:', session, 'status:', status);
-  const user = useCurrentUser();
+  const { data: session } = useSession();
+  const user = session?.user;
+  // const user = useCurrentUser();
   console.log(`navbar: user:`, user);
   
   const pathname = usePathname();

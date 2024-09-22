@@ -45,6 +45,9 @@ export const login = async (
         // if (result?.error) {
         //     return { error: `Login failed: ${result.error}` };
         // }
+
+        // 手动刷新 session，加了这个也没有用
+        // await fetch("/api/auth/session");
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {

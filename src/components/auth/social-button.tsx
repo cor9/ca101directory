@@ -12,7 +12,7 @@ import { Icons } from "../shared/icons";
 /**
  * social login buttons
  */
-export const SocialButton = () => {
+export const SocialLoginButton = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const [isLoading, setIsLoading] = useState<"google" | "github" | null>(null);

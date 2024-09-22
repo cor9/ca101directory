@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { LoginSchema } from "@/lib/schemas";
@@ -24,6 +24,7 @@ import { login } from "@/actions/login";
 import { Icons } from "@/components/shared/icons";
 
 export const LoginForm = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
@@ -59,6 +60,9 @@ export const LoginForm = () => {
             form.reset();
             setSuccess(data.success);
             console.log('login, success:', data.success);
+
+            // 加了这个也没有用
+            // router.refresh();
           }
         })
         .catch(() => {
@@ -72,7 +76,7 @@ export const LoginForm = () => {
       headerLabel="Welcome back"
       bottomButtonLabel="Don't have an account? Sign up"
       bottomButtonHref="/auth/register"
-      showSocial
+      showSocialLoginButton
     >
       <Form {...form}>
         <form

@@ -53,7 +53,7 @@ export const RegisterForm = () => {
       headerLabel="Create an account"
       bottomButtonLabel="Already have an account? Sign in"
       bottomButtonHref="/auth/login"
-      showSocial
+      showSocialLoginButton
     >
       <Form {...form}>
         <form 

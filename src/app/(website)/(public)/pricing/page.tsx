@@ -1,5 +1,6 @@
 import { ComparePlans } from "@/components/pricing/compare-plans";
 import { PricingFaq } from "@/components/pricing/pricing-faq";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { currentUser } from "@/lib/auth";
 import { constructMetadata } from "@/lib/utils";
 import Image from "next/image";
@@ -12,6 +13,7 @@ export const metadata = constructMetadata({
 
 export default async function PricingPage() {
   const user = await currentUser();
+  // const user = useCurrentUser();
 
   if (user?.role === "ADMIN") {
     return (

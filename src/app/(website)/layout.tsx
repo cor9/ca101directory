@@ -19,6 +19,7 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   const session = await auth();
+  // console.log('layout, session:', session);
   
   return (
     <html lang="en" suppressHydrationWarning>
@@ -34,8 +35,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           fontBricolage.variable,
         )}
       >
-        {/* 20240918，之前这里并没有加session={session}，但是看authy代码是有的，不知道为什么当初删掉了 */}
-        {/* https://github.com/javayhu/Authy/blob/main/app/layout.tsx#L24 */}
         <SessionProvider session={session}>
           <ThemeProvider
             attribute="class"
@@ -46,7 +45,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             {children}
 
             {/* https://sonner.emilkowal.ski/toaster */}
-            {/* <Toaster richColors position="top-right" offset={64} /> */}
             <Toaster richColors position="bottom-right" offset={64} />
 
             <TailwindIndicator />

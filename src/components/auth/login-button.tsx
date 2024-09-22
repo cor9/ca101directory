@@ -3,6 +3,8 @@
 import {
   Dialog,
   DialogContent,
+  DialogHeader, 
+  DialogTitle,
   DialogTrigger,
 } from "@/components/auth/auth-dialog";
 import { LoginForm } from "@/components/auth/login-form";
@@ -47,6 +49,10 @@ export const LoginButton = ({
           {children}
         </DialogTrigger>
         <DialogContent className="p-0 bg-transparent border-none">
+          <DialogHeader>
+            {/* `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users. */}
+            <DialogTitle></DialogTitle>
+          </DialogHeader>
           <LoginForm />
         </DialogContent>
       </Dialog>

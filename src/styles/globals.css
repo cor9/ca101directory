@@ -2,10 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* https://ui.shadcn.com/themes */
-/* Style: Default, Color: Slate */
-/* https://customizer.railly.dev/ */
-
+/**
+ * https://ui.shadcn.com/themes
+ * Style: Default, Color: Slate
+ * https://customizer.railly.dev/
+ */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -72,7 +73,7 @@
            hover:after:origin-bottom-left hover:after:scale-x-100
            after:transition-transform after:duration-300 after:ease-in-out;
   }
-  
+
   .step {
     counter-increment: step;
   }

@@ -1,3 +1,6 @@
+/**
+ * for easy markdown editor, https://github.com/Ionaru/easy-markdown-editor
+ */
 .editor-toolbar button {
     color: hsl(var(--muted-foreground)) !important;
 }

@@ -34,10 +34,11 @@ export const login = async (
     }
 
     try {
+        // https://youtu.be/1MTyCvS05V4?t=9828
         await signIn("credentials", {
             email,
             password,
-            redirect: true,
+            // redirect: true,
             redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
         });
         // console.log('login, result:', result);

@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/auth";
+import { currentUser } from "@/lib/auth";
 import { EditSchema } from "@/lib/schemas";
 import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
@@ -24,12 +24,10 @@ export type EditFormData = {
  */
 export async function Edit(formData: EditFormData) {
   try {
-    const session = await auth();
-    if (!session?.user || !session?.user?.id) {
-      console.log("edit, unauthorized");
-      throw new Error("Unauthorized");
+    const user = await currentUser();
+    if (!user) {
+      return { error: "Unauthorized" };
     }
-    console.log("edit, username:", session?.user?.name);
 
     console.log("edit, data:", formData);
     const { id, name, link, description, introduction, imageId,

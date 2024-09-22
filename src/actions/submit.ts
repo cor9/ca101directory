@@ -1,11 +1,11 @@
 "use server";
 
-import { auth } from "@/auth";
+import { currentUser } from "@/lib/auth";
 import { SubmitSchema } from "@/lib/schemas";
 import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
-import { revalidatePath } from "next/cache";
 import { nanoid } from 'nanoid';
+import { revalidatePath } from "next/cache";
 
 export type SubmitFormData = {
   name: string;
@@ -20,12 +20,10 @@ export type SubmitFormData = {
 // https://nextjs.org/learn/dashboard-app/mutating-data
 export async function Submit(formData: SubmitFormData) {
   try {
-    const session = await auth();
-    if (!session?.user || !session?.user?.id) {
-      console.log("submit, unauthorized");
-      throw new Error("Unauthorized");
+    const user = await currentUser();
+    if (!user) {
+      return { error: "Unauthorized" };
     }
-    console.log("submit, username:", session?.user?.name);
 
     console.log("submit, data:", formData);
     const { name, link, description, introduction, imageId,
@@ -51,7 +49,7 @@ export async function Submit(formData: SubmitFormData) {
         _type: "reference",
         _ref: session.user.id,
       },
-      
+
       // The _key only needs to be unique within the array itself
       // use nanoid to generate a random string with 12 characters like sanity
       tags: tags.map(tag => ({

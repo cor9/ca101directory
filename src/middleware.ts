@@ -32,6 +32,7 @@ export default auth((req) => {
   // redirect to dashboard if logged in and on auth routes
   if (isAuthRoute) {
     if (isLoggedIn) {
+      console.log('middleware, redirecting to dashboard');
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
     return null;

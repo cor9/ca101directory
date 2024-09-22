@@ -1132,7 +1132,7 @@ export type BlogCategoryListQueryResult = Array<{
   color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc" | null;
 }>;
 // Variable: blogPostQuery
-// Query: *[_type == "blogPost" && slug.current == $slug][0] {        _id,  _createdAt,  title,  slug,  excerpt,  featured,  image,  publishDate,  author->,  categories[]->,  body[]{    ...,    markDefs[]{      ...,      _type == "internalLink" => {        "slug": @.reference->slug      }    }  },    // "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),  // "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {  //   title,  //   slug,  //   "date": coalesce(publishedDate,_createdAt),  //   "image": image  // },}
+// Query: *[_type == "blogPost" && slug.current == $slug][0] {        _id,  _createdAt,  title,  slug,  excerpt,  featured,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "imageColor": asset->metadata.palette.dominant.background,  },  publishDate,  author->,  categories[]->,  body[]{    ...,    markDefs[]{      ...,      _type == "internalLink" => {        "slug": @.reference->slug      }    }  },    // "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),  // "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {  //   title,  //   slug,  //   "date": coalesce(publishedDate,_createdAt),  //   "image": image  // },}
 export type BlogPostQueryResult = {
   _id: string;
   _createdAt: string;
@@ -1151,6 +1151,8 @@ export type BlogPostQueryResult = {
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
+    blurDataURL: string | null;
+    imageColor: string | null;
   } | null;
   publishDate: string | null;
   author: {
@@ -1246,7 +1248,7 @@ export type BlogPostQueryResult = {
   }> | null;
 } | null;
 // Variable: blogPostListQuery
-// Query: *[_type == "blogPost" && defined(slug.current) && defined(publishDate)]     | order(publishDate desc) {    _id,  _createdAt,  title,  slug,  excerpt,  featured,  image,  publishDate,  author->,  categories[]->,}
+// Query: *[_type == "blogPost" && defined(slug.current) && defined(publishDate)]     | order(publishDate desc) {    _id,  _createdAt,  title,  slug,  excerpt,  featured,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "imageColor": asset->metadata.palette.dominant.background,  },  publishDate,  author->,  categories[]->,}
 export type BlogPostListQueryResult = Array<{
   _id: string;
   _createdAt: string;
@@ -1265,6 +1267,8 @@ export type BlogPostListQueryResult = Array<{
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
+    blurDataURL: string | null;
+    imageColor: string | null;
   } | null;
   publishDate: string | null;
   author: {
@@ -1514,8 +1518,8 @@ declare module "@sanity/client" {
     "*[_type == \"item\" && defined(slug.current)\n  && submitter._ref == $userId] | order(_createdAt desc) {\n  \n  \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n  introduction,\n\n}": SubmissionListQueryResult;
     "\n  *[_type == \"page\" && slug.current == $slug][0] {\n    ...,\n    body[]{\n      ...,\n      markDefs[]{\n        ...,\n        _type == \"internalLink\" => {\n          \"slug\": @.reference->slug\n        }\n      }\n    },\n  }\n": PageQueryResult;
     "\n  *[_type == \"blogCategory\" && defined(slug.current)] \n    | order(priority desc) {\n  \n  name,\n  slug,\n  description,\n  priority,\n  color,\n\n}": BlogCategoryListQueryResult;
-    "\n  *[_type == \"blogPost\" && slug.current == $slug][0] {\n    \n  \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image,\n  publishDate,\n  author->,\n  categories[]->,\n\n  body[]{\n    ...,\n    markDefs[]{\n      ...,\n      _type == \"internalLink\" => {\n        \"slug\": @.reference->slug\n      }\n    }\n  },\n  \n  // \"estReadingTime\": round(length(pt::text(body)) / 5 / 180 ),\n  // \"related\": *[_type == \"blogPost\" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {\n  //   title,\n  //   slug,\n  //   \"date\": coalesce(publishedDate,_createdAt),\n  //   \"image\": image\n  // },\n\n}": BlogPostQueryResult;
-    "\n  *[_type == \"blogPost\" && defined(slug.current) && defined(publishDate)] \n    | order(publishDate desc) {\n  \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image,\n  publishDate,\n  author->,\n  categories[]->,\n\n}": BlogPostListQueryResult;
+    "\n  *[_type == \"blogPost\" && slug.current == $slug][0] {\n    \n  \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  author->,\n  categories[]->,\n\n  body[]{\n    ...,\n    markDefs[]{\n      ...,\n      _type == \"internalLink\" => {\n        \"slug\": @.reference->slug\n      }\n    }\n  },\n  \n  // \"estReadingTime\": round(length(pt::text(body)) / 5 / 180 ),\n  // \"related\": *[_type == \"blogPost\" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {\n  //   title,\n  //   slug,\n  //   \"date\": coalesce(publishedDate,_createdAt),\n  //   \"image\": image\n  // },\n\n}": BlogPostQueryResult;
+    "\n  *[_type == \"blogPost\" && defined(slug.current) && defined(publishDate)] \n    | order(publishDate desc) {\n  \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  author->,\n  categories[]->,\n\n}": BlogPostListQueryResult;
     "\n  *[_type == \"user\" && _id == $id][0] {\n    ...,\n    accounts[]->,\n  }\n": UserWithAccountsQueryResult;
     "*[_type == \"blogCategory\"] {\n  ...,\n  \"count\": count(*[_type == \"blogPost\" && references(^._id)])\n} | order(count desc) [0...5]": CatqueryResult;
     "*[_type == \"blogPost\" && _score > 0]\n| score(title match $query || excerpt match $query || pt::text(body) match $query)\n| order(_score desc)\n{\n  _score,\n  _id,\n  _createdAt,\n  image,\n  author->,\n  categories[]->,\n   title,\n   slug\n}": SearchqueryResult;

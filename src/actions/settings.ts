@@ -32,7 +32,7 @@ export const settings = async (
 
   if (values.email && values.email !== user.email) {
     const existingUser = await getUserByEmail(values.email);
-    if (existingUser && existingUser.id !== user.id) {
+    if (existingUser && existingUser._id !== user.id) {
       return { error: "Email already in use!" };
     }
 

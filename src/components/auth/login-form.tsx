@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { LoginSchema } from "@/lib/schemas";
@@ -55,11 +55,18 @@ export const LoginForm = () => {
         .then((data) => {
           console.log('login, data:', data);
 
+          // 加了还是没用
           // console.log('update session');
           // update();
 
+          // 客户端跳转，也是OK的，
           // console.log('push to callbackUrl:', callbackUrl);
           // router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT);
+          
+          // 使用redirect也没用
+          // console.log('push to dashboard');
+          // router.push(DEFAULT_LOGIN_REDIRECT);
+          // redirect(DEFAULT_LOGIN_REDIRECT);
 
           if (data?.error) {
             form.reset();

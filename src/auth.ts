@@ -10,7 +10,8 @@ import { UserRole } from "@/types/user-role";
 // https://authjs.dev/getting-started/installation#configure
 // providers for authorization, adapters for user data persistence
 export const {
-  handlers: { GET, POST },
+  // handlers: { GET, POST },
+  handlers,
   auth,
   signIn,
   signOut,

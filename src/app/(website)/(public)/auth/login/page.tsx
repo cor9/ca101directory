@@ -8,9 +8,9 @@ const LoginPage = () => {
   //   <LoginForm />
   // );
   return (
-    <Suspense fallback={null}>
+    // <Suspense fallback={null}>
       <LoginForm />
-    </Suspense>
+    // </Suspense>
   );
 }
 

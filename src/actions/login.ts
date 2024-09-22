@@ -8,6 +8,7 @@ import { AuthError } from "next-auth";
 import { getUserByEmail } from "@/data/user";
 import { sendVerificationEmail, } from "@/lib/mail";
 import { generateVerificationToken, } from "@/lib/tokens";
+import { redirect } from "next/navigation";
 
 export const login = async (
     values: z.infer<typeof LoginSchema>, 
@@ -39,12 +40,17 @@ export const login = async (
         const result = await signIn("credentials", {
             email,
             password,
+            // redirect: true,
             redirect: true,
             redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
         });
-        console.log('login, result:', result);
-        return { success: "Login successful!" };
 
+        // 这里redirect: false是有用的，这样的话就要自己去跳转了
+
+        // 改成server端redirect也没用
+        // console.log('login, result:', result);
+        // redirect(DEFAULT_LOGIN_REDIRECT);
+        // return { success: "Login successful!" };
 
         // if (result?.error) {
         //     return { error: `Login failed: ${result.error}` };

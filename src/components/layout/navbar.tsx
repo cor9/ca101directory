@@ -36,11 +36,11 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
   console.log(`navbar: component rendering`);
   const scrolled = useScroll(50);
 
-  const { data: session } = useSession();
-  const user = session?.user;
+  // const { data: session } = useSession();
+  // const user = session?.user;
   // const user = useCurrentUser();
-  console.log(`navbar: user:`, user);
-  
+  // console.log(`navbar: user:`, user);
+
   const pathname = usePathname();
   // console.log(`Navbar, pathname: ${pathname}`);
   const links = config.mainNav;
@@ -63,10 +63,6 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
       document.body.style.overflow = "auto";
     }
   }, [open]);
-
-  useEffect(() => {
-    console.log(`navbar: useEffect, user:`, user);
-  }, [user]);
 
   return (
     <>
@@ -120,7 +116,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
 
           {/* navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
-            {
+            {/* {
               user ? (
                 <div className="flex items-center">
                   <UserAccountNav />
@@ -136,7 +132,11 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                   </Button>
                 </LoginWrapper>
               )
-            }
+            } */}
+
+            <div className="flex items-center">
+              <UserAccountNav />
+            </div>
 
             <ModeToggle />
           </div>
@@ -203,10 +203,10 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
 
           {/* mobile navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
-            {
+            {/* {
               user ? (
                 <div className="flex items-center">
-                  <UserAccountNav/>
+                  <UserAccountNav />
                 </div>
               ) : (
                 <LoginWrapper mode="redirect" asChild>
@@ -220,7 +220,11 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                   </Button>
                 </LoginWrapper>
               )
-            }
+            } */}
+
+            <div className="flex items-center">
+              <UserAccountNav />
+            </div>
 
             <ModeToggle />
           </div>

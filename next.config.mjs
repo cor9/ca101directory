@@ -9,6 +9,11 @@ const nextConfig = {
     // https://www.npmjs.com/package/geist#using-with-nextjs
     transpilePackages: ["geist"],
 
+    // https://nextjs.org/docs/pages/api-reference/next-config-js/reactStrictMode
+    // if enabled, new-verification-form will trigger twice and seems buggy in dev mode,
+    // but it's not a problem in production, so you can try to comment it out and let it go.
+    reactStrictMode: false,
+
     // <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (306kiB) impacts deserialization performance 
     // (consider using Buffer instead and decode when needed)
     // ReferenceError: path is not defined

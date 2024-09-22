@@ -13,17 +13,17 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
-interface LoginButtonProps {
+interface LoginWrapperProps {
   children: React.ReactNode;
   mode?: "modal" | "redirect",
   asChild?: boolean;
 };
 
-export const LoginButton = ({
+export const LoginWrapper = ({
   children,
   mode = "redirect",
   asChild
-}: LoginButtonProps) => {
+}: LoginWrapperProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

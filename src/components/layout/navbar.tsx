@@ -1,6 +1,6 @@
 "use client";
 
-import { LoginButton } from "@/components/auth/login-button";
+import { LoginWrapper } from "@/components/auth/login-button";
 import { ModeToggle } from "@/components/layout/mode-toggle";
 import { UserAccountNav } from "@/components/layout/user-account-nav";
 import Container from "@/components/shared/container";
@@ -124,7 +124,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                   <UserAccountNav />
                 </div>
               ) : (
-                <LoginButton mode="modal" asChild>
+                <LoginWrapper mode="modal" asChild>
                   <Button
                     className="flex gap-2 px-5 rounded-full"
                     variant="default"
@@ -132,7 +132,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                     <span>Sign In</span>
                     <ArrowRight className="size-4" />
                   </Button>
-                </LoginButton>
+                </LoginWrapper>
               )
             }
 
@@ -207,7 +207,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                   <UserAccountNav/>
                 </div>
               ) : (
-                <LoginButton mode="redirect" asChild>
+                <LoginWrapper mode="redirect" asChild>
                   <Button
                     className="flex gap-2 px-5 rounded-full"
                     variant="default"
@@ -216,7 +216,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                     <span>Sign In</span>
                     <ArrowRight className="size-4" />
                   </Button>
-                </LoginButton>
+                </LoginWrapper>
               )
             }
 

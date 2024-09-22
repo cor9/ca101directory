@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { LoginButton } from "../auth/login-button";
+import { LoginWrapper } from "../auth/login-button";
 import { DocsSearchCommand } from "../docs/docs-search";
 import { DocsSidebarNav } from "../docs/docs-sidebar-nav";
 import { Button } from "../ui/button";
@@ -108,7 +108,7 @@ export function NavbarMobile() {
                 <UserAccountNav />
               </div>
             ) : status === "unauthenticated" ? (
-              <LoginButton mode="modal" asChild>
+              <LoginWrapper mode="modal" asChild>
                 <Button
                   className="flex gap-2 px-5 rounded-full"
                   variant="default"
@@ -117,7 +117,7 @@ export function NavbarMobile() {
                   <span>Sign In</span>
                   <ArrowRight className="size-4" />
                 </Button>
-              </LoginButton>
+              </LoginWrapper>
             ) : (
               null
             )}

@@ -26,6 +26,7 @@ export const {
   adapter: SanityAdapter(sanityClient),
   callbacks: {
     // https://authjs.dev/concepts/callbacks#signin
+    // https://youtu.be/1MTyCvS05V4?t=10341
     signIn: async({ user, account }) => {
       // console.log('auth callbacks signIn, start, user:', user);
       if (account?.provider !== "credentials") return true;

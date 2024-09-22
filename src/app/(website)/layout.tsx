@@ -18,6 +18,7 @@ interface RootLayoutProps {
 }
 
 export default async function RootLayout({ children }: RootLayoutProps) {
+  // https://youtu.be/1MTyCvS05V4?t=21464
   const session = await auth();
   // console.log('layout, session:', session);
   

@@ -12,7 +12,6 @@ import {
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { LayoutDashboard, LayoutDashboardIcon, LogOut, LogOutIcon, UploadIcon } from "lucide-react";
-import { User } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -21,6 +20,7 @@ import { Drawer } from "vaul";
 
 export function UserAccountNav() {
   const router = useRouter();
+  
   const user = useCurrentUser();
   console.log('UserAccountNav, user:', user);
 

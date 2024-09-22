@@ -11,9 +11,15 @@ interface DashboardLayoutProps {
 
 export default async function DashboardLayout({ children }: DashboardLayoutProps) {
   const user = await currentUser();
+  console.log(`DashboardLayout, user:`, user);
   if (!user) {
     redirect("/auth/login");
   }
+
+  // const user = useCurrentUser();
+  // if (!user) {
+  //   redirect("/auth/login");
+  // }
   
   return (
     <div className="flex flex-col min-h-screen">

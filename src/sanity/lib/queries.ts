@@ -5,6 +5,8 @@ import groq, { defineQuery } from 'groq';
  * https://www.sanity.io/plugins/next-sanity#generate-typescript-types
  */
 
+// ======================================================================================================================
+
 /**
  * Item Queries
  */
@@ -118,6 +120,8 @@ export const pageQuery = defineQuery(`
   }
 `);
 
+// ======================================================================================================================
+
 /**
  * Blog Queries
  * 
@@ -188,6 +192,14 @@ export const blogPostListQuery = defineQuery(`
 
 // ======================================================================================================================
 
+export const userWithAccountsQuery = defineQuery(`
+  *[_type == "user" && _id == $id][0] {
+    ...,
+    accounts[]->,
+  }
+`);
+
+// ======================================================================================================================
 
 // Get top 5 categories
 export const catquery = groq`*[_type == "blogCategory"] {

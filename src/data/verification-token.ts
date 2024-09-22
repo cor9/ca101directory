@@ -31,3 +31,18 @@ export const getVerificationTokenByToken = async ( token: string ) => {
         return null;
     }
 }
+
+export const getVerificationTokenByIdentifierAndToken = async (identifier: string, token: string) => {
+    try {
+        // @sanity-typegen-ignore
+        const verTokenQry = `*[_type == "verificationToken" && identifier == "${identifier}" && token == "${token}"][0]`;
+        const verToken = await sanityFetch<VerificationToken>({ query: verTokenQry, disableCache: true });
+        if (SHOW_QUERY_LOGS) {
+            console.log('getVerificationTokenByIdentifierAndToken, verToken:', verToken);
+        }
+        return verToken;
+    } catch (error) {
+        console.error('getVerificationTokenByIdentifierAndToken, error:', error);
+        return null;
+    }
+}

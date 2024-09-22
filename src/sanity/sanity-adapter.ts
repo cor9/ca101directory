@@ -1,12 +1,25 @@
 import type { SanityClient } from '@sanity/client';
 import { uuid } from '@sanity/uuid';
-import type { Adapter, AdapterSession, AdapterUser } from "@auth/core/adapters";
+import type { Adapter, AdapterSession, AdapterUser, VerificationToken } from "@auth/core/adapters";
 import { UserRole } from "@/types/user-role";
 import { User } from "@/types/next-auth";
 import { SHOW_QUERY_LOGS } from '@/lib/constants';
+import { getUserByEmail, getUserById, getUserByIdWithAccounts } from '@/data/user';
+import { getAccountByProviderAccountId } from '@/data/account';
+import { getVerificationTokenByIdentifierAndToken } from '@/data/verification-token';
 
-// https://authjs.dev/reference/core/adapters
-// https://authjs.dev/guides/creating-a-database-adapter
+/**
+ * 1. Sanity Adapter for Authjs
+ * https://authjs.dev/reference/core/adapters
+ * https://authjs.dev/guides/creating-a-database-adapter
+ * 
+ * 2. Authjs AdapterUser expects id, email, emailVerified,
+ * so when we fetch user from Sanity, we need to map the fields.
+ * 
+ * 3. Define datetime for emailVerified in schema 
+ * turns out to be a string in type definition,
+ * so we need to convert it to Date
+ */
 export function SanityAdapter(
   sanityClient: SanityClient,
   options = {
@@ -24,10 +37,21 @@ export function SanityAdapter(
     async createUser(user) {
       try {
         // @sanity-typegen-ignore
-        const existingUserQry = `*[_type == "user" && email == "${user.email}"][0]`;
-        const existingUser = await sanityClient.fetch(existingUserQry);
-
-        if (existingUser) return existingUser;
+        // const existingUserQry = `*[_type == "user" && email == "${user.email}"][0]`;
+        // const existingUser = await sanityClient.fetch(existingUserQry);
+        // if (existingUser) return existingUser;
+        
+        const existingUser = await getUserByEmail(user.email);
+        if (existingUser) {
+          return {
+            ...existingUser,
+            // Authjs AdapterUser expects id, email, emailVerified
+            // and defin datetime for emailVerified in schema turns out to be a string in type definition
+            id: existingUser._id,
+            email: existingUser.email,
+            emailVerified: existingUser.emailVerified ? new Date(existingUser.emailVerified) : null,
+          };
+        }
 
         const createdUser = await sanityClient.create({
           _type: options.schemas.user,
@@ -43,8 +67,8 @@ export function SanityAdapter(
         }
 
         return {
+          ...createdUser,
           id: createdUser._id,
-          ...createdUser
         };
       } catch (error) {
         throw new Error('createUser, Failed to Create user');
@@ -54,10 +78,19 @@ export function SanityAdapter(
     async getUser(id) {
       try {
         // @sanity-typegen-ignore
-        const userQry = `*[_type == "user" && _id== "${id}"][0]`;
-        const user = await sanityClient.fetch(userQry);
+        // const userQry = `*[_type == "user" && _id== "${id}"][0]`;
+        // const user = await sanityClient.fetch(userQry);
+        // return user;
 
-        return user;
+        const user = await getUserById(id);
+        if (user) {
+          return {
+            ...user,
+            id: user._id,
+            email: user.email,
+            emailVerified: user.emailVerified ? new Date(user.emailVerified) : null,
+          };
+        }
       } catch (error) {
         throw new Error('getUser, Could not get the user');
       }
@@ -66,31 +99,33 @@ export function SanityAdapter(
     async getUserByAccount({ providerAccountId, provider }) {
       try {
         // @sanity-typegen-ignore
-        const accountQry = `*[_type == "account" && provider == "${provider}" && providerAccountId == "${providerAccountId}"][0]`;
-        if (SHOW_QUERY_LOGS) {
-          console.log('getUserByAccount, accountQry:' + accountQry);
-        }
-        const account = await sanityClient.fetch(accountQry);
+        // const accountQry = `*[_type == "account" && provider == "${provider}" && providerAccountId == "${providerAccountId}"][0]`;
+        // const account = await sanityClient.fetch(accountQry);
+        // if (!account) {
+        //   console.log('getUserByAccount, no account');
+        //   return;
+        // }
 
+        const account = await getAccountByProviderAccountId(providerAccountId, provider);
         if (!account) {
           console.log('getUserByAccount, no account');
           return;
         }
 
         // @sanity-typegen-ignore
-        const userQry = `*[_type == "user" && _id== "${account.userId}"][0]`;
-        if (SHOW_QUERY_LOGS) {
-          console.log('getUserByAccount, userQry:' + userQry);
-        }
-        const user = await sanityClient.fetch(userQry);
+        // const userQry = `*[_type == "user" && _id== "${account.userId}"][0]`;
+        // const user = await sanityClient.fetch(userQry);
+        const user = await getUserById(account.userId);
         if (SHOW_QUERY_LOGS) {
           console.log('getUserByAccount, user:', user);
         }
 
         return {
-          id: user._id,
+          ...user,
           role: user.role,
-          ...user
+          id: user._id,
+          email: user.email,
+          emailVerified: user.emailVerified ? new Date(user.emailVerified) : null,
         };
 
       } catch (error) {
@@ -101,17 +136,18 @@ export function SanityAdapter(
     async updateUser(updatedUser) {
       try {
         // @sanity-typegen-ignore
-        const existingUserQry = `*[_type == "user" && _id == "${updatedUser?.id}"][0]`;
-        const existingUser = await sanityClient.fetch(existingUserQry);
-
+        // const existingUserQry = `*[_type == "user" && _id == "${updatedUser?.id}"][0]`;
+        // const existingUser = await sanityClient.fetch(existingUserQry);
+        
+        const existingUser = await getUserById(updatedUser.id);
         if (!existingUser) {
-          throw new Error(`Could not update user: ${updatedUser.id}; unable to find user`)
+          throw new Error(`Could not update user: ${updatedUser.id}; unable to find user`);
         }
 
         const patchedUser = await sanityClient.patch(existingUser._id)
           .set({
+            ...existingUser,
             emailVerified: updatedUser.emailVerified === null ? undefined : updatedUser.emailVerified,
-            ...existingUser
           })
           .commit();
         if (SHOW_QUERY_LOGS) {
@@ -138,31 +174,7 @@ export function SanityAdapter(
       try {
         if (SHOW_QUERY_LOGS) {
           console.log('linkAccount, accountId:', account.userId);
-          console.log('linkAccount, account:', account);
         }
-        // Github account
-        // linkAccount, account: {
-        //   access_token: 'xxx',
-        //   scope: 'read:user,user:email',
-        //   token_type: 'bearer',
-        //   providerAccountId: '1982582',
-        //   provider: 'github',
-        //   type: 'oauth',
-        //   userId: 'user.7f3a261a-d6ea-42d8-80b9-b1e8310258c4'
-        // }
-
-        // Google account
-        // linkAccount, account: {
-        //   access_token: 'xxx',
-        //   id_token: 'xxx',
-        //   expires_at: 1722666512,
-        //   scope: 'openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
-        //   token_type: 'bearer',
-        //   providerAccountId: '106050797306543125930',
-        //   provider: 'google',
-        //   type: 'oidc',
-        //   userId: 'user.1d2c06f6-2bcc-4f5e-95ba-014aadfb4580'
-        // }
         const createdAccount = await sanityClient.create({
           _type: options.schemas.account,
           userId: account.userId,
@@ -192,7 +204,7 @@ export function SanityAdapter(
           accounts: {
             //@ts-ignore
             _type: 'reference',
-            _key: uuid(),
+            _key: `account.${uuid()}`,
             _ref: createdAccount._id
           }
         })
@@ -206,15 +218,16 @@ export function SanityAdapter(
     async unlinkAccount({ providerAccountId, provider }) {
       try {
         // @sanity-typegen-ignore
-        const accountQry = `*[_type == "account" && provider == "${provider}" && providerAccountId == "${providerAccountId}"][0]`;
-        const account = await sanityClient.fetch(accountQry);
-
+        // const accountQry = `*[_type == "account" && provider == "${provider}" && providerAccountId == "${providerAccountId}"][0]`;
+        // const account = await sanityClient.fetch(accountQry);
+        const account = await getAccountByProviderAccountId(providerAccountId, provider);
         if (!account) {
           console.log('unlinkAccount, no account');
           return;
         }
 
-        const accountUser = await sanityClient.getDocument<User>(account.userId);
+        // const accountUser = await sanityClient.getDocument<User>(account.userId);
+        const accountUser = await getUserByIdWithAccounts(account.userId);
         if (SHOW_QUERY_LOGS) {
           console.log('unlinkAccount, user:', accountUser);
         }
@@ -240,13 +253,19 @@ export function SanityAdapter(
     async getUserByEmail(email) {
       try {
         // @sanity-typegen-ignore
-        const userQry = `*[_type == "user" && email== "${email}"][0]`;
-        const user = await sanityClient.fetch(userQry);
-        if (SHOW_QUERY_LOGS) {
-          console.log('getUserByEmail, user:', user);
-        }
+        // const userQry = `*[_type == "user" && email== "${email}"][0]`;
+        // const user = await sanityClient.fetch(userQry);
+        // return user;
 
-        return user;
+        const user = await getUserByEmail(email);
+        if (user) {
+          return {
+            ...user,
+            id: user._id,
+            email: user.email,
+            emailVerified: user.emailVerified ? new Date(user.emailVerified) : null,
+          };
+        }
       } catch (error) {
         throw new Error('getUserByEmail, Could not get the user');
       }
@@ -270,10 +289,14 @@ export function SanityAdapter(
     async useVerificationToken({ identifier, token }) {
       try {
         // @sanity-typegen-ignore
-        const verTokenQry = `*[_type == "verificationToken" && identifier == "${identifier}" && token == "${token}"][0]`;
-        const verToken = await sanityClient.fetch(verTokenQry);
+        // const verTokenQry = `*[_type == "verificationToken" && identifier == "${identifier}" && token == "${token}"][0]`;
+        // const verToken = await sanityClient.fetch(verTokenQry);
 
-        if (!verToken) return null;
+        const verToken = await getVerificationTokenByIdentifierAndToken(identifier, token);
+        if (!verToken) {
+          console.log('useVerificationToken, no verification token');
+          return null;
+        }
 
         if (SHOW_QUERY_LOGS) {
           console.log('useVerificationToken, verToken:', verToken);
@@ -281,8 +304,11 @@ export function SanityAdapter(
         await sanityClient.delete(verToken._id);
 
         return {
+          ...verToken,
           id: verToken._id,
-          ...verToken
+          expires: verToken.expires ? new Date(verToken.expires) : null,
+          token: verToken.token,
+          identifier: verToken.identifier,
         };
       } catch (error) {
         throw new Error('useVerificationToken, Could not delete verification token');
@@ -294,12 +320,12 @@ export function SanityAdapter(
     async createSession(session) {
       try {
         await sanityClient.create({
+          ...session,
           _type: 'session',
           user: {
             _type: 'reference',
             _ref: session.userId
           },
-          ...session
         })
 
         return session;

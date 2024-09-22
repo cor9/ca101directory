@@ -33,7 +33,10 @@ export const {
       const existingUser = await getUserById(user.id!);
 
       // prevent signIn without email verification
-      if (!existingUser?.emailVerified) return false;
+      if (!existingUser?.emailVerified) {
+        console.log('auth callbacks signIn, user not verified');
+        return false;
+      }
 
       return true;
     },
@@ -57,7 +60,6 @@ export const {
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.role = existingUser.role;
-      // TODO(javayhu): add userPricePlan to token
 
       return token;
     },
@@ -84,28 +86,4 @@ export const {
       return session;
     },
   },
-})
-
-// auth callbacks jwt, token: {
-//   name: 'hujiawei',
-//   email: 'hujiawei090807@gmail.com',
-//   picture: 'https://lh3.googleusercontent.com/a/ACg8ocIGFsJY1EBOKVtKYg4dFSJrNR7jlINTy3o_LDTSNwQn_Fc4nXpH=s96-c',
-//   sub: 'user.1d2c06f6-2bcc-4f5e-95ba-014aadfb4580',
-//   isOAuth: true,
-//   role: 'USER',
-//   iat: 1722662922,
-//   exp: 1725254922,
-//   jti: 'b748e17a-584e-4093-a628-52978275de62'
-// }
-
-// auth callbacks session, token: {
-//   name: 'hujiawei',
-//   email: 'hujiawei090807@gmail.com',
-//   picture: 'https://lh3.googleusercontent.com/a/ACg8ocIGFsJY1EBOKVtKYg4dFSJrNR7jlINTy3o_LDTSNwQn_Fc4nXpH=s96-c',
-//   sub: 'user.1d2c06f6-2bcc-4f5e-95ba-014aadfb4580',
-//   isOAuth: true,
-//   role: 'USER',
-//   iat: 1722662922,
-//   exp: 1725254922,
-//   jti: 'b748e17a-584e-4093-a628-52978275de62'
-// }
+});

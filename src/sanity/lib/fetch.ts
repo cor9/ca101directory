@@ -17,10 +17,12 @@ export async function sanityFetch<QueryResponse>({
   query,
   params = {},
   perspective = (process.env.NODE_ENV === "development" || draftMode().isEnabled) ? "previewDrafts" : "published",
+  disableCache = false,
 }: {
   query: string;
   params?: QueryParams;
   perspective?: Omit<ClientPerspective, "raw">;
+  disableCache?: boolean;
 }) {
   // console.log('sanityFetch, perspective', perspective, 'query', query);
   if (perspective === "previewDrafts") {

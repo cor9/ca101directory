@@ -5,7 +5,7 @@ export const getUserByEmail = async (email: string) => {
     try {
         // @sanity-typegen-ignore
         const userQry = `*[_type == "user" && email == "${email}"][0]`;
-        const user = await sanityClient.fetch(userQry, null, {
+        const user = await sanityClient.fetch(userQry, {}, {
             useCdn: false,
             next: { revalidate: 0 },
         });
@@ -24,14 +24,14 @@ export const getUserById = async (_id: string) => {
     try {
         // @sanity-typegen-ignore
         const userQry = `*[_type == "user" && _id == "${_id}"][0]`;
-        const user = await sanityClient.fetch(userQry, null, {
+        const user = await sanityClient.fetch(userQry, {}, {
             useCdn: false,
             next: { revalidate: 0 },
         });
         if (SHOW_QUERY_LOGS) {
             console.log('getUserById, user:', user);
         }
-        
+
         return user;
     } catch (error) {
         console.error('getUserById, error:', error);

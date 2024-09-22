@@ -45,7 +45,7 @@ const buildQuery = (category?: string, currentPage: number = 1) => {
         author->,
         categories[]->,
     }`;
-    console.log('buildQuery, countQuery', countQuery);
-    console.log('buildQuery, dataQuery', dataQuery);
+    // console.log('buildQuery, countQuery', countQuery);
+    // console.log('buildQuery, dataQuery', dataQuery);
     return { countQuery, dataQuery };
 };

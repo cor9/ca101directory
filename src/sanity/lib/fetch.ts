@@ -17,7 +17,7 @@ export async function sanityFetch<QueryResponse>({
   query,
   params = {},
   perspective = (process.env.NODE_ENV === "development" || draftMode().isEnabled) ? "previewDrafts" : "published",
-  disableCache = false,
+  disableCache,
 }: {
   query: string;
   params?: QueryParams;
@@ -39,9 +39,9 @@ export async function sanityFetch<QueryResponse>({
   return sanityClient.fetch<QueryResponse>(query, params, {
     perspective: "published",
     // The `published` perspective is available on the API CDN
-    useCdn: true,
+    useCdn: !disableCache,
     // When using the `published` perspective we use time-based revalidation 
     // to match the time-to-live on Sanity's API CDN (60 seconds)
-    next: { revalidate: 60 },
+    next: { revalidate: disableCache ? 0 : 60 },
   });
 }

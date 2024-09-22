@@ -4,6 +4,8 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 
 /**
  * get submissions from sanity
+ * 
+ * TODO: add disableCache option???
  */
 export async function getSubmissions({
     userId,

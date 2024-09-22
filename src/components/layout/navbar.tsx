@@ -10,31 +10,36 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
-import { marketingConfig } from "@/config/marketing";
 import { siteConfig } from "@/config/site";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
+import { DashboardConfig, MarketingConfig } from "@/types";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { ArrowRight, MenuIcon } from "lucide-react";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Logo } from "../logo";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import { ModeToggle } from "./mode-toggle";
-import { UserAccountNav } from "./user-account-nav";
-import { DashboardConfig, MarketingConfig } from "@/types";
-import { Icons } from "../shared/icons";
+import { Icons } from "@/components/shared/icons";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ModeToggle } from "@/components/layout/mode-toggle";
+import { UserAccountNav } from "@/components/layout/user-account-nav";
+import { User } from "next-auth";
 
 interface NavBarProps {
   scroll?: boolean;
   config: DashboardConfig | MarketingConfig;
+  user: User | null;
 }
 
-export function Navbar({ scroll = false, config }: NavBarProps) {
+export function Navbar({ scroll = false, config, user }: NavBarProps) {
+  console.log('navbar, component rendering');
   const scrolled = useScroll(50);
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
+  // console.log('navbar, session:', session, 'status:', status);
+  // const user = useCurrentUser();
+  console.log('navbar, user:', user);
   const pathname = usePathname();
   // console.log(`Navbar, pathname: ${pathname}`);
   const links = config.mainNav;
@@ -57,6 +62,10 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
       document.body.style.overflow = "auto";
     }
   }, [open]);
+
+  useEffect(() => {
+    console.log('navbar, useEffect, user:', user);
+  }, [user]);
 
   return (
     <>
@@ -110,23 +119,23 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
 
           {/* navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
-            {session ? (
-              <div className="flex items-center">
-                <UserAccountNav />
-              </div>
-            ) : status === "unauthenticated" ? (
-              <LoginButton mode="modal" asChild>
-                <Button
-                  className="flex gap-2 px-5 rounded-full"
-                  variant="default"
-                  size="default">
-                  <span>Sign In</span>
-                  <ArrowRight className="size-4" />
-                </Button>
-              </LoginButton>
-            ) : (
-              null
-            )}
+            {
+              user ? (
+                <div className="flex items-center">
+                  <UserAccountNav user={user} />
+                </div>
+              ) : (
+                <LoginButton mode="modal" asChild>
+                  <Button
+                    className="flex gap-2 px-5 rounded-full"
+                    variant="default"
+                    size="default">
+                    <span>Sign In</span>
+                    <ArrowRight className="size-4" />
+                  </Button>
+                </LoginButton>
+              )
+            }
 
             <ModeToggle />
           </div>
@@ -193,24 +202,24 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
 
           {/* mobile navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
-            {session ? (
-              <div className="flex items-center">
-                <UserAccountNav />
-              </div>
-            ) : status === "unauthenticated" ? (
-              <LoginButton mode="redirect" asChild>
-                <Button
-                  className="flex gap-2 px-5 rounded-full"
-                  variant="default"
-                  size="default"
-                >
-                  <span>Sign In</span>
-                  <ArrowRight className="size-4" />
-                </Button>
-              </LoginButton>
-            ) : (
-              null
-            )}
+            {
+              user ? (
+                <div className="flex items-center">
+                  <UserAccountNav user={user} />
+                </div>
+              ) : (
+                <LoginButton mode="redirect" asChild>
+                  <Button
+                    className="flex gap-2 px-5 rounded-full"
+                    variant="default"
+                    size="default"
+                  >
+                    <span>Sign In</span>
+                    <ArrowRight className="size-4" />
+                  </Button>
+                </LoginButton>
+              )
+            }
 
             <ModeToggle />
           </div>

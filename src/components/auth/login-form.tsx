@@ -23,9 +23,6 @@ import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
 import { Icons } from "@/components/shared/icons";
 
-/**
- * TODO: show loading when logging in
- */
 export const LoginForm = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
@@ -55,14 +52,18 @@ export const LoginForm = () => {
           if (data?.error) {
             form.reset();
             setError(data.error);
+            console.log('login, error:', data.error);
           }
 
           if (data?.success) {
             form.reset();
             setSuccess(data.success);
+            console.log('login, success:', data.success);
           }
         })
-        .catch(() => setError("Something went wrong"));
+        .catch(() => {
+          setError("Something went wrong");
+        });
     });
   };
 
@@ -111,7 +112,7 @@ export const LoginForm = () => {
                         asChild
                         className="px-0 font-normal"
                       >
-                        <Link href="/auth/reset" className="underline">
+                        <Link href="/auth/reset" className="text-xs underline">
                           Forgot password?
                         </Link>
                       </Button>

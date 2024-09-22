@@ -17,7 +17,7 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
   
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar scroll={false} config={dashboardConfig} user={user} />
+      <Navbar scroll={false} config={dashboardConfig} />
 
       <main className="flex-1">
         <Container className="mt-8 pb-16">

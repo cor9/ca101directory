@@ -1,5 +1,5 @@
 // export const SHOW_AUTH_LOGS = true;
-export const SHOW_QUERY_LOGS = false;
+export const SHOW_QUERY_LOGS = true;
 // number of items per page 
 export const ITEMS_PER_PAGE = 9;
 // number of posts per page

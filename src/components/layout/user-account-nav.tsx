@@ -19,9 +19,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Drawer } from "vaul";
 
-export function UserAccountNav({ user }: { user: User | null }) {
+export function UserAccountNav() {
   const router = useRouter();
-  // const user = useCurrentUser();
+  const user = useCurrentUser();
   console.log('UserAccountNav, user:', user);
 
   const [open, setOpen] = useState(false);

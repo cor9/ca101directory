@@ -15,7 +15,7 @@ export default async function MarketingLayout({ children }: MarketingLayoutProps
   
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar scroll={true} config={marketingConfig} user={user} />
+      <Navbar scroll={true} config={marketingConfig} />
 
       <main className="flex-1">
         {children}

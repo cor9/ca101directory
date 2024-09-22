@@ -1,7 +1,10 @@
 "use client";
 
 import { LoginButton } from "@/components/auth/login-button";
+import { ModeToggle } from "@/components/layout/mode-toggle";
+import { UserAccountNav } from "@/components/layout/user-account-nav";
 import Container from "@/components/shared/container";
+import { Icons } from "@/components/shared/icons";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -10,36 +13,32 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { siteConfig } from "@/config/site";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 import { DashboardConfig, MarketingConfig } from "@/types";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { ArrowRight, MenuIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Logo } from "../logo";
-import { Icons } from "@/components/shared/icons";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { ModeToggle } from "@/components/layout/mode-toggle";
-import { UserAccountNav } from "@/components/layout/user-account-nav";
-import { User } from "next-auth";
 
 interface NavBarProps {
   scroll?: boolean;
   config: DashboardConfig | MarketingConfig;
-  user: User | null;
 }
 
-export function Navbar({ scroll = false, config, user }: NavBarProps) {
-  console.log('navbar, component rendering');
+export function Navbar({ scroll = false, config }: NavBarProps) {
+  console.log(`navbar: component rendering`);
   const scrolled = useScroll(50);
-  // const { data: session, status } = useSession();
+  const { data: session } = useSession();
+  const user = session?.user;
   // console.log('navbar, session:', session, 'status:', status);
   // const user = useCurrentUser();
-  console.log('navbar, user:', user);
+  console.log(`navbar: user: ${user}`);
   const pathname = usePathname();
   // console.log(`Navbar, pathname: ${pathname}`);
   const links = config.mainNav;
@@ -64,7 +63,7 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
   }, [open]);
 
   useEffect(() => {
-    console.log('navbar, useEffect, user:', user);
+    console.log(`navbar: useEffect, user: ${user}`);
   }, [user]);
 
   return (
@@ -122,7 +121,7 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
             {
               user ? (
                 <div className="flex items-center">
-                  <UserAccountNav user={user} />
+                  <UserAccountNav />
                 </div>
               ) : (
                 <LoginButton mode="modal" asChild>
@@ -205,7 +204,7 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
             {
               user ? (
                 <div className="flex items-center">
-                  <UserAccountNav user={user} />
+                  <UserAccountNav/>
                 </div>
               ) : (
                 <LoginButton mode="redirect" asChild>

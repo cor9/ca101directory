@@ -26,8 +26,10 @@ export default {
     Credentials({
       authorize: async (credentials) => {
         // called when user attempts to sign in with credentials
-        console.log('authorize, credentials:', credentials);
-        
+        if (SHOW_QUERY_LOGS) {
+          console.log('authorize, credentials:', credentials);
+        }
+
         const validatedFields = LoginSchema.safeParse(credentials);
         if (!validatedFields.success) {
           console.error('authorize error: credentials invalid');
@@ -43,22 +45,22 @@ export default {
           return null;
         }
         const user = await getUserByEmail(credentials.email as string);
-
         if (!user || !user.password) {
           console.error('authorize error: user not found or password invalid');
           return null;
         }
 
-        if (SHOW_QUERY_LOGS) {
-          console.log('authorize, user:', user);
-        }
         const passwordsMatch = await bcrypt.compare(credentials?.password as string, user.password);
         if (passwordsMatch) {
-          return {
+          const userWithRole = {
             ...user,
             id: user._id,
             role: user.role,
           };
+          if (SHOW_QUERY_LOGS) {
+            console.log('authorize, user:', userWithRole);
+          }
+          return userWithRole;
         }
 
         // Return `null` to indicate that the credentials are invalid

@@ -38,8 +38,8 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
 
   // const { data: session } = useSession();
   // const user = session?.user;
-  // const user = useCurrentUser();
-  // console.log(`navbar: user:`, user);
+  const user = useCurrentUser();
+  console.log(`navbar: user:`, user);
 
   const pathname = usePathname();
   // console.log(`Navbar, pathname: ${pathname}`);
@@ -116,7 +116,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
 
           {/* navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
-            {/* {
+            {
               user ? (
                 <div className="flex items-center">
                   <UserAccountNav />
@@ -132,11 +132,11 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                   </Button>
                 </LoginWrapper>
               )
-            } */}
+            }
 
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <UserAccountNav />
-            </div>
+            </div> */}
 
             <ModeToggle />
           </div>
@@ -203,7 +203,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
 
           {/* mobile navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
-            {/* {
+            {
               user ? (
                 <div className="flex items-center">
                   <UserAccountNav />
@@ -220,11 +220,11 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                   </Button>
                 </LoginWrapper>
               )
-            } */}
+            }
 
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <UserAccountNav />
-            </div>
+            </div> */}
 
             <ModeToggle />
           </div>

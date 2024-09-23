@@ -11,8 +11,8 @@ export default function AllPostsButton() {
     return (
         <Button
             size="lg"
-            variant="default"
-            className="inline-flex items-center gap-2 group rounded-full"
+            variant="outline"
+            className="inline-flex items-center gap-2 group"
             asChild
         >
             <Link href="/blog" onClick={() => router.back()}>

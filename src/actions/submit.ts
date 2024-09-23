@@ -47,7 +47,7 @@ export async function Submit(formData: SubmitFormData) {
       freePlanStatus: "submitted",
       submitter: {
         _type: "reference",
-        _ref: session.user.id,
+        _ref: user.id,
       },
 
       // The _key only needs to be unique within the array itself

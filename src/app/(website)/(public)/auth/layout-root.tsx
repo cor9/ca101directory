@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { auth } from "@/auth";
+import Container from "@/components/shared/container";
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -20,7 +21,8 @@ interface RootLayoutProps {
 export default async function RootLayout({ children }: RootLayoutProps) {
   // https://youtu.be/1MTyCvS05V4?t=21464
   const session = await auth();
-  
+  console.log('RootLayout, session:', session);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
@@ -42,7 +44,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             enableSystem
             disableTransitionOnChange>
 
-            {children}
+            <Container className="flex items-center justify-center py-16">
+              {children}
+            </Container>
 
             {/* https://sonner.emilkowal.ski/toaster */}
             <Toaster richColors position="bottom-right" offset={64} />

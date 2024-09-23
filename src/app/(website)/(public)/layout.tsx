@@ -1,15 +1,14 @@
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { marketingConfig } from "@/config/marketing";
-import { currentUser } from "@/lib/auth";
 
 interface MarketingLayoutProps {
   children: React.ReactNode;
 }
 
 export default async function MarketingLayout({ children }: MarketingLayoutProps) {
-  const user = await currentUser();
-  console.log('MarketingLayout, user:', user);
+  // const user = await currentUser();
+  // console.log('MarketingLayout, user:', user);
   // if (!user) {
   //   redirect("/auth/login");
   // }

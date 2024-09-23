@@ -55,18 +55,8 @@ export const LoginForm = () => {
         .then((data) => {
           console.log('login, data:', data);
 
-          // 加了还是没用
-          // console.log('update session');
-          // update();
-
-          // 客户端跳转，也是OK的，
-          // console.log('push to callbackUrl:', callbackUrl);
-          // router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT);
-          
-          // 使用redirect也没用
-          // console.log('push to dashboard');
-          // router.push(DEFAULT_LOGIN_REDIRECT);
-          // redirect(DEFAULT_LOGIN_REDIRECT);
+          // TODO: this is important, it will reload the page
+          // window.location.reload();
 
           if (data?.error) {
             form.reset();
@@ -78,16 +68,9 @@ export const LoginForm = () => {
             form.reset();
             setSuccess(data.success);
             console.log('login, success:', data.success);
-
-            // 加了这个也没有用
-            // router.refresh();
-
-            // 手动刷新 session，加了这个也没有用
-            // console.log('update session');
-            // update();
-
-            // console.log('push to callbackUrl:', callbackUrl);
-            // router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT);
+            
+            // router.push(data.redirectUrl);
+            window.location.href = data.redirectUrl;
           }
         })
         .catch(() => {
@@ -95,35 +78,6 @@ export const LoginForm = () => {
         });
     });
   };
-
-  // const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-  //   setError("");
-  //   setSuccess("");
-
-  //   startTransition(() => {
-  //     signIn("credentials", {
-  //       email: values.email,
-  //       password: values.password,
-  //       // redirect: false,
-  //       redirect: true,
-  //       redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
-  //     })
-  //       .then((response) => {
-  //         if (response?.error) {
-  //           setError(response.error);
-  //           console.log('login, error:', response.error);
-  //         } else if (response?.ok) {
-  //           setSuccess("Logged in successfully");
-  //           console.log('login, success: Logged in successfully');
-  //           // You might want to redirect here
-  //           // router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT);
-  //         }
-  //       })
-  //       .catch(() => {
-  //         setError("Something went wrong");
-  //       });
-  //   });
-  // };
 
   return (
     <AuthCard

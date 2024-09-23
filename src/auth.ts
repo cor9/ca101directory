@@ -5,12 +5,12 @@ import { getAccountByUserId } from "@/data/account";
 import { getUserById } from "@/data/user";
 import authConfig from "@/auth.config";
 import { UserRole } from "@/types/user-role";
+import { SHOW_QUERY_LOGS } from "@/lib/constants";
 
 // https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.ts
 // https://authjs.dev/getting-started/installation#configure
 // providers for authorization, adapters for user data persistence
 export const {
-  // handlers: { GET, POST },
   handlers,
   auth,
   signIn,
@@ -19,7 +19,6 @@ export const {
   unstable_update
 } = NextAuth({
   ...authConfig,
-  debug: true,
   pages: {
     signIn: "/auth/login",
     error: "/auth/error",
@@ -54,7 +53,9 @@ export const {
     // or updated (i.e whenever a session is accessed in the client). 
     // Anything you return here will be saved in the JWT and forwarded to the session callback.
     jwt: async ({ token }) => {
-      console.log('auth callbacks jwt, start, token:', token);
+      if (SHOW_QUERY_LOGS) {
+        console.log('auth callbacks jwt, start, token:', token);
+      }
       if (!token.sub) return token;
 
       const existingUser = await getUserById(token.sub);
@@ -67,14 +68,18 @@ export const {
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.role = existingUser.role;
-      console.log('auth callbacks jwt, end, token:', token);
+      if (SHOW_QUERY_LOGS) {
+        console.log('auth callbacks jwt, end, token:', token);
+      }
       return token;
     },
     
     // https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.ts#L68
     // role and isOAuth are added to the token, so we can pass them to the session
     session: async ({ session, token }) => {
-      console.log('auth callbacks session, start, token:', token);
+      if (SHOW_QUERY_LOGS) {
+        console.log('auth callbacks session, start, token:', token);
+      }
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
@@ -90,7 +95,9 @@ export const {
         session.user.isOAuth = token.isOAuth as boolean;
       }
 
-      console.log('auth callbacks session, end, session:', session);
+      if (SHOW_QUERY_LOGS) {
+        console.log('auth callbacks session, end, session:', session);
+      }
       return session;
     },
   },

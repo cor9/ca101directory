@@ -1,12 +1,12 @@
+import { getAccountByProviderAccountId } from '@/data/account';
+import { getUserByEmail, getUserById, getUserByIdWithAccounts } from '@/data/user';
+import { getVerificationTokenByIdentifierAndToken } from '@/data/verification-token';
+import { SHOW_QUERY_LOGS } from '@/lib/constants';
+import { User } from "@/types/next-auth";
+import { UserRole } from "@/types/user-role";
+import type { Adapter } from "@auth/core/adapters";
 import type { SanityClient } from '@sanity/client';
 import { uuid } from '@sanity/uuid';
-import type { Adapter, AdapterSession, AdapterUser, VerificationToken } from "@auth/core/adapters";
-import { UserRole } from "@/types/user-role";
-import { User } from "@/types/next-auth";
-import { SHOW_QUERY_LOGS } from '@/lib/constants';
-import { getUserByEmail, getUserById, getUserByIdWithAccounts } from '@/data/user';
-import { getAccountByProviderAccountId } from '@/data/account';
-import { getVerificationTokenByIdentifierAndToken } from '@/data/verification-token';
 
 /**
  * 1. Sanity Adapter for Authjs
@@ -26,21 +26,22 @@ export function SanityAdapter(
     schemas: {
       user: 'user',
       account: 'account',
-      session: 'session',
       verificationToken: 'verificationToken',
     }
   }
 ): Adapter {
 
   return {
-    // https://authjs.dev/guides/creating-a-database-adapter#methods-and-models
+    /**
+     * https://authjs.dev/guides/creating-a-database-adapter#methods-and-models
+     */
     async createUser(user) {
       try {
         // @sanity-typegen-ignore
         // const existingUserQry = `*[_type == "user" && email == "${user.email}"][0]`;
         // const existingUser = await sanityClient.fetch(existingUserQry);
         // if (existingUser) return existingUser;
-        
+
         const existingUser = await getUserByEmail(user.email);
         if (existingUser) {
           return {
@@ -138,7 +139,7 @@ export function SanityAdapter(
         // @sanity-typegen-ignore
         // const existingUserQry = `*[_type == "user" && _id == "${updatedUser?.id}"][0]`;
         // const existingUser = await sanityClient.fetch(existingUserQry);
-        
+
         const existingUser = await getUserById(updatedUser.id);
         if (!existingUser) {
           throw new Error(`Could not update user: ${updatedUser.id}; unable to find user`);
@@ -168,8 +169,6 @@ export function SanityAdapter(
       }
     },
 
-    // sometimes failed when a google account attempts to sign in 
-    // because of userId is undefined
     async linkAccount(account) {
       try {
         if (SHOW_QUERY_LOGS) {
@@ -197,7 +196,7 @@ export function SanityAdapter(
         if (SHOW_QUERY_LOGS) {
           console.log('unlinkAccount, user:', userToUpdate);
         }
-        
+
         await sanityClient.createOrReplace<User>({
           ...userToUpdate,
           emailVerified: new Date().toISOString(),
@@ -249,7 +248,9 @@ export function SanityAdapter(
       }
     },
 
-    // https://authjs.dev/guides/creating-a-database-adapter#verification-tokens
+    /**
+     * https://authjs.dev/guides/creating-a-database-adapter#verification-tokens
+     */
     async getUserByEmail(email) {
       try {
         // @sanity-typegen-ignore
@@ -312,88 +313,6 @@ export function SanityAdapter(
         };
       } catch (error) {
         throw new Error('useVerificationToken, Could not delete verification token');
-      }
-    },
-
-    // database session not used, relying on JWTs for stateless session management
-    // https://authjs.dev/guides/creating-a-database-adapter#database-session-management
-    async createSession(session) {
-      try {
-        await sanityClient.create({
-          ...session,
-          _type: 'session',
-          user: {
-            _type: 'reference',
-            _ref: session.userId
-          },
-        })
-
-        return session;
-      } catch (error) {
-        throw new Error('createSession, Error Creating Session');
-      }
-    },
-
-    async getSessionAndUser(sessionToken: string): Promise<{ session: AdapterSession; user: AdapterUser; } | null> {
-      try {
-        // @sanity-typegen-ignore
-        const sessionQry = `*[_type == "session" && sessionToken == "${sessionToken}"][0]`;
-        const session = await sanityClient.fetch(sessionQry);
-
-        if (!session) {
-          console.log('getSessionAndUser, session invalid');
-          return null;
-        }
-
-        // @sanity-typegen-ignore
-        const userQry = `*[_type == "user" && _id== "${session.userId}"][0]`;
-        const user = await sanityClient.fetch(userQry);
-        if (SHOW_QUERY_LOGS) {
-          console.log('getSessionAndUser, user:', user);
-        }
-
-        return {
-          session: session,
-          user: user,
-        };
-      } catch (error) {
-        throw new Error('getSessionAndUser, Operation Failed');
-      }
-    },
-
-    async updateSession({ sessionToken }) {
-      try {
-        // @sanity-typegen-ignore
-        const sessionQry = `*[_type == "session" && sessionToken == "${sessionToken}"][0]`;
-        const session = await sanityClient.fetch(sessionQry);
-
-        if (!session) {
-          console.log('getSessionAndUser, session invalid');
-          return null;
-        }
-
-        await sanityClient.patch(session._id).set({
-          ...session
-        }).commit();
-      } catch (error) {
-        throw new Error('updateSession, Operation Failed');
-      }
-    },
-
-    async deleteSession(sessionToken) {
-      try {
-        // @sanity-typegen-ignore
-        const sessionQry = `*[_type == "session" && sessionToken == "${sessionToken}"][0]`;
-        const session = await sanityClient.fetch(sessionQry);
-
-        if (!session) {
-          console.log('getSessionAndUser, session invalid');
-          return null;
-        }
-
-        await sanityClient.delete(session._id);
-      } catch (error) {
-        throw new Error('deleteSession, Operation Failed');
       }
     },
   }

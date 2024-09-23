@@ -23,7 +23,6 @@ export type User = {
   password: string;
   role: string;
   accounts: Account[];
-  sessions: Session[];
 }
 
 export type Account = {
@@ -56,13 +55,4 @@ export type PasswordResetToken = {
   email: string;
   token: string;
   expires: string;
-}
-
-// database session not used, relying on JWTs for stateless session management
-export type Session = {
-  _id: string;
-  sessionToken: string;
-  userId: string;
-  expires: string;
-  user: User;
 }

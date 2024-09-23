@@ -1,6 +1,5 @@
 import account from './documents/auth/account';
 import passwordResetToken from './documents/auth/password-reset-token';
-import session from './documents/auth/session';
 import user from './documents/auth/user';
 import verificationToken from './documents/auth/verification-token';
 import blockContent from './documents/block-content';
@@ -28,7 +27,6 @@ export const schemaTypes = [
 
     // auth
     user,
-    session,
     account,
     verificationToken,
     passwordResetToken,

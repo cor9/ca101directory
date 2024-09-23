@@ -37,10 +37,9 @@ export const login = async (
     try {
         console.log('login, start signIn');
         // https://youtu.be/1MTyCvS05V4?t=9828
-        const result = await signIn("credentials", {
+        await signIn("credentials", {
             email,
             password,
-            // redirect: true,
             redirect: true,
             redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
         });
@@ -50,7 +49,6 @@ export const login = async (
         // 改成server端redirect也没用
         // console.log('login, result:', result);
         // redirect(DEFAULT_LOGIN_REDIRECT);
-        // return { success: "Login successful!" };
 
         // if (result?.error) {
         //     return { error: `Login failed: ${result.error}` };
@@ -58,6 +56,8 @@ export const login = async (
 
         // 手动刷新 session，加了这个也没有用
         // await fetch("/api/auth/session");
+
+        return { success: "Login success!" };
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {

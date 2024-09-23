@@ -19,12 +19,16 @@ export const {
   unstable_update
 } = NextAuth({
   ...authConfig,
+  debug: true,
   pages: {
     signIn: "/auth/login",
     error: "/auth/error",
   },
-  session: { strategy: "jwt" },
+  // https://authjs.dev/guides/creating-a-database-adapter
   adapter: SanityAdapter(sanityClient),
+  // https://authjs.dev/concepts/session-strategies
+  session: { strategy: "jwt" },
+  // https://authjs.dev/concepts/callbacks
   callbacks: {
     // https://authjs.dev/concepts/callbacks#signin
     // https://youtu.be/1MTyCvS05V4?t=10341

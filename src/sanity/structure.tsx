@@ -1,10 +1,9 @@
-import { ArchiveIcon, BillIcon, CogIcon, ComponentIcon, DashboardIcon, DatabaseIcon, DocumentsIcon, DocumentTextIcon, ProjectsIcon, TagsIcon, TiersIcon, TokenIcon, UserIcon, UsersIcon } from "@sanity/icons";
+import { BillIcon, CogIcon, DashboardIcon, DocumentsIcon, DocumentTextIcon, TagsIcon, TiersIcon, TokenIcon, UserIcon, UsersIcon } from "@sanity/icons";
 import { type DocumentDefinition } from "sanity";
 import { type StructureResolver } from "sanity/structure";
 import { schemaTypes } from "./schemas";
 import account from "./schemas/documents/auth/account";
 import passwordResetToken from "./schemas/documents/auth/password-reset-token";
-import session from "./schemas/documents/auth/session";
 import user from "./schemas/documents/auth/user";
 import verificationToken from "./schemas/documents/auth/verification-token";
 import blogCategory from "./schemas/documents/blog/blog-category";
@@ -12,9 +11,9 @@ import blogPost from "./schemas/documents/blog/blog-post";
 import category from "./schemas/documents/directory/category";
 import item from "./schemas/documents/directory/item";
 import tag from "./schemas/documents/directory/tag";
-import settings from "./schemas/documents/settings";
-import page from "./schemas/documents/page/page";
 import order from "./schemas/documents/order/order";
+import page from "./schemas/documents/page/page";
+import settings from "./schemas/documents/settings";
 
 const singletonTypes: DocumentDefinition[] = [settings];
 
@@ -87,8 +86,6 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
                   .icon(TokenIcon),
                 S.documentTypeListItem(passwordResetToken.name)
                   .icon(TokenIcon),
-                S.documentTypeListItem(session.name)
-                  .icon(ArchiveIcon),
               ]),
           ),
 

@@ -211,7 +211,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                       <div className="flex items-center justify-between gap-4">
                         <span>Introduction</span>
                         <span className="text-sm text-muted-foreground">
-                          (Markdown supported, image link supported)
+                          (Markdown supported)
                         </span>
                       </div>
                     </FormLabel>
@@ -231,7 +231,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                       <div className="flex items-center justify-between gap-4">
                         <span>Image</span>
                         <span className="text-sm text-muted-foreground">
-                          (PNG or JPEG, maximum file size 1MB)
+                          (PNG or JPEG, maximum 1MB)
                         </span>
                       </div>
                     </FormLabel>

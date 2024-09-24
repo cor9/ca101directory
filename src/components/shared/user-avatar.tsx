@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "@/types/next-auth";
 import { AvatarProps } from "@radix-ui/react-avatar";
-import { CircleUserIcon } from "lucide-react";
+import { UserIcon } from "lucide-react";
 
 interface UserAvatarProps extends AvatarProps {
   user: Pick<User, "image" | "name">
@@ -15,7 +15,7 @@ export function UserAvatar({ user, ...props }: UserAvatarProps) {
       ) : (
         <AvatarFallback>
           <span className="sr-only">{user.name}</span>
-          <CircleUserIcon className="size-4" />
+          <UserIcon className="size-4" />
         </AvatarFallback>
       )}
     </Avatar>

@@ -70,13 +70,6 @@ export default async function PublishPage({ params }: { params: { id: string } }
                     })}
                   />
                 )}
-                <div className="absolute inset-0 flex items-center justify-center bg-black 
-                  bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
-                  <span className="text-white text-lg font-semibold 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Visit Website
-                  </span>
-                </div>
               </div>
             </div>
 
@@ -87,7 +80,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
                 <h1 className="text-4xl font-bold text-start">
                   {item.name}
                 </h1>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground line-clamp-3">
                   {item.description}
                 </p>
 
@@ -126,7 +119,6 @@ export default async function PublishPage({ params }: { params: { id: string } }
                     </div>
                   )
                 }
-
 
               </div>
             </div>

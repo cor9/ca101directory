@@ -8,6 +8,8 @@ import { SUBMISSIONS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/utils";
 import { UploadIcon } from "lucide-react";
 import Link from "next/link";
+import SubmissionList from "./submission-list";
+import { Suspense } from "react";
 
 export const metadata = constructMetadata({
   title: "Dashboard",
@@ -64,10 +66,17 @@ export default async function DashboardPage({
             </Button>
           </EmptyPlaceholder>
         ) : (
-          <SubmissionTable submissions={submissions}
-            totalCount={totalCount}
-            totalPages={totalPages}
-          />
+          // <SubmissionTable submissions={submissions}
+          //   totalCount={totalCount}
+          //   totalPages={totalPages}
+          // />
+
+          <Suspense fallback={null}>
+            <SubmissionList items={submissions}
+              totalPages={totalPages}
+              paginationPrefix="/dashboard"
+            />
+          </Suspense>
         )}
       </div>
 

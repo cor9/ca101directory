@@ -33,13 +33,12 @@ interface NavBarProps {
 }
 
 export function Navbar({ scroll = false, config }: NavBarProps) {
-  console.log(`navbar: component rendering`);
   const scrolled = useScroll(50);
 
   // const { data: session } = useSession();
   // const user = session?.user;
   const user = useCurrentUser();
-  console.log(`navbar: user:`, user);
+  // console.log(`navbar: user:`, user);
 
   const pathname = usePathname();
   // console.log(`Navbar, pathname: ${pathname}`);

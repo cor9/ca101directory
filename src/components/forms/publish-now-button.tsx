@@ -2,15 +2,15 @@
 
 import { publish } from "@/actions/publish";
 import { Button } from "@/components/ui/button";
-import { ItemFullInfo } from "@/types";
+import { ItemInfo } from "@/types";
+import confetti from 'canvas-confetti';
+import { RocketIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Icons } from "../shared/icons";
-import { RocketIcon } from "lucide-react";
-import confetti from 'canvas-confetti';
 
 interface PublishNowButtonProps {
-  item: ItemFullInfo;
+  item: ItemInfo;
 }
 
 export function PublishNowButton({ item }: PublishNowButtonProps) {

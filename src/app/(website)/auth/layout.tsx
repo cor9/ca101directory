@@ -1,7 +1,9 @@
-import BackButton from "@/components/shared/back-button";
 import BackButtonSmall from "@/components/shared/back-button-small";
 import Image from "next/image";
 
+/**
+ * https://ui.shadcn.com/blocks#authentication-04
+ */
 export default function AuthLayout({
   children,
 }: {

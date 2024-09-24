@@ -22,7 +22,7 @@ export function UserAccountNav() {
   const router = useRouter();
   
   const user = useCurrentUser();
-  console.log('UserAccountNav, user:', user);
+  // console.log('UserAccountNav, user:', user);
 
   const [open, setOpen] = useState(false);
   const closeDrawer = () => {

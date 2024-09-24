@@ -40,7 +40,11 @@ const buildQuery = (category?: string, currentPage: number = 1) => {
         slug,
         excerpt,
         featured,
-        image,
+        image {
+            ...,
+            "blurDataURL": asset->metadata.lqip,
+            "imageColor": asset->metadata.palette.dominant.background,
+        },
         publishDate,
         author->,
         categories[]->,

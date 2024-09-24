@@ -6,7 +6,7 @@ import { getSubmissions } from "@/data/submission";
 import { currentUser } from "@/lib/auth";
 import { SUBMISSIONS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/utils";
-import { PlusIcon, UploadIcon } from "lucide-react";
+import { UploadIcon } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = constructMetadata({

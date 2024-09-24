@@ -31,10 +31,10 @@ const buildQuery = (userId: string, currentPage: number = 1) => {
     const offsetEnd = offsetStart + SUBMISSIONS_PER_PAGE;
 
     // @sanity-typegen-ignore
-    const countQuery = `count(*[_type == "item" && defined(slug.current) && defined(publishDate)
+    const countQuery = `count(*[_type == "item" && defined(slug.current) 
        ${userCondition} ])`;
     // @sanity-typegen-ignore
-    const dataQuery = `*[_type == "item" && defined(slug.current) && defined(publishDate)
+    const dataQuery = `*[_type == "item" && defined(slug.current) 
        ${userCondition} ] [${offsetStart}...${offsetEnd}] {
         _id,
         _createdAt,
@@ -42,7 +42,11 @@ const buildQuery = (userId: string, currentPage: number = 1) => {
         slug,
         description,
         link,
-        image,
+        image {
+            ...,
+            "blurDataURL": asset->metadata.lqip,
+            "imageColor": asset->metadata.palette.dominant.background,
+        },
         publishDate,
         paid,
         order,

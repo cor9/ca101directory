@@ -31,8 +31,7 @@ export const AuthCard = ({
   className
 }: AuthCardProps) => {
   return (
-    // w-[90%] sm:w-[400px] max-w-[400px]
-    <Card className={cn("w-full sm:w-[400px] max-w-[400px]", className)}>
+    <Card className={cn("border-none shadow-none sm:w-[400px] max-w-[400px]", className)}>
       <CardHeader className="items-center">
         <CardTitle>{siteConfig.name}</CardTitle>
         <CardDescription>{headerLabel}</CardDescription>

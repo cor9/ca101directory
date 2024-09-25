@@ -3,7 +3,7 @@
 import { submitToReview } from "@/actions/submit-to-review";
 import { Button } from "@/components/ui/button";
 import { ItemFullInfo } from "@/types";
-import { Clock3Icon, HourglassIcon, CheckCircleIcon, FilePenLineIcon, ChevronLeftIcon, ArrowLeftIcon, SendIcon } from "lucide-react";
+import { Clock3Icon, HourglassIcon, CheckCircleIcon, FilePenLineIcon, ChevronLeftIcon, ArrowLeftIcon, SendIcon, ArrowUpLeftIcon, EditIcon } from "lucide-react";
 import { useTransition } from "react";
 import { Icons } from "../shared/icons";
 import { useRouter } from "next/navigation";
@@ -60,7 +60,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
       {
         item.publishDate ? (
           <>
-            <ArrowLeftIcon className="mr-2 size-4" />
+            <ArrowUpLeftIcon className="mr-2 size-4" />
             <span>Go back to dashboard</span>
           </>
         ) : (
@@ -82,7 +82,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
               </>
             ) : item.freePlanStatus === 'rejected' ? (
               <>
-                <FilePenLineIcon className="mr-2 size-4" />
+                <EditIcon className="mr-2 size-4" />
                 <span>Go to Edit</span>
               </>
             ) : (

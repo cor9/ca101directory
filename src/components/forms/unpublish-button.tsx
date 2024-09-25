@@ -7,6 +7,7 @@ import { useTransition } from "react";
 import { Icons } from "../shared/icons";
 import { unpublish } from "@/actions/unpublish";
 import { toast } from "sonner";
+import { ArrowBigDownIcon, ArrowDownIcon, ArrowDownToLineIcon } from "lucide-react";
 
 interface UnpublishButtonProps {
   item: ItemInfo;
@@ -35,19 +36,18 @@ export function UnpublishButton({ item }: UnpublishButtonProps) {
 
   return (
     <Button
-      size="sm"
       variant="outline"
-      className="w-[120px]"
       disabled={isPending}
       onClick={UnpublishAction}
     >
       {isPending ? (
         <>
-          <Icons.spinner className="mr-2 size-4 animate-spin" />
+          <Icons.spinner className="mr-2 w-4 h-4 animate-spin" />
           <span>Unpublish</span>
         </>
       ) : (
         <>
+          <ArrowDownToLineIcon className="mr-2 w-4 h-4" />
           <span>Unpublish</span>
         </>
       )}

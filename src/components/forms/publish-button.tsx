@@ -7,6 +7,7 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 import { Icons } from "../shared/icons";
 import { ItemInfo } from "@/types";
+import { ArrowBigUpIcon, ArrowUpIcon, ArrowUpToLineIcon } from "lucide-react";
 
 interface PublishButtonProps {
   item: ItemInfo;
@@ -35,19 +36,18 @@ export function PublishButton({ item }: PublishButtonProps) {
 
   return (
     <Button
-      size="sm"
       variant="outline"
-      className="w-[120px]"
       disabled={isPending}
       onClick={publishAction}
     >
       {isPending ? (
         <>
-          <Icons.spinner className="mr-2 size-4 animate-spin" />
+          <Icons.spinner className="mr-2 w-4 h-4 animate-spin" />
           <span>Publish</span>
         </>
       ) : (
         <>
+          <ArrowUpToLineIcon className="mr-2 w-4 h-4" />
           <span>Publish</span>
         </>
       )}

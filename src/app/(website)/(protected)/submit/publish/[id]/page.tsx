@@ -98,7 +98,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
             </div>
 
             {/* Right column */}
-            <div className="md:col-span-3 flex items-center md:pr-8">
+            <div className="md:col-span-3 flex items-center">
               <div className="flex flex-col w-full space-y-8">
                 {/* name and description */}
                 <h1 className="text-4xl font-bold text-start">

@@ -102,13 +102,13 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
 
               {
                 item.publishDate ? (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black 
+                  <Link href={`/item/${item.slug.current}`} className="absolute inset-0 flex items-center justify-center bg-black 
                     bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
                     <span className="text-white text-lg font-semibold 
                       opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       Visit Website
                     </span>
-                  </div>
+                  </Link>
                 ) : null
               }
             </div>
@@ -154,13 +154,7 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
                   </Link>
                 </Button>
               )}
-              {item.publishDate && (
-                <Button asChild variant="outline">
-                  <Link href={`/item/${item.slug.current}`} target="_blank">
-                    View
-                  </Link>
-                </Button>
-              )}
+              
               <Button asChild variant="outline">
                 <Link href={`/edit/${item._id}`}>
                   <EditIcon className="w-4 h-4 mr-2" />

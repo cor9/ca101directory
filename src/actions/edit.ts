@@ -52,7 +52,7 @@ export async function Edit(formData: EditFormData) {
       // Free plan: update item leads to be unpublished and reviewed again
       ...(pricePlan === "free" && {
         publishDate: null,
-        freePlanStatus: "reviewing",
+        freePlanStatus: "pending",
       }),
 
       // The _key only needs to be unique within the array itself

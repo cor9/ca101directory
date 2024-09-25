@@ -3,7 +3,7 @@
 import { submitToReview } from "@/actions/submit-to-review";
 import { Button } from "@/components/ui/button";
 import { ItemFullInfo } from "@/types";
-import { Clock3Icon, HourglassIcon, CheckCircleIcon, FilePenLineIcon, ChevronLeftIcon, ArrowLeftIcon } from "lucide-react";
+import { Clock3Icon, HourglassIcon, CheckCircleIcon, FilePenLineIcon, ChevronLeftIcon, ArrowLeftIcon, SendIcon } from "lucide-react";
 import { useTransition } from "react";
 import { Icons } from "../shared/icons";
 import { useRouter } from "next/navigation";
@@ -17,6 +17,7 @@ interface FreePlanButtonProps {
 export function FreePlanButton({ item, className }: FreePlanButtonProps) {
   const router = useRouter();
   let [isPending, startTransition] = useTransition();
+  // console.log('FreePlanButton, item:', item);
 
   const submitToReviewAction = () => {
     startTransition(async () => {
@@ -35,7 +36,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
   };
 
   const handleClick = () => {
-    if (item.publishDate) {
+    if (item.publishDate) { // already published
       router.push(`/dashboard`);
     } else if (item.freePlanStatus === 'submitted') {
       submitToReviewAction();
@@ -71,7 +72,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
               </>
             ) : item.freePlanStatus === 'pending' ? (
               <>
-                <HourglassIcon className="mr-2 size-4" />
+                <Clock3Icon className="mr-2 size-4" />
                 <span>Go back and wait for review</span>
               </>
             ) : item.freePlanStatus === 'approved' ? (
@@ -86,7 +87,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
               </>
             ) : (
               <>
-                <Clock3Icon className="mr-2 size-4" />
+                <SendIcon className="mr-2 size-4" />
                 <span>Submit to review queue</span>
               </>
             )}

@@ -105,32 +105,12 @@ export default defineType({
     //   type: "boolean",
     //   initialValue: false,
     // }),
-		defineField({
-			name: 'publishDate',
+    defineField({
+      name: 'publishDate',
       title: 'Publish Date',
       description: "The lastest publish date when the item is published",
-			type: 'datetime',
+      type: 'datetime',
       // hidden: ({ parent }) => !parent.published,
-		}),
-    // payment related fields
-    defineField({
-      name: "paid",
-      title: "Paid",
-      description: "If the item is paid, it means the payment is successful",
-      type: "boolean",
-      initialValue: false,
-      // TODO(javayhu) read only
-      // readOnly: true,
-    }),
-    defineField({
-      name: "order",
-      title: "Order",
-      description: "The successful payment order of the submission",
-      type: "reference",
-      to: [{ type: "order" }],
-      hidden: ({ parent }) => !parent.paid,
-      // TODO(javayhu) read only
-      // readOnly: true,
     }),
     // price plan related fields
     defineField({
@@ -154,7 +134,12 @@ export default defineType({
       type: 'string',
       initialValue: 'submitted',
       options: {
-        list: ['submitted', 'pending', 'approved', 'rejected'],
+        list: [
+          { title: 'Submitted', value: 'submitted' },
+          { title: 'Pending (Waiting for review)', value: 'pending' },
+          { title: 'Approved', value: 'approved' },
+          { title: 'Rejected', value: 'rejected' },
+        ],
         layout: 'radio',
         direction: 'horizontal',
       },
@@ -169,7 +154,12 @@ export default defineType({
       type: 'string',
       initialValue: 'submitted',
       options: {
-        list: ['submitted', 'pending', 'success', 'failed'],
+        list: [
+          { title: 'Submitted', value: 'submitted' },
+          { title: 'Pending (Waiting for payment)', value: 'pending' },
+          { title: 'Success', value: 'success' },
+          { title: 'Failed', value: 'failed' },
+        ],
         layout: 'radio',
         direction: 'horizontal',
       },
@@ -186,13 +176,33 @@ export default defineType({
       initialValue: 'Other reasons',
       options: {
         list: [
-          'The item is not a good fit for our directory', 
-          'The image of the item is not good quality', 
-          'The information of the item is not clear', 
-          'Other reasons', 
+          'The item is not a good fit for our directory',
+          'The image of the item is not good quality',
+          'The information of the item is not clear',
+          'Other reasons',
         ],
         layout: 'dropdown',
       },
+    }),
+    // payment related fields
+    defineField({
+      name: "paid",
+      title: "Paid",
+      description: "If the item is paid, it means the payment is successful",
+      type: "boolean",
+      initialValue: false,
+      // TODO(javayhu) read only
+      // readOnly: true,
+    }),
+    defineField({
+      name: "order",
+      title: "Order",
+      description: "The successful payment order of the submission",
+      type: "reference",
+      to: [{ type: "order" }],
+      hidden: ({ parent }) => !parent.paid,
+      // TODO(javayhu) read only
+      // readOnly: true,
     }),
   ],
   // https://www.sanity.io/docs/previews-list-views
@@ -214,8 +224,8 @@ export default defineType({
       };
     },
   },
-	orderings: [
-		{
+  orderings: [
+    {
       title: 'Date (Newest)',
       name: 'dateDesc',
       by: [{ field: 'publishDate', direction: 'desc' }],
@@ -225,10 +235,10 @@ export default defineType({
       name: 'dateAsc',
       by: [{ field: 'publishDate', direction: 'asc' }],
     },
-		{
-			title: 'Name (A-Z)',
-			name: 'name',
-			by: [{ field: 'name', direction: 'asc' }],
-		},
-	],
+    {
+      title: 'Name (A-Z)',
+      name: 'name',
+      by: [{ field: 'name', direction: 'asc' }],
+    },
+  ],
 });

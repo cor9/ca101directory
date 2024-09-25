@@ -151,23 +151,6 @@ export type VerificationToken = {
   expires?: string;
 };
 
-export type Session = {
-  _id: string;
-  _type: "session";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  sessionToken?: string;
-  userId?: string;
-  expires?: string;
-  user?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "user";
-  };
-};
-
 export type BlogCategory = {
   _id: string;
   _type: "blogCategory";
@@ -300,6 +283,10 @@ export type Item = {
     _type: "image";
   };
   publishDate?: string;
+  pricePlan?: "free" | "pro";
+  freePlanStatus?: "submitted" | "pending" | "approved" | "rejected";
+  proPlanStatus?: "submitted" | "pending" | "success" | "failed";
+  rejectionReason?: "The item is not a good fit for our directory" | "The image of the item is not good quality" | "The information of the item is not clear" | "Other reasons";
   paid?: boolean;
   order?: {
     _ref: string;
@@ -307,10 +294,6 @@ export type Item = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "order";
   };
-  pricePlan?: "free" | "pro";
-  freePlanStatus?: "submitted" | "pending" | "approved" | "rejected";
-  proPlanStatus?: "submitted" | "pending" | "success" | "failed";
-  rejectionReason?: "The item is not a good fit for our directory" | "The image of the item is not good quality" | "The information of the item is not clear" | "Other reasons";
 };
 
 export type Order = {
@@ -462,7 +445,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | BlockContent | Settings | PasswordResetToken | VerificationToken | Session | BlogCategory | BlogPost | Page | Category | Tag | Item | Order | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | Code | Markdown | MediaTag | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | BlockContent | Settings | PasswordResetToken | VerificationToken | BlogCategory | BlogPost | Page | Category | Tag | Item | Order | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | Code | Markdown | MediaTag | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/sanity/lib/queries.ts
 // Variable: itemQuery

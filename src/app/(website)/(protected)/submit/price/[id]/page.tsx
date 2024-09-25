@@ -18,7 +18,8 @@ export default async function PricePage({ params }: { params: { id: string } }) 
   console.log('PricePage, itemId:', id);
   const item = await sanityFetch<ItemFullInfo>({
     query: itemByIdQuery,
-    params: { id: id }
+    params: { id: id },
+    disableCache: true,
   });
 
   if (!item) {
@@ -38,13 +39,11 @@ export default async function PricePage({ params }: { params: { id: string } }) 
         </DashboardSubmitHeader>
 
         <div className="mt-8 flex-grow flex items-center">
-          <div className="w-full">
+          <div className="w-full sm:px-16 md:px-0 max-w-4xl mx-auto">
             <PricingPlans item={item} />
           </div>
         </div>
-
       </div>
-
     </>
   );
 }

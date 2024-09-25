@@ -16,10 +16,9 @@ export const submitToReview = async (itemId: string) => {
 
   const result = await sanityClient.patch(itemId).set({
     pricePlan: "free",
-    freePlanStatus: "reviewing",
-    proPlanStatus: "paying",
+    freePlanStatus: "pending",
   }).commit();
-  console.log('submitToReview, result:', result);
+  // console.log('submitToReview, result:', result);
   if (!result) {
     return { error: "Failed to submit item to review!" };
   }

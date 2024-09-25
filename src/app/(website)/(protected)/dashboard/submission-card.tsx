@@ -55,7 +55,7 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
     <>
       <Card className="flex-grow flex items-center p-4">
         {/* Content section */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-5 lg:gap-8 w-full">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-5 md:gap-8 w-full">
 
           {/* Left column */}
           <div className="md:col-span-2 flex flex-col">

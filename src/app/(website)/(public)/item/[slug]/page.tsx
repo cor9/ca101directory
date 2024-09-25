@@ -1,13 +1,14 @@
 import ItemBreadCrumb from "@/components/item-bread-crumb";
 import ItemCustomMdx from "@/components/item-custom-mdx";
 import BackButton from "@/components/shared/back-button";
+import { UserAvatar } from "@/components/shared/user-avatar";
 import { Button } from "@/components/ui/button";
 import { urlForImage } from "@/lib/image";
 import { getLocaleDate } from "@/lib/utils";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
-import { GlobeIcon, HashIcon, HeartIcon } from "lucide-react";
+import { GlobeIcon, HashIcon, HeartIcon, UserCircleIcon, UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -152,6 +153,20 @@ export default async function ItemPage({ params }: ItemPageProps) {
                 <ul className="space-y-4 text-sm">
                   <li className="flex justify-between">
                     <span className="text-muted-foreground">
+                      Submitter
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <UserAvatar className="w-5 h-5"
+                        user={{ name: item.submitter.name || 'Unknown', image: item.submitter.image }} />
+                      <Link href={item.link} target="_blank" prefetch={false}
+                        className="font-medium link-underline">
+                        {item.submitter.name || 'Unknown'}
+                      </Link>
+                    </div>
+                  </li>
+
+                  <li className="flex justify-between">
+                    <span className="text-muted-foreground">
                       Website
                     </span>
                     <Link href={item.link} target="_blank" prefetch={false}
@@ -159,9 +174,10 @@ export default async function ItemPage({ params }: ItemPageProps) {
                       {item.link}
                     </Link>
                   </li>
+
                   <li className="flex justify-between">
                     <span className="text-muted-foreground">
-                      Added On
+                      Published date
                     </span>
                     <span className="font-medium">
                       {date}

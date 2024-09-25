@@ -12,10 +12,16 @@ export default function AuthLayout({
   return (
     <>
       <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2">
-        <div className="flex items-center justify-center py-12 relative">
+
+        {/* auth form */}
+        <div className="flex items-center justify-center relative w-full h-full min-h-screen">
           <BackButtonSmall className="absolute top-6 left-6" />
-          {children}
+          <div className="w-full max-w-md px-4">
+            {children}
+          </div>
         </div>
+
+        {/* brand image */}
         <div className="hidden bg-muted lg:block">
           <Image
             src="/icon-512-maskable.png"

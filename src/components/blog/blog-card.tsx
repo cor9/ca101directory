@@ -34,9 +34,9 @@ export default function BlogCard({ post }: BlogCardProps) {
             "w-full h-full"
           )}
           href={`${postUrlPrefix}/${post.slug.current}`}>
-          
+
           {imageProps ? (
-            <div className="w-full h-full overflow-hidden rounded-md">
+            <div className="w-full h-full overflow-hidden rounded-md group relative">
               <Image
                 src={imageProps.src}
                 alt={post.image.alt || "image for blog post"}
@@ -48,6 +48,18 @@ export default function BlogCard({ post }: BlogCardProps) {
                   blurDataURL: imageBlurDataURL
                 })}
               />
+
+              {post.categories && post.categories.length > 0 && (
+                <div className="absolute left-2 bottom-2 opacity-100 transition-opacity duration-300">
+                  <div className="flex flex-wrap gap-1">
+                    {post.categories.map((category, index) => (
+                      <span key={index} className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md">
+                        {category.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <span className={cn(

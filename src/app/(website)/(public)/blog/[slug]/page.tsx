@@ -90,14 +90,13 @@ export default async function PostPage({ params }: PostPageProps) {
                         <div className="bg-muted/50 rounded-lg p-6">
                             <h2 className="text-xl font-semibold mb-4">Written by</h2>
                             <div className="flex items-center gap-4">
-                                <div className="relative h-16 w-16 flex-shrink-0">
+                                <div className="relative h-12 w-12 flex-shrink-0">
                                     {post.author?.image && (
                                         <Image
                                             src={post?.author?.image}
                                             alt={`avatar for ${post.author.name}`}
                                             className="rounded-full object-cover border"
                                             fill
-                                            sizes="64px"
                                         />
                                     )}
                                 </div>

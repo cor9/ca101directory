@@ -109,13 +109,12 @@ export default function ImageUpload({ currentImageUrl, onUploadChange }: ImageUp
         {/* uploaded state */}
         {imageUrl && !uploading && (
           <div className="p-4 flex flex-col items-center justify-center gap-4 w-full h-full">
-            <div className="relative w-full h-[80%] flex items-center justify-center group">
+            <div className="relative group overflow-hidden rounded-lg w-full aspect-[16/9]">
               <Image
                 src={imageUrl}
                 alt="uploaded image"
-                layout="fill"
-                objectFit="contain"
-                className="rounded-lg transition-opacity duration-300 hover:opacity-50"
+                fill
+                className="shadow-lg rounded-lg transition-opacity duration-300 hover:opacity-50"
               />
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <p className="text-sm font-medium text-white bg-black bg-opacity-50 px-3 py-2 rounded-md">

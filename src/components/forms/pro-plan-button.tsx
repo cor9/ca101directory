@@ -12,9 +12,10 @@ interface ProPlanButtonProps {
   item: ItemFullInfo;
   pricePlan: PricePlan;
   className?: string;
+  buttonText?: string;
 }
 
-export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps) {
+export function ProPlanButton({ item, pricePlan, className, buttonText }: ProPlanButtonProps) {
   let [isPending, startTransition] = useTransition();
 
   // TODO(javayhu): server action bind args!!!
@@ -51,7 +52,7 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
       ) : (
         <>
           <RocketIcon className="mr-2 size-4 animate-pulse" />
-          <span>Pay to Publish Right Now</span>
+          <span>{buttonText || "Pay to Publish Right Now"}</span>
         </>
       )}
     </Button>

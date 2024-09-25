@@ -41,14 +41,14 @@ export default async function EditPage({ params }: EditPageProps) {
 
         <DashboardHeader
           title="Edit"
-          subtitle="Update your product info."
+          subtitle="Update product info."
           showBackButton={true}
         >
 
           {
             item.pricePlan === 'free' ? (
               <>
-                <ProPlanButton item={item} pricePlan={pricePlan} />
+                <ProPlanButton item={item} pricePlan={pricePlan} buttonText="Upgrade to Pro Plan" />
               </>
             ) : null
           }

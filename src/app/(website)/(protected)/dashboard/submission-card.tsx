@@ -121,8 +121,6 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
 
               <p className="line-clamp-3">{item.description}</p>
 
-              <span>{""}</span>
-
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <span className="font-medium text-muted-foreground">Plan:</span>

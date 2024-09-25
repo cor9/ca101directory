@@ -27,6 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { urlForImage } from "@/lib/image";
 import { EditSchema } from "@/lib/schemas";
+import { cn } from "@/lib/utils";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { ItemFullInfo } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -247,7 +248,9 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
               />
             </div>
           </CardContent>
-          <CardFooter className="flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4 sm:flex-row sm:justify-between sm:space-y-0">
+          {/* "flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4 sm:flex-row sm:justify-between sm:space-y-0 sm:gap-4" */}
+          <CardFooter className={cn("flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4",
+            "sm:flex-row sm:justify-between sm:space-y-0 sm:gap-4")}>
             <Button size="lg"
               type="submit"
               className="w-full sm:w-auto"
@@ -264,9 +267,9 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
             {/* NOTICE: if this item is in free plan, any update will cause this item to be reviewed again */}
             {
               item.pricePlan === 'free' && (
-                <div className="text-sm text-muted-foreground flex items-center justify-center sm:justify-start gap-2">
+                <div className="text-muted-foreground flex items-center justify-center sm:justify-start gap-4">
                   <BellRingIcon className="h-4 w-4" />
-                  <span>Your submission will be unpublished & reviewed again.</span>
+                  <span className="text-sm">Your submission will be reviewed again and remain unpublished until approved.</span>
                 </div>
               )
             }

@@ -268,7 +268,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
             {
               item.pricePlan === 'free' && (
                 <div className="text-muted-foreground flex items-center justify-center sm:justify-start gap-4">
-                  <BellRingIcon className="h-4 w-4" />
+                  <BellRingIcon className="h-5 w-5 sm:h-4 sm:w-4 flex-shrink-0" />
                   <span className="text-sm">Your submission will be reviewed again and remain unpublished until approved.</span>
                 </div>
               )

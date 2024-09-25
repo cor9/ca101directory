@@ -19,7 +19,7 @@ export default async function SubmitPage() {
     <>
       <DashboardSubmitHeader
         title="Submit"
-        subtitle="(1/3) Enter your product details."
+        subtitle="(1/3) Enter product details."
       >
         <SubmitStepper initialStep={1} />
       </DashboardSubmitHeader>

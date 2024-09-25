@@ -32,7 +32,7 @@ export default async function PricePage({ params }: { params: { id: string } }) 
       <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
         <DashboardSubmitHeader
           title="Submit"
-          subtitle="(2/3) Choose your pricing plan."
+          subtitle="(2/3) Choose pricing plan."
         >
           <SubmitStepper initialStep={2} />
         </DashboardSubmitHeader>

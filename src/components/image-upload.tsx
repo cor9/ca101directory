@@ -91,7 +91,7 @@ export default function ImageUpload({ currentImageUrl, onUploadChange }: ImageUp
           <div className="flex flex-col items-center justify-center gap-4">
             <ImageUpIcon className="h-8 w-8 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">
-              Select an image or drag here to upload directly
+              Select or drag an image to upload
             </p>
           </div>
         )}
@@ -101,26 +101,28 @@ export default function ImageUpload({ currentImageUrl, onUploadChange }: ImageUp
           <div className="flex flex-col items-center justify-center gap-4">
             <Loader2 className="h-8 w-8 text-muted-foreground animate-spin mx-auto" />
             <p className="text-sm text-muted-foreground">
-              Please wait while the image is being uploaded
+              Image is uploading...
             </p>
           </div>
         )}
 
         {/* uploaded state */}
         {imageUrl && !uploading && (
-          <div className="py-4 flex flex-col items-center justify-center gap-4 w-full h-full">
-            <div className="relative w-full h-[80%] flex items-center justify-center">
+          <div className="p-4 flex flex-col items-center justify-center gap-4 w-full h-full">
+            <div className="relative w-full h-[80%] flex items-center justify-center group">
               <Image
                 src={imageUrl}
                 alt="uploaded image"
                 layout="fill"
                 objectFit="contain"
-                className="rounded-lg transition-opacity duration-300 hover:opacity-90"
+                className="rounded-lg transition-opacity duration-300 hover:opacity-50"
               />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p className="text-sm font-medium text-white bg-black bg-opacity-50 px-3 py-2 rounded-md">
+                  Click to upload another image
+                </p>
+              </div>
             </div>
-            <p className="text-sm text-muted-foreground">
-              Click here to upload another image
-            </p>
           </div>
         )}
       </label>

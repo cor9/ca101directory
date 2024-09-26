@@ -1,13 +1,13 @@
 "use client";
 
+import { unpublish } from "@/actions/unpublish";
 import { Button } from "@/components/ui/button";
-import { ItemFullInfo, ItemInfo } from "@/types";
+import { ItemInfo } from "@/types";
+import { ArrowDownToLineIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { Icons } from "../shared/icons";
-import { unpublish } from "@/actions/unpublish";
 import { toast } from "sonner";
-import { ArrowBigDownIcon, ArrowDownIcon, ArrowDownToLineIcon } from "lucide-react";
+import { Icons } from "../shared/icons";
 
 interface UnpublishButtonProps {
   item: ItemInfo;
@@ -36,7 +36,7 @@ export function UnpublishButton({ item }: UnpublishButtonProps) {
 
   return (
     <Button
-      variant="default"
+      variant="outline"
       disabled={isPending}
       onClick={UnpublishAction}
     >

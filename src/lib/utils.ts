@@ -1,10 +1,8 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-import { ReadonlyURLSearchParams } from 'next/navigation';
 import { siteConfig } from "@/config/site";
+import { type ClassValue, clsx } from "clsx";
 import { Metadata } from "next";
-import createImageUrlBuilder from "@sanity/image-url";
-import { dataset, projectId } from "@/sanity/lib/api";
+import { ReadonlyURLSearchParams } from 'next/navigation';
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

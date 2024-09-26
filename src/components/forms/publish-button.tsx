@@ -2,12 +2,13 @@
 
 import { publish } from "@/actions/publish";
 import { Button } from "@/components/ui/button";
+import { ItemInfo } from "@/types";
+import { ArrowUpToLineIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { Icons } from "../shared/icons";
-import { ItemInfo } from "@/types";
-import { ArrowBigUpIcon, ArrowUpIcon, ArrowUpToLineIcon } from "lucide-react";
+import { getPublishable } from "@/lib/submission";
 
 interface PublishButtonProps {
   item: ItemInfo;
@@ -18,9 +19,7 @@ export function PublishButton({ item }: PublishButtonProps) {
   let [isPending, startTransition] = useTransition();
 
   const handlePublishClick = async () => {
-    const publishable = (item.pricePlan === 'free' && item.freePlanStatus === 'approved') ||
-                        (item.pricePlan === 'pro' && item.proPlanStatus === 'success');
-
+    const publishable = getPublishable(item);
     if (publishable) {
       await publishAction();
     } else {

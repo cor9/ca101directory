@@ -6,9 +6,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { urlForImage } from "@/lib/image";
+import { getBadgeStyle, getPublishable, PricePlan } from "@/lib/submission";
 import { cn, getLocaleDate } from "@/lib/utils";
 import { ItemInfo } from "@/types";
-import { CalendarDaysIcon, EditIcon, PartyPopperIcon, RocketIcon } from "lucide-react";
+import { EditIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -22,34 +23,11 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
     : null;
   const imageBlurDataURL = item?.image?.blurDataURL || null;
   // console.log(`SubmissionCard, imageBlurDataURL:${imageBlurDataURL}`);
-  const publishDate = item.publishDate || item._createdAt;
-  const date = getLocaleDate(publishDate);
 
-  const publishable = (item.pricePlan === 'free'
-    && item.freePlanStatus === 'approved')
-    || (item.pricePlan === 'pro'
-      && item.proPlanStatus === 'success');
-  const getBadgeStatus = (plan: string, status: string): "default" | "secondary" | "destructive" | "outline" => {
-    if (plan === "free") {
-      switch (status) {
-        case "approved": return "default";
-        case "rejected": return "destructive";
-        case "pending": return "secondary";
-        default: return "outline";
-      }
-    } else if (plan === "pro") {
-      switch (status) {
-        case "success": return "default";
-        case "failed": return "destructive";
-        case "pending": return "secondary";
-        default: return "outline";
-      }
-    }
-    return "outline";
-  };
-
-  const status = item.pricePlan === "free" ? item.freePlanStatus : item.proPlanStatus;
-  const badgeStatus = getBadgeStatus(item.pricePlan, status);
+  const publishable = getPublishable(item);
+  const badgeStyle = getBadgeStyle(item);
+  const status = item.pricePlan === PricePlan.FREE ? item.freePlanStatus : item.proPlanStatus;
+  // const badgeStatus = getBadgeStatus(item.pricePlan, status);
 
   return (
     <>
@@ -122,25 +100,33 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
               <p className="line-clamp-3">{item.description}</p>
 
               <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
+                <div className="flex items-center gap-2">
                   <span className="font-medium text-muted-foreground">Plan:</span>
-                  <Badge variant={item.pricePlan === "free" ? "secondary" : "default"} className="ml-2 capitalize">
+                  <Badge variant="secondary" className="capitalize">
                     {item.pricePlan}
                   </Badge>
                 </div>
-                <div>
+                <div className="flex items-center gap-2">
                   <span className="font-medium text-muted-foreground">Status:</span>
-                  <Badge variant={getBadgeStatus(item.pricePlan, status)} className="ml-2 capitalize">
-                    {status}
-                  </Badge>
+                  {
+                    <Badge variant='outline' className={cn(
+                      "capitalize",
+                      badgeStyle === "success" && "bg-green-100 text-green-800",
+                      badgeStyle === "danger" && "bg-red-100 text-red-800",
+                      badgeStyle === "pending" && "bg-yellow-100 text-yellow-800",
+                      badgeStyle === "normal" && "bg-gray-100 text-gray-800"
+                    )}>
+                      {status}
+                    </Badge>
+                  }
                 </div>
-                <div>
+                <div className="flex items-center gap-2">
                   <span className="font-medium text-muted-foreground">Publish Date:</span>
-                  <span className="ml-2">{item.publishDate ? getLocaleDate(item.publishDate) : 'Not published'}</span>
+                  <span className="">{item.publishDate ? getLocaleDate(item.publishDate) : 'Not published'}</span>
                 </div>
-                <div>
+                <div className="flex items-center gap-2">
                   <span className="font-medium text-muted-foreground">Created Date:</span>
-                  <span className="ml-2">{getLocaleDate(item._createdAt)}</span>
+                  <span className="">{getLocaleDate(item._createdAt)}</span>
                 </div>
               </div>
             </div>

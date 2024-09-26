@@ -25,7 +25,7 @@ export async function Submit(formData: SubmitFormData) {
       return { error: "Unauthorized" };
     }
 
-    console.log("submit, data:", formData);
+    // console.log("submit, data:", formData);
     const { name, link, description, introduction, imageId,
       tags, categories } = SubmitSchema.parse(formData);
     console.log("submit, name:", name, "link:", link);

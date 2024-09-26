@@ -226,12 +226,12 @@ export default defineType({
   },
   orderings: [
     {
-      title: 'Date (Newest)',
+      title: 'Publish Date (Newest)',
       name: 'dateDesc',
       by: [{ field: 'publishDate', direction: 'desc' }],
     },
     {
-      title: 'Date (Oldest)',
+      title: 'Publish Date (Oldest)',
       name: 'dateAsc',
       by: [{ field: 'publishDate', direction: 'asc' }],
     },

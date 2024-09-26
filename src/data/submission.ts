@@ -35,7 +35,7 @@ const buildQuery = (userId: string, currentPage: number = 1) => {
        ${userCondition} ])`;
     // @sanity-typegen-ignore
     const dataQuery = `*[_type == "item" && defined(slug.current) 
-       ${userCondition} ] [${offsetStart}...${offsetEnd}] {
+       ${userCondition} ] | order(_createdAt desc) [${offsetStart}...${offsetEnd}] {
         _id,
         _createdAt,
         name,

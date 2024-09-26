@@ -17,6 +17,17 @@ export function PublishButton({ item }: PublishButtonProps) {
   const router = useRouter();
   let [isPending, startTransition] = useTransition();
 
+  const handlePublishClick = async () => {
+    const publishable = (item.pricePlan === 'free' && item.freePlanStatus === 'approved') ||
+                        (item.pricePlan === 'pro' && item.proPlanStatus === 'success');
+
+    if (publishable) {
+      await publishAction();
+    } else {
+      router.push(`/submit/price/${item._id}`);
+    }
+  };
+
   const publishAction = () => {
     startTransition(async () => {
       try {
@@ -36,9 +47,9 @@ export function PublishButton({ item }: PublishButtonProps) {
 
   return (
     <Button
-      variant="outline"
+      variant="default"
       disabled={isPending}
-      onClick={publishAction}
+      onClick={handlePublishClick}
     >
       {isPending ? (
         <>

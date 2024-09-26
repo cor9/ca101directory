@@ -13,7 +13,7 @@ import { Suspense } from "react";
 
 export const metadata = constructMetadata({
   title: "Dashboard",
-  description: "Overview of your submissions.",
+  description: "Overview of submissions.",
 });
 
 export default async function DashboardPage({
@@ -37,7 +37,7 @@ export default async function DashboardPage({
     <>
       <DashboardHeader
         title="Dashboard"
-        subtitle="Overview of your submissions.">
+        subtitle="Overview of submissions.">
         <Button asChild className="group whitespace-nowrap">
           <Link href="/submit" prefetch={false}
             className="flex items-center justify-center space-x-2">

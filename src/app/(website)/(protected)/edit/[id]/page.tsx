@@ -1,6 +1,4 @@
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
-import { ProPlanButton } from "@/components/forms/pro-plan-button";
-import { PRICE_PLANS } from "@/config/pricing-plan";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryListQuery, itemFullInfoByIdQuery, tagListQuery } from "@/sanity/lib/queries";
@@ -32,27 +30,14 @@ export default async function EditPage({ params }: EditPageProps) {
     return notFound();
   }
 
-  const pricePlan = PRICE_PLANS.find(plan => plan.title === 'Pro');
-
   return (
     <>
       <div className="flex flex-col gap-6">
-        {/* <DashboardBreadCrumb item={item} /> */}
-
         <DashboardHeader
           title="Edit"
           subtitle="Update product info."
           showBackButton={true}
-        >
-
-          {
-            item.pricePlan === 'free' ? (
-              <>
-                <ProPlanButton item={item} pricePlan={pricePlan} buttonText="Upgrade to Pro Plan" />
-              </>
-            ) : null
-          }
-        </DashboardHeader>
+        />
 
         <div className="mt-4">
           <Suspense fallback={null}>

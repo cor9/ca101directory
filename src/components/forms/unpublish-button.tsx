@@ -36,7 +36,7 @@ export function UnpublishButton({ item }: UnpublishButtonProps) {
 
   return (
     <Button
-      variant="outline"
+      variant="default"
       disabled={isPending}
       onClick={UnpublishAction}
     >

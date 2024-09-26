@@ -80,13 +80,13 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
       console.log('EditForm, status:', status);
       if (status === "success") {
         form.reset();
-        toast.success("Update success");
-
         // TODO: not working, still showing the old item
         // router.refresh();
         // router.push(`/update/${item._id}`);
 
         router.push(`/dashboard/`);
+
+        toast.success("Update success");
       } else {
         toast.error("Something went wrong. Please try again.");
       }

@@ -29,7 +29,7 @@ export async function Edit(formData: EditFormData) {
       return { error: "Unauthorized" };
     }
 
-    console.log("edit, data:", formData);
+    // console.log("edit, data:", formData);
     const { id, name, link, description, introduction, imageId,
       tags, categories, pricePlan } = EditSchema.parse(formData);
     console.log("edit, name:", name, "link:", link);

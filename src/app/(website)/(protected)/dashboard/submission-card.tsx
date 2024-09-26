@@ -145,25 +145,22 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2 mt-6">
-              {item.pricePlan === 'free' && (
-                <Button asChild variant="default">
-                  <Link href={`/submit/price/${item._id}`}>
-                    <RocketIcon className="w-4 h-4 mr-2" />
-                    Upgrade
-                  </Link>
-                </Button>
+            <div className="flex flex-wrap gap-4 mt-6">
+              {/* publish or unpublish button */}
+              {publishable && item.publishDate && (
+                <UnpublishButton item={item} />
               )}
-              
+              {!item.publishDate && (
+                <PublishButton item={item} />
+              )}
+
+              {/* edit button */}
               <Button asChild variant="outline">
                 <Link href={`/edit/${item._id}`}>
                   <EditIcon className="w-4 h-4 mr-2" />
                   Edit
                 </Link>
               </Button>
-              {publishable && (
-                item.publishDate ? <UnpublishButton item={item} /> : <PublishButton item={item} />
-              )}
             </div>
           </div>
 

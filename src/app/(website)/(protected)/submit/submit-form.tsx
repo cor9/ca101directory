@@ -71,10 +71,10 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
       if (status === "success") {
         // confetti();
         form.reset();
-        toast.success("Submit success");
-        
         // router.push(`/dashboard/`);
         router.push(`/submit/price/${id}`);
+
+        toast.success("Submit success");
       } else {
         toast.error("Something went wrong. Please try again.");
       }

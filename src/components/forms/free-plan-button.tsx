@@ -8,6 +8,7 @@ import { useTransition } from "react";
 import { Icons } from "../shared/icons";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface FreePlanButtonProps {
   item: ItemFullInfo;
@@ -26,6 +27,8 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
         console.log('submitToReviewAction, result:', result);
         if (result.success) {
           router.refresh();
+
+          toast.success("Submit to review success");
         } else { // TODO: handle error
           throw new Error(result.error);
         }

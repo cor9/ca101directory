@@ -38,9 +38,9 @@ export default async function ItemPage({ params }: ItemPageProps) {
   return (
     <div className="flex flex-col gap-8">
       {/* Content section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         {/* Left column */}
-        <div className="lg:col-span-1 space-y-8 flex flex-col">
+        <div className="lg:col-span-3 space-y-8 flex flex-col">
           {/* Basic information */}
           <div className="order-1 space-y-8">
             <ItemBreadCrumb item={item} />
@@ -65,7 +65,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                     <Button size="sm" variant="outline" asChild>
                       <Link href={`/tag/${tag.slug.current}`}
                         // hover:underline underline-offset-4
-                        className="text-sm flex items-center justify-center space-x-1 group hover:underline underline-offset-4">
+                        className="text-sm flex items-center justify-center space-x-0.5 group hover:underline underline-offset-4">
                         <HashIcon className="w-3 h-3
                           transition-all duration-300 ease-in-out 
                           group-hover:scale-125" />
@@ -112,7 +112,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
         </div>
 
         {/* Right column */}
-        <div className="order-2 lg:col-span-1 lg:order-none">
+        <div className="order-2 lg:col-span-2 lg:order-none">
           {/* lg:sticky lg:top-24 */}
           <div className="flex flex-col space-y-8">
 
@@ -153,7 +153,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                 <ul className="space-y-4 text-sm">
                   <li className="flex justify-between">
                     <span className="text-muted-foreground">
-                      Submitter
+                      Publisher
                     </span>
                     <div className="flex items-center gap-2">
                       <UserAvatar className="w-5 h-5"
@@ -209,7 +209,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                     <li key={tag._id}>
                       <Link href={`/tag/${tag.slug.current}`}
                         className="text-sm link-underline
-                          flex items-center justify-center space-x-1 group">
+                          flex items-center justify-center space-x-0.5 group">
                         <HashIcon className="w-3 h-3
                           transition-all duration-300 ease-in-out 
                           group-hover:scale-125" />

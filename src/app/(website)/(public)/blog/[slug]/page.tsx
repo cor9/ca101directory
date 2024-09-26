@@ -88,7 +88,7 @@ export default async function PostPage({ params }: PostPageProps) {
                     <div className="space-y-4 lg:sticky lg:top-24">
                         {/* author info */}
                         <div className="bg-muted/50 rounded-lg p-6">
-                            <h2 className="text-xl font-semibold mb-4">Written by</h2>
+                            <h2 className="text-xl font-semibold mb-4">Publisher</h2>
                             <div className="flex items-center gap-4">
                                 <div className="relative h-12 w-12 flex-shrink-0">
                                     {post.author?.image && (

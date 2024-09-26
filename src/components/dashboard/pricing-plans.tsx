@@ -1,17 +1,17 @@
 "use client";
 
+import { FreePlanButton } from "@/components/forms/free-plan-button";
 import { ProPlanButton } from "@/components/forms/pro-plan-button";
 import { Icons } from "@/components/shared/icons";
 import { PRICE_PLANS } from "@/config/pricing-plan";
 import { cn } from "@/lib/utils";
-import { ItemFullInfo, PricePlan } from "@/types/index";
-import { FreePlanButton } from "@/components/forms/free-plan-button";
+import { ItemFullInfo, ItemInfo, PricePlan } from "@/types/index";
 
 /**
  * PricingPlans
  */
 interface PricingPlansProps {
-  item: ItemFullInfo;
+  item: ItemInfo;
 }
 
 export function PricingPlans({ item }: PricingPlansProps) {
@@ -35,7 +35,7 @@ export function PricingPlans({ item }: PricingPlansProps) {
  * PricingPlanCard
  */
 interface PricingPlanCardProps {
-  item: ItemFullInfo;
+  item: ItemInfo;
   pricePlan: PricePlan;
 }
 

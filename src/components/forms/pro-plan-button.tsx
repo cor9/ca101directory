@@ -4,31 +4,30 @@ import { createCheckoutSession } from "@/actions/create-checkout-session";
 import { Icons } from "@/components/shared/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ItemFullInfo, PricePlan } from "@/types";
+import { ItemInfo, PricePlan } from "@/types";
 import { RocketIcon } from "lucide-react";
 import { useTransition } from "react";
 
 interface ProPlanButtonProps {
-  item: ItemFullInfo;
+  item: ItemInfo;
   pricePlan: PricePlan;
   className?: string;
-  buttonText?: string;
 }
 
-export function ProPlanButton({ item, pricePlan, className, buttonText }: ProPlanButtonProps) {
+export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps) {
   let [isPending, startTransition] = useTransition();
 
-  // TODO(javayhu): server action bind args!!!
-  const createCheckoutSessionAction = createCheckoutSession.bind(
-    null,
-    item._id,
-    pricePlan.stripePriceId,
-  );
+  // TODO(javayhu): why server action bind args here?
+  // const createCheckoutSessionAction = createCheckoutSession.bind(
+  //   null,
+  //   item._id,
+  //   pricePlan.stripePriceId,
+  // );
 
-  const createStripeCheckoutSession = () => {
+  const createCheckoutSessionAction = () => {
     startTransition(async () => {
       try {
-        const result = await createCheckoutSessionAction();
+        const result = await createCheckoutSession(item._id, pricePlan.stripePriceId);
         console.log('createCheckoutSessionAction, result:', result);
       } catch (error) {
         console.error('createCheckoutSessionAction, error:', error);
@@ -42,7 +41,7 @@ export function ProPlanButton({ item, pricePlan, className, buttonText }: ProPla
       variant={"default"}
       className={cn("rounded-full", className)}
       disabled={isPending}
-      onClick={createStripeCheckoutSession}
+      onClick={createCheckoutSessionAction}
     >
       {isPending ? (
         <>
@@ -52,7 +51,7 @@ export function ProPlanButton({ item, pricePlan, className, buttonText }: ProPla
       ) : (
         <>
           <RocketIcon className="mr-2 size-4 animate-pulse" />
-          <span>{buttonText || "Pay to Publish Right Now"}</span>
+          <span>Pay to Publish Right Now</span>
         </>
       )}
     </Button>

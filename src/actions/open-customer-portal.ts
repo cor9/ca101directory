@@ -10,7 +10,7 @@ export type ServerActionResponse = {
   stripeUrl?: string;
 };
 
-const billingUrl = absoluteUrl("/billing");
+const billingUrl = absoluteUrl("/dashboard");
 
 // TODO(javayhu): not used yet
 export async function openCustomerPortal(

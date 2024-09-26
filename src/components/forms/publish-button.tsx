@@ -23,7 +23,7 @@ export function PublishButton({ item }: PublishButtonProps) {
     if (publishable) {
       await publishAction();
     } else {
-      router.push(`/submit/price/${item._id}`);
+      router.push(`/submit/plan/${item._id}`);
     }
   };
 

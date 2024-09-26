@@ -3,7 +3,7 @@
 import { currentUser } from "@/lib/auth";
 import { stripe } from "@/lib/stripe";
 import { absoluteUrl } from "@/lib/utils";
-import { Item, User } from "@/sanity.types";
+import { User } from "@/sanity.types";
 import { sanityClient } from "@/sanity/lib/client";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
@@ -58,7 +58,7 @@ export async function createCheckoutSession(itemId: string, priceId: string): Pr
     // 2. if the item is paid and the submitter is the user, then redirect to the billing portal
     if (stripeCustomerId && item.paid) {
       console.log('item is paid, redirect to billing portal');
-      const billingUrl = absoluteUrl("/billing");
+      const billingUrl = absoluteUrl("/dashboard");
       const stripeSession = await stripe.billingPortal.sessions.create({
         customer: stripeCustomerId,
         return_url: billingUrl,
@@ -99,7 +99,7 @@ export async function createCheckoutSession(itemId: string, priceId: string): Pr
         + ', userId:' + user.id +
         + ', itemId:' + itemId);
       const successUrl = absoluteUrl(`/submit/publish/${itemId}`);
-      const cancelUrl = absoluteUrl(`/submit/price/${itemId}`);
+      const cancelUrl = absoluteUrl(`/submit/plan/${itemId}`);
       const stripeSession = await stripe.checkout.sessions.create({
         customer: stripeCustomerId,
         success_url: successUrl,

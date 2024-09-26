@@ -3,10 +3,10 @@ import { PricingPlans } from "@/components/dashboard/pricing-plans";
 import { SubmitStepper } from "@/components/submit/submit-stepper";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
-import { ItemFullInfo } from "@/types";
+import { ItemInfo } from "@/types";
 import { notFound } from "next/navigation";
 
-export default async function PricePage({ params }: { params: { id: string } }) {
+export default async function PlanPage({ params }: { params: { id: string } }) {
   // TODO: add user check, if user is not logged in, redirect to login page
   // if use not the submitter, shows error message
   // const user = await currentUser();
@@ -14,16 +14,18 @@ export default async function PricePage({ params }: { params: { id: string } }) 
   //   return redirect("/auth/login");
   // }
 
+  // TODO: add item status check, if item is paid, redirect to dashboard
+
   const { id } = params;
-  console.log('PricePage, itemId:', id);
-  const item = await sanityFetch<ItemFullInfo>({
+  console.log('PlanPage, itemId:', id);
+  const item = await sanityFetch<ItemInfo>({
     query: itemByIdQuery,
     params: { id: id },
     disableCache: true,
   });
 
   if (!item) {
-    console.error("PricePage, item not found");
+    console.error("PlanPage, item not found");
     return notFound();
   }
   // console.log('PlanPage, item:', item);

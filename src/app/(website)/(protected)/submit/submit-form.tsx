@@ -72,7 +72,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
         // confetti();
         form.reset();
         // router.push(`/dashboard/`);
-        router.push(`/submit/price/${id}`);
+        router.push(`/submit/plan/${id}`);
 
         toast.success("Submit success");
       } else {

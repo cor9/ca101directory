@@ -36,49 +36,16 @@ export default defineType({
             description: "Priority of the category, used to sort the categories",
             initialValue: 0,
         }),
-        defineField({
-            name: "color",
-            title: "Color",
-            type: "string",
-            description: "Color of the category, used to style the category",
-            options: {
-                list: [
-                    { title: "Slate", value: "slate" },
-                    { title: "Gray", value: "gray" },
-                    { title: "Zinc", value: "zinc" },
-                    { title: "Neutral", value: "neutral" },
-                    { title: "Stone", value: "stone" },
-                    { title: "Red", value: "red" },
-                    { title: "Orange", value: "orange" },
-                    { title: "Amber", value: "amber" },
-                    { title: "Yellow", value: "yellow" },
-                    { title: "Lime", value: "lime" },
-                    { title: "Green", value: "green" },
-                    { title: "Emerald", value: "emerald" },
-                    { title: "Teal", value: "teal" },
-                    { title: "Cyan", value: "cyan" },
-                    { title: "Sky", value: "sky" },
-                    { title: "Blue", value: "blue" },
-                    { title: "Indigo", value: "indigo" },
-                    { title: "Violet", value: "violet" },
-                    { title: "Purple", value: "purple" },
-                    { title: "Fuchsia", value: "fuchsia" },
-                    { title: "Pink", value: "pink" },
-                    { title: "Rose", value: "rose" },
-                ]
-            }
-        }),
     ],
     preview: {
         select: {
             name: "name",
             priority: "priority",
             date: "_createdAt",
-            color: "color",
         },
-        prepare({ name, priority, date, color }) {
+        prepare({ name, priority, date }) {
             const title = `${priority} - ${name}`
-            const subtitle = `${color} - ${format(parseISO(date), "yyyy/MM/dd")}`;
+            const subtitle = `${format(parseISO(date), "yyyy/MM/dd")}`;
             return {
                 title,
                 subtitle

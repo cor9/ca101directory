@@ -26,6 +26,7 @@ const user = {
       name: 'emailVerified',
       title: 'Email Verification',
       type: 'datetime',
+      readOnly: true,
     }),
     defineField({
       name: 'image',
@@ -37,6 +38,7 @@ const user = {
       title: 'User Password',
       type: 'string',
       hidden: true,
+      readOnly: true,
     }),
     defineField({
       name: 'role',
@@ -52,6 +54,7 @@ const user = {
       title: 'Accounts',
       type: 'reference',
       to: [{ type: 'account' }],
+      readOnly: true,
     }),
     // stripe
     defineField({
@@ -59,6 +62,7 @@ const user = {
       title: 'Stripe Customer Id',
       type: 'string',
       group: 'stripe',
+      readOnly: true,
     }),
   ],
   preview: {

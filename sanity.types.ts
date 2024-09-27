@@ -161,7 +161,6 @@ export type BlogCategory = {
   slug?: Slug;
   description?: string;
   priority?: number;
-  color?: "slate" | "gray" | "zinc" | "neutral" | "stone" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose";
 };
 
 export type BlogPost = {
@@ -1113,7 +1112,7 @@ export type BlogCategoryListQueryResult = Array<{
   slug: Slug | null;
   description: string | null;
   priority: number | null;
-  color: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc" | null;
+  color: null;
 }>;
 // Variable: blogPostQuery
 // Query: *[_type == "blogPost" && slug.current == $slug][0] {        _id,  _createdAt,  title,  slug,  excerpt,  featured,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "imageColor": asset->metadata.palette.dominant.background,  },  publishDate,  author->,  categories[]->,  body[]{    ...,    markDefs[]{      ...,      _type == "internalLink" => {        "slug": @.reference->slug      }    }  },    // "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),  // "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {  //   title,  //   slug,  //   "date": coalesce(publishedDate,_createdAt),  //   "image": image  // },}
@@ -1169,7 +1168,6 @@ export type BlogPostQueryResult = {
     slug?: Slug;
     description?: string;
     priority?: number;
-    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
   }> | null;
   body: Array<{
     children?: Array<{
@@ -1285,7 +1283,6 @@ export type BlogPostListQueryResult = Array<{
     slug?: Slug;
     description?: string;
     priority?: number;
-    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
   }> | null;
 }>;
 // Variable: userWithAccountsQuery
@@ -1317,7 +1314,6 @@ export type CatqueryResult = Array<{
   slug?: Slug;
   description?: string;
   priority?: number;
-  color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
   count: number;
 }>;
 // Variable: searchquery
@@ -1363,7 +1359,6 @@ export type PostqueryResult = Array<{
     slug?: Slug;
     description?: string;
     priority?: number;
-    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
   }> | null;
 }>;
 // Variable: limitquery
@@ -1388,7 +1383,6 @@ export type LimitqueryResult = Array<{
     slug?: Slug;
     description?: string;
     priority?: number;
-    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
   }> | null;
   author: {
     _id: string;
@@ -1447,7 +1441,6 @@ export type PaginatedqueryResult = Array<{
     slug?: Slug;
     description?: string;
     priority?: number;
-    color?: "amber" | "blue" | "cyan" | "emerald" | "fuchsia" | "gray" | "green" | "indigo" | "lime" | "neutral" | "orange" | "pink" | "purple" | "red" | "rose" | "sky" | "slate" | "stone" | "teal" | "violet" | "yellow" | "zinc";
   }> | null;
   author: {
     _id: string;

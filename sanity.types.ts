@@ -315,6 +315,7 @@ export type Order = {
     [internalGroqTypeReferenceTo]?: "item";
   };
   status?: "success" | "fail";
+  date?: string;
 };
 
 export type SanityImageCrop = {

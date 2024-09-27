@@ -143,12 +143,40 @@ export default async function PostPage({ params }: PostPageProps) {
                                 <BlogToc toc={toc} />
                             </div>
                         </div>
-
-                        {/* related posts */}
-                        {/* ... (if you have related posts, you can add them here) ... */}
                     </div>
                 </div>
             </div>
+
+            {/* related posts */}
+            {post.relatedPosts.length > 0 && (
+                <div className="flex flex-col space-y-4 mt-8">
+                    <h2 className="text-xl font-semibold">
+                        More Articles
+                    </h2>
+
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
+                        {post.relatedPosts.map((post) => (
+                            <Link
+                                key={post.slug.current}
+                                href={`/blog/${post.slug.current}`}
+                                className="flex flex-col justify-between space-y-2 rounded-xl border p-4 transition-colors duration-300 hover:bg-muted/80"
+                            >
+                                <div className="flex flex-col space-y-2">
+                                    <h3 className="text-xl">
+                                        {post.title}
+                                    </h3>
+                                    <p className="line-clamp-2 text-muted-foreground">
+                                        {post.excerpt}
+                                    </p>
+                                </div>
+                                <p className="text-sm text-muted-foreground">
+                                    {getLocaleDate(post.publishDate)}
+                                </p>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* back button */}
             <div className="flex items-center justify-start mt-8">

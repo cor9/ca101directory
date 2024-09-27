@@ -146,6 +146,7 @@ const blogPostSimpleFields = /* groq */ `
 
 const blogPostFields = /* groq */ `
   ${blogPostSimpleFields}
+  relatedPosts[]->,
   body[]{
     ...,
     markDefs[]{
@@ -157,12 +158,15 @@ const blogPostFields = /* groq */ `
   },
   
   // "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),
-  // "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...5] {
-  //   title,
-  //   slug,
-  //   "date": coalesce(publishedDate,_createdAt),
-  //   "image": image
-  // },
+  // get Top 2 related posts
+  "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...2] {
+    slug,
+    title,
+    excerpt,
+    publishDate,
+    "date": coalesce(publishedDate, _createdAt),
+    "image": image
+  },
 `;
 
 const blogCategoryFields = /* groq */ `

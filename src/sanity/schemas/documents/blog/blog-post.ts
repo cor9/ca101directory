@@ -73,6 +73,13 @@ export default defineType({
             ],
         }),
         defineField({
+            name: "relatedPosts",
+            title: "Related Posts",
+            description: "The posts that are related to this post.",
+            type: "array",
+            of: [{ type: "reference", to: { type: "blogPost" } }]
+        }),
+        defineField({
             name: 'publishDate',
             title: 'Publish Date',
             description: "The post will be visible to the public only if the publish date is set.",

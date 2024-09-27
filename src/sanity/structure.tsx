@@ -72,14 +72,14 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
         S.divider(),
 
         // group the user management
+        S.documentTypeListItem(user.name)
+          .icon(UserIcon),
         S.listItem().title('User management')
           .icon(UsersIcon)
           .child(
             S.list()
               .title('User management')
               .items([
-                S.documentTypeListItem(user.name)
-                  .icon(UserIcon),
                 S.documentTypeListItem(account.name)
                   .icon(UsersIcon),
                 S.documentTypeListItem(verificationToken.name)

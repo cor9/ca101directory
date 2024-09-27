@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { sanityClient } from "@/sanity/lib/client";
 import { getUserById } from "@/data/user";
+import { PricePlan, ProPlanStatus } from "@/lib/submission";
 
 // https://github.com/mickasmt/next-saas-stripe-starter/blob/main/app/api/webhooks/stripe/route.ts
 // https://github.com/javayhu/lms-studio-antonio/blob/main/app/api/webhook/route.ts
@@ -36,11 +37,10 @@ export async function POST(req: Request) {
     const userId = session?.metadata?.userId;
     const itemId = session?.metadata?.itemId;
     // console.log('session:', session);
-    console.log('session?.metadata?.userId:', userId);
-    console.log('session?.metadata?.itemId:', itemId);
+    console.log(`checkout.session.completed, userId: ${userId}, itemId: ${itemId}`);
 
     const user = await getUserById(session?.metadata?.userId);
-    console.log('user:', user);
+    // console.log('user:', user);
     
     if (user) {
       const result = await sanityClient.create({
@@ -54,6 +54,7 @@ export async function POST(req: Request) {
           _ref: itemId,
         },
         status: 'success',
+        date: new Date().toISOString(),
       });
 
       if (!result) {
@@ -64,8 +65,8 @@ export async function POST(req: Request) {
       // update order & status of item
       const res = await sanityClient.patch(itemId).set({
         paid: true,
-        pricePlan: 'pro',
-        proPlanStatus: 'success',
+        pricePlan: PricePlan.PRO,
+        proPlanStatus: ProPlanStatus.SUCCESS,
         order: {
           _type: 'reference',
           _ref: result._id,

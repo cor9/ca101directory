@@ -12,6 +12,7 @@ const order = {
       type: 'reference',
       to: [{ type: 'user' }],
       validation: (rule) => rule.required(),
+      readOnly: true,
     }),
     defineField({
       name: 'item',
@@ -19,6 +20,7 @@ const order = {
       type: 'reference',
       to: [{ type: 'item' }],
       validation: (rule) => rule.required(),
+      readOnly: true,
     }),
     defineField({
       name: 'status',
@@ -30,6 +32,14 @@ const order = {
         direction: 'horizontal',
       },
       validation: (rule) => rule.required(),
+      readOnly: true,
+    }),
+    defineField({
+      name: 'date',
+      title: 'Date',
+      description: "The date when the order is created",
+      type: 'datetime',
+      readOnly: true,
     }),
   ],
   preview: {

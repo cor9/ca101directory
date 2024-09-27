@@ -9,6 +9,7 @@ export enum FreePlanStatus {
     APPROVED = "approved",
     REJECTED = "rejected",
     PENDING = "pending",
+    SUBMITTED = "submitted",
 }
 
 export enum ProPlanStatus {

@@ -2,6 +2,7 @@
 
 import { currentUser } from "@/lib/auth";
 import { SubmitSchema } from "@/lib/schemas";
+import { FreePlanStatus, PricePlan } from "@/lib/submission";
 import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { nanoid } from 'nanoid';
@@ -30,12 +31,13 @@ export async function Submit(formData: SubmitFormData) {
       tags, categories } = SubmitSchema.parse(formData);
     console.log("submit, name:", name, "link:", link);
 
+    const slug = slugify(name);
     const data = {
       _type: "item",
       name,
       slug: {
         _type: "slug",
-        current: slugify(name),
+        current: slug,
       },
       link,
       description,
@@ -43,8 +45,8 @@ export async function Submit(formData: SubmitFormData) {
       publishDate: null,
 
       paid: false,
-      pricePlan: "free",
-      freePlanStatus: "submitted",
+      pricePlan: PricePlan.FREE,
+      freePlanStatus: FreePlanStatus.SUBMITTED,
       submitter: {
         _type: "reference",
         _ref: user.id,

@@ -2,6 +2,7 @@
 
 import { currentUser } from "@/lib/auth";
 import { EditSchema } from "@/lib/schemas";
+import { FreePlanStatus, PricePlan } from "@/lib/submission";
 import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { nanoid } from 'nanoid';
@@ -36,6 +37,9 @@ export async function Edit(formData: EditFormData) {
 
     // TODO: check if the user is the submitter of the item
 
+    // TODO(javayhu): should I change slug? change slug only if name changes!
+    const slug = slugify(name);
+
     const data = {
       _id: id,
       _type: "item",
@@ -43,16 +47,16 @@ export async function Edit(formData: EditFormData) {
       // TODO(javayhu): should I change slug? change slug only if name changes!
       slug: {
         _type: "slug",
-        current: slugify(name),
+        current: slug,
       },
       link,
       description,
       introduction,
 
       // Free plan: update item leads to be unpublished and reviewed again
-      ...(pricePlan === "free" && {
+      ...(pricePlan === PricePlan.FREE && {
         publishDate: null,
-        freePlanStatus: "pending",
+        freePlanStatus: FreePlanStatus.PENDING,
       }),
 
       // The _key only needs to be unique within the array itself
@@ -95,7 +99,7 @@ export async function Edit(formData: EditFormData) {
 
     // TODO: redirect to the updated item, but not working, still showing the old item
     revalidatePath(`/edit/${id}`);
-    revalidatePath(`/item/${id}`);
+    revalidatePath(`/item/${slug}`);
     return { status: "success" };
   } catch (error) {
     console.log("edit, error", error);

@@ -61,7 +61,7 @@ export default async function PostPage({ params }: PostPageProps) {
                                     {...(imageBlurDataURL && {
                                         placeholder: "blur",
                                         blurDataURL: imageBlurDataURL
-                                      })}
+                                    })}
                                 />
                             )}
                         </div>
@@ -101,7 +101,21 @@ export default async function PostPage({ params }: PostPageProps) {
                                     )}
                                 </div>
                                 <div>
-                                    <p className="font-medium text-lg">{post.author.name}</p>
+                                    {
+                                        post.author.link && (
+                                            <Link href={post.author.link} target="_blank" prefetch={false}
+                                                className="font-medium link-underline">
+                                                {post.author.name}
+                                            </Link>
+                                        ) || (
+                                            <span>
+                                                {post.author.name}
+                                            </span>
+                                        )
+                                    }
+
+                                    {/* <p className="font-medium text-lg">{post.author.name}</p> */}
+
                                     <p className="text-sm text-muted-foreground">{date}</p>
                                 </div>
                             </div>

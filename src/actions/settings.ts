@@ -30,6 +30,7 @@ export const settings = async (
     values.newPassword = undefined;
   }
 
+  // support email change
   if (values.email && values.email !== user.email) {
     const existingUser = await getUserByEmail(values.email);
     if (existingUser && existingUser._id !== user.id) {

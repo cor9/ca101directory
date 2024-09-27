@@ -34,6 +34,11 @@ const user = {
       type: 'string',
     }),
     defineField({
+      name: 'link',
+      title: 'User Link',
+      type: 'string',
+    }),
+    defineField({
       name: 'password',
       title: 'User Password',
       type: 'string',

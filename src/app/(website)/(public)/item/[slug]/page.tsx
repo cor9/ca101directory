@@ -158,7 +158,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                     <div className="flex items-center gap-2">
                       <UserAvatar className="w-5 h-5"
                         user={{ name: item.submitter.name || 'Unknown', image: item.submitter.image }} />
-                      <Link href={item.link} target="_blank" prefetch={false}
+                      <Link href={item.submitter.link} target="_blank" prefetch={false}
                         className="font-medium link-underline">
                         {item.submitter.name || 'Unknown'}
                       </Link>

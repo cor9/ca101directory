@@ -37,6 +37,7 @@ export const EditSchema = SubmitSchema.extend({
  */
 export const SettingsSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
+  link: z.string().optional(),
   role: z.enum([UserRole.ADMIN, UserRole.USER]),
   email: z.optional(z.string().email()),
   password: z.optional(z.string().min(6)),

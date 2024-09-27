@@ -40,7 +40,7 @@ import * as z from "zod";
 
 export default function SettingsPage() {
   const user = useCurrentUser();
-  console.log('SettingsPage, user:', user);
+  // console.log('SettingsPage, user:', user);
   const { update } = useSession();
   const [isPending, startTransition] = useTransition();
 
@@ -50,6 +50,7 @@ export default function SettingsPage() {
       password: undefined,
       newPassword: undefined,
       name: user?.name || undefined,
+      link: user?.link || undefined,
       email: user?.email || undefined,
       role: user?.role || undefined,
     }
@@ -59,6 +60,7 @@ export default function SettingsPage() {
     if (user) {
       form.reset({
         name: user?.name || undefined,
+        link: user?.link || undefined,
         email: user?.email || undefined,
         role: user?.role || undefined,
       });
@@ -70,9 +72,11 @@ export default function SettingsPage() {
       settings(values)
         .then((data) => {
           if (data.error) {
+            console.log('SettingsPage, onSubmit, error:', data.error);
             toast.error(data.error);
           }
           if (data.success) {
+            console.log('SettingsPage, onSubmit, success:', data.success);
             update();
             toast.success(data.success);
           }
@@ -87,7 +91,7 @@ export default function SettingsPage() {
         title="Settings"
         subtitle="Manage account settings."
       />
-      
+
       <div className="mt-6 space-y-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -179,6 +183,24 @@ export default function SettingsPage() {
                     />
                   </>
                 )}
+
+                <FormField
+                  control={form.control}
+                  name="link"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Link</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="Link (e.g. https://example.com)"
+                          disabled={isPending}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 <FormField
                   control={form.control}

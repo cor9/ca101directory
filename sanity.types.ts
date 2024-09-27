@@ -384,6 +384,7 @@ export type User = {
   email?: string;
   emailVerified?: string;
   image?: string;
+  link?: string;
   password?: string;
   role?: "ADMIN" | "USER";
   accounts?: {
@@ -492,6 +493,7 @@ export type ItemQueryResult = {
     email?: string;
     emailVerified?: string;
     image?: string;
+    link?: string;
     password?: string;
     role?: "ADMIN" | "USER";
     accounts?: {
@@ -569,6 +571,7 @@ export type ItemByIdQueryResult = {
     email?: string;
     emailVerified?: string;
     image?: string;
+    link?: string;
     password?: string;
     role?: "ADMIN" | "USER";
     accounts?: {
@@ -645,6 +648,7 @@ export type ItemFullInfoByIdQueryResult = {
     email?: string;
     emailVerified?: string;
     image?: string;
+    link?: string;
     password?: string;
     role?: "ADMIN" | "USER";
     accounts?: {
@@ -722,6 +726,7 @@ export type ItemListQueryResult = Array<{
     email?: string;
     emailVerified?: string;
     image?: string;
+    link?: string;
     password?: string;
     role?: "ADMIN" | "USER";
     accounts?: {
@@ -798,6 +803,7 @@ export type ItemListOfCategoryQueryResult = Array<{
     email?: string;
     emailVerified?: string;
     image?: string;
+    link?: string;
     password?: string;
     role?: "ADMIN" | "USER";
     accounts?: {
@@ -874,6 +880,7 @@ export type ItemListOfTagQueryResult = Array<{
     email?: string;
     emailVerified?: string;
     image?: string;
+    link?: string;
     password?: string;
     role?: "ADMIN" | "USER";
     accounts?: {
@@ -1000,6 +1007,7 @@ export type SubmissionListQueryResult = Array<{
     email?: string;
     emailVerified?: string;
     image?: string;
+    link?: string;
     password?: string;
     role?: "ADMIN" | "USER";
     accounts?: {
@@ -1148,6 +1156,7 @@ export type BlogPostQueryResult = {
     email?: string;
     emailVerified?: string;
     image?: string;
+    link?: string;
     password?: string;
     role?: "ADMIN" | "USER";
     accounts?: {
@@ -1263,6 +1272,7 @@ export type BlogPostListQueryResult = Array<{
     email?: string;
     emailVerified?: string;
     image?: string;
+    link?: string;
     password?: string;
     role?: "ADMIN" | "USER";
     accounts?: {
@@ -1297,6 +1307,7 @@ export type UserWithAccountsQueryResult = {
   email?: string;
   emailVerified?: string;
   image?: string;
+  link?: string;
   password?: string;
   role?: "ADMIN" | "USER";
   accounts: null;
@@ -1394,6 +1405,7 @@ export type LimitqueryResult = Array<{
     email?: string;
     emailVerified?: string;
     image?: string;
+    link?: string;
     password?: string;
     role?: "ADMIN" | "USER";
     accounts?: {
@@ -1452,6 +1464,7 @@ export type PaginatedqueryResult = Array<{
     email?: string;
     emailVerified?: string;
     image?: string;
+    link?: string;
     password?: string;
     role?: "ADMIN" | "USER";
     accounts?: {

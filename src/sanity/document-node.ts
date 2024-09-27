@@ -1,7 +1,7 @@
+import { SanityDocument } from 'next-sanity';
 import { Iframe } from 'sanity-plugin-iframe-pane';
 import type { DefaultDocumentNodeResolver } from 'sanity/structure';
 import { previewUrl } from './lib/api';
-import { SanityDocument } from 'next-sanity';
 
 /**
  * The default document node used when editing documents.
@@ -83,6 +83,28 @@ const documentNode: DefaultDocumentNodeResolver = (
 					}),
 			])
 
+		// support preview User Link in Sanity Studio
+		case 'user':
+			return S.document().views([
+				editorView,
+				S.view
+					.component(Iframe)
+					.title('Link')
+					.options({
+						url: (
+							doc: SanityDocument & {
+								link?: string
+							},
+						) => {
+							const link = doc?.link;
+							// console.log('preview, link:', link);
+							return link;
+						},
+						reload: {
+							button: true,
+						},
+					}),
+			])
 		default:
 			return S.document().views([editorView])
 	}

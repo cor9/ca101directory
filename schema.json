@@ -2281,6 +2281,13 @@
         },
         "optional": true
       },
+      "link": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "password": {
         "type": "objectAttribute",
         "value": {

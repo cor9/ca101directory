@@ -94,7 +94,16 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
           {/* Right column */}
           <div className="md:col-span-3 flex flex-col justify-between">
             <div className="space-y-4">
-              <h1 className="text-2xl font-bold">{item.name}</h1>
+              {
+                publishable && item.publishDate ?
+                  (
+                    <Link href={`/item/${item.slug.current}`}>
+                      <h1 className="text-2xl font-bold">{item.name}</h1>
+                    </Link>
+                  ) : (
+                    <h1 className="text-2xl font-bold">{item.name}</h1>
+                  )
+              }
 
               <p className="line-clamp-3">{item.description}</p>
 
@@ -119,7 +128,7 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
                     </Badge>
                   }
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 md:inline-block">
                   <span className="font-medium text-muted-foreground">Publish Date:</span>
                   <span className="font-semibold">
                     {item.publishDate ? getLocaleDate(item.publishDate) : 'Not published'}
@@ -150,14 +159,14 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
               </Button>
 
               {/* view button */}
-              {publishable && item.publishDate && (
+              {/* {publishable && item.publishDate && (
                 <Button asChild variant="outline" className="group overflow-hidden">
                   <Link href={`/item/${item.slug.current}`}>
                     <GlobeIcon className="w-4 h-4 mr-2 icon-scale" />
                     View
                   </Link>
                 </Button>
-              )}
+              )} */}
             </div>
           </div>
 

@@ -72,7 +72,7 @@ export default async function PostPage({ params }: PostPageProps) {
                         </h1>
 
                         {/* blog post description */}
-                        <p className="text-xl text-muted-foreground">
+                        <p className="text-lg text-muted-foreground">
                             {post.excerpt}
                         </p>
                     </div>
@@ -88,7 +88,7 @@ export default async function PostPage({ params }: PostPageProps) {
                     <div className="space-y-4 lg:sticky lg:top-24">
                         {/* author info */}
                         <div className="bg-muted/50 rounded-lg p-6">
-                            <h2 className="text-xl font-semibold mb-4">Publisher</h2>
+                            <h2 className="text-lg font-semibold mb-4">Publisher</h2>
                             <div className="flex items-center gap-4">
                                 <div className="relative h-12 w-12 flex-shrink-0">
                                     {post.author?.image && (
@@ -123,7 +123,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
                         {/* categories */}
                         <div className="bg-muted/50 rounded-lg p-6">
-                            <h2 className="text-xl font-semibold mb-4">Categories</h2>
+                            <h2 className="text-lg font-semibold mb-4">Categories</h2>
                             <ul className="flex flex-wrap gap-4">
                                 {post.categories?.map((category: any) => (
                                     <li key={category._id}>
@@ -138,7 +138,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
                         {/* table of contents */}
                         <div className="bg-muted/50 rounded-lg p-6 hidden lg:block">
-                            <h2 className="text-xl font-semibold mb-4">Table of Contents</h2>
+                            <h2 className="text-lg font-semibold mb-4">Table of Contents</h2>
                             <div className="max-h-[calc(100vh-18rem)] overflow-y-auto">
                                 <BlogToc toc={toc} />
                             </div>

@@ -1,8 +1,9 @@
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import { BadgeStyle, BadgeStyles, FreePlanStatus, getBadgeStyle, PricePlan } from "@/lib/submission";
 import { cn } from "@/lib/utils";
 import { ItemInfo } from "@/types";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@radix-ui/react-tooltip";
+import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { InfoIcon } from "lucide-react";
 
 type SubmissionStatusProps = {
@@ -31,21 +32,21 @@ export default function SubmissionStatus({ item }: SubmissionStatusProps) {
         <>
             {
                 status === FreePlanStatus.REJECTED ? (
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger>
-                                <StatusBadge badgeStyle={badgeStyle}>
-                                    <div className="flex items-center gap-2">
-                                        <span className="capitalize">{status}</span>
-                                        <InfoIcon className="w-3 h-3" />
-                                    </div>
-                                </StatusBadge>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p className="p-1 text-red-800">{item.rejectionReason}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
+                    <Popover>
+                        <PopoverTrigger>
+                            <StatusBadge badgeStyle={badgeStyle}>
+                                <div className="flex items-center gap-2">
+                                    <span className="capitalize">{status}</span>
+                                    <InfoIcon className="w-3 h-3" />
+                                </div>
+                            </StatusBadge>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <Card>
+                                <p className="p-4 text-red-800">{item.rejectionReason}</p>
+                            </Card>
+                        </PopoverContent>
+                    </Popover>
                 ) : (
                     <StatusBadge badgeStyle={badgeStyle}>
                         <span className="capitalize">{status}</span>

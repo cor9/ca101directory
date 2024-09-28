@@ -23,7 +23,7 @@ export default async function DashboardPage({
 }) {
   const user = await currentUser();
   const userId = user?.id;
-  // console.log('DashboardPage, userId:', userId);
+  // console.log('DashboardPage, user:', user);
 
   console.log('DashboardPage, searchParams', searchParams);
   const { page } = searchParams as { [key: string]: string };

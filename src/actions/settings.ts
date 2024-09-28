@@ -81,5 +81,5 @@ export const settings = async (
   });
 
   revalidatePath('/settings');
-  return { success: "Settings Updated!" };
+  return { success: "Account information updated!" };
 }

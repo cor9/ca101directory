@@ -67,6 +67,7 @@ export const {
       token.isOAuth = !!existingAccount;
       token.name = existingUser.name;
       token.email = existingUser.email;
+      token.link = existingUser.link;
       token.role = existingUser.role;
       if (SHOW_QUERY_LOGS) {
         console.log('auth callbacks jwt, end, token:', token);
@@ -87,6 +88,9 @@ export const {
       // https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.ts#L59
       if (token.role && session.user) {
         session.user.role = token.role as UserRole;
+      }
+      if (token.link && session.user) {
+        session.user.link = token.link as string;
       }
 
       if (session.user) {

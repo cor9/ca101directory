@@ -29,6 +29,7 @@ export async function Edit(formData: EditFormData) {
     if (!user) {
       return { error: "Unauthorized" };
     }
+    console.log("edit, user:", user);
 
     // console.log("edit, data:", formData);
     const { id, name, link, description, introduction, imageId,

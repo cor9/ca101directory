@@ -5,6 +5,7 @@ import NextAuth, { type DefaultSession } from "next-auth";
 export type ExtendedUser = DefaultSession["user"] & {
   role: UserRole;
   isOAuth: boolean;
+  link: string;
 };
 
 // extend session.user to include role and isOAuth
@@ -17,6 +18,7 @@ declare module "next-auth" {
 export type User = {
   _id: string;
   name: string;
+  link: string;
   email: string;
   emailVerified: string;
   image: string;

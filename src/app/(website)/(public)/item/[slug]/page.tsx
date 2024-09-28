@@ -51,7 +51,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
               <h1 className="text-4xl font-bold">
                 {item.name}
               </h1>
-              <p className="text-muted-foreground text-balance">
+              <p className="text-muted-foreground text-balance leading-relaxed">
                 {item.description}
               </p>
             </div>
@@ -86,9 +86,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
         <div className="lg:col-span-2">
           {/* image */}
           <div className="relative group overflow-hidden rounded-lg aspect-[16/9]">
-            <Link href={`${item.link}`}
-              target="_blank"
-              prefetch={false}>
+            <Link href={`${item.link}`} target="_blank" prefetch={false}>
               {imageProps && (
                 <Image
                   src={imageProps.src}

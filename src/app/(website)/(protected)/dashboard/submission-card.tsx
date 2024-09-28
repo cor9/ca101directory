@@ -50,6 +50,7 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
                       blurDataURL: imageBlurDataURL
                     })}
                   />
+
                   <div className="absolute left-2 bottom-2 opacity-100 transition-opacity duration-300">
                     <div className="flex flex-col gap-2">
                       {item.categories && item.categories.length > 0 && (
@@ -103,7 +104,9 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
                   )
               }
 
-              <p className="text-muted-foreground line-clamp-2 text-balance">{item.description}</p>
+              <p className="text-muted-foreground line-clamp-2 text-balance leading-relaxed">
+                {item.description}
+              </p>
 
               <div className="grid grid-cols-2 gap-4 text-sm pt-2">
                 <div className="flex items-center gap-2">

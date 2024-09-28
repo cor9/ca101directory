@@ -1,11 +1,12 @@
 "use client";
 
 import { urlForImage } from "@/lib/image";
-import { cn, getLocaleDate } from "@/lib/utils";
+import { getLocaleDate } from "@/lib/utils";
 import { ItemInfo } from "@/types";
-import { ImageIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Badge } from "./ui/badge";
+import { Separator } from "./ui/separator";
 
 type ItemCardProps = {
   item: ItemInfo;
@@ -19,69 +20,86 @@ export default function ItemCard({ item }: ItemCardProps) {
   // console.log(`ItemCard, imageBlurDataURL:${imageBlurDataURL}`);
   const publishDate = item.publishDate || item._createdAt;
   const date = getLocaleDate(publishDate);
+  const itemUrlPrefix = '/item';
 
   return (
     <>
-      {/* bg-muted is used when imageProps is null */}
-      <Link
-        href={`/item/${item.slug.current}`}
-        className={cn(
-          "border rounded-lg flex flex-col justify-between gap-4",
-          "hover:bg-accent transition-all"
-        )}
-      >
+      <div className="cursor-pointer border rounded-lg flex flex-col justify-between gap-4 hover:bg-accent">
         {/* top */}
         <div className="flex flex-col gap-4">
-          <div className="h-64 w-full group overflow-hidden relative rounded-t-md border-b flex items-center justify-center">
-            {imageProps ? (
-              <Image
-                className="object-cover image-scale"
-                src={imageProps?.src}
-                alt={item.image.alt || `image of ${item.name}`}
-                fill
-                sizes="(max-width: 639px) 100vw, (max-width: 767px) 50vw, (max-width: 1279px) 33.33vw, 25vw"
-                {...(imageBlurDataURL && {
-                  placeholder: "blur",
-                  blurDataURL: imageBlurDataURL
-                })}
-              />
-            ) : (
-              // show image icon when no image is found
-              <div
-                className={cn(
-                  "h-48 w-full overflow-hidden relative rounded-t-md bg-muted flex items-center justify-center",
-                )}>
-                <span className={cn(
-                  "w-16 h-16 text-muted-foreground"
-                )}>
-                  <ImageIcon className="w-16 h-16" />
-                </span>
-              </div>
-            )
+          {/* Image container */}
+          <div className="group overflow-hidden relative aspect-[16/9] rounded-t-md transition-all border-b">
+            {imageProps && (
+              <>
+                <Image
+                  src={imageProps?.src}
+                  alt={item.image.alt || `image of ${item.name}`}
+                  fill
+                  className="object-cover image-scale"
+                  {...(imageBlurDataURL && {
+                    placeholder: "blur",
+                    blurDataURL: imageBlurDataURL
+                  })}
+                />
+
+                <div className="absolute left-2 bottom-2 opacity-100 transition-opacity duration-300">
+                  <div className="flex flex-col gap-2">
+                    {item.categories && item.categories.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        {item.categories.map((category, index) => (
+                          <span key={`cat-${index}`} className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md">
+                            {category.name}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {
+              item.link ? (
+                <Link href={item.link} prefetch={false} target="_blank" className="absolute inset-0 flex items-center justify-center bg-black 
+                    bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
+                  <span className="text-white text-lg font-semibold 
+                      opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Visit Website
+                  </span>
+                </Link>
+              ) : null
             }
-          </div>
-          <div className="px-4 text-xl text-primary font-medium transition-all" >
-            <p>{item.name}</p>
-          </div>
-          <div className="px-4 text-sm text-muted-foreground line-clamp-2">
-            <p>{item.description}</p>
           </div>
         </div>
 
         {/* bottom */}
-        <div className="flex flex-col gap-4">
-          <hr />
-          <div className="px-4 pb-4 flex justify-between items-center text-sm">
-            <p className="font-medium">
-              {item?.categories?.[0]?.name}
+        <Link href={`${itemUrlPrefix}/${item.slug.current}`}
+          className="flex flex-col gap-4 pb-4">
+          <div className="px-4 flex flex-col gap-4">
+            <h3 className="text-xl text-primary font-medium line-clamp-1">
+              {item.name}
+            </h3>
+            <p className="text-sm text-primary line-clamp-2 leading-relaxed">
+              {item.description}
             </p>
-
-            <time className="text-muted-foreground">
-              {date}
-            </time>
           </div>
-        </div>
-      </Link>
+
+          <Separator />
+
+          <div className="px-4 flex justify-end items-center">
+            {item.tags && item.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1">
+                {item.tags.map((tag, index) => (
+                  <span key={`tag-${index}`}
+                    className="text-sm text-muted-foreground p-1 rounded-md">
+                    # {tag.name}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </Link>
+      </div >
     </>
   );
 }

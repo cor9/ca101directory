@@ -1,7 +1,6 @@
 import { urlForImage } from "@/lib/image";
-import { cn, getLocaleDate } from "@/lib/utils";
+import { getLocaleDate } from "@/lib/utils";
 import { BlogPostInfo } from "@/types";
-import { ImageIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -19,21 +18,17 @@ export default function BlogCard({ post }: BlogCardProps) {
   const postUrlPrefix = '/blog';
 
   return (
-    <div className="group cursor-pointer flex flex-col h-full">
+    <div className="group cursor-pointer flex flex-col gap-4">
       {/* Image container */}
-      <div className="overflow-hidden rounded-md bg-muted transition-all aspect-[4/3] relative">
-        <Link
-          className="relative block w-full h-full"
-          href={`${postUrlPrefix}/${post.slug.current}`}>
-
-          {imageProps ? (
-            <div className="w-full h-full overflow-hidden rounded-md group relative">
+      <div className="group overflow-hidden relative aspect-[4/3] rounded-lg transition-all">
+        <Link href={`${postUrlPrefix}/${post.slug.current}`}>
+          {imageProps && (
+            <>
               <Image
                 src={imageProps.src}
                 alt={post.image.alt || "image for blog post"}
                 className="object-cover image-scale"
                 fill
-                sizes="(max-width: 768px) 30vw, 33vw"
                 {...(imageBlurDataURL && {
                   placeholder: "blur",
                   blurDataURL: imageBlurDataURL
@@ -51,25 +46,18 @@ export default function BlogCard({ post }: BlogCardProps) {
                   </div>
                 </div>
               )}
-            </div>
-          ) : (
-            <span className={cn(
-              "absolute w-16 h-16 text-muted-foreground",
-              "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-            )}>
-              <ImageIcon className="w-16 h-16" />
-            </span>
+            </>
           )}
         </Link>
+
       </div>
 
       {/* Post info container */}
-      <div className="mt-4 flex flex-col flex-grow">
+      <div className="flex flex-col flex-grow">
         <div>
           {/* Post title */}
           <h2 className="text-lg line-clamp-2 font-medium">
-            <Link
-              href={`${postUrlPrefix}/${post.slug.current}`}>
+            <Link href={`${postUrlPrefix}/${post.slug.current}`}>
               <span
                 className="bg-gradient-to-r from-green-200 to-green-100 
                   bg-[length:0px_10px] bg-left-bottom bg-no-repeat
@@ -84,7 +72,7 @@ export default function BlogCard({ post }: BlogCardProps) {
           </h2>
 
           {/* Post excerpt, hidden for now */}
-          <div className="hidden">
+          {/* <div className="hidden">
             {post.excerpt && (
               <p className="mt-2 line-clamp-3 text-sm text-gray-500 dark:text-gray-400">
                 <Link
@@ -93,10 +81,10 @@ export default function BlogCard({ post }: BlogCardProps) {
                 </Link>
               </p>
             )}
-          </div>
+          </div> */}
         </div>
 
-        {/* Author and date info - pushed to bottom */}
+        {/* Author and date */}
         <div className="mt-auto pt-4 flex items-center justify-between space-x-4 text-muted-foreground">
           <div className="flex items-center gap-2">
             <div className="relative h-5 w-5 flex-shrink-0">
@@ -106,7 +94,6 @@ export default function BlogCard({ post }: BlogCardProps) {
                   alt={`avatar for ${post?.author?.name}`}
                   className="rounded-full object-cover border"
                   fill
-                  sizes="24px"
                 />
               )}
             </div>
@@ -115,8 +102,7 @@ export default function BlogCard({ post }: BlogCardProps) {
             </span>
           </div>
 
-          <time className="truncate text-sm"
-            dateTime={post?.publishDate || post._createdAt}>
+          <time className="truncate text-sm" dateTime={date}>
             {date}
           </time>
         </div>

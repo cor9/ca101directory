@@ -102,7 +102,7 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-rows-2 gap-4 text-sm pt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm pt-2">
               <div className="flex items-center gap-2">
                 <span className="text-muted-foreground">Publish Date:</span>
                 {

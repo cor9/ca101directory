@@ -6,30 +6,25 @@ import { Icons } from "@/components/shared/icons";
 import { PRICE_PLANS } from "@/config/pricing-plan";
 import { cn } from "@/lib/utils";
 import { ItemInfo, PricePlan } from "@/types/index";
-import { Button } from "../ui/button";
-import Link from "next/link";
+import { HeaderSection } from "../shared/header-section";
 
 /**
  * PricingPlans
  */
 interface PricingPlansProps {
-  item?: ItemInfo;
 }
 
-export function PricingPlans({ item }: PricingPlansProps) {
+export function PricingPlans({ }: PricingPlansProps) {
 
   return (
-    <section className="flex flex-col items-center text-center w-full mx-auto">
-      <div className="grid gap-8 w-full sm:grid-cols-1 md:grid-cols-2">
-        {PRICE_PLANS.map((pricePlan) => (
-          <PricingPlanCard
-            item={item}
-            key={pricePlan.title}
-            pricePlan={pricePlan}
-          />
-        ))}
-      </div>
-    </section>
+    <div className="grid gap-8 w-full sm:grid-cols-1 md:grid-cols-2">
+      {PRICE_PLANS.map((pricePlan) => (
+        <PricingPlanCard
+          key={pricePlan.title}
+          pricePlan={pricePlan}
+        />
+      ))}
+    </div>
   );
 }
 
@@ -37,11 +32,10 @@ export function PricingPlans({ item }: PricingPlansProps) {
  * PricingPlanCard
  */
 interface PricingPlanCardProps {
-  item?: ItemInfo;
   pricePlan: PricePlan;
 }
 
-const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
+const PricingPlanCard = ({ pricePlan }: PricingPlanCardProps) => {
   return (
     <div
       className={cn(
@@ -82,26 +76,13 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
         </div>
 
         {/* action buttons */}
-        <div className="mt-6 px-6">
-          {
-            item ? (
-              pricePlan.title === "Free" ? (
-                <FreePlanButton item={item} className="w-full" />
-              ) : (
-                <ProPlanButton item={item} pricePlan={pricePlan} className="w-full" />
-              )
-            ) : (
-              <div className="w-full">
-                <Button asChild variant="default" size="lg"
-                  className="w-full rounded-full group overflow-hidden">
-                  <Link href="/submit">
-                    Get Started
-                  </Link>
-                </Button>
-              </div>
-            )
-          }
-        </div>
+        {/* <div className="mt-6 px-6">
+          {pricePlan.title === "Free" ? (
+            <FreePlanButton item={item} className="w-full" />
+          ) : (
+            <ProPlanButton item={item} pricePlan={pricePlan} className="w-full" />
+          )}
+        </div> */}
       </div>
     </div>
   );

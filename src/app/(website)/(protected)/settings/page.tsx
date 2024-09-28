@@ -7,10 +7,7 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+  CardFooter
 } from "@/components/ui/card";
 import {
   Form,
@@ -21,16 +18,8 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { SettingsSchema } from "@/lib/schemas";
-import { UserRole } from "@/types/user-role";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import { useEffect, useTransition } from "react";
@@ -52,7 +41,6 @@ export default function SettingsPage() {
       name: user?.name || undefined,
       link: user?.link || undefined,
       email: user?.email || undefined,
-      role: user?.role || undefined,
     }
   });
 
@@ -62,7 +50,6 @@ export default function SettingsPage() {
         name: user?.name || undefined,
         link: user?.link || undefined,
         email: user?.email || undefined,
-        role: user?.role || undefined,
       });
     }
   }, [user, form]);
@@ -96,14 +83,6 @@ export default function SettingsPage() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <Card className="overflow-hidden">
-              {/* <CardHeader>
-                <CardTitle>
-                  Settings
-                </CardTitle>
-                <CardDescription>
-                  Manage account settings.
-                </CardDescription>
-              </CardHeader> */}
               <CardContent className="mt-4 space-y-6">
                 <FormField
                   control={form.control}
@@ -197,37 +176,6 @@ export default function SettingsPage() {
                           disabled={isPending}
                         />
                       </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="role"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Role</FormLabel>
-                      <Select
-                        disabled={isPending}
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a role" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value={UserRole.ADMIN}>
-                            Admin
-                          </SelectItem>
-                          <SelectItem value={UserRole.USER}>
-                            User
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}

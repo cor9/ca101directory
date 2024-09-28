@@ -30,7 +30,7 @@ export const settings = async (
     values.newPassword = undefined;
   }
 
-  // support email change
+  // email change needs verification
   if (values.email && values.email !== user.email) {
     const existingUser = await getUserByEmail(values.email);
     if (existingUser && existingUser._id !== user.id) {
@@ -49,6 +49,7 @@ export const settings = async (
     return { success: "Verification email sent!" };
   }
 
+  // password change needs verification
   if (values.password && values.newPassword && dbUser.password) {
     const passwordsMatch = await bcrypt.compare(
       values.password,
@@ -76,7 +77,7 @@ export const settings = async (
     user: {
       name: updatedUser.name,
       email: updatedUser.email,
-      role: updatedUser.role,
+      link: updatedUser.link
     }
   });
 

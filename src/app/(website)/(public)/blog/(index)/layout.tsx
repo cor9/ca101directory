@@ -13,7 +13,7 @@ export default async function BlogListLayout({ children }: { children: React.Rea
             title="Explore our blog posts"
           />
 
-          <div className="w-full mx-auto">
+          <div className="flex items-center justify-center">
             <BlogCategoryFilter />
           </div>
         </section>

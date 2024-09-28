@@ -9,7 +9,7 @@ import { urlForImage } from "@/lib/image";
 import { getBadgeStyle, getPublishable, PricePlan } from "@/lib/submission";
 import { cn, getLocaleDate } from "@/lib/utils";
 import { ItemInfo } from "@/types";
-import { EditIcon } from "lucide-react";
+import { EditIcon, GlobeIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -147,6 +147,16 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
                   Edit
                 </Link>
               </Button>
+
+              {/* visit button */}
+              {publishable && item.publishDate && (
+                <Button asChild variant="outline">
+                  <Link href={`/item/${item.slug.current}`}>
+                    <GlobeIcon className="w-4 h-4 mr-2" />
+                    Visit
+                  </Link>
+                </Button>
+              )}
             </div>
           </div>
 

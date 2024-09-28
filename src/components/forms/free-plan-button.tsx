@@ -87,7 +87,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
             ) : item.freePlanStatus === FreePlanStatus.REJECTED ? (
               <>
                 <EditIcon className="mr-2 size-4 icon-scale" />
-                <span>Go to Edit and Update to review</span>
+                <span>Go to Edit and Submit again</span>
               </>
             ) : (
               <>

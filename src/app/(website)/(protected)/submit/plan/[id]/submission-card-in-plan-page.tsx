@@ -85,20 +85,24 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
             <h1 className="text-2xl font-medium">{item.name}</h1>
 
             <p className="text-muted-foreground line-clamp-2 text-balance leading-relaxed">
-                {item.description}
-              </p>
+              {item.description}
+            </p>
 
             <div className="grid grid-cols-2 gap-4 text-sm pt-2">
               <div className="flex items-center gap-2">
                 <span className="text-muted-foreground">Plan:</span>
-                <Badge variant="secondary" className="capitalize">
-                  {item.pricePlan}
-                </Badge>
+                {/* <Badge variant="secondary" className="capitalize">
+                    {item.pricePlan}
+                  </Badge> */}
+                <span className="capitalize">{item.pricePlan}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-muted-foreground">Status:</span>
                 <SubmissionStatus item={item} />
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-rows-2 gap-4 text-sm pt-2">
               <div className="flex items-center gap-2">
                 <span className="text-muted-foreground">Publish Date:</span>
                 {
@@ -120,8 +124,7 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
             </div>
           </div>
         </div>
-
-      </div>
+      </div >
     </>
   );
 }

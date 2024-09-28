@@ -2,7 +2,7 @@ import { getAccountByProviderAccountId } from '@/data/account';
 import { getUserByEmail, getUserById, getUserByIdWithAccounts } from '@/data/user';
 import { getVerificationTokenByIdentifierAndToken } from '@/data/verification-token';
 import { SHOW_QUERY_LOGS } from '@/lib/constants';
-import { User } from "@/types/next-auth";
+import { User } from '@/sanity.types';
 import { UserRole } from "@/types/user-role";
 import type { Adapter } from "@auth/core/adapters";
 import type { SanityClient } from '@sanity/client';
@@ -194,18 +194,22 @@ export function SanityAdapter(
 
         const userToUpdate = await sanityClient.getDocument(account.userId);
         if (SHOW_QUERY_LOGS) {
-          console.log('unlinkAccount, user:', userToUpdate);
+          console.log('linkAccount, user:', userToUpdate);
         }
 
-        await sanityClient.createOrReplace<User>({
-          ...userToUpdate,
-          emailVerified: new Date().toISOString(),
-          accounts: {
-            //@ts-ignore
+        const updatedAccounts = [
+          ...(userToUpdate?.accounts || []),
+          {
             _type: 'reference',
             _key: `account.${uuid()}`,
             _ref: createdAccount._id
           }
+        ]
+
+        await sanityClient.createOrReplace({
+          ...userToUpdate,
+          emailVerified: new Date().toISOString(),
+          accounts: updatedAccounts,
         })
 
         return account;
@@ -236,7 +240,6 @@ export function SanityAdapter(
           ac => ac._ref !== account._id
         );
 
-        // @ts-ignore
         await sanityClient.createOrReplace({
           ...accountUser,
           accounts: updatedUserAccounts,

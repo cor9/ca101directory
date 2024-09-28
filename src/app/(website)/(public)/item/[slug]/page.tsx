@@ -157,7 +157,8 @@ export default async function ItemPage({ params }: ItemPageProps) {
                     </span>
                     <div className="flex items-center gap-2">
                       <UserAvatar className="w-5 h-5"
-                        user={{ name: item.submitter.name, image: item.submitter.image }} />
+                        name={item.submitter.name}
+                        image={item.submitter.image} />
                       
                       {
                         item.submitter.link && (

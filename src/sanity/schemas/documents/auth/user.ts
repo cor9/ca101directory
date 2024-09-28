@@ -59,7 +59,6 @@ const user = {
       title: 'Accounts',
       type: 'reference',
       to: [{ type: 'account' }],
-      readOnly: true,
     }),
     // stripe
     defineField({

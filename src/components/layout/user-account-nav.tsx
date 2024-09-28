@@ -20,7 +20,7 @@ import { Drawer } from "vaul";
 
 export function UserAccountNav() {
   const router = useRouter();
-  
+
   const user = useCurrentUser();
   // console.log('UserAccountNav, user:', user);
 
@@ -43,7 +43,8 @@ export function UserAccountNav() {
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger onClick={() => setOpen(true)}>
           <UserAvatar
-            user={{ name: user.name || null, image: user.image || null }}
+            name={user.name || null}
+            image={user.image || null}
             className="size-8 border"
           />
         </Drawer.Trigger>
@@ -132,7 +133,8 @@ export function UserAccountNav() {
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger>
         <UserAvatar
-          user={{ name: user.name || null, image: user.image || null }}
+          name={user.name || null}
+          image={user.image || null}
           className="size-8 border"
         />
       </DropdownMenuTrigger>

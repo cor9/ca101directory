@@ -148,7 +148,7 @@ export default async function PostPage({ params }: PostPageProps) {
             </div>
 
             {/* related posts */}
-            {post.relatedPosts.length > 0 && (
+            {post.relatedPosts && post.relatedPosts.length > 0 && (
                 <div className="flex flex-col space-y-4 mt-8">
                     <h2 className="text-xl font-semibold">
                         More Articles

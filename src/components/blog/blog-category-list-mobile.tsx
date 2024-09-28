@@ -26,9 +26,9 @@ export function BlogCategoryListMobile({ categoryList }: BlogCategoryListMobileP
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
           onClick={() => setOpen(true)}
-          className="md:hidden flex w-full p-4 items-center border-y text-foreground/90"
+          className="flex items-center w-full p-4 border-y text-foreground/90"
         >
-          <div className="flex items-center gap-4 justify-between w-full">
+          <div className="flex items-center justify-between w-full gap-4">
             <div className="flex items-center gap-2">
               <LayoutList className="size-4" />
               <span className="text-sm font-medium">

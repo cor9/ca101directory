@@ -16,7 +16,7 @@ export function BlogCategoryList({ categoryList }: BlogCategoryListProps) {
   return (
     <>
       {/* Desktop View */}
-      <div className="hidden md:flex items-center">
+      <div className="flex items-center justify-center">
         <ToggleGroup
           size="sm"
           type="single"

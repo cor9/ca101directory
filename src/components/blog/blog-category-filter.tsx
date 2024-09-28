@@ -5,10 +5,8 @@ import { blogCategoryListQuery } from '@/sanity/lib/queries';
 import { Suspense } from 'react';
 import { BlogCategoryList } from "./blog-category-list";
 import { BlogCategoryListMobile } from './blog-category-list-mobile';
+import { HeaderSection } from '../shared/header-section';
 
-/**
- * TODO: maybe change to CustomSwitch
- */
 export async function BlogCategoryFilter() {
   const categoryList = await sanityFetch<BlogCategoryListQueryResult>({
     query: blogCategoryListQuery
@@ -16,22 +14,26 @@ export async function BlogCategoryFilter() {
 
   return (
     <>
-      {/* TODO: simplify this component */}
-      {/* Desktop View, has Container */}
-      <Container className="hidden md:flex items-center justify-center">
-        <div className="w-full">
+      <section className="w-full flex flex-col items-center justify-center gap-8">
+        <HeaderSection
+          label="Blog"
+          title="Explore our blog posts"
+        />
+
+        {/* Desktop View, has Container */}
+        <Container className="hidden md:block">
           <Suspense fallback={null}>
             <BlogCategoryList categoryList={categoryList} />
           </Suspense>
-        </div>
-      </Container>
+        </Container>
 
-      {/* Mobile View, no Container */}
-      <div className="md:hidden flex flex-col">
-        <Suspense fallback={null}>
-          <BlogCategoryListMobile categoryList={categoryList} />
-        </Suspense>
-      </div>
+        {/* Mobile View, no Container */}
+        <div className="block md:hidden w-full">
+          <Suspense fallback={null}>
+            <BlogCategoryListMobile categoryList={categoryList} />
+          </Suspense>
+        </div>
+      </section>
     </>
   );
 }

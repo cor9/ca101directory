@@ -99,7 +99,6 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-muted-foreground">Publish Date:</span>
-                <span className="text-muted-foreground">Publish Date:</span>
                 {
                   item.publishDate ? (
                     <span className="font-medium">

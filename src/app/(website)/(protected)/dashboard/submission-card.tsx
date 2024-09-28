@@ -96,10 +96,10 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
                 publishable && item.publishDate ?
                   (
                     <Link href={`/item/${item.slug.current}`}>
-                      <h1 className="text-2xl">{item.name}</h1>
+                      <h2 className="text-2xl inline-block">{item.name}</h2>
                     </Link>
                   ) : (
-                    <h1 className="text-2xl">{item.name}</h1>
+                    <h2 className="text-2xl inline-block">{item.name}</h2>
                   )
               }
 

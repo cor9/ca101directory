@@ -1,38 +1,29 @@
 "use client";
 
-import { PublishButton } from "@/components/forms/publish-button";
-import { UnpublishButton } from "@/components/forms/unpublish-button";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { urlForImage } from "@/lib/image";
 import { getBadgeStyle, getPublishable, PricePlan } from "@/lib/submission";
 import { cn, getLocaleDate } from "@/lib/utils";
 import { ItemInfo } from "@/types";
-import { EditIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-type SubmissionCardProps = {
+type SubmissionPlanCardProps = {
   item: ItemInfo;
 };
 
-export default function SubmissionCard({ item }: SubmissionCardProps) {
+export default function SubmissionPlanCard({ item }: SubmissionPlanCardProps) {
   const imageProps = item?.image
     ? urlForImage(item.image)
     : null;
   const imageBlurDataURL = item?.image?.blurDataURL || null;
   // console.log(`SubmissionCard, imageBlurDataURL:${imageBlurDataURL}`);
 
-  const publishable = getPublishable(item);
   const badgeStyle = getBadgeStyle(item);
   const status = item.pricePlan === PricePlan.FREE ? item.freePlanStatus : item.proPlanStatus;
-  // const badgeStatus = getBadgeStatus(item.pricePlan, status);
 
   return (
     <>
-      <Card className="flex-grow flex items-center p-4">
-        {/* Content section */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-5 md:gap-8 w-full">
 
           {/* Left column */}
@@ -93,7 +84,7 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
           </div>
 
           {/* Right column */}
-          <div className="md:col-span-3 flex flex-col justify-between">
+          <div className="md:col-span-3 flex flex-col justify-center">
             <div className="space-y-4">
               <h1 className="text-2xl font-bold">{item.name}</h1>
 
@@ -122,7 +113,7 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="font-medium text-muted-foreground">Publish Date:</span>
-                  <span className="">{item.publishDate ? getLocaleDate(item.publishDate) : 'Not published'}</span>
+                  <span className="font-semibold">{item.publishDate ? getLocaleDate(item.publishDate) : 'Not published'}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="font-medium text-muted-foreground">Created Date:</span>
@@ -130,28 +121,9 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
                 </div>
               </div>
             </div>
-
-            <div className="flex flex-wrap gap-4 mt-6">
-              {/* publish or unpublish button */}
-              {publishable && item.publishDate && (
-                <UnpublishButton item={item} />
-              )}
-              {!item.publishDate && (
-                <PublishButton item={item} />
-              )}
-
-              {/* edit button */}
-              <Button asChild variant="outline">
-                <Link href={`/edit/${item._id}`}>
-                  <EditIcon className="w-4 h-4 mr-2" />
-                  Edit
-                </Link>
-              </Button>
-            </div>
           </div>
 
         </div>
-      </Card>
     </>
   );
 }

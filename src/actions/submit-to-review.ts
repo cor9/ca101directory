@@ -1,22 +1,20 @@
 "use server";
 
-import { Item } from "@/sanity.types";
+import { FreePlanStatus, PricePlan } from "@/lib/submission";
 import { sanityClient } from "@/sanity/lib/client";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { itemByIdQuery } from "@/sanity/lib/queries";
 
 export const submitToReview = async (itemId: string) => {
   console.log('submitToReview, itemId:', itemId);
 
-  // TODO(javayhu): check if the item exists???
+  // TODO(javayhu): check if the item exists??? and check item is in submitting status
   // const item = await sanityFetch<Item>({ query: itemByIdQuery, params: { id: itemId } });
   // if (!item) {
   //   return { error: "Item not found!" };
   // }
 
   const result = await sanityClient.patch(itemId).set({
-    pricePlan: "free",
-    freePlanStatus: "pending",
+    pricePlan: PricePlan.FREE,
+    freePlanStatus: FreePlanStatus.PENDING,
   }).commit();
   // console.log('submitToReview, result:', result);
   if (!result) {

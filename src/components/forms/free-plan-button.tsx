@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { Icons } from "../shared/icons";
+import { FreePlanStatus } from "@/lib/submission";
 
 interface FreePlanButtonProps {
   item: ItemInfo;
@@ -41,13 +42,13 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
   const handleClick = () => {
     if (item.publishDate) { // already published
       router.push(`/dashboard`);
-    } else if (item.freePlanStatus === 'submitted') {
+    } else if (item.freePlanStatus === FreePlanStatus.SUBMITTING) {
       submitToReviewAction();
-    } else if (item.freePlanStatus === 'approved') {
+    } else if (item.freePlanStatus === FreePlanStatus.APPROVED) {
       router.push(`/submit/publish/${item._id}`);
-    } else if (item.freePlanStatus === 'rejected') {
+    } else if (item.freePlanStatus === FreePlanStatus.REJECTED) {
       router.push(`/edit/${item._id}`);
-    } else if (item.freePlanStatus === 'pending') {
+    } else if (item.freePlanStatus === FreePlanStatus.PENDING) {
       router.push(`/dashboard`);
     }
   };
@@ -73,17 +74,17 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
                 <Icons.spinner className="mr-2 size-4 animate-spin" />
                 <span>Submitting to review...</span>
               </>
-            ) : item.freePlanStatus === 'pending' ? (
+            ) : item.freePlanStatus === FreePlanStatus.PENDING ? (
               <>
                 <Clock3Icon className="mr-2 size-4" />
                 <span>Go back and wait for review</span>
               </>
-            ) : item.freePlanStatus === 'approved' ? (
+            ) : item.freePlanStatus === FreePlanStatus.APPROVED ? (
               <>
                 <CheckCircleIcon className="mr-2 size-4" />
                 <span>Go to Publish</span>
               </>
-            ) : item.freePlanStatus === 'rejected' ? (
+            ) : item.freePlanStatus === FreePlanStatus.REJECTED ? (
               <>
                 <EditIcon className="mr-2 size-4" />
                 <span>Go to Edit</span>
@@ -91,7 +92,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
             ) : (
               <>
                 <SendIcon className="mr-2 size-4" />
-                <span>Submit to review queue</span>
+                <span>Submit to review</span>
               </>
             )}
           </>

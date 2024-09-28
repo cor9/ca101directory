@@ -17,6 +17,7 @@ export type EditFormData = {
   categories: string[];
   imageId: string;
   pricePlan: string;
+  planStatus: string;
 };
 
 /**
@@ -32,14 +33,13 @@ export async function Edit(formData: EditFormData) {
 
     // console.log("edit, data:", formData);
     const { id, name, link, description, introduction, imageId,
-      tags, categories, pricePlan } = EditSchema.parse(formData);
+      tags, categories, pricePlan, planStatus } = EditSchema.parse(formData);
     console.log("edit, name:", name, "link:", link);
 
     // TODO: check if the user is the submitter of the item
 
     // TODO(javayhu): should I change slug? change slug only if name changes!
     const slug = slugify(name);
-
     const data = {
       _id: id,
       _type: "item",
@@ -54,9 +54,12 @@ export async function Edit(formData: EditFormData) {
       introduction,
 
       // Free plan: update item leads to be unpublished and reviewed again
+      // remain submitted if the plan status is submitted, otherwise set to pending
       ...(pricePlan === PricePlan.FREE && {
         publishDate: null,
-        freePlanStatus: FreePlanStatus.PENDING,
+        freePlanStatus: planStatus === "submitted" ?
+          FreePlanStatus.SUBMITTING :
+          FreePlanStatus.PENDING,
       }),
 
       // The _key only needs to be unique within the array itself

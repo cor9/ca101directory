@@ -98,13 +98,6 @@ export default defineType({
       ],
     }),
     // publish related fields
-    // defineField({
-    //   name: "published",
-    //   title: "Published",
-    //   description: "If the item is published, it will be visible to the public",
-    //   type: "boolean",
-    //   initialValue: false,
-    // }),
     defineField({
       name: 'publishDate',
       title: 'Publish Date',
@@ -124,18 +117,16 @@ export default defineType({
         layout: 'radio',
         direction: 'horizontal',
       },
-      // TODO(javayhu) read only
-      // readOnly: true,
     }),
     defineField({
       name: "freePlanStatus",
       title: "Free Plan Status",
-      description: "The status of the item when the submitter choose free plan",
+      description: "The status of the item when the item is in free plan",
       type: 'string',
-      initialValue: 'submitted',
+      initialValue: 'submitting',
       options: {
         list: [
-          { title: 'Submitted', value: 'submitted' },
+          { title: 'Submitting', value: 'submitting' },
           { title: 'Pending (Waiting for review)', value: 'pending' },
           { title: 'Approved', value: 'approved' },
           { title: 'Rejected', value: 'rejected' },
@@ -144,18 +135,16 @@ export default defineType({
         direction: 'horizontal',
       },
       hidden: ({ parent }) => parent.pricePlan !== 'free',
-      // TODO(javayhu) read only
-      // readOnly: true,
     }),
     defineField({
       name: "proPlanStatus",
       title: "Pro Plan Status",
-      description: "The status of the item when the submitter choose pro plan",
+      description: "The status of the item when the item is in pro plan",
       type: 'string',
-      initialValue: 'submitted',
+      initialValue: 'submitting',
       options: {
         list: [
-          { title: 'Submitted', value: 'submitted' },
+          { title: 'Submitting', value: 'submitting' },
           { title: 'Pending (Waiting for payment)', value: 'pending' },
           { title: 'Success', value: 'success' },
           { title: 'Failed', value: 'failed' },
@@ -164,8 +153,6 @@ export default defineType({
         direction: 'horizontal',
       },
       hidden: ({ parent }) => parent.pricePlan !== 'pro',
-      // TODO(javayhu) read only
-      // readOnly: true,
     }),
     defineField({
       name: "rejectionReason",
@@ -191,7 +178,6 @@ export default defineType({
       description: "If the item is paid, it means the payment is successful",
       type: "boolean",
       initialValue: false,
-      // TODO(javayhu) read only
       // readOnly: true,
     }),
     defineField({
@@ -201,8 +187,7 @@ export default defineType({
       type: "reference",
       to: [{ type: "order" }],
       hidden: ({ parent }) => !parent.paid,
-      // TODO(javayhu) read only
-      // readOnly: true,
+      readOnly: true,
     }),
   ],
   // https://www.sanity.io/docs/previews-list-views

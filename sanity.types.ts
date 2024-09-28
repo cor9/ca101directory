@@ -290,8 +290,8 @@ export type Item = {
   };
   publishDate?: string;
   pricePlan?: "free" | "pro";
-  freePlanStatus?: "submitted" | "pending" | "approved" | "rejected";
-  proPlanStatus?: "submitted" | "pending" | "success" | "failed";
+  freePlanStatus?: "submitting" | "pending" | "approved" | "rejected";
+  proPlanStatus?: "submitting" | "pending" | "success" | "failed";
   rejectionReason?: "The item is not a good fit for our directory" | "The image of the item is not good quality" | "The information of the item is not clear" | "Other reasons";
   paid?: boolean;
   order?: {
@@ -488,8 +488,8 @@ export type ItemQueryResult = {
     [internalGroqTypeReferenceTo]?: "order";
   } | null;
   pricePlan: "free" | "pro" | null;
-  freePlanStatus: "approved" | "pending" | "rejected" | "submitted" | null;
-  proPlanStatus: "failed" | "pending" | "submitted" | "success" | null;
+  freePlanStatus: "approved" | "pending" | "rejected" | "submitting" | null;
+  proPlanStatus: "failed" | "pending" | "submitting" | "success" | null;
   submitter: {
     _id: string;
     _type: "user";
@@ -566,8 +566,8 @@ export type ItemByIdQueryResult = {
     [internalGroqTypeReferenceTo]?: "order";
   } | null;
   pricePlan: "free" | "pro" | null;
-  freePlanStatus: "approved" | "pending" | "rejected" | "submitted" | null;
-  proPlanStatus: "failed" | "pending" | "submitted" | "success" | null;
+  freePlanStatus: "approved" | "pending" | "rejected" | "submitting" | null;
+  proPlanStatus: "failed" | "pending" | "submitting" | "success" | null;
   submitter: {
     _id: string;
     _type: "user";
@@ -643,8 +643,8 @@ export type ItemFullInfoByIdQueryResult = {
     [internalGroqTypeReferenceTo]?: "order";
   } | null;
   pricePlan: "free" | "pro" | null;
-  freePlanStatus: "approved" | "pending" | "rejected" | "submitted" | null;
-  proPlanStatus: "failed" | "pending" | "submitted" | "success" | null;
+  freePlanStatus: "approved" | "pending" | "rejected" | "submitting" | null;
+  proPlanStatus: "failed" | "pending" | "submitting" | "success" | null;
   submitter: {
     _id: string;
     _type: "user";
@@ -721,8 +721,8 @@ export type ItemListQueryResult = Array<{
     [internalGroqTypeReferenceTo]?: "order";
   } | null;
   pricePlan: "free" | "pro" | null;
-  freePlanStatus: "approved" | "pending" | "rejected" | "submitted" | null;
-  proPlanStatus: "failed" | "pending" | "submitted" | "success" | null;
+  freePlanStatus: "approved" | "pending" | "rejected" | "submitting" | null;
+  proPlanStatus: "failed" | "pending" | "submitting" | "success" | null;
   submitter: {
     _id: string;
     _type: "user";
@@ -798,8 +798,8 @@ export type ItemListOfCategoryQueryResult = Array<{
     [internalGroqTypeReferenceTo]?: "order";
   } | null;
   pricePlan: "free" | "pro" | null;
-  freePlanStatus: "approved" | "pending" | "rejected" | "submitted" | null;
-  proPlanStatus: "failed" | "pending" | "submitted" | "success" | null;
+  freePlanStatus: "approved" | "pending" | "rejected" | "submitting" | null;
+  proPlanStatus: "failed" | "pending" | "submitting" | "success" | null;
   submitter: {
     _id: string;
     _type: "user";
@@ -875,8 +875,8 @@ export type ItemListOfTagQueryResult = Array<{
     [internalGroqTypeReferenceTo]?: "order";
   } | null;
   pricePlan: "free" | "pro" | null;
-  freePlanStatus: "approved" | "pending" | "rejected" | "submitted" | null;
-  proPlanStatus: "failed" | "pending" | "submitted" | "success" | null;
+  freePlanStatus: "approved" | "pending" | "rejected" | "submitting" | null;
+  proPlanStatus: "failed" | "pending" | "submitting" | "success" | null;
   submitter: {
     _id: string;
     _type: "user";
@@ -1002,8 +1002,8 @@ export type SubmissionListQueryResult = Array<{
     [internalGroqTypeReferenceTo]?: "order";
   } | null;
   pricePlan: "free" | "pro" | null;
-  freePlanStatus: "approved" | "pending" | "rejected" | "submitted" | null;
-  proPlanStatus: "failed" | "pending" | "submitted" | "success" | null;
+  freePlanStatus: "approved" | "pending" | "rejected" | "submitting" | null;
+  proPlanStatus: "failed" | "pending" | "submitting" | "success" | null;
   submitter: {
     _id: string;
     _type: "user";

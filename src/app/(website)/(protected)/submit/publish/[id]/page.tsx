@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { urlForImage } from "@/lib/image";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
-import { ItemFullInfo } from "@/types";
+import { ItemInfo } from "@/types";
 import { CalendarDaysIcon, PartyPopperIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,9 +14,10 @@ import { notFound } from "next/navigation";
 export default async function PublishPage({ params }: { params: { id: string } }) {
   const { id } = params;
   console.log('PublishPage, itemId:', id);
-  const item = await sanityFetch<ItemFullInfo>({
+  const item = await sanityFetch<ItemInfo>({
     query: itemByIdQuery,
-    params: { id: id }
+    params: { id: id },
+    disableCache: true,
   });
 
   if (!item) {
@@ -40,8 +41,8 @@ export default async function PublishPage({ params }: { params: { id: string } }
   return (
     <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
       <DashboardSubmitHeader
-        title="Submit"
-        subtitle="(3/3) Review and publish product."
+        title="(3/3) Submit"
+        subtitle="Review and publish product."
       >
         <SubmitStepper initialStep={3} />
       </DashboardSubmitHeader>

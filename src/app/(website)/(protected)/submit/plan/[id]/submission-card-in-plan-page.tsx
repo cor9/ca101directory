@@ -88,23 +88,32 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
 
             <div className="grid grid-cols-2 gap-4 text-sm pt-2">
               <div className="flex items-center gap-2">
-                <span className="font-medium text-muted-foreground">Plan:</span>
+                <span className="text-muted-foreground">Plan:</span>
                 <Badge variant="secondary" className="capitalize">
                   {item.pricePlan}
                 </Badge>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-medium text-muted-foreground">Status:</span>
+                <span className="text-muted-foreground">Status:</span>
                 <SubmissionStatus item={item} />
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-medium text-muted-foreground">Publish Date:</span>
-                <span className="font-semibold">
-                  {item.publishDate ? getLocaleDate(item.publishDate) : 'Not published'}
-                </span>
+                <span className="text-muted-foreground">Publish Date:</span>
+                <span className="text-muted-foreground">Publish Date:</span>
+                {
+                  item.publishDate ? (
+                    <span className="font-medium">
+                      {getLocaleDate(item.publishDate)}
+                    </span>
+                  ) : (
+                    <span className="font-semibold">
+                      Not published
+                    </span>
+                  )
+                }
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-medium text-muted-foreground">Created Date:</span>
+                <span className="text-muted-foreground">Created Date:</span>
                 <span className="">{getLocaleDate(item._createdAt)}</span>
               </div>
             </div>

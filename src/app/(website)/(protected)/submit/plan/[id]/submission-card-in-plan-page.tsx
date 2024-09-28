@@ -87,7 +87,7 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
           <div className="space-y-4">
             <h1 className="text-2xl font-bold">{item.name}</h1>
 
-            <p className="line-clamp-3">{item.description}</p>
+            <p className="text-muted-foreground line-clamp-3 text-balance">{item.description}</p>
 
             <div className="grid grid-cols-2 gap-4 text-sm pt-2">
               <div className="flex items-center gap-2">

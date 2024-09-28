@@ -74,7 +74,7 @@ export default function SubmissionCardInPublishPage({ item }: SubmissionCardInPu
             <h1 className="text-4xl font-bold text-start">
               {item.name}
             </h1>
-            <p className="text-muted-foreground line-clamp-3">
+            <p className="text-muted-foreground line-clamp-3 text-balance">
               {item.description}
             </p>
 

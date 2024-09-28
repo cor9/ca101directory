@@ -1,4 +1,4 @@
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -22,9 +22,6 @@ export function SubmitCard() {
         </CardDescription>
       </CardHeader>
       <CardContent className="md:max-xl:px-4">
-        {/* <Button className="w-full">
-          Submit
-        </Button> */}
         <Link href="/submit"
           className={cn(buttonVariants({ variant: 'default' }),
             "flex items-center gap-1")}>

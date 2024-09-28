@@ -26,19 +26,16 @@ export default function ItemCard({ item }: ItemCardProps) {
       <Link
         href={`/item/${item.slug.current}`}
         className={cn(
-          "border rounded-lg group flex flex-col justify-between gap-4",
+          "border rounded-lg flex flex-col justify-between gap-4",
           "hover:bg-accent transition-all"
         )}
       >
         {/* top */}
         <div className="flex flex-col gap-4">
-          <div className="h-64 w-full overflow-hidden relative rounded-t-md border-b flex items-center justify-center">
+          <div className="h-64 w-full group overflow-hidden relative rounded-t-md border-b flex items-center justify-center">
             {imageProps ? (
               <Image
-                className={cn(
-                  "h-full w-full object-cover",
-                  "transition-transform duration-300 ease-in-out group-hover:scale-110"
-                )}
+                className="object-cover image-scale"
                 src={imageProps?.src}
                 alt={item.image.alt || `image of ${item.name}`}
                 fill

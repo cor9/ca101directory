@@ -5,7 +5,7 @@ import { ProPlanButton } from "@/components/forms/pro-plan-button";
 import { Icons } from "@/components/shared/icons";
 import { PRICE_PLANS } from "@/config/pricing-plan";
 import { cn } from "@/lib/utils";
-import { ItemFullInfo, ItemInfo, PricePlan } from "@/types/index";
+import { ItemInfo, PricePlan } from "@/types/index";
 
 /**
  * PricingPlans

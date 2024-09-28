@@ -21,18 +21,9 @@ export default function BlogCard({ post }: BlogCardProps) {
   return (
     <div className="group cursor-pointer flex flex-col h-full">
       {/* Image container */}
-      <div
-        className={cn(
-          "overflow-hidden rounded-md bg-muted",
-          "transition-all",
-          "aspect-[4/3]",
-          "relative"
-        )}>
+      <div className="overflow-hidden rounded-md bg-muted transition-all aspect-[4/3] relative">
         <Link
-          className={cn(
-            "relative block",
-            "w-full h-full"
-          )}
+          className="relative block w-full h-full"
           href={`${postUrlPrefix}/${post.slug.current}`}>
 
           {imageProps ? (
@@ -40,7 +31,7 @@ export default function BlogCard({ post }: BlogCardProps) {
               <Image
                 src={imageProps.src}
                 alt={post.image.alt || "image for blog post"}
-                className="object-cover transition-all duration-300 group-hover:scale-110"
+                className="object-cover image-scale"
                 fill
                 sizes="(max-width: 768px) 30vw, 33vw"
                 {...(imageBlurDataURL && {

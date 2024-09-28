@@ -39,6 +39,7 @@ export function UnpublishButton({ item }: UnpublishButtonProps) {
       variant="outline"
       disabled={isPending}
       onClick={UnpublishAction}
+      className="group overflow-hidden"
     >
       {isPending ? (
         <>
@@ -47,7 +48,7 @@ export function UnpublishButton({ item }: UnpublishButtonProps) {
         </>
       ) : (
         <>
-          <ArrowDownToLineIcon className="mr-2 w-4 h-4" />
+          <ArrowDownToLineIcon className="mr-2 w-4 h-4 icon-scale" />
           <span>Unpublish</span>
         </>
       )}

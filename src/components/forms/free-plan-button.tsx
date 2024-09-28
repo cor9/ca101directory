@@ -57,14 +57,14 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
     <Button
       size="lg"
       variant="outline"
-      className={cn("rounded-full", className)}
+      className={cn("rounded-full group overflow-hidden", className)}
       disabled={isPending}
       onClick={handleClick}
     >
       {
         item.publishDate ? (
           <>
-            <ArrowUpLeftIcon className="mr-2 size-4" />
+            <ArrowUpLeftIcon className="mr-2 size-4 icon-scale" />
             <span>Go back to dashboard</span>
           </>
         ) : (
@@ -76,22 +76,22 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
               </>
             ) : item.freePlanStatus === FreePlanStatus.PENDING ? (
               <>
-                <Clock3Icon className="mr-2 size-4" />
+                <Clock3Icon className="mr-2 size-4 icon-scale" />
                 <span>Go back and wait for review</span>
               </>
             ) : item.freePlanStatus === FreePlanStatus.APPROVED ? (
               <>
-                <CheckCircleIcon className="mr-2 size-4" />
+                <CheckCircleIcon className="mr-2 size-4 icon-scale" />
                 <span>Go to Publish</span>
               </>
             ) : item.freePlanStatus === FreePlanStatus.REJECTED ? (
               <>
-                <EditIcon className="mr-2 size-4" />
+                <EditIcon className="mr-2 size-4 icon-scale" />
                 <span>Go to Edit</span>
               </>
             ) : (
               <>
-                <SendIcon className="mr-2 size-4" />
+                <SendIcon className="mr-2 size-4 icon-scale" />
                 <span>Submit to review</span>
               </>
             )}

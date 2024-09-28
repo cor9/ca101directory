@@ -127,8 +127,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                     alt={item.image?.alt || `image for ${item.name}`}
                     loading="eager"
                     fill
-                    className="border w-full shadow-lg
-                    transition-all duration-300 ease-in-out group-hover:scale-105"
+                    className="border w-full shadow-lg image-scale"
                     {...(imageBlurDataURL && {
                       placeholder: "blur",
                       blurDataURL: imageBlurDataURL

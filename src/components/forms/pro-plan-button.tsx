@@ -39,7 +39,7 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
     <Button
       size="lg"
       variant={"default"}
-      className={cn("rounded-full", className)}
+      className={cn("rounded-full group overflow-hidden", className)}
       disabled={isPending}
       onClick={createCheckoutSessionAction}
     >
@@ -50,7 +50,7 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
         </>
       ) : (
         <>
-          <RocketIcon className="mr-2 size-4 animate-pulse" />
+          <RocketIcon className="mr-2 size-4 icon-scale" />
           <span>Pay to Publish Right Now</span>
         </>
       )}

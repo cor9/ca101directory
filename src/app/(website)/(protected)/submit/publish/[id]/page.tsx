@@ -63,8 +63,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
                       alt={item.image?.alt || `image for ${item.name}`}
                       loading="eager"
                       fill
-                      className="border w-full
-                        transition-all duration-300 ease-in-out group-hover:scale-105"
+                      className="border w-full image-scale"
                       {...(imageBlurDataURL && {
                         placeholder: "blur",
                         blurDataURL: imageBlurDataURL
@@ -112,13 +111,12 @@ export default async function PublishPage({ params }: { params: { id: string } }
                 {
                   item.publishDate ? (
                     <div className="flex flex-row gap-4">
-                      <div className="group">
+                      <div className="">
                         <Button size="lg" variant="default" asChild
-                          className="group rounded-full">
+                          className="group overflow-hidden rounded-full">
                           <Link href={`/item/${item.slug.current}`}
                             className="flex items-center justify-center space-x-2">
-                            <PartyPopperIcon className="w-4 h-4
-                  transition-transform duration-300 ease-in-out group-hover:scale-125" />
+                            <PartyPopperIcon className="w-4 h-4 icon-scale" />
                             <span className="">View on site</span>
                           </Link>
                         </Button>
@@ -126,16 +124,15 @@ export default async function PublishPage({ params }: { params: { id: string } }
                     </div>
                   ) : (
                     <div className="flex flex-row gap-4">
-                      <div className="group">
+                      <div className="">
                         <PublishNowButton item={item} />
                       </div>
 
-                      <div className="group">
+                      <div className="">
                         <Button size="lg" variant="outline" asChild
-                          className="group flex-1 w-full rounded-full">
+                          className="group overflow-hidden flex-1 w-full">
                           <Link href='/dashboard' className="flex items-center justify-center space-x-2">
-                            <CalendarDaysIcon className="w-4 h-4
-                              transition-transform duration-300 ease-in-out group-hover:scale-125" />
+                            <CalendarDaysIcon className="w-4 h-4 icon-scale" />
                             <span className="">Publish Later</span>
                           </Link>
                         </Button>

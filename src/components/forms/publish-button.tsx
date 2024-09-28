@@ -49,6 +49,7 @@ export function PublishButton({ item }: PublishButtonProps) {
       variant="default"
       disabled={isPending}
       onClick={handlePublishClick}
+      className="group overflow-hidden"
     >
       {isPending ? (
         <>
@@ -57,7 +58,7 @@ export function PublishButton({ item }: PublishButtonProps) {
         </>
       ) : (
         <>
-          <ArrowUpToLineIcon className="mr-2 w-4 h-4" />
+          <ArrowUpToLineIcon className="mr-2 w-4 h-4 icon-scale" />
           <span>Publish</span>
         </>
       )}

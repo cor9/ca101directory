@@ -74,6 +74,14 @@
            after:transition-transform after:duration-300 after:ease-in-out;
   }
 
+  .icon-scale {
+    @apply transition-transform duration-300 ease-in-out group-hover:scale-125;
+  }
+
+  .image-scale {
+    @apply transition-all duration-300 ease-in-out group-hover:scale-105;
+  }
+
   .step {
     counter-increment: step;
   }

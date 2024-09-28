@@ -46,8 +46,7 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
                     alt={item.image?.alt || `image for ${item.name}`}
                     loading="eager"
                     fill
-                    className="border w-full shadow-lg
-                      transition-all duration-300 ease-in-out group-hover:scale-105"
+                    className="border w-full shadow-lg image-scale"
                     {...(imageBlurDataURL && {
                       placeholder: "blur",
                       blurDataURL: imageBlurDataURL
@@ -143,19 +142,19 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
               )}
 
               {/* edit button */}
-              <Button asChild variant="outline">
+              <Button asChild variant="outline" className="group overflow-hidden">
                 <Link href={`/edit/${item._id}`}>
-                  <EditIcon className="w-4 h-4 mr-2" />
+                  <EditIcon className="w-4 h-4 mr-2 icon-scale" />
                   Edit
                 </Link>
               </Button>
 
-              {/* visit button */}
+              {/* view button */}
               {publishable && item.publishDate && (
-                <Button asChild variant="outline">
+                <Button asChild variant="outline" className="group overflow-hidden">
                   <Link href={`/item/${item.slug.current}`}>
-                    <GlobeIcon className="w-4 h-4 mr-2" />
-                    Visit
+                    <GlobeIcon className="w-4 h-4 mr-2 icon-scale" />
+                    View
                   </Link>
                 </Button>
               )}

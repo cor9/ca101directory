@@ -39,7 +39,7 @@ export function PublishNowButton({ item }: PublishNowButtonProps) {
     <Button
       size="lg"
       variant="default"
-      className="w-full rounded-full"
+      className="w-full group overflow-hidden"
       disabled={isPending}
       onClick={publishAction}
     >
@@ -50,8 +50,7 @@ export function PublishNowButton({ item }: PublishNowButtonProps) {
         </>
       ) : (
         <>
-          <RocketIcon className="mr-2 size-4
-            transition-all duration-300 ease-in-out group-hover:scale-125" />
+          <RocketIcon className="mr-2 size-4 icon-scale" />
           <span>Publish Now</span>
         </>
       )}

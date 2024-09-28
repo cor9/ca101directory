@@ -9,30 +9,26 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
+  CardFooter
 } from "@/components/ui/card";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { urlForImage } from "@/lib/image";
 import { EditSchema } from "@/lib/schemas";
+import { PricePlan } from "@/lib/submission";
 import { cn } from "@/lib/utils";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { ItemFullInfo } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
-import { BellRingIcon, HourglassIcon } from "lucide-react";
+import { BellRingIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -69,6 +65,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
       tags: item.tags.map(tag => tag._id),
       categories: item.categories.map(category => category._id),
       pricePlan: item.pricePlan,
+      planStatus: item.pricePlan === PricePlan.FREE ? item.freePlanStatus : item.proPlanStatus,
     },
   });
 
@@ -104,12 +101,6 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
     <Form {...form}>
       <form onSubmit={onSubmit}>
         <Card className="overflow-hidden">
-          {/* <CardHeader>
-            <CardTitle>Update</CardTitle>
-            <CardDescription>
-              Update your product info.
-            </CardDescription>
-          </CardHeader> */}
           <CardContent className="mt-4 space-y-6">
             <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
               <FormField

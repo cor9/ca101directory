@@ -1,6 +1,9 @@
 import ItemGrid from '@/components/item-grid';
 import { defaultSort, ITEMS_PER_PAGE, sorting } from '@/lib/constants';
 import { getItems } from '@/data/item';
+import EmptyGrid from '@/components/empty-grid';
+import { Suspense } from 'react';
+import CustomPagination from '@/components/pagination';
 
 export default async function SearchPage({
   searchParams
@@ -18,6 +21,28 @@ export default async function SearchPage({
   // console.log('SearchPage, items', items);
 
   return (
-    <ItemGrid items={items} totalPages={totalPages} paginationPrefix='/search' />
+    <>
+      {/* when no items are found */}
+      {
+        items?.length === 0 && (
+          <EmptyGrid />
+        )
+      }
+
+      {/* when items are found */}
+      {
+        items && items.length > 0 && (
+          <section className=''>
+            <ItemGrid items={items} />
+
+            <div className="mt-8 flex items-center justify-center">
+              <Suspense fallback={null}>
+                <CustomPagination routePreix='/search' totalPages={totalPages} />
+              </Suspense>
+            </div>
+          </section>
+        )
+      }
+    </>
   );
 }

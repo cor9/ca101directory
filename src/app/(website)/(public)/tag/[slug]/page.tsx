@@ -1,6 +1,9 @@
+import EmptyGrid from '@/components/empty-grid';
 import ItemGrid from '@/components/item-grid';
+import CustomPagination from '@/components/pagination';
 import { getItems } from '@/data/item';
 import { defaultSort, ITEMS_PER_PAGE, sorting } from '@/lib/constants';
+import { Suspense } from 'react';
 
 export default async function TagPage({
   params,
@@ -17,6 +20,28 @@ export default async function TagPage({
   console.log('TagPage, totalCount', totalCount, ', totalPages', totalPages);
 
   return (
-    <ItemGrid items={items} totalPages={totalPages} paginationPrefix={`/tag/${params.slug}`} />
+    <>
+      {/* when no items are found */}
+      {
+        items?.length === 0 && (
+          <EmptyGrid />
+        )
+      }
+
+      {/* when items are found */}
+      {
+        items && items.length > 0 && (
+          <section className=''>
+            <ItemGrid items={items} />
+
+            <div className="mt-8 flex items-center justify-center">
+              <Suspense fallback={null}>
+                <CustomPagination routePreix={`/tag/${params.slug}`} totalPages={totalPages} />
+              </Suspense>
+            </div>
+          </section>
+        )
+      }
+    </>
   );
 }

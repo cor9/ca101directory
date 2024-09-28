@@ -6,11 +6,10 @@ import { UserAvatar } from "@/components/shared/user-avatar";
 import { Button } from "@/components/ui/button";
 import { urlForImage } from "@/lib/image";
 import { getLocaleDate } from "@/lib/utils";
-import { ItemListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemFullInfoBySlugQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
-import { ComponentIcon, GlobeIcon, GripIcon, HashIcon, HeartIcon, LayoutGridIcon, UserCircleIcon, UserIcon } from "lucide-react";
+import { GlobeIcon, HashIcon, LayoutGridIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -127,7 +126,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
             <ItemCustomMdx source={item.introduction} />
           </div>
 
-          <div className="flex items-center justify-start mt-8">
+          <div className="flex items-center justify-start mt-16">
             <BackButton />
           </div>
         </div>
@@ -242,8 +241,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
             </div>
 
             <div className="mt-8">
-              <ItemGrid items={item.related}
-                totalPages={1} paginationPrefix="" />
+              <ItemGrid items={item.related} />
             </div>
           </div>
         )

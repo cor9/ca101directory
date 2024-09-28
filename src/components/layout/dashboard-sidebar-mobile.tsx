@@ -1,6 +1,5 @@
 "use client";
 
-import { SubmitCard } from "@/components/dashboard/submit-card";
 import { Icons } from "@/components/shared/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

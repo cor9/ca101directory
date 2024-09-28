@@ -18,11 +18,11 @@ export const dashboardConfig: DashboardConfig = {
       href: "/submit",
       icon: "submit",
     },
-    {
-      title: "Billing",
-      href: "/billing",
-      icon: "billing",
-    },
+    // {
+    //   title: "Billing",
+    //   href: "/billing",
+    //   icon: "billing",
+    // },
     {
       title: "Settings",
       href: "/settings",
@@ -45,12 +45,12 @@ export const sidebarLinks: NestedNavItem[] = [
         icon: "submit",
         title: "Submit"
       },
-      {
-        href: "/billing",
-        icon: "billing",
-        title: "Billing",
-        authorizeOnly: UserRole.USER,
-      },
+      // {
+      //   href: "/billing",
+      //   icon: "billing",
+      //   title: "Billing",
+      //   authorizeOnly: UserRole.USER,
+      // },
       {
         href: "/settings",
         icon: "settings",

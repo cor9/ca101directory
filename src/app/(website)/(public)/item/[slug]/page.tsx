@@ -40,13 +40,13 @@ export default async function ItemPage({ params }: ItemPageProps) {
       {/* Header section */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         {/* Left column */}
-        <div className="lg:col-span-3 space-y-8 flex flex-col">
+        <div className="lg:col-span-3 gap-8 flex flex-col">
           {/* Basic information */}
           <ItemBreadCrumb item={item} />
 
           {/* name and description */}
-          <div className="flex flex-1 items-center justify-between space-x-4">
-            <div className="flex flex-col space-y-8">
+          <div className="flex flex-1 items-center">
+            <div className="flex flex-col gap-8">
               <h1 className="text-4xl font-bold">
                 {item.name}
               </h1>
@@ -116,10 +116,11 @@ export default async function ItemPage({ params }: ItemPageProps) {
       {/* Content section */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         {/* Left column */}
-        <div className="lg:col-span-3 space-y-8 flex flex-col">
+        <div className="lg:col-span-3 flex flex-col">
           {/* Detailed content */}
-          <div className="bg-muted/50 rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">
+          {/* bg-muted/50 rounded-lg p-6 */}
+          <div className="bg-muted/50 rounded-lg p-6 mr-0 lg:mr-8">
+            <h2 className="text-lg font-semibold mb-4">
               Introduction
             </h2>
             <ItemCustomMdx source={item.introduction} />
@@ -132,7 +133,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
             <div className="flex flex-col space-y-4">
               {/* information */}
               <div className="bg-muted/50 rounded-lg p-6">
-                <h2 className="text-xl font-semibold mb-4">
+                <h2 className="text-lg font-semibold mb-4">
                   Information
                 </h2>
                 <ul className="space-y-4 text-sm">
@@ -183,7 +184,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
 
               {/* categories */}
               <div className="bg-muted/50 rounded-lg p-6">
-                <h2 className="text-xl font-semibold mb-4">
+                <h2 className="text-lg font-semibold mb-4">
                   Categories
                 </h2>
                 <ul className="flex flex-wrap gap-4">
@@ -200,7 +201,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
 
               {/* tags */}
               <div className="bg-muted/50 rounded-lg p-6">
-                <h2 className="text-xl font-semibold mb-4">
+                <h2 className="text-lg font-semibold mb-4">
                   Tags
                 </h2>
                 <ul className="flex flex-wrap gap-4">

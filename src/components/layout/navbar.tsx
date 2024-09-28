@@ -15,17 +15,16 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { siteConfig } from "@/config/site";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 import { DashboardConfig, MarketingConfig } from "@/types";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { ArrowRight, MenuIcon } from "lucide-react";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Logo } from "../logo";
-import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface NavBarProps {
   scroll?: boolean;
@@ -80,7 +79,6 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
             <Link href="/" className="flex items-center space-x-2">
               <Logo />
 
-              {/* font-geist-mono */}
               <span className="text-xl font-bold">
                 {siteConfig.name}
               </span>
@@ -133,10 +131,6 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
               )
             }
 
-            {/* <div className="flex items-center">
-              <UserAccountNav />
-            </div> */}
-
             <ModeToggle />
           </div>
         </Container>
@@ -158,45 +152,42 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="flex flex-col p-0">
-              <ScrollArea className="h-full overflow-y-auto">
-                <div className="flex h-screen flex-col">
-                  {/* logo */}
-                  <Link href="/" className="flex items-center space-x-2 pl-4 pt-4">
-                    <Logo />
+              <div className="flex h-screen flex-col">
+                {/* logo */}
+                <Link href="/" className="flex items-center space-x-2 pl-4 pt-4">
+                  <Logo />
 
-                    {/* font-geist-mono */}
-                    <span className="text-xl font-bold">
-                      {siteConfig.name}
-                    </span>
-                  </Link>
+                  <span className="text-xl font-bold">
+                    {siteConfig.name}
+                  </span>
+                </Link>
 
-                  <nav className="flex flex-1 flex-col gap-2 p-2 pt-8 font-medium">
-                    {links.map((item) => {
-                      const Icon = Icons[item.icon || "arrowRight"];
-                      return (
-                        <Link
-                          key={item.title}
-                          href={item.disabled ? "#" : item.href}
-                          onClick={() => {
-                            if (!item.disabled) setOpen(false);
-                          }}
-                          className={cn(
-                            "flex items-center rounded-md gap-2 p-2 text-sm font-medium hover:bg-muted",
-                            isLinkActive(item.href)
-                              ? "bg-muted text-foreground"
-                              : "text-muted-foreground hover:text-foreground",
-                            item.disabled &&
-                            "cursor-not-allowed opacity-80 hover:bg-transparent hover:text-muted-foreground"
-                          )}
-                        >
-                          <Icon className="size-5" />
-                          {item.title}
-                        </Link>
-                      );
-                    })}
-                  </nav>
-                </div>
-              </ScrollArea>
+                <nav className="flex flex-1 flex-col gap-2 p-2 pt-8 font-medium">
+                  {links.map((item) => {
+                    const Icon = Icons[item.icon || "arrowRight"];
+                    return (
+                      <Link
+                        key={item.title}
+                        href={item.disabled ? "#" : item.href}
+                        onClick={() => {
+                          if (!item.disabled) setOpen(false);
+                        }}
+                        className={cn(
+                          "flex items-center rounded-md gap-2 p-2 text-sm font-medium hover:bg-muted",
+                          isLinkActive(item.href)
+                            ? "bg-muted text-foreground"
+                            : "text-muted-foreground hover:text-foreground",
+                          item.disabled &&
+                          "cursor-not-allowed opacity-80 hover:bg-transparent hover:text-muted-foreground"
+                        )}
+                      >
+                        <Icon className="size-5" />
+                        {item.title}
+                      </Link>
+                    );
+                  })}
+                </nav>
+              </div>
             </SheetContent>
           </Sheet>
 
@@ -221,15 +212,10 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
               )
             }
 
-            {/* <div className="flex items-center">
-              <UserAccountNav />
-            </div> */}
-
             <ModeToggle />
           </div>
         </div>
       </header>
     </>
-
   );
 }

@@ -239,7 +239,6 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
               />
             </div>
           </CardContent>
-          {/* "flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4 sm:flex-row sm:justify-between sm:space-y-0 sm:gap-4" */}
           <CardFooter className={cn("flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4",
             "sm:flex-row sm:justify-between sm:space-y-0 sm:gap-4")}>
             <Button size="lg"

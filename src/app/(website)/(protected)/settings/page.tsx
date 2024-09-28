@@ -20,14 +20,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { SettingsSchema } from "@/lib/schemas";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { BellRingIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
 export default function SettingsPage() {
+  const router = useRouter();
   const user = useCurrentUser();
   // console.log('SettingsPage, user:', user);
   const { update } = useSession();
@@ -40,7 +44,6 @@ export default function SettingsPage() {
       newPassword: undefined,
       name: user?.name || undefined,
       link: user?.link || undefined,
-      email: user?.email || undefined,
     }
   });
 
@@ -49,7 +52,6 @@ export default function SettingsPage() {
       form.reset({
         name: user?.name || undefined,
         link: user?.link || undefined,
-        email: user?.email || undefined,
       });
     }
   }, [user, form]);
@@ -65,6 +67,7 @@ export default function SettingsPage() {
           if (data.success) {
             console.log('SettingsPage, onSubmit, success:', data.success);
             update();
+            router.refresh();
             toast.success(data.success);
           }
         })
@@ -102,27 +105,26 @@ export default function SettingsPage() {
                   )}
                 />
 
+                <FormField
+                  control={form.control}
+                  name="link"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Link</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="Link (e.g. https://x.com/username)"
+                          disabled={isPending}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 {user?.isOAuth === false && (
                   <>
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input
-                              {...field}
-                              placeholder="name@example.com"
-                              type="email"
-                              disabled={isPending}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
                     <FormField
                       control={form.control}
                       name="password"
@@ -162,26 +164,9 @@ export default function SettingsPage() {
                     />
                   </>
                 )}
-
-                <FormField
-                  control={form.control}
-                  name="link"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Link</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder="Link (e.g. https://example.com)"
-                          disabled={isPending}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </CardContent>
-              <CardFooter className="flex flex-col items-center space-y-4 border-t bg-accent px-6 py-4 sm:flex-row sm:justify-between sm:space-y-0">
+              <CardFooter className={cn("flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4",
+                "sm:flex-row sm:justify-between sm:space-y-0 sm:gap-4")}>
                 <Button
                   size="lg"
                   type="submit"
@@ -191,6 +176,13 @@ export default function SettingsPage() {
                   {isPending && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
                   Save Changes
                 </Button>
+
+                <div className="text-muted-foreground flex items-center justify-center sm:justify-start gap-4">
+                  <BellRingIcon className="h-5 w-5 sm:h-4 sm:w-4 flex-shrink-0" />
+                  <span className="text-sm">
+                    Password is optional when changing name or link.
+                  </span>
+                </div>
               </CardFooter>
             </Card>
           </form>

@@ -1,5 +1,4 @@
 import * as z from "zod";
-import { UserRole } from "@/types/user-role";
 
 /**
  * submit item
@@ -39,7 +38,6 @@ export const EditSchema = SubmitSchema.extend({
 export const SettingsSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   link: z.string().optional(),
-  email: z.optional(z.string().email()),
   password: z.optional(z.string().min(6)),
   newPassword: z.optional(z.string().min(6)),
 })

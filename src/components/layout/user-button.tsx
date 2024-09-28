@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { LayoutDashboard, LayoutDashboardIcon, LogOut, LogOutIcon, UploadIcon } from "lucide-react";
+import { LayoutDashboard, LayoutDashboardIcon, LogOut, LogOutIcon, SettingsIcon, UploadIcon } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -83,8 +83,7 @@ export function UserButton() {
               ) : null} */}
 
               <li className="rounded-lg text-foreground hover:bg-muted">
-                <Link
-                  href="/dashboard"
+                <Link href="/dashboard"
                   onClick={closeDrawer}
                   className="flex w-full items-center gap-3 px-2.5 py-2"
                 >
@@ -94,13 +93,22 @@ export function UserButton() {
               </li>
 
               <li className="rounded-lg text-foreground hover:bg-muted">
-                <Link
-                  href="/submit"
+                <Link href="/submit"
                   onClick={closeDrawer}
                   className="flex w-full items-center gap-3 px-2.5 py-2"
                 >
                   <Icons.submit className="size-4" />
                   <p className="text-sm">Submit</p>
+                </Link>
+              </li>
+
+              <li className="rounded-lg text-foreground hover:bg-muted">
+                <Link href="/settings"
+                  onClick={closeDrawer}
+                  className="flex w-full items-center gap-3 px-2.5 py-2"
+                >
+                  <Icons.settings className="size-4" />
+                  <p className="text-sm">Settings</p>
                 </Link>
               </li>
 
@@ -184,6 +192,18 @@ export function UserButton() {
           <div className="flex items-center space-x-2.5">
             <UploadIcon className="size-4" />
             <p className="text-sm">Submit</p>
+          </div>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem asChild
+          className="cursor-pointer"
+          onClick={() => {
+            router.push("/settings");
+          }}
+        >
+          <div className="flex items-center space-x-2.5">
+            <SettingsIcon className="size-4" />
+            <p className="text-sm">Settings</p>
           </div>
         </DropdownMenuItem>
 

@@ -1,15 +1,13 @@
 "use server";
 
-import * as z from "zod";
-import bcrypt from "bcryptjs";
-import { unstable_update}  from "@/auth";
-import { sanityClient } from "@/sanity/lib/client";
-import { SettingsSchema } from "@/lib/schemas";
-import { getUserByEmail, getUserById } from "@/data/user";
+import { unstable_update } from "@/auth";
+import { getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
-import { generateVerificationToken } from "@/lib/tokens";
-import { sendVerificationEmail } from "@/lib/mail";
+import { SettingsSchema } from "@/lib/schemas";
+import { sanityClient } from "@/sanity/lib/client";
+import bcrypt from "bcryptjs";
 import { revalidatePath } from "next/cache";
+import * as z from "zod";
 
 export const settings = async (
   values: z.infer<typeof SettingsSchema>
@@ -24,29 +22,10 @@ export const settings = async (
     return { error: "Unauthorized" };
   }
 
+  // console.log('settings, values:', values);
   if (user.isOAuth) {
-    values.email = undefined;
     values.password = undefined;
     values.newPassword = undefined;
-  }
-
-  // email change needs verification
-  if (values.email && values.email !== user.email) {
-    const existingUser = await getUserByEmail(values.email);
-    if (existingUser && existingUser._id !== user.id) {
-      return { error: "Email already in use!" };
-    }
-
-    const verificationToken = await generateVerificationToken(
-      values.email
-    );
-    
-    await sendVerificationEmail(
-      verificationToken.identifier,
-      verificationToken.token,
-    );
-
-    return { success: "Verification email sent!" };
   }
 
   // password change needs verification
@@ -70,13 +49,13 @@ export const settings = async (
 
   const updatedUser = await sanityClient.patch(dbUser._id).set({
     ...values
-  }).commit()
+  }).commit();
+  // console.log('settings, updatedUser:', updatedUser);
 
   // unstable update in Beta version
   unstable_update({
     user: {
       name: updatedUser.name,
-      email: updatedUser.email,
       link: updatedUser.link
     }
   });

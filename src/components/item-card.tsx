@@ -1,11 +1,9 @@
 "use client";
 
 import { urlForImage } from "@/lib/image";
-import { getLocaleDate } from "@/lib/utils";
 import { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
 
 type ItemCardProps = {
@@ -18,13 +16,11 @@ export default function ItemCard({ item }: ItemCardProps) {
     : null;
   const imageBlurDataURL = item?.image?.blurDataURL || null;
   // console.log(`ItemCard, imageBlurDataURL:${imageBlurDataURL}`);
-  const publishDate = item.publishDate || item._createdAt;
-  const date = getLocaleDate(publishDate);
   const itemUrlPrefix = '/item';
 
   return (
     <>
-      <div className="cursor-pointer border rounded-lg flex flex-col justify-between gap-4 hover:bg-accent">
+      <div className="cursor-pointer border rounded-lg flex flex-col justify-between gap-4 hover:bg-accent/60 transition-colors duration-300">
         {/* top */}
         <div className="flex flex-col gap-4">
           {/* Image container */}

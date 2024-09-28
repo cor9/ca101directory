@@ -12,12 +12,12 @@ export const metadata = constructMetadata({
 
 export default async function PricingPage() {
   return (
-    <Container className="mt-8 pb-16">
+    <Container className="mt-16 pb-16">
       <div className="w-full flex flex-col gap-16">
         <section className="w-full flex flex-col gap-8 justify-center">
           <HeaderSection
             label="Pricing"
-            title="Choose a plan that fits your needs"
+            title="Choose a pricing plan"
           />
 
           <div className="w-full max-w-4xl mx-auto">

@@ -95,7 +95,7 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
                 <Button asChild variant="default" size="lg"
                   className="w-full rounded-full group overflow-hidden">
                   <Link href="/submit">
-                    Get Started
+                    Go to Submit
                   </Link>
                 </Button>
               </div>

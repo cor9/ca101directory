@@ -50,7 +50,7 @@ export const settings = async (
   const updatedUser = await sanityClient.patch(dbUser._id).set({
     ...values
   }).commit();
-  // console.log('settings, updatedUser:', updatedUser);
+  console.log('settings, updatedUser:', updatedUser);
 
   // unstable update in Beta version
   unstable_update({

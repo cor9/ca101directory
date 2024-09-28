@@ -2,6 +2,7 @@ import { DashboardSubmitHeader } from "@/components/dashboard/dashboard-submit-h
 import { PublishNowButton } from "@/components/forms/publish-now-button";
 import { SubmitStepper } from "@/components/submit/submit-stepper";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { urlForImage } from "@/lib/image";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
@@ -47,10 +48,8 @@ export default async function PublishPage({ params }: { params: { id: string } }
         <SubmitStepper initialStep={3} />
       </DashboardSubmitHeader>
 
-      <div className="mt-8 flex-grow flex items-center">
-        {/* max-w-6xl mx-auto */}
+      <Card className="mt-8 flex flex-col items-center w-full p-4 gap-8">
         <div className="w-full">
-          {/* Content section */}
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
 
             {/* Left column */}
@@ -64,8 +63,8 @@ export default async function PublishPage({ params }: { params: { id: string } }
                       alt={item.image?.alt || `image for ${item.name}`}
                       loading="eager"
                       fill
-                      className="border w-full shadow-lg
-                      transition-all duration-300 ease-in-out group-hover:scale-105"
+                      className="border w-full
+                        transition-all duration-300 ease-in-out group-hover:scale-105"
                       {...(imageBlurDataURL && {
                         placeholder: "blur",
                         blurDataURL: imageBlurDataURL
@@ -119,7 +118,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
                           <Link href={`/item/${item.slug.current}`}
                             className="flex items-center justify-center space-x-2">
                             <PartyPopperIcon className="w-4 h-4
-                              transition-transform duration-300 ease-in-out group-hover:scale-125" />
+                  transition-transform duration-300 ease-in-out group-hover:scale-125" />
                             <span className="">View on site</span>
                           </Link>
                         </Button>
@@ -136,7 +135,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
                           className="group flex-1 w-full rounded-full">
                           <Link href='/dashboard' className="flex items-center justify-center space-x-2">
                             <CalendarDaysIcon className="w-4 h-4
-                          transition-transform duration-300 ease-in-out group-hover:scale-125" />
+                              transition-transform duration-300 ease-in-out group-hover:scale-125" />
                             <span className="">Publish Later</span>
                           </Link>
                         </Button>
@@ -150,7 +149,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
 
           </div>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

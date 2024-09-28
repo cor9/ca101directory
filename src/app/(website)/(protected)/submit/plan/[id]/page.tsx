@@ -1,14 +1,14 @@
 import { DashboardSubmitHeader } from "@/components/dashboard/dashboard-submit-header";
 import { PricingPlans } from "@/components/dashboard/pricing-plans";
 import { SubmitStepper } from "@/components/submit/submit-stepper";
-import { urlForImage } from "@/lib/image";
+import { Card } from "@/components/ui/card";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
 import { ItemInfo } from "@/types";
 import { notFound } from "next/navigation";
-import Image from "next/image";
-import SubmissionPlanCard from "./submission-plan-card";
-import { Card } from "@/components/ui/card";
+import SubmissionCardInPlanPage from "./submission-card-in-plan-page";
+
+
 export default async function PlanPage({ params }: { params: { id: string } }) {
   // TODO: add user check, if user is not logged in, redirect to login page
   // if use not the submitter, shows error message
@@ -33,11 +33,6 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
   }
   // console.log('PlanPage, item:', item);
 
-  const imageProps = item?.image
-    ? urlForImage(item?.image)
-    : null;
-  const imageBlurDataURL = item?.image?.blurDataURL || null;
-
   return (
     <>
       <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
@@ -48,17 +43,17 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
           <SubmitStepper initialStep={2} />
         </DashboardSubmitHeader>
 
-        <Card className="mt-8 flex flex-col items-center w-full p-4 gap-8">
-          {/* <Card className="flex-grow flex flex-col items-center p-4"> */}
-            {/* Content section */}
-            <div className="w-full">
-              <SubmissionPlanCard item={item} />
-            </div>
+        <Card className="mt-8 flex flex-col items-center w-full">
+          <div className="w-full p-4">
+            <SubmissionCardInPlanPage item={item} />
+          </div>
 
-            <div className="w-full">
-              <PricingPlans item={item} />
-            </div>
-          {/* </Card> */}
+          <hr className="w-full border-gray-200" />
+
+          {/* sm:px-16 md:px-0 max-w-4xl mx-auto */}
+          <div className="w-full p-4 my-4">
+            <PricingPlans item={item} />
+          </div>
         </Card>
       </div>
     </>

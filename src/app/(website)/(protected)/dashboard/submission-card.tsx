@@ -99,7 +99,7 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
 
               <p className="line-clamp-3">{item.description}</p>
 
-              <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="grid grid-cols-2 gap-4 text-sm pt-2">
                 <div className="flex items-center gap-2">
                   <span className="font-medium text-muted-foreground">Plan:</span>
                   <Badge variant="secondary" className="capitalize">
@@ -122,7 +122,9 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="font-medium text-muted-foreground">Publish Date:</span>
-                  <span className="">{item.publishDate ? getLocaleDate(item.publishDate) : 'Not published'}</span>
+                  <span className="font-semibold">
+                    {item.publishDate ? getLocaleDate(item.publishDate) : 'Not published'}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="font-medium text-muted-foreground">Created Date:</span>

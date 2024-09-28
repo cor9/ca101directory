@@ -18,7 +18,7 @@ export function PricingPlans({ item }: PricingPlansProps) {
 
   return (
     <section className="flex flex-col items-center text-center w-full mx-auto">
-      <div className="grid gap-8 py-4 w-full sm:grid-cols-1 md:grid-cols-2">
+      <div className="grid gap-8 w-full sm:grid-cols-1 md:grid-cols-2">
         {PRICE_PLANS.map((pricePlan) => (
           <PricingPlanCard
             item={item}

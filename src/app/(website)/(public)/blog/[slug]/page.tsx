@@ -1,3 +1,4 @@
+import BlogGrid from "@/components/blog/blog-grid";
 import { BlogToc } from "@/components/blog/blog-toc";
 import { CustomMdx } from "@/components/custom-mdx";
 import AllPostsButton from "@/components/shared/all-posts-button";
@@ -82,11 +83,6 @@ export default async function PostPage({ params }: PostPageProps) {
                     <div className="">
                         {markdownContent && <CustomMdx source={markdownContent} />}
                     </div>
-
-                    {/* back button */}
-                    <div className="pt-8">
-                        <AllPostsButton />
-                    </div>
                 </div>
 
                 {/* Right column (sidebar) */}
@@ -165,11 +161,11 @@ export default async function PostPage({ params }: PostPageProps) {
                     <div className="flex items-center gap-2">
                         <BookTextIcon className="w-4 h-4" />
                         <h2 className="text-lg font-semibold">
-                            More Articles
+                            More Posts
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
+                    {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
                         {post.relatedPosts.map((post) => (
                             <Link
                                 key={post.slug.current}
@@ -189,9 +185,16 @@ export default async function PostPage({ params }: PostPageProps) {
                                 </p>
                             </Link>
                         ))}
-                    </div>
+                    </div> */}
+
+                    <BlogGrid posts={post.relatedPosts} />
                 </div>
             )}
+
+            {/* back button */}
+            <div className="mt-8">
+                <AllPostsButton />
+            </div>
         </div>
     );
 }

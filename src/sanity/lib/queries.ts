@@ -156,7 +156,9 @@ const blogPostSimpleFields = /* groq */ `
 
 const blogPostFields = /* groq */ `
   ${blogPostSimpleFields}
-  relatedPosts[]->,
+  relatedPosts[]-> {
+    ${blogPostSimpleFields}
+  },
   body[]{
     ...,
     markDefs[]{

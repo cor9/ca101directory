@@ -1,6 +1,9 @@
 import BlogGrid from "@/components/blog/blog-grid";
+import EmptyGrid from "@/components/empty-grid";
+import CustomPagination from "@/components/pagination";
 import { getBlogs } from "@/data/blog";
 import { POSTS_PER_PAGE } from "@/lib/constants";
+import { Suspense } from "react";
 
 export default async function BlogIndexPage({
   searchParams
@@ -15,6 +18,24 @@ export default async function BlogIndexPage({
   console.log('BlogIndexPage, totalCount', totalCount, ", totalPages", totalPages);
 
   return (
-    <BlogGrid posts={posts} totalPages={totalPages} paginationPrefix="/blog" />
+    <>
+      {/* when no posts are found */}
+      {posts?.length === 0 && (
+        <EmptyGrid />
+      )}
+
+      {/* when posts are found */}
+      {posts && posts?.length > 0 && (
+        <>
+          <BlogGrid posts={posts} />
+          
+          <div className="mt-8 flex items-center justify-center">
+            <Suspense fallback={null}>
+              <CustomPagination routePreix='/blog' totalPages={totalPages} />
+            </Suspense>
+          </div>
+        </>
+      )}
+    </>
   );
 }

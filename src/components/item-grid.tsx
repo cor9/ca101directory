@@ -11,9 +11,11 @@ export default function ItemGrid({ items }: ItemGridProps) {
       {
         items && items.length > 0 && (
           <div className="gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {items.map((item) => (
-              <ItemCard key={item._id} item={item} />
-            ))}
+            {
+              items.map((item) => (
+                <ItemCard key={item._id} item={item} />
+              ))
+            }
           </div>
         )
       }

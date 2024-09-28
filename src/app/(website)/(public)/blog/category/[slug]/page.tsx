@@ -12,7 +12,7 @@ export default async function BlogCategoryPage({
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  console.log('BlogCategoryPage, searchParams', searchParams);
+  // console.log('BlogCategoryPage, searchParams', searchParams);
   const { page } = searchParams as { [key: string]: string };
   const currentPage = page ? Number(page) : 1;
   const { posts, totalCount } = await getBlogs({ category: params.slug, currentPage });

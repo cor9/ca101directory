@@ -1,159 +1,62 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 import { BlogCategoryListQueryResult } from '@/sanity.types';
-import { Check, LayoutList } from "lucide-react";
 import Link from "next/link";
 import { useParams } from 'next/navigation';
-import { useState } from "react";
-import { Drawer } from "vaul";
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 export type BlogCategoryListProps = {
   categoryList: BlogCategoryListQueryResult;
 };
 
 export function BlogCategoryList({ categoryList }: BlogCategoryListProps) {
-  const [open, setOpen] = useState(false);
   const { slug } = useParams() as { slug?: string };
-  const category = categoryList.find((category) => category.slug.current === slug);
-
-  const closeDrawer = () => {
-    setOpen(false);
-  };
 
   return (
     <>
       {/* Desktop View */}
-      <ScrollArea className="hidden md:flex w-full">
-        <ul role="list" className="w-full flex flex-1 gap-x-2" >
-          <DesktopLink
-            title="All"
-            href="/blog"
-            active={!slug}
-          />
-
-          {categoryList.map((item) => (
-            <DesktopLink
-              key={item.slug.current}
-              title={item.name}
-              href={`/blog/category/${item.slug.current}`}
-              active={item.slug.current === slug}
-            />
-          ))}
-
-        </ul>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
-
-      {/* Mobile View */}
-      <Drawer.Root open={open} onClose={closeDrawer}>
-        <Drawer.Trigger
-          onClick={() => setOpen(true)}
-          className="md:hidden flex w-full p-4 items-center border-y text-foreground/90"
+      <div className="hidden md:flex items-center">
+        <ToggleGroup
+          size="sm"
+          type="single"
+          value={slug || 'All'}
+          aria-label="Toggle blog category"
+          className="h-9 overflow-hidden rounded-full border bg-background p-1 *:h-7 *:text-muted-foreground"
         >
-          <div className="flex items-center gap-4 justify-between w-full">
-            <div className="flex items-center gap-2">
-              <LayoutList className="size-4" />
-              <span className="text-sm font-medium">
-                Category
-              </span>
-            </div>
-            <span className="text-sm font-semibold">
-              {category?.name ? `${category?.name}` : 'All'}
-            </span>
-          </div>
-        </Drawer.Trigger>
-        <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
-          onClick={closeDrawer}
-        />
-        <Drawer.Portal>
-          <Drawer.Content className="fixed inset-x-0 bottom-0 z-50 mt-24 overflow-hidden rounded-t-[10px] border bg-background">
-            <div className="sticky top-0 z-20 flex w-full items-center justify-center bg-inherit">
-              <div className="my-3 h-1.5 w-16 rounded-full bg-muted-foreground/20" />
-            </div>
-            <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
-              <MobileLink
-                title="All"
-                href="/blog"
-                active={!slug}
-                clickAction={closeDrawer}
-              />
+          <ToggleGroupItem
+            key='All'
+            value='All'
+            className={cn(
+              "rounded-full px-5",
+              "data-[state=on]:bg-primary data-[state=on]:text-primary-foreground",
+              "hover:bg-muted hover:text-muted-foreground",
+            )}
+            aria-label={`Toggle all blog categories`}
+          >
+            <Link href={`/blog`}>
+              All
+            </Link>
+          </ToggleGroupItem>
 
-              {categoryList.map((item) => (
-                <MobileLink
-                  key={item.slug.current}
-                  title={item.name}
-                  href={`/blog/category/${item.slug.current}`}
-                  active={item.slug.current === slug}
-                  clickAction={closeDrawer}
-                />
-              ))}
-            </ul>
-          </Drawer.Content>
-          <Drawer.Overlay />
-        </Drawer.Portal>
-      </Drawer.Root>
+          {categoryList.map((category) => (
+            <ToggleGroupItem
+              key={category.slug.current}
+              value={category.slug.current}
+              className={cn(
+                "rounded-full px-5",
+                "data-[state=on]:bg-primary data-[state=on]:text-primary-foreground",
+                "hover:bg-muted hover:text-muted-foreground",
+              )}
+              aria-label={`Toggle blog category of ${category.name}`}
+            >
+              <Link href={`/blog/category/${category.slug.current}`}>
+                {category.name}
+              </Link>
+            </ToggleGroupItem>
+          ))}
+        </ToggleGroup>
+      </div>
     </>
   );
 }
-
-const DesktopLink = ({
-  title,
-  href,
-  active,
-  clickAction,
-}: {
-  title: string;
-  href: string;
-  active: boolean;
-  clickAction?: () => void;
-}) => {
-  return (
-    <>
-      {/* show in desktop, wrapped in Link and Button and show as Button */}
-      <Button asChild
-        variant={active ? 'default' : 'outline'}
-        size="sm"
-        className='px-3 py-3'>
-        <Link href={href}
-          prefetch={false}
-          onClick={clickAction}>
-          <li>
-            <div className="">
-              <span>{title}</span>
-            </div>
-          </li>
-        </Link>
-      </Button>
-    </>
-  );
-};
-
-const MobileLink = ({
-  title,
-  href,
-  active,
-  clickAction,
-}: {
-  title: string;
-  href: string;
-  active: boolean;
-  clickAction?: () => void;
-}) => {
-  return (
-    <>
-      {/* shwo in mobile, wrapped in Link and shwo in a Drawer */}
-      <Link href={href}
-        prefetch={false}
-        onClick={clickAction}>
-        <li className="rounded-lg text-foreground hover:bg-muted">
-          <div className="flex items-center justify-between px-3 py-2 text-sm">
-            <span>{title}</span>
-            {active && <Check className="size-4" />}
-          </div>
-        </li>
-      </Link>
-    </>
-  );
-};

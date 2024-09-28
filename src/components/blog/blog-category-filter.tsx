@@ -4,6 +4,7 @@ import { sanityFetch } from '@/sanity/lib/fetch';
 import { blogCategoryListQuery } from '@/sanity/lib/queries';
 import { Suspense } from 'react';
 import { BlogCategoryList } from "./blog-category-list";
+import { BlogCategoryListMobile } from './blog-category-list-mobile';
 
 /**
  * TODO: maybe change to CustomSwitch
@@ -17,20 +18,18 @@ export async function BlogCategoryFilter() {
     <>
       {/* TODO: simplify this component */}
       {/* Desktop View, has Container */}
-      <Container className="hidden md:block">
-        <div className='flex items-center justify-between gap-8'>
-          <div className="w-full">
-            <Suspense fallback={null}>
-              <BlogCategoryList categoryList={categoryList} />
-            </Suspense>
-          </div>
+      <Container className="hidden md:flex items-center justify-center">
+        <div className="w-full">
+          <Suspense fallback={null}>
+            <BlogCategoryList categoryList={categoryList} />
+          </Suspense>
         </div>
       </Container>
 
       {/* Mobile View, no Container */}
-      <div className="md:hidden flex flex-col gap-8">
+      <div className="md:hidden flex flex-col">
         <Suspense fallback={null}>
-          <BlogCategoryList categoryList={categoryList} />
+          <BlogCategoryListMobile categoryList={categoryList} />
         </Suspense>
       </div>
     </>

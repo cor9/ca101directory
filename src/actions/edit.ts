@@ -5,7 +5,6 @@ import { EditSchema } from "@/lib/schemas";
 import { FreePlanStatus, PricePlan } from "@/lib/submission";
 import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
-import { nanoid } from 'nanoid';
 import { revalidatePath } from "next/cache";
 
 export type EditFormData = {
@@ -61,16 +60,16 @@ export async function Edit(formData: EditFormData) {
       }),
 
       // The _key only needs to be unique within the array itself
-      // use nanoid to generate a random string with 12 characters like sanity
-      tags: tags.map(tag => ({
+      // use index as the _key
+      tags: tags.map((tag, index) => ({
         _type: 'reference',
         _ref: tag,
-        _key: nanoid(12),
+        _key: index.toString(),
       })),
-      categories: categories.map(category => ({
+      categories: categories.map((category, index) => ({
         _type: 'reference',
         _ref: category,
-        _key: nanoid(12),
+        _key: index.toString(),
       })),
       image: {
         _type: "image",

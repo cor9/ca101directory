@@ -1,14 +1,16 @@
 import ItemBreadCrumb from "@/components/item-bread-crumb";
 import ItemCustomMdx from "@/components/item-custom-mdx";
+import ItemGrid from "@/components/item-grid";
 import BackButton from "@/components/shared/back-button";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { Button } from "@/components/ui/button";
 import { urlForImage } from "@/lib/image";
 import { getLocaleDate } from "@/lib/utils";
+import { ItemListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { itemQuery } from "@/sanity/lib/queries";
+import { itemFullInfoBySlugQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
-import { GlobeIcon, HashIcon, HeartIcon, UserCircleIcon, UserIcon } from "lucide-react";
+import { ComponentIcon, GlobeIcon, GripIcon, HashIcon, HeartIcon, LayoutGridIcon, UserCircleIcon, UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -19,7 +21,7 @@ interface ItemPageProps {
 
 export default async function ItemPage({ params }: ItemPageProps) {
   const item = await sanityFetch<ItemFullInfo>({
-    query: itemQuery,
+    query: itemFullInfoBySlugQuery,
     params: { slug: params.slug }
   });
 
@@ -118,12 +120,15 @@ export default async function ItemPage({ params }: ItemPageProps) {
         {/* Left column */}
         <div className="lg:col-span-3 flex flex-col">
           {/* Detailed content */}
-          {/* bg-muted/50 rounded-lg p-6 */}
           <div className="bg-muted/50 rounded-lg p-6 mr-0 lg:mr-8">
             <h2 className="text-lg font-semibold mb-4">
               Introduction
             </h2>
             <ItemCustomMdx source={item.introduction} />
+          </div>
+
+          <div className="flex items-center justify-start mt-8">
+            <BackButton />
           </div>
         </div>
 
@@ -225,10 +230,24 @@ export default async function ItemPage({ params }: ItemPageProps) {
         </div>
       </div>
 
-      {/* Footer section */}
-      <div className="flex items-center justify-start mt-8">
-        <BackButton />
-      </div>
+      {/* Footer section shows related items */}
+      {
+        item.related && item.related.length > 0 && (
+          <div className="flex flex-col gap-4 mt-8">
+            <div className="flex items-center gap-2">
+              <LayoutGridIcon className="w-4 h-4" />
+              <h2 className="text-lg font-semibold">
+                More Related
+              </h2>
+            </div>
+
+            <div className="mt-8">
+              <ItemGrid items={item.related}
+                totalPages={1} paginationPrefix="" />
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 }

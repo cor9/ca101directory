@@ -8,6 +8,7 @@ import { getLocaleDate } from "@/lib/utils";
 import { BlogPostQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { blogPostQuery } from "@/sanity/lib/queries";
+import { BookTextIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -47,7 +48,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 {/* Left column */}
                 <div className="lg:col-span-2 space-y-8 flex flex-col">
                     {/* Basic information */}
-                    <div className="order-1 space-y-8">
+                    <div className="space-y-8">
                         {/* blog post image */}
                         <div className="relative overflow-hidden rounded-lg aspect-[16/9]">
                             {imageProps && (
@@ -78,17 +79,24 @@ export default async function PostPage({ params }: PostPageProps) {
                     </div>
 
                     {/* blog post content */}
-                    <div className="order-3">
+                    <div className="">
                         {markdownContent && <CustomMdx source={markdownContent} />}
+                    </div>
+
+                    {/* back button */}
+                    <div className="pt-8">
+                        <AllPostsButton />
                     </div>
                 </div>
 
                 {/* Right column (sidebar) */}
-                <div className="order-2 lg:order-none">
+                <div>
                     <div className="space-y-4 lg:sticky lg:top-24">
                         {/* author info */}
                         <div className="bg-muted/50 rounded-lg p-6">
-                            <h2 className="text-lg font-semibold mb-4">Publisher</h2>
+                            <h2 className="text-lg font-semibold mb-4">
+                                Publisher
+                            </h2>
                             <div className="flex items-center gap-4">
                                 <div className="relative h-12 w-12 flex-shrink-0">
                                     {post.author?.image && (
@@ -123,7 +131,9 @@ export default async function PostPage({ params }: PostPageProps) {
 
                         {/* categories */}
                         <div className="bg-muted/50 rounded-lg p-6">
-                            <h2 className="text-lg font-semibold mb-4">Categories</h2>
+                            <h2 className="text-lg font-semibold mb-4">
+                                Categories
+                            </h2>
                             <ul className="flex flex-wrap gap-4">
                                 {post.categories?.map((category: any) => (
                                     <li key={category._id}>
@@ -138,7 +148,9 @@ export default async function PostPage({ params }: PostPageProps) {
 
                         {/* table of contents */}
                         <div className="bg-muted/50 rounded-lg p-6 hidden lg:block">
-                            <h2 className="text-lg font-semibold mb-4">Table of Contents</h2>
+                            <h2 className="text-lg font-semibold mb-4">
+                                Table of Contents
+                            </h2>
                             <div className="max-h-[calc(100vh-18rem)] overflow-y-auto">
                                 <BlogToc toc={toc} />
                             </div>
@@ -147,12 +159,15 @@ export default async function PostPage({ params }: PostPageProps) {
                 </div>
             </div>
 
-            {/* related posts */}
+            {/* Footer section shows related posts */}
             {post.relatedPosts && post.relatedPosts.length > 0 && (
-                <div className="flex flex-col space-y-4 mt-8">
-                    <h2 className="text-xl font-semibold">
-                        More Articles
-                    </h2>
+                <div className="flex flex-col gap-8 mt-8">
+                    <div className="flex items-center gap-2">
+                        <BookTextIcon className="w-4 h-4" />
+                        <h2 className="text-lg font-semibold">
+                            More Articles
+                        </h2>
+                    </div>
 
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
                         {post.relatedPosts.map((post) => (
@@ -177,11 +192,6 @@ export default async function PostPage({ params }: PostPageProps) {
                     </div>
                 </div>
             )}
-
-            {/* back button */}
-            <div className="flex items-center justify-start mt-8">
-                <AllPostsButton />
-            </div>
         </div>
     );
 }

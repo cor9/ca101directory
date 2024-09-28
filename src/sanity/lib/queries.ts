@@ -47,12 +47,21 @@ const itemFields = /* groq */ `
   introduction,
 `;
 
-export const itemQuery = defineQuery(`*[_type == "item" && slug.current == $slug][0] {
-  ${itemFields}
-}`);
+const itemFieldsWithRelated = /* groq */ `
+  ${itemSimpleFields}
+  introduction,
+  "related": *[_type == "item" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] 
+    | order(publishedDate desc, _createdAt desc) [0...2] {
+      ${itemSimpleFields}
+  },
+`;
 
 export const itemByIdQuery = defineQuery(`*[_type == "item" && _id == $id][0] {
   ${itemSimpleFields}
+}`);
+
+export const itemFullInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.current == $slug][0] {
+  ${itemFieldsWithRelated}
 }`);
 
 export const itemFullInfoByIdQuery = defineQuery(`*[_type == "item" && _id == $id][0] {
@@ -65,24 +74,24 @@ export const itemFullInfoByIdQuery = defineQuery(`*[_type == "item" && _id == $i
  */
 export const itemListQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)] 
   | order(publishDate desc) {
-  ${itemSimpleFields}
+    ${itemSimpleFields}
 }`);
 
 export const itemListOfCategoryQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)
   && $slug in categories[]->slug.current] 
   | order(publishDate desc) {
-  ${itemSimpleFields}
+    ${itemSimpleFields}
 }`);
 
 export const itemListOfTagQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)
   && $slug in tags[]->slug.current] 
   | order(publishDate desc) {
-  ${itemSimpleFields}
+    ${itemSimpleFields}
 }`);
 
 export const categoryListQuery = defineQuery(`*[_type == "category" && defined(slug.current)] 
   | order(priority desc) {
-  ${categoryFields}
+    ${categoryFields}
 }`);
 
 export const categoryQuery = defineQuery(`*[_type == "category" && slug.current == $slug][0] {
@@ -91,7 +100,7 @@ export const categoryQuery = defineQuery(`*[_type == "category" && slug.current 
 
 export const tagListQuery = defineQuery(`*[_type == "tag" && defined(slug.current)] 
   | order(slug.current asc) {
-  ${tagFields}
+    ${tagFields}
 }`);
 
 export const tagQuery = defineQuery(`*[_type == "tag" && slug.current == $slug][0] {
@@ -100,8 +109,9 @@ export const tagQuery = defineQuery(`*[_type == "tag" && slug.current == $slug][
 
 // Submissions
 export const submissionListQuery = defineQuery(`*[_type == "item" && defined(slug.current)
-  && submitter._ref == $userId] | order(_createdAt desc) {
-  ${itemFields}
+  && submitter._ref == $userId] 
+  | order(_createdAt desc) {
+    ${itemFields}
 }`);
 
 // Page Queries
@@ -158,15 +168,14 @@ const blogPostFields = /* groq */ `
   },
   
   // "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),
-  // get Top 2 related posts
-  "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...2] {
-    slug,
-    title,
-    excerpt,
-    publishDate,
-    "date": coalesce(publishedDate, _createdAt),
-    "image": image
-  },
+  // "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...2] {
+  //   slug,
+  //   title,
+  //   excerpt,
+  //   publishDate,
+  //   "date": coalesce(publishedDate, _createdAt),
+  //   "image": image
+  // },
 `;
 
 const blogCategoryFields = /* groq */ `
@@ -179,8 +188,8 @@ const blogCategoryFields = /* groq */ `
 
 export const blogCategoryListQuery = defineQuery(`
   *[_type == "blogCategory" && defined(slug.current)] 
-    | order(priority desc) {
-  ${blogCategoryFields}
+  | order(priority desc) {
+    ${blogCategoryFields}
 }`);
 
 export const blogPostQuery = defineQuery(`
@@ -194,8 +203,8 @@ export const blogPostQuery = defineQuery(`
  */
 export const blogPostListQuery = defineQuery(`
   *[_type == "blogPost" && defined(slug.current) && defined(publishDate)] 
-    | order(publishDate desc) {
-  ${blogPostSimpleFields}
+  | order(publishDate desc) {
+    ${blogPostSimpleFields}
 }`);
 
 // ======================================================================================================================

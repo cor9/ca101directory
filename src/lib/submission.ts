@@ -28,21 +28,30 @@ export const getPublishable = (item: ItemInfo): boolean => {
     return false;
 };
 
-export const getBadgeStyle = (item: ItemInfo): "success" | "warning" | "danger" | "normal" => {
+export const BadgeStyles = {
+    SUCCESS: "success",
+    WARNING: "warning",
+    DANGER: "danger",
+    NORMAL: "normal",
+} as const;
+
+export type BadgeStyle = (typeof BadgeStyles)[keyof typeof BadgeStyles];
+
+export const getBadgeStyle = (item: ItemInfo): BadgeStyle => {
     if (item.pricePlan === PricePlan.FREE) {
         switch (item.freePlanStatus) {
-            case FreePlanStatus.APPROVED: return "success";
-            case FreePlanStatus.REJECTED: return "danger";
-            case FreePlanStatus.PENDING: return "warning";
-            default: return "normal";
+            case FreePlanStatus.APPROVED: return BadgeStyles.SUCCESS;
+            case FreePlanStatus.REJECTED: return BadgeStyles.DANGER;
+            case FreePlanStatus.PENDING: return BadgeStyles.WARNING;
+            default: return BadgeStyles.NORMAL;
         }
     } else if (item.pricePlan === PricePlan.PRO) {
         switch (item.proPlanStatus) {
-            case ProPlanStatus.SUCCESS: return "success";
-            case ProPlanStatus.FAILED: return "danger";
-            case ProPlanStatus.PENDING: return "warning";
-            default: return "normal";
+            case ProPlanStatus.SUCCESS: return BadgeStyles.SUCCESS;
+            case ProPlanStatus.FAILED: return BadgeStyles.DANGER;
+            case ProPlanStatus.PENDING: return BadgeStyles.WARNING;
+            default: return BadgeStyles.NORMAL;
         }
     }
-    return "normal";
+    return BadgeStyles.NORMAL;
 };

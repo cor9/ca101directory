@@ -7,6 +7,7 @@ import { itemByIdQuery } from "@/sanity/lib/queries";
 import { ItemInfo } from "@/types";
 import { notFound } from "next/navigation";
 import SubmissionCardInPlanPage from "./submission-card-in-plan-page";
+import { Separator } from "@/components/ui/separator";
 
 
 export default async function PlanPage({ params }: { params: { id: string } }) {
@@ -48,7 +49,7 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
             <SubmissionCardInPlanPage item={item} />
           </div>
 
-          <hr className="w-full border-gray-200" />
+          <Separator className="w-full" />
 
           {/* sm:px-16 md:px-0 max-w-4xl mx-auto */}
           <div className="w-full p-4 my-4">

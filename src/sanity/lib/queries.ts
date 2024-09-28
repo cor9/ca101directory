@@ -37,6 +37,7 @@ const itemSimpleFields = /* groq */ `
   pricePlan,
   freePlanStatus,
   proPlanStatus,
+  rejectionReason,
   submitter->,
   categories[]->,
   tags[]->,
@@ -69,8 +70,9 @@ export const itemFullInfoByIdQuery = defineQuery(`*[_type == "item" && _id == $i
 }`);
 
 /**
- * this query is not used in the app, 
- * but it is used to generate the ItemListQueryResult type
+ * NOTICE: this query is not used in the app, 
+ * but it is used to generate the ItemListQueryResult type,
+ * if you want to change this query, please update data/item.ts
  */
 export const itemListQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)] 
   | order(publishDate desc) {
@@ -108,10 +110,16 @@ export const tagQuery = defineQuery(`*[_type == "tag" && slug.current == $slug][
 }`);
 
 // Submissions
+
+/**
+ * NOTICE: this query is not used in the app, 
+ * but it is used to generate the SubmissionListQueryResult type,
+ * if you want to change this query, please update data/submission.ts
+ */
 export const submissionListQuery = defineQuery(`*[_type == "item" && defined(slug.current)
   && submitter._ref == $userId] 
   | order(_createdAt desc) {
-    ${itemFields}
+    ${itemSimpleFields}
 }`);
 
 // Page Queries
@@ -200,8 +208,9 @@ export const blogPostQuery = defineQuery(`
 }`);
 
 /**
- * this query is not directly used in the app, 
- * but it is used to generate the BlogPostListQueryResult type
+ * NOTICE: this query is not directly used in the app, 
+ * but it is used to generate the BlogPostListQueryResult type,
+ * if you want to change this query, please update data/blog.ts
  */
 export const blogPostListQuery = defineQuery(`
   *[_type == "blogPost" && defined(slug.current) && defined(publishDate)] 

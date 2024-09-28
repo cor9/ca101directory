@@ -163,8 +163,8 @@ export default defineType({
       initialValue: 'Other reasons',
       options: {
         list: [
-          'The item is not a good fit for our directory',
-          'The image of the item is not good quality',
+          'The item is not good fit for our directory',
+          'The image of the item is not in good quality',
           'The information of the item is not clear',
           'Other reasons',
         ],

@@ -1,6 +1,5 @@
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
-import { SubmissionTable } from "@/components/submission-table";
 import { Button } from "@/components/ui/button";
 import { getSubmissions } from "@/data/submission";
 import { currentUser } from "@/lib/auth";
@@ -8,8 +7,8 @@ import { SUBMISSIONS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/utils";
 import { UploadIcon } from "lucide-react";
 import Link from "next/link";
-import SubmissionList from "./submission-list";
 import { Suspense } from "react";
+import SubmissionList from "./submission-list";
 
 export const metadata = constructMetadata({
   title: "Dashboard",

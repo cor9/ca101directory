@@ -49,7 +49,8 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
     >
       {/* price plan title and price */}
       <div className="bg-muted/50 p-6 pr-10 border-b flex flex-row items-center justify-between">
-        <span className="text-base font-bold uppercase tracking-wider text-muted-foreground">
+        {/* text-muted-foreground */}
+        <span className="text-xl font-bold uppercase tracking-wider">
           {pricePlan.title}
         </span>
         <div className="text-4xl font-semibold text-purple-500">

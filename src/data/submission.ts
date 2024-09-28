@@ -53,6 +53,7 @@ const buildQuery = (userId: string, currentPage: number = 1) => {
         pricePlan,
         freePlanStatus,
         proPlanStatus,
+        rejectionReason,
         submitter->,
         categories[]->,
         tags[]->,

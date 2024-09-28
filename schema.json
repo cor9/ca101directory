@@ -1747,11 +1747,11 @@
           "of": [
             {
               "type": "string",
-              "value": "The item is not a good fit for our directory"
+              "value": "The item is not good fit for our directory"
             },
             {
               "type": "string",
-              "value": "The image of the item is not good quality"
+              "value": "The image of the item is not in good quality"
             },
             {
               "type": "string",

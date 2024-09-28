@@ -2,11 +2,11 @@
 
 import { Badge } from "@/components/ui/badge";
 import { urlForImage } from "@/lib/image";
-import { getBadgeStyle, PricePlan } from "@/lib/submission";
-import { cn, getLocaleDate } from "@/lib/utils";
+import { getLocaleDate } from "@/lib/utils";
 import { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import SubmissionStatus from "../../../dashboard/submission-status";
 
 type SubmissionCardInPlanPageProps = {
   item: ItemInfo;
@@ -18,9 +18,6 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
     : null;
   const imageBlurDataURL = item?.image?.blurDataURL || null;
   // console.log(`SubmissionCard, imageBlurDataURL:${imageBlurDataURL}`);
-
-  const badgeStyle = getBadgeStyle(item);
-  const status = item.pricePlan === PricePlan.FREE ? item.freePlanStatus : item.proPlanStatus;
 
   return (
     <>
@@ -85,9 +82,9 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
         {/* Right column */}
         <div className="md:col-span-3 flex flex-col justify-center">
           <div className="space-y-4">
-            <h1 className="text-2xl font-bold">{item.name}</h1>
+            <h1 className="text-2xl font-medium">{item.name}</h1>
 
-            <p className="text-muted-foreground line-clamp-3 text-balance">{item.description}</p>
+            <p className="text-muted-foreground line-clamp-2 text-balance">{item.description}</p>
 
             <div className="grid grid-cols-2 gap-4 text-sm pt-2">
               <div className="flex items-center gap-2">
@@ -98,17 +95,7 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-medium text-muted-foreground">Status:</span>
-                {
-                  <Badge variant='outline' className={cn(
-                    "capitalize",
-                    badgeStyle === "success" && "bg-green-100 text-green-800",
-                    badgeStyle === "danger" && "bg-red-100 text-red-800",
-                    badgeStyle === "warning" && "bg-yellow-100 text-yellow-800",
-                    badgeStyle === "normal" && "bg-gray-100 text-gray-800"
-                  )}>
-                    {status}
-                  </Badge>
-                }
+                <SubmissionStatus item={item} />
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-medium text-muted-foreground">Publish Date:</span>

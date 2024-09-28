@@ -1,16 +1,11 @@
 import { DashboardSubmitHeader } from "@/components/dashboard/dashboard-submit-header";
-import { PublishNowButton } from "@/components/forms/publish-now-button";
 import { SubmitStepper } from "@/components/submit/submit-stepper";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { urlForImage } from "@/lib/image";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
 import { ItemInfo } from "@/types";
-import { CalendarDaysIcon, PartyPopperIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import SubmissionCardInPublishPage from "./submission-card-in-publish-page";
 
 export default async function PublishPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -34,11 +29,6 @@ export default async function PublishPage({ params }: { params: { id: string } }
   //   return redirect(`/submit/plan/${item._id}`);
   // }
 
-  const imageProps = item?.image
-    ? urlForImage(item?.image)
-    : null;
-  const imageBlurDataURL = item?.image?.blurDataURL || null;
-
   return (
     <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
       <DashboardSubmitHeader
@@ -48,103 +38,9 @@ export default async function PublishPage({ params }: { params: { id: string } }
         <SubmitStepper initialStep={3} />
       </DashboardSubmitHeader>
 
-      <Card className="mt-8 flex flex-col items-center w-full p-4 gap-8">
-        <div className="w-full">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-
-            {/* Left column */}
-            <div className="md:col-span-2 flex flex-col">
-              {/* image */}
-              <div className="relative group overflow-hidden rounded-lg aspect-[16/9]">
-                {imageProps && (
-                  <>
-                    <Image
-                      src={imageProps.src}
-                      alt={item.image?.alt || `image for ${item.name}`}
-                      loading="eager"
-                      fill
-                      className="border w-full image-scale"
-                      {...(imageBlurDataURL && {
-                        placeholder: "blur",
-                        blurDataURL: imageBlurDataURL
-                      })}
-                    />
-                    <div className="absolute left-2 bottom-2 opacity-100 transition-opacity duration-300">
-                      <div className="flex flex-col gap-2">
-                        {item.categories && item.categories.length > 0 && (
-                          <div className="flex flex-wrap gap-1">
-                            {item.categories.map((category, index) => (
-                              <span key={`cat-${index}`} className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md">
-                                {category.name}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                        {item.tags && item.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1">
-                            {item.tags.map((tag, index) => (
-                              <span key={`tag-${index}`} className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md">
-                                #{tag.name}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-
-            {/* Right column */}
-            <div className="md:col-span-3 flex items-center">
-              <div className="flex flex-col w-full space-y-8">
-                {/* name and description */}
-                <h1 className="text-4xl font-bold text-start">
-                  {item.name}
-                </h1>
-                <p className="text-muted-foreground line-clamp-3">
-                  {item.description}
-                </p>
-
-                {/* action buttons */}
-                {
-                  item.publishDate ? (
-                    <div className="flex flex-row gap-4">
-                      <div className="">
-                        <Button size="lg" variant="default" asChild
-                          className="group overflow-hidden rounded-full">
-                          <Link href={`/item/${item.slug.current}`}
-                            className="flex items-center justify-center space-x-2">
-                            <PartyPopperIcon className="w-4 h-4 icon-scale" />
-                            <span className="">View on site</span>
-                          </Link>
-                        </Button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex flex-row gap-4">
-                      <div className="">
-                        <PublishNowButton item={item} />
-                      </div>
-
-                      <div className="">
-                        <Button size="lg" variant="outline" asChild
-                          className="group overflow-hidden flex-1 w-full">
-                          <Link href='/dashboard' className="flex items-center justify-center space-x-2">
-                            <CalendarDaysIcon className="w-4 h-4 icon-scale" />
-                            <span className="">Publish Later</span>
-                          </Link>
-                        </Button>
-                      </div>
-                    </div>
-                  )
-                }
-
-              </div>
-            </div>
-
-          </div>
+      <Card className="mt-8 flex flex-col items-center w-full">
+        <div className="w-full p-4">
+          <SubmissionCardInPublishPage item={item} />
         </div>
       </Card>
     </div>

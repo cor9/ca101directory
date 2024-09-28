@@ -83,7 +83,7 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
                     bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
                     <span className="text-white text-lg font-semibold 
                       opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      Visit Website
+                      View on site
                     </span>
                   </Link>
                 ) : null

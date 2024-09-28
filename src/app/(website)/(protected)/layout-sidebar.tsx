@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { DashboardSidebar } from "@/components/layout/dashboard-sidebar";
 import { DashboardSidebarMobile } from "@/components/layout/dashboard-sidebar-mobile";
 import { ModeToggle } from "@/components/layout/mode-toggle";
-import { UserAccountNav } from "@/components/layout/user-account-nav";
+import { UserButton } from "@/components/layout/user-button";
 import Container from "@/components/shared/container";
 import { sidebarLinks } from "@/config/dashboard";
 import { currentUser } from "@/lib/auth";
@@ -40,7 +40,7 @@ export default async function ProtectedLayout({ children }: ProtectedLayoutProps
             <div className="w-full flex-1">
             </div>
 
-            <UserAccountNav />
+            <UserButton />
             <ModeToggle />
           </Container>
         </header>

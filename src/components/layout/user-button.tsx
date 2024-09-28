@@ -18,11 +18,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Drawer } from "vaul";
 
-export function UserAccountNav() {
+export function UserButton() {
   const router = useRouter();
-
   const user = useCurrentUser();
-  // console.log('UserAccountNav, user:', user);
+  // console.log('UserButton, user:', user);
 
   const [open, setOpen] = useState(false);
   const closeDrawer = () => {

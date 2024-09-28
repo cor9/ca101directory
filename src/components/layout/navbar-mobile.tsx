@@ -14,7 +14,7 @@ import { DocsSidebarNav } from "../docs/docs-sidebar-nav";
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import { UserAccountNav } from "./user-account-nav";
+import { UserButton } from "./user-button";
 
 export function NavbarMobile() {
   const { data: session, status } = useSession();
@@ -105,7 +105,7 @@ export function NavbarMobile() {
 
             {session ? (
               <div className="">
-                <UserAccountNav />
+                <UserButton />
               </div>
             ) : status === "unauthenticated" ? (
               <LoginWrapper mode="modal" asChild>

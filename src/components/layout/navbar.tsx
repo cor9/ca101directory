@@ -2,7 +2,7 @@
 
 import { LoginWrapper } from "@/components/auth/login-button";
 import { ModeToggle } from "@/components/layout/mode-toggle";
-import { UserAccountNav } from "@/components/layout/user-account-nav";
+import { UserButton } from "@/components/layout/user-button";
 import Container from "@/components/shared/container";
 import { Icons } from "@/components/shared/icons";
 import { Button } from "@/components/ui/button";
@@ -118,7 +118,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
             {
               user ? (
                 <div className="flex items-center">
-                  <UserAccountNav />
+                  <UserButton />
                 </div>
               ) : (
                 <LoginWrapper mode="modal" asChild>
@@ -205,7 +205,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
             {
               user ? (
                 <div className="flex items-center">
-                  <UserAccountNav />
+                  <UserButton />
                 </div>
               ) : (
                 <LoginWrapper mode="redirect" asChild>

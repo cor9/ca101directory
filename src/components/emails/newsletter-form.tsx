@@ -1,6 +1,6 @@
 "use client";
 
-import { subscribeToNewsletter } from "@/actions/newsletter-subscribe";
+import { subscribeToNewsletter } from "@/actions/subscribe-to-newsletter";
 import { Button } from "@/components/ui/button";
 import {
   Form,

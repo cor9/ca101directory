@@ -16,8 +16,14 @@ export async function getSubmissions({
 }) {
     const { countQuery, dataQuery } = buildQuery(userId, currentPage);
     const [totalCount, submissions] = await Promise.all([
-        sanityFetch<number>({ query: countQuery }),
-        sanityFetch<SubmissionListQueryResult>({ query: dataQuery })
+        sanityFetch<number>({
+            query: countQuery,
+            disableCache: true
+        }),
+        sanityFetch<SubmissionListQueryResult>({
+            query: dataQuery,
+            disableCache: true
+        })
     ]);
     return { submissions, totalCount };
 }

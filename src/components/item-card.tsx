@@ -88,7 +88,7 @@ export default function ItemCard({ item }: ItemCardProps) {
                 {item.tags.slice(0, 3).map((tag, index) => (
                   <span key={`tag-${index}`}
                     className="text-sm text-muted-foreground px-1 rounded-md">
-                    # {tag.name}
+                    #{tag.name}
                   </span>
                 ))}
                 {item.tags.length > 3 && (

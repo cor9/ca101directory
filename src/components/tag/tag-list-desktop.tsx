@@ -15,7 +15,7 @@ export function TagListDesktop({ tagList }: TagListDesktopProps) {
   return (
     <>
       {/* Desktop View */}
-      <ScrollArea className="hidden md:flex w-full">
+      <ScrollArea className="hidden md:flex w-full pb-4">
         <ul role="list" className="w-full flex flex-1 gap-x-2" >
           <DesktopFilterItem
             title="All"

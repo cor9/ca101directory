@@ -23,9 +23,12 @@ export async function TagFilter() {
             <TagListDesktop tagList={tagList} />
           </Suspense>
 
-          <Suspense fallback={null}>
-            <SortListDesktop sortList={SORT_FILTER_LIST} />
-          </Suspense>
+          {/* pb-4 is for ScrollBar in TagListDesktop */}
+          <div className='pb-4'>
+            <Suspense fallback={null}>
+              <SortListDesktop sortList={SORT_FILTER_LIST} />
+            </Suspense>
+          </div>
         </div>
       </Container>
 

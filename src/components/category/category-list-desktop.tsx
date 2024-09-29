@@ -15,7 +15,7 @@ export function CategoryListDesktop({ categoryList }: CategoryListDesktopProps) 
   return (
     <>
       {/* Desktop View */}
-      <ScrollArea className="hidden md:flex w-full">
+      <ScrollArea className="hidden md:flex w-full pb-4">
         <ul role="list" className="flex gap-x-2" >
           <DesktopFilterItem
             title="All"
@@ -31,7 +31,6 @@ export function CategoryListDesktop({ categoryList }: CategoryListDesktopProps) 
               active={item.slug.current === slug}
             />
           ))}
-
         </ul>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>

@@ -23,11 +23,14 @@ export async function CategoryFilter() {
             <CategoryListDesktop categoryList={categoryList} />
           </Suspense>
 
+          {/* pb-4 is for ScrollBar in CategoryListDesktop */}
           {/* useSearchParams() should be wrapped in a suspense boundary at page "/category". */}
           {/* Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout */}
-          <Suspense fallback={null}>
-            <SortListDesktop sortList={SORT_FILTER_LIST} />
-          </Suspense>
+          <div className='pb-4'>
+            <Suspense fallback={null}>
+              <SortListDesktop sortList={SORT_FILTER_LIST} />
+            </Suspense>
+          </div>
         </div>
       </Container>
 

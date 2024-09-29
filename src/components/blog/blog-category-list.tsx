@@ -6,11 +6,11 @@ import Link from "next/link";
 import { useParams } from 'next/navigation';
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
-export type BlogCategoryListProps = {
+export type BlogCategoryListDesktopProps = {
   categoryList: BlogCategoryListQueryResult;
 };
 
-export function BlogCategoryList({ categoryList }: BlogCategoryListProps) {
+export function BlogCategoryListDesktop({ categoryList }: BlogCategoryListDesktopProps) {
   const { slug } = useParams() as { slug?: string };
 
   return (

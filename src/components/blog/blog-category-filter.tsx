@@ -3,7 +3,7 @@ import { BlogCategoryListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { blogCategoryListQuery } from '@/sanity/lib/queries';
 import { Suspense } from 'react';
-import { BlogCategoryList } from "./blog-category-list";
+import { BlogCategoryListDesktop } from "./blog-category-list";
 import { BlogCategoryListMobile } from './blog-category-list-mobile';
 import { HeaderSection } from '../shared/header-section';
 
@@ -14,7 +14,7 @@ export async function BlogCategoryFilter() {
 
   return (
     <>
-      <section className="w-full flex flex-col items-center justify-center gap-8">
+      <div className="w-full flex flex-col items-center justify-center gap-8">
         <HeaderSection
           label="Blog"
           title="Explore our blog posts"
@@ -23,7 +23,7 @@ export async function BlogCategoryFilter() {
         {/* Desktop View, has Container */}
         <Container className="hidden md:block">
           <Suspense fallback={null}>
-            <BlogCategoryList categoryList={categoryList} />
+            <BlogCategoryListDesktop categoryList={categoryList} />
           </Suspense>
         </Container>
 
@@ -33,7 +33,7 @@ export async function BlogCategoryFilter() {
             <BlogCategoryListMobile categoryList={categoryList} />
           </Suspense>
         </div>
-      </section>
+      </div>
     </>
   );
 }

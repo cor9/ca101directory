@@ -24,7 +24,7 @@ export default function AuthLayout({
         {/* brand image */}
         <div className="hidden bg-muted lg:block">
           <Image
-            src="/icon-512-maskable.png"
+            src="/placeholder.svg"
             alt="Image"
             width="1920"
             height="1080"

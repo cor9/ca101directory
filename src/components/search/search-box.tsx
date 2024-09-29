@@ -2,7 +2,7 @@
 
 import { createUrl } from '@/lib/utils';
 import { SearchIcon } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
@@ -52,7 +52,7 @@ export default function SearchBox() {
           autoComplete="off"
           value={searchQuery}
           onChange={handleSearch}
-          className="w-full rounded-none md:rounded-lg border px-4 py-2 text-sm"
+          className="w-full rounded-lg border px-4 py-2 text-sm"
         />
         <div className="absolute right-0 top-0 mr-4 flex h-full items-center">
           <SearchIcon className="h-4" />

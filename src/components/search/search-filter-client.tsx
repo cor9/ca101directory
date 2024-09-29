@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SortFilterItem } from "@/lib/constants";
+import { defaultSort, SortFilterItem } from "@/lib/constants";
 import { useRouter, useSearchParams } from "next/navigation";
 import SearchBox from "./search-box";
 
@@ -72,10 +72,10 @@ export function SearchFilterClient({
         onValueChange={(value) => handleFilterChange("category", value)}
       >
         <SelectTrigger>
-          <SelectValue placeholder="All" />
+          <SelectValue placeholder="All Categories" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value={null}>All</SelectItem>
+          <SelectItem value={null}>All Categories</SelectItem>
           {categoryList.map((item) => (
             <SelectItem key={item.slug} value={item.slug}>
               {item.name}
@@ -89,10 +89,10 @@ export function SearchFilterClient({
         onValueChange={(value) => handleFilterChange("tag", value)}
       >
         <SelectTrigger>
-          <SelectValue placeholder="All" />
+          <SelectValue placeholder="All Tags" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value={null}>All</SelectItem>
+          <SelectItem value={null}>All Tags</SelectItem>
           {tagList.map((item) => (
             <SelectItem key={item.slug} value={item.slug}>
               {item.name}
@@ -106,7 +106,7 @@ export function SearchFilterClient({
         onValueChange={(value) => handleFilterChange("sort", value)}
       >
         <SelectTrigger>
-          <SelectValue placeholder="Sort by Time" />
+          <SelectValue placeholder={defaultSort.title} />
         </SelectTrigger>
         <SelectContent>
           {sortList.map((item) => (

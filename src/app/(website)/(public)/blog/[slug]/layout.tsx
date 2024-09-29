@@ -1,3 +1,4 @@
+import { NewsletterForm } from '@/components/emails/newsletter-form';
 import Container from '@/components/shared/container';
 
 export default function BlogPostLayout({ children }: { children: React.ReactNode }) {
@@ -6,6 +7,8 @@ export default function BlogPostLayout({ children }: { children: React.ReactNode
       <Container className="mt-8 pb-16">
         {children}
       </Container>
+
+      <NewsletterForm />
     </>
   );
 }

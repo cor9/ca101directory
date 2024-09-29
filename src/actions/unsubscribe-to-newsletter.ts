@@ -8,7 +8,7 @@ import { NewsletterFormData, NewsletterFormSchema } from "@/lib/schemas";
  */
 export async function unsubscribeToNewsletter(
   formdata: NewsletterFormData
-): Promise<"exists" | "error" | "success"> {
+): Promise<"error" | "success"> {
   try {
     const validatedInput = NewsletterFormSchema.safeParse(formdata);
     if (!validatedInput.success) return "error";

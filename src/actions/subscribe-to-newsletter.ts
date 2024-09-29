@@ -9,7 +9,7 @@ import { NewsletterWelcomeEmail } from "@/components/emails/newsletter-welcome-e
  */
 export async function subscribeToNewsletter(
   formdata: NewsletterFormData
-): Promise<"exists" | "error" | "success"> {
+): Promise<"error" | "success"> {
   try {
     const validatedInput = NewsletterFormSchema.safeParse(formdata);
     if (!validatedInput.success) return "error";

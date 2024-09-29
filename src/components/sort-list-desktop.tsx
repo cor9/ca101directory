@@ -50,7 +50,7 @@ export function SortListDesktop({ sortList }: SortListProps) {
     <>
       {/* Desktop View */}
       <Select onValueChange={onSelectChange} value={active}>
-        <SelectTrigger className="h-8 text-sm">
+        <SelectTrigger className="w-[220px] h-8 text-sm">
           <SelectValue placeholder={defaultSort.title} />
         </SelectTrigger>
         <SelectContent className="text-sm">

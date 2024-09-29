@@ -2,11 +2,11 @@
 
 import { defaultSort, SortFilterItem } from "@/lib/constants";
 import { createUrl } from "@/lib/utils";
-import { ListChecks } from "lucide-react";
+import { ListChecksIcon } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Drawer } from "vaul";
-import DrawerItem from "./drawer-item";
+import MobileFilterItem from "./mobile-filter-item";
 
 export type SortListMobileProps = {
   sortList: SortFilterItem[];
@@ -44,10 +44,10 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
           onClick={() => setOpen(true)}
-          className="md:hidden flex w-full p-3 items-center border-y text-foreground/90"
+          className="w-full flex items-center p-3 gap-x-2 border-y text-foreground/90"
         >
-          <ListChecks className="size-[18px]" />
-          <p className="ml-2.5 text-sm font-medium">
+          <ListChecksIcon className="size-5" />
+          <p className="text-sm font-medium">
             {sortList.find((item) => item.slug === active)?.title || defaultSort.title}
           </p>
         </Drawer.Trigger>
@@ -61,7 +61,7 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
             </div>
             <ul role="list" className="w-full mb-14 p-3 text-muted-foreground">
               {sortList.map((item) => (
-                <DrawerItem
+                <MobileFilterItem
                   key={item.slug}
                   title={item.title}
                   href={generateUrl(item.slug)}

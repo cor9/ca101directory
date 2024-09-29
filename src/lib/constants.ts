@@ -21,7 +21,7 @@ export const defaultSort: SortFilterItem = {
   reverse: true
 };
 
-export const sorting: SortFilterItem[] = [
+export const SORT_FILTER_LIST: SortFilterItem[] = [
   defaultSort,
   { title: 'Sort by Time (asc)', slug: 'date-asc', sortKey: 'publishDate', reverse: false },
   // { title: 'Sort by Stars (dsc)', slug: 'stars-desc', sortKey: 'stars', reverse: true },

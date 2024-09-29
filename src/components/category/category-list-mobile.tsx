@@ -1,20 +1,20 @@
 "use client";
 
-import { BlogCategoryListQueryResult } from '@/sanity.types';
-import { LayoutList } from "lucide-react";
-import { useParams } from 'next/navigation';
+import { CategoryListQueryResult } from '@/sanity.types';
+import { LayoutListIcon } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Drawer } from "vaul";
-import MobileFilterItem from '../mobile-filter-item';
+import MobileFilterItem from "../mobile-filter-item";
 
-export type BlogCategoryListMobileProps = {
-  categoryList: BlogCategoryListQueryResult;
+export type CategoryListMobileProps = {
+  categoryList: CategoryListQueryResult;
 };
 
-export function BlogCategoryListMobile({ categoryList }: BlogCategoryListMobileProps) {
+export function CategoryListMobile({ categoryList }: CategoryListMobileProps) {
   const [open, setOpen] = useState(false);
   const { slug } = useParams() as { slug?: string };
-  const selectedCategory = categoryList.find((category) => category.slug.current === slug);
+  const category = categoryList.find((category) => category.slug.current === slug);
 
   const closeDrawer = () => {
     setOpen(false);
@@ -26,19 +26,12 @@ export function BlogCategoryListMobile({ categoryList }: BlogCategoryListMobileP
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
           onClick={() => setOpen(true)}
-          className="flex items-center w-full p-4 border-y text-foreground/90"
+          className="w-full flex items-center p-3 gap-x-2 border-y text-foreground/90"
         >
-          <div className="flex items-center justify-between w-full gap-4">
-            <div className="flex items-center gap-2">
-              <LayoutList className="size-4" />
-              <span className="text-sm font-medium">
-                Category
-              </span>
-            </div>
-            <span className="text-sm">
-              {selectedCategory?.name ? `${selectedCategory?.name}` : 'All'}
-            </span>
-          </div>
+          <LayoutListIcon className="size-5" />
+          <p className="text-sm font-medium">
+            {category?.name ? `Category (${category?.name})` : 'All Categories'}
+          </p>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
           onClick={closeDrawer}
@@ -51,7 +44,7 @@ export function BlogCategoryListMobile({ categoryList }: BlogCategoryListMobileP
             <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
               <MobileFilterItem
                 title="All"
-                href="/blog"
+                href="/category"
                 active={!slug}
                 clickAction={closeDrawer}
               />
@@ -60,7 +53,7 @@ export function BlogCategoryListMobile({ categoryList }: BlogCategoryListMobileP
                 <MobileFilterItem
                   key={item.slug.current}
                   title={item.name}
-                  href={`/blog/category/${item.slug.current}`}
+                  href={`/category/${item.slug.current}`}
                   active={item.slug.current === slug}
                   clickAction={closeDrawer}
                 />

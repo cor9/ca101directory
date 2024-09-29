@@ -2,7 +2,7 @@ import EmptyGrid from '@/components/empty-grid';
 import ItemGrid from '@/components/item-grid';
 import CustomPagination from '@/components/pagination';
 import { getItems } from '@/data/item';
-import { defaultSort, ITEMS_PER_PAGE, sorting } from '@/lib/constants';
+import { defaultSort, ITEMS_PER_PAGE, SORT_FILTER_LIST } from '@/lib/constants';
 import { Suspense } from 'react';
 
 export default async function CategoryPage({
@@ -13,7 +13,7 @@ export default async function CategoryPage({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const { sort, page } = searchParams as { [key: string]: string };
-  const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort;
+  const { sortKey, reverse } = SORT_FILTER_LIST.find((item) => item.slug === sort) || defaultSort;
   const currentPage = page ? Number(page) : 1;
   const { items, totalCount } = await getItems({ category: params.slug, sortKey, reverse, currentPage });
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);

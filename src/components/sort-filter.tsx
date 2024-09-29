@@ -12,7 +12,7 @@ export function SortFilter({ sortList }: SortFilterProps) {
   return (
     <>
       {/* Desktop View */}
-      <div className="hidden md:block md:w-[200px]">
+      <div className="hidden md:block">
         <SortListDesktop sortList={sortList} />
       </div>
 

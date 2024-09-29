@@ -1,4 +1,4 @@
-import { sorting } from '@/lib/constants';
+import { SORT_FILTER_LIST } from '@/lib/constants';
 import { CategoryListQueryResult, TagListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { categoryListQuery, tagListQuery } from '@/sanity/lib/queries';
@@ -31,7 +31,7 @@ export async function SearchFilter() {
       <Container className="hidden md:flex md:flex-col md:mt-4">
         <div className="w-full">
           <Suspense fallback={null}>
-            <SearchFilterClient tagList={tags} categoryList={categories} sortList={sorting} />
+            <SearchFilterClient tagList={tags} categoryList={categories} sortList={SORT_FILTER_LIST} />
           </Suspense>
         </div>
       </Container>
@@ -40,7 +40,7 @@ export async function SearchFilter() {
       <div className="md:hidden flex flex-col mt-4">
         <div className="mx-4">
           <Suspense fallback={null}>
-            <SearchFilterClient tagList={tags} categoryList={categories} sortList={sorting} />
+            <SearchFilterClient tagList={tags} categoryList={categories} sortList={SORT_FILTER_LIST} />
           </Suspense>
         </div>
       </div>

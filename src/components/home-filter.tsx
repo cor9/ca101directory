@@ -1,4 +1,4 @@
-import { sorting } from '@/lib/constants';
+import { SORT_FILTER_LIST } from '@/lib/constants';
 import { CategoryListQueryResult, TagListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { categoryListQuery, tagListQuery } from '@/sanity/lib/queries';
@@ -40,7 +40,7 @@ export async function HomeFilter() {
         <div className='flex items-center justify-between'>
           <div className="w-full">
             <Suspense fallback={<SearchSkeleton />}>
-              <HomeFilterClient tagList={tags} categoryList={categories} sortList={sorting} />
+              <HomeFilterClient tagList={tags} categoryList={categories} sortList={SORT_FILTER_LIST} />
             </Suspense>
           </div>
         </div>
@@ -56,7 +56,7 @@ export async function HomeFilter() {
 
         <div className="mx-4">
           <Suspense fallback={<SearchSkeleton />}>
-            <HomeFilterClient tagList={tags} categoryList={categories} sortList={sorting} />
+            <HomeFilterClient tagList={tags} categoryList={categories} sortList={SORT_FILTER_LIST} />
           </Suspense>
         </div>
       </div>

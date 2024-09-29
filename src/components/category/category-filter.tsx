@@ -1,46 +1,44 @@
 import Container from '@/components/shared/container';
-import { SortFilter } from '@/components/sort-filter';
-import { sorting } from '@/lib/constants';
+import { SORT_FILTER_LIST } from '@/lib/constants';
 import { CategoryListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { categoryListQuery } from '@/sanity/lib/queries';
 import { Suspense } from 'react';
-import { CategoryList } from "./category-list";
+import { SortListDesktop } from '../sort-list-desktop';
+import { SortListMobile } from '../sort-list-mobile';
+import { CategoryListDesktop } from "./category-list-desktop";
+import { CategoryListMobile } from './category-list-mobile';
 
 export async function CategoryFilter() {
   const categoryList = await sanityFetch<CategoryListQueryResult>({
     query: categoryListQuery
   });
+
   return (
     <>
       {/* Desktop View, has Container */}
       <Container className="hidden md:block">
-        <div className='flex items-center justify-between gap-8 mt-4'>
-          <div className="flex-1">
-            <Suspense fallback={null}>
-              <CategoryList categoryList={categoryList} />
-            </Suspense>
-          </div>
+        <div className='flex items-center justify-between gap-8'>
+          <Suspense fallback={null}>
+            <CategoryListDesktop categoryList={categoryList} />
+          </Suspense>
 
-          <div className="">
-            {/* useSearchParams() should be wrapped in a suspense boundary at page "/category". */}
-            {/* Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout */}
-            <Suspense fallback={null}>
-              <SortFilter sortList={sorting} />
-            </Suspense>
-          </div>
+          {/* useSearchParams() should be wrapped in a suspense boundary at page "/category". */}
+          {/* Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout */}
+          <Suspense fallback={null}>
+            <SortListDesktop sortList={SORT_FILTER_LIST} />
+          </Suspense>
         </div>
       </Container>
 
       {/* Mobile View, no Container */}
-      <div className="md:hidden flex flex-col gap-8 mt-4">
+      <div className="md:hidden flex flex-col gap-8">
         <Suspense fallback={null}>
-          <CategoryList categoryList={categoryList} />
+          <CategoryListMobile categoryList={categoryList} />
         </Suspense>
 
-        {/* set width to full */}
         <Suspense fallback={null}>
-          <SortFilter sortList={sorting} />
+          <SortListMobile sortList={SORT_FILTER_LIST} />
         </Suspense>
       </div>
     </>

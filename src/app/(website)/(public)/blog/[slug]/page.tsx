@@ -51,14 +51,13 @@ export default async function PostPage({ params }: PostPageProps) {
                     {/* Basic information */}
                     <div className="space-y-8">
                         {/* blog post image */}
-                        <div className="relative overflow-hidden rounded-lg aspect-[16/9]">
+                        <div className="group overflow-hidden relative aspect-[16/9] rounded-lg transition-all border">
                             {imageProps && (
                                 <Image
                                     src={imageProps.src}
                                     alt={post.image?.alt || `image for blog post`}
                                     loading="eager"
                                     fill
-                                    sizes="(max-width: 1024px) 100vw, 1024px"
                                     className="object-cover"
                                     {...(imageBlurDataURL && {
                                         placeholder: "blur",
@@ -105,20 +104,16 @@ export default async function PostPage({ params }: PostPageProps) {
                                     )}
                                 </div>
                                 <div>
-                                    {
-                                        post.author.link && (
-                                            <Link href={post.author.link} target="_blank" prefetch={false}
-                                                className="font-medium link-underline">
-                                                {post.author.name}
-                                            </Link>
-                                        ) || (
-                                            <span>
-                                                {post.author.name}
-                                            </span>
-                                        )
-                                    }
-
-                                    {/* <p className="font-medium text-lg">{post.author.name}</p> */}
+                                    {post.author?.link ? (
+                                        <Link href={post.author.link} target="_blank" prefetch={false}
+                                            className="font-medium link-underline">
+                                            {post.author.name}
+                                        </Link>
+                                    ) : (
+                                        <span>
+                                            {post.author.name}
+                                        </span>
+                                    )}
 
                                     <p className="text-sm text-muted-foreground">{date}</p>
                                 </div>
@@ -164,28 +159,6 @@ export default async function PostPage({ params }: PostPageProps) {
                             More Posts
                         </h2>
                     </div>
-
-                    {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
-                        {post.relatedPosts.map((post) => (
-                            <Link
-                                key={post.slug.current}
-                                href={`/blog/${post.slug.current}`}
-                                className="flex flex-col justify-between space-y-2 rounded-xl border p-4 transition-colors duration-300 hover:bg-muted/80"
-                            >
-                                <div className="flex flex-col space-y-2">
-                                    <h3 className="text-xl">
-                                        {post.title}
-                                    </h3>
-                                    <p className="line-clamp-2 text-muted-foreground">
-                                        {post.excerpt}
-                                    </p>
-                                </div>
-                                <p className="text-sm text-muted-foreground">
-                                    {getLocaleDate(post.publishDate)}
-                                </p>
-                            </Link>
-                        ))}
-                    </div> */}
 
                     <BlogGrid posts={post.relatedPosts} />
                 </div>

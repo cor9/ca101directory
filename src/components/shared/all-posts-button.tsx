@@ -1,13 +1,10 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 
 export default function AllPostsButton() {
-    const router = useRouter();
-
     return (
         <Button
             size="lg"
@@ -15,7 +12,7 @@ export default function AllPostsButton() {
             className="inline-flex items-center gap-2 group"
             asChild
         >
-            <Link href="/blog" onClick={() => router.back()}>
+            <Link href="/blog" prefetch={false}>
                 <ArrowLeftIcon className="w-5 h-5 
                     transition-transform duration-200 group-hover:-translate-x-1" />
                 <span>All Posts</span>

@@ -84,13 +84,18 @@ export default function ItemCard({ item }: ItemCardProps) {
 
           <div className="px-4 flex justify-end items-center">
             {item.tags && item.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1">
-                {item.tags.map((tag, index) => (
+              <div className="flex flex-wrap gap-1 items-center">
+                {item.tags.slice(0, 3).map((tag, index) => (
                   <span key={`tag-${index}`}
-                    className="text-sm text-muted-foreground p-1 rounded-md">
+                    className="text-sm text-muted-foreground px-1 rounded-md">
                     # {tag.name}
                   </span>
                 ))}
+                {item.tags.length > 3 && (
+                  <span className="text-sm text-muted-foreground px-1 rounded-md">
+                    +{item.tags.length - 3}
+                  </span>
+                )}
               </div>
             )}
           </div>

@@ -4,7 +4,7 @@ import { TagListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { tagListQuery } from '@/sanity/lib/queries';
 import Container from '@/components/shared/container';
-import { SortFilter } from '@/components/sort-list';
+import { SortFilter } from '@/components/sort-filter';
 import { TagList } from './tag-list';
 
 export async function TagFilter() {

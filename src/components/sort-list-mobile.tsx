@@ -1,29 +1,21 @@
 "use client";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { defaultSort, SortFilterItem } from "@/lib/constants";
 import { createUrl } from "@/lib/utils";
-import { Check, ListChecks } from "lucide-react";
-import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ListChecks } from "lucide-react";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Drawer } from "vaul";
+import DrawerItem from "./drawer-item";
 
-export type SortListProps = {
+export type SortListMobileProps = {
   sortList: SortFilterItem[];
 };
 
-export function SortList({ sortList }: SortListProps) {
+export function SortListMobile({ sortList }: SortListMobileProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const router = useRouter();
   const [active, setActive] = useState('');
 
   useEffect(() => {
@@ -46,30 +38,8 @@ export function SortList({ sortList }: SortListProps) {
     );
   };
 
-  const onSelectChange = (value: string) => {
-    setActive(value);
-    const href = generateUrl(value);
-    router.push(href);
-  };
-
   return (
     <>
-      {/* Desktop View */}
-      <div className="hidden w-full md:block md:min-w-[180px]">
-        <Select onValueChange={onSelectChange} value={active}>
-          <SelectTrigger className="h-8 text-sm">
-            <SelectValue placeholder={defaultSort.title} />
-          </SelectTrigger>
-          <SelectContent className="text-sm">
-            {sortList.map((item) => (
-              <SelectItem key={item.slug} value={item.slug}>
-                {item.title}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
       {/* Mobile View */}
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
@@ -91,14 +61,13 @@ export function SortList({ sortList }: SortListProps) {
             </div>
             <ul role="list" className="w-full mb-14 p-3 text-muted-foreground">
               {sortList.map((item) => (
-                <Link key={item.slug} href={generateUrl(item.slug)} onClick={closeDrawer}>
-                  <li className="rounded-lg text-foreground hover:bg-muted">
-                    <div className="flex items-center justify-between px-3 py-2 text-sm">
-                      <span>{item.title}</span>
-                      {active === item.slug && <Check className="size-4" />}
-                    </div>
-                  </li>
-                </Link>
+                <DrawerItem
+                  key={item.slug}
+                  title={item.title}
+                  href={generateUrl(item.slug)}
+                  active={active === item.slug}
+                  clickAction={closeDrawer}
+                />
               ))}
             </ul>
           </Drawer.Content>

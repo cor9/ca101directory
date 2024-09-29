@@ -1,5 +1,5 @@
 import Container from '@/components/shared/container';
-import { SortFilter } from '@/components/sort-list';
+import { SortFilter } from '@/components/sort-filter';
 import { sorting } from '@/lib/constants';
 import { CategoryListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';

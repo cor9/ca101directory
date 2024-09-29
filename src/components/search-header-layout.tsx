@@ -1,6 +1,6 @@
 import { sorting } from '@/lib/constants';
 import Container from './shared/container';
-import { SortFilter } from './sort-list';
+import { SortFilter } from './sort-filter';
 import Search, { SearchSkeleton } from './search';
 import { Suspense } from 'react';
 

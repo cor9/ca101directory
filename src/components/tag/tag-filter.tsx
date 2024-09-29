@@ -4,7 +4,7 @@ import { TagListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { tagListQuery } from '@/sanity/lib/queries';
 import Container from '@/components/shared/container';
-import { SortList } from '@/components/sort-list';
+import { SortFilter } from '@/components/sort-list';
 import { TagList } from './tag-list';
 
 export async function TagFilter() {
@@ -25,7 +25,7 @@ export async function TagFilter() {
 
           <div className="">
             <Suspense fallback={null}>
-              <SortList sortList={sorting} />
+              <SortFilter sortList={sorting} />
             </Suspense>
           </div>
         </div>
@@ -39,7 +39,7 @@ export async function TagFilter() {
 
         {/* set width to full */}
         <Suspense fallback={null}>
-          <SortList sortList={sorting} />
+          <SortFilter sortList={sorting} />
         </Suspense>
       </div>
     </>

@@ -2,11 +2,12 @@
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { CategoryListQueryResult } from '@/sanity.types';
-import { Check, LayoutList } from "lucide-react";
+import { LayoutList } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Drawer } from "vaul";
+import DrawerItem from "../drawer-item";
 import { Button } from "../ui/button";
 
 export type CategoryListProps = {
@@ -67,7 +68,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
               <div className="my-3 h-1.5 w-16 rounded-full bg-muted-foreground/20" />
             </div>
             <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
-              <MobileLink
+              <DrawerItem
                 title="All"
                 href="/category"
                 active={!slug}
@@ -75,7 +76,7 @@ export function CategoryList({ categoryList }: CategoryListProps) {
               />
 
               {categoryList.map((item) => (
-                <MobileLink
+                <DrawerItem
                   key={item.slug.current}
                   title={item.name}
                   href={`/category/${item.slug.current}`}
@@ -120,34 +121,6 @@ const DesktopLink = ({
           </li>
         </Link>
       </Button>
-    </>
-  );
-};
-
-const MobileLink = ({
-  title,
-  href,
-  active,
-  clickAction,
-}: {
-  title: string;
-  href: string;
-  active: boolean;
-  clickAction?: () => void;
-}) => {
-  return (
-    <>
-      {/* shwo in mobile, wrapped in Link and shwo in a Drawer */}
-      <Link href={href}
-        prefetch={false}
-        onClick={clickAction}>
-        <li className="rounded-lg text-foreground hover:bg-muted">
-          <div className="flex items-center justify-between px-3 py-2 text-sm">
-            <span>{title}</span>
-            {active && <Check className="size-4" />}
-          </div>
-        </li>
-      </Link>
     </>
   );
 };

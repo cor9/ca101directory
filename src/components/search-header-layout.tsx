@@ -1,6 +1,6 @@
 import { sorting } from '@/lib/constants';
 import Container from './shared/container';
-import { SortList } from './sort-list';
+import { SortFilter } from './sort-list';
 import Search, { SearchSkeleton } from './search';
 import { Suspense } from 'react';
 
@@ -18,7 +18,7 @@ export async function SearchHeaderLayout() {
 
           <div className="">
             <Suspense fallback={null}>
-              <SortList sortList={sorting} />
+              <SortFilter sortList={sorting} />
             </Suspense>
           </div>
         </div>
@@ -32,7 +32,7 @@ export async function SearchHeaderLayout() {
 
         {/* set width to full */}
         <Suspense fallback={null}>
-          <SortList sortList={sorting} />
+          <SortFilter sortList={sorting} />
         </Suspense>
       </div>
     </>

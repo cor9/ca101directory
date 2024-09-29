@@ -1,5 +1,5 @@
 import Container from '@/components/shared/container';
-import { SortList } from '@/components/sort-list';
+import { SortFilter } from '@/components/sort-list';
 import { sorting } from '@/lib/constants';
 import { CategoryListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
@@ -16,7 +16,7 @@ export async function CategoryFilter() {
       {/* Desktop View, has Container */}
       <Container className="hidden md:block">
         <div className='flex items-center justify-between gap-8 mt-4'>
-          <div className="w-full">
+          <div className="flex-1">
             <Suspense fallback={null}>
               <CategoryList categoryList={categoryList} />
             </Suspense>
@@ -26,7 +26,7 @@ export async function CategoryFilter() {
             {/* useSearchParams() should be wrapped in a suspense boundary at page "/category". */}
             {/* Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout */}
             <Suspense fallback={null}>
-              <SortList sortList={sorting} />
+              <SortFilter sortList={sorting} />
             </Suspense>
           </div>
         </div>
@@ -40,7 +40,7 @@ export async function CategoryFilter() {
 
         {/* set width to full */}
         <Suspense fallback={null}>
-          <SortList sortList={sorting} />
+          <SortFilter sortList={sorting} />
         </Suspense>
       </div>
     </>

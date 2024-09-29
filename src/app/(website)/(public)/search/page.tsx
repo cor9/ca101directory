@@ -23,26 +23,22 @@ export default async function SearchPage({
   return (
     <>
       {/* when no items are found */}
-      {
-        items?.length === 0 && (
-          <EmptyGrid />
-        )
-      }
+      {items?.length === 0 && (
+        <EmptyGrid />
+      )}
 
       {/* when items are found */}
-      {
-        items && items.length > 0 && (
-          <section className=''>
-            <ItemGrid items={items} />
+      {items && items.length > 0 && (
+        <section className=''>
+          <ItemGrid items={items} />
 
-            <div className="mt-8 flex items-center justify-center">
-              <Suspense fallback={null}>
-                <CustomPagination routePreix='/search' totalPages={totalPages} />
-              </Suspense>
-            </div>
-          </section>
-        )
-      }
+          <div className="mt-8 flex items-center justify-center">
+            <Suspense fallback={null}>
+              <CustomPagination routePreix='/search' totalPages={totalPages} />
+            </Suspense>
+          </div>
+        </section>
+      )}
     </>
   );
 }

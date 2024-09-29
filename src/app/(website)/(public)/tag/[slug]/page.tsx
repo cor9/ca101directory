@@ -22,11 +22,9 @@ export default async function TagPage({
   return (
     <>
       {/* when no items are found */}
-      {
-        items?.length === 0 && (
-          <EmptyGrid />
-        )
-      }
+      {items?.length === 0 && (
+        <EmptyGrid />
+      )}
 
       {/* when items are found */}
       {

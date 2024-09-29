@@ -1,26 +1,72 @@
 import * as z from "zod";
 
 /**
+ * newsletter schema
+ */
+export const NewsletterFormSchema = z.object({
+  email: z.string().email({
+    message: "Enter a valid email.",
+  }),
+});
+
+export type NewsletterFormData = z.infer<typeof NewsletterFormSchema>;
+
+/**
+ * email schema
+ */
+// export const emailSchema = z
+//   .string({
+//     required_error: "Email is required",
+//     invalid_type_error: "Email must be a string",
+//   })
+//   .min(5, {
+//     message: "Email must be made of at least 5 characters",
+//   })
+//   .max(64, {
+//     message: "Email must be made of at most 64 characters",
+//   })
+//   .email({
+//     message: "Please enter a valid email address",
+//   });
+
+// export const newsletterSignUpSchema = z.object({
+//   email: emailSchema,
+// });
+
+// export type NewsletterSignUpFormInput = z.infer<
+//   typeof newsletterSignUpSchema
+// >;
+
+// export const checkIfSubscribedToNewsletterSchema = z.object({
+//   email: emailSchema,
+// });
+
+// export type CheckIfSubscribedToNewsletterInput = z.infer<
+//   typeof checkIfSubscribedToNewsletterSchema
+// >;
+
+
+/**
  * submit item
  */
 export const SubmitSchema = z.object({
   name: z.string()
-      .min(1, { message: "Name is required" })
-      .max(32, { message: "Name must be 32 or fewer characters long" }),
+    .min(1, { message: "Name is required" })
+    .max(32, { message: "Name must be 32 or fewer characters long" }),
   link: z.string()
-      .url({ message: "Invalid url" }),
+    .url({ message: "Invalid url" }),
   description: z.string()
-      .min(1, { message: "Description is required" })
-      .max(256, { message: "Description must be 256 or fewer characters long" }),
+    .min(1, { message: "Description is required" })
+    .max(256, { message: "Description must be 256 or fewer characters long" }),
   introduction: z.string()
-      .min(1, { message: "Introduction is required" })
-      .max(4096, { message: "Introduction must be 4096 or fewer characters long" }),
+    .min(1, { message: "Introduction is required" })
+    .max(4096, { message: "Introduction must be 4096 or fewer characters long" }),
   tags: z.array(z.string())
-      .min(1, { message: "Must select at least one tag" }),
+    .min(1, { message: "Must select at least one tag" }),
   categories: z.array(z.string())
-      .min(1, { message: "Must select at least one category" }),
+    .min(1, { message: "Must select at least one category" }),
   imageId: z.string()
-      .min(1, { message: "Must upload an image" }),
+    .min(1, { message: "Must upload an image" }),
 })
 
 /**

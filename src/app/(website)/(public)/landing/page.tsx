@@ -6,11 +6,17 @@ import InfoLanding from "@/components/sections/info-landing";
 import Powered from "@/components/sections/powered";
 import PreviewLanding from "@/components/sections/preview-landing";
 import Testimonials from "@/components/sections/testimonials";
+import { NewsletterForm } from "@/components/emails/newsletter-form";
 
 export default function IndexPage() {
   return (
     <>
       <HeroLanding />
+
+      <div className="w-full flex flex-col items-center justify-center gap-8">
+        <NewsletterForm />
+      </div>
+
       <PreviewLanding />
       <Powered />
       <BentoGrid />

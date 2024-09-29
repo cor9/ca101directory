@@ -1,14 +1,23 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+export const resend = new Resend(process.env.RESEND_API_KEY);
 
-const domain = process.env.NEXT_PUBLIC_APP_URL;
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL;
+
+export const checkIfSubscribedToNewsletter = async (
+  email: string,
+) => {
+  await resend.contacts.get({
+    id: 'e169aa45-1ecf-4183-9955-b1499d5701d3',
+    audienceId: 'e329ce02-5cbf-421a-85c5-8be8a8403d98',
+  });
+};
 
 export const sendPasswordResetEmail = async (
   email: string,
   token: string,
 ) => {
-  const resetLink = `${domain}/auth/new-password?token=${token}`
+  const resetLink = `${SITE_URL}/auth/new-password?token=${token}`
 
   // TODO: set from email in env
   await resend.emails.send({
@@ -23,7 +32,7 @@ export const sendVerificationEmail = async (
   email: string, 
   token: string
 ) => {
-  const confirmLink = `${domain}/auth/new-verification?token=${token}`;
+  const confirmLink = `${SITE_URL}/auth/new-verification?token=${token}`;
 
   // TODO: set from email in env
   await resend.emails.send({

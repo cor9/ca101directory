@@ -33,8 +33,8 @@ export function PublishButton({ item }: PublishButtonProps) {
         const result = await publish(item._id);
         console.log('publishAction, result:', result);
         if (result.success) {
-          toast.success('Published successfully');
           router.refresh();
+          toast.success('Published successfully');
         } else { // TODO(javayhu): handle error
           throw new Error(result.error);
         }

@@ -146,7 +146,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                         defaultValue={field.value}
                         placeholder="Select categories"
                         variant="default"
-                        maxCount={3}
+                        maxCount={5}
                       />
                     </FormControl>
                     <FormMessage />
@@ -167,7 +167,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                         defaultValue={field.value}
                         placeholder="Select tags"
                         variant="default"
-                        maxCount={3}
+                        maxCount={5}
                       />
                     </FormControl>
                     <FormMessage />

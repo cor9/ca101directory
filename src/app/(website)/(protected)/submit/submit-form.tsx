@@ -14,11 +14,10 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -137,7 +136,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                         defaultValue={field.value}
                         placeholder="Select categories"
                         variant="default"
-                        maxCount={3}
+                        maxCount={5}
                       />
                     </FormControl>
                     <FormMessage />
@@ -158,7 +157,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                         defaultValue={field.value}
                         placeholder="Select tags"
                         variant="default"
-                        maxCount={3}
+                        maxCount={5}
                       />
                     </FormControl>
                     <FormMessage />

@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { defaultSort, SortFilterItem } from "@/lib/constants";
+import { DEFAULT_SORT, SortFilterItem } from "@/lib/constants";
 import { createUrl } from "@/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -51,12 +51,12 @@ export function SortListDesktop({ sortList }: SortListProps) {
       {/* Desktop View */}
       <Select onValueChange={onSelectChange} value={active}>
         <SelectTrigger className="w-[220px] h-8 text-sm">
-          <SelectValue placeholder={defaultSort.title} />
+          <SelectValue placeholder={DEFAULT_SORT.label} />
         </SelectTrigger>
         <SelectContent className="text-sm">
           {sortList.map((item) => (
             <SelectItem key={item.slug} value={item.slug}>
-              {item.title}
+              {item.label}
             </SelectItem>
           ))}
         </SelectContent>

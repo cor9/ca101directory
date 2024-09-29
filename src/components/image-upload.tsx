@@ -14,6 +14,9 @@ interface ImageUploadProps {
   onUploadChange: (status: { isUploading: boolean; imageId?: string }) => void;
 }
 
+/**
+ * TODO: upload image in mobile failed
+ */
 export default function ImageUpload({ currentImageUrl, onUploadChange }: ImageUploadProps) {
   const [uploading, setUploading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string | null>(currentImageUrl);

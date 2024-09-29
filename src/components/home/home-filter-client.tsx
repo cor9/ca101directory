@@ -111,7 +111,7 @@ export function HomeFilterClient({
         <SelectContent>
           {sortList.map((item) => (
             <SelectItem key={item.slug} value={item.slug}>
-              {item.title}
+              {item.label}
             </SelectItem>
           ))}
         </SelectContent>

@@ -1,6 +1,6 @@
 "use client";
 
-import { defaultSort, SortFilterItem } from "@/lib/constants";
+import { DEFAULT_SORT, SortFilterItem } from "@/lib/constants";
 import { createUrl } from "@/lib/utils";
 import { ListChecksIcon } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -54,7 +54,7 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
               </span>
             </div>
             <span className="text-sm">
-              {sortList.find((item) => item.slug === active)?.title || defaultSort.title}
+              {sortList.find((item) => item.slug === active)?.label || DEFAULT_SORT.label}
             </span>
           </div>
         </Drawer.Trigger>
@@ -70,7 +70,7 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
               {sortList.map((item) => (
                 <MobileFilterItem
                   key={item.slug}
-                  title={item.title}
+                  title={item.label}
                   href={generateUrl(item.slug)}
                   active={active === item.slug}
                   clickAction={closeDrawer}

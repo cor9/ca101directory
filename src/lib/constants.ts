@@ -8,24 +8,22 @@ export const POSTS_PER_PAGE = 6;
 export const SUBMISSIONS_PER_PAGE = 3;
 
 export type SortFilterItem = {
-  title: string;
+  label: string;
   slug: string | null;
   sortKey: 'publishDate' | 'name'; // | 'stars' | '_createdAt' | '_updatedAt' 
   reverse: boolean;
 };
 
-export const defaultSort: SortFilterItem = {
-  title: 'Sort by Time (dsc)',
+export const DEFAULT_SORT: SortFilterItem = {
+  label: 'Sort by Time (dsc)',
   slug: null,
   sortKey: 'publishDate',
   reverse: true
 };
 
 export const SORT_FILTER_LIST: SortFilterItem[] = [
-  defaultSort,
-  { title: 'Sort by Time (asc)', slug: 'date-asc', sortKey: 'publishDate', reverse: false },
-  // { title: 'Sort by Stars (dsc)', slug: 'stars-desc', sortKey: 'stars', reverse: true },
-  // { title: 'Sort by Stars (asc)', slug: 'stars-asc', sortKey: 'stars', reverse: false },
-  { title: 'Sort by Name (dsc)', slug: 'name-desc', sortKey: 'name', reverse: true },
-  { title: 'Sort by Name (asc)', slug: 'name-asc', sortKey: 'name', reverse: false },
+  DEFAULT_SORT,
+  { label: 'Sort by Time (asc)', slug: 'date-asc', sortKey: 'publishDate', reverse: false },
+  { label: 'Sort by Name (dsc)', slug: 'name-desc', sortKey: 'name', reverse: true },
+  { label: 'Sort by Name (asc)', slug: 'name-asc', sortKey: 'name', reverse: false },
 ];

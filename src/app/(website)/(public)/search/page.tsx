@@ -1,5 +1,5 @@
 import ItemGrid from '@/components/item-grid';
-import { defaultSort, ITEMS_PER_PAGE, SORT_FILTER_LIST } from '@/lib/constants';
+import { DEFAULT_SORT, ITEMS_PER_PAGE, SORT_FILTER_LIST } from '@/lib/constants';
 import { getItems } from '@/data/item';
 import EmptyGrid from '@/components/empty-grid';
 import { Suspense } from 'react';
@@ -13,7 +13,7 @@ export default async function SearchPage({
   console.log('SearchPage, searchParams', searchParams);
 
   const { category, tag, sort, page, q: query } = searchParams as { [key: string]: string };
-  const { sortKey, reverse } = SORT_FILTER_LIST.find((item) => item.slug === sort) || defaultSort;
+  const { sortKey, reverse } = SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
   const currentPage = page ? Number(page) : 1;
   const { items, totalCount } = await getItems({ category, tag, sortKey, reverse, query, currentPage });
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);

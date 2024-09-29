@@ -19,9 +19,9 @@ export const siteConfig: SiteConfig = {
 
 export const footerLinks: NestedNavItem[] = [
   {
-    title: "Product",
+    title: "Features",
     items: [
-      { title: "Features", href: "/features" },
+      { title: "Search", href: "/search" },
       { title: "Category", href: "/category" },
       { title: "Tag", href: "/tag" },
     ],
@@ -29,22 +29,20 @@ export const footerLinks: NestedNavItem[] = [
   {
     title: "Support",
     items: [
-      { title: "Submit", href: "/submit" },
       { title: "Blog", href: "/blog" },
       { title: "Pricing", href: "/pricing" },
+      { title: "Submit", href: "/submit" },
     ],
   },
   {
-    title: "Company",
+    title: "Contact",
     items: [
-      // TODO: add icons here, put this column as the last column
-      { title: "Twitter", href: "https://twitter.com/mkdirs" },
-      { title: "Github", href: "https://github.com/mkdirs" },
-      { title: "Discord", href: "https://discord.gg/mkdirs" },
+      { title: "Twitter", href: "https://x.com/javayhu" },
+      { title: "Github", href: "https://github.com/javayhu" },
+      { title: "Email", href: "mailto:javayhu@gmail.com" },
     ],
   },
   {
-    // title: "Legal",
     title: "General",
     items: [
       { title: "Changelog", href: "/changelog" },

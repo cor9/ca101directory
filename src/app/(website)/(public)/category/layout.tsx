@@ -9,10 +9,12 @@ export default function CategoryLayout({ children }: { children: React.ReactNode
         <div className="w-full flex flex-col items-center justify-center gap-8">
           <HeaderSection
             label="Category"
-            title="Explore all categories"
+            title="Explore by categories"
           />
 
-          <CategoryFilter />
+          <div className="w-full">
+            <CategoryFilter />
+          </div>
         </div>
       </div>
 

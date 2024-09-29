@@ -26,12 +26,19 @@ export function CategoryListMobile({ categoryList }: CategoryListMobileProps) {
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
           onClick={() => setOpen(true)}
-          className="w-full flex items-center p-3 gap-x-2 border-y text-foreground/90"
+          className="flex items-center w-full p-3 gap-x-2 border-y text-foreground/90"
         >
-          <LayoutListIcon className="size-5" />
-          <p className="text-sm font-medium">
-            {category?.name ? `Category (${category?.name})` : 'All Categories'}
-          </p>
+          <div className="flex items-center justify-between w-full gap-4">
+            <div className="flex items-center gap-2">
+              <LayoutListIcon className="size-5" />
+              <span className="text-sm">
+                Category
+              </span>
+            </div>
+            <span className="text-sm">
+              {category?.name ? `${category?.name}` : 'All'}
+            </span>
+          </div>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
           onClick={closeDrawer}

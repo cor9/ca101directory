@@ -1,7 +1,7 @@
 "use client";
 
 import { BlogCategoryListQueryResult } from '@/sanity.types';
-import { LayoutList } from "lucide-react";
+import { LayoutListIcon } from "lucide-react";
 import { useParams } from 'next/navigation';
 import { useState } from "react";
 import { Drawer } from "vaul";
@@ -26,12 +26,12 @@ export function BlogCategoryListMobile({ categoryList }: BlogCategoryListMobileP
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
           onClick={() => setOpen(true)}
-          className="flex items-center w-full p-4 border-y text-foreground/90"
+          className="flex items-center w-full p-3 border-y text-foreground/90"
         >
           <div className="flex items-center justify-between w-full gap-4">
             <div className="flex items-center gap-2">
-              <LayoutList className="size-4" />
-              <span className="text-sm font-medium">
+              <LayoutListIcon className="size-5" />
+              <span className="text-sm">
                 Category
               </span>
             </div>

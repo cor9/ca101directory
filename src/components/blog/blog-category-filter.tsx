@@ -3,7 +3,7 @@ import { BlogCategoryListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { blogCategoryListQuery } from '@/sanity/lib/queries';
 import { Suspense } from 'react';
-import { BlogCategoryListDesktop } from "./blog-category-list";
+import { BlogCategoryListDesktop } from "./blog-category-list-desktop";
 import { BlogCategoryListMobile } from './blog-category-list-mobile';
 
 export async function BlogCategoryFilter() {

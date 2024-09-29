@@ -44,12 +44,19 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
           onClick={() => setOpen(true)}
-          className="w-full flex items-center p-3 gap-x-2 border-y text-foreground/90"
+          className="flex items-center w-full p-3 gap-x-2 border-y text-foreground/90"
         >
-          <ListChecksIcon className="size-5" />
-          <p className="text-sm font-medium">
-            {sortList.find((item) => item.slug === active)?.title || defaultSort.title}
-          </p>
+          <div className="flex items-center justify-between w-full gap-4">
+            <div className="flex items-center gap-2">
+              <ListChecksIcon className="size-5" />
+              <span className="text-sm">
+                Sort
+              </span>
+            </div>
+            <span className="text-sm">
+              {sortList.find((item) => item.slug === active)?.title || defaultSort.title}
+            </span>
+          </div>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
           onClick={closeDrawer}

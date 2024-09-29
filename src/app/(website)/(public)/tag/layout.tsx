@@ -9,10 +9,12 @@ export default function TagLayout({ children }: { children: React.ReactNode }) {
         <div className="w-full flex flex-col items-center justify-center gap-8">
           <HeaderSection
             label="Tag"
-            title="Explore all tags"
+            title="Explore by tags"
           />
 
-          <TagFilter />
+          <div className="w-full">
+            <TagFilter />
+          </div>
         </div>
       </div>
 

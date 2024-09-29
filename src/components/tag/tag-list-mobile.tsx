@@ -26,12 +26,19 @@ export function TagListMobile({ tagList }: TagListMobileProps) {
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
           onClick={() => setOpen(true)}
-          className="w-full flex items-center p-3 gap-x-2 border-y text-foreground/90"
+          className="flex items-center w-full p-3 gap-x-2 border-y text-foreground/90"
         >
-          <LayoutListIcon className="size-5" />
-          <p className="text-sm font-medium">
-            {tag?.name ? `Tags (${tag?.name})` : 'All Tags'}
-          </p>
+          <div className="flex items-center justify-between w-full gap-4">
+            <div className="flex items-center gap-2">
+              <LayoutListIcon className="size-5" />
+              <span className="text-sm">
+                Tag
+              </span>
+            </div>
+            <span className="text-sm">
+              {tag?.name ? `${tag?.name}` : 'All'}
+            </span>
+          </div>
         </Drawer.Trigger>
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
           onClick={closeDrawer}

@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { HeaderSection } from "../shared/header-section";
 import { Icons } from "../shared/icons";
+import Container from "../shared/container";
 
 export function NewsletterForm() {
   const [isPending, startTransition] = useTransition();
@@ -50,7 +51,7 @@ export function NewsletterForm() {
 
   return (
     <>
-      <div className="w-full px-4 py-8 md:p-12 bg-muted">
+      <div className="w-full px-4 py-8 md:p-12 bg-muted rounded-lg">
         <div className="flex flex-col items-center justify-center gap-8">
           <HeaderSection
             label="Newsletter"
@@ -71,7 +72,7 @@ export function NewsletterForm() {
                     <FormLabel className="sr-only">Email</FormLabel>
                     <FormControl className="rounded-r-none">
                       <Input type="email"
-                        className="w-[300px] h-12"
+                        className="w-[400px] h-12"
                         placeholder="Enter your email"
                         {...field}
                       />

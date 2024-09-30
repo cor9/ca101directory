@@ -8,7 +8,9 @@ export default function BlogPostLayout({ children }: { children: React.ReactNode
         {children}
       </Container>
 
-      <NewsletterForm />
+      <Container className="pb-16">
+        <NewsletterForm />
+      </Container>
     </>
   );
 }

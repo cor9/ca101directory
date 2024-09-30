@@ -47,7 +47,7 @@ export default async function PostPage({ params }: PostPageProps) {
             {/* Content section */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Left column */}
-                <div className="lg:col-span-2 space-y-8 flex flex-col">
+                <div className="lg:col-span-2 flex flex-col">
                     {/* Basic information */}
                     <div className="space-y-8">
                         {/* blog post image */}
@@ -81,6 +81,10 @@ export default async function PostPage({ params }: PostPageProps) {
                     {/* blog post content */}
                     <div className="">
                         {markdownContent && <CustomMdx source={markdownContent} />}
+                    </div>
+
+                    <div className="flex items-center justify-start mt-16">
+                        <AllPostsButton />
                     </div>
                 </div>
 
@@ -165,9 +169,9 @@ export default async function PostPage({ params }: PostPageProps) {
             )}
 
             {/* back button */}
-            <div className="mt-8">
+            {/* <div className="flex items-center justify-start mt-8">
                 <AllPostsButton />
-            </div>
+            </div> */}
         </div>
     );
 }

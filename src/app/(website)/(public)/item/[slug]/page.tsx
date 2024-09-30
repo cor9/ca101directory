@@ -123,6 +123,10 @@ export default async function ItemPage({ params }: ItemPageProps) {
             </h2>
             <ItemCustomMdx source={item.introduction} />
           </div>
+
+          <div className="flex items-center justify-start mt-16">
+            <BackButton />
+          </div>
         </div>
 
         {/* Right column */}
@@ -241,9 +245,9 @@ export default async function ItemPage({ params }: ItemPageProps) {
         )
       }
 
-      <div className="flex items-center justify-start mt-8">
+      {/* <div className="flex items-center justify-start mt-8">
         <BackButton />
-      </div>
+      </div> */}
     </div>
   );
 }

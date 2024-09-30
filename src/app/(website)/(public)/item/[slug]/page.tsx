@@ -212,10 +212,8 @@ export default async function ItemPage({ params }: ItemPageProps) {
                       <Link href={`/tag/${tag.slug.current}`}
                         className="text-sm link-underline
                           flex items-center justify-center space-x-0.5 group">
-                        <HashIcon className="w-3 h-3
-                          transition-all duration-300 ease-in-out 
-                          group-hover:scale-125" />
-                        <span className="">{tag.name}</span>
+                        <HashIcon className="w-3 h-3 text-muted-foreground icon-scale" />
+                        <span className="text-primary/80">{tag.name}</span>
                       </Link>
                     </li>
                   ))}

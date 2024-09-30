@@ -5,6 +5,7 @@ import { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "./ui/separator";
+import { HashIcon } from "lucide-react";
 
 type ItemCardProps = {
   item: ItemInfo;
@@ -84,15 +85,17 @@ export default function ItemCard({ item }: ItemCardProps) {
 
           <div className="px-4 flex justify-end items-center">
             {item.tags && item.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1 items-center">
+              <div className="flex flex-wrap gap-2 items-center">
                 {item.tags.slice(0, 5).map((tag, index) => (
-                  <span key={`tag-${index}`}
-                    className="text-sm text-muted-foreground px-1 rounded-md">
-                    #{tag.name}
-                  </span>
+                  <div key={`tag-${index}`} className="flex items-center justify-center space-x-0.5 group">
+                    <HashIcon className="w-3 h-3 text-muted-foreground icon-scale" />
+                    <span className="text-sm text-primary/80">
+                      {tag.name}
+                    </span>
+                  </div>
                 ))}
                 {item.tags.length > 5 && (
-                  <span className="text-sm text-muted-foreground px-1 rounded-md">
+                  <span className="text-sm text-muted-foreground px-1">
                     +{item.tags.length - 5}
                   </span>
                 )}

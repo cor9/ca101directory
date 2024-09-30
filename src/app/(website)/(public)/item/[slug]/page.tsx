@@ -213,7 +213,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                         className="text-sm link-underline
                           flex items-center justify-center space-x-0.5 group">
                         <HashIcon className="w-3 h-3 text-muted-foreground icon-scale" />
-                        <span className="text-primary/80">{tag.name}</span>
+                        <span className="">{tag.name}</span>
                       </Link>
                     </li>
                   ))}

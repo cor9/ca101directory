@@ -45,7 +45,7 @@ export const footerLinks: NestedNavItem[] = [
   {
     title: "General",
     items: [
-      { title: "Changelog", href: "/changelog" },
+      { title: "About Us", href: "/about" },
       { title: "Privacy Policy", href: "/privacy" },
       { title: "Terms of Service", href: "/terms" },
     ],

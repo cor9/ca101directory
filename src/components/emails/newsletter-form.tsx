@@ -56,7 +56,7 @@ export function NewsletterForm() {
           <HeaderSection
             label="Newsletter"
             title="Join the Community"
-            subtitle="Subscribe to our newsletter to stay up to date on latest news and updates"
+            subtitle="Subscribe to our newsletter for the latest news and updates"
           />
 
           <Form {...form}>

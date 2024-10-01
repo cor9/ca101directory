@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import EmptySubmission from "@/components/dashboard/empty-submission";
 import SubmissionList from "@/components/dashboard/submission-list";
+import React from "react";
 
 export const metadata = constructMetadata({
   title: "Dashboard",

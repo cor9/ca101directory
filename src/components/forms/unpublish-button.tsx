@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { unpublish } from "@/actions/unpublish";
 import { Button } from "@/components/ui/button";
 import { ItemInfo } from "@/types";
@@ -42,15 +43,15 @@ export function UnpublishButton({ item }: UnpublishButtonProps) {
       className="group overflow-hidden"
     >
       {isPending ? (
-        <section>
+        <>
           <Icons.spinner className="mr-2 w-4 h-4 animate-spin" />
           <span>Unpublish</span>
-        </section>
+        </>
       ) : (
-        <section>
+        <>
           <ArrowDownToLineIcon className="mr-2 w-4 h-4 icon-scale" />
           <span>Unpublish</span>
-        </section>
+        </>
       )}
     </Button>
   );

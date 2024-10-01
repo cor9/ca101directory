@@ -26,7 +26,7 @@ export default async function HomeHero() {
           <Icons.productHunt className="ml-3 size-5" />
         </Link>
 
-        <h1 className="text-balance text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
+        <h1 className="text-balance text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-[66px]">
           Make any web directory{" "}
           <span className="text-gradient_indigo-purple font-extrabold">
             in Minutes
@@ -38,7 +38,6 @@ export default async function HomeHero() {
           style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
         >
           Start your next directory with Listing, Submission, Newsletter, Auth, Payment and more.
-          No database, no storage, no hassle!
         </p>
 
         <div

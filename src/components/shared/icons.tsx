@@ -18,6 +18,7 @@ import {
 import { FaBrandsGithub } from "../icons/github";
 import { FaBrandsGoogle } from "../icons/google";
 import { FaBrandsXTwitter } from "../icons/twitter";
+import { LogosProducthunt } from "../icons/product-hunt";
 
 export type Icon = LucideIcon;
 
@@ -82,4 +83,5 @@ export const Icons = {
   github: FaBrandsGithub,
   google: FaBrandsGoogle,
   twitter: FaBrandsXTwitter,
+  productHunt: LogosProducthunt,
 };

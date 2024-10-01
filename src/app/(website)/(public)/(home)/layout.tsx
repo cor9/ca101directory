@@ -1,9 +1,7 @@
 import { NewsletterForm } from '@/components/emails/newsletter-form';
-import { HomeFilter } from '@/components/home/home-filter';
-import { HomeHero } from '@/components/home/home-hero';
-import { SearchFilter } from '@/components/search/search-filter';
+import HomeHero from '@/components/home/home-hero';
 import Container from '@/components/shared/container';
-import { HeaderSection } from '@/components/shared/header-section';
+import React from 'react';
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,7 +14,9 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
         <HomeFilter />
       </div> */}
 
-      <div className="mt-8">
+      <HomeHero />
+
+      {/* <div className="mt-8">
         <div className="w-full flex flex-col items-center justify-center gap-8">
           <HeaderSection
             label="Home"
@@ -27,14 +27,14 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
             <SearchFilter />
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* main content shows the list of items*/}
-      <Container className="mt-8 mb-16">
+      <Container className="mt-8">
         {children}
       </Container>
 
-      <Container className="pb-16">
+      <Container className="my-16">
         <NewsletterForm />
       </Container>
     </>

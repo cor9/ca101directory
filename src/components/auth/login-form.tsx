@@ -1,13 +1,11 @@
 "use client";
 
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { useState, useTransition } from "react";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { LoginSchema } from "@/lib/schemas";
-import { Input } from "@/components/ui/input";
+import { login } from "@/actions/login";
+import { AuthCard } from "@/components/auth/auth-card";
+import { FormError } from "@/components/form-error";
+import { FormSuccess } from "@/components/form-success";
+import { Icons } from "@/components/shared/icons";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -16,18 +14,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { AuthCard } from "@/components/auth/auth-card"
-import { Button } from "@/components/ui/button";
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
-import { login } from "@/actions/login";
-import { Icons } from "@/components/shared/icons";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { signIn, useSession } from "next-auth/react";
+import { Input } from "@/components/ui/input";
+import { LoginSchema } from "@/lib/schemas";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 export const LoginForm = () => {
-  const router = useRouter();
-  const { update } = useSession();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked"

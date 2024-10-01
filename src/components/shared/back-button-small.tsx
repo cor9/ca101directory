@@ -1,10 +1,10 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
-import { Icons } from "./icons";
 
 interface BackButtonSmallProps {
     className?: string;

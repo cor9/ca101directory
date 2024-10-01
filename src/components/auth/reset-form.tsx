@@ -50,6 +50,7 @@ export const ResetForm = () => {
       headerLabel="Froget password?"
       bottomButtonLabel="Back to login"
       bottomButtonHref="/auth/login"
+      className="border-none"
     >
       <Form {...form}>
         <form 

@@ -54,6 +54,7 @@ export const NewPasswordForm = () => {
       headerLabel="Reset password"
       bottomButtonLabel="Back to login"
       bottomButtonHref="/auth/login"
+      className="border-none"
     >
       <Form {...form}>
         <form 

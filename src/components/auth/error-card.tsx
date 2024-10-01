@@ -7,6 +7,7 @@ export const ErrorCard = () => {
       headerLabel="Oops! Something went wrong!"
       bottomButtonHref="/auth/login"
       bottomButtonLabel="Back to login"
+      className="border-none"
     >
       <div className="w-full flex justify-center items-center">
       <TriangleAlert className="text-destructive" />

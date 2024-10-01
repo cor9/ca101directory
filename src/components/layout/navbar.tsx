@@ -24,7 +24,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Logo } from "../logo";
-import { useMediaQuery } from "@/hooks/use-media-query";
+import React from "react";
 
 interface NavBarProps {
   scroll?: boolean;
@@ -33,8 +33,6 @@ interface NavBarProps {
 
 export function Navbar({ scroll = false, config }: NavBarProps) {
   const scrolled = useScroll(50);
-  const { isMobile } = useMediaQuery();
-
   const user = useCurrentUser();
   console.log(`navbar: user:`, user);
 
@@ -60,13 +58,82 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
       document.body.style.overflow = "auto";
     }
   }, [open]);
-  
 
-  {/* Mobile View */ }
-  if (isMobile) {
-    console.log(`navbar, isMobile: ${isMobile}, user:`, user);
+  return (
+    <>
+      {/* Desktop View */}
+      <header
+        className={cn(
+          'hidden md:flex sticky top-0 z-40 w-full justify-center bg-background/60 backdrop-blur-xl transition-all',
+          scroll ? (scrolled ? "border-b" : "bg-transparent") : "border-b"
+        )}
+      >
+        <Container className="flex h-16 items-center justify-between">
+          {/* navbar left show logo and links */}
+          <div className="flex items-center gap-6 md:gap-10">
 
-    return (
+            {/* logo */}
+            <Link href="/" className="flex items-center space-x-2">
+              <Logo />
+
+              <span className="text-xl font-bold">
+                {siteConfig.name}
+              </span>
+            </Link>
+
+            {/* links */}
+            {links && links.length > 0 ? (
+              <NavigationMenu>
+                <NavigationMenuList>
+                  {links.map((item, index) => (
+                    <NavigationMenuItem key={index}>
+                      <Link href={item.disabled ? "#" : item.href} legacyBehavior passHref>
+                        <NavigationMenuLink
+                          className={cn(
+                            navigationMenuTriggerStyle(),
+                            'px-2 bg-transparent focus:bg-transparent text-base',
+                            isLinkActive(item.href)
+                              ? "text-foreground font-semibold"
+                              : "text-foreground/60",
+                            item.disabled && "cursor-not-allowed opacity-80"
+                          )}
+                        >
+                          {item.title}
+                        </NavigationMenuLink>
+                      </Link>
+                    </NavigationMenuItem>
+                  ))}
+                </NavigationMenuList>
+              </NavigationMenu>
+            ) : null}
+          </div>
+
+          {/* navbar right show sign in or account */}
+          <div className="flex items-center gap-x-4">
+            {
+              user ? (
+                <div className="flex items-center">
+                  <UserButton />
+                </div>
+              ) : (
+                <LoginWrapper mode="modal" asChild>
+                  <Button
+                    className="flex gap-2 px-5 rounded-full"
+                    variant="default"
+                    size="default">
+                    <span>Sign In</span>
+                    <ArrowRightIcon className="size-4" />
+                  </Button>
+                </LoginWrapper>
+              )
+            }
+
+            <ModeToggle />
+          </div>
+        </Container>
+      </header>
+
+      {/* Mobile View */}
       < header className="md:hidden sticky top-0 z-40 flex w-full justify-center bg-background/60 backdrop-blur-xl transition-all" >
         <div className="w-full px-4 h-16 flex items-center justify-between">
           {/* mobile navbar left show menu icon when closed & show sheet when menu is open */}
@@ -145,82 +212,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
             <ModeToggle />
           </div>
         </div>
-      </header >
-    );
-  }
-
-  {/* Desktop View */ }
-  console.log(`navbar, notMobile, user:`, user);
-  return (
-    <header
-      className={cn(
-        'hidden md:flex sticky top-0 z-40 w-full justify-center bg-background/60 backdrop-blur-xl transition-all',
-        scroll ? (scrolled ? "border-b" : "bg-transparent") : "border-b"
-      )}
-    >
-      <Container className="flex h-16 items-center justify-between">
-        {/* navbar left show logo and links */}
-        <div className="flex items-center gap-6 md:gap-10">
-
-          {/* logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <Logo />
-
-            <span className="text-xl font-bold">
-              {siteConfig.name}
-            </span>
-          </Link>
-
-          {/* links */}
-          {links && links.length > 0 ? (
-            <NavigationMenu>
-              <NavigationMenuList>
-                {links.map((item, index) => (
-                  <NavigationMenuItem key={index}>
-                    <Link href={item.disabled ? "#" : item.href} legacyBehavior passHref>
-                      <NavigationMenuLink
-                        className={cn(
-                          navigationMenuTriggerStyle(),
-                          'px-2 bg-transparent focus:bg-transparent text-base',
-                          isLinkActive(item.href)
-                            ? "text-foreground font-semibold"
-                            : "text-foreground/60",
-                          item.disabled && "cursor-not-allowed opacity-80"
-                        )}
-                      >
-                        {item.title}
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                ))}
-              </NavigationMenuList>
-            </NavigationMenu>
-          ) : null}
-        </div>
-
-        {/* navbar right show sign in or account */}
-        <div className="flex items-center gap-x-4">
-          {
-            user ? (
-              <div className="flex items-center">
-                <UserButton />
-              </div>
-            ) : (
-              <LoginWrapper mode="modal" asChild>
-                <Button
-                  className="flex gap-2 px-5 rounded-full"
-                  variant="default"
-                  size="default">
-                  <span>Sign In</span>
-                  <ArrowRightIcon className="size-4" />
-                </Button>
-              </LoginWrapper>
-            )
-          }
-
-          <ModeToggle />
-        </div>
-      </Container>
-    </header>
+      </header>
+    </>
   );
 }

@@ -11,7 +11,7 @@ interface ProtectedLayoutProps {
 
 export default async function ProtectedLayout({ children }: ProtectedLayoutProps) {
   const user = await currentUser();
-  // console.log(`ProtectedLayout, user:`, user);
+  console.log(`ProtectedLayout, user:`, user);
   if (!user) {
     redirect("/auth/login");
   }

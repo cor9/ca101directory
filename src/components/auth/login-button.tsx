@@ -30,7 +30,7 @@ export const LoginWrapper = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { isTablet, isDesktop } = useMediaQuery();
 
-  const onClick = () => {
+  const handleLogin = () => {
     router.push("/auth/login");
   };
 
@@ -60,7 +60,7 @@ export const LoginWrapper = ({
   }
 
   return (
-    <span onClick={onClick} className="cursor-pointer">
+    <span onClick={handleLogin} className="cursor-pointer">
       {children}
     </span>
   );

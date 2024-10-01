@@ -36,7 +36,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
   const { isMobile } = useMediaQuery();
 
   const user = useCurrentUser();
-  // console.log(`navbar: user:`, user);
+  console.log(`navbar: user:`, user);
 
   const pathname = usePathname();
   // console.log(`Navbar, pathname: ${pathname}`);
@@ -64,6 +64,8 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
 
   {/* Mobile View */ }
   if (isMobile) {
+    console.log(`navbar, isMobile: ${isMobile}, user:`, user);
+
     return (
       < header className="md:hidden sticky top-0 z-40 flex w-full justify-center bg-background/60 backdrop-blur-xl transition-all" >
         <div className="w-full px-4 h-16 flex items-center justify-between">
@@ -148,6 +150,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
   }
 
   {/* Desktop View */ }
+  console.log(`navbar, notMobile, user:`, user);
   return (
     <header
       className={cn(

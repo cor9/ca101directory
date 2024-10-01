@@ -12,7 +12,7 @@ export async function BlogCategoryFilter() {
   });
 
   return (
-    <>
+    <section className='w-full'>
       {/* Desktop View, has Container */}
       <Container className="hidden md:block">
         <Suspense fallback={null}>
@@ -26,6 +26,6 @@ export async function BlogCategoryFilter() {
           <BlogCategoryListMobile categoryList={categoryList} />
         </Suspense>
       </div>
-    </>
+    </section>
   );
 }

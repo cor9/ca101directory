@@ -15,7 +15,7 @@ export async function CategoryFilter() {
   });
 
   return (
-    <>
+    <div>
       {/* Desktop View, has Container */}
       <Container className="hidden md:block">
         <div className='flex items-center justify-between gap-8'>
@@ -43,6 +43,6 @@ export async function CategoryFilter() {
           <SortListMobile sortList={SORT_FILTER_LIST} />
         </Suspense>
       </div>
-    </>
+    </div>
   );
 }

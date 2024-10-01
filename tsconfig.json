@@ -3,8 +3,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    // "strict": true,
-    "strict": false,
+    "strict": false, // TODO: should we set this to true?
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",

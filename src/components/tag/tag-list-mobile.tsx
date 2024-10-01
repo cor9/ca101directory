@@ -1,10 +1,10 @@
 "use client";
 
+import { Drawer, DrawerContent, DrawerOverlay, DrawerPortal, DrawerTrigger } from '@/components/ui/drawer';
 import { TagListQueryResult } from '@/sanity.types';
 import { LayoutListIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
-import { Drawer } from "vaul";
 import MobileFilterItem from "../mobile-filter-item";
 
 export type TagListMobileProps = {
@@ -21,55 +21,52 @@ export function TagListMobile({ tagList }: TagListMobileProps) {
   };
 
   return (
-    <>
-      {/* Mobile View */}
-      <Drawer.Root open={open} onClose={closeDrawer}>
-        <Drawer.Trigger
-          onClick={() => setOpen(true)}
-          className="flex items-center w-full p-3 gap-x-2 border-y text-foreground/90"
-        >
-          <div className="flex items-center justify-between w-full gap-4">
-            <div className="flex items-center gap-2">
-              <LayoutListIcon className="size-5" />
-              <span className="text-sm">
-                Tag
-              </span>
-            </div>
+    <Drawer open={open} onClose={closeDrawer}>
+      <DrawerTrigger
+        onClick={() => setOpen(true)}
+        className="flex items-center w-full p-3 gap-x-2 border-y text-foreground/90"
+      >
+        <div className="flex items-center justify-between w-full gap-4">
+          <div className="flex items-center gap-2">
+            <LayoutListIcon className="size-5" />
             <span className="text-sm">
-              {tag?.name ? `${tag?.name}` : 'All'}
+              Tag
             </span>
           </div>
-        </Drawer.Trigger>
-        <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
-          onClick={closeDrawer}
-        />
-        <Drawer.Portal>
-          <Drawer.Content className="fixed inset-x-0 bottom-0 z-50 mt-24 overflow-hidden rounded-t-[10px] border bg-background">
-            <div className="sticky top-0 z-20 flex w-full items-center justify-center bg-inherit">
-              <div className="my-3 h-1.5 w-16 rounded-full bg-muted-foreground/20" />
-            </div>
-            <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
+          <span className="text-sm">
+            {tag?.name ? `${tag?.name}` : 'All'}
+          </span>
+        </div>
+      </DrawerTrigger>
+      <DrawerOverlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
+        onClick={closeDrawer}
+      />
+      <DrawerPortal>
+        <DrawerContent className="fixed inset-x-0 bottom-0 z-50 mt-24 overflow-hidden rounded-t-[10px] border bg-background">
+          <div className="sticky top-0 z-20 flex w-full items-center justify-center bg-inherit">
+            <div className="my-3 h-1.5 w-16 rounded-full bg-muted-foreground/20" />
+          </div>
+          <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
+            <MobileFilterItem
+              title="All"
+              href="/tag"
+              active={!slug}
+              clickAction={closeDrawer}
+            />
+
+            {tagList.map((item) => (
               <MobileFilterItem
-                title="All"
-                href="/tag"
-                active={!slug}
+                key={item.slug.current}
+                title={item.name}
+                href={`/tag/${item.slug.current}`}
+                active={item.slug.current === slug}
                 clickAction={closeDrawer}
               />
-
-              {tagList.map((item) => (
-                <MobileFilterItem
-                  key={item.slug.current}
-                  title={item.name}
-                  href={`/tag/${item.slug.current}`}
-                  active={item.slug.current === slug}
-                  clickAction={closeDrawer}
-                />
-              ))}
-            </ul>
-          </Drawer.Content>
-          <Drawer.Overlay />
-        </Drawer.Portal>
-      </Drawer.Root>
-    </>
+            ))}
+          </ul>
+        </DrawerContent>
+        <DrawerOverlay />
+      </DrawerPortal>
+    </Drawer>
   );
 }

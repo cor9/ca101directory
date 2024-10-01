@@ -5,7 +5,7 @@ import React from 'react';
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <div>
       {/* hero section with search component */}
       {/* <HomeHero /> */}
 
@@ -37,6 +37,6 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
       <Container className="my-16">
         <NewsletterForm />
       </Container>
-    </>
+    </div>
   );
 }

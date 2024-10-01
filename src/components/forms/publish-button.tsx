@@ -53,15 +53,15 @@ export function PublishButton({ item }: PublishButtonProps) {
       className="group overflow-hidden"
     >
       {isPending ? (
-        <>
+        <div>
           <Icons.spinner className="mr-2 w-4 h-4 animate-spin" />
           <span>Publish</span>
-        </>
+        </div>
       ) : (
-        <>
+        <div>
           <ArrowUpToLineIcon className="mr-2 w-4 h-4 icon-scale" />
           <span>Publish</span>
-        </>
+        </div>
       )}
     </Button>
   );

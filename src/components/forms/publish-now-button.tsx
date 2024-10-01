@@ -45,15 +45,15 @@ export function PublishNowButton({ item }: PublishNowButtonProps) {
       onClick={publishAction}
     >
       {isPending ? (
-        <>
+        <div>
           <Icons.spinner className="mr-2 size-4 animate-spin" />
           <span>Publishing...</span>
-        </>
+        </div>
       ) : (
-        <>
+        <div>
           <RocketIcon className="mr-2 size-4 icon-scale" />
           <span>Publish Now</span>
-        </>
+        </div>
       )}
     </Button>
   );

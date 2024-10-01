@@ -10,7 +10,7 @@ export interface DesktopFilterItemProps {
 
 export default function DesktopFilterItem({ title, href, active, clickAction }: DesktopFilterItemProps) {
   return (
-    <>
+    <div>
       {/* show in desktop, wrapped in Link and Button and show as Button */}
       <Button asChild
         variant={active ? 'default' : 'outline'}
@@ -26,6 +26,6 @@ export default function DesktopFilterItem({ title, href, active, clickAction }: 
           </li>
         </Link>
       </Button>
-    </>
+    </div>
   );
 };

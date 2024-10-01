@@ -20,7 +20,7 @@ export default async function CategoryPage({
   console.log('CategoryPage, totalCount', totalCount, ', totalPages', totalPages);
 
   return (
-    <>
+    <div>
       {/* when no items are found */}
       {items?.length === 0 && (
         <EmptyGrid />
@@ -38,6 +38,6 @@ export default async function CategoryPage({
           </div>
         </section>
       )}
-    </>
+    </div>
   );
 }

@@ -10,7 +10,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div>
       <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2">
 
         {/* auth form */}
@@ -32,6 +32,6 @@ export default function AuthLayout({
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -13,7 +13,7 @@ export function TagListDesktop({ tagList }: TagListDesktopProps) {
   const { slug } = useParams() as { slug?: string };
 
   return (
-    <>
+    <div>
       {/* Desktop View */}
       <ScrollArea className="hidden md:flex w-full pb-4">
         <ul role="list" className="w-full flex flex-1 gap-x-2" >
@@ -34,6 +34,6 @@ export function TagListDesktop({ tagList }: TagListDesktopProps) {
         </ul>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
-    </>
+    </div>
   );
 }

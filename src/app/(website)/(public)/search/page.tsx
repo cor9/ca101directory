@@ -21,7 +21,7 @@ export default async function SearchPage({
   // console.log('SearchPage, items', items);
 
   return (
-    <>
+    <div>
       {/* when no items are found */}
       {items?.length === 0 && (
         <EmptyGrid />
@@ -39,6 +39,6 @@ export default async function SearchPage({
           </div>
         </section>
       )}
-    </>
+    </div>
   );
 }

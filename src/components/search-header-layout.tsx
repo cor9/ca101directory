@@ -6,7 +6,7 @@ import { Suspense } from 'react';
 
 export async function SearchHeaderLayout() {
   return (
-    <>
+    <div>
       {/* Desktop View, has Container */}
       <Container className="hidden md:block">
         <div className='flex items-center justify-between gap-8 mt-4'>
@@ -35,6 +35,6 @@ export async function SearchHeaderLayout() {
           <SortFilter sortList={SORT_FILTER_LIST} />
         </Suspense>
       </div>
-    </>
+    </div>
   );
 }

@@ -7,7 +7,7 @@ interface SubmissionListProps {
 
 export default function SubmissionList({ items }: SubmissionListProps) {
     return (
-        <>
+        <div>
             {
                 items && items.length > 0 && (
                     <div className="gap-8 grid grid-cols-1">
@@ -17,6 +17,6 @@ export default function SubmissionList({ items }: SubmissionListProps) {
                     </div>
                 )
             }
-        </>
+        </div>
     );
 }

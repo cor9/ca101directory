@@ -105,7 +105,7 @@ export function SubmissionRow({ submission }: { submission: ItemInfo }) {
                 {getLocaleDate(submission._createdAt)}
             </TableCell>
             <TableCell>
-                <>
+                <div>
                     <div className='hidden sm:block'>
                         <div className='flex items-center gap-2'>
                             {/* view button if published */}
@@ -215,7 +215,7 @@ export function SubmissionRow({ submission }: { submission: ItemInfo }) {
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
-                </>
+                </div>
             </TableCell>
         </TableRow>
     );

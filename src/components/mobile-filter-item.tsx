@@ -10,7 +10,7 @@ export interface MobileFilterItemProps {
 
 export default function MobileFilterItem({ title, href, active, clickAction }: MobileFilterItemProps) {
   return (
-    <>
+    <div>
       {/* shwo in mobile, wrapped in Link and shwo in a Drawer */}
       <Link href={href}
         prefetch={false}
@@ -22,6 +22,6 @@ export default function MobileFilterItem({ title, href, active, clickAction }: M
           </div>
         </li>
       </Link>
-    </>
+    </div>
   );
 };

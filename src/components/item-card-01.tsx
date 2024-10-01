@@ -22,7 +22,7 @@ export default function ItemCard({ item }: ItemCardProps) {
   const date = getLocaleDate(publishDate);
 
   return (
-    <>
+    <div>
       {/* bg-muted is used when imageProps is null */}
       <div className="cursor-pointer">
         <Link
@@ -110,6 +110,6 @@ export default function ItemCard({ item }: ItemCardProps) {
 
         </Link>
       </div>
-    </>
+    </div>
   );
 }

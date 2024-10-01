@@ -70,7 +70,7 @@ export function DocsSearchCommand({ enableShortcut = true }) {
   }, [router, pathname, resetState]);
 
   return (
-    <>
+    <div>
       <Button
         variant="outline"
         className={cn(
@@ -115,6 +115,6 @@ export function DocsSearchCommand({ enableShortcut = true }) {
           }
         </CommandList>
       </CommandDialog>
-    </>
+    </div>
   );
 }

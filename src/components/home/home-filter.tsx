@@ -27,7 +27,7 @@ export async function HomeFilter() {
   }));
 
   return (
-    <>
+    <div>
       {/* Desktop View, has Container */}
       <Container className="hidden md:flex md:flex-col">
         {/* <div className='w-full'>
@@ -59,6 +59,6 @@ export async function HomeFilter() {
           </Suspense>
         </div>
       </div>
-    </>
+    </div>
   );
 }

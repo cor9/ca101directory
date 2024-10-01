@@ -43,15 +43,15 @@ export function UnpublishButton({ item }: UnpublishButtonProps) {
       className="group overflow-hidden"
     >
       {isPending ? (
-        <>
+        <div>
           <Icons.spinner className="mr-2 w-4 h-4 animate-spin" />
           <span>Unpublish</span>
-        </>
+        </div>
       ) : (
-        <>
+        <div>
           <ArrowDownToLineIcon className="mr-2 w-4 h-4 icon-scale" />
           <span>Unpublish</span>
-        </>
+        </div>
       )}
     </Button>
   );

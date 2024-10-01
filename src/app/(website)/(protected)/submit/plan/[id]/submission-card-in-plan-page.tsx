@@ -20,7 +20,7 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
   // console.log(`SubmissionCard, imageBlurDataURL:${imageBlurDataURL}`);
 
   return (
-    <>
+    <div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-5 md:gap-8 w-full">
 
         {/* Left column */}
@@ -28,7 +28,7 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
           {/* image */}
           <div className="relative group overflow-hidden rounded-lg aspect-[16/9]">
             {imageProps && (
-              <>
+              <div>
                 <Image
                   src={imageProps.src}
                   alt={item.image?.alt || `image for ${item.name}`}
@@ -62,7 +62,7 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
                     )}
                   </div>
                 </div>
-              </>
+              </div>
             )}
 
             {
@@ -125,6 +125,6 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
           </div>
         </div>
       </div >
-    </>
+    </div>
   );
 }

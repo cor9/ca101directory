@@ -20,7 +20,7 @@ export default async function HomePage({
   // console.log('HomePage, items', items);
 
   return (
-    <>
+    <div>
       {/* when no items are found */}
       {items?.length === 0 && (
         <EmptyGrid />
@@ -38,6 +38,6 @@ export default async function HomePage({
           </div>
         </section>
       )}
-    </>
+    </div>
   );
 }

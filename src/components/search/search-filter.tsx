@@ -26,7 +26,7 @@ export async function SearchFilter() {
   }));
 
   return (
-    <>
+    <div>
       {/* Desktop View, has Container */}
       <Container className="hidden md:flex md:flex-col">
         <div className="w-full">
@@ -44,6 +44,6 @@ export async function SearchFilter() {
           </Suspense>
         </div>
       </div>
-    </>
+    </div>
   );
 }

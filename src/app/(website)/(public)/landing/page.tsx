@@ -11,7 +11,7 @@ import React from "react";
 
 export default function IndexPage() {
   return (
-    <>
+    <div>
       <HeroLanding />
 
       {/* <div className="w-full flex flex-col items-center justify-center gap-8">
@@ -25,6 +25,6 @@ export default function IndexPage() {
       <InfoLanding data={infos[1]} />
       <Features />
       <Testimonials />
-    </>
+    </div>
   );
 }

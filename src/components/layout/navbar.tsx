@@ -60,7 +60,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
   }, [open]);
 
   return (
-    <>
+    <div>
       {/* Desktop View */}
       <header
         className={cn(
@@ -213,6 +213,6 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
           </div>
         </div>
       </header>
-    </>
+    </div>
   );
 }

@@ -31,7 +31,7 @@ export default async function EditPage({ params }: EditPageProps) {
   }
 
   return (
-    <>
+    <div>
       <div className="flex flex-col gap-6">
         <DashboardHeader
           title="Edit"
@@ -45,6 +45,6 @@ export default async function EditPage({ params }: EditPageProps) {
           </Suspense>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -20,7 +20,7 @@ export default async function BlogCategoryPage({
   console.log('BlogCategoryPage, totalCount', totalCount, ", totalPages", totalPages);
 
   return (
-    <>
+    <div>
       {/* when no posts are found */}
       {posts?.length === 0 && (
         <EmptyGrid />
@@ -28,7 +28,7 @@ export default async function BlogCategoryPage({
 
       {/* when posts are found */}
       {posts && posts?.length > 0 && (
-        <>
+        <div>
           <BlogGrid posts={posts} />
 
           <div className="mt-8 flex items-center justify-center">
@@ -36,8 +36,8 @@ export default async function BlogCategoryPage({
               <CustomPagination routePreix={`/blog/${params.slug}`} totalPages={totalPages} />
             </Suspense>
           </div>
-        </>
+        </div>
       )}
-    </>
+    </div>
   );
 }

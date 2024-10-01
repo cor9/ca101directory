@@ -22,8 +22,8 @@ export const RoleGate = ({
   }
 
   return (
-    <>
+    <section>
       {children}
-    </>
+    </section>
   );
 };

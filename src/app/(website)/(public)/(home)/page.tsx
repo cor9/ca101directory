@@ -20,7 +20,7 @@ export default async function HomePage({
   // console.log('HomePage, items', items);
 
   return (
-    <>
+    <section>
       {/* when no items are found */}
       {items?.length === 0 && (
         <EmptyGrid />
@@ -36,8 +36,8 @@ export default async function HomePage({
               <CustomPagination routePreix='/' totalPages={totalPages} />
             </Suspense>
           </div>
-        </>
+        </section>
       )}
-    </>
+    </section>
   );
 }

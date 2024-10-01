@@ -7,7 +7,7 @@ import { HeaderSection } from '@/components/shared/header-section';
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <section>
       {/* hero section with search component */}
       {/* <HomeHero /> */}
 
@@ -37,6 +37,6 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
       <Container className="pb-16">
         <NewsletterForm />
       </Container>
-    </>
+    </section>
   );
 }

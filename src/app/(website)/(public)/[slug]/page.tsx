@@ -26,7 +26,7 @@ export default async function CustomPage({ params }: CustomPageProps) {
   // console.log("markdownContent", markdownContent);
 
   return (
-    <>
+    <section>
       <div className="flex flex-col items-center justify-center">
         <h1 className="inline-block text-2xl font-bold">
           {page.title}
@@ -43,6 +43,6 @@ export default async function CustomPage({ params }: CustomPageProps) {
           <CustomMdx source={markdownContent} />
         }
       </article>
-    </>
+    </section>
   );
 }

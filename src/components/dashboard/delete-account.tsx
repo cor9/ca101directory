@@ -13,7 +13,7 @@ export function DeleteAccountSection() {
   const userPaidPlan = true;
 
   return (
-    <>
+    <section>
       {/* <DeleteAccountModal /> */}
       <SectionColumns
         title="Delete Account"
@@ -51,6 +51,6 @@ export function DeleteAccountSection() {
           </div>
         </div>
       </SectionColumns>
-    </>
+    </section>
   );
 }

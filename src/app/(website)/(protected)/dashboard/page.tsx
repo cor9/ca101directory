@@ -34,7 +34,7 @@ export default async function DashboardPage({
   // console.log('DashboardPage, submissions:', submissions);
 
   return (
-    <>
+    <section>
       <DashboardHeader
         title="Dashboard"
         subtitle="Overview of submissions.">
@@ -66,10 +66,10 @@ export default async function DashboardPage({
                   <CustomPagination routePreix='/dashboard' totalPages={totalPages} />
                 </Suspense>
               </div>
-            </>
+            </section>
           )
         }
       </div>
-    </>
+    </section>
   );
 }

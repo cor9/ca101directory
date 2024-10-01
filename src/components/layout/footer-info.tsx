@@ -7,7 +7,7 @@ import { Icons } from "../shared/icons";
 export function FooterInfo() {
 
   return (
-    <>
+    <section>
       <div className="space-y-4">
 
         <div className="items-center space-x-2 flex">
@@ -44,6 +44,6 @@ export function FooterInfo() {
         </div>
       </div>
 
-    </>
+    </section>
   );
 }

@@ -3,7 +3,7 @@ import Container from '@/components/shared/container';
 
 export default function ItemLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <section>
       <Container className="mt-8 mb-16">
         {children}
       </Container>
@@ -11,6 +11,6 @@ export default function ItemLayout({ children }: { children: React.ReactNode }) 
       <Container className="pb-16">
         <NewsletterForm />
       </Container>
-    </>
+    </section>
   );
 }

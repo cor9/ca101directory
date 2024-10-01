@@ -90,7 +90,7 @@ export const LoginForm = ({ className }: { className?: string }) => {
           className="space-y-8"
         >
           <div className="space-y-4">
-            <>
+            <section>
               <FormField
                 control={form.control}
                 name="email"
@@ -139,7 +139,7 @@ export const LoginForm = ({ className }: { className?: string }) => {
                   </FormItem>
                 )}
               />
-            </>
+            </section>
           </div>
           <FormError message={error || urlError} />
           <FormSuccess message={success} />

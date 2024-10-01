@@ -76,7 +76,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <>
+    <section>
       <DashboardHeader
         title="Settings"
         subtitle="Manage account settings."
@@ -124,7 +124,7 @@ export default function SettingsPage() {
                 />
 
                 {user?.isOAuth === false && (
-                  <>
+                  <section>
                     <FormField
                       control={form.control}
                       name="password"
@@ -162,7 +162,7 @@ export default function SettingsPage() {
                         </FormItem>
                       )}
                     />
-                  </>
+                  </section>
                 )}
               </CardContent>
               <CardFooter className={cn("flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4",
@@ -190,6 +190,6 @@ export default function SettingsPage() {
           </form>
         </Form>
       </div>
-    </>
+    </section>
   );
 }

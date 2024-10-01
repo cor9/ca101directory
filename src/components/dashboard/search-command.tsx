@@ -37,7 +37,7 @@ export function SearchCommand({ links }: { links: NestedNavItem[] }) {
   }, []);
 
   return (
-    <>
+    <section>
       <Button
         variant="outline"
         className={cn(
@@ -78,6 +78,6 @@ export function SearchCommand({ links }: { links: NestedNavItem[] }) {
           ))}
         </CommandList>
       </CommandDialog>
-    </>
+    </section>
   );
 }

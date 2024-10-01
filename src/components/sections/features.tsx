@@ -8,7 +8,7 @@ import { ArrowRightIcon } from "lucide-react";
 
 export default function Features() {
   return (
-    <>
+    <section>
       <div className="pb-6 pt-28">
         <Container>
           <HeaderSection
@@ -58,6 +58,6 @@ export default function Features() {
           </div>
         </Container>
       </div>
-    </>
+    </section>
   );
 }

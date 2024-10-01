@@ -67,7 +67,7 @@ export function Callout({
 }: CalloutProps) {
   const { icon: Icon, classes } = dataCallout[type];
   return (
-    <>
+    <section>
       {/* <div
       className={cn(
         "mt-6 flex items-start space-x-3 rounded-lg border px-4 py-3 text-[15.6px] dark:border-none",
@@ -81,6 +81,6 @@ export function Callout({
       </div>
       <div className="[&>p]:my-0">{children}</div>
     </div> */}
-    </>
+    </section>
   );
 }

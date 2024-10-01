@@ -92,6 +92,6 @@ export default async function HeroLanding() {
           </Link>
         </div>
       </Container>
-    </>
+    </section>
   );
 }

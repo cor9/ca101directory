@@ -273,6 +273,6 @@ export default function Powered() {
           ))}
         </div>
       </Container>
-    </>
+    </section>
   );
 }

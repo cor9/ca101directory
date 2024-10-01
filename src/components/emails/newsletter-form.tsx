@@ -72,7 +72,7 @@ export function NewsletterForm() {
                     <FormLabel className="sr-only">Email</FormLabel>
                     <FormControl className="rounded-r-none">
                       <Input type="email"
-                        className="w-[400px] h-12 focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary focus:border-2"
+                        className="w-[300px] md:w-[400px] h-12 focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary focus:border-2"
                         placeholder="Enter your email"
                         {...field}
                       />

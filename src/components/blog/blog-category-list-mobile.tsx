@@ -1,5 +1,6 @@
 "use client";
 
+import React from 'react';
 import { BlogCategoryListQueryResult } from '@/sanity.types';
 import { LayoutListIcon } from "lucide-react";
 import { useParams } from 'next/navigation';
@@ -21,7 +22,7 @@ export function BlogCategoryListMobile({ categoryList }: BlogCategoryListMobileP
   };
 
   return (
-    <section>
+    <>
       {/* Mobile View */}
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
@@ -70,6 +71,6 @@ export function BlogCategoryListMobile({ categoryList }: BlogCategoryListMobileP
           <Drawer.Overlay />
         </Drawer.Portal>
       </Drawer.Root>
-    </section>
+    </>
   );
 }

@@ -8,8 +8,8 @@ import { constructMetadata } from "@/lib/utils";
 import { UploadIcon } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
-import EmptySubmission from "./empty-submission";
-import SubmissionList from "./submission-list";
+import EmptySubmission from "./_components/empty-submission";
+import SubmissionList from "./_components/submission-list";
 
 export const metadata = constructMetadata({
   title: "Dashboard",

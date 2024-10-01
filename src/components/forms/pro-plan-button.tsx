@@ -44,15 +44,15 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
       onClick={createCheckoutSessionAction}
     >
       {isPending ? (
-        <>
+        <section>
           <Icons.spinner className="mr-2 size-4 animate-spin" />
           <span>Loading...</span>
-        </>
+        </section>
       ) : (
-        <>
+        <section>
           <RocketIcon className="mr-2 size-4 icon-scale" />
           <span>Pay to Publish Right Now</span>
-        </>
+        </section>
       )}
     </Button>
   );

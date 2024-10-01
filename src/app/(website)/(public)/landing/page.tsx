@@ -10,7 +10,7 @@ import { NewsletterForm } from "@/components/emails/newsletter-form";
 
 export default function IndexPage() {
   return (
-    <>
+    <section>
       <HeroLanding />
 
       <div className="w-full flex flex-col items-center justify-center gap-8">
@@ -24,6 +24,6 @@ export default function IndexPage() {
       <InfoLanding data={infos[1]} />
       <Features />
       <Testimonials />
-    </>
+    </section>
   );
 }

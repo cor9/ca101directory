@@ -29,7 +29,7 @@ export default function SubmissionStatus({ item }: SubmissionStatusProps) {
     const status = item.pricePlan === PricePlan.FREE ? item.freePlanStatus : item.proPlanStatus;
 
     return (
-        <>
+        <section>
             {
                 status === FreePlanStatus.REJECTED ? (
                     <Popover>
@@ -53,6 +53,6 @@ export default function SubmissionStatus({ item }: SubmissionStatusProps) {
                     </StatusBadge>
                 )
             }
-        </>
+        </section>
     )
 }

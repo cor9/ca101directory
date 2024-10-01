@@ -6,7 +6,7 @@ import { getLocaleDate } from "@/lib/utils";
 import { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import SubmissionStatus from "../../../dashboard/_components/submission-status";
+import SubmissionStatus from "../../../../../../components/dashboard/submission-status";
 
 type SubmissionCardInPlanPageProps = {
   item: ItemInfo;

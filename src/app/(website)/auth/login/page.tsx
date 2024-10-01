@@ -9,7 +9,7 @@ const LoginPage = () => {
   // );
   return (
     // <Suspense fallback={null}>
-      <LoginForm />
+      <LoginForm className="border-none" />
     // </Suspense>
   );
 }

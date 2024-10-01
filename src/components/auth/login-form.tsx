@@ -24,7 +24,7 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-export const LoginForm = () => {
+export const LoginForm = ({ className }: { className?: string }) => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
@@ -82,6 +82,7 @@ export const LoginForm = () => {
       bottomButtonLabel="Don't have an account? Sign up"
       bottomButtonHref="/auth/register"
       showSocialLoginButton
+      className={cn("", className)}
     >
       <Form {...form}>
         <form

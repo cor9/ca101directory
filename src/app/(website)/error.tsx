@@ -11,7 +11,7 @@ export default function Error({ reset }: { reset: () => void; }) {
     <div className="flex min-h-screen flex-col items-center justify-center gap-8">
       <Logo className="size-12" />
       
-      <h2 className="text-2xl text-center">Oops! Something went wrong!</h2>
+      <h1 className="text-2xl text-center">Oops! Something went wrong!</h1>
       
       <div className="flex items-center gap-4">
         <Button

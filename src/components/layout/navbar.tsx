@@ -35,8 +35,6 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
   const scrolled = useScroll(50);
   const { isMobile } = useMediaQuery();
 
-  // const { data: session } = useSession();
-  // const user = session?.user;
   const user = useCurrentUser();
   // console.log(`navbar: user:`, user);
 

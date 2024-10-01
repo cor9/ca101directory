@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { publish } from "@/actions/publish";
 import { Button } from "@/components/ui/button";
 import { ItemInfo } from "@/types";
@@ -44,15 +45,15 @@ export function PublishNowButton({ item }: PublishNowButtonProps) {
       onClick={publishAction}
     >
       {isPending ? (
-        <section>
+        <>
           <Icons.spinner className="mr-2 size-4 animate-spin" />
           <span>Publishing...</span>
-        </section>
+        </>
       ) : (
-        <section>
+        <>
           <RocketIcon className="mr-2 size-4 icon-scale" />
           <span>Publish Now</span>
-        </section>
+        </>
       )}
     </Button>
   );

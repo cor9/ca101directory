@@ -8,7 +8,7 @@ const nextConfig = {
     // pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
 
     // https://www.npmjs.com/package/geist#using-with-nextjs
-    transpilePackages: ["geist"],
+    // transpilePackages: ["geist"],
 
     images: {
         // https://vercel.com/docs/image-optimization/managing-image-optimization-costs#minimizing-image-optimization-costs

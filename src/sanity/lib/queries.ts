@@ -48,6 +48,7 @@ const itemFields = /* groq */ `
   introduction,
 `;
 
+// auto generate related items
 const itemFieldsWithRelated = /* groq */ `
   ${itemSimpleFields}
   introduction,
@@ -71,7 +72,7 @@ export const itemFullInfoByIdQuery = defineQuery(`*[_type == "item" && _id == $i
 
 /**
  * NOTICE: this query is not used in the app, 
- * but it is used to generate the ItemListQueryResult type,
+ * but it is used to generate the type of ItemListQueryResult,
  * if you want to change this query, please update data/item.ts
  */
 export const itemListQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)] 
@@ -109,11 +110,15 @@ export const tagQuery = defineQuery(`*[_type == "tag" && slug.current == $slug][
   ${tagFields}
 }`);
 
-// Submissions
+// ======================================================================================================================
+
+/**
+ * Submission Queries
+ */
 
 /**
  * NOTICE: this query is not used in the app, 
- * but it is used to generate the SubmissionListQueryResult type,
+ * but it is used to generate the type of SubmissionListQueryResult,
  * if you want to change this query, please update data/submission.ts
  */
 export const submissionListQuery = defineQuery(`*[_type == "item" && defined(slug.current)
@@ -209,7 +214,7 @@ export const blogPostQuery = defineQuery(`
 
 /**
  * NOTICE: this query is not directly used in the app, 
- * but it is used to generate the BlogPostListQueryResult type,
+ * but it is used to generate the type of BlogPostListQueryResult,
  * if you want to change this query, please update data/blog.ts
  */
 export const blogPostListQuery = defineQuery(`
@@ -220,12 +225,59 @@ export const blogPostListQuery = defineQuery(`
 
 // ======================================================================================================================
 
+/**
+ * User Queries
+ */
+
 export const userWithAccountsQuery = defineQuery(`
   *[_type == "user" && _id == $id][0] {
     ...,
     accounts[]->,
   }
 `);
+
+// ======================================================================================================================
+
+/**
+ * Sitemap Queries
+ */
+
+export const itemListQueryForSitemap = groq`*[_type == "item" && defined(slug.current) && defined(publishDate)] | order(_createdAt asc) {
+  _id,
+  _updatedAt,
+  "slug": slug.current,
+}`;
+
+export const categoryListQueryForSitemap = groq`*[_type == "category" && defined(slug.current)] | order(_createdAt asc) {
+  _id,  
+  _updatedAt,
+  "slug": slug.current,
+}`;
+
+export const tagListQueryForSitemap = groq`*[_type == "tag" && defined(slug.current)] | order(_createdAt asc) {
+  _id,  
+  _updatedAt,
+  "slug": slug.current,
+}`;
+
+export const blogListQueryForSitemap = groq`*[_type == "blogPost" && defined(slug.current) && defined(publishDate)] | order(publishDate desc, _createdAt asc) {
+  _id,  
+  _updatedAt,
+  "slug": slug.current,
+}`;
+
+export const blogCategoryListQueryForSitemap = groq`*[_type == "blogCategory" && defined(slug.current)] | order(_createdAt asc) {
+  _id,  
+  _updatedAt,
+  "slug": slug.current,
+}`;
+
+export const pageListQueryForSitemap = groq`*[_type == "page" && defined(slug.current)] | order(_createdAt asc) {
+  _id,  
+  _updatedAt,
+  "slug": slug.current,
+}`;
+
 
 // ======================================================================================================================
 

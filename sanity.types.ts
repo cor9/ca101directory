@@ -1457,6 +1457,48 @@ export type UserWithAccountsQueryResult = {
   accounts: null;
   stripeCustomerId?: string;
 } | null;
+// Variable: itemListQueryForSitemap
+// Query: *[_type == "item" && defined(slug.current) && defined(publishDate)] | order(_createdAt asc) {  _id,  _updatedAt,  "slug": slug.current,}
+export type ItemListQueryForSitemapResult = Array<{
+  _id: string;
+  _updatedAt: string;
+  slug: string | null;
+}>;
+// Variable: categoryListQueryForSitemap
+// Query: *[_type == "category" && defined(slug.current)] | order(_createdAt asc) {  _id,    _updatedAt,  "slug": slug.current,}
+export type CategoryListQueryForSitemapResult = Array<{
+  _id: string;
+  _updatedAt: string;
+  slug: string | null;
+}>;
+// Variable: tagListQueryForSitemap
+// Query: *[_type == "tag" && defined(slug.current)] | order(_createdAt asc) {  _id,    _updatedAt,  "slug": slug.current,}
+export type TagListQueryForSitemapResult = Array<{
+  _id: string;
+  _updatedAt: string;
+  slug: string | null;
+}>;
+// Variable: blogListQueryForSitemap
+// Query: *[_type == "blogPost" && defined(slug.current) && defined(publishDate)] | order(publishDate desc, _createdAt asc) {  _id,    _updatedAt,  "slug": slug.current,}
+export type BlogListQueryForSitemapResult = Array<{
+  _id: string;
+  _updatedAt: string;
+  slug: string | null;
+}>;
+// Variable: blogCategoryListQueryForSitemap
+// Query: *[_type == "blogCategory" && defined(slug.current)] | order(_createdAt asc) {  _id,    _updatedAt,  "slug": slug.current,}
+export type BlogCategoryListQueryForSitemapResult = Array<{
+  _id: string;
+  _updatedAt: string;
+  slug: string | null;
+}>;
+// Variable: pageListQueryForSitemap
+// Query: *[_type == "page" && defined(slug.current)] | order(_createdAt asc) {  _id,    _updatedAt,  "slug": slug.current,}
+export type PageListQueryForSitemapResult = Array<{
+  _id: string;
+  _updatedAt: string;
+  slug: string | null;
+}>;
 // Variable: catquery
 // Query: *[_type == "blogCategory"] {  ...,  "count": count(*[_type == "blogPost" && references(^._id)])} | order(count desc) [0...5]
 export type CatqueryResult = Array<{
@@ -1669,6 +1711,12 @@ declare module "@sanity/client" {
     "\n  *[_type == \"blogPost\" && slug.current == $slug][0] {\n    \n  \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  author->,\n  categories[]->,\n\n  relatedPosts[]-> {\n    \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  author->,\n  categories[]->,\n\n  },\n  body[]{\n    ...,\n    markDefs[]{\n      ...,\n      _type == \"internalLink\" => {\n        \"slug\": @.reference->slug\n      }\n    }\n  },\n  \n  // \"estReadingTime\": round(length(pt::text(body)) / 5 / 180 ),\n  // \"related\": *[_type == \"blogPost\" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...2] {\n  //   slug,\n  //   title,\n  //   excerpt,\n  //   publishDate,\n  //   \"date\": coalesce(publishedDate, _createdAt),\n  //   \"image\": image\n  // },\n\n}": BlogPostQueryResult;
     "\n  *[_type == \"blogPost\" && defined(slug.current) && defined(publishDate)] \n  | order(publishDate desc) {\n    \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  author->,\n  categories[]->,\n\n}": BlogPostListQueryResult;
     "\n  *[_type == \"user\" && _id == $id][0] {\n    ...,\n    accounts[]->,\n  }\n": UserWithAccountsQueryResult;
+    "*[_type == \"item\" && defined(slug.current) && defined(publishDate)] | order(_createdAt asc) {\n  _id,\n  _updatedAt,\n  \"slug\": slug.current,\n}": ItemListQueryForSitemapResult;
+    "*[_type == \"category\" && defined(slug.current)] | order(_createdAt asc) {\n  _id,  \n  _updatedAt,\n  \"slug\": slug.current,\n}": CategoryListQueryForSitemapResult;
+    "*[_type == \"tag\" && defined(slug.current)] | order(_createdAt asc) {\n  _id,  \n  _updatedAt,\n  \"slug\": slug.current,\n}": TagListQueryForSitemapResult;
+    "*[_type == \"blogPost\" && defined(slug.current) && defined(publishDate)] | order(publishDate desc, _createdAt asc) {\n  _id,  \n  _updatedAt,\n  \"slug\": slug.current,\n}": BlogListQueryForSitemapResult;
+    "*[_type == \"blogCategory\" && defined(slug.current)] | order(_createdAt asc) {\n  _id,  \n  _updatedAt,\n  \"slug\": slug.current,\n}": BlogCategoryListQueryForSitemapResult;
+    "*[_type == \"page\" && defined(slug.current)] | order(_createdAt asc) {\n  _id,  \n  _updatedAt,\n  \"slug\": slug.current,\n}": PageListQueryForSitemapResult;
     "*[_type == \"blogCategory\"] {\n  ...,\n  \"count\": count(*[_type == \"blogPost\" && references(^._id)])\n} | order(count desc) [0...5]": CatqueryResult;
     "*[_type == \"blogPost\" && _score > 0]\n| score(title match $query || excerpt match $query || pt::text(body) match $query)\n| order(_score desc)\n{\n  _score,\n  _id,\n  _createdAt,\n  image,\n  author->,\n  categories[]->,\n   title,\n   slug\n}": SearchqueryResult;
     "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) {\n  _id,\n  _createdAt,\n  publishedDate,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"ImageColor\": asset->metadata.palette.dominant.background,\n  },\n  featured,\n  excerpt,\n  slug,\n  title,\n  author-> {\n    _id,\n    image,\n    \"slug\": name, // use name as slug\n    name\n  },\n  categories[]->,\n}\n": PostqueryResult;

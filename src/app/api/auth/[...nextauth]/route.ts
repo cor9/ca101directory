@@ -1,6 +1,9 @@
 import { NextRequest } from 'next/server';
 import { handlers } from '@/auth';
 
+/**
+ * https://authjs.dev/getting-started/installation?framework=Next.js
+ */
 export const { GET, POST } = handlers;
 
 /**

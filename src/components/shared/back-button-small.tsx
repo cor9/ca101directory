@@ -1,17 +1,22 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 
 interface BackButtonSmallProps {
+    href?: string;
     className?: string;
 }
 
-export default function BackButtonSmall({ className }: BackButtonSmallProps) {
+export default function BackButtonSmall({ href, className }: BackButtonSmallProps) {
     const router = useRouter();
+
+    const handleBack = () => {
+        router.back();
+    };
 
     return (
         <Button
@@ -20,8 +25,9 @@ export default function BackButtonSmall({ className }: BackButtonSmallProps) {
             className={cn("size-8 px-0", className)}
             asChild
         >
-            <Link href="#" onClick={() => router.back()}>
-                <ArrowRightIcon className="size-5" />
+            {/* if href is provided, use it, otherwise use the router.back() */}
+            <Link href={href || "#"} onClick={handleBack}>
+                <ArrowLeftIcon className="size-5" />
             </Link>
         </Button>
     );

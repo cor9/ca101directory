@@ -19,7 +19,7 @@ export function DashboardHeader({
 
         {/* title */}
         <div className="flex items-center space-x-4">
-          {showBackButton && <BackButtonSmall />}
+          {showBackButton && <BackButtonSmall href="/dashboard" />}
 
           <h1 className="text-2xl font-semibold">
             {title}

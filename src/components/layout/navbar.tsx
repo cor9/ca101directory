@@ -38,12 +38,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
   // const { data: session } = useSession();
   // const user = session?.user;
   const user = useCurrentUser();
-  console.log(`navbar: user:`, user);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(!!user);
-
-  useEffect(() => {
-    setIsUserLoggedIn(!!user);
-  }, [user]);
+  // console.log(`navbar: user:`, user);
 
   const pathname = usePathname();
   // console.log(`Navbar, pathname: ${pathname}`);
@@ -129,7 +124,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
           {/* mobile navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
             {
-              isUserLoggedIn ? (
+              user ? (
                 <div className="flex items-center">
                   <UserButton />
                 </div>
@@ -205,7 +200,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
         {/* navbar right show sign in or account */}
         <div className="flex items-center gap-x-4">
           {
-            isUserLoggedIn ? (
+            user ? (
               <div className="flex items-center">
                 <UserButton />
               </div>

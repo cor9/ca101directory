@@ -5,9 +5,9 @@ const site_url = process.env.NEXT_PUBLIC_APP_URL!!;
 
 export const siteConfig: SiteConfig = {
   name: "Mkdirs",
-  slogan: "Make any trending directory in minutes",
+  slogan: "Make any trending and profitable web directories in minutes",
   description:
-    "Make any trending directory in minutes.",
+    "Make any trending and profitable web directories in minutes.",
   url: site_url,
   ogImage: `${site_url}/_static/og.jpg`,
   links: {

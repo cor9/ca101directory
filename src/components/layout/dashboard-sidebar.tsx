@@ -18,6 +18,7 @@ import { PanelLeftClose, PanelRightClose, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
+import { Logo } from "../logo";
 
 interface DashboardSidebarProps {
   links: NestedNavItem[];
@@ -51,7 +52,7 @@ export function DashboardSidebar({ links }: DashboardSidebarProps) {
                 {
                   isSidebarExpanded && (
                     <Link href="/" className="flex items-center space-x-1.5">
-                      <Sparkles />
+                      <Logo />
                       <span className="font-heading text-xl font-bold">
                         {siteConfig.name}
                       </span>

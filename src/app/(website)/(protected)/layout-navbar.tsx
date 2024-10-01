@@ -5,15 +5,21 @@ import { dashboardConfig } from "@/config/dashboard";
 import { currentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
-interface DashboardLayoutProps {
+interface ProtectedLayoutProps {
   children: React.ReactNode;
 }
 
-export default async function DashboardLayout({ children }: DashboardLayoutProps) {
+export default async function ProtectedLayout({ children }: ProtectedLayoutProps) {
   const user = await currentUser();
+  // console.log(`ProtectedLayout, user:`, user);
   if (!user) {
     redirect("/auth/login");
   }
+
+  // const user = useCurrentUser();
+  // if (!user) {
+  //   redirect("/auth/login");
+  // }
   
   return (
     <div className="flex flex-col min-h-screen">

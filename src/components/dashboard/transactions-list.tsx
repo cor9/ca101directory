@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,6 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Icons } from "../shared/icons";
 
 export default function TransactionsList() {
   return (
@@ -32,7 +32,7 @@ export default function TransactionsList() {
         <Button size="sm" className="ml-auto shrink-0 gap-1 px-4">
           <Link href="#" className="flex items-center gap-2">
             <span>View All</span>
-            <ArrowUpRight className="hidden size-4 sm:block" />
+            <ArrowRightIcon className="hidden size-4 sm:block" />
           </Link>
         </Button>
       </CardHeader>

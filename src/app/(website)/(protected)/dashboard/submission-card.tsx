@@ -18,7 +18,7 @@ type SubmissionCardProps = {
 };
 
 export default function SubmissionCard({ item }: SubmissionCardProps) {
-  console.log('SubmissionCard, item:', item);
+  // console.log('SubmissionCard, item:', item);
   const imageProps = item?.image
     ? urlForImage(item.image)
     : null;

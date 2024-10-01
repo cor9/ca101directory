@@ -19,8 +19,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 import { DashboardConfig, MarketingConfig } from "@/types";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { ArrowRight, MenuIcon } from "lucide-react";
+import { ArrowRightIcon, MenuIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -125,7 +124,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                     variant="default"
                     size="default">
                     <span>Sign In</span>
-                    <ArrowRight className="size-4" />
+                    <ArrowRightIcon className="size-4" />
                   </Button>
                 </LoginWrapper>
               )
@@ -206,7 +205,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                     size="default"
                   >
                     <span>Sign In</span>
-                    <ArrowRight className="size-4" />
+                    <ArrowRightIcon className="size-4" />
                   </Button>
                 </LoginWrapper>
               )

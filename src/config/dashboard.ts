@@ -76,26 +76,26 @@ export const sidebarLinks: NestedNavItem[] = [
   //     },
   //   ],
   // },
-  {
-    title: "RESOURCES",
-    items: [
-      {
-        href: "/",
-        icon: "home",
-        title: "Homepage"
-      },
-      {
-        href: "/docs",
-        icon: "bookOpen",
-        title: "Documentation"
-      },
-      { // TODO: add support, mail to support@mkdirs.com
-        href: "/support",
-        icon: "messages",
-        title: "Support",
-        // authorizeOnly: UserRole.USER,
-        // disabled: true,
-      },
-    ],
-  },
+  // {
+  //   title: "RESOURCES",
+  //   items: [
+  //     {
+  //       href: "/",
+  //       icon: "home",
+  //       title: "Homepage"
+  //     },
+  //     {
+  //       href: "/docs",
+  //       icon: "bookOpen",
+  //       title: "Documentation"
+  //     },
+  //     { // TODO: add support, mail to support@mkdirs.com
+  //       href: "/support",
+  //       icon: "messages",
+  //       title: "Support",
+  //       // authorizeOnly: UserRole.USER,
+  //       // disabled: true,
+  //     },
+  //   ],
+  // },
 ];

@@ -1,7 +1,3 @@
-import Link from "next/link";
-import BackButtonSmall from "../shared/back-button-small";
-import { Button } from "../ui/button";
-import { ChevronLeftIcon } from "lucide-react";
 
 interface DashboardSubmitHeaderProps {
   title: string;
@@ -21,18 +17,6 @@ export function DashboardSubmitHeader({
 
         {/* title */}
         <div className="flex items-center space-x-4">
-          {/* back to dashboard */}
-          {/* <Button
-            size="sm"
-            variant="outline"
-            className="size-8 px-0"
-            asChild
-          >
-            <Link href="/dashboard">
-              <ChevronLeftIcon className="size-5" />
-            </Link>
-          </Button> */}
-
           <h1 className="text-2xl font-semibold">
             {title}
           </h1>

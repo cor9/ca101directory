@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Icons } from "./icons";
+import { CheckIcon, CopyIcon } from "lucide-react";
+import React from "react";
 
 interface CopyButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   value: string;
@@ -36,9 +36,9 @@ export function CopyButton({ value, className, ...props }: CopyButtonProps) {
     >
       <span className="sr-only">Copy</span>
       {hasCopied ? (
-        <Icons.check className="size-4" />
+        <CheckIcon className="size-4" />
       ) : (
-        <Icons.copy className="size-4" />
+        <CopyIcon className="size-4" />
       )}
     </Button>
   );

@@ -46,7 +46,7 @@ export default function Features() {
                       >
                         <Link href="/" className="flex items-center gap-2">
                           <span>Visit the site</span>
-                          <Icons.arrowUpRight className="size-4" />
+                          <ArrowRightIcon className="size-4" />
                         </Link>
                       </Button>
                     </div>

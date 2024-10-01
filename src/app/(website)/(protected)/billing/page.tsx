@@ -1,7 +1,7 @@
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
-import { Icons } from "@/components/shared/icons";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { currentUser } from "@/lib/auth";
+import { AlertTriangleIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 
 // export const metadata = constructMetadata({
@@ -27,7 +27,7 @@ export default async function BillingPage() {
       />
       <div className="mt-6 grid gap-8">
         <Alert className="!pl-14">
-          <Icons.warning />
+          <AlertTriangleIcon />
           <AlertTitle>This is a demo app.</AlertTitle>
           <AlertDescription className="text-balance">
             SaaS Starter app is a demo app using a Stripe test environment. You

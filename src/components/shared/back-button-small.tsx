@@ -1,10 +1,10 @@
 "use client";
 
-import { ChevronLeftIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
+import { Icons } from "./icons";
 
 interface BackButtonSmallProps {
     className?: string;
@@ -21,7 +21,7 @@ export default function BackButtonSmall({ className }: BackButtonSmallProps) {
             asChild
         >
             <Link href="#" onClick={() => router.back()}>
-                <ChevronLeftIcon className="size-5" />
+                <ArrowRightIcon className="size-5" />
             </Link>
         </Button>
     );

@@ -1,13 +1,10 @@
 "use client";
 
-import { ChevronLeftIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import { Icons } from "./icons";
 
 export default function BackDashboardButtonSmall() {
-    const router = useRouter();
-
     return (
         <Button
             size="sm"
@@ -16,7 +13,7 @@ export default function BackDashboardButtonSmall() {
             asChild
         >
             <Link href="/dashboard">
-                <ChevronLeftIcon className="size-5" />
+                <ArrowRightIcon className="size-5" />
             </Link>
         </Button>
     );

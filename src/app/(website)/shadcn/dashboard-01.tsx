@@ -1,16 +1,16 @@
-import Link from "next/link"
 import {
   Activity,
-  ArrowUpRight,
   CircleUser,
   CreditCard,
   DollarSign,
   Menu,
   Package2,
   Search,
-  Users,
+  Users
 } from "lucide-react"
+import Link from "next/link"
 
+import { Icons } from "@/components/shared/icons"
 import {
   Avatar,
   AvatarFallback,
@@ -238,7 +238,7 @@ export function Dashboard() {
               <Button asChild size="sm" className="ml-auto gap-1">
                 <Link href="#">
                   View All
-                  <ArrowUpRight className="h-4 w-4" />
+                  <ArrowRightIcon className="h-4 w-4" />
                 </Link>
               </Button>
             </CardHeader>

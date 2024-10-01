@@ -76,7 +76,7 @@ const PricingPlanCard = ({ item, pricePlan, isSelected, onSelect }: PricingPlanC
             pricePlan.benefits.map((feature) => (
               <li key={feature}
                 className="flex items-start gap-x-4">
-                <Icons.check className="size-5 shrink-0 text-purple-500" />
+                <CheckIcon className="size-5 shrink-0 text-purple-500" />
                 <p>{feature}</p>
               </li>
             ))
@@ -87,7 +87,7 @@ const PricingPlanCard = ({ item, pricePlan, isSelected, onSelect }: PricingPlanC
             pricePlan.limitations.map((feature) => (
               <li key={feature}
                 className="flex items-start gap-x-4 text-muted-foreground">
-                <Icons.close className="size-5 shrink-0" />
+                <CloseIcon className="size-5 shrink-0" />
                 <p>{feature}</p>
               </li>
             ))

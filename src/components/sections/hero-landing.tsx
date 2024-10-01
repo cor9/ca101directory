@@ -69,7 +69,7 @@ export default async function HeroLanding() {
             )}
           >
             <span>Go Pricing</span>
-            <Icons.arrowRight className="size-4" />
+            <ArrowRightIcon className="size-4" />
           </Link>
           <Link
             href={siteConfig.links.github}

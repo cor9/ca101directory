@@ -1,5 +1,6 @@
 import {
   Activity,
+  ArrowRightIcon,
   CircleUser,
   CreditCard,
   DollarSign,

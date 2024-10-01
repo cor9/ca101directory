@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { ItemInfo, PricePlan } from "@/types/index";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { CheckIcon, XIcon } from "lucide-react";
 
 /**
  * PricingPlans
@@ -74,7 +75,7 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
           <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal text-muted-foreground">
             {pricePlan.limitations.map((feature) => (
               <div key={feature} className="flex items-start gap-x-4">
-                <CloseIcon className="size-4 shrink-0 mt-0.5" />
+                <XIcon className="size-4 shrink-0 mt-0.5" />
                 <p>{feature}</p>
               </div>
             ))}

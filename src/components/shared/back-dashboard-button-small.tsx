@@ -1,8 +1,8 @@
 "use client";
 
+import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { Icons } from "./icons";
 
 export default function BackDashboardButtonSmall() {
     return (

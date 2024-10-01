@@ -18,6 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Icons } from "../shared/icons";
+import { ArrowRightIcon } from "lucide-react";
 
 export default function TransactionsList() {
   return (

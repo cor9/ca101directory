@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { HeaderSection } from "@/components/shared/header-section";
 import { Icons } from "@/components/shared/icons";
 import Container from "@/components/shared/container";
+import { ArrowRightIcon } from "lucide-react";
 
 export default function Features() {
   return (

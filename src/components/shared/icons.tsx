@@ -1,7 +1,10 @@
 import {
   ArrowRightIcon,
   BookOpenTextIcon,
+  CopyIcon,
   CreditCardIcon,
+  HomeIcon,
+  LaptopIcon,
   LayoutGridIcon,
   LayoutPanelLeftIcon,
   Loader2Icon,
@@ -9,7 +12,8 @@ import {
   SearchIcon,
   SettingsIcon,
   TagsIcon,
-  UploadIcon
+  UploadIcon,
+  UserIcon
 } from "lucide-react";
 import { FaBrandsGithub } from "../icons/github";
 import { FaBrandsGoogle } from "../icons/google";
@@ -39,18 +43,22 @@ export const Icons = {
   // post: FileTextIcon,
   // sun: SunMediumIcon,
   // trash: TrashIcon,
-  // user: UserIcon,
+
   // warning: AlertTriangleIcon,
   // ellipsis: MoreVerticalIcon,
   // help: HelpCircleIcon,
-  // home: HomeIcon,
-  // laptop: LaptopIcon,
+
   // lineChart: LineChartIcon,
+
+  // not used but should keep
+  user: UserIcon,
+  laptop: LaptopIcon,
+
 
   // replaced by lucide icons
 
   // close: XIcon,
-  // copy: CopyIcon,
+  
   // check: CheckIcon,
   // chevronRight: ChevronRightIcon,
   // arrowUpRight: ArrowUpRightIcon,
@@ -66,6 +74,7 @@ export const Icons = {
   tag: TagsIcon,
   blog: BookOpenTextIcon,
   pricing: CreditCardIcon,
+  home: HomeIcon,
   dashboard: LayoutPanelLeftIcon,
   submit: UploadIcon,
   settings: SettingsIcon,

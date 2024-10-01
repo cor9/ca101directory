@@ -4,8 +4,7 @@ import { SectionColumns } from "@/components/dashboard/section-columns";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 // import { useDeleteAccountModal } from "@/components/modals/delete-account-modal";
-import { Icons } from "@/components/shared/icons";
-import { TrashIcon } from "lucide-react";
+import { TrashIcon, XIcon } from "lucide-react";
 
 export function DeleteAccountSection() {
   // const { setShowDeleteAccountModal, DeleteAccountModal } =
@@ -28,7 +27,7 @@ export function DeleteAccountSection() {
               {userPaidPlan ? (
                 <div className="flex items-center gap-1 rounded-md bg-red-600/10 p-1 pr-2 text-xs font-medium text-red-600 dark:bg-red-500/10 dark:text-red-500">
                   <div className="m-0.5 rounded-full bg-red-600 p-[3px]">
-                    <CloseIcon size={10} className="text-background" />
+                    <XIcon size={10} className="text-background" />
                   </div>
                   Active Subscription
                 </div>

@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { ItemFullInfo, PricePlan } from "@/types/index";
 import { useState } from 'react';
 import { FreePlanButton } from "@/components/forms/free-plan-button";
+import { CheckIcon, XIcon } from "lucide-react";
 
 /**
  * PricingPlans
@@ -55,7 +56,7 @@ const PricingPlanCard = ({ item, pricePlan, isSelected, onSelect }: PricingPlanC
         // isSelected ? "border-2 border-purple-500" : "border-2",
         pricePlan.title === "Pro" ? "-m-0.5 border-2 border-purple-500" : "",
       )}
-      // onClick={onSelect}
+    // onClick={onSelect}
     >
       {/* price plan title and price */}
       <div className="min-h-[110px] items-start space-y-4 bg-muted/50 p-6 border-b">
@@ -87,7 +88,7 @@ const PricingPlanCard = ({ item, pricePlan, isSelected, onSelect }: PricingPlanC
             pricePlan.limitations.map((feature) => (
               <li key={feature}
                 className="flex items-start gap-x-4 text-muted-foreground">
-                <CloseIcon className="size-5 shrink-0" />
+                <XIcon className="size-5 shrink-0" />
                 <p>{feature}</p>
               </li>
             ))

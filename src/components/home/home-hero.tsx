@@ -22,7 +22,7 @@ export async function HomeHero() {
   // }));
 
   return (
-    <section>
+    <>
       {/* Desktop View, has Container */}
       <Container className="hidden md:flex md:flex-col mt-8">
         <div className='w-full'>
@@ -54,6 +54,6 @@ export async function HomeHero() {
           </Suspense>
         </div> */}
       </div>
-    </section>
+    </>
   );
 }

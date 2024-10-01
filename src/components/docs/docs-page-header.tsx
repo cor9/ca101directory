@@ -13,7 +13,7 @@ export function DocsPageHeader({
   ...props
 }: DocsPageHeaderProps) {
   return (
-    <section>
+    <>
       {/* <div className="mb-4 flex items-center space-x-1 text-sm text-muted-foreground">
         <div className="truncate">Docs</div>
         <ChevronRight className="size-4" />
@@ -30,6 +30,6 @@ export function DocsPageHeader({
           <p className="text-balance text-lg text-muted-foreground">{text}</p>
         )}
       </div>
-    </section>
+    </>
   );
 }

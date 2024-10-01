@@ -14,7 +14,7 @@ export function BlogCategoryListDesktop({ categoryList }: BlogCategoryListDeskto
   const { slug } = useParams() as { slug?: string };
 
   return (
-    <section>
+    <>
       {/* Desktop View */}
       <div className="flex items-center justify-center">
         <ToggleGroup
@@ -57,6 +57,6 @@ export function BlogCategoryListDesktop({ categoryList }: BlogCategoryListDeskto
           ))}
         </ToggleGroup>
       </div>
-    </section>
+    </>
   );
 }

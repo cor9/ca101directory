@@ -16,7 +16,7 @@ export default async function SubmitPage() {
   ]);
 
   return (
-    <section>
+    <>
       <DashboardSubmitHeader
         title="(1/3) Submit"
         subtitle="Enter product details."
@@ -27,6 +27,6 @@ export default async function SubmitPage() {
       <div className="mt-8">
         <SubmitForm tagList={tagList} categoryList={categoryList} />
       </div>
-    </section>
+    </>
   );
 }

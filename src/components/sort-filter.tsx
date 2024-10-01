@@ -10,7 +10,7 @@ export type SortFilterProps = {
 
 export function SortFilter({ sortList }: SortFilterProps) {
   return (
-    <section>
+    <>
       {/* Desktop View */}
       <div className="hidden md:block">
         <SortListDesktop sortList={sortList} />
@@ -20,6 +20,6 @@ export function SortFilter({ sortList }: SortFilterProps) {
       <div className="md:hidden">
         <SortListMobile sortList={sortList} />
       </div>
-    </section>
+    </>
   );
 }

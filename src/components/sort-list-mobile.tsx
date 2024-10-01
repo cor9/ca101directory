@@ -39,7 +39,7 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
   };
 
   return (
-    <section>
+    <>
       {/* Mobile View */}
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
@@ -80,6 +80,6 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
           </Drawer.Content>
         </Drawer.Portal>
       </Drawer.Root>
-    </section>
+    </>
   );
 }

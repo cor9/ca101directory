@@ -13,7 +13,7 @@ export function CategoryListDesktop({ categoryList }: CategoryListDesktopProps) 
   const { slug } = useParams() as { slug?: string };
 
   return (
-    <section>
+    <>
       {/* Desktop View */}
       <ScrollArea className="hidden md:flex w-full pb-4">
         <ul role="list" className="flex gap-x-2" >
@@ -34,6 +34,6 @@ export function CategoryListDesktop({ categoryList }: CategoryListDesktopProps) 
         </ul>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
-    </section>
+    </>
   );
 }

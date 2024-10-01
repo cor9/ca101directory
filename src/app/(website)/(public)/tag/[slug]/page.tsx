@@ -20,7 +20,7 @@ export default async function TagPage({
   console.log('TagPage, totalCount', totalCount, ', totalPages', totalPages);
 
   return (
-    <section>
+    <>
       {/* when no items are found */}
       {items?.length === 0 && (
         <EmptyGrid />
@@ -40,6 +40,6 @@ export default async function TagPage({
           </section>
         )
       }
-    </section>
+    </>
   );
 }

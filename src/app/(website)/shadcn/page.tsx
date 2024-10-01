@@ -9,8 +9,8 @@ import { Dashboard } from "./dashboard-01";
 export default async function ShadcnPage() {
 
   return (
-    <section>
+    <>
       <Dashboard />
-    </section>
+    </>
   );
 }

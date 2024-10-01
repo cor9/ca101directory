@@ -18,7 +18,7 @@ export default async function TagIndexPage({
   console.log('TagIndexPage, totalCount', totalCount, ", totalPages", totalPages);
 
   return (
-    <section>
+    <>
       {/* when no items are found */}
       {items?.length === 0 && (
         <EmptyGrid />
@@ -36,6 +36,6 @@ export default async function TagIndexPage({
           </div>
         </section>
       )}
-    </section>
+    </>
   );
 }

@@ -28,7 +28,7 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
   const publishable = getPublishable(item);
 
   return (
-    <section>
+    <>
       <Card className="flex-grow flex items-center p-4">
         {/* Content section */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-5 md:gap-8 w-full">
@@ -38,7 +38,7 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
             {/* image */}
             <div className="relative group overflow-hidden rounded-lg aspect-[16/9]">
               {imageProps && (
-                <section>
+                <>
                   <Image
                     src={imageProps.src}
                     alt={item.image?.alt || `image for ${item.name}`}
@@ -73,7 +73,7 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
                       )}
                     </div>
                   </div>
-                </section>
+                </>
               )}
 
               {
@@ -175,6 +175,6 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
 
         </div>
       </Card>
-    </section>
+    </>
   );
 }

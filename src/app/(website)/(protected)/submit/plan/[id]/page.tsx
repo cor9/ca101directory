@@ -35,7 +35,7 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
   // console.log('PlanPage, item:', item);
 
   return (
-    <section>
+    <>
       <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
         <DashboardSubmitHeader
           title="(2/3) Submit"
@@ -57,6 +57,6 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
           </div>
         </Card>
       </div>
-    </section>
+    </>
   );
 }

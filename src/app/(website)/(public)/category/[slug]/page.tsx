@@ -20,7 +20,7 @@ export default async function CategoryPage({
   console.log('CategoryPage, totalCount', totalCount, ', totalPages', totalPages);
 
   return (
-    <section>
+    <>
       {/* when no items are found */}
       {items?.length === 0 && (
         <EmptyGrid />
@@ -36,8 +36,8 @@ export default async function CategoryPage({
               <CustomPagination routePreix={`/category/${params.slug}`} totalPages={totalPages} />
             </Suspense>
           </div>
-        </section>
+        </>
       )}
-    </section>
+    </>
   );
 }

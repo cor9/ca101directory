@@ -20,7 +20,7 @@ export default async function BillingPage() {
   }
 
   return (
-    <section>
+    <>
       <DashboardHeader
         title="Billing"
         subtitle="Manage your billings."
@@ -45,6 +45,6 @@ export default async function BillingPage() {
         </Alert>
         {/* <BillingInfo userSubscriptionPlan={userSubscriptionPlan} /> */}
       </div>
-    </section>
+    </>
   );
 }

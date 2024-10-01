@@ -20,14 +20,14 @@ export default function ItemCard({ item }: ItemCardProps) {
   const itemUrlPrefix = '/item';
 
   return (
-    <section>
+    <>
       <div className="cursor-pointer border rounded-lg flex flex-col justify-between gap-4 hover:bg-accent/60 transition-colors duration-300">
         {/* top */}
         <div className="flex flex-col gap-4">
           {/* Image container */}
           <div className="group overflow-hidden relative aspect-[16/9] rounded-t-md transition-all border-b">
             {imageProps && (
-              <section>
+              <>
                 <Image
                   src={imageProps?.src}
                   alt={item.image.alt || `image of ${item.name}`}
@@ -52,7 +52,7 @@ export default function ItemCard({ item }: ItemCardProps) {
                     )}
                   </div>
                 </div>
-              </section>
+              </>
             )}
 
             {
@@ -104,6 +104,6 @@ export default function ItemCard({ item }: ItemCardProps) {
           </div>
         </Link>
       </div >
-    </section>
+    </>
   );
 }

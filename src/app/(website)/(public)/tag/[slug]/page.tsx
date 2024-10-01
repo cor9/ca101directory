@@ -20,7 +20,7 @@ export default async function TagPage({
   console.log('TagPage, totalCount', totalCount, ', totalPages', totalPages);
 
   return (
-    <section>
+    <>
       {/* when no items are found */}
       {items?.length === 0 && (
         <EmptyGrid />
@@ -37,9 +37,9 @@ export default async function TagPage({
                 <CustomPagination routePreix={`/tag/${params.slug}`} totalPages={totalPages} />
               </Suspense>
             </div>
-          </section>
+          </>
         )
       }
-    </section>
+    </>
   );
 }

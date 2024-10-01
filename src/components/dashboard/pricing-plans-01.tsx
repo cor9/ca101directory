@@ -34,7 +34,7 @@ export function PricingPlans({ item }: PricingPlansProps) {
           ))
         }
       </div>
-    </section>
+    </>
   );
 }
 

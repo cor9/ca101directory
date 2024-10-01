@@ -21,7 +21,7 @@ export default async function SearchPage({
   // console.log('SearchPage, items', items);
 
   return (
-    <section>
+    <>
       {/* when no items are found */}
       {items?.length === 0 && (
         <EmptyGrid />
@@ -37,8 +37,8 @@ export default async function SearchPage({
               <CustomPagination routePreix='/search' totalPages={totalPages} />
             </Suspense>
           </div>
-        </section>
+        </>
       )}
-    </section>
+    </>
   );
 }

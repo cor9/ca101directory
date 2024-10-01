@@ -21,7 +21,7 @@ export function TagListMobile({ tagList }: TagListMobileProps) {
   };
 
   return (
-    <section>
+    <>
       {/* Mobile View */}
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
@@ -70,6 +70,6 @@ export function TagListMobile({ tagList }: TagListMobileProps) {
           <Drawer.Overlay />
         </Drawer.Portal>
       </Drawer.Root>
-    </section>
+    </>
   );
 }

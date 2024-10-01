@@ -362,6 +362,6 @@ export default function BentoGrid() {
           </div>
         </div>
       </Container>
-    </section>
+    </>
   );
 }

@@ -4,7 +4,7 @@ import { TagFilter } from '@/components/tag/tag-filter';
 
 export default function TagLayout({ children }: { children: React.ReactNode }) {
   return (
-    <section>
+    <>
       <div className="mt-8">
         <div className="w-full flex flex-col items-center justify-center gap-8">
           <HeaderSection
@@ -21,6 +21,6 @@ export default function TagLayout({ children }: { children: React.ReactNode }) {
       <Container className="mt-8 pb-16">
         {children}
       </Container>
-    </section>
+    </>
   );
 }

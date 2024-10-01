@@ -39,7 +39,7 @@ export function NewsletterWelcomeEmail(): JSX.Element {
               <Text className="m-0 text-center text-base">
                 {`We'll`} be sending you a newsletter every month.
               </Text>
-            </Section>
+            </>
 
             <Section className="mt-4 text-center text-zinc-400">
               <Text className="my-4">
@@ -55,7 +55,7 @@ export function NewsletterWelcomeEmail(): JSX.Element {
               <Text className="mb-0 mt-4">
                 @ mkdirs.com {new Date().getFullYear()}
               </Text>
-            </Section>
+            </>
           </Container>
         </Body>
       </Tailwind>

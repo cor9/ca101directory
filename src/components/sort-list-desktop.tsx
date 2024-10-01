@@ -47,7 +47,7 @@ export function SortListDesktop({ sortList }: SortListProps) {
   };
 
   return (
-    <section>
+    <>
       {/* Desktop View */}
       <Select onValueChange={onSelectChange} value={active}>
         <SelectTrigger className="w-[220px] h-8 text-sm">
@@ -61,6 +61,6 @@ export function SortListDesktop({ sortList }: SortListProps) {
           ))}
         </SelectContent>
       </Select>
-    </section>
+    </>
   );
 }

@@ -21,7 +21,7 @@ export function CategoryListMobile({ categoryList }: CategoryListMobileProps) {
   };
 
   return (
-    <section>
+    <>
       {/* Mobile View */}
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
@@ -70,6 +70,6 @@ export function CategoryListMobile({ categoryList }: CategoryListMobileProps) {
           <Drawer.Overlay />
         </Drawer.Portal>
       </Drawer.Root>
-    </section>
+    </>
   );
 }

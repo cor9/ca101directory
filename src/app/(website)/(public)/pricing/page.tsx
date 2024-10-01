@@ -23,7 +23,7 @@ export default async function PricingPage() {
           <div className="w-full max-w-4xl mx-auto">
             <PricingPlans />
           </div>
-        </section>
+        </>
 
         <section className="w-full flex flex-col gap-8 justify-center">
           <HeaderSection
@@ -34,7 +34,7 @@ export default async function PricingPage() {
           <div className="w-full max-w-4xl mx-auto">
             <PricingFaq />
           </div>
-        </section>
+        </>
       </div>
     </Container>
   );

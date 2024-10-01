@@ -5,7 +5,7 @@ import Container from "../shared/container";
 
 export default function Testimonials() {
   return (
-    <section>
+    <>
       <Container className="flex flex-col gap-10 py-32 sm:gap-y-16">
         <HeaderSection
           label="Testimonials"
@@ -47,6 +47,6 @@ export default function Testimonials() {
           ))}
         </div>
       </Container>
-    </section>
+    </>
   );
 }

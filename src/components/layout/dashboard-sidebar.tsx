@@ -150,7 +150,7 @@ export function DashboardSidebar({ links }: DashboardSidebarProps) {
                         )
                       );
                     })}
-                  </section>
+                  </>
                 ))}
               </nav>
 

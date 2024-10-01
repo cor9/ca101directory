@@ -550,15 +550,15 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
               }}
             >
               {isLoading ? (
-                <section>{loadingIndicator}</section>
+                <>{loadingIndicator}</>
               ) : (
-                <section>
+                <>
                   {EmptyItem()}
                   {CreatableItem()}
                   {!selectFirstItem && <CommandItem value="-" className="hidden" />}
                   {Object.entries(selectables).map(([key, dropdowns]) => (
                     <CommandGroup key={key} heading={key} className="h-full overflow-auto">
-                      <section>
+                      <>
                         {dropdowns.map((option) => {
                           return (
                             <CommandItem
@@ -588,10 +588,10 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                             </CommandItem>
                           );
                         })}
-                      </section>
+                      </>
                     </CommandGroup>
                   ))}
-                </section>
+                </>
               )}
             </CommandList>
           )}

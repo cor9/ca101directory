@@ -11,13 +11,13 @@ export function SkeletonSection({ card = false }: { card?: boolean }) {
         {card ? (
           <Skeleton className="h-44 w-full rounded-xl" />
         ) : (
-          <section>
+          <>
             <div className="mb-1.5 flex gap-x-2">
               <Skeleton className="h-10 w-full" />
               <Skeleton className="h-10 w-[67px] shrink-0 sm:w-[130px]" />
             </div>
             <Skeleton className="h-5 w-56" />
-          </section>
+          </>
         )}
       </div>
     </div>

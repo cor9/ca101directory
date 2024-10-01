@@ -18,7 +18,7 @@ export default async function BlogIndexPage({
   console.log('BlogIndexPage, totalCount', totalCount, ", totalPages", totalPages);
 
   return (
-    <section>
+    <>
       {/* when no posts are found */}
       {posts?.length === 0 && (
         <EmptyGrid />
@@ -26,7 +26,7 @@ export default async function BlogIndexPage({
 
       {/* when posts are found */}
       {posts && posts?.length > 0 && (
-        <section>
+        <>
           <BlogGrid posts={posts} />
           
           <div className="mt-8 flex items-center justify-center">
@@ -34,8 +34,8 @@ export default async function BlogIndexPage({
               <CustomPagination routePreix='/blog' totalPages={totalPages} />
             </Suspense>
           </div>
-        </section>
+        </>
       )}
-    </section>
+    </>
   );
 }

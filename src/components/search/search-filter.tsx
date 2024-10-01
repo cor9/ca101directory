@@ -28,7 +28,7 @@ export async function SearchFilter() {
   return (
     <section>
       {/* Desktop View, has Container */}
-      <Container className="hidden md:flex md:flex-col md:mt-4">
+      <Container className="hidden md:flex md:flex-col">
         <div className="w-full">
           <Suspense fallback={null}>
             <SearchFilterClient tagList={tags} categoryList={categories} sortList={SORT_FILTER_LIST} />
@@ -37,7 +37,7 @@ export async function SearchFilter() {
       </Container>
 
       {/* Mobile View, no Container */}
-      <div className="md:hidden flex flex-col mt-4">
+      <div className="md:hidden flex flex-col">
         <div className="mx-4">
           <Suspense fallback={null}>
             <SearchFilterClient tagList={tags} categoryList={categories} sortList={SORT_FILTER_LIST} />

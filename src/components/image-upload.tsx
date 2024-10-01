@@ -102,7 +102,7 @@ export default function ImageUpload({ currentImageUrl, onUploadChange }: ImageUp
         {/* uploading state */}
         {uploading && (
           <div className="flex flex-col items-center justify-center gap-4">
-            <Loader2 className="h-8 w-8 text-muted-foreground animate-spin mx-auto" />
+            <Loader2Icon className="h-8 w-8 text-muted-foreground animate-spin mx-auto" />
             <p className="text-sm text-muted-foreground">
               Image is uploading...
             </p>

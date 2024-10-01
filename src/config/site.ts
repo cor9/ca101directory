@@ -13,6 +13,8 @@ export const siteConfig: SiteConfig = {
   links: {
     twitter: "https://x.com/javayhu",
     github: "https://github.com/javayhu",
+    linkedin: "https://linkedin.com/in/javayhu",
+    email: "mailto:javayhu@gmail.com",
   },
   mailSupport: "support@mkdirs.com",
 };

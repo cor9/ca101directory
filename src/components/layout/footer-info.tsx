@@ -23,24 +23,51 @@ export function FooterInfo() {
       </p>
 
       <div className="flex items-center gap-1">
-        <Button variant="ghost" size="sm" className="size-8 px-0">
-          <Link
-            href={siteConfig.links.twitter}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Icons.twitter className="size-5" />
-          </Link>
-        </Button>
-        <Button variant="ghost" size="sm" className="size-8 px-0">
-          <Link
-            href={siteConfig.links.github}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Icons.github className="size-5" />
-          </Link>
-        </Button>
+        
+        {siteConfig.links.github && (
+          <Button variant="ghost" size="sm" className="size-8 px-0">
+            <Link
+              href={siteConfig.links.github}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icons.github className="size-5" />
+            </Link>
+          </Button>
+        )}
+        {siteConfig.links.twitter && (
+          <Button variant="ghost" size="sm" className="size-8 px-0">
+            <Link
+              href={siteConfig.links.twitter}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icons.twitter className="size-5" />
+            </Link>
+          </Button>
+        )}
+        {siteConfig.links.linkedin && (
+          <Button variant="ghost" size="sm" className="size-8 px-0">
+            <Link
+              href={siteConfig.links.linkedin}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icons.linkedin className="size-5" />
+            </Link>
+          </Button>
+        )}
+        {siteConfig.links.email && (
+          <Button variant="ghost" size="sm" className="size-8 px-0">
+            <Link
+              href={siteConfig.links.email}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icons.email className="size-5" />
+            </Link>
+          </Button>
+        )}
       </div>
     </div>
   );

@@ -14,36 +14,6 @@ export type NewsletterFormData = z.infer<typeof NewsletterFormSchema>;
 /**
  * email schema
  */
-// export const emailSchema = z
-//   .string({
-//     required_error: "Email is required",
-//     invalid_type_error: "Email must be a string",
-//   })
-//   .min(5, {
-//     message: "Email must be made of at least 5 characters",
-//   })
-//   .max(64, {
-//     message: "Email must be made of at most 64 characters",
-//   })
-//   .email({
-//     message: "Please enter a valid email address",
-//   });
-
-// export const newsletterSignUpSchema = z.object({
-//   email: emailSchema,
-// });
-
-// export type NewsletterSignUpFormInput = z.infer<
-//   typeof newsletterSignUpSchema
-// >;
-
-// export const checkIfSubscribedToNewsletterSchema = z.object({
-//   email: emailSchema,
-// });
-
-// export type CheckIfSubscribedToNewsletterInput = z.infer<
-//   typeof checkIfSubscribedToNewsletterSchema
-// >;
 
 
 /**
@@ -143,3 +113,13 @@ export const RegisterSchema = z.object({
     message: "Name is required",
   }),
 });
+
+
+/**
+ * og image schema
+ */
+export const ogImageSchema = z.object({
+  heading: z.string(),
+  type: z.string(),
+  mode: z.enum(["light", "dark"]).default("dark"),
+})

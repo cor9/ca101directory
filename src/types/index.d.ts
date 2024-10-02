@@ -61,11 +61,6 @@ export type DashboardConfig = {
   mainNav: NavItem[];
 };
 
-export type DocsConfig = {
-  mainNav: NavItem[];
-  sidebarNav: NestedNavItem[];
-};
-
 export type NavItem = {
   title: string;
   href: string;

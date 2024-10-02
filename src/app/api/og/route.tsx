@@ -13,6 +13,8 @@ const interBold = fetch(
 
 /**
  * og image route
+ * 
+ * https://nextjs.org/docs/app/api-reference/file-conventions/metadata/opengraph-image
  */
 export async function GET(req: Request) {
   try {

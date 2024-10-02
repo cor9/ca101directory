@@ -8,10 +8,12 @@ import {
 } from "@/assets/fonts";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { Toaster } from "@/components/ui/sonner";
-import { cn } from "@/lib/utils";
+import { cn, constructMetadata } from "@/lib/utils";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { auth } from "@/auth";
+
+export const metadata = constructMetadata();
 
 interface RootLayoutProps {
   children: React.ReactNode;

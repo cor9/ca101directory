@@ -3,7 +3,7 @@ import { PricingFaq } from "@/components/pricing/pricing-faq";
 // import { PricingPlans } from "@/components/pricing/pricing-plans";
 import Container from "@/components/shared/container";
 import { HeaderSection } from "@/components/shared/header-section";
-import { constructMetadata } from "@/lib/utils";
+import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
   title: "Pricing",

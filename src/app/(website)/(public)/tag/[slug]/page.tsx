@@ -4,6 +4,31 @@ import CustomPagination from '@/components/pagination';
 import { getItems } from '@/data/item';
 import { DEFAULT_SORT, ITEMS_PER_PAGE, SORT_FILTER_LIST } from '@/lib/constants';
 import { Suspense } from 'react';
+import { constructMetadata } from '@/lib/metadata';
+import { Metadata } from 'next';
+import { tagQuery } from '@/sanity/lib/queries';
+import { TagQueryResult } from '@/sanity.types';
+import { sanityFetch } from '@/sanity/lib/fetch';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata | undefined> {
+  const tag = await sanityFetch<TagQueryResult>({
+    query: tagQuery,
+    params: { slug: params.slug }
+  });
+  if (!tag) {
+    console.warn(`generateMetadata, tag not found for slug: ${params.slug}`);
+    return;
+  }
+
+  return constructMetadata({
+    title: tag.name,
+    description: tag.description,
+  });
+}
 
 export default async function TagPage({
   params,

@@ -4,6 +4,12 @@ import { getItems } from '@/data/item';
 import EmptyGrid from '@/components/empty-grid';
 import CustomPagination from '@/components/pagination';
 import { Suspense } from 'react';
+import { constructMetadata } from '@/lib/metadata';
+
+export const metadata = constructMetadata({
+  title: "Tag",
+  description: "Explore by tags",
+});
 
 export default async function TagIndexPage({
   searchParams

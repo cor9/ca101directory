@@ -4,6 +4,12 @@ import CustomPagination from "@/components/pagination";
 import { getBlogs } from "@/data/blog";
 import { POSTS_PER_PAGE } from "@/lib/constants";
 import { Suspense } from "react";
+import { constructMetadata } from "@/lib/metadata";
+
+export const metadata = constructMetadata({
+  title: "Blog",
+  description: "Explore our blog posts",
+});
 
 export default async function BlogIndexPage({
   searchParams

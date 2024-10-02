@@ -8,10 +8,11 @@ import {
 } from "@/assets/fonts";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { Toaster } from "@/components/ui/sonner";
-import { cn, constructMetadata } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { auth } from "@/auth";
+import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata();
 

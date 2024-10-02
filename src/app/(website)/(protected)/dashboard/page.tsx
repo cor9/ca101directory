@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 import { getSubmissions } from "@/data/submission";
 import { currentUser } from "@/lib/auth";
 import { SUBMISSIONS_PER_PAGE } from "@/lib/constants";
-import { constructMetadata } from "@/lib/utils";
 import { UploadIcon } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import EmptySubmission from "@/components/dashboard/empty-submission";
 import SubmissionList from "@/components/dashboard/submission-list";
+import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
   title: "Dashboard",

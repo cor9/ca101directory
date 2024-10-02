@@ -4,6 +4,12 @@ import { getItems } from '@/data/item';
 import EmptyGrid from '@/components/empty-grid';
 import { Suspense } from 'react';
 import CustomPagination from '@/components/pagination';
+import { constructMetadata } from '@/lib/metadata';
+
+export const metadata = constructMetadata({
+  title: "Search",
+  description: "Search for your needs",
+});
 
 export default async function SearchPage({
   searchParams

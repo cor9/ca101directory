@@ -6,10 +6,16 @@ import { itemByIdQuery } from "@/sanity/lib/queries";
 import { ItemInfo } from "@/types";
 import { notFound } from "next/navigation";
 import SubmissionCardInPublishPage from "./submission-card-in-publish-page";
+import { constructMetadata } from "@/lib/metadata";
+
+export const metadata = constructMetadata({
+  title: "Publish",
+  description: "Review and publish product.",
+});
 
 export default async function PublishPage({ params }: { params: { id: string } }) {
   const { id } = params;
-  console.log('PublishPage, itemId:', id);
+  // console.log('PublishPage, itemId:', id);
   const item = await sanityFetch<ItemInfo>({
     query: itemByIdQuery,
     params: { id: id },

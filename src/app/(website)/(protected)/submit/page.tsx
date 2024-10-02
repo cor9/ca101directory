@@ -4,6 +4,12 @@ import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryListQuery, tagListQuery } from "@/sanity/lib/queries";
 import { SubmitForm } from "./submit-form";
+import { constructMetadata } from "@/lib/metadata";
+
+export const metadata = constructMetadata({
+  title: "Submit",
+  description: "Submit your product",
+});
 
 export default async function SubmitPage() {
   const [categoryList, tagList] = await Promise.all([

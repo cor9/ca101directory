@@ -6,6 +6,12 @@ import { ItemFullInfo } from "@/types";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { EditForm } from "./edit-form";
+import { constructMetadata } from "@/lib/metadata";
+
+export const metadata = constructMetadata({
+  title: "Edit",
+  description: "Edit product information",
+});
 
 interface EditPageProps {
   params: { id: string };

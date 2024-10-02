@@ -62,6 +62,10 @@ export const itemByIdQuery = defineQuery(`*[_type == "item" && _id == $id][0] {
   ${itemSimpleFields}
 }`);
 
+export const itemInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.current == $slug][0] {
+  ${itemSimpleFields}
+}`);
+
 export const itemFullInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.current == $slug][0] {
   ${itemFieldsWithRelated}
 }`);
@@ -207,9 +211,20 @@ export const blogCategoryListQuery = defineQuery(`
     ${blogCategoryFields}
 }`);
 
+export const blogCategoryMetadateQuery = defineQuery(`
+  *[_type == "blogCategory" && slug.current == $slug][0] {
+    ${blogCategoryFields}
+  }
+`);
+
 export const blogPostQuery = defineQuery(`
   *[_type == "blogPost" && slug.current == $slug][0] {
     ${blogPostFields}
+}`);
+
+export const blogPostMetadataQuery = defineQuery(`
+  *[_type == "blogPost" && slug.current == $slug][0] {
+    ${blogPostSimpleFields}
 }`);
 
 /**

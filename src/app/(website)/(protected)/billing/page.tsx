@@ -1,13 +1,14 @@
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { currentUser } from "@/lib/auth";
+import { constructMetadata } from "@/lib/metadata";
 import { AlertTriangleIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 
-// export const metadata = constructMetadata({
-//   title: "Billing",
-//   description: "Manage billing and your subscription plan.",
-// });
+export const metadata = constructMetadata({
+  title: "Billing",
+  description: "Manage billing and your subscription plan.",
+});
 
 export default async function BillingPage() {
   const user = await currentUser();

@@ -5,14 +5,37 @@ import BackButton from "@/components/shared/back-button";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { Button } from "@/components/ui/button";
 import { urlForImage } from "@/lib/image";
+import { constructMetadata } from "@/lib/metadata";
 import { getLocaleDate } from "@/lib/utils";
+import { ItemInfoBySlugQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { itemFullInfoBySlugQuery } from "@/sanity/lib/queries";
+import { itemFullInfoBySlugQuery, itemInfoBySlugQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
 import { GlobeIcon, HashIcon, LayoutGridIcon } from "lucide-react";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata | undefined> {
+  const item = await sanityFetch<ItemInfoBySlugQueryResult>({
+    query: itemInfoBySlugQuery,
+    params: { slug: params.slug }
+  });
+  if (!item) {
+    console.warn(`generateMetadata, item not found for slug: ${params.slug}`);
+    return;
+  }
+
+  return constructMetadata({
+    title: item.name,
+    description: item.description,
+  });
+}
 
 interface ItemPageProps {
   params: { slug: string };

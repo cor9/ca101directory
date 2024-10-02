@@ -3,7 +3,32 @@ import ItemGrid from '@/components/item-grid';
 import CustomPagination from '@/components/pagination';
 import { getItems } from '@/data/item';
 import { DEFAULT_SORT, ITEMS_PER_PAGE, SORT_FILTER_LIST } from '@/lib/constants';
+import { constructMetadata } from '@/lib/metadata';
+import { CategoryQueryResult } from '@/sanity.types';
+import { sanityFetch } from '@/sanity/lib/fetch';
+import { categoryQuery } from '@/sanity/lib/queries';
+import { Metadata } from 'next';
 import { Suspense } from 'react';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata | undefined> {
+  const category = await sanityFetch<CategoryQueryResult>({
+    query: categoryQuery,
+    params: { slug: params.slug }
+  });
+  if (!category) {
+    console.warn(`generateMetadata, category not found for slug: ${params.slug}`);
+    return;
+  }
+
+  return constructMetadata({
+    title: category.name,
+    description: category.description,
+  });
+}
 
 export default async function CategoryPage({
   params,

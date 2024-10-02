@@ -1,9 +1,31 @@
 import { CustomMdx } from "@/components/custom-mdx";
 import { portableTextToMarkdown } from "@/lib/mdx";
+import { constructMetadata } from "@/lib/metadata";
 import { PageQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageQuery } from "@/sanity/lib/queries";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata | undefined> {
+  const page = await sanityFetch<PageQueryResult>({
+      query: pageQuery,
+      params: { slug: params.slug }
+  });
+  if (!page) {
+      console.warn(`generateMetadata, page not found for slug: ${params.slug}`);
+      return;
+  }
+
+  return constructMetadata({
+      title: page.title,
+      description: page.excerpt,
+  });
+}
 
 interface CustomPageProps {
   params: { slug: string };

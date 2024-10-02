@@ -3,7 +3,32 @@ import EmptyGrid from "@/components/empty-grid";
 import CustomPagination from "@/components/pagination";
 import { getBlogs } from "@/data/blog";
 import { POSTS_PER_PAGE } from "@/lib/constants";
+import { constructMetadata } from "@/lib/metadata";
+import { BlogCategoryMetadateQueryResult } from "@/sanity.types";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { blogCategoryMetadateQuery } from "@/sanity/lib/queries";
+import { Metadata } from "next";
 import { Suspense } from "react";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata | undefined> {
+  const category = await sanityFetch<BlogCategoryMetadateQueryResult>({
+      query: blogCategoryMetadateQuery,
+      params: { slug: params.slug }
+  });
+  if (!category) {
+      console.warn(`generateMetadata, category not found for slug: ${params.slug}`);
+      return;
+  }
+
+  return constructMetadata({
+      title: category.name,
+      description: category.description,
+  });
+}
 
 export default async function BlogCategoryPage({
   params,

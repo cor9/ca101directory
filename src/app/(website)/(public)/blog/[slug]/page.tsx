@@ -4,15 +4,37 @@ import { CustomMdx } from "@/components/custom-mdx";
 import AllPostsButton from "@/components/shared/all-posts-button";
 import { urlForImage } from "@/lib/image";
 import { portableTextToMarkdown } from "@/lib/mdx";
+import { constructMetadata } from "@/lib/metadata";
 import { getTableOfContents } from "@/lib/toc";
 import { getLocaleDate } from "@/lib/utils";
-import { BlogPostQueryResult } from "@/sanity.types";
+import { BlogPostMetadataQueryResult, BlogPostQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { blogPostQuery } from "@/sanity/lib/queries";
+import { blogPostMetadataQuery, blogPostQuery } from "@/sanity/lib/queries";
 import { BookTextIcon } from "lucide-react";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+export async function generateMetadata({
+    params,
+}: {
+    params: { slug: string };
+}): Promise<Metadata | undefined> {
+    const post = await sanityFetch<BlogPostMetadataQueryResult>({
+        query: blogPostMetadataQuery,
+        params: { slug: params.slug }
+    });
+    if (!post) {
+        console.warn(`generateMetadata, post not found for slug: ${params.slug}`);
+        return;
+    }
+
+    return constructMetadata({
+        title: post.title,
+        description: post.excerpt,
+    });
+}
 
 interface PostPageProps {
     params: { slug: string };

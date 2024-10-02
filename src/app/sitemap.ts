@@ -78,7 +78,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ];
 
     sitemapRoutes.forEach((route) => {
-        console.log(`sitemap, url:${site_url}${route.url}`);
+        console.log(`sitemap, url:${site_url}/${route.url}`);
         sitemapList.push({
             url: `${site_url}/${route.url}`,
             lastModified: new Date(route.lastModified).toISOString(),

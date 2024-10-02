@@ -8,7 +8,12 @@ import { ItemInfo } from "@/types";
 import { notFound } from "next/navigation";
 import SubmissionCardInPlanPage from "./submission-card-in-plan-page";
 import { Separator } from "@/components/ui/separator";
+import { constructMetadata } from "@/lib/metadata";
 
+export const metadata = constructMetadata({
+  title: "Pricing Plan",
+  description: "Choose pricing plan.",
+});
 
 export default async function PlanPage({ params }: { params: { id: string } }) {
   // TODO: add user check, if user is not logged in, redirect to login page

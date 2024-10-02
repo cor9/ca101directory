@@ -6,6 +6,7 @@ import { POSTS_PER_PAGE } from "@/lib/constants";
 import { Suspense } from "react";
 import { constructMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/config/site";
+
 export const metadata = constructMetadata({
   title: "Blog",
   description: "Read our latest blog posts",

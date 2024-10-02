@@ -31,10 +31,15 @@ export async function generateMetadata({
         return;
     }
 
+    const imageProps = post?.image
+        ? urlForImage(post?.image)
+        : null;
+
     return constructMetadata({
         title: post.title,
         description: post.excerpt,
         canonicalUrl: `${siteConfig.url}/blog/${post.slug}`,
+        image: imageProps?.src
     });
 }
 

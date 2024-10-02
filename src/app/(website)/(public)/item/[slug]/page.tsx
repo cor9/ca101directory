@@ -32,10 +32,15 @@ export async function generateMetadata({
     return;
   }
 
+  const imageProps = item?.image
+    ? urlForImage(item?.image)
+    : null;
+
   return constructMetadata({
     title: item.name,
     description: item.description,
     canonicalUrl: `${siteConfig.url}/item/${item.slug}`,
+    image: imageProps?.src
   });
 }
 

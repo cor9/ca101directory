@@ -45,6 +45,7 @@ export type SiteConfig = {
   name: string;
   slogan: string;
   description: string;
+  keywords: string[];
   author: string;
   url: string;
   image: string;

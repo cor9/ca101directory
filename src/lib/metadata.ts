@@ -15,24 +15,11 @@ export function constructMetadata({
     image?: string;
     noIndex?: boolean;
   } = {}): Metadata {
+    const fullTitle = title ? `${title} - ${siteConfig.name}` : siteConfig.name;
     return {
-      title: {
-        default: siteConfig.name,
-        template: `%s - ${siteConfig.name}`,
-      },
+      title: fullTitle,
       description,
-      keywords: [
-        "Directory",
-        "Template",
-        "Boilerplate",
-        "Sanity",
-        "Next.js",
-        "Auth.js",
-        "Tailwindcss",
-        "Shadcn/ui",
-        "Resend",
-        "Stripe",
-      ],
+      keywords: siteConfig.keywords,
       authors: [
         {
           name: siteConfig.author,
@@ -43,16 +30,17 @@ export function constructMetadata({
         type: "website",
         locale: "en_US",
         url: siteConfig.url,
-        title,
+        title: fullTitle,
         description,
         siteName: title,
         images: [image],
       },
       twitter: {
         card: "summary_large_image",
-        title,
+        title: fullTitle,
         description,
         images: [image],
+        site: siteConfig.url,
         creator: siteConfig.author,
       },
       icons: {

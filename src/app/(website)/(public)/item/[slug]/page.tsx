@@ -4,6 +4,7 @@ import ItemGrid from "@/components/item-grid";
 import BackButton from "@/components/shared/back-button";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { Button } from "@/components/ui/button";
+import { siteConfig } from "@/config/site";
 import { urlForImage } from "@/lib/image";
 import { constructMetadata } from "@/lib/metadata";
 import { getLocaleDate } from "@/lib/utils";
@@ -34,6 +35,7 @@ export async function generateMetadata({
   return constructMetadata({
     title: item.name,
     description: item.description,
+    canonicalUrl: `${siteConfig.url}/item/${item.slug}`,
   });
 }
 

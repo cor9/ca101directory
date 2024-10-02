@@ -5,10 +5,12 @@ import EmptyGrid from '@/components/empty-grid';
 import { Suspense } from 'react';
 import CustomPagination from '@/components/pagination';
 import { constructMetadata } from '@/lib/metadata';
+import { siteConfig } from '@/config/site';
 
 export const metadata = constructMetadata({
   title: "Search",
   description: "Search for your needs",
+  canonicalUrl: `${siteConfig.url}/search`,
 });
 
 export default async function SearchPage({

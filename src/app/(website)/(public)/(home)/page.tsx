@@ -5,9 +5,12 @@ import EmptyGrid from '@/components/empty-grid';
 import CustomPagination from '@/components/pagination';
 import { Suspense } from 'react';
 import { constructMetadata } from '@/lib/metadata';
+import { siteConfig } from '@/config/site';
 
 export const metadata = constructMetadata({
   title: "Home",
+  description: "Home",
+  canonicalUrl: `${siteConfig.url}/`,
 });
 
 export default async function HomePage({

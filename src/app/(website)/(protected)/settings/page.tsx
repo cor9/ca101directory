@@ -1,10 +1,12 @@
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { constructMetadata } from "@/lib/metadata";
 import SettingsForm from "./settings-form";
+import { siteConfig } from "@/config/site";
 
 export const metadata = constructMetadata({
   title: "Settings",
   description: "Manage account settings.",
+  canonicalUrl: `${siteConfig.url}/settings`,
 });
 
 export default function SettingsPage() {

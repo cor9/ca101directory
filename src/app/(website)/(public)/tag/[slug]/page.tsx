@@ -9,6 +9,7 @@ import { Metadata } from 'next';
 import { tagQuery } from '@/sanity/lib/queries';
 import { TagQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
+import { siteConfig } from '@/config/site';
 
 export async function generateMetadata({
   params,
@@ -27,6 +28,7 @@ export async function generateMetadata({
   return constructMetadata({
     title: tag.name,
     description: tag.description,
+    canonicalUrl: `${siteConfig.url}/tag/${tag.slug}`,
   });
 }
 

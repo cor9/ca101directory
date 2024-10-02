@@ -1,6 +1,7 @@
 import EmptyGrid from '@/components/empty-grid';
 import ItemGrid from '@/components/item-grid';
 import CustomPagination from '@/components/pagination';
+import { siteConfig } from '@/config/site';
 import { getItems } from '@/data/item';
 import { DEFAULT_SORT, ITEMS_PER_PAGE, SORT_FILTER_LIST } from '@/lib/constants';
 import { constructMetadata } from '@/lib/metadata';
@@ -27,6 +28,7 @@ export async function generateMetadata({
   return constructMetadata({
     title: category.name,
     description: category.description,
+    canonicalUrl: `${siteConfig.url}/category/${category.slug}`,
   });
 }
 

@@ -1,4 +1,5 @@
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import { constructMetadata } from "@/lib/metadata";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryListQuery, itemFullInfoByIdQuery, tagListQuery } from "@/sanity/lib/queries";
@@ -6,12 +7,20 @@ import { ItemFullInfo } from "@/types";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { EditForm } from "./edit-form";
-import { constructMetadata } from "@/lib/metadata";
+import { Metadata } from "next";
+import { siteConfig } from "@/config/site";
 
-export const metadata = constructMetadata({
-  title: "Edit",
-  description: "Edit product information",
-});
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata | undefined> {
+  return constructMetadata({
+    title: "Edit",
+    description: "Edit product information",
+    canonicalUrl: `${siteConfig.url}/edit/${params.slug}`,
+  });
+}
 
 interface EditPageProps {
   params: { id: string };

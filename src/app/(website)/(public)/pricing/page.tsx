@@ -4,10 +4,11 @@ import { PricingFaq } from "@/components/pricing/pricing-faq";
 import Container from "@/components/shared/container";
 import { HeaderSection } from "@/components/shared/header-section";
 import { constructMetadata } from "@/lib/metadata";
-
+import { siteConfig } from "@/config/site";
 export const metadata = constructMetadata({
   title: "Pricing",
-  description: "Explore our pricing plans.",
+  description: "Choose a pricing plan",
+  canonicalUrl: `${siteConfig.url}/pricing`,
 });
 
 export default async function PricingPage() {

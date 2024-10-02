@@ -10,10 +10,12 @@ import { Suspense } from "react";
 import EmptySubmission from "@/components/dashboard/empty-submission";
 import SubmissionList from "@/components/dashboard/submission-list";
 import { constructMetadata } from "@/lib/metadata";
+import { siteConfig } from "@/config/site";
 
 export const metadata = constructMetadata({
   title: "Dashboard",
   description: "Overview of submissions.",
+  canonicalUrl: `${siteConfig.url}/dashboard`,
 });
 
 export default async function DashboardPage({

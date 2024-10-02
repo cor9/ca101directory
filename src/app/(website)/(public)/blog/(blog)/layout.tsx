@@ -9,7 +9,7 @@ export default async function BlogListLayout({ children }: { children: React.Rea
         <div className="w-full flex flex-col items-center justify-center gap-8">
           <HeaderSection
             label="Blog"
-            title="Explore our blog posts"
+            title="Read our latest blog posts"
           />
 
           <BlogCategoryFilter />

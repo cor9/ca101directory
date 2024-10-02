@@ -7,11 +7,13 @@ import { Metadata } from "next";
 export function constructMetadata({
     title = siteConfig.name,
     description = siteConfig.description,
+    canonicalUrl,
     image = siteConfig.image,
     noIndex = false,
   }: {
     title?: string;
     description?: string;
+    canonicalUrl?: string;
     image?: string;
     noIndex?: boolean;
   } = {}): Metadata {
@@ -20,12 +22,15 @@ export function constructMetadata({
       title: fullTitle,
       description,
       keywords: siteConfig.keywords,
+      creator: siteConfig.author,
       authors: [
         {
           name: siteConfig.author,
         },
       ],
-      creator: siteConfig.author,
+      alternates: canonicalUrl ? {
+        canonical: canonicalUrl,
+      } : undefined,
       openGraph: {
         type: "website",
         locale: "en_US",

@@ -5,10 +5,12 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryListQuery, tagListQuery } from "@/sanity/lib/queries";
 import { SubmitForm } from "./submit-form";
 import { constructMetadata } from "@/lib/metadata";
+import { siteConfig } from "@/config/site";
 
 export const metadata = constructMetadata({
   title: "Submit",
   description: "Submit your product",
+  canonicalUrl: `${siteConfig.url}/submit`,
 });
 
 export default async function SubmitPage() {

@@ -1,5 +1,6 @@
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { siteConfig } from "@/config/site";
 import { currentUser } from "@/lib/auth";
 import { constructMetadata } from "@/lib/metadata";
 import { AlertTriangleIcon } from "lucide-react";
@@ -8,6 +9,7 @@ import { redirect } from "next/navigation";
 export const metadata = constructMetadata({
   title: "Billing",
   description: "Manage billing and your subscription plan.",
+  canonicalUrl: `${siteConfig.url}/dashboard/billing`,
 });
 
 export default async function BillingPage() {

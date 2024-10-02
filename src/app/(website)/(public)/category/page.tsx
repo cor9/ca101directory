@@ -5,10 +5,11 @@ import EmptyGrid from '@/components/empty-grid';
 import { Suspense } from 'react';
 import CustomPagination from '@/components/pagination';
 import { constructMetadata } from '@/lib/metadata';
-
+import { siteConfig } from '@/config/site';
 export const metadata = constructMetadata({
   title: "Category",
   description: "Explore by category",
+  canonicalUrl: `${siteConfig.url}/category`,
 });
 
 export default async function CategoryIndexPage({

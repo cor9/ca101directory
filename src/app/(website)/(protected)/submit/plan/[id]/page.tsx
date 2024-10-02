@@ -2,18 +2,27 @@ import { DashboardSubmitHeader } from "@/components/dashboard/dashboard-submit-h
 import { PricingPlans } from "@/components/dashboard/pricing-plans";
 import { SubmitStepper } from "@/components/submit/submit-stepper";
 import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { siteConfig } from "@/config/site";
+import { constructMetadata } from "@/lib/metadata";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
 import { ItemInfo } from "@/types";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import SubmissionCardInPlanPage from "./submission-card-in-plan-page";
-import { Separator } from "@/components/ui/separator";
-import { constructMetadata } from "@/lib/metadata";
 
-export const metadata = constructMetadata({
-  title: "Pricing Plan",
-  description: "Choose pricing plan.",
-});
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata | undefined> {
+  return constructMetadata({
+    title: "Pricing Plan",
+    description: "Choose pricing plan.",
+    canonicalUrl: `${siteConfig.url}/submit/plan/${params.id}`,
+  });
+}
 
 export default async function PlanPage({ params }: { params: { id: string } }) {
   // TODO: add user check, if user is not logged in, redirect to login page

@@ -1,4 +1,5 @@
 import { CustomMdx } from "@/components/custom-mdx";
+import { siteConfig } from "@/config/site";
 import { portableTextToMarkdown } from "@/lib/mdx";
 import { constructMetadata } from "@/lib/metadata";
 import { PageQueryResult } from "@/sanity.types";
@@ -24,6 +25,7 @@ export async function generateMetadata({
   return constructMetadata({
       title: page.title,
       description: page.excerpt,
+      canonicalUrl: `${siteConfig.url}/${page.slug}`,
   });
 }
 

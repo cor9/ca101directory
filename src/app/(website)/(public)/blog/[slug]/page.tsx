@@ -2,6 +2,7 @@ import BlogGrid from "@/components/blog/blog-grid";
 import { BlogToc } from "@/components/blog/blog-toc";
 import { CustomMdx } from "@/components/custom-mdx";
 import AllPostsButton from "@/components/shared/all-posts-button";
+import { siteConfig } from "@/config/site";
 import { urlForImage } from "@/lib/image";
 import { portableTextToMarkdown } from "@/lib/mdx";
 import { constructMetadata } from "@/lib/metadata";
@@ -33,6 +34,7 @@ export async function generateMetadata({
     return constructMetadata({
         title: post.title,
         description: post.excerpt,
+        canonicalUrl: `${siteConfig.url}/blog/${post.slug}`,
     });
 }
 

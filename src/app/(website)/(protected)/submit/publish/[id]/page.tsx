@@ -7,11 +7,20 @@ import { ItemInfo } from "@/types";
 import { notFound } from "next/navigation";
 import SubmissionCardInPublishPage from "./submission-card-in-publish-page";
 import { constructMetadata } from "@/lib/metadata";
+import { Metadata } from "next";
+import { siteConfig } from "@/config/site";
 
-export const metadata = constructMetadata({
-  title: "Publish",
-  description: "Review and publish product.",
-});
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata | undefined> {
+  return constructMetadata({
+    title: "Publish",
+    description: "Review and publish product.",
+    canonicalUrl: `${siteConfig.url}/submit/publish/${params.id}`,
+  });
+}
 
 export default async function PublishPage({ params }: { params: { id: string } }) {
   const { id } = params;

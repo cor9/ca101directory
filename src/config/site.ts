@@ -1,21 +1,20 @@
 import { NestedNavItem, SiteConfig } from "@/types";
 
-// TODO: fix !!
-const site_url = process.env.NEXT_PUBLIC_APP_URL!!;
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL!!;
 
 export const siteConfig: SiteConfig = {
   name: "Mkdirs",
   slogan: "Make any trending and profitable web directories in minutes",
   description: "Make any trending and profitable web directories in minutes.",
-  url: site_url,
-  ogImage: `${site_url}/_static/og.jpg`,
+  author: "Mkdirs",
+  url: SITE_URL,
+  image: `${SITE_URL}/_static/og.jpg`,
+  mail: "support@mkdirs.com",
   links: {
     twitter: "https://x.com/javayhu",
     github: "https://github.com/javayhu",
     linkedin: "https://linkedin.com/in/javayhu",
-    email: "mailto:javayhu@gmail.com",
   },
-  mailSupport: "support@mkdirs.com",
 };
 
 export const footerLinks: NestedNavItem[] = [
@@ -36,11 +35,11 @@ export const footerLinks: NestedNavItem[] = [
     ],
   },
   {
-    title: "Contact",
+    title: "Social",
     items: [
-      { title: "Twitter", href: "https://x.com/javayhu" },
-      { title: "Github", href: "https://github.com/javayhu" },
-      { title: "Email", href: "mailto:javayhu@gmail.com" },
+      { title: "Github", href: siteConfig.links.github },
+      { title: "Twitter", href: siteConfig.links.twitter },
+      { title: "Linkedin", href: siteConfig.links.linkedin },
     ],
   },
   {

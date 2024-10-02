@@ -119,7 +119,8 @@ export const RegisterSchema = z.object({
  * og image schema
  */
 export const ogImageSchema = z.object({
-  heading: z.string(),
-  type: z.string(),
+  title: z.string(),
+  description: z.string().optional(),
+  type: z.string().optional(),
   mode: z.enum(["light", "dark"]).default("dark"),
-})
+});

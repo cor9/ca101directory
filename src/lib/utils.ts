@@ -75,18 +75,19 @@ export function searchDocs(query: string) {
 export function constructMetadata({
   title = siteConfig.name,
   description = siteConfig.description,
-  image = siteConfig.ogImage,
-  icons = "/favicon.ico",
+  image = siteConfig.image,
   noIndex = false,
 }: {
   title?: string;
   description?: string;
   image?: string;
-  icons?: string;
   noIndex?: boolean;
 } = {}): Metadata {
   return {
-    title,
+    title: {
+      default: siteConfig.name,
+      template: `%s - ${siteConfig.name}`,
+    },
     description,
     keywords: [
       "Directory",
@@ -102,10 +103,10 @@ export function constructMetadata({
     ],
     authors: [
       {
-        name: siteConfig.name,
+        name: siteConfig.author,
       },
     ],
-    creator: siteConfig.name,
+    creator: siteConfig.author,
     openGraph: {
       type: "website",
       locale: "en_US",
@@ -119,9 +120,13 @@ export function constructMetadata({
       title,
       description,
       images: [image],
-      creator: siteConfig.name,
+      creator: siteConfig.author,
     },
-    icons,
+    icons: {
+      icon: "/favicon.ico",
+      shortcut: "/favicon-32x32.png",
+      apple: "/apple-touch-icon.png",
+    },
     metadataBase: new URL(siteConfig.url),
     manifest: `${siteConfig.url}/site.webmanifest`,
     ...(noIndex && {

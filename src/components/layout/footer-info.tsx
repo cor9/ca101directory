@@ -23,7 +23,6 @@ export function FooterInfo() {
       </p>
 
       <div className="flex items-center gap-1">
-        
         {siteConfig.links.github && (
           <Button variant="ghost" size="sm" className="size-8 px-0">
             <Link
@@ -57,10 +56,10 @@ export function FooterInfo() {
             </Link>
           </Button>
         )}
-        {siteConfig.links.email && (
+        {siteConfig.mail && (
           <Button variant="ghost" size="sm" className="size-8 px-0">
             <Link
-              href={siteConfig.links.email}
+              href={`mailto:${siteConfig.mail}`}
               target="_blank"
               rel="noreferrer"
             >

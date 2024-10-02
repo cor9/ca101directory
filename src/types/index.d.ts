@@ -42,14 +42,14 @@ export type SiteConfig = {
   name: string;
   slogan: string;
   description: string;
+  author: string;
   url: string;
-  ogImage: string;
-  mailSupport: string;
+  image: string;
+  mail: string;
   links: {
     github?: string;
     twitter?: string;
     linkedin?: string;
-    email?: string;
   };
 };
 

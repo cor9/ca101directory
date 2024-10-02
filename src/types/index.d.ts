@@ -1,6 +1,9 @@
-import type { Icon } from "lucide-react";
 import { Icons } from "@/components/shared/icons";
-import { ItemListQueryResult, ItemQueryResult, BlogPostListQueryResult, SubmissionListQueryResult } from '@/sanity.types';
+import {
+  BlogPostListQueryResult,
+  ItemListQueryResult,
+  ItemQueryResult
+} from '@/sanity.types';
 
 // Itme
 export type ItemInfo = ItemListQueryResult[number];
@@ -86,44 +89,6 @@ export type PricePlan = {
   limitations: string[];
   price: number;
   stripePriceId: string | null;
-};
-
-export type UserPricePlan = PricePlan &
-  Pick<User, "stripeCustomerId" | "stripeSubscriptionId" | "stripePriceId"> & {
-    // stripeCurrentPeriodEnd: number;
-    isPaid: boolean;
-    // interval: "month" | "year" | null;
-    isCanceled?: boolean;
-  };
-
-// subcriptions
-export type SubscriptionPlan = {
-  title: string;
-  description: string;
-  benefits: string[];
-  limitations: string[];
-  prices: {
-    monthly: number;
-    yearly: number;
-  };
-  stripeIds: {
-    monthly: string | null;
-    yearly: string | null;
-  };
-};
-
-export type UserSubscriptionPlan = SubscriptionPlan &
-  Pick<User, "stripeCustomerId" | "stripeSubscriptionId" | "stripePriceId"> & {
-    stripeCurrentPeriodEnd: number;
-    isPaid: boolean;
-    interval: "month" | "year" | null;
-    isCanceled?: boolean;
-  };
-
-// compare plans
-export type ColumnType = string | boolean | null;
-export type PlansRow = { feature: string; tooltip?: string } & {
-  [key in (typeof plansColumns)[number]]: ColumnType;
 };
 
 // landing sections

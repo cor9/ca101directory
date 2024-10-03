@@ -16,8 +16,8 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata | undefined> {
   return constructMetadata({
-    title: "Publish",
-    description: "Review and publish product.",
+    title: "Submit your product (3/3)",
+    description: "Submit your product (3/3) Review and publish product.",
     canonicalUrl: `${siteConfig.url}/submit/publish/${params.id}`,
   });
 }

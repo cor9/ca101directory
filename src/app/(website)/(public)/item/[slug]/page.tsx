@@ -37,9 +37,9 @@ export async function generateMetadata({
     : null;
 
   return constructMetadata({
-    title: item.name,
+    title: `${item.name} - Item`,
     description: item.description,
-    canonicalUrl: `${siteConfig.url}/item/${item.slug}`,
+    canonicalUrl: `${siteConfig.url}/item/${params.slug}`,
     image: imageProps?.src
   });
 }

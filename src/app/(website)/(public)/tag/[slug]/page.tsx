@@ -26,9 +26,9 @@ export async function generateMetadata({
   }
 
   return constructMetadata({
-    title: tag.name,
+    title: `${tag.name} - Tag`,
     description: tag.description,
-    canonicalUrl: `${siteConfig.url}/tag/${tag.slug}`,
+    canonicalUrl: `${siteConfig.url}/tag/${params.slug}`,
   });
 }
 

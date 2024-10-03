@@ -13,12 +13,12 @@ import { siteConfig } from "@/config/site";
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: { id: string };
 }): Promise<Metadata | undefined> {
   return constructMetadata({
-    title: "Edit",
+    title: "Edit product information",
     description: "Edit product information",
-    canonicalUrl: `${siteConfig.url}/edit/${params.slug}`,
+    canonicalUrl: `${siteConfig.url}/edit/${params.id}`,
   });
 }
 

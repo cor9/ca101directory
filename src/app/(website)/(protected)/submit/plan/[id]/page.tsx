@@ -18,8 +18,8 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata | undefined> {
   return constructMetadata({
-    title: "Pricing Plan",
-    description: "Choose pricing plan.",
+    title: "Submit your product (2/3)",
+    description: "Submit your product (2/3) Choose pricing plan.",
     canonicalUrl: `${siteConfig.url}/submit/plan/${params.id}`,
   });
 }

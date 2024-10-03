@@ -1,12 +1,11 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
+import SubmissionStatus from "@/components/dashboard/submission-status";
 import { urlForImage } from "@/lib/image";
 import { getLocaleDate } from "@/lib/utils";
 import { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import SubmissionStatus from "../../../../../../components/dashboard/submission-status";
 
 type SubmissionCardInPlanPageProps = {
   item: ItemInfo;

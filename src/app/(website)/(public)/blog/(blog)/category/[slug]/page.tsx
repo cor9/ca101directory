@@ -25,7 +25,7 @@ export async function generateMetadata({
   }
 
   return constructMetadata({
-      title: category.name,
+      title: `${category.name} - Blog Category`,
       description: category.description,
   });
 }

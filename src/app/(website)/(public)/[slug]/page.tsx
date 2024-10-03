@@ -25,7 +25,7 @@ export async function generateMetadata({
   return constructMetadata({
       title: page.title,
       description: page.excerpt,
-      canonicalUrl: `${siteConfig.url}/${page.slug}`,
+      canonicalUrl: `${siteConfig.url}/${params.slug}`,
   });
 }
 

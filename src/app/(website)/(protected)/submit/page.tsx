@@ -8,8 +8,8 @@ import { constructMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/config/site";
 
 export const metadata = constructMetadata({
-  title: "Submit",
-  description: "Submit your product",
+  title: "Submit your product (1/3)",
+  description: "Submit your product (1/3) – Enter product details.",
   canonicalUrl: `${siteConfig.url}/submit`,
 });
 

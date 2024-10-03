@@ -9,7 +9,6 @@ import { siteConfig } from '@/config/site';
 
 export const metadata = constructMetadata({
   title: "Home",
-  description: "Home",
   canonicalUrl: `${siteConfig.url}/`,
 });
 

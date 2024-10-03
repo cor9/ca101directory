@@ -1,7 +1,7 @@
 "use client";
 
-import { FreePlanButton } from "@/components/forms/free-plan-button";
-import { ProPlanButton } from "@/components/forms/pro-plan-button";
+import { FreePlanButton } from "@/components/plan/free-plan-button";
+import { ProPlanButton } from "@/components/plan/pro-plan-button";
 import { Icons } from "@/components/shared/icons";
 import { PRICE_PLANS } from "@/config/price-plan";
 import { cn } from "@/lib/utils";

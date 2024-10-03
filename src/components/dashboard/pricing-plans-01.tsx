@@ -1,12 +1,12 @@
 "use client";
 
-import { ProPlanButton } from "@/components/forms/pro-plan-button";
+import { ProPlanButton } from "@/components/plan/pro-plan-button";
 import { Icons } from "@/components/shared/icons";
 import { PRICE_PLANS } from "@/config/price-plan";
 import { cn } from "@/lib/utils";
 import { ItemFullInfo, PricePlan } from "@/types/index";
 import { useState } from 'react';
-import { FreePlanButton } from "@/components/forms/free-plan-button";
+import { FreePlanButton } from "@/components/plan/free-plan-button";
 import { CheckIcon, XIcon } from "lucide-react";
 
 /**

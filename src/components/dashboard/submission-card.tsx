@@ -1,7 +1,7 @@
 "use client";
 
-import { PublishButton } from "@/components/forms/publish-button";
-import { UnpublishButton } from "@/components/forms/unpublish-button";
+import { PublishButton } from "@/components/dashboard/publish-button";
+import { UnpublishButton } from "@/components/dashboard/unpublish-button";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { urlForImage } from "@/lib/image";

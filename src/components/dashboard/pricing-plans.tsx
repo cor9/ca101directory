@@ -10,9 +10,6 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { CheckIcon, XIcon } from "lucide-react";
 
-/**
- * PricingPlans
- */
 interface PricingPlansProps {
   item?: ItemInfo;
 }

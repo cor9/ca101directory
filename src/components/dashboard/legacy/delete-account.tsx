@@ -1,6 +1,6 @@
 "use client";
 
-import { SectionColumns } from "@/components/dashboard/section-columns";
+import { SectionColumns } from "@/components/dashboard/legacy/section-columns";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 // import { useDeleteAccountModal } from "@/components/modals/delete-account-modal";

@@ -7,7 +7,7 @@ import { SUBMISSIONS_PER_PAGE } from "@/lib/constants";
 import { UploadIcon } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
-import EmptySubmission from "@/components/dashboard/empty-submission";
+import EmptySubmission from "@/components/dashboard/submission-empty";
 import SubmissionList from "@/components/dashboard/submission-list";
 import { constructMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/config/site";

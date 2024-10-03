@@ -9,14 +9,11 @@ import {
 } from "@/components/ui/breadcrumb";
 import { HomeIcon } from "lucide-react";
 
-interface DashboardPlanBreadCrumbProps {
+interface DashboardBreadCrumbProps {
   item: ItemFullInfo;
 }
 
-/**
- * 
- */
-export default function DashboardPlanBreadCrumb({ item }: DashboardPlanBreadCrumbProps) {
+export default function DashboardBreadCrumb({ item }: DashboardBreadCrumbProps) {
   return <Breadcrumb className="">
     <BreadcrumbList>
       <BreadcrumbItem>
@@ -36,7 +33,7 @@ export default function DashboardPlanBreadCrumb({ item }: DashboardPlanBreadCrum
       <BreadcrumbSeparator />
       <BreadcrumbItem>
         <BreadcrumbLink>
-          <span>Plan</span>
+          <span>Update</span>
         </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />

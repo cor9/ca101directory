@@ -64,34 +64,34 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
     >
       {
         item.publishDate ? (
-          <div>
+          <div className="flex items-center justify-center">
             <ArrowUpLeftIcon className="mr-2 size-4 icon-scale" />
             <span>Go back to dashboard</span>
           </div>
         ) : (
           <div>
             {isPending ? (
-              <div>
+              <div className="flex items-center justify-center">
                 <Icons.spinner className="mr-2 size-4 animate-spin" />
                 <span>Submitting to review...</span>
               </div>
             ) : item.freePlanStatus === FreePlanStatus.PENDING ? (
-              <div>
+              <div className="flex items-center justify-center">
                 <Clock3Icon className="mr-2 size-4 icon-scale" />
                 <span>Go back and Wait for review</span>
               </div>
             ) : item.freePlanStatus === FreePlanStatus.APPROVED ? (
-              <div>
+              <div className="flex items-center justify-center">
                 <CheckCircleIcon className="mr-2 size-4 icon-scale" />
                 <span>Go to Publish</span>
               </div>
             ) : item.freePlanStatus === FreePlanStatus.REJECTED ? (
-              <div>
+              <div className="flex items-center justify-center">
                 <EditIcon className="mr-2 size-4 icon-scale" />
                 <span>Go to Edit and Submit again</span>
               </div>
             ) : (
-              <div>
+              <div className="flex items-center justify-center">
                 <SendIcon className="mr-2 size-4 icon-scale" />
                 <span>Submit to review</span>
               </div>

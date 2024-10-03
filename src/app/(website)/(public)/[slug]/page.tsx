@@ -1,4 +1,4 @@
-import { CustomMdx } from "@/components/custom-mdx";
+import { CustomMdx } from "@/components/shared/custom-mdx";
 import { siteConfig } from "@/config/site";
 import { portableTextToMarkdown } from "@/lib/mdx";
 import { constructMetadata } from "@/lib/metadata";

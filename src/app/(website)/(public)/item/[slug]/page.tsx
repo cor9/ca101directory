@@ -1,6 +1,6 @@
-import ItemBreadCrumb from "@/components/item-bread-crumb";
-import ItemCustomMdx from "@/components/item-custom-mdx";
-import ItemGrid from "@/components/item-grid";
+import ItemBreadCrumb from "@/components/item/item-bread-crumb";
+import ItemCustomMdx from "@/components/item/item-custom-mdx";
+import ItemGrid from "@/components/item/item-grid";
 import BackButton from "@/components/shared/back-button";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { Button } from "@/components/ui/button";

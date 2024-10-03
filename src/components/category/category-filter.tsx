@@ -4,8 +4,8 @@ import { CategoryListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { categoryListQuery } from '@/sanity/lib/queries';
 import { Suspense } from 'react';
-import { SortListDesktop } from '../sort-list-desktop';
-import { SortListMobile } from '../sort-list-mobile';
+import { SortListDesktop } from '../shared/sort-list-desktop';
+import { SortListMobile } from '../shared/sort-list-mobile';
 import { CategoryListDesktop } from "./category-list-desktop";
 import { CategoryListMobile } from './category-list-mobile';
 

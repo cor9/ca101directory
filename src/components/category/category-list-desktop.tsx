@@ -3,7 +3,7 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { CategoryListQueryResult } from '@/sanity.types';
 import { useParams } from "next/navigation";
-import DesktopFilterItem from "../desktop-filter-item";
+import FilterItemDesktop from "../shared/filter-item-desktop";
 
 export type CategoryListDesktopProps = {
   categoryList: CategoryListQueryResult;
@@ -17,14 +17,14 @@ export function CategoryListDesktop({ categoryList }: CategoryListDesktopProps) 
       {/* Desktop View */}
       <ScrollArea className="hidden md:flex w-full pb-4">
         <ul role="list" className="flex gap-x-2" >
-          <DesktopFilterItem
+          <FilterItemDesktop
             title="All"
             href="/category"
             active={!slug}
           />
 
           {categoryList.map((item) => (
-            <DesktopFilterItem
+            <FilterItemDesktop
               key={item.slug.current}
               title={item.name}
               href={`/category/${item.slug.current}`}

@@ -9,7 +9,7 @@ import {
     StepperTitle,
     StepperDescription,
     StepperSeparator,
-} from "@/components/stepper";
+} from "@/components/shared/stepper";
 
 interface SubmitStepperProps {
     initialStep?: number;

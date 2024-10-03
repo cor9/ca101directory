@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { Check } from "lucide-react";
 
-export interface MobileFilterItemProps {
+export interface FilterItemMobileProps {
   title: string;
   href: string;
   active: boolean;
   clickAction?: () => void;
 }
 
-export default function MobileFilterItem({ title, href, active, clickAction }: MobileFilterItemProps) {
+export default function FilterItemMobile({ title, href, active, clickAction }: FilterItemMobileProps) {
   return (
     <div>
       {/* shwo in mobile, wrapped in Link and shwo in a Drawer */}

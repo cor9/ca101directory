@@ -1,7 +1,7 @@
 'use client';
 
-import CustomPagination from '@/components/pagination';
-import { SubmissionRow } from '@/components/submission-row';
+import CustomPagination from '@/components/shared/pagination';
+import { SubmissionRow } from '@/components/dashboard/legacy/submission-row';
 import {
     Card,
     CardContent,

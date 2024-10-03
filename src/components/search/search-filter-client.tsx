@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { DEFAULT_SORT, SortFilterItem } from "@/lib/constants";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ResponsiveComboBox } from "../combobox";
+import { ResponsiveComboBox } from "../shared/combobox";
 import SearchBox from "./search-box";
 
 interface SearchFilterProps {

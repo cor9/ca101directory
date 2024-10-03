@@ -13,8 +13,8 @@ import { cn, getLocaleDate } from '@/lib/utils';
 import { MoreHorizontal } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PublishButton } from './dashboard/publish-button';
-import { UnpublishButton } from './dashboard/unpublish-button';
+import { PublishButton } from '../publish-button';
+import { UnpublishButton } from '../unpublish-button';
 import { ItemInfo } from '@/types';
 
 export function SubmissionRow({ submission }: { submission: ItemInfo }) {

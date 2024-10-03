@@ -6,7 +6,7 @@ import { ListChecksIcon } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Drawer } from "vaul";
-import MobileFilterItem from "./mobile-filter-item";
+import FilterItemMobile from "./filter-item-mobile";
 
 export type SortListMobileProps = {
   sortList: SortFilterItem[];
@@ -68,7 +68,7 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
             </div>
             <ul role="list" className="w-full mb-14 p-3 text-muted-foreground">
               {sortList.map((item) => (
-                <MobileFilterItem
+                <FilterItemMobile
                   key={item.slug}
                   title={item.label}
                   href={generateUrl(item.slug)}

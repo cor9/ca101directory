@@ -13,6 +13,10 @@ interface BackButtonProps {
 export default function BackButton({ className }: BackButtonProps) {
     const router = useRouter();
 
+    const handleBack = () => {
+        router.back();
+    };
+
     return (
         <Button
             size="lg"
@@ -20,7 +24,7 @@ export default function BackButton({ className }: BackButtonProps) {
             className={cn("inline-flex items-center gap-2 group", className)}
             asChild
         >
-            <Link href="#" onClick={() => router.back()}>
+            <Link href="#" onClick={handleBack}>
                 <ArrowLeftIcon className="w-5 h-5 
                     transition-transform duration-200 group-hover:-translate-x-1" />
                 <span>Back</span>

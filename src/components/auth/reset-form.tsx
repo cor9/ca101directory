@@ -16,8 +16,8 @@ import {
 } from "@/components/ui/form";
 import { AuthCard } from "@/components/auth/auth-card"
 import { Button } from "@/components/ui/button";
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
+import { FormError } from "@/components/shared/form-error";
+import { FormSuccess } from "@/components/shared/form-success";
 import { reset } from "@/actions/reset";
 
 export const ResetForm = () => {

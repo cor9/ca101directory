@@ -1,14 +1,14 @@
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
-export interface DesktopFilterItemProps {
+export interface FilterItemDesktopProps {
   title: string;
   href: string;
   active: boolean;
   clickAction?: () => void;
 }
 
-export default function DesktopFilterItem({ title, href, active, clickAction }: DesktopFilterItemProps) {
+export default function FilterItemDesktop({ title, href, active, clickAction }: FilterItemDesktopProps) {
   return (
     <div>
       {/* show in desktop, wrapped in Link and Button and show as Button */}

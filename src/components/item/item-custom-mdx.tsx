@@ -1,4 +1,4 @@
-import { CustomMdx } from "@/components/custom-mdx";
+import { CustomMdx } from "@/components/shared/custom-mdx";
 import { cn } from "@/lib/utils";
 
 interface ItemCustomMdxProps {

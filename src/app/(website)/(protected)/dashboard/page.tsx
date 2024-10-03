@@ -1,5 +1,5 @@
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
-import CustomPagination from "@/components/pagination";
+import CustomPagination from "@/components/shared/pagination";
 import { Button } from "@/components/ui/button";
 import { getSubmissions } from "@/data/submission";
 import { currentUser } from "@/lib/auth";

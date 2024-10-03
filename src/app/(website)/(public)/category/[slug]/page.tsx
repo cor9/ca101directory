@@ -1,6 +1,6 @@
-import EmptyGrid from '@/components/empty-grid';
-import ItemGrid from '@/components/item-grid';
-import CustomPagination from '@/components/pagination';
+import EmptyGrid from '@/components/shared/empty-grid';
+import ItemGrid from '@/components/item/item-grid';
+import CustomPagination from '@/components/shared/pagination';
 import { siteConfig } from '@/config/site';
 import { getItems } from '@/data/item';
 import { DEFAULT_SORT, ITEMS_PER_PAGE, SORT_FILTER_LIST } from '@/lib/constants';

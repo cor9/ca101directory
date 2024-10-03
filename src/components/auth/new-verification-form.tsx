@@ -4,8 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { newVerification } from "@/actions/new-verification";
 import { AuthCard } from "@/components/auth/auth-card";
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
+import { FormError } from "@/components/shared/form-error";
+import { FormSuccess } from "@/components/shared/form-success";
 import { Icons } from "@/components/shared/icons";
 
 export const NewVerificationForm = () => {

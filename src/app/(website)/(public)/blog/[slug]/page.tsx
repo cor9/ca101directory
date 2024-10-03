@@ -1,7 +1,7 @@
 import BlogGrid from "@/components/blog/blog-grid";
 import { BlogToc } from "@/components/blog/blog-toc";
-import { CustomMdx } from "@/components/custom-mdx";
-import AllPostsButton from "@/components/shared/all-posts-button";
+import { CustomMdx } from "@/components/shared/custom-mdx";
+import AllPostsButton from "@/components/blog/all-posts-button";
 import { siteConfig } from "@/config/site";
 import { urlForImage } from "@/lib/image";
 import { portableTextToMarkdown } from "@/lib/mdx";

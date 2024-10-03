@@ -14,7 +14,7 @@ interface ItemBreadCrumbProps {
 }
 
 /**
- * TODO: fix this, show which category???
+ * breadcrumb for item, we just show the first category of items
  */
 export default function ItemBreadCrumb({ item }: ItemBreadCrumbProps) {
   return <Breadcrumb className="">

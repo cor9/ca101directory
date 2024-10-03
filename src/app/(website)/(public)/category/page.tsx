@@ -1,9 +1,9 @@
-import ItemGrid from '@/components/item-grid';
+import ItemGrid from '@/components/item/item-grid';
 import { DEFAULT_SORT, ITEMS_PER_PAGE, SORT_FILTER_LIST } from '@/lib/constants';
 import { getItems } from '@/data/item';
-import EmptyGrid from '@/components/empty-grid';
+import EmptyGrid from '@/components/shared/empty-grid';
 import { Suspense } from 'react';
-import CustomPagination from '@/components/pagination';
+import CustomPagination from '@/components/shared/pagination';
 import { constructMetadata } from '@/lib/metadata';
 import { siteConfig } from '@/config/site';
 export const metadata = constructMetadata({

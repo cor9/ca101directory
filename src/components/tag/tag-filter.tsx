@@ -4,8 +4,8 @@ import { TagListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { tagListQuery } from '@/sanity/lib/queries';
 import { Suspense } from 'react';
-import { SortListDesktop } from '../sort-list-desktop';
-import { SortListMobile } from '../sort-list-mobile';
+import { SortListDesktop } from '../shared/sort-list-desktop';
+import { SortListMobile } from '../shared/sort-list-mobile';
 import { TagListDesktop } from './tag-list-desktop';
 import { TagListMobile } from './tag-list-mobile';
 

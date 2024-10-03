@@ -5,7 +5,7 @@ import { BlogCategoryListQueryResult } from '@/sanity.types';
 import { LayoutListIcon } from "lucide-react";
 import { useParams } from 'next/navigation';
 import { useState } from "react";
-import MobileFilterItem from '../mobile-filter-item';
+import FilterItemMobile from '../shared/filter-item-mobile';
 
 export type BlogCategoryListMobileProps = {
   categoryList: BlogCategoryListQueryResult;
@@ -47,7 +47,7 @@ export function BlogCategoryListMobile({ categoryList }: BlogCategoryListMobileP
             <div className="my-3 h-1.5 w-16 rounded-full bg-muted-foreground/20" />
           </div>
           <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
-            <MobileFilterItem
+            <FilterItemMobile
               title="All"
               href="/blog"
               active={!slug}
@@ -55,7 +55,7 @@ export function BlogCategoryListMobile({ categoryList }: BlogCategoryListMobileP
             />
 
             {categoryList.map((item) => (
-              <MobileFilterItem
+              <FilterItemMobile
                 key={item.slug.current}
                 title={item.name}
                 href={`/blog/category/${item.slug.current}`}

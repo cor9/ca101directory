@@ -83,6 +83,31 @@ const documentNode: DefaultDocumentNodeResolver = (
 					}),
 			])
 
+		// support preview Blog Post Page in Sanity Studio
+		case 'page':
+			return S.document().views([
+				editorView,
+				S.view
+					.component(Iframe)
+					.title('Preview')
+					.options({
+						url: (
+							doc: SanityDocument & {
+								slug?: { current: string }
+							},
+						) => {
+							const base = previewUrl;
+							const slug = doc?.slug?.current;
+							const url = [base, slug].filter(Boolean).join('/');
+							// console.log('preview, url:', url);
+							return url;
+						},
+						reload: {
+							button: true,
+						},
+					}),
+			])
+
 		// support preview User Link in Sanity Studio
 		case 'user':
 			return S.document().views([

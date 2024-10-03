@@ -20,8 +20,10 @@ export const publicRoutes = [
   "/pricing(/.*)?",
   "/landing(/.*)?",
   
+  "/about(/.*)?",
   "/terms(/.*)?",
   "/privacy(/.*)?",
+  "/changelog(/.*)?",
   
   "/auth/new-verification",
 

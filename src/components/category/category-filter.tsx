@@ -1,4 +1,4 @@
-import Container from '@/components/shared/container';
+import Container from '@/components/container';
 import { SORT_FILTER_LIST } from '@/lib/constants';
 import { CategoryListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';

@@ -1,5 +1,5 @@
 import { NewsletterForm } from '@/components/emails/newsletter-form';
-import Container from '@/components/shared/container';
+import Container from '@/components/container';
 import React from 'react';
 
 export default function BlogPostLayout({ children }: { children: React.ReactNode }) {

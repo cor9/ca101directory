@@ -2,7 +2,7 @@
 
 import React from "react";
 import { createCheckoutSession } from "@/actions/create-checkout-session";
-import { Icons } from "@/components/shared/icons";
+import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ItemInfo, PricePlan } from "@/types";

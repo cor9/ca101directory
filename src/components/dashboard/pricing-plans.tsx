@@ -2,7 +2,7 @@
 
 import { FreePlanButton } from "@/components/plan/free-plan-button";
 import { ProPlanButton } from "@/components/plan/pro-plan-button";
-import { Icons } from "@/components/shared/icons";
+import { Icons } from "@/components/icons";
 import { PRICE_PLANS } from "@/config/price-plan";
 import { cn } from "@/lib/utils";
 import { ItemInfo, PricePlan } from "@/types/index";

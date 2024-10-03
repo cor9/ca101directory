@@ -1,6 +1,6 @@
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
-import Container from "@/components/shared/container";
+import Container from "@/components/container";
 import { dashboardConfig } from "@/config/dashboard";
 import { currentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";

@@ -3,8 +3,8 @@
 import { LoginWrapper } from "@/components/auth/login-button";
 import { ModeToggle } from "@/components/layout/mode-toggle";
 import { UserButton } from "@/components/layout/user-button";
-import Container from "@/components/shared/container";
-import { Icons } from "@/components/shared/icons";
+import Container from "@/components/container";
+import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,

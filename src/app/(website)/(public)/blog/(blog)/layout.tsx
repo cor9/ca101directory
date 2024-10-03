@@ -1,5 +1,5 @@
 import { BlogCategoryFilter } from "@/components/blog/blog-category-filter";
-import Container from "@/components/shared/container";
+import Container from "@/components/container";
 import { HeaderSection } from "@/components/shared/header-section";
 
 export default async function BlogListLayout({ children }: { children: React.ReactNode }) {

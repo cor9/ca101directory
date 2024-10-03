@@ -3,7 +3,7 @@
 import { Submit, SubmitFormData } from "@/actions/submit";
 import CustomMde from "@/components/shared/custom-mde";
 import ImageUpload from "@/components/shared/image-upload";
-import { Icons } from "@/components/shared/icons";
+import { Icons } from "@/components/icons";
 import { MultiSelect } from "@/components/shared/multi-select";
 import { Button } from "@/components/ui/button";
 import {

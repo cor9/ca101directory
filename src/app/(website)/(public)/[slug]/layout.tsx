@@ -1,4 +1,4 @@
-import Container from '@/components/shared/container';
+import Container from '@/components/container';
 
 export default function CustomPageLayout({ children }: { children: React.ReactNode }) {
   return (

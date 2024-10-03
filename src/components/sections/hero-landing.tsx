@@ -1,12 +1,12 @@
 import Link from "next/link";
 
 // import { env } from "@/env.mjs";
-import { Icons } from "@/components/shared/icons";
+import { Icons } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { FaBrandsGithub } from "../icons/github";
-import Container from "../shared/container";
+import Container from "../container";
 import { ArrowRightIcon } from "lucide-react";
 
 export default async function HeroLanding() {

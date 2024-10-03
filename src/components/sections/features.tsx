@@ -2,8 +2,8 @@ import Link from "next/link";
 import { features } from "@/config/landing";
 import { Button } from "@/components/ui/button";
 import { HeaderSection } from "@/components/shared/header-section";
-import { Icons } from "@/components/shared/icons";
-import Container from "@/components/shared/container";
+import { Icons } from "@/components/icons";
+import Container from "@/components/container";
 import { ArrowRightIcon } from "lucide-react";
 
 export default function Features() {

@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import Container from "@/components/shared/container";
+import Container from "@/components/container";
 
 export default function BentoGrid() {
   return (

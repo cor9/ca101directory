@@ -1,5 +1,5 @@
 import { CategoryFilter } from '@/components/category/category-filter';
-import Container from '@/components/shared/container';
+import Container from '@/components/container';
 import { HeaderSection } from '@/components/shared/header-section';
 
 export default function CategoryLayout({ children }: { children: React.ReactNode }) {

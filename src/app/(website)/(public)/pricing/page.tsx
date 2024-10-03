@@ -1,7 +1,7 @@
 import { PricingPlans } from "@/components/dashboard/pricing-plans";
 import { PricingFaq } from "@/components/pricing/pricing-faq";
 // import { PricingPlans } from "@/components/pricing/pricing-plans";
-import Container from "@/components/shared/container";
+import Container from "@/components/container";
 import { HeaderSection } from "@/components/shared/header-section";
 import { constructMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/config/site";

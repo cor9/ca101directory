@@ -1,4 +1,4 @@
-import Container from '@/components/shared/container';
+import Container from '@/components/container';
 import { BlogCategoryListQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { blogCategoryListQuery } from '@/sanity/lib/queries';

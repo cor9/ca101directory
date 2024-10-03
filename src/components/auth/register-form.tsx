@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/shared/form-error";
 import { FormSuccess } from "@/components/shared/form-success";
 import { register } from "@/actions/register";
-import { Icons } from "@/components/shared/icons";
+import { Icons } from "@/components/icons";
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");

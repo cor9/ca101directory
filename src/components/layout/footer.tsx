@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import * as React from "react";
 import { Logo } from "../logo";
-import Container from "../shared/container";
+import Container from "../container";
 import { Icons } from "../shared/icons";
 
 export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {

@@ -1,5 +1,5 @@
 import { SearchFilter } from '@/components/search/search-filter';
-import Container from '@/components/shared/container';
+import Container from '@/components/container';
 import { HeaderSection } from '@/components/shared/header-section';
 
 export default function SearchLayout({ children }: { children: React.ReactNode }) {

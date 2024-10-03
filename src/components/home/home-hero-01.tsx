@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import HomeSearch from './home-search';
 import { SearchSkeleton } from '../search';
-import Container from '../shared/container';
+import Container from '../container';
 
 export async function HomeHero() {
   // const categoryList = await sanityFetch<CategoryListQueryResult>({

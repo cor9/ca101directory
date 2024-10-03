@@ -1,6 +1,6 @@
 import { NewsletterForm } from '@/components/emails/newsletter-form';
 import HomeHero from '@/components/home/home-hero';
-import Container from '@/components/shared/container';
+import Container from '@/components/container';
 import React from 'react';
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {

@@ -1,6 +1,7 @@
 import { POSTS_PER_PAGE } from "@/lib/constants";
 import { BlogPostListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
+import { blogPostSimpleFields } from "@/sanity/lib/queries";
 
 /**
  * get blogs from sanity
@@ -34,20 +35,7 @@ const buildQuery = (category?: string, currentPage: number = 1) => {
     // @sanity-typegen-ignore
     const dataQuery = `*[_type == "blogPost" && defined(slug.current) && defined(publishDate) 
        ${categoryCondition} ] | order(publishDate desc) [${offsetStart}...${offsetEnd}] {
-        _id,
-        _createdAt,
-        title,
-        slug,
-        excerpt,
-        featured,
-        image {
-            ...,
-            "blurDataURL": asset->metadata.lqip,
-            "imageColor": asset->metadata.palette.dominant.background,
-        },
-        publishDate,
-        author->,
-        categories[]->,
+        ${blogPostSimpleFields}
     }`;
     // console.log('buildQuery, countQuery', countQuery);
     // console.log('buildQuery, dataQuery', dataQuery);

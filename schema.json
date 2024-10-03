@@ -1458,14 +1458,14 @@
         },
         "optional": true
       },
-      "description": {
+      "link": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
         "optional": true
       },
-      "link": {
+      "description": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
@@ -1557,6 +1557,13 @@
               }
             }
           }
+        },
+        "optional": true
+      },
+      "featured": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
         },
         "optional": true
       },

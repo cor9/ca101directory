@@ -1,6 +1,7 @@
 import { SUBMISSIONS_PER_PAGE } from "@/lib/constants";
 import { SubmissionListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
+import { itemSimpleFields } from "@/sanity/lib/queries";
 
 /**
  * get submissions from sanity
@@ -42,27 +43,7 @@ const buildQuery = (userId: string, currentPage: number = 1) => {
     // @sanity-typegen-ignore
     const dataQuery = `*[_type == "item" && defined(slug.current) 
        ${userCondition} ] | order(_createdAt desc) [${offsetStart}...${offsetEnd}] {
-        _id,
-        _createdAt,
-        name,
-        slug,
-        description,
-        link,
-        image {
-            ...,
-            "blurDataURL": asset->metadata.lqip,
-            "imageColor": asset->metadata.palette.dominant.background,
-        },
-        publishDate,
-        paid,
-        order,
-        pricePlan,
-        freePlanStatus,
-        proPlanStatus,
-        rejectionReason,
-        submitter->,
-        categories[]->,
-        tags[]->,
+        ${itemSimpleFields}
     }`;
     // console.log('buildQuery, countQuery', countQuery);
     // console.log('buildQuery, dataQuery', dataQuery);

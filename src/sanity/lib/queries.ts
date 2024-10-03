@@ -18,14 +18,15 @@ const categoryFields = /* groq */ `
   ...,
 `;
 
-// when change the fields, please also update data/item.ts and data/submission.ts
-const itemSimpleFields = /* groq */ `
+// also used in file data/item.ts and data/submission.ts
+export const itemSimpleFields = /* groq */ `
   _id,
   _createdAt,
   name,
   slug,
   description,
   link,
+  featured,
   image {
     ...,
     "blurDataURL": asset->metadata.lqip,
@@ -151,10 +152,10 @@ export const pageQuery = defineQuery(`
 
 /**
  * Blog Queries
- * 
- * when change blogPostSimpleFields, please also update buildQuery in data/blog.ts
  */
-const blogPostSimpleFields = /* groq */ `
+
+// also used in file data/blog.ts
+export const blogPostSimpleFields = /* groq */ `
   _id,
   _createdAt,
   title,

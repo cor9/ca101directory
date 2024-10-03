@@ -25,15 +25,15 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "link",
+      title: "Link",
+      type: "string",
+    }),
+    defineField({
       name: "description",
       title: "Description",
       type: "text",
       rows: 3,
-    }),
-    defineField({
-      name: "link",
-      title: "Link",
-      type: "string",
     }),
     defineField({
       name: "categories",
@@ -58,6 +58,12 @@ export default defineType({
           to: [{ type: "tag" }],
         }
       ],
+    }),
+    defineField({
+      name: "featured",
+      title: "Featured",
+      type: "boolean",
+      initialValue: false,
     }),
     defineField({
       name: "submitter",

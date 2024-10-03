@@ -1,6 +1,7 @@
 import { ITEMS_PER_PAGE } from "@/lib/constants";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { ItemListQueryResult } from "@/sanity.types";
+import { itemSimpleFields } from "@/sanity/lib/queries";
 
 /**
  * get items from sanity
@@ -52,26 +53,7 @@ const buildQuery = (category?: string, tag?: string, sortKey?: string, reverse?:
   // @sanity-typegen-ignore
   const dataQuery = `*[_type == "item" && defined(slug.current) && defined(publishDate)
       ${queryCondition} ${categoryCondition} ${tagCondition}] ${sortOrder} [${offsetStart}...${offsetEnd}] {
-      _id,
-      _createdAt,
-      name,
-      slug,
-      description,
-      link,
-      image {
-        ...,
-        "blurDataURL": asset->metadata.lqip,
-        "imageColor": asset->metadata.palette.dominant.background,
-      },
-      publishDate,
-      paid,
-      order,
-      pricePlan,
-      freePlanStatus,
-      proPlanStatus,
-      submitter->,
-      categories[]->,
-      tags[]->,
+      ${itemSimpleFields}
     }`;
   // console.log('buildQuery, countQuery', countQuery);
   // console.log('buildQuery, dataQuery', dataQuery);

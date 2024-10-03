@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { DashboardSidebar } from "@/components/layout/dashboard-sidebar";
-import { DashboardSidebarMobile } from "@/components/layout/dashboard-sidebar-mobile";
+import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
+import { DashboardSidebarMobile } from "@/components/dashboard/dashboard-sidebar-mobile";
 import { ModeToggle } from "@/components/layout/mode-toggle";
 import { UserButton } from "@/components/layout/user-button";
 import Container from "@/components/shared/container";

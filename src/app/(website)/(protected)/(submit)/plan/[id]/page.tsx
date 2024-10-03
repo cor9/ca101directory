@@ -10,7 +10,7 @@ import { itemByIdQuery } from "@/sanity/lib/queries";
 import { ItemInfo } from "@/types";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import SubmissionCardInPlanPage from "./submission-card-in-plan-page";
+import SubmissionCardInPlanPage from "../../../../../../components/plan/submission-card-in-plan-page";
 
 export async function generateMetadata({
   params,

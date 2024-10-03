@@ -1,6 +1,6 @@
 "use client";
 
-import { PublishNowButton } from "@/components/forms/publish-now-button";
+import { PublishNowButton } from "@/components/publish/publish-now-button";
 import { Button } from "@/components/ui/button";
 import { urlForImage } from "@/lib/image";
 import { ItemInfo } from "@/types";

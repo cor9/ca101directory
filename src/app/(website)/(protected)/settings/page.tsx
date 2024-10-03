@@ -1,6 +1,6 @@
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { constructMetadata } from "@/lib/metadata";
-import SettingsForm from "./settings-form";
+import SettingsForm from "../../../../components/settings/settings-form";
 import { siteConfig } from "@/config/site";
 
 export const metadata = constructMetadata({

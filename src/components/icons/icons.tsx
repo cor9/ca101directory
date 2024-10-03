@@ -82,7 +82,6 @@ export const Icons = {
   submit: UploadIcon,
   settings: SettingsIcon,
   email: MailIcon,
-  linkedin: LinkedinIcon,
   github: FaBrandsGithub,
   google: FaBrandsGoogle,
   twitter: FaBrandsXTwitter,

@@ -14,7 +14,6 @@ export const siteConfig: SiteConfig = {
   links: {
     twitter: "https://x.com/javayhu",
     github: "https://github.com/javayhu",
-    linkedin: "https://linkedin.com/in/javayhu",
   },
 };
 
@@ -36,11 +35,11 @@ export const footerLinks: NestedNavItem[] = [
     ],
   },
   {
-    title: "Social",
+    title: "Contact",
     items: [
       { title: "Github", href: siteConfig.links.github },
       { title: "Twitter", href: siteConfig.links.twitter },
-      { title: "Linkedin", href: siteConfig.links.linkedin },
+      { title: "Email", href: `mailto:${siteConfig.mail}` },
     ],
   },
   {

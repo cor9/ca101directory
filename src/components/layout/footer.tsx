@@ -50,17 +50,6 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                   </Link>
                 </Button>
               )}
-              {siteConfig.links.linkedin && (
-                <Button variant="ghost" size="sm" className="size-8 px-0">
-                  <Link
-                    href={siteConfig.links.linkedin}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <Icons.linkedin className="size-5" />
-                  </Link>
-                </Button>
-              )}
               {siteConfig.mail && (
                 <Button variant="ghost" size="sm" className="size-8 px-0">
                   <Link

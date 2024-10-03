@@ -1,6 +1,5 @@
 import { siteConfig } from "@/config/site";
 import { type ClassValue, clsx } from "clsx";
-import { Metadata } from "next";
 import { ReadonlyURLSearchParams } from 'next/navigation';
 import { twMerge } from "tailwind-merge";
 
@@ -22,7 +21,7 @@ export function slugify(str: string): string {
 }
 
 /**
- * get locale date string
+ * get locale date string, like "2024/10/01"
  */
 export function getLocaleDate(input: string | number): string {
   const date = new Date(input);
@@ -31,14 +30,18 @@ export function getLocaleDate(input: string | number): string {
   const day = date.getDate().toString().padStart(2, '0');
   return `${year}/${month}/${day}`;
 }
-// export function getLocaleDate(date: string | number): string {
-//   const dateObj = new Date(date);
-//   return dateObj.toLocaleDateString("en-US", {
-//     month: "long",
-//     day: "numeric",
-//     year: "numeric",
-//   });
-// }
+
+/**
+ * format long date, like "June 1, 2024"
+ */
+export function formatLongDate(date: string | number): string {
+  const dateObj = new Date(date);
+  return dateObj.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
 
 /**
  * build url for search or filter list item
@@ -50,43 +53,22 @@ export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyUR
 };
 
 /**
- * Search docs
+ * get absolute url
  */
-export function searchDocs(query: string) {
-  // const lowercaseQuery = query.toLowerCase();
-  // console.log("searchDocs, query:", query);
-  // return allDocs.filter((doc) => {
-  //   const lowercaseTitle = doc.title.toLowerCase();
-  //   const lowercaseBody = doc.body.raw.toLowerCase();
-  //   console.log("searchDocs, doc:", lowercaseTitle, lowercaseBody.slice(0, 100));
-  //   const isMatch = lowercaseTitle.includes(lowercaseQuery) || lowercaseBody.includes(lowercaseQuery);
-  //   console.log("searchDocs, isMatch:", isMatch);
-  //   return isMatch;
-  // }).map((doc) => ({
-  //   title: doc.title,
-  //   href: doc.slug,
-  // }))
-  return [];
+export function absoluteUrl(path: string) {
+  return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;
 }
 
 /**
- * Format the date for display
+ * get item link in Sanity Studio
+ * 
+ * NOTICE: change this link if the item page in Sanity Studio is changed
  */
-// export function formatDate(input: string | number): string {
-//   const date = new Date(input);
-//   const year = date.getFullYear();
-//   const month = (date.getMonth() + 1).toString().padStart(2, '0');
-//   const day = date.getDate().toString().padStart(2, '0');
-//   return `${year}/${month}/${day}`;
-// }
-// export function formatDate(input: string | number): string {
-//   const date = new Date(input);
-//   return date.toLocaleDateString("en-US", {
-//     month: "long",
-//     day: "numeric",
-//     year: "numeric",
-//   });
-// }
+export function getItemLinkInStudio(slug: string) {
+  return `${siteConfig.url}/studio/structure/itemManagement;item;${slug}`;
+}
+
+///////////////// methods below are not used in the app //////////////////
 
 /**
  * Get the blurDataURL for an image
@@ -177,29 +159,4 @@ export const truncate = (str: string, length: number) => {
 export function nl2br(str?: string) {
   if (!str) return '';
   return str.split('\n').join('<br>');
-}
-
-export const formatCurrency = (amount: number) => {
-  return (amount / 100).toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
-};
-
-export const formatDateToLocal = (
-  dateStr: string,
-  locale: string = 'en-US',
-) => {
-  const date = new Date(dateStr);
-  const options: Intl.DateTimeFormatOptions = {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  };
-  const formatter = new Intl.DateTimeFormat(locale, options);
-  return formatter.format(date);
-};
-
-export function absoluteUrl(path: string) {
-  return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;
 }

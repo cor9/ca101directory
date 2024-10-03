@@ -1,6 +1,9 @@
 "use server";
 
+import { siteConfig } from "@/config/site";
+import { sendSubmissionNotificationEmail } from "@/lib/mail";
 import { FreePlanStatus, PricePlan } from "@/lib/submission";
+import { getItemLinkInStudio } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 
 export const submitToReview = async (itemId: string) => {
@@ -21,5 +24,7 @@ export const submitToReview = async (itemId: string) => {
     return { error: "Failed to submit item to review!" };
   }
 
+  const itemLink = getItemLinkInStudio(itemId);
+  sendSubmissionNotificationEmail(itemLink);
   return { success: "Item submitted to review!" };
 };

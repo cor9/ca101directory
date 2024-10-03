@@ -10,9 +10,8 @@ export const sendPasswordResetEmail = async (
 ) => {
   const resetLink = `${SITE_URL}/auth/new-password?token=${token}`
 
-  // TODO: set from email in env
   await resend.emails.send({
-    from: "support@haitang.app",
+    from: process.env.RESEND_EMAIL_FROM,
     to: email,
     subject: "Reset your password",
     html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`
@@ -25,11 +24,22 @@ export const sendVerificationEmail = async (
 ) => {
   const confirmLink = `${SITE_URL}/auth/new-verification?token=${token}`;
 
-  // TODO: set from email in env
   await resend.emails.send({
-    from: "support@haitang.app",
+    from: process.env.RESEND_EMAIL_FROM,
     to: email,
     subject: "Confirm your email",
     html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`
+  });
+};
+
+export const sendSubmissionNotificationEmail = async (
+  link: string,
+) => {
+  
+  await resend.emails.send({
+    from: process.env.RESEND_EMAIL_FROM,
+    to: process.env.RESEND_EMAIL_ADMIN,
+    subject: "New submission",
+    html: `<p>Click <a href="${link}">here</a> to review submission.</p>`
   });
 };

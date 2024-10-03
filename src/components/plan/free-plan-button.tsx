@@ -27,7 +27,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
       try {
         const result = await submitToReview(item._id);
         console.log('submitToReviewAction, result:', result);
-        if (result.success) {
+        if (result.success) {          
           router.refresh();
 
           toast.success("Submit to review success");

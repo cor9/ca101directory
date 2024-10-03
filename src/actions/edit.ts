@@ -1,9 +1,10 @@
 "use server";
 
 import { currentUser } from "@/lib/auth";
+import { sendSubmissionNotificationEmail } from "@/lib/mail";
 import { EditSchema } from "@/lib/schemas";
 import { FreePlanStatus, PricePlan } from "@/lib/submission";
-import { slugify } from "@/lib/utils";
+import { getItemLinkInStudio, slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
 
@@ -91,8 +92,11 @@ export async function Edit(formData: EditFormData) {
       console.log("edit, fail");
       return { status: "error" };
     }
-
     // console.log("edit, success, res:", res);
+    if (pricePlan === PricePlan.FREE) {
+      const itemLink = getItemLinkInStudio(id);
+      sendSubmissionNotificationEmail(itemLink);
+    }
 
     // Next.js has a Client-side Router Cache that stores the route segments in the user's browser for a time. 
     // Along with prefetching, this cache ensures that users can quickly navigate between routes 

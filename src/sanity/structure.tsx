@@ -1,4 +1,4 @@
-import { BillIcon, CheckmarkCircleIcon, ClockIcon, CloseCircleIcon, CloseIcon, CogIcon, DashboardIcon, DocumentsIcon, DocumentTextIcon, StarFilledIcon, TagsIcon, TaskIcon, TiersIcon, TokenIcon, UserIcon, UsersIcon } from "@sanity/icons";
+import { BillIcon, CheckmarkCircleIcon, ClockIcon, CloseCircleIcon, CogIcon, DashboardIcon, DocumentsIcon, DocumentTextIcon, StarFilledIcon, TagsIcon, TaskIcon, TiersIcon, TokenIcon, UserIcon, UsersIcon } from "@sanity/icons";
 import { type DocumentDefinition } from "sanity";
 import { type StructureResolver } from "sanity/structure";
 import { schemaTypes } from "./schemas";
@@ -163,23 +163,6 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
         // pendingSubmissionsInFreePlan,
         // S.divider(),
 
-        // group the order management
-        // S.documentTypeListItem(order.name)
-        //   .icon(BillIcon),
-        S.listItem().title('Order management')
-          .icon(BillIcon)
-          .child(
-            S.list()
-              .title('Order management')
-              .items([
-                successOrders,
-                failedOrders,
-                allOrders,
-              ]),
-          ),
-
-        S.divider(),
-
         // S.documentTypeListItem(item.name)
         //   .icon(DashboardIcon),
         // group the item management
@@ -190,8 +173,8 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
               .title('Item management')
               .items([
                 pendingSubmissionsInFreePlan,
-                approvedSubmissionsInFreePlan,
                 rejectedSubmissionsInFreePlan,
+                approvedSubmissionsInFreePlan,
                 itemsInFreePlan,
 
                 S.divider(),
@@ -222,6 +205,23 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
           .icon(DocumentsIcon),
         S.documentTypeListItem(blogCategory.name)
           .icon(TiersIcon),
+
+        S.divider(),
+
+        // group the order management
+        // S.documentTypeListItem(order.name)
+        //   .icon(BillIcon),
+        S.listItem().title('Order management')
+          .icon(BillIcon)
+          .child(
+            S.list()
+              .title('Order management')
+              .items([
+                successOrders,
+                failedOrders,
+                allOrders,
+              ]),
+          ),
 
         S.divider(),
 

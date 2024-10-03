@@ -81,6 +81,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
         // router.refresh();
         // router.push(`/update/${item._id}`);
 
+        // TODO: still have some bug, content reset before redirecting to dashboard
         router.push(`/dashboard/`);
 
         toast.success("Update success");

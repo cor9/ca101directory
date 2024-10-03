@@ -1,6 +1,7 @@
 import BlogGrid from "@/components/blog/blog-grid";
 import EmptyGrid from "@/components/empty-grid";
 import CustomPagination from "@/components/pagination";
+import { siteConfig } from "@/config/site";
 import { getBlogs } from "@/data/blog";
 import { POSTS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
@@ -27,6 +28,7 @@ export async function generateMetadata({
   return constructMetadata({
       title: `${category.name} - Blog Category`,
       description: category.description,
+      canonicalUrl: `${siteConfig.url}/blog/category/${category.slug}`,
   });
 }
 

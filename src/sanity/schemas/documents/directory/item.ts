@@ -25,6 +25,13 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "featured",
+      title: "Featured",
+      type: "boolean",
+      initialValue: false,
+      description: "If the item is featured, it will be displayed in the featured section",
+    }),
+    defineField({
       name: "link",
       title: "Link",
       type: "string",
@@ -58,12 +65,6 @@ export default defineType({
           to: [{ type: "tag" }],
         }
       ],
-    }),
-    defineField({
-      name: "featured",
-      title: "Featured",
-      type: "boolean",
-      initialValue: false,
     }),
     defineField({
       name: "submitter",
@@ -204,10 +205,16 @@ export default defineType({
       name: "name",
       media: "image",
       date: "publishDate",
+      pricePlan: "pricePlan",
+      freePlanStatus: "freePlanStatus",
+      proPlanStatus: "proPlanStatus",
     },
-    prepare({ name, media, date }) {
-      const title = date ? `✅ ${name}` : `⏳ ${name}`;
-      const subtitle = date ? format(parseISO(date), "yyyy/MM/dd") : "not published";
+    prepare({ name, media, date, pricePlan, freePlanStatus, proPlanStatus }) {
+      const error = freePlanStatus === 'rejected' || proPlanStatus === 'failed';
+      const title = date ? `✅ ${name}` : (error ? `❌ ${name}` : `⏳ ${name}`);
+      const status = pricePlan === 'free' ? freePlanStatus : proPlanStatus;
+      const time = date ? `date: ${format(parseISO(date), "yyyy/MM/dd")}` : "not published";
+      const subtitle = `${pricePlan} plan: ${status}, ${time}`;
       return {
         title,
         media,

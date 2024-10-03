@@ -12,6 +12,9 @@ import { ogImageSchema } from "@/lib/schemas";
  * 2. related articles
  * https://dev.to/paulund/auto-generate-open-graph-images-in-nextjs-41cm
  * https://stronglytyped.uk/articles/open-graph-images-nextjs-app-router
+ * 
+ * 3. test url
+ * http://localhost:3000/api/og?title=Lifestyle&description=blog+category+of+lifestyle&type=Blog+Category
  */
 export function GET(req: Request) {
   try {

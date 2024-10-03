@@ -1,4 +1,4 @@
-import { BillIcon, CogIcon, DashboardIcon, DocumentsIcon, DocumentTextIcon, TagsIcon, TiersIcon, TokenIcon, UserIcon, UsersIcon } from "@sanity/icons";
+import { BillIcon, CheckmarkCircleIcon, ClockIcon, CloseCircleIcon, CogIcon, DashboardIcon, DocumentsIcon, DocumentTextIcon, TagsIcon, TiersIcon, TokenIcon, UserIcon, UsersIcon } from "@sanity/icons";
 import { type DocumentDefinition } from "sanity";
 import { type StructureResolver } from "sanity/structure";
 import { schemaTypes } from "./schemas";
@@ -40,13 +40,135 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
         !schemaTypes.find((type) => type.name === listItem.getId()),
     );
 
+    // helper function
+    const createFilteredListItem = (
+      title: string,
+      schemaType: string,
+      icon: any,
+      filter: string
+    ) => {
+      return S.listItem()
+        .title(title)
+        .schemaType(schemaType)
+        .icon(icon)
+        .child(S.documentList()
+          .schemaType(schemaType)
+          .title(title)
+          .filter(filter));
+    };
+
+    // submissions in free plan
+    const pendingSubmissionsInFreePlan = createFilteredListItem(
+      'Pending Submissions In Free Plan',
+      item.name,
+      ClockIcon,
+      '_type == "item" && pricePlan == "free" && freePlanStatus == "pending"'
+    );
+
+    const rejectedSubmissionsInFreePlan = createFilteredListItem(
+      'Rejected Submissions In Free Plan',
+      item.name,
+      CloseCircleIcon,
+      '_type == "item" && pricePlan == "free" && freePlanStatus == "rejected"'
+    );
+
+    const approvedSubmissionsInFreePlan = createFilteredListItem(
+      'Approved Submissions In Free Plan',
+      item.name,
+      CheckmarkCircleIcon,
+      '_type == "item" && pricePlan == "free" && freePlanStatus == "approved"'
+    );
+
+    // submissions in pro plan
+    const pendingSubmissionsInProPlan = createFilteredListItem(
+      'Pending Submissions In Pro Plan',
+      item.name,
+      ClockIcon,
+      '_type == "item" && pricePlan == "pro" && proPlanStatus == "pending"'
+    );
+
+    const failedSubmissionsInProPlan = createFilteredListItem(
+      'Failed Submissions In Pro Plan',
+      item.name,
+      CloseCircleIcon,
+      '_type == "item" && pricePlan == "pro" && proPlanStatus == "failed"'
+    );
+
+    const successSubmissionsInProPlan = createFilteredListItem(
+      'Success Submissions In Pro Plan',
+      item.name,
+      CheckmarkCircleIcon,
+      '_type == "item" && pricePlan == "pro" && proPlanStatus == "success"'
+    );
+
+    // featured items
+    const featuredItems = createFilteredListItem(
+      'Featured Items',
+      item.name,
+      CheckmarkCircleIcon,
+      '_type == "item" && featured == true'
+    );
+
+    // published items
+    const publishedItems = createFilteredListItem(
+      'Published Items',
+      item.name,
+      CheckmarkCircleIcon,
+      '_type == "item" && publishDate != null'
+    );
+
+    const itemsInFreePlan = createFilteredListItem(
+      'All Items In Free Plan',
+      item.name,
+      CheckmarkCircleIcon,
+      '_type == "item" && pricePlan == "free"'
+    );
+
+    const itemsInProPlan = createFilteredListItem(
+      'All Items In Pro Plan',
+      item.name,
+      CheckmarkCircleIcon,
+      '_type == "item" && pricePlan == "pro"'
+    );
+
+    const allItems = S.documentTypeListItem(item.name)
+      .title('All Items')
+      .icon(DashboardIcon);
+
     return S.list()
       .title("Content")
       .items([
         S.divider(),
 
-        S.documentTypeListItem(item.name)
-          .icon(DashboardIcon),
+        // group the item management
+        S.listItem().title('Item management')
+          .icon(DashboardIcon)
+          .child(
+            S.list()
+              .title('Item management')
+              .items([
+                pendingSubmissionsInFreePlan,
+                approvedSubmissionsInFreePlan,
+                rejectedSubmissionsInFreePlan,
+                itemsInFreePlan,
+
+                S.divider(),
+
+                pendingSubmissionsInProPlan,
+                failedSubmissionsInProPlan,
+                successSubmissionsInProPlan,
+                itemsInProPlan,
+
+                S.divider(),
+
+                allItems,
+                featuredItems,
+                publishedItems,
+              ]),
+          ),
+
+        // S.documentTypeListItem(item.name)
+        //   .icon(DashboardIcon),
         S.documentTypeListItem(category.name)
           .icon(TiersIcon),
         S.documentTypeListItem(tag.name)

@@ -1,4 +1,4 @@
-import { BillIcon, CheckmarkCircleIcon, ClockIcon, CloseCircleIcon, CogIcon, DashboardIcon, DocumentsIcon, DocumentTextIcon, TagsIcon, TiersIcon, TokenIcon, UserIcon, UsersIcon } from "@sanity/icons";
+import { BillIcon, CheckmarkCircleIcon, ClockIcon, CloseCircleIcon, CloseIcon, CogIcon, DashboardIcon, DocumentsIcon, DocumentTextIcon, StarFilledIcon, TagsIcon, TaskIcon, TiersIcon, TokenIcon, UserIcon, UsersIcon } from "@sanity/icons";
 import { type DocumentDefinition } from "sanity";
 import { type StructureResolver } from "sanity/structure";
 import { schemaTypes } from "./schemas";
@@ -105,7 +105,7 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
     const featuredItems = createFilteredListItem(
       'Featured Items',
       item.name,
-      CheckmarkCircleIcon,
+      StarFilledIcon,
       '_type == "item" && featured == true'
     );
 
@@ -113,21 +113,21 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
     const publishedItems = createFilteredListItem(
       'Published Items',
       item.name,
-      CheckmarkCircleIcon,
+      TaskIcon,
       '_type == "item" && publishDate != null'
     );
 
     const itemsInFreePlan = createFilteredListItem(
       'All Items In Free Plan',
       item.name,
-      CheckmarkCircleIcon,
+      DashboardIcon,
       '_type == "item" && pricePlan == "free"'
     );
 
     const itemsInProPlan = createFilteredListItem(
       'All Items In Pro Plan',
       item.name,
-      CheckmarkCircleIcon,
+      DashboardIcon,
       '_type == "item" && pricePlan == "pro"'
     );
 
@@ -135,11 +135,54 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
       .title('All Items')
       .icon(DashboardIcon);
 
+    // failed orders
+    const failedOrders = createFilteredListItem(
+      'Failed Orders',
+      order.name,
+      CloseCircleIcon,
+      '_type == "order" && status == "failed"'
+    );
+
+    // success orders
+    const successOrders = createFilteredListItem(
+      'Success Orders',
+      order.name,
+      CheckmarkCircleIcon,
+      '_type == "order" && status == "success"'
+    );
+
+    // all orders
+    const allOrders = S.documentTypeListItem(order.name)
+      .title('All Orders')
+      .icon(BillIcon);
+
     return S.list()
       .title("Content")
       .items([
+
+        pendingSubmissionsInFreePlan,
+
         S.divider(),
 
+        // group the order management
+        // S.documentTypeListItem(order.name)
+        //   .icon(BillIcon),
+        S.listItem().title('Order management')
+          .icon(BillIcon)
+          .child(
+            S.list()
+              .title('Order management')
+              .items([
+                successOrders,
+                failedOrders,
+                allOrders,
+              ]),
+          ),
+
+        S.divider(),
+
+        // S.documentTypeListItem(item.name)
+        //   .icon(DashboardIcon),
         // group the item management
         S.listItem().title('Item management')
           .icon(DashboardIcon)
@@ -167,8 +210,6 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
               ]),
           ),
 
-        // S.documentTypeListItem(item.name)
-        //   .icon(DashboardIcon),
         S.documentTypeListItem(category.name)
           .icon(TiersIcon),
         S.documentTypeListItem(tag.name)
@@ -180,16 +221,6 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
           .icon(DocumentsIcon),
         S.documentTypeListItem(blogCategory.name)
           .icon(TiersIcon),
-
-        S.divider(),
-
-        S.documentTypeListItem(order.name)
-          .icon(BillIcon),
-
-        S.divider(),
-
-        S.documentTypeListItem(page.name)
-          .icon(DocumentTextIcon),
 
         S.divider(),
 
@@ -210,6 +241,11 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
                   .icon(TokenIcon),
               ]),
           ),
+
+        S.divider(),
+
+        S.documentTypeListItem(page.name)
+          .icon(DocumentTextIcon),
 
         S.divider(),
 

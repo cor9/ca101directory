@@ -27,7 +27,7 @@ const order = {
       title: 'Status',
       type: 'string',
       options: {
-        list: ['success', 'fail'],
+        list: ['success', 'failed'],
         layout: 'radio',
         direction: 'horizontal',
       },

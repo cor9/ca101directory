@@ -1,50 +1,78 @@
-import { ItemFullInfo } from "@/types";
-import { 
-  Breadcrumb, 
-  BreadcrumbItem, 
-  BreadcrumbLink, 
-  BreadcrumbList, 
-  BreadcrumbPage, 
-  BreadcrumbSeparator 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import { HomeIcon } from "lucide-react";
+import { ItemFullInfo } from "@/types";
+import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
+import { ChevronsUpDownIcon, HomeIcon } from "lucide-react";
+import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
 interface ItemBreadCrumbProps {
   item: ItemFullInfo;
 }
 
 /**
- * breadcrumb for item, we just show the first category of items
+ * breadcrumb for item
  */
 export default function ItemBreadCrumb({ item }: ItemBreadCrumbProps) {
-  return <Breadcrumb className="">
-    <BreadcrumbList>
-      <BreadcrumbItem>
-        <BreadcrumbLink href={`/`}>
-          <div className="flex items-center gap-1">
-            <HomeIcon className="w-4 h-4" />
-            <span>Home</span>
-          </div>
-        </BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbLink href={`/category`}>
-          <span>Category</span>
-        </BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbLink href={`/category/${item?.categories?.[0]?.slug?.current}`}>
-          {item?.categories?.[0]?.name}
-        </BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbPage className="font-medium">
-          {item?.name}
-        </BreadcrumbPage>
-      </BreadcrumbItem>
-    </BreadcrumbList>
-  </Breadcrumb>;
+  return (
+    <Breadcrumb className="text-base">
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href={`/`}>
+            <div className="flex items-center gap-1">
+              <HomeIcon className="w-4 h-4" />
+              <span>Home</span>
+            </div>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink href={`/category`}>
+            <span>Category</span>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          {/* show BreadcrumbLink if category is only one */}
+          {item?.categories?.length == 1 && (
+            <BreadcrumbLink href={`/category/${item?.categories?.[0]?.slug?.current}`}>
+              {item?.categories?.[0]?.name}
+            </BreadcrumbLink>
+          )}
+
+          {/* show dropdown menu if category is more than one */}
+          {item?.categories?.length > 1 && (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-1">
+                <BreadcrumbLink href={`/category/${item?.categories?.[0]?.slug?.current}`}>
+                  {item?.categories?.[0]?.name}
+                </BreadcrumbLink>
+                <ChevronsUpDownIcon className="w-4 h-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {item?.categories?.map((category) => (
+                  <DropdownMenuItem key={category.slug.current}>
+                    <BreadcrumbLink href={`/category/${category.slug.current}`}>
+                      {category.name}
+                    </BreadcrumbLink>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage className="font-medium">
+            {item?.name}
+          </BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
 }

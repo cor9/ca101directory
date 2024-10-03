@@ -20,7 +20,7 @@ export async function generateMetadata({
   return constructMetadata({
     title: "Submit your product (2/3)",
     description: "Submit your product (2/3) Choose pricing plan.",
-    canonicalUrl: `${siteConfig.url}/submit/plan/${params.id}`,
+    canonicalUrl: `${siteConfig.url}/plan/${params.id}`,
   });
 }
 

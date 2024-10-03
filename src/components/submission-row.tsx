@@ -131,7 +131,7 @@ export function SubmissionRow({ submission }: { submission: ItemInfo }) {
                             {
                                 submission.pricePlan === 'free' ?
                                     <Button asChild variant="outline" size="sm">
-                                        <Link href={`/submit/plan/${submission._id}`}>
+                                        <Link href={`/plan/${submission._id}`}>
                                             Upgrade
                                         </Link>
                                     </Button> : null
@@ -148,7 +148,7 @@ export function SubmissionRow({ submission }: { submission: ItemInfo }) {
 
                             {/* publish button currently visible for test */}
                             {/* <Button asChild variant="outline" size="sm">
-                                <Link href={`/submit/publish/${submission._id}`}>
+                                <Link href={`/publish/${submission._id}`}>
                                     Publish Page
                                 </Link>
                             </Button> */}
@@ -191,7 +191,7 @@ export function SubmissionRow({ submission }: { submission: ItemInfo }) {
                                 {
                                     submission.pricePlan === 'free' ?
                                         <DropdownMenuItem>
-                                            <Link href={`/submit/plan/${submission._id}`}>
+                                            <Link href={`/plan/${submission._id}`}>
                                                 Upgrade
                                             </Link>
                                         </DropdownMenuItem> : null

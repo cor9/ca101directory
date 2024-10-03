@@ -18,7 +18,7 @@ export async function generateMetadata({
   return constructMetadata({
     title: "Submit your product (3/3)",
     description: "Submit your product (3/3) Review and publish product.",
-    canonicalUrl: `${siteConfig.url}/submit/publish/${params.id}`,
+    canonicalUrl: `${siteConfig.url}/publish/${params.id}`,
   });
 }
 
@@ -41,7 +41,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
   // if (item.pricePlan === 'free' && item.freePlanStatus !== 'approved') {
   //   return redirect(`/edit/${item._id}`);
   // } else if (item.pricePlan === 'pro' && item.proPlanStatus !== 'success') {
-  //   return redirect(`/submit/plan/${item._id}`);
+  //   return redirect(`/plan/${item._id}`);
   // }
 
   return (

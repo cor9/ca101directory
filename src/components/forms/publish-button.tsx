@@ -24,7 +24,7 @@ export function PublishButton({ item }: PublishButtonProps) {
     if (publishable) {
       await publishAction();
     } else {
-      router.push(`/submit/plan/${item._id}`);
+      router.push(`/plan/${item._id}`);
     }
   };
 

@@ -46,7 +46,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
     } else if (item.freePlanStatus === FreePlanStatus.SUBMITTING) {
       submitToReviewAction();
     } else if (item.freePlanStatus === FreePlanStatus.APPROVED) {
-      router.push(`/submit/publish/${item._id}`);
+      router.push(`/publish/${item._id}`);
     } else if (item.freePlanStatus === FreePlanStatus.REJECTED) {
       router.push(`/edit/${item._id}`);
     } else if (item.freePlanStatus === FreePlanStatus.PENDING) {

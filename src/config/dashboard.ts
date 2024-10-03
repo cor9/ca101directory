@@ -31,6 +31,7 @@ export const dashboardConfig: DashboardConfig = {
   ],
 }
 
+// TODO: only used if dashboard uses sidebar layout
 export const sidebarLinks: NestedNavItem[] = [
   {
     title: "MENU",

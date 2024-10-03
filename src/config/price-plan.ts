@@ -1,7 +1,7 @@
 import { PricePlan } from "@/types";
 
 /**
- * Pricing plans
+ * Price plans
  * 
  * TODO: remove
  * https://freeaitool.ai/submit

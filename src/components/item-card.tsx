@@ -12,9 +12,7 @@ type ItemCardProps = {
 };
 
 export default function ItemCard({ item }: ItemCardProps) {
-  const imageProps = item?.image
-    ? urlForImage(item.image)
-    : null;
+  const imageProps = item?.image ? urlForImage(item.image) : null;
   const imageBlurDataURL = item?.image?.blurDataURL || null;
   // console.log(`ItemCard, imageBlurDataURL:${imageBlurDataURL}`);
   const itemUrlPrefix = '/item';

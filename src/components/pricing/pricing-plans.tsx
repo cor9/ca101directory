@@ -1,6 +1,6 @@
 "use client";
 
-import { PRICE_PLANS } from "@/config/pricing-plan";
+import { PRICE_PLANS } from "@/config/price-plan";
 import { cn } from "@/lib/utils";
 import { PricePlan } from "@/types/index";
 import { CheckIcon, XIcon } from "lucide-react";

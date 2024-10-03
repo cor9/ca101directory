@@ -2,7 +2,7 @@
 
 import { ProPlanButton } from "@/components/forms/pro-plan-button";
 import { Icons } from "@/components/shared/icons";
-import { PRICE_PLANS } from "@/config/pricing-plan";
+import { PRICE_PLANS } from "@/config/price-plan";
 import { cn } from "@/lib/utils";
 import { ItemFullInfo, PricePlan } from "@/types/index";
 import { useState } from 'react';

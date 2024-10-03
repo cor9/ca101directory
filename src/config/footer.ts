@@ -23,7 +23,7 @@ export const footerLinks: NestedNavItem[] = [
     items: [
       { title: "Github", href: siteConfig.links.github },
       { title: "Twitter", href: siteConfig.links.twitter },
-      { title: "Linkedin", href: siteConfig.links.linkedin },
+      { title: "Email", href: `mailto:${siteConfig.mail}` },
     ],
   },
   {

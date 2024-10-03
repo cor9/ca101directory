@@ -17,18 +17,24 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata | undefined> {
   const category = await sanityFetch<BlogCategoryMetadateQueryResult>({
-      query: blogCategoryMetadateQuery,
-      params: { slug: params.slug }
+    query: blogCategoryMetadateQuery,
+    params: { slug: params.slug }
   });
   if (!category) {
-      console.warn(`generateMetadata, category not found for slug: ${params.slug}`);
-      return;
+    console.warn(`generateMetadata, category not found for slug: ${params.slug}`);
+    return;
   }
 
+  const ogImageUrl = new URL(`${siteConfig.url}/api/og`);
+  ogImageUrl.searchParams.append('title', category.name);
+  ogImageUrl.searchParams.append('description', category.description || '');
+  ogImageUrl.searchParams.append('type', 'Blog Category');
+
   return constructMetadata({
-      title: `${category.name}`,
-      description: category.description,
-      canonicalUrl: `${siteConfig.url}/blog/category/${category.slug}`,
+    title: `${category.name}`,
+    description: category.description,
+    canonicalUrl: `${siteConfig.url}/blog/category/${category.slug}`,
+    image: ogImageUrl.toString()
   });
 }
 

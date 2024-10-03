@@ -27,6 +27,9 @@ export const publicRoutes = [
 
   // NOTICE: stripe webhook, must be public, otherwise can not receive stripe events
   "/api/webhook",
+  
+  // og images
+  "/api/og",
 
   // test pages
   "/shadcn",

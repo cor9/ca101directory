@@ -25,10 +25,16 @@ export async function generateMetadata({
     return;
   }
 
+  const ogImageUrl = new URL(`${siteConfig.url}/api/og`);
+  ogImageUrl.searchParams.append('title', tag.name);
+  ogImageUrl.searchParams.append('description', tag.description || '');
+  ogImageUrl.searchParams.append('type', 'Tag');
+
   return constructMetadata({
     title: `${tag.name}`,
     description: tag.description,
     canonicalUrl: `${siteConfig.url}/tag/${params.slug}`,
+    image: ogImageUrl.toString()
   });
 }
 

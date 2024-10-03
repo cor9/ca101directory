@@ -6,7 +6,12 @@ import { ogImageSchema } from "@/lib/schemas";
 /**
  * og image route
  * 
+ * 1. official doc
  * https://nextjs.org/docs/app/api-reference/file-conventions/metadata/opengraph-image
+ * 
+ * 2. related articles
+ * https://dev.to/paulund/auto-generate-open-graph-images-in-nextjs-41cm
+ * https://stronglytyped.uk/articles/open-graph-images-nextjs-app-router
  */
 export function GET(req: Request) {
   try {
@@ -17,11 +22,12 @@ export function GET(req: Request) {
 
     const { mode, title, description, type } = parsedValues;
     const paint = mode === "dark" ? "#fff" : "#000";
+    // console.log('og image', { title, description, type });
 
     return new ImageResponse(
       (
         <div
-          tw="flex size-full flex-col items-center justify-center"
+          tw="w-[1200px] h-[630px] size-full flex flex-col items-center justify-center"
           style={{
             color: paint,
             background:
@@ -30,24 +36,8 @@ export function GET(req: Request) {
                 : "white",
           }}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="124"
-            height="124"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <circle cx="7" cy="15" r="2" />
-            <circle cx="17" cy="15" r="2" />
-            <path d="M3 9a2 1 0 0 0 2 1h14a2 1 0 0 0 2 -1" />
-          </svg>
           <div
-            tw="mt-10 flex max-w-4xl flex-col items-center justify-center"
+            tw="size-full flex flex-col items-center justify-center"
             style={{
               whiteSpace: "pre-wrap",
             }}

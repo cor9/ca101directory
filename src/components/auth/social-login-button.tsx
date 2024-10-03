@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { FaBrandsGithub } from "../icons/github";
 import { FaBrandsGoogle } from "../icons/google";
-import { Icons } from "../shared/icons";
+import { Icons } from "@/components/icons/icons";
 
 /**
  * social login buttons

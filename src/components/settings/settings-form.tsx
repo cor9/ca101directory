@@ -1,7 +1,7 @@
 "use client";
 
 import { settings } from "@/actions/settings";
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
 import {
     Card,

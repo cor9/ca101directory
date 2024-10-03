@@ -6,7 +6,7 @@ import { newVerification } from "@/actions/new-verification";
 import { AuthCard } from "@/components/auth/auth-card";
 import { FormError } from "@/components/shared/form-error";
 import { FormSuccess } from "@/components/shared/form-success";
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/icons/icons";
 
 export const NewVerificationForm = () => {
   const [error, setError] = useState<string | undefined>();

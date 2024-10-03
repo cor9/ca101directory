@@ -9,7 +9,7 @@ import { ArrowUpLeftIcon, CheckCircleIcon, Clock3Icon, EditIcon, SendIcon } from
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { Icons } from "../shared/icons";
+import { Icons } from "@/components/icons/icons";
 import { FreePlanStatus } from "@/lib/submission";
 
 interface FreePlanButtonProps {

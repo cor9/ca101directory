@@ -1,4 +1,4 @@
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/icons/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";

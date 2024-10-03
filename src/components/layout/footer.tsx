@@ -7,7 +7,7 @@ import Link from "next/link";
 import * as React from "react";
 import { Logo } from "../logo";
 import Container from "../container";
-import { Icons } from "../shared/icons";
+import { Icons } from "@/components/icons/icons";
 
 export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
   return (

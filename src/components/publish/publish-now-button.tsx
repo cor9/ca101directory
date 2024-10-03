@@ -8,7 +8,7 @@ import confetti from 'canvas-confetti';
 import { RocketIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import { Icons } from "../shared/icons";
+import { Icons } from "@/components/icons/icons";
 
 interface PublishNowButtonProps {
   item: ItemInfo;

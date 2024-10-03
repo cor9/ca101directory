@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
 import HomeSearch from './home-search';
-import { SearchSkeleton } from '../search';
 import Container from '../container';
 
 export async function HomeHero() {
@@ -26,7 +25,7 @@ export async function HomeHero() {
       {/* Desktop View, has Container */}
       <Container className="hidden md:flex md:flex-col mt-8">
         <div className='w-full'>
-          <Suspense fallback={<SearchSkeleton />}>
+          <Suspense fallback={null}>
             <HomeSearch />
           </Suspense>
         </div>
@@ -43,7 +42,7 @@ export async function HomeHero() {
       {/* Mobile View, no Container */}
       <div className="md:hidden flex flex-col mt-8">
         <div className='w-full'>
-          <Suspense fallback={<SearchSkeleton />}>
+          <Suspense fallback={null}>
             <HomeSearch />
           </Suspense>
         </div>

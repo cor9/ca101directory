@@ -1,8 +1,8 @@
 "use client";
 
 import { SortFilterItem } from "@/lib/constants";
-import { SortListDesktop } from "../sort-list-desktop";
-import { SortListMobile } from "../sort-list-mobile";
+import { SortListDesktop } from "@/components/shared/sort-list-desktop";
+import { SortListMobile } from "@/components/shared/sort-list-mobile";
 
 export type SortFilterProps = {
   sortList: SortFilterItem[];

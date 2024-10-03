@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { BlogCategoryListQueryResult } from '@/sanity.types';
 import Link from "next/link";
 import { useParams } from 'next/navigation';
-import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 export type BlogCategoryListDesktopProps = {
   categoryList: BlogCategoryListQueryResult;

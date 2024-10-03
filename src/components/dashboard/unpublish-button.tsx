@@ -8,7 +8,7 @@ import { ArrowDownToLineIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { Icons } from "../shared/icons";
+import { Icons } from "@/components/icons/icons";
 
 interface UnpublishButtonProps {
   item: ItemInfo;

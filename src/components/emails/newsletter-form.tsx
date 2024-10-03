@@ -18,7 +18,7 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { HeaderSection } from "../shared/header-section";
-import { Icons } from "../shared/icons";
+import { Icons } from "@/components/icons/icons";
 import { NewsletterFormData } from "@/types";
 
 export function NewsletterForm() {

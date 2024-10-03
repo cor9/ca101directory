@@ -14,7 +14,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/icons/icons";
 
 export function SearchCommand({ links }: { links: NestedNavItem[] }) {
   const [open, setOpen] = React.useState(false);

@@ -4,7 +4,7 @@ import { urlForImage } from "@/lib/image";
 import { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { Separator } from "./ui/separator";
+import { Separator } from "@/components/ui/separator";
 import { HashIcon } from "lucide-react";
 
 type ItemCardProps = {

@@ -2,11 +2,11 @@
 
 import { FreePlanButton } from "@/components/plan/free-plan-button";
 import { ProPlanButton } from "@/components/plan/pro-plan-button";
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/icons/icons";
 import { PRICE_PLANS } from "@/config/price-plan";
 import { cn } from "@/lib/utils";
 import { ItemInfo, PricePlan } from "@/types/index";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { CheckIcon, XIcon } from "lucide-react";
 

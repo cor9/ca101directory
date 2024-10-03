@@ -1,6 +1,6 @@
 "use client";
 
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/icons/icons";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import {
   DropdownMenu,

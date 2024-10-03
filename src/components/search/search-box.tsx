@@ -13,7 +13,6 @@ export default function SearchBox() {
   const [debouncedQuery] = useDebounce(searchQuery, 300); // 300ms debounce
   const lastExecutedQuery = useRef(searchParams?.get('q') || '');
 
-  // TODO: fix here, this will also work when in search path
   useEffect(() => {
     const currentQuery = searchParams?.get('q') || '';
     if (currentQuery !== searchQuery) {
@@ -52,7 +51,7 @@ export default function SearchBox() {
           autoComplete="off"
           value={searchQuery}
           onChange={handleSearch}
-          className="w-full rounded-lg border px-4 py-2 text-sm"
+          className="w-full rounded-lg border bg-background px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         />
         <div className="absolute right-0 top-0 mr-4 flex h-full items-center">
           <SearchIcon className="h-4" />

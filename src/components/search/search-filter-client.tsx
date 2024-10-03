@@ -42,8 +42,9 @@ export function SearchFilterClient({
   const selectedTag = searchParams.get("tag");
   const selectedSort = searchParams.get("sort");
 
-  // DEFAULT_FILTER_VALUE can't be null, otherwise the combobox will not work,
-  // DEFAULT_FILTER_VALUE can't be empty string, 
+  // 1. DEFAULT_FILTER_VALUE can't be null, 
+  // otherwise the combobox will not work
+  // 2. DEFAULT_FILTER_VALUE can't be empty string, 
   // otherwise the combobox doesn't show hover effect when the value is empty
   const DEFAULT_FILTER_VALUE = "%DEFAULT_FILTER_VALUE%";
 
@@ -62,7 +63,6 @@ export function SearchFilterClient({
     router.push("/search");
   };
 
-  // default value is empty string, not null
   const categoryFilterItemList = [
     { value: DEFAULT_FILTER_VALUE, label: "All Categories" },
     ...categoryList.map((item) => ({

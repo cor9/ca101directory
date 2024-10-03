@@ -93,10 +93,10 @@ const account = {
       date: "_createdAt",
     },
     prepare({ id, name, provider, date }) {
-      const title = `${name} (${provider})`;
+      const title = name;
       // get simple user id by concating the first 4 and last 4 characters
       const userid = id.substring(5, 9) + '...' + id.substring(id.length - 4);
-      const subtitle = `${format(parseISO(date), "yyyy/MM/dd")}-(${userid})`;
+      const subtitle = `${format(parseISO(date), "yyyy/MM/dd")}-${provider.toUpperCase()}-${userid}`;
       return {
         title,
         subtitle

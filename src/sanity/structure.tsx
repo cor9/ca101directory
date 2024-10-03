@@ -160,9 +160,8 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
       .title("Content")
       .items([
 
-        pendingSubmissionsInFreePlan,
-
-        S.divider(),
+        // pendingSubmissionsInFreePlan,
+        // S.divider(),
 
         // group the order management
         // S.documentTypeListItem(order.name)
@@ -210,6 +209,8 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
               ]),
           ),
 
+        S.divider(),
+
         S.documentTypeListItem(category.name)
           .icon(TiersIcon),
         S.documentTypeListItem(tag.name)
@@ -225,14 +226,14 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
         S.divider(),
 
         // group the user management
-        S.documentTypeListItem(user.name)
-          .icon(UserIcon),
         S.listItem().title('User management')
           .icon(UsersIcon)
           .child(
             S.list()
               .title('User management')
               .items([
+                S.documentTypeListItem(user.name)
+                  .icon(UserIcon),
                 S.documentTypeListItem(account.name)
                   .icon(UsersIcon),
                 S.documentTypeListItem(verificationToken.name)

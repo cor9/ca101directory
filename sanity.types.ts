@@ -78,22 +78,7 @@ export type BlockContent = Array<{
   style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
   listItem?: "bullet" | "number";
   markDefs?: Array<{
-    reference?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "blogPost";
-    } | {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "item";
-    } | {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "page";
-    };
+    reference?: never;
     _type: "internalLink";
     _key: string;
   } | {
@@ -149,6 +134,19 @@ export type VerificationToken = {
   identifier?: string;
   token?: string;
   expires?: string;
+};
+
+export type Page = {
+  _id: string;
+  _type: "page";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  excerpt?: string;
+  body?: BlockContent;
+  publishDate?: string;
 };
 
 export type BlogCategory = {
@@ -209,19 +207,6 @@ export type BlogPost = {
   publishDate?: string;
 };
 
-export type Page = {
-  _id: string;
-  _type: "page";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  excerpt?: string;
-  body?: BlockContent;
-  publishDate?: string;
-};
-
 export type Category = {
   _id: string;
   _type: "category";
@@ -253,6 +238,7 @@ export type Item = {
   _rev: string;
   name?: string;
   slug?: Slug;
+  featured?: boolean;
   link?: string;
   description?: string;
   categories?: Array<{
@@ -269,7 +255,6 @@ export type Item = {
     _key: string;
     [internalGroqTypeReferenceTo]?: "tag";
   }>;
-  featured?: boolean;
   submitter?: {
     _ref: string;
     _type: "reference";
@@ -321,7 +306,7 @@ export type Order = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "item";
   };
-  status?: "success" | "fail";
+  status?: "success" | "failed";
   date?: string;
 };
 
@@ -454,7 +439,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | BlockContent | Settings | PasswordResetToken | VerificationToken | BlogCategory | BlogPost | Page | Category | Tag | Item | Order | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | Code | Markdown | MediaTag | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | BlockContent | Settings | PasswordResetToken | VerificationToken | Page | BlogCategory | BlogPost | Category | Tag | Item | Order | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | Code | Markdown | MediaTag | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/sanity/lib/queries.ts
 // Variable: itemByIdQuery
@@ -1239,25 +1224,10 @@ export type PageQueryResult = {
     style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
     listItem?: "bullet" | "number";
     markDefs: Array<{
-      reference?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "blogPost";
-      } | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "item";
-      } | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "page";
-      };
+      reference?: never;
       _type: "internalLink";
       _key: string;
-      slug: Slug | null;
+      slug: null;
     } | {
       href?: string;
       _type: "link";
@@ -1291,22 +1261,20 @@ export type PageQueryResult = {
   publishDate?: string;
 } | null;
 // Variable: blogCategoryListQuery
-// Query: *[_type == "blogCategory" && defined(slug.current)]   | order(priority desc) {      name,  slug,  description,  priority,  color,}
+// Query: *[_type == "blogCategory" && defined(slug.current)]   | order(priority desc) {      name,  slug,  description,  priority,}
 export type BlogCategoryListQueryResult = Array<{
   name: string | null;
   slug: Slug | null;
   description: string | null;
   priority: number | null;
-  color: null;
 }>;
 // Variable: blogCategoryMetadateQuery
-// Query: *[_type == "blogCategory" && slug.current == $slug][0] {      name,  slug,  description,  priority,  color,  }
+// Query: *[_type == "blogCategory" && slug.current == $slug][0] {      name,  slug,  description,  priority,  }
 export type BlogCategoryMetadateQueryResult = {
   name: string | null;
   slug: Slug | null;
   description: string | null;
   priority: number | null;
-  color: null;
 } | null;
 // Variable: blogPostQuery
 // Query: *[_type == "blogPost" && slug.current == $slug][0] {        _id,  _createdAt,  title,  slug,  excerpt,  featured,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "imageColor": asset->metadata.palette.dominant.background,  },  publishDate,  author->,  categories[]->,  relatedPosts[]-> {      _id,  _createdAt,  title,  slug,  excerpt,  featured,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "imageColor": asset->metadata.palette.dominant.background,  },  publishDate,  author->,  categories[]->,  },  body[]{    ...,    markDefs[]{      ...,      _type == "internalLink" => {        "slug": @.reference->slug      }    }  },    // "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),  // "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...2] {  //   slug,  //   title,  //   excerpt,  //   publishDate,  //   "date": coalesce(publishedDate, _createdAt),  //   "image": image  // },}
@@ -1429,25 +1397,10 @@ export type BlogPostQueryResult = {
     style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
     listItem?: "bullet" | "number";
     markDefs: Array<{
-      reference?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "blogPost";
-      } | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "item";
-      } | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "page";
-      };
+      reference?: never;
       _type: "internalLink";
       _key: string;
-      slug: Slug | null;
+      slug: null;
     } | {
       href?: string;
       _type: "link";
@@ -1593,6 +1546,18 @@ export type BlogPostListQueryResult = Array<{
     priority?: number;
   }> | null;
 }>;
+// Variable: searchBlogQuery
+// Query: *[_type == "blogPost" && defined(slug.current) && defined(publishDate) && _score > 0]  | score(title match $query || excerpt match $query || pt::text(body) match $query)  | order(_score desc) {  _score,    _id,  _createdAt,  title,  slug,  excerpt,  featured,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "imageColor": asset->metadata.palette.dominant.background,  },  publishDate,  author->,  categories[]->,}
+export type SearchBlogQueryResult = Array<never>;
+// Variable: blogCategoryWithCountQuery
+// Query: *[_type == "blogCategory"] {    name,  slug,  description,  priority,  "count": count(*[_type == "blogPost" && references(^._id)])} | order(count desc) [0...5]
+export type BlogCategoryWithCountQueryResult = Array<{
+  name: string | null;
+  slug: Slug | null;
+  description: string | null;
+  priority: number | null;
+  count: number;
+}>;
 // Variable: userWithAccountsQuery
 // Query: *[_type == "user" && _id == $id][0] {    ...,    accounts[]->,  }
 export type UserWithAccountsQueryResult = {
@@ -1653,197 +1618,6 @@ export type PageListQueryForSitemapResult = Array<{
   _updatedAt: string;
   slug: string | null;
 }>;
-// Variable: catquery
-// Query: *[_type == "blogCategory"] {  ...,  "count": count(*[_type == "blogPost" && references(^._id)])} | order(count desc) [0...5]
-export type CatqueryResult = Array<{
-  _id: string;
-  _type: "blogCategory";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  description?: string;
-  priority?: number;
-  count: number;
-}>;
-// Variable: searchquery
-// Query: *[_type == "blogPost" && _score > 0]| score(title match $query || excerpt match $query || pt::text(body) match $query)| order(_score desc){  _score,  _id,  _createdAt,  image,  author->,  categories[]->,   title,   slug}
-export type SearchqueryResult = Array<never>;
-// Variable: postquery
-// Query: *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) {  _id,  _createdAt,  publishedDate,  image {    ...,    "blurDataURL": asset->metadata.lqip,    "ImageColor": asset->metadata.palette.dominant.background,  },  featured,  excerpt,  slug,  title,  author-> {    _id,    image,    "slug": name, // use name as slug    name  },  categories[]->,}
-export type PostqueryResult = Array<{
-  _id: string;
-  _createdAt: string;
-  publishedDate: null;
-  image: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-    blurDataURL: string | null;
-    ImageColor: string | null;
-  } | null;
-  featured: boolean | null;
-  excerpt: string | null;
-  slug: Slug | null;
-  title: string | null;
-  author: {
-    _id: string;
-    image: string | null;
-    slug: string | null;
-    name: string | null;
-  } | null;
-  categories: Array<{
-    _id: string;
-    _type: "blogCategory";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    slug?: Slug;
-    description?: string;
-    priority?: number;
-  }> | null;
-}>;
-// Variable: limitquery
-// Query: *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) [0..$limit] {  ...,  author->,  categories[]->}
-export type LimitqueryResult = Array<{
-  _id: string;
-  _type: "blogPost";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  excerpt?: string;
-  featured?: boolean;
-  categories: Array<{
-    _id: string;
-    _type: "blogCategory";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    slug?: Slug;
-    description?: string;
-    priority?: number;
-  }> | null;
-  author: {
-    _id: string;
-    _type: "user";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    email?: string;
-    emailVerified?: string;
-    image?: string;
-    link?: string;
-    password?: string;
-    role?: "ADMIN" | "USER";
-    accounts?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "account";
-    };
-    stripeCustomerId?: string;
-  } | null;
-  body?: BlockContent;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  relatedPosts?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "blogPost";
-  }>;
-  publishDate?: string;
-}>;
-// Variable: paginatedquery
-// Query: *[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) [$pageIndex...$limit] {  ...,  author->,  categories[]->}
-export type PaginatedqueryResult = Array<{
-  _id: string;
-  _type: "blogPost";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  excerpt?: string;
-  featured?: boolean;
-  categories: Array<{
-    _id: string;
-    _type: "blogCategory";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    slug?: Slug;
-    description?: string;
-    priority?: number;
-  }> | null;
-  author: {
-    _id: string;
-    _type: "user";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    email?: string;
-    emailVerified?: string;
-    image?: string;
-    link?: string;
-    password?: string;
-    role?: "ADMIN" | "USER";
-    accounts?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "account";
-    };
-    stripeCustomerId?: string;
-  } | null;
-  body?: BlockContent;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  relatedPosts?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "blogPost";
-  }>;
-  publishDate?: string;
-}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -1862,11 +1636,13 @@ declare module "@sanity/client" {
     "*[_type == \"tag\" && slug.current == $slug][0] {\n  \n  ...,\n\n}": TagQueryResult;
     "*[_type == \"item\" && defined(slug.current)\n  && submitter._ref == $userId] \n  | order(_createdAt desc) {\n    \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  featured,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  rejectionReason,\n  submitter->,\n  categories[]->,\n  tags[]->,\n\n}": SubmissionListQueryResult;
     "\n  *[_type == \"page\" && slug.current == $slug][0] {\n    ...,\n    body[]{\n      ...,\n      markDefs[]{\n        ...,\n        _type == \"internalLink\" => {\n          \"slug\": @.reference->slug\n        }\n      }\n    },\n  }\n": PageQueryResult;
-    "\n  *[_type == \"blogCategory\" && defined(slug.current)] \n  | order(priority desc) {\n    \n  name,\n  slug,\n  description,\n  priority,\n  color,\n\n}": BlogCategoryListQueryResult;
-    "\n  *[_type == \"blogCategory\" && slug.current == $slug][0] {\n    \n  name,\n  slug,\n  description,\n  priority,\n  color,\n\n  }\n": BlogCategoryMetadateQueryResult;
+    "\n  *[_type == \"blogCategory\" && defined(slug.current)] \n  | order(priority desc) {\n    \n  name,\n  slug,\n  description,\n  priority,\n\n}": BlogCategoryListQueryResult;
+    "\n  *[_type == \"blogCategory\" && slug.current == $slug][0] {\n    \n  name,\n  slug,\n  description,\n  priority,\n\n  }\n": BlogCategoryMetadateQueryResult;
     "\n  *[_type == \"blogPost\" && slug.current == $slug][0] {\n    \n  \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  author->,\n  categories[]->,\n\n  relatedPosts[]-> {\n    \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  author->,\n  categories[]->,\n\n  },\n  body[]{\n    ...,\n    markDefs[]{\n      ...,\n      _type == \"internalLink\" => {\n        \"slug\": @.reference->slug\n      }\n    }\n  },\n  \n  // \"estReadingTime\": round(length(pt::text(body)) / 5 / 180 ),\n  // \"related\": *[_type == \"blogPost\" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...2] {\n  //   slug,\n  //   title,\n  //   excerpt,\n  //   publishDate,\n  //   \"date\": coalesce(publishedDate, _createdAt),\n  //   \"image\": image\n  // },\n\n}": BlogPostQueryResult;
     "\n  *[_type == \"blogPost\" && slug.current == $slug][0] {\n    \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  author->,\n  categories[]->,\n\n}": BlogPostMetadataQueryResult;
     "\n  *[_type == \"blogPost\" && defined(slug.current) && defined(publishDate)] \n  | order(publishDate desc) {\n    \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  author->,\n  categories[]->,\n\n}": BlogPostListQueryResult;
+    "\n  *[_type == \"blogPost\" && defined(slug.current) && defined(publishDate) && _score > 0]\n  | score(title match $query || excerpt match $query || pt::text(body) match $query)\n  | order(_score desc) {\n  _score,\n  \n  _id,\n  _createdAt,\n  title,\n  slug,\n  excerpt,\n  featured,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  author->,\n  categories[]->,\n\n}": SearchBlogQueryResult;
+    "\n  *[_type == \"blogCategory\"] {\n  \n  name,\n  slug,\n  description,\n  priority,\n\n  \"count\": count(*[_type == \"blogPost\" && references(^._id)])\n} | order(count desc) [0...5]": BlogCategoryWithCountQueryResult;
     "\n  *[_type == \"user\" && _id == $id][0] {\n    ...,\n    accounts[]->,\n  }\n": UserWithAccountsQueryResult;
     "*[_type == \"item\" && defined(slug.current) && defined(publishDate)] | order(_createdAt asc) {\n  _id,\n  _updatedAt,\n  \"slug\": slug.current,\n}": ItemListQueryForSitemapResult;
     "*[_type == \"category\" && defined(slug.current)] | order(_createdAt asc) {\n  _id,  \n  _updatedAt,\n  \"slug\": slug.current,\n}": CategoryListQueryForSitemapResult;
@@ -1874,10 +1650,5 @@ declare module "@sanity/client" {
     "*[_type == \"blogPost\" && defined(slug.current) && defined(publishDate)] | order(publishDate desc, _createdAt asc) {\n  _id,  \n  _updatedAt,\n  \"slug\": slug.current,\n}": BlogListQueryForSitemapResult;
     "*[_type == \"blogCategory\" && defined(slug.current)] | order(_createdAt asc) {\n  _id,  \n  _updatedAt,\n  \"slug\": slug.current,\n}": BlogCategoryListQueryForSitemapResult;
     "*[_type == \"page\" && defined(slug.current)] | order(_createdAt asc) {\n  _id,  \n  _updatedAt,\n  \"slug\": slug.current,\n}": PageListQueryForSitemapResult;
-    "*[_type == \"blogCategory\"] {\n  ...,\n  \"count\": count(*[_type == \"blogPost\" && references(^._id)])\n} | order(count desc) [0...5]": CatqueryResult;
-    "*[_type == \"blogPost\" && _score > 0]\n| score(title match $query || excerpt match $query || pt::text(body) match $query)\n| order(_score desc)\n{\n  _score,\n  _id,\n  _createdAt,\n  image,\n  author->,\n  categories[]->,\n   title,\n   slug\n}": SearchqueryResult;
-    "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) {\n  _id,\n  _createdAt,\n  publishedDate,\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"ImageColor\": asset->metadata.palette.dominant.background,\n  },\n  featured,\n  excerpt,\n  slug,\n  title,\n  author-> {\n    _id,\n    image,\n    \"slug\": name, // use name as slug\n    name\n  },\n  categories[]->,\n}\n": PostqueryResult;
-    "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) [0..$limit] {\n  ...,\n  author->,\n  categories[]->\n}\n": LimitqueryResult;
-    "\n*[_type == \"blogPost\"] | order(publishedDate desc, _createdAt desc) [$pageIndex...$limit] {\n  ...,\n  author->,\n  categories[]->\n}\n": PaginatedqueryResult;
   }
 }

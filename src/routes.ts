@@ -50,16 +50,6 @@ export const authRoutes = [
   "/auth/new-password"
 ];
 
-// restrictedRoutes is not used anywhere
-// export const restrictedRoutes = [
-//   "/dashboard",
-//   "/settings",
-//   "/submit",
-//   "/update",
-//   "/pay",
-//   "/billing",
-// ];
-
 /**
  * The prefix for API authentication routes
  * Routes that start with this prefix are used for API authentication purposes

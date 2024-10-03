@@ -1,10 +1,10 @@
 import { ModeToggle } from "@/components/layout/mode-toggle";
-import { footerLinks } from "@/config/site";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import * as React from "react";
 import Container from "../shared/container";
 import { FooterInfo } from "./footer-info";
+import { footerLinks } from "@/config/footer";
 
 export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
   return (

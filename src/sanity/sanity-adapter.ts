@@ -2,7 +2,6 @@ import { getAccountByProviderAccountId } from '@/data/account';
 import { getUserByEmail, getUserById, getUserByIdWithAccounts } from '@/data/user';
 import { getVerificationTokenByIdentifierAndToken } from '@/data/verification-token';
 import { SHOW_QUERY_LOGS } from '@/lib/constants';
-import { User } from '@/sanity.types';
 import { UserRole } from "@/types/user-role";
 import type { Adapter } from "@auth/core/adapters";
 import type { SanityClient } from '@sanity/client';

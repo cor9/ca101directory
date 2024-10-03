@@ -203,7 +203,6 @@ const blogCategoryFields = /* groq */ `
   slug,
   description,
   priority,
-  color,
 `;
 
 export const blogCategoryListQuery = defineQuery(`
@@ -238,6 +237,22 @@ export const blogPostListQuery = defineQuery(`
   | order(publishDate desc) {
     ${blogPostSimpleFields}
 }`);
+
+// search blog posts by keywords, not used in the app
+export const searchBlogQuery = groq`
+  *[_type == "blogPost" && defined(slug.current) && defined(publishDate) && _score > 0]
+  | score(title match $query || excerpt match $query || pt::text(body) match $query)
+  | order(_score desc) {
+  _score,
+  ${blogPostSimpleFields}
+}`;
+
+// get top 5 categories, not used in the app
+export const blogCategoryWithCountQuery = groq`
+  *[_type == "blogCategory"] {
+  ${blogCategoryFields}
+  "count": count(*[_type == "blogPost" && references(^._id)])
+} | order(count desc) [0...5]`;
 
 // ======================================================================================================================
 
@@ -297,64 +312,3 @@ export const pageListQueryForSitemap = groq`*[_type == "page" && defined(slug.cu
 
 // ======================================================================================================================
 
-// Get top 5 categories
-export const catquery = groq`*[_type == "blogCategory"] {
-  ...,
-  "count": count(*[_type == "blogPost" && references(^._id)])
-} | order(count desc) [0...5]`;
-
-export const searchquery = groq`*[_type == "blogPost" && _score > 0]
-| score(title match $query || excerpt match $query || pt::text(body) match $query)
-| order(_score desc)
-{
-  _score,
-  _id,
-  _createdAt,
-  image,
-  author->,
-  categories[]->,
-   title,
-   slug
-}`;
-
-// Get all posts
-export const postquery = groq`
-*[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) {
-  _id,
-  _createdAt,
-  publishedDate,
-  image {
-    ...,
-    "blurDataURL": asset->metadata.lqip,
-    "ImageColor": asset->metadata.palette.dominant.background,
-  },
-  featured,
-  excerpt,
-  slug,
-  title,
-  author-> {
-    _id,
-    image,
-    "slug": name, // use name as slug
-    name
-  },
-  categories[]->,
-}
-`;
-
-// Get all posts with 0..limit
-export const limitquery = groq`
-*[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) [0..$limit] {
-  ...,
-  author->,
-  categories[]->
-}
-`;
-
-export const paginatedquery = defineQuery(`
-*[_type == "blogPost"] | order(publishedDate desc, _createdAt desc) [$pageIndex...$limit] {
-  ...,
-  author->,
-  categories[]->
-}
-`);

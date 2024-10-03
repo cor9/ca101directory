@@ -12,34 +12,8 @@ export type ItemFullInfo = ItemQueryResult;
 // Blog 
 export type BlogPostInfo = BlogPostListQueryResult[number];
 
-export type SubmitConfig = {
-  title: string;
-  subtitle: string;
-  form: {
-    title: string;
-    name: string;
-    namePlaceHolder: string;
-    link: string;
-    linkPlaceHolder: string;
-    submit: string;
-    submiting: string;
-    desc: string;
-    descPlaceHolder: string;
-    types: string;
-    tags: string;
-    categories: string;
-    logo: string;
-    image: string;
-    update: string;
-    updating: string;
-    delete: string;
-    deleting: string;
-    imageUploading: string;
-    notice: string;
-    success: string;
-    error: string;
-  }
-}
+// Newsletter
+export type NewsletterFormData = z.infer<typeof NewsletterFormSchema>;
 
 export type SiteConfig = {
   name: string;

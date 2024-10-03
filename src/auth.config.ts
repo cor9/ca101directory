@@ -7,8 +7,10 @@ import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import { getUserByEmail } from "@/data/user";
 
-// https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.config.ts
-// authConfig is used in middleware.ts and support edge runtime
+/**
+ * https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.config.ts
+ * authConfig is used in middleware.ts and support edge runtime
+ */
 export default {
   // https://authjs.dev/getting-started/migrating-to-v5#environment-variables
   // The AUTH_TRUST_HOST environment variable serves the same purpose as setting trustHost: true in your Auth.js configuration. 

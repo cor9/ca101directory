@@ -7,9 +7,12 @@ import authConfig from "@/auth.config";
 import { UserRole } from "@/types/user-role";
 import { SHOW_QUERY_LOGS } from "@/lib/constants";
 
-// https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.ts
-// https://authjs.dev/getting-started/installation#configure
-// providers for authorization, adapters for user data persistence
+/**
+ * https://authjs.dev/getting-started/installation#configure
+ * providers for authorization, adapters for user data persistence
+ * 
+ * https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.ts
+ */
 export const {
   handlers,
   auth,

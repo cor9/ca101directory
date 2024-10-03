@@ -455,86 +455,7 @@
                             "type": "objectAttribute",
                             "value": {
                               "type": "union",
-                              "of": [
-                                {
-                                  "type": "object",
-                                  "attributes": {
-                                    "_ref": {
-                                      "type": "objectAttribute",
-                                      "value": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "_type": {
-                                      "type": "objectAttribute",
-                                      "value": {
-                                        "type": "string",
-                                        "value": "reference"
-                                      }
-                                    },
-                                    "_weak": {
-                                      "type": "objectAttribute",
-                                      "value": {
-                                        "type": "boolean"
-                                      },
-                                      "optional": true
-                                    }
-                                  },
-                                  "dereferencesTo": "blogPost"
-                                },
-                                {
-                                  "type": "object",
-                                  "attributes": {
-                                    "_ref": {
-                                      "type": "objectAttribute",
-                                      "value": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "_type": {
-                                      "type": "objectAttribute",
-                                      "value": {
-                                        "type": "string",
-                                        "value": "reference"
-                                      }
-                                    },
-                                    "_weak": {
-                                      "type": "objectAttribute",
-                                      "value": {
-                                        "type": "boolean"
-                                      },
-                                      "optional": true
-                                    }
-                                  },
-                                  "dereferencesTo": "item"
-                                },
-                                {
-                                  "type": "object",
-                                  "attributes": {
-                                    "_ref": {
-                                      "type": "objectAttribute",
-                                      "value": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "_type": {
-                                      "type": "objectAttribute",
-                                      "value": {
-                                        "type": "string",
-                                        "value": "reference"
-                                      }
-                                    },
-                                    "_weak": {
-                                      "type": "objectAttribute",
-                                      "value": {
-                                        "type": "boolean"
-                                      },
-                                      "optional": true
-                                    }
-                                  },
-                                  "dereferencesTo": "page"
-                                }
-                              ]
+                              "of": []
                             },
                             "optional": true
                           },
@@ -867,6 +788,80 @@
         "optional": true
       },
       "expires": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      }
+    }
+  },
+  {
+    "name": "page",
+    "type": "document",
+    "attributes": {
+      "_id": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_type": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string",
+          "value": "page"
+        }
+      },
+      "_createdAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_updatedAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_rev": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "title": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "slug": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "slug"
+        },
+        "optional": true
+      },
+      "excerpt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "body": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "blockContent"
+        },
+        "optional": true
+      },
+      "publishDate": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
@@ -1210,80 +1205,6 @@
     }
   },
   {
-    "name": "page",
-    "type": "document",
-    "attributes": {
-      "_id": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "_type": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string",
-          "value": "page"
-        }
-      },
-      "_createdAt": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "_updatedAt": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "_rev": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "title": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "slug": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "inline",
-          "name": "slug"
-        },
-        "optional": true
-      },
-      "excerpt": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "body": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "inline",
-          "name": "blockContent"
-        },
-        "optional": true
-      },
-      "publishDate": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      }
-    }
-  },
-  {
     "name": "category",
     "type": "document",
     "attributes": {
@@ -1458,6 +1379,13 @@
         },
         "optional": true
       },
+      "featured": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
       "link": {
         "type": "objectAttribute",
         "value": {
@@ -1557,13 +1485,6 @@
               }
             }
           }
-        },
-        "optional": true
-      },
-      "featured": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "boolean"
         },
         "optional": true
       },
@@ -1917,7 +1838,7 @@
             },
             {
               "type": "string",
-              "value": "fail"
+              "value": "failed"
             }
           ]
         },

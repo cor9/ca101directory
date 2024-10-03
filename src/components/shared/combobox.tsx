@@ -12,15 +12,11 @@ import {
     CommandList,
 } from "@/components/ui/command";
 import {
-    Drawer,
-    DrawerContent,
-    DrawerTrigger,
-} from "@/components/ui/drawer";
-import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
+import { Drawer } from "vaul";
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -85,8 +81,8 @@ export function ResponsiveComboBox({ filterItemList, placeholder, selectedValue,
     }
 
     return (
-        <Drawer open={open} onOpenChange={setOpen}>
-            <DrawerTrigger asChild>
+        <Drawer.Root open={open} onOpenChange={setOpen}>
+            <Drawer.Trigger asChild>
                 <Button variant="outline" className="justify-start">
                     {selected ? (
                         <div>{selected.label}</div>
@@ -94,8 +90,8 @@ export function ResponsiveComboBox({ filterItemList, placeholder, selectedValue,
                         <div>{placeholder}</div>
                     )}
                 </Button>
-            </DrawerTrigger>
-            <DrawerContent>
+            </Drawer.Trigger>
+            <Drawer.Content>
                 <div className="mt-4 border-t">
                     <FilterList
                         filterItemList={filterItemList}
@@ -104,8 +100,8 @@ export function ResponsiveComboBox({ filterItemList, placeholder, selectedValue,
                         onSelect={handleSelect}
                     />
                 </div>
-            </DrawerContent>
-        </Drawer>
+            </Drawer.Content>
+        </Drawer.Root>
     )
 }
 

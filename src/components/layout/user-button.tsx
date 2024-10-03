@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { LayoutDashboard, LayoutDashboardIcon, LogOut, LogOutIcon, SettingsIcon, UploadIcon } from "lucide-react";
+import { LayoutDashboardIcon, LogOutIcon, SettingsIcon, UploadIcon } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -87,7 +87,7 @@ export function UserButton() {
                   onClick={closeDrawer}
                   className="flex w-full items-center gap-3 px-2.5 py-2"
                 >
-                  <LayoutDashboard className="size-4" />
+                  <LayoutDashboardIcon className="size-4" />
                   <p className="text-sm">Dashboard</p>
                 </Link>
               </li>
@@ -123,7 +123,7 @@ export function UserButton() {
                 }}
               >
                 <div className="flex w-full items-center gap-3 px-2.5 py-2">
-                  <LogOut className="size-4" />
+                  <LogOutIcon className="size-4" />
                   <p className="text-sm">Log out</p>
                 </div>
               </li>

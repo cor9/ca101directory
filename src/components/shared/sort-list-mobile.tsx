@@ -66,6 +66,7 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
             <div className="sticky top-0 z-20 flex w-full items-center justify-center bg-inherit">
               <div className="my-3 h-1.5 w-16 rounded-full bg-muted-foreground/20" />
             </div>
+            
             <ul role="list" className="w-full mb-14 p-3 text-muted-foreground">
               {sortList.map((item) => (
                 <FilterItemMobile

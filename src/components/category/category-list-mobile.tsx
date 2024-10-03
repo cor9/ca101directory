@@ -1,6 +1,6 @@
 "use client";
 
-import { Drawer, DrawerContent, DrawerOverlay, DrawerPortal, DrawerTrigger } from '@/components/ui/drawer';
+import { Drawer } from "vaul";
 import { CategoryListQueryResult } from '@/sanity.types';
 import { LayoutListIcon } from "lucide-react";
 import { useParams } from "next/navigation";
@@ -23,8 +23,8 @@ export function CategoryListMobile({ categoryList }: CategoryListMobileProps) {
   return (
     <div>
       {/* Mobile View */}
-      <Drawer open={open} onClose={closeDrawer}>
-        <DrawerTrigger
+      <Drawer.Root open={open} onClose={closeDrawer}>
+        <Drawer.Trigger
           onClick={() => setOpen(true)}
           className="flex items-center w-full p-3 gap-x-2 border-y text-foreground/90"
         >
@@ -39,15 +39,16 @@ export function CategoryListMobile({ categoryList }: CategoryListMobileProps) {
               {category?.name ? `${category?.name}` : 'All'}
             </span>
           </div>
-        </DrawerTrigger>
-        <DrawerOverlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
+        </Drawer.Trigger>
+        <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
           onClick={closeDrawer}
         />
-        <DrawerPortal>
-          <DrawerContent className="fixed inset-x-0 bottom-0 z-50 mt-24 overflow-hidden rounded-t-[10px] border bg-background">
+        <Drawer.Portal>
+          <Drawer.Content className="fixed inset-x-0 bottom-0 z-50 mt-24 overflow-hidden rounded-t-[10px] border bg-background">
             <div className="sticky top-0 z-20 flex w-full items-center justify-center bg-inherit">
               <div className="my-3 h-1.5 w-16 rounded-full bg-muted-foreground/20" />
             </div>
+
             <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
               <FilterItemMobile
                 title="All"
@@ -66,10 +67,10 @@ export function CategoryListMobile({ categoryList }: CategoryListMobileProps) {
                 />
               ))}
             </ul>
-          </DrawerContent>
-          <DrawerOverlay />
-        </DrawerPortal>
-      </Drawer>
+          </Drawer.Content>
+          <Drawer.Overlay />
+        </Drawer.Portal>
+      </Drawer.Root>
     </div>
   );
 }

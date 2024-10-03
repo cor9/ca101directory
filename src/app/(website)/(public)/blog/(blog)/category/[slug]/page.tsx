@@ -26,7 +26,7 @@ export async function generateMetadata({
   }
 
   return constructMetadata({
-      title: `${category.name} - Blog Category`,
+      title: `${category.name}`,
       description: category.description,
       canonicalUrl: `${siteConfig.url}/blog/category/${category.slug}`,
   });

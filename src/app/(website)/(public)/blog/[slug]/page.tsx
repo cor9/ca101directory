@@ -36,7 +36,7 @@ export async function generateMetadata({
         : null;
 
     return constructMetadata({
-        title: `${post.title} - Blog Post`,
+        title: `${post.title}`,
         description: post.excerpt,
         canonicalUrl: `${siteConfig.url}/blog/${params.slug}`,
         image: imageProps?.src

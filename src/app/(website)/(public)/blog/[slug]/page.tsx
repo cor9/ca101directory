@@ -196,11 +196,6 @@ export default async function PostPage({ params }: PostPageProps) {
                     <BlogGrid posts={post.relatedPosts} />
                 </div>
             )}
-
-            {/* back button */}
-            {/* <div className="flex items-center justify-start mt-8">
-                <AllPostsButton />
-            </div> */}
         </div>
     );
 }

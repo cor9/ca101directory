@@ -2,10 +2,18 @@
 
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
+import { Loader2Icon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
 
+/**
+ * Learned how to recover from a server component error in Next.js from @asidorenko_
+ * 
+ * https://x.com/asidorenko_/status/1841547623712407994
+ */
 export default function Error({ reset }: { reset: () => void; }) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-8">
@@ -17,9 +25,16 @@ export default function Error({ reset }: { reset: () => void; }) {
         <Button
           type="submit"
           variant="default"
-          onClick={() => reset()}
+          disabled={isPending}
+          onClick={() => {
+            startTransition(() => {
+              router.refresh();
+              reset();
+            });
+          }}
         >
-          Please try again
+          {isPending ? <Loader2Icon className="size-4 animate-spin" /> : ''}
+          Try again
         </Button>
 
         <Button

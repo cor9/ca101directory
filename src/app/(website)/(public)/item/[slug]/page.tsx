@@ -272,10 +272,6 @@ export default async function ItemPage({ params }: ItemPageProps) {
           </div>
         )
       }
-
-      {/* <div className="flex items-center justify-start mt-8">
-        <BackButton />
-      </div> */}
     </div>
   );
 }

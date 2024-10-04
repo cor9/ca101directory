@@ -6,9 +6,9 @@ import { getUserByEmail } from "@/data/user";
 import { sendPasswordResetEmail } from "@/lib/mail";
 import { generatePasswordResetToken } from "@/lib/tokens";
 
-export type ServerActionResponse = {  
-    status: "success" | "error";
-    message?: string;
+export type ServerActionResponse = {
+  status: "success" | "error";
+  message?: string;
 }
 
 export async function reset(values: z.infer<typeof ResetSchema>): Promise<ServerActionResponse> {

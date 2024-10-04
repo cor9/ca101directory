@@ -32,19 +32,19 @@ export function NewsletterForm() {
 
   function onSubmit(data: NewsletterFormData) {
     startTransition(async () => {
-      try {
-        const message = await subscribeToNewsletter({ email: data.email });
-        switch (message) {
-          case "success":
-            toast.success("Thank you for subscribing to our newsletter");
-            form.reset();
-            break
-          default:
-            toast.error("Something went wrong, please try again");
-        }
-      } catch (error) {
-        toast.error("Something went wrong, please try again");
-      }
+      subscribeToNewsletter({ email: data.email })
+        .then(data => {
+          switch (data.status) {
+            case "success":
+              toast.success("Thank you for subscribing to our newsletter");
+              form.reset();
+              break
+            default:
+              toast.error("Something went wrong, please try again");
+          }
+        }).catch(error => {
+          toast.error("Something went wrong");
+        });
     });
   }
 

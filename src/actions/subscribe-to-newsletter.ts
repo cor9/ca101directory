@@ -2,17 +2,24 @@
 
 import { resend } from "@/lib/mail";
 import { NewsletterFormData, NewsletterFormSchema } from "@/lib/schemas";
-import { NewsletterWelcomeEmail } from "@/components/emails/newsletter-welcome-email"
+import { NewsletterWelcomeEmail } from "@/components/emails/newsletter-welcome-email";
+
+export type ServerActionResponse = {
+  status: "success" | "error";
+  message?: string;
+}
 
 /**
  * Subscribe to the newsletter
  */
 export async function subscribeToNewsletter(
   formdata: NewsletterFormData
-): Promise<"error" | "success"> {
+): Promise<ServerActionResponse> {
   try {
     const validatedInput = NewsletterFormSchema.safeParse(formdata);
-    if (!validatedInput.success) return "error";
+    if (!validatedInput.success) {
+      return { status: "error", message: "Invalid input" };
+    }
 
     const subscribedResult = await resend.contacts.create({
       email: validatedInput.data.email,
@@ -31,12 +38,14 @@ export async function subscribeToNewsletter(
       });
       console.log("subscribeToNewsletter, emailSentResult", emailSentResult);
       const emailSent = !emailSentResult.error;
-      return emailSent ? "success" : "error";
+      if (emailSent) {
+        return { status: "success", message: "Subscribed to the newsletter" };
+      }
     }
 
-    return "error";
+    return { status: "error", message: "Failed to subscribe to the newsletter" };
   } catch (error) {
-    console.error(error);
-    throw new Error("Error subscribing to the newsletter");
+    console.error('subscribeToNewsletter, error:', error);
+    return { status: "error", message: "Failed to subscribe to the newsletter" };
   }
 }

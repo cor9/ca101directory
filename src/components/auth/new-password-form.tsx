@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/shared/form-error";
 import { FormSuccess } from "@/components/shared/form-success";
 import { newPassword } from "@/actions/new-password";
+import { Icons } from "@/components/icons/icons";
 
 export const NewPasswordForm = () => {
   const searchParams = useSearchParams();
@@ -87,9 +88,10 @@ export const NewPasswordForm = () => {
             disabled={isPending}
             size="lg"
             type="submit"
-            className="w-full"
+            className="w-full flex items-center justify-center gap-2"
           >
-            Reset password
+            {isPending ? <Icons.spinner className="w-4 h-4 animate-spin" /> : ""}
+            <span>Reset password</span>
           </Button>
         </form>
       </Form>

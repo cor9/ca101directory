@@ -74,7 +74,8 @@ export default function ItemCard({ item }: ItemCardProps) {
             <h3 className="text-xl text-primary font-medium line-clamp-1">
               {item.name}
             </h3>
-            <p className="text-sm text-primary line-clamp-2 leading-relaxed">
+            {/* min-h-[3rem] is used for making sure height of the card is the same */}
+            <p className="text-sm text-primary line-clamp-2 leading-relaxed min-h-[3rem]">
               {item.description}
             </p>
           </div>

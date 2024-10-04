@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { ResetPasswordEmail } from "@/emails/reset-password";
 
 export const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -10,11 +11,12 @@ export const sendPasswordResetEmail = async (
 ) => {
   const resetLink = `${SITE_URL}/auth/new-password?token=${token}`
 
+  // html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`
   await resend.emails.send({
     from: process.env.RESEND_EMAIL_FROM,
     to: email,
     subject: "Reset your password",
-    html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`
+    react: ResetPasswordEmail({ userFirstname: email, resetPasswordLink: resetLink })
   });
 };
 

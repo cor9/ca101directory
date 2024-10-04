@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/shared/form-error";
 import { FormSuccess } from "@/components/shared/form-success";
 import { reset } from "@/actions/reset";
+import { Icons } from "../icons/icons";
 
 export const ResetForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -81,10 +82,12 @@ export const ResetForm = () => {
           <FormSuccess message={success} />
           <Button
             disabled={isPending}
+            size="lg"
             type="submit"
-            className="w-full"
+            className="w-full flex items-center justify-center gap-2"
           >
-            Send reset email
+            {isPending ? <Icons.spinner className="w-4 h-4 animate-spin" /> : ""}
+            <span>Send reset email</span>
           </Button>
         </form>
       </Form>

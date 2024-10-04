@@ -19,7 +19,7 @@ export const footerLinks: NestedNavItem[] = [
     ],
   },
   {
-    title: "Social",
+    title: "Contact",
     items: [
       { title: "Github", href: siteConfig.links.github },
       { title: "Twitter", href: siteConfig.links.twitter },

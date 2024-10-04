@@ -52,7 +52,7 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
     <div>
       <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
         <DashboardSubmitHeader
-          title="(2/3) Submit"
+          title="2/3 Submit"
           subtitle="Choose pricing plan."
         >
           <SubmitStepper initialStep={2} />

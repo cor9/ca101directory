@@ -26,7 +26,7 @@ export default async function SubmitPage() {
   return (
     <div>
       <DashboardSubmitHeader
-        title="(1/3) Submit"
+        title="1/3 Submit"
         subtitle="Enter product details."
       >
         <SubmitStepper initialStep={1} />

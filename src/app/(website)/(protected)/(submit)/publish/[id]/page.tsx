@@ -47,7 +47,7 @@ export default async function PublishPage({ params }: { params: { id: string } }
   return (
     <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
       <DashboardSubmitHeader
-        title="(3/3) Submit"
+        title="3/3 Submit"
         subtitle="Review and publish product."
       >
         <SubmitStepper initialStep={3} />

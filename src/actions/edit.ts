@@ -29,7 +29,7 @@ export type ServerActionResponse = {
 /**
  * https://nextjs.org/learn/dashboard-app/mutating-data
  */
-export async function Edit(formData: EditFormData): Promise<ServerActionResponse> {
+export async function edit(formData: EditFormData): Promise<ServerActionResponse> {
   try {
     const user = await currentUser();
     if (!user) {
@@ -115,7 +115,7 @@ export async function Edit(formData: EditFormData): Promise<ServerActionResponse
     // TODO: redirect to the updated item, but not working, still showing the old item
     revalidatePath(`/edit/${id}`);
     revalidatePath(`/item/${slug}`);
-    return { status: "success" };
+    return { status: "success", message: "Successfully updated item" };
   } catch (error) {
     console.log("edit, error", error);
     return { status: "error", message: "Failed to update item" };

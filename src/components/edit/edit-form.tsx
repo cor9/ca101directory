@@ -1,6 +1,6 @@
 "use client";
 
-import { Edit, EditFormData } from "@/actions/edit";
+import { edit, EditFormData } from "@/actions/edit";
 import CustomMde from "@/components/shared/custom-mde";
 import ImageUpload from "@/components/shared/image-upload";
 import { Icons } from "@/components/icons/icons";
@@ -71,23 +71,25 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
 
   // submit form if data is valid
   const onSubmit = form.handleSubmit((data: EditFormData) => {
-    console.log('EditFormonSubmit, data:', data);
+    // console.log('EditForm, onSubmit, data:', data);
     startTransition(async () => {
-      const { status } = await Edit(data);
-      console.log('EditForm, status:', status);
-      if (status === "success") {
-        form.reset();
-        // TODO: not working, still showing the old item
-        // router.refresh();
-        // router.push(`/update/${item._id}`);
-
-        // TODO: still have some bug, content reset before redirecting to dashboard
-        router.push(`/dashboard/`);
-
-        toast.success("Update success");
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
+      edit(data)
+        .then((data) => {
+          if (data.status === "success") {
+            console.log('EditForm, success:', data.message);
+            form.reset();
+            router.push(`/dashboard/`);
+            toast.success(data.message);
+          }
+          if (data.status === "error") {
+            console.error('EditForm, error:', data.message);
+            toast.error(data.message);
+          }
+        })
+        .catch((error) => {
+          console.error('EditForm, error:', error);
+          toast.error('Something went wrong');
+        });
     });
   });
 

@@ -17,12 +17,20 @@ export type SubmitFormData = {
   imageId: string;
 };
 
-// https://nextjs.org/learn/dashboard-app/mutating-data
-export async function Submit(formData: SubmitFormData) {
+export type ServerActionResponse = {
+  status: "success" | "error";
+  message?: string;
+  id?: string;
+};
+
+/**
+ * https://nextjs.org/learn/dashboard-app/mutating-data
+ */
+export async function submit(formData: SubmitFormData): Promise<ServerActionResponse> {
   try {
     const user = await currentUser();
     if (!user) {
-      return { error: "Unauthorized" };
+      return { status: "error", message: "Unauthorized" };
     }
 
     // console.log("submit, data:", formData);
@@ -77,7 +85,7 @@ export async function Submit(formData: SubmitFormData) {
     const res = await sanityClient.create(data);
     if (!res) {
       console.log("submit, fail");
-      return { status: "error" };
+      return { status: "error", message: "Failed to submit" };
     }
 
     // console.log("submit, success, res:", res);
@@ -89,9 +97,9 @@ export async function Submit(formData: SubmitFormData) {
     // You can do this with the revalidatePath function from Next.js.
     revalidatePath('/submit');
 
-    return { status: "success", id: res._id };
+    return { status: "success", message: "Successfully created", id: res._id };
   } catch (error) {
     console.log("submit, error", error);
-    return { status: "error" };
+    return { status: "error", message: "Failed to submit" };
   }
 }

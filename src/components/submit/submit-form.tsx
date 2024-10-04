@@ -1,6 +1,6 @@
 "use client";
 
-import { Submit, SubmitFormData } from "@/actions/submit";
+import { submit, SubmitFormData } from "@/actions/submit";
 import CustomMde from "@/components/shared/custom-mde";
 import ImageUpload from "@/components/shared/image-upload";
 import { Icons } from "@/components/icons/icons";
@@ -63,19 +63,25 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
 
   // submit form if data is valid
   const onSubmit = form.handleSubmit((data: SubmitFormData) => {
-    console.log('SubmitForm, onSubmit, data:', data);
+    // console.log('SubmitForm, onSubmit, data:', data);
     startTransition(async () => {
-      const { status, id } = await Submit(data);
-      console.log('SubmitForm, status:', status);
-      if (status === "success") {
-        form.reset();
-        // router.push(`/dashboard/`);
-        router.push(`/plan/${id}`);
-
-        toast.success("Submit success");
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
+      submit(data)
+        .then((data) => {
+          if (data.status === "success") {
+            console.log('SubmitForm, success:', data.message);
+            form.reset();
+            router.push(`/plan/${data.id}`);
+            toast.success(data.message);
+          }
+          if (data.status === "error") {
+            console.error('SubmitForm, error:', data.message);
+            toast.error(data.message);
+          }
+        })
+        .catch((error) => {
+          console.error('SubmitForm, error:', error);
+          toast.error('Something went wrong');
+        });
     });
   });
 

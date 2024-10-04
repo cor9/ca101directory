@@ -18,20 +18,24 @@ export function UnpublishButton({ item }: UnpublishButtonProps) {
   const router = useRouter();
   let [isPending, startTransition] = useTransition();
 
-  const UnpublishAction = () => {
+  const unpublishAction = () => {
     startTransition(async () => {
-      try {
-        const result = await unpublish(item._id);
-        console.log('UnpublishAction, result:', result);
-        if (result.success) {
-          toast.success('Unpublished successfully');
-          router.refresh();
-        } else { // TODO(javayhu): handle error
-          throw new Error(result.error);
-        }
-      } catch (error) {
-        console.error('UnpublishAction, error:', error);
-      }
+      unpublish(item._id)
+        .then((data) => {
+          if (data.status === "success") {
+            console.log('unpublishAction, success:', data.message);
+            router.refresh();
+            toast.success('Successfully unpublished');
+          }
+          if (data.status === "error") {
+            console.error('unpublishAction, error:', data.message);
+            toast.error('Failed to unpublish');
+          }
+        })
+        .catch((error) => {
+          console.error('unpublishAction, error:', error);
+          toast.error('Failed to unpublish');
+        });
     });
   };
 
@@ -39,7 +43,7 @@ export function UnpublishButton({ item }: UnpublishButtonProps) {
     <Button
       variant="outline"
       disabled={isPending}
-      onClick={UnpublishAction}
+      onClick={unpublishAction}
       className="group overflow-hidden"
     >
       {isPending ? (

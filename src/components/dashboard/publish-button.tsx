@@ -33,8 +33,8 @@ export function PublishButton({ item }: PublishButtonProps) {
       publish(item._id)
         .then((data) => {
           if (data.status === "success") {
-            router.refresh();
             console.log('publishAction, success:', data.message);
+            router.refresh();
             toast.success('Successfully published');
           }
           if (data.status === "error") {

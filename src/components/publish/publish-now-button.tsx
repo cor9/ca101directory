@@ -24,13 +24,13 @@ export function PublishNowButton({ item }: PublishNowButtonProps) {
       publish(item._id)
         .then((data) => {
           if (data.status === "success") {
+            console.log('publishAction, success:', data.message);
             confetti({
               particleCount: 300,
               spread: 90,
               origin: { y: 0.6 }
             });
             router.refresh();
-            console.log('publishAction, success:', data.message);
             toast.success('Successfully published');
           }
           if (data.status === "error") {

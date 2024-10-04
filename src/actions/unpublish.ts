@@ -1,26 +1,29 @@
 "use server";
 
-import { Item } from "@/sanity.types";
+import { getItemById } from "@/data/item";
 import { sanityClient } from "@/sanity/lib/client";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { itemByIdQuery } from "@/sanity/lib/queries";
 
-export const unpublish = async (itemId: string) => {
+export type ServerActionResponse = {
+  status: "success" | "error";
+  message?: string;
+}
+
+export async function unpublish(itemId: string): Promise<ServerActionResponse> {
   console.log('unpublish, itemId:', itemId);
-  
-  // const item = await sanityFetch<Item>({ query: itemByIdQuery, params: { id: itemId } });
-  // if (!item) {
-  //   return { error: "Item not found!" };
-  // }
+
+  const item = await getItemById(itemId);
+  if (!item) {
+    return { status: "error", message: "Item not found!" };
+  }
 
   const result = await sanityClient.patch(itemId).set({
     publishDate: null,
   }).commit();
   // console.log('unpublish, result:', result);
-  
+
   if (!result) {
-    return { error: "Failed to unpublish item!" };
+    return { status: "error", message: "Failed to unpublish item!" };
   }
 
-  return { success: "Item unpublished!" };
+  return { status: "success", message: "Item unpublished!" };
 };

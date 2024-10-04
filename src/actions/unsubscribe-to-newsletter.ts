@@ -3,15 +3,19 @@
 import { resend } from "@/lib/mail";
 import { NewsletterFormData, NewsletterFormSchema } from "@/lib/schemas";
 
-/**
- * unsubscribe to the newsletter
- */
+export type ServerActionResponse = {
+  status: "success" | "error";
+  message?: string;
+}
+
 export async function unsubscribeToNewsletter(
   formdata: NewsletterFormData
-): Promise<"error" | "success"> {
+): Promise<ServerActionResponse> {
   try {
     const validatedInput = NewsletterFormSchema.safeParse(formdata);
-    if (!validatedInput.success) return "error";
+    if (!validatedInput.success) {
+      return { status: "error", message: "Invalid input" };
+    }
 
     const unsubscribedResult = await resend.contacts.create({
       email: validatedInput.data.email,
@@ -20,9 +24,13 @@ export async function unsubscribeToNewsletter(
     });
     console.log("unsubscribeToNewsletter, unsubscribedResult", unsubscribedResult);
     const unsubscribed = !unsubscribedResult.error;
-    return unsubscribed ? "success" : "error";
+    if (unsubscribed) {
+      return { status: "success", message: "You have been unsubscribed from the newsletter" };
+    }
+
+    return { status: "error", message: "Failed to unsubscribe to the newsletter" };
   } catch (error) {
-    console.error(error);
-    throw new Error("Error subscribing to the newsletter");
+    console.error('unsubscribeToNewsletter, error', error);
+    return { status: "error", message: "Failed to unsubscribe to the newsletter" };
   }
 }

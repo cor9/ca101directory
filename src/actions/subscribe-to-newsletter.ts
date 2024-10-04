@@ -9,9 +9,6 @@ export type ServerActionResponse = {
   message?: string;
 }
 
-/**
- * Subscribe to the newsletter
- */
 export async function subscribeToNewsletter(
   formdata: NewsletterFormData
 ): Promise<ServerActionResponse> {

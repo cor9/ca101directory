@@ -1,17 +1,20 @@
 "use server";
 
-import { Item } from "@/sanity.types";
+import { getItemById } from "@/data/item";
 import { sanityClient } from "@/sanity/lib/client";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { itemByIdQuery } from "@/sanity/lib/queries";
 
-export const publish = async (itemId: string) => {
+export type ServerActionResponse = {
+  status: "success" | "error";
+  message?: string;
+}
+
+export async function publish(itemId: string): Promise<ServerActionResponse> {
   console.log('publish, itemId:', itemId);
   
-  // const item = await sanityFetch<Item>({ query: itemByIdQuery, params: { id: itemId } });
-  // if (!item) {
-  //   return { error: "Item not found!" };
-  // }
+  const item = await getItemById(itemId);
+  if (!item) {
+    return { status: "error", message: "Item not found!" };
+  }
 
   const result = await sanityClient.patch(itemId).set({
     publishDate: new Date().toISOString(),
@@ -19,8 +22,8 @@ export const publish = async (itemId: string) => {
   // console.log('publish, result:', result);
   
   if (!result) {
-    return { error: "Failed to publish item!" };
+    return { status: "error", message: "Failed to publish item!" };
   }
 
-  return { success: "Item published!" };
+  return { status: "success", message: "Item published!" };
 };

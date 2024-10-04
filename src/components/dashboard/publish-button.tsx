@@ -30,18 +30,22 @@ export function PublishButton({ item }: PublishButtonProps) {
 
   const publishAction = () => {
     startTransition(async () => {
-      try {
-        const result = await publish(item._id);
-        console.log('publishAction, result:', result);
-        if (result.success) {
-          router.refresh();
-          toast.success('Published successfully');
-        } else { // TODO(javayhu): handle error
-          throw new Error(result.error);
-        }
-      } catch (error) {
-        console.error('publishAction, error:', error);
-      }
+      publish(item._id)
+        .then((data) => {
+          if (data.status === "success") {
+            router.refresh();
+            console.log('publishAction, success:', data.message);
+            toast.success('Successfully published');
+          }
+          if (data.status === "error") {
+            console.error('publishAction, error:', data.message);
+            toast.error('Failed to publish');
+          }
+        })
+        .catch((error) => {
+          console.error('publishAction, error:', error);
+          toast.error('Failed to publish');
+        });
     });
   };
 

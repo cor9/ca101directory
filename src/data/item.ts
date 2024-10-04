@@ -1,7 +1,25 @@
-import { ITEMS_PER_PAGE } from "@/lib/constants";
+import { ITEMS_PER_PAGE, SHOW_QUERY_LOGS } from "@/lib/constants";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { ItemListQueryResult } from "@/sanity.types";
+import { Item, ItemListQueryResult } from "@/sanity.types";
 import { itemSimpleFields } from "@/sanity/lib/queries";
+
+/**
+ * get item by id
+ */
+export async function getItemById(id: string) {
+    try {
+        // @sanity-typegen-ignore
+        const itemQry = `*[_type == "item" && _id == "${id}"][0]`;
+        const item = await sanityFetch<Item>({ query: itemQry, disableCache: true });
+        if (SHOW_QUERY_LOGS) {
+            console.log('getItemById, item:', item);
+        }
+        return item;
+    } catch (error) {
+        console.error('getItemById, error:', error);
+        return null;
+    }
+}
 
 /**
  * get items from sanity

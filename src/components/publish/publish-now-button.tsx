@@ -9,6 +9,7 @@ import { RocketIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Icons } from "@/components/icons/icons";
+import { toast } from "sonner";
 
 interface PublishNowButtonProps {
   item: ItemInfo;
@@ -20,23 +21,27 @@ export function PublishNowButton({ item }: PublishNowButtonProps) {
 
   const publishAction = () => {
     startTransition(async () => {
-      try {
-        const result = await publish(item._id);
-        console.log('publishAction, result:', result);
-        if (result.success) {
-          confetti({
-            particleCount: 300,
-            spread: 90,
-            origin: { y: 0.6 }
-          });
-          // router.push(`/dashboard`);
-          router.refresh();
-        } else { // TODO(javayhu): handle error
-          throw new Error(result.error);
-        }
-      } catch (error) {
-        console.error('publishAction, error:', error);
-      }
+      publish(item._id)
+        .then((data) => {
+          if (data.status === "success") {
+            confetti({
+              particleCount: 300,
+              spread: 90,
+              origin: { y: 0.6 }
+            });
+            router.refresh();
+            console.log('publishAction, success:', data.message);
+            toast.success('Successfully published');
+          }
+          if (data.status === "error") {
+            console.error('publishAction, error:', data.message);
+            toast.error('Failed to publish');
+          }
+        })
+        .catch((error) => {
+          console.error('publishAction, error:', error);
+          toast.error('Failed to publish');
+        });
     });
   };
 

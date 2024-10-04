@@ -1,8 +1,9 @@
 import { Resend } from "resend";
 import { ResetPasswordEmail } from "@/emails/reset-password";
 import VerifyEmail from "@/emails/verify-email";
-import { NotifySubmissionEmail } from "@/emails/notify-submission";
+import { NotifySubmissionEmail } from "@/emails/notify-submission-to-admin";
 import { PaymentSuccessEmail } from "@/emails/payment-success";
+import { NotifySubmissionToUserEmail } from "@/emails/notify-submission-to-user";
 
 export const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -24,7 +25,7 @@ export const sendPasswordResetEmail = async (
 };
 
 export const sendVerificationEmail = async (
-  email: string, 
+  email: string,
   token: string
 ) => {
   const confirmLink = `${SITE_URL}/auth/new-verification?token=${token}`;
@@ -38,14 +39,35 @@ export const sendVerificationEmail = async (
 };
 
 export const sendNotifySubmissionEmail = async (
-  submissionLink: string,
+  userName: string,
+  userEmail: string,
+  itemName: string,
+  statusLink: string,
+  reviewLink: string,
 ) => {
-  
+  console.log(`sendNotifySubmissionEmail, 
+    userName: ${userName}, 
+    userEmail: ${userEmail}, 
+    itemName: ${itemName}, 
+    reviewLink: ${reviewLink},
+    statusLink: ${statusLink}`);
+
+  await resend.emails.send({
+    from: process.env.RESEND_EMAIL_FROM,
+    to: userEmail,
+    subject: "Thank you for your submission",
+    react: NotifySubmissionToUserEmail({
+      userName,
+      itemName,
+      statusLink,
+    })
+  });
+
   await resend.emails.send({
     from: process.env.RESEND_EMAIL_FROM,
     to: process.env.RESEND_EMAIL_ADMIN,
     subject: "New submission",
-    react: NotifySubmissionEmail({ submissionLink })
+    react: NotifySubmissionEmail({ reviewLink })
   });
 };
 
@@ -54,11 +76,15 @@ export const sendPaymentSuccessEmail = async (
   email: string,
   itemLink: string,
 ) => {
-  console.log(`sendPaymentSuccessEmail, email: ${email}, userName: ${userName}, itemLink: ${itemLink}`);
+  // console.log(`sendPaymentSuccessEmail, 
+  //   email: ${email}, 
+  //   userName: ${userName}, 
+  //   itemLink: ${itemLink}`);
+
   await resend.emails.send({
     from: process.env.RESEND_EMAIL_FROM,
     to: email,
     subject: "Thank your for your submission",
-    react: PaymentSuccessEmail({ userName,itemLink })
+    react: PaymentSuccessEmail({ userName, itemLink })
   });
 };

@@ -1,9 +1,9 @@
 "use server";
 
-import { siteConfig } from "@/config/site";
+import { currentUser } from "@/lib/auth";
 import { sendNotifySubmissionEmail } from "@/lib/mail";
 import { FreePlanStatus, PricePlan } from "@/lib/submission";
-import { getItemLinkInStudio } from "@/lib/utils";
+import { getItemLinkInStudio, getItemStatusLinkInWebsite } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 
 export const submitToReview = async (itemId: string) => {
@@ -15,16 +15,27 @@ export const submitToReview = async (itemId: string) => {
   //   return { error: "Item not found!" };
   // }
 
-  const result = await sanityClient.patch(itemId).set({
-    pricePlan: PricePlan.FREE,
-    freePlanStatus: FreePlanStatus.PENDING,
-  }).commit();
-  // console.log('submitToReview, result:', result);
-  if (!result) {
+  try {
+    const user = await currentUser();
+    if (!user) {
+      return { error: "Unauthorized" };
+    }
+    
+    const result = await sanityClient.patch(itemId).set({
+      pricePlan: PricePlan.FREE,
+      freePlanStatus: FreePlanStatus.PENDING,
+    }).commit();
+    // console.log('submitToReview, result:', result);
+    if (!result) {
+      return { error: "Failed to submit item to review!" };
+    }
+
+    const statusLink = getItemStatusLinkInWebsite(itemId);
+    const reviewLink = getItemLinkInStudio(itemId);
+    sendNotifySubmissionEmail(user.name, user.email, result.name, statusLink, reviewLink);
+    return { success: "Item submitted to review!" };
+  } catch (error) {
+    console.log("submitToReview, error", error);
     return { error: "Failed to submit item to review!" };
   }
-
-  const itemLink = getItemLinkInStudio(itemId);
-  sendNotifySubmissionEmail(itemLink);
-  return { success: "Item submitted to review!" };
 };

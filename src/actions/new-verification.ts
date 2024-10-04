@@ -4,28 +4,33 @@ import { sanityClient } from "@/sanity/lib/client";
 import { getUserByEmail } from "@/data/user";
 import { getVerificationTokenByToken } from "@/data/verification-token";
 
-export const newVerification = async (token: string) => {
+export type ServerActionResponse = {
+  status: "success" | "error";
+  message?: string;
+}
+
+export async function newVerification(token: string): Promise<ServerActionResponse> {
   const existingToken = await getVerificationTokenByToken(token);
   if (!existingToken) {
-    return { error: "Token does not exist!" };
+    return { status: "error", message: "Token does not exist!" };
   }
 
   const hasExpired = new Date(existingToken.expires) < new Date();
   if (hasExpired) {
-    return { error: "Token has expired!" };
+    return { status: "error", message: "Token has expired!" };
   }
 
   const existingUser = await getUserByEmail(existingToken.identifier);
   if (!existingUser) {
-    return { error: "Email does not exist!" };
+    return { status: "error", message: "Email does not exist!" };
   }
 
   await sanityClient.patch(existingUser._id).set({
     emailVerified: new Date().toISOString(),
     email: existingToken.identifier,
   }).commit();
-  console.log("Email verified!");
+  console.log("Email verified:", existingUser.email);
 
   await sanityClient.delete(existingToken._id);
-  return { success: "Email verified!" };
+  return { status: "success", message: "Email verified!" };
 };

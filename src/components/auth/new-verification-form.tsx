@@ -25,11 +25,17 @@ export const NewVerificationForm = () => {
 
     newVerification(token)
       .then((data) => {
-        setSuccess(data.success);
-        setError(data.error);
+        if (data.status === "success") {
+          setSuccess(data.message);
+          console.log('newVerification, success:', data.message);
+        }
+        if (data.status === "error") {
+          setError(data.message);
+          console.log('newVerification, error:', data.message);
+        }
       })
       .catch(() => {
-        setError("Something went wrong!");
+        setError("Something went wrong. Please try again.");
       })
   }, [token, success, error]);
 

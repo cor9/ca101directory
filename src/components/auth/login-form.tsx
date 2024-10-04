@@ -52,26 +52,23 @@ export const LoginForm = ({ className }: { className?: string }) => {
         .then((data) => {
           console.log('login, data:', data);
 
-          // TODO: this is important, it will reload the page
-          // window.location.reload();
-
-          if (data?.error) {
+          if (data?.status === "error") {
             form.reset();
             setError(data.error);
             console.log('login, error:', data.error);
           }
 
-          if (data?.success) {
+          if (data?.status === "success") {
             form.reset();
-            setSuccess(data.success);
-            console.log('login, success:', data.success);
+            setSuccess(data.message);
+            console.log('login, success, redirectUrl:', data.redirectUrl);
 
             // router.push(data.redirectUrl);
             window.location.href = data.redirectUrl;
           }
         })
         .catch(() => {
-          setError("Something went wrong");
+          setError("Something went wrong. Please try again.");
         });
     });
   };

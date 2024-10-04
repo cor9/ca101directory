@@ -6,6 +6,7 @@ export const resend = new Resend(process.env.RESEND_API_KEY);
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 export const sendPasswordResetEmail = async (
+  name: string,
   email: string,
   token: string,
 ) => {
@@ -16,7 +17,7 @@ export const sendPasswordResetEmail = async (
     from: process.env.RESEND_EMAIL_FROM,
     to: email,
     subject: "Reset your password",
-    react: ResetPasswordEmail({ userFirstname: email, resetPasswordLink: resetLink })
+    react: ResetPasswordEmail({ userName: name, resetPasswordLink: resetLink })
   });
 };
 

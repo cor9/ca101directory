@@ -11,6 +11,7 @@ import {
 } from "@react-email/components";
 
 interface ResetPasswordEmailProps {
+    userName?: string;
     resetPasswordLink?: string;
 }
 
@@ -18,6 +19,7 @@ interface ResetPasswordEmailProps {
 const baseUrl = 'https://demo.mkdirs.com';
 
 export const ResetPasswordEmail = ({
+    userName,
     resetPasswordLink,
 }: ResetPasswordEmailProps) => {
     return (
@@ -33,7 +35,7 @@ export const ResetPasswordEmail = ({
                         alt="Logo"
                     />
                     <Section>
-                        <Text style={text}>Hi,</Text>
+                        <Text style={text}>Hi {userName},</Text>
                         <Text style={text}>
                             Someone recently requested a password change for your
                             account. If this was you, you can set a new password here:
@@ -57,6 +59,7 @@ export const ResetPasswordEmail = ({
 };
 
 ResetPasswordEmail.PreviewProps = {
+    userName: "Javayhu",
     resetPasswordLink: "https://mkdirs.com",
 } as ResetPasswordEmailProps;
 

@@ -2,25 +2,30 @@
 
 import * as z from "zod";
 import bcrypt from "bcryptjs";
-
 import { NewPasswordSchema } from "@/lib/schemas";
 import { getPasswordResetTokenByToken } from "@/data/password-reset-token";
 import { getUserByEmail } from "@/data/user";
 import { sanityClient } from "@/sanity/lib/client";
 
-export const newPassword = async (
+export type ServerActionResponse = {
+  status: "success" | "error";
+  message?: string;
+}
+
+export async function newPassword(
   values: z.infer<typeof NewPasswordSchema>,
   token?: string | null,
-) => {
+): Promise<ServerActionResponse> {
+  // console.log('newPassword, token:', token);
 
   if (!token) {
-    return { error: "Missing token!" };
+    return { status: "error", message: "Missing token!" };
   }
 
   const validatedFields = NewPasswordSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields!" };
+    return { status: "error", message: "Invalid fields!" };
   }
 
   const { password } = validatedFields.data;
@@ -28,23 +33,22 @@ export const newPassword = async (
   const existingToken = await getPasswordResetTokenByToken(token);
 
   if (!existingToken) {
-    return { error: "Invalid token!" };
+    return { status: "error", message: "Invalid token!" };
   }
 
   const hasExpired = new Date(existingToken.expires) < new Date();
 
   if (hasExpired) {
-    return { error: "Token has expired!" };
+    return { status: "error", message: "Token has expired!" };
   }
 
   const existingUser = await getUserByEmail(existingToken.identifier);
 
   if (!existingUser) {
-    return { error: "Email does not exist!" }
+    return { status: "error", message: "Email does not exist!" }
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-
 
   await sanityClient.patch(existingUser._id).set({
     password: hashedPassword,
@@ -52,5 +56,5 @@ export const newPassword = async (
 
   await sanityClient.delete(existingToken._id);;
 
-  return { success: "Password updated!" };
+  return { status: "success", message: "Password updated!" };
 };

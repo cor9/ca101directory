@@ -15,19 +15,19 @@ export type ServerActionResponse = {
     redirectUrl?: string;
 }
 
-export const login = async (
+export async function login(
     values: z.infer<typeof LoginSchema>,
     callbackUrl?: string | null
-) => {
+): Promise<ServerActionResponse> {
     const validatedFields = LoginSchema.safeParse(values);
     if (!validatedFields.success) {
-        return { status: "error", error: "Invalid fields!" };
+        return { status: "error", message: "Invalid fields!" };
     }
 
     const { email, password } = validatedFields.data;
     const existingUser = await getUserByEmail(email);
     if (!existingUser || !existingUser.email || !existingUser.password) {
-        return { status: "error", error: "User does not exist!" };
+        return { status: "error", message: "User does not exist!" };
     }
 
     if (!existingUser.emailVerified) {
@@ -54,9 +54,9 @@ export const login = async (
         if (error instanceof AuthError) {
             switch (error.type) {
                 case "CredentialsSignin":
-                    return { status: "error", error: "Invalid credentials!" };
+                    return { status: "error", message: "Invalid credentials!" };
                 default:
-                    return { status: "error", error: "Something went wrong!" };
+                    return { status: "error", message: "Something went wrong!" };
             }
         }
         throw error;

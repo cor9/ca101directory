@@ -12,9 +12,6 @@ export type ItemFullInfo = ItemQueryResult;
 // Blog 
 export type BlogPostInfo = BlogPostListQueryResult[number];
 
-// Newsletter
-export type NewsletterFormData = z.infer<typeof NewsletterFormSchema>;
-
 export type SiteConfig = {
   name: string;
   slogan: string;

@@ -1,8 +1,7 @@
 "use server";
 
 import { resend } from "@/lib/mail";
-import { NewsletterFormSchema } from "@/lib/schemas";
-import { NewsletterFormData } from "@/types";
+import { NewsletterFormData, NewsletterFormSchema } from "@/lib/schemas";
 
 /**
  * unsubscribe to the newsletter

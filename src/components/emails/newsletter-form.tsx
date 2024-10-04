@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { NewsletterFormSchema } from "@/lib/schemas";
+import { NewsletterFormData, NewsletterFormSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
 import { useTransition } from "react";
@@ -19,7 +19,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { HeaderSection } from "../shared/header-section";
 import { Icons } from "@/components/icons/icons";
-import { NewsletterFormData } from "@/types";
 
 export function NewsletterForm() {
   const [isPending, startTransition] = useTransition();

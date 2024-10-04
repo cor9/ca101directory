@@ -1,7 +1,7 @@
 "use server";
 
 import { currentUser } from "@/lib/auth";
-import { sendSubmissionNotificationEmail } from "@/lib/mail";
+import { sendNotifySubmissionEmail } from "@/lib/mail";
 import { EditSchema } from "@/lib/schemas";
 import { FreePlanStatus, PricePlan } from "@/lib/submission";
 import { getItemLinkInStudio, slugify } from "@/lib/utils";
@@ -95,7 +95,7 @@ export async function Edit(formData: EditFormData) {
     // console.log("edit, success, res:", res);
     if (pricePlan === PricePlan.FREE) {
       const itemLink = getItemLinkInStudio(id);
-      sendSubmissionNotificationEmail(itemLink);
+      sendNotifySubmissionEmail(itemLink);
     }
 
     // Next.js has a Client-side Router Cache that stores the route segments in the user's browser for a time. 

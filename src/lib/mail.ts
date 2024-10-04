@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 import { ResetPasswordEmail } from "@/emails/reset-password";
 import VerifyEmail from "@/emails/verify-email";
+import { NotifySubmissionEmail } from "@/emails/notify-submission";
 
 export const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -37,14 +38,15 @@ export const sendVerificationEmail = async (
   });
 };
 
-export const sendSubmissionNotificationEmail = async (
+export const sendNotifySubmissionEmail = async (
   link: string,
 ) => {
   
+  // html: `<p>Click <a href="${link}">here</a> to review submission.</p>`
   await resend.emails.send({
     from: process.env.RESEND_EMAIL_FROM,
     to: process.env.RESEND_EMAIL_ADMIN,
     subject: "New submission",
-    html: `<p>Click <a href="${link}">here</a> to review submission.</p>`
+    react: NotifySubmissionEmail({ submissionLink: link })
   });
 };

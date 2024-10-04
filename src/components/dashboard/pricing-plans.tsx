@@ -2,13 +2,12 @@
 
 import { FreePlanButton } from "@/components/plan/free-plan-button";
 import { ProPlanButton } from "@/components/plan/pro-plan-button";
-import { Icons } from "@/components/icons/icons";
+import { Button } from "@/components/ui/button";
 import { PRICE_PLANS } from "@/config/price-plan";
 import { cn } from "@/lib/utils";
 import { ItemInfo, PricePlan } from "@/types/index";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { CheckIcon, XIcon } from "lucide-react";
+import Link from "next/link";
 
 interface PricingPlansProps {
   item?: ItemInfo;
@@ -41,8 +40,7 @@ interface PricingPlanCardProps {
 
 const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
   return (
-    <div
-      className={cn(
+    <div className={cn(
         "relative flex flex-col overflow-hidden rounded-xl border shadow-sm",
         pricePlan.title === "Pro" ? "border-2 border-purple-500" : "border",
       )}
@@ -81,24 +79,22 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
 
         {/* action buttons */}
         <div className="mt-6 px-6">
-          {
-            item ? (
-              pricePlan.title === "Free" ? (
-                <FreePlanButton item={item} className="w-full" />
-              ) : (
-                <ProPlanButton item={item} pricePlan={pricePlan} className="w-full" />
-              )
+          {item ? (
+            pricePlan.title === "Free" ? (
+              <FreePlanButton item={item} className="w-full" />
             ) : (
-              <div className="w-full">
-                <Button asChild variant="default" size="lg"
-                  className="w-full rounded-full group overflow-hidden">
-                  <Link href="/submit">
-                    Go to Submit
-                  </Link>
-                </Button>
-              </div>
+              <ProPlanButton item={item} pricePlan={pricePlan} className="w-full" />
             )
-          }
+          ) : (
+            <div className="w-full">
+              <Button asChild variant="default" size="lg"
+                className="w-full rounded-full group overflow-hidden">
+                <Link href="/submit">
+                  Go to Submit
+                </Link>
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>

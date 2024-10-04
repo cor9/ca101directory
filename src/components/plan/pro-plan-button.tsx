@@ -18,20 +18,13 @@ interface ProPlanButtonProps {
 export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps) {
   let [isPending, startTransition] = useTransition();
 
-  // TODO(javayhu): why server action bind args here?
-  // const createCheckoutSessionAction = createCheckoutSession.bind(
-  //   null,
-  //   item._id,
-  //   pricePlan.stripePriceId,
-  // );
-
-  const createCheckoutSessionAction = () => {
+  const handleCreateCheckoutSession = () => {
     startTransition(async () => {
       try {
         const result = await createCheckoutSession(item._id, pricePlan.stripePriceId);
-        console.log('createCheckoutSessionAction, result:', result);
+        console.log('handleCreateCheckoutSession, result:', result);
       } catch (error) {
-        console.error('createCheckoutSessionAction, error:', error);
+        console.error('handleCreateCheckoutSession, error:', error);
       }
     });
   };
@@ -42,7 +35,7 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
       variant={"default"}
       className={cn("rounded-full group overflow-hidden", className)}
       disabled={isPending}
-      onClick={createCheckoutSessionAction}
+      onClick={handleCreateCheckoutSession}
     >
       {isPending ? (
         <div className="flex items-center justify-center">

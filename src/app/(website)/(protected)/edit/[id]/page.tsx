@@ -6,7 +6,7 @@ import { categoryListQuery, itemFullInfoByIdQuery, tagListQuery } from "@/sanity
 import { ItemFullInfo } from "@/types";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { EditForm } from "../../../../../components/edit/edit-form";
+import { EditForm } from "@/components/edit/edit-form";
 import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 

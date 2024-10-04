@@ -3,7 +3,7 @@ import { SubmitStepper } from "@/components/submit/submit-stepper";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryListQuery, tagListQuery } from "@/sanity/lib/queries";
-import { SubmitForm } from "../../../../../components/submit/submit-form";
+import { SubmitForm } from "@/components/submit/submit-form";
 import { constructMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/config/site";
 

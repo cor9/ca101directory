@@ -5,7 +5,7 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
 import { ItemInfo } from "@/types";
 import { notFound } from "next/navigation";
-import SubmissionCardInPublishPage from "../../../../../../components/publish/submission-card-in-publish-page";
+import SubmissionCardInPublishPage from "@/components/publish/submission-card-in-publish-page";
 import { constructMetadata } from "@/lib/metadata";
 import { Metadata } from "next";
 import { siteConfig } from "@/config/site";

@@ -10,20 +10,25 @@ import { uuid } from '@sanity/uuid';
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 
-export const register = async (values: z.infer<typeof RegisterSchema>) => {
+export type ServerActionResponse = {
+    status: "success" | "error";
+    message?: string;
+}
+
+export async function register(values: z.infer<typeof RegisterSchema>):
+    Promise<ServerActionResponse> {
     const validatedFields = RegisterSchema.safeParse(values);
 
     if (!validatedFields.success) {
-        return { error: "Invalid Fields!" };
+        return { status: "error", message: "Invalid Fields!" };
     }
 
     const { email, password, name } = validatedFields.data;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const existingUser = await getUserByEmail(email);
-
     if (existingUser) {
-        return { error: "Email already being used" };
+        return { status: "error", message: "Email already being used" };
     }
 
     await sanityClient.create({
@@ -37,11 +42,9 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
     const verificationToken = await generateVerificationToken(email);
 
-    // SEND EMAIL VERIFICATION TOKEN
     await sendVerificationEmail(
         verificationToken.identifier,
         verificationToken.token
-    )
-
-    return { success: "Confirmation email sent" };
+    );
+    return { status: "success", message: "Confirmation email sent" };
 }

@@ -42,6 +42,9 @@ export const ResetForm = () => {
         .then((data) => {
           setError(data?.error);
           setSuccess(data?.success);
+        })
+        .catch(() => {
+          setError('Something went wrong');
         });
     });
   };

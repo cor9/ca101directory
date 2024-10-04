@@ -55,7 +55,7 @@ export const NewPasswordForm = () => {
           }
         })
         .catch(() => {
-          setError("Something went wrong. Please try again.");
+          setError('Something went wrong');
         });
     });
   };

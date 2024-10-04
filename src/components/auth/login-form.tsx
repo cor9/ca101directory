@@ -58,7 +58,7 @@ export const LoginForm = ({ className }: { className?: string }) => {
           }
 
           if (data?.status === "success") {
-            console.log('login, success, redirectUrl:', data.redirectUrl);
+            console.log('login, success:', data.message);
             form.reset();
             setSuccess(data.message);
 

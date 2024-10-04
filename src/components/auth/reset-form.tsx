@@ -41,13 +41,16 @@ export const ResetForm = () => {
       reset(values)
         .then((data) => {
           if (data.status === "error") {
+            console.log('reset, error:', data.message);
             setError(data.message);
           }
           if (data.status === "success") {
+            console.log('reset, success:', data.message);
             setSuccess(data.message);
           }
         })
-        .catch(() => {
+        .catch((error) => {
+          console.log('reset, error:', error);
           setError('Something went wrong');
         });
     });

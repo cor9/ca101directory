@@ -45,16 +45,17 @@ export const NewPasswordForm = () => {
       newPassword(values, token)
         .then((data) => {
           if (data?.status === "error") {
-            setError(data.message);
             console.log('newPassword, error:', data.message);
+            setError(data.message);
           }
 
           if (data?.status === "success") {
-            setSuccess(data.message);
             console.log('newPassword, success:', data.message);
+            setSuccess(data.message);
           }
         })
         .catch(() => {
+          console.log('newPassword, error:', error);
           setError('Something went wrong');
         });
     });

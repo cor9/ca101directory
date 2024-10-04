@@ -1,14 +1,13 @@
 "use server";
 
-import * as z from "zod";
-import { LoginSchema } from "@/lib/schemas";
 import { signIn } from "@/auth";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { AuthError } from "next-auth";
 import { getUserByEmail } from "@/data/user";
 import { sendVerificationEmail, } from "@/lib/mail";
+import { LoginSchema } from "@/lib/schemas";
 import { generateVerificationToken, } from "@/lib/tokens";
-import { redirect } from "next/navigation";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { AuthError } from "next-auth";
+import * as z from "zod";
 
 export const login = async (
     values: z.infer<typeof LoginSchema>, 

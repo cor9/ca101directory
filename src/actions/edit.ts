@@ -21,14 +21,19 @@ export type EditFormData = {
   planStatus: string;
 };
 
+export type ServerActionResponse = {
+  status: "success" | "error";
+  message?: string;
+}
+
 /**
  * https://nextjs.org/learn/dashboard-app/mutating-data
  */
-export async function Edit(formData: EditFormData) {
+export async function Edit(formData: EditFormData): Promise<ServerActionResponse> {
   try {
     const user = await currentUser();
     if (!user) {
-      return { error: "Unauthorized" };
+      return { status: "error", message: "Unauthorized" };
     }
     console.log("edit, user:", user);
 
@@ -90,9 +95,11 @@ export async function Edit(formData: EditFormData) {
     const res = await sanityClient.patch(id).set(data).commit();
     if (!res) {
       console.log("edit, fail");
-      return { status: "error" };
+      return { status: "error", message: "Failed to update item" };
     }
     // console.log("edit, success, res:", res);
+    
+    // send notify email to admin and user
     if (pricePlan === PricePlan.FREE) {
       const statusLink = getItemStatusLinkInWebsite(id);
       const reviewLink = getItemLinkInStudio(id);
@@ -111,6 +118,6 @@ export async function Edit(formData: EditFormData) {
     return { status: "success" };
   } catch (error) {
     console.log("edit, error", error);
-    return { status: "error" };
+    return { status: "error", message: "Failed to update item" };
   }
 }

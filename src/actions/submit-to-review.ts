@@ -6,7 +6,12 @@ import { FreePlanStatus, PricePlan } from "@/lib/submission";
 import { getItemLinkInStudio, getItemStatusLinkInWebsite } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 
-export const submitToReview = async (itemId: string) => {
+export type ServerActionResponse = {  
+  status: "success" | "error";
+  message?: string;
+}
+
+export const submitToReview = async (itemId: string): Promise<ServerActionResponse> => {
   console.log('submitToReview, itemId:', itemId);
 
   // TODO(javayhu): check if the item exists??? and check item is in submitting status
@@ -18,7 +23,7 @@ export const submitToReview = async (itemId: string) => {
   try {
     const user = await currentUser();
     if (!user) {
-      return { error: "Unauthorized" };
+      return { status: "error", message: "Unauthorized" };
     }
     
     const result = await sanityClient.patch(itemId).set({
@@ -27,15 +32,16 @@ export const submitToReview = async (itemId: string) => {
     }).commit();
     // console.log('submitToReview, result:', result);
     if (!result) {
-      return { error: "Failed to submit item to review!" };
+      return { status: "error", message: "Failed to submit item to review!" };
     }
 
     const statusLink = getItemStatusLinkInWebsite(itemId);
     const reviewLink = getItemLinkInStudio(itemId);
     sendNotifySubmissionEmail(user.name, user.email, result.name, statusLink, reviewLink);
-    return { success: "Item submitted to review!" };
+    
+    return { status: "success", message: "Item submitted to review!" };
   } catch (error) {
     console.log("submitToReview, error", error);
-    return { error: "Failed to submit item to review!" };
+    return { status: "error", message: "Failed to submit item to review!" };
   }
 };

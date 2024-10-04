@@ -25,5 +25,5 @@ export async function publish(itemId: string): Promise<ServerActionResponse> {
     return { status: "error", message: "Failed to publish item!" };
   }
 
-  return { status: "success", message: "Item published!" };
+  return { status: "success", message: "Successfully published!" };
 };

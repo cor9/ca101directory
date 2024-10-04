@@ -35,11 +35,11 @@ export function PublishButton({ item }: PublishButtonProps) {
           if (data.status === "success") {
             console.log('publishAction, success:', data.message);
             router.refresh();
-            toast.success('Successfully published');
+            toast.success(data.message);
           }
           if (data.status === "error") {
             console.error('publishAction, error:', data.message);
-            toast.error('Failed to publish');
+            toast.error(data.message);
           }
         })
         .catch((error) => {

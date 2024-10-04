@@ -24,19 +24,22 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
 
   const submitToReviewAction = () => {
     startTransition(async () => {
-      try {
-        const result = await submitToReview(item._id);
-        console.log('submitToReviewAction, result:', result);
-        if (result.success) {          
-          router.refresh();
-
-          toast.success("Submit to review success");
-        } else { // TODO: handle error
-          throw new Error(result.error);
-        }
-      } catch (error) {
-        console.error('submitToReviewAction, error:', error);
-      }
+      submitToReview(item._id)
+        .then((data) => {
+          if (data.status === "success") {
+            console.log('submitToReviewAction, success:', data.message);
+            router.refresh();
+            toast.success('Successfully submitted to review');
+          }
+          if (data.status === "error") {
+            console.error('submitToReviewAction, error:', data.message);
+            toast.error(data.message);
+          }
+        })
+        .catch((error) => {
+          console.error('submitToReviewAction, error:', error);
+          toast.error('Failed to submit to review');
+        });
     });
   };
 

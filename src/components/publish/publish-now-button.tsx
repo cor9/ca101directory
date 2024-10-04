@@ -31,11 +31,11 @@ export function PublishNowButton({ item }: PublishNowButtonProps) {
               origin: { y: 0.6 }
             });
             router.refresh();
-            toast.success('Successfully published');
+            toast.success(data.message);
           }
           if (data.status === "error") {
             console.error('publishAction, error:', data.message);
-            toast.error('Failed to publish');
+            toast.error(data.message);
           }
         })
         .catch((error) => {

@@ -50,11 +50,11 @@ export const sendNotifySubmissionEmail = async (
 };
 
 export const sendPaymentSuccessEmail = async (
-  email: string,
   userName: string,
+  email: string,
   itemLink: string,
 ) => {
-  
+  console.log(`sendPaymentSuccessEmail, email: ${email}, userName: ${userName}, itemLink: ${itemLink}`);
   await resend.emails.send({
     from: process.env.RESEND_EMAIL_FROM,
     to: email,

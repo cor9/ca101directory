@@ -43,7 +43,9 @@ export async function POST(req: Request) {
 
     const user = await getUserById(session?.metadata?.userId);
     // console.log('user:', user);
-    
+
+    // TODO: avoid receiving duplicate events???
+
     if (user) {
       const result = await sanityClient.create({
         _type: 'order',
@@ -74,14 +76,18 @@ export async function POST(req: Request) {
           _ref: result._id,
         },
       }).commit();
-      
+
       if (!res) {
         console.log("checkout.session.completed, update item failed");
         return new Response(null, { status: 500 });
       }
 
       // send thank you email to user
+      console.log(`checkout.session.completed, item: ${JSON.stringify(res)}`);
       const itemLink = getItemLinkInWebsite(res.slug.current);
+      console.log(`checkout.session.completed, userName: ${user.name}, 
+        userEmail: ${user.email}, 
+        itemLink: ${itemLink}`);
       await sendPaymentSuccessEmail(
         user.name,
         user.email,

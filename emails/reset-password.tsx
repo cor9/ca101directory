@@ -12,15 +12,18 @@ import {
 
 interface ResetPasswordEmailProps {
     userName?: string;
-    resetPasswordLink?: string;
+    resetLink?: string;
 }
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 // const baseUrl = 'https://demo.mkdirs.com';
 
+/**
+ * https://demo.react.email/preview/reset-password/dropbox-reset-password
+ */
 export const ResetPasswordEmail = ({
     userName,
-    resetPasswordLink,
+    resetLink,
 }: ResetPasswordEmailProps) => {
     return (
         <Html>
@@ -40,7 +43,7 @@ export const ResetPasswordEmail = ({
                             Someone recently requested a password change for your
                             account. If this was you, you can set a new password here:
                         </Text>
-                        <Button style={button} href={resetPasswordLink}>
+                        <Button style={button} href={resetLink}>
                             Reset password
                         </Button>
                         <Text style={text}>
@@ -60,7 +63,7 @@ export const ResetPasswordEmail = ({
 
 ResetPasswordEmail.PreviewProps = {
     userName: "Javayhu",
-    resetPasswordLink: "https://demo.mkdirs.com",
+    resetLink: "https://demo.mkdirs.com",
 } as ResetPasswordEmailProps;
 
 export default ResetPasswordEmail;

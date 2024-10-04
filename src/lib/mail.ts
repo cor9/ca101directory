@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { ResetPasswordEmail } from "@/emails/reset-password";
+import VerifyEmail from "@/emails/verify-email";
 
 export const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -17,7 +18,7 @@ export const sendPasswordResetEmail = async (
     from: process.env.RESEND_EMAIL_FROM,
     to: email,
     subject: "Reset your password",
-    react: ResetPasswordEmail({ userName: name, resetPasswordLink: resetLink })
+    react: ResetPasswordEmail({ userName: name, resetLink: resetLink })
   });
 };
 
@@ -27,11 +28,12 @@ export const sendVerificationEmail = async (
 ) => {
   const confirmLink = `${SITE_URL}/auth/new-verification?token=${token}`;
 
+  // html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`
   await resend.emails.send({
     from: process.env.RESEND_EMAIL_FROM,
     to: email,
     subject: "Confirm your email",
-    html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`
+    react: VerifyEmail({ confirmLink: confirmLink })
   });
 };
 

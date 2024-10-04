@@ -15,8 +15,8 @@ interface ResetPasswordEmailProps {
     resetPasswordLink?: string;
 }
 
-//   const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
-const baseUrl = 'https://demo.mkdirs.com';
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+// const baseUrl = 'https://demo.mkdirs.com';
 
 export const ResetPasswordEmail = ({
     userName,
@@ -60,7 +60,7 @@ export const ResetPasswordEmail = ({
 
 ResetPasswordEmail.PreviewProps = {
     userName: "Javayhu",
-    resetPasswordLink: "https://mkdirs.com",
+    resetPasswordLink: "https://demo.mkdirs.com",
 } as ResetPasswordEmailProps;
 
 export default ResetPasswordEmail;

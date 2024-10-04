@@ -14,6 +14,7 @@ import {
 } from "@react-email/components";
 
 interface NotifySubmissionEmailProps {
+    itemName?: string;
     reviewLink?: string;
 }
 
@@ -24,6 +25,7 @@ const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
  * https://demo.react.email/preview/welcome/stripe-welcome
  */
 export const NotifySubmissionEmail = ({
+    itemName,
     reviewLink,
 }: NotifySubmissionEmailProps) => {
     return (
@@ -44,7 +46,7 @@ export const NotifySubmissionEmail = ({
                             New submission
                         </Text>
                         <Text style={paragraph}>
-                            A new submission is ready to be reviewed.
+                            A new submission named <b>{itemName}</b> is ready to be reviewed.
                         </Text>
                         <Button style={button} href={reviewLink}>
                             Review submission
@@ -71,6 +73,7 @@ export const NotifySubmissionEmail = ({
 };
 
 NotifySubmissionEmail.PreviewProps = {
+    itemName: "Mkdirs",
     reviewLink: "https://demo.mkdirs.com",
 } as NotifySubmissionEmailProps;
 

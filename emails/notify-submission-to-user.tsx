@@ -51,7 +51,7 @@ export const NotifySubmissionToUserEmail = ({
                             Thank you for your submission.
                         </Text>
                         <Text style={paragraph}>
-                            Your product named "{itemName}" will be reviewed in the next 48 hours before listing on our directory.
+                            Your product named <b>{itemName}</b> will be reviewed in the next 48 hours before listing on our directory.
                         </Text>
                         <Text style={paragraph}>
                             You can view your submission status by clicking the button below:
@@ -93,6 +93,8 @@ export const NotifySubmissionToUserEmail = ({
 };
 
 NotifySubmissionToUserEmail.PreviewProps = {
+    userName: "Javayhu",
+    itemName: "Mkdirs",
     statusLink: "https://demo.mkdirs.com",
 } as NotifySubmissionToUserEmailProps;
 

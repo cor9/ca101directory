@@ -9,7 +9,7 @@ export const siteConfig: SiteConfig = {
   keywords: [ "Directory", "Template", "Boilerplate", "Sanity", "Next.js", "Auth.js", "Tailwindcss", "Shadcn/ui", "Resend", "Stripe"],
   author: "Mkdirs",
   url: SITE_URL,
-  image: `${SITE_URL}/_static/og.jpg`,
+  image: `${SITE_URL}/og.png`,
   mail: "support@mkdirs.com",
   links: {
     twitter: "https://x.com/javayhu",

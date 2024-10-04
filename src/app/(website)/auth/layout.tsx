@@ -2,6 +2,9 @@ import BackButtonSmall from "@/components/shared/back-button-small";
 import Image from "next/image";
 
 /**
+ * auth layout is different from other public layouts,
+ * so auth directory is not put in (public) directory.
+ * 
  * https://ui.shadcn.com/blocks#authentication-04
  */
 export default function AuthLayout({
@@ -24,7 +27,7 @@ export default function AuthLayout({
         {/* brand image */}
         <div className="hidden bg-muted lg:block">
           <Image
-            src="/_static/placeholder.svg"
+            src="/placeholder.svg"
             alt="Image"
             width="1920"
             height="1080"

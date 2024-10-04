@@ -49,12 +49,12 @@ export function constructMetadata({
         creator: siteConfig.author,
       },
       icons: {
-        icon: "/favicon.ico",
-        shortcut: "/favicon-32x32.png",
-        apple: "/apple-touch-icon.png",
+        icon: "/favicon/favicon.ico",
+        shortcut: "/favicon/favicon-32x32.png",
+        apple: "/favicon/apple-touch-icon.png",
       },
       metadataBase: new URL(siteConfig.url),
-      manifest: `${siteConfig.url}/site.webmanifest`,
+      manifest: `${siteConfig.url}/favicon/site.webmanifest`,
       ...(noIndex && {
         robots: {
           index: false,

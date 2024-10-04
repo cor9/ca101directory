@@ -13,23 +13,25 @@ import {
     Text
 } from "@react-email/components";
 
-interface VerifyEmailProps {
-    confirmLink?: string;
+interface ResetPasswordEmailProps {
+    userName?: string;
+    resetLink?: string;
 }
 
-// const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
-const baseUrl = 'https://demo.mkdirs.com';
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+// const baseUrl = 'https://demo.mkdirs.com';
 
 /**
  * https://demo.react.email/preview/welcome/stripe-welcome
  */
-export const VerifyEmail = ({
-    confirmLink,
-}: VerifyEmailProps) => {
+export const ResetPasswordEmail = ({
+    userName,
+    resetLink,
+}: ResetPasswordEmailProps) => {
     return (
         <Html>
             <Head />
-            <Preview>Verify your email address</Preview>
+            <Preview>Reset your password</Preview>
             <Body style={main}>
                 <Container style={container}>
                     <Section style={box}>
@@ -41,19 +43,27 @@ export const VerifyEmail = ({
                         />
                         <Hr style={hr} />
                         <Text style={paragraph}>
-                            Verify your email address
+                            Hi {userName},
                         </Text>
                         <Text style={paragraph}>
-                            Thanks for starting the new account creation process.
-                            We want to make sure it's really you.
-                            Please click the confirmation link to continue.
+                            Thanks for submitting your account information. You're now ready to
+                            make live transactions with Stripe!
                         </Text>
-                        <Button style={button} href={confirmLink}>
-                            Confirm Email
+                        <Text style={paragraph}>
+                            Someone recently requested a password change for your
+                            account. If this was you, you can set a new password here:
+                        </Text>
+                        <Button style={button} href={resetLink}>
+                            Reset password
                         </Button>
                         <Hr style={hr} />
                         <Text style={paragraph}>
-                            If you don&apos;t want to create an account, you can ignore this message.
+                            If you don&apos;t want to change your password or didn&apos;t
+                            request this, just ignore and delete this message.
+                        </Text>
+                        <Text style={paragraph}>
+                            To keep your account secure, please don&apos;t forward this email
+                            to anyone.
                         </Text>
                         <Text style={paragraph}>— The {siteConfig.name} team</Text>
                         <Hr style={hr} />
@@ -77,12 +87,12 @@ export const VerifyEmail = ({
     );
 };
 
-VerifyEmail.PreviewProps = {
+ResetPasswordEmail.PreviewProps = {
     userName: "Javayhu",
     resetLink: "https://demo.mkdirs.com",
-} as VerifyEmailProps;
+} as ResetPasswordEmailProps;
 
-export default VerifyEmail;
+export default ResetPasswordEmail;
 
 const main = {
     backgroundColor: "#f6f9fc",

@@ -4,6 +4,8 @@ import { stripe } from "@/lib/stripe";
 import { sanityClient } from "@/sanity/lib/client";
 import { getUserById } from "@/data/user";
 import { PricePlan, ProPlanStatus } from "@/lib/submission";
+import { sendPaymentSuccessEmail } from "@/lib/mail";
+import { getItemLinkInWebsite } from "@/lib/utils";
 
 // https://github.com/mickasmt/next-saas-stripe-starter/blob/main/app/api/webhooks/stripe/route.ts
 // https://github.com/javayhu/lms-studio-antonio/blob/main/app/api/webhook/route.ts
@@ -78,6 +80,13 @@ export async function POST(req: Request) {
         return new Response(null, { status: 500 });
       }
 
+      // send thank you email to user
+      const itemLink = getItemLinkInWebsite(res.slug.current);
+      await sendPaymentSuccessEmail(
+        user.name,
+        user.email,
+        itemLink,
+      );
     } else {
       console.log("checkout.session.completed, user not found");
       return new Response(null, { status: 404 });

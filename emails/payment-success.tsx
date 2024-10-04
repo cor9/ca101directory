@@ -13,8 +13,9 @@ import {
     Text
 } from "@react-email/components";
 
-interface VerifyEmailProps {
-    confirmLink?: string;
+interface PaymentSuccessEmailProps {
+    userName?: string;
+    itemLink?: string;
 }
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
@@ -23,13 +24,14 @@ const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 /**
  * https://demo.react.email/preview/welcome/stripe-welcome
  */
-export const VerifyEmail = ({
-    confirmLink,
-}: VerifyEmailProps) => {
+export const PaymentSuccessEmail = ({
+    userName,
+    itemLink,
+}: PaymentSuccessEmailProps) => {
     return (
         <Html>
             <Head />
-            <Preview>Confirm your email address</Preview>
+            <Preview>Thanks for your submission</Preview>
             <Body style={main}>
                 <Container style={container}>
                     <Section style={box}>
@@ -41,19 +43,31 @@ export const VerifyEmail = ({
                         />
                         <Hr style={hr} />
                         <Text style={paragraph}>
-                            Confirm your email address
+                            Hi {userName},
                         </Text>
                         <Text style={paragraph}>
-                            Thanks for starting the new account creation process.
-                            We want to make sure it's really you.
-                            Please click the confirmation link to continue.
+                            Thanks for submitting your product to{" "}<Link style={anchor} href={baseUrl}>
+                                {siteConfig.name}
+                            </Link>.
+                            We're so excited to include your product in our collection!
                         </Text>
-                        <Button style={button} href={confirmLink}>
-                            Confirm Email
+                        <Text style={paragraph}>
+                            Your product has been successfully added to our directory.
+                            You can view your listing by clicking the button below:
+                        </Text>
+                        <Button style={button} href={itemLink}>
+                            View your product
                         </Button>
                         <Hr style={hr} />
                         <Text style={paragraph}>
-                            If you don&apos;t want to create an account, you can ignore this message.
+                            We appreciate your support and contribution to our community.
+                            If you have any questions, please don't hesitate to contact us.
+                        </Text>
+                        <Text style={paragraph}>
+                            Thank you again for choosing {" "}<Link style={anchor} href={baseUrl}>
+                                {siteConfig.name}
+                            </Link>.
+                            We look forward to helping more people discover your product!
                         </Text>
                         <Text style={paragraph}>— The {siteConfig.name} team</Text>
                         <Hr style={hr} />
@@ -77,11 +91,12 @@ export const VerifyEmail = ({
     );
 };
 
-VerifyEmail.PreviewProps = {
-    confirmLink: "https://demo.mkdirs.com",
-} as VerifyEmailProps;
+PaymentSuccessEmail.PreviewProps = {
+    userName: "Javayhu",
+    itemLink: "https://demo.mkdirs.com",
+} as PaymentSuccessEmailProps;
 
-export default VerifyEmail;
+export default PaymentSuccessEmail;
 
 const main = {
     backgroundColor: "#f6f9fc",

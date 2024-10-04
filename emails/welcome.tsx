@@ -17,8 +17,8 @@ interface VerifyEmailProps {
     confirmLink?: string;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
-// const baseUrl = 'https://demo.mkdirs.com';
+// const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+const baseUrl = 'https://demo.mkdirs.com';
 
 /**
  * https://demo.react.email/preview/welcome/stripe-welcome

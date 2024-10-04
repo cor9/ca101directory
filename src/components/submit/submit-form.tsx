@@ -68,7 +68,6 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
       const { status, id } = await Submit(data);
       console.log('SubmitForm, status:', status);
       if (status === "success") {
-        // confetti();
         form.reset();
         // router.push(`/dashboard/`);
         router.push(`/plan/${id}`);

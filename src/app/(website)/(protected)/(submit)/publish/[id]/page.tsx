@@ -9,6 +9,7 @@ import SubmissionCardInPublishPage from "@/components/publish/submission-card-in
 import { constructMetadata } from "@/lib/metadata";
 import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
+import ConfettiEffect from "@/components/shared/confetti-effect";
 
 export async function generateMetadata({
   params,
@@ -22,8 +23,16 @@ export async function generateMetadata({
   });
 }
 
-export default async function PublishPage({ params }: { params: { id: string } }) {
+export default async function PublishPage({
+  params,
+  searchParams
+}: {
+  params: { id: string }
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const { id } = params;
+  const { pay } = searchParams as { [key: string]: string };
+  const showConfetti = pay === 'success';
   // console.log('PublishPage, itemId:', id);
   const item = await sanityFetch<ItemInfo>({
     query: itemByIdQuery,
@@ -46,6 +55,8 @@ export default async function PublishPage({ params }: { params: { id: string } }
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
+      {showConfetti && <ConfettiEffect />}
+      
       <DashboardSubmitHeader
         title="3/3 Submit"
         subtitle="Review and publish product."

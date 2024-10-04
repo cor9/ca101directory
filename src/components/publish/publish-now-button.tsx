@@ -24,7 +24,11 @@ export function PublishNowButton({ item }: PublishNowButtonProps) {
         const result = await publish(item._id);
         console.log('publishAction, result:', result);
         if (result.success) {
-          confetti();
+          confetti({
+            particleCount: 300,
+            spread: 90,
+            origin: { y: 0.6 }
+          });
           // router.push(`/dashboard`);
           router.refresh();
         } else { // TODO(javayhu): handle error

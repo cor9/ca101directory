@@ -1,5 +1,6 @@
 "use server";
 
+import { getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
 import { stripe } from "@/lib/stripe";
 import { absoluteUrl } from "@/lib/utils";
@@ -38,22 +39,20 @@ export async function createCheckoutSession(itemId: string, priceId: string): Pr
     if (!item) {
       return {
         status: "error",
-        message: "Not found",
+        message: "Item not found",
       };
     }
 
     // 1. get user's stripeCustomerId
-    const sanityUser = await sanityFetch<User>({
-      query: `*[_type == "user" && _id == "${user.id}"][0]`
-    });
+    const sanityUser = await getUserById(user.id);
     if (item.submitter._id != user.id) {
       return {
         status: "error",
-        message: "You are not the submitter of this item",
+        message: "You are not allowed to pay this item",
       }
     }
     let stripeCustomerId = sanityUser?.stripeCustomerId;
-    console.log('stripeCustomerId:', stripeCustomerId);
+    // console.log('stripeCustomerId:', stripeCustomerId);
 
     // 2. if the item is paid and the submitter is the user, then redirect to the billing portal
     if (stripeCustomerId && item.paid) {

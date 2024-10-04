@@ -45,12 +45,12 @@ export const sendNotifySubmissionEmail = async (
   statusLink: string,
   reviewLink: string,
 ) => {
-  console.log(`sendNotifySubmissionEmail, 
-    userName: ${userName}, 
-    userEmail: ${userEmail}, 
-    itemName: ${itemName}, 
-    reviewLink: ${reviewLink},
-    statusLink: ${statusLink}`);
+  // console.log(`sendNotifySubmissionEmail, 
+  //   userName: ${userName}, 
+  //   userEmail: ${userEmail}, 
+  //   itemName: ${itemName}, 
+  //   reviewLink: ${reviewLink},
+  //   statusLink: ${statusLink}`);
 
   await resend.emails.send({
     from: process.env.RESEND_EMAIL_FROM,
@@ -67,7 +67,7 @@ export const sendNotifySubmissionEmail = async (
     from: process.env.RESEND_EMAIL_FROM,
     to: process.env.RESEND_EMAIL_ADMIN,
     subject: "New submission",
-    react: NotifySubmissionEmail({ reviewLink })
+    react: NotifySubmissionEmail({ itemName, reviewLink })
   });
 };
 

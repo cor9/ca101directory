@@ -50,25 +50,25 @@ export const LoginForm = ({ className }: { className?: string }) => {
     startTransition(() => {
       login(values, callbackUrl)
         .then((data) => {
-          console.log('login, data:', data);
-
+          // console.log('login, data:', data);
           if (data?.status === "error") {
+            console.log('login, error:', data.message);
             form.reset();
-            setError(data.error);
-            console.log('login, error:', data.error);
+            setError(data.message);
           }
 
           if (data?.status === "success") {
+            console.log('login, success, redirectUrl:', data.redirectUrl);
             form.reset();
             setSuccess(data.message);
-            console.log('login, success, redirectUrl:', data.redirectUrl);
 
             // router.push(data.redirectUrl);
             window.location.href = data.redirectUrl;
           }
         })
-        .catch(() => {
-          setError("Something went wrong. Please try again.");
+        .catch((error) => {
+          console.log('login, error:', error);
+          setError("Something went wrong");
         });
     });
   };

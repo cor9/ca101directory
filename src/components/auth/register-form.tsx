@@ -43,13 +43,16 @@ export const RegisterForm = () => {
       register(values)
         .then((data) => {
           if (data.status === "error") {
+            console.log('register, error:', data.message);
             setError(data.message);
           }
           if (data.status === "success") {
+            console.log('register, success:', data.message);
             setSuccess(data.message);
           }
         })
         .catch((error) => {
+          console.log('register, error:', error);
           setError('Something went wrong');
         });
     });

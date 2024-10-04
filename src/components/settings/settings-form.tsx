@@ -59,18 +59,20 @@ export default function SettingsForm() {
         startTransition(() => {
             settings(values)
                 .then((data) => {
-                    if (data.error) {
-                        console.log('SettingsForm, onSubmit, error:', data.error);
-                        toast.error(data.error);
+                    if (data.status === "error") {
+                        console.log('SettingsForm, error:', data.message);
+                        toast.error(data.message);
                     }
-                    if (data.success) {
-                        console.log('SettingsForm, onSubmit, success:', data.success);
+                    if (data.status === "success") {
+                        console.log('SettingsForm, success:', data.message);
                         update();
                         router.refresh();
-                        toast.success(data.success);
+                        toast.success(data.message);
                     }
                 })
-                .catch(() => toast.error("Something went wrong!"));
+                .catch(() => {
+                    toast.error("Something went wrong");
+                });
         });
     }
 

@@ -9,17 +9,22 @@ import bcrypt from "bcryptjs";
 import { revalidatePath } from "next/cache";
 import * as z from "zod";
 
-export const settings = async (
+export type ServerActionResponse = {
+  status: "success" | "error";
+  message?: string;
+}
+
+export async function settings(
   values: z.infer<typeof SettingsSchema>
-) => {
+): Promise<ServerActionResponse> {
   const user = await currentUser();
   if (!user) {
-    return { error: "Unauthorized" };
+    return { status: "error", message: "Unauthorized" };
   }
 
   const dbUser = await getUserById(user.id!);
   if (!dbUser) {
-    return { error: "Unauthorized" };
+    return { status: "error", message: "User not found" };
   }
 
   // console.log('settings, values:', values);
@@ -36,7 +41,7 @@ export const settings = async (
     );
 
     if (!passwordsMatch) {
-      return { error: "Incorrect password!" };
+      return { status: "error", message: "Incorrect password!" };
     }
 
     const hashedPassword = await bcrypt.hash(
@@ -61,5 +66,5 @@ export const settings = async (
   });
 
   revalidatePath('/settings');
-  return { success: "Account information updated!" };
+  return { status: "success", message: "Account information updated!" };
 }

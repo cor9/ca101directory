@@ -11,8 +11,21 @@ type SubmissionStatusProps = {
 };
 
 function StatusBadge({ badgeStyle, children }: { badgeStyle: BadgeStyle, children: React.ReactNode }) {
+    const getStatusColor = (status: string) => {
+        switch (status.toLowerCase()) {
+            case 'free':
+                return 'bg-[#E8FFF3] text-[#00BA88]';
+            case 'paid':
+                return 'bg-[#FFF8E8] text-[#FF9900]';
+            case 'freemium':
+                return 'bg-[#E8F7FF] text-[#00CFFF]';
+            default:
+                return 'bg-gray-100 text-gray-800';
+        }
+    };
     return (
-        <Badge variant='outline' className={cn(
+        <div className={cn(
+            "px-3 py-1 rounded-full text-sm font-medium",
             "capitalize",
             badgeStyle === BadgeStyles.SUCCESS && "bg-green-100 text-green-800",
             badgeStyle === BadgeStyles.DANGER && "bg-red-100 text-red-800",
@@ -20,8 +33,19 @@ function StatusBadge({ badgeStyle, children }: { badgeStyle: BadgeStyle, childre
             badgeStyle === BadgeStyles.NORMAL && "bg-gray-100 text-gray-800"
         )}>
             {children}
-        </Badge>
-    )
+        </div>
+    );
+    // return (
+    //     <Badge variant='outline' className={cn(
+    //         "capitalize",
+    //         badgeStyle === BadgeStyles.SUCCESS && "bg-green-100 text-green-800",
+    //         badgeStyle === BadgeStyles.DANGER && "bg-red-100 text-red-800",
+    //         badgeStyle === BadgeStyles.WARNING && "bg-yellow-100 text-yellow-800",
+    //         badgeStyle === BadgeStyles.NORMAL && "bg-gray-100 text-gray-800"
+    //     )}>
+    //         {children}
+    //     </Badge>
+    // )
 }
 
 export default function SubmissionStatus({ item }: SubmissionStatusProps) {

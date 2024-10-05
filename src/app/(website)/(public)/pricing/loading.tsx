@@ -1,4 +1,5 @@
 import Container from "@/components/container";
+import { HeaderSection } from "@/components/shared/header-section";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Loading() {
@@ -7,10 +8,12 @@ export default function Loading() {
       <div className="w-full flex flex-col gap-16">
         <section className="w-full flex flex-col gap-8 justify-center">
           {/* Header Section */}
-          <div className="text-center">
-            <Skeleton className="h-6 w-12 mx-auto mb-2" />
-            <Skeleton className="h-12 w-72 mx-auto" />
-          </div>
+          <HeaderSection
+            labelAs="h1"
+            label="Pricing"
+            titleAs="h2"
+            title="Choose a pricing plan"
+          />
 
           {/* Pricing Plans */}
           <div className="w-full max-w-4xl mx-auto mt-8">
@@ -24,10 +27,11 @@ export default function Loading() {
 
         <section className="w-full flex flex-col gap-8 justify-center">
           {/* FAQ Header */}
-          <div className="text-center">
-            <Skeleton className="h-6 w-12 mx-auto mb-2" />
-            <Skeleton className="h-12 w-72 mx-auto" />
-          </div>
+          <HeaderSection
+            label="FAQ"
+            titleAs="h2"
+            title="Frequently Asked Questions"
+          />
 
           {/* FAQ Items */}
           <div className="w-full max-w-4xl mx-auto">

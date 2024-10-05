@@ -8,7 +8,9 @@ export default async function BlogListLayout({ children }: { children: React.Rea
       <div className="mt-8">
         <div className="w-full flex flex-col items-center justify-center gap-8">
           <HeaderSection
+            labelAs="h1"
             label="Blog"
+            titleAs="h2"
             title="Read our latest blog posts"
           />
 

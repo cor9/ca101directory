@@ -5,7 +5,7 @@ import { siteConfig } from "@/config/site";
 
 export const metadata = constructMetadata({
   title: "Settings",
-  description: "Manage account settings.",
+  description: "Manage account settings",
   canonicalUrl: `${siteConfig.url}/settings`,
 });
 

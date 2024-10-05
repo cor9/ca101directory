@@ -98,7 +98,7 @@ export default defineType({
           name: "alt",
           type: "string",
           title: "Alternative Text",
-          description: "Important for SEO and accessiblity.",
+          description: "Important for SEO and accessiblity",
           initialValue: () => "Product Image",
           // TODO: add initial value from name or optimize accessibility in frontend
         },

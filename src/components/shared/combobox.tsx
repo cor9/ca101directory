@@ -65,9 +65,9 @@ export function ResponsiveComboBox({ filterItemList, placeholder, selectedValue,
                         className="justify-between"
                     >
                         {selected ? (
-                            <div>{selected.label}</div>
+                            <h2>{selected.label}</h2>
                         ) : (
-                            <div>{placeholder}</div>
+                            <h2>{placeholder}</h2>
                         )}
                         <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
@@ -89,9 +89,9 @@ export function ResponsiveComboBox({ filterItemList, placeholder, selectedValue,
             <DrawerTrigger asChild>
                 <Button variant="outline" className="justify-start">
                     {selected ? (
-                        <div>{selected.label}</div>
+                        <h2>{selected.label}</h2>
                     ) : (
-                        <div>{placeholder}</div>
+                        <h2>{placeholder}</h2>
                     )}
                 </Button>
             </DrawerTrigger>

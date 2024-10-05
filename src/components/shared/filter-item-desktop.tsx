@@ -21,7 +21,7 @@ export default function FilterItemDesktop({ title, href, active, clickAction }: 
           onClick={clickAction}>
           <li>
             <div className="">
-              <span>{title}</span>
+              <h2>{title}</h2>
             </div>
           </li>
         </Link>

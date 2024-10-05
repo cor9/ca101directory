@@ -17,7 +17,7 @@ export default function FilterItemMobile({ title, href, active, clickAction }: F
         onClick={clickAction}>
         <li className="rounded-lg text-foreground hover:bg-muted">
           <div className="flex items-center justify-between p-3 text-sm">
-            <span>{title}</span>
+            <h2>{title}</h2>
             {active && <Check className="size-4" />}
           </div>
         </li>

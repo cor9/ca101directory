@@ -9,7 +9,7 @@ import { siteConfig } from "@/config/site";
 
 export const metadata = constructMetadata({
   title: "Submit your product (1/3)",
-  description: "Submit your product (1/3) – Enter product details.",
+  description: "Submit your product (1/3) – Enter product details",
   canonicalUrl: `${siteConfig.url}/submit`,
 });
 
@@ -27,7 +27,7 @@ export default async function SubmitPage() {
     <div>
       <DashboardSubmitHeader
         title="1/3 Submit"
-        subtitle="Enter product details."
+        subtitle="Enter product details"
       >
         <SubmitStepper initialStep={1} />
       </DashboardSubmitHeader>

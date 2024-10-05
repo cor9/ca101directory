@@ -5,7 +5,7 @@ import * as z from "zod";
  */
 export const NewsletterFormSchema = z.object({
   email: z.string().email({
-    message: "Enter a valid email.",
+    message: "Enter a valid email",
   }),
 });
 

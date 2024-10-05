@@ -17,7 +17,9 @@ export default async function PricingPage() {
       <div className="w-full flex flex-col gap-16">
         <section className="w-full flex flex-col gap-8 justify-center">
           <HeaderSection
+            labelAs="h1"
             label="Pricing"
+            titleAs="h2"
             title="Choose a pricing plan"
           />
 
@@ -29,6 +31,7 @@ export default async function PricingPage() {
         <section className="w-full flex flex-col gap-8 justify-center">
           <HeaderSection
             label="FAQ"
+            titleAs="h2"
             title="Frequently Asked Questions"
           />
 

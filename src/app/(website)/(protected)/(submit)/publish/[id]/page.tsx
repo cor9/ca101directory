@@ -18,7 +18,7 @@ export async function generateMetadata({
 }): Promise<Metadata | undefined> {
   return constructMetadata({
     title: "Submit your product (3/3)",
-    description: "Submit your product (3/3) Review and publish product.",
+    description: "Submit your product (3/3) Review and publish product",
     canonicalUrl: `${siteConfig.url}/publish/${params.id}`,
   });
 }
@@ -59,7 +59,7 @@ export default async function PublishPage({
       
       <DashboardSubmitHeader
         title="3/3 Submit"
-        subtitle="Review and publish product."
+        subtitle="Review and publish product"
       >
         <SubmitStepper initialStep={3} />
       </DashboardSubmitHeader>

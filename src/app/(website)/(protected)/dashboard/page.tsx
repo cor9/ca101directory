@@ -14,7 +14,7 @@ import { siteConfig } from "@/config/site";
 
 export const metadata = constructMetadata({
   title: "Dashboard",
-  description: "Overview of submissions.",
+  description: "Overview of submissions",
   canonicalUrl: `${siteConfig.url}/dashboard`,
 });
 
@@ -39,7 +39,7 @@ export default async function DashboardPage({
     <div>
       <DashboardHeader
         title="Dashboard"
-        subtitle="Overview of submissions.">
+        subtitle="Overview of submissions">
         <Button asChild className="group whitespace-nowrap">
           <Link href="/submit" prefetch={false}
             className="flex items-center justify-center space-x-2">

@@ -8,7 +8,9 @@ export default function CategoryLayout({ children }: { children: React.ReactNode
       <div className="mt-8">
         <div className="w-full flex flex-col items-center justify-center gap-8">
           <HeaderSection
+            labelAs="h1"
             label="Category"
+            titleAs="h2"
             title="Explore by categories"
           />
 

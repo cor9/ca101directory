@@ -18,7 +18,7 @@ export const token = assertValue(
 );
 
 // experimental_taintUniqueValue(
-//   "Do not pass the sanity API read token to the client.",
+//   "Do not pass the sanity API read token to the client",
 //   process,
 //   token,
 // );

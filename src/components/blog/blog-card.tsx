@@ -56,7 +56,7 @@ export default function BlogCard({ post }: BlogCardProps) {
       <div className="flex flex-col flex-grow">
         <div>
           {/* Post title */}
-          <h2 className="text-lg line-clamp-2 font-medium">
+          <h3 className="text-lg line-clamp-2 font-medium">
             <Link href={`${postUrlPrefix}/${post.slug.current}`}>
               <span
                 className="bg-gradient-to-r from-green-200 to-green-100 
@@ -69,7 +69,7 @@ export default function BlogCard({ post }: BlogCardProps) {
                 {post.title}
               </span>
             </Link>
-          </h2>
+          </h3>
 
           {/* Post excerpt, hidden for now */}
           {/* <div className="hidden">

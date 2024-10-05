@@ -24,9 +24,9 @@ export function DashboardSubmitHeader({
 
         {/* subtitle */}
         {subtitle && (
-          <p className="text-base text-muted-foreground">
+          <h2 className="text-base text-muted-foreground">
             {subtitle}
-          </p>
+          </h2>
         )}
       </div>
 

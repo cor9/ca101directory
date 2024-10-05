@@ -19,7 +19,7 @@ export async function generateMetadata({
 }): Promise<Metadata | undefined> {
   return constructMetadata({
     title: "Submit your product (2/3)",
-    description: "Submit your product (2/3) Choose pricing plan.",
+    description: "Submit your product (2/3) Choose pricing plan",
     canonicalUrl: `${siteConfig.url}/plan/${params.id}`,
   });
 }
@@ -53,7 +53,7 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
       <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
         <DashboardSubmitHeader
           title="2/3 Submit"
-          subtitle="Choose pricing plan."
+          subtitle="Choose pricing plan"
         >
           <SubmitStepper initialStep={2} />
         </DashboardSubmitHeader>

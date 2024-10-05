@@ -34,12 +34,12 @@ export default defineType({
             title: "Mark as Featured",
             type: "boolean",
             initialValue: false,
-            description: "Featured posts will be displayed on the home page."
+            description: "Featured posts will be displayed on the home page"
         }),
         defineField({
             name: "categories",
             title: "Categories",
-            description: "The categories that the post belongs to, may have multiple categories.",
+            description: "The categories that the post belongs to, may have multiple categories",
             type: "array",
             of: [{ type: "reference", to: { type: "blogCategory" } }]
         }),
@@ -67,7 +67,7 @@ export default defineType({
                     name: "alt",
                     type: "string",
                     title: "Alternative Text",
-                    description: "Important for SEO and accessiblity.",
+                    description: "Important for SEO and accessiblity",
                     initialValue: () => "Blog Post Image",
                 },
             ],
@@ -75,14 +75,14 @@ export default defineType({
         defineField({
             name: "relatedPosts",
             title: "Related Posts",
-            description: "The posts that are related to this post.",
+            description: "The posts that are related to this post",
             type: "array",
             of: [{ type: "reference", to: { type: "blogPost" } }]
         }),
         defineField({
             name: 'publishDate',
             title: 'Publish Date',
-            description: "The post will be visible to the public only if the publish date is set.",
+            description: "The post will be visible to the public only if the publish date is set",
             type: 'datetime',
             initialValue: () => new Date().toISOString(),
         }),

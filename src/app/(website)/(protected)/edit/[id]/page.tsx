@@ -50,7 +50,7 @@ export default async function EditPage({ params }: EditPageProps) {
       <div className="flex flex-col gap-6">
         <DashboardHeader
           title="Edit"
-          subtitle="Update product info."
+          subtitle="Update product info"
           showBackButton={true}
         />
 

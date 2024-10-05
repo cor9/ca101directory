@@ -35,7 +35,7 @@ export function BlogCategoryListDesktop({ categoryList }: BlogCategoryListDeskto
             aria-label={`Toggle all blog categories`}
           >
             <Link href={`/blog`}>
-              All
+              <h2>All</h2>
             </Link>
           </ToggleGroupItem>
 
@@ -51,7 +51,7 @@ export function BlogCategoryListDesktop({ categoryList }: BlogCategoryListDeskto
               aria-label={`Toggle blog category of ${category.name}`}
             >
               <Link href={`/blog/category/${category.slug.current}`}>
-                {category.name}
+                <h2>{category.name}</h2>
               </Link>
             </ToggleGroupItem>
           ))}

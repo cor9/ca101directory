@@ -7,6 +7,9 @@ interface DashboardHeaderProps {
   showBackButton?: boolean;
 }
 
+/**
+ * TODO: combine with SubmitHeader?
+ */
 export function DashboardHeader({
   title,
   subtitle,
@@ -28,9 +31,9 @@ export function DashboardHeader({
 
         {/* subtitle */}
         {subtitle && (
-          <p className="text-base text-muted-foreground">
+          <h2 className="text-base text-muted-foreground">
             {subtitle}
-          </p>
+          </h2>
         )}
       </div>
 

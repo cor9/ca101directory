@@ -1,4 +1,6 @@
-import Loading from "../item/[slug]/loading";
+// import Loading from "../item/[slug]/loading";
+
+import Loading from "../blog/[slug]/loading";
 
 /**
  * This is a loading page for testing purposes.

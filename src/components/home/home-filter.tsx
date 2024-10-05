@@ -4,7 +4,6 @@ import { sanityFetch } from '@/sanity/lib/fetch';
 import { categoryListQuery, tagListQuery } from '@/sanity/lib/queries';
 import Container from '../container';
 import { HomeFilterClient } from './home-filter-client';
-import { Suspense } from 'react';
 
 export async function HomeFilter() {
   const [categoryList, tagList] = await Promise.all([
@@ -30,33 +29,15 @@ export async function HomeFilter() {
     <div>
       {/* Desktop View, has Container */}
       <Container className="hidden md:flex md:flex-col">
-        {/* <div className='w-full'>
-          <Suspense fallback={<SearchSkeleton />}>
-            <HomeSearch />
-          </Suspense>
-        </div> */}
-
-        {/* <div className='flex items-center justify-between'> */}
         <div className="w-full">
-          <Suspense fallback={null}>
-            <HomeFilterClient tagList={tags} categoryList={categories} sortList={SORT_FILTER_LIST} />
-          </Suspense>
+          <HomeFilterClient tagList={tags} categoryList={categories} sortList={SORT_FILTER_LIST} />
         </div>
-        {/* </div> */}
       </Container>
 
       {/* Mobile View, no Container */}
       <div className="md:hidden flex flex-col">
-        {/* <div className='w-full'>
-          <Suspense fallback={<SearchSkeleton />}>
-            <HomeSearch />
-          </Suspense>
-        </div> */}
-
         <div className="mx-4">
-          <Suspense fallback={null}>
-            <HomeFilterClient tagList={tags} categoryList={categories} sortList={SORT_FILTER_LIST} />
-          </Suspense>
+          <HomeFilterClient tagList={tags} categoryList={categories} sortList={SORT_FILTER_LIST} />
         </div>
       </div>
     </div>

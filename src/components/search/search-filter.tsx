@@ -4,7 +4,6 @@ import { sanityFetch } from '@/sanity/lib/fetch';
 import { categoryListQuery, tagListQuery } from '@/sanity/lib/queries';
 import Container from '../container';
 import { SearchFilterClient } from './search-filter-client';
-import { Suspense } from 'react';
 
 export async function SearchFilter() {
   const [categoryList, tagList] = await Promise.all([
@@ -30,18 +29,14 @@ export async function SearchFilter() {
       {/* Desktop View, has Container */}
       <Container className="hidden md:flex md:flex-col">
         <div className="w-full">
-          <Suspense fallback={null}>
-            <SearchFilterClient tagList={tags} categoryList={categories} sortList={SORT_FILTER_LIST} />
-          </Suspense>
+          <SearchFilterClient tagList={tags} categoryList={categories} sortList={SORT_FILTER_LIST} />
         </div>
       </Container>
 
       {/* Mobile View, no Container */}
       <div className="md:hidden flex flex-col">
         <div className="mx-4">
-          <Suspense fallback={null}>
-            <SearchFilterClient tagList={tags} categoryList={categories} sortList={SORT_FILTER_LIST} />
-          </Suspense>
+          <SearchFilterClient tagList={tags} categoryList={categories} sortList={SORT_FILTER_LIST} />
         </div>
       </div>
     </div>

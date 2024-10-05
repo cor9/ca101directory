@@ -1,6 +1,5 @@
-import { Suspense } from 'react';
-import HomeSearch from './home-search';
 import Container from '../container';
+import HomeSearch from './home-search';
 
 export async function HomeHero() {
   // const categoryList = await sanityFetch<CategoryListQueryResult>({
@@ -25,33 +24,15 @@ export async function HomeHero() {
       {/* Desktop View, has Container */}
       <Container className="hidden md:flex md:flex-col mt-8">
         <div className='w-full'>
-          <Suspense fallback={null}>
             <HomeSearch />
-          </Suspense>
         </div>
-
-        {/* <div className='flex items-center justify-between'>
-          <div className="w-full">
-            <Suspense fallback={<SearchSkeleton />}>
-              <HomeFilter tagList={tags} categoryList={categories} sortList={sorting} />
-            </Suspense>
-          </div>
-        </div> */}
       </Container>
 
       {/* Mobile View, no Container */}
       <div className="md:hidden flex flex-col mt-8">
         <div className='w-full'>
-          <Suspense fallback={null}>
             <HomeSearch />
-          </Suspense>
         </div>
-
-        {/* <div className="mx-4">
-          <Suspense fallback={<SearchSkeleton />}>
-            <HomeFilter tagList={tags} categoryList={categories} sortList={sorting} />
-          </Suspense>
-        </div> */}
       </div>
     </div>
   );

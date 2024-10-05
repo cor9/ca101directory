@@ -18,8 +18,6 @@ export const publicRoutes = [
   "/author(/.*)?",
   
   "/pricing(/.*)?",
-  "/landing(/.*)?",
-  
   "/about(/.*)?",
   "/terms(/.*)?",
   "/privacy(/.*)?",
@@ -34,7 +32,9 @@ export const publicRoutes = [
   "/api/og",
 
   // test pages
-  "/shadcn",
+  "/shadcn(/.*)?",
+  "/landing(/.*)?",
+  "/loading(/.*)?",
 ];
 
 /**

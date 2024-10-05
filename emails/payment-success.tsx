@@ -69,20 +69,23 @@ export const PaymentSuccessEmail = ({
                             </Link>.
                             We look forward to helping more people discover your product!
                         </Text>
-                        <Text style={paragraph}>— The {siteConfig.name} team</Text>
+                        <Text style={paragraph}>— The <Link style={anchor} href={baseUrl}>{siteConfig.name}</Link> team</Text>
                         <Hr style={hr} />
                         <Text style={footer}>
-                            <Link style={anchor} href={baseUrl}>
-                                {siteConfig.name}
-                            </Link>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <Link style={anchor} href={siteConfig.links.twitter}>
-                                Twitter
-                            </Link>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <Link style={anchor} href={siteConfig.links.github}>
-                                Github
-                            </Link>
+                            <span style={footerLeft}>
+                                &copy; {new Date().getFullYear()}
+                                &nbsp;&nbsp;
+                                All rights reserved.
+                            </span>
+                            <span style={footerRight}>
+                                <Link style={anchor} href={siteConfig.links.twitter}>
+                                    Twitter
+                                </Link>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <Link style={anchor} href={siteConfig.links.github}>
+                                    Github
+                                </Link>
+                            </span>
                         </Text>
                     </Section>
                 </Container>
@@ -149,4 +152,15 @@ const footer = {
     color: "#8898aa",
     fontSize: "12px",
     lineHeight: "16px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+};
+
+const footerLeft = {
+    flex: 1,
+};
+
+const footerRight = {
+    textAlign: "right" as const,
 };

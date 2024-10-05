@@ -55,20 +55,23 @@ export const VerifyEmail = ({
                         <Text style={paragraph}>
                             If you don&apos;t want to create an account, you can ignore this message.
                         </Text>
-                        <Text style={paragraph}>— The {siteConfig.name} team</Text>
+                        <Text style={paragraph}>— The <Link style={anchor} href={baseUrl}>{siteConfig.name}</Link> team</Text>
                         <Hr style={hr} />
                         <Text style={footer}>
-                            <Link style={anchor} href={baseUrl}>
-                                {siteConfig.name}
-                            </Link>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <Link style={anchor} href={siteConfig.links.twitter}>
-                                Twitter
-                            </Link>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <Link style={anchor} href={siteConfig.links.github}>
-                                Github
-                            </Link>
+                            <span style={footerLeft}>
+                                &copy; {new Date().getFullYear()}
+                                &nbsp;&nbsp;
+                                All rights reserved.
+                            </span>
+                            <span style={footerRight}>
+                                <Link style={anchor} href={siteConfig.links.twitter}>
+                                    Twitter
+                                </Link>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <Link style={anchor} href={siteConfig.links.github}>
+                                    Github
+                                </Link>
+                            </span>
                         </Text>
                     </Section>
                 </Container>
@@ -134,4 +137,15 @@ const footer = {
     color: "#8898aa",
     fontSize: "12px",
     lineHeight: "16px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+};
+
+const footerLeft = {
+    flex: 1,
+};
+
+const footerRight = {
+    textAlign: "right" as const,
 };

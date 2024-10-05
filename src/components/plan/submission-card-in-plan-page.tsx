@@ -25,7 +25,7 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
           {/* image */}
           <div className="relative group overflow-hidden rounded-lg aspect-[16/9]">
             {imageProps && (
-              <div>
+              <div className="relative w-full h-full">
                 <Image
                   src={imageProps.src}
                   alt={item.image?.alt || `image for ${item.name}`}

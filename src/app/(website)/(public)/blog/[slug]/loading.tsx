@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Loading() {
   return (
-    <Container className="mt-8 mb-16">
+    <Container className="mt-8 pb-16">
       <div className="flex flex-col gap-8">
         {/* Content section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

@@ -61,7 +61,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
     <Button
       size="lg"
       variant="outline"
-      className={cn("rounded-full group overflow-hidden", className)}
+      className={cn("group overflow-hidden", className)}
       disabled={isPending}
       onClick={handleClick}
     >

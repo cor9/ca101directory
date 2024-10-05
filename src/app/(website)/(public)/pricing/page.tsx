@@ -1,10 +1,10 @@
 import { PricingPlans } from "@/components/dashboard/pricing-plans";
 import { PricingFaq } from "@/components/pricing/pricing-faq";
-// import { PricingPlans } from "@/components/pricing/pricing-plans";
 import Container from "@/components/container";
 import { HeaderSection } from "@/components/shared/header-section";
 import { constructMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/config/site";
+
 export const metadata = constructMetadata({
   title: "Pricing",
   description: "Choose a pricing plan",
@@ -23,7 +23,7 @@ export default async function PricingPage() {
             title="Choose a pricing plan"
           />
 
-          <div className="w-full max-w-4xl mx-auto">
+          <div className="w-full max-w-4xl mx-auto mt-8">
             <PricingPlans />
           </div>
         </section>

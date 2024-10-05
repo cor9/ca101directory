@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Loading() {
   return (
-    <Container className="mt-8 mb-16">
+    <Container className="mt-8 pb-16">
       <div className="flex flex-col gap-8">
         {/* Header section */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">

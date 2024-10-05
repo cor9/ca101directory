@@ -33,7 +33,7 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
     <Button
       size="lg"
       variant={"default"}
-      className={cn("rounded-full group overflow-hidden", className)}
+      className={cn("group overflow-hidden", className)}
       disabled={isPending}
       onClick={handleCreateCheckoutSession}
     >

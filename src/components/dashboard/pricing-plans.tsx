@@ -88,7 +88,7 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
           ) : (
             <div className="w-full">
               <Button asChild variant="default" size="lg"
-                className="w-full rounded-full group overflow-hidden">
+                className="w-full group overflow-hidden">
                 <Link href="/submit">
                   Go to Submit
                 </Link>

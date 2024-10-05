@@ -78,7 +78,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ];
 
     sitemapRoutes.forEach((route) => {
-        console.log(`sitemap, url:${site_url}/${route.url}`);
+        // console.log(`sitemap, url:${site_url}/${route.url}`);
         sitemapList.push({
             url: `${site_url}/${route.url}`,
             lastModified: new Date(route.lastModified).toISOString(),
@@ -123,7 +123,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     itemListQueryResult.forEach((item) => {
         if (item.slug) {
             const routeUrl = `/item/${item.slug}`;
-            console.log(`sitemap, url:${site_url}${routeUrl}`);
+            // console.log(`sitemap, url:${site_url}${routeUrl}`);
             sitemapList.push({
                 url: `${site_url}${routeUrl}`,
                 lastModified: new Date(item._updatedAt).toISOString(),
@@ -136,7 +136,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     categoryListQueryResult.forEach((category) => {
         if (category.slug) {
             const routeUrl = `/category/${category.slug}`;
-            console.log(`sitemap, url:${site_url}${routeUrl}`);
+            // console.log(`sitemap, url:${site_url}${routeUrl}`);
             sitemapList.push({
                 url: `${site_url}${routeUrl}`,
                 lastModified: new Date(category._updatedAt).toISOString(),
@@ -149,7 +149,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     tagListQueryResult.forEach((tag) => {
         if (tag.slug) {
             const routeUrl = `/tag/${tag.slug}`;
-            console.log(`sitemap, url:${site_url}${routeUrl}`);
+            // console.log(`sitemap, url:${site_url}${routeUrl}`);
             sitemapList.push({
                 url: `${site_url}${routeUrl}`,
                 lastModified: new Date(tag._updatedAt).toISOString(),
@@ -162,7 +162,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     blogListQueryResult.forEach((blog) => {
         if (blog.slug) {
             const routeUrl = `/blog/${blog.slug}`;
-            console.log(`sitemap, url:${site_url}${routeUrl}`);
+            // console.log(`sitemap, url:${site_url}${routeUrl}`);
             sitemapList.push({
                 url: `${site_url}${routeUrl}`,
                 lastModified: new Date(blog._updatedAt).toISOString(),
@@ -175,7 +175,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     blogCategoryListQueryResult.forEach((blogCategory) => {
         if (blogCategory.slug) {
             const routeUrl = `/blog/category/${blogCategory.slug}`;
-            console.log(`sitemap, url:${site_url}${routeUrl}`);
+            // console.log(`sitemap, url:${site_url}${routeUrl}`);
             sitemapList.push({
                 url: `${site_url}${routeUrl}`,
                 lastModified: new Date(blogCategory._updatedAt).toISOString(),
@@ -188,7 +188,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     pageListQueryResult.forEach((page) => {
         if (page.slug) {
             const routeUrl = `/page/${page.slug}`;
-            console.log(`sitemap, url:${site_url}${routeUrl}`);
+            // console.log(`sitemap, url:${site_url}${routeUrl}`);
             sitemapList.push({
                 url: `${site_url}${routeUrl}`,
                 lastModified: new Date(page._updatedAt).toISOString(),

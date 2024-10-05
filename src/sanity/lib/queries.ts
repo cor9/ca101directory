@@ -53,7 +53,8 @@ const itemFields = /* groq */ `
 const itemFieldsWithRelated = /* groq */ `
   ${itemSimpleFields}
   introduction,
-  "related": *[_type == "item" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 && _id != ^._id] 
+  "related": *[_type == "item" && defined(slug.current) && defined(publishDate) 
+    && count(categories[@._ref in ^.^.categories[]._ref]) > 0 && _id != ^._id] 
     | order(publishedDate desc, _createdAt desc) [0...2] {
       ${itemSimpleFields}
   },

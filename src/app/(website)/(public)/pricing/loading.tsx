@@ -1,8 +1,5 @@
 import Container from "@/components/container";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CheckIcon } from "lucide-react";
 
 export default function Loading() {
   return (

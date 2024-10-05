@@ -94,9 +94,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                 target="_blank"
                 prefetch={false}
                 className="flex items-center justify-center space-x-2">
-                <GlobeIcon className="w-4 h-4
-                    transition-all duration-300 ease-in-out 
-                    group-hover:scale-125" />
+                <GlobeIcon className="w-4 h-4 icon-scale" />
                 <span>Visit Website</span>
               </Link>
             </Button>

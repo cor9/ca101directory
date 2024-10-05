@@ -23,7 +23,7 @@ export default function BlogCard({ post }: BlogCardProps) {
       <div className="group overflow-hidden relative aspect-[4/3] rounded-lg transition-all">
         <Link href={`${postUrlPrefix}/${post.slug.current}`}>
           {imageProps && (
-            <div>
+            <div className="relative w-full h-full">
               <Image
                 src={imageProps.src}
                 alt={post.image.alt || "image for blog post"}

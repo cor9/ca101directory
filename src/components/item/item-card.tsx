@@ -25,7 +25,7 @@ export default function ItemCard({ item }: ItemCardProps) {
           {/* Image container */}
           <div className="group overflow-hidden relative aspect-[16/9] rounded-t-md transition-all border-b">
             {imageProps && (
-              <div>
+              <div className="relative w-full h-full">
                 <Image
                   src={imageProps?.src}
                   alt={item.image.alt || `image of ${item.name}`}

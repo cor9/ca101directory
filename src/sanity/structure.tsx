@@ -1,4 +1,4 @@
-import { BillIcon, CheckmarkCircleIcon, ClockIcon, CloseCircleIcon, CogIcon, DashboardIcon, DocumentsIcon, DocumentTextIcon, StarFilledIcon, TagsIcon, TaskIcon, TiersIcon, TokenIcon, UserIcon, UsersIcon } from "@sanity/icons";
+import { BillIcon, CheckmarkCircleIcon, ClockIcon, CloseCircleIcon, CogIcon, ComponentIcon, DashboardIcon, DiamondIcon, DocumentsIcon, DocumentTextIcon, MasterDetailIcon, StarFilledIcon, TagsIcon, TaskIcon, TiersIcon, TokenIcon, UlistIcon, UserIcon, UsersIcon } from "@sanity/icons";
 import { type DocumentDefinition } from "sanity";
 import { type StructureResolver } from "sanity/structure";
 import { schemaTypes } from "./schemas";
@@ -117,6 +117,13 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
       '_type == "item" && publishDate != null'
     );
 
+    const unpublishedItems = createFilteredListItem(
+      'Unpublished Items',
+      item.name,
+      ClockIcon,
+      '_type == "item" && publishDate == null'
+    );
+
     const itemsInFreePlan = createFilteredListItem(
       'All Items In Free Plan',
       item.name,
@@ -127,7 +134,7 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
     const itemsInProPlan = createFilteredListItem(
       'All Items In Pro Plan',
       item.name,
-      DashboardIcon,
+      DiamondIcon,
       '_type == "item" && pricePlan == "pro"'
     );
 
@@ -155,6 +162,63 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
     const allOrders = S.documentTypeListItem(order.name)
       .title('All Orders')
       .icon(BillIcon);
+
+    // categories
+    const allCategories = S.documentTypeListItem(category.name)
+      .title('All Categories')
+      .icon(TiersIcon);
+
+    const itemsByCategory = S.listItem()
+      .title('Items By Category')
+      .icon(MasterDetailIcon)
+      .child(
+        S.documentTypeList(category.name)
+          .title('Items by Category')
+          .child((categoryId) =>
+            S.documentList()
+              .title('Posts')
+              .filter('_type == "item" && $categoryId in categories[]._ref')
+              .params({ categoryId }),
+          ),
+      );
+
+    // tags
+    const allTags = S.documentTypeListItem(tag.name)
+      .title('All Tags')
+      .icon(TagsIcon);
+
+    const itemsByTag = S.listItem()
+      .title('Items By Tag')
+      .icon(MasterDetailIcon)
+      .child(
+        S.documentTypeList(tag.name)
+          .title('Items by Tag')
+          .child((tagId) =>
+            S.documentList()
+              .title('Posts')
+              .filter('_type == "item" && $tagId in tags[]._ref')
+              .params({ tagId }),
+          ),
+      );
+
+    // blog categories
+    const allBlogCategories = S.documentTypeListItem(blogCategory.name)
+      .title('All Blog Categories')
+      .icon(ComponentIcon);
+
+    const postsByCategory = S.listItem()
+      .title('Posts By Category')
+      .icon(MasterDetailIcon)
+      .child(
+        S.documentTypeList(blogCategory.name)
+          .title('Posts by Category')
+          .child((categoryId) =>
+            S.documentList()
+              .title('Posts')
+              .filter('_type == "blogPost" && $categoryId in categories[]._ref')
+              .params({ categoryId }),
+          ),
+      );
 
     return S.list()
       .title("Content")
@@ -189,22 +253,55 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
                 allItems,
                 featuredItems,
                 publishedItems,
+                unpublishedItems
               ]),
           ),
 
         S.divider(),
 
-        S.documentTypeListItem(category.name)
-          .icon(TiersIcon),
-        S.documentTypeListItem(tag.name)
-          .icon(TagsIcon),
+        // S.documentTypeListItem(category.name)
+        //   .icon(TiersIcon),
+        S.listItem().title('Category management')
+          .icon(TiersIcon)
+          .child(
+            S.list()
+              .title('Category management')
+              .items([
+                allCategories,
+                itemsByCategory
+              ]),
+          ),
+
+        // S.documentTypeListItem(tag.name)
+        //   .icon(TagsIcon),
+        S.listItem().title('Tag management')
+          .icon(TagsIcon)
+          .child(
+            S.list()
+              .title('Tag management')
+              .items([
+                allTags,
+                itemsByTag
+              ]),
+          ),
 
         S.divider(),
 
         S.documentTypeListItem(blogPost.name)
           .icon(DocumentsIcon),
-        S.documentTypeListItem(blogCategory.name)
-          .icon(TiersIcon),
+        // S.documentTypeListItem(blogCategory.name)
+        //   .icon(TiersIcon),
+
+        S.listItem().title('Blog Category management')
+          .icon(ComponentIcon)
+          .child(
+            S.list()
+              .title('Blog Category management')
+              .items([
+                allBlogCategories,
+                postsByCategory
+              ]),
+          ),
 
         S.divider(),
 
@@ -219,6 +316,7 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
               .items([
                 successOrders,
                 failedOrders,
+                S.divider(),
                 allOrders,
               ]),
           ),

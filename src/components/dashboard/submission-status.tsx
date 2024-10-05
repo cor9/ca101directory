@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { BadgeStyle, BadgeStyles, FreePlanStatus, getBadgeStyle, PricePlan } from "@/lib/submission";
 import { cn } from "@/lib/utils";
@@ -37,7 +36,7 @@ export default function SubmissionStatus({ item }: SubmissionStatusProps) {
                             <StatusBadge badgeStyle={badgeStyle}>
                                 <div className="flex items-center gap-2">
                                     <span className="capitalize">{status}</span>
-                                    <InfoIcon className="w-3 h-3" />
+                                    <InfoIcon className="w-4 h-4" />
                                 </div>
                             </StatusBadge>
                         </PopoverTrigger>

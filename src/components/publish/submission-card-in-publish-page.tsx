@@ -4,7 +4,7 @@ import { PublishNowButton } from "@/components/publish/publish-now-button";
 import { Button } from "@/components/ui/button";
 import { urlForImage } from "@/lib/image";
 import { ItemInfo } from "@/types";
-import { CalendarDaysIcon, PartyPopperIcon } from "lucide-react";
+import { CalendarDaysIcon, HashIcon, PartyPopperIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -52,9 +52,11 @@ export default function SubmissionCardInPublishPage({ item }: SubmissionCardInPu
                     {item.tags && item.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1">
                         {item.tags.map((tag, index) => (
-                          <span key={`tag-${index}`} className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md">
-                            #{tag.name}
-                          </span>
+                          <div key={`tag-${index}`} className="flex items-center justify-center space-x-0.5 group
+                            text-sm font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md">
+                            <HashIcon className="w-3 h-3" />
+                            <span> {tag.name} </span>
+                          </div>
                         ))}
                       </div>
                     )}

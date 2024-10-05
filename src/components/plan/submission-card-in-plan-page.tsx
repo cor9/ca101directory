@@ -4,6 +4,7 @@ import SubmissionStatus from "@/components/dashboard/submission-status";
 import { urlForImage } from "@/lib/image";
 import { getLocaleDate } from "@/lib/utils";
 import { ItemInfo } from "@/types";
+import { HashIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -51,9 +52,11 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
                     {item.tags && item.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1">
                         {item.tags.map((tag, index) => (
-                          <span key={`tag-${index}`} className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md">
-                            #{tag.name}
-                          </span>
+                          <div key={`tag-${index}`} className="flex items-center justify-center space-x-0.5 group
+                            text-sm font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md">
+                            <HashIcon className="w-3 h-3" />
+                            <span> {tag.name} </span>
+                          </div>
                         ))}
                       </div>
                     )}
@@ -88,9 +91,6 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
             <div className="grid grid-cols-2 gap-4 text-sm pt-2">
               <div className="flex items-center gap-2">
                 <span className="text-muted-foreground">Plan:</span>
-                {/* <Badge variant="secondary" className="capitalize">
-                    {item.pricePlan}
-                  </Badge> */}
                 <span className="capitalize">{item.pricePlan}</span>
               </div>
               <div className="flex items-center gap-2">

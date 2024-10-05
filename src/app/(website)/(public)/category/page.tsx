@@ -1,11 +1,10 @@
 import ItemGrid from '@/components/item/item-grid';
-import { DEFAULT_SORT, ITEMS_PER_PAGE, SORT_FILTER_LIST } from '@/lib/constants';
-import { getItems } from '@/data/item';
 import EmptyGrid from '@/components/shared/empty-grid';
-import { Suspense } from 'react';
 import CustomPagination from '@/components/shared/pagination';
-import { constructMetadata } from '@/lib/metadata';
 import { siteConfig } from '@/config/site';
+import { getItems } from '@/data/item';
+import { DEFAULT_SORT, ITEMS_PER_PAGE, SORT_FILTER_LIST } from '@/lib/constants';
+import { constructMetadata } from '@/lib/metadata';
 export const metadata = constructMetadata({
   title: "Category",
   description: "Explore by category",
@@ -37,9 +36,7 @@ export default async function CategoryIndexPage({
           <ItemGrid items={items} />
 
           <div className="mt-8 flex items-center justify-center">
-            <Suspense fallback={null}>
-              <CustomPagination routePreix='/category' totalPages={totalPages} />
-            </Suspense>
+            <CustomPagination routePreix='/category' totalPages={totalPages} />
           </div>
         </section>
       )}

@@ -1,15 +1,14 @@
-import EmptyGrid from '@/components/shared/empty-grid';
 import ItemGrid from '@/components/item/item-grid';
+import EmptyGrid from '@/components/shared/empty-grid';
 import CustomPagination from '@/components/shared/pagination';
+import { siteConfig } from '@/config/site';
 import { getItems } from '@/data/item';
 import { DEFAULT_SORT, ITEMS_PER_PAGE, SORT_FILTER_LIST } from '@/lib/constants';
-import { Suspense } from 'react';
 import { constructMetadata } from '@/lib/metadata';
-import { Metadata } from 'next';
-import { tagQuery } from '@/sanity/lib/queries';
 import { TagQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
-import { siteConfig } from '@/config/site';
+import { tagQuery } from '@/sanity/lib/queries';
+import { Metadata } from 'next';
 
 export async function generateMetadata({
   params,
@@ -66,9 +65,7 @@ export default async function TagPage({
             <ItemGrid items={items} />
 
             <div className="mt-8 flex items-center justify-center">
-              <Suspense fallback={null}>
-                <CustomPagination routePreix={`/tag/${params.slug}`} totalPages={totalPages} />
-              </Suspense>
+              <CustomPagination routePreix={`/tag/${params.slug}`} totalPages={totalPages} />
             </div>
           </section>
         )

@@ -1,7 +1,7 @@
 'use client';
 
-import CustomPagination from '@/components/shared/pagination';
 import { SubmissionRow } from '@/components/dashboard/legacy/submission-row';
+import CustomPagination from '@/components/shared/pagination';
 import {
     Card,
     CardContent,
@@ -18,7 +18,6 @@ import { SUBMISSIONS_PER_PAGE } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { ItemInfo } from '@/types';
 import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
 
 export function SubmissionTable({
     submissions,
@@ -100,10 +99,7 @@ export function SubmissionTable({
                         of <strong>{totalCount}</strong> submissions
                     </div>
                     <div className="flex items-center">
-                        {/* TODO: client component, remove suspense? */}
-                        <Suspense fallback={null}>
-                            <CustomPagination routePreix="/dashboard" totalPages={totalPages} />
-                        </Suspense>
+                        <CustomPagination routePreix="/dashboard" totalPages={totalPages} />
                     </div>
                 </div>
             </CardFooter>

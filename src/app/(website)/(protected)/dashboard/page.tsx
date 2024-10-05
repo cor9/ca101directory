@@ -1,16 +1,15 @@
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import EmptySubmission from "@/components/dashboard/submission-empty";
+import SubmissionList from "@/components/dashboard/submission-list";
 import CustomPagination from "@/components/shared/pagination";
 import { Button } from "@/components/ui/button";
+import { siteConfig } from "@/config/site";
 import { getSubmissions } from "@/data/submission";
 import { currentUser } from "@/lib/auth";
 import { SUBMISSIONS_PER_PAGE } from "@/lib/constants";
+import { constructMetadata } from "@/lib/metadata";
 import { UploadIcon } from "lucide-react";
 import Link from "next/link";
-import { Suspense } from "react";
-import EmptySubmission from "@/components/dashboard/submission-empty";
-import SubmissionList from "@/components/dashboard/submission-list";
-import { constructMetadata } from "@/lib/metadata";
-import { siteConfig } from "@/config/site";
 
 export const metadata = constructMetadata({
   title: "Dashboard",
@@ -64,9 +63,7 @@ export default async function DashboardPage({
               <SubmissionList items={submissions} />
 
               <div className="mt-8 flex items-center justify-center">
-                <Suspense fallback={null}>
                   <CustomPagination routePreix='/dashboard' totalPages={totalPages} />
-                </Suspense>
               </div>
             </section>
           )

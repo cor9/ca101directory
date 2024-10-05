@@ -1,11 +1,10 @@
 import BlogGrid from "@/components/blog/blog-grid";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
+import { siteConfig } from "@/config/site";
 import { getBlogs } from "@/data/blog";
 import { POSTS_PER_PAGE } from "@/lib/constants";
-import { Suspense } from "react";
 import { constructMetadata } from "@/lib/metadata";
-import { siteConfig } from "@/config/site";
 
 export const metadata = constructMetadata({
   title: "Blog",
@@ -36,11 +35,9 @@ export default async function BlogIndexPage({
       {posts && posts?.length > 0 && (
         <div>
           <BlogGrid posts={posts} />
-          
+
           <div className="mt-8 flex items-center justify-center">
-            <Suspense fallback={null}>
-              <CustomPagination routePreix='/blog' totalPages={totalPages} />
-            </Suspense>
+            <CustomPagination routePreix='/blog' totalPages={totalPages} />
           </div>
         </div>
       )}

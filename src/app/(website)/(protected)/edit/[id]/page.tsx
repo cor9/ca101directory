@@ -1,14 +1,13 @@
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import { EditForm } from "@/components/edit/edit-form";
+import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryListQuery, itemFullInfoByIdQuery, tagListQuery } from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
-import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { EditForm } from "@/components/edit/edit-form";
 import { Metadata } from "next";
-import { siteConfig } from "@/config/site";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({
   params,
@@ -55,9 +54,7 @@ export default async function EditPage({ params }: EditPageProps) {
         />
 
         <div className="mt-4">
-          <Suspense fallback={null}>
-            <EditForm item={item} tagList={tagList} categoryList={categoryList} />
-          </Suspense>
+          <EditForm item={item} tagList={tagList} categoryList={categoryList} />
         </div>
       </div>
     </div>

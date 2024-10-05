@@ -1,5 +1,5 @@
-import EmptyGrid from '@/components/shared/empty-grid';
 import ItemGrid from '@/components/item/item-grid';
+import EmptyGrid from '@/components/shared/empty-grid';
 import CustomPagination from '@/components/shared/pagination';
 import { siteConfig } from '@/config/site';
 import { getItems } from '@/data/item';
@@ -9,7 +9,6 @@ import { CategoryQueryResult } from '@/sanity.types';
 import { sanityFetch } from '@/sanity/lib/fetch';
 import { categoryQuery } from '@/sanity/lib/queries';
 import { Metadata } from 'next';
-import { Suspense } from 'react';
 
 export async function generateMetadata({
   params,
@@ -65,9 +64,7 @@ export default async function CategoryPage({
           <ItemGrid items={items} />
 
           <div className="mt-8 flex items-center justify-center">
-            <Suspense fallback={null}>
-              <CustomPagination routePreix={`/category/${params.slug}`} totalPages={totalPages} />
-            </Suspense>
+            <CustomPagination routePreix={`/category/${params.slug}`} totalPages={totalPages} />
           </div>
         </section>
       )}

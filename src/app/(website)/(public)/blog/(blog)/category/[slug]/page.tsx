@@ -9,7 +9,6 @@ import { BlogCategoryMetadateQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { blogCategoryMetadateQuery } from "@/sanity/lib/queries";
 import { Metadata } from "next";
-import { Suspense } from "react";
 
 export async function generateMetadata({
   params,
@@ -65,9 +64,7 @@ export default async function BlogCategoryPage({
           <BlogGrid posts={posts} />
 
           <div className="mt-8 flex items-center justify-center">
-            <Suspense fallback={null}>
-              <CustomPagination routePreix={`/blog/${params.slug}`} totalPages={totalPages} />
-            </Suspense>
+            <CustomPagination routePreix={`/blog/${params.slug}`} totalPages={totalPages} />
           </div>
         </div>
       )}

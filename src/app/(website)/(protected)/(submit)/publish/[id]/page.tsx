@@ -1,4 +1,5 @@
 import SubmissionCardInPublishPage from "@/components/publish/submission-card-in-publish-page";
+import ConfettiEffect from "@/components/shared/confetti-effect";
 import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -50,6 +51,10 @@ export default async function PublishPage({
   // }
 
   return (
-    <SubmissionCardInPublishPage item={item} />
+    <div>
+      {showConfetti && <ConfettiEffect />}
+      
+      <SubmissionCardInPublishPage item={item} />
+    </div>
   );
 }

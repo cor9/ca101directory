@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Icons } from "@/components/icons/icons";
 import { toast } from "sonner";
+import { triggerConfetti } from "../shared/confetti-effect";
 
 interface PublishNowButtonProps {
   item: ItemInfo;
@@ -25,11 +26,7 @@ export function PublishNowButton({ item }: PublishNowButtonProps) {
         .then((data) => {
           if (data.status === "success") {
             console.log('publishAction, success:', data.message);
-            confetti({
-              particleCount: 300,
-              spread: 90,
-              origin: { y: 0.6 }
-            });
+            triggerConfetti();
             router.refresh();
             toast.success(data.message);
           }

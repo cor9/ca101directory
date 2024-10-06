@@ -17,13 +17,11 @@ export async function newPassword(
   token?: string | null,
 ): Promise<ServerActionResponse> {
   // console.log('newPassword, token:', token);
-
   if (!token) {
     return { status: "error", message: "Missing token!" };
   }
 
   const validatedFields = NewPasswordSchema.safeParse(values);
-
   if (!validatedFields.success) {
     return { status: "error", message: "Invalid fields!" };
   }
@@ -31,30 +29,25 @@ export async function newPassword(
   const { password } = validatedFields.data;
 
   const existingToken = await getPasswordResetTokenByToken(token);
-
   if (!existingToken) {
     return { status: "error", message: "Invalid token!" };
   }
 
   const hasExpired = new Date(existingToken.expires) < new Date();
-
   if (hasExpired) {
     return { status: "error", message: "Token has expired!" };
   }
 
   const existingUser = await getUserByEmail(existingToken.identifier);
-
   if (!existingUser) {
     return { status: "error", message: "Email does not exist!" }
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-
   await sanityClient.patch(existingUser._id).set({
     password: hashedPassword,
   }).commit();
 
-  await sanityClient.delete(existingToken._id);;
-
+  await sanityClient.delete(existingToken._id);
   return { status: "success", message: "Password updated!" };
 };

@@ -4,7 +4,6 @@ import { getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
 import { stripe } from "@/lib/stripe";
 import { absoluteUrl } from "@/lib/utils";
-import { User } from "@/sanity.types";
 import { sanityClient } from "@/sanity/lib/client";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
@@ -23,13 +22,9 @@ export async function createCheckoutSession(itemId: string, priceId: string): Pr
   let redirectUrl: string = "";
 
   try {
-    // TODO(javayhu): can not useCurrentUser but can use currentUser() here, don't know why
     const user = await currentUser();
     if (!user || !user.email || !user.id) {
-      return {
-        status: "error",
-        message: "Unauthorized",
-      };
+      return { status: "error", message: "Unauthorized", };
     }
 
     const item = await sanityFetch<ItemInfo>({
@@ -37,19 +32,13 @@ export async function createCheckoutSession(itemId: string, priceId: string): Pr
       params: { id: itemId }
     });
     if (!item) {
-      return {
-        status: "error",
-        message: "Item not found",
-      };
+      return { status: "error", message: "Item not found!", };
     }
 
     // 1. get user's stripeCustomerId
     const sanityUser = await getUserById(user.id);
     if (item.submitter._id != user.id) {
-      return {
-        status: "error",
-        message: "You are not allowed to pay this item",
-      }
+      return { status: "error", message: "You are not allowed to do this!"}
     }
     let stripeCustomerId = sanityUser?.stripeCustomerId;
     // console.log('stripeCustomerId:', stripeCustomerId);
@@ -73,20 +62,14 @@ export async function createCheckoutSession(itemId: string, priceId: string): Pr
           email: user.email,
         });
         if (!customer) {
-          return {
-            status: "error",
-            message: "Failed to create customer in Stripe",
-          };
+          return { status: "error", message: "Failed to create customer in Stripe" };
         }
 
         const result = await sanityClient.patch(user.id).set({
           stripeCustomerId: customer.id,
         }).commit();
         if (!result) {
-          return {
-            status: "error",
-            message: "Failed to save customer in Sanity",
-          };
+          return { status: "error", message: "Failed to save customer in Sanity" };
         }
         stripeCustomerId = customer.id;
       }
@@ -123,10 +106,7 @@ export async function createCheckoutSession(itemId: string, priceId: string): Pr
       console.log('stripe checkout session created, url:', redirectUrl);
     }
   } catch (error) {
-    return {
-      status: "error",
-      message: "Failed to generate stripe checkout session",
-    };
+    return { status: "error", message: "Failed to generate stripe checkout session" };
   }
 
   // 5. redirect to new url, no revalidatePath because redirect

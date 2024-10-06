@@ -13,7 +13,6 @@ export type ServerActionResponse = {
 
 export async function reset(values: z.infer<typeof ResetSchema>): Promise<ServerActionResponse> {
   const validatedFields = ResetSchema.safeParse(values);
-
   if (!validatedFields.success) {
     return { status: "error", message: "Invalid email!" };
   }
@@ -21,13 +20,11 @@ export async function reset(values: z.infer<typeof ResetSchema>): Promise<Server
   const { email } = validatedFields.data;
 
   const existingUser = await getUserByEmail(email);
-
   if (!existingUser) {
     return { status: "error", message: "Email not found!" };
   }
 
   const passwordResetToken = await generatePasswordResetToken(email);
-
   await sendPasswordResetEmail(
     existingUser.name,
     passwordResetToken.identifier,

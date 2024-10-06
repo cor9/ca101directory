@@ -1,5 +1,6 @@
 "use server";
 
+import { getItemById } from "@/data/item";
 import { currentUser } from "@/lib/auth";
 import { sendNotifySubmissionEmail } from "@/lib/mail";
 import { EditSchema } from "@/lib/schemas";
@@ -42,7 +43,14 @@ export async function edit(formData: EditFormData): Promise<ServerActionResponse
       tags, categories, pricePlan, planStatus } = EditSchema.parse(formData);
     console.log("edit, name:", name, "link:", link);
 
-    // TODO: check if the user is the submitter of the item
+    // check if the user is the submitter of the item
+    const item = await getItemById(id);
+    if (!item) {
+      return { status: "error", message: "Item not found!" };
+    }
+    if (item.submitter._ref !== user.id) {
+      return { status: "error", message: "You are not allowed to do this!" };
+    }
 
     // TODO(javayhu): should I change slug? change slug only if name changes!
     const slug = slugify(name);
@@ -89,9 +97,8 @@ export async function edit(formData: EditFormData): Promise<ServerActionResponse
         }
       }
     };
-
+    
     // console.log("edit, data:", data);
-
     const res = await sanityClient.patch(id).set(data).commit();
     if (!res) {
       console.log("edit, fail");

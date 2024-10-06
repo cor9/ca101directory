@@ -7,12 +7,15 @@ import { redirect } from "next/navigation";
 
 export type ServerActionResponse = {
   status: "success" | "error";
+  message?: string;
   stripeUrl?: string;
 };
 
 const billingUrl = absoluteUrl("/dashboard");
 
-// TODO(javayhu): not used yet
+/**
+ * TODO(javayhu): not used yet
+ */
 export async function openCustomerPortal(
   stripeCustomerId: string,
 ): Promise<ServerActionResponse> {
@@ -21,7 +24,7 @@ export async function openCustomerPortal(
   try {
     const user = await currentUser();
     if (!user || !user.email) {
-      throw new Error("Unauthorized");
+      return { status: "error", message: "Unauthorized" };
     }
 
     if (stripeCustomerId) {
@@ -33,8 +36,9 @@ export async function openCustomerPortal(
       redirectUrl = stripeSession.url as string;
     }
   } catch (error) {
-    throw new Error("Failed to open customer portal");
+    return { status: "error", message: "Failed to open customer portal" };
   }
 
   redirect(redirectUrl);
+  // return { status: "success", stripeUrl: redirectUrl };
 }

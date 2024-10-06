@@ -59,6 +59,6 @@ export async function login(
           return { status: "error", message: "Something went wrong!" };
       }
     }
-    throw error;
+    return { status: "error", message: "Something went wrong!" };
   }
 }

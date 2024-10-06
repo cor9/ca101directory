@@ -18,20 +18,22 @@ export async function CategoryFilter() {
       {/* Desktop View, has Container */}
       <Container className="hidden md:block">
         <div className='flex items-center justify-between gap-8'>
-            <CategoryListDesktop categoryList={categoryList} />
+          <CategoryListDesktop categoryList={categoryList} />
 
           {/* pb-4 is for align ScrollBar in CategoryListDesktop */}
           <div className='pb-4'>
-              <SortListDesktop sortList={SORT_FILTER_LIST} />
+            <SortListDesktop sortList={SORT_FILTER_LIST} />
           </div>
         </div>
       </Container>
 
       {/* Mobile View, no Container */}
       <div className="md:hidden flex flex-col gap-8">
-          <CategoryListMobile categoryList={categoryList} />
+        <CategoryListMobile categoryList={categoryList} />
 
+        <div className='pb-4'>
           <SortListMobile sortList={SORT_FILTER_LIST} />
+        </div>
       </div>
     </div>
   );

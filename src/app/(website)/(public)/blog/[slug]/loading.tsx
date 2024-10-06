@@ -1,3 +1,4 @@
+import { BlogGridSkeleton } from "@/components/blog/blog-grid";
 import Container from "@/components/container";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -76,18 +77,7 @@ export default function Loading() {
             <Skeleton className="h-6 w-32" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[...Array(3)].map((_, index) => (
-              <div key={index} className="flex flex-col gap-4">
-                <Skeleton className="w-full aspect-[16/9] rounded-lg" />
-                <Skeleton className="h-12 w-full" />
-                <div className="flex items-center justify-between gap-2">
-                  <Skeleton className="h-6 w-32" />
-                  <Skeleton className="h-6 w-32" />
-                </div>
-              </div>
-            ))}
-          </div>
+          <BlogGridSkeleton count={3} />
         </div>
       </div>
     </Container>

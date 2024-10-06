@@ -1,6 +1,5 @@
-import { DashboardSubmitHeader } from "@/components/dashboard/dashboard-submit-header";
 import { PricingPlans } from "@/components/dashboard/pricing-plans";
-import { SubmitStepper } from "@/components/submit/submit-stepper";
+import SubmissionCardInPlanPage from "@/components/plan/submission-card-in-plan-page";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/config/site";
@@ -10,7 +9,6 @@ import { itemByIdQuery } from "@/sanity/lib/queries";
 import { ItemInfo } from "@/types";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import SubmissionCardInPlanPage from "@/components/plan/submission-card-in-plan-page";
 
 export async function generateMetadata({
   params,
@@ -49,28 +47,17 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
   // console.log('PlanPage, item:', item);
 
   return (
-    <div>
-      <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
-        <DashboardSubmitHeader
-          title="2/3 Submit"
-          subtitle="Choose pricing plan"
-        >
-          <SubmitStepper initialStep={2} />
-        </DashboardSubmitHeader>
-
-        <Card className="mt-8 flex flex-col items-center w-full">
-          <div className="w-full p-4">
-            <SubmissionCardInPlanPage item={item} />
-          </div>
-
-          <Separator className="w-full" />
-
-          {/* sm:px-16 md:px-0 max-w-4xl mx-auto */}
-          <div className="w-full p-4 my-4">
-            <PricingPlans item={item} />
-          </div>
-        </Card>
+    <Card className="flex flex-col items-center">
+      <div className="w-full p-4">
+        <SubmissionCardInPlanPage item={item} />
       </div>
-    </div>
+
+      <Separator className="w-full" />
+
+      {/* sm:px-16 md:px-0 max-w-4xl mx-auto */}
+      <div className="w-full p-4 my-4">
+        <PricingPlans item={item} />
+      </div>
+    </Card>
   );
 }

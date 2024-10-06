@@ -3,6 +3,7 @@ import { getLocaleDate } from "@/lib/utils";
 import { BlogPostInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import { Skeleton } from "../ui/skeleton";
 
 type BlogCardProps = {
   post: BlogPostInfo;
@@ -106,6 +107,21 @@ export default function BlogCard({ post }: BlogCardProps) {
             {date}
           </time>
         </div>
+      </div>
+    </div>
+  );
+}
+
+export function BlogCardSkeleton() {
+  return (
+    <div className="group cursor-pointer flex flex-col gap-4">
+      <div className="group overflow-hidden relative aspect-[4/3] rounded-lg transition-all">
+        <Skeleton className="w-full aspect-[4/3] rounded-lg" />
+      </div>
+      <Skeleton className="h-12 w-full" />
+      <div className="flex items-center justify-between gap-2">
+        <Skeleton className="h-6 w-32" />
+        <Skeleton className="h-6 w-32" />
       </div>
     </div>
   );

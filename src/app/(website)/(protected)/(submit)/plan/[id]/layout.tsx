@@ -5,8 +5,8 @@ export default async function PlanLayout({ children }: { children: React.ReactNo
   return (
     <div>
       <DashboardSubmitHeader
-        title="2/3 Submit"
-        subtitle="Choose pricing plan"
+        title="Submit"
+        subtitle="2/3 Choose pricing plan"
       >
         <SubmitStepper initialStep={2} />
       </DashboardSubmitHeader>

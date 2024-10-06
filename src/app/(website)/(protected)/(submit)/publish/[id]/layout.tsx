@@ -5,8 +5,8 @@ export default async function PublishLayout({ children }: { children: React.Reac
   return (
     <div>
       <DashboardSubmitHeader
-        title="3/3 Submit"
-        subtitle="Review and publish product"
+        title="Submit"
+        subtitle="3/3 Review and publish product"
       >
         <SubmitStepper initialStep={3} />
       </DashboardSubmitHeader>

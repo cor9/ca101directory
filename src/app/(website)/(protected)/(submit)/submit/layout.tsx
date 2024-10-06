@@ -5,8 +5,8 @@ export default async function SubmitLayout({ children }: { children: React.React
   return (
     <div>
       <DashboardSubmitHeader
-        title="1/3 Submit"
-        subtitle="Enter product details"
+        title="Submit"
+        subtitle="1/3 Enter product details"
       >
         <SubmitStepper initialStep={1} />
       </DashboardSubmitHeader>

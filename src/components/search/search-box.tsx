@@ -54,7 +54,7 @@ export default function SearchBox() {
           className="w-full rounded-lg border bg-background px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         />
         <div className="absolute right-0 top-0 mr-4 flex h-full items-center">
-          <SearchIcon className="h-4" />
+          <SearchIcon className="h-4 text-muted-foreground" />
         </div>
       </div>
     </div>

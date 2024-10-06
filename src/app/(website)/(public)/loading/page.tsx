@@ -1,5 +1,6 @@
 import Container from "@/components/container";
-import Loading from "../../(protected)/edit/[id]/loading";
+import Loading from "../../(protected)/dashboard/loading";
+// import Loading from "../../(protected)/edit/[id]/loading";
 // import Loading from "../../(protected)/settings/loading";
 
 // import Loading from "../category/loading";

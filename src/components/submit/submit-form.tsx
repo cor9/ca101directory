@@ -29,6 +29,8 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { Skeleton } from "../ui/skeleton";
+import { cn } from "@/lib/utils";
 
 interface SubmitFormProps {
   tagList: TagListQueryResult;
@@ -240,19 +242,80 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
               disabled={isPending || isUploading}
             >
               {(isPending || isUploading) && (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                <Icons.spinner className="mr-2 h-6 w-4 animate-spin" />
               )}
               <span>
                 {isPending ? "Submitting..." : (isUploading ? "Uploading image..." : "Submit")}
               </span>
             </Button>
             <div className="text-sm text-muted-foreground flex items-center justify-center sm:justify-start gap-2">
-              <SmileIcon className="h-4 w-4" />
+              <SmileIcon className="h-6 w-4" />
               <span>No worries, you can change these information later.</span>
             </div>
           </CardFooter>
         </Card>
       </form>
     </Form>
+  );
+}
+
+export function SubmitFormSkeleton() {
+  return (
+    <Card className="overflow-hidden">
+      <CardContent className="mt-6 space-y-6">
+        {/* Link and Name fields */}
+        <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
+          {[...Array(2)].map((_, index) => (
+            <div key={index} className="flex-1 space-y-2">
+              <Skeleton className="h-6 w-16" />
+              <Skeleton className="h-10 w-full" />
+            </div>
+          ))}
+        </div>
+
+        {/* Categories and Tags fields */}
+        <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
+          {[...Array(2)].map((_, index) => (
+            <div key={index} className="flex-1 space-y-2">
+              <Skeleton className="h-6 w-24" />
+              <Skeleton className="h-10 w-full" />
+            </div>
+          ))}
+        </div>
+
+        {/* Description field */}
+        <div className="space-y-2">
+          <Skeleton className="h-6 w-24" />
+          <Skeleton className="h-24 w-full" />
+        </div>
+
+        {/* Introduction and Image fields */}
+        <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
+          <div className="flex-1 space-y-2">
+            <div className="flex items-center justify-between gap-4">
+              <Skeleton className="h-6 w-24" />
+              <Skeleton className="h-6 w-40" />
+            </div>
+            <Skeleton className="h-[370px] w-full" />
+          </div>
+          <div className="flex-1 space-y-2">
+            <div className="flex items-center justify-between gap-4">
+              <Skeleton className="h-6 w-16" />
+              <Skeleton className="h-6 w-48" />
+            </div>
+            <Skeleton className="h-[370px] w-full" />
+          </div>
+        </div>
+      </CardContent>
+
+      <CardFooter className={cn("flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4",
+        "sm:flex-row sm:justify-between sm:space-y-0")}>
+        <Skeleton className="h-10 w-full sm:w-32" />
+        <div className="flex items-center justify-center sm:justify-start gap-2">
+          <Skeleton className="h-6 w-4" />
+          <Skeleton className="h-6 w-64" />
+        </div>
+      </CardFooter>
+    </Card>
   );
 }

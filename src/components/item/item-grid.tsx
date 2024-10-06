@@ -10,7 +10,7 @@ export default function ItemGrid({ items }: ItemGridProps) {
   return (
     <div>
       {items && items.length > 0 && (
-        <div className="gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {
             items.map((item) => (
               <ItemCard key={item._id} item={item} />
@@ -22,10 +22,10 @@ export default function ItemGrid({ items }: ItemGridProps) {
   );
 }
 
-export function ItemGridSkeleton() {
+export function ItemGridSkeleton({ count = 6 }: { count?: number }) {
   return (
-    <div className="gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-      {[...Array(6)].map((_, index) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {[...Array(count)].map((_, index) => (
         <div key={index} className="flex flex-col gap-2">
           <Skeleton className="w-full aspect-[16/9]" />
           <Skeleton className="h-6 w-1/2" />

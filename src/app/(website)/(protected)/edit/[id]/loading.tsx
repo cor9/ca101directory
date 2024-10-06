@@ -1,7 +1,7 @@
-import { Loader2Icon } from "lucide-react";
+import { EditFormSkeleton } from "@/components/edit/edit-form";
 
 export default function Loading() {
   return (
-    <Loader2Icon className="my-32 mx-auto size-6 animate-spin" />
+    <EditFormSkeleton />
   )
 }

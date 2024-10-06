@@ -189,9 +189,8 @@ export function SubmissionCardSkeleton() {
         {/* Right column */}
         <div className="md:col-span-3 flex flex-col justify-between">
           <div className="space-y-4">
-            <Skeleton className="h-8 w-3/4" /> {/* Title */}
+            <Skeleton className="h-8 w-1/2" /> {/* Title */}
             <Skeleton className="h-6 w-full" /> {/* Description */}
-            <Skeleton className="h-6 w-full" />
 
             <div className="grid grid-cols-2 gap-4 text-sm pt-2">
               <div className="flex items-center gap-2">

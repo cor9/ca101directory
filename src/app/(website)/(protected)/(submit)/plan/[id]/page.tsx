@@ -54,7 +54,6 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
 
       <Separator className="w-full" />
 
-      {/* sm:px-16 md:px-0 max-w-4xl mx-auto */}
       <div className="w-full p-4 my-4">
         <PricingPlans item={item} />
       </div>

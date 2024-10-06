@@ -68,12 +68,12 @@ export const itemInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.curren
   ${itemSimpleFields}
 }`);
 
-export const itemFullInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.current == $slug][0] {
-  ${itemFieldsWithRelated}
-}`);
-
 export const itemFullInfoByIdQuery = defineQuery(`*[_type == "item" && _id == $id][0] {
   ${itemFields}
+}`);
+
+export const itemFullInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.current == $slug][0] {
+  ${itemFieldsWithRelated}
 }`);
 
 /**

@@ -3,12 +3,13 @@ import SubmissionCardInPlanPage from "@/components/plan/submission-card-in-plan-
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/config/site";
+import { currentUser } from "@/lib/auth";
 import { constructMetadata } from "@/lib/metadata";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
 import { ItemInfo } from "@/types";
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 export async function generateMetadata({
   params,
@@ -23,14 +24,11 @@ export async function generateMetadata({
 }
 
 export default async function PlanPage({ params }: { params: { id: string } }) {
-  // TODO: add user check, if user is not logged in, redirect to login page
-  // if use not the submitter, shows error message
-  // const user = await currentUser();
-  // if (!user) {
-  //   return redirect("/auth/login");
-  // }
-
-  // TODO: add item status check, if item is paid, redirect to dashboard
+  const user = await currentUser();
+  if (!user) {
+    console.error("EditPage, user not found");
+    return redirect("/auth/login");
+  }
 
   const { id } = params;
   console.log('PlanPage, itemId:', id);
@@ -45,6 +43,12 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
     return notFound();
   }
   // console.log('PlanPage, item:', item);
+  
+  // redirect to dashboard if the item is not submitted by the user
+  if (item.submitter._id != user.id) {
+    console.error("PlanPage, user not match");
+    return redirect("/dashboard");
+  }
 
   return (
     <Card className="flex flex-col items-center">

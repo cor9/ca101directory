@@ -1,16 +1,15 @@
 "use client";
 
-import React from "react";
 import { submitToReview } from "@/actions/submit-to-review";
+import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
+import { FreePlanStatus } from "@/lib/submission";
 import { cn } from "@/lib/utils";
 import { ItemInfo } from "@/types";
 import { ArrowUpLeftIcon, CheckCircleIcon, Clock3Icon, EditIcon, SendIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { Icons } from "@/components/icons/icons";
-import { FreePlanStatus } from "@/lib/submission";
 
 interface FreePlanButtonProps {
   item: ItemInfo;
@@ -54,6 +53,8 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
       router.push(`/edit/${item._id}`);
     } else if (item.freePlanStatus === FreePlanStatus.PENDING) {
       router.push(`/dashboard`);
+    } else {
+      console.error('FreePlanButton, invalid free plan status:', item.freePlanStatus);
     }
   };
 
@@ -65,42 +66,41 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
       disabled={isPending}
       onClick={handleClick}
     >
-      {
-        item.publishDate ? (
-          <div className="flex items-center justify-center">
-            <ArrowUpLeftIcon className="mr-2 size-4 icon-scale" />
-            <span>Go back to dashboard</span>
-          </div>
-        ) : (
-          <div>
-            {isPending ? (
-              <div className="flex items-center justify-center">
-                <Icons.spinner className="mr-2 size-4 animate-spin" />
-                <span>Submitting to review...</span>
-              </div>
-            ) : item.freePlanStatus === FreePlanStatus.PENDING ? (
-              <div className="flex items-center justify-center">
-                <Clock3Icon className="mr-2 size-4 icon-scale" />
-                <span>Go back and Wait for review</span>
-              </div>
-            ) : item.freePlanStatus === FreePlanStatus.APPROVED ? (
-              <div className="flex items-center justify-center">
-                <CheckCircleIcon className="mr-2 size-4 icon-scale" />
-                <span>Go to Publish</span>
-              </div>
-            ) : item.freePlanStatus === FreePlanStatus.REJECTED ? (
-              <div className="flex items-center justify-center">
-                <EditIcon className="mr-2 size-4 icon-scale" />
-                <span>Go to Edit and Submit again</span>
-              </div>
-            ) : (
-              <div className="flex items-center justify-center">
-                <SendIcon className="mr-2 size-4 icon-scale" />
-                <span>Submit to review</span>
-              </div>
-            )}
-          </div>
-        )
+      {item.publishDate ? (
+        <div className="flex items-center justify-center">
+          <ArrowUpLeftIcon className="mr-2 size-4 icon-scale" />
+          <span>Go back to dashboard</span>
+        </div>
+      ) : (
+        <div>
+          {isPending ? (
+            <div className="flex items-center justify-center">
+              <Icons.spinner className="mr-2 size-4 animate-spin" />
+              <span>Submitting to review...</span>
+            </div>
+          ) : item.freePlanStatus === FreePlanStatus.PENDING ? (
+            <div className="flex items-center justify-center">
+              <Clock3Icon className="mr-2 size-4 icon-scale" />
+              <span>Go back and Wait</span>
+            </div>
+          ) : item.freePlanStatus === FreePlanStatus.APPROVED ? (
+            <div className="flex items-center justify-center">
+              <CheckCircleIcon className="mr-2 size-4 icon-scale" />
+              <span>Go to Publish</span>
+            </div>
+          ) : item.freePlanStatus === FreePlanStatus.REJECTED ? (
+            <div className="flex items-center justify-center">
+              <EditIcon className="mr-2 size-4 icon-scale" />
+              <span>Go to Edit</span>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center">
+              <SendIcon className="mr-2 size-4 icon-scale" />
+              <span>Submit to review</span>
+            </div>
+          )}
+        </div>
+      )
       }
     </Button>
   );

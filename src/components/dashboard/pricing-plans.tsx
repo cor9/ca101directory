@@ -15,7 +15,7 @@ interface PricingPlansProps {
 }
 
 export function PricingPlans({ item }: PricingPlansProps) {
-
+  // console.log('PricingPlans, item:', item);
   return (
     <section className="flex flex-col items-center text-center w-full mx-auto">
       <div className="grid gap-8 w-full sm:grid-cols-1 md:grid-cols-2">
@@ -31,15 +31,13 @@ export function PricingPlans({ item }: PricingPlansProps) {
   );
 }
 
-/**
- * PricingPlanCard
- */
 interface PricingPlanCardProps {
   item?: ItemInfo;
   pricePlan: PricePlan;
 }
 
 const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
+  console.log('PricingPlanCard, item:', item);
   return (
     <div className={cn(
         "relative flex flex-col overflow-hidden rounded-xl border shadow-sm",

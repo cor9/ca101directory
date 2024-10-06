@@ -1,6 +1,6 @@
 import { EditForm } from "@/components/edit/edit-form";
 import { siteConfig } from "@/config/site";
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { currentUser } from "@/lib/auth";
 import { constructMetadata } from "@/lib/metadata";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -26,9 +26,10 @@ interface EditPageProps {
 };
 
 export default async function EditPage({ params }: EditPageProps) {
-  const user = useCurrentUser();
+  const user = await currentUser();
   if (!user) {
-    return { status: "error", message: "Unauthorized" };
+    console.error("EditPage, user not found");
+    return redirect("/auth/login");
   }
 
   const [item, categoryList, tagList] = await Promise.all([

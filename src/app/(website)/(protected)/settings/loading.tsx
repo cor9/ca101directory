@@ -1,7 +1,7 @@
-import { Loader2Icon } from "lucide-react";
+import { SettingsFormSkeleton } from "@/components/settings/settings-form";
 
 export default function Loading() {
   return (
-    <Loader2Icon className="my-32 mx-auto size-6 animate-spin" />
+    <SettingsFormSkeleton />
   )
 }

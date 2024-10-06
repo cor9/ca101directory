@@ -1,7 +1,7 @@
-import { Loader2Icon } from "lucide-react";
+import { SubmissionCardInPublishPageSkeleton } from "@/components/publish/submission-card-in-publish-page";
 
 export default function Loading() {
   return (
-    <Loader2Icon className="my-32 mx-auto size-6 animate-spin" />
+    <SubmissionCardInPublishPageSkeleton />
   )
 }

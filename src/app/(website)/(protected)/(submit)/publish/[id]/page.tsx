@@ -1,15 +1,11 @@
-import { DashboardSubmitHeader } from "@/components/dashboard/dashboard-submit-header";
-import { SubmitStepper } from "@/components/submit/submit-stepper";
-import { Card } from "@/components/ui/card";
+import SubmissionCardInPublishPage from "@/components/publish/submission-card-in-publish-page";
+import { siteConfig } from "@/config/site";
+import { constructMetadata } from "@/lib/metadata";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
 import { ItemInfo } from "@/types";
-import { notFound } from "next/navigation";
-import SubmissionCardInPublishPage from "@/components/publish/submission-card-in-publish-page";
-import { constructMetadata } from "@/lib/metadata";
 import { Metadata } from "next";
-import { siteConfig } from "@/config/site";
-import ConfettiEffect from "@/components/shared/confetti-effect";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({
   params,
@@ -54,21 +50,6 @@ export default async function PublishPage({
   // }
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-32rem)] justify-center">
-      {showConfetti && <ConfettiEffect />}
-      
-      <DashboardSubmitHeader
-        title="3/3 Submit"
-        subtitle="Review and publish product"
-      >
-        <SubmitStepper initialStep={3} />
-      </DashboardSubmitHeader>
-
-      <Card className="mt-8 flex flex-col items-center w-full">
-        <div className="w-full p-4">
-          <SubmissionCardInPublishPage item={item} />
-        </div>
-      </Card>
-    </div>
+    <SubmissionCardInPublishPage item={item} />
   );
 }

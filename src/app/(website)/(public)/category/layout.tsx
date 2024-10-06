@@ -20,7 +20,7 @@ export default function CategoryLayout({ children }: { children: React.ReactNode
         </div>
       </div>
 
-      <Container className="mt-8 pb-16">
+      <Container className="mt-4 pb-16">
         {children}
       </Container>
     </div>

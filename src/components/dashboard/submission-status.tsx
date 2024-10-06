@@ -9,7 +9,7 @@ type SubmissionStatusProps = {
     item: ItemInfo;
 };
 
-function StatusBadge({ badgeStyle, children }: { badgeStyle: BadgeStyle, children: React.ReactNode }) {
+function StatusWrapper({ badgeStyle, children }: { badgeStyle: BadgeStyle, children: React.ReactNode }) {
     return (
         <div className={cn(
             "px-2 py-1 rounded-md text-sm font-bold capitalize",
@@ -33,12 +33,12 @@ export default function SubmissionStatus({ item }: SubmissionStatusProps) {
                 status === FreePlanStatus.REJECTED ? (
                     <Popover>
                         <PopoverTrigger>
-                            <StatusBadge badgeStyle={badgeStyle}>
+                            <StatusWrapper badgeStyle={badgeStyle}>
                                 <div className="flex items-center gap-2">
                                     <span className="capitalize">{status}</span>
                                     <InfoIcon className="w-4 h-4" />
                                 </div>
-                            </StatusBadge>
+                            </StatusWrapper>
                         </PopoverTrigger>
                         <PopoverContent>
                             <Card>
@@ -47,9 +47,9 @@ export default function SubmissionStatus({ item }: SubmissionStatusProps) {
                         </PopoverContent>
                     </Popover>
                 ) : (
-                    <StatusBadge badgeStyle={badgeStyle}>
+                    <StatusWrapper badgeStyle={badgeStyle}>
                         <span className="capitalize">{status}</span>
-                    </StatusBadge>
+                    </StatusWrapper>
                 )
             }
         </div>

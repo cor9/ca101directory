@@ -1,7 +1,9 @@
+import { Badge } from "../ui/badge";
 
 interface DashboardSubmitHeaderProps {
   title: string;
   subtitle?: string;
+  label?: string;
   children?: React.ReactNode;
   showBackButton?: boolean;
 }
@@ -9,6 +11,7 @@ interface DashboardSubmitHeaderProps {
 export function DashboardSubmitHeader({
   title,
   subtitle,
+  label,
   children,
 }: DashboardSubmitHeaderProps) {
   return (
@@ -22,12 +25,22 @@ export function DashboardSubmitHeader({
           </h1>
         </div>
 
-        {/* subtitle */}
-        {subtitle && (
-          <h2 className="text-base text-muted-foreground">
-            {subtitle}
-          </h2>
-        )}
+        <div className="flex items-center space-x-2">
+          {/* label */}
+          {label && (
+            <Badge variant="outline" className="rounded-sm">
+              {label}
+            </Badge>
+          )}
+
+          {/* subtitle */}
+          {/* text-muted-foreground */}
+          {subtitle && (
+            <h2 className="text-base">
+              {subtitle}
+            </h2>
+          )}
+        </div>
       </div>
 
       {/* actions */}

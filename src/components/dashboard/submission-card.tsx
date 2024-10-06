@@ -11,7 +11,7 @@ import { ItemInfo } from "@/types";
 import { EditIcon, HashIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import SubmissionStatus from "./submission-status";
 
 type SubmissionCardProps = {

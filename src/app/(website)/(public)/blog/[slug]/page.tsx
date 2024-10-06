@@ -31,9 +31,7 @@ export async function generateMetadata({
     return;
   }
 
-  const imageProps = post?.image
-    ? urlForImage(post?.image)
-    : null;
+  const imageProps = post?.image ? urlForImage(post?.image) : null;
 
   return constructMetadata({
     title: `${post.title}`,
@@ -60,9 +58,7 @@ export default async function PostPage({ params }: PostPageProps) {
   }
 
   // console.log("PostPage, post", post);
-  const imageProps = post?.image
-    ? urlForImage(post?.image)
-    : null;
+  const imageProps = post?.image ? urlForImage(post?.image) : null;
   const imageBlurDataURL = post?.image?.blurDataURL || null;
   const publishDate = post.publishDate || post._createdAt;
   const date = getLocaleDate(publishDate);

@@ -8,7 +8,7 @@ import { CalendarDaysIcon, HashIcon, PartyPopperIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Card } from "../ui/card";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type SubmissionCardInPublishPageProps = {
   item: ItemInfo;

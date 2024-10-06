@@ -3,16 +3,14 @@ import { getLocaleDate } from "@/lib/utils";
 import { BlogPostInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type BlogCardProps = {
   post: BlogPostInfo;
 };
 
 export default function BlogCard({ post }: BlogCardProps) {
-  const imageProps = post?.image
-    ? urlForImage(post.image)
-    : null;
+  const imageProps = post?.image ? urlForImage(post.image) : null;
   const imageBlurDataURL = post?.image?.blurDataURL || null;
   const publishDate = post.publishDate || post._createdAt;
   const date = getLocaleDate(publishDate);

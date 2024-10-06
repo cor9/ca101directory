@@ -41,7 +41,7 @@ export default async function PublishPage({
     console.error("PublishPage, item not found");
     return notFound();
   }
-  // console.log('PublishPage, item:', item);
+  console.log('PublishPage, item:', item);
 
   // TODO: check status, if status is not 'approved', redirect to edit page
   // if (item.pricePlan === 'free' && item.freePlanStatus !== 'approved') {

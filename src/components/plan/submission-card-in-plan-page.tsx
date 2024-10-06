@@ -7,7 +7,7 @@ import { ItemInfo } from "@/types";
 import { HashIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type SubmissionCardInPlanPageProps = {
   item: ItemInfo;

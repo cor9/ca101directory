@@ -19,7 +19,7 @@ export async function publish(itemId: string): Promise<ServerActionResponse> {
   const result = await sanityClient.patch(itemId).set({
     publishDate: new Date().toISOString(),
   }).commit();
-  // console.log('publish, result:', result);
+  console.log('publish, result:', result);
   
   if (!result) {
     return { status: "error", message: "Failed to publish item!" };

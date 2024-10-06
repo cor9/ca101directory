@@ -7,7 +7,7 @@ import {
 
 // Itme
 export type ItemInfo = ItemListQueryResult[number];
-// FullInfo has more fields (eg. content)
+// ItemFullInfo has more fields (eg. content)
 export type ItemFullInfo = ItemQueryResult;
 // Blog 
 export type BlogPostInfo = BlogPostListQueryResult[number];

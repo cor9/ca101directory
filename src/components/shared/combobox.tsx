@@ -1,7 +1,5 @@
 "use client";
 
-import * as React from "react";
-import { useMediaQuery } from "@/hooks/use-media-query";
 import { Button } from "@/components/ui/button";
 import {
     Command,
@@ -21,22 +19,31 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
+import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
+import * as React from "react";
 
 type FilterItem = {
     value: string | null;
     label: string;
 }
 
+// 1. DEFAULT_FILTER_VALUE can't be null, 
+// otherwise the combobox will not work
+// 2. DEFAULT_FILTER_VALUE can't be empty string, 
+// otherwise the combobox doesn't show hover effect when the value is empty
+export const DEFAULT_FILTER_VALUE = "%DEFAULT_FILTER_VALUE%";
+
 export type ResponsiveComboBoxProps = {
     filterItemList: FilterItem[];
     placeholder: string;
+    labelPrefix?: string;
     selectedValue: string | null;
     onValueChange: (value: string | null) => void;
 }
 
-export function ResponsiveComboBox({ filterItemList, placeholder, selectedValue, onValueChange }: ResponsiveComboBoxProps) {
+export function ResponsiveComboBox({ filterItemList, placeholder, labelPrefix, selectedValue, onValueChange }: ResponsiveComboBoxProps) {
     const { isDesktop } = useMediaQuery();
     const [open, setOpen] = React.useState(false);
     const [selected, setSelected] = React.useState<FilterItem | null>(
@@ -64,8 +71,8 @@ export function ResponsiveComboBox({ filterItemList, placeholder, selectedValue,
                         aria-expanded={open}
                         className="justify-between"
                     >
-                        {selected ? (
-                            <h2>{selected.label}</h2>
+                        {selected && selected.value !== DEFAULT_FILTER_VALUE ? (
+                            <h2>{labelPrefix ? `${labelPrefix}${selected.label}` : selected.label}</h2>
                         ) : (
                             <h2>{placeholder}</h2>
                         )}
@@ -88,8 +95,8 @@ export function ResponsiveComboBox({ filterItemList, placeholder, selectedValue,
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
                 <Button variant="outline" className="justify-start">
-                    {selected ? (
-                        <h2>{selected.label}</h2>
+                    {selected && selected.value !== DEFAULT_FILTER_VALUE ? (
+                        <h2>{labelPrefix ? `${labelPrefix}${selected.label}` : selected.label}</h2>
                     ) : (
                         <h2>{placeholder}</h2>
                     )}
@@ -125,7 +132,7 @@ function FilterList({
             <CommandInput placeholder="Filter..." />
             <CommandList>
                 <CommandEmpty>No results found.</CommandEmpty>
-                <CommandGroup>
+                <CommandGroup className="py-3">
                     {filterItemList.map((item) => (
                         <CommandItem
                             key={item.value}
@@ -134,6 +141,7 @@ function FilterList({
                                 onSelect(item);
                                 setOpen(false);
                             }}
+                            className="p-3"
                         >
                             <CheckIcon
                                 className={cn(

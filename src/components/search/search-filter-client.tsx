@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { DEFAULT_SORT, SortFilterItem } from "@/lib/constants";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ResponsiveComboBox } from "../shared/combobox";
+import { DEFAULT_FILTER_VALUE, ResponsiveComboBox } from "../shared/combobox";
 import SearchBox from "./search-box";
 
 interface SearchFilterProps {
@@ -41,12 +41,6 @@ export function SearchFilterClient({
   const selectedCategory = searchParams.get("category");
   const selectedTag = searchParams.get("tag");
   const selectedSort = searchParams.get("sort");
-
-  // 1. DEFAULT_FILTER_VALUE can't be null, 
-  // otherwise the combobox will not work
-  // 2. DEFAULT_FILTER_VALUE can't be empty string, 
-  // otherwise the combobox doesn't show hover effect when the value is empty
-  const DEFAULT_FILTER_VALUE = "%DEFAULT_FILTER_VALUE%";
 
   const handleFilterChange = (type: string, value: string) => {
     console.log(`Filter changed: ${type} -> ${value}`);
@@ -90,6 +84,7 @@ export function SearchFilterClient({
       <ResponsiveComboBox
         filterItemList={categoryFilterItemList}
         placeholder="All Categories"
+        labelPrefix="Category: "
         selectedValue={selectedCategory || DEFAULT_FILTER_VALUE}
         onValueChange={(value) => handleFilterChange("category", value)}
       />
@@ -97,6 +92,7 @@ export function SearchFilterClient({
       <ResponsiveComboBox
         filterItemList={tagFilterItemList}
         placeholder="All Tags"
+        labelPrefix="Tag: "
         selectedValue={selectedTag || DEFAULT_FILTER_VALUE}
         onValueChange={(value) => handleFilterChange("tag", value)}
       />

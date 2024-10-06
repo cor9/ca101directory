@@ -1,5 +1,6 @@
 import Container from "@/components/container";
-import Loading from "../../(protected)/(submit)/plan/[id]/loading";
+import Loading from "../[slug]/loading";
+// import Loading from "../../(protected)/(submit)/plan/[id]/loading";
 // import Loading from "../../(protected)/(submit)/publish/[id]/loading";
 // import Loading from "../../(protected)/(submit)/submit/loading";
 // import Loading from "../../(protected)/dashboard/loading";

@@ -1,4 +1,5 @@
 import { CustomMdx } from "@/components/shared/custom-mdx";
+import { Skeleton } from "@/components/ui/skeleton";
 import { siteConfig } from "@/config/site";
 import { portableTextToMarkdown } from "@/lib/mdx";
 import { constructMetadata } from "@/lib/metadata";
@@ -7,25 +8,24 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageQuery } from "@/sanity/lib/queries";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata | undefined> {
   const page = await sanityFetch<PageQueryResult>({
-      query: pageQuery,
-      params: { slug: params.slug }
+    query: pageQuery,
+    params: { slug: params.slug }
   });
   if (!page) {
-      console.warn(`generateMetadata, page not found for slug: ${params.slug}`);
-      return;
+    console.warn(`generateMetadata, page not found for slug: ${params.slug}`);
+    return;
   }
 
   return constructMetadata({
-      title: page.title,
-      description: page.excerpt,
-      canonicalUrl: `${siteConfig.url}/${params.slug}`,
+    title: page.title,
+    description: page.excerpt,
+    canonicalUrl: `${siteConfig.url}/${params.slug}`,
   });
 }
 
@@ -66,6 +66,32 @@ export default async function CustomPage({ params }: CustomPageProps) {
         {markdownContent &&
           <CustomMdx source={markdownContent} />
         }
+      </article>
+    </div>
+  );
+}
+
+export function CustomPageSkeleton() {
+  return (
+    <div>
+      <div className="flex flex-col items-center justify-center">
+        <Skeleton className="h-10 w-32 mb-4" />
+        <Skeleton className="h-6 w-2/3 max-w-xl mb-4" />
+      </div>
+      <Skeleton className="h-px w-full my-4" />
+      <article className="space-y-4">
+        <Skeleton className="h-6 w-1/2" />
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-6 w-1/2" />
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-6 w-1/2" />
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-6 w-full" />
       </article>
     </div>
   );

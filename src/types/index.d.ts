@@ -1,14 +1,14 @@
 import { Icons } from "@/components/icons/icons";
 import {
   BlogPostListQueryResult,
+  ItemFullInfoByIdQueryResult,
   ItemListQueryResult,
-  ItemQueryResult
 } from '@/sanity.types';
 
 // Itme
 export type ItemInfo = ItemListQueryResult[number];
 // ItemFullInfo has more fields (eg. content)
-export type ItemFullInfo = ItemQueryResult;
+export type ItemFullInfo = ItemFullInfoByIdQueryResult;
 // Blog 
 export type BlogPostInfo = BlogPostListQueryResult[number];
 

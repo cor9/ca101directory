@@ -1,16 +1,16 @@
 import Container from "@/components/container";
-import Loading from "../[slug]/loading";
-// import Loading from "../../(protected)/(submit)/plan/[id]/loading";
-// import Loading from "../../(protected)/(submit)/publish/[id]/loading";
-// import Loading from "../../(protected)/(submit)/submit/loading";
-// import Loading from "../../(protected)/dashboard/loading";
-// import Loading from "../../(protected)/edit/[id]/loading";
-// import Loading from "../../(protected)/settings/loading";
-// import Loading from "../category/loading";
-// import Loading from "../item/[slug]/loading";
-// import Loading from "../blog/(blog)/loading";
-// import Loading from "../pricing/loading";
-// import Loading from "../blog/[slug]/loading";
+
+import Loading from "@/app/(website)/loading";
+// import Loading from "@/app/(website)/(protected)/(submit)/plan/[id]/loading";
+// import Loading from "@/app/(website)/(protected)/(submit)/publish/[id]/loading";
+// import Loading from "@/app/(website)/(protected)/(submit)/submit/loading";
+// import Loading from "@/app/(website)/(protected)/dashboard/loading";
+// import Loading from "@/app/(website)/(protected)/edit/[id]/loading";
+// import Loading from "@/app/(website)/(protected)/settings/loading";
+// import Loading from "@/app/(website)/(public)/category/loading";
+// import Loading from "@/app/(website)/(public)/item/[slug]/loading";
+// import Loading from "@/app/(website)/(public)/blog/(blog)/loading";
+// import Loading from "@/app/(website)/(public)/blog/[slug]/loading";
 
 /**
  * This is a loading page for testing purposes.

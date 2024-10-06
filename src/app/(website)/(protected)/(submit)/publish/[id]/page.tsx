@@ -1,12 +1,14 @@
 import SubmissionCardInPublishPage from "@/components/publish/submission-card-in-publish-page";
 import ConfettiEffect from "@/components/shared/confetti-effect";
 import { siteConfig } from "@/config/site";
+import { currentUser } from "@/lib/auth";
 import { constructMetadata } from "@/lib/metadata";
+import { FreePlanStatus, PricePlan, ProPlanStatus } from "@/lib/submission";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
 import { ItemInfo } from "@/types";
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 export async function generateMetadata({
   params,
@@ -27,6 +29,12 @@ export default async function PublishPage({
   params: { id: string }
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
+  const user = await currentUser();
+  if (!user) {
+    console.error("PublishPage, user not found");
+    return redirect("/auth/login");
+  }
+    
   const { id } = params;
   const { pay } = searchParams as { [key: string]: string };
   const showConfetti = pay === 'success';
@@ -43,15 +51,22 @@ export default async function PublishPage({
   }
   console.log('PublishPage, item:', item);
 
-  // TODO: check status, if status is not 'approved', redirect to edit page
-  // if (item.pricePlan === 'free' && item.freePlanStatus !== 'approved') {
-  //   return redirect(`/edit/${item._id}`);
-  // } else if (item.pricePlan === 'pro' && item.proPlanStatus !== 'success') {
-  //   return redirect(`/plan/${item._id}`);
-  // }
+  // redirect to dashboard if the item is not submitted by the user
+  if (item.submitter._id != user.id) {
+    console.error("PublishPage, user not match");
+    return redirect("/dashboard");
+  }
+
+  // check status, redirect to the corresponding page if the status is not right
+  if (item.pricePlan === PricePlan.FREE && item.freePlanStatus !== FreePlanStatus.APPROVED) {
+    return redirect(`/dashboard`);
+  } else if (item.pricePlan === PricePlan.PRO && item.proPlanStatus !== ProPlanStatus.SUCCESS) {
+    return redirect(`/dashboard`);
+  }
 
   return (
     <div>
+      {/* show confetti if the payment is successful */}
       {showConfetti && <ConfettiEffect />}
       
       <SubmissionCardInPublishPage item={item} />

@@ -45,9 +45,10 @@ export const NewsletterWelcomeEmail = () => {
             <Text style={footer}>
               <span style={footerLeft}>
                 Copyright &copy; {new Date().getFullYear()}
-                &nbsp;&nbsp;
+                &nbsp;
                 All rights reserved.
               </span>
+              
               <span style={footerRight}>
                 <Link style={anchor} href={siteConfig.links.twitter}>
                   Twitter

@@ -31,7 +31,7 @@ export const PRICE_PLANS: PricePlan[] = [
       "Inclusion within 24 hours, no queue",
       "Permanent link, no backlink required",
       "Featured in our listings",
-      "Advanced analytics and reporting",
+      "Share through social media and newsletters",
       "Premium customer support",
     ],
     limitations: [],

@@ -1,14 +1,12 @@
 export const main = {
     backgroundColor: "#f6f9fc",
-    fontFamily:
-        '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
+    padding: "40px",
+    fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
 };
 
 export const container = {
     backgroundColor: "#ffffff",
-    margin: "0 auto",
-    padding: "20px 0 48px",
-    marginBottom: "64px",
+    padding: "20px 0 20px",
 };
 
 export const box = {
@@ -22,7 +20,6 @@ export const hr = {
 
 export const paragraph = {
     color: "#525f7f",
-
     fontSize: "16px",
     lineHeight: "24px",
     textAlign: "left" as const,
@@ -46,18 +43,20 @@ export const button = {
 };
 
 export const footer = {
+    width: "100%",
     color: "#8898aa",
     fontSize: "12px",
     lineHeight: "16px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    display: "table",
+    tableLayout: "fixed" as const,
 };
 
 export const footerLeft = {
-    flex: 1,
+    display: "table-cell",
+    textAlign: "left" as const,
 };
 
 export const footerRight = {
+    display: "table-cell",
     textAlign: "right" as const,
 };

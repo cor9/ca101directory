@@ -24,7 +24,7 @@ export default function HomeHero() {
         </Link>
 
         <h1 className="max-w-4xl text-balance text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-          Discover The Best {" "}
+          Explore the Best {" "}
           <span className="text-gradient_indigo-purple font-extrabold">
             AI Websites & Tools
           </span>

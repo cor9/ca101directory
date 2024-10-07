@@ -3,12 +3,19 @@
 @tailwind utilities;
 
 /**
+ * 1. shadcn/ui themes
  * https://ui.shadcn.com/themes
  * Style: Default, Color: Slate
+ * Brand Color: violet
+ * 
+ * 2. Customize Shadcn UI to Match Your Style
  * https://customizer.railly.dev/
  */
 @layer base {
   :root {
+    --brand: 262.1 83.3% 57.8%;
+    --brand-foreground: 210 20% 98%;
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;

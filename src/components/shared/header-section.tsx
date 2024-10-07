@@ -26,7 +26,7 @@ export function HeaderSection({
   return (
     <div className={cn("flex flex-col items-center text-center", className)}>
       {label ? (
-        <LabelComponent className="text-gradient_indigo-purple font-semibold">
+        <LabelComponent className="tracking-wider text-gradient_indigo-purple font-semibold">
           {label}
         </LabelComponent>
       ) : null}

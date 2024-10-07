@@ -3,7 +3,7 @@
 import { getItemById } from "@/data/item";
 import { currentUser } from "@/lib/auth";
 import { sendNotifySubmissionEmail } from "@/lib/mail";
-import { FreePlanStatus, PricePlan } from "@/lib/submission";
+import { FreePlanStatus, PricePlans } from "@/lib/submission";
 import { getItemLinkInStudio, getItemStatusLinkInWebsite } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 
@@ -28,12 +28,12 @@ export const submitToReview = async (itemId: string): Promise<ServerActionRespon
     if (item.submitter._ref !== user.id) {
       return { status: "error", message: "You are not allowed to do this!" };
     }
-    if (item.pricePlan !== PricePlan.FREE || item.freePlanStatus !== FreePlanStatus.SUBMITTING) {
+    if (item.pricePlan !== PricePlans.FREE || item.freePlanStatus !== FreePlanStatus.SUBMITTING) {
       return { status: "error", message: "Item is not in right plan status!" };
     }
 
     const result = await sanityClient.patch(itemId).set({
-      pricePlan: PricePlan.FREE,
+      pricePlan: PricePlans.FREE,
       freePlanStatus: FreePlanStatus.PENDING,
     }).commit();
     // console.log('submitToReview, result:', result);

@@ -3,7 +3,7 @@ import ConfettiEffect from "@/components/shared/confetti-effect";
 import { siteConfig } from "@/config/site";
 import { currentUser } from "@/lib/auth";
 import { constructMetadata } from "@/lib/metadata";
-import { FreePlanStatus, PricePlan, ProPlanStatus } from "@/lib/submission";
+import { FreePlanStatus, PricePlans, ProPlanStatus } from "@/lib/submission";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
 import { ItemInfo } from "@/types";
@@ -58,9 +58,9 @@ export default async function PublishPage({
   }
 
   // check status, redirect to the corresponding page if the status is not right
-  if (item.pricePlan === PricePlan.FREE && item.freePlanStatus !== FreePlanStatus.APPROVED) {
+  if (item.pricePlan === PricePlans.FREE && item.freePlanStatus !== FreePlanStatus.APPROVED) {
     return redirect(`/dashboard`);
-  } else if (item.pricePlan === PricePlan.PRO && item.proPlanStatus !== ProPlanStatus.SUCCESS) {
+  } else if (item.pricePlan === PricePlans.PRO && item.proPlanStatus !== ProPlanStatus.SUCCESS) {
     return redirect(`/dashboard`);
   }
 

@@ -2,7 +2,7 @@
 
 import { currentUser } from "@/lib/auth";
 import { SubmitSchema } from "@/lib/schemas";
-import { FreePlanStatus, PricePlan } from "@/lib/submission";
+import { FreePlanStatus, PricePlans } from "@/lib/submission";
 import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
@@ -52,7 +52,7 @@ export async function submit(formData: SubmitFormData): Promise<ServerActionResp
       publishDate: null,
 
       paid: false,
-      pricePlan: PricePlan.FREE,
+      pricePlan: PricePlans.FREE,
       freePlanStatus: FreePlanStatus.PENDING,
       submitter: {
         _type: "reference",

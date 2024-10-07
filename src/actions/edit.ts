@@ -4,7 +4,7 @@ import { getItemById } from "@/data/item";
 import { currentUser } from "@/lib/auth";
 import { sendNotifySubmissionEmail } from "@/lib/mail";
 import { EditSchema } from "@/lib/schemas";
-import { FreePlanStatus, PricePlan } from "@/lib/submission";
+import { FreePlanStatus, PricePlans } from "@/lib/submission";
 import { getItemLinkInStudio, getItemStatusLinkInWebsite, slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
@@ -68,7 +68,7 @@ export async function edit(formData: EditFormData): Promise<ServerActionResponse
 
       // Free plan: update item leads to be unpublished and reviewed again
       // remain submitted if the plan status is submitted, otherwise set to pending
-      ...(pricePlan === PricePlan.FREE && {
+      ...(pricePlan === PricePlans.FREE && {
         publishDate: null,
         freePlanStatus: planStatus === "submitted" ?
           FreePlanStatus.SUBMITTING :
@@ -106,7 +106,7 @@ export async function edit(formData: EditFormData): Promise<ServerActionResponse
     // console.log("edit, success, res:", res);
     
     // send notify email to admin and user
-    if (pricePlan === PricePlan.FREE) {
+    if (pricePlan === PricePlans.FREE) {
       const statusLink = getItemStatusLinkInWebsite(id);
       const reviewLink = getItemLinkInStudio(id);
       sendNotifySubmissionEmail(user.name, user.email, name, statusLink, reviewLink);

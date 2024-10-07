@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { BadgeStyle, BadgeStyles, FreePlanStatus, getBadgeStyle, PricePlan } from "@/lib/submission";
+import { BadgeStyle, BadgeStyles, FreePlanStatus, getBadgeStyle, PricePlans } from "@/lib/submission";
 import { cn } from "@/lib/utils";
 import { ItemInfo } from "@/types";
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
@@ -25,7 +25,7 @@ function StatusWrapper({ badgeStyle, children }: { badgeStyle: BadgeStyle, child
 
 export default function SubmissionStatus({ item }: SubmissionStatusProps) {
     const badgeStyle = getBadgeStyle(item);
-    const status = item.pricePlan === PricePlan.FREE ? item.freePlanStatus : item.proPlanStatus;
+    const status = item.pricePlan === PricePlans.FREE ? item.freePlanStatus : item.proPlanStatus;
 
     return (
         <div>

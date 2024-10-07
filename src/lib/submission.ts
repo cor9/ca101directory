@@ -1,6 +1,6 @@
 import { ItemInfo } from "@/types";
 
-export enum PricePlan {
+export enum PricePlans {
     FREE = "free",
     PRO = "pro",
 }
@@ -20,9 +20,9 @@ export enum ProPlanStatus {
 }
 
 export const getPublishable = (item: ItemInfo): boolean => {
-    if (item.pricePlan === PricePlan.FREE) {
+    if (item.pricePlan === PricePlans.FREE) {
         return item.freePlanStatus === FreePlanStatus.APPROVED;
-    } else if (item.pricePlan === PricePlan.PRO) {
+    } else if (item.pricePlan === PricePlans.PRO) {
         return item.proPlanStatus === ProPlanStatus.SUCCESS;
     }
     return false;
@@ -38,14 +38,14 @@ export const BadgeStyles = {
 export type BadgeStyle = (typeof BadgeStyles)[keyof typeof BadgeStyles];
 
 export const getBadgeStyle = (item: ItemInfo): BadgeStyle => {
-    if (item.pricePlan === PricePlan.FREE) {
+    if (item.pricePlan === PricePlans.FREE) {
         switch (item.freePlanStatus) {
             case FreePlanStatus.APPROVED: return BadgeStyles.SUCCESS;
             case FreePlanStatus.REJECTED: return BadgeStyles.DANGER;
             case FreePlanStatus.PENDING: return BadgeStyles.WARNING;
             default: return BadgeStyles.NORMAL;
         }
-    } else if (item.pricePlan === PricePlan.PRO) {
+    } else if (item.pricePlan === PricePlans.PRO) {
         switch (item.proPlanStatus) {
             case ProPlanStatus.SUCCESS: return BadgeStyles.SUCCESS;
             case ProPlanStatus.FAILED: return BadgeStyles.DANGER;

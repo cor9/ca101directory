@@ -3,7 +3,7 @@ import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { sanityClient } from "@/sanity/lib/client";
 import { getUserById } from "@/data/user";
-import { PricePlan, ProPlanStatus } from "@/lib/submission";
+import { PricePlans, ProPlanStatus } from "@/lib/submission";
 import { sendPaymentSuccessEmail } from "@/lib/mail";
 import { getItemLinkInWebsite } from "@/lib/utils";
 
@@ -69,7 +69,7 @@ export async function POST(req: Request) {
       // update order & status of item
       const res = await sanityClient.patch(itemId).set({
         paid: true,
-        pricePlan: PricePlan.PRO,
+        pricePlan: PricePlans.PRO,
         proPlanStatus: ProPlanStatus.SUCCESS,
         order: {
           _type: 'reference',

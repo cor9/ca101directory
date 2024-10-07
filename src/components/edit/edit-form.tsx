@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { urlForImage } from "@/lib/image";
 import { EditSchema } from "@/lib/schemas";
-import { PricePlan } from "@/lib/submission";
+import { PricePlans } from "@/lib/submission";
 import { cn } from "@/lib/utils";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { ItemFullInfo } from "@/types";
@@ -66,7 +66,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
       tags: item.tags.map(tag => tag._id),
       categories: item.categories.map(category => category._id),
       pricePlan: item.pricePlan,
-      planStatus: item.pricePlan === PricePlan.FREE ? item.freePlanStatus : item.proPlanStatus,
+      planStatus: item.pricePlan === PricePlans.FREE ? item.freePlanStatus : item.proPlanStatus,
     },
   });
 

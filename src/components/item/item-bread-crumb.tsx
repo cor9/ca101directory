@@ -6,13 +6,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import { ItemFullInfo } from "@/types";
+import { ItemInfo } from "@/types";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { ChevronsUpDownIcon, HomeIcon } from "lucide-react";
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
 interface ItemBreadCrumbProps {
-  item: ItemFullInfo;
+  item: ItemInfo;
 }
 
 /**

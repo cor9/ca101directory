@@ -32,10 +32,7 @@ export async function generateMetadata({
     return;
   }
 
-  const imageProps = item?.image
-    ? urlForImage(item?.image)
-    : null;
-
+  const imageProps = item?.image ? urlForImage(item?.image) : null;
   return constructMetadata({
     title: `${item.name}`,
     description: item.description,
@@ -59,9 +56,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
     return notFound();
   }
 
-  const imageProps = item?.image
-    ? urlForImage(item?.image)
-    : null;
+  const imageProps = item?.image ? urlForImage(item?.image) : null;
   const imageBlurDataURL = item?.image?.blurDataURL || null;
   const publishDate = item.publishDate || item._createdAt;
   const date = getLocaleDate(publishDate);
@@ -254,22 +249,20 @@ export default async function ItemPage({ params }: ItemPageProps) {
       </div>
 
       {/* Footer section shows related items */}
-      {
-        item.related && item.related.length > 0 && (
-          <div className="flex flex-col gap-4 mt-8">
-            <div className="flex items-center gap-2">
-              <LayoutGridIcon className="w-4 h-4" />
-              <h2 className="text-lg font-semibold">
-                More Related
-              </h2>
-            </div>
-
-            <div className="mt-4">
-              <ItemGrid items={item.related} />
-            </div>
+      {item.related && item.related.length > 0 && (
+        <div className="flex flex-col gap-4 mt-8">
+          <div className="flex items-center gap-2">
+            <LayoutGridIcon className="w-4 h-4" />
+            <h2 className="text-lg font-semibold">
+              More Related
+            </h2>
           </div>
-        )
-      }
+
+          <div className="mt-4">
+            <ItemGrid items={item.related} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

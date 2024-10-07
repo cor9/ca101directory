@@ -1,4 +1,4 @@
-import { ItemFullInfo } from "@/types";
+import { ItemInfo } from "@/types";
 import { 
   Breadcrumb, 
   BreadcrumbItem, 
@@ -10,7 +10,7 @@ import {
 import { HomeIcon } from "lucide-react";
 
 interface DashboardPlanBreadCrumbProps {
-  item: ItemFullInfo;
+  item: ItemInfo;
 }
 
 export default function DashboardPlanBreadCrumb({ item }: DashboardPlanBreadCrumbProps) {

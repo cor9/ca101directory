@@ -51,13 +51,13 @@ const itemFields = /* groq */ `
 
 // auto generate related items
 const itemFieldsWithRelated = /* groq */ `
-  ${itemSimpleFields}
   introduction,
   "related": *[_type == "item" && defined(slug.current) && defined(publishDate) 
     && count(categories[@._ref in ^.^.categories[]._ref]) > 0 && _id != ^._id] 
     | order(publishedDate desc, _createdAt desc) [0...2] {
       ${itemSimpleFields}
   },
+  ${itemSimpleFields}
 `;
 
 export const itemByIdQuery = defineQuery(`*[_type == "item" && _id == $id][0] {
@@ -174,7 +174,6 @@ export const blogPostSimpleFields = /* groq */ `
 `;
 
 const blogPostFields = /* groq */ `
-  ${blogPostSimpleFields}
   relatedPosts[]-> {
     ${blogPostSimpleFields}
   },
@@ -187,6 +186,7 @@ const blogPostFields = /* groq */ `
       }
     }
   },
+  ${blogPostSimpleFields}
   
   // "estReadingTime": round(length(pt::text(body)) / 5 / 180 ),
   // "related": *[_type == "blogPost" && count(categories[@._ref in ^.^.categories[]._ref]) > 0 ] | order(publishedDate desc, _createdAt desc) [0...2] {
@@ -310,6 +310,4 @@ export const pageListQueryForSitemap = groq`*[_type == "page" && defined(slug.cu
   "slug": slug.current,
 }`;
 
-
 // ======================================================================================================================
-

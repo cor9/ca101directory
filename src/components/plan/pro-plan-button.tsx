@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 interface ProPlanButtonProps {
-  item: ItemInfo;
+  item?: ItemInfo;
   pricePlan: PricePlan;
   className?: string;
 }
@@ -39,7 +39,9 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
 
   const handleClick = () => {
     console.log('ProPlanButton, handleClick, item.proPlanStatus:', item.proPlanStatus);
-    if (item.proPlanStatus === ProPlanStatus.SUBMITTING
+    if (!item) { // no specific item in pricing page
+      router.push(`/submit`);
+    } else if (item.proPlanStatus === ProPlanStatus.SUBMITTING
       || item.proPlanStatus === ProPlanStatus.PENDING) {
       // maybe in pro plan or free plan before
       console.log('ProPlanButton, handleClick, creating checkout session');
@@ -54,6 +56,8 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
         console.log('ProPlanButton, handleClick, pay success but not published yet');
         router.push(`/publish/${item._id}`);
       }
+    } else if (item.proPlanStatus === ProPlanStatus.FAILED) {
+      console.log('ProPlanButton, handleClick, pay failed');
     } else {
       console.error('ProPlanButton, invalid pro plan status:', item.proPlanStatus);
     }
@@ -67,7 +71,11 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
       disabled={isPending}
       onClick={handleClick}
     >
-      {isPending ? (
+      {!item ? (
+        <div className="flex items-center justify-center">
+          <span>Go to Submit</span>
+        </div>
+      ) : isPending ? (
         // when creating checkout session
         <div className="flex items-center justify-center">
           <Icons.spinner className="mr-2 size-4 animate-spin" />

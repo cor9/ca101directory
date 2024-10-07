@@ -12,7 +12,7 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 
 interface FreePlanButtonProps {
-  item: ItemInfo;
+  item?: ItemInfo;
   className?: string;
 }
 
@@ -43,7 +43,9 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
   };
 
   const handleClick = () => {
-    if (item.publishDate) { // already published
+    if (!item) { // no specific item in pricing page
+      router.push(`/submit`);
+    } else if (item.publishDate) { // already published
       router.push(`/dashboard`);
     } else if (item.freePlanStatus === FreePlanStatus.SUBMITTING) {
       submitToReviewAction();
@@ -66,7 +68,11 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
       disabled={isPending}
       onClick={handleClick}
     >
-      {item.publishDate ? (
+      {!item ? (
+        <div className="flex items-center justify-center">
+          <span>Go to Submit</span>
+        </div>
+      ) : item.publishDate ? (
         <div className="flex items-center justify-center">
           <ArrowUpLeftIcon className="mr-2 size-4 icon-scale" />
           <span>Go back to dashboard</span>
@@ -76,7 +82,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
           {isPending ? (
             <div className="flex items-center justify-center">
               <Icons.spinner className="mr-2 size-4 animate-spin" />
-              <span>Submitting to review...</span>
+              <span>Submitting...</span>
             </div>
           ) : item.freePlanStatus === FreePlanStatus.PENDING ? (
             <div className="flex items-center justify-center">
@@ -93,15 +99,19 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
               <EditIcon className="mr-2 size-4 icon-scale" />
               <span>Go to Edit</span>
             </div>
-          ) : (
+          ) : item.freePlanStatus === FreePlanStatus.SUBMITTING ? (
             <div className="flex items-center justify-center">
               <SendIcon className="mr-2 size-4 icon-scale" />
               <span>Submit to review</span>
             </div>
+          ) : (
+            <div className="flex items-center justify-center">
+              <ArrowUpLeftIcon className="mr-2 size-4 icon-scale" />
+              <span>Go back to dashboard</span>
+            </div>
           )}
         </div>
-      )
-      }
+      )}
     </Button>
   );
 }

@@ -94,7 +94,7 @@ export default function ImageUpload({ currentImageUrl, onUploadChange }: ImageUp
           <div className="flex flex-col items-center justify-center gap-4">
             <ImageUpIcon className="h-8 w-8 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">
-              Select or drag an image to upload
+              Drag & drop or select image to upload
             </p>
           </div>
         )}

@@ -2,13 +2,11 @@
 
 import { FreePlanButton } from "@/components/plan/free-plan-button";
 import { ProPlanButton } from "@/components/plan/pro-plan-button";
-import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { PRICE_PLANS } from "@/config/price-plan";
 import { cn } from "@/lib/utils";
 import { ItemInfo, PricePlan } from "@/types/index";
 import { CheckIcon, XIcon } from "lucide-react";
-import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface PricingPlansProps {
   item?: ItemInfo;
@@ -40,9 +38,9 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
   console.log('PricingPlanCard, item:', item);
   return (
     <div className={cn(
-        "relative flex flex-col overflow-hidden rounded-xl border shadow-sm",
-        pricePlan.title === "Pro" ? "border-2 border-purple-500" : "border",
-      )}
+      "relative flex flex-col overflow-hidden rounded-xl border shadow-sm",
+      pricePlan.title === "Pro" ? "border-2 border-purple-500" : "border",
+    )}
     >
       {/* price plan title and price */}
       <div className="bg-muted/50 p-6 pr-10 border-b flex flex-row items-center justify-between">
@@ -78,21 +76,10 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
 
         {/* action buttons */}
         <div className="mt-6 px-6">
-          {item ? (
-            pricePlan.title === "Free" ? (
-              <FreePlanButton item={item} className="w-full" />
-            ) : (
-              <ProPlanButton item={item} pricePlan={pricePlan} className="w-full" />
-            )
+          {pricePlan.title === "Free" ? (
+            <FreePlanButton item={item} className="w-full" />
           ) : (
-            <div className="w-full">
-              <Button asChild variant="default" size="lg"
-                className="w-full group overflow-hidden">
-                <Link href="/submit">
-                  Go to Submit
-                </Link>
-              </Button>
-            </div>
+            <ProPlanButton item={item} pricePlan={pricePlan} className="w-full" />
           )}
         </div>
       </div>
@@ -131,9 +118,6 @@ export function PricingPlanCardSkeleton() {
           </li>
         ))}
       </ul>
-      {/* <Button className="mt-8" size="lg" disabled>
-        Get started
-      </Button> */}
       <Skeleton className="mt-8 h-14 w-full" />
     </div>
   );

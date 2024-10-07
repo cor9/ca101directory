@@ -1,8 +1,8 @@
 "use server";
 
+import { NewsletterWelcomeEmail } from "@/emails/newsletter-welcome";
 import { resend } from "@/lib/mail";
 import { NewsletterFormData, NewsletterFormSchema } from "@/lib/schemas";
-import { NewsletterWelcomeEmail } from "@/components/emails/newsletter-welcome-email";
 
 export type ServerActionResponse = {
   status: "success" | "error";

@@ -1,5 +1,5 @@
 import Container from '@/components/container';
-import { NewsletterForm } from '@/components/emails/newsletter-form';
+import { NewsletterForm } from '@/components/newsletter/newsletter-form';
 import HomeHero from '@/components/home/home-hero';
 import { siteConfig } from '@/config/site';
 import { constructMetadata } from '@/lib/metadata';

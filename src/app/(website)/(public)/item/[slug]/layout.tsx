@@ -1,4 +1,4 @@
-import { NewsletterForm } from '@/components/emails/newsletter-form';
+import { NewsletterForm } from '@/components/newsletter/newsletter-form';
 import Container from '@/components/container';
 import React from 'react';
 

@@ -43,6 +43,7 @@ export function NewsletterForm() {
               toast.error("Something went wrong, please try again");
           }
         }).catch(error => {
+          console.error('NewsletterForm, onSubmit, error:', error);
           toast.error("Something went wrong");
         });
     });

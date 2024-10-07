@@ -4,7 +4,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_APP_URL!!;
 
 export const siteConfig: SiteConfig = {
   name: "Demo",
-  slogan: "Make any trending and profitable web directory in minutes",
+  slogan: "This is a demo site for Mkdirs template",
   description: "Make any trending and profitable web directory in minutes",
   keywords: [ "Directory", "Template", "Boilerplate", "Sanity", "Next.js", "Auth.js", "Tailwindcss", "Shadcn/ui", "Resend", "Stripe"],
   author: "Mkdirs",

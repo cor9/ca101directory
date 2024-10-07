@@ -1,13 +1,13 @@
+import { Icons } from "@/components/icons/icons";
 import { ModeToggle } from "@/components/layout/mode-toggle";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { footerLinks } from "@/config/footer";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import * as React from "react";
-import { Logo } from "../logo";
 import Container from "../container";
-import { Icons } from "@/components/icons/icons";
+import { Logo } from "../logo";
 
 export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
@@ -62,6 +62,18 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                 </Button>
               )}
             </div>
+
+            <Link target="_blank"
+              href="https://mkdirs.com"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "sm" }),
+                "px-4 rounded-md",
+              )}
+            >
+              <span className="mr-2">Built with</span>
+              <span className="mr-2">🚀</span>
+              <span className="font-bold">Mkdirs</span>
+            </Link>
           </div>
         </div>
 

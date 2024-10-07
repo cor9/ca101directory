@@ -87,7 +87,7 @@ export default function ItemCard({ item }: ItemCardProps) {
               <div className="flex flex-wrap gap-2 items-center">
                 {item.tags.slice(0, 5).map((tag, index) => (
                   <div key={`tag-${index}`} className="flex items-center justify-center space-x-0.5 group">
-                    <HashIcon className="w-3 h-3 text-muted-foreground icon-scale" />
+                    {/* <HashIcon className="w-3 h-3 text-muted-foreground icon-scale" /> */}
                     <span className="text-sm text-muted-foreground">
                       {tag.name}
                     </span>

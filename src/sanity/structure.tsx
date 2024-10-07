@@ -1,4 +1,4 @@
-import { BillIcon, CheckmarkCircleIcon, ClockIcon, CloseCircleIcon, CogIcon, ComponentIcon, DashboardIcon, DiamondIcon, DocumentsIcon, DocumentTextIcon, MasterDetailIcon, StarFilledIcon, TagsIcon, TaskIcon, TiersIcon, TokenIcon, UlistIcon, UserIcon, UsersIcon } from "@sanity/icons";
+import { BillIcon, CheckmarkCircleIcon, ClockIcon, CloseCircleIcon, CogIcon, ComponentIcon, DashboardIcon, DiamondIcon, DocumentsIcon, DocumentTextIcon, MasterDetailIcon, ProjectsIcon, StarFilledIcon, TagsIcon, TaskIcon, TiersIcon, TokenIcon, UlistIcon, UserIcon, UsersIcon } from "@sanity/icons";
 import { type DocumentDefinition } from "sanity";
 import { type StructureResolver } from "sanity/structure";
 import { schemaTypes } from "./schemas";
@@ -127,7 +127,7 @@ export const structure = (/* typeDefArray: DocumentDefinition[] */): StructureRe
     const itemsInFreePlan = createFilteredListItem(
       'All Items In Free Plan',
       item.name,
-      DashboardIcon,
+      ProjectsIcon,
       '_type == "item" && pricePlan == "free"'
     );
 

@@ -89,7 +89,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
       <div className="border-t py-4">
         <Container className="flex items-center justify-between">
           <span className="text-muted-foreground text-sm">
-            &copy; {new Date().getFullYear()} All rights reserved
+            Copyright &copy; {new Date().getFullYear()} All rights reserved
           </span>
 
           <div className="flex items-center gap-3">

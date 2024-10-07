@@ -55,7 +55,12 @@ const config = {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
-  		fontFamily: {},
+  		fontFamily: {
+			bricolage: ['var(--font-bricolage)'],
+			sourceSans: ['var(--font-source-sans)'],
+			sourceSerif: ['var(--font-source-serif)'],
+			workSans: ['var(--font-work-sans)'],
+		},
   		keyframes: {
   			'accordion-down': {
   				from: {

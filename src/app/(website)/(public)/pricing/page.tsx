@@ -7,7 +7,7 @@ import { siteConfig } from "@/config/site";
 
 export const metadata = constructMetadata({
   title: "Pricing",
-  description: "Choose a pricing plan",
+  description: "Choose a pricing plan for submitting your product",
   canonicalUrl: `${siteConfig.url}/pricing`,
 });
 

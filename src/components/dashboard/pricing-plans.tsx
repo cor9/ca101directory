@@ -54,7 +54,7 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
           <span className="text-xl font-bold uppercase tracking-wider">
             {pricePlan.title}
           </span>
-          <div className="text-4xl font-semibold text-purple-500">
+          <div className="text-4xl font-semibold font-workSans leading-relaxed text-purple-500">
             ${pricePlan.price}
           </div>
         </div>

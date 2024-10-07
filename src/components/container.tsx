@@ -6,7 +6,7 @@ export default function Container({
   children,
 }: {
   className?: string;
-  children: ReactNode;
+  children?: ReactNode;
 }) {
   return (
     // max-w-6xl

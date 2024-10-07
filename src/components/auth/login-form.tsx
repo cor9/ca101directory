@@ -116,7 +116,7 @@ export const LoginForm = ({ className }: { className?: string }) => {
                       size="sm"
                       variant="link"
                       asChild
-                      className="px-0 font-normal"
+                      className="px-0 font-normal text-muted-foreground"
                     >
                       <Link href="/auth/reset" className="text-xs underline">
                         Forgot password?

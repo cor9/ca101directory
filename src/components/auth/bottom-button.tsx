@@ -15,11 +15,11 @@ export const BottomButton = ({
   return (
     <Button
       variant="link"
-      className="font-normal w-full"
+      className="font-normal w-full text-muted-foreground"
       size="sm"
       asChild
     >
-      <Link href={href} className="underline">
+      <Link href={href}>
         {label}
       </Link>
     </Button>

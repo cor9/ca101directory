@@ -34,23 +34,7 @@ export default async function HomePage({
 
       {/* main content shows the list of items*/}
       <Container className="mt-8">
-        <div>
-          {/* when no items are found */}
-          {items?.length === 0 && (
-            <EmptyGrid />
-          )}
-
-          {/* when items are found */}
-          {items && items.length > 0 && (
-            <section className=''>
-              <ItemGrid items={items} />
-
-              <div className="mt-8 flex items-center justify-center">
-                <CustomPagination routePreix='/' totalPages={totalPages} />
-              </div>
-            </section>
-          )}
-        </div>
+        
       </Container>
 
       <Container className="my-16">

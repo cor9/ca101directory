@@ -7,7 +7,7 @@ import Link from "next/link";
 import { FaBrandsGithub } from "../icons/github";
 import Container from "../container";
 
-export default function HomeHero() {
+export default function LandingHero() {
 
   return (
     <div className="space-y-6 py-8">

@@ -210,7 +210,7 @@ export default defineType({
       group: 'status',
       to: [{ type: "order" }],
       hidden: ({ parent }) => !parent.paid,
-      readOnly: true,
+      // readOnly: true,
     }),
   ],
   // https://www.sanity.io/docs/previews-list-views

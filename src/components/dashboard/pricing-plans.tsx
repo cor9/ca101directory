@@ -16,7 +16,7 @@ export function PricingPlans({ item }: PricingPlansProps) {
   // console.log('PricingPlans, item:', item);
   return (
     <section className="flex flex-col items-center text-center w-full mx-auto">
-      <div className="grid gap-8 w-full sm:grid-cols-1 md:grid-cols-2">
+      <div className="grid gap-8 w-full sm:grid-cols-1 md:grid-cols-2 items-center">
         {PRICE_PLANS.map((pricePlan) => (
           <PricingPlanCard
             item={item}
@@ -35,52 +35,58 @@ interface PricingPlanCardProps {
 }
 
 const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
-  console.log('PricingPlanCard, item:', item);
   return (
-    <div className={cn(
-      "relative flex flex-col overflow-hidden rounded-xl border shadow-sm",
-      pricePlan.title === "Pro" ? "border-2 border-purple-500" : "border",
-    )}
-    >
-      {/* price plan title and price */}
-      <div className="bg-muted/50 p-6 pr-10 border-b flex flex-row items-center justify-between">
-        {/* text-muted-foreground */}
-        <span className="text-xl font-bold uppercase tracking-wider">
-          {pricePlan.title}
-        </span>
-        <div className="text-4xl font-semibold text-purple-500">
-          ${pricePlan.price}
-        </div>
-      </div>
-
-      {/* price plan features and limitations */}
-      <div className="flex flex-col flex-grow px-6 py-8">
-        <div className="flex-grow">
-          <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal mb-6">
-            {pricePlan.benefits.map((feature) => (
-              <div key={feature} className="flex items-start gap-x-4">
-                <CheckIcon className="size-4 shrink-0 text-purple-500 mt-0.5" />
-                <p>{feature}</p>
-              </div>
-            ))}
+    <div className="relative pt-4">
+      {pricePlan.title === "Pro" && (
+        <div className="absolute top-0.5 left-1/2 transform -translate-x-1/2 z-10">
+          <div className="bg-purple-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+            POPULAR
           </div>
-          <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal text-muted-foreground">
-            {pricePlan.limitations.map((feature) => (
-              <div key={feature} className="flex items-start gap-x-4">
-                <XIcon className="size-4 shrink-0 mt-0.5" />
-                <p>{feature}</p>
-              </div>
-            ))}
+        </div>
+      )}
+      <div className={cn(
+        "relative overflow-hidden flex flex-col rounded-xl shadow-sm",
+        pricePlan.title === "Pro" ? "border-2 border-purple-500" : "border",
+      )}>
+        {/* price plan title and price */}
+        <div className="bg-muted/50 p-6 pr-10 border-b flex flex-row items-center justify-between">
+          <span className="text-xl font-bold uppercase tracking-wider">
+            {pricePlan.title}
+          </span>
+          <div className="text-4xl font-semibold text-purple-500">
+            ${pricePlan.price}
           </div>
         </div>
 
-        {/* action buttons */}
-        <div className="mt-6 px-6">
-          {pricePlan.title === "Free" ? (
-            <FreePlanButton item={item} className="w-full" />
-          ) : (
-            <ProPlanButton item={item} pricePlan={pricePlan} className="w-full" />
-          )}
+        {/* price plan features and limitations */}
+        <div className="flex flex-col flex-grow px-6 py-8">
+          <div className="flex-grow">
+            <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal mb-6">
+              {pricePlan.benefits.map((feature) => (
+                <div key={feature} className="flex items-start gap-x-4">
+                  <CheckIcon className="size-4 shrink-0 text-purple-500 mt-0.5" />
+                  <p>{feature}</p>
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal text-muted-foreground">
+              {pricePlan.limitations.map((feature) => (
+                <div key={feature} className="flex items-start gap-x-4">
+                  <XIcon className="size-4 shrink-0 mt-0.5" />
+                  <p>{feature}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* action buttons */}
+          <div className="mt-6 px-6">
+            {pricePlan.title === "Free" ? (
+              <FreePlanButton item={item} className="w-full" />
+            ) : (
+              <ProPlanButton item={item} pricePlan={pricePlan} className="w-full" />
+            )}
+          </div>
         </div>
       </div>
     </div>

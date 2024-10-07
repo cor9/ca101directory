@@ -8,33 +8,30 @@ export const publicRoutes = [
   "/studio(/.*)?",
 
   "/search(/.*)?",
-  "/item(/.*)?",
   "/category(/.*)?",
   "/tag(/.*)?",
-  
-  "/blog(/.*)?",
-  "/archive(/.*)?",
-  "/post(/.*)?",
-  "/author(/.*)?",
-  
+  "/item(/.*)?",
+  "/blog(/.*)?",  
   "/pricing(/.*)?",
+
   "/about(/.*)?",
   "/terms(/.*)?",
   "/privacy(/.*)?",
   "/changelog(/.*)?",
   
+  // user clicks verification link from email
   "/auth/new-verification",
 
-  // NOTICE: stripe webhook, must be public, otherwise can not receive stripe events
+  // stripe webhook must be public, otherwise can not receive stripe events
   "/api/webhook",
   
   // og images
   "/api/og",
 
   // test pages
-  "/shadcn(/.*)?",
   "/landing(/.*)?",
   "/loading(/.*)?",
+  "/mkdirs(/.*)?",
 ];
 
 /**

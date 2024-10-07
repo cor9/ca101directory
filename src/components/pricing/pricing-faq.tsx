@@ -8,33 +8,33 @@ import {
 const pricingFaqData = [
   {
     id: "item-1",
-    question: "What is the cost of the free plan?",
+    question: "What's included in the Free plan?",
     answer:
-      "Our free plan is completely free, with no monthly or annual charges. It's a great way to get started and explore our basic features.",
+      "Our Free plan is perfect for beginners. It includes one dofollow link to boost your SEO, a permanent link with backlink maintenance, and review within 48 hours. However, it's limited to one dofollow link, requires a backlink to our site, and doesn't include customer support.",
   },
   {
     id: "item-2",
-    question: "How much does the Basic Monthly plan cost?",
+    question: "What are the benefits of the Pro plan?",
     answer:
-      "The Basic Monthly plan is priced at $15 per month. It provides access to our core features and is billed on a monthly basis.",
+      "The Pro plan offers at least 2 dofollow links, inclusion within 24 hours with no queue, permanent links without backlink requirements, featured listings, premium customer support, and sharing through social media and newsletters. It's designed for users who need more comprehensive features and faster service.",
   },
   {
     id: "item-3",
-    question: "What is the price of the Pro Monthly plan?",
+    question: "How much does the Pro plan cost?",
     answer:
-      "The Pro Monthly plan is available for $25 per month. It offers advanced features and is billed on a monthly basis for added flexibility.",
+      "The Pro plan is priced at $9.90. This plan offers significant advantages over the Free plan, including multiple dofollow links, faster inclusion, and premium support.",
   },
   {
     id: "item-4",
-    question: "Do you offer any annual subscription plans?",
+    question: "Is there a difference in review time between Free and Pro plans?",
     answer:
-      "Yes, we offer annual subscription plans for even more savings. The Basic Annual plan is $144 per year, and the Pro Annual plan is $300 per year.",
+      "Yes, there is. Free plan submissions are reviewed within 48 hours, while Pro plan submissions are included within 24 hours and don't have to wait in a queue. This faster turnaround time is one of the key benefits of the Pro plan.",
   },
   {
     id: "item-5",
-    question: "Is there a trial period for the paid plans?",
+    question: "Do I need to provide a backlink for my listing?",
     answer:
-      "We offer a 14-day free trial for both the Pro Monthly and Pro Annual plans. It's a great way to experience all the features before committing to a paid subscription.",
+      "For the Free plan, a backlink to our site is required. However, if you choose the Pro plan, you get a permanent link without any backlink requirement. This gives Pro users more flexibility in their link strategy.",
   },
 ];
 

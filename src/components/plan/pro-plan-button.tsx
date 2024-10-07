@@ -41,7 +41,8 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
     console.log('ProPlanButton, handleClick, item.proPlanStatus:', item?.proPlanStatus);
     if (!item) { // no specific item in pricing page
       router.push('/submit');
-    } else if (item.proPlanStatus === ProPlanStatus.SUBMITTING
+    } else if (item.proPlanStatus === null
+      || item.proPlanStatus === ProPlanStatus.SUBMITTING
       || item.proPlanStatus === ProPlanStatus.PENDING) {
       // maybe in pro plan or free plan before
       console.log('ProPlanButton, handleClick, creating checkout session');
@@ -67,7 +68,7 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
     <Button
       size="lg"
       variant="default"
-      className={cn("group overflow-hidden rounded-full", className)}
+      className={cn("group overflow-hidden rounded-full bg-brand", className)}
       disabled={isPending}
       onClick={handleClick}
     >

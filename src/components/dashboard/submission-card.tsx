@@ -4,6 +4,7 @@ import { PublishButton } from "@/components/dashboard/publish-button";
 import { UnpublishButton } from "@/components/dashboard/unpublish-button";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { urlForImage } from "@/lib/image";
 import { getPublishable } from "@/lib/submission";
 import { getLocaleDate } from "@/lib/utils";
@@ -11,7 +12,6 @@ import { ItemInfo } from "@/types";
 import { EditIcon, HashIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton";
 import SubmissionStatus from "./submission-status";
 
 type SubmissionCardProps = {
@@ -76,33 +76,28 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
               </div>
             )}
 
-            {
-              item.publishDate ? (
-                <Link href={`/item/${item.slug.current}`} className="absolute inset-0 flex items-center justify-center bg-black 
+            {item.publishDate ? (
+              <Link href={`/item/${item.slug.current}`} className="absolute inset-0 flex items-center justify-center bg-black 
                     bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
-                  <span className="text-white text-lg font-semibold 
+                <span className="text-white text-lg font-semibold 
                       opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    View on site
-                  </span>
-                </Link>
-              ) : null
-            }
+                  View on site
+                </span>
+              </Link>
+            ) : null}
           </div>
         </div>
 
         {/* Right column */}
         <div className="md:col-span-3 flex flex-col justify-between">
           <div className="space-y-4">
-            {
-              publishable && item.publishDate ?
-                (
-                  <Link href={`/item/${item.slug.current}`}>
-                    <h3 className="text-2xl inline-block">{item.name}</h3>
-                  </Link>
-                ) : (
-                  <h3 className="text-2xl inline-block">{item.name}</h3>
-                )
-            }
+            {publishable && item.publishDate ? (
+              <Link href={`/item/${item.slug.current}`}>
+                <h3 className="text-2xl inline-block">{item.name}</h3>
+              </Link>
+            ) : (
+              <h3 className="text-2xl inline-block">{item.name}</h3>
+            )}
 
             <p className="text-muted-foreground line-clamp-2 text-balance leading-relaxed">
               {item.description}
@@ -122,17 +117,15 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm pt-2">
               <div className="flex items-center gap-2">
                 <span className="text-muted-foreground">Publish Date:</span>
-                {
-                  item.publishDate ? (
-                    <span className="font-medium">
-                      {getLocaleDate(item.publishDate)}
-                    </span>
-                  ) : (
-                    <span className="font-semibold">
-                      Not published
-                    </span>
-                  )
-                }
+                {item.publishDate ? (
+                  <span className="font-medium">
+                    {getLocaleDate(item.publishDate)}
+                  </span>
+                ) : (
+                  <span className="font-semibold">
+                    Not published
+                  </span>
+                )}
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-muted-foreground">Created Date:</span>

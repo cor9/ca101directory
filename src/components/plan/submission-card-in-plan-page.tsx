@@ -65,17 +65,15 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
             </div>
           )}
 
-          {
-            item.publishDate ? (
-              <Link href={`/item/${item.slug.current}`} className="absolute inset-0 flex items-center justify-center bg-black 
+          {item.publishDate ? (
+            <Link href={`/item/${item.slug.current}`} className="absolute inset-0 flex items-center justify-center bg-black 
                     bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
-                <span className="text-white text-lg font-semibold 
+              <span className="text-white text-lg font-semibold 
                       opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  Visit Website
-                </span>
-              </Link>
-            ) : null
-          }
+                Visit Website
+              </span>
+            </Link>
+          ) : null}
         </div>
       </div>
 
@@ -102,17 +100,15 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm pt-2">
             <div className="flex items-center gap-2">
               <span className="text-muted-foreground">Publish Date:</span>
-              {
-                item.publishDate ? (
-                  <span className="font-medium">
-                    {getLocaleDate(item.publishDate)}
-                  </span>
-                ) : (
-                  <span className="font-semibold">
-                    Not published
-                  </span>
-                )
-              }
+              {item.publishDate ? (
+                <span className="font-medium">
+                  {getLocaleDate(item.publishDate)}
+                </span>
+              ) : (
+                <span className="font-semibold">
+                  Not published
+                </span>
+              )}
             </div>
             <div className="flex items-center gap-2">
               <span className="text-muted-foreground">Created Date:</span>

@@ -1,11 +1,10 @@
 "use client";
 
+import { Separator } from "@/components/ui/separator";
 import { urlForImage } from "@/lib/image";
 import { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
-import { HashIcon } from "lucide-react";
 
 type ItemCardProps = {
   item: ItemInfo;
@@ -53,17 +52,15 @@ export default function ItemCard({ item }: ItemCardProps) {
               </div>
             )}
 
-            {
-              item.link ? (
-                <Link href={item.link} prefetch={false} target="_blank" className="absolute inset-0 flex items-center justify-center bg-black 
+            {item.link ? (
+              <Link href={item.link} prefetch={false} target="_blank" className="absolute inset-0 flex items-center justify-center bg-black 
                     bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
-                  <span className="text-white text-lg font-semibold 
+                <span className="text-white text-lg font-semibold 
                       opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Visit Website
-                  </span>
-                </Link>
-              ) : null
-            }
+                  Visit Website
+                </span>
+              </Link>
+            ) : null}
           </div>
         </div>
 

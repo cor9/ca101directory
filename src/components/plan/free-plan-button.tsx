@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { FreePlanStatus } from "@/lib/submission";
 import { cn } from "@/lib/utils";
 import { ItemInfo } from "@/types";
-import { ArrowUpLeftIcon, CheckCircleIcon, Clock3Icon, EditIcon, SendIcon } from "lucide-react";
+import { ArrowUpLeftIcon, CheckCircleIcon, EditIcon, SendIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
@@ -70,12 +70,12 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
     >
       {!item ? (
         <div className="flex items-center justify-center">
-          <span>Go to Submit</span>
+          <span>Go Submit</span>
         </div>
       ) : item.publishDate ? (
         <div className="flex items-center justify-center">
           <ArrowUpLeftIcon className="mr-2 size-4 icon-scale" />
-          <span>Go back to dashboard</span>
+          <span>Go dashboard</span>
         </div>
       ) : (
         <div>
@@ -86,18 +86,18 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
             </div>
           ) : item.freePlanStatus === FreePlanStatus.PENDING ? (
             <div className="flex items-center justify-center">
-              <Clock3Icon className="mr-2 size-4 icon-scale" />
-              <span>Go back and Wait</span>
+              <ArrowUpLeftIcon className="mr-2 size-4 icon-scale" />
+              <span>Go dashboard and Wait</span>
             </div>
           ) : item.freePlanStatus === FreePlanStatus.APPROVED ? (
             <div className="flex items-center justify-center">
               <CheckCircleIcon className="mr-2 size-4 icon-scale" />
-              <span>Go to Publish</span>
+              <span>Go Publish</span>
             </div>
           ) : item.freePlanStatus === FreePlanStatus.REJECTED ? (
             <div className="flex items-center justify-center">
               <EditIcon className="mr-2 size-4 icon-scale" />
-              <span>Go to Edit</span>
+              <span>Go Edit</span>
             </div>
           ) : item.freePlanStatus === FreePlanStatus.SUBMITTING ? (
             <div className="flex items-center justify-center">
@@ -107,7 +107,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
           ) : (
             <div className="flex items-center justify-center">
               <ArrowUpLeftIcon className="mr-2 size-4 icon-scale" />
-              <span>Go back to dashboard</span>
+              <span>Go dashboard</span>
             </div>
           )}
         </div>

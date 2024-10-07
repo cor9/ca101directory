@@ -73,7 +73,7 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
     >
       {!item ? (
         <div className="flex items-center justify-center">
-          <span>Go to Submit</span>
+          <span>Go Submit</span>
         </div>
       ) : isPending ? (
         // when creating checkout session
@@ -86,20 +86,20 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
         item.publishDate ? (
           <div className="flex items-center justify-center">
             <ArrowUpLeftIcon className="mr-2 size-4 icon-scale" />
-            <span>Go back to dashboard</span>
+            <span>Go dashboard</span>
           </div>
         ) : (
           // maybe pay success but not published yet
           <div className="flex items-center justify-center">
             <CheckCircleIcon className="mr-2 size-4 icon-scale" />
-            <span>Go to Publish</span>
+            <span>Go Publish</span>
           </div>
         )
       ) : (
         // not paid success yet
         <div className="flex items-center justify-center">
           <RocketIcon className="mr-2 size-4 icon-scale" />
-          <span>Pay to Publish Right Now</span>
+          <span>Pay & Publish Right Now</span>
         </div>
       )}
     </Button>

@@ -1,6 +1,7 @@
 "use client";
 
 import { subscribeToNewsletter } from "@/actions/subscribe-to-newsletter";
+import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,8 +18,6 @@ import { PaperPlaneIcon } from "@radix-ui/react-icons";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { HeaderSection } from "../shared/header-section";
-import { Icons } from "@/components/icons/icons";
 
 export function NewsletterForm() {
   const [isPending, startTransition] = useTransition();
@@ -50,54 +49,40 @@ export function NewsletterForm() {
   }
 
   return (
-    <div>
-      <div className="w-full px-4 py-8 md:p-12 bg-muted rounded-lg">
-        <div className="flex flex-col items-center justify-center gap-8">
-          <HeaderSection
-            labelAs="h2"
-            label="Newsletter"
-            title="Join the Community"
-            titleAs="h3"
-            subtitle="Subscribe to our newsletter for the latest news and updates"
-          />
-
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="flex items-center justify-center"
-            >
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem className="relative space-y-0">
-                    <FormLabel className="sr-only">Email</FormLabel>
-                    <FormControl className="rounded-r-none">
-                      <Input type="email"
-                        className="w-[280px] sm:w-[320px] md:w-[400px] h-12 focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary focus:border-2"
-                        placeholder="Enter your email"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className="pt-2 text-sm" />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit"
-                className="rounded-l-none size-12"
-                disabled={isPending}
-              >
-                {isPending ? (
-                  <Icons.spinner className="size-5 animate-spin" aria-hidden="true" />
-                ) : (
-                  <PaperPlaneIcon className="size-5" aria-hidden="true" />
-                )}
-                <span className="sr-only">Subscribe</span>
-              </Button>
-            </form>
-          </Form>
-        </div>
-      </div>
-    </div>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex items-center justify-center"
+      >
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="relative space-y-0">
+              <FormLabel className="sr-only">Email</FormLabel>
+              <FormControl className="rounded-r-none">
+                <Input type="email"
+                  className="w-[280px] sm:w-[320px] md:w-[400px] h-12 focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary focus:border-2"
+                  placeholder="Enter your email"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage className="pt-2 text-sm" />
+            </FormItem>
+          )}
+        />
+        <Button type="submit"
+          className="rounded-l-none size-12"
+          disabled={isPending}
+        >
+          {isPending ? (
+            <Icons.spinner className="size-5 animate-spin" aria-hidden="true" />
+          ) : (
+            <PaperPlaneIcon className="size-5" aria-hidden="true" />
+          )}
+          <span className="sr-only">Subscribe</span>
+        </Button>
+      </form>
+    </Form>
   );
 }

@@ -1,5 +1,5 @@
 import Container from '@/components/container';
-import { NewsletterForm } from '@/components/newsletter/newsletter-form';
+import { NewsletterCard } from '@/components/newsletter/newsletter-card';
 import HomeHero from '@/components/home/home-hero';
 import { siteConfig } from '@/config/site';
 import { constructMetadata } from '@/lib/metadata';
@@ -21,7 +21,7 @@ export default async function HomePage() {
       </Container>
 
       <Container className="my-16">
-        <NewsletterForm />
+        <NewsletterCard />
       </Container>
     </div>
   );

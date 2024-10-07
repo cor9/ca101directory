@@ -1,4 +1,4 @@
-import { NewsletterForm } from '@/components/newsletter/newsletter-form';
+import { NewsletterCard } from '@/components/newsletter/newsletter-card';
 import Container from '@/components/container';
 import React from 'react';
 
@@ -10,7 +10,7 @@ export default function BlogPostLayout({ children }: { children: React.ReactNode
       </Container>
 
       <Container className="my-16">
-        <NewsletterForm />
+        <NewsletterCard />
       </Container>
     </div>
   );

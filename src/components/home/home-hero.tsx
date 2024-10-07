@@ -25,19 +25,18 @@ export default function HomeHero() {
           <Icons.twitter className="ml-2 size-4" />
         </Link>
 
-        <h1 className="text-balance text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
-          Make any web directory{" "}
+        <h1 className="max-w-4xl text-balance text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+          Discover The Best {" "}
           <span className="text-gradient_indigo-purple font-extrabold">
-            in Minutes
+            AI Websites & Tools
           </span>
         </h1>
 
         <p
-          className="max-w-2xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8"
+          className="max-w-3xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8"
           style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
         >
-          Start your next directory with Listing, Submission, Newsletter, Auth, Payment and more.
-          No database, no storage, no hassle!
+          Thousands of AI websites and tools in the best AI tools directory. AI tools list & GPTs store are updated daily by ChatGPT.
         </p>
 
         <div
@@ -45,33 +44,15 @@ export default function HomeHero() {
           style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}
         >
           <Link
-            href="/pricing"
+            href="/submit"
             prefetch={true}
             className={cn(
               buttonVariants({ size: "lg" }),
               "gap-2 rounded-full",
             )}
           >
-            <span>Go Pricing</span>
-            <ArrowRightIcon className="size-4" />
-          </Link>
-          <Link
-            href={siteConfig.links.github}
-            target="_blank"
-            rel="noreferrer"
-            className={cn(
-              buttonVariants({
-                variant: "outline",
-                size: "lg",
-              }),
-              "px-5 rounded-full",
-            )}
-          >
-            <FaBrandsGithub className="mr-2 size-4" />
-            <p>
-              <span className="hidden sm:inline-block">Star on</span> GitHub{" "}
-              {/* <span className="font-semibold">{nFormatter(stars)}</span> */}
-            </p>
+            <span>Go Submit</span>
+            <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
       </Container>

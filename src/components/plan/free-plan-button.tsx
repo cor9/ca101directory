@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { FreePlanStatus } from "@/lib/submission";
 import { cn } from "@/lib/utils";
 import { ItemInfo } from "@/types";
-import { ArrowUpLeftIcon, CheckCircleIcon, EditIcon, SendIcon } from "lucide-react";
+import { ArrowRightIcon, ArrowUpLeftIcon, CheckCircleIcon, EditIcon, SendIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
@@ -69,8 +69,9 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
       onClick={handleClick}
     >
       {!item ? (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center gap-2">
           <span>Go Submit</span>
+          <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-1" />
         </div>
       ) : item.publishDate ? (
         <div className="flex items-center justify-center">

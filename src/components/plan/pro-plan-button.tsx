@@ -6,7 +6,7 @@ import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ItemInfo, PricePlan } from "@/types";
-import { ArrowUpLeftIcon, CheckCircleIcon, EditIcon, RocketIcon } from "lucide-react";
+import { ArrowRightIcon, ArrowUpLeftIcon, CheckCircleIcon, EditIcon, RocketIcon } from "lucide-react";
 import { useTransition } from "react";
 import { ProPlanStatus } from "@/lib/submission";
 import { useRouter } from "next/navigation";
@@ -72,8 +72,9 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
       onClick={handleClick}
     >
       {!item ? (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center gap-2">
           <span>Go Submit</span>
+          <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-1" />
         </div>
       ) : isPending ? (
         // when creating checkout session

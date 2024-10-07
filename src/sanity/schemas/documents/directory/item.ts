@@ -6,6 +6,12 @@ export default defineType({
   name: "item",
   title: "Item",
   type: "document",
+  groups: [
+    {
+      name: 'status',
+      title: 'Status',
+    },
+  ],
   fields: [
     defineField({
       name: "name",
@@ -112,6 +118,7 @@ export default defineType({
       title: 'Publish Date',
       description: "The lastest publish date when the item is published",
       type: 'datetime',
+      group: 'status',
       // hidden: ({ parent }) => !parent.published,
     }),
     // price plan related fields
@@ -120,18 +127,21 @@ export default defineType({
       title: "Price Plan",
       description: "The price plan of the item, chosen by the submitter",
       type: 'string',
+      group: 'status',
       initialValue: 'free',
       options: {
         list: ['free', 'pro'],
         layout: 'radio',
         direction: 'horizontal',
       },
+      readOnly: true,
     }),
     defineField({
       name: "freePlanStatus",
       title: "Free Plan Status",
       description: "The status of the item when the item is in free plan",
       type: 'string',
+      group: 'status',
       initialValue: 'submitting',
       options: {
         list: [
@@ -150,6 +160,7 @@ export default defineType({
       title: "Pro Plan Status",
       description: "The status of the item when the item is in pro plan",
       type: 'string',
+      group: 'status',
       initialValue: 'submitting',
       options: {
         list: [
@@ -168,6 +179,7 @@ export default defineType({
       title: "Rejection Reason",
       description: "The reason for rejecting the item",
       type: 'string',
+      group: 'status',
       hidden: ({ parent }) => parent.freePlanStatus !== 'rejected',
       initialValue: 'Other reasons',
       options: {
@@ -186,14 +198,16 @@ export default defineType({
       title: "Paid",
       description: "If the item is paid, it means the payment is successful",
       type: "boolean",
+      group: 'status',
       initialValue: false,
-      // readOnly: true,
+      readOnly: true,
     }),
     defineField({
       name: "order",
       title: "Order",
       description: "The successful payment order of the submission",
       type: "reference",
+      group: 'status',
       to: [{ type: "order" }],
       hidden: ({ parent }) => !parent.paid,
       readOnly: true,
@@ -215,8 +229,9 @@ export default defineType({
       const error = freePlanStatus === 'rejected' || proPlanStatus === 'failed';
       const title = date ? `✅ ${name}` : (error ? `❌ ${name}` : `⏳ ${name}`);
       const status = pricePlan === 'free' ? freePlanStatus : proPlanStatus;
+      // const status = `${freePlanStatus}-${proPlanStatus}`;
       const time = date ? `date: ${format(parseISO(date), "yyyy/MM/dd")}` : "not published";
-      const subtitle = `${pricePlan} plan: ${status}, ${time}`;
+      const subtitle = `${pricePlan.toUpperCase()}: ${status}, ${time}`;
       return {
         title,
         media,

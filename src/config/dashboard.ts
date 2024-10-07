@@ -18,11 +18,6 @@ export const dashboardConfig: DashboardConfig = {
       href: "/submit",
       icon: "submit",
     },
-    // {
-    //   title: "Billing",
-    //   href: "/billing",
-    //   icon: "billing",
-    // },
     {
       title: "Settings",
       href: "/settings",
@@ -46,12 +41,6 @@ export const sidebarLinks: NestedNavItem[] = [
         icon: "submit",
         title: "Submit"
       },
-      // {
-      //   href: "/billing",
-      //   icon: "billing",
-      //   title: "Billing",
-      //   authorizeOnly: UserRole.USER,
-      // },
       {
         href: "/settings",
         icon: "settings",
@@ -59,44 +48,4 @@ export const sidebarLinks: NestedNavItem[] = [
       },
     ],
   },
-  // {
-  //   title: "ADMIN",
-  //   items: [
-  //     {
-  //       href: "/admin",
-  //       icon: "laptop",
-  //       title: "Admin Panel",
-  //       authorizeOnly: UserRole.ADMIN,
-  //     },
-  //     {
-  //       href: "/admin/orders",
-  //       icon: "package",
-  //       title: "Orders",
-  //       badge: 2,
-  //       authorizeOnly: UserRole.ADMIN,
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: "RESOURCES",
-  //   items: [
-  //     {
-  //       href: "/",
-  //       icon: "home",
-  //       title: "Homepage"
-  //     },
-  //     {
-  //       href: "/docs",
-  //       icon: "bookOpen",
-  //       title: "Documentation"
-  //     },
-  //     {
-  //       href: "/support",
-  //       icon: "messages",
-  //       title: "Support",
-  //       // authorizeOnly: UserRole.USER,
-  //       // disabled: true,
-  //     },
-  //   ],
-  // },
 ];

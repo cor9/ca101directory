@@ -10,7 +10,7 @@ export const infos: InfoLdg[] = [
       {
         title: "Collaborative",
         description: "Work together with your team members in real-time.",
-        icon: "laptop",
+        icon: "google",
       },
       {
         title: "Innovative",
@@ -35,7 +35,7 @@ export const infos: InfoLdg[] = [
         title: "Flexible",
         description:
           "Customize your integrations to fit your unique requirements.",
-        icon: "laptop",
+        icon: "google",
       },
       {
         title: "Efficient",
@@ -58,7 +58,7 @@ export const features: FeatureLdg[] = [
     description:
       "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
     link: "/",
-    icon: "laptop",
+    icon: "google",
   },
   {
     title: "Feature 2",
@@ -79,21 +79,21 @@ export const features: FeatureLdg[] = [
     description:
       "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
     link: "/",
-    icon: "laptop",
+    icon: "google",
   },
   {
     title: "Feature 5",
     description:
       "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
     link: "/",
-    icon: "user",
+    icon: "github",
   },
   {
     title: "Feature 6",
     description:
       "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
     link: "/",
-    icon: "user",
+    icon: "github",
   },
 ];
 

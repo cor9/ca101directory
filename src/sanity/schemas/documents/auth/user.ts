@@ -82,7 +82,7 @@ const user = {
       const subtitle = `${format(parseISO(date), "yyyy/MM/dd")}-${userid}`;
       return {
         title,
-        subtitle
+        subtitle,
       };
     },
   },

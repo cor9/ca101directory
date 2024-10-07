@@ -20,9 +20,9 @@ export default function HomeHero() {
           )}
           target="_blank"
         >
-          <span className="mr-3">🎉</span>
-          <span className="hidden md:flex">Launching&nbsp;</span> Mkdirs on
-          <Icons.productHunt className="ml-3 size-5" />
+          <span className="mr-2">🎉</span>
+          <span className="">Introducing&nbsp;</span> Mkdirs on
+          <Icons.twitter className="ml-2 size-4" />
         </Link>
 
         <h1 className="text-balance text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">

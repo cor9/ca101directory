@@ -16,8 +16,9 @@ export type ServerActionResponse = {
   stripeUrl?: string;
 }
 
-// https://github.com/javayhu/lms-studio-antonio/blob/main/app/api/courses/%5BcourseId%5D/checkout/route.ts
-// TODO(javayhu): stripe checkout session, how to handle the errors???
+/**
+ * https://github.com/javayhu/lms-studio-antonio/blob/main/app/api/courses/%5BcourseId%5D/checkout/route.ts
+ */
 export async function createCheckoutSession(itemId: string, priceId: string): Promise<ServerActionResponse> {
   let redirectUrl: string = "";
 
@@ -97,7 +98,6 @@ export async function createCheckoutSession(itemId: string, priceId: string): Pr
           userId: user.id,
           itemId: itemId,
         },
-        // TODO(javayhu): payment_method_types and billing_address_collection???
         payment_method_types: ["card"],
         billing_address_collection: "auto",
       })

@@ -7,9 +7,6 @@ interface DashboardHeaderProps {
   showBackButton?: boolean;
 }
 
-/**
- * TODO: combine with SubmitHeader?
- */
 export function DashboardHeader({
   title,
   subtitle,

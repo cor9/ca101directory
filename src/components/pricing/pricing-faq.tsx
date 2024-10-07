@@ -38,12 +38,6 @@ const pricingFaqData = [
   },
 ];
 
-/**
- * TODO: 
- * 1. you can get refund if not used
- * 2. you can get refund if not listed
- * 3. you can update info whenever you want
- */
 export function PricingFaq() {
   return (
     <Accordion type="single" collapsible className="w-full">

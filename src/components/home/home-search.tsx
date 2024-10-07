@@ -13,7 +13,6 @@ export default function HomeSearch() {
   const [debouncedQuery] = useDebounce(searchQuery, 300); // 300ms debounce
   const lastExecutedQuery = useRef(searchParams?.get('q') || '');
 
-  // TODO: fix here, this will also work when in search path
   useEffect(() => {
     const currentQuery = searchParams?.get('q') || '';
     if (currentQuery !== searchQuery) {
@@ -30,8 +29,7 @@ export default function HomeSearch() {
         newParams.delete('q');
       }
       newParams.delete('page');
-      // const newUrl = createUrl('/search', newParams);
-      const newUrl = createUrl('/', newParams); // TODO: differ from search.tsx
+      const newUrl = createUrl('/', newParams);
       console.log(`useEffect, newUrl: ${newUrl}`);
       lastExecutedQuery.current = debouncedQuery;
       router.push(newUrl, { scroll: false });

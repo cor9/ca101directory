@@ -5,8 +5,6 @@ import { itemSimpleFields } from "@/sanity/lib/queries";
 
 /**
  * get submissions from sanity
- * 
- * TODO: add disableCache option???
  */
 export async function getSubmissions({
     userId,

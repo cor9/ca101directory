@@ -18,7 +18,6 @@ interface SubmitStepperProps {
 export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
     const [currentStep, setCurrentStep] = useState(initialStep);
 
-    // TODO(javayhu): change number indicators to icons
     const steps = [
         { title: "Details", description: "Enter product information" },
         { title: "Plan", description: "Select pricing plan" },

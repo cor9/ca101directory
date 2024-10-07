@@ -8,7 +8,7 @@ import 'easymde/dist/easymde.min.css';
 // https://github.com/Ionaru/easy-markdown-editor#options-list
 // remove the fullscreen button, looks bad in the studio;
 // remove the image button, it just inserts a empty image tag;
-// TODO: editor preview in dark mode is not working
+// NOTICE: editor preview in dark mode is not working
 // so please use the preivew of item page instead 
 // if you want to see the preview in dark mode                    
 const mdeOptions = {

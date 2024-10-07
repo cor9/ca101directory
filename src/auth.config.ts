@@ -52,8 +52,6 @@ export default {
           return null;
         }
 
-        // TODO: why just check password, not check emailVerified?
-        // TODO: why check emailVerified in auth.ts, not here?
         const passwordsMatch = await bcrypt.compare(credentials?.password as string, user.password);
         if (passwordsMatch) {
           const userWithRole = {

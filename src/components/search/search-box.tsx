@@ -30,7 +30,6 @@ export default function SearchBox() {
       }
       newParams.delete('page');
       const newUrl = createUrl('/search', newParams);
-      // const newUrl = createUrl('/', newParams); // TODO: differ from search.tsx
       console.log(`useEffect, newUrl: ${newUrl}`);
       lastExecutedQuery.current = debouncedQuery;
       router.push(newUrl, { scroll: false });

@@ -17,7 +17,6 @@ export const SocialLoginButton = () => {
   const callbackUrl = searchParams.get("callbackUrl");
   const [isLoading, setIsLoading] = useState<"google" | "github" | null>(null);
 
-  // TODO: 为什么社交登录按钮可以直接在这里调用signIn，而登录按钮需要调用login action？
   const onClick = async (provider: "google" | "github") => {
     setIsLoading(provider);
     signIn(provider, {

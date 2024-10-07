@@ -52,7 +52,6 @@ export async function edit(formData: EditFormData): Promise<ServerActionResponse
       return { status: "error", message: "You are not allowed to do this!" };
     }
 
-    // TODO(javayhu): should I change slug? change slug only if name changes!
     const slug = slugify(name);
     const data = {
       _id: id,
@@ -119,9 +118,9 @@ export async function edit(formData: EditFormData): Promise<ServerActionResponse
     // Since you're updating the data displayed in the invoices route, you want to clear this cache and trigger a new request to the server. 
     // You can do this with the revalidatePath function from Next.js.
 
-    // TODO: redirect to the updated item, but not working, still showing the old item
-    revalidatePath(`/edit/${id}`);
-    revalidatePath(`/item/${slug}`);
+    // redirect to the updated item, but not working, still showing the old item
+    // revalidatePath(`/edit/${id}`);
+    // revalidatePath(`/item/${slug}`);
     return { status: "success", message: "Successfully updated item" };
   } catch (error) {
     console.log("edit, error", error);

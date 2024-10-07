@@ -220,18 +220,20 @@ export default defineType({
     select: {
       name: "name",
       media: "image",
+      featured: "featured",
       date: "publishDate",
       pricePlan: "pricePlan",
       freePlanStatus: "freePlanStatus",
       proPlanStatus: "proPlanStatus",
     },
-    prepare({ name, media, date, pricePlan, freePlanStatus, proPlanStatus }) {
+    prepare({ name, media, featured, date, pricePlan, freePlanStatus, proPlanStatus }) {
       const error = freePlanStatus === 'rejected' || proPlanStatus === 'failed';
       const title = date ? `✅ ${name}` : (error ? `❌ ${name}` : `⏳ ${name}`);
+      const feature = featured ? '⭐' : '';
       const status = pricePlan === 'free' ? freePlanStatus : proPlanStatus;
       // const status = `${freePlanStatus}-${proPlanStatus}`;
       const time = date ? `date: ${format(parseISO(date), "yyyy/MM/dd")}` : "not published";
-      const subtitle = `${pricePlan.toUpperCase()}: ${status}, ${time}`;
+      const subtitle = `${feature}${pricePlan.toUpperCase()}: ${status}, ${time}`;
       return {
         title,
         media,

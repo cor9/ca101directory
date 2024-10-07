@@ -20,7 +20,7 @@ export default async function HomePage() {
       </Container>
 
       {/* main content shows the list of items*/}
-      <Container className="mt-16">
+      <Container className="mt-8">
         <HomeContent />
       </Container>
 

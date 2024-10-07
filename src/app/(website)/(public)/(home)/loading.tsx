@@ -1,7 +1,28 @@
-import { Loader2Icon } from "lucide-react";
+import { BlogGridSkeleton } from "@/components/blog/blog-grid";
+import Container from "@/components/container";
+import HomeHero from "@/components/home/home-hero";
+import { ItemGridSkeleton } from "@/components/item/item-grid";
+import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 
 export default function Loading() {
   return (
-    <Loader2Icon className="my-32 mx-auto size-6 animate-spin" />
+    <div>
+      {/* hero section */}
+      <Container className="mt-8">
+        <HomeHero />
+      </Container>
+
+      {/* home content */}
+      <Container className="mt-8 flex flex-col gap-8">
+        <ItemGridSkeleton />
+        <ItemGridSkeleton />
+        <BlogGridSkeleton count={3} />
+      </Container>
+
+      {/* newsletter */}
+      <Container className="my-16">
+        <NewsletterCard />
+      </Container>
+    </div>
   )
 }

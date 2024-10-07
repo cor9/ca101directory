@@ -1,6 +1,7 @@
 import Container from "@/components/container";
 
-import Loading from "@/app/(website)/loading";
+import Loading from "../../(home)/loading";
+// import Loading from "@/app/(website)/loading";
 // import Loading from "@/app/(website)/(protected)/(submit)/plan/[id]/loading";
 // import Loading from "@/app/(website)/(protected)/(submit)/publish/[id]/loading";
 // import Loading from "@/app/(website)/(protected)/(submit)/submit/loading";

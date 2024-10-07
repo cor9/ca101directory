@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { NewsletterFormData, NewsletterFormSchema } from "@/lib/schemas";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
 import { useTransition } from "react";
@@ -62,7 +63,9 @@ export function NewsletterForm() {
               <FormLabel className="sr-only">Email</FormLabel>
               <FormControl className="rounded-r-none">
                 <Input type="email"
-                  className="w-[280px] sm:w-[320px] md:w-[400px] h-12 focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary focus:border-2"
+                  className={cn("w-[280px] sm:w-[320px] md:w-[400px] h-12 rounded-r-none",
+                    "focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary focus:border-2 focus:border-r-0"
+                  )}
                   placeholder="Enter your email"
                   {...field}
                 />

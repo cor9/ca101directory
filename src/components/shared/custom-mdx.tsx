@@ -258,7 +258,7 @@ const markdownComponents = {
     }: React.ImgHTMLAttributes<HTMLImageElement>) => (
         // eslint-disable-next-line @next/next/no-img-element
         <img className={cn(
-            "rounded-md border",
+            "rounded-md border my-2",
             className
         )}
             alt={alt}
@@ -351,7 +351,7 @@ const customComponents = {
     Image: ({ className, ...props }: React.ComponentProps<"img">) => (
         <img
             className={cn(
-                "rounded-md border",
+                "rounded-md border my-2",
                 className
             )}
             {...props}

@@ -132,7 +132,7 @@ function FilterList({
             <CommandInput placeholder="Filter..." />
             <CommandList>
                 <CommandEmpty>No results found.</CommandEmpty>
-                <CommandGroup className="py-3">
+                <CommandGroup className="">
                     {filterItemList.map((item) => (
                         <CommandItem
                             key={item.value}

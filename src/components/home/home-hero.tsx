@@ -20,19 +20,17 @@ export default function HomeHero() {
         </Link>
 
         {/* maybe font-sourceSans is better */}
-        <h1 className="max-w-4xl text-balance text-3xl font-bold sm:text-4xl md:text-5xl">
+        <h1 className="max-w-4xl font-bold tracking-wider text-balance text-3xl sm:text-4xl md:text-5xl">
           Explore the Best {" "}
-          <span className="text-gradient_indigo-purple font-extrabold">
-            AI Websites & Tools
+          <span className="text-gradient_indigo-purple font-bold">
+            AI Tools
           </span>
         </h1>
 
-        <p
-          className="max-w-3xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8"
+        <p className="max-w-3xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8"
           style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
         >
-          This is a demo site for Mkdirs template, so data is not real.
-          But what you see is what you get, you can build unlimited directories with Mkdirs.
+          This is a demo site for Mkdirs template, and what you see is what you get, you can build unlimited directories with Mkdirs.
         </p>
 
         <div className="w-full">

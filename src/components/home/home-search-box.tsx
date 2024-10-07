@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
+import { cn } from "@/lib/utils";
 
 export default function HomeSearchBox() {
   const router = useRouter();
@@ -22,7 +23,9 @@ export default function HomeSearchBox() {
         placeholder="Search any AI tools, GPTs, websites, etc."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-[320px] sm:w-[480px] md:w-[640px] h-12 rounded-r-none focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary focus:border-2"
+        className={cn("w-[320px] sm:w-[480px] md:w-[640px] h-12 rounded-r-none",
+          "focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary focus:border-2 focus:border-r-0"
+        )}
       />
       <Button type="submit"
         className="rounded-l-none size-12"

@@ -73,7 +73,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
           {/* name and description */}
           <div className="flex flex-1 items-center">
             <div className="flex flex-col gap-8">
-              <h1 className="text-4xl font-bold">
+              <h1 className="text-4xl tracking-wider font-bold">
                 {item.name}
               </h1>
               <p className="text-muted-foreground text-balance leading-relaxed">
@@ -252,9 +252,9 @@ export default async function ItemPage({ params }: ItemPageProps) {
       {item.related && item.related.length > 0 && (
         <div className="flex flex-col gap-4 mt-8">
           <div className="flex items-center gap-2">
-            <LayoutGridIcon className="w-4 h-4" />
-            <h2 className="text-lg font-semibold">
-              More Related
+            <LayoutGridIcon className="w-4 h-4 text-indigo-500" />
+            <h2 className="text-lg tracking-wider font-semibold text-gradient_indigo-purple">
+              More Products
             </h2>
           </div>
 

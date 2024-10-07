@@ -11,7 +11,7 @@ import { getLocaleDate } from "@/lib/utils";
 import { BlogPostMetadataQueryResult, BlogPostQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { blogPostMetadataQuery, blogPostQuery } from "@/sanity/lib/queries";
-import { BookTextIcon } from "lucide-react";
+import { FileTextIcon } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -183,8 +183,8 @@ export default async function PostPage({ params }: PostPageProps) {
       {post.relatedPosts && post.relatedPosts.length > 0 && (
         <div className="flex flex-col gap-8 mt-8">
           <div className="flex items-center gap-2">
-            <BookTextIcon className="w-4 h-4" />
-            <h2 className="text-lg font-semibold">
+            <FileTextIcon className="w-4 h-4 text-indigo-500" />
+            <h2 className="text-lg tracking-wider font-semibold text-gradient_indigo-purple">
               More Posts
             </h2>
           </div>

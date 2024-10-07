@@ -18,7 +18,7 @@ import { PanelLeftClose, PanelRightClose, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
-import { Logo } from "../logo";
+import { Logo } from "../../logo";
 
 interface DashboardSidebarProps {
   links: NestedNavItem[];

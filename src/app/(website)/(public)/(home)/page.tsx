@@ -15,15 +15,16 @@ export default async function HomePage() {
   return (
     <div>
       {/* hero section */}
-      <Container className="mt-8 flex flex-col items-center justify-center">
+      <Container className="mt-8">
         <HomeHero />
       </Container>
 
-      {/* main content shows the list of items*/}
+      {/* home content */}
       <Container className="mt-8">
         <HomeContent />
       </Container>
 
+      {/* newsletter */}
       <Container className="my-16">
         <NewsletterCard />
       </Container>

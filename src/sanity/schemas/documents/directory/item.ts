@@ -32,7 +32,7 @@ export default defineType({
     }),
     defineField({
       name: "featured",
-      title: "Featured",
+      title: "Mark as Featured",
       type: "boolean",
       initialValue: false,
       description: "If the item is featured, it will be displayed in the featured section",

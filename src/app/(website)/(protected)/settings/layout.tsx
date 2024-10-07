@@ -5,7 +5,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
     <div>
       <DashboardHeader
         title="Settings"
-        subtitle="Manage account settings."
+        subtitle="Manage account settings"
       />
 
       <div className="mt-4">

@@ -1,4 +1,5 @@
 import Container from '@/components/container';
+import { HomeContent } from '@/components/home/home-content';
 import HomeHero from '@/components/home/home-hero';
 import { NewsletterCard } from '@/components/newsletter/newsletter-card';
 import { siteConfig } from '@/config/site';
@@ -19,8 +20,8 @@ export default async function HomePage() {
       </Container>
 
       {/* main content shows the list of items*/}
-      <Container className="mt-8">
-
+      <Container className="mt-16">
+        <HomeContent />
       </Container>
 
       <Container className="my-16">

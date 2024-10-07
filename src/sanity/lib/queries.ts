@@ -86,6 +86,16 @@ export const itemListQuery = defineQuery(`*[_type == "item" && defined(slug.curr
     ${itemSimpleFields}
 }`);
 
+export const itemListOfFeaturedQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate) && featured == true] 
+  | order(publishDate desc) [0...6] {
+    ${itemSimpleFields}
+}`);
+
+export const itemListOfLatestQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)] 
+  | order(publishDate desc) [0...6] {
+    ${itemSimpleFields}
+}`);
+
 export const itemListOfCategoryQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)
   && $slug in categories[]->slug.current] 
   | order(publishDate desc) {
@@ -236,6 +246,12 @@ export const blogPostMetadataQuery = defineQuery(`
 export const blogPostListQuery = defineQuery(`
   *[_type == "blogPost" && defined(slug.current) && defined(publishDate)] 
   | order(publishDate desc) {
+    ${blogPostSimpleFields}
+}`);
+
+export const blogPostListOfLatestQuery = defineQuery(`
+  *[_type == "blogPost" && defined(slug.current) && defined(publishDate)] 
+  | order(publishDate desc) [0...3] {
     ${blogPostSimpleFields}
 }`);
 

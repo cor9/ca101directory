@@ -27,7 +27,7 @@ export default function HomeSearchBox() {
       <Button type="submit"
         className="rounded-l-none size-12"
       >
-        <SearchIcon className="size-5" aria-hidden="true" />
+        <SearchIcon className="size-6" aria-hidden="true" />
         <span className="sr-only">Search</span>
       </Button>
     </form>

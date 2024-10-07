@@ -1,6 +1,6 @@
 import Container from '@/components/container';
-import { NewsletterCard } from '@/components/newsletter/newsletter-card';
 import HomeHero from '@/components/home/home-hero';
+import { NewsletterCard } from '@/components/newsletter/newsletter-card';
 import { siteConfig } from '@/config/site';
 import { constructMetadata } from '@/lib/metadata';
 
@@ -13,7 +13,10 @@ export default async function HomePage() {
 
   return (
     <div>
-      <HomeHero />
+      {/* hero section */}
+      <Container className="mt-8 flex flex-col items-center justify-center">
+        <HomeHero />
+      </Container>
 
       {/* main content shows the list of items*/}
       <Container className="mt-8">

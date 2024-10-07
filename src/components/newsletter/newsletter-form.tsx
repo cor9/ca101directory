@@ -76,9 +76,9 @@ export function NewsletterForm() {
           disabled={isPending}
         >
           {isPending ? (
-            <Icons.spinner className="size-5 animate-spin" aria-hidden="true" />
+            <Icons.spinner className="size-6 animate-spin" aria-hidden="true" />
           ) : (
-            <PaperPlaneIcon className="size-5" aria-hidden="true" />
+            <PaperPlaneIcon className="size-6" aria-hidden="true" />
           )}
           <span className="sr-only">Subscribe</span>
         </Button>

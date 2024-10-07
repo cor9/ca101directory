@@ -1,5 +1,4 @@
-import { DashboardConfig, NestedNavItem } from "@/types";
-import { UserRole } from "@/types/user-role";
+import { DashboardConfig } from "@/types";
 
 export const dashboardConfig: DashboardConfig = {
   mainNav: [
@@ -25,27 +24,3 @@ export const dashboardConfig: DashboardConfig = {
     },
   ],
 }
-
-// TODO: only used if dashboard uses sidebar layout
-export const sidebarLinks: NestedNavItem[] = [
-  {
-    title: "MENU",
-    items: [
-      {
-        href: "/dashboard",
-        icon: "dashboard",
-        title: "Dashboard"
-      },
-      {
-        href: "/submit",
-        icon: "submit",
-        title: "Submit"
-      },
-      {
-        href: "/settings",
-        icon: "settings",
-        title: "Settings"
-      },
-    ],
-  },
-];

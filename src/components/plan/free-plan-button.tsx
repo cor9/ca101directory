@@ -43,6 +43,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
   };
 
   const handleClick = () => {
+    console.log('FreePlanButton, handleClick, item.freePlanStatus:', item?.freePlanStatus);
     if (!item) { // no specific item in pricing page
       router.push(`/submit`);
     } else if (item.publishDate) { // already published

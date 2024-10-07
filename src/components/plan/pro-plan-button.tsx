@@ -38,9 +38,9 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
   };
 
   const handleClick = () => {
-    console.log('ProPlanButton, handleClick, item.proPlanStatus:', item.proPlanStatus);
+    console.log('ProPlanButton, handleClick, item.proPlanStatus:', item?.proPlanStatus);
     if (!item) { // no specific item in pricing page
-      router.push(`/submit`);
+      router.push('/submit');
     } else if (item.proPlanStatus === ProPlanStatus.SUBMITTING
       || item.proPlanStatus === ProPlanStatus.PENDING) {
       // maybe in pro plan or free plan before

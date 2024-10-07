@@ -38,7 +38,7 @@ interface PricingPlanCardProps {
 const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
   return (
     <div className="relative pt-4">
-      {pricePlan.title === PricePlans.PRO && (
+      {isProPlan(pricePlan) && (
         <div className="absolute top-0.5 left-1/2 transform -translate-x-1/2 z-10">
           <div className="bg-purple-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
             POPULAR
@@ -47,7 +47,7 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
       )}
       <div className={cn(
         "relative overflow-hidden flex flex-col rounded-xl shadow-sm",
-        pricePlan.title === PricePlans.PRO ? "border-2 border-purple-500" : "border",
+        isProPlan(pricePlan) ? "border-2 border-purple-500" : "border",
       )}>
         {/* price plan title and price */}
         <div className="bg-muted/50 p-6 pr-10 border-b flex flex-row items-center justify-between">
@@ -93,6 +93,10 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
     </div>
   );
 };
+
+function isProPlan(pricePlan: PricePlan) {
+  return pricePlan.title.toLowerCase() === PricePlans.PRO.toLowerCase();
+}
 
 export function PricingPlansSkeleton() {
   return (

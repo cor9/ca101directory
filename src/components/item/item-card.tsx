@@ -71,11 +71,11 @@ export default function ItemCard({ item }: ItemCardProps) {
         <Link href={`${itemUrlPrefix}/${item.slug.current}`}
           className="flex flex-col gap-4 pb-4">
           <div className="px-4 flex flex-col gap-4">
-            <h3 className="text-xl text-primary font-medium line-clamp-1">
+            <h3 className="text-xl font-medium line-clamp-1">
               {item.name}
             </h3>
             {/* min-h-[3rem] is used for making sure height of the card is the same */}
-            <p className="text-sm text-primary line-clamp-2 leading-relaxed min-h-[3rem]">
+            <p className="text-sm line-clamp-2 leading-relaxed min-h-[3rem]">
               {item.description}
             </p>
           </div>
@@ -88,7 +88,7 @@ export default function ItemCard({ item }: ItemCardProps) {
                 {item.tags.slice(0, 5).map((tag, index) => (
                   <div key={`tag-${index}`} className="flex items-center justify-center space-x-0.5 group">
                     <HashIcon className="w-3 h-3 text-muted-foreground icon-scale" />
-                    <span className="text-sm text-primary/80">
+                    <span className="text-sm text-muted-foreground">
                       {tag.name}
                     </span>
                   </div>

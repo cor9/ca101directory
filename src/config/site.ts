@@ -12,8 +12,8 @@ export const siteConfig: SiteConfig = {
   image: `${SITE_URL}/og.png`,
   mail: "support@mkdirs.com",
   links: {
-    twitter: "https://x.com/javayhu",
-    github: "https://github.com/javayhu",
+    twitter: "https://x.com/MkdirsHQ",
+    github: "https://github.com/MkdirsHQ",
   },
 };
 

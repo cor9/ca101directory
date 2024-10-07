@@ -13,7 +13,7 @@ export default function HomeHero() {
     <div className="space-y-6 py-8">
       <Container className="max-w-5xl flex flex-col items-center gap-4 text-center">
         <Link
-          href="https://www.producthunt.com/"
+          href="https://x.com/MkdirsHQ"
           className={cn(
             buttonVariants({ variant: "outline", size: "sm" }),
             "px-4 rounded-full",

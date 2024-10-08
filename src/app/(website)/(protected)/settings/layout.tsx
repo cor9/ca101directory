@@ -8,7 +8,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
         subtitle="Manage account settings"
       />
 
-      <div className="mt-4">
+      <div className="mt-8">
         {children}
       </div>
     </div>

@@ -60,11 +60,11 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
   }, [open]);
 
   return (
-    <div>
+    <div className="sticky top-0 z-40 w-full">
       {/* Desktop View */}
       <header
         className={cn(
-          'hidden md:flex sticky top-0 z-40 w-full justify-center bg-background/60 backdrop-blur-xl transition-all',
+          'hidden md:flex justify-center bg-background/60 backdrop-blur-xl transition-all',
           scroll ? (scrolled ? "border-b" : "bg-transparent") : "border-b"
         )}
       >
@@ -134,7 +134,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
       </header>
 
       {/* Mobile View */}
-      < header className="md:hidden sticky top-0 z-40 flex w-full justify-center bg-background/60 backdrop-blur-xl transition-all" >
+      < header className="md:hidden flex justify-center bg-background/60 backdrop-blur-xl transition-all" >
         <div className="w-full px-4 h-16 flex items-center justify-between">
           {/* mobile navbar left show menu icon when closed & show sheet when menu is open */}
           <Sheet open={open} onOpenChange={setOpen}>

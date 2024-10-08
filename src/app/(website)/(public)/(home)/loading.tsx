@@ -2,7 +2,6 @@ import { BlogGridSkeleton } from "@/components/blog/blog-grid";
 import Container from "@/components/container";
 import HomeHero from "@/components/home/home-hero";
 import { ItemGridSkeleton } from "@/components/item/item-grid";
-import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 
 export default function Loading() {
   return (

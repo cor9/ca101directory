@@ -6,6 +6,7 @@ import { getUserById } from "@/data/user";
 import { PricePlans, ProPlanStatus } from "@/lib/submission";
 import { sendPaymentSuccessEmail } from "@/lib/mail";
 import { getItemLinkInWebsite } from "@/lib/utils";
+import { getOrderByUserIdAndItemId } from "@/data/order";
 
 /**
  * Stripe webhook handler
@@ -45,10 +46,15 @@ export async function POST(req: Request) {
     // console.log('session:', session);
     console.log(`checkout.session.completed, userId: ${userId}, itemId: ${itemId}`);
 
+    // check if order already exists, if so, return
+    const order = await getOrderByUserIdAndItemId(userId, itemId);
+    if (order) {
+      console.log(`checkout.session.completed, order already exists: ${order._id}`);
+      return new Response(null, { status: 200 });
+    }
+
     const user = await getUserById(session?.metadata?.userId);
     // console.log('user:', user);
-
-    // TODO: avoid receiving duplicate events???
 
     if (user) {
       const result = await sanityClient.create({

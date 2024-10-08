@@ -36,11 +36,6 @@ export const getUserById = async (_id: string) => {
 export const getUserByIdWithAccounts = async (_id: string) => {
     try {
         // @sanity-typegen-ignore
-        // const userQry = `*[_type == "user" && _id == "${_id}"][0] {
-        //     accounts[]->,
-        // }`;
-        // const user = await sanityFetch<User>({ query: userQry, disableCache: true });
-
         const user = await sanityFetch<UserWithAccountsQueryResult>({
             query: userWithAccountsQuery,
             params: { id: _id },

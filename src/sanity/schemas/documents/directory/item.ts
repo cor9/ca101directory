@@ -105,7 +105,6 @@ export default defineType({
           type: "string",
           title: "Alternative Text",
           description: "Important for SEO and accessiblity",
-          // TODO: add initial value from name or optimize accessibility in frontend
           initialValue: (_, parent) => {
             return `Image for ${parent?.name || 'item'}`;
           },

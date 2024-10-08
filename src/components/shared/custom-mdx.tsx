@@ -346,8 +346,6 @@ const markdownComponents = {
  */
 const customComponents = {
     Callout,
-    // Card: MdxCard,
-    // TODO: maybe change to MDXImage below
     Image: ({ className, ...props }: React.ComponentProps<"img">) => (
         <img
             className={cn(
@@ -391,20 +389,3 @@ const customComponents = {
         />
     ),
 };
-
-// const MDXImage = (props: any) => {
-//     return null;
-// if (!images) return null;
-// const blurDataURL = images.find(
-//   (image) => image.src === props.src,
-// )?.blurDataURL;
-// return (
-//   <div className="mt-5 w-full overflow-hidden rounded-lg border">
-//     <BlurImage
-//       {...props}
-//       blurDataURL={blurDataURL}
-//       className="size-full object-cover object-center"
-//     />
-//   </div>
-// );
-// };

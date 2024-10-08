@@ -14,7 +14,7 @@ export type ServerActionResponse = {
 const billingUrl = absoluteUrl("/dashboard");
 
 /**
- * TODO(javayhu): not used yet
+ * NOTICE: not used in the app yet
  */
 export async function openCustomerPortal(
   stripeCustomerId: string,

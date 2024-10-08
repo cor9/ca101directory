@@ -49,7 +49,7 @@ export default defineType({
                                 type: "reference",
                                 title: "Reference",
                                 to: [
-                                    // TODO: support internal links
+                                    // NOTICE: support internal links
                                     // { type: "blogPost" },
                                     // { type: "item" },
                                     // { type: "page" }

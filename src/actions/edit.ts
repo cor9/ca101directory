@@ -57,7 +57,6 @@ export async function edit(formData: EditFormData): Promise<ServerActionResponse
       _id: id,
       _type: "item",
       name,
-      // TODO(javayhu): should I change slug? change slug only if name changes!
       slug: {
         _type: "slug",
         current: slug,
@@ -75,8 +74,7 @@ export async function edit(formData: EditFormData): Promise<ServerActionResponse
           FreePlanStatus.PENDING,
       }),
 
-      // The _key only needs to be unique within the array itself
-      // use index as the _key
+      // The _key only needs to be unique within the array itself, use index as the _key
       tags: tags.map((tag, index) => ({
         _type: 'reference',
         _ref: tag,
@@ -119,8 +117,8 @@ export async function edit(formData: EditFormData): Promise<ServerActionResponse
     // You can do this with the revalidatePath function from Next.js.
 
     // redirect to the updated item, but not working, still showing the old item
-    // revalidatePath(`/edit/${id}`);
-    // revalidatePath(`/item/${slug}`);
+    revalidatePath(`/edit/${id}`);
+    revalidatePath(`/item/${slug}`);
     return { status: "success", message: "Successfully updated item" };
   } catch (error) {
     console.log("edit, error", error);

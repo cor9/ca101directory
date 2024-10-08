@@ -49,7 +49,8 @@ export async function login(
       redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
 
-    return { status: "success", message: "Login success", redirectUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT };
+    return { status: "success", message: "Login success", 
+      redirectUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

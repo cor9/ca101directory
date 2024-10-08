@@ -62,8 +62,10 @@ export const LoginForm = ({ className }: { className?: string }) => {
             form.reset();
             setSuccess(data.message);
 
-            // router.push(data.redirectUrl);
-            window.location.href = data.redirectUrl;
+            // if success without redirect url, means sent confirmation email
+            if (data.redirectUrl) {
+              window.location.href = data.redirectUrl;
+            }
           }
         })
         .catch((error) => {

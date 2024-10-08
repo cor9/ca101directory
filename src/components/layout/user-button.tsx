@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { LayoutDashboardIcon, LogOutIcon, SettingsIcon, UploadIcon } from "lucide-react";
+import { LogOutIcon } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -69,19 +69,7 @@ export function UserButton() {
             </div>
 
             <ul role="list" className="mb-14 mt-1 w-full text-muted-foreground">
-              {/* {user.role === "ADMIN" ? (
-                <li className="rounded-lg text-foreground hover:bg-muted">
-                  <Link
-                    href="/admin"
-                    onClick={closeDrawer}
-                    className="flex w-full items-center gap-3 px-2.5 py-2"
-                  >
-                    <Lock className="size-4" />
-                    <p className="text-sm">Admin</p>
-                  </Link>
-                </li>
-              ) : null} */}
-
+              
               <li className="rounded-lg text-foreground hover:bg-muted">
                 <Link href="/submit"
                   onClick={closeDrawer}
@@ -161,15 +149,6 @@ export function UserButton() {
           </div>
         </div>
         <DropdownMenuSeparator />
-
-        {/* {user.role === "ADMIN" ? (
-          <DropdownMenuItem asChild>
-            <Link href="/admin" className="flex items-center space-x-2.5">
-              <Lock className="size-4" />
-              <p className="text-sm">Admin</p>
-            </Link>
-          </DropdownMenuItem>
-        ) : null} */}
 
         <DropdownMenuItem asChild
           className="cursor-pointer"

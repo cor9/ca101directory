@@ -39,9 +39,6 @@ export default {
         }
 
         // @sanity-typegen-ignore
-        // const userQry = `*[_type == "user" && email== "${credentials?.email}"][0]`;
-        // const user = await sanityClient.fetch(userQry);
-
         if (!credentials?.email) {
           console.error('authorize error: email invalid');
           return null;
@@ -52,6 +49,8 @@ export default {
           return null;
         }
 
+        // https://youtu.be/1MTyCvS05V4?t=9695
+        // bcryptjs is not compatible with nextjs edge runtime, so we use verifyPassword instead
         const passwordsMatch = await verifyPassword(credentials?.password as string, user.password);
         if (passwordsMatch) {
           const userWithRole = {

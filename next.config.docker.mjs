@@ -1,14 +1,9 @@
-// import createMDX from '@next/mdx';
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: "standalone",
     // Configure `pageExtensions` to include markdown and MDX files
     // https://nextjs.org/docs/pages/building-your-application/configuring/mdx
     // pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
-
-    // https://www.npmjs.com/package/geist#using-with-nextjs
-    // transpilePackages: ["geist"],
 
     images: {
         // https://vercel.com/docs/image-optimization/managing-image-optimization-costs#minimizing-image-optimization-costs

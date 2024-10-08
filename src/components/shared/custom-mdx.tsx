@@ -352,6 +352,7 @@ const customComponents = {
                 "rounded-md border my-2",
                 className
             )}
+            alt="image"
             {...props}
         />
     ),

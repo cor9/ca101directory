@@ -45,5 +45,5 @@ export async function register(values: z.infer<typeof RegisterSchema>):
     verificationToken.identifier,
     verificationToken.token
   );
-  return { status: "success", message: "Confirmation email sent" };
+  return { status: "success", message: "Please check your email for verification" };
 }

@@ -1,9 +1,9 @@
 "use client";
 
-import { Separator } from "@/components/ui/separator";
 import { urlForImage } from "@/lib/image";
+import { cn } from "@/lib/utils";
 import { ItemInfo } from "@/types";
-import { HashIcon } from "lucide-react";
+import { ArrowRightIcon, HashIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -67,11 +67,23 @@ export default function ItemCard({ item }: ItemCardProps) {
 
         {/* center */}
         <Link href={`${itemUrlPrefix}/${item.slug.current}`}
-          className="flex flex-col gap-4">
+          className="flex flex-col gap-4 group">
           <div className="px-4 flex flex-col gap-4">
-            <h3 className="text-xl font-medium line-clamp-1">
-              {item.name}
-            </h3>
+            <div className="flex items-center justify-between gap-4">
+              <h3 className="flex-1 text-xl font-medium line-clamp-1">
+                {item.name}
+              </h3>
+              <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="">
+                  Details
+                </span>
+                <ArrowRightIcon className={cn(
+                  "size-4 icon-scale",
+                  ""
+                )} />
+              </div>
+            </div>
+
             {/* min-h-[3rem] is used for making sure height of the card is the same */}
             <p className="text-sm line-clamp-2 leading-relaxed min-h-[3rem]">
               {item.description}

@@ -32,7 +32,7 @@ export const NewsletterWelcomeEmail = () => {
             />
             <Hr style={hr} />
             <Text style={paragraph}>
-              Welcome to our community! We're thrilled to have you join us on this journey of exploring cutting-edge AI websites and tools.
+              Welcome to our community! We're thrilled to have you join us on this journey of exploring cutting-edge websites and tools.
             </Text>
             <Text style={paragraph}>
               Expect our monthly newsletter packed with curated insights, latest trends, and exclusive tips in the AI space.

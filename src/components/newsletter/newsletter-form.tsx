@@ -38,7 +38,7 @@ export function NewsletterForm() {
             case "success":
               toast.success("Thank you for subscribing to our newsletter");
               form.reset();
-              break
+              break;
             default:
               toast.error("Something went wrong, please try again");
           }

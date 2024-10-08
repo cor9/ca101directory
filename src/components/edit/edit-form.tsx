@@ -227,7 +227,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                       <div className="flex items-center justify-between gap-4">
                         <span>Image</span>
                         <span className="text-sm text-muted-foreground">
-                          (PNG or JPEG, maximum 1MB)
+                          (PNG or JPEG, max 1MB)
                         </span>
                       </div>
                     </FormLabel>

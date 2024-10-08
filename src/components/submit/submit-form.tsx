@@ -220,7 +220,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                       <div className="flex items-center justify-between gap-4">
                         <span>Image</span>
                         <span className="text-xs text-muted-foreground">
-                          (PNG or JPEG, maximum 1MB)
+                          (PNG or JPEG, max 1MB)
                         </span>
                       </div>
                     </FormLabel>

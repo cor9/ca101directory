@@ -15,7 +15,7 @@ interface ImageUploadProps {
 }
 
 /**
- * NOTICE: upload image in mobile failed
+ * TODO: failed to upload image in mobile phone
  */
 export default function ImageUpload({ currentImageUrl, onUploadChange }: ImageUploadProps) {
   const [uploading, setUploading] = useState<boolean>(false);
@@ -74,7 +74,7 @@ export default function ImageUpload({ currentImageUrl, onUploadChange }: ImageUp
         toast.error('Only PNG and JPEG images are allowed.');
       }
     }
-  }, []);
+  }, [handleImageUpload]);
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 

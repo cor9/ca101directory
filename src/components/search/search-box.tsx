@@ -12,11 +12,13 @@ export default function SearchBox() {
   const [searchQuery, setSearchQuery] = useState(searchParams?.get('q') || '');
   const [debouncedQuery] = useDebounce(searchQuery, 300); // 300ms debounce
   const lastExecutedQuery = useRef(searchParams?.get('q') || '');
+  const previousQueryRef = useRef('');
 
   useEffect(() => {
     const currentQuery = searchParams?.get('q') || '';
-    if (currentQuery !== searchQuery) {
+    if (currentQuery !== previousQueryRef.current) {
       setSearchQuery(currentQuery);
+      previousQueryRef.current = currentQuery;
     }
   }, [searchParams]);
 

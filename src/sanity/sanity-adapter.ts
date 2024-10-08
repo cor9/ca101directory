@@ -196,20 +196,21 @@ export function SanityAdapter(
           console.log('linkAccount, user:', userToUpdate);
         }
 
+        const existingAccounts = Array.isArray(userToUpdate?.accounts) ? userToUpdate.accounts : [];
+
         const updatedAccounts = [
-          ...(userToUpdate?.accounts || []),
+          ...existingAccounts,
           {
             _type: 'reference',
             _key: `account.${uuid()}`,
             _ref: createdAccount._id
           }
-        ]
+        ];
 
-        await sanityClient.createOrReplace({
-          ...userToUpdate,
+        await sanityClient.patch(account.userId).set({
           emailVerified: new Date().toISOString(),
           accounts: updatedAccounts,
-        })
+        }).commit();
 
         return account;
       } catch (error) {

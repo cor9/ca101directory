@@ -7,12 +7,6 @@ interface MarketingLayoutProps {
 }
 
 export default async function MarketingLayout({ children }: MarketingLayoutProps) {
-  // const user = await currentUser();
-  // console.log('MarketingLayout, user:', user);
-  // if (!user) {
-  //   redirect("/auth/login");
-  // }
-  
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar scroll={true} config={marketingConfig} />

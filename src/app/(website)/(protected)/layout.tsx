@@ -13,7 +13,7 @@ export default async function ProtectedLayout({ children }: ProtectedLayoutProps
   const user = await currentUser();
   // console.log(`ProtectedLayout, user:`, user);
   if (!user) {
-    redirect("/auth/login");
+    return redirect("/auth/login");
   }
   
   return (

@@ -18,11 +18,6 @@ export default function Loading() {
         <ItemGridSkeleton />
         <BlogGridSkeleton count={3} />
       </Container>
-
-      {/* newsletter */}
-      <Container className="my-16">
-        <NewsletterCard />
-      </Container>
     </div>
   )
 }

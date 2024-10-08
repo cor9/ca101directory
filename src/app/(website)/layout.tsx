@@ -13,6 +13,7 @@ import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { auth } from "@/auth";
 import { constructMetadata } from "@/lib/metadata";
+import { Analytics } from "@/components/analytics/analytics";
 
 export const metadata = constructMetadata();
 
@@ -54,6 +55,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
             <TailwindIndicator />
 
+            <Analytics />
           </ThemeProvider>
         </SessionProvider>
       </body>

@@ -12,7 +12,7 @@ export const metadata = constructMetadata({
 
 export default async function HomePage() {
   return (
-    <div>
+    <div className="mb-16">
       {/* hero section */}
       <Container className="mt-8">
         <HomeHero />
@@ -24,7 +24,7 @@ export default async function HomePage() {
       </Container>
 
       {/* newsletter section */}
-      <Container className="my-16">
+      <Container className="mt-16">
         <NewsletterCard />
       </Container>
     </div>

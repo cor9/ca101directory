@@ -197,6 +197,7 @@ export function SanityAdapter(
         }
 
         // https://github.com/javayhu/Authy/blob/main/adapters/sanity-adapter.ts#L140
+        // TODO: accounts is an array or a reference?
         await sanityClient.createOrReplace({
           ...userToUpdate,
           emailVerified: new Date().toISOString(),
@@ -235,6 +236,8 @@ export function SanityAdapter(
           ac => ac._ref !== account._id
         );
 
+        // https://github.com/javayhu/Authy/blob/main/adapters/sanity-adapter.ts#L169
+        // TODO: accounts is an array or a reference?
         await sanityClient.createOrReplace({
           ...accountUser,
           accounts: updatedUserAccounts,

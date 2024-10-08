@@ -1,4 +1,4 @@
-import { NestedNavItem, SiteConfig } from "@/types";
+import { SiteConfig } from "@/types";
 
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL!!;
 

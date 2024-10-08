@@ -33,7 +33,7 @@ export async function HomeContent() {
               </h2>
             </div>
 
-            {/* <Link href="/search" className="text-lg group flex items-center gap-2 hover:text-primary">
+            {/* <Link href="/search" className="text-lg group flex items-center gap-2">
               <span>More</span>
               <ArrowRightIcon className="size-4 icon-scale" />
             </Link> */}
@@ -41,8 +41,8 @@ export async function HomeContent() {
 
           <ItemGrid items={latestItems} />
 
-          <Button asChild variant='outline' size='lg' className='mx-auto'>
-            <Link href="/search" className="text-lg font-semibold px-16 group flex items-center gap-2 hover:text-primary">
+          <Button asChild variant='default' size='lg' className='mx-auto'>
+            <Link href="/search" className="text-lg font-semibold px-16 group flex items-center gap-2">
               <span className='tracking-wider'>More Latest Products</span>
               <ArrowRightIcon className="size-4 icon-scale" />
             </Link>
@@ -61,7 +61,7 @@ export async function HomeContent() {
               </h2>
             </div>
 
-            {/* <Link href="/search" className="text-lg group flex items-center gap-2 hover:text-primary">
+            {/* <Link href="/search" className="text-lg group flex items-center gap-2">
               <span>More</span>
               <ArrowRightIcon className="size-4 icon-scale" />
             </Link> */}
@@ -69,8 +69,8 @@ export async function HomeContent() {
 
           <ItemGrid items={featuredItems} />
 
-          <Button asChild variant='outline' size='lg' className='mx-auto'>
-            <Link href="/search" className="text-lg font-semibold px-16 group flex items-center gap-2 hover:text-primary">
+          <Button asChild variant='default' size='lg' className='mx-auto'>
+            <Link href="/search" className="text-lg font-semibold px-16 group flex items-center gap-2">
               <span className='tracking-wider'>More Featured Products</span>
               <ArrowRightIcon className="size-4 icon-scale" />
             </Link>
@@ -89,7 +89,7 @@ export async function HomeContent() {
               </h2>
             </div>
 
-            {/* <Link href="/blog" className="text-lg group flex items-center gap-2 hover:text-primary">
+            {/* <Link href="/blog" className="text-lg group flex items-center gap-2">
               <span>More</span>
               <ArrowRightIcon className="size-4 icon-scale" />
             </Link> */}
@@ -97,8 +97,8 @@ export async function HomeContent() {
 
           <BlogGrid posts={latestBlogPosts} />
 
-          <Button asChild variant='outline' size='lg' className='mx-auto'>
-            <Link href="/blog" className="text-lg font-semibold px-16 group flex items-center gap-2 hover:text-primary">
+          <Button asChild variant='default' size='lg' className='mx-auto'>
+            <Link href="/blog" className="text-lg font-semibold px-16 group flex items-center gap-2">
               <span className='tracking-wider'>More Blog Posts</span>
               <ArrowRightIcon className="size-4 icon-scale" />
             </Link>

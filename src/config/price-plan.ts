@@ -11,7 +11,7 @@ export const PRICE_PLANS: PricePlan[] = [
     title: "Free",
     description: "For Beginners",
     benefits: [
-      "Get one dofollow link", //  to boost your SEO
+      "Get one dofollow link",
       "Permanent link with backlink maintenance",
       "Review within 48 hours",
     ],

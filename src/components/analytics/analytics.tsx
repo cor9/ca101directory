@@ -12,8 +12,8 @@ export function Analytics() {
     return (
         <section>
             {/* vercel analytics */}
-            <VercelAnalytics />
-            <SpeedInsights />
+            {/* <VercelAnalytics /> */}
+            {/* <SpeedInsights /> */}
 
             {/* https://docs.openpanel.dev/docs/sdks/nextjs#options */}
             <OpenPanelComponent

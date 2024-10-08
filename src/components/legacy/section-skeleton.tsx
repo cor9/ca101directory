@@ -13,8 +13,8 @@ export function SkeletonSection({ card = false }: { card?: boolean }) {
         ) : (
           <div>
             <div className="mb-1.5 flex gap-x-2">
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-[67px] shrink-0 sm:w-[130px]" />
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-[67px] shrink-0 sm:w-[130px]" />
             </div>
             <Skeleton className="h-5 w-56" />
           </div>

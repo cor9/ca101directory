@@ -117,7 +117,7 @@ export function PricingPlanCardSkeleton() {
           <Skeleton className="h-12 w-24" /> {/* Popular badge */}
         </div>
         {/* <div className="mt-4 flex items-baseline text-zinc-900 dark:text-zinc-50">
-          <Skeleton className="h-10 w-20" /> 
+          <Skeleton className="h-12 w-20" /> 
           <Skeleton className="ml-1 h-6 w-16" /> 
         </div> */}
       </div>
@@ -125,7 +125,7 @@ export function PricingPlanCardSkeleton() {
         {[...Array(6)].map((_, i) => (
           <li key={i} className="flex">
             {/* <CheckIcon className="h-6 w-6 shrink-0" /> */}
-            <Skeleton className="h-6 w-full" /> {/* Feature */}
+            <Skeleton className="h-8 w-full" /> {/* Feature */}
           </li>
         ))}
       </ul>

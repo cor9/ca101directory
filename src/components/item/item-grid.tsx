@@ -29,7 +29,7 @@ export function ItemGridSkeleton({ count = ITEMS_PER_PAGE }: { count?: number })
       {[...Array(count)].map((_, index) => (
         <div key={index} className="flex flex-col gap-2">
           <Skeleton className="w-full aspect-[16/9]" />
-          <Skeleton className="h-6 w-1/2" />
+          <Skeleton className="h-8 w-1/2" />
           <Skeleton className="h-12 w-full" />
         </div>
       ))}

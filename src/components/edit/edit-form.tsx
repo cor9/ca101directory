@@ -281,7 +281,7 @@ export function EditFormSkeleton() {
           {[...Array(2)].map((_, index) => (
             <div key={index} className="flex-1 space-y-2">
               <Skeleton className="h-8 w-16" />
-              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-12 w-full" />
             </div>
           ))}
         </div>
@@ -291,7 +291,7 @@ export function EditFormSkeleton() {
           {[...Array(2)].map((_, index) => (
             <div key={index} className="flex-1 space-y-2">
               <Skeleton className="h-8 w-24" />
-              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-12 w-full" />
             </div>
           ))}
         </div>
@@ -317,7 +317,7 @@ export function EditFormSkeleton() {
 
       <CardFooter className={cn("flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4",
         "sm:flex-row sm:justify-between sm:space-y-0 sm:gap-4")}>
-        <Skeleton className="h-10 w-full sm:w-32" />
+        <Skeleton className="h-12 w-full sm:w-32" />
         <div className="flex items-center justify-center sm:justify-start gap-4">
           <Skeleton className="h-5 w-5 rounded-full" />
           <Skeleton className="h-8 w-48" />

@@ -135,34 +135,34 @@ export function SubmissionCardInPlanPageSkeleton() {
       <div className="md:col-span-3 flex flex-col justify-between">
         <div className="space-y-4">
           <Skeleton className="h-8 w-1/2" /> {/* Title */}
-          <Skeleton className="h-6 w-full" /> {/* Description */}
+          <Skeleton className="h-8 w-full" /> {/* Description */}
 
           <div className="grid grid-cols-2 gap-4 text-sm pt-2">
             <div className="flex items-center gap-2">
-              <Skeleton className="h-6 w-12" /> {/* Plan label */}
-              <Skeleton className="h-6 w-20" /> {/* Plan value */}
+              <Skeleton className="h-8 w-12" /> {/* Plan label */}
+              <Skeleton className="h-8 w-20" /> {/* Plan value */}
             </div>
             <div className="flex items-center gap-2">
-              <Skeleton className="h-6 w-16" /> {/* Status label */}
-              <Skeleton className="h-6 w-24" /> {/* Status value */}
+              <Skeleton className="h-8 w-16" /> {/* Status label */}
+              <Skeleton className="h-8 w-24" /> {/* Status value */}
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm pt-2">
             <div className="flex items-center gap-2">
-              <Skeleton className="h-6 w-24" /> {/* Publish Date label */}
-              <Skeleton className="h-6 w-32" /> {/* Publish Date value */}
+              <Skeleton className="h-8 w-24" /> {/* Publish Date label */}
+              <Skeleton className="h-8 w-32" /> {/* Publish Date value */}
             </div>
             <div className="flex items-center gap-2">
-              <Skeleton className="h-6 w-24" /> {/* Created Date label */}
-              <Skeleton className="h-6 w-32" /> {/* Created Date value */}
+              <Skeleton className="h-8 w-24" /> {/* Created Date label */}
+              <Skeleton className="h-8 w-32" /> {/* Created Date value */}
             </div>
           </div>
         </div>
 
         <div className="flex flex-wrap gap-4 mt-6">
-          <Skeleton className="h-10 w-32" />
-          <Skeleton className="h-10 w-32" />
+          <Skeleton className="h-12 w-32" />
+          <Skeleton className="h-12 w-32" />
         </div>
       </div>
     </div>

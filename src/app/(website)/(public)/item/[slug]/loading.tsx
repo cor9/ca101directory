@@ -10,12 +10,12 @@ export default function Loading() {
         {/* Left column */}
         <div className="lg:col-span-3 gap-8 flex flex-col">
           {/* Basic information */}
-          <Skeleton className="h-6 w-1/2" />
+          <Skeleton className="h-8 w-1/2" />
 
           {/* name and description */}
           <div className="w-full flex flex-1 items-center">
             <div className="w-full flex flex-col gap-8">
-              <Skeleton className="h-10 w-1/4" />
+              <Skeleton className="h-12 w-1/4" />
               <Skeleton className="h-24 w-3/4" />
             </div>
           </div>
@@ -46,7 +46,7 @@ export default function Loading() {
             {/* <h2 className="text-lg font-semibold mb-4">
                 Introduction
               </h2> */}
-            <Skeleton className="h-60 w-full" />
+            <Skeleton className="h-80 w-full" />
           </div>
 
           <div className="flex items-center justify-start mt-16">
@@ -66,8 +66,8 @@ export default function Loading() {
                 <ul className="space-y-4 text-sm">
                   {[...Array(2)].map((_, index) => (
                     <li key={index} className="flex justify-between">
-                      <Skeleton className="h-6 w-20" />
-                      <Skeleton className="h-6 w-32" />
+                      <Skeleton className="h-8 w-20" />
+                      <Skeleton className="h-8 w-32" />
                     </li>
                   ))}
                 </ul>
@@ -104,8 +104,8 @@ export default function Loading() {
       {/* Footer section shows related items */}
       <div className="flex flex-col gap-4 mt-8">
         <div className="flex items-center gap-2">
-          <Skeleton className="h-6 w-6" />
-          <Skeleton className="h-6 w-48" />
+          <Skeleton className="h-8 w-6" />
+          <Skeleton className="h-8 w-48" />
           {/* <h2 className="text-lg font-semibold">
               More Related
             </h2> */}

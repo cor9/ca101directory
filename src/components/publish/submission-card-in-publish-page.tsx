@@ -132,13 +132,13 @@ export function SubmissionCardInPublishPageSkeleton() {
           {/* Category and tag skeletons */}
           <div className="absolute left-2 bottom-2 flex flex-col gap-2">
             <div className="flex flex-wrap gap-1">
-              <Skeleton className="h-6 w-16 rounded-md" />
-              <Skeleton className="h-6 w-20 rounded-md" />
+              <Skeleton className="h-8 w-16 rounded-md" />
+              <Skeleton className="h-8 w-20 rounded-md" />
             </div>
             <div className="flex flex-wrap gap-1">
-              <Skeleton className="h-6 w-14 rounded-md" />
-              <Skeleton className="h-6 w-16 rounded-md" />
-              <Skeleton className="h-6 w-18 rounded-md" />
+              <Skeleton className="h-8 w-14 rounded-md" />
+              <Skeleton className="h-8 w-16 rounded-md" />
+              <Skeleton className="h-8 w-18 rounded-md" />
             </div>
           </div>
         </div>
@@ -147,19 +147,18 @@ export function SubmissionCardInPublishPageSkeleton() {
         <div className="md:col-span-3 flex flex-col justify-center">
           <div className="flex flex-col w-full space-y-8">
             {/* Title skeleton */}
-            <Skeleton className="h-10 w-1/2" />
+            <Skeleton className="h-12 w-1/2" />
 
             {/* Description skeleton */}
             <div className="space-y-2">
-              <Skeleton className="h-6 w-full" />
-              <Skeleton className="h-6 w-full" />
+              <Skeleton className="h-16 w-full" />
             </div>
 
             {/* Action button skeleton */}
             <div className="pt-4">
               <div className="flex flex-row gap-4">
-                <Skeleton className="h-10 w-32" />
-                <Skeleton className="h-10 w-32" />
+                <Skeleton className="h-12 w-32" />
+                <Skeleton className="h-12 w-32" />
               </div>
             </div>
           </div>

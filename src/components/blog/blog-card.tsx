@@ -118,8 +118,8 @@ export function BlogCardSkeleton() {
       </div>
       <Skeleton className="h-12 w-full" />
       <div className="flex items-center justify-between gap-2">
-        <Skeleton className="h-6 w-32" />
-        <Skeleton className="h-6 w-32" />
+        <Skeleton className="h-8 w-32" />
+        <Skeleton className="h-8 w-32" />
       </div>
     </div>
   );

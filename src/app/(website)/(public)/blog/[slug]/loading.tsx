@@ -14,7 +14,7 @@ export default function Loading() {
             <Skeleton className="w-full aspect-[16/9] rounded-lg" />
 
             {/* blog post title */}
-            <Skeleton className="h-10 w-1/2" />
+            <Skeleton className="h-12 w-1/2" />
 
             {/* blog post description */}
             <Skeleton className="h-20 w-full" />
@@ -35,11 +35,11 @@ export default function Loading() {
           <div className="space-y-4 lg:sticky lg:top-24">
             {/* author info */}
             <div className="bg-muted/50 rounded-lg p-6">
-              <Skeleton className="h-6 w-24 mb-4" />
+              <Skeleton className="h-8 w-24 mb-4" />
               <div className="flex items-center gap-4">
                 <Skeleton className="h-12 w-12 rounded-full" />
                 <div>
-                  <Skeleton className="h-6 w-32 mb-2" />
+                  <Skeleton className="h-8 w-32 mb-2" />
                   <Skeleton className="h-4 w-24" />
                 </div>
               </div>
@@ -47,7 +47,7 @@ export default function Loading() {
 
             {/* categories */}
             <div className="bg-muted/50 rounded-lg p-6">
-              <Skeleton className="h-6 w-24 mb-4" />
+              <Skeleton className="h-8 w-24 mb-4" />
               <div className="flex flex-wrap gap-4">
                 {[...Array(3)].map((_, index) => (
                   <Skeleton key={index} className="h-6 w-20" />
@@ -57,7 +57,7 @@ export default function Loading() {
 
             {/* table of contents */}
             <div className="bg-muted/50 rounded-lg p-6 hidden lg:block">
-              <Skeleton className="h-6 w-40 mb-4" />
+              <Skeleton className="h-8 w-40 mb-4" />
               <div className="space-y-2">
                 {[...Array(5)].map((_, index) => (
                   <Skeleton key={index} className="h-4 w-full" />
@@ -71,8 +71,8 @@ export default function Loading() {
       {/* Footer section shows related posts */}
       <div className="flex flex-col gap-8 mt-8">
         <div className="flex items-center gap-2">
-          <Skeleton className="h-6 w-6" />
-          <Skeleton className="h-6 w-32" />
+          <Skeleton className="h-8 w-6" />
+          <Skeleton className="h-8 w-32" />
         </div>
 
         <BlogGridSkeleton count={3} />

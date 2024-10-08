@@ -1,9 +1,9 @@
 "use client";
 
 import { edit, EditFormData } from "@/actions/edit";
+import { Icons } from "@/components/icons/icons";
 import CustomMde from "@/components/shared/custom-mde";
 import ImageUpload from "@/components/shared/image-upload";
-import { Icons } from "@/components/icons/icons";
 import { MultiSelect } from "@/components/shared/multi-select";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +20,7 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { urlForImage } from "@/lib/image";
 import { EditSchema } from "@/lib/schemas";
@@ -33,7 +34,6 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface EditFormProps {
   item: ItemFullInfo;
@@ -259,14 +259,12 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
             </Button>
 
             {/* NOTICE: if this item is in free plan, any update will cause this item to be reviewed again */}
-            {
-              item.pricePlan === 'free' && (
-                <div className="text-muted-foreground flex items-center justify-center sm:justify-start gap-4">
-                  <BellRingIcon className="h-5 w-5 sm:h-6 sm:w-4 flex-shrink-0" />
-                  <span className="text-sm">Your submission will be reviewed again and remain unpublished until approved.</span>
-                </div>
-              )
-            }
+            {item.pricePlan === 'free' && (
+              <div className="text-muted-foreground flex items-center justify-center sm:justify-start gap-4">
+                <BellRingIcon className="h-5 w-5 sm:h-6 sm:w-4 flex-shrink-0" />
+                <span className="text-sm">Your submission will be reviewed again and remain unpublished until approved.</span>
+              </div>
+            )}
           </CardFooter>
         </Card>
       </form>
@@ -282,7 +280,7 @@ export function EditFormSkeleton() {
         <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
           {[...Array(2)].map((_, index) => (
             <div key={index} className="flex-1 space-y-2">
-              <Skeleton className="h-6 w-16" />
+              <Skeleton className="h-8 w-16" />
               <Skeleton className="h-10 w-full" />
             </div>
           ))}
@@ -292,7 +290,7 @@ export function EditFormSkeleton() {
         <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
           {[...Array(2)].map((_, index) => (
             <div key={index} className="flex-1 space-y-2">
-              <Skeleton className="h-6 w-24" />
+              <Skeleton className="h-8 w-24" />
               <Skeleton className="h-10 w-full" />
             </div>
           ))}
@@ -300,18 +298,18 @@ export function EditFormSkeleton() {
 
         {/* Description field */}
         <div className="space-y-2">
-          <Skeleton className="h-6 w-24" />
+          <Skeleton className="h-8 w-24" />
           <Skeleton className="h-24 w-full" />
         </div>
 
         {/* Introduction and Image fields */}
         <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
           <div className="flex-1 space-y-2">
-            <Skeleton className="h-6 w-24" />
+            <Skeleton className="h-8 w-24" />
             <Skeleton className="h-[370px] w-full" />
           </div>
           <div className="flex-1 space-y-2">
-            <Skeleton className="h-6 w-16" />
+            <Skeleton className="h-8 w-16" />
             <Skeleton className="h-[370px] w-full" />
           </div>
         </div>
@@ -322,7 +320,7 @@ export function EditFormSkeleton() {
         <Skeleton className="h-10 w-full sm:w-32" />
         <div className="flex items-center justify-center sm:justify-start gap-4">
           <Skeleton className="h-5 w-5 rounded-full" />
-          <Skeleton className="h-6 w-48" />
+          <Skeleton className="h-8 w-48" />
         </div>
       </CardFooter>
     </Card>

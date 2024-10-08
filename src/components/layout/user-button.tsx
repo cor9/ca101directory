@@ -83,22 +83,22 @@ export function UserButton() {
               ) : null} */}
 
               <li className="rounded-lg text-foreground hover:bg-muted">
-                <Link href="/dashboard"
-                  onClick={closeDrawer}
-                  className="flex w-full items-center gap-3 px-2.5 py-2"
-                >
-                  <LayoutDashboardIcon className="size-4" />
-                  <p className="text-sm">Dashboard</p>
-                </Link>
-              </li>
-
-              <li className="rounded-lg text-foreground hover:bg-muted">
                 <Link href="/submit"
                   onClick={closeDrawer}
                   className="flex w-full items-center gap-3 px-2.5 py-2"
                 >
                   <Icons.submit className="size-4" />
                   <p className="text-sm">Submit</p>
+                </Link>
+              </li>
+
+              <li className="rounded-lg text-foreground hover:bg-muted">
+                <Link href="/dashboard"
+                  onClick={closeDrawer}
+                  className="flex w-full items-center gap-3 px-2.5 py-2"
+                >
+                  <Icons.dashboard className="size-4" />
+                  <p className="text-sm">Dashboard</p>
                 </Link>
               </li>
 
@@ -174,24 +174,24 @@ export function UserButton() {
         <DropdownMenuItem asChild
           className="cursor-pointer"
           onClick={() => {
-            router.push("/dashboard");
+            router.push("/submit");
           }}
         >
           <div className="flex items-center space-x-2.5">
-            <LayoutDashboardIcon className="size-4" />
-            <p className="text-sm">Dashboard</p>
+            <Icons.submit className="size-4" />
+            <p className="text-sm">Submit</p>
           </div>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild
           className="cursor-pointer"
           onClick={() => {
-            router.push("/submit");
+            router.push("/dashboard");
           }}
         >
           <div className="flex items-center space-x-2.5">
-            <UploadIcon className="size-4" />
-            <p className="text-sm">Submit</p>
+            <Icons.dashboard className="size-4" />
+            <p className="text-sm">Dashboard</p>
           </div>
         </DropdownMenuItem>
 
@@ -202,7 +202,7 @@ export function UserButton() {
           }}
         >
           <div className="flex items-center space-x-2.5">
-            <SettingsIcon className="size-4" />
+            <Icons.settings className="size-4" />
             <p className="text-sm">Settings</p>
           </div>
         </DropdownMenuItem>

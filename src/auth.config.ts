@@ -1,11 +1,11 @@
 import { SHOW_QUERY_LOGS } from "@/lib/constants";
 import { LoginSchema } from "@/lib/schemas";
-import bcrypt from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import { getUserByEmail } from "@/data/user";
+import { verifyPassword } from "./lib/password";
 
 /**
  * https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.config.ts
@@ -52,7 +52,7 @@ export default {
           return null;
         }
 
-        const passwordsMatch = await bcrypt.compare(credentials?.password as string, user.password);
+        const passwordsMatch = await verifyPassword(credentials?.password as string, user.password);
         if (passwordsMatch) {
           const userWithRole = {
             ...user,

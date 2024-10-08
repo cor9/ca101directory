@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { ImageUpIcon, Loader2Icon } from "lucide-react";
 import Image from "next/image";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 
@@ -39,6 +39,13 @@ export default function ImageUpload({ currentImageUrl, onUploadChange }: ImageUp
     }
   };
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files?.length) {
+      const image = event.target.files[0];
+      handleImageUpload(image);
+    }
+  };
+
   const handleImageUpload = async (image: File) => {
     if (!image) return;
     setUploading(true);
@@ -57,24 +64,18 @@ export default function ImageUpload({ currentImageUrl, onUploadChange }: ImageUp
       onUploadChange({ isUploading: false });
     }
   };
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files?.length) {
-      const image = event.target.files[0];
-      handleImageUpload(image);
-    }
-  };
+  const handleImageUploadRef = useRef(handleImageUpload);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
       const file = acceptedFiles[0];
       if (file.type === 'image/png' || file.type === 'image/jpeg') {
-        handleImageUpload(file);
+        handleImageUploadRef.current(file);
       } else {
         toast.error('Only PNG and JPEG images are allowed.');
       }
     }
-  }, [handleImageUpload]);
+  }, []);
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 

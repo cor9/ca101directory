@@ -40,7 +40,8 @@ export default function ItemBreadCrumb({ item }: ItemBreadCrumbProps) {
         <BreadcrumbItem>
           {/* show BreadcrumbLink if category is only one */}
           {item?.categories?.length == 1 && (
-            <BreadcrumbLink href={`/category/${item?.categories?.[0]?.slug?.current}`}>
+            <BreadcrumbLink className="cursor-pointer"
+              href={`/category/${item?.categories?.[0]?.slug?.current}`}>
               {item?.categories?.[0]?.name}
             </BreadcrumbLink>
           )}
@@ -49,7 +50,8 @@ export default function ItemBreadCrumb({ item }: ItemBreadCrumbProps) {
           {item?.categories?.length > 1 && (
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1">
-                <BreadcrumbLink href={`/category/${item?.categories?.[0]?.slug?.current}`}>
+                <BreadcrumbLink className="cursor-pointer"
+                  href={`/category/${item?.categories?.[0]?.slug?.current}`}>
                   {item?.categories?.[0]?.name}
                 </BreadcrumbLink>
                 <ChevronsUpDownIcon className="w-4 h-4" />
@@ -57,7 +59,8 @@ export default function ItemBreadCrumb({ item }: ItemBreadCrumbProps) {
               <DropdownMenuContent>
                 {item?.categories?.map((category) => (
                   <DropdownMenuItem key={category.slug.current}>
-                    <BreadcrumbLink href={`/category/${category.slug.current}`}>
+                    <BreadcrumbLink  className="cursor-pointer"
+                      href={`/category/${category.slug.current}`}>
                       {category.name}
                     </BreadcrumbLink>
                   </DropdownMenuItem>

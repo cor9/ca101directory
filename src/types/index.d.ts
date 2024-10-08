@@ -35,6 +35,10 @@ export type DashboardConfig = {
   mainNav: NavItem[];
 };
 
+export type UserButtonConfig = {
+  mainNav: NavItem[];
+};
+
 export type NavItem = {
   title: string;
   href: string;

@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { userButtonConfig } from "@/config/user-button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { LogOutIcon } from "lucide-react";
@@ -69,52 +70,21 @@ export function UserButton() {
             </div>
 
             <ul role="list" className="mb-14 mt-1 w-full text-muted-foreground">
-              
-              <li className="rounded-lg text-foreground hover:bg-muted">
-                <Link href="/submit"
-                  onClick={closeDrawer}
-                  className="flex w-full items-center gap-3 px-2.5 py-2"
-                >
-                  <Icons.submit className="size-4" />
-                  <p className="text-sm">Submit</p>
-                </Link>
-              </li>
-
-              <li className="rounded-lg text-foreground hover:bg-muted">
-                <Link href="/dashboard"
-                  onClick={closeDrawer}
-                  className="flex w-full items-center gap-3 px-2.5 py-2"
-                >
-                  <Icons.dashboard className="size-4" />
-                  <p className="text-sm">Dashboard</p>
-                </Link>
-              </li>
-
-              <li className="rounded-lg text-foreground hover:bg-muted">
-                <Link href="/settings"
-                  onClick={closeDrawer}
-                  className="flex w-full items-center gap-3 px-2.5 py-2"
-                >
-                  <Icons.settings className="size-4" />
-                  <p className="text-sm">Settings</p>
-                </Link>
-              </li>
-
-              <li
-                className="rounded-lg text-foreground hover:bg-muted"
-                onClick={(event) => {
-                  event.preventDefault();
-                  signOut({
-                    callbackUrl: `${window.location.origin}/`,
-                    redirect: true,
-                  });
-                }}
-              >
-                <div className="flex w-full items-center gap-3 px-2.5 py-2">
-                  <LogOutIcon className="size-4" />
-                  <p className="text-sm">Log out</p>
-                </div>
-              </li>
+              {userButtonConfig.mainNav.map((item) => {
+                const Icon = Icons[item.icon || "arrowRight"];
+                return (
+                  <li key={item.href} className="rounded-lg text-foreground hover:bg-muted">
+                    <Link
+                      href={item.href}
+                      onClick={closeDrawer}
+                      className="flex w-full items-center gap-3 px-2.5 py-2"
+                    >
+                      <Icon className="size-4" />
+                      <p className="text-sm">{item.title}</p>
+                    </Link>
+                  </li>
+                )
+              })}
             </ul>
           </Drawer.Content>
           <Drawer.Overlay />
@@ -150,41 +120,24 @@ export function UserButton() {
         </div>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem asChild
-          className="cursor-pointer"
-          onClick={() => {
-            router.push("/submit");
-          }}
-        >
-          <div className="flex items-center space-x-2.5">
-            <Icons.submit className="size-4" />
-            <p className="text-sm">Submit</p>
-          </div>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem asChild
-          className="cursor-pointer"
-          onClick={() => {
-            router.push("/dashboard");
-          }}
-        >
-          <div className="flex items-center space-x-2.5">
-            <Icons.dashboard className="size-4" />
-            <p className="text-sm">Dashboard</p>
-          </div>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem asChild
-          className="cursor-pointer"
-          onClick={() => {
-            router.push("/settings");
-          }}
-        >
-          <div className="flex items-center space-x-2.5">
-            <Icons.settings className="size-4" />
-            <p className="text-sm">Settings</p>
-          </div>
-        </DropdownMenuItem>
+        {userButtonConfig.mainNav.map((item) => {
+          const Icon = Icons[item.icon || "arrowRight"];
+          return (
+            <DropdownMenuItem
+              key={item.href}
+              asChild
+              className="cursor-pointer"
+              onClick={() => {
+                router.push(item.href);
+              }}
+            >
+              <div className="flex items-center space-x-2.5">
+                <Icon className="size-4" />
+                <p className="text-sm">{item.title}</p>
+              </div>
+            </DropdownMenuItem>
+          )
+        })}
 
         <DropdownMenuSeparator />
 

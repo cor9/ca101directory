@@ -7,11 +7,15 @@ import { PricePlans, ProPlanStatus } from "@/lib/submission";
 import { sendPaymentSuccessEmail } from "@/lib/mail";
 import { getItemLinkInWebsite } from "@/lib/utils";
 
-// https://github.com/mickasmt/next-saas-stripe-starter/blob/main/app/api/webhooks/stripe/route.ts
-// https://github.com/javayhu/lms-studio-antonio/blob/main/app/api/webhook/route.ts
-// This file handles webhook events from Stripe. It verifies the signature
-// of each request to ensure that the request is coming from Stripe. It also
-// handles the checkout.session.completed event type by creating a new purchase record in the database.
+/**
+ * Stripe webhook handler
+ * This file handles webhook events from Stripe. It verifies the signature
+ * of each request to ensure that the request is coming from Stripe. It also
+ * handles the checkout.session.completed event type by creating a new purchase record in the database.
+ * 
+ * https://github.com/mickasmt/next-saas-stripe-starter/blob/main/app/api/webhooks/stripe/route.ts
+ * https://github.com/javayhu/lms-studio-antonio/blob/main/app/api/webhook/route.ts
+ */
 export async function POST(req: Request) {
   const body = await req.text();
   const signature = headers().get("Stripe-Signature") as string;

@@ -47,10 +47,6 @@ export const ResetPasswordEmail = ({
                             Hi {userName},
                         </Text>
                         <Text style={paragraph}>
-                            Thanks for submitting your account information. You're now ready to
-                            make live transactions with Stripe!
-                        </Text>
-                        <Text style={paragraph}>
                             Someone recently requested a password change for your
                             account. If this was you, you can set a new password here:
                         </Text>

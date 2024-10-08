@@ -71,7 +71,8 @@ export function SanityAdapter(
           id: createdUser._id,
         };
       } catch (error) {
-        throw new Error('createUser, Failed to Create user');
+        console.error('createUser, error create user', error);
+        throw new Error('createUser, error create user');
       }
     },
 
@@ -92,7 +93,8 @@ export function SanityAdapter(
           };
         }
       } catch (error) {
-        throw new Error('getUser, Could not get the user');
+        console.error('getUser, error get user', error);
+        throw new Error('getUser, error get user');
       }
     },
 
@@ -129,7 +131,8 @@ export function SanityAdapter(
         };
 
       } catch (error) {
-        throw new Error('getUserByAccount, Could not get the user');
+        console.error('getUserByAccount, error get user by account', error);
+        throw new Error('getUserByAccount, error get user by account');
       }
     },
 
@@ -156,7 +159,8 @@ export function SanityAdapter(
 
         return patchedUser as any;
       } catch (error) {
-        throw new Error('updateUser, Could not update the user');
+        console.error('updateUser, error update user', error);
+        throw new Error('updateUser, error update user');
       }
     },
 
@@ -164,7 +168,8 @@ export function SanityAdapter(
       try {
         return await sanityClient.delete(userId);
       } catch (error: any) {
-        throw new Error('deleteUser, Could not delete user', error);
+        console.error('deleteUser, error delete user', error);
+        throw new Error('deleteUser, error delete user');
       }
     },
 
@@ -196,21 +201,23 @@ export function SanityAdapter(
           console.log('linkAccount, user:', userToUpdate);
         }
 
+        const updatedUserAccounts = {
+          _type: 'reference',
+          _key: `account.${uuid()}`,
+          _ref: createdAccount._id
+        };
+
         // https://github.com/javayhu/Authy/blob/main/adapters/sanity-adapter.ts#L140
-        // TODO: accounts is an array or a reference?
-        await sanityClient.createOrReplace({
-          ...userToUpdate,
+        // in this app, accounts is a references to account schema, not an array
+        await sanityClient.patch(userToUpdate._id).set({
           emailVerified: new Date().toISOString(),
-          accounts: {
-            _type: 'reference',
-            _key: `account.${uuid()}`,
-            _ref: createdAccount._id
-          },
-        });
+          accounts: updatedUserAccounts,
+        }).commit();
 
         return account;
       } catch (error) {
-        throw new Error('linkAccount, Error linking account');
+        console.error('linkAccount, error link account', error);
+        throw new Error('linkAccount, error link account');
       }
     },
 
@@ -231,21 +238,16 @@ export function SanityAdapter(
           console.log('unlinkAccount, user:', accountUser);
         }
 
-        // Filter out the user account to be deleted
-        const updatedUserAccounts = (accountUser?.accounts || []).filter(
-          ac => ac._ref !== account._id
-        );
-
         // https://github.com/javayhu/Authy/blob/main/adapters/sanity-adapter.ts#L169
-        // TODO: accounts is an array or a reference?
-        await sanityClient.createOrReplace({
-          ...accountUser,
-          accounts: updatedUserAccounts,
-        });
+        // accounts is a reference to account schema, not an array
+        await sanityClient.patch(accountUser._id).set({
+          accounts: null,
+        }).commit();
 
         await sanityClient.delete(account._id);
       } catch (error) {
-        throw new Error('unlinkAccount, Could not Unlink account');
+        console.error('unlinkAccount, error unlink account', error);
+        throw new Error('unlinkAccount, error unlink account');
       }
     },
 
@@ -269,7 +271,8 @@ export function SanityAdapter(
           };
         }
       } catch (error) {
-        throw new Error('getUserByEmail, Could not get the user');
+        console.error('getUserByEmail, error get user by email', error);
+        throw new Error('getUserByEmail, error get user by email');
       }
     },
 
@@ -284,7 +287,8 @@ export function SanityAdapter(
 
         return verificationToken;
       } catch (error) {
-        throw new Error('createVerificationToken, Could not create verification token');
+        console.error('createVerificationToken, error create verification token', error);
+        throw new Error('createVerificationToken, error create verification token');
       }
     },
 
@@ -313,7 +317,8 @@ export function SanityAdapter(
           identifier: verToken.identifier,
         };
       } catch (error) {
-        throw new Error('useVerificationToken, Could not delete verification token');
+        console.error('useVerificationToken, error delete verification token', error);
+        throw new Error('useVerificationToken, error delete verification token');
       }
     },
   }

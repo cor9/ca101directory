@@ -235,7 +235,8 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
               />
             </div>
           </CardContent>
-          <CardFooter className="flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4 sm:flex-row sm:justify-between sm:space-y-0">
+          <CardFooter className={cn("flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4",
+            "sm:flex-row sm:justify-between sm:space-y-0")}>
             <Button size="lg"
               type="submit"
               className="w-full sm:w-auto"
@@ -267,7 +268,7 @@ export function SubmitFormSkeleton() {
         <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
           {[...Array(2)].map((_, index) => (
             <div key={index} className="flex-1 space-y-2">
-              <Skeleton className="h-6 w-16" />
+              <Skeleton className="h-8 w-16" />
               <Skeleton className="h-10 w-full" />
             </div>
           ))}
@@ -277,7 +278,7 @@ export function SubmitFormSkeleton() {
         <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
           {[...Array(2)].map((_, index) => (
             <div key={index} className="flex-1 space-y-2">
-              <Skeleton className="h-6 w-24" />
+              <Skeleton className="h-8 w-24" />
               <Skeleton className="h-10 w-full" />
             </div>
           ))}
@@ -285,7 +286,7 @@ export function SubmitFormSkeleton() {
 
         {/* Description field */}
         <div className="space-y-2">
-          <Skeleton className="h-6 w-24" />
+          <Skeleton className="h-8 w-24" />
           <Skeleton className="h-24 w-full" />
         </div>
 
@@ -293,15 +294,15 @@ export function SubmitFormSkeleton() {
         <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
           <div className="flex-1 space-y-2">
             <div className="flex items-center justify-between gap-4">
-              <Skeleton className="h-6 w-24" />
-              <Skeleton className="h-6 w-40" />
+              <Skeleton className="h-8 w-24" />
+              <Skeleton className="h-8 w-40" />
             </div>
             <Skeleton className="h-[370px] w-full" />
           </div>
           <div className="flex-1 space-y-2">
             <div className="flex items-center justify-between gap-4">
-              <Skeleton className="h-6 w-16" />
-              <Skeleton className="h-6 w-48" />
+              <Skeleton className="h-8 w-16" />
+              <Skeleton className="h-8 w-48" />
             </div>
             <Skeleton className="h-[370px] w-full" />
           </div>
@@ -312,8 +313,8 @@ export function SubmitFormSkeleton() {
         "sm:flex-row sm:justify-between sm:space-y-0")}>
         <Skeleton className="h-10 w-full sm:w-32" />
         <div className="flex items-center justify-center sm:justify-start gap-2">
-          <Skeleton className="h-6 w-4" />
-          <Skeleton className="h-6 w-64" />
+          <Skeleton className="h-8 w-4" />
+          <Skeleton className="h-8 w-64" />
         </div>
       </CardFooter>
     </Card>

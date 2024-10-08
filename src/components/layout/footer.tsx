@@ -85,8 +85,8 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
             <ul className="mt-4 list-inside space-y-3">
               {section.items?.map((link) => (
                 <li key={link.title}>
-                  <Link
-                    href={link.href}
+                  <Link href={link.href}
+                    target={link.external ? "_blank" : undefined}
                     className="text-sm text-muted-foreground hover:text-primary"
                   >
                     {link.title}

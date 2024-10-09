@@ -2,12 +2,26 @@
 
 import Script from "next/script";
 
-const GoogleAnalytics = () => {
+/**
+ * Google Analytics
+ * 
+ * https://analytics.google.com
+ */
+export default function GoogleAnalytics() {
+    if (process.env.NODE_ENV !== "production") {
+        return null;
+    }
+
+    const analyticsId = process.env.GOOGLE_ANALYTICS_ID;
+    if (!analyticsId) {
+        return null;
+    }
+
     return (
         <section>
             <Script
                 strategy="afterInteractive"
-                src={`https://www.googletagmanager.com/gtag/js?id=G-0JFX0BMGRE`}
+                src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`}
             />
             <Script
                 id="google-analytics-init"
@@ -17,12 +31,10 @@ const GoogleAnalytics = () => {
                     window.dataLayer = window.dataLayer || [];
                     function gtag(){dataLayer.push(arguments);}
                     gtag('js', new Date());
-                    gtag('config', 'G-0JFX0BMGRE');
+                    gtag('config', '${analyticsId}');
                     `,
                 }}
             />
         </section>
     )
 }
-
-export default GoogleAnalytics;

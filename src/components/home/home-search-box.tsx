@@ -20,7 +20,7 @@ export default function HomeSearchBox() {
   return (
     <form onSubmit={handleSearch} className="flex items-center justify-center">
       <Input type="text"
-        placeholder="Search any AI tools, GPTs, websites, etc."
+        placeholder="Search any products you need"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className={cn("w-[320px] sm:w-[480px] md:w-[640px] h-12 rounded-r-none",

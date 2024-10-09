@@ -8,7 +8,6 @@ import {
 } from "@/assets/fonts";
 import { auth } from "@/auth";
 import { Analytics } from "@/components/analytics/analytics";
-import { CSPostHogProvider } from "@/components/analytics/posthog-analytics";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { Toaster } from "@/components/ui/sonner";
 import { constructMetadata } from "@/lib/metadata";
@@ -29,39 +28,38 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <CSPostHogProvider>
-        <body
-          className={cn(
-            "min-h-screen bg-background antialiased",
-            fontBricolage.className,
-            // fontSourceSans.className,
-            // fontSourceSerif.className,
-            // fontWorkSans.className,
-            fontSourceSerif.variable,
-            fontSourceSans.variable,
-            fontWorkSans.variable,
-            fontBricolage.variable,
-          )}
-        >
-          <SessionProvider session={session}>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange>
+      <body
+        className={cn(
+          "min-h-screen bg-background antialiased",
+          fontBricolage.className,
+          // fontSourceSans.className,
+          // fontSourceSerif.className,
+          // fontWorkSans.className,
+          fontSourceSerif.variable,
+          fontSourceSans.variable,
+          fontWorkSans.variable,
+          fontBricolage.variable,
+        )}
+      >
 
-              {children}
+        <SessionProvider session={session}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange>
 
-              {/* https://sonner.emilkowal.ski/toaster */}
-              <Toaster richColors position="top-right" offset={64} />
+            {children}
 
-              <TailwindIndicator />
+            {/* https://sonner.emilkowal.ski/toaster */}
+            <Toaster richColors position="top-right" offset={64} />
 
-              <Analytics />
-            </ThemeProvider>
-          </SessionProvider>
-        </body>
-      </CSPostHogProvider>
+            <TailwindIndicator />
+
+            <Analytics />
+          </ThemeProvider>
+        </SessionProvider>
+      </body>
     </html>
   );
 }

@@ -1,7 +1,7 @@
 import AllPostsButton from "@/components/blog/all-posts-button";
+import BlogCustomMdx from "@/components/blog/blog-custom-mdx";
 import BlogGrid from "@/components/blog/blog-grid";
 import { BlogToc } from "@/components/blog/blog-toc";
-import { CustomMdx } from "@/components/shared/custom-mdx";
 import { siteConfig } from "@/config/site";
 import { urlForImage } from "@/lib/image";
 import { portableTextToMarkdown } from "@/lib/mdx";
@@ -93,7 +93,7 @@ export default async function PostPage({ params }: PostPageProps) {
             </div>
 
             {/* blog post title */}
-            <h1 className="text-4xl font-bold">
+            <h1 className="text-3xl font-bold">
               {post.title}
             </h1>
 
@@ -104,8 +104,8 @@ export default async function PostPage({ params }: PostPageProps) {
           </div>
 
           {/* blog post content */}
-          <div className="">
-            {markdownContent && <CustomMdx source={markdownContent} />}
+          <div className="mt-4">
+            {markdownContent && <BlogCustomMdx source={markdownContent} />}
           </div>
 
           <div className="flex items-center justify-start mt-16">

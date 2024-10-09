@@ -23,7 +23,7 @@ export default async function PricingPage() {
             title="Choose a pricing plan"
           />
 
-          <div className="w-full max-w-4xl mx-auto mt-8">
+          <div className="w-full max-w-4xl mx-auto">
             <PricingPlans />
           </div>
         </section>

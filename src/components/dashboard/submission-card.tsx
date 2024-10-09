@@ -5,13 +5,12 @@ import { UnpublishButton } from "@/components/dashboard/unpublish-button";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { urlForImage } from "@/lib/image";
 import { getPublishable } from "@/lib/submission";
 import { getLocaleDate } from "@/lib/utils";
 import { ItemInfo } from "@/types";
-import { EditIcon, HashIcon } from "lucide-react";
-import Image from "next/image";
+import { EditIcon } from "lucide-react";
 import Link from "next/link";
+import SubmissionCardImage from "./submission-card-image";
 import SubmissionStatus from "./submission-status";
 
 type SubmissionCardProps = {
@@ -20,72 +19,15 @@ type SubmissionCardProps = {
 
 export default function SubmissionCard({ item }: SubmissionCardProps) {
   // console.log('SubmissionCard, item:', item);
-  const imageProps = item?.image ? urlForImage(item.image) : null;
-  const imageBlurDataURL = item?.image?.blurDataURL || null;
-  // console.log(`SubmissionCard, imageBlurDataURL:${imageBlurDataURL}`);
-
   const publishable = getPublishable(item);
 
   return (
     <Card className="flex-grow flex items-center p-4">
       {/* Content section */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-5 md:gap-8 w-full">
-
         {/* Left column */}
         <div className="md:col-span-2 flex flex-col">
-          {/* image */}
-          <div className="relative group overflow-hidden rounded-lg aspect-[16/9]">
-            {imageProps && (
-              <div className="relative w-full h-full">
-                <Image
-                  src={imageProps.src}
-                  alt={item.image?.alt || `image for ${item.name}`}
-                  loading="eager"
-                  fill
-                  className="border w-full shadow-lg image-scale"
-                  {...(imageBlurDataURL && {
-                    placeholder: "blur",
-                    blurDataURL: imageBlurDataURL
-                  })}
-                />
-
-                <div className="absolute left-2 bottom-2 opacity-100 transition-opacity duration-300">
-                  <div className="flex flex-col gap-2">
-                    {item.categories && item.categories.length > 0 && (
-                      <div className="flex flex-wrap gap-1">
-                        {item.categories.map((category, index) => (
-                          <span key={`cat-${index}`} className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md">
-                            {category.name}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    {item.tags && item.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1">
-                        {item.tags.map((tag, index) => (
-                          <div key={`tag-${index}`} className="flex items-center justify-center space-x-0.5 group
-                              text-sm font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md">
-                            <HashIcon className="w-3 h-3" />
-                            <span> {tag.name} </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {item.publishDate ? (
-              <Link href={`/item/${item.slug.current}`} className="absolute inset-0 flex items-center justify-center bg-black 
-                    bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
-                <span className="text-white text-lg font-semibold 
-                      opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  View on site
-                </span>
-              </Link>
-            ) : null}
-          </div>
+          <SubmissionCardImage item={item} />
         </div>
 
         {/* Right column */}
@@ -162,7 +104,6 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
               )} */}
           </div>
         </div>
-
       </div>
     </Card>
   );

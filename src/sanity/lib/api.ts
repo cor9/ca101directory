@@ -1,9 +1,4 @@
 /**
- * see https://www.sanity.io/docs/api-versioning for how versioning works
- */
-export const apiVersion = "2024-08-01";
-
-/**
  * Used to configure edit intent links, for Presentation Mode, as well as to configure where the Studio is mounted in the router.
  */
 export const studioUrl = "/studio";
@@ -12,6 +7,13 @@ export const studioUrl = "/studio";
  * Used to configure the Preview URL
  */
 export const previewUrl = process.env.NEXT_PUBLIC_APP_URL;
+
+/**
+ * see https://www.sanity.io/docs/api-versioning for how versioning works
+ * 
+ * "2024-08-01"
+ */
+export const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-08-01";
 
 /**
  * As this file is reused in several other files, try to keep it lean and small.

@@ -6,14 +6,14 @@ interface MarketingLayoutProps {
   children: React.ReactNode;
 }
 
-export default async function MarketingLayout({ children }: MarketingLayoutProps) {
+export default async function MarketingLayout({
+  children,
+}: MarketingLayoutProps) {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar scroll={true} config={marketingConfig} />
 
-      <main className="flex-1">
-        {children}
-      </main>
+      <main className="flex-1">{children}</main>
 
       <Footer />
     </div>

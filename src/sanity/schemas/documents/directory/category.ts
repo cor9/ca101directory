@@ -44,24 +44,24 @@ export default defineType({
       date: "_createdAt",
     },
     prepare({ name, priority, date }) {
-      const title = `${priority} - ${name}`
+      const title = `${priority} - ${name}`;
       const subtitle = format(parseISO(date), "yyyy/MM/dd");
       return {
         title,
-        subtitle
+        subtitle,
       };
     },
   },
-	orderings: [
-		{
-			title: 'Priority',
-			name: 'priority',
-			by: [{ field: 'priority', direction: 'desc' }],
-		},
-		{
-			title: 'Name',
-			name: 'name',
-			by: [{ field: 'name', direction: 'asc' }],
-		},
-	],
+  orderings: [
+    {
+      title: "Priority",
+      name: "priority",
+      by: [{ field: "priority", direction: "desc" }],
+    },
+    {
+      title: "Name",
+      name: "name",
+      by: [{ field: "name", direction: "asc" }],
+    },
+  ],
 });

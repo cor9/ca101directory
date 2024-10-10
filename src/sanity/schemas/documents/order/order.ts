@@ -1,44 +1,44 @@
-import { defineField } from 'sanity';
-import { format, parseISO } from 'date-fns';
+import { defineField } from "sanity";
+import { format, parseISO } from "date-fns";
 
 const order = {
-  name: 'order',
-  title: 'Order',
-  type: 'document',
+  name: "order",
+  title: "Order",
+  type: "document",
   fields: [
     defineField({
-      name: 'user',
-      title: 'User',
-      type: 'reference',
-      to: [{ type: 'user' }],
+      name: "user",
+      title: "User",
+      type: "reference",
+      to: [{ type: "user" }],
       validation: (rule) => rule.required(),
       readOnly: true,
     }),
     defineField({
-      name: 'item',
-      title: 'Item',
-      type: 'reference',
-      to: [{ type: 'item' }],
+      name: "item",
+      title: "Item",
+      type: "reference",
+      to: [{ type: "item" }],
       validation: (rule) => rule.required(),
       readOnly: true,
     }),
     defineField({
-      name: 'status',
-      title: 'Status',
-      type: 'string',
+      name: "status",
+      title: "Status",
+      type: "string",
       options: {
-        list: ['success', 'failed'],
-        layout: 'radio',
-        direction: 'horizontal',
+        list: ["success", "failed"],
+        layout: "radio",
+        direction: "horizontal",
       },
       validation: (rule) => rule.required(),
       readOnly: true,
     }),
     defineField({
-      name: 'date',
-      title: 'Date',
+      name: "date",
+      title: "Date",
       description: "The date when the order is created",
-      type: 'datetime',
+      type: "datetime",
       readOnly: true,
     }),
   ],
@@ -51,7 +51,7 @@ const order = {
     },
     prepare({ name, media, date, status }) {
       let title;
-      if (status === 'success') {
+      if (status === "success") {
         title = `✅ ${name}`;
       } else {
         title = `❌ ${name}`;
@@ -60,7 +60,7 @@ const order = {
       return {
         title,
         media,
-        subtitle
+        subtitle,
       };
     },
   },

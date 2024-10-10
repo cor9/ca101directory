@@ -10,7 +10,7 @@ import { SHOW_QUERY_LOGS } from "@/lib/constants";
 /**
  * https://authjs.dev/getting-started/installation#configure
  * providers for authorization, adapters for user data persistence
- * 
+ *
  * https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.ts
  */
 export const {
@@ -19,7 +19,7 @@ export const {
   signIn,
   signOut,
   //unstable update in Beta version
-  unstable_update
+  unstable_update,
 } = NextAuth({
   ...authConfig,
   pages: {
@@ -34,7 +34,7 @@ export const {
   callbacks: {
     // https://authjs.dev/concepts/callbacks#signin
     // https://youtu.be/1MTyCvS05V4?t=10341
-    signIn: async({ user, account }) => {
+    signIn: async ({ user, account }) => {
       // console.log('auth callbacks signIn, start, user:', user);
       if (account?.provider !== "credentials") return true;
 
@@ -42,22 +42,22 @@ export const {
 
       // prevent signIn without email verification
       if (!existingUser?.emailVerified) {
-        console.log('auth callbacks signIn, user not verified');
+        console.log("auth callbacks signIn, user not verified");
         return false;
       }
 
       // console.log('auth callbacks signIn, end, user:', existingUser);
       return true;
     },
-    
+
     // https://authjs.dev/concepts/session-strategies#jwt-session
     // https://authjs.dev/reference/nextjs#jwt
-    // This callback is called whenever a JSON Web Token is created (i.e. at sign in) 
-    // or updated (i.e whenever a session is accessed in the client). 
+    // This callback is called whenever a JSON Web Token is created (i.e. at sign in)
+    // or updated (i.e whenever a session is accessed in the client).
     // Anything you return here will be saved in the JWT and forwarded to the session callback.
     jwt: async ({ token }) => {
       if (SHOW_QUERY_LOGS) {
-        console.log('auth callbacks jwt, start, token:', token);
+        console.log("auth callbacks jwt, start, token:", token);
       }
       if (!token.sub) return token;
 
@@ -73,16 +73,16 @@ export const {
       token.link = existingUser.link;
       token.role = existingUser.role;
       if (SHOW_QUERY_LOGS) {
-        console.log('auth callbacks jwt, end, token:', token);
+        console.log("auth callbacks jwt, end, token:", token);
       }
       return token;
     },
-    
+
     // https://github.com/javayhu/nextjs-14-auth-v5-tutorial/blob/main/auth.ts#L68
     // role and isOAuth are added to the token, so we can pass them to the session
     session: async ({ session, token }) => {
       if (SHOW_QUERY_LOGS) {
-        console.log('auth callbacks session, start, token:', token);
+        console.log("auth callbacks session, start, token:", token);
       }
       if (token.sub && session.user) {
         session.user.id = token.sub;
@@ -98,12 +98,12 @@ export const {
 
       if (session.user) {
         session.user.name = token.name;
-        session.user.email = token.email ?? '';
+        session.user.email = token.email ?? "";
         session.user.isOAuth = token.isOAuth as boolean;
       }
 
       if (SHOW_QUERY_LOGS) {
-        console.log('auth callbacks session, end, session:', session);
+        console.log("auth callbacks session, end, session:", session);
       }
       return session;
     },

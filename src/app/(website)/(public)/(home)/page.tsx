@@ -1,9 +1,9 @@
-import Container from '@/components/container';
-import { HomeContent } from '@/components/home/home-content';
-import HomeHero from '@/components/home/home-hero';
-import { NewsletterCard } from '@/components/newsletter/newsletter-card';
-import { siteConfig } from '@/config/site';
-import { constructMetadata } from '@/lib/metadata';
+import Container from "@/components/container";
+import { HomeContent } from "@/components/home/home-content";
+import HomeHero from "@/components/home/home-hero";
+import { NewsletterCard } from "@/components/newsletter/newsletter-card";
+import { siteConfig } from "@/config/site";
+import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
   title: "Home",

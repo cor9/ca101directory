@@ -1,8 +1,10 @@
-import { SearchFilter } from '@/components/search/search-filter';
-import Container from '@/components/container';
-import { HeaderSection } from '@/components/shared/header-section';
+import { SearchFilter } from "@/components/search/search-filter";
+import Container from "@/components/container";
+import { HeaderSection } from "@/components/shared/header-section";
 
-export default function SearchLayout({ children }: { children: React.ReactNode }) {
+export default function SearchLayout({
+  children,
+}: { children: React.ReactNode }) {
   return (
     <div className="mb-16">
       <div className="mt-8">
@@ -20,9 +22,7 @@ export default function SearchLayout({ children }: { children: React.ReactNode }
         </div>
       </div>
 
-      <Container className="mt-8">
-        {children}
-      </Container>
+      <Container className="mt-8">{children}</Container>
     </div>
   );
 }

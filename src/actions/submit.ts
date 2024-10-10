@@ -26,7 +26,9 @@ export type ServerActionResponse = {
 /**
  * https://nextjs.org/learn/dashboard-app/mutating-data
  */
-export async function submit(formData: SubmitFormData): Promise<ServerActionResponse> {
+export async function submit(
+  formData: SubmitFormData,
+): Promise<ServerActionResponse> {
   try {
     const user = await currentUser();
     if (!user) {
@@ -34,8 +36,8 @@ export async function submit(formData: SubmitFormData): Promise<ServerActionResp
     }
 
     // console.log("submit, data:", formData);
-    const { name, link, description, introduction, imageId,
-      tags, categories } = SubmitSchema.parse(formData);
+    const { name, link, description, introduction, imageId, tags, categories } =
+      SubmitSchema.parse(formData);
     console.log("submit, name:", name, "link:", link);
 
     const slug = slugify(name);
@@ -61,12 +63,12 @@ export async function submit(formData: SubmitFormData): Promise<ServerActionResp
 
       // The _key only needs to be unique within the array itself
       tags: tags.map((tag, index) => ({
-        _type: 'reference',
+        _type: "reference",
         _ref: tag,
         _key: index.toString(),
       })),
       categories: categories.map((category, index) => ({
-        _type: 'reference',
+        _type: "reference",
         _ref: category,
         _key: index.toString(),
       })),
@@ -74,10 +76,10 @@ export async function submit(formData: SubmitFormData): Promise<ServerActionResp
         _type: "image",
         alt: `image of ${name}`,
         asset: {
-          _type: 'reference',
-          _ref: imageId
-        }
-      }
+          _type: "reference",
+          _ref: imageId,
+        },
+      },
     };
 
     // console.log("submit, data:", data);
@@ -90,12 +92,12 @@ export async function submit(formData: SubmitFormData): Promise<ServerActionResp
 
     // console.log("submit, success, res:", res);
 
-    // Next.js has a Client-side Router Cache that stores the route segments in the user's browser for a time. 
-    // Along with prefetching, this cache ensures that users can quickly navigate between routes 
+    // Next.js has a Client-side Router Cache that stores the route segments in the user's browser for a time.
+    // Along with prefetching, this cache ensures that users can quickly navigate between routes
     // while reducing the number of requests made to the server.
-    // Since you're updating the data displayed in the invoices route, you want to clear this cache and trigger a new request to the server. 
+    // Since you're updating the data displayed in the invoices route, you want to clear this cache and trigger a new request to the server.
     // You can do this with the revalidatePath function from Next.js.
-    revalidatePath('/submit');
+    revalidatePath("/submit");
 
     return { status: "success", message: "Successfully created", id: res._id };
   } catch (error) {

@@ -7,28 +7,30 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface BackButtonProps {
-    className?: string;
+  className?: string;
 }
 
 export default function BackButton({ className }: BackButtonProps) {
-    const router = useRouter();
+  const router = useRouter();
 
-    const handleBack = () => {
-        router.back();
-    };
+  const handleBack = () => {
+    router.back();
+  };
 
-    return (
-        <Button
-            size="lg"
-            variant="outline"
-            className={cn("inline-flex items-center gap-2 group", className)}
-            asChild
-        >
-            <Link href="#" onClick={handleBack}>
-                <ArrowLeftIcon className="w-5 h-5 
-                    transition-transform duration-200 group-hover:-translate-x-1" />
-                <span>Back</span>
-            </Link>
-        </Button>
-    );
+  return (
+    <Button
+      size="lg"
+      variant="outline"
+      className={cn("inline-flex items-center gap-2 group", className)}
+      asChild
+    >
+      <Link href="#" onClick={handleBack}>
+        <ArrowLeftIcon
+          className="w-5 h-5 
+                    transition-transform duration-200 group-hover:-translate-x-1"
+        />
+        <span>Back</span>
+      </Link>
+    </Button>
+  );
 }

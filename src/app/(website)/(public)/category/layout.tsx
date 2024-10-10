@@ -1,8 +1,10 @@
-import { CategoryFilter } from '@/components/category/category-filter';
-import Container from '@/components/container';
-import { HeaderSection } from '@/components/shared/header-section';
+import { CategoryFilter } from "@/components/category/category-filter";
+import Container from "@/components/container";
+import { HeaderSection } from "@/components/shared/header-section";
 
-export default function CategoryLayout({ children }: { children: React.ReactNode }) {
+export default function CategoryLayout({
+  children,
+}: { children: React.ReactNode }) {
   return (
     <div className="mb-16">
       <div className="mt-8">
@@ -20,9 +22,7 @@ export default function CategoryLayout({ children }: { children: React.ReactNode
         </div>
       </div>
 
-      <Container className="mt-4">
-        {children}
-      </Container>
+      <Container className="mt-4">{children}</Container>
     </div>
   );
 }

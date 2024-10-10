@@ -33,7 +33,7 @@ export function NewsletterForm() {
   function onSubmit(data: NewsletterFormData) {
     startTransition(async () => {
       subscribeToNewsletter({ email: data.email })
-        .then(data => {
+        .then((data) => {
           switch (data.status) {
             case "success":
               toast.success("Thank you for subscribing to our newsletter");
@@ -42,8 +42,9 @@ export function NewsletterForm() {
             default:
               toast.error("Something went wrong, please try again");
           }
-        }).catch(error => {
-          console.error('NewsletterForm, onSubmit, error:', error);
+        })
+        .catch((error) => {
+          console.error("NewsletterForm, onSubmit, error:", error);
           toast.error("Something went wrong");
         });
     });
@@ -62,9 +63,11 @@ export function NewsletterForm() {
             <FormItem className="relative space-y-0">
               <FormLabel className="sr-only">Email</FormLabel>
               <FormControl className="rounded-r-none">
-                <Input type="email"
-                  className={cn("w-[280px] sm:w-[320px] md:w-[400px] h-12 rounded-r-none",
-                    "focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary focus:border-2 focus:border-r-0"
+                <Input
+                  type="email"
+                  className={cn(
+                    "w-[280px] sm:w-[320px] md:w-[400px] h-12 rounded-r-none",
+                    "focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary focus:border-2 focus:border-r-0",
                   )}
                   placeholder="Enter your email"
                   {...field}
@@ -74,7 +77,8 @@ export function NewsletterForm() {
             </FormItem>
           )}
         />
-        <Button type="submit"
+        <Button
+          type="submit"
           className="rounded-l-none size-12"
           disabled={isPending}
         >

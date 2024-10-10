@@ -7,10 +7,10 @@ import { sanityClient } from "@/sanity/lib/client";
 export type ServerActionResponse = {
   status: "success" | "error";
   message?: string;
-}
+};
 
 export async function unpublish(itemId: string): Promise<ServerActionResponse> {
-  console.log('unpublish, itemId:', itemId);
+  console.log("unpublish, itemId:", itemId);
   try {
     const user = await currentUser();
     if (!user) {
@@ -26,9 +26,12 @@ export async function unpublish(itemId: string): Promise<ServerActionResponse> {
       return { status: "error", message: "You are not allowed to do this!" };
     }
 
-    const result = await sanityClient.patch(itemId).set({
-      publishDate: null,
-    }).commit();
+    const result = await sanityClient
+      .patch(itemId)
+      .set({
+        publishDate: null,
+      })
+      .commit();
     // console.log('unpublish, result:', result);
 
     if (!result) {
@@ -40,4 +43,4 @@ export async function unpublish(itemId: string): Promise<ServerActionResponse> {
     console.log("unpublish, error", error);
     return { status: "error", message: "Failed to unpublish item!" };
   }
-};
+}

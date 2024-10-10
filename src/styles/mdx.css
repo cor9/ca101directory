@@ -29,7 +29,7 @@ code[data-theme*=" "] span {
   @apply px-4 min-h-[1rem] py-0.5 w-full inline-block;
 }
 
-[data-line-numbers]>[data-line]::before {
+[data-line-numbers] > [data-line]::before {
   @apply text-muted-foreground text-xs;
   counter-increment: line;
   content: counter(line);
@@ -55,10 +55,10 @@ code[data-theme*=" "] span {
   @apply mt-3 py-2 px-4 text-sm font-medium;
 }
 
-.mdx>.steps:first-child>h3:first-child {
+.mdx > .steps:first-child > h3:first-child {
   @apply mt-0;
 }
 
-.steps>h3 {
+.steps > h3 {
   @apply mt-8 mb-4 text-base font-semibold;
 }

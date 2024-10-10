@@ -10,7 +10,9 @@ type SubmissionCardInPlanPageProps = {
   item: ItemInfo;
 };
 
-export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanPageProps) {
+export default function SubmissionCardInPlanPage({
+  item,
+}: SubmissionCardInPlanPageProps) {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-5 md:gap-8 w-full">
       {/* Left column */}
@@ -46,9 +48,7 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
                   {getLocaleDate(item.publishDate)}
                 </span>
               ) : (
-                <span className="font-semibold">
-                  Not published
-                </span>
+                <span className="font-semibold">Not published</span>
               )}
             </div>
             <div className="flex items-center gap-2">
@@ -58,7 +58,7 @@ export default function SubmissionCardInPlanPage({ item }: SubmissionCardInPlanP
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 
@@ -77,7 +77,6 @@ export function SubmissionCardInPlanPageSkeleton() {
         <div className="space-y-4">
           <Skeleton className="h-8 w-1/2" /> {/* Title */}
           <Skeleton className="h-8 w-full" /> {/* Description */}
-
           <div className="grid grid-cols-2 gap-4 text-sm pt-2">
             <div className="flex items-center gap-2">
               <Skeleton className="h-8 w-12" /> {/* Plan label */}
@@ -88,7 +87,6 @@ export function SubmissionCardInPlanPageSkeleton() {
               <Skeleton className="h-8 w-24" /> {/* Status value */}
             </div>
           </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm pt-2">
             <div className="flex items-center gap-2">
               <Skeleton className="h-8 w-24" /> {/* Publish Date label */}

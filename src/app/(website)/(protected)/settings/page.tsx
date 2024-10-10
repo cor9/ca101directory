@@ -9,7 +9,5 @@ export const metadata = constructMetadata({
 });
 
 export default function SettingsPage() {
-  return (
-    <SettingsForm />
-  );
+  return <SettingsForm />;
 }

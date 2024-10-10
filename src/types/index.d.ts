@@ -3,13 +3,13 @@ import {
   BlogPostListQueryResult,
   ItemFullInfoBySlugQueryResult,
   ItemListQueryResult,
-} from '@/sanity.types';
+} from "@/sanity.types";
 
 // Itme
 export type ItemInfo = ItemListQueryResult[number];
 // ItemFullInfo has more fields (eg. introduction and related items)
 export type ItemFullInfo = ItemFullInfoBySlugQueryResult;
-// Blog 
+// Blog
 export type BlogPostInfo = BlogPostListQueryResult[number];
 
 export type SiteConfig = {

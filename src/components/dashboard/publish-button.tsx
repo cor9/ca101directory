@@ -33,18 +33,18 @@ export function PublishButton({ item }: PublishButtonProps) {
       publish(item._id)
         .then((data) => {
           if (data.status === "success") {
-            console.log('publishAction, success:', data.message);
+            console.log("publishAction, success:", data.message);
             router.refresh();
             toast.success(data.message);
           }
           if (data.status === "error") {
-            console.error('publishAction, error:', data.message);
+            console.error("publishAction, error:", data.message);
             toast.error(data.message);
           }
         })
         .catch((error) => {
-          console.error('publishAction, error:', error);
-          toast.error('Failed to publish');
+          console.error("publishAction, error:", error);
+          toast.error("Failed to publish");
         });
     });
   };

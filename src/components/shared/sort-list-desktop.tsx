@@ -20,23 +20,25 @@ export function SortListDesktop({ sortList }: SortListProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [active, setActive] = useState('');
+  const [active, setActive] = useState("");
 
   useEffect(() => {
-    const activeItem = sortList.find((item) => searchParams.get('sort') === item.slug);
+    const activeItem = sortList.find(
+      (item) => searchParams.get("sort") === item.slug,
+    );
     if (activeItem) {
       setActive(activeItem.slug);
     }
   }, [pathname, sortList, searchParams]);
 
   const generateUrl = (slug: string) => {
-    const q = searchParams.get('q');
+    const q = searchParams.get("q");
     return createUrl(
       pathname,
       new URLSearchParams({
         ...(q && { q }),
         ...(slug && { sort: slug }),
-      })
+      }),
     );
   };
 

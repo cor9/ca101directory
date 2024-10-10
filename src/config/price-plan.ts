@@ -2,7 +2,7 @@ import { PricePlan } from "@/types";
 
 /**
  * Price plans
- * 
+ *
  * Free plan: update item leads to be unpublished and reviewed again
  * Pro plan: update item has no side effect
  */

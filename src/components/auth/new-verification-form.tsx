@@ -27,16 +27,16 @@ export const NewVerificationForm = () => {
       .then((data) => {
         if (data.status === "success") {
           setSuccess(data.message);
-          console.log('newVerification, success:', data.message);
+          console.log("newVerification, success:", data.message);
         }
         if (data.status === "error") {
           setError(data.message);
-          console.log('newVerification, error:', data.message);
+          console.log("newVerification, error:", data.message);
         }
       })
       .catch(() => {
-        setError('Something went wrong');
-      })
+        setError("Something went wrong");
+      });
   }, [token, success, error]);
 
   useEffect(() => {
@@ -55,10 +55,8 @@ export const NewVerificationForm = () => {
           <Icons.spinner className="w-4 h-4 animate-spin" />
         )}
         <FormSuccess message={success} />
-        {!success && (
-          <FormError message={error} />
-        )}
+        {!success && <FormError message={error} />}
       </div>
     </AuthCard>
-  )
-}
+  );
+};

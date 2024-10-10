@@ -1,20 +1,24 @@
 "use client";
 
 import { Drawer } from "vaul";
-import { BlogCategoryListQueryResult } from '@/sanity.types';
+import { BlogCategoryListQueryResult } from "@/sanity.types";
 import { LayoutListIcon } from "lucide-react";
-import { useParams } from 'next/navigation';
+import { useParams } from "next/navigation";
 import { useState } from "react";
-import FilterItemMobile from '../shared/filter-item-mobile';
+import FilterItemMobile from "../shared/filter-item-mobile";
 
 export type BlogCategoryListMobileProps = {
   categoryList: BlogCategoryListQueryResult;
 };
 
-export function BlogCategoryListMobile({ categoryList }: BlogCategoryListMobileProps) {
+export function BlogCategoryListMobile({
+  categoryList,
+}: BlogCategoryListMobileProps) {
   const [open, setOpen] = useState(false);
   const { slug } = useParams() as { slug?: string };
-  const selectedCategory = categoryList.find((category) => category.slug.current === slug);
+  const selectedCategory = categoryList.find(
+    (category) => category.slug.current === slug,
+  );
 
   const closeDrawer = () => {
     setOpen(false);
@@ -29,16 +33,15 @@ export function BlogCategoryListMobile({ categoryList }: BlogCategoryListMobileP
         <div className="flex items-center justify-between w-full gap-4">
           <div className="flex items-center gap-2">
             <LayoutListIcon className="size-5" />
-            <span className="text-sm">
-              Category
-            </span>
+            <span className="text-sm">Category</span>
           </div>
           <span className="text-sm">
-            {selectedCategory?.name ? `${selectedCategory?.name}` : 'All'}
+            {selectedCategory?.name ? `${selectedCategory?.name}` : "All"}
           </span>
         </div>
       </Drawer.Trigger>
-      <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
+      <Drawer.Overlay
+        className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
         onClick={closeDrawer}
       />
       <Drawer.Portal>

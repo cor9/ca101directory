@@ -1,21 +1,25 @@
-import { getAccountByProviderAccountId } from '@/data/account';
-import { getUserByEmail, getUserById, getUserByIdWithAccounts } from '@/data/user';
-import { getVerificationTokenByIdentifierAndToken } from '@/data/verification-token';
-import { SHOW_QUERY_LOGS } from '@/lib/constants';
+import { getAccountByProviderAccountId } from "@/data/account";
+import {
+  getUserByEmail,
+  getUserById,
+  getUserByIdWithAccounts,
+} from "@/data/user";
+import { getVerificationTokenByIdentifierAndToken } from "@/data/verification-token";
+import { SHOW_QUERY_LOGS } from "@/lib/constants";
 import { UserRole } from "@/types/user-role";
 import type { Adapter } from "@auth/core/adapters";
-import type { SanityClient } from '@sanity/client';
-import { uuid } from '@sanity/uuid';
+import type { SanityClient } from "@sanity/client";
+import { uuid } from "@sanity/uuid";
 
 /**
  * 1. Sanity Adapter for Authjs
  * https://authjs.dev/reference/core/adapters
  * https://authjs.dev/guides/creating-a-database-adapter
- * 
+ *
  * 2. Authjs AdapterUser expects id, email, emailVerified,
  * so when we fetch user from Sanity, we need to map the fields.
- * 
- * 3. Define datetime for emailVerified in schema 
+ *
+ * 3. Define datetime for emailVerified in schema
  * turns out to be a string in type definition,
  * so we need to convert it to Date
  */
@@ -23,13 +27,12 @@ export function SanityAdapter(
   sanityClient: SanityClient,
   options = {
     schemas: {
-      user: 'user',
-      account: 'account',
-      verificationToken: 'verificationToken',
-    }
-  }
+      user: "user",
+      account: "account",
+      verificationToken: "verificationToken",
+    },
+  },
 ): Adapter {
-
   return {
     /**
      * https://authjs.dev/guides/creating-a-database-adapter#methods-and-models
@@ -49,7 +52,9 @@ export function SanityAdapter(
             // and defin datetime for emailVerified in schema turns out to be a string in type definition
             id: existingUser._id,
             email: existingUser.email,
-            emailVerified: existingUser.emailVerified ? new Date(existingUser.emailVerified) : null,
+            emailVerified: existingUser.emailVerified
+              ? new Date(existingUser.emailVerified)
+              : null,
           };
         }
 
@@ -60,10 +65,10 @@ export function SanityAdapter(
           name: user.name,
           email: user.email,
           image: user.image,
-          emailVerified: user.emailVerified
+          emailVerified: user.emailVerified,
         });
         if (SHOW_QUERY_LOGS) {
-          console.log('createUser, user:', user);
+          console.log("createUser, user:", user);
         }
 
         return {
@@ -71,8 +76,8 @@ export function SanityAdapter(
           id: createdUser._id,
         };
       } catch (error) {
-        console.error('createUser, error create user', error);
-        throw new Error('createUser, error create user');
+        console.error("createUser, error create user", error);
+        throw new Error("createUser, error create user");
       }
     },
 
@@ -89,12 +94,14 @@ export function SanityAdapter(
             ...user,
             id: user._id,
             email: user.email,
-            emailVerified: user.emailVerified ? new Date(user.emailVerified) : null,
+            emailVerified: user.emailVerified
+              ? new Date(user.emailVerified)
+              : null,
           };
         }
       } catch (error) {
-        console.error('getUser, error get user', error);
-        throw new Error('getUser, error get user');
+        console.error("getUser, error get user", error);
+        throw new Error("getUser, error get user");
       }
     },
 
@@ -108,9 +115,12 @@ export function SanityAdapter(
         //   return;
         // }
 
-        const account = await getAccountByProviderAccountId(providerAccountId, provider);
+        const account = await getAccountByProviderAccountId(
+          providerAccountId,
+          provider,
+        );
         if (!account) {
-          console.log('getUserByAccount, no account');
+          console.log("getUserByAccount, no account");
           return;
         }
 
@@ -119,7 +129,7 @@ export function SanityAdapter(
         // const user = await sanityClient.fetch(userQry);
         const user = await getUserById(account.userId);
         if (SHOW_QUERY_LOGS) {
-          console.log('getUserByAccount, user:', user);
+          console.log("getUserByAccount, user:", user);
         }
 
         return {
@@ -127,12 +137,13 @@ export function SanityAdapter(
           role: user.role,
           id: user._id,
           email: user.email,
-          emailVerified: user.emailVerified ? new Date(user.emailVerified) : null,
+          emailVerified: user.emailVerified
+            ? new Date(user.emailVerified)
+            : null,
         };
-
       } catch (error) {
-        console.error('getUserByAccount, error get user by account', error);
-        throw new Error('getUserByAccount, error get user by account');
+        console.error("getUserByAccount, error get user by account", error);
+        throw new Error("getUserByAccount, error get user by account");
       }
     },
 
@@ -144,23 +155,29 @@ export function SanityAdapter(
 
         const existingUser = await getUserById(updatedUser.id);
         if (!existingUser) {
-          throw new Error(`Could not update user: ${updatedUser.id}; unable to find user`);
+          throw new Error(
+            `Could not update user: ${updatedUser.id}; unable to find user`,
+          );
         }
 
-        const patchedUser = await sanityClient.patch(existingUser._id)
+        const patchedUser = await sanityClient
+          .patch(existingUser._id)
           .set({
             ...existingUser,
-            emailVerified: updatedUser.emailVerified === null ? undefined : updatedUser.emailVerified,
+            emailVerified:
+              updatedUser.emailVerified === null
+                ? undefined
+                : updatedUser.emailVerified,
           })
           .commit();
         if (SHOW_QUERY_LOGS) {
-          console.log('updateUser, user:', patchedUser);
+          console.log("updateUser, user:", patchedUser);
         }
 
         return patchedUser as any;
       } catch (error) {
-        console.error('updateUser, error update user', error);
-        throw new Error('updateUser, error update user');
+        console.error("updateUser, error update user", error);
+        throw new Error("updateUser, error update user");
       }
     },
 
@@ -168,15 +185,15 @@ export function SanityAdapter(
       try {
         return await sanityClient.delete(userId);
       } catch (error: any) {
-        console.error('deleteUser, error delete user', error);
-        throw new Error('deleteUser, error delete user');
+        console.error("deleteUser, error delete user", error);
+        throw new Error("deleteUser, error delete user");
       }
     },
 
     async linkAccount(account) {
       try {
         if (SHOW_QUERY_LOGS) {
-          console.log('linkAccount, accountId:', account.userId);
+          console.log("linkAccount, accountId:", account.userId);
         }
         const createdAccount = await sanityClient.create({
           _type: options.schemas.account,
@@ -191,33 +208,36 @@ export function SanityAdapter(
           scope: account.scope,
           idToken: account.id_token,
           user: {
-            _type: 'reference',
-            _ref: account.userId
-          }
+            _type: "reference",
+            _ref: account.userId,
+          },
         });
 
         const userToUpdate = await sanityClient.getDocument(account.userId);
         if (SHOW_QUERY_LOGS) {
-          console.log('linkAccount, user:', userToUpdate);
+          console.log("linkAccount, user:", userToUpdate);
         }
 
         const updatedUserAccounts = {
-          _type: 'reference',
+          _type: "reference",
           _key: `account.${uuid()}`,
-          _ref: createdAccount._id
+          _ref: createdAccount._id,
         };
 
         // https://github.com/javayhu/Authy/blob/main/adapters/sanity-adapter.ts#L140
         // in this app, accounts is a references to account schema, not an array
-        await sanityClient.patch(userToUpdate._id).set({
-          emailVerified: new Date().toISOString(),
-          accounts: updatedUserAccounts,
-        }).commit();
+        await sanityClient
+          .patch(userToUpdate._id)
+          .set({
+            emailVerified: new Date().toISOString(),
+            accounts: updatedUserAccounts,
+          })
+          .commit();
 
         return account;
       } catch (error) {
-        console.error('linkAccount, error link account', error);
-        throw new Error('linkAccount, error link account');
+        console.error("linkAccount, error link account", error);
+        throw new Error("linkAccount, error link account");
       }
     },
 
@@ -226,28 +246,34 @@ export function SanityAdapter(
         // @sanity-typegen-ignore
         // const accountQry = `*[_type == "account" && provider == "${provider}" && providerAccountId == "${providerAccountId}"][0]`;
         // const account = await sanityClient.fetch(accountQry);
-        const account = await getAccountByProviderAccountId(providerAccountId, provider);
+        const account = await getAccountByProviderAccountId(
+          providerAccountId,
+          provider,
+        );
         if (!account) {
-          console.log('unlinkAccount, no account');
+          console.log("unlinkAccount, no account");
           return;
         }
 
         // const accountUser = await sanityClient.getDocument<User>(account.userId);
         const accountUser = await getUserByIdWithAccounts(account.userId);
         if (SHOW_QUERY_LOGS) {
-          console.log('unlinkAccount, user:', accountUser);
+          console.log("unlinkAccount, user:", accountUser);
         }
 
         // https://github.com/javayhu/Authy/blob/main/adapters/sanity-adapter.ts#L169
         // accounts is a reference to account schema, not an array
-        await sanityClient.patch(accountUser._id).set({
-          accounts: null,
-        }).commit();
+        await sanityClient
+          .patch(accountUser._id)
+          .set({
+            accounts: null,
+          })
+          .commit();
 
         await sanityClient.delete(account._id);
       } catch (error) {
-        console.error('unlinkAccount, error unlink account', error);
-        throw new Error('unlinkAccount, error unlink account');
+        console.error("unlinkAccount, error unlink account", error);
+        throw new Error("unlinkAccount, error unlink account");
       }
     },
 
@@ -267,12 +293,14 @@ export function SanityAdapter(
             ...user,
             id: user._id,
             email: user.email,
-            emailVerified: user.emailVerified ? new Date(user.emailVerified) : null,
+            emailVerified: user.emailVerified
+              ? new Date(user.emailVerified)
+              : null,
           };
         }
       } catch (error) {
-        console.error('getUserByEmail, error get user by email', error);
-        throw new Error('getUserByEmail, error get user by email');
+        console.error("getUserByEmail, error get user by email", error);
+        throw new Error("getUserByEmail, error get user by email");
       }
     },
 
@@ -282,13 +310,18 @@ export function SanityAdapter(
           _type: options.schemas.verificationToken,
           identifier,
           token,
-          expires
+          expires,
         });
 
         return verificationToken;
       } catch (error) {
-        console.error('createVerificationToken, error create verification token', error);
-        throw new Error('createVerificationToken, error create verification token');
+        console.error(
+          "createVerificationToken, error create verification token",
+          error,
+        );
+        throw new Error(
+          "createVerificationToken, error create verification token",
+        );
       }
     },
 
@@ -298,14 +331,17 @@ export function SanityAdapter(
         // const verTokenQry = `*[_type == "verificationToken" && identifier == "${identifier}" && token == "${token}"][0]`;
         // const verToken = await sanityClient.fetch(verTokenQry);
 
-        const verToken = await getVerificationTokenByIdentifierAndToken(identifier, token);
+        const verToken = await getVerificationTokenByIdentifierAndToken(
+          identifier,
+          token,
+        );
         if (!verToken) {
-          console.log('useVerificationToken, no verification token');
+          console.log("useVerificationToken, no verification token");
           return null;
         }
 
         if (SHOW_QUERY_LOGS) {
-          console.log('useVerificationToken, verToken:', verToken);
+          console.log("useVerificationToken, verToken:", verToken);
         }
         await sanityClient.delete(verToken._id);
 
@@ -317,9 +353,14 @@ export function SanityAdapter(
           identifier: verToken.identifier,
         };
       } catch (error) {
-        console.error('useVerificationToken, error delete verification token', error);
-        throw new Error('useVerificationToken, error delete verification token');
+        console.error(
+          "useVerificationToken, error delete verification token",
+          error,
+        );
+        throw new Error(
+          "useVerificationToken, error delete verification token",
+        );
       }
     },
-  }
+  };
 }

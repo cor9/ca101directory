@@ -62,14 +62,14 @@ export function SearchFilterClient({
     ...categoryList.map((item) => ({
       value: item.slug,
       label: item.name,
-    }))
+    })),
   ];
   const tagFilterItemList = [
     { value: DEFAULT_FILTER_VALUE, label: "All Tags" },
     ...tagList.map((item) => ({
       value: item.slug,
       label: item.name,
-    }))
+    })),
   ];
   // change default sort value to default filter value
   const sortFilterItemList = sortList.map((item) => ({

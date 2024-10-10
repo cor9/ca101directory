@@ -14,7 +14,7 @@ export async function generateMetadata({
 }): Promise<Metadata | undefined> {
   const page = await sanityFetch<PageQueryResult>({
     query: pageQuery,
-    params: { slug: params.slug }
+    params: { slug: params.slug },
   });
   if (!page) {
     console.warn(`generateMetadata, page not found for slug: ${params.slug}`);
@@ -30,7 +30,7 @@ export async function generateMetadata({
 
 interface CustomPageProps {
   params: { slug: string };
-};
+}
 
 export default async function CustomPage({ params }: CustomPageProps) {
   console.log(`CustomPage, params: ${JSON.stringify(params)}`);
@@ -51,20 +51,14 @@ export default async function CustomPage({ params }: CustomPageProps) {
   return (
     <div>
       <div className="flex flex-col items-center justify-center">
-        <h1 className="inline-block text-2xl font-bold">
-          {page.title}
-        </h1>
+        <h1 className="inline-block text-2xl font-bold">{page.title}</h1>
         {page.excerpt && (
-          <p className="mt-4 text-lg text-muted-foreground">
-            {page.excerpt}
-          </p>
+          <p className="mt-4 text-lg text-muted-foreground">{page.excerpt}</p>
         )}
       </div>
       <hr className="my-4" />
       <article className="">
-        {markdownContent &&
-          <CustomMdx source={markdownContent} />
-        }
+        {markdownContent && <CustomMdx source={markdownContent} />}
       </article>
     </div>
   );

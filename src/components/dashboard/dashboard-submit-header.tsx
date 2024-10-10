@@ -17,12 +17,9 @@ export function DashboardSubmitHeader({
   return (
     <div className="flex flex-col gap-8 md:gap-36 lg:gap-48 md:items-center md:flex-row md:justify-between">
       <div className="flex flex-col space-y-4">
-
         {/* title */}
         <div className="flex items-center space-x-4">
-          <h1 className="text-2xl font-semibold">
-            {title}
-          </h1>
+          <h1 className="text-2xl font-semibold">{title}</h1>
         </div>
 
         <div className="flex items-center space-x-2">
@@ -35,18 +32,12 @@ export function DashboardSubmitHeader({
 
           {/* subtitle */}
           {/* text-muted-foreground */}
-          {subtitle && (
-            <h2 className="text-base">
-              {subtitle}
-            </h2>
-          )}
+          {subtitle && <h2 className="text-base">{subtitle}</h2>}
         </div>
       </div>
 
       {/* actions */}
-      <div className="flex-1 md:max-w-[50%]">
-        {children}
-      </div>
+      <div className="flex-1 md:max-w-[50%]">{children}</div>
     </div>
   );
 }

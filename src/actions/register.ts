@@ -6,17 +6,18 @@ import { sanityClient } from "@/sanity/lib/client";
 import { RegisterSchema } from "@/lib/schemas";
 import { getUserByEmail } from "@/data/user";
 import { UserRole } from "@/types/user-role";
-import { uuid } from '@sanity/uuid';
+import { uuid } from "@sanity/uuid";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 
 export type ServerActionResponse = {
   status: "success" | "error";
   message?: string;
-}
+};
 
-export async function register(values: z.infer<typeof RegisterSchema>):
-  Promise<ServerActionResponse> {
+export async function register(
+  values: z.infer<typeof RegisterSchema>,
+): Promise<ServerActionResponse> {
   const validatedFields = RegisterSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -32,7 +33,7 @@ export async function register(values: z.infer<typeof RegisterSchema>):
   }
 
   await sanityClient.create({
-    _type: 'user',
+    _type: "user",
     _id: `user.${uuid()}`,
     name,
     email,
@@ -43,7 +44,10 @@ export async function register(values: z.infer<typeof RegisterSchema>):
   const verificationToken = await generateVerificationToken(email);
   await sendVerificationEmail(
     verificationToken.identifier,
-    verificationToken.token
+    verificationToken.token,
   );
-  return { status: "success", message: "Please check your email for verification" };
+  return {
+    status: "success",
+    message: "Please check your email for verification",
+  };
 }

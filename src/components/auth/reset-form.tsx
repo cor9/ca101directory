@@ -12,9 +12,9 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,  
+  FormMessage,
 } from "@/components/ui/form";
-import { AuthCard } from "@/components/auth/auth-card"
+import { AuthCard } from "@/components/auth/auth-card";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/shared/form-error";
 import { FormSuccess } from "@/components/shared/form-success";
@@ -41,17 +41,17 @@ export const ResetForm = () => {
       reset(values)
         .then((data) => {
           if (data.status === "error") {
-            console.log('reset, error:', data.message);
+            console.log("reset, error:", data.message);
             setError(data.message);
           }
           if (data.status === "success") {
-            console.log('reset, success:', data.message);
+            console.log("reset, success:", data.message);
             setSuccess(data.message);
           }
         })
         .catch((error) => {
-          console.log('reset, error:', error);
-          setError('Something went wrong');
+          console.log("reset, error:", error);
+          setError("Something went wrong");
         });
     });
   };
@@ -64,10 +64,7 @@ export const ResetForm = () => {
       className="border-none"
     >
       <Form {...form}>
-        <form 
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -96,7 +93,11 @@ export const ResetForm = () => {
             type="submit"
             className="w-full flex items-center justify-center gap-2"
           >
-            {isPending ? <Icons.spinner className="w-4 h-4 animate-spin" /> : ""}
+            {isPending ? (
+              <Icons.spinner className="w-4 h-4 animate-spin" />
+            ) : (
+              ""
+            )}
             <span>Send reset email</span>
           </Button>
         </form>

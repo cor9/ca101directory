@@ -78,5 +78,5 @@ export default function Loading() {
         <BlogGridSkeleton count={3} />
       </div>
     </div>
-  )
+  );
 }

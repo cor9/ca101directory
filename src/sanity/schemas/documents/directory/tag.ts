@@ -39,15 +39,15 @@ export default defineType({
       const subtitle = format(parseISO(date), "yyyy/MM/dd");
       return {
         title,
-        subtitle
+        subtitle,
       };
     },
   },
   orderings: [
     {
-      title: 'name',
-      name: 'name',
-      by: [{ field: 'name', direction: 'asc' }],
+      title: "name",
+      name: "name",
+      by: [{ field: "name", direction: "asc" }],
     },
   ],
 });

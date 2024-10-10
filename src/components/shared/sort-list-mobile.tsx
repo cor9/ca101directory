@@ -16,10 +16,12 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [active, setActive] = useState('');
+  const [active, setActive] = useState("");
 
   useEffect(() => {
-    const activeItem = sortList.find((item) => searchParams.get('sort') === item.slug);
+    const activeItem = sortList.find(
+      (item) => searchParams.get("sort") === item.slug,
+    );
     if (activeItem) {
       setActive(activeItem.slug);
     }
@@ -28,13 +30,13 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
   const closeDrawer = () => setOpen(false);
 
   const generateUrl = (slug: string) => {
-    const q = searchParams.get('q');
+    const q = searchParams.get("q");
     return createUrl(
       pathname,
       new URLSearchParams({
         ...(q && { q }),
         ...(slug && { sort: slug }),
-      })
+      }),
     );
   };
 
@@ -49,16 +51,16 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
           <div className="flex items-center justify-between w-full gap-4">
             <div className="flex items-center gap-2">
               <ListChecksIcon className="size-5" />
-              <span className="text-sm">
-                Sort
-              </span>
+              <span className="text-sm">Sort</span>
             </div>
             <span className="text-sm">
-              {sortList.find((item) => item.slug === active)?.label || DEFAULT_SORT.label}
+              {sortList.find((item) => item.slug === active)?.label ||
+                DEFAULT_SORT.label}
             </span>
           </div>
         </Drawer.Trigger>
-        <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
+        <Drawer.Overlay
+          className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
           onClick={closeDrawer}
         />
         <Drawer.Portal>
@@ -66,7 +68,7 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
             <div className="sticky top-0 z-20 flex w-full items-center justify-center bg-inherit">
               <div className="my-3 h-1.5 w-16 rounded-full bg-muted-foreground/20" />
             </div>
-            
+
             <ul role="list" className="w-full mb-14 p-3 text-muted-foreground">
               {sortList.map((item) => (
                 <FilterItemMobile

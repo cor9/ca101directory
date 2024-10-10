@@ -15,7 +15,7 @@ export default function ItemCard({ item }: ItemCardProps) {
   const imageProps = item?.image ? urlForImage(item.image) : null;
   const imageBlurDataURL = item?.image?.blurDataURL || null;
   // console.log(`ItemCard, imageBlurDataURL:${imageBlurDataURL}`);
-  const itemUrlPrefix = '/item';
+  const itemUrlPrefix = "/item";
 
   return (
     <div>
@@ -33,7 +33,7 @@ export default function ItemCard({ item }: ItemCardProps) {
                   className="object-cover image-scale"
                   {...(imageBlurDataURL && {
                     placeholder: "blur",
-                    blurDataURL: imageBlurDataURL
+                    blurDataURL: imageBlurDataURL,
                   })}
                 />
 
@@ -42,7 +42,10 @@ export default function ItemCard({ item }: ItemCardProps) {
                     {item.categories && item.categories.length > 0 && (
                       <div className="flex flex-wrap gap-1">
                         {item.categories.map((category, index) => (
-                          <span key={`cat-${index}`} className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md">
+                          <span
+                            key={`cat-${index}`}
+                            className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md"
+                          >
                             {category.name}
                           </span>
                         ))}
@@ -54,10 +57,17 @@ export default function ItemCard({ item }: ItemCardProps) {
             )}
 
             {item.link ? (
-              <Link href={item.link} prefetch={false} target="_blank" className="absolute inset-0 flex items-center justify-center bg-black 
-                    bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
-                <span className="text-white text-lg font-semibold 
-                      opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <Link
+                href={item.link}
+                prefetch={false}
+                target="_blank"
+                className="absolute inset-0 flex items-center justify-center bg-black 
+                    bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300"
+              >
+                <span
+                  className="text-white text-lg font-semibold 
+                      opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                >
                   Visit Website
                 </span>
               </Link>
@@ -66,21 +76,18 @@ export default function ItemCard({ item }: ItemCardProps) {
         </div>
 
         {/* center */}
-        <Link href={`${itemUrlPrefix}/${item.slug.current}`}
-          className="flex flex-col gap-4 group">
+        <Link
+          href={`${itemUrlPrefix}/${item.slug.current}`}
+          className="flex flex-col gap-4 group"
+        >
           <div className="px-4 flex flex-col gap-4">
             <div className="flex items-center justify-between gap-4">
               <h3 className="flex-1 text-xl font-medium line-clamp-1">
                 {item.name}
               </h3>
               <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <span className="">
-                  Details
-                </span>
-                <ArrowRightIcon className={cn(
-                  "size-4 icon-scale",
-                  ""
-                )} />
+                <span className="">Details</span>
+                <ArrowRightIcon className={cn("size-4 icon-scale", "")} />
               </div>
             </div>
 
@@ -96,8 +103,11 @@ export default function ItemCard({ item }: ItemCardProps) {
           {item.tags && item.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 items-center">
               {item.tags.slice(0, 5).map((tag, index) => (
-                <Link key={`tag-${index}`} href={`/tag/${tag.slug.current}`}
-                  className="flex items-center justify-center space-x-0.5 group">
+                <Link
+                  key={`tag-${index}`}
+                  href={`/tag/${tag.slug.current}`}
+                  className="flex items-center justify-center space-x-0.5 group"
+                >
                   <HashIcon className="w-3 h-3 text-muted-foreground icon-scale" />
                   <span className="text-sm text-muted-foreground link-underline">
                     {tag.name}
@@ -112,7 +122,7 @@ export default function ItemCard({ item }: ItemCardProps) {
             </div>
           )}
         </div>
-      </div >
+      </div>
     </div>
   );
 }

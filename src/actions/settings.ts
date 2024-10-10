@@ -12,10 +12,10 @@ import * as z from "zod";
 export type ServerActionResponse = {
   status: "success" | "error";
   message?: string;
-}
+};
 
 export async function settings(
-  values: z.infer<typeof SettingsSchema>
+  values: z.infer<typeof SettingsSchema>,
 ): Promise<ServerActionResponse> {
   try {
     const user = await currentUser();
@@ -45,31 +45,34 @@ export async function settings(
         return { status: "error", message: "Incorrect password!" };
       }
 
-      const hashedPassword = await bcrypt.hash(
-        values.newPassword,
-        10,
-      );
+      const hashedPassword = await bcrypt.hash(values.newPassword, 10);
       values.password = hashedPassword;
       values.newPassword = undefined;
     }
 
-    const updatedUser = await sanityClient.patch(dbUser._id).set({
-      ...values
-    }).commit();
-    console.log('settings, updatedUser:', updatedUser);
+    const updatedUser = await sanityClient
+      .patch(dbUser._id)
+      .set({
+        ...values,
+      })
+      .commit();
+    console.log("settings, updatedUser:", updatedUser);
 
     // unstable update in Beta version
     unstable_update({
       user: {
         name: updatedUser.name,
-        link: updatedUser.link
-      }
+        link: updatedUser.link,
+      },
     });
 
-    revalidatePath('/settings');
+    revalidatePath("/settings");
     return { status: "success", message: "Account information updated!" };
   } catch (error) {
     console.log("settings, error", error);
-    return { status: "error", message: "Failed to update account information!" };
+    return {
+      status: "error",
+      message: "Failed to update account information!",
+    };
   }
 }

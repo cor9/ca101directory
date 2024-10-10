@@ -16,21 +16,16 @@ export function DashboardHeader({
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-col space-y-4">
-
         {/* title */}
         <div className="flex items-center space-x-4">
           {showBackButton && <BackButtonSmall href="/dashboard" />}
 
-          <h1 className="text-2xl font-semibold">
-            {title}
-          </h1>
+          <h1 className="text-2xl font-semibold">{title}</h1>
         </div>
 
         {/* subtitle */}
         {subtitle && (
-          <h2 className="text-base text-muted-foreground">
-            {subtitle}
-          </h2>
+          <h2 className="text-base text-muted-foreground">{subtitle}</h2>
         )}
       </div>
 

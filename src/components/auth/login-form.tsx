@@ -27,9 +27,10 @@ import * as z from "zod";
 export const LoginForm = ({ className }: { className?: string }) => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
-  const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
-    ? "Email already in use with different provider!"
-    : "";
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email already in use with different provider!"
+      : "";
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -52,13 +53,13 @@ export const LoginForm = ({ className }: { className?: string }) => {
         .then((data) => {
           // console.log('login, data:', data);
           if (data?.status === "error") {
-            console.log('login, error:', data.message);
+            console.log("login, error:", data.message);
             form.reset();
             setError(data.message);
           }
 
           if (data?.status === "success") {
-            console.log('login, success:', data.message);
+            console.log("login, success:", data.message);
             form.reset();
             setSuccess(data.message);
 
@@ -69,7 +70,7 @@ export const LoginForm = ({ className }: { className?: string }) => {
           }
         })
         .catch((error) => {
-          console.log('login, error:', error);
+          console.log("login, error:", error);
           setError("Something went wrong");
         });
     });
@@ -84,10 +85,7 @@ export const LoginForm = ({ className }: { className?: string }) => {
       className={cn("", className)}
     >
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -146,7 +144,11 @@ export const LoginForm = ({ className }: { className?: string }) => {
             type="submit"
             className="w-full flex items-center justify-center gap-2"
           >
-            {isPending ? <Icons.spinner className="w-4 h-4 animate-spin" /> : ""}
+            {isPending ? (
+              <Icons.spinner className="w-4 h-4 animate-spin" />
+            ) : (
+              ""
+            )}
             <span>Login</span>
           </Button>
         </form>

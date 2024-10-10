@@ -6,12 +6,9 @@ import { Button } from "@/components/ui/button";
 interface BottomButtonProps {
   href: string;
   label: string;
-};
+}
 
-export const BottomButton = ({
-  href,
-  label,
-}: BottomButtonProps) => {
+export const BottomButton = ({ href, label }: BottomButtonProps) => {
   return (
     <Button
       variant="link"
@@ -19,9 +16,7 @@ export const BottomButton = ({
       size="sm"
       asChild
     >
-      <Link href={href}>
-        {label}
-      </Link>
+      <Link href={href}>{label}</Link>
     </Button>
   );
 };

@@ -18,4 +18,4 @@ export const userButtonConfig: UserButtonConfig = {
       icon: "settings",
     },
   ],
-}
+};

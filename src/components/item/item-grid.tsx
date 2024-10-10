@@ -1,7 +1,7 @@
-import ItemCard from '@/components/item/item-card';
-import { ITEMS_PER_PAGE } from '@/lib/constants';
-import { ItemListQueryResult } from '@/sanity.types';
-import { Skeleton } from '../ui/skeleton';
+import ItemCard from "@/components/item/item-card";
+import { ITEMS_PER_PAGE } from "@/lib/constants";
+import { ItemListQueryResult } from "@/sanity.types";
+import { Skeleton } from "../ui/skeleton";
 
 interface ItemGridProps {
   items: ItemListQueryResult;
@@ -12,18 +12,18 @@ export default function ItemGrid({ items }: ItemGridProps) {
     <div>
       {items && items.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {
-            items.map((item) => (
-              <ItemCard key={item._id} item={item} />
-            ))
-          }
+          {items.map((item) => (
+            <ItemCard key={item._id} item={item} />
+          ))}
         </div>
       )}
     </div>
   );
 }
 
-export function ItemGridSkeleton({ count = ITEMS_PER_PAGE }: { count?: number }) {
+export function ItemGridSkeleton({
+  count = ITEMS_PER_PAGE,
+}: { count?: number }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       {[...Array(count)].map((_, index) => (

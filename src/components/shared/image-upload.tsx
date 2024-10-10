@@ -17,24 +17,27 @@ interface ImageUploadProps {
 /**
  * TODO: failed to upload image in mobile phone
  */
-export default function ImageUpload({ currentImageUrl, onUploadChange }: ImageUploadProps) {
+export default function ImageUpload({
+  currentImageUrl,
+  onUploadChange,
+}: ImageUploadProps) {
   const [uploading, setUploading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string | null>(currentImageUrl);
 
   const uploadImage = async (file: File) => {
     const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
     if (file.size > maxSizeInBytes) {
-      console.error('uploadImage, image size should be less than 1MB.');
-      toast.error('Image size should be less than 1MB.');
+      console.error("uploadImage, image size should be less than 1MB.");
+      toast.error("Image size should be less than 1MB.");
       return null;
     }
 
     try {
-      const asset = await sanityClient.assets.upload('image', file);
+      const asset = await sanityClient.assets.upload("image", file);
       return asset;
     } catch (error) {
-      console.error('uploadImage, error uploading image:', error);
-      toast.error('Upload Image failed, please try again.');
+      console.error("uploadImage, error uploading image:", error);
+      toast.error("Upload Image failed, please try again.");
       return null;
     }
   };
@@ -69,10 +72,10 @@ export default function ImageUpload({ currentImageUrl, onUploadChange }: ImageUp
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
       const file = acceptedFiles[0];
-      if (file.type === 'image/png' || file.type === 'image/jpeg') {
+      if (file.type === "image/png" || file.type === "image/jpeg") {
         handleImageUploadRef.current(file);
       } else {
-        toast.error('Only PNG and JPEG images are allowed.');
+        toast.error("Only PNG and JPEG images are allowed.");
       }
     }
   }, []);
@@ -87,9 +90,9 @@ export default function ImageUpload({ currentImageUrl, onUploadChange }: ImageUp
           "w-full h-full visually-hidden-focusable rounded-lg cursor-pointer",
           "relative flex flex-col items-center justify-center",
           "border-2 border-dashed",
-          "hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-        )}>
-
+          "hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600",
+        )}
+      >
         {/* initial state */}
         {!uploading && !imageUrl && (
           <div className="flex flex-col items-center justify-center gap-4">

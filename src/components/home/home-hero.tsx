@@ -8,7 +8,9 @@ export default function HomeHero() {
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="max-w-5xl flex flex-col items-center text-center gap-8">
-        <Link href="https://x.com/MkdirsHQ" target="_blank"
+        <Link
+          href="https://x.com/MkdirsHQ"
+          target="_blank"
           className={cn(
             buttonVariants({ variant: "outline", size: "sm" }),
             "px-4 rounded-full",
@@ -21,17 +23,19 @@ export default function HomeHero() {
 
         {/* maybe font-sourceSans is better */}
         <h1 className="max-w-5xl font-bold text-balance text-3xl sm:text-4xl md:text-5xl">
-          The Ultimate {" "}
+          The Ultimate{" "}
           <span className="text-gradient_indigo-purple font-bold">
             Directory Website Template
           </span>
         </h1>
 
-        <p className="max-w-4xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8"
+        <p
+          className="max-w-4xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8"
           style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
         >
-          This is a demo directory website built with <span className="font-bold">Mkdirs</span>, 
-          with which you can make any trending and profitable directory website in minutes.
+          This is a demo directory website built with{" "}
+          <span className="font-bold">Mkdirs</span>, with which you can make any
+          trending and profitable directory website in minutes.
         </p>
 
         <div className="w-full">

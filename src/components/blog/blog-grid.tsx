@@ -12,7 +12,7 @@ export default async function BlogGrid({ posts }: BlogGridProps) {
     <div>
       {posts && posts?.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map(post => (
+          {posts.map((post) => (
             <BlogCard key={post._id} post={post} />
           ))}
         </div>
@@ -21,7 +21,9 @@ export default async function BlogGrid({ posts }: BlogGridProps) {
   );
 }
 
-export function BlogGridSkeleton({ count = POSTS_PER_PAGE }: { count?: number }) {
+export function BlogGridSkeleton({
+  count = POSTS_PER_PAGE,
+}: { count?: number }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {[...Array(count)].map((_, index) => (

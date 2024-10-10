@@ -8,7 +8,6 @@ import { FaBrandsGithub } from "../icons/github";
 import Container from "../container";
 
 export default function LandingHero() {
-
   return (
     <div className="space-y-6 py-8">
       <Container className="max-w-5xl flex flex-col items-center gap-4 text-center">
@@ -36,8 +35,8 @@ export default function LandingHero() {
           className="max-w-2xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8"
           style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
         >
-          Start your next directory with Listing, Submission, Newsletter, Auth, Payment and more.
-          No database, no storage, no hassle!
+          Start your next directory with Listing, Submission, Newsletter, Auth,
+          Payment and more. No database, no storage, no hassle!
         </p>
 
         <div
@@ -47,10 +46,7 @@ export default function LandingHero() {
           <Link
             href="/pricing"
             prefetch={true}
-            className={cn(
-              buttonVariants({ size: "lg" }),
-              "gap-2 rounded-full",
-            )}
+            className={cn(buttonVariants({ size: "lg" }), "gap-2 rounded-full")}
           >
             <span>Go Pricing</span>
             <ArrowRightIcon className="size-4" />

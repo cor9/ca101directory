@@ -1,4 +1,4 @@
-import groq, { defineQuery } from 'groq';
+import groq, { defineQuery } from "groq";
 
 /**
  * https://www.sanity.io/plugins/next-sanity#using-query-result-types
@@ -77,7 +77,7 @@ export const itemFullInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.cu
 }`);
 
 /**
- * NOTICE: this query is not used in the app, 
+ * NOTICE: this query is not used in the app,
  * but it is used to generate the type of ItemListQueryResult,
  * if you want to change this query, please update data/item.ts
  */
@@ -133,7 +133,7 @@ export const tagQuery = defineQuery(`*[_type == "tag" && slug.current == $slug][
  */
 
 /**
- * NOTICE: this query is not used in the app, 
+ * NOTICE: this query is not used in the app,
  * but it is used to generate the type of SubmissionListQueryResult,
  * if you want to change this query, please update data/submission.ts
  */
@@ -239,7 +239,7 @@ export const blogPostMetadataQuery = defineQuery(`
 }`);
 
 /**
- * NOTICE: this query is not directly used in the app, 
+ * NOTICE: this query is not directly used in the app,
  * but it is used to generate the type of BlogPostListQueryResult,
  * if you want to change this query, please update data/blog.ts
  */

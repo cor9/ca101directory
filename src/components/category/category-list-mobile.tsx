@@ -1,7 +1,7 @@
 "use client";
 
 import { Drawer } from "vaul";
-import { CategoryListQueryResult } from '@/sanity.types';
+import { CategoryListQueryResult } from "@/sanity.types";
 import { LayoutListIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
@@ -14,7 +14,9 @@ export type CategoryListMobileProps = {
 export function CategoryListMobile({ categoryList }: CategoryListMobileProps) {
   const [open, setOpen] = useState(false);
   const { slug } = useParams() as { slug?: string };
-  const category = categoryList.find((category) => category.slug.current === slug);
+  const category = categoryList.find(
+    (category) => category.slug.current === slug,
+  );
 
   const closeDrawer = () => {
     setOpen(false);
@@ -31,16 +33,15 @@ export function CategoryListMobile({ categoryList }: CategoryListMobileProps) {
           <div className="flex items-center justify-between w-full gap-4">
             <div className="flex items-center gap-2">
               <LayoutListIcon className="size-5" />
-              <span className="text-sm">
-                Category
-              </span>
+              <span className="text-sm">Category</span>
             </div>
             <span className="text-sm">
-              {category?.name ? `${category?.name}` : 'All'}
+              {category?.name ? `${category?.name}` : "All"}
             </span>
           </div>
         </Drawer.Trigger>
-        <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
+        <Drawer.Overlay
+          className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
           onClick={closeDrawer}
         />
         <Drawer.Portal>

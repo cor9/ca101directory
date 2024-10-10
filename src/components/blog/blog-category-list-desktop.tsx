@@ -1,16 +1,18 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { BlogCategoryListQueryResult } from '@/sanity.types';
+import { BlogCategoryListQueryResult } from "@/sanity.types";
 import Link from "next/link";
-import { useParams } from 'next/navigation';
+import { useParams } from "next/navigation";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 export type BlogCategoryListDesktopProps = {
   categoryList: BlogCategoryListQueryResult;
 };
 
-export function BlogCategoryListDesktop({ categoryList }: BlogCategoryListDesktopProps) {
+export function BlogCategoryListDesktop({
+  categoryList,
+}: BlogCategoryListDesktopProps) {
   const { slug } = useParams() as { slug?: string };
 
   return (
@@ -20,13 +22,13 @@ export function BlogCategoryListDesktop({ categoryList }: BlogCategoryListDeskto
         <ToggleGroup
           size="sm"
           type="single"
-          value={slug || 'All'}
+          value={slug || "All"}
           aria-label="Toggle blog category"
           className="h-9 overflow-hidden rounded-full border bg-background p-1 *:h-7 *:text-muted-foreground"
         >
           <ToggleGroupItem
-            key='All'
-            value='All'
+            key="All"
+            value="All"
             className={cn(
               "rounded-full px-5",
               "data-[state=on]:bg-primary data-[state=on]:text-primary-foreground",

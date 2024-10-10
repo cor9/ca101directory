@@ -31,7 +31,7 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
   }
 
   const { id } = params;
-  console.log('PlanPage, itemId:', id);
+  console.log("PlanPage, itemId:", id);
   const item = await sanityFetch<ItemInfo>({
     query: itemByIdQuery,
     params: { id: id },
@@ -43,7 +43,7 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
     return notFound();
   }
   // console.log('PlanPage, item:', item);
-  
+
   // redirect to dashboard if the item is not submitted by the user
   if (item.submitter._id != user.id) {
     console.error("PlanPage, user not match");

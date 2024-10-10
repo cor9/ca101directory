@@ -26,6 +26,6 @@ export const urlForImage = (source: any) => {
   return {
     src: url,
     width: width,
-    height: height
+    height: height,
   };
 };

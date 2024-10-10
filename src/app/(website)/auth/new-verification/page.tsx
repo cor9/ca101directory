@@ -9,9 +9,7 @@ export const metadata = constructMetadata({
 });
 
 const NewVerificationPage = () => {
-  return ( 
-    <NewVerificationForm />
-   );
-}
+  return <NewVerificationForm />;
+};
 
 export default NewVerificationPage;

@@ -10,10 +10,12 @@ import { sanityClient } from "@/sanity/lib/client";
 export type ServerActionResponse = {
   status: "success" | "error";
   message?: string;
-}
+};
 
-export const submitToReview = async (itemId: string): Promise<ServerActionResponse> => {
-  console.log('submitToReview, itemId:', itemId);
+export const submitToReview = async (
+  itemId: string,
+): Promise<ServerActionResponse> => {
+  console.log("submitToReview, itemId:", itemId);
   try {
     const user = await currentUser();
     if (!user) {
@@ -28,14 +30,20 @@ export const submitToReview = async (itemId: string): Promise<ServerActionRespon
     if (item.submitter._ref !== user.id) {
       return { status: "error", message: "You are not allowed to do this!" };
     }
-    if (item.pricePlan !== PricePlans.FREE || item.freePlanStatus !== FreePlanStatus.SUBMITTING) {
+    if (
+      item.pricePlan !== PricePlans.FREE ||
+      item.freePlanStatus !== FreePlanStatus.SUBMITTING
+    ) {
       return { status: "error", message: "Item is not in right plan status!" };
     }
 
-    const result = await sanityClient.patch(itemId).set({
-      pricePlan: PricePlans.FREE,
-      freePlanStatus: FreePlanStatus.PENDING,
-    }).commit();
+    const result = await sanityClient
+      .patch(itemId)
+      .set({
+        pricePlan: PricePlans.FREE,
+        freePlanStatus: FreePlanStatus.PENDING,
+      })
+      .commit();
     // console.log('submitToReview, result:', result);
     if (!result) {
       return { status: "error", message: "Failed to submit item to review!" };
@@ -43,7 +51,13 @@ export const submitToReview = async (itemId: string): Promise<ServerActionRespon
 
     const statusLink = getItemStatusLinkInWebsite(itemId);
     const reviewLink = getItemLinkInStudio(itemId);
-    sendNotifySubmissionEmail(user.name, user.email, result.name, statusLink, reviewLink);
+    sendNotifySubmissionEmail(
+      user.name,
+      user.email,
+      result.name,
+      statusLink,
+      reviewLink,
+    );
 
     return { status: "success", message: "Item submitted to review!" };
   } catch (error) {

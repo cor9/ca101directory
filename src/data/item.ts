@@ -7,18 +7,21 @@ import { itemSimpleFields } from "@/sanity/lib/queries";
  * get item by id
  */
 export async function getItemById(id: string) {
-    try {
-        // @sanity-typegen-ignore
-        const itemQry = `*[_type == "item" && _id == "${id}"][0]`;
-        const item = await sanityFetch<Item>({ query: itemQry, disableCache: true });
-        if (SHOW_QUERY_LOGS) {
-            console.log('getItemById, item:', item);
-        }
-        return item;
-    } catch (error) {
-        console.error('getItemById, error:', error);
-        return null;
+  try {
+    // @sanity-typegen-ignore
+    const itemQry = `*[_type == "item" && _id == "${id}"][0]`;
+    const item = await sanityFetch<Item>({
+      query: itemQry,
+      disableCache: true,
+    });
+    if (SHOW_QUERY_LOGS) {
+      console.log("getItemById, item:", item);
     }
+    return item;
+  } catch (error) {
+    console.error("getItemById, error:", error);
+    return null;
+  }
 }
 
 /**
@@ -30,20 +33,27 @@ export async function getItems({
   sortKey,
   reverse,
   query,
-  currentPage
+  currentPage,
 }: {
   category?: string;
   tag?: string;
   sortKey?: string;
   reverse?: boolean;
   query?: string;
-  currentPage: number
+  currentPage: number;
 }) {
-  console.log('getItems, query', query, 'sortKey', sortKey, 'reverse', reverse);
-  const { countQuery, dataQuery } = buildQuery(category, tag, sortKey, reverse, query, currentPage);
+  console.log("getItems, query", query, "sortKey", sortKey, "reverse", reverse);
+  const { countQuery, dataQuery } = buildQuery(
+    category,
+    tag,
+    sortKey,
+    reverse,
+    query,
+    currentPage,
+  );
   const [totalCount, items] = await Promise.all([
     sanityFetch<number>({ query: countQuery }),
-    sanityFetch<ItemListQueryResult>({ query: dataQuery })
+    sanityFetch<ItemListQueryResult>({ query: dataQuery }),
   ]);
   return { items, totalCount };
 }
@@ -51,17 +61,28 @@ export async function getItems({
 /**
  * build count and data query for get items from sanity
  */
-const buildQuery = (category?: string, tag?: string, sortKey?: string, reverse?: boolean, query?: string, currentPage: number = 1) => {
-  const orderDirection = reverse ? 'desc' : 'asc';
-  const sortOrder = sortKey ? `| order(${sortKey} ${orderDirection})` : '| order(publishDate desc)';
-  const queryPattern = query ? `*${query}*` : '';
+const buildQuery = (
+  category?: string,
+  tag?: string,
+  sortKey?: string,
+  reverse?: boolean,
+  query?: string,
+  currentPage: number = 1,
+) => {
+  const orderDirection = reverse ? "desc" : "asc";
+  const sortOrder = sortKey
+    ? `| order(${sortKey} ${orderDirection})`
+    : "| order(publishDate desc)";
+  const queryPattern = query ? `*${query}*` : "";
   const queryCondition = query
     ? `&& (name match "${queryPattern}" 
     || description match "${queryPattern}"
     || introduction match "${queryPattern}")`
-    : '';
-  const categoryCondition = category ? `&& "${category}" in categories[]->slug.current` : '';
-  const tagCondition = tag ? `&& "${tag}" in tags[]->slug.current` : '';
+    : "";
+  const categoryCondition = category
+    ? `&& "${category}" in categories[]->slug.current`
+    : "";
+  const tagCondition = tag ? `&& "${tag}" in tags[]->slug.current` : "";
   const offsetStart = (currentPage - 1) * ITEMS_PER_PAGE;
   const offsetEnd = offsetStart + ITEMS_PER_PAGE;
 

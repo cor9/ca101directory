@@ -17,9 +17,7 @@ export function EmptyPlaceholder({
       )}
       {...props}
     >
-      <div className="flex flex-col items-center text-center">
-        {children}
-      </div>
+      <div className="flex flex-col items-center text-center">{children}</div>
     </div>
   );
 }
@@ -58,12 +56,7 @@ EmptyPlaceholder.Title = function EmptyPlaceholderTitle({
   className,
   ...props
 }: EmptyPlaceholderTitleProps) {
-  return (
-    <h3
-      className={cn("mt-5 text-2xl font-bold", className)}
-      {...props}
-    />
-  );
+  return <h3 className={cn("mt-5 text-2xl font-bold", className)} {...props} />;
 };
 
 interface EmptyPlaceholderDescriptionProps

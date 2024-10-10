@@ -1,7 +1,7 @@
 "use client";
 
 import { Drawer } from "vaul";
-import { TagListQueryResult } from '@/sanity.types';
+import { TagListQueryResult } from "@/sanity.types";
 import { LayoutListIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
@@ -29,16 +29,13 @@ export function TagListMobile({ tagList }: TagListMobileProps) {
         <div className="flex items-center justify-between w-full gap-4">
           <div className="flex items-center gap-2">
             <LayoutListIcon className="size-5" />
-            <span className="text-sm">
-              Tag
-            </span>
+            <span className="text-sm">Tag</span>
           </div>
-          <span className="text-sm">
-            {tag?.name ? `${tag?.name}` : 'All'}
-          </span>
+          <span className="text-sm">{tag?.name ? `${tag?.name}` : "All"}</span>
         </div>
       </Drawer.Trigger>
-      <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
+      <Drawer.Overlay
+        className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
         onClick={closeDrawer}
       />
       <Drawer.Portal>

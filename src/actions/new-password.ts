@@ -10,7 +10,7 @@ import { sanityClient } from "@/sanity/lib/client";
 export type ServerActionResponse = {
   status: "success" | "error";
   message?: string;
-}
+};
 
 export async function newPassword(
   values: z.infer<typeof NewPasswordSchema>,
@@ -40,14 +40,17 @@ export async function newPassword(
 
   const existingUser = await getUserByEmail(existingToken.identifier);
   if (!existingUser) {
-    return { status: "error", message: "Email does not exist!" }
+    return { status: "error", message: "Email does not exist!" };
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  await sanityClient.patch(existingUser._id).set({
-    password: hashedPassword,
-  }).commit();
+  await sanityClient
+    .patch(existingUser._id)
+    .set({
+      password: hashedPassword,
+    })
+    .commit();
 
   await sanityClient.delete(existingToken._id);
   return { status: "success", message: "Password updated!" };
-};
+}

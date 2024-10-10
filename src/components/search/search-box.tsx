@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import { createUrl } from '@/lib/utils';
-import { SearchIcon } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
-import { useDebounce } from 'use-debounce';
+import { createUrl } from "@/lib/utils";
+import { SearchIcon } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useDebounce } from "use-debounce";
 
 export default function SearchBox() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState(searchParams?.get('q') || '');
+  const [searchQuery, setSearchQuery] = useState(searchParams?.get("q") || "");
   const [debouncedQuery] = useDebounce(searchQuery, 300); // 300ms debounce
-  const lastExecutedQuery = useRef(searchParams?.get('q') || '');
-  const previousQueryRef = useRef('');
+  const lastExecutedQuery = useRef(searchParams?.get("q") || "");
+  const previousQueryRef = useRef("");
 
   useEffect(() => {
-    const currentQuery = searchParams?.get('q') || '';
+    const currentQuery = searchParams?.get("q") || "";
     if (currentQuery !== previousQueryRef.current) {
       setSearchQuery(currentQuery);
       previousQueryRef.current = currentQuery;
@@ -26,12 +26,12 @@ export default function SearchBox() {
     if (debouncedQuery !== lastExecutedQuery.current) {
       const newParams = new URLSearchParams(searchParams?.toString());
       if (debouncedQuery) {
-        newParams.set('q', debouncedQuery);
+        newParams.set("q", debouncedQuery);
       } else {
-        newParams.delete('q');
+        newParams.delete("q");
       }
-      newParams.delete('page');
-      const newUrl = createUrl('/search', newParams);
+      newParams.delete("page");
+      const newUrl = createUrl("/search", newParams);
       console.log(`useEffect, newUrl: ${newUrl}`);
       lastExecutedQuery.current = debouncedQuery;
       router.push(newUrl, { scroll: false });
@@ -43,7 +43,7 @@ export default function SearchBox() {
   };
 
   return (
-    <div className='flex items-center justify-start'>
+    <div className="flex items-center justify-start">
       <div className="w-full relative">
         <input
           type="text"

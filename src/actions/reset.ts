@@ -9,9 +9,11 @@ import { generatePasswordResetToken } from "@/lib/tokens";
 export type ServerActionResponse = {
   status: "success" | "error";
   message?: string;
-}
+};
 
-export async function reset(values: z.infer<typeof ResetSchema>): Promise<ServerActionResponse> {
+export async function reset(
+  values: z.infer<typeof ResetSchema>,
+): Promise<ServerActionResponse> {
   const validatedFields = ResetSchema.safeParse(values);
   if (!validatedFields.success) {
     return { status: "error", message: "Invalid email!" };
@@ -33,4 +35,3 @@ export async function reset(values: z.infer<typeof ResetSchema>): Promise<Server
 
   return { status: "success", message: "Password reset email sent" };
 }
-

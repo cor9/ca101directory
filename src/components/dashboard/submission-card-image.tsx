@@ -10,7 +10,9 @@ type SubmissionCardImageProps = {
   item: ItemInfo;
 };
 
-export default function SubmissionCardImage({ item }: SubmissionCardImageProps) {
+export default function SubmissionCardImage({
+  item,
+}: SubmissionCardImageProps) {
   // console.log('SubmissionCard, item:', item);
   const imageProps = item?.image ? urlForImage(item.image) : null;
   const imageBlurDataURL = item?.image?.blurDataURL || null;
@@ -28,7 +30,7 @@ export default function SubmissionCardImage({ item }: SubmissionCardImageProps) 
             className="border w-full shadow-lg image-scale"
             {...(imageBlurDataURL && {
               placeholder: "blur",
-              blurDataURL: imageBlurDataURL
+              blurDataURL: imageBlurDataURL,
             })}
           />
 
@@ -37,7 +39,10 @@ export default function SubmissionCardImage({ item }: SubmissionCardImageProps) 
               {item.categories && item.categories.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                   {item.categories.map((category, index) => (
-                    <span key={`cat-${index}`} className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md">
+                    <span
+                      key={`cat-${index}`}
+                      className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md"
+                    >
                       {category.name}
                     </span>
                   ))}
@@ -46,8 +51,11 @@ export default function SubmissionCardImage({ item }: SubmissionCardImageProps) 
               {item.tags && item.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                   {item.tags.map((tag, index) => (
-                    <div key={`tag-${index}`} className="flex items-center justify-center space-x-0.5 group
-                              text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md">
+                    <div
+                      key={`tag-${index}`}
+                      className="flex items-center justify-center space-x-0.5 group
+                              text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md"
+                    >
                       <HashIcon className="w-3 h-3" />
                       <span> {tag.name} </span>
                     </div>
@@ -60,10 +68,15 @@ export default function SubmissionCardImage({ item }: SubmissionCardImageProps) 
       )}
 
       {item.publishDate ? (
-        <Link href={`/item/${item.slug.current}`} className="absolute inset-0 flex items-center justify-center bg-black 
-                    bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
-          <span className="text-white text-lg font-semibold 
-                      opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <Link
+          href={`/item/${item.slug.current}`}
+          className="absolute inset-0 flex items-center justify-center bg-black 
+                    bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300"
+        >
+          <span
+            className="text-white text-lg font-semibold 
+                      opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          >
             View on site
           </span>
         </Link>

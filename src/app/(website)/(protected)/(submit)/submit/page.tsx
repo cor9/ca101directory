@@ -14,14 +14,12 @@ export const metadata = constructMetadata({
 export default async function SubmitPage() {
   const [categoryList, tagList] = await Promise.all([
     sanityFetch<CategoryListQueryResult>({
-      query: categoryListQuery
+      query: categoryListQuery,
     }),
     sanityFetch<TagListQueryResult>({
-      query: tagListQuery
-    })
+      query: tagListQuery,
+    }),
   ]);
 
-  return (
-    <SubmitForm tagList={tagList} categoryList={categoryList} />
-  );
+  return <SubmitForm tagList={tagList} categoryList={categoryList} />;
 }

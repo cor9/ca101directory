@@ -13,9 +13,9 @@ import { verifyPassword } from "./lib/password";
  */
 export default {
   // https://authjs.dev/getting-started/migrating-to-v5#environment-variables
-  // The AUTH_TRUST_HOST environment variable serves the same purpose as setting trustHost: true in your Auth.js configuration. 
-  // This is necessary when running Auth.js behind a proxy. 
-  // When set to true we will trust the X-Forwarded-Host and X-Forwarded-Proto headers 
+  // The AUTH_TRUST_HOST environment variable serves the same purpose as setting trustHost: true in your Auth.js configuration.
+  // This is necessary when running Auth.js behind a proxy.
+  // When set to true we will trust the X-Forwarded-Host and X-Forwarded-Proto headers
   // passed to the app by the proxy to auto-detect the host URL (AUTH_URL)
   trustHost: true,
   providers: [
@@ -29,29 +29,32 @@ export default {
       authorize: async (credentials) => {
         // called when user attempts to sign in with credentials
         if (SHOW_QUERY_LOGS) {
-          console.log('authorize, credentials:', credentials);
+          console.log("authorize, credentials:", credentials);
         }
 
         const validatedFields = LoginSchema.safeParse(credentials);
         if (!validatedFields.success) {
-          console.error('authorize error: credentials invalid');
+          console.error("authorize error: credentials invalid");
           return null;
         }
 
         // @sanity-typegen-ignore
         if (!credentials?.email) {
-          console.error('authorize error: email invalid');
+          console.error("authorize error: email invalid");
           return null;
         }
         const user = await getUserByEmail(credentials.email as string);
         if (!user || !user.password) {
-          console.error('authorize error: user not found or password invalid');
+          console.error("authorize error: user not found or password invalid");
           return null;
         }
 
         // https://youtu.be/1MTyCvS05V4?t=9695
         // bcryptjs is not compatible with nextjs edge runtime, so we use verifyPassword instead
-        const passwordsMatch = await verifyPassword(credentials?.password as string, user.password);
+        const passwordsMatch = await verifyPassword(
+          credentials?.password as string,
+          user.password,
+        );
         if (passwordsMatch) {
           const userWithRole = {
             ...user,
@@ -59,14 +62,14 @@ export default {
             role: user.role,
           };
           if (SHOW_QUERY_LOGS) {
-            console.log('authorize, user:', userWithRole);
+            console.log("authorize, user:", userWithRole);
           }
           return userWithRole;
         }
 
         // Return `null` to indicate that the credentials are invalid
         return null;
-      }
-    })
+      },
+    }),
   ],
 } satisfies NextAuthConfig;

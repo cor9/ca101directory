@@ -26,7 +26,8 @@ const pricingFaqData = [
   },
   {
     id: "item-4",
-    question: "Is there a difference in review time between Free and Pro plans?",
+    question:
+      "Is there a difference in review time between Free and Pro plans?",
     answer:
       "Yes, there is. Free plan submissions are reviewed within 48 hours, while Pro plan submissions are included within 24 hours and don't have to wait in a queue. This faster turnaround time is one of the key benefits of the Pro plan.",
   },

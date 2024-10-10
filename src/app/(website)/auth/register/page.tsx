@@ -9,9 +9,7 @@ export const metadata = constructMetadata({
 });
 
 const RegisterPage = () => {
-  return (
-      <RegisterForm />
-  );
-}
- 
+  return <RegisterForm />;
+};
+
 export default RegisterPage;

@@ -1,13 +1,15 @@
 "use client";
 
-import { useMemo } from 'react';
-import { useTheme } from 'next-themes';
+import { useMemo } from "react";
+import { useTheme } from "next-themes";
 
 // if directly import, frontend error: document is not defined
 // import { SimpleMdeReact } from "react-simplemde-editor";
 // but if dynamic import, no error reported
-import dynamic from 'next/dynamic';
-const SimpleMdeReact = dynamic(() => import('react-simplemde-editor'), { ssr: false });
+import dynamic from "next/dynamic";
+const SimpleMdeReact = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 
 // if import SimpleMDE from react-simplemde-editor, SimpleMDE.Options can't be found
 // import SimpleMDE from "react-simplemde-editor";
@@ -25,7 +27,7 @@ interface CustomMdeProps {
 
 /**
  * https://github.com/RIP21/react-simplemde-editor
- * 
+ *
  * https://github.com/sanity-io/sanity-plugin-markdown?tab=readme-ov-file#customizing-editor-preview
  */
 const CustomMde: React.FC<CustomMdeProps> = ({ value, onChange }) => {
@@ -43,17 +45,32 @@ const CustomMde: React.FC<CustomMdeProps> = ({ value, onChange }) => {
       status: false,
       autofocus: false,
       spellChecker: false,
-      placeholder: 'Enter your content here...',
-      toolbar: ["heading", "bold", "italic", "strikethrough",
-        "code", "quote", "unordered-list", "ordered-list",
-        "link", "preview", "guide"],
-      previewClass: ['prose', 'prose-slate', 'dark:prose-invert', 
-        'bg-background', 'text-foreground'],
+      placeholder: "Enter your content here...",
+      toolbar: [
+        "heading",
+        "bold",
+        "italic",
+        "strikethrough",
+        "code",
+        "quote",
+        "unordered-list",
+        "ordered-list",
+        "link",
+        "preview",
+        "guide",
+      ],
+      previewClass: [
+        "prose",
+        "prose-slate",
+        "dark:prose-invert",
+        "bg-background",
+        "text-foreground",
+      ],
     } as SimpleMDE.Options;
   }, []);
 
   return (
-    <div data-theme={theme} style={{ maxWidth: 'none' }}>
+    <div data-theme={theme} style={{ maxWidth: "none" }}>
       <SimpleMdeReact
         options={mdeOptions}
         value={value}

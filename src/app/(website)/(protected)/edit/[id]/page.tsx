@@ -4,7 +4,11 @@ import { currentUser } from "@/lib/auth";
 import { constructMetadata } from "@/lib/metadata";
 import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { categoryListQuery, itemFullInfoByIdQuery, tagListQuery } from "@/sanity/lib/queries";
+import {
+  categoryListQuery,
+  itemFullInfoByIdQuery,
+  tagListQuery,
+} from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
 import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
@@ -23,7 +27,7 @@ export async function generateMetadata({
 
 interface EditPageProps {
   params: { id: string };
-};
+}
 
 export default async function EditPage({ params }: EditPageProps) {
   const user = await currentUser();
@@ -35,14 +39,14 @@ export default async function EditPage({ params }: EditPageProps) {
   const [item, categoryList, tagList] = await Promise.all([
     sanityFetch<ItemFullInfo>({
       query: itemFullInfoByIdQuery,
-      params: { id: params.id }
+      params: { id: params.id },
     }),
     sanityFetch<CategoryListQueryResult>({
-      query: categoryListQuery
+      query: categoryListQuery,
     }),
     sanityFetch<TagListQueryResult>({
-      query: tagListQuery
-    })
+      query: tagListQuery,
+    }),
   ]);
 
   if (!item) {
@@ -55,7 +59,5 @@ export default async function EditPage({ params }: EditPageProps) {
     return redirect("/dashboard");
   }
 
-  return (
-    <EditForm item={item} tagList={tagList} categoryList={categoryList} />
-  );
+  return <EditForm item={item} tagList={tagList} categoryList={categoryList} />;
 }

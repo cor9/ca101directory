@@ -11,7 +11,11 @@ export function UserAvatar({ name, image, ...props }: UserAvatarProps) {
   return (
     <Avatar {...props}>
       {image ? (
-        <AvatarImage alt="user avatar" src={image} referrerPolicy="no-referrer" />
+        <AvatarImage
+          alt="user avatar"
+          src={image}
+          referrerPolicy="no-referrer"
+        />
       ) : (
         <AvatarFallback>
           <span className="sr-only">{name}</span>
@@ -19,5 +23,5 @@ export function UserAvatar({ name, image, ...props }: UserAvatarProps) {
         </AvatarFallback>
       )}
     </Avatar>
-  )
+  );
 }

@@ -7,15 +7,15 @@ import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NewPasswordSchema } from "@/lib/schemas";
 import { Input } from "@/components/ui/input";
-import { 
+import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,  
+  FormMessage,
 } from "@/components/ui/form";
-import { AuthCard } from "@/components/auth/auth-card"
+import { AuthCard } from "@/components/auth/auth-card";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/shared/form-error";
 import { FormSuccess } from "@/components/shared/form-success";
@@ -45,18 +45,18 @@ export const NewPasswordForm = () => {
       newPassword(values, token)
         .then((data) => {
           if (data?.status === "error") {
-            console.log('newPassword, error:', data.message);
+            console.log("newPassword, error:", data.message);
             setError(data.message);
           }
 
           if (data?.status === "success") {
-            console.log('newPassword, success:', data.message);
+            console.log("newPassword, success:", data.message);
             setSuccess(data.message);
           }
         })
         .catch(() => {
-          console.log('newPassword, error:', error);
-          setError('Something went wrong');
+          console.log("newPassword, error:", error);
+          setError("Something went wrong");
         });
     });
   };
@@ -69,10 +69,7 @@ export const NewPasswordForm = () => {
       className="border-none"
     >
       <Form {...form}>
-        <form 
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -101,7 +98,11 @@ export const NewPasswordForm = () => {
             type="submit"
             className="w-full flex items-center justify-center gap-2"
           >
-            {isPending ? <Icons.spinner className="w-4 h-4 animate-spin" /> : ""}
+            {isPending ? (
+              <Icons.spinner className="w-4 h-4 animate-spin" />
+            ) : (
+              ""
+            )}
             <span>Reset password</span>
           </Button>
         </form>

@@ -3,18 +3,14 @@
 import { settings } from "@/actions/settings";
 import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useCurrentUser } from "@/hooks/use-current-user";
@@ -44,7 +40,7 @@ export default function SettingsForm() {
       newPassword: undefined,
       name: user?.name || undefined,
       link: user?.link || undefined,
-    }
+    },
   });
 
   useEffect(() => {
@@ -61,11 +57,11 @@ export default function SettingsForm() {
       settings(values)
         .then((data) => {
           if (data.status === "error") {
-            console.log('SettingsForm, error:', data.message);
+            console.log("SettingsForm, error:", data.message);
             toast.error(data.message);
           }
           if (data.status === "success") {
-            console.log('SettingsForm, success:', data.message);
+            console.log("SettingsForm, success:", data.message);
             update();
             router.refresh();
             toast.success(data.message);
@@ -75,7 +71,7 @@ export default function SettingsForm() {
           toast.error("Something went wrong");
         });
     });
-  }
+  };
 
   return (
     <Form {...form}>
@@ -89,11 +85,7 @@ export default function SettingsForm() {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="name"
-                      disabled={isPending}
-                    />
+                    <Input {...field} placeholder="name" disabled={isPending} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -160,15 +152,21 @@ export default function SettingsForm() {
               </div>
             )}
           </CardContent>
-          <CardFooter className={cn("flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4",
-            "sm:flex-row sm:justify-between sm:space-y-0 sm:gap-4")}>
+          <CardFooter
+            className={cn(
+              "flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4",
+              "sm:flex-row sm:justify-between sm:space-y-0 sm:gap-4",
+            )}
+          >
             <Button
               size="lg"
               type="submit"
               className="w-full sm:w-auto"
               disabled={isPending}
             >
-              {isPending && <Icons.spinner className="mr-2 h-6 w-4 animate-spin" />}
+              {isPending && (
+                <Icons.spinner className="mr-2 h-6 w-4 animate-spin" />
+              )}
               Save Changes
             </Button>
 
@@ -216,8 +214,12 @@ export function SettingsFormSkeleton() {
             </div>
           </div>
         </CardContent>
-        <CardFooter className={cn("flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4",
-          "sm:flex-row sm:justify-between sm:space-y-0 sm:gap-4")}>
+        <CardFooter
+          className={cn(
+            "flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4",
+            "sm:flex-row sm:justify-between sm:space-y-0 sm:gap-4",
+          )}
+        >
           <Skeleton className="h-12 w-full sm:w-32" />
           <div className="flex items-center justify-center sm:justify-start gap-4">
             <Skeleton className="h-5 w-5 rounded-full" />

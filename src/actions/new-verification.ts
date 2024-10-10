@@ -7,9 +7,11 @@ import { getVerificationTokenByToken } from "@/data/verification-token";
 export type ServerActionResponse = {
   status: "success" | "error";
   message?: string;
-}
+};
 
-export async function newVerification(token: string): Promise<ServerActionResponse> {
+export async function newVerification(
+  token: string,
+): Promise<ServerActionResponse> {
   const existingToken = await getVerificationTokenByToken(token);
   if (!existingToken) {
     return { status: "error", message: "Token does not exist!" };
@@ -25,12 +27,15 @@ export async function newVerification(token: string): Promise<ServerActionRespon
     return { status: "error", message: "Email does not exist!" };
   }
 
-  await sanityClient.patch(existingUser._id).set({
-    emailVerified: new Date().toISOString(),
-    email: existingToken.identifier,
-  }).commit();
+  await sanityClient
+    .patch(existingUser._id)
+    .set({
+      emailVerified: new Date().toISOString(),
+      email: existingToken.identifier,
+    })
+    .commit();
   console.log("Email verified:", existingUser.email);
 
   await sanityClient.delete(existingToken._id);
   return { status: "success", message: "Email verified!" };
-};
+}

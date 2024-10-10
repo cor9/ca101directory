@@ -8,8 +8,8 @@ export default defineType({
   type: "document",
   groups: [
     {
-      name: 'status',
-      title: 'Status',
+      name: "status",
+      title: "Status",
     },
   ],
   fields: [
@@ -35,7 +35,8 @@ export default defineType({
       title: "Mark as Featured",
       type: "boolean",
       initialValue: false,
-      description: "If the item is featured, it will be displayed in the featured section",
+      description:
+        "If the item is featured, it will be displayed in the featured section",
     }),
     defineField({
       name: "link",
@@ -57,7 +58,7 @@ export default defineType({
         {
           type: "reference",
           to: [{ type: "category" }],
-        }
+        },
       ],
     }),
     defineField({
@@ -69,7 +70,7 @@ export default defineType({
         {
           type: "reference",
           to: [{ type: "tag" }],
-        }
+        },
       ],
     }),
     defineField({
@@ -84,13 +85,13 @@ export default defineType({
       description: "The introduction of the item, in markdown format",
       type: "markdown",
       // https://github.com/sanity-io/sanity-plugin-markdown?tab=readme-ov-file#custom-image-urls
-      // The function will be invoked whenever an image is pasted 
+      // The function will be invoked whenever an image is pasted
       // or dragged into the markdown editor, after upload completes.
       options: {
         imageUrl: (imageAsset: SanityImageAssetDocument) => {
           return `${imageAsset.url}?w=400&h=400`;
-        }
-      }
+        },
+      },
     }),
     defineField({
       name: "image",
@@ -106,18 +107,18 @@ export default defineType({
           title: "Alternative Text",
           description: "Important for SEO and accessiblity",
           initialValue: (_, parent) => {
-            return `Image for ${parent?.name || 'item'}`;
+            return `Image for ${parent?.name || "item"}`;
           },
         },
       ],
     }),
     // publish related fields
     defineField({
-      name: 'publishDate',
-      title: 'Publish Date',
+      name: "publishDate",
+      title: "Publish Date",
       description: "The lastest publish date when the item is published",
-      type: 'datetime',
-      group: 'status',
+      type: "datetime",
+      group: "status",
       // hidden: ({ parent }) => !parent.published,
     }),
     // price plan related fields
@@ -125,13 +126,13 @@ export default defineType({
       name: "pricePlan",
       title: "Price Plan",
       description: "The price plan of the item, chosen by the submitter",
-      type: 'string',
-      group: 'status',
-      initialValue: 'free',
+      type: "string",
+      group: "status",
+      initialValue: "free",
       options: {
-        list: ['free', 'pro'],
-        layout: 'radio',
-        direction: 'horizontal',
+        list: ["free", "pro"],
+        layout: "radio",
+        direction: "horizontal",
       },
       readOnly: true,
     }),
@@ -139,56 +140,56 @@ export default defineType({
       name: "freePlanStatus",
       title: "Free Plan Status",
       description: "The status of the item when the item is in free plan",
-      type: 'string',
-      group: 'status',
-      initialValue: 'submitting',
+      type: "string",
+      group: "status",
+      initialValue: "submitting",
       options: {
         list: [
-          { title: 'Submitting', value: 'submitting' },
-          { title: 'Pending (Waiting for review)', value: 'pending' },
-          { title: 'Approved', value: 'approved' },
-          { title: 'Rejected', value: 'rejected' },
+          { title: "Submitting", value: "submitting" },
+          { title: "Pending (Waiting for review)", value: "pending" },
+          { title: "Approved", value: "approved" },
+          { title: "Rejected", value: "rejected" },
         ],
-        layout: 'radio',
-        direction: 'horizontal',
+        layout: "radio",
+        direction: "horizontal",
       },
-      hidden: ({ parent }) => parent.pricePlan !== 'free',
+      hidden: ({ parent }) => parent.pricePlan !== "free",
     }),
     defineField({
       name: "proPlanStatus",
       title: "Pro Plan Status",
       description: "The status of the item when the item is in pro plan",
-      type: 'string',
-      group: 'status',
-      initialValue: 'submitting',
+      type: "string",
+      group: "status",
+      initialValue: "submitting",
       options: {
         list: [
-          { title: 'Submitting', value: 'submitting' },
-          { title: 'Pending (Waiting for payment)', value: 'pending' },
-          { title: 'Success', value: 'success' },
-          { title: 'Failed', value: 'failed' },
+          { title: "Submitting", value: "submitting" },
+          { title: "Pending (Waiting for payment)", value: "pending" },
+          { title: "Success", value: "success" },
+          { title: "Failed", value: "failed" },
         ],
-        layout: 'radio',
-        direction: 'horizontal',
+        layout: "radio",
+        direction: "horizontal",
       },
-      hidden: ({ parent }) => parent.pricePlan !== 'pro',
+      hidden: ({ parent }) => parent.pricePlan !== "pro",
     }),
     defineField({
       name: "rejectionReason",
       title: "Rejection Reason",
       description: "The reason for rejecting the item",
-      type: 'string',
-      group: 'status',
-      hidden: ({ parent }) => parent.freePlanStatus !== 'rejected',
-      initialValue: 'Other reasons',
+      type: "string",
+      group: "status",
+      hidden: ({ parent }) => parent.freePlanStatus !== "rejected",
+      initialValue: "Other reasons",
       options: {
         list: [
-          'The item is not good fit for our directory',
-          'The image of the item is not in good quality',
-          'The information of the item is not clear',
-          'Other reasons',
+          "The item is not good fit for our directory",
+          "The image of the item is not in good quality",
+          "The information of the item is not clear",
+          "Other reasons",
         ],
-        layout: 'dropdown',
+        layout: "dropdown",
       },
     }),
     // payment related fields
@@ -197,7 +198,7 @@ export default defineType({
       title: "Paid",
       description: "If the item is paid, it means the payment is successful",
       type: "boolean",
-      group: 'status',
+      group: "status",
       initialValue: false,
       readOnly: true,
     }),
@@ -206,14 +207,14 @@ export default defineType({
       title: "Order",
       description: "The successful payment order of the submission",
       type: "reference",
-      group: 'status',
+      group: "status",
       to: [{ type: "order" }],
       hidden: ({ parent }) => !parent.paid,
       // readOnly: true,
     }),
   ],
   // https://www.sanity.io/docs/previews-list-views
-  // Configure and customize how documents are displayed 
+  // Configure and customize how documents are displayed
   // within Sanity Studio's document lists.
   preview: {
     select: {
@@ -225,36 +226,46 @@ export default defineType({
       freePlanStatus: "freePlanStatus",
       proPlanStatus: "proPlanStatus",
     },
-    prepare({ name, media, featured, date, pricePlan, freePlanStatus, proPlanStatus }) {
-      const error = freePlanStatus === 'rejected' || proPlanStatus === 'failed';
-      const title = date ? `✅ ${name}` : (error ? `❌ ${name}` : `⏳ ${name}`);
-      const feature = featured ? '⭐' : '';
-      const status = pricePlan === 'free' ? freePlanStatus : proPlanStatus;
+    prepare({
+      name,
+      media,
+      featured,
+      date,
+      pricePlan,
+      freePlanStatus,
+      proPlanStatus,
+    }) {
+      const error = freePlanStatus === "rejected" || proPlanStatus === "failed";
+      const title = date ? `✅ ${name}` : error ? `❌ ${name}` : `⏳ ${name}`;
+      const feature = featured ? "⭐" : "";
+      const status = pricePlan === "free" ? freePlanStatus : proPlanStatus;
       // const status = `${freePlanStatus}-${proPlanStatus}`;
-      const time = date ? `date: ${format(parseISO(date), "yyyy/MM/dd")}` : "not published";
+      const time = date
+        ? `date: ${format(parseISO(date), "yyyy/MM/dd")}`
+        : "not published";
       const subtitle = `${feature}${pricePlan.toUpperCase()}: ${status}, ${time}`;
       return {
         title,
         media,
-        subtitle
+        subtitle,
       };
     },
   },
   orderings: [
     {
-      title: 'Publish Date (Newest)',
-      name: 'dateDesc',
-      by: [{ field: 'publishDate', direction: 'desc' }],
+      title: "Publish Date (Newest)",
+      name: "dateDesc",
+      by: [{ field: "publishDate", direction: "desc" }],
     },
     {
-      title: 'Publish Date (Oldest)',
-      name: 'dateAsc',
-      by: [{ field: 'publishDate', direction: 'asc' }],
+      title: "Publish Date (Oldest)",
+      name: "dateAsc",
+      by: [{ field: "publishDate", direction: "asc" }],
     },
     {
-      title: 'Name (A-Z)',
-      name: 'name',
-      by: [{ field: 'name', direction: 'asc' }],
+      title: "Name (A-Z)",
+      name: "name",
+      by: [{ field: "name", direction: "asc" }],
     },
   ],
 });

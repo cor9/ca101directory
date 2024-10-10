@@ -11,7 +11,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  navigationMenuTriggerStyle
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { siteConfig } from "@/config/site";
@@ -42,8 +42,8 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
   // console.log(`Navbar, links: ${links.map((link) => link.title)}`);
 
   const isLinkActive = (href: string) => {
-    if (href === '/') {
-      return pathname === '/';
+    if (href === "/") {
+      return pathname === "/";
     }
     // console.log(`Navbar, href: ${href}, pathname: ${pathname}`);
     return pathname.startsWith(href);
@@ -64,21 +64,18 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
       {/* Desktop View */}
       <header
         className={cn(
-          'hidden md:flex justify-center bg-background/60 backdrop-blur-xl transition-all',
-          scroll ? (scrolled ? "border-b" : "bg-transparent") : "border-b"
+          "hidden md:flex justify-center bg-background/60 backdrop-blur-xl transition-all",
+          scroll ? (scrolled ? "border-b" : "bg-transparent") : "border-b",
         )}
       >
         <Container className="flex h-16 items-center justify-between">
           {/* navbar left show logo and links */}
           <div className="flex items-center gap-6 md:gap-10">
-
             {/* logo */}
             <Link href="/" className="flex items-center space-x-2">
               <Logo />
 
-              <span className="text-xl font-bold">
-                {siteConfig.name}
-              </span>
+              <span className="text-xl font-bold">{siteConfig.name}</span>
             </Link>
 
             {/* links */}
@@ -87,15 +84,19 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                 <NavigationMenuList>
                   {links.map((item, index) => (
                     <NavigationMenuItem key={index}>
-                      <Link href={item.disabled ? "#" : item.href} legacyBehavior passHref>
+                      <Link
+                        href={item.disabled ? "#" : item.href}
+                        legacyBehavior
+                        passHref
+                      >
                         <NavigationMenuLink
                           className={cn(
                             navigationMenuTriggerStyle(),
-                            'px-2 bg-transparent focus:bg-transparent text-base',
+                            "px-2 bg-transparent focus:bg-transparent text-base",
                             isLinkActive(item.href)
                               ? "text-foreground font-semibold"
                               : "text-foreground/60",
-                            item.disabled && "cursor-not-allowed opacity-80"
+                            item.disabled && "cursor-not-allowed opacity-80",
                           )}
                         >
                           {item.title}
@@ -110,23 +111,22 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
 
           {/* navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
-            {
-              user ? (
-                <div className="flex items-center">
-                  <UserButton />
-                </div>
-              ) : (
-                <LoginWrapper mode="modal" asChild>
-                  <Button
-                    className="flex gap-2 px-5 rounded-full"
-                    variant="default"
-                    size="default">
-                    <span>Sign In</span>
-                    <ArrowRightIcon className="size-4" />
-                  </Button>
-                </LoginWrapper>
-              )
-            }
+            {user ? (
+              <div className="flex items-center">
+                <UserButton />
+              </div>
+            ) : (
+              <LoginWrapper mode="modal" asChild>
+                <Button
+                  className="flex gap-2 px-5 rounded-full"
+                  variant="default"
+                  size="default"
+                >
+                  <span>Sign In</span>
+                  <ArrowRightIcon className="size-4" />
+                </Button>
+              </LoginWrapper>
+            )}
 
             <ModeToggle />
           </div>
@@ -134,16 +134,12 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
       </header>
 
       {/* Mobile View */}
-      < header className="md:hidden flex justify-center bg-background/60 backdrop-blur-xl transition-all" >
+      <header className="md:hidden flex justify-center bg-background/60 backdrop-blur-xl transition-all">
         <div className="w-full px-4 h-16 flex items-center justify-between">
           {/* mobile navbar left show menu icon when closed & show sheet when menu is open */}
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="size-9 shrink-0"
-              >
+              <Button variant="outline" size="icon" className="size-9 shrink-0">
                 <MenuIcon className="size-5" />
                 <span className="sr-only">Toggle navigation menu</span>
               </Button>
@@ -151,12 +147,13 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
             <SheetContent side="left" className="flex flex-col p-0">
               <div className="flex h-screen flex-col">
                 {/* logo */}
-                <Link href="/" className="flex items-center space-x-2 pl-4 pt-4">
+                <Link
+                  href="/"
+                  className="flex items-center space-x-2 pl-4 pt-4"
+                >
                   <Logo />
 
-                  <span className="text-xl font-bold">
-                    {siteConfig.name}
-                  </span>
+                  <span className="text-xl font-bold">{siteConfig.name}</span>
                 </Link>
 
                 <nav className="flex flex-1 flex-col gap-2 p-2 pt-8 font-medium">
@@ -175,7 +172,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                             ? "bg-muted text-foreground"
                             : "text-muted-foreground hover:text-foreground",
                           item.disabled &&
-                          "cursor-not-allowed opacity-80 hover:bg-transparent hover:text-muted-foreground"
+                            "cursor-not-allowed opacity-80 hover:bg-transparent hover:text-muted-foreground",
                         )}
                       >
                         <Icon className="size-5" />
@@ -190,24 +187,22 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
 
           {/* mobile navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
-            {
-              user ? (
-                <div className="flex items-center">
-                  <UserButton />
-                </div>
-              ) : (
-                <LoginWrapper mode="redirect" asChild>
-                  <Button
-                    className="flex gap-2 px-5 rounded-full"
-                    variant="default"
-                    size="default"
-                  >
-                    <span>Sign In</span>
-                    <ArrowRightIcon className="size-4" />
-                  </Button>
-                </LoginWrapper>
-              )
-            }
+            {user ? (
+              <div className="flex items-center">
+                <UserButton />
+              </div>
+            ) : (
+              <LoginWrapper mode="redirect" asChild>
+                <Button
+                  className="flex gap-2 px-5 rounded-full"
+                  variant="default"
+                  size="default"
+                >
+                  <span>Sign In</span>
+                  <ArrowRightIcon className="size-4" />
+                </Button>
+              </LoginWrapper>
+            )}
 
             <ModeToggle />
           </div>

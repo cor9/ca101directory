@@ -9,9 +9,7 @@ export const metadata = constructMetadata({
 });
 
 const AuthErrorPage = () => {
-  return ( 
-    <ErrorCard />
-  );
+  return <ErrorCard />;
 };
- 
+
 export default AuthErrorPage;

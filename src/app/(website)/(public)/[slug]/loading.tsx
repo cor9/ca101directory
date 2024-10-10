@@ -1,9 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Loading() {
-  return (
-    <CustomPageSkeleton />
-  )
+  return <CustomPageSkeleton />;
 }
 
 function CustomPageSkeleton() {
@@ -19,12 +17,12 @@ function CustomPageSkeleton() {
         <Skeleton className="h-8 w-full" />
         <Skeleton className="h-8 w-full" />
         <Skeleton className="h-8 w-full" />
-        
+
         <Skeleton className="h-8 w-1/2" />
         <Skeleton className="h-8 w-full" />
         <Skeleton className="h-8 w-full" />
         <Skeleton className="h-8 w-full" />
-        
+
         <Skeleton className="h-8 w-1/2" />
         <Skeleton className="h-8 w-full" />
         <Skeleton className="h-8 w-full" />

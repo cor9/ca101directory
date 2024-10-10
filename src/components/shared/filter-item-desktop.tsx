@@ -8,17 +8,22 @@ export interface FilterItemDesktopProps {
   clickAction?: () => void;
 }
 
-export default function FilterItemDesktop({ title, href, active, clickAction }: FilterItemDesktopProps) {
+export default function FilterItemDesktop({
+  title,
+  href,
+  active,
+  clickAction,
+}: FilterItemDesktopProps) {
   return (
     <div>
       {/* show in desktop, wrapped in Link and Button and show as Button */}
-      <Button asChild
-        variant={active ? 'default' : 'outline'}
+      <Button
+        asChild
+        variant={active ? "default" : "outline"}
         size="sm"
-        className='px-3 py-3'>
-        <Link href={href}
-          prefetch={false}
-          onClick={clickAction}>
+        className="px-3 py-3"
+      >
+        <Link href={href} prefetch={false} onClick={clickAction}>
           <li>
             <div className="">
               <h2>{title}</h2>
@@ -28,4 +33,4 @@ export default function FilterItemDesktop({ title, href, active, clickAction }: 
       </Button>
     </div>
   );
-};
+}

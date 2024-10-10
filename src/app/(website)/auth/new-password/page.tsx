@@ -9,9 +9,7 @@ export const metadata = constructMetadata({
 });
 
 const NewPasswordPage = () => {
-  return (
-    <NewPasswordForm />
-  );
-}
+  return <NewPasswordForm />;
+};
 
 export default NewPasswordPage;

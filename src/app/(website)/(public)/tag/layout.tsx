@@ -1,6 +1,6 @@
-import Container from '@/components/container';
-import { HeaderSection } from '@/components/shared/header-section';
-import { TagFilter } from '@/components/tag/tag-filter';
+import Container from "@/components/container";
+import { HeaderSection } from "@/components/shared/header-section";
+import { TagFilter } from "@/components/tag/tag-filter";
 
 export default function TagLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -20,9 +20,7 @@ export default function TagLayout({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      <Container className="mt-4">
-        {children}
-      </Container>
+      <Container className="mt-4">{children}</Container>
     </div>
   );
 }

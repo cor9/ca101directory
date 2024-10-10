@@ -9,9 +9,7 @@ export const metadata = constructMetadata({
 });
 
 const ResetPage = () => {
-  return ( 
-    <ResetForm />
-  );
-}
- 
+  return <ResetForm />;
+};
+
 export default ResetPage;

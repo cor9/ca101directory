@@ -23,18 +23,18 @@ export function UnpublishButton({ item }: UnpublishButtonProps) {
       unpublish(item._id)
         .then((data) => {
           if (data.status === "success") {
-            console.log('unpublishAction, success:', data.message);
+            console.log("unpublishAction, success:", data.message);
             router.refresh();
-            toast.success('Successfully unpublished');
+            toast.success("Successfully unpublished");
           }
           if (data.status === "error") {
-            console.error('unpublishAction, error:', data.message);
-            toast.error('Failed to unpublish');
+            console.error("unpublishAction, error:", data.message);
+            toast.error("Failed to unpublish");
           }
         })
         .catch((error) => {
-          console.error('unpublishAction, error:', error);
-          toast.error('Failed to unpublish');
+          console.error("unpublishAction, error:", error);
+          toast.error("Failed to unpublish");
         });
     });
   };

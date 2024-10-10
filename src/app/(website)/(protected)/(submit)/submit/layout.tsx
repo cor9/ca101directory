@@ -1,7 +1,9 @@
 import { DashboardSubmitHeader } from "@/components/dashboard/dashboard-submit-header";
 import { SubmitStepper } from "@/components/submit/submit-stepper";
 
-export default async function SubmitLayout({ children }: { children: React.ReactNode }) {
+export default async function SubmitLayout({
+  children,
+}: { children: React.ReactNode }) {
   return (
     <div>
       <DashboardSubmitHeader
@@ -12,9 +14,7 @@ export default async function SubmitLayout({ children }: { children: React.React
         <SubmitStepper initialStep={1} />
       </DashboardSubmitHeader>
 
-      <div className="mt-8">
-        {children}
-      </div>
+      <div className="mt-8">{children}</div>
     </div>
   );
 }

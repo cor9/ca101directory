@@ -41,14 +41,13 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           fontBricolage.variable,
         )}
       >
-
         <SessionProvider session={session}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
-            disableTransitionOnChange>
-
+            disableTransitionOnChange
+          >
             {children}
 
             {/* https://sonner.emilkowal.ski/toaster */}

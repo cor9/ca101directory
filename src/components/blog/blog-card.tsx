@@ -14,7 +14,7 @@ export default function BlogCard({ post }: BlogCardProps) {
   const imageBlurDataURL = post?.image?.blurDataURL || null;
   const publishDate = post.publishDate || post._createdAt;
   const date = getLocaleDate(publishDate);
-  const postUrlPrefix = '/blog';
+  const postUrlPrefix = "/blog";
 
   return (
     <div className="group cursor-pointer flex flex-col gap-4">
@@ -30,7 +30,7 @@ export default function BlogCard({ post }: BlogCardProps) {
                 fill
                 {...(imageBlurDataURL && {
                   placeholder: "blur",
-                  blurDataURL: imageBlurDataURL
+                  blurDataURL: imageBlurDataURL,
                 })}
               />
 
@@ -38,7 +38,10 @@ export default function BlogCard({ post }: BlogCardProps) {
                 <div className="absolute left-2 bottom-2 opacity-100 transition-opacity duration-300">
                   <div className="flex flex-wrap gap-1">
                     {post.categories.map((category, index) => (
-                      <span key={index} className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md">
+                      <span
+                        key={index}
+                        className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md"
+                      >
                         {category.name}
                       </span>
                     ))}
@@ -48,7 +51,6 @@ export default function BlogCard({ post }: BlogCardProps) {
             </div>
           )}
         </Link>
-
       </div>
 
       {/* Post info container */}
@@ -64,7 +66,8 @@ export default function BlogCard({ post }: BlogCardProps) {
                   duration-500
                   hover:bg-[length:100%_3px]
                   group-hover:bg-[length:100%_10px]
-                  dark:from-purple-800 dark:to-purple-900">
+                  dark:from-purple-800 dark:to-purple-900"
+              >
                 {post.title}
               </span>
             </Link>
@@ -96,9 +99,7 @@ export default function BlogCard({ post }: BlogCardProps) {
                 />
               )}
             </div>
-            <span className="truncate text-sm">
-              {post?.author?.name}
-            </span>
+            <span className="truncate text-sm">{post?.author?.name}</span>
           </div>
 
           <time className="truncate text-sm" dateTime={date}>

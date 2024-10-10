@@ -6,18 +6,14 @@ import CustomMde from "@/components/shared/custom-mde";
 import ImageUpload from "@/components/shared/image-upload";
 import { MultiSelect } from "@/components/shared/multi-select";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -44,7 +40,7 @@ interface EditFormProps {
 /**
  * 1. form component form shadcn/ui
  * https://ui.shadcn.com/docs/components/form
- * 
+ *
  * 2. React Hook Form
  * https://react-hook-form.com/get-started
  */
@@ -63,10 +59,13 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
       description: item.description,
       introduction: item.introduction,
       imageId: item.image?.asset?._ref,
-      tags: item.tags.map(tag => tag._id),
-      categories: item.categories.map(category => category._id),
+      tags: item.tags.map((tag) => tag._id),
+      categories: item.categories.map((category) => category._id),
       pricePlan: item.pricePlan,
-      planStatus: item.pricePlan === PricePlans.FREE ? item.freePlanStatus : item.proPlanStatus,
+      planStatus:
+        item.pricePlan === PricePlans.FREE
+          ? item.freePlanStatus
+          : item.proPlanStatus,
     },
   });
 
@@ -77,24 +76,27 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
       edit(data)
         .then((data) => {
           if (data.status === "success") {
-            console.log('EditForm, success:', data.message);
+            console.log("EditForm, success:", data.message);
             form.reset();
             router.push(`/dashboard/`);
             toast.success(data.message);
           }
           if (data.status === "error") {
-            console.error('EditForm, error:', data.message);
+            console.error("EditForm, error:", data.message);
             toast.error(data.message);
           }
         })
         .catch((error) => {
-          console.error('EditForm, error:', error);
-          toast.error('Something went wrong');
+          console.error("EditForm, error:", error);
+          toast.error("Something went wrong");
         });
     });
   });
 
-  const handleUploadChange = (status: { isUploading: boolean; imageId?: string }) => {
+  const handleUploadChange = (status: {
+    isUploading: boolean;
+    imageId?: string;
+  }) => {
     setIsUploading(status.isUploading);
     if (status.imageId) {
       form.setValue("imageId", status.imageId);
@@ -114,7 +116,10 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                   <FormItem className="flex-1">
                     <FormLabel>Link</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter the link to your product" {...field} />
+                      <Input
+                        placeholder="Enter the link to your product"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -127,7 +132,10 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                   <FormItem className="flex-1">
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter the name of your product" {...field} />
+                      <Input
+                        placeholder="Enter the name of your product"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -145,7 +153,10 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                     <FormControl>
                       <MultiSelect
                         className="shadow-none"
-                        options={categoryList.map(category => ({ value: category._id, label: category.name || '' }))}
+                        options={categoryList.map((category) => ({
+                          value: category._id,
+                          label: category.name || "",
+                        }))}
                         onValueChange={(selected) => field.onChange(selected)}
                         defaultValue={field.value}
                         placeholder="Select categories"
@@ -166,7 +177,10 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                     <FormControl>
                       <MultiSelect
                         className="shadow-none"
-                        options={tagList.map(tag => ({ value: tag._id, label: tag.name || '' }))}
+                        options={tagList.map((tag) => ({
+                          value: tag._id,
+                          label: tag.name || "",
+                        }))}
                         onValueChange={(selected) => field.onChange(selected)}
                         defaultValue={field.value}
                         placeholder="Select tags"
@@ -187,7 +201,8 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Enter a brief description of your product"
+                    <Textarea
+                      placeholder="Enter a brief description of your product"
                       {...field}
                       className="resize-none"
                     />
@@ -233,8 +248,10 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                     </FormLabel>
                     <FormControl>
                       <div className="mt-4 w-full h-[370px]">
-                        <ImageUpload onUploadChange={handleUploadChange}
-                          currentImageUrl={urlForImage(item.image).src} />
+                        <ImageUpload
+                          onUploadChange={handleUploadChange}
+                          currentImageUrl={urlForImage(item.image).src}
+                        />
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -243,9 +260,14 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
               />
             </div>
           </CardContent>
-          <CardFooter className={cn("flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4",
-            "sm:flex-row sm:justify-between sm:space-y-0 sm:gap-4")}>
-            <Button size="lg"
+          <CardFooter
+            className={cn(
+              "flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4",
+              "sm:flex-row sm:justify-between sm:space-y-0 sm:gap-4",
+            )}
+          >
+            <Button
+              size="lg"
               type="submit"
               className="w-full sm:w-auto"
               disabled={isPending || isUploading}
@@ -254,15 +276,22 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                 <Icons.spinner className="mr-2 h-6 w-4 animate-spin" />
               )}
               <span>
-                {isPending ? "Updating..." : (isUploading ? "Uploading image..." : "Update")}
+                {isPending
+                  ? "Updating..."
+                  : isUploading
+                    ? "Uploading image..."
+                    : "Update"}
               </span>
             </Button>
 
             {/* NOTICE: if this item is in free plan, any update will cause this item to be reviewed again */}
-            {item.pricePlan === 'free' && (
+            {item.pricePlan === "free" && (
               <div className="text-muted-foreground flex items-center justify-center sm:justify-start gap-4">
                 <BellRingIcon className="h-5 w-5 sm:h-6 sm:w-4 flex-shrink-0" />
-                <span className="text-sm">Your submission will be reviewed again and remain unpublished until approved.</span>
+                <span className="text-sm">
+                  Your submission will be reviewed again and remain unpublished
+                  until approved.
+                </span>
               </div>
             )}
           </CardFooter>
@@ -315,8 +344,12 @@ export function EditFormSkeleton() {
         </div>
       </CardContent>
 
-      <CardFooter className={cn("flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4",
-        "sm:flex-row sm:justify-between sm:space-y-0 sm:gap-4")}>
+      <CardFooter
+        className={cn(
+          "flex flex-col items-stretch space-y-4 border-t bg-accent px-6 py-4",
+          "sm:flex-row sm:justify-between sm:space-y-0 sm:gap-4",
+        )}
+      >
         <Skeleton className="h-12 w-full sm:w-32" />
         <div className="flex items-center justify-center sm:justify-start gap-4">
           <Skeleton className="h-5 w-5 rounded-full" />

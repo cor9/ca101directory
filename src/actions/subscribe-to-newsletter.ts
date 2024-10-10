@@ -7,10 +7,10 @@ import { NewsletterFormData, NewsletterFormSchema } from "@/lib/schemas";
 export type ServerActionResponse = {
   status: "success" | "error";
   message?: string;
-}
+};
 
 export async function subscribeToNewsletter(
-  formdata: NewsletterFormData
+  formdata: NewsletterFormData,
 ): Promise<ServerActionResponse> {
   try {
     const validatedInput = NewsletterFormSchema.safeParse(formdata);
@@ -40,9 +40,15 @@ export async function subscribeToNewsletter(
       }
     }
 
-    return { status: "error", message: "Failed to subscribe to the newsletter" };
+    return {
+      status: "error",
+      message: "Failed to subscribe to the newsletter",
+    };
   } catch (error) {
-    console.error('subscribeToNewsletter, error:', error);
-    return { status: "error", message: "Failed to subscribe to the newsletter" };
+    console.error("subscribeToNewsletter, error:", error);
+    return {
+      status: "error",
+      message: "Failed to subscribe to the newsletter",
+    };
   }
 }

@@ -16,5 +16,5 @@ export default function Loading() {
         <PricingPlansSkeleton />
       </div>
     </Card>
-  )
+  );
 }

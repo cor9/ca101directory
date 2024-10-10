@@ -12,7 +12,7 @@ import {
   SearchIcon,
   SettingsIcon,
   TagsIcon,
-  UploadIcon
+  UploadIcon,
 } from "lucide-react";
 import { FaBrandsGithub } from "../icons/github";
 import { FaBrandsGoogle } from "../icons/google";
@@ -24,7 +24,7 @@ export type Icon = LucideIcon;
 /**
  * 1. Lucide Icons
  * https://lucide.dev/icons/
- * 
+ *
  * 2. Radix Icons
  * https://www.radix-ui.com/icons
  */

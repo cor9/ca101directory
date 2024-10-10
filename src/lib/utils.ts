@@ -1,6 +1,6 @@
 import { siteConfig } from "@/config/site";
 import { type ClassValue, clsx } from "clsx";
-import { ReadonlyURLSearchParams } from 'next/navigation';
+import { ReadonlyURLSearchParams } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -14,9 +14,9 @@ export function slugify(str: string): string {
   return str
     .toLowerCase()
     .trim()
-    .replace(/[^\w\s-]/g, '')  // Remove non-word chars (except spaces and dashes)
-    .replace(/[\s_-]+/g, '-')  // Replace spaces and underscores with a single dash
-    .replace(/^-+|-+$/g, '')   // Remove leading/trailing dashes
+    .replace(/[^\w\s-]/g, "") // Remove non-word chars (except spaces and dashes)
+    .replace(/[\s_-]+/g, "-") // Replace spaces and underscores with a single dash
+    .replace(/^-+|-+$/g, "") // Remove leading/trailing dashes
     .slice(0, 100);
 }
 
@@ -26,8 +26,8 @@ export function slugify(str: string): string {
 export function getLocaleDate(input: string | number): string {
   const date = new Date(input);
   const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
   return `${year}/${month}/${day}`;
 }
 
@@ -46,9 +46,12 @@ export function formatLongDate(date: string | number): string {
 /**
  * build url for search or filter list item
  */
-export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyURLSearchParams) => {
+export const createUrl = (
+  pathname: string,
+  params: URLSearchParams | ReadonlyURLSearchParams,
+) => {
   const paramsString = params.toString();
-  const queryString = `${paramsString.length ? '?' : ''}${paramsString}`;
+  const queryString = `${paramsString.length ? "?" : ""}${paramsString}`;
   return `${pathname}${queryString}`;
 };
 
@@ -61,7 +64,7 @@ export function absoluteUrl(path: string) {
 
 /**
  * get item link in Sanity Studio
- * 
+ *
  * NOTICE: change this link if the item page in Sanity Studio is changed
  */
 export function getItemLinkInStudio(slug: string) {
@@ -70,7 +73,7 @@ export function getItemLinkInStudio(slug: string) {
 
 /**
  * get item link in Website
- * 
+ *
  * NOTICE: change this link if the item page in Website is changed
  */
 export function getItemLinkInWebsite(slug: string) {
@@ -79,7 +82,7 @@ export function getItemLinkInWebsite(slug: string) {
 
 /**
  * get item link in Website
- * 
+ *
  * NOTICE: change this link if the item page in Website is changed
  */
 export function getItemStatusLinkInWebsite(id: string) {
@@ -175,6 +178,6 @@ export const truncate = (str: string, length: number) => {
 };
 
 export function nl2br(str?: string) {
-  if (!str) return '';
-  return str.split('\n').join('<br>');
+  if (!str) return "";
+  return str.split("\n").join("<br>");
 }

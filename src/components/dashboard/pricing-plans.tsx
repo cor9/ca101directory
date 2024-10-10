@@ -45,10 +45,12 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
           </div>
         </div>
       )}
-      <div className={cn(
-        "relative overflow-hidden flex flex-col rounded-xl shadow-sm",
-        isProPlan(pricePlan) ? "border-2 border-brand" : "border",
-      )}>
+      <div
+        className={cn(
+          "relative overflow-hidden flex flex-col rounded-xl shadow-sm",
+          isProPlan(pricePlan) ? "border-2 border-brand" : "border",
+        )}
+      >
         {/* price plan title and price */}
         <div className="bg-muted/50 p-6 pr-10 border-b flex flex-row items-center justify-between">
           <span className="text-xl font-bold uppercase tracking-wider">
@@ -85,7 +87,11 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
             {pricePlan.title === "Free" ? (
               <FreePlanButton item={item} className="w-full" />
             ) : (
-              <ProPlanButton item={item} pricePlan={pricePlan} className="w-full" />
+              <ProPlanButton
+                item={item}
+                pricePlan={pricePlan}
+                className="w-full"
+              />
             )}
           </div>
         </div>

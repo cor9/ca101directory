@@ -7,7 +7,7 @@
  * https://ui.shadcn.com/themes
  * Style: Default, Color: Slate
  * Brand color: Violet
- * 
+ *
  * 2. Customize Shadcn UI to Match Your Style
  * https://customizer.railly.dev/
  */
@@ -37,7 +37,7 @@
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -60,7 +60,6 @@
     --ring: 212.7 26.8% 83.9;
   }
 }
-
 
 @layer base {
   * {

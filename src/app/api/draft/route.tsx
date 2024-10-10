@@ -7,9 +7,9 @@ import { token } from "@/sanity/lib/token";
 /**
  * 1. Draft Mode
  * https://www.sanity.io/docs/draft-mode
- * During runtime, switch between an optimized production mode and 
+ * During runtime, switch between an optimized production mode and
  * an authorized mode to fetch draft content and render edit overlays.
- * 
+ *
  * 2. Presentation Tool
  * https://www.sanity.io/docs/configuring-the-presentation-tool
  * This file is used to allow Presentation to set the app in Draft Mode, which will load Visual Editing

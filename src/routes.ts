@@ -11,20 +11,20 @@ export const publicRoutes = [
   "/category(/.*)?",
   "/tag(/.*)?",
   "/item(/.*)?",
-  "/blog(/.*)?",  
+  "/blog(/.*)?",
   "/pricing(/.*)?",
 
   "/about(/.*)?",
   "/terms(/.*)?",
   "/privacy(/.*)?",
   "/changelog(/.*)?",
-  
+
   // user clicks verification link from email
   "/auth/new-verification",
 
   // stripe webhook must be public, otherwise can not receive stripe events
   "/api/webhook",
-  
+
   // og images
   "/api/og",
 
@@ -44,7 +44,7 @@ export const authRoutes = [
   "/auth/register",
   "/auth/error",
   "/auth/reset",
-  "/auth/new-password"
+  "/auth/new-password",
 ];
 
 /**

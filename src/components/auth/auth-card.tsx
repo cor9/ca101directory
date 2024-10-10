@@ -8,7 +8,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -20,7 +20,7 @@ interface AuthCardProps {
   bottomButtonHref: string;
   showSocialLoginButton?: boolean;
   className?: string;
-};
+}
 
 export const AuthCard = ({
   children,
@@ -28,7 +28,7 @@ export const AuthCard = ({
   bottomButtonLabel,
   bottomButtonHref,
   showSocialLoginButton,
-  className
+  className,
 }: AuthCardProps) => {
   return (
     <Card className={cn("shadow-none sm:w-[400px] max-w-[400px]", className)}>
@@ -36,19 +36,14 @@ export const AuthCard = ({
         <CardTitle>{siteConfig.name}</CardTitle>
         <CardDescription>{headerLabel}</CardDescription>
       </CardHeader>
-      <CardContent>
-        {children}
-      </CardContent>
+      <CardContent>{children}</CardContent>
       {showSocialLoginButton && (
         <CardFooter>
           <SocialLoginButton />
         </CardFooter>
       )}
       <CardFooter>
-        <BottomButton
-          label={bottomButtonLabel}
-          href={bottomButtonHref}
-        />
+        <BottomButton label={bottomButtonLabel} href={bottomButtonHref} />
       </CardFooter>
     </Card>
   );

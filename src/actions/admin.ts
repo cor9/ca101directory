@@ -6,7 +6,7 @@ import { UserRole } from "@/types/user-role";
 export type ServerActionResponse = {
   status: "success" | "error";
   message?: string;
-}
+};
 
 /**
  * demostrate how to use currentRole to check user's role,
@@ -20,4 +20,4 @@ export async function admin(): Promise<ServerActionResponse> {
   }
 
   return { status: "error", message: "Forbidden Server Action!" };
-};
+}

@@ -10,7 +10,10 @@ import { constructMetadata } from "@/lib/metadata";
 import { getLocaleDate } from "@/lib/utils";
 import { ItemInfoBySlugQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { itemFullInfoBySlugQuery, itemInfoBySlugQuery } from "@/sanity/lib/queries";
+import {
+  itemFullInfoBySlugQuery,
+  itemInfoBySlugQuery,
+} from "@/sanity/lib/queries";
 import { ItemFullInfo } from "@/types";
 import { GlobeIcon, HashIcon, LayoutGridIcon } from "lucide-react";
 import { Metadata } from "next";
@@ -25,7 +28,7 @@ export async function generateMetadata({
 }): Promise<Metadata | undefined> {
   const item = await sanityFetch<ItemInfoBySlugQueryResult>({
     query: itemInfoBySlugQuery,
-    params: { slug: params.slug }
+    params: { slug: params.slug },
   });
   if (!item) {
     console.warn(`generateMetadata, item not found for slug: ${params.slug}`);
@@ -37,7 +40,7 @@ export async function generateMetadata({
     title: `${item.name}`,
     description: item.description,
     canonicalUrl: `${siteConfig.url}/item/${params.slug}`,
-    image: imageProps?.src
+    image: imageProps?.src,
   });
 }
 
@@ -48,7 +51,7 @@ interface ItemPageProps {
 export default async function ItemPage({ params }: ItemPageProps) {
   const item = await sanityFetch<ItemFullInfo>({
     query: itemFullInfoBySlugQuery,
-    params: { slug: params.slug }
+    params: { slug: params.slug },
   });
 
   if (!item) {
@@ -73,9 +76,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
           {/* name and description */}
           <div className="flex flex-1 items-center">
             <div className="flex flex-col gap-8">
-              <h1 className="text-4xl tracking-wider font-bold">
-                {item.name}
-              </h1>
+              <h1 className="text-4xl tracking-wider font-bold">{item.name}</h1>
               <p className="text-muted-foreground text-balance leading-relaxed">
                 {item.description}
               </p>
@@ -85,10 +86,12 @@ export default async function ItemPage({ params }: ItemPageProps) {
           {/* action buttons */}
           <div className="flex gap-4">
             <Button size="lg" variant="default" asChild className="group">
-              <Link href={item.link}
+              <Link
+                href={item.link}
                 target="_blank"
                 prefetch={false}
-                className="flex items-center justify-center space-x-2">
+                className="flex items-center justify-center space-x-2"
+              >
                 <GlobeIcon className="w-4 h-4 icon-scale" />
                 <span>Visit Website</span>
               </Link>
@@ -119,14 +122,18 @@ export default async function ItemPage({ params }: ItemPageProps) {
                   className="border w-full shadow-lg object-cover image-scale"
                   {...(imageBlurDataURL && {
                     placeholder: "blur",
-                    blurDataURL: imageBlurDataURL
+                    blurDataURL: imageBlurDataURL,
                   })}
                 />
               )}
-              <div className="absolute inset-0 flex items-center justify-center bg-black 
-                  bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300">
-                <span className="text-white text-lg font-semibold 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div
+                className="absolute inset-0 flex items-center justify-center bg-black 
+                  bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300"
+              >
+                <span
+                  className="text-white text-lg font-semibold 
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                >
                   Visit Website
                 </span>
               </div>
@@ -141,9 +148,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
         <div className="lg:col-span-3 flex flex-col">
           {/* Detailed content */}
           <div className="bg-muted/50 rounded-lg p-6 mr-0 lg:mr-8">
-            <h2 className="text-lg font-semibold mb-4">
-              Introduction
-            </h2>
+            <h2 className="text-lg font-semibold mb-4">Introduction</h2>
             <ItemCustomMdx source={item.introduction} />
           </div>
 
@@ -158,40 +163,38 @@ export default async function ItemPage({ params }: ItemPageProps) {
             <div className="flex flex-col space-y-4">
               {/* information */}
               <div className="bg-muted/50 rounded-lg p-6">
-                <h2 className="text-lg font-semibold mb-4">
-                  Information
-                </h2>
+                <h2 className="text-lg font-semibold mb-4">Information</h2>
                 <ul className="space-y-4 text-sm">
                   <li className="flex justify-between">
-                    <span className="text-muted-foreground">
-                      Publisher
-                    </span>
+                    <span className="text-muted-foreground">Publisher</span>
                     <div className="flex items-center gap-2">
-                      <UserAvatar className="w-5 h-5"
+                      <UserAvatar
+                        className="w-5 h-5"
                         name={item.submitter.name}
-                        image={item.submitter.image} />
+                        image={item.submitter.image}
+                      />
 
-                      {
-                        item.submitter.link && (
-                          <Link href={item.submitter.link} target="_blank" prefetch={false}
-                            className="font-medium link-underline">
-                            {item.submitter.name}
-                          </Link>
-                        ) || (
-                          <span>
-                            {item.submitter.name}
-                          </span>
-                        )
-                      }
+                      {(item.submitter.link && (
+                        <Link
+                          href={item.submitter.link}
+                          target="_blank"
+                          prefetch={false}
+                          className="font-medium link-underline"
+                        >
+                          {item.submitter.name}
+                        </Link>
+                      )) || <span>{item.submitter.name}</span>}
                     </div>
                   </li>
 
                   <li className="flex justify-between">
-                    <span className="text-muted-foreground">
-                      Website
-                    </span>
-                    <Link href={item.link} target="_blank" prefetch={false}
-                      className="font-medium link-underline">
+                    <span className="text-muted-foreground">Website</span>
+                    <Link
+                      href={item.link}
+                      target="_blank"
+                      prefetch={false}
+                      className="font-medium link-underline"
+                    >
                       {item.link}
                     </Link>
                   </li>
@@ -200,23 +203,21 @@ export default async function ItemPage({ params }: ItemPageProps) {
                     <span className="text-muted-foreground">
                       Published date
                     </span>
-                    <span className="font-medium">
-                      {date}
-                    </span>
+                    <span className="font-medium">{date}</span>
                   </li>
                 </ul>
               </div>
 
               {/* categories */}
               <div className="bg-muted/50 rounded-lg p-6">
-                <h2 className="text-lg font-semibold mb-4">
-                  Categories
-                </h2>
+                <h2 className="text-lg font-semibold mb-4">Categories</h2>
                 <ul className="flex flex-wrap gap-4">
                   {item.categories?.map((category: any) => (
                     <li key={category._id}>
-                      <Link href={`/category/${category.slug.current}`}
-                        className="text-sm link-underline">
+                      <Link
+                        href={`/category/${category.slug.current}`}
+                        className="text-sm link-underline"
+                      >
                         {category.name}
                       </Link>
                     </li>
@@ -226,15 +227,15 @@ export default async function ItemPage({ params }: ItemPageProps) {
 
               {/* tags */}
               <div className="bg-muted/50 rounded-lg p-6">
-                <h2 className="text-lg font-semibold mb-4">
-                  Tags
-                </h2>
+                <h2 className="text-lg font-semibold mb-4">Tags</h2>
                 <ul className="flex flex-wrap gap-4">
                   {item.tags?.map((tag: any) => (
                     <li key={tag._id}>
-                      <Link href={`/tag/${tag.slug.current}`}
+                      <Link
+                        href={`/tag/${tag.slug.current}`}
                         className="text-sm link-underline
-                          flex items-center justify-center space-x-0.5 group">
+                          flex items-center justify-center space-x-0.5 group"
+                      >
                         <HashIcon className="w-3 h-3 text-muted-foreground icon-scale" />
                         <span className="">{tag.name}</span>
                       </Link>
@@ -242,7 +243,6 @@ export default async function ItemPage({ params }: ItemPageProps) {
                   ))}
                 </ul>
               </div>
-
             </div>
           </div>
         </div>
@@ -266,4 +266,3 @@ export default async function ItemPage({ params }: ItemPageProps) {
     </div>
   );
 }
-

@@ -1,11 +1,11 @@
-import authConfig from '@/auth.config';
+import authConfig from "@/auth.config";
 import {
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
   authRoutes,
-  publicRoutes
+  publicRoutes,
 } from "@/routes";
-import NextAuth from 'next-auth';
+import NextAuth from "next-auth";
 
 /**
  * https://www.youtube.com/watch?v=1MTyCvS05V4
@@ -20,8 +20,9 @@ export default auth((req) => {
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   // const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
-  const isPublicRoute = publicRoutes.some((route) => 
-    new RegExp(`^${route}$`).test(nextUrl.pathname));
+  const isPublicRoute = publicRoutes.some((route) =>
+    new RegExp(`^${route}$`).test(nextUrl.pathname),
+  );
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
   // do nothing if on api auth routes
@@ -32,7 +33,7 @@ export default auth((req) => {
   // redirect to dashboard if logged in and on auth routes
   if (isAuthRoute) {
     if (isLoggedIn) {
-      console.log('middleware, redirecting to dashboard');
+      console.log("middleware, redirecting to dashboard");
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
     return null;
@@ -49,19 +50,15 @@ export default auth((req) => {
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
 
     return Response.redirect(
-      new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
+      new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl),
     );
   }
 
   return null;
-})
+});
 
 // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
 // https://clerk.com/docs/references/nextjs/auth-middleware#usage
 export const config = {
-  matcher: [
-    '/((?!.+\\.[\\w]+$|_next).*)',
-    '/',
-    '/(api|trpc)(.*)'
-  ],
-}
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+};

@@ -6,7 +6,13 @@ import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ItemInfo, PricePlan } from "@/types";
-import { ArrowRightIcon, ArrowUpLeftIcon, CheckCircleIcon, EditIcon, RocketIcon } from "lucide-react";
+import {
+  ArrowRightIcon,
+  ArrowUpLeftIcon,
+  CheckCircleIcon,
+  EditIcon,
+  RocketIcon,
+} from "lucide-react";
 import { useTransition } from "react";
 import { ProPlanStatus } from "@/lib/submission";
 import { useRouter } from "next/navigation";
@@ -18,8 +24,12 @@ interface ProPlanButtonProps {
   className?: string;
 }
 
-export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps) {
-  console.log('ProPlanButton, item:', item);
+export function ProPlanButton({
+  item,
+  pricePlan,
+  className,
+}: ProPlanButtonProps) {
+  console.log("ProPlanButton, item:", item);
   const router = useRouter();
   let [isPending, startTransition] = useTransition();
 
@@ -27,40 +37,51 @@ export function ProPlanButton({ item, pricePlan, className }: ProPlanButtonProps
     startTransition(async () => {
       createCheckoutSession(item._id, pricePlan.stripePriceId)
         .then((data) => {
-          console.log('createCheckoutSession, data:', data);
+          console.log("createCheckoutSession, data:", data);
           // already redirected to stripe checkout page in server action
         })
         .catch((error) => {
-          console.error('createCheckoutSession, error:', error);
-          toast.error('Failed to create checkout session');
+          console.error("createCheckoutSession, error:", error);
+          toast.error("Failed to create checkout session");
         });
     });
   };
 
   const handleClick = () => {
-    console.log('ProPlanButton, handleClick, item.proPlanStatus:', item?.proPlanStatus);
-    if (!item) { // no specific item in pricing page
-      router.push('/submit');
-    } else if (item.proPlanStatus === null
-      || item.proPlanStatus === ProPlanStatus.SUBMITTING
-      || item.proPlanStatus === ProPlanStatus.PENDING) {
+    console.log(
+      "ProPlanButton, handleClick, item.proPlanStatus:",
+      item?.proPlanStatus,
+    );
+    if (!item) {
+      // no specific item in pricing page
+      router.push("/submit");
+    } else if (
+      item.proPlanStatus === null ||
+      item.proPlanStatus === ProPlanStatus.SUBMITTING ||
+      item.proPlanStatus === ProPlanStatus.PENDING
+    ) {
       // maybe in pro plan or free plan before
-      console.log('ProPlanButton, handleClick, creating checkout session');
+      console.log("ProPlanButton, handleClick, creating checkout session");
       handleCreateCheckoutSession();
     } else if (item.proPlanStatus === ProPlanStatus.SUCCESS) {
       if (item.publishDate) {
         // already published
-        console.log('ProPlanButton, handleClick, already published');
+        console.log("ProPlanButton, handleClick, already published");
         router.push(`/dashboard`);
       } else {
         // pay success but not published yet
-        console.log('ProPlanButton, handleClick, pay success but not published yet');
+        console.log(
+          "ProPlanButton, handleClick, pay success but not published yet",
+        );
         router.push(`/publish/${item._id}`);
       }
     } else if (item.proPlanStatus === ProPlanStatus.FAILED) {
-      console.log('ProPlanButton, handleClick, pay failed');
+      console.log("ProPlanButton, handleClick, pay failed");
     } else {
-      console.error('ProPlanButton, invalid pro plan status:', item.proPlanStatus);
+      console.error(
+        "ProPlanButton, invalid pro plan status:",
+        item.proPlanStatus,
+      );
     }
   };
 

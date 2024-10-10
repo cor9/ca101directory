@@ -24,7 +24,7 @@ export const SocialLoginButton = () => {
     });
     // no need to reset the loading state, keep loading before webpage redirects
     // setIsLoading(null);
-  }
+  };
 
   return (
     <div className="w-full flex flex-col gap-4">

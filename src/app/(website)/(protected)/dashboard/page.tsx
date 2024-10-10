@@ -14,7 +14,7 @@ export const metadata = constructMetadata({
 });
 
 export default async function DashboardPage({
-  searchParams
+  searchParams,
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
@@ -22,28 +22,34 @@ export default async function DashboardPage({
   const userId = user?.id;
   // console.log('DashboardPage, user:', user);
 
-  console.log('DashboardPage, searchParams', searchParams);
+  console.log("DashboardPage, searchParams", searchParams);
   const { page } = searchParams as { [key: string]: string };
   const currentPage = page ? Number(page) : 1;
-  const { submissions, totalCount } = await getSubmissions({ userId, currentPage });
+  const { submissions, totalCount } = await getSubmissions({
+    userId,
+    currentPage,
+  });
   const totalPages = Math.ceil(totalCount / SUBMISSIONS_PER_PAGE);
-  console.log('DashboardPage, totalCount', totalCount, ", totalPages", totalPages);
+  console.log(
+    "DashboardPage, totalCount",
+    totalCount,
+    ", totalPages",
+    totalPages,
+  );
   // console.log('DashboardPage, submissions:', submissions);
 
   return (
     <div>
       {/* when no submissions are found */}
-      {submissions?.length === 0 && (
-        <EmptySubmission />
-      )}
+      {submissions?.length === 0 && <EmptySubmission />}
 
       {/* when submissions are found */}
       {submissions && submissions.length > 0 && (
-        <section className=''>
+        <section className="">
           <SubmissionList items={submissions} />
 
           <div className="mt-8 flex items-center justify-center">
-            <CustomPagination routePreix='/dashboard' totalPages={totalPages} />
+            <CustomPagination routePreix="/dashboard" totalPages={totalPages} />
           </div>
         </section>
       )}

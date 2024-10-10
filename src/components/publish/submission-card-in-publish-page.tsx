@@ -13,7 +13,9 @@ type SubmissionCardInPublishPageProps = {
   item: ItemInfo;
 };
 
-export default function SubmissionCardInPublishPage({ item }: SubmissionCardInPublishPageProps) {
+export default function SubmissionCardInPublishPage({
+  item,
+}: SubmissionCardInPublishPageProps) {
   return (
     <Card className="flex flex-col items-center w-full p-4">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-5 md:gap-8 w-full">
@@ -26,9 +28,7 @@ export default function SubmissionCardInPublishPage({ item }: SubmissionCardInPu
         <div className="md:col-span-3 flex items-center">
           <div className="flex flex-col w-full space-y-8">
             {/* name and description */}
-            <h1 className="text-4xl font-medium text-start">
-              {item.name}
-            </h1>
+            <h1 className="text-4xl font-medium text-start">{item.name}</h1>
             <p className="text-muted-foreground line-clamp-2 text-balance leading-relaxed">
               {item.description}
             </p>
@@ -38,10 +38,16 @@ export default function SubmissionCardInPublishPage({ item }: SubmissionCardInPu
               {item.publishDate ? (
                 <div className="flex flex-row gap-4">
                   <div className="">
-                    <Button size="lg" variant="default" asChild
-                      className="group overflow-hidden">
-                      <Link href={`/item/${item.slug.current}`}
-                        className="flex items-center justify-center space-x-2">
+                    <Button
+                      size="lg"
+                      variant="default"
+                      asChild
+                      className="group overflow-hidden"
+                    >
+                      <Link
+                        href={`/item/${item.slug.current}`}
+                        className="flex items-center justify-center space-x-2"
+                      >
                         <PartyPopperIcon className="w-4 h-6 icon-scale" />
                         <span className="">View on site</span>
                       </Link>
@@ -55,9 +61,16 @@ export default function SubmissionCardInPublishPage({ item }: SubmissionCardInPu
                   </div>
 
                   <div className="">
-                    <Button size="lg" variant="outline" asChild
-                      className="group overflow-hidden flex-1 w-full">
-                      <Link href='/dashboard' className="flex items-center justify-center space-x-2">
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      asChild
+                      className="group overflow-hidden flex-1 w-full"
+                    >
+                      <Link
+                        href="/dashboard"
+                        className="flex items-center justify-center space-x-2"
+                      >
                         <CalendarDaysIcon className="w-4 h-6 icon-scale" />
                         <span className="">Publish Later</span>
                       </Link>

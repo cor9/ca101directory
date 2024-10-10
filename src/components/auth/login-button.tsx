@@ -3,7 +3,7 @@
 import {
   Dialog,
   DialogContent,
-  DialogHeader, 
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/auth/auth-dialog";
@@ -15,14 +15,14 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface LoginWrapperProps {
   children: React.ReactNode;
-  mode?: "modal" | "redirect",
+  mode?: "modal" | "redirect";
   asChild?: boolean;
-};
+}
 
 export const LoginWrapper = ({
   children,
   mode = "redirect",
-  asChild
+  asChild,
 }: LoginWrapperProps) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -45,9 +45,7 @@ export const LoginWrapper = ({
   if (mode === "modal" && !isAuthRoute && (isTablet || isDesktop)) {
     return (
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogTrigger asChild={asChild}>
-          {children}
-        </DialogTrigger>
+        <DialogTrigger asChild={asChild}>{children}</DialogTrigger>
         <DialogContent className="p-0 bg-transparent border-none">
           <DialogHeader>
             {/* `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users. */}
@@ -56,7 +54,7 @@ export const LoginWrapper = ({
           <LoginForm />
         </DialogContent>
       </Dialog>
-    )
+    );
   }
 
   return (

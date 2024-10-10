@@ -9,21 +9,21 @@ interface ProtectedLayoutProps {
   children: React.ReactNode;
 }
 
-export default async function ProtectedLayout({ children }: ProtectedLayoutProps) {
+export default async function ProtectedLayout({
+  children,
+}: ProtectedLayoutProps) {
   const user = await currentUser();
   // console.log(`ProtectedLayout, user:`, user);
   if (!user) {
     return redirect("/auth/login");
   }
-  
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar scroll={false} config={dashboardConfig} />
 
       <main className="flex-1">
-        <Container className="mt-8 pb-16">
-          {children}
-        </Container>
+        <Container className="mt-8 pb-16">{children}</Container>
       </main>
 
       <Footer />

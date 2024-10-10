@@ -73,7 +73,10 @@ export function UserButton() {
               {userButtonConfig.mainNav.map((item) => {
                 const Icon = Icons[item.icon || "arrowRight"];
                 return (
-                  <li key={item.href} className="rounded-lg text-foreground hover:bg-muted">
+                  <li
+                    key={item.href}
+                    className="rounded-lg text-foreground hover:bg-muted"
+                  >
                     <Link
                       href={item.href}
                       onClick={closeDrawer}
@@ -83,7 +86,7 @@ export function UserButton() {
                       <p className="text-sm">{item.title}</p>
                     </Link>
                   </li>
-                )
+                );
               })}
             </ul>
           </Drawer.Content>
@@ -106,11 +109,7 @@ export function UserButton() {
       <DropdownMenuContent align="end">
         <div className="flex items-center justify-start gap-2 p-2">
           <div className="flex flex-col space-y-1 leading-none">
-            {user.name && (
-              <p className="font-medium">
-                {user.name}
-              </p>
-            )}
+            {user.name && <p className="font-medium">{user.name}</p>}
             {user.email && (
               <p className="w-[200px] truncate text-sm text-muted-foreground">
                 {user?.email}
@@ -136,7 +135,7 @@ export function UserButton() {
                 <p className="text-sm">{item.title}</p>
               </div>
             </DropdownMenuItem>
-          )
+          );
         })}
 
         <DropdownMenuSeparator />

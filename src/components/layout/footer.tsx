@@ -18,9 +18,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
             <div className="items-center space-x-2 flex">
               <Logo />
 
-              <span className="text-xl font-bold">
-                {siteConfig.name}
-              </span>
+              <span className="text-xl font-bold">{siteConfig.name}</span>
             </div>
 
             <p className="text-muted-foreground text-base p4-4 md:pr-12">
@@ -63,7 +61,8 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
               )}
             </div>
 
-            <Link target="_blank"
+            <Link
+              target="_blank"
               href="https://mkdirs.com"
               className={cn(
                 buttonVariants({ variant: "outline", size: "sm" }),
@@ -78,14 +77,16 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
         </div>
 
         {footerLinks.map((section) => (
-          <div key={section.title} className="col-span-1 md:col-span-1 items-start">
-            <span className="text-sm font-medium">
-              {section.title}
-            </span>
+          <div
+            key={section.title}
+            className="col-span-1 md:col-span-1 items-start"
+          >
+            <span className="text-sm font-medium">{section.title}</span>
             <ul className="mt-4 list-inside space-y-3">
               {section.items?.map((link) => (
                 <li key={link.title}>
-                  <Link href={link.href}
+                  <Link
+                    href={link.href}
                     target={link.external ? "_blank" : undefined}
                     className="text-sm text-muted-foreground hover:text-primary"
                   >

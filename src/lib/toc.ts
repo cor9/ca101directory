@@ -64,13 +64,13 @@ function getItems(node, current): Items {
 const getToc = () => (node, file) => {
   const table = toc(node);
   file.data = getItems(table.map, {});
-}
+};
 
 export type TableOfContents = Items;
 
 export async function getTableOfContents(
-  content: string
+  content: string,
 ): Promise<TableOfContents> {
   const result = await remark().use(getToc).process(content);
-  return result.data
+  return result.data;
 }

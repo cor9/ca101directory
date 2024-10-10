@@ -6,7 +6,13 @@ import { Button } from "@/components/ui/button";
 import { FreePlanStatus } from "@/lib/submission";
 import { cn } from "@/lib/utils";
 import { ItemInfo } from "@/types";
-import { ArrowRightIcon, ArrowUpLeftIcon, CheckCircleIcon, EditIcon, SendIcon } from "lucide-react";
+import {
+  ArrowRightIcon,
+  ArrowUpLeftIcon,
+  CheckCircleIcon,
+  EditIcon,
+  SendIcon,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
@@ -26,27 +32,32 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
       submitToReview(item._id)
         .then((data) => {
           if (data.status === "success") {
-            console.log('submitToReviewAction, success:', data.message);
+            console.log("submitToReviewAction, success:", data.message);
             router.refresh();
-            toast.success('Successfully submitted to review');
+            toast.success("Successfully submitted to review");
           }
           if (data.status === "error") {
-            console.error('submitToReviewAction, error:', data.message);
+            console.error("submitToReviewAction, error:", data.message);
             toast.error(data.message);
           }
         })
         .catch((error) => {
-          console.error('submitToReviewAction, error:', error);
-          toast.error('Failed to submit to review');
+          console.error("submitToReviewAction, error:", error);
+          toast.error("Failed to submit to review");
         });
     });
   };
 
   const handleClick = () => {
-    console.log('FreePlanButton, handleClick, item.freePlanStatus:', item?.freePlanStatus);
-    if (!item) { // no specific item in pricing page
+    console.log(
+      "FreePlanButton, handleClick, item.freePlanStatus:",
+      item?.freePlanStatus,
+    );
+    if (!item) {
+      // no specific item in pricing page
       router.push(`/submit`);
-    } else if (item.publishDate) { // already published
+    } else if (item.publishDate) {
+      // already published
       router.push(`/dashboard`);
     } else if (item.freePlanStatus === FreePlanStatus.SUBMITTING) {
       submitToReviewAction();
@@ -57,7 +68,10 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
     } else if (item.freePlanStatus === FreePlanStatus.PENDING) {
       router.push(`/dashboard`);
     } else {
-      console.error('FreePlanButton, invalid free plan status:', item.freePlanStatus);
+      console.error(
+        "FreePlanButton, invalid free plan status:",
+        item.freePlanStatus,
+      );
     }
   };
 

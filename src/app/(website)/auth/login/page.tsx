@@ -9,9 +9,7 @@ export const metadata = constructMetadata({
 });
 
 const LoginPage = () => {
-  return (
-      <LoginForm className="border-none" />
-  );
-}
+  return <LoginForm className="border-none" />;
+};
 
 export default LoginPage;

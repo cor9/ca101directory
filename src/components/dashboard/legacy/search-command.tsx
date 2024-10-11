@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import type { NestedNavItem } from "@/types";
 import { useRouter } from "next/navigation";
-import { NestedNavItem } from "@/types";
+import React from "react";
 
-import { cn } from "@/lib/utils";
+import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
 import {
   CommandDialog,
@@ -14,7 +14,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Icons } from "@/components/icons/icons";
+import { cn } from "@/lib/utils";
 
 export function SearchCommand({ links }: { links: NestedNavItem[] }) {
   const [open, setOpen] = React.useState(false);

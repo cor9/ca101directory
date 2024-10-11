@@ -5,9 +5,9 @@ import { Icons } from "@/components/icons/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { FaBrandsGithub } from "../icons/github";
-import Container from "../container";
 import { ArrowRightIcon } from "lucide-react";
+import Container from "../container";
+import { FaBrandsGithub } from "../icons/github";
 
 export default async function HeroLanding() {
   // const { stargazers_count: stars } = await fetch(

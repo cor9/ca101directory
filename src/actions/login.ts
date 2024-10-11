@@ -7,7 +7,7 @@ import { LoginSchema } from "@/lib/schemas";
 import { generateVerificationToken } from "@/lib/tokens";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
-import * as z from "zod";
+import type * as z from "zod";
 
 export type ServerActionResponse = {
   status: "success" | "error";

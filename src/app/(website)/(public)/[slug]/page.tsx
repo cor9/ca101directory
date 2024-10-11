@@ -2,10 +2,10 @@ import { CustomMdx } from "@/components/shared/custom-mdx";
 import { siteConfig } from "@/config/site";
 import { portableTextToMarkdown } from "@/lib/mdx";
 import { constructMetadata } from "@/lib/metadata";
-import { PageQueryResult } from "@/sanity.types";
+import type { PageQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageQuery } from "@/sanity/lib/queries";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 export async function generateMetadata({
   params,

@@ -1,12 +1,11 @@
 "use client";
 
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { useState, useTransition } from "react";
-import { useSearchParams } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { NewPasswordSchema } from "@/lib/schemas";
-import { Input } from "@/components/ui/input";
+import { newPassword } from "@/actions/new-password";
+import { AuthCard } from "@/components/auth/auth-card";
+import { Icons } from "@/components/icons/icons";
+import { FormError } from "@/components/shared/form-error";
+import { FormSuccess } from "@/components/shared/form-success";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,12 +14,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { AuthCard } from "@/components/auth/auth-card";
-import { Button } from "@/components/ui/button";
-import { FormError } from "@/components/shared/form-error";
-import { FormSuccess } from "@/components/shared/form-success";
-import { newPassword } from "@/actions/new-password";
-import { Icons } from "@/components/icons/icons";
+import { Input } from "@/components/ui/input";
+import { NewPasswordSchema } from "@/lib/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import type * as z from "zod";
 
 export const NewPasswordForm = () => {
   const searchParams = useSearchParams();

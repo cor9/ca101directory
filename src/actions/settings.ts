@@ -3,11 +3,11 @@
 import { unstable_update } from "@/auth";
 import { getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
-import { SettingsSchema } from "@/lib/schemas";
+import type { SettingsSchema } from "@/lib/schemas";
 import { sanityClient } from "@/sanity/lib/client";
 import bcrypt from "bcryptjs";
 import { revalidatePath } from "next/cache";
-import * as z from "zod";
+import type * as z from "zod";
 
 export type ServerActionResponse = {
   status: "success" | "error";

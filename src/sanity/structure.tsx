@@ -7,8 +7,8 @@ import {
   ComponentIcon,
   DashboardIcon,
   DiamondIcon,
-  DocumentsIcon,
   DocumentTextIcon,
+  DocumentsIcon,
   MasterDetailIcon,
   ProjectsIcon,
   StarFilledIcon,
@@ -20,8 +20,8 @@ import {
   UserIcon,
   UsersIcon,
 } from "@sanity/icons";
-import { type DocumentDefinition } from "sanity";
-import { type StructureResolver } from "sanity/structure";
+import type { DocumentDefinition } from "sanity";
+import type { StructureResolver } from "sanity/structure";
 import { schemaTypes } from "./schemas";
 import account from "./schemas/documents/auth/account";
 import passwordResetToken from "./schemas/documents/auth/password-reset-token";

@@ -1,7 +1,7 @@
-import type { ClientPerspective, QueryParams } from "next-sanity";
-import { draftMode } from "next/headers";
 import { sanityClient } from "@/sanity/lib/client";
 import { token } from "@/sanity/lib/token";
+import type { ClientPerspective, QueryParams } from "next-sanity";
+import { draftMode } from "next/headers";
 
 /**
  * https://www.sanity.io/plugins/next-sanity

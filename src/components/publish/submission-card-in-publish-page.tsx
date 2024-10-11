@@ -3,7 +3,7 @@
 import { PublishNowButton } from "@/components/publish/publish-now-button";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ItemInfo } from "@/types";
+import type { ItemInfo } from "@/types";
 import { CalendarDaysIcon, PartyPopperIcon } from "lucide-react";
 import Link from "next/link";
 import SubmissionCardImage from "../dashboard/submission-card-image";

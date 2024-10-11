@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { DEFAULT_SORT, SortFilterItem } from "@/lib/constants";
+import { DEFAULT_SORT, type SortFilterItem } from "@/lib/constants";
 import { createUrl } from "@/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";

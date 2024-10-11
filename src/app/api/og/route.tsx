@@ -1,5 +1,5 @@
-import { ImageResponse } from "next/og";
 import { ogImageSchema } from "@/lib/schemas";
+import { ImageResponse } from "next/og";
 
 // export const runtime = "edge";
 
@@ -68,7 +68,7 @@ export function GET(req: Request) {
     error instanceof Error
       ? console.log(`${error.message}`)
       : console.log(error);
-    return new Response(`Failed to generate the image`, {
+    return new Response("Failed to generate the image", {
       status: 500,
     });
   }

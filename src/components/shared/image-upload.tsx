@@ -5,7 +5,8 @@ import { cn } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { ImageUpIcon, Loader2Icon } from "lucide-react";
 import Image from "next/image";
-import React, { useCallback, useRef, useState } from "react";
+import type React from "react";
+import { useCallback, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 

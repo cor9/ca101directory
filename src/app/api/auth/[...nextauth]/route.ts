@@ -1,5 +1,5 @@
-import { NextRequest } from "next/server";
 import { handlers } from "@/auth";
+import { NextRequest } from "next/server";
 
 /**
  * https://authjs.dev/getting-started/installation?framework=Next.js

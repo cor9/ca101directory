@@ -3,8 +3,8 @@ import "@/styles/mdx.css";
 import { Callout } from "@/components/shared/callout";
 import { CopyButton } from "@/components/shared/copy-button";
 import { cn } from "@/lib/utils";
+import { MDXRemote, type MDXRemoteOptions } from "next-mdx-remote-client/rsc";
 import Link from "next/link";
-import { MDXRemote, MDXRemoteOptions } from "next-mdx-remote-client/rsc";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
@@ -116,7 +116,7 @@ const options: MDXRemoteOptions = {
               return;
             }
 
-            preElement.properties["__rawString__"] = node.__rawString__;
+            preElement.properties.__rawString__ = node.__rawString__;
           }
         });
       },

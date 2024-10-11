@@ -1,9 +1,9 @@
-import { Resend } from "resend";
+import { NotifySubmissionEmail } from "@/emails/notify-submission-to-admin";
+import { NotifySubmissionToUserEmail } from "@/emails/notify-submission-to-user";
+import { PaymentSuccessEmail } from "@/emails/payment-success";
 import { ResetPasswordEmail } from "@/emails/reset-password";
 import VerifyEmail from "@/emails/verify-email";
-import { NotifySubmissionEmail } from "@/emails/notify-submission-to-admin";
-import { PaymentSuccessEmail } from "@/emails/payment-success";
-import { NotifySubmissionToUserEmail } from "@/emails/notify-submission-to-user";
+import { Resend } from "resend";
 
 export const resend = new Resend(process.env.RESEND_API_KEY);
 

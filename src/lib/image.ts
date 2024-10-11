@@ -15,7 +15,7 @@ export const urlForImage = (source: any) => {
 
   const [width, height] = dimensions
     .split("x")
-    .map((num: string) => parseInt(num, 10));
+    .map((num: string) => Number.parseInt(num, 10));
 
   const url = imageBuilder
     .image(source)

@@ -69,7 +69,7 @@ export function UserButton() {
               </div>
             </div>
 
-            <ul role="list" className="mb-14 mt-1 w-full text-muted-foreground">
+            <ul className="mb-14 mt-1 w-full text-muted-foreground">
               {userButtonConfig.mainNav.map((item) => {
                 const Icon = Icons[item.icon || "arrowRight"];
                 return (

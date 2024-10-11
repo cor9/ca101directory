@@ -8,8 +8,8 @@ import blogPost from "./documents/blog/blog-post";
 import category from "./documents/directory/category";
 import item from "./documents/directory/item";
 import tag from "./documents/directory/tag";
-import page from "./documents/page/page";
 import order from "./documents/order/order";
+import page from "./documents/page/page";
 import settings from "./documents/settings";
 
 export const schemaTypes = [

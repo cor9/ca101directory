@@ -1,6 +1,6 @@
 import ItemCard from "@/components/item/item-card";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
-import { ItemListQueryResult } from "@/sanity.types";
+import type { ItemListQueryResult } from "@/sanity.types";
 import { Skeleton } from "../ui/skeleton";
 
 interface ItemGridProps {

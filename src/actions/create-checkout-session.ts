@@ -7,7 +7,7 @@ import { absoluteUrl } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
-import { ItemInfo } from "@/types";
+import type { ItemInfo } from "@/types";
 import { redirect } from "next/navigation";
 
 export type ServerActionResponse = {
@@ -23,7 +23,7 @@ export async function createCheckoutSession(
   itemId: string,
   priceId: string,
 ): Promise<ServerActionResponse> {
-  let redirectUrl: string = "";
+  let redirectUrl = "";
 
   try {
     const user = await currentUser();
@@ -41,7 +41,7 @@ export async function createCheckoutSession(
 
     // 1. get user's stripeCustomerId
     const sanityUser = await getUserById(user.id);
-    if (item.submitter._id != user.id) {
+    if (item.submitter._id !== user.id) {
       return { status: "error", message: "You are not allowed to do this!" };
     }
     let stripeCustomerId = sanityUser?.stripeCustomerId;
@@ -89,15 +89,7 @@ export async function createCheckoutSession(
 
       // 4. create stripe checkout session
       console.log(
-        "creating stripe checkout session" +
-          ", customerId:" +
-          stripeCustomerId +
-          +", priceId:" +
-          priceId +
-          +", userId:" +
-          user.id +
-          +", itemId:" +
-          itemId,
+        `creating stripe checkout session, customerId:${stripeCustomerId}${+", priceId:"}${priceId}${+", userId:"}${user.id}${+", itemId:"}${itemId}`,
       );
       const successUrl = absoluteUrl(`/publish/${itemId}?pay=success`);
       const cancelUrl = absoluteUrl(`/plan/${itemId}?pay=failed`);

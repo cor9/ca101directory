@@ -1,4 +1,4 @@
-import { SanityDocument } from "next-sanity";
+import type { SanityDocument } from "next-sanity";
 import { Iframe } from "sanity-plugin-iframe-pane";
 import type { DefaultDocumentNodeResolver } from "sanity/structure";
 import { previewUrl } from "./lib/api";

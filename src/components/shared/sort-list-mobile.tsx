@@ -1,6 +1,6 @@
 "use client";
 
-import { DEFAULT_SORT, SortFilterItem } from "@/lib/constants";
+import { DEFAULT_SORT, type SortFilterItem } from "@/lib/constants";
 import { createUrl } from "@/lib/utils";
 import { ListChecksIcon } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -69,7 +69,7 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
               <div className="my-3 h-1.5 w-16 rounded-full bg-muted-foreground/20" />
             </div>
 
-            <ul role="list" className="w-full mb-14 p-3 text-muted-foreground">
+            <ul className="w-full mb-14 p-3 text-muted-foreground">
               {sortList.map((item) => (
                 <FilterItemMobile
                   key={item.slug}

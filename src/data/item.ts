@@ -1,6 +1,6 @@
 import { ITEMS_PER_PAGE, SHOW_QUERY_LOGS } from "@/lib/constants";
+import type { Item, ItemListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { Item, ItemListQueryResult } from "@/sanity.types";
 import { itemSimpleFields } from "@/sanity/lib/queries";
 
 /**
@@ -67,7 +67,7 @@ const buildQuery = (
   sortKey?: string,
   reverse?: boolean,
   query?: string,
-  currentPage: number = 1,
+  currentPage = 1,
 ) => {
   const orderDirection = reverse ? "desc" : "asc";
   const sortOrder = sortKey

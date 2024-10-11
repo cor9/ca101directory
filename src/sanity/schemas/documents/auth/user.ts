@@ -78,7 +78,7 @@ const user = {
     prepare({ id, name, date }) {
       const title = name;
       // get simple user id by concating the first 4 and last 4 characters
-      const userid = id.substring(5, 9) + "..." + id.substring(id.length - 4);
+      const userid = `${id.substring(5, 9)}...${id.substring(id.length - 4)}`;
       const subtitle = `${format(parseISO(date), "yyyy/MM/dd")}-${userid}`;
       return {
         title,

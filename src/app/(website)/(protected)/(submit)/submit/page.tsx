@@ -1,7 +1,10 @@
 import { SubmitForm } from "@/components/submit/submit-form";
 import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
-import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
+import type {
+  CategoryListQueryResult,
+  TagListQueryResult,
+} from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryListQuery, tagListQuery } from "@/sanity/lib/queries";
 

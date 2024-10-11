@@ -1,5 +1,5 @@
 import { SHOW_QUERY_LOGS } from "@/lib/constants";
-import { PasswordResetToken } from "@/sanity.types";
+import type { PasswordResetToken } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 
 export const getPasswordResetTokenByEmail = async (email: string) => {

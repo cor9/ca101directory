@@ -1,4 +1,4 @@
-import {
+import type {
   BlogCategoryListQueryForSitemapResult,
   BlogListQueryForSitemapResult,
   CategoryListQueryForSitemapResult,
@@ -15,7 +15,7 @@ import {
   pageListQueryForSitemap,
   tagListQueryForSitemap,
 } from "@/sanity/lib/queries";
-import { type MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 
 const site_url = process.env.NEXT_PUBLIC_APP_URL;
 

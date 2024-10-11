@@ -5,10 +5,10 @@ import { siteConfig } from "@/config/site";
 import { getBlogs } from "@/data/blog";
 import { POSTS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
-import { BlogCategoryMetadateQueryResult } from "@/sanity.types";
+import type { BlogCategoryMetadateQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { blogCategoryMetadateQuery } from "@/sanity/lib/queries";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export async function generateMetadata({
   params,

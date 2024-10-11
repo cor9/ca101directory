@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Container from "@/components/container";
+import Image from "next/image";
 
 export default function PreviewLanding() {
   return (

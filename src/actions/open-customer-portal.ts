@@ -19,7 +19,7 @@ const billingUrl = absoluteUrl("/dashboard");
 export async function openCustomerPortal(
   stripeCustomerId: string,
 ): Promise<ServerActionResponse> {
-  let redirectUrl: string = "";
+  let redirectUrl = "";
 
   try {
     const user = await currentUser();

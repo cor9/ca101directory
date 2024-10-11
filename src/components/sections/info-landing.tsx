@@ -1,8 +1,8 @@
-import Image from "next/image";
-import { InfoLdg } from "@/types";
-import { cn } from "@/lib/utils";
-import { Icons } from "@/components/icons/icons";
 import Container from "@/components/container";
+import { Icons } from "@/components/icons/icons";
+import { cn } from "@/lib/utils";
+import type { InfoLdg } from "@/types";
+import Image from "next/image";
 
 interface InfoLandingProps {
   data: InfoLdg;

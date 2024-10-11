@@ -1,5 +1,5 @@
 import { SHOW_QUERY_LOGS } from "@/lib/constants";
-import { Account } from "@/sanity.types";
+import type { Account } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 
 export const getAccountByUserId = async (userId: string) => {

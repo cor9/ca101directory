@@ -1,14 +1,14 @@
 "use client";
 
-import React from "react";
 import { unpublish } from "@/actions/unpublish";
+import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
-import { ItemInfo } from "@/types";
+import type { ItemInfo } from "@/types";
 import { ArrowDownToLineIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import React from "react";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { Icons } from "@/components/icons/icons";
 
 interface UnpublishButtonProps {
   item: ItemInfo;
@@ -16,7 +16,7 @@ interface UnpublishButtonProps {
 
 export function UnpublishButton({ item }: UnpublishButtonProps) {
   const router = useRouter();
-  let [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   const unpublishAction = () => {
     startTransition(async () => {

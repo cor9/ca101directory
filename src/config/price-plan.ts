@@ -1,4 +1,4 @@
-import { PricePlan } from "@/types";
+import type { PricePlan } from "@/types";
 
 /**
  * Price plans

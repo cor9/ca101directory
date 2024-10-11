@@ -1,5 +1,5 @@
 import { format, parseISO } from "date-fns";
-import { SanityImageAssetDocument } from "next-sanity";
+import type { SanityImageAssetDocument } from "next-sanity";
 import { defineField, defineType } from "sanity";
 
 export default defineType({

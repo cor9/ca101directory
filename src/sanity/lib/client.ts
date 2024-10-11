@@ -1,5 +1,5 @@
 import { createClient } from "next-sanity";
-import { SanityClient } from "sanity";
+import type { SanityClient } from "sanity";
 import { apiVersion, dataset, projectId } from "./api";
 import { token } from "./token";
 

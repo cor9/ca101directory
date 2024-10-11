@@ -1,10 +1,10 @@
+import { getUserByEmail } from "@/data/user";
 import { SHOW_QUERY_LOGS } from "@/lib/constants";
 import { LoginSchema } from "@/lib/schemas";
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
-import { getUserByEmail } from "@/data/user";
 import { verifyPassword } from "./lib/password";
 
 /**

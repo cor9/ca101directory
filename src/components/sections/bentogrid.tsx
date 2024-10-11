@@ -229,9 +229,9 @@ export default function BentoGrid() {
               </div>
               <div className="relative -mb-10 -mr-10 mt-8 h-fit rounded-tl-xl border bg-muted/30 pt-6 sm:ml-6 sm:mt-auto">
                 <div className="absolute left-3 top-2 flex gap-1">
-                  <span className="block size-2 rounded-full border border-border"></span>
-                  <span className="block size-2 rounded-full border border-border"></span>
-                  <span className="block size-2 rounded-full border border-border"></span>
+                  <span className="block size-2 rounded-full border border-border" />
+                  <span className="block size-2 rounded-full border border-border" />
+                  <span className="block size-2 rounded-full border border-border" />
                 </div>
                 <svg
                   className="w-full text-indigo-600/60 sm:w-[150%]"

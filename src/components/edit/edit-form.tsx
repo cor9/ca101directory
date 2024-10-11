@@ -1,6 +1,6 @@
 "use client";
 
-import { edit, EditFormData } from "@/actions/edit";
+import { type EditFormData, edit } from "@/actions/edit";
 import { Icons } from "@/components/icons/icons";
 import CustomMde from "@/components/shared/custom-mde";
 import ImageUpload from "@/components/shared/image-upload";
@@ -22,8 +22,11 @@ import { urlForImage } from "@/lib/image";
 import { EditSchema } from "@/lib/schemas";
 import { PricePlans } from "@/lib/submission";
 import { cn } from "@/lib/utils";
-import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
-import { ItemFullInfo } from "@/types";
+import type {
+  CategoryListQueryResult,
+  TagListQueryResult,
+} from "@/sanity.types";
+import type { ItemFullInfo } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BellRingIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -78,7 +81,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
           if (data.status === "success") {
             console.log("EditForm, success:", data.message);
             form.reset();
-            router.push(`/dashboard/`);
+            router.push("/dashboard/");
             toast.success(data.message);
           }
           if (data.status === "error") {

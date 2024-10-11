@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { testimonials } from "@/config/landing";
 import { HeaderSection } from "@/components/shared/header-section";
+import { testimonials } from "@/config/landing";
+import Image from "next/image";
 import Container from "../container";
 
 export default function Testimonials() {

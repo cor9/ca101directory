@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { SUBMISSIONS_PER_PAGE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { ItemInfo } from "@/types";
+import type { ItemInfo } from "@/types";
 import { useSearchParams } from "next/navigation";
 
 export function SubmissionTable({

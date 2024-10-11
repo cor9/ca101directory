@@ -1,6 +1,6 @@
-import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 import Container from "@/components/container";
-import React from "react";
+import { NewsletterCard } from "@/components/newsletter/newsletter-card";
+import type React from "react";
 
 export default function ItemLayout({
   children,

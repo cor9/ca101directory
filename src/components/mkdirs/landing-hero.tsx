@@ -4,8 +4,8 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
-import { FaBrandsGithub } from "../icons/github";
 import Container from "../container";
+import { FaBrandsGithub } from "../icons/github";
 
 export default function LandingHero() {
   return (

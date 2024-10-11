@@ -1,14 +1,14 @@
 "use client";
 
-import React from "react";
 import { publish } from "@/actions/publish";
+import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
-import { ItemInfo } from "@/types";
+import type { ItemInfo } from "@/types";
 import confetti from "canvas-confetti";
 import { RocketIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import React from "react";
 import { useTransition } from "react";
-import { Icons } from "@/components/icons/icons";
 import { toast } from "sonner";
 import { triggerConfetti } from "../shared/confetti-effect";
 
@@ -18,7 +18,7 @@ interface PublishNowButtonProps {
 
 export function PublishNowButton({ item }: PublishNowButtonProps) {
   const router = useRouter();
-  let [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   const publishAction = () => {
     startTransition(async () => {

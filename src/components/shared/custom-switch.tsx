@@ -115,18 +115,18 @@ export const CustomSwitch = React.forwardRef<HTMLDivElement, CustomSwitchProps>(
         const selectedStyle = window.getComputedStyle(selectedElement);
 
         const containerPadding = {
-          left: parseFloat(containerStyle.paddingLeft),
-          top: parseFloat(containerStyle.paddingTop),
+          left: Number.parseFloat(containerStyle.paddingLeft),
+          top: Number.parseFloat(containerStyle.paddingTop),
         };
         const containerBorder = {
-          left: parseFloat(containerStyle.borderLeftWidth),
-          top: parseFloat(containerStyle.borderTopWidth),
+          left: Number.parseFloat(containerStyle.borderLeftWidth),
+          top: Number.parseFloat(containerStyle.borderTopWidth),
         };
         const selectedMargin = {
-          left: parseFloat(selectedStyle.marginLeft),
-          right: parseFloat(selectedStyle.marginRight),
-          top: parseFloat(selectedStyle.marginTop),
-          bottom: parseFloat(selectedStyle.marginBottom),
+          left: Number.parseFloat(selectedStyle.marginLeft),
+          right: Number.parseFloat(selectedStyle.marginRight),
+          top: Number.parseFloat(selectedStyle.marginTop),
+          bottom: Number.parseFloat(selectedStyle.marginBottom),
         };
 
         const translateX =

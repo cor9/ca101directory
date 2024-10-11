@@ -5,7 +5,7 @@ import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
 import { FreePlanStatus } from "@/lib/submission";
 import { cn } from "@/lib/utils";
-import { ItemInfo } from "@/types";
+import type { ItemInfo } from "@/types";
 import {
   ArrowRightIcon,
   ArrowUpLeftIcon,
@@ -24,7 +24,7 @@ interface FreePlanButtonProps {
 
 export function FreePlanButton({ item, className }: FreePlanButtonProps) {
   const router = useRouter();
-  let [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
   // console.log('FreePlanButton, item:', item);
 
   const submitToReviewAction = () => {
@@ -55,10 +55,10 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
     );
     if (!item) {
       // no specific item in pricing page
-      router.push(`/submit`);
+      router.push("/submit");
     } else if (item.publishDate) {
       // already published
-      router.push(`/dashboard`);
+      router.push("/dashboard");
     } else if (item.freePlanStatus === FreePlanStatus.SUBMITTING) {
       submitToReviewAction();
     } else if (item.freePlanStatus === FreePlanStatus.APPROVED) {
@@ -66,7 +66,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
     } else if (item.freePlanStatus === FreePlanStatus.REJECTED) {
       router.push(`/edit/${item._id}`);
     } else if (item.freePlanStatus === FreePlanStatus.PENDING) {
-      router.push(`/dashboard`);
+      router.push("/dashboard");
     } else {
       console.error(
         "FreePlanButton, invalid free plan status:",

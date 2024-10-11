@@ -8,15 +8,15 @@ import { siteConfig } from "@/config/site";
 import { urlForImage } from "@/lib/image";
 import { constructMetadata } from "@/lib/metadata";
 import { getLocaleDate } from "@/lib/utils";
-import { ItemInfoBySlugQueryResult } from "@/sanity.types";
+import type { ItemInfoBySlugQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import {
   itemFullInfoBySlugQuery,
   itemInfoBySlugQuery,
 } from "@/sanity/lib/queries";
-import { ItemFullInfo } from "@/types";
+import type { ItemFullInfo } from "@/types";
 import { GlobeIcon, HashIcon, LayoutGridIcon } from "lucide-react";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";

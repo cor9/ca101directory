@@ -1,5 +1,5 @@
-import { Icons } from "@/components/icons/icons";
-import {
+import type { Icons } from "@/components/icons/icons";
+import type {
   BlogPostListQueryResult,
   ItemFullInfoBySlugQueryResult,
   ItemListQueryResult,

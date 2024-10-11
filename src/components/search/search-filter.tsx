@@ -1,5 +1,8 @@
 import { SORT_FILTER_LIST } from "@/lib/constants";
-import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
+import type {
+  CategoryListQueryResult,
+  TagListQueryResult,
+} from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryListQuery, tagListQuery } from "@/sanity/lib/queries";
 import Container from "../container";

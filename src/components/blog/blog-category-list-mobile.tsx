@@ -1,10 +1,10 @@
 "use client";
 
-import { Drawer } from "vaul";
-import { BlogCategoryListQueryResult } from "@/sanity.types";
+import type { BlogCategoryListQueryResult } from "@/sanity.types";
 import { LayoutListIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { Drawer } from "vaul";
 import FilterItemMobile from "../shared/filter-item-mobile";
 
 export type BlogCategoryListMobileProps = {
@@ -50,7 +50,7 @@ export function BlogCategoryListMobile({
             <div className="my-3 h-1.5 w-16 rounded-full bg-muted-foreground/20" />
           </div>
 
-          <ul role="list" className="mb-14 w-full p-3 text-muted-foreground">
+          <ul className="mb-14 w-full p-3 text-muted-foreground">
             <FilterItemMobile
               title="All"
               href="/blog"

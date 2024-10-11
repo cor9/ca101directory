@@ -1,9 +1,9 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import { urlForImage } from "@/lib/image";
 import { getLocaleDate } from "@/lib/utils";
-import { BlogPostInfo } from "@/types";
+import type { BlogPostInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton";
 
 type BlogCardProps = {
   post: BlogPostInfo;

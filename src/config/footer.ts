@@ -1,4 +1,4 @@
-import { NestedNavItem } from "@/types";
+import type { NestedNavItem } from "@/types";
 import { siteConfig } from "./site";
 
 export const footerLinks: NestedNavItem[] = [

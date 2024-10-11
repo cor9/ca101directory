@@ -1,9 +1,9 @@
 "use client";
 
-import * as React from "react";
 import { useMounted } from "@/hooks/use-mounted";
-import { TableOfContents } from "@/lib/toc";
+import type { TableOfContents } from "@/lib/toc";
 import { cn } from "@/lib/utils";
+import * as React from "react";
 
 interface TocProps {
   toc: TableOfContents;
@@ -47,7 +47,7 @@ function useActiveItem(itemIds: (string | undefined)[]) {
           }
         });
       },
-      { rootMargin: `0% 0% -80% 0%` },
+      { rootMargin: "0% 0% -80% 0%" },
     );
 
     itemIds?.forEach((id) => {

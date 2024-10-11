@@ -1,5 +1,5 @@
-import { defineField } from "sanity";
 import { format, parseISO } from "date-fns";
+import { defineField } from "sanity";
 
 const account = {
   name: "account",
@@ -95,7 +95,7 @@ const account = {
     prepare({ id, name, provider, date }) {
       const title = name;
       // get simple user id by concating the first 4 and last 4 characters
-      const userid = id.substring(5, 9) + "..." + id.substring(id.length - 4);
+      const userid = `${id.substring(5, 9)}...${id.substring(id.length - 4)}`;
       const subtitle = `${format(parseISO(date), "yyyy/MM/dd")}-${provider.toUpperCase()}-${userid}`;
       return {
         title,

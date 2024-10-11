@@ -1,5 +1,5 @@
 import { siteConfig } from "@/config/site";
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 
 /**
  * https://nextjs.org/docs/app/api-reference/file-conventions/metadata/robots

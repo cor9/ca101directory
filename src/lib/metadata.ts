@@ -1,5 +1,5 @@
 import { siteConfig } from "@/config/site";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 /**
  * Construct the metadata object for the current page (in docs/guides)

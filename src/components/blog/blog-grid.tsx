@@ -1,7 +1,7 @@
 import BlogCard, { BlogCardSkeleton } from "@/components/blog/blog-card";
-import { POSTS_PER_PAGE } from "@/lib/constants";
-import { BlogPostListQueryResult } from "@/sanity.types";
 import { Skeleton } from "@/components/ui/skeleton";
+import { POSTS_PER_PAGE } from "@/lib/constants";
+import type { BlogPostListQueryResult } from "@/sanity.types";
 
 interface BlogGridProps {
   posts: BlogPostListQueryResult;

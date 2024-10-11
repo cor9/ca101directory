@@ -3,7 +3,7 @@
 import SubmissionStatus from "@/components/dashboard/submission-status";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getLocaleDate } from "@/lib/utils";
-import { ItemInfo } from "@/types";
+import type { ItemInfo } from "@/types";
 import SubmissionCardImage from "../dashboard/submission-card-image";
 
 type SubmissionCardInPlanPageProps = {

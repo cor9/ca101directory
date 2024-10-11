@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 // import { useRouter } from "next/router";
 import { Drawer } from "vaul";
 
@@ -34,7 +34,7 @@ export function Modal({
       return;
     }
     // fire onClose event if provided
-    onClose && onClose();
+    onClose?.();
 
     // if setShowModal is defined, use it to close modal
     if (setShowModal) {

@@ -1,5 +1,6 @@
 "use client";
 
+import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { signIn } from "next-auth/react";
@@ -7,7 +8,6 @@ import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { FaBrandsGithub } from "../icons/github";
 import { FaBrandsGoogle } from "../icons/google";
-import { Icons } from "@/components/icons/icons";
 
 /**
  * social login buttons

@@ -1,10 +1,10 @@
 "use client";
 
 import { LoginWrapper } from "@/components/auth/login-button";
-import { ModeToggle } from "@/components/layout/mode-toggle";
-import { UserButton } from "@/components/layout/user-button";
 import Container from "@/components/container";
 import { Icons } from "@/components/icons/icons";
+import { ModeToggle } from "@/components/layout/mode-toggle";
+import { UserButton } from "@/components/layout/user-button";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -18,13 +18,13 @@ import { siteConfig } from "@/config/site";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
-import { DashboardConfig, MarketingConfig } from "@/types";
+import type { DashboardConfig, MarketingConfig } from "@/types";
 import { ArrowRightIcon, MenuIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Logo } from "../logo";
 import React from "react";
+import { Logo } from "../logo";
 
 interface NavBarProps {
   scroll?: boolean;

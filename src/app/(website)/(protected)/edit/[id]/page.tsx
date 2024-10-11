@@ -2,15 +2,18 @@ import { EditForm } from "@/components/edit/edit-form";
 import { siteConfig } from "@/config/site";
 import { currentUser } from "@/lib/auth";
 import { constructMetadata } from "@/lib/metadata";
-import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
+import type {
+  CategoryListQueryResult,
+  TagListQueryResult,
+} from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import {
   categoryListQuery,
   itemFullInfoByIdQuery,
   tagListQuery,
 } from "@/sanity/lib/queries";
-import { ItemFullInfo } from "@/types";
-import { Metadata } from "next";
+import type { ItemFullInfo } from "@/types";
+import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
 export async function generateMetadata({
@@ -54,7 +57,7 @@ export default async function EditPage({ params }: EditPageProps) {
     return notFound();
   }
   // redirect to dashboard if the item is not submitted by the user
-  if (item.submitter._id != user.id) {
+  if (item.submitter._id !== user.id) {
     console.error("EditPage, user not match");
     return redirect("/dashboard");
   }

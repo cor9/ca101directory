@@ -8,14 +8,14 @@ import { portableTextToMarkdown } from "@/lib/mdx";
 import { constructMetadata } from "@/lib/metadata";
 import { getTableOfContents } from "@/lib/toc";
 import { getLocaleDate } from "@/lib/utils";
-import {
+import type {
   BlogPostMetadataQueryResult,
   BlogPostQueryResult,
 } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { blogPostMetadataQuery, blogPostQuery } from "@/sanity/lib/queries";
 import { FileTextIcon } from "lucide-react";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -83,7 +83,7 @@ export default async function PostPage({ params }: PostPageProps) {
               {imageProps && (
                 <Image
                   src={imageProps.src}
-                  alt={post.image?.alt || `image for blog post`}
+                  alt={post.image?.alt || "image for blog post"}
                   loading="eager"
                   fill
                   className="object-cover"

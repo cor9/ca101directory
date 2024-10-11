@@ -1,5 +1,5 @@
 import { SHOW_QUERY_LOGS } from "@/lib/constants";
-import { User, UserWithAccountsQueryResult } from "@/sanity.types";
+import type { User, UserWithAccountsQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { userWithAccountsQuery } from "@/sanity/lib/queries";
 

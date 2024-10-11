@@ -1,14 +1,14 @@
 "use server";
 
-import * as z from "zod";
-import bcrypt from "bcryptjs";
-import { sanityClient } from "@/sanity/lib/client";
-import { RegisterSchema } from "@/lib/schemas";
 import { getUserByEmail } from "@/data/user";
+import { sendVerificationEmail } from "@/lib/mail";
+import { RegisterSchema } from "@/lib/schemas";
+import { generateVerificationToken } from "@/lib/tokens";
+import { sanityClient } from "@/sanity/lib/client";
 import { UserRole } from "@/types/user-role";
 import { uuid } from "@sanity/uuid";
-import { generateVerificationToken } from "@/lib/tokens";
-import { sendVerificationEmail } from "@/lib/mail";
+import bcrypt from "bcryptjs";
+import type * as z from "zod";
 
 export type ServerActionResponse = {
   status: "success" | "error";

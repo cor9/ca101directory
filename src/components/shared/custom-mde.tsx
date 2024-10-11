@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
 import { useTheme } from "next-themes";
+import { useMemo } from "react";
 
 // if directly import, frontend error: document is not defined
 // import { SimpleMdeReact } from "react-simplemde-editor";

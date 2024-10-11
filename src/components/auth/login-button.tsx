@@ -8,10 +8,10 @@ import {
   DialogTrigger,
 } from "@/components/auth/auth-dialog";
 import { LoginForm } from "@/components/auth/login-form";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { authRoutes } from "@/routes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface LoginWrapperProps {
   children: React.ReactNode;
@@ -49,7 +49,7 @@ export const LoginWrapper = ({
         <DialogContent className="p-0 bg-transparent border-none">
           <DialogHeader>
             {/* `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users. */}
-            <DialogTitle></DialogTitle>
+            <DialogTitle />
           </DialogHeader>
           <LoginForm />
         </DialogContent>

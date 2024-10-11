@@ -7,8 +7,8 @@ import { currentUser } from "@/lib/auth";
 import { constructMetadata } from "@/lib/metadata";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
-import { ItemInfo } from "@/types";
-import { Metadata } from "next";
+import type { ItemInfo } from "@/types";
+import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
 export async function generateMetadata({
@@ -45,7 +45,7 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
   // console.log('PlanPage, item:', item);
 
   // redirect to dashboard if the item is not submitted by the user
-  if (item.submitter._id != user.id) {
+  if (item.submitter._id !== user.id) {
     console.error("PlanPage, user not match");
     return redirect("/dashboard");
   }

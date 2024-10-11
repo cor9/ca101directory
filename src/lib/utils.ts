@@ -1,6 +1,6 @@
 import { siteConfig } from "@/config/site";
 import { type ClassValue, clsx } from "clsx";
-import { ReadonlyURLSearchParams } from "next/navigation";
+import type { ReadonlyURLSearchParams } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -136,9 +136,8 @@ export async function fetcher<JSON = any>(
       };
       error.status = res.status;
       throw error;
-    } else {
-      throw new Error("An unexpected error occurred");
     }
+    throw new Error("An unexpected error occurred");
   }
 
   return res.json();
@@ -156,12 +155,10 @@ export function nFormatter(num: number, digits?: number) {
     { value: 1e18, symbol: "E" },
   ];
   const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-  var item = lookup
+  const item = lookup
     .slice()
     .reverse()
-    .find(function (item) {
-      return num >= item.value;
-    });
+    .find((item) => num >= item.value);
   return item
     ? (num / item.value).toFixed(digits || 1).replace(rx, "$1") + item.symbol
     : "0";

@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
 import { createCheckoutSession } from "@/actions/create-checkout-session";
 import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
+import { ProPlanStatus } from "@/lib/submission";
 import { cn } from "@/lib/utils";
-import { ItemInfo, PricePlan } from "@/types";
+import type { ItemInfo, PricePlan } from "@/types";
 import {
   ArrowRightIcon,
   ArrowUpLeftIcon,
@@ -13,9 +13,9 @@ import {
   EditIcon,
   RocketIcon,
 } from "lucide-react";
-import { useTransition } from "react";
-import { ProPlanStatus } from "@/lib/submission";
 import { useRouter } from "next/navigation";
+import React from "react";
+import { useTransition } from "react";
 import { toast } from "sonner";
 
 interface ProPlanButtonProps {
@@ -31,7 +31,7 @@ export function ProPlanButton({
 }: ProPlanButtonProps) {
   console.log("ProPlanButton, item:", item);
   const router = useRouter();
-  let [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   const handleCreateCheckoutSession = () => {
     startTransition(async () => {
@@ -67,7 +67,7 @@ export function ProPlanButton({
       if (item.publishDate) {
         // already published
         console.log("ProPlanButton, handleClick, already published");
-        router.push(`/dashboard`);
+        router.push("/dashboard");
       } else {
         // pay success but not published yet
         console.log(

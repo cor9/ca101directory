@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { PRICE_PLANS } from "@/config/price-plan";
 import { PricePlans } from "@/lib/submission";
 import { cn } from "@/lib/utils";
-import { ItemInfo, PricePlan } from "@/types/index";
+import type { ItemInfo, PricePlan } from "@/types/index";
 import { CheckIcon, XIcon } from "lucide-react";
 
 interface PricingPlansProps {

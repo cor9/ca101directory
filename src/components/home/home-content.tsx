@@ -1,4 +1,7 @@
-import { BlogPostListQueryResult, ItemListQueryResult } from "@/sanity.types";
+import type {
+  BlogPostListQueryResult,
+  ItemListQueryResult,
+} from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import {
   blogPostListOfLatestQuery,

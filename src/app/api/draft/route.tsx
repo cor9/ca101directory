@@ -1,8 +1,8 @@
+import { sanityClient } from "@/sanity/lib/client";
+import { token } from "@/sanity/lib/token";
 import { validatePreviewUrl } from "@sanity/preview-url-secret";
 import { draftMode } from "next/headers";
 import { redirect } from "next/navigation";
-import { sanityClient } from "@/sanity/lib/client";
-import { token } from "@/sanity/lib/token";
 
 /**
  * 1. Draft Mode

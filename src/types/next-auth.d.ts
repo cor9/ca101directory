@@ -1,4 +1,4 @@
-import { UserRole } from "@/types/user-role";
+import type { UserRole } from "@/types/user-role";
 import NextAuth, { type DefaultSession } from "next-auth";
 
 // https://authjs.dev/getting-started/typescript#module-augmentation

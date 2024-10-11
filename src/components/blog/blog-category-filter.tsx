@@ -1,5 +1,5 @@
 import Container from "@/components/container";
-import { BlogCategoryListQueryResult } from "@/sanity.types";
+import type { BlogCategoryListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { blogCategoryListQuery } from "@/sanity/lib/queries";
 import { BlogCategoryListDesktop } from "./blog-category-list-desktop";

@@ -1,4 +1,4 @@
-import { UserButtonConfig } from "@/types";
+import type { UserButtonConfig } from "@/types";
 
 export const userButtonConfig: UserButtonConfig = {
   mainNav: [

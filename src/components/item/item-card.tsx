@@ -2,7 +2,7 @@
 
 import { urlForImage } from "@/lib/image";
 import { cn } from "@/lib/utils";
-import { ItemInfo } from "@/types";
+import type { ItemInfo } from "@/types";
 import { ArrowRightIcon, HashIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

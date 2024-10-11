@@ -1,5 +1,5 @@
 import { SUBMISSIONS_PER_PAGE } from "@/lib/constants";
-import { SubmissionListQueryResult } from "@/sanity.types";
+import type { SubmissionListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemSimpleFields } from "@/sanity/lib/queries";
 
@@ -30,7 +30,7 @@ export async function getSubmissions({
 /**
  * build count and data query for get submissions from sanity
  */
-const buildQuery = (userId: string, currentPage: number = 1) => {
+const buildQuery = (userId: string, currentPage = 1) => {
   const userCondition = `&& submitter._ref == "${userId}"`;
   const offsetStart = (currentPage - 1) * SUBMISSIONS_PER_PAGE;
   const offsetEnd = offsetStart + SUBMISSIONS_PER_PAGE;

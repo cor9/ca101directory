@@ -10,12 +10,12 @@ import {
 import { TableCell, TableRow } from "@/components/ui/table";
 import { urlForImage } from "@/lib/image";
 import { cn, getLocaleDate } from "@/lib/utils";
+import type { ItemInfo } from "@/types";
 import { MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { PublishButton } from "../publish-button";
 import { UnpublishButton } from "../unpublish-button";
-import { ItemInfo } from "@/types";
 
 export function SubmissionRow({ submission }: { submission: ItemInfo }) {
   const publishable =
@@ -37,7 +37,8 @@ export function SubmissionRow({ submission }: { submission: ItemInfo }) {
         default:
           return "outline";
       }
-    } else if (plan === "pro") {
+    }
+    if (plan === "pro") {
       switch (status) {
         case "success":
           return "default";

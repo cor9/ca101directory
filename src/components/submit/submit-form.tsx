@@ -1,9 +1,9 @@
 "use client";
 
-import { submit, SubmitFormData } from "@/actions/submit";
+import { type SubmitFormData, submit } from "@/actions/submit";
+import { Icons } from "@/components/icons/icons";
 import CustomMde from "@/components/shared/custom-mde";
 import ImageUpload from "@/components/shared/image-upload";
-import { Icons } from "@/components/icons/icons";
 import { MultiSelect } from "@/components/shared/multi-select";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -16,17 +16,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { SubmitSchema } from "@/lib/schemas";
-import { CategoryListQueryResult, TagListQueryResult } from "@/sanity.types";
+import { cn } from "@/lib/utils";
+import type {
+  CategoryListQueryResult,
+  TagListQueryResult,
+} from "@/sanity.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SmileIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
 
 interface SubmitFormProps {
   tagList: TagListQueryResult;

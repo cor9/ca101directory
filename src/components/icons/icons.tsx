@@ -7,7 +7,7 @@ import {
   LayoutGridIcon,
   LayoutPanelLeftIcon,
   Loader2Icon,
-  LucideIcon,
+  type LucideIcon,
   MailIcon,
   SearchIcon,
   SettingsIcon,

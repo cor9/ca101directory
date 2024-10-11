@@ -1,8 +1,8 @@
 "use client";
 
-import { UserRole } from "@/types/user-role";
-import { useCurrentRole } from "@/hooks/use-current-role";
 import { FormError } from "@/components/shared/form-error";
+import { useCurrentRole } from "@/hooks/use-current-role";
+import type { UserRole } from "@/types/user-role";
 
 interface RoleGateProps {
   children: React.ReactNode;

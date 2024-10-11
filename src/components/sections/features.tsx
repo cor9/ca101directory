@@ -1,10 +1,10 @@
-import Link from "next/link";
-import { features } from "@/config/landing";
-import { Button } from "@/components/ui/button";
-import { HeaderSection } from "@/components/shared/header-section";
-import { Icons } from "@/components/icons/icons";
 import Container from "@/components/container";
+import { Icons } from "@/components/icons/icons";
+import { HeaderSection } from "@/components/shared/header-section";
+import { Button } from "@/components/ui/button";
+import { features } from "@/config/landing";
 import { ArrowRightIcon } from "lucide-react";
+import Link from "next/link";
 
 export default function Features() {
   return (

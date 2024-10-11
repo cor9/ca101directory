@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getPublishable } from "@/lib/submission";
 import { getLocaleDate } from "@/lib/utils";
-import { ItemInfo } from "@/types";
+import type { ItemInfo } from "@/types";
 import { EditIcon } from "lucide-react";
 import Link from "next/link";
 import SubmissionCardImage from "./submission-card-image";

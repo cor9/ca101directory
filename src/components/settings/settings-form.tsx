@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { SettingsSchema } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
@@ -23,8 +24,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import * as z from "zod";
-import { Skeleton } from "@/components/ui/skeleton";
+import type * as z from "zod";
 
 export default function SettingsForm() {
   const router = useRouter();

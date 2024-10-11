@@ -1,7 +1,7 @@
 "use client";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { TagListQueryResult } from "@/sanity.types";
+import type { TagListQueryResult } from "@/sanity.types";
 import { useParams } from "next/navigation";
 import FilterItemDesktop from "../shared/filter-item-desktop";
 
@@ -16,7 +16,7 @@ export function TagListDesktop({ tagList }: TagListDesktopProps) {
     <div>
       {/* Desktop View */}
       <ScrollArea className="hidden md:flex w-full pb-4">
-        <ul role="list" className="w-full flex flex-1 gap-x-2">
+        <ul className="w-full flex flex-1 gap-x-2">
           <FilterItemDesktop title="All" href="/tag" active={!slug} />
 
           {tagList.map((item) => (

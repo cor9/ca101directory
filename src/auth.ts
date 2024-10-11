@@ -1,11 +1,11 @@
-import { sanityClient } from "@/sanity/lib/client";
-import { SanityAdapter } from "@/sanity/sanity-adapter";
-import NextAuth from "next-auth";
+import authConfig from "@/auth.config";
 import { getAccountByUserId } from "@/data/account";
 import { getUserById } from "@/data/user";
-import authConfig from "@/auth.config";
-import { UserRole } from "@/types/user-role";
 import { SHOW_QUERY_LOGS } from "@/lib/constants";
+import { sanityClient } from "@/sanity/lib/client";
+import { SanityAdapter } from "@/sanity/sanity-adapter";
+import type { UserRole } from "@/types/user-role";
+import NextAuth from "next-auth";
 
 /**
  * https://authjs.dev/getting-started/installation#configure

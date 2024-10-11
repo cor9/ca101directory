@@ -1,5 +1,5 @@
 import { POSTS_PER_PAGE } from "@/lib/constants";
-import { BlogPostListQueryResult } from "@/sanity.types";
+import type { BlogPostListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { blogPostSimpleFields } from "@/sanity/lib/queries";
 
@@ -24,7 +24,7 @@ export async function getBlogs({
 /**
  * build count and data query for get blogs from sanity
  */
-const buildQuery = (category?: string, currentPage: number = 1) => {
+const buildQuery = (category?: string, currentPage = 1) => {
   const categoryCondition = category
     ? `&& "${category}" in categories[]->slug.current`
     : "";

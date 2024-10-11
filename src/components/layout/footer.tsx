@@ -5,7 +5,7 @@ import { footerLinks } from "@/config/footer";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import * as React from "react";
+import type * as React from "react";
 import Container from "../container";
 import { Logo } from "../logo";
 

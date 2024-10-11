@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { MarkdownInput, MarkdownInputProps } from "sanity-plugin-markdown";
+import { MarkdownInput, type MarkdownInputProps } from "sanity-plugin-markdown";
 
 import "@/styles/mde.css";
 import "easymde/dist/easymde.min.css";

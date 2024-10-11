@@ -1,7 +1,7 @@
 "use client";
 
 import { urlForImage } from "@/lib/image";
-import { ItemInfo } from "@/types";
+import type { ItemInfo } from "@/types";
 import { HashIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

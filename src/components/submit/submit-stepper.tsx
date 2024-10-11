@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
 import {
   Stepper,
-  StepperItem,
-  StepperTrigger,
-  StepperIndicator,
-  StepperTitle,
   StepperDescription,
+  StepperIndicator,
+  StepperItem,
   StepperSeparator,
+  StepperTitle,
+  StepperTrigger,
 } from "@/components/shared/stepper";
+import React, { useState } from "react";
 
 interface SubmitStepperProps {
   initialStep?: number;

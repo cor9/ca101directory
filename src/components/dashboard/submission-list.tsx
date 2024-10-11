@@ -1,6 +1,6 @@
-import { ItemInfo } from "@/types";
-import SubmissionCard, { SubmissionCardSkeleton } from "./submission-card";
 import { SUBMISSIONS_PER_PAGE } from "@/lib/constants";
+import type { ItemInfo } from "@/types";
+import SubmissionCard, { SubmissionCardSkeleton } from "./submission-card";
 
 interface SubmissionListProps {
   items: ItemInfo[];

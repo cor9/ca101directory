@@ -9,10 +9,10 @@ import {
   SORT_FILTER_LIST,
 } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
-import { CategoryQueryResult } from "@/sanity.types";
+import type { CategoryQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryQuery } from "@/sanity/lib/queries";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export async function generateMetadata({
   params,

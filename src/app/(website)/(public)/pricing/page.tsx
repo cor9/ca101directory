@@ -1,9 +1,9 @@
+import Container from "@/components/container";
 import { PricingPlans } from "@/components/dashboard/pricing-plans";
 import { PricingFaq } from "@/components/pricing/pricing-faq";
-import Container from "@/components/container";
 import { HeaderSection } from "@/components/shared/header-section";
-import { constructMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/config/site";
+import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
   title: "Pricing",

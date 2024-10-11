@@ -1,12 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { newVerification } from "@/actions/new-verification";
 import { AuthCard } from "@/components/auth/auth-card";
+import { Icons } from "@/components/icons/icons";
 import { FormError } from "@/components/shared/form-error";
 import { FormSuccess } from "@/components/shared/form-success";
-import { Icons } from "@/components/icons/icons";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 
 export const NewVerificationForm = () => {
   const [error, setError] = useState<string | undefined>();

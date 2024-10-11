@@ -1,5 +1,5 @@
-import { urlForImage } from "./image";
 import toMarkdown from "@sanity/block-content-to-markdown";
+import { urlForImage } from "./image";
 
 /**
  * 1. block-content-to-markdown

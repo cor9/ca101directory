@@ -1,10 +1,10 @@
 "use client";
 
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
-import { BlogCategoryListQueryResult } from "@/sanity.types";
+import type { BlogCategoryListQueryResult } from "@/sanity.types";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 export type BlogCategoryListDesktopProps = {
   categoryList: BlogCategoryListQueryResult;
@@ -34,9 +34,9 @@ export function BlogCategoryListDesktop({
               "data-[state=on]:bg-primary data-[state=on]:text-primary-foreground",
               "hover:bg-muted hover:text-muted-foreground",
             )}
-            aria-label={`Toggle all blog categories`}
+            aria-label={"Toggle all blog categories"}
           >
-            <Link href={`/blog`}>
+            <Link href={"/blog"}>
               <h2>All</h2>
             </Link>
           </ToggleGroupItem>

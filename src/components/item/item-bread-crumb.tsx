@@ -6,7 +6,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ItemInfo } from "@/types";
+import type { ItemInfo } from "@/types";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { ChevronsUpDownIcon, HomeIcon } from "lucide-react";
 import {
@@ -27,7 +27,7 @@ export default function ItemBreadCrumb({ item }: ItemBreadCrumbProps) {
     <Breadcrumb className="text-base">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href={`/`}>
+          <BreadcrumbLink href={"/"}>
             <div className="flex items-center gap-1">
               <HomeIcon className="w-4 h-4" />
               <span>Home</span>
@@ -36,14 +36,14 @@ export default function ItemBreadCrumb({ item }: ItemBreadCrumbProps) {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href={`/category`}>
+          <BreadcrumbLink href={"/category"}>
             <span>Category</span>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           {/* show BreadcrumbLink if category is only one */}
-          {item?.categories?.length == 1 && (
+          {item?.categories?.length === 1 && (
             <BreadcrumbLink
               className="cursor-pointer"
               href={`/category/${item?.categories?.[0]?.slug?.current}`}

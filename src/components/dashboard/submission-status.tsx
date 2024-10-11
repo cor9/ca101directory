@@ -1,13 +1,13 @@
 import { Card } from "@/components/ui/card";
 import {
-  BadgeStyle,
+  type BadgeStyle,
   BadgeStyles,
   FreePlanStatus,
-  getBadgeStyle,
   PricePlans,
+  getBadgeStyle,
 } from "@/lib/submission";
 import { cn } from "@/lib/utils";
-import { ItemInfo } from "@/types";
+import type { ItemInfo } from "@/types";
 import {
   Popover,
   PopoverContent,

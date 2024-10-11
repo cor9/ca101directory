@@ -2,7 +2,7 @@
 
 import { NewsletterWelcomeEmail } from "@/emails/newsletter-welcome";
 import { resend } from "@/lib/mail";
-import { NewsletterFormData, NewsletterFormSchema } from "@/lib/schemas";
+import { type NewsletterFormData, NewsletterFormSchema } from "@/lib/schemas";
 
 export type ServerActionResponse = {
   status: "success" | "error";

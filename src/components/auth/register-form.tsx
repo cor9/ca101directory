@@ -1,11 +1,11 @@
 "use client";
 
-import * as z from "zod";
-import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterSchema } from "@/lib/schemas";
-import { Input } from "@/components/ui/input";
+import { register } from "@/actions/register";
+import { AuthCard } from "@/components/auth/auth-card";
+import { Icons } from "@/components/icons/icons";
+import { FormError } from "@/components/shared/form-error";
+import { FormSuccess } from "@/components/shared/form-success";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,12 +14,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { AuthCard } from "@/components/auth/auth-card";
-import { Button } from "@/components/ui/button";
-import { FormError } from "@/components/shared/form-error";
-import { FormSuccess } from "@/components/shared/form-success";
-import { register } from "@/actions/register";
-import { Icons } from "@/components/icons/icons";
+import { Input } from "@/components/ui/input";
+import { RegisterSchema } from "@/lib/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import type * as z from "zod";
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");

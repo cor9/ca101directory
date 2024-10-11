@@ -1,6 +1,6 @@
 import Container from "@/components/container";
 import { SORT_FILTER_LIST } from "@/lib/constants";
-import { TagListQueryResult } from "@/sanity.types";
+import type { TagListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { tagListQuery } from "@/sanity/lib/queries";
 import { SortListDesktop } from "../shared/sort-list-desktop";

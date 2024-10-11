@@ -2,9 +2,9 @@
 
 import { login } from "@/actions/login";
 import { AuthCard } from "@/components/auth/auth-card";
+import { Icons } from "@/components/icons/icons";
 import { FormError } from "@/components/shared/form-error";
 import { FormSuccess } from "@/components/shared/form-success";
-import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -22,7 +22,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
+import type * as z from "zod";
 
 export const LoginForm = ({ className }: { className?: string }) => {
   const searchParams = useSearchParams();

@@ -1,15 +1,15 @@
 "use client";
 
-import React from "react";
 import { publish } from "@/actions/publish";
+import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
-import { ItemInfo } from "@/types";
+import { getPublishable } from "@/lib/submission";
+import type { ItemInfo } from "@/types";
 import { ArrowUpToLineIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import React from "react";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { Icons } from "@/components/icons/icons";
-import { getPublishable } from "@/lib/submission";
 
 interface PublishButtonProps {
   item: ItemInfo;
@@ -17,7 +17,7 @@ interface PublishButtonProps {
 
 export function PublishButton({ item }: PublishButtonProps) {
   const router = useRouter();
-  let [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   const handlePublishClick = async () => {
     const publishable = getPublishable(item);

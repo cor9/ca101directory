@@ -6,8 +6,8 @@ import { constructMetadata } from "@/lib/metadata";
 import { FreePlanStatus, PricePlans, ProPlanStatus } from "@/lib/submission";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemByIdQuery } from "@/sanity/lib/queries";
-import { ItemInfo } from "@/types";
-import { Metadata } from "next";
+import type { ItemInfo } from "@/types";
+import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
 export async function generateMetadata({
@@ -52,7 +52,7 @@ export default async function PublishPage({
   console.log("PublishPage, item:", item);
 
   // redirect to dashboard if the item is not submitted by the user
-  if (item.submitter._id != user.id) {
+  if (item.submitter._id !== user.id) {
     console.error("PublishPage, user not match");
     return redirect("/dashboard");
   }
@@ -62,12 +62,13 @@ export default async function PublishPage({
     item.pricePlan === PricePlans.FREE &&
     item.freePlanStatus !== FreePlanStatus.APPROVED
   ) {
-    return redirect(`/dashboard`);
-  } else if (
+    return redirect("/dashboard");
+  }
+  if (
     item.pricePlan === PricePlans.PRO &&
     item.proPlanStatus !== ProPlanStatus.SUCCESS
   ) {
-    return redirect(`/dashboard`);
+    return redirect("/dashboard");
   }
 
   return (

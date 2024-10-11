@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { DEFAULT_SORT, SortFilterItem } from "@/lib/constants";
+import { DEFAULT_SORT, type SortFilterItem } from "@/lib/constants";
 import { useRouter, useSearchParams } from "next/navigation";
 import { DEFAULT_FILTER_VALUE, ResponsiveComboBox } from "../shared/combobox";
 import SearchBox from "./search-box";

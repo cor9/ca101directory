@@ -1,8 +1,8 @@
 "use server";
 
-import { sanityClient } from "@/sanity/lib/client";
 import { getUserByEmail } from "@/data/user";
 import { getVerificationTokenByToken } from "@/data/verification-token";
+import { sanityClient } from "@/sanity/lib/client";
 
 export type ServerActionResponse = {
   status: "success" | "error";

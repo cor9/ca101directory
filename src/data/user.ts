@@ -21,10 +21,10 @@ export const getUserByEmail = async (email: string) => {
   }
 };
 
-export const getUserById = async (_id: string) => {
+export const getUserById = async (userId: string) => {
   try {
     // @sanity-typegen-ignore
-    const userQry = `*[_type == "user" && _id == "${_id}"][0]`;
+    const userQry = `*[_type == "user" && _id == "${userId}"][0]`;
     const user = await sanityFetch<User>({
       query: userQry,
       disableCache: true,
@@ -39,12 +39,11 @@ export const getUserById = async (_id: string) => {
   }
 };
 
-export const getUserByIdWithAccounts = async (_id: string) => {
+export const getUserByIdWithAccounts = async (userId: string) => {
   try {
-    // @sanity-typegen-ignore
     const user = await sanityFetch<UserWithAccountsQueryResult>({
       query: userWithAccountsQuery,
-      params: { id: _id },
+      params: { id: userId },
       disableCache: true,
     });
     if (SHOW_QUERY_LOGS) {

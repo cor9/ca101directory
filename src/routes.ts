@@ -28,6 +28,9 @@ export const publicRoutes = [
   // og images
   "/api/og",
 
+  // draft mode
+  "/api/draft",
+
   // test pages
   "/landing(/.*)?",
   "/loading(/.*)?",

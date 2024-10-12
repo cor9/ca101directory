@@ -220,7 +220,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                       </div>
                     </FormLabel>
                     <FormControl>
-                      <CustomMde {...field} />
+                      {/* <CustomMde {...field} /> */}
                     </FormControl>
                     <FormMessage />
                   </FormItem>

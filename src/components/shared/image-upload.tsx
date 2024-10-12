@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { sanityClient } from "@/sanity/lib/client";
+// import { sanityClient } from "@/sanity/lib/client";
 import { ImageUpIcon, Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import type React from "react";
@@ -19,7 +19,7 @@ interface ImageUploadProps {
  * TODO: failed to upload image in mobile phone
  */
 export default function ImageUpload({
-  currentImageUrl,
+  currentImageUrl = null,
   onUploadChange,
 }: ImageUploadProps) {
   const [uploading, setUploading] = useState<boolean>(false);
@@ -33,8 +33,32 @@ export default function ImageUpload({
       return null;
     }
 
+    // NOTICE: can not use sanityClient in client component!!!
+    // try {
+    //   const asset = await sanityClient.assets.upload("image", file);
+    //   return asset;
+    // } catch (error) {
+    //   console.error("uploadImage, error uploading image:", error);
+    //   toast.error("Upload Image failed, please try again.");
+    //   return null;
+    // }
+
     try {
-      const asset = await sanityClient.assets.upload("image", file);
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/upload-image", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        console.error("uploadImage, error uploading image:", response);
+        toast.error("Upload Image failed, please try again.");
+        return null;
+      }
+
+      const { asset } = await response.json();
       return asset;
     } catch (error) {
       console.error("uploadImage, error uploading image:", error);
@@ -75,13 +99,19 @@ export default function ImageUpload({
       const file = acceptedFiles[0];
       if (file.type === "image/png" || file.type === "image/jpeg") {
         handleImageUploadRef.current(file);
+        // handleImageUpload(file);
       } else {
         toast.error("Only PNG and JPEG images are allowed.");
       }
     }
   }, []);
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    noClick: true, // disable click to upload, avoid show file input dialog twice
+    maxFiles: 1,
+    // maxSize: 1 * 1024 * 1024, // 1MB, no effect
+  });
 
   return (
     <div {...getRootProps()} className="h-full">
@@ -135,13 +165,14 @@ export default function ImageUpload({
       </label>
 
       {/* input to upload image */}
+      {/* disabled={uploading || imageUrl !== null} */}
       <Input
         {...getInputProps()}
         id="dropzone-file"
         accept="image/png, image/jpeg"
         type="file"
         className="hidden"
-        disabled={uploading || imageUrl !== null}
+        disabled={uploading}
         onChange={handleImageChange}
       />
     </div>

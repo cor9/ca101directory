@@ -1,5 +1,5 @@
 // TODO: fix token is server-only, otherwise sanity adapter can not create user!!!
-// import "server-only";
+import "server-only";
 
 // import { experimental_taintUniqueValue } from "react";
 
@@ -12,9 +12,9 @@
 // }
 
 export const token = assertValue(
-  // process.env.SANITY_API_TOKEN,
-  process.env.NEXT_PUBLIC_SANITY_API_TOKEN,
-  "Missing environment variable: NEXT_PUBLIC_SANITY_API_TOKEN",
+  process.env.SANITY_API_TOKEN,
+  // process.env.NEXT_PUBLIC_SANITY_API_TOKEN,
+  "Missing environment variable: SANITY_API_TOKEN",
 );
 
 // experimental_taintUniqueValue(

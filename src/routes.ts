@@ -22,6 +22,9 @@ export const publicRoutes = [
   // user clicks verification link from email
   "/auth/new-verification",
 
+  // unsubscribe
+  "/unsubscribe(/.*)?",
+
   // stripe webhook must be public, otherwise can not receive stripe events
   "/api/webhook",
 

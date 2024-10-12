@@ -23,10 +23,13 @@ import {
   paragraph,
 } from "./email-formats";
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
-// const baseUrl = 'https://demo.mkdirs.com';
+// const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+const baseUrl = "https://demo.mkdirs.com";
 
-export const NewsletterWelcomeEmail = () => {
+export const NewsletterWelcomeEmail = ({ email }: { email: string }) => {
+  // const unsubscribeUrl = `${baseUrl}/unsubscribe?email=${encodeURIComponent(email)}`;
+  const unsubscribeUrl = `http://localhost:3000/unsubscribe?email=${encodeURIComponent(email)}`;
+
   return (
     <Html>
       <Head />
@@ -78,6 +81,15 @@ export const NewsletterWelcomeEmail = () => {
                 </Link>
               </span>
             </Text>
+            <Text style={footer}>
+              <span>
+                If you wish to unsubscribe,{" "}
+                <Link style={anchor} href={unsubscribeUrl} target="_blank">
+                  click here
+                </Link>
+                .
+              </span>
+            </Text>
           </Section>
         </Container>
       </Body>
@@ -86,3 +98,7 @@ export const NewsletterWelcomeEmail = () => {
 };
 
 export default NewsletterWelcomeEmail;
+
+NewsletterWelcomeEmail.PreviewProps = {
+  email: "javayhu@gmail.com",
+};

@@ -31,7 +31,7 @@ export async function subscribeToNewsletter(
         from: process.env.RESEND_EMAIL_FROM,
         to: validatedInput.data.email,
         subject: "Welcome to our newsletter!",
-        react: NewsletterWelcomeEmail(),
+        react: NewsletterWelcomeEmail({ email: validatedInput.data.email }),
       });
       console.log("subscribeToNewsletter, emailSentResult", emailSentResult);
       const emailSent = !emailSentResult.error;

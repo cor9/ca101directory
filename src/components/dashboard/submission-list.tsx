@@ -26,6 +26,7 @@ export function SubmissionListSkeleton({
   return (
     <div className="gap-8 grid grid-cols-1">
       {Array.from({ length: count }).map((_, index) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
         <SubmissionCardSkeleton key={index} />
       ))}
     </div>

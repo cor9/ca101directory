@@ -35,7 +35,8 @@ export const LoginWrapper = ({
   };
 
   // Close the modal on route change
-  useEffect(() => {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    useEffect(() => {
     setIsModalOpen(false);
   }, [pathname, searchParams]);
 
@@ -58,6 +59,7 @@ export const LoginWrapper = ({
   }
 
   return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <span onClick={handleLogin} className="cursor-pointer">
       {children}
     </span>

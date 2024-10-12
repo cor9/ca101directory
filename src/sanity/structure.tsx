@@ -47,7 +47,7 @@ export const structure = (
     // Goes through all of the singletons and translates them into something the Structure tool can understand
     const singletonItems = singletonTypes.map((singletonType) => {
       return S.listItem()
-        .title(singletonType.title!)
+        .title(singletonType.title ?? "")
         .icon(CogIcon)
         .child(
           S.editor()
@@ -66,7 +66,7 @@ export const structure = (
     const createFilteredListItem = (
       title: string,
       schemaType: string,
-      icon: any,
+      icon: React.ComponentType<{ className?: string }>,
       filter: string,
     ) => {
       return S.listItem()

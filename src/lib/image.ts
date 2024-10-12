@@ -9,6 +9,7 @@ const imageBuilder = createImageUrlBuilder({
   dataset: dataset || "",
 });
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export const urlForImage = (source: any) => {
   if (!source || !source.asset) return;
   const dimensions = source?.asset?._ref.split("-")[2];

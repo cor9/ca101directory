@@ -311,6 +311,7 @@ export function EditFormSkeleton() {
         {/* Link and Name fields */}
         <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
           {[...Array(2)].map((_, index) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             <div key={index} className="flex-1 space-y-2">
               <Skeleton className="h-8 w-16" />
               <Skeleton className="h-12 w-full" />
@@ -321,6 +322,7 @@ export function EditFormSkeleton() {
         {/* Categories and Tags fields */}
         <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
           {[...Array(2)].map((_, index) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             <div key={index} className="flex-1 space-y-2">
               <Skeleton className="h-8 w-24" />
               <Skeleton className="h-12 w-full" />

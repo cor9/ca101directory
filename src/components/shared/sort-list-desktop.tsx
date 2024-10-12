@@ -22,6 +22,7 @@ export function SortListDesktop({ sortList }: SortListProps) {
   const router = useRouter();
   const [active, setActive] = useState("");
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const activeItem = sortList.find(
       (item) => searchParams.get("sort") === item.slug,

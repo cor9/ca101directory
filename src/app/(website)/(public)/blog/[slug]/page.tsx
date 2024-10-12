@@ -152,7 +152,7 @@ export default async function PostPage({ params }: PostPageProps) {
             <div className="bg-muted/50 rounded-lg p-6">
               <h2 className="text-lg font-semibold mb-4">Categories</h2>
               <ul className="flex flex-wrap gap-4">
-                {post.categories?.map((category: any) => (
+                {post.categories?.map((category) => (
                   <li key={category._id}>
                     <Link
                       href={`/blog/category/${category.slug.current}`}

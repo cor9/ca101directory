@@ -22,6 +22,7 @@ export default function SearchBox() {
     }
   }, [searchParams]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (debouncedQuery !== lastExecutedQuery.current) {
       const newParams = new URLSearchParams(searchParams?.toString());

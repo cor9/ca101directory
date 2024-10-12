@@ -72,7 +72,6 @@ export function ResponsiveComboBox({
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            role="combobox"
             aria-expanded={open}
             className="justify-between"
           >
@@ -152,7 +151,7 @@ function FilterList({
                 onSelect(item);
                 setOpen(false);
               }}
-              className="p-3"
+              className="cursor-pointer p-3"
             >
               <CheckIcon
                 className={cn(

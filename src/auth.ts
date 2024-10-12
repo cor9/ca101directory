@@ -38,7 +38,7 @@ export const {
       // console.log('auth callbacks signIn, start, user:', user);
       if (account?.provider !== "credentials") return true;
 
-      const existingUser = await getUserById(user.id!);
+      const existingUser = await getUserById(user.id);
 
       // prevent signIn without email verification
       if (!existingUser?.emailVerified) {

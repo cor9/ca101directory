@@ -82,8 +82,8 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
             {links && links.length > 0 ? (
               <NavigationMenu>
                 <NavigationMenuList>
-                  {links.map((item, index) => (
-                    <NavigationMenuItem key={index}>
+                  {links.map((item) => (
+                    <NavigationMenuItem key={item.title}>
                       <Link
                         href={item.disabled ? "#" : item.href}
                         legacyBehavior

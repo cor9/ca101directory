@@ -246,10 +246,12 @@ export const CustomSwitch = React.forwardRef<HTMLDivElement, CustomSwitchProps>(
 
         {memoizedOptions.map((option, index) => (
           <div
+            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             key={index}
             ref={(el) => {
               if (el) radioRefs.current[index] = el;
             }}
+            // biome-ignore lint/a11y/useSemanticElements: <explanation>
             role="radio"
             aria-checked={index === activeIndex}
             tabIndex={index === activeIndex ? 0 : -1}

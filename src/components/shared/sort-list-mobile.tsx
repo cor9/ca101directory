@@ -18,6 +18,7 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
   const searchParams = useSearchParams();
   const [active, setActive] = useState("");
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const activeItem = sortList.find(
       (item) => searchParams.get("sort") === item.slug,

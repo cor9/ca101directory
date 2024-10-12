@@ -174,6 +174,7 @@ export function SanityAdapter(
           console.log("updateUser, user:", patchedUser);
         }
 
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
         return patchedUser as any;
       } catch (error) {
         console.error("updateUser, error update user", error);
@@ -184,7 +185,7 @@ export function SanityAdapter(
     async deleteUser(userId) {
       try {
         return await sanityClient.delete(userId);
-      } catch (error: any) {
+      } catch (error) {
         console.error("deleteUser, error delete user", error);
         throw new Error("deleteUser, error delete user");
       }

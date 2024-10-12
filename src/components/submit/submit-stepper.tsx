@@ -27,7 +27,7 @@ export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
   return (
     <Stepper>
       {steps.map((step, index) => (
-        <React.Fragment key={index}>
+        <React.Fragment key={step.title}>
           <StepperItem step={index + 1}>
             {/* disable click on stepper trigger */}
             <StepperTrigger

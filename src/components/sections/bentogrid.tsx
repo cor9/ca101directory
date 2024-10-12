@@ -11,6 +11,7 @@ export default function BentoGrid() {
           <div className="relative col-span-full flex overflow-hidden rounded-2xl border bg-background p-8 lg:col-span-2">
             <div className="relative m-auto size-fit">
               <div className="relative flex h-24 w-56 items-center">
+                {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
                 <svg
                   className="absolute inset-0 size-full text-muted-foreground/30"
                   viewBox="0 0 254 104"
@@ -36,6 +37,7 @@ export default function BentoGrid() {
           <div className="relative col-span-full overflow-hidden rounded-2xl border bg-background p-8 sm:col-span-3 lg:col-span-2">
             <div>
               <div className="relative mx-auto flex aspect-square size-32 rounded-full border before:absolute before:-inset-2 before:rounded-full before:border before:bg-muted/20 dark:before:border-white/5">
+                {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
                 <svg
                   className="m-auto h-fit w-24"
                   viewBox="0 0 212 143"
@@ -104,6 +106,7 @@ export default function BentoGrid() {
           <div className="relative col-span-full overflow-hidden rounded-2xl border bg-background p-8 sm:col-span-3 lg:col-span-2">
             <div>
               <div>
+                {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
                 <svg
                   className="h-32 w-full"
                   viewBox="0 0 386 123"
@@ -202,6 +205,7 @@ export default function BentoGrid() {
             <div className="grid sm:grid-cols-2">
               <div className="relative z-10 flex flex-col justify-between space-y-12 lg:space-y-6">
                 <div className="relative flex aspect-square size-12 rounded-full border before:absolute before:-inset-2 before:rounded-full before:border dark:border-white/10 dark:bg-white/5 dark:before:border-white/5 dark:before:bg-white/5">
+                  {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
                   <svg
                     className="m-auto size-6"
                     xmlns="http://www.w3.org/2000/svg"
@@ -233,6 +237,7 @@ export default function BentoGrid() {
                   <span className="block size-2 rounded-full border border-border" />
                   <span className="block size-2 rounded-full border border-border" />
                 </div>
+                {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
                 <svg
                   className="w-full text-indigo-600/60 sm:w-[150%]"
                   viewBox="0 0 366 231"
@@ -281,6 +286,7 @@ export default function BentoGrid() {
             <div className="grid h-full sm:grid-cols-2">
               <div className="relative z-10 flex flex-col justify-between space-y-12 lg:space-y-6">
                 <div className="relative flex aspect-square size-12 rounded-full border before:absolute before:-inset-2 before:rounded-full before:border dark:border-white/10 dark:bg-white/5 dark:before:border-white/5 dark:before:bg-white/5">
+                  {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
                   <svg
                     className="m-auto size-6"
                     xmlns="http://www.w3.org/2000/svg"

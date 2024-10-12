@@ -13,6 +13,7 @@ import { visit } from "unist-util-visit";
 
 interface MdxProps {
   source?: string;
+  // biome-ignore lint/suspicious/noExplicitAny: use any for components
   components?: Record<string, React.ComponentType<any>>;
 }
 
@@ -216,10 +217,10 @@ const markdownComponents = {
     alt,
     ...props
   }: React.ImgHTMLAttributes<HTMLImageElement>) => (
-    // eslint-disable-next-line @next/next/no-img-element
+    // biome-ignore lint/a11y/useAltText: <explanation>
     <img
       className={cn("rounded-md border my-2", className)}
-      alt={alt}
+      alt={alt || "Image"}
       {...props}
     />
   ),
@@ -294,8 +295,10 @@ const markdownComponents = {
 const customComponents = {
   Callout,
   Image: ({ className, ...props }: React.ComponentProps<"img">) => (
+    // biome-ignore lint/a11y/useAltText: use alt="image" as default
     <img
       className={cn("rounded-md border my-2", className)}
+      // biome-ignore lint/a11y/noRedundantAlt: use image as default alt
       alt="image"
       {...props}
     />

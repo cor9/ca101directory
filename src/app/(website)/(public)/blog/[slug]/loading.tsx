@@ -50,6 +50,7 @@ export default function Loading() {
               <Skeleton className="h-8 w-24 mb-4" />
               <div className="flex flex-wrap gap-4">
                 {[...Array(3)].map((_, index) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                   <Skeleton key={index} className="h-6 w-20" />
                 ))}
               </div>
@@ -60,6 +61,7 @@ export default function Loading() {
               <Skeleton className="h-8 w-40 mb-4" />
               <div className="space-y-2">
                 {[...Array(5)].map((_, index) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                   <Skeleton key={index} className="h-6 w-full" />
                 ))}
               </div>

@@ -23,7 +23,7 @@ export async function settings(
       return { status: "error", message: "Unauthorized" };
     }
 
-    const dbUser = await getUserById(user.id!);
+    const dbUser = await getUserById(user.id);
     if (!dbUser) {
       return { status: "error", message: "User not found" };
     }

@@ -41,37 +41,37 @@ function useActiveItem(itemIds: (string | undefined)[]) {
   React.useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
             setActiveId(entry.target.id);
           }
-        });
+        }
       },
       { rootMargin: "0% 0% -80% 0%" },
     );
 
-    itemIds?.forEach((id) => {
+    for (const id of itemIds) {
       if (!id) {
-        return;
+        continue;
       }
 
       const element = document.getElementById(id);
       if (element) {
         observer.observe(element);
       }
-    });
+    }
 
     return () => {
-      itemIds?.forEach((id) => {
+      for (const id of itemIds) {
         if (!id) {
-          return;
+          continue;
         }
 
         const element = document.getElementById(id);
         if (element) {
           observer.unobserve(element);
         }
-      });
+      }
     };
   }, [itemIds]);
 
@@ -89,6 +89,7 @@ function Tree({ tree, level = 1, activeItem }: TreeProps) {
     <ul className={cn("m-0 list-none", { "pl-4": level !== 1 })}>
       {tree.items.map((item, index) => {
         return (
+          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
           <li key={index} className={cn("mt-0 pt-1")}>
             <a
               href={item.url}

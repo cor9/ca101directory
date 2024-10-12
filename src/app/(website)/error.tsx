@@ -11,7 +11,7 @@ import { useTransition } from "react";
  *
  * https://x.com/asidorenko_/status/1841547623712407994
  */
-export default function Error({ reset }: { reset: () => void }) {
+export default function ErrorPage({ reset }: { reset: () => void }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 

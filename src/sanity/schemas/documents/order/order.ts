@@ -50,7 +50,7 @@ const order = {
       status: "status",
     },
     prepare({ name, media, date, status }) {
-      let title;
+      let title: string;
       if (status === "success") {
         title = `✅ ${name}`;
       } else {

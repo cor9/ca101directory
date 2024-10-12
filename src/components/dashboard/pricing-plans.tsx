@@ -108,6 +108,7 @@ export function PricingPlansSkeleton() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {[...Array(2)].map((_, index) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
         <PricingPlanCardSkeleton key={index} />
       ))}
     </div>
@@ -128,8 +129,9 @@ export function PricingPlanCardSkeleton() {
         </div> */}
       </div>
       <ul className="mt-6 space-y-4">
-        {[...Array(6)].map((_, i) => (
-          <li key={i} className="flex">
+        {[...Array(6)].map((_, index) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+          <li key={index} className="flex">
             {/* <CheckIcon className="h-6 w-6 shrink-0" /> */}
             <Skeleton className="h-8 w-full" /> {/* Feature */}
           </li>

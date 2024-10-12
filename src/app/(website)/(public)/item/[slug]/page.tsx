@@ -212,7 +212,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
               <div className="bg-muted/50 rounded-lg p-6">
                 <h2 className="text-lg font-semibold mb-4">Categories</h2>
                 <ul className="flex flex-wrap gap-4">
-                  {item.categories?.map((category: any) => (
+                  {item.categories?.map((category) => (
                     <li key={category._id}>
                       <Link
                         href={`/category/${category.slug.current}`}
@@ -229,7 +229,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
               <div className="bg-muted/50 rounded-lg p-6">
                 <h2 className="text-lg font-semibold mb-4">Tags</h2>
                 <ul className="flex flex-wrap gap-4">
-                  {item.tags?.map((tag: any) => (
+                  {item.tags?.map((tag) => (
                     <li key={tag._id}>
                       <Link
                         href={`/tag/${tag.slug.current}`}

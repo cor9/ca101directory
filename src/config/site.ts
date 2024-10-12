@@ -1,6 +1,6 @@
 import type { SiteConfig } from "@/types";
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL!;
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 export const siteConfig: SiteConfig = {
   name: "Mkdirs Demo",

@@ -24,10 +24,10 @@ export default function InfoLanding({
             {data.description}
           </p>
           <dl className="mt-6 space-y-4 leading-7">
-            {data.list.map((item, index) => {
+            {data.list.map((item) => {
               const Icon = Icons[item.icon || "arrowRight"];
               return (
-                <div className="relative pl-8" key={index}>
+                <div className="relative pl-8" key={item.title}>
                   <dt className="font-semibold">
                     <Icon className="absolute left-0 top-1 size-5 stroke-purple-700" />
                     <span>{item.title}</span>

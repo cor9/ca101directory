@@ -38,9 +38,9 @@ export default function SubmissionCardImage({
             <div className="flex flex-col gap-2">
               {item.categories && item.categories.length > 0 && (
                 <div className="flex flex-wrap gap-1">
-                  {item.categories.map((category, index) => (
+                  {item.categories.map((category) => (
                     <span
-                      key={`cat-${index}`}
+                      key={category._id}
                       className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md"
                     >
                       {category.name}
@@ -50,9 +50,9 @@ export default function SubmissionCardImage({
               )}
               {item.tags && item.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1">
-                  {item.tags.map((tag, index) => (
+                  {item.tags.map((tag) => (
                     <div
-                      key={`tag-${index}`}
+                      key={tag._id}
                       className="flex items-center justify-center space-x-0.5 group
                               text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md"
                     >

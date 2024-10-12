@@ -43,7 +43,7 @@ export default function ItemCard({ item }: ItemCardProps) {
                       <div className="flex flex-wrap gap-1">
                         {item.categories.map((category, index) => (
                           <span
-                            key={`cat-${index}`}
+                            key={category._id}
                             className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md"
                           >
                             {category.name}
@@ -104,7 +104,7 @@ export default function ItemCard({ item }: ItemCardProps) {
             <div className="flex flex-wrap gap-2 items-center">
               {item.tags.slice(0, 5).map((tag, index) => (
                 <Link
-                  key={`tag-${index}`}
+                  key={tag._id}
                   href={`/tag/${tag.slug.current}`}
                   className="flex items-center justify-center space-x-0.5 group"
                 >

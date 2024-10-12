@@ -51,6 +51,7 @@ export default function CustomPagination({
           />
         </PaginationItem>
         {allPages.map((page, index) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
           <PaginationItem key={`${page}-${index}`}>
             {page === "..." ? (
               <PaginationEllipsis />

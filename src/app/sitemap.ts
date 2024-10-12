@@ -77,13 +77,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  sitemapRoutes.forEach((route) => {
+  for (const route of sitemapRoutes) {
     // console.log(`sitemap, url:${site_url}/${route.url}`);
     sitemapList.push({
       url: `${site_url}/${route.url}`,
       lastModified: new Date(route.lastModified).toISOString(),
     });
-  });
+  }
 
   const [
     itemListQueryResult,
@@ -126,7 +126,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
   console.log("sitemap, pageListQueryResult size:", pageListQueryResult.length);
 
-  itemListQueryResult.forEach((item) => {
+  for (const item of itemListQueryResult) {
     if (item.slug) {
       const routeUrl = `/item/${item.slug}`;
       // console.log(`sitemap, url:${site_url}${routeUrl}`);
@@ -137,9 +137,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     } else {
       console.warn(`sitemap, item slug invalid, id:${item._id}`);
     }
-  });
+  }
 
-  categoryListQueryResult.forEach((category) => {
+  for (const category of categoryListQueryResult) {
     if (category.slug) {
       const routeUrl = `/category/${category.slug}`;
       // console.log(`sitemap, url:${site_url}${routeUrl}`);
@@ -150,9 +150,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     } else {
       console.warn(`sitemap, category slug invalid, id:${category._id}`);
     }
-  });
+  }
 
-  tagListQueryResult.forEach((tag) => {
+  for (const tag of tagListQueryResult) {
     if (tag.slug) {
       const routeUrl = `/tag/${tag.slug}`;
       // console.log(`sitemap, url:${site_url}${routeUrl}`);
@@ -163,9 +163,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     } else {
       console.warn(`sitemap, tag slug invalid, id:${tag._id}`);
     }
-  });
+  }
 
-  blogListQueryResult.forEach((blog) => {
+  for (const blog of blogListQueryResult) {
     if (blog.slug) {
       const routeUrl = `/blog/${blog.slug}`;
       // console.log(`sitemap, url:${site_url}${routeUrl}`);
@@ -176,9 +176,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     } else {
       console.warn(`sitemap, blog post slug invalid, id:${blog._id}`);
     }
-  });
+  }
 
-  blogCategoryListQueryResult.forEach((blogCategory) => {
+  for (const blogCategory of blogCategoryListQueryResult) {
     if (blogCategory.slug) {
       const routeUrl = `/blog/category/${blogCategory.slug}`;
       // console.log(`sitemap, url:${site_url}${routeUrl}`);
@@ -191,9 +191,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         `sitemap, blog category slug invalid, id:${blogCategory._id}`,
       );
     }
-  });
+  }
 
-  pageListQueryResult.forEach((page) => {
+  for (const page of pageListQueryResult) {
     if (page.slug) {
       const routeUrl = `/page/${page.slug}`;
       // console.log(`sitemap, url:${site_url}${routeUrl}`);
@@ -204,7 +204,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     } else {
       console.warn(`sitemap, page slug invalid, id:${page._id}`);
     }
-  });
+  }
 
   console.log("sitemap end, size:", sitemapList.length);
   return sitemapList;

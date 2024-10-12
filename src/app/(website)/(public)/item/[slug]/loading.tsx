@@ -65,6 +65,7 @@ export default function Loading() {
                   </h2> */}
                 <ul className="space-y-4 text-sm">
                   {[...Array(2)].map((_, index) => (
+                    // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                     <li key={index} className="flex justify-between">
                       <Skeleton className="h-8 w-20" />
                       <Skeleton className="h-8 w-32" />
@@ -80,6 +81,7 @@ export default function Loading() {
                   </h2> */}
                 <div className="flex flex-wrap gap-4">
                   {[...Array(3)].map((_, index) => (
+                    // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                     <Skeleton key={index} className="h-6 w-20" />
                   ))}
                 </div>
@@ -92,6 +94,7 @@ export default function Loading() {
                   </h2> */}
                 <div className="flex flex-wrap gap-4">
                   {[...Array(5)].map((_, index) => (
+                    // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                     <Skeleton key={index} className="h-6 w-16" />
                   ))}
                 </div>

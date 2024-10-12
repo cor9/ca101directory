@@ -23,12 +23,12 @@ import {
   paragraph,
 } from "./email-formats";
 
-// const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
-const baseUrl = "https://demo.mkdirs.com";
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+// const baseUrl = "https://demo.mkdirs.com";
 
 export const NewsletterWelcomeEmail = ({ email }: { email: string }) => {
-  // const unsubscribeUrl = `${baseUrl}/unsubscribe?email=${encodeURIComponent(email)}`;
-  const unsubscribeUrl = `http://localhost:3000/unsubscribe?email=${encodeURIComponent(email)}`;
+  const unsubscribeUrl = `${baseUrl}/unsubscribe?email=${encodeURIComponent(email)}`;
+  // const unsubscribeUrl = `http://localhost:3000/unsubscribe?email=${encodeURIComponent(email)}`;
 
   return (
     <Html>

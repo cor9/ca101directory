@@ -39,7 +39,7 @@ export async function generateMetadata({
     title: `${category.name}`,
     description: category.description,
     canonicalUrl: `${siteConfig.url}/category/${params.slug}`,
-    image: ogImageUrl.toString(),
+    // image: ogImageUrl.toString(),
   });
 }
 

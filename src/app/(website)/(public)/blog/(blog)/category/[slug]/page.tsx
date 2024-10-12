@@ -35,7 +35,7 @@ export async function generateMetadata({
     title: `${category.name}`,
     description: category.description,
     canonicalUrl: `${siteConfig.url}/blog/category/${category.slug}`,
-    image: ogImageUrl.toString(),
+    // image: ogImageUrl.toString(),
   });
 }
 

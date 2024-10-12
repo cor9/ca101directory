@@ -37,7 +37,7 @@ export async function generateMetadata({
     title: `${tag.name}`,
     description: tag.description,
     canonicalUrl: `${siteConfig.url}/tag/${params.slug}`,
-    image: ogImageUrl.toString(),
+    // image: ogImageUrl.toString(),
   });
 }
 

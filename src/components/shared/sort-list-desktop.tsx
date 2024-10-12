@@ -50,20 +50,21 @@ export function SortListDesktop({ sortList }: SortListProps) {
   };
 
   return (
-    <div>
-      {/* Desktop View */}
-      <Select onValueChange={onSelectChange} value={active}>
-        <SelectTrigger className="w-[220px] h-8 text-sm">
-          <SelectValue placeholder={DEFAULT_SORT.label} />
-        </SelectTrigger>
-        <SelectContent className="text-sm">
-          {sortList.map((item) => (
-            <SelectItem key={item.slug} value={item.slug}>
-              {item.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
+    <Select onValueChange={onSelectChange} value={active}>
+      <SelectTrigger className="w-[220px] h-8 text-sm">
+        <SelectValue placeholder={DEFAULT_SORT.label} />
+      </SelectTrigger>
+      <SelectContent className="text-sm">
+        {sortList.map((item) => (
+          <SelectItem
+            key={item.slug}
+            value={item.slug}
+            className="cursor-pointer"
+          >
+            {item.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }

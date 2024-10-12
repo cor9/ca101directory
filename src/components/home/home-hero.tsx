@@ -34,8 +34,10 @@ export default function HomeHero() {
           style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
         >
           This is a demo directory website built with{" "}
-          <span className="font-bold">Mkdirs</span>, with which you can make any
-          trending and profitable directory website in minutes.
+          <Link href="https://mkdirs.com" className="font-bold">
+            Mkdirs
+          </Link>, with which you can make any trending and profitable
+          directory website in minutes.
         </p>
 
         <div className="w-full">

@@ -14,6 +14,9 @@ import { redirect } from "next/navigation";
  * https://www.sanity.io/docs/configuring-the-presentation-tool
  * This file is used to allow Presentation to set the app in Draft Mode, which will load Visual Editing
  * and query draft content and preview the content as it will appear once everything is published
+ *
+ * 3. Preview URL Secret
+ * https://www.sanity.io/docs/preview-url-secret#nextjs-app-router
  */
 const clientWithToken = sanityClient.withConfig({ token });
 

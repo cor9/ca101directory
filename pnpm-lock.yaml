@@ -254,6 +254,9 @@ importers:
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.13)
+      transliteration:
+        specifier: ^2.3.5
+        version: 2.3.5
       use-debounce:
         specifier: ^10.0.3
         version: 10.0.3(react@18.3.1)
@@ -6894,6 +6897,11 @@ packages:
   tr46@5.0.0:
     resolution: {integrity: sha512-tk2G5R2KRwBd+ZN0zaEXpmzdKyOYksXwywulIX95MBODjSzMIuQnQ3m8JxgbhnL1LeVo7lqQKsYa1O3Htl7K5g==}
     engines: {node: '>=18'}
+
+  transliteration@2.3.5:
+    resolution: {integrity: sha512-HAGI4Lq4Q9dZ3Utu2phaWgtm3vB6PkLUFqWAScg/UW+1eZ/Tg6Exo4oC0/3VUol/w4BlefLhUUSVBr/9/ZGQOw==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
 
   trim-lines@3.0.1:
     resolution: {integrity: sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg==}
@@ -15180,6 +15188,10 @@ snapshots:
   tr46@5.0.0:
     dependencies:
       punycode: 2.3.1
+
+  transliteration@2.3.5:
+    dependencies:
+      yargs: 17.7.2
 
   trim-lines@3.0.1: {}
 

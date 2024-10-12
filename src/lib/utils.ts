@@ -2,16 +2,18 @@ import { siteConfig } from "@/config/site";
 import { type ClassValue, clsx } from "clsx";
 import type { ReadonlyURLSearchParams } from "next/navigation";
 import { twMerge } from "tailwind-merge";
+import { slugify as transliterateSlugify } from "transliteration";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 /**
- * slugify
+ * slugify with transliteration
  */
 export function slugify(str: string): string {
-  return str
+  const transliterated = transliterateSlugify(str);
+  return transliterated
     .toLowerCase()
     .trim()
     .replace(/[^\w\s-]/g, "") // Remove non-word chars (except spaces and dashes)

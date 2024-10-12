@@ -5,13 +5,13 @@ import {
   Head,
   Hr,
   Html,
-  Link,
   Img,
+  Link,
   Preview,
   Section,
   Text
 } from "@react-email/components";
-import { anchor, box, button, container, footer, footerLeft, footerRight, hr, main, paragraph } from "./email-formats";
+import { anchor, box, container, footer, footerLeft, footerRight, hr, main, paragraph } from "./email-formats";
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 // const baseUrl = 'https://demo.mkdirs.com';

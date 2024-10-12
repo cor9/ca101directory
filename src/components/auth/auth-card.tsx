@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import { Logo } from "../logo";
 
 interface AuthCardProps {
   children: React.ReactNode;
@@ -33,7 +34,8 @@ export const AuthCard = ({
   return (
     <Card className={cn("shadow-none sm:w-[400px] max-w-[400px]", className)}>
       <CardHeader className="items-center">
-        <CardTitle>{siteConfig.name}</CardTitle>
+        <Logo className="mb-2" />
+        {/* <CardTitle>{siteConfig.name}</CardTitle> */}
         <CardDescription>{headerLabel}</CardDescription>
       </CardHeader>
       <CardContent>{children}</CardContent>

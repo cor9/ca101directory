@@ -7,12 +7,12 @@ export function Analytics() {
   }
 
   return (
-    <section>
+    <>
       {/* openpanel analytics */}
       <OpenPanelAnalytics />
 
       {/* google analytics */}
       <GoogleAnalytics />
-    </section>
+    </>
   );
 }

@@ -12,13 +12,13 @@ export default function GoogleAnalytics() {
     return null;
   }
 
-  const analyticsId = process.env.GOOGLE_ANALYTICS_ID;
+  const analyticsId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
   if (!analyticsId) {
     return null;
   }
 
   return (
-    <section>
+    <>
       <Script
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`}
@@ -36,6 +36,6 @@ export default function GoogleAnalytics() {
                     `,
         }}
       />
-    </section>
+    </>
   );
 }

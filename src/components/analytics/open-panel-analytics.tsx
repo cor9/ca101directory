@@ -10,7 +10,7 @@ export default function OpenPanelAnalytics() {
     return null;
   }
 
-  const clientId = process.env.OPENPANEL_CLIENT_ID;
+  const clientId = process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID;
   if (!clientId) {
     return null;
   }

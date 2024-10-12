@@ -10,11 +10,9 @@ import {
   ArrowRightIcon,
   ArrowUpLeftIcon,
   CheckCircleIcon,
-  EditIcon,
-  RocketIcon,
+  RocketIcon
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { useTransition } from "react";
 import { toast } from "sonner";
 
@@ -29,7 +27,7 @@ export function ProPlanButton({
   pricePlan,
   className,
 }: ProPlanButtonProps) {
-  console.log("ProPlanButton, item:", item);
+  // console.log("ProPlanButton, item:", item);
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 

@@ -1,22 +1,33 @@
 import { siteConfig } from "@/config/site";
 import {
-    Body,
-    Button,
-    Container,
-    Head,
-    Hr,
-    Html,
-    Img,
-    Link,
-    Preview,
-    Section,
-    Text
+  Body,
+  Button,
+  Container,
+  Head,
+  Hr,
+  Html,
+  Img,
+  Link,
+  Preview,
+  Section,
+  Text,
 } from "@react-email/components";
-import { main, container, box, hr, paragraph, anchor, button, footer, footerLeft, footerRight } from "./email-formats";
+import {
+  anchor,
+  box,
+  button,
+  container,
+  footer,
+  footerLeft,
+  footerRight,
+  hr,
+  main,
+  paragraph,
+} from "./email-formats";
 
 interface NotifySubmissionEmailProps {
-    itemName?: string;
-    reviewLink?: string;
+  itemName?: string;
+  reviewLink?: string;
 }
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
@@ -26,60 +37,64 @@ const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
  * https://demo.react.email/preview/welcome/stripe-welcome
  */
 export const NotifySubmissionEmail = ({
-    itemName,
-    reviewLink,
+  itemName,
+  reviewLink,
 }: NotifySubmissionEmailProps) => {
-    return (
-        <Html>
-            <Head />
-            <Preview>New submission</Preview>
-            <Body style={main}>
-                <Container style={container}>
-                    <Section style={box}>
-                        <Img
-                            src={`${baseUrl}/logo.png`}
-                            width="32"
-                            height="32"
-                            alt="Logo"
-                        />
-                        <Hr style={hr} />
-                        <Text style={paragraph}>
-                            New submission
-                        </Text>
-                        <Text style={paragraph}>
-                            A new submission named <b>{itemName}</b> is ready to be reviewed.
-                        </Text>
-                        <Button style={button} href={reviewLink}>
-                            Review submission
-                        </Button>
-                        <Text style={paragraph}>— The <Link style={anchor} href={baseUrl}>{siteConfig.name}</Link> team</Text>
-                        <Hr style={hr} />
-                        <Text style={footer}>
-                            <span style={footerLeft}>
-                                &copy; {new Date().getFullYear()}
-                                &nbsp;&nbsp;
-                                All rights reserved.
-                            </span>
-                            <span style={footerRight}>
-                                <Link style={anchor} href={siteConfig.links.twitter}>
-                                    Twitter
-                                </Link>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <Link style={anchor} href={siteConfig.links.github}>
-                                    Github
-                                </Link>
-                            </span>
-                        </Text>
-                    </Section>
-                </Container>
-            </Body>
-        </Html>
-    );
+  return (
+    <Html>
+      <Head />
+      <Preview>New submission</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Section style={box}>
+            <Img
+              src={`${baseUrl}/logo.png`}
+              width="32"
+              height="32"
+              alt="Logo"
+            />
+            <Hr style={hr} />
+            <Text style={paragraph}>New submission</Text>
+            <Text style={paragraph}>
+              A new submission named <b>{itemName}</b> is ready to be reviewed.
+            </Text>
+            <Button style={button} href={reviewLink}>
+              Review submission
+            </Button>
+            <Text style={paragraph}>
+              Thanks, <br />
+              The{" "}
+              <Link style={anchor} href={baseUrl}>
+                {siteConfig.name}
+              </Link>{" "}
+              team
+            </Text>
+            <Hr style={hr} />
+            <Text style={footer}>
+              <span style={footerLeft}>
+                &copy; {new Date().getFullYear()}
+                &nbsp;&nbsp; All rights reserved.
+              </span>
+              <span style={footerRight}>
+                <Link style={anchor} href={siteConfig.links.twitter}>
+                  Twitter
+                </Link>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <Link style={anchor} href={siteConfig.links.github}>
+                  Github
+                </Link>
+              </span>
+            </Text>
+          </Section>
+        </Container>
+      </Body>
+    </Html>
+  );
 };
 
 NotifySubmissionEmail.PreviewProps = {
-    itemName: "Mkdirs",
-    reviewLink: "https://demo.mkdirs.com",
+  itemName: "Mkdirs",
+  reviewLink: "https://demo.mkdirs.com",
 } as NotifySubmissionEmailProps;
 
 export default NotifySubmissionEmail;

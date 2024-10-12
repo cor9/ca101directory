@@ -9,9 +9,19 @@ import {
   Link,
   Preview,
   Section,
-  Text
+  Text,
 } from "@react-email/components";
-import { anchor, box, container, footer, footerLeft, footerRight, hr, main, paragraph } from "./email-formats";
+import {
+  anchor,
+  box,
+  container,
+  footer,
+  footerLeft,
+  footerRight,
+  hr,
+  main,
+  paragraph,
+} from "./email-formats";
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 // const baseUrl = 'https://demo.mkdirs.com';
@@ -32,23 +42,32 @@ export const NewsletterWelcomeEmail = () => {
             />
             <Hr style={hr} />
             <Text style={paragraph}>
-              Welcome to our community! We're thrilled to have you join us on this journey of exploring cutting-edge websites and tools.
+              Welcome to our community! We're thrilled to have you join us on
+              this journey of exploring cutting-edge websites and tools.
             </Text>
             <Text style={paragraph}>
-              Expect our monthly newsletter packed with curated insights, latest trends, and exclusive tips in the AI space.
+              Expect our monthly newsletter packed with curated insights, latest
+              trends, and exclusive tips in the AI space.
             </Text>
             <Text style={paragraph}>
-              We value your participation and feedback. Please don't hesitate to reach out to us if you have any questions or suggestions.
+              We value your participation and feedback. Please don't hesitate to
+              reach out to us if you have any questions or suggestions.
             </Text>
-            <Text style={paragraph}>— The <Link style={anchor} href={baseUrl}>{siteConfig.name}</Link> team</Text>
+            <Text style={paragraph}>
+              Thanks, <br />
+              The{" "}
+              <Link style={anchor} href={baseUrl}>
+                {siteConfig.name}
+              </Link>{" "}
+              team
+            </Text>
             <Hr style={hr} />
             <Text style={footer}>
               <span style={footerLeft}>
                 &copy; {new Date().getFullYear()}
-                &nbsp;
-                All rights reserved.
+                &nbsp; All rights reserved.
               </span>
-              
+
               <span style={footerRight}>
                 <Link style={anchor} href={siteConfig.links.twitter}>
                   Twitter
@@ -63,7 +82,7 @@ export const NewsletterWelcomeEmail = () => {
         </Container>
       </Body>
     </Html>
-  )
-}
+  );
+};
 
 export default NewsletterWelcomeEmail;

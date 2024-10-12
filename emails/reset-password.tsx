@@ -83,7 +83,7 @@ export const ResetPasswordEmail = ({
             <Text style={footer}>
               <span style={footerLeft}>
                 &copy; {new Date().getFullYear()}
-                &nbsp;&nbsp; All rights reserved.
+                &nbsp;&nbsp; All Rights Reserved.
               </span>
               <span style={footerRight}>
                 <Link style={anchor} href={siteConfig.links.twitter}>

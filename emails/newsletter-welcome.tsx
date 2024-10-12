@@ -65,7 +65,7 @@ export const NewsletterWelcomeEmail = () => {
             <Text style={footer}>
               <span style={footerLeft}>
                 &copy; {new Date().getFullYear()}
-                &nbsp; All rights reserved.
+                &nbsp; All Rights Reserved.
               </span>
 
               <span style={footerRight}>

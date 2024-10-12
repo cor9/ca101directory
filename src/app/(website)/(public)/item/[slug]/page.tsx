@@ -112,7 +112,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
         <div className="lg:col-span-2">
           {/* image */}
           <div className="relative group overflow-hidden rounded-lg aspect-[16/9]">
-            <Link href={`${item.link}`} target="_blank" prefetch={false}>
+            <Link href={`${item.link}`} target="_blank" prefetch={false} className="relative block w-full h-full">
               {imageProps && (
                 <Image
                   src={imageProps.src}

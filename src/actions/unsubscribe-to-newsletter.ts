@@ -17,9 +17,8 @@ export async function unsubscribeToNewsletter(
       return { status: "error", message: "Invalid input" };
     }
 
-    const unsubscribedResult = await resend.contacts.create({
+    const unsubscribedResult = await resend.contacts.remove({
       email: validatedInput.data.email,
-      unsubscribed: true,
       audienceId: process.env.RESEND_AUDIENCE_ID,
     });
     console.log(

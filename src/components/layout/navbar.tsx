@@ -84,24 +84,20 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                 <NavigationMenuList>
                   {links.map((item) => (
                     <NavigationMenuItem key={item.title}>
-                      <Link
+                      <NavigationMenuLink
                         href={item.disabled ? "#" : item.href}
-                        legacyBehavior
-                        passHref
+                        target={item.external ? "_blank" : ""}
+                        className={cn(
+                          navigationMenuTriggerStyle(),
+                          "px-2 bg-transparent focus:bg-transparent text-base",
+                          isLinkActive(item.href)
+                            ? "text-foreground font-semibold"
+                            : "text-foreground/60",
+                          item.disabled && "cursor-not-allowed opacity-80",
+                        )}
                       >
-                        <NavigationMenuLink
-                          className={cn(
-                            navigationMenuTriggerStyle(),
-                            "px-2 bg-transparent focus:bg-transparent text-base",
-                            isLinkActive(item.href)
-                              ? "text-foreground font-semibold"
-                              : "text-foreground/60",
-                            item.disabled && "cursor-not-allowed opacity-80",
-                          )}
-                        >
-                          {item.title}
-                        </NavigationMenuLink>
-                      </Link>
+                        {item.title}
+                      </NavigationMenuLink>
                     </NavigationMenuItem>
                   ))}
                 </NavigationMenuList>
@@ -163,6 +159,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                       <Link
                         key={item.title}
                         href={item.disabled ? "#" : item.href}
+                        target={item.external ? "_blank" : ""}
                         onClick={() => {
                           if (!item.disabled) setOpen(false);
                         }}

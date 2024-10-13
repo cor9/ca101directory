@@ -14,7 +14,7 @@ export type BlogPostInfo = BlogPostListQueryResult[number];
 
 export type SiteConfig = {
   name: string;
-  slogan: string;
+  tagline: string;
   description: string;
   keywords: string[];
   author: string;

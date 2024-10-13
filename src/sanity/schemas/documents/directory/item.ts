@@ -187,6 +187,7 @@ export default defineType({
           "The item is not good fit for our directory",
           "The image of the item is not in good quality",
           "The information of the item is not clear",
+          "The backlink to our site is not provided",
           "Other reasons",
         ],
         layout: "dropdown",

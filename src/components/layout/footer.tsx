@@ -22,7 +22,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
             </div>
 
             <p className="text-muted-foreground text-base p4-4 md:pr-12">
-              {siteConfig.slogan}
+              {siteConfig.tagline}
             </p>
 
             <div className="flex items-center gap-1">

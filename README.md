@@ -1,26 +1,9 @@
-# NextDir
+# Mkdirs
 
 Key Features:
 - 🔐 Next-auth v5 (Auth.js)
 - 🚀 Next.js 14 with server actions
-- 📄Custom SANITY CMS Adapter Integration
-- ☁️Embbed SANITY studio
-- 🔑 Credentials Provider
 - 🌐 OAuth Provider (Social login with Google & GitHub)
-- 🔒 Forgot password functionality
-- ✉️ Email verification
-- 📱 Two factor verification
-- 👥 User roles (Admin & User)
-- 🚧 Role Gate
-- 👤 useCurrentUser hook
-- 🛂 useRole hook
-- 🧑 currentUser utility
-- 👮 currentRole utility
-- 🖥️ Example with server component
-- 💻 Example with client component
-- 👑 Render content for admins using RoleGate component
-- 🛡️ Protect API Routes for admins only
-- 🔐 Protect Server Actions for admins only
 
 
 ### Cloning this repository
@@ -33,32 +16,53 @@ git clone
 ### Install packages
 
 ```shell
-npm i
+pnpm i
 ```
 
 ### Setup .env file
-
 
 ```js
 NEXT_PUBLIC_APP_URL=
 
 NEXT_PUBLIC_SANITY_PROJECT_ID=
 NEXT_PUBLIC_SANITY_DATASET=
-NEXT_PUBLIC_SANITY_TOKEN=
+SANITY_API_TOKEN=
 
 AUTH_SECRET=
 
-GITHUB_CLIENT_ID=
-GITHUB_CLIENT_SECRET=
+AUTH_GOOGLE_ID=
+AUTH_GOOGLE_SECRET=
 
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
+AUTH_GITHUB_ID=
+AUTH_GITHUB_SECRET=
 
 RESEND_API_KEY=
+RESEND_EMAIL_FROM=
+RESEND_EMAIL_ADMIN=
+RESEND_AUDIENCE_ID=
+
+NEXT_PUBLIC_OPENPANEL_CLIENT_ID=
+NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=
+
+STRIPE_API_KEY=
+NEXT_PUBLIC_STRIPE_PRO_PRICE_ID=
+STRIPE_WEBHOOK_SECRET=
 ```
 
-### Running app
+### Run the app
 
 ```shell
-npm run dev
+pnpm dev
+```
+
+### Build the app
+
+```shell
+pnpm build
+```
+
+### Deploy the app
+
+```shell
+
 ```

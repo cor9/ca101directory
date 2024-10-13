@@ -1,9 +1,11 @@
+import { CustomMarkdownInput } from '@/sanity/components/custom-markdown-input';
 import documentNode from '@/sanity/document-node';
 import { apiVersion, dataset, projectId, studioUrl } from '@/sanity/lib/api';
 import { singletonPlugin } from '@/sanity/plugins/singleton';
 import { schemaTypes } from '@/sanity/schemas';
 import settings from '@/sanity/schemas/documents/settings';
 import { structure } from '@/sanity/structure';
+import { codeInput } from '@sanity/code-input';
 import { 
   dashboardTool, 
   projectInfoWidget, 
@@ -17,8 +19,6 @@ import { markdownSchema } from "sanity-plugin-markdown";
 import { media } from 'sanity-plugin-media';
 import { presentationTool } from 'sanity/presentation';
 import { structureTool } from 'sanity/structure';
-import { codeInput } from '@sanity/code-input';
-import { CustomMarkdownInput } from '@/sanity/components/custom-markdown-input';
 
 export default defineConfig({
   name: 'Studio',
@@ -75,19 +75,6 @@ export default defineConfig({
         sanityTutorialsWidget()
       ],
     }),
-
-    // https://www.sanity.io/plugins/internationalized-array
-    // Store localised fields in an array to save on attributes
-    // internationalizedArray + fieldTypes/string => internationalizedArrayString
-    // internationalizedArray({
-    //   languages: [
-    //     { id: 'en', title: 'English' },
-    //     { id: 'zh', title: 'Chinese' },
-    //     { id: 'fr', title: 'French' }
-    //   ],
-    //   defaultLanguages: ['en'],
-    //   fieldTypes: ['string'],
-    // }),
 
     // Configures the global "new document" button, and document actions, 
     // hide the "duplicate" action on the Singletons (such as Settings)

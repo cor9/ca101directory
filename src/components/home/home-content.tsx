@@ -23,12 +23,15 @@ export async function HomeContent() {
   const [featuredItems, latestItems, latestBlogPosts] = await Promise.all([
     sanityFetch<ItemListQueryResult>({
       query: itemListOfFeaturedQuery,
+      params: { count: 6 },
     }),
     sanityFetch<ItemListQueryResult>({
       query: itemListOfLatestQuery,
+      params: { count: 6 },
     }),
     sanityFetch<BlogPostListQueryResult>({
       query: blogPostListOfLatestQuery,
+      params: { count: 6 },
     }),
   ]);
 

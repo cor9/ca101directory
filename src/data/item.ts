@@ -87,10 +87,10 @@ const buildQuery = (
   const offsetEnd = offsetStart + ITEMS_PER_PAGE;
 
   // @sanity-typegen-ignore
-  const countQuery = `count(*[_type == "item" && defined(slug.current) && defined(publishDate)
+  const countQuery = `count(*[_type == "item" && defined(slug.current) && defined(publishDate) && forceHidden == false
       ${queryCondition} ${categoryCondition} ${tagCondition}])`;
   // @sanity-typegen-ignore
-  const dataQuery = `*[_type == "item" && defined(slug.current) && defined(publishDate)
+  const dataQuery = `*[_type == "item" && defined(slug.current) && defined(publishDate) && forceHidden == false
       ${queryCondition} ${categoryCondition} ${tagCondition}] ${sortOrder} [${offsetStart}...${offsetEnd}] {
       ${itemSimpleFields}
     }`;

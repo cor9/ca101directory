@@ -72,7 +72,7 @@ export const itemFullInfoByIdQuery = defineQuery(`*[_type == "item" && _id == $i
   ${itemFields}
 }`);
 
-export const itemFullInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.current == $slug][0] {
+export const itemFullInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.current == $slug && forceHidden == false][0] {
   ${itemFieldsWithRelated}
 }`);
 
@@ -86,25 +86,15 @@ export const itemListQuery = defineQuery(`*[_type == "item" && defined(slug.curr
     ${itemSimpleFields}
 }`);
 
-export const itemListOfFeaturedQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate) && featured == true] 
-  | order(publishDate desc) [0...6] {
+export const itemListOfFeaturedQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate) 
+  && forceHidden == false && featured == true] 
+  | order(publishDate desc) [0...$count] {
     ${itemSimpleFields}
 }`);
 
-export const itemListOfLatestQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)] 
-  | order(publishDate desc) [0...6] {
-    ${itemSimpleFields}
-}`);
-
-export const itemListOfCategoryQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)
-  && $slug in categories[]->slug.current] 
-  | order(publishDate desc) {
-    ${itemSimpleFields}
-}`);
-
-export const itemListOfTagQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)
-  && $slug in tags[]->slug.current] 
-  | order(publishDate desc) {
+export const itemListOfLatestQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate) 
+  && forceHidden == false] 
+  | order(publishDate desc) [0...$count] {
     ${itemSimpleFields}
 }`);
 
@@ -251,7 +241,7 @@ export const blogPostListQuery = defineQuery(`
 
 export const blogPostListOfLatestQuery = defineQuery(`
   *[_type == "blogPost" && defined(slug.current) && defined(publishDate)] 
-  | order(publishDate desc) [0...3] {
+  | order(publishDate desc) [0...$count] {
     ${blogPostSimpleFields}
 }`);
 

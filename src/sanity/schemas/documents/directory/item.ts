@@ -114,6 +114,16 @@ export default defineType({
     }),
     // publish related fields
     defineField({
+      name: "forceHidden",
+      title: "Force Hidden",
+      description: "If the item is force hidden, it will not be displayed regardless of the status",
+      type: "boolean",
+      group: "status",
+      initialValue: false,
+      // hidden: ({ parent }) => !parent.published,
+    }),
+    // publish related fields
+    defineField({
       name: "publishDate",
       title: "Publish Date",
       description: "The lastest publish date when the item is published",

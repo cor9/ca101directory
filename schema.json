@@ -1594,6 +1594,13 @@
         },
         "optional": true
       },
+      "forceHidden": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
       "publishDate": {
         "type": "objectAttribute",
         "value": {
@@ -1684,6 +1691,10 @@
             {
               "type": "string",
               "value": "The information of the item is not clear"
+            },
+            {
+              "type": "string",
+              "value": "The backlink to our site is not provided"
             },
             {
               "type": "string",

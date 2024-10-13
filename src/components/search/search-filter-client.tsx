@@ -31,10 +31,18 @@ interface SearchFilterProps {
   sortList: SortFilterItem[];
 }
 
+interface SearchFilterProps {
+  tagList: TagFilterItem[];
+  categoryList: CategoryFilterItem[];
+  sortList: SortFilterItem[];
+  urlPrefix: string;
+}
+
 export function SearchFilterClient({
   tagList,
   categoryList,
   sortList,
+  urlPrefix,
 }: SearchFilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -50,11 +58,11 @@ export function SearchFilterClient({
     } else {
       newParams.set(type, value);
     }
-    router.push(`/search?${newParams.toString()}`);
+    router.push(`${urlPrefix}?${newParams.toString()}`);
   };
 
   const handleResetFilters = () => {
-    router.push("/search");
+    router.push(urlPrefix);
   };
 
   const categoryFilterItemList = [
@@ -79,7 +87,7 @@ export function SearchFilterClient({
 
   return (
     <div className="grid md:grid-cols-[1fr_1fr_1fr_1fr_0.5fr] gap-2 z-10 items-center">
-      <SearchBox />
+      <SearchBox urlPrefix={urlPrefix} />
 
       <ResponsiveComboBox
         filterItemList={categoryFilterItemList}

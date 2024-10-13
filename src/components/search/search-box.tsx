@@ -6,7 +6,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
 
-export default function SearchBox() {
+interface SearchBoxProps {
+  urlPrefix: string;
+}
+
+export default function SearchBox({ urlPrefix }: SearchBoxProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams?.get("q") || "");
@@ -32,7 +36,7 @@ export default function SearchBox() {
         newParams.delete("q");
       }
       newParams.delete("page");
-      const newUrl = createUrl("/search", newParams);
+      const newUrl = createUrl(`${urlPrefix}`, newParams);
       console.log(`useEffect, newUrl: ${newUrl}`);
       lastExecutedQuery.current = debouncedQuery;
       router.push(newUrl, { scroll: false });

@@ -17,7 +17,7 @@ export default function SearchLayout({
           />
 
           <div className="w-full">
-            <SearchFilter />
+            <SearchFilter urlPrefix="/search" />
           </div>
         </div>
       </div>

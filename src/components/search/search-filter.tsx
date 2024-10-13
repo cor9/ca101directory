@@ -8,7 +8,11 @@ import { categoryListQuery, tagListQuery } from "@/sanity/lib/queries";
 import Container from "../container";
 import { SearchFilterClient } from "./search-filter-client";
 
-export async function SearchFilter() {
+interface SearchFilterProps {
+  urlPrefix: string;
+}
+
+export async function SearchFilter({ urlPrefix }: SearchFilterProps) {
   const [categoryList, tagList] = await Promise.all([
     sanityFetch<CategoryListQueryResult>({
       query: categoryListQuery,
@@ -36,6 +40,7 @@ export async function SearchFilter() {
             tagList={tags}
             categoryList={categories}
             sortList={SORT_FILTER_LIST}
+            urlPrefix={urlPrefix}
           />
         </div>
       </Container>
@@ -47,6 +52,7 @@ export async function SearchFilter() {
             tagList={tags}
             categoryList={categories}
             sortList={SORT_FILTER_LIST}
+            urlPrefix={urlPrefix}
           />
         </div>
       </div>

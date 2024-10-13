@@ -5,14 +5,13 @@ import {
   HomeIcon,
   LayoutDashboardIcon,
   LayoutGridIcon,
-  LayoutPanelLeftIcon,
   Loader2Icon,
   type LucideIcon,
   MailIcon,
   SearchIcon,
   SettingsIcon,
   TagsIcon,
-  UploadIcon,
+  UploadIcon
 } from "lucide-react";
 import { FaBrandsGithub } from "../icons/github";
 import { FaBrandsGoogle } from "../icons/google";

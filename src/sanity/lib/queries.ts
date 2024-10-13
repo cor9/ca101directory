@@ -72,7 +72,7 @@ export const itemFullInfoByIdQuery = defineQuery(`*[_type == "item" && _id == $i
   ${itemFields}
 }`);
 
-export const itemFullInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.current == $slug && forceHidden == false][0] {
+export const itemFullInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.current == $slug && forceHidden != true][0] {
   ${itemFieldsWithRelated}
 }`);
 
@@ -87,13 +87,13 @@ export const itemListQuery = defineQuery(`*[_type == "item" && defined(slug.curr
 }`);
 
 export const itemListOfFeaturedQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate) 
-  && forceHidden == false && featured == true] 
+  && forceHidden != true && featured == true] 
   | order(publishDate desc) [0...$count] {
     ${itemSimpleFields}
 }`);
 
 export const itemListOfLatestQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate) 
-  && forceHidden == false] 
+  && forceHidden != true] 
   | order(publishDate desc) [0...$count] {
     ${itemSimpleFields}
 }`);

@@ -112,15 +112,13 @@ export default defineType({
         },
       ],
     }),
-    // publish related fields
     defineField({
       name: "forceHidden",
       title: "Force Hidden",
-      description: "If the item is force hidden, it will not be displayed regardless of the status",
+      description: "If the item is force hidden, it will not be displayed regardless of the status. It's helpful when you want to hide an item temporarily.",
       type: "boolean",
       group: "status",
       initialValue: false,
-      // hidden: ({ parent }) => !parent.published,
     }),
     // publish related fields
     defineField({

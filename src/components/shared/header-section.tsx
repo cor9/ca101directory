@@ -1,11 +1,13 @@
 import { cn } from "@/lib/utils";
 
 interface HeaderSectionProps {
+  id?: string;
   label?: string;
   labelAs?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p";
   title?: string;
   titleAs?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p";
   subtitle?: string;
+  subtitleAs?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p";
   className?: string;
 }
 
@@ -13,18 +15,23 @@ interface HeaderSectionProps {
  * different pages may use this component as different heading style for SEO friendly
  */
 export function HeaderSection({
+  id,
   label,
   labelAs = "p",
   title,
   titleAs = "p",
   subtitle,
+  subtitleAs = "p",
   className,
 }: HeaderSectionProps) {
   const LabelComponent = labelAs;
   const TitleComponent = titleAs;
-
+  const SubtitleComponent = subtitleAs;
   return (
-    <div className={cn("flex flex-col items-center text-center", className)}>
+    <div
+      id={id}
+      className={cn("flex flex-col items-center text-center", className)}
+    >
       {label ? (
         <LabelComponent className="tracking-wider text-gradient_indigo-purple font-semibold">
           {label}
@@ -36,9 +43,9 @@ export function HeaderSection({
         </TitleComponent>
       ) : null}
       {subtitle ? (
-        <p className="mt-6 text-balance text-lg text-muted-foreground">
+        <SubtitleComponent className="mt-6 text-balance text-lg text-muted-foreground">
           {subtitle}
-        </p>
+        </SubtitleComponent>
       ) : null}
     </div>
   );

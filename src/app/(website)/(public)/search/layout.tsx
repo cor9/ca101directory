@@ -13,7 +13,7 @@ export default function SearchLayout({
             labelAs="h1"
             label="Search"
             titleAs="h2"
-            title="Search for your needs"
+            title="Search anything you want"
           />
 
           <div className="w-full">

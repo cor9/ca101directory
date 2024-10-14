@@ -80,11 +80,6 @@ export default defineConfig({
     // hide the "duplicate" action on the Singletons (such as Settings)
     singletonPlugin([settings.name]),
 
-    // https://www.sanity.io/plugins/color-input
-    // Color input for Sanity that stores selected colors in hex, hsl, hsv and rgb format.
-    // if you need colorInput, you need to install @sanity/color-input
-    // colorInput(),
-
     // https://www.sanity.io/plugins/code-input
     // Syntax highlighted editor for code.
     // if you need codeInput, you need to install @sanity/code-input

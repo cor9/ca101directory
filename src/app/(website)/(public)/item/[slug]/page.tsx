@@ -63,6 +63,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
   const imageBlurDataURL = item?.image?.blurDataURL || null;
   const publishDate = item.publishDate || item._createdAt;
   const date = getLocaleDate(publishDate);
+  const itemLink = `${item.link}?utm_source=${siteConfig.utm.source}&utm_medium=${siteConfig.utm.medium}`;
 
   return (
     <div className="flex flex-col gap-8">
@@ -87,7 +88,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
           <div className="flex gap-4">
             <Button size="lg" variant="default" asChild className="group">
               <Link
-                href={item.link}
+                href={itemLink}
                 target="_blank"
                 prefetch={false}
                 className="flex items-center justify-center space-x-2"
@@ -96,15 +97,6 @@ export default async function ItemPage({ params }: ItemPageProps) {
                 <span>Visit Website</span>
               </Link>
             </Button>
-
-            {/* <Button size="lg" variant="outline" asChild className="group">
-              <Link href={item.link} className="flex items-center justify-center space-x-2">
-                <HeartIcon className="w-4 h-4
-                    transition-transform duration-300 ease-in-out 
-                    group-hover:scale-125" />
-                <span className="">Favorite</span>
-              </Link>
-            </Button> */}
           </div>
         </div>
 
@@ -112,7 +104,12 @@ export default async function ItemPage({ params }: ItemPageProps) {
         <div className="lg:col-span-2">
           {/* image */}
           <div className="relative group overflow-hidden rounded-lg aspect-[16/9]">
-            <Link href={`${item.link}`} target="_blank" prefetch={false} className="relative block w-full h-full">
+            <Link
+              href={`${itemLink}`}
+              target="_blank"
+              prefetch={false}
+              className="relative block w-full h-full"
+            >
               {imageProps && (
                 <Image
                   src={imageProps.src}
@@ -190,7 +187,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                   <li className="flex justify-between">
                     <span className="text-muted-foreground">Website</span>
                     <Link
-                      href={item.link}
+                      href={itemLink}
                       target="_blank"
                       prefetch={false}
                       className="font-medium link-underline"

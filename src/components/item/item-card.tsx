@@ -1,5 +1,6 @@
 "use client";
 
+import { siteConfig } from "@/config/site";
 import { urlForImage } from "@/lib/image";
 import { cn } from "@/lib/utils";
 import type { ItemInfo } from "@/types";
@@ -16,6 +17,7 @@ export default function ItemCard({ item }: ItemCardProps) {
   const imageBlurDataURL = item?.image?.blurDataURL || null;
   // console.log(`ItemCard, imageBlurDataURL:${imageBlurDataURL}`);
   const itemUrlPrefix = "/item";
+  const itemLink = `${item.link}?utm_source=${siteConfig.utm.source}&utm_medium=${siteConfig.utm.medium}`;
 
   return (
     <div>
@@ -58,7 +60,7 @@ export default function ItemCard({ item }: ItemCardProps) {
 
             {item.link ? (
               <Link
-                href={item.link}
+                href={itemLink}
                 prefetch={false}
                 target="_blank"
                 className="absolute inset-0 flex items-center justify-center bg-black 

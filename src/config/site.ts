@@ -23,6 +23,10 @@ export const siteConfig: SiteConfig = {
   url: SITE_URL,
   image: `${SITE_URL}/opengraph.png`,
   mail: "support@mkdirs.com",
+  utm: {
+    source: "mkdirs.com",
+    medium: "referral",
+  },
   links: {
     twitter: "https://x.com/MkdirsHQ",
     github: "https://github.com/MkdirsHQ",

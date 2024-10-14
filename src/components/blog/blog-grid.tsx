@@ -1,5 +1,4 @@
 import BlogCard, { BlogCardSkeleton } from "@/components/blog/blog-card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { POSTS_PER_PAGE } from "@/lib/constants";
 import type { BlogPostListQueryResult } from "@/sanity.types";
 
@@ -7,7 +6,7 @@ interface BlogGridProps {
   posts: BlogPostListQueryResult;
 }
 
-export default async function BlogGrid({ posts }: BlogGridProps) {
+export default function BlogGrid({ posts }: BlogGridProps) {
   return (
     <div>
       {posts && posts?.length > 0 && (

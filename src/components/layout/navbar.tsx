@@ -146,6 +146,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                 <Link
                   href="/"
                   className="flex items-center space-x-2 pl-4 pt-4"
+                  onClick={() => setOpen(false)}
                 >
                   <Logo />
 

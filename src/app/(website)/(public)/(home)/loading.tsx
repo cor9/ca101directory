@@ -7,15 +7,15 @@ export default function Loading() {
   return (
     <div>
       {/* hero section */}
-      <Container className="mt-8">
+      <Container className="mt-12">
         <HomeHero />
       </Container>
 
       {/* home content */}
-      <Container className="mt-8 flex flex-col gap-8">
-        <ItemGridSkeleton />
-        <ItemGridSkeleton />
-        <BlogGridSkeleton count={3} />
+      <Container className="mt-12 flex flex-col gap-8">
+        <ItemGridSkeleton count={6} />
+        <ItemGridSkeleton count={6} />
+        <BlogGridSkeleton count={6} />
       </Container>
     </div>
   );

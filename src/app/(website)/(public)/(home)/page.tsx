@@ -14,12 +14,12 @@ export default async function HomePage() {
   return (
     <div className="mb-16">
       {/* hero section */}
-      <Container className="mt-8">
+      <Container className="mt-12">
         <HomeHero />
       </Container>
 
       {/* content section */}
-      <Container className="mt-8">
+      <Container className="mt-12">
         <HomeContent />
       </Container>
 

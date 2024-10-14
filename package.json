@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "author": {
-    "name": "javayhu",
-    "url": "https://github.com/javayhu"
+    "name": "Mkdirs",
+    "url": "https://github.com/MkdirsHQ"
   },
   "scripts": {
     "dev": "next dev",

@@ -7,7 +7,7 @@ import HomeSearchBox from "./home-search-box";
 export default function HomeHero() {
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className="max-w-5xl flex flex-col items-center text-center gap-8">
+      <div className="max-w-5xl flex flex-col items-center text-center gap-12">
         <Link
           href="https://x.com/MkdirsHQ"
           target="_blank"

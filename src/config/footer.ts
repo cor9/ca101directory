@@ -3,7 +3,7 @@ import { siteConfig } from "./site";
 
 export const footerLinks: NestedNavItem[] = [
   {
-    title: "Features",
+    title: "Product",
     items: [
       { title: "Search", href: "/search" },
       { title: "Category", href: "/category" },
@@ -11,7 +11,7 @@ export const footerLinks: NestedNavItem[] = [
     ],
   },
   {
-    title: "Support",
+    title: "Resources",
     items: [
       { title: "Blog", href: "/blog" },
       { title: "Pricing", href: "/pricing" },
@@ -19,7 +19,7 @@ export const footerLinks: NestedNavItem[] = [
     ],
   },
   {
-    title: "Contact",
+    title: "Support",
     items: [
       { title: "Github", href: siteConfig.links.github, external: true },
       { title: "Twitter", href: siteConfig.links.twitter, external: true },
@@ -27,7 +27,7 @@ export const footerLinks: NestedNavItem[] = [
     ],
   },
   {
-    title: "General",
+    title: "Company",
     items: [
       { title: "About Us", href: "/about" },
       { title: "Privacy Policy", href: "/privacy" },

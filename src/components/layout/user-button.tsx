@@ -12,6 +12,7 @@ import {
 import { userButtonConfig } from "@/config/user-button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { Button } from "@react-email/components";
 import { LogOutIcon } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
@@ -88,6 +89,26 @@ export function UserButton() {
                   </li>
                 );
               })}
+              <li
+                key="logout"
+                className="rounded-lg text-foreground hover:bg-muted"
+              >
+                <Link
+                  href="#"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    closeDrawer();
+                    signOut({
+                      callbackUrl: `${window.location.origin}/`,
+                      redirect: true,
+                    });
+                  }}
+                  className="flex w-full items-center gap-3 px-2.5 py-2"
+                >
+                  <LogOutIcon className="size-4" />
+                  <p className="text-sm">Log out</p>
+                </Link>
+              </li>
             </ul>
           </Drawer.Content>
           <Drawer.Overlay />

@@ -16,7 +16,6 @@ import {
   TaskIcon,
   TiersIcon,
   TokenIcon,
-  UlistIcon,
   UserIcon,
   UsersIcon,
 } from "@sanity/icons";
@@ -100,6 +99,27 @@ export const structure = (
       '_type == "item" && pricePlan == "free" && freePlanStatus == "approved"',
     );
 
+    const itemsInFreePlan = createFilteredListItem(
+      "All Items In Free Plan",
+      item.name,
+      ProjectsIcon,
+      '_type == "item" && pricePlan == "free"',
+    );
+
+    const freePlanItemManagement = S.listItem()
+      .title("Free Plan Item management")
+      .icon(ProjectsIcon)
+      .child(
+        S.list()
+          .title("Item management")
+          .items([
+            pendingSubmissionsInFreePlan,
+            rejectedSubmissionsInFreePlan,
+            approvedSubmissionsInFreePlan,
+            itemsInFreePlan,
+          ]),
+      );
+
     // submissions in pro plan
     const pendingSubmissionsInProPlan = createFilteredListItem(
       "Pending Submissions In Pro Plan",
@@ -121,6 +141,27 @@ export const structure = (
       CheckmarkCircleIcon,
       '_type == "item" && pricePlan == "pro" && proPlanStatus == "success"',
     );
+
+    const itemsInProPlan = createFilteredListItem(
+      "All Items In Pro Plan",
+      item.name,
+      DiamondIcon,
+      '_type == "item" && pricePlan == "pro"',
+    );
+
+    const proPlanItemManagement = S.listItem()
+      .title("Pro Plan Item management")
+      .icon(DiamondIcon)
+      .child(
+        S.list()
+          .title("Item management")
+          .items([
+            pendingSubmissionsInProPlan,
+            failedSubmissionsInProPlan,
+            successSubmissionsInProPlan,
+            itemsInProPlan,
+          ]),
+      );
 
     // featured items
     const featuredItems = createFilteredListItem(
@@ -145,23 +186,23 @@ export const structure = (
       '_type == "item" && publishDate == null',
     );
 
-    const itemsInFreePlan = createFilteredListItem(
-      "All Items In Free Plan",
-      item.name,
-      ProjectsIcon,
-      '_type == "item" && pricePlan == "free"',
-    );
-
-    const itemsInProPlan = createFilteredListItem(
-      "All Items In Pro Plan",
-      item.name,
-      DiamondIcon,
-      '_type == "item" && pricePlan == "pro"',
-    );
-
     const allItems = S.documentTypeListItem(item.name)
       .title("All Items")
       .icon(DashboardIcon);
+
+    const itemsBySubmitter = S.listItem()
+      .title("Items By Submitter")
+      .icon(MasterDetailIcon)
+      .child(
+        S.documentTypeList(user.name)
+          .title("Items by Submitter")
+          .child((userId) =>
+            S.documentList()
+              .title("Items")
+              .filter('_type == "item" && submitter._ref == $userId')
+              .params({ userId }),
+          ),
+      );
 
     // failed orders
     const failedOrders = createFilteredListItem(
@@ -250,29 +291,25 @@ export const structure = (
         // S.documentTypeListItem(item.name)
         //   .icon(DashboardIcon),
         // group the item management
+
         S.listItem()
           .title("Item management")
           .icon(DashboardIcon)
           .child(
             S.list().title("Item management").items([
-              pendingSubmissionsInFreePlan,
-              rejectedSubmissionsInFreePlan,
-              approvedSubmissionsInFreePlan,
-              itemsInFreePlan,
-
-              S.divider(),
-
-              pendingSubmissionsInProPlan,
-              failedSubmissionsInProPlan,
-              successSubmissionsInProPlan,
-              itemsInProPlan,
-
-              S.divider(),
-
               allItems,
+              freePlanItemManagement,
+              proPlanItemManagement,
+              S.divider(),
+
               featuredItems,
               publishedItems,
               unpublishedItems,
+
+              S.divider(),
+              itemsBySubmitter,
+              itemsByCategory,
+              itemsByTag,
             ]),
           ),
 

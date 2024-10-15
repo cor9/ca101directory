@@ -65,8 +65,8 @@ export function UserNameForm() {
   return (
     <form onSubmit={onSubmit}>
       <SectionColumns
-        title="Your Name"
-        description="Please enter a display name you are comfortable with"
+        title="Name"
+        description="Please enter your display name"
       >
         <div className="flex w-full items-center gap-2">
           <Label className="sr-only" htmlFor="name">

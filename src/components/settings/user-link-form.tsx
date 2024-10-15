@@ -65,8 +65,8 @@ export function UserLinkForm() {
   return (
     <form onSubmit={onSubmit}>
       <SectionColumns
-        title="Your Link"
-        description="Please enter a link you want visitors to get you"
+        title="Link"
+        description="Please enter your portfolio link"
       >
         <div className="flex w-full items-center gap-2">
           <Label className="sr-only" htmlFor="name">

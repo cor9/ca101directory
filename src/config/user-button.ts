@@ -3,11 +3,6 @@ import type { UserButtonConfig } from "@/types";
 export const userButtonConfig: UserButtonConfig = {
   mainNav: [
     {
-      title: "Submit",
-      href: "/submit",
-      icon: "submit",
-    },
-    {
       title: "Dashboard",
       href: "/dashboard",
       icon: "dashboard",
@@ -16,6 +11,11 @@ export const userButtonConfig: UserButtonConfig = {
       title: "Settings",
       href: "/settings",
       icon: "settings",
+    },
+    {
+      title: "Submit",
+      href: "/submit",
+      icon: "submit",
     },
   ],
 };

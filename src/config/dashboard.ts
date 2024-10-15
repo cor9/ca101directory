@@ -8,11 +8,6 @@ export const dashboardConfig: DashboardConfig = {
       icon: "home",
     },
     {
-      title: "Submit",
-      href: "/submit",
-      icon: "submit",
-    },
-    {
       title: "Dashboard",
       href: "/dashboard",
       icon: "dashboard",
@@ -21,6 +16,11 @@ export const dashboardConfig: DashboardConfig = {
       title: "Settings",
       href: "/settings",
       icon: "settings",
+    },
+    {
+      title: "Submit",
+      href: "/submit",
+      icon: "submit",
     },
   ],
 };

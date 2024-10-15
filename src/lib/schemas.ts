@@ -83,6 +83,24 @@ export const SettingsSchema = z
     },
   );
 
+export const UserNameSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Name is required" })
+    .max(32, { message: "Name must be 32 or fewer characters long" }),
+});
+
+export type UserNameData = z.infer<typeof UserNameSchema>;
+
+export const UserLinkSchema = z.object({
+  link: z
+    .string()
+    .min(0, { message: "Link is optional" })
+    .max(128, { message: "Link must be 128 or fewer characters long" }),
+});
+
+export type UserLinkData = z.infer<typeof UserLinkSchema>;
+
 /**
  * auth related schemas
  */

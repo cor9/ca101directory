@@ -1,4 +1,6 @@
-import SettingsForm from "@/components/settings/settings-form";
+import { UserLinkForm } from "@/components/settings/user-link-form";
+import { UserNameForm } from "@/components/settings/user-name-form";
+import { Card, CardContent } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
 
@@ -9,5 +11,12 @@ export const metadata = constructMetadata({
 });
 
 export default function SettingsPage() {
-  return <SettingsForm />;
+  return (
+    <Card className="overflow-hidden">
+      <CardContent className="space-y-4">
+        <UserNameForm />
+        <UserLinkForm />
+      </CardContent>
+    </Card>
+  );
 }

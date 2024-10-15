@@ -86,7 +86,10 @@ export function UserNameForm() {
             className="w-[67px] shrink-0 px-0 sm:w-[130px]"
           >
             {isPending ? (
-              <Icons.spinner className="size-4 animate-spin" />
+              <div className="flex items-center gap-2">
+                <Icons.spinner className="size-4 animate-spin" />
+                <p>Saving...</p>
+              </div>
             ) : (
               <p>
                 Save

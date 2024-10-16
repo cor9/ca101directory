@@ -26,7 +26,7 @@ export async function generateMetadata({
 export default async function PlanPage({ params }: { params: { id: string } }) {
   const user = await currentUser();
   if (!user) {
-    console.error("EditPage, user not found");
+    console.error("PlanPage, user not found");
     return redirect("/auth/login");
   }
 

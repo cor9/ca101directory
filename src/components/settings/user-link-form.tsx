@@ -9,7 +9,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { type UserLinkData, UserLinkSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Icons } from "../icons/icons";
@@ -22,7 +22,7 @@ export function UserLinkForm() {
   const [isPending, startTransition] = useTransition();
 
   const checkUpdate = (value: string) => {
-    setUpdated(user?.name !== value);
+    setUpdated(user?.link !== value);
   };
 
   const form = useForm<UserLinkData>({
@@ -31,14 +31,6 @@ export function UserLinkForm() {
       link: user?.link || "",
     },
   });
-
-  useEffect(() => {
-    if (user) {
-      form.reset({
-        link: user?.link || "",
-      });
-    }
-  }, [user, form]);
 
   const onSubmit = form.handleSubmit((values) => {
     console.log("UserLinkForm, values:", values);
@@ -65,7 +57,7 @@ export function UserLinkForm() {
   return (
     <form onSubmit={onSubmit}>
       <SectionColumns
-        title="Link"
+        title="Your Link"
         description="Please enter your portfolio link"
       >
         <div className="flex w-full items-center gap-2">
@@ -83,7 +75,7 @@ export function UserLinkForm() {
           <Button
             type="submit"
             disabled={isPending || !updated}
-            className="w-[67px] shrink-0 px-0 sm:w-[130px]"
+            className=""
           >
             {isPending ? (
               <div className="flex items-center gap-2">
@@ -104,6 +96,9 @@ export function UserLinkForm() {
               {form.formState.errors.link.message}
             </p>
           )}
+          <p className="text-[13px] text-muted-foreground">
+            Max 128 characters
+          </p>
         </div>
       </SectionColumns>
     </form>

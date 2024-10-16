@@ -40,8 +40,9 @@ export default function HomeHero() {
             className="font-semibold"
           >
             Mkdirs
-          </Link>, with which you can make any trending and profitable
-          directory website in minutes.
+          </Link>
+          , packed with all you need to build any trending directory website in
+          minutes.
         </p>
 
         <div className="w-full">

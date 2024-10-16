@@ -9,7 +9,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { type UserNameData, UserNameSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Icons } from "../icons/icons";
@@ -31,14 +31,6 @@ export function UserNameForm() {
       name: user?.name || "",
     },
   });
-
-  useEffect(() => {
-    if (user) {
-      form.reset({
-        name: user?.name || "",
-      });
-    }
-  }, [user, form]);
 
   const onSubmit = form.handleSubmit((values) => {
     console.log("UserNameForm, values:", values);
@@ -65,7 +57,7 @@ export function UserNameForm() {
   return (
     <form onSubmit={onSubmit}>
       <SectionColumns
-        title="Name"
+        title="Your Name"
         description="Please enter your display name"
       >
         <div className="flex w-full items-center gap-2">
@@ -83,7 +75,7 @@ export function UserNameForm() {
           <Button
             type="submit"
             disabled={isPending || !updated}
-            className="w-[67px] shrink-0 px-0 sm:w-[130px]"
+            className=""
           >
             {isPending ? (
               <div className="flex items-center gap-2">
@@ -104,6 +96,8 @@ export function UserNameForm() {
               {form.formState.errors.name.message}
             </p>
           )}
+
+          <p className="text-[13px] text-muted-foreground">Max 32 characters</p>
         </div>
       </SectionColumns>
     </form>

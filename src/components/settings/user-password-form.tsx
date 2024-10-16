@@ -57,11 +57,11 @@ export function UserPasswordForm() {
   return (
     <form onSubmit={onSubmit}>
       <SectionColumns
-        title="Password"
+        title="Change Password"
         description="Please enter your new password"
       >
-        <div className="flex flex-col gap-4 w-full">
-          <div>
+        <div className="flex flex-col gap-4 w-full rounded-lg border p-4">
+          <div className="flex flex-col gap-2">
             <Label htmlFor="password">Current Password</Label>
             <Input
               id="password"
@@ -77,7 +77,7 @@ export function UserPasswordForm() {
               )}
             </div>
           </div>
-          <div>
+          <div className="flex flex-col gap-2">
             <Label htmlFor="newPassword">New Password</Label>
             <Input
               id="newPassword"
@@ -93,7 +93,7 @@ export function UserPasswordForm() {
               )}
             </div>
           </div>
-          <div>
+          <div className="flex flex-col gap-2">
             <Label htmlFor="confirmPassword">Confirm New Password</Label>
             <Input
               id="confirmPassword"
@@ -109,11 +109,11 @@ export function UserPasswordForm() {
               )}
             </div>
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-start">
             <Button
               type="submit"
               disabled={isPending}
-              className="shrink-0 px-0 sm:w-[150px]"
+              className=""
             >
               {isPending ? (
                 <div className="flex items-center gap-2">

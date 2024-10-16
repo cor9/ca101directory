@@ -3,7 +3,7 @@
 import { unstable_update } from "@/auth";
 import { getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
-import type { UserLinkData } from "@/lib/schemas";
+import { type UserLinkData, UserLinkSchema } from "@/lib/schemas";
 import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
 
@@ -26,11 +26,13 @@ export async function updateUserLink(
       return { status: "error", message: "User not found" };
     }
 
-    // console.log('updateUserName, values:', values);
+    // console.log('updateUserLink, values:', values);
+    const { link } = UserLinkSchema.parse(values);
+
     const updatedUser = await sanityClient
       .patch(dbUser._id)
       .set({
-        link: values.link,
+        link: link,
       })
       .commit();
     console.log("updateUserLink, user:", updatedUser);

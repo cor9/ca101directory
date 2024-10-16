@@ -3,7 +3,7 @@
 import { unstable_update } from "@/auth";
 import { getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
-import type { UserNameData } from "@/lib/schemas";
+import { type UserNameData, UserNameSchema } from "@/lib/schemas";
 import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
 
@@ -27,10 +27,12 @@ export async function updateUserName(
     }
 
     // console.log('updateUserName, values:', values);
+    const { name } = UserNameSchema.parse(values);
+
     const updatedUser = await sanityClient
       .patch(dbUser._id)
       .set({
-        name: values.name,
+        name: name,
       })
       .commit();
     console.log("updateUserName, user:", updatedUser);

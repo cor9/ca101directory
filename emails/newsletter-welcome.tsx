@@ -100,5 +100,5 @@ export const NewsletterWelcomeEmail = ({ email }: { email: string }) => {
 export default NewsletterWelcomeEmail;
 
 NewsletterWelcomeEmail.PreviewProps = {
-  email: "javayhu@gmail.com",
+  email: "support@mkdirs.com",
 };

@@ -1,16 +1,16 @@
 export const main = {
-    backgroundColor: "#f6f9fc",
-    padding: "40px",
+    // backgroundColor: "#f6f9fc",
+    // padding: "40px",
     fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
 };
 
 export const container = {
     backgroundColor: "#ffffff",
-    padding: "20px 0 20px",
+    // padding: "20px 0 20px",
 };
 
 export const box = {
-    padding: "0 48px",
+    padding: "8px",
 };
 
 export const hr = {

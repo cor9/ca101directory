@@ -5,7 +5,7 @@ export const main = {
 };
 
 export const container = {
-    backgroundColor: "#ffffff",
+    // backgroundColor: "#ffffff",
     // padding: "20px 0 20px",
 };
 

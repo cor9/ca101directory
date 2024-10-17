@@ -6,7 +6,7 @@ export const siteConfig: SiteConfig = {
   name: "Mkdirs Demo",
   tagline: "This is a demo site for Mkdirs, the ultimate directory website template",
   description:
-    "This is a demo site for Mkdirs template, which makes any trending and profitable web directory in minutes",
+    "This is a demo site for Mkdirs template. Mkdirs is the ultimate directory website template. With Mkdirs, you can build any trending and profitable directory website in minutes, packed with Listings, Newsletter, Payment, CMS, Blog, Authentication, SEO, Themes and more",
   keywords: [
     "Directory",
     "Template",

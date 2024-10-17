@@ -13,9 +13,9 @@ export const footerLinks: NestedNavItem[] = [
   {
     title: "Resources",
     items: [
-      { title: "Blog", href: "/blog" },
       { title: "Pricing", href: "/pricing" },
       { title: "Submit", href: "/submit" },
+      { title: "Blog", href: "/blog" },
     ],
   },
   {

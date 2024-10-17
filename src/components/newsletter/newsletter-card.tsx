@@ -5,7 +5,7 @@ import { NewsletterForm } from "./newsletter-form";
 
 export function NewsletterCard() {
   return (
-    <div className="w-full px-4 py-8 md:p-12 bg-muted rounded-lg">
+    <div id="newsletter" className="w-full px-4 py-8 md:p-12 bg-muted rounded-lg">
       <div className="flex flex-col items-center justify-center gap-8">
         <HeaderSection
           labelAs="h2"

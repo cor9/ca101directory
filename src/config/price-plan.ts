@@ -9,7 +9,7 @@ export const PRICE_PLANS: PricePlan[] = [
       "Get 3 dofollow links to boost your SEO",
       "Permanent link with backlink maintenance",
       "Reviewed and listed within 72 hours",
-      "Launch your product the day you want",
+      "Publish your product the day you want",
     ],
     limitations: [
       "Backlink to our site is required",
@@ -23,9 +23,9 @@ export const PRICE_PLANS: PricePlan[] = [
     description: "For Pro Users",
     benefits: [
       "Get at least 3 dofollow links to boost your SEO",
-      "Listed immediately, launch it whenever you want",
+      "Listed immediately, publish it whenever you want",
       "Permanent link, no backlink required",
-      "Featured in our listings and promoted",
+      "Featured in listings with border highlight",
       "Share through social media and newsletters",
       "Premium customer support",
     ],
@@ -40,18 +40,27 @@ export const PRICING_FAQ = [
     id: "item-1",
     question: "Is it free to submit my product?",
     answer:
-      "Yes, it is. You can submit your product for free to get 3 dofollow links to boost your SEO, a permanent link with backlink maintenance, reviewed and listed within 72 hours. \nHowever, it's limited to 3 dofollow links, requires a backlink to our site, and doesn't include customer support.",
+      "Yes, it is. \nYou can submit your product for free to get 3 dofollow links to boost your SEO. \nHowever, the free plan has limitations:\n" +
+      "• Reviewed and listed within 72 hours\n" +
+      "• Requires a backlink to our site\n" +
+      "• No customer support",
   },
   {
     id: "item-2",
     question: "What are the benefits of the Pro plan?",
     answer:
-      "The Pro plan offers at least 3 dofollow links, included immediately, permanent links without backlink requirements, featured listings, premium customer support, and sharing through social media and newsletters. \nIt's designed for users who need more comprehensive features and faster services.",
+      "The Pro plan offers several benefits:\n" +
+      "• At least 3 dofollow links\n" +
+      "• Immediate listing, or publish it whenever you want\n" +
+      "• Permanent links with no backlink requirement\n" +
+      "• Featured in listings with highlighted borders\n" +
+      "• Promotion through our social media and newsletters\n" +
+      "• Premium customer support",
   },
   {
     id: "item-3",
     question:
-      "What's the differences between Free and Pro plans?",
+      "The differences between Free and Pro plans?",
     answer:
       "Free plan submissions are reviewed and listed within 72 hours, a backlink to our site is required. \nWhile Pro plan submissions are included immediately, no backlink is required. \nBoth plans can be launched whenever you want and update product information anytime.",
   },
@@ -59,6 +68,6 @@ export const PRICING_FAQ = [
     id: "item-4",
     question: "Do I need to provide a backlink for my listing?",
     answer:
-      `For the Free plan, a backlink to our site is required. The backlink is <a href='${siteConfig.url}' title='${siteConfig.tagline}'>${siteConfig.name}</a>. \nHowever, if you choose the Pro plan, you get a permanent link without any backlink requirement. This gives Pro users more flexibility in their link strategy.`,
+      `For the Free plan, a backlink to our site is required. \nThe backlink is <a href='${siteConfig.url}' title='${siteConfig.name}'>${siteConfig.name}</a>. \nHowever, if you choose the Pro plan, you get a permanent link without any backlink requirement.`,
   },
 ];

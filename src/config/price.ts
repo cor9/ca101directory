@@ -35,7 +35,7 @@ export const PRICE_PLANS: PricePlan[] = [
   },
 ];
 
-export const PRICING_FAQ = [
+export const PRICE_FAQ = [
   {
     id: "item-1",
     question: "Is it free to submit my product?",

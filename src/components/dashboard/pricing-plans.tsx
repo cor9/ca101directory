@@ -3,7 +3,7 @@
 import { FreePlanButton } from "@/components/plan/free-plan-button";
 import { ProPlanButton } from "@/components/plan/pro-plan-button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { PRICE_PLANS } from "@/config/price-plan";
+import { PRICE_PLANS } from "@/config/price";
 import { PricePlans } from "@/lib/submission";
 import { cn } from "@/lib/utils";
 import type { ItemInfo, PricePlan } from "@/types/index";

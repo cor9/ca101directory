@@ -25,7 +25,7 @@ export const PRICE_PLANS: PricePlan[] = [
       "Get at least 3 dofollow links to boost your SEO",
       "Listed immediately, publish it whenever you want",
       "Permanent link, no backlink required",
-      "Featured in listings with border highlight",
+      "Featured in listings with an award icon",
       "Share through social media and newsletters",
       "Premium customer support",
     ],
@@ -53,7 +53,7 @@ export const PRICING_FAQ = [
       "• At least 3 dofollow links\n" +
       "• Immediate listing, or publish it whenever you want\n" +
       "• Permanent links with no backlink requirement\n" +
-      "• Featured in listings with highlighted borders\n" +
+      "• Featured in listings with an award icon\n" +
       "• Promotion through our social media and newsletters\n" +
       "• Premium customer support",
   },

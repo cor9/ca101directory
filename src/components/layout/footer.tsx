@@ -71,7 +71,9 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
             key={section.title}
             className="col-span-1 md:col-span-1 items-start"
           >
-            <span className="text-sm font-medium">{section.title}</span>
+            <span className="text-sm font-semibold uppercase">
+              {section.title}
+            </span>
             <ul className="mt-4 list-inside space-y-3">
               {section.items?.map((link) => (
                 <li key={link.title}>

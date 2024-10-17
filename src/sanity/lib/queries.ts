@@ -52,9 +52,11 @@ const itemFields = /* groq */ `
 // auto generate related items
 const itemFieldsWithRelated = /* groq */ `
   introduction,
-  "related": *[_type == "item" && defined(slug.current) && defined(publishDate) 
+  "related": *[_type == "item" && defined(slug.current) 
+    && defined(publishDate) 
+    && forceHidden != true
     && count(categories[@._ref in ^.^.categories[]._ref]) > 0 && _id != ^._id] 
-    | order(publishedDate desc, _createdAt desc) [0...2] {
+    | order(publishedDate desc, _createdAt desc) [0...3] {
       ${itemSimpleFields}
   },
   ${itemSimpleFields}
@@ -72,7 +74,8 @@ export const itemFullInfoByIdQuery = defineQuery(`*[_type == "item" && _id == $i
   ${itemFields}
 }`);
 
-export const itemFullInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.current == $slug && forceHidden != true][0] {
+export const itemFullInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.current == $slug 
+&& forceHidden != true] [0] {
   ${itemFieldsWithRelated}
 }`);
 
@@ -81,18 +84,23 @@ export const itemFullInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.cu
  * but it is used to generate the type of ItemListQueryResult,
  * if you want to change this query, please update data/item.ts
  */
-export const itemListQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate)] 
+export const itemListQuery = defineQuery(`*[_type == "item" && defined(slug.current) 
+  && defined(publishDate)
+  && forceHidden != true] 
   | order(publishDate desc) {
     ${itemSimpleFields}
 }`);
 
-export const itemListOfFeaturedQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate) 
-  && forceHidden != true && featured == true] 
+export const itemListOfFeaturedQuery = defineQuery(`*[_type == "item" && defined(slug.current) 
+  && defined(publishDate) 
+  && forceHidden != true 
+  && featured == true] 
   | order(publishDate desc) [0...$count] {
     ${itemSimpleFields}
 }`);
 
-export const itemListOfLatestQuery = defineQuery(`*[_type == "item" && defined(slug.current) && defined(publishDate) 
+export const itemListOfLatestQuery = defineQuery(`*[_type == "item" && defined(slug.current) 
+  && defined(publishDate) 
   && forceHidden != true] 
   | order(publishDate desc) [0...$count] {
     ${itemSimpleFields}

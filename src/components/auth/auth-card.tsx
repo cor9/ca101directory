@@ -7,11 +7,10 @@ import {
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
+  CardHeader
 } from "@/components/ui/card";
-import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 import { Logo } from "../logo";
 
 interface AuthCardProps {
@@ -34,8 +33,9 @@ export const AuthCard = ({
   return (
     <Card className={cn("shadow-none sm:w-[400px] max-w-[400px]", className)}>
       <CardHeader className="items-center">
-        <Logo className="mb-2" />
-        {/* <CardTitle>{siteConfig.name}</CardTitle> */}
+        <Link href="/" prefetch={false}>
+          <Logo className="mb-2" />
+        </Link>
         <CardDescription>{headerLabel}</CardDescription>
       </CardHeader>
       <CardContent>{children}</CardContent>

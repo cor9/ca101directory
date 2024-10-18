@@ -27,7 +27,7 @@ export const siteConfig: SiteConfig = {
   utm: {
     source: "mkdirs.com",
     medium: "referral",
-    campaign: "directory",
+    campaign: "navigation",
   },
   links: {
     twitter: "https://x.com/MkdirsHQ",

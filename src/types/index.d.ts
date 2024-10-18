@@ -31,6 +31,19 @@ export type SiteConfig = {
   };
 };
 
+export type HeroConfig = {
+  title: {
+    first: string;
+    second: string;
+  };
+  subtitle: string;
+  label: {
+    text: string;
+    icon: keyof typeof Icons;
+    href: string;
+  };
+};
+
 export type MarketingConfig = {
   menus: NavItem[];
 };

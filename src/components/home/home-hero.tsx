@@ -3,13 +3,15 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import HomeSearchBox from "./home-search-box";
+import { heroConfig } from "@/config/hero";
 
 export default function HomeHero() {
+  const LabelIcon = Icons[heroConfig.label.icon];
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="max-w-5xl flex flex-col items-center text-center gap-12">
         <Link
-          href="https://x.com/MkdirsHQ"
+          href={heroConfig.label.href}
           target="_blank"
           className={cn(
             buttonVariants({ variant: "outline", size: "sm" }),
@@ -17,15 +19,15 @@ export default function HomeHero() {
           )}
         >
           <span className="mr-2">🎉</span>
-          <span className="">Introducing&nbsp;</span> Mkdirs on
-          <Icons.twitter className="ml-2 size-4" />
+          <span>{heroConfig.label.text}</span>
+          <LabelIcon className="ml-2 size-4" />
         </Link>
 
         {/* maybe font-sourceSans is better */}
         <h1 className="max-w-5xl font-bold text-balance text-3xl sm:text-4xl md:text-5xl">
-          The Ultimate{" "}
+          {heroConfig.title.first}{" "}
           <span className="text-gradient_indigo-purple font-bold">
-            Directory Website Template
+            {heroConfig.title.second}
           </span>
         </h1>
 
@@ -33,15 +35,7 @@ export default function HomeHero() {
           className="max-w-4xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8"
           style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
         >
-          This is a demo directory website built with{" "}
-          <Link
-            href="https://mkdirs.com"
-            target="_blank"
-            className="font-semibold"
-          >
-            Mkdirs
-          </Link>, with which you can launch any trending and profitable
-          directory website in minutes without hassle.
+          {heroConfig.subtitle}
         </p>
 
         <div className="w-full">

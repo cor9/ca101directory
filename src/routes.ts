@@ -35,9 +35,8 @@ export const publicRoutes = [
   "/api/draft",
 
   // test pages
-  "/landing(/.*)?",
+  "/shadcn(/.*)?",
   "/loading(/.*)?",
-  "/mkdirs(/.*)?",
 ];
 
 /**

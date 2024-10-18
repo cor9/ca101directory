@@ -43,6 +43,10 @@ export type UserButtonConfig = {
   mainNav: NavItem[];
 };
 
+export type FooterConfig = {
+  links: NestedNavItem[];
+};
+
 export type NavItem = {
   title: string;
   href: string;

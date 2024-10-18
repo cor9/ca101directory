@@ -1,7 +1,7 @@
 import { Icons } from "@/components/icons/icons";
 import { ModeToggle } from "@/components/layout/mode-toggle";
 import { Button } from "@/components/ui/button";
-import { footerLinks } from "@/config/footer";
+import { footerConfig } from "@/config/footer";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -66,7 +66,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
           </div>
         </div>
 
-        {footerLinks.map((section) => (
+        {footerConfig.links.map((section) => (
           <div
             key={section.title}
             className="col-span-1 md:col-span-1 items-start"

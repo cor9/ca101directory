@@ -1,9 +1,10 @@
-import type { NestedNavItem } from "@/types";
+import type { FooterConfig } from "@/types";
 import { siteConfig } from "./site";
 
-export const footerLinks: NestedNavItem[] = [
-  {
-    title: "Product",
+export const footerConfig: FooterConfig = {
+  links: [
+    {
+      title: "Product",
     items: [
       { title: "Search", href: "/search" },
       { title: "Category", href: "/category" },
@@ -32,6 +33,7 @@ export const footerLinks: NestedNavItem[] = [
       { title: "About Us", href: "/about" },
       { title: "Privacy Policy", href: "/privacy" },
       { title: "Terms of Service", href: "/terms" },
-    ],
-  },
-];
+      ],
+    },
+  ],
+};

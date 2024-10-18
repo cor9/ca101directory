@@ -3,7 +3,7 @@
 import { FreePlanButton } from "@/components/plan/free-plan-button";
 import { ProPlanButton } from "@/components/plan/pro-plan-button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { PRICE_PLANS } from "@/config/price";
+import { priceConfig } from "@/config/price";
 import { PricePlans } from "@/lib/submission";
 import { cn } from "@/lib/utils";
 import type { ItemInfo, PricePlan } from "@/types/index";
@@ -18,7 +18,7 @@ export function PricingPlans({ item }: PricingPlansProps) {
   return (
     <section className="flex flex-col items-center text-center w-full mx-auto">
       <div className="grid gap-8 w-full sm:grid-cols-1 md:grid-cols-2 items-center">
-        {PRICE_PLANS.map((pricePlan) => (
+        {priceConfig.plans.map((pricePlan) => (
           <PricingPlanCard
             item={item}
             key={pricePlan.title}

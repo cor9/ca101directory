@@ -64,7 +64,10 @@ export type NestedNavItem = {
   icon?: keyof typeof Icons;
 };
 
-// price plans
+export type PriceConfig = {
+  plans: PricePlan[];
+};
+
 export type PricePlan = {
   title: string;
   description: string;
@@ -72,4 +75,14 @@ export type PricePlan = {
   limitations: string[];
   price: number;
   stripePriceId: string | null;
+};
+
+export type FAQConfig = {
+  items: FAQItem[];
+};
+
+export type FAQItem = {
+  id: string;
+  question: string;
+  answer: string;
 };

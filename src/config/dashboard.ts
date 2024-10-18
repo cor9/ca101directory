@@ -1,7 +1,7 @@
 import type { DashboardConfig } from "@/types";
 
 export const dashboardConfig: DashboardConfig = {
-  mainNav: [
+  menus: [
     {
       title: "Homepage",
       href: "/",

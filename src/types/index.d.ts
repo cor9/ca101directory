@@ -32,15 +32,15 @@ export type SiteConfig = {
 };
 
 export type MarketingConfig = {
-  mainNav: NavItem[];
+  menus: NavItem[];
 };
 
 export type DashboardConfig = {
-  mainNav: NavItem[];
+  menus: NavItem[];
 };
 
 export type UserButtonConfig = {
-  mainNav: NavItem[];
+  menus: NavItem[];
 };
 
 export type FooterConfig = {

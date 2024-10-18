@@ -38,7 +38,7 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
 
   const pathname = usePathname();
   // console.log(`Navbar, pathname: ${pathname}`);
-  const links = config.mainNav;
+  const links = config.menus;
   // console.log(`Navbar, links: ${links.map((link) => link.title)}`);
 
   const isLinkActive = (href: string) => {

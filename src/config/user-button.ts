@@ -1,7 +1,7 @@
 import type { UserButtonConfig } from "@/types";
 
 export const userButtonConfig: UserButtonConfig = {
-  mainNav: [
+  menus: [
     {
       title: "Dashboard",
       href: "/dashboard",

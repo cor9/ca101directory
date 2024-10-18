@@ -71,7 +71,7 @@ export function UserButton() {
             </div>
 
             <ul className="mb-14 mt-1 w-full text-muted-foreground">
-              {userButtonConfig.mainNav.map((item) => {
+              {userButtonConfig.menus.map((item) => {
                 const Icon = Icons[item.icon || "arrowRight"];
                 return (
                   <li
@@ -140,7 +140,7 @@ export function UserButton() {
         </div>
         <DropdownMenuSeparator />
 
-        {userButtonConfig.mainNav.map((item) => {
+        {userButtonConfig.menus.map((item) => {
           const Icon = Icons[item.icon || "arrowRight"];
           return (
             <DropdownMenuItem

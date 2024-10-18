@@ -1,7 +1,7 @@
 import type { MarketingConfig } from "@/types";
 
 export const marketingConfig: MarketingConfig = {
-  mainNav: [
+  menus: [
     {
       title: "Search",
       href: "/search",

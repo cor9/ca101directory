@@ -7,7 +7,7 @@ export default function BuiltWithButton() {
   return (
     <Link
       target="_blank"
-      href="https://mkdirs.com"
+      href="https://mkdirs.com?utm_source=demo&utm_medium=button"
       className={cn(
         buttonVariants({ variant: "outline", size: "sm" }),
         "px-4 rounded-md",

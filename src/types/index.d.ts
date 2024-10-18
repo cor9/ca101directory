@@ -24,6 +24,7 @@ export type SiteConfig = {
   utm: {
     source: string;
     medium: string;
+    campaign: string;
   };
   links: {
     github?: string;

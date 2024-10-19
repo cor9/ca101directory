@@ -1,13 +1,13 @@
 "use client";
 
-import { FreePlanButton } from "@/components/plan/free-plan-button";
-import { ProPlanButton } from "@/components/plan/pro-plan-button";
+import { FreePlanButton } from "@/components/payment/free-plan-button";
+import { ProPlanButton } from "@/components/payment/pro-plan-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { priceConfig } from "@/config/price";
 import { PricePlans } from "@/lib/submission";
 import { cn } from "@/lib/utils";
 import type { ItemInfo, PricePlan } from "@/types/index";
-import { CheckIcon, XIcon } from "lucide-react";
+import { CheckIcon, CircleCheckBigIcon, CircleCheckIcon, CircleXIcon, XIcon } from "lucide-react";
 
 interface PricingPlansProps {
   item?: ItemInfo;
@@ -67,7 +67,7 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
             <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal mb-6">
               {pricePlan.benefits.map((feature) => (
                 <div key={feature} className="flex items-start gap-x-4">
-                  <CheckIcon className="size-4 shrink-0 text-primary-500 mt-0.5" />
+                  <CircleCheckBigIcon className="size-4 shrink-0 text-primary-500 mt-0.5" />
                   <p>{feature}</p>
                 </div>
               ))}
@@ -75,7 +75,7 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
             <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal text-muted-foreground">
               {pricePlan.limitations.map((feature) => (
                 <div key={feature} className="flex items-start gap-x-4">
-                  <XIcon className="size-4 shrink-0 mt-0.5" />
+                  <CircleXIcon className="size-4 shrink-0 mt-0.5" />
                   <p>{feature}</p>
                 </div>
               ))}

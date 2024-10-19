@@ -14,6 +14,9 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
+/**
+ * https://ui.shadcn.com/blocks#sidebar-07
+ */
 export default function Page() {
   return (
     <SidebarProvider>

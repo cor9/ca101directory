@@ -1,9 +1,9 @@
 import { Icons } from "@/components/icons/icons";
 import { buttonVariants } from "@/components/ui/button";
+import { heroConfig } from "@/config/hero";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import HomeSearchBox from "./home-search-box";
-import { heroConfig } from "@/config/hero";
 
 export default function HomeHero() {
   const LabelIcon = Icons[heroConfig.label.icon];
@@ -20,7 +20,7 @@ export default function HomeHero() {
         >
           <span className="mr-2">🎉</span>
           <span>{heroConfig.label.text}</span>
-          <LabelIcon className="ml-2 size-4" />
+          <LabelIcon className="size-4" />
         </Link>
 
         {/* maybe font-sourceSans is better */}

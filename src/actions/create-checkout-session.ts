@@ -89,14 +89,19 @@ export async function createCheckoutSession(
 
       // 4. create stripe checkout session
       console.log(
-        `creating stripe checkout session, customerId:${stripeCustomerId}${+", priceId:"}${priceId}${+", userId:"}${user.id}${+", itemId:"}${itemId}`,
+        "Creating Stripe checkout session:",
+        {
+          customerId: stripeCustomerId,
+          priceId,
+          userId: user.id,
+          itemId,
+        }
       );
+      // TODO: optimize the success and cancel urls with sessionId!!!
       const successUrl = absoluteUrl(`/publish/${itemId}?pay=success`);
       const cancelUrl = absoluteUrl(`/plan/${itemId}?pay=failed`);
       const stripeSession = await stripe.checkout.sessions.create({
         customer: stripeCustomerId,
-        success_url: successUrl,
-        cancel_url: cancelUrl,
         mode: "payment",
         line_items: [
           {
@@ -108,6 +113,8 @@ export async function createCheckoutSession(
           userId: user.id,
           itemId: itemId,
         },
+        success_url: successUrl,
+        cancel_url: cancelUrl,
         payment_method_types: ["card"],
         billing_address_collection: "auto",
       });

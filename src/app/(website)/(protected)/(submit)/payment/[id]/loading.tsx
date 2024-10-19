@@ -1,5 +1,5 @@
 import { PricingPlansSkeleton } from "@/components/dashboard/pricing-plans";
-import { SubmissionCardInPlanPageSkeleton } from "@/components/plan/submission-card-in-plan-page";
+import { SubmissionCardInPlanPageSkeleton } from "@/components/payment/submission-card-in-plan-page";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 

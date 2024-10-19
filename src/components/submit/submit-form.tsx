@@ -71,7 +71,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
           if (data.status === "success") {
             console.log("SubmitForm, success:", data.message);
             form.reset();
-            router.push(`/plan/${data.id}`);
+            router.push(`/payment/${data.id}`);
             toast.success(data.message);
           }
           if (data.status === "error") {

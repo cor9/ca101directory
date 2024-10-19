@@ -1,5 +1,5 @@
 import { PricingPlans } from "@/components/dashboard/pricing-plans";
-import SubmissionCardInPlanPage from "@/components/plan/submission-card-in-plan-page";
+import SubmissionCardInPlanPage from "@/components/payment/submission-card-in-plan-page";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/config/site";
@@ -19,7 +19,7 @@ export async function generateMetadata({
   return constructMetadata({
     title: "Submit your product (2/3)",
     description: "Submit your product (2/3) Choose pricing plan",
-    canonicalUrl: `${siteConfig.url}/plan/${params.id}`,
+    canonicalUrl: `${siteConfig.url}/payment/${params.id}`,
   });
 }
 

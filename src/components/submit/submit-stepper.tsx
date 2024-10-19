@@ -20,7 +20,7 @@ export function SubmitStepper({ initialStep = 1 }: SubmitStepperProps) {
 
   const steps = [
     { title: "Details", description: "Enter product information" },
-    { title: "Plan", description: "Select pricing plan" },
+    { title: "Payment", description: "Select pricing plan" },
     { title: "Publish", description: "Publish your product" },
   ];
 

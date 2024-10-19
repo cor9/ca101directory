@@ -88,7 +88,7 @@ export function getItemLinkInWebsite(slug: string) {
  * NOTICE: change this link if the item page in Website is changed
  */
 export function getItemStatusLinkInWebsite(id: string) {
-  return `${siteConfig.url}/plan/${id}`;
+  return `${siteConfig.url}/payment/${id}`;
 }
 
 ///////////////// methods below are not used in the app //////////////////

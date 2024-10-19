@@ -6,7 +6,7 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { FaBrandsGithub } from "../icons/github";
+import { FaBrandsGitHub } from "../icons/github";
 import { FaBrandsGoogle } from "../icons/google";
 
 /**
@@ -52,9 +52,9 @@ export const SocialLoginButton = () => {
         {isLoading === "github" ? (
           <Icons.spinner className="mr-2 size-4 animate-spin" />
         ) : (
-          <FaBrandsGithub className="size-5 mr-2" />
+          <FaBrandsGitHub className="size-5 mr-2" />
         )}
-        <span>Login with Github</span>
+        <span>Login with GitHub</span>
       </Button>
     </div>
   );

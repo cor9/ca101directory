@@ -22,7 +22,7 @@ export const footerConfig: FooterConfig = {
   {
     title: "Support",
     items: [
-      { title: "Github", href: siteConfig.links.github, external: true },
+      { title: "GitHub", href: siteConfig.links.github, external: true },
       { title: "Twitter", href: siteConfig.links.twitter, external: true },
       { title: "Email", href: `mailto:${siteConfig.mail}`, external: true },
     ],

@@ -84,7 +84,7 @@ export const VerifyEmail = ({ confirmLink }: VerifyEmailProps) => {
                 </Link>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <Link style={anchor} href={siteConfig.links.github}>
-                  Github
+                  GitHub
                 </Link>
               </span>
             </Text>

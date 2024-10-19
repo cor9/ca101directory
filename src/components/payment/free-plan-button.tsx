@@ -79,7 +79,11 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
     <Button
       size="lg"
       variant="outline"
-      className={cn("group overflow-hidden rounded-full", className)}
+      className={cn(
+        "overflow-hidden rounded-full",
+        "group transition-transform duration-300 ease-in-out hover:scale-105",
+        className,
+      )}
       disabled={isPending}
       onClick={handleClick}
     >

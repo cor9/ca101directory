@@ -67,7 +67,7 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
             <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal mb-6">
               {pricePlan.benefits.map((feature) => (
                 <div key={feature} className="flex items-start gap-x-4">
-                  <CircleCheckBigIcon className="size-4 shrink-0 text-primary-500 mt-0.5" />
+                  <CheckIcon className="text-brand size-4 shrink-0 text-primary-500 mt-0.5" />
                   <p>{feature}</p>
                 </div>
               ))}
@@ -75,7 +75,7 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
             <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal text-muted-foreground">
               {pricePlan.limitations.map((feature) => (
                 <div key={feature} className="flex items-start gap-x-4">
-                  <CircleXIcon className="size-4 shrink-0 mt-0.5" />
+                  <XIcon className="size-4 shrink-0 mt-0.5" />
                   <p>{feature}</p>
                 </div>
               ))}

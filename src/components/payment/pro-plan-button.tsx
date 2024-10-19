@@ -10,7 +10,7 @@ import {
   ArrowRightIcon,
   ArrowUpLeftIcon,
   CheckCircleIcon,
-  RocketIcon
+  RocketIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -87,7 +87,14 @@ export function ProPlanButton({
     <Button
       size="lg"
       variant="default"
-      className={cn("group overflow-hidden rounded-full", className)}
+      className={cn(
+        "overflow-hidden rounded-full",
+        "group transition-transform duration-300 ease-in-out hover:scale-105",
+        "bg-brand text-white dark:bg-brand/90 dark:text-white",
+        "hover:bg-brand/90 dark:hover:bg-brand/80",
+        "shadow-lg hover:shadow-xl",
+        className,
+      )}
       disabled={isPending}
       onClick={handleClick}
     >

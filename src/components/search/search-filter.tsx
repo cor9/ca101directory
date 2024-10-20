@@ -1,4 +1,4 @@
-import { SORT_FILTER_LIST } from "@/lib/constants";
+import { QUERY_FILTER_LIST, SORT_FILTER_LIST } from "@/lib/constants";
 import type {
   CategoryListQueryResult,
   TagListQueryResult,
@@ -40,6 +40,7 @@ export async function SearchFilter({ urlPrefix }: SearchFilterProps) {
             tagList={tags}
             categoryList={categories}
             sortList={SORT_FILTER_LIST}
+            filterList={QUERY_FILTER_LIST}
             urlPrefix={urlPrefix}
           />
         </div>
@@ -52,6 +53,7 @@ export async function SearchFilter({ urlPrefix }: SearchFilterProps) {
             tagList={tags}
             categoryList={categories}
             sortList={SORT_FILTER_LIST}
+            filterList={QUERY_FILTER_LIST}
             urlPrefix={urlPrefix}
           />
         </div>

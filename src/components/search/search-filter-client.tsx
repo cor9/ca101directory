@@ -1,7 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { DEFAULT_SORT, type SortFilterItem } from "@/lib/constants";
+import {
+  DEFAULT_QUERY,
+  DEFAULT_SORT,
+  type QueryFilterItem,
+  type SortFilterItem,
+} from "@/lib/constants";
 import { useRouter, useSearchParams } from "next/navigation";
 import { DEFAULT_FILTER_VALUE, ResponsiveComboBox } from "../shared/combobox";
 import SearchBox from "./search-box";
@@ -35,6 +40,7 @@ interface SearchFilterProps {
   tagList: TagFilterItem[];
   categoryList: CategoryFilterItem[];
   sortList: SortFilterItem[];
+  filterList: QueryFilterItem[];
   urlPrefix: string;
 }
 
@@ -42,6 +48,7 @@ export function SearchFilterClient({
   tagList,
   categoryList,
   sortList,
+  filterList,
   urlPrefix,
 }: SearchFilterProps) {
   const router = useRouter();
@@ -49,7 +56,7 @@ export function SearchFilterClient({
   const selectedCategory = searchParams.get("category");
   const selectedTag = searchParams.get("tag");
   const selectedSort = searchParams.get("sort");
-
+  const selectedFilter = searchParams.get("f");
   const handleFilterChange = (type: string, value: string) => {
     console.log(`Filter changed: ${type} -> ${value}`);
     const newParams = new URLSearchParams(window.location.search);
@@ -84,9 +91,13 @@ export function SearchFilterClient({
     value: item.slug ?? DEFAULT_FILTER_VALUE,
     label: item.label,
   }));
+  const queryFilterItemList = filterList.map((item) => ({
+    value: item.slug ?? DEFAULT_FILTER_VALUE,
+    label: item.label,
+  }));
 
   return (
-    <div className="grid md:grid-cols-[1fr_1fr_1fr_1fr_0.5fr] gap-2 z-10 items-center">
+    <div className="grid md:grid-cols-[1fr_1fr_1fr_1fr_1fr_0.5fr] gap-2 z-10 items-center">
       <SearchBox urlPrefix={urlPrefix} />
 
       <ResponsiveComboBox
@@ -103,6 +114,13 @@ export function SearchFilterClient({
         labelPrefix="Tag: "
         selectedValue={selectedTag || DEFAULT_FILTER_VALUE}
         onValueChange={(value) => handleFilterChange("tag", value)}
+      />
+
+      <ResponsiveComboBox
+        filterItemList={queryFilterItemList}
+        placeholder={DEFAULT_QUERY.label}
+        selectedValue={selectedFilter || DEFAULT_FILTER_VALUE}
+        onValueChange={(value) => handleFilterChange("f", value)}
       />
 
       <ResponsiveComboBox

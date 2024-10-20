@@ -1,7 +1,7 @@
 // show more logs
 export const SHOW_QUERY_LOGS = false;
 // number of items per page
-export const ITEMS_PER_PAGE = 9;
+export const ITEMS_PER_PAGE = 12;
 // number of posts per page
 export const POSTS_PER_PAGE = 6;
 // number of submissions per page

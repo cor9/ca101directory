@@ -39,7 +39,7 @@ export default function HomeHero() {
         </p>
 
         <div className="w-full">
-          <HomeSearchBox />
+          <HomeSearchBox urlPrefix="/" />
         </div>
       </div>
     </div>

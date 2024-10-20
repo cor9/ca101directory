@@ -66,17 +66,3 @@ export default function SearchBox({ urlPrefix }: SearchBoxProps) {
     </div>
   );
 }
-
-export function SearchBoxSkeleton() {
-  return (
-    <form className="w-full md:w-80 relative">
-      <input
-        placeholder="Search..."
-        className="w-full rounded-lg border px-4 py-2 text-sm"
-      />
-      <div className="absolute right-0 top-0 mr-4 flex h-full items-center">
-        <SearchIcon className="h-4" />
-      </div>
-    </form>
-  );
-}

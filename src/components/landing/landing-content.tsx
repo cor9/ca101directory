@@ -89,7 +89,7 @@ export async function LandingContent() {
 
           <Button asChild variant="default" size="lg" className="mx-auto">
             <Link
-              href="/search"
+              href="/search?f=featured%3D%3Dtrue"
               className="text-lg font-semibold px-16 group flex items-center gap-2"
             >
               <span className="tracking-wider">More Featured Products</span>

@@ -20,10 +20,12 @@ export default function ItemCard({ item }: ItemCardProps) {
   const itemLink = `${item.link}?utm_source=${siteConfig.utm.source}&utm_medium=${siteConfig.utm.medium}&utm_campaign=${siteConfig.utm.campaign}`;
 
   return (
-    <div className={cn(
-      "cursor-pointer border rounded-lg flex flex-col justify-between gap-4",
-      "hover:bg-accent/60 transition-colors duration-300"
-    )}>
+    <div
+      className={cn(
+        "cursor-pointer border rounded-lg flex flex-col justify-between gap-4",
+        "hover:bg-accent/60 transition-colors duration-300",
+      )}
+    >
       {/* top */}
       <div className="flex flex-col">
         {/* Image container */}
@@ -86,10 +88,13 @@ export default function ItemCard({ item }: ItemCardProps) {
       >
         <div className="px-4 flex flex-col gap-4">
           <div className="flex items-center justify-between gap-4">
-            <h3 className="flex-1 text-xl font-medium line-clamp-1 flex items-center gap-2">
-              {item.featured && (
-                <AwardIcon className="w-5 h-5 text-brand flex-shrink-0" />
+            <h3
+              className={cn(
+                "flex-1 text-xl font-medium line-clamp-1 flex items-center gap-2",
+                item.featured && "text-brand",
               )}
+            >
+              {item.featured && <AwardIcon className="w-5 h-5 flex-shrink-0" />}
               {item.name}
             </h3>
             <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

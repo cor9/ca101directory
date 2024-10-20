@@ -13,8 +13,8 @@ export default function BuiltWithButton() {
         "px-4 rounded-md",
       )}
     >
-      <span className="mr-2">Built with</span>
-      <span className="mr-2">
+      <span>Built with</span>
+      <span>
         <Logo className="size-4 rounded-full" />
       </span>
       <span className="font-bold">Mkdirs</span>

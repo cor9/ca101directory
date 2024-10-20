@@ -32,5 +32,6 @@ export const siteConfig: SiteConfig = {
   links: {
     twitter: "https://x.com/MkdirsHQ",
     github: "https://github.com/MkdirsHQ",
+    youtube: "https://www.youtube.com/@MkdirsHQ",
   },
 };

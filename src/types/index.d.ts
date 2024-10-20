@@ -29,6 +29,7 @@ export type SiteConfig = {
   links: {
     github?: string;
     twitter?: string;
+    youtube?: string;
   };
 };
 

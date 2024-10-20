@@ -29,6 +29,7 @@ export default async function SearchPage({
     sort,
     page,
     q: query,
+    f: filter,
   } = searchParams as { [key: string]: string };
   const { sortKey, reverse } =
     SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
@@ -39,6 +40,7 @@ export default async function SearchPage({
     sortKey,
     reverse,
     query,
+    filter,
     currentPage,
   });
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);

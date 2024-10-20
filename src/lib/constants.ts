@@ -42,3 +42,21 @@ export const SORT_FILTER_LIST: SortFilterItem[] = [
     reverse: false,
   },
 ];
+
+export type QueryFilterItem = {
+  label: string;
+  slug: string | null;
+};
+
+export const DEFAULT_QUERY: QueryFilterItem = {
+  label: "No Filter",
+  slug: null,
+};
+
+export const QUERY_FILTER_LIST: QueryFilterItem[] = [
+  DEFAULT_QUERY,
+  {
+    label: "Featured",
+    slug: "featured==true",
+  },
+];

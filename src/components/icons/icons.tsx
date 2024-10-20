@@ -17,6 +17,7 @@ import { FaBrandsGitHub } from "../icons/github";
 import { FaBrandsGoogle } from "../icons/google";
 import { LogosProductHunt } from "../icons/product-hunt";
 import { FaBrandsXTwitter } from "../icons/twitter";
+import { IonLogoYoutube } from "./youtube";
 
 export type Icon = LucideIcon;
 
@@ -46,5 +47,6 @@ export const Icons = {
   github: FaBrandsGitHub,
   google: FaBrandsGoogle,
   twitter: FaBrandsXTwitter,
+  youtube: IonLogoYoutube,
   productHunt: LogosProductHunt,
 };

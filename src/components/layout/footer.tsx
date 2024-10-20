@@ -49,6 +49,17 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                   </Link>
                 </Button>
               )}
+              {siteConfig.links.youtube && (
+                <Button variant="ghost" size="sm" className="size-8 px-0">
+                  <Link
+                    href={siteConfig.links.youtube}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Icons.youtube className="size-5" />
+                  </Link>
+                </Button>
+              )}
               {siteConfig.mail && (
                 <Button variant="ghost" size="sm" className="size-8 px-0">
                   <Link

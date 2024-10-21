@@ -22,7 +22,7 @@ export const siteConfig: SiteConfig = {
   ],
   author: "Mkdirs",
   url: SITE_URL,
-  image: `${SITE_URL}/opengraph.png`,
+  image: `${SITE_URL}/og.png`,
   mail: "support@mkdirs.com",
   utm: {
     source: "mkdirs.com",

@@ -44,7 +44,7 @@ export async function getItems({
   filter?: string;
   currentPage: number;
 }) {
-  console.log("getItems, query", query, "sortKey", sortKey, "reverse", reverse);
+  console.log("getItems, category", category, "tag", tag, "query", query, "filter", filter, "sortKey", sortKey, "reverse", reverse);
   const { countQuery, dataQuery } = buildQuery(
     category,
     tag,

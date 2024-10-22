@@ -2,6 +2,7 @@ import AllPostsButton from "@/components/blog/all-posts-button";
 import BlogCustomMdx from "@/components/blog/blog-custom-mdx";
 import BlogGrid from "@/components/blog/blog-grid";
 import { BlogToc } from "@/components/blog/blog-toc";
+import { UserAvatar } from "@/components/shared/user-avatar";
 import { siteConfig } from "@/config/site";
 import { urlForImage } from "@/lib/image";
 import { portableTextToMarkdown } from "@/lib/mdx";
@@ -120,14 +121,11 @@ export default async function PostPage({ params }: PostPageProps) {
               <h2 className="text-lg font-semibold mb-4">Publisher</h2>
               <div className="flex items-center gap-4">
                 <div className="relative h-12 w-12 flex-shrink-0">
-                  {post.author?.image && (
-                    <Image
-                      src={post?.author?.image}
-                      alt={`avatar for ${post.author.name}`}
-                      className="rounded-full object-cover border"
-                      fill
-                    />
-                  )}
+                  <UserAvatar
+                    name={post.author?.name || null}
+                    image={post.author?.image || null}
+                    className="border"
+                  />
                 </div>
                 <div>
                   {post.author?.link ? (

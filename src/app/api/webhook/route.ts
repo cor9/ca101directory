@@ -85,6 +85,7 @@ export async function POST(req: Request) {
         .patch(itemId)
         .set({
           paid: true,
+          featured: true,
           pricePlan: PricePlans.PRO,
           proPlanStatus: ProPlanStatus.SUCCESS,
           order: {

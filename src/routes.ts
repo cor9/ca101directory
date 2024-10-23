@@ -37,6 +37,7 @@ export const publicRoutes = [
   // test pages
   "/shadcn(/.*)?",
   "/loading(/.*)?",
+  "/landing(/.*)?",
 ];
 
 /**

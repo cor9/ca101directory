@@ -15,7 +15,7 @@ export const metadata = constructMetadata({
 
 export default async function SettingsPage() {
   const user = await currentUser();
-  console.log("SettingsPage, user:", user);
+  // console.log("SettingsPage, user:", user);
 
   if (!user) {
     console.error("SettingsPage, user not found");

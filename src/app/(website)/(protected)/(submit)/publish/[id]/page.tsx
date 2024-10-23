@@ -49,7 +49,7 @@ export default async function PublishPage({
     console.error("PublishPage, item not found");
     return notFound();
   }
-  console.log("PublishPage, item:", item);
+  // console.log("PublishPage, item:", item);
 
   // redirect to dashboard if the item is not submitted by the user
   if (item.submitter._id !== user.id) {

@@ -35,7 +35,7 @@ export async function updateUserLink(
         link: link,
       })
       .commit();
-    console.log("updateUserLink, user:", updatedUser);
+    // console.log("updateUserLink, user:", updatedUser);
 
     // unstable update in Beta version
     unstable_update({

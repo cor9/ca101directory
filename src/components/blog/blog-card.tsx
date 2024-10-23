@@ -4,6 +4,7 @@ import { getLocaleDate } from "@/lib/utils";
 import type { BlogPostInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import { UserAvatar } from "../shared/user-avatar";
 
 type BlogCardProps = {
   post: BlogPostInfo;
@@ -89,16 +90,11 @@ export default function BlogCard({ post }: BlogCardProps) {
         {/* Author and date */}
         <div className="mt-auto pt-4 flex items-center justify-between space-x-4 text-muted-foreground">
           <div className="flex items-center gap-2">
-            <div className="relative h-5 w-5 flex-shrink-0">
-              {post?.author?.image && (
-                <Image
-                  src={post?.author?.image}
-                  alt={`avatar for ${post?.author?.name}`}
-                  className="rounded-full object-cover border"
-                  fill
-                />
-              )}
-            </div>
+            <UserAvatar
+              name={post.author?.name || null}
+              image={post.author?.image || null}
+              className="border h-6 w-6 flex-shrink-0"
+            />
             <span className="truncate text-sm">{post?.author?.name}</span>
           </div>
 

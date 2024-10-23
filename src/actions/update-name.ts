@@ -35,7 +35,7 @@ export async function updateUserName(
         name: name,
       })
       .commit();
-    console.log("updateUserName, user:", updatedUser);
+    // console.log("updateUserName, user:", updatedUser);
 
     // unstable update in Beta version
     unstable_update({

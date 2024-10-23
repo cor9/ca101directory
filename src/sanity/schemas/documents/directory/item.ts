@@ -112,14 +112,6 @@ export default defineType({
         },
       ],
     }),
-    defineField({
-      name: "forceHidden",
-      title: "Force Hidden",
-      description: "If the item is force hidden, it will not be displayed regardless of the status. It's helpful when you want to hide an item temporarily.",
-      type: "boolean",
-      group: "status",
-      initialValue: false,
-    }),
     // publish related fields
     defineField({
       name: "publishDate",
@@ -220,6 +212,14 @@ export default defineType({
       to: [{ type: "order" }],
       hidden: ({ parent }) => !parent.paid,
       // readOnly: true,
+    }),
+    defineField({
+      name: "forceHidden",
+      title: "Force Hidden",
+      description: "If the item is force hidden, it will not be displayed regardless of the status. It's helpful when you want to hide an item temporarily.",
+      type: "boolean",
+      group: "status",
+      initialValue: false,
     }),
   ],
   // https://www.sanity.io/docs/previews-list-views

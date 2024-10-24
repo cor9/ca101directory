@@ -91,10 +91,10 @@ export default function ItemCard({ item }: ItemCardProps) {
             <h3
               className={cn(
                 "flex-1 text-xl font-medium line-clamp-1 flex items-center gap-2",
-                item.featured && "text-brand",
+                item.featured && "text-gradient_indigo-purple font-semibold",
               )}
             >
-              {item.featured && <AwardIcon className="w-5 h-5 flex-shrink-0" />}
+              {item.featured && <AwardIcon className="w-5 h-5 flex-shrink-0 text-indigo-500" />}
               {item.name}
             </h3>
             <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

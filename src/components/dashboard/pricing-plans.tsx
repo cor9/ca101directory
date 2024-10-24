@@ -40,7 +40,7 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
     <div className="relative pt-4">
       {isProPlan(pricePlan) && (
         <div className="absolute top-0.5 left-1/2 transform -translate-x-1/2 z-10">
-          <div className="bg-brand text-brand-foreground px-4 py-1 rounded-full text-sm font-semibold">
+          <div className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold">
             POPULAR
           </div>
         </div>
@@ -48,7 +48,7 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
       <div
         className={cn(
           "relative overflow-hidden flex flex-col rounded-xl shadow-sm",
-          isProPlan(pricePlan) ? "border-2 border-brand" : "border",
+          isProPlan(pricePlan) ? "border-2 border-primary" : "border",
         )}
       >
         {/* price plan title and price */}
@@ -56,7 +56,7 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
           <span className="text-2xl font-bold uppercase tracking-wider">
             {pricePlan.title}
           </span>
-          <div className="text-4xl font-semibold font-workSans leading-relaxed text-brand">
+          <div className="text-4xl font-semibold font-workSans leading-relaxed text-primary">
             ${pricePlan.price}
           </div>
         </div>
@@ -67,7 +67,7 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
             <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal mb-6">
               {pricePlan.benefits.map((feature) => (
                 <div key={feature} className="flex items-start gap-x-4">
-                  <CheckIcon className="text-brand size-4 shrink-0 text-primary-500 mt-0.5" />
+                  <CheckIcon className="text-primary size-4 shrink-0 text-primary-500 mt-0.5" />
                   <p>{feature}</p>
                 </div>
               ))}

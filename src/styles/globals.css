@@ -13,9 +13,6 @@
  */
 @layer base {
   :root {
-    --brand: 262.1 83.3% 57.8%;
-    --brand-foreground: 210 20% 98%;
-
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;

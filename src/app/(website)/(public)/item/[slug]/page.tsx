@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { urlForImage } from "@/lib/image";
 import { constructMetadata } from "@/lib/metadata";
-import { getLocaleDate } from "@/lib/utils";
+import { cn, getLocaleDate } from "@/lib/utils";
 import type { ItemInfoBySlugQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import {
@@ -15,7 +15,7 @@ import {
   itemInfoBySlugQuery,
 } from "@/sanity/lib/queries";
 import type { ItemFullInfo } from "@/types";
-import { GlobeIcon, HashIcon, LayoutGridIcon } from "lucide-react";
+import { AwardIcon, GlobeIcon, HashIcon, LayoutGridIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -77,7 +77,15 @@ export default async function ItemPage({ params }: ItemPageProps) {
           {/* name and description */}
           <div className="flex flex-1 items-center">
             <div className="flex flex-col gap-8">
-              <h1 className="text-4xl tracking-wider font-bold">{item.name}</h1>
+              <h1
+                className={cn(
+                  "text-4xl tracking-wider font-bold flex items-center gap-2",
+                  item.featured && "text-gradient_indigo-purple font-semibold",
+                )}
+              >
+                {item.featured && <AwardIcon className="w-6 h-6 flex-shrink-0 text-indigo-500" />}
+                {item.name}
+              </h1>
               <p className="text-muted-foreground text-balance leading-relaxed">
                 {item.description}
               </p>

@@ -90,8 +90,8 @@ export function ProPlanButton({
       className={cn(
         "overflow-hidden rounded-full",
         "group transition-transform duration-300 ease-in-out hover:scale-105",
-        "bg-brand text-white dark:bg-brand/90 dark:text-white",
-        "hover:bg-brand/90 dark:hover:bg-brand/80",
+        "bg-primary text-primary-foreground dark:bg-primary/90",
+        "hover:bg-primary/90 dark:hover:bg-primary/80",
         "shadow-lg hover:shadow-xl",
         className,
       )}

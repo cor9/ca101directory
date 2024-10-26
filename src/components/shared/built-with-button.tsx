@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import Link from "next/link";
-import { Logo } from "../logo";
 import { buttonVariants } from "../ui/button";
 
 export default function BuiltWithButton() {
@@ -15,9 +15,22 @@ export default function BuiltWithButton() {
     >
       <span>Built with</span>
       <span>
-        <Logo className="size-4 rounded-full" />
+        <LogoMkdirs className="size-4 rounded-full" />
       </span>
       <span className="font-bold">Mkdirs</span>
     </Link>
+  );
+}
+
+function LogoMkdirs({ className }: { className?: string }) {
+  return (
+    <Image
+      src="/logo_mkdirs.png"
+      alt="Logo"
+      title="Logo"
+      width={96}
+      height={96}
+      className={cn("size-8 rounded-md", className)}
+    />
   );
 }

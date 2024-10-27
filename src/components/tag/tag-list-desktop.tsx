@@ -13,23 +13,20 @@ export function TagListDesktop({ tagList }: TagListDesktopProps) {
   const { slug } = useParams() as { slug?: string };
 
   return (
-    <div>
-      {/* Desktop View */}
-      <ScrollArea className="hidden md:flex w-full pb-4">
-        <ul className="w-full flex flex-1 gap-x-2">
-          <FilterItemDesktop title="All" href="/tag" active={!slug} />
+    <ScrollArea className="hidden md:flex w-full pb-4">
+      <ul className="w-full flex flex-1 gap-x-2">
+        <FilterItemDesktop title="All" href="/tag" active={!slug} />
 
-          {tagList.map((item) => (
-            <FilterItemDesktop
-              key={item.slug.current}
-              title={item.name}
-              href={`/tag/${item.slug.current}`}
-              active={item.slug.current === slug}
-            />
-          ))}
-        </ul>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
-    </div>
+        {tagList.map((item) => (
+          <FilterItemDesktop
+            key={item.slug.current}
+            title={item.name}
+            href={`/tag/${item.slug.current}`}
+            active={item.slug.current === slug}
+          />
+        ))}
+      </ul>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   );
 }

@@ -15,23 +15,20 @@ export function CategoryListDesktop({
   const { slug } = useParams() as { slug?: string };
 
   return (
-    <div>
-      {/* Desktop View */}
-      <ScrollArea className="hidden md:flex w-full pb-4">
-        <ul className="flex gap-x-2">
-          <FilterItemDesktop title="All" href="/category" active={!slug} />
+    <ScrollArea className="hidden md:flex w-full pb-4">
+      <ul className="flex gap-x-2">
+        <FilterItemDesktop title="All" href="/category" active={!slug} />
 
-          {categoryList.map((item) => (
-            <FilterItemDesktop
-              key={item.slug.current}
-              title={item.name}
-              href={`/category/${item.slug.current}`}
-              active={item.slug.current === slug}
-            />
-          ))}
-        </ul>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
-    </div>
+        {categoryList.map((item) => (
+          <FilterItemDesktop
+            key={item.slug.current}
+            title={item.name}
+            href={`/category/${item.slug.current}`}
+            active={item.slug.current === slug}
+          />
+        ))}
+      </ul>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   );
 }

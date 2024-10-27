@@ -26,6 +26,18 @@ export default async function PricingPage() {
           <div className="w-full max-w-4xl mx-auto">
             <PricingPlans />
           </div>
+
+          {/* add tips only for Mkdirs demo directory website */}
+          {siteConfig.name === "Mkdirs Demo" && (
+            <p className="text-center text-sm text-muted-foreground leading-normal">
+              This is in <span className="font-bold">TEST</span> environment.
+              <br />
+              You can use Stripe test card to simulate the paid submission
+              process.
+              <br />
+              Stripe test card number: 4242 4242 4242 4242
+            </p>
+          )}
         </section>
 
         <section className="w-full flex flex-col gap-8 justify-center">

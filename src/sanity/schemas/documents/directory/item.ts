@@ -78,6 +78,7 @@ export default defineType({
       title: "Submitter",
       type: "reference",
       to: [{ type: "user" }],
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "introduction",
@@ -116,7 +117,7 @@ export default defineType({
     defineField({
       name: "publishDate",
       title: "Publish Date",
-      description: "The lastest publish date when the item is published",
+      description: "*Required if you want to show the item in the directory",
       type: "datetime",
       group: "status",
       // hidden: ({ parent }) => !parent.published,

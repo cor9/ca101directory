@@ -55,7 +55,7 @@ export async function submit(
 
       paid: false,
       pricePlan: PricePlans.FREE,
-      freePlanStatus: FreePlanStatus.PENDING,
+      freePlanStatus: FreePlanStatus.SUBMITTING,
       submitter: {
         _type: "reference",
         _ref: user.id,

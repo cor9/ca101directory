@@ -86,7 +86,7 @@ export async function edit(
       ...(pricePlan === PricePlans.FREE && {
         publishDate: null,
         freePlanStatus:
-          planStatus === "submitted"
+          planStatus === FreePlanStatus.SUBMITTING
             ? FreePlanStatus.SUBMITTING
             : FreePlanStatus.PENDING,
       }),

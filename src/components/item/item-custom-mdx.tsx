@@ -33,4 +33,11 @@ const markdownComponents = {
       {...props}
     />
   ),
+  a: ({ className, ...props }) => (
+    <a
+      rel="nofollow noopener noreferrer"
+      className={cn("font-medium underline underline-offset-4", className)}
+      {...props}
+    />
+  ),
 };

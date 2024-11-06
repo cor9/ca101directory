@@ -343,7 +343,7 @@ export const MultiSelect = React.forwardRef<
               <CommandGroup>
                 <div className="flex items-center justify-between">
                   {selectedValues.length > 0 && (
-                    <div>
+                    <div className="flex items-center">
                       <CommandItem
                         onSelect={handleClear}
                         className="flex-1 justify-center cursor-pointer"

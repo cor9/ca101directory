@@ -1,7 +1,7 @@
 import { getUserByEmail } from "@/data/user";
 import { SHOW_QUERY_LOGS } from "@/lib/constants";
 import { LoginSchema } from "@/lib/schemas";
-import type { NextAuthConfig } from "next-auth";
+import { AuthError, type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
@@ -36,7 +36,10 @@ export default {
         const validatedFields = LoginSchema.safeParse(credentials);
         if (!validatedFields.success) {
           console.error("authorize error: credentials invalid");
-          return null;
+          // return null;
+          const error = new AuthError();
+          error.type = "CredentialsSignin";
+          throw error;
         }
 
         // @sanity-typegen-ignore
@@ -67,9 +70,18 @@ export default {
           }
           return userWithRole;
         }
+        console.error("authorize error: passwords do not match");
+        
+        const error = new AuthError();
+        error.type = "CredentialsSignin";
+        throw error;
+
+        // 2024-11-06, we can not return null, 
+        // because it will return CallbackRouteError in login server action,
+        // so we need to throw an AuthError with type "CredentialsSignin" instead
 
         // Return `null` to indicate that the credentials are invalid
-        return null;
+        // return null;
       },
     }),
   ],

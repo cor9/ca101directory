@@ -60,6 +60,7 @@ export async function login(
       redirectUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     };
   } catch (error) {
+    // console.error("login, error:", error);
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":

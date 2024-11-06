@@ -36,10 +36,7 @@ export default {
         const validatedFields = LoginSchema.safeParse(credentials);
         if (!validatedFields.success) {
           console.error("authorize error: credentials invalid");
-          // return null;
-          const error = new AuthError();
-          error.type = "CredentialsSignin";
-          throw error;
+          return null;
         }
 
         // @sanity-typegen-ignore
@@ -70,18 +67,9 @@ export default {
           }
           return userWithRole;
         }
-        console.error("authorize error: passwords do not match");
-        
-        const error = new AuthError();
-        error.type = "CredentialsSignin";
-        throw error;
-
-        // 2024-11-06, we can not return null, 
-        // because it will return CallbackRouteError in login server action,
-        // so we need to throw an AuthError with type "CredentialsSignin" instead
-
+        console.error("authorize error: passwords do not match");        
         // Return `null` to indicate that the credentials are invalid
-        // return null;
+        return null;
       },
     }),
   ],

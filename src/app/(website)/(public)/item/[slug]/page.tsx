@@ -184,6 +184,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                           href={item.submitter.link}
                           target="_blank"
                           prefetch={false}
+                          rel="nofollow noopener noreferrer"
                           className="font-medium link-underline"
                         >
                           {item.submitter.name}

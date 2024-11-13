@@ -9,7 +9,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import {
   Popover,
   PopoverContent,
@@ -113,6 +113,7 @@ export function ResponsiveComboBox({
         </Button>
       </DrawerTrigger>
       <DrawerContent>
+        <DrawerTitle className="sr-only">{placeholder}</DrawerTitle>
         <div className="mt-4 border-t">
           <FilterList
             filterItemList={filterItemList}

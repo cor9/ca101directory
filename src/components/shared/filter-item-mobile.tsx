@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { CheckIcon } from "lucide-react";
 import Link from "next/link";
 
 export interface FilterItemMobileProps {
@@ -21,7 +21,7 @@ export default function FilterItemMobile({
         <li className="rounded-lg text-foreground hover:bg-muted">
           <div className="flex items-center justify-between p-3 text-sm">
             <h2>{title}</h2>
-            {active && <Check className="size-4" />}
+            {active && <CheckIcon className="size-4" />}
           </div>
         </li>
       </Link>

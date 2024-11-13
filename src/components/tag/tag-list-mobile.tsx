@@ -40,6 +40,7 @@ export function TagListMobile({ tagList }: TagListMobileProps) {
       />
       <Drawer.Portal>
         <Drawer.Content className="fixed inset-x-0 bottom-0 z-50 mt-24 overflow-hidden rounded-t-[10px] border bg-background">
+          <Drawer.Title className="sr-only">Tag</Drawer.Title>
           <div className="sticky top-0 z-20 flex w-full items-center justify-center bg-inherit">
             <div className="my-3 h-1.5 w-16 rounded-full bg-muted-foreground/20" />
           </div>

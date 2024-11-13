@@ -193,15 +193,15 @@ export default async function ItemPage({ params }: ItemPageProps) {
                     </div>
                   </li>
 
-                  <li className="flex justify-between">
+                  <li className="flex justify-between space-x-4">
                     <span className="text-muted-foreground">Website</span>
                     <Link
                       href={itemLink}
                       target="_blank"
                       prefetch={false}
-                      className="font-medium link-underline"
+                      className="font-medium link-underline line-clamp-1"
                     >
-                      {item.link}
+                      {new URL(item.link).hostname}
                     </Link>
                   </li>
 

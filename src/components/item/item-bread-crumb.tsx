@@ -68,7 +68,7 @@ export default function ItemBreadCrumb({ item }: ItemBreadCrumbProps) {
                 {item?.categories?.map((category) => (
                   <DropdownMenuItem key={category.slug.current}>
                     <BreadcrumbLink
-                      className="cursor-pointer"
+                      className="cursor-pointer w-full"
                       href={`/category/${category.slug.current}`}
                     >
                       {category.name}

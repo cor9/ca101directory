@@ -10,11 +10,9 @@ const nextConfig = {
   // reactStrictMode: false,
 
   // https://nextjs.org/docs/architecture/nextjs-compiler#remove-console
-  // Remove console.* output except console.error
+  // Remove all console.* calls
   compiler: {
-    removeConsole: {
-      exclude: ["error"],
-    },
+    removeConsole: true,
   },
 
   images: {

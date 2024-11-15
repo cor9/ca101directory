@@ -26,12 +26,12 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
               {siteConfig.tagline}
             </p>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               {siteConfig.links.github && (
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="px-0"
+                  className=""
                   aria-label="GitHub"
                 >
                   <Link
@@ -48,7 +48,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="px-0"
+                  className=""
                   aria-label="Twitter"
                 >
                   <Link
@@ -65,7 +65,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="px-0"
+                  className=""
                   aria-label="YouTube"
                 >
                   <Link
@@ -82,7 +82,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="px-0"
+                  className=""
                   aria-label="Email"
                 >
                   <Link

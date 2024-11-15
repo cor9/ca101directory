@@ -26,12 +26,12 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
               {siteConfig.tagline}
             </p>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
               {siteConfig.links.github && (
                 <Button
                   variant="ghost"
-                  size="sm"
-                  className="size-8 px-0"
+                  size="icon"
+                  className="px-0"
                   aria-label="GitHub"
                 >
                   <Link
@@ -47,8 +47,8 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
               {siteConfig.links.twitter && (
                 <Button
                   variant="ghost"
-                  size="sm"
-                  className="size-8 px-0"
+                  size="icon"
+                  className="px-0"
                   aria-label="Twitter"
                 >
                   <Link
@@ -64,8 +64,8 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
               {siteConfig.links.youtube && (
                 <Button
                   variant="ghost"
-                  size="sm"
-                  className="size-8 px-0"
+                  size="icon"
+                  className="px-0"
                   aria-label="YouTube"
                 >
                   <Link
@@ -81,8 +81,8 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
               {siteConfig.mail && (
                 <Button
                   variant="ghost"
-                  size="sm"
-                  className="size-8 px-0"
+                  size="icon"
+                  className="px-0"
                   aria-label="Email"
                 >
                   <Link

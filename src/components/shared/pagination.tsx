@@ -42,7 +42,7 @@ export default function CustomPagination({
                 ? () => handlePageChange(currentPage - 1)
                 : undefined
             }
-            aria-disabled={currentPage <= 1}
+            // aria-disabled={currentPage <= 1}
             className={
               currentPage <= 1
                 ? "pointer-events-none text-gray-300 dark:text-gray-600"
@@ -74,7 +74,7 @@ export default function CustomPagination({
                 ? () => handlePageChange(currentPage + 1)
                 : undefined
             }
-            aria-disabled={currentPage >= totalPages}
+            // aria-disabled={currentPage >= totalPages}
             className={
               currentPage >= totalPages
                 ? "pointer-events-none text-gray-300 dark:text-gray-600"

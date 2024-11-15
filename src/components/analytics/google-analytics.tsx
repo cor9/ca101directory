@@ -1,11 +1,12 @@
 "use client";
 
-import Script from "next/script";
+import { GoogleAnalytics as NextGoogleAnalytics } from "@next/third-parties/google";
 
 /**
  * Google Analytics
  *
  * https://analytics.google.com
+ * https://nextjs.org/docs/app/building-your-application/optimizing/third-party-libraries#google-analytics
  */
 export default function GoogleAnalytics() {
   if (process.env.NODE_ENV !== "production") {
@@ -17,25 +18,5 @@ export default function GoogleAnalytics() {
     return null;
   }
 
-  return (
-    <>
-      <Script
-        strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`}
-      />
-      <Script
-        id="google-analytics-init"
-        strategy="afterInteractive"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
-        dangerouslySetInnerHTML={{
-          __html: `
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
-                    gtag('config', '${analyticsId}');
-                    `,
-        }}
-      />
-    </>
-  );
+  return <NextGoogleAnalytics gaId={analyticsId} />;
 }

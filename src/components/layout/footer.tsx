@@ -38,6 +38,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                     href={siteConfig.links.github}
                     target="_blank"
                     rel="noreferrer"
+                    aria-label="GitHub"
                   >
                     <Icons.github className="size-5" />
                   </Link>
@@ -54,6 +55,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                     href={siteConfig.links.twitter}
                     target="_blank"
                     rel="noreferrer"
+                    aria-label="Twitter"
                   >
                     <Icons.twitter className="size-5" />
                   </Link>
@@ -70,6 +72,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                     href={siteConfig.links.youtube}
                     target="_blank"
                     rel="noreferrer"
+                    aria-label="YouTube"
                   >
                     <Icons.youtube className="size-5" />
                   </Link>
@@ -86,6 +89,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                     href={`mailto:${siteConfig.mail}`}
                     target="_blank"
                     rel="noreferrer"
+                    aria-label="Email"
                   >
                     <Icons.email className="size-5" />
                   </Link>

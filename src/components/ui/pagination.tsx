@@ -39,13 +39,14 @@ type PaginationLinkProps = {
 } & Pick<ButtonProps, "size"> &
   React.ComponentProps<"a">
 
+// fix 'Links are not crawlable' issued by PageSpeed Insights
 const PaginationLink = ({
   className,
   isActive,
   size = "icon",
   ...props
 }: PaginationLinkProps) => (
-  <a
+  <span
     aria-current={isActive ? "page" : undefined}
     className={cn(
       buttonVariants({

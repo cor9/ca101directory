@@ -31,10 +31,7 @@ export default function HomeHero() {
           </span>
         </h1>
 
-        <p
-          className="max-w-4xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8"
-          style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
-        >
+        <p className="max-w-4xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8">
           {heroConfig.subtitle}
         </p>
 

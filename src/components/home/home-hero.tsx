@@ -31,9 +31,9 @@ export default function HomeHero() {
           </span>
         </h1>
 
-        {/* <p className="max-w-4xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8">
+        <p className="max-w-4xl text-balance text-muted-foreground sm:text-xl">
           {heroConfig.subtitle}
-        </p> */}
+        </p>
 
         <div className="w-full">
           <HomeSearchBox urlPrefix="/" />

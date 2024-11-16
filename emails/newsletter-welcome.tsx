@@ -49,10 +49,6 @@ export const NewsletterWelcomeEmail = ({ email }: { email: string }) => {
               this journey of exploring cutting-edge websites and tools.
             </Text>
             <Text style={paragraph}>
-              Expect our monthly newsletter packed with curated insights, latest
-              trends, and exclusive tips in the AI space.
-            </Text>
-            <Text style={paragraph}>
               We value your participation and feedback. Please don't hesitate to
               reach out to us if you have any questions or suggestions.
             </Text>

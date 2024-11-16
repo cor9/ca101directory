@@ -17,7 +17,8 @@ export default function ItemCard({ item }: ItemCardProps) {
   const imageBlurDataURL = item?.image?.blurDataURL || null;
   // console.log(`ItemCard, imageBlurDataURL:${imageBlurDataURL}`);
   const itemUrlPrefix = "/item";
-  const itemLink = `${item.link}?utm_source=${siteConfig.utm.source}&utm_medium=${siteConfig.utm.medium}&utm_campaign=${siteConfig.utm.campaign}`;
+  const utmParams = `utm_source=${siteConfig.utm.source}&utm_medium=${siteConfig.utm.medium}&utm_campaign=${siteConfig.utm.campaign}`;
+  const itemLink = `${item.link}${item.link.includes('?') ? '&' : '?'}${utmParams}`;
 
   return (
     <div

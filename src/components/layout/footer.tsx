@@ -26,74 +26,50 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
               {siteConfig.tagline}
             </p>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               {siteConfig.links.github && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className=""
+                <Link
+                  href={siteConfig.links.github}
+                  target="_blank"
+                  rel="noreferrer"
                   aria-label="GitHub"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
                 >
-                  <Link
-                    href={siteConfig.links.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="GitHub"
-                  >
-                    <Icons.github className="size-5" />
-                  </Link>
-                </Button>
+                  <Icons.github className="size-6" aria-hidden="true" />
+                </Link>
               )}
               {siteConfig.links.twitter && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className=""
+                <Link
+                  href={siteConfig.links.twitter}
+                  target="_blank"
+                  rel="noreferrer"
                   aria-label="Twitter"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
                 >
-                  <Link
-                    href={siteConfig.links.twitter}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Twitter"
-                  >
-                    <Icons.twitter className="size-5" />
-                  </Link>
-                </Button>
+                  <Icons.twitter className="size-6" aria-hidden="true" />
+                </Link>
               )}
               {siteConfig.links.youtube && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className=""
+                <Link
+                  href={siteConfig.links.youtube}
+                  target="_blank"
+                  rel="noreferrer"
                   aria-label="YouTube"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
                 >
-                  <Link
-                    href={siteConfig.links.youtube}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="YouTube"
-                  >
-                    <Icons.youtube className="size-5" />
-                  </Link>
-                </Button>
+                  <Icons.youtube className="size-6" aria-hidden="true" />
+                </Link>
               )}
               {siteConfig.mail && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className=""
+                <Link
+                  href={`mailto:${siteConfig.mail}`}
+                  target="_blank"
+                  rel="noreferrer"
                   aria-label="Email"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
                 >
-                  <Link
-                    href={`mailto:${siteConfig.mail}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Email"
-                  >
-                    <Icons.email className="size-5" />
-                  </Link>
-                </Button>
+                  <Icons.email className="size-6" aria-hidden="true" />
+                </Link>
               )}
             </div>
 

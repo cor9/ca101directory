@@ -63,7 +63,8 @@ export default async function ItemPage({ params }: ItemPageProps) {
   const imageBlurDataURL = item?.image?.blurDataURL || null;
   const publishDate = item.publishDate || item._createdAt;
   const date = getLocaleDate(publishDate);
-  const itemLink = `${item.link}?utm_source=${siteConfig.utm.source}&utm_medium=${siteConfig.utm.medium}&utm_campaign=${siteConfig.utm.campaign}`;
+  const utmParams = `utm_source=${siteConfig.utm.source}&utm_medium=${siteConfig.utm.medium}&utm_campaign=${siteConfig.utm.campaign}`;
+  const itemLink = `${item.link}${item.link.includes('?') ? '&' : '?'}${utmParams}`;
 
   return (
     <div className="flex flex-col gap-8">

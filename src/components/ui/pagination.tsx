@@ -40,6 +40,7 @@ type PaginationLinkProps = {
   React.ComponentProps<"a">
 
 // fix 'Links are not crawlable' issued by PageSpeed Insights
+// fix 'Elements use prohibited ARIA attributes' issued by PageSpeed Insights
 const PaginationLink = ({
   className,
   isActive,
@@ -47,7 +48,7 @@ const PaginationLink = ({
   ...props
 }: PaginationLinkProps) => (
   <span
-    aria-current={isActive ? "page" : undefined}
+    // aria-current={isActive ? "page" : undefined}
     className={cn(
       buttonVariants({
         variant: isActive ? "outline" : "ghost",

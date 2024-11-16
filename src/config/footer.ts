@@ -15,10 +15,10 @@ export const footerConfig: FooterConfig = {
     {
       title: "Resources",
       items: [
-        { title: "Studio", href: "/studio" },
+        { title: "Blog", href: "/blog" },
         { title: "Pricing", href: "/pricing" },
         { title: "Submit", href: "/submit" },
-        { title: "Blog", href: "/blog" },
+        { title: "Studio", href: "/studio", external: true },
       ],
     },
     {

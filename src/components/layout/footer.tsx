@@ -33,9 +33,9 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                   target="_blank"
                   rel="noreferrer"
                   aria-label="GitHub"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
                 >
-                  <Icons.github className="size-6" aria-hidden="true" />
+                  <Icons.github className="size-4" aria-hidden="true" />
                 </Link>
               )}
               {siteConfig.links.twitter && (
@@ -44,9 +44,9 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Twitter"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
                 >
-                  <Icons.twitter className="size-6" aria-hidden="true" />
+                  <Icons.twitter className="size-4" aria-hidden="true" />
                 </Link>
               )}
               {siteConfig.links.youtube && (
@@ -55,9 +55,9 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                   target="_blank"
                   rel="noreferrer"
                   aria-label="YouTube"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
                 >
-                  <Icons.youtube className="size-6" aria-hidden="true" />
+                  <Icons.youtube className="size-4" aria-hidden="true" />
                 </Link>
               )}
               {siteConfig.mail && (
@@ -66,9 +66,9 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Email"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
                 >
-                  <Icons.email className="size-6" aria-hidden="true" />
+                  <Icons.email className="size-4" aria-hidden="true" />
                 </Link>
               )}
             </div>

@@ -5,6 +5,7 @@ import {
   HomeIcon,
   LayoutDashboardIcon,
   LayoutGridIcon,
+  LayoutListIcon,
   Loader2Icon,
   type LucideIcon,
   MailIcon,
@@ -42,6 +43,7 @@ export const Icons = {
   dashboard: LayoutDashboardIcon,
   submit: UploadIcon,
   settings: SettingsIcon,
+  studio: LayoutListIcon,
   email: MailIcon,
 
   github: FaBrandsGitHub,

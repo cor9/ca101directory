@@ -18,10 +18,12 @@ export const urlForImage = (source: any) => {
     .split("x")
     .map((num: string) => Number.parseInt(num, 10));
 
+  // NOTICE: width is limited to 500px to avoid performance issues caused by large images
+  // you can increase this number if you want to have higher quality images
   const url = imageBuilder
     .image(source)
     .auto("format")
-    .width(Math.min(width, 1000))
+    .width(Math.min(width, 500))
     .url();
 
   return {

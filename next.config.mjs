@@ -10,9 +10,9 @@ const nextConfig = {
   // reactStrictMode: false,
 
   // https://nextjs.org/docs/architecture/nextjs-compiler#remove-console
-  // Remove all console.* calls
+  // Remove all console.* calls in production only
   compiler: {
-    removeConsole: true,
+    removeConsole: process.env.NODE_ENV === "production",
   },
 
   images: {

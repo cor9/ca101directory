@@ -133,55 +133,72 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
       <header className="md:hidden flex justify-center bg-background/60 backdrop-blur-xl transition-all">
         <div className="w-full px-4 h-16 flex items-center justify-between">
           {/* mobile navbar left show menu icon when closed & show sheet when menu is open */}
-          <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="size-9 shrink-0">
-                <MenuIcon className="size-5" />
-                <span className="sr-only">Toggle navigation menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="flex flex-col p-0">
-              <div className="flex h-screen flex-col">
-                {/* logo */}
-                <Link
-                  href="/"
-                  className="flex items-center space-x-2 pl-4 pt-4"
-                  onClick={() => setOpen(false)}
+          <div className="flex items-center gap-x-4">
+            <Sheet open={open} onOpenChange={setOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="size-9 shrink-0"
                 >
-                  <Logo />
+                  <MenuIcon className="size-5" />
+                  <span className="sr-only">Toggle navigation menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="flex flex-col p-0">
+                <div className="flex h-screen flex-col">
+                  {/* logo */}
+                  <Link
+                    href="/"
+                    className="flex items-center space-x-2 pl-4 pt-4"
+                    onClick={() => setOpen(false)}
+                  >
+                    <Logo />
 
-                  <span className="text-xl font-bold">{siteConfig.name}</span>
-                </Link>
+                    <span className="text-xl font-bold">{siteConfig.name}</span>
+                  </Link>
 
-                <nav className="flex flex-1 flex-col gap-2 p-2 pt-8 font-medium">
-                  {links.map((item) => {
-                    const Icon = Icons[item.icon || "arrowRight"];
-                    return (
-                      <Link
-                        key={item.title}
-                        href={item.disabled ? "#" : item.href}
-                        target={item.external ? "_blank" : ""}
-                        onClick={() => {
-                          if (!item.disabled) setOpen(false);
-                        }}
-                        className={cn(
-                          "flex items-center rounded-md gap-2 p-2 text-sm font-medium hover:bg-muted",
-                          isLinkActive(item.href)
-                            ? "bg-muted text-foreground"
-                            : "text-muted-foreground hover:text-foreground",
-                          item.disabled &&
-                            "cursor-not-allowed opacity-80 hover:bg-transparent hover:text-muted-foreground",
-                        )}
-                      >
-                        <Icon className="size-5" />
-                        {item.title}
-                      </Link>
-                    );
-                  })}
-                </nav>
-              </div>
-            </SheetContent>
-          </Sheet>
+                  <nav className="flex flex-1 flex-col gap-2 p-2 pt-8 font-medium">
+                    {links.map((item) => {
+                      const Icon = Icons[item.icon || "arrowRight"];
+                      return (
+                        <Link
+                          key={item.title}
+                          href={item.disabled ? "#" : item.href}
+                          target={item.external ? "_blank" : ""}
+                          onClick={() => {
+                            if (!item.disabled) setOpen(false);
+                          }}
+                          className={cn(
+                            "flex items-center rounded-md gap-2 p-2 text-sm font-medium hover:bg-muted",
+                            isLinkActive(item.href)
+                              ? "bg-muted text-foreground"
+                              : "text-muted-foreground hover:text-foreground",
+                            item.disabled &&
+                              "cursor-not-allowed opacity-80 hover:bg-transparent hover:text-muted-foreground",
+                          )}
+                        >
+                          <Icon className="size-5" />
+                          {item.title}
+                        </Link>
+                      );
+                    })}
+                  </nav>
+                </div>
+              </SheetContent>
+            </Sheet>
+
+            {/* logo */}
+            <Link
+              href="/"
+              className="flex items-center space-x-2"
+              onClick={() => setOpen(false)}
+            >
+              <Logo className="size-8" />
+
+              <span className="text-xl font-bold">{siteConfig.name}</span>
+            </Link>
+          </div>
 
           {/* mobile navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">

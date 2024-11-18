@@ -30,6 +30,7 @@ export const siteConfig: SiteConfig = {
     campaign: "navigation",
   },
   links: {
+    // leave it blank if you don't want to show the link
     twitter: "https://x.com/MkdirsHQ",
     github: "https://github.com/MkdirsHQ",
     youtube: "https://www.youtube.com/@MkdirsHQ",

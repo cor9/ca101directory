@@ -1594,13 +1594,6 @@
         },
         "optional": true
       },
-      "forceHidden": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "boolean"
-        },
-        "optional": true
-      },
       "publishDate": {
         "type": "objectAttribute",
         "value": {
@@ -1738,6 +1731,13 @@
             }
           },
           "dereferencesTo": "order"
+        },
+        "optional": true
+      },
+      "forceHidden": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
         },
         "optional": true
       }

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { urlForImage } from "@/lib/image";
 import { constructMetadata } from "@/lib/metadata";
-import { cn, getLocaleDate } from "@/lib/utils";
+import { cn, getItemTargetLinkInWebsite, getLocaleDate } from "@/lib/utils";
 import type { ItemInfoBySlugQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import {
@@ -63,8 +63,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
   const imageBlurDataURL = item?.image?.blurDataURL || null;
   const publishDate = item.publishDate || item._createdAt;
   const date = getLocaleDate(publishDate);
-  const utmParams = `utm_source=${siteConfig.utm.source}&utm_medium=${siteConfig.utm.medium}&utm_campaign=${siteConfig.utm.campaign}`;
-  const itemLink = `${item.link}${item.link.includes('?') ? '&' : '?'}${utmParams}`;
+  const itemLink = getItemTargetLinkInWebsite(item);
 
   return (
     <div className="flex flex-col gap-8">

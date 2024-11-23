@@ -27,6 +27,7 @@ export default function BlogCard({ post }: BlogCardProps) {
               <Image
                 src={imageProps.src}
                 alt={post.image.alt || "image for blog post"}
+                title={post.image.alt || "image for blog post"}
                 className="object-cover image-scale"
                 fill
                 {...(imageBlurDataURL && {

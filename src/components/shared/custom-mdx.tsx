@@ -221,6 +221,7 @@ const markdownComponents = {
     <img
       className={cn("rounded-md border my-2", className)}
       alt={alt || "Image"}
+      title={alt || "Image"}
       {...props}
     />
   ),

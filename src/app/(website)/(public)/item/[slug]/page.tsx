@@ -123,6 +123,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                 <Image
                   src={imageProps.src}
                   alt={item.image?.alt || `image for ${item.name}`}
+                  title={item.image?.alt || `image for ${item.name}`}
                   loading="eager"
                   fill
                   className="border w-full shadow-lg object-cover image-scale"

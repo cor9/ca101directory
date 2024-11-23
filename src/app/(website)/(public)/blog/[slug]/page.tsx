@@ -85,6 +85,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 <Image
                   src={imageProps.src}
                   alt={post.image?.alt || "image for blog post"}
+                  title={post.image?.alt || "image for blog post"}
                   loading="eager"
                   fill
                   className="object-cover"

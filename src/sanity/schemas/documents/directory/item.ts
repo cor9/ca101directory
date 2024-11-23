@@ -42,6 +42,13 @@ export default defineType({
       name: "link",
       title: "Link",
       type: "string",
+      description: "The link shown on the website",
+    }),
+    defineField({
+      name: "affiliateLink",
+      title: "Affiliate Link",
+      type: "string",
+      description: "The affiliate link, not shown on the website, leave it blank if you don't have one",
     }),
     defineField({
       name: "description",

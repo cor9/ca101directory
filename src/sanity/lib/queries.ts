@@ -26,6 +26,7 @@ export const itemSimpleFields = /* groq */ `
   slug,
   description,
   link,
+  affiliateLink,
   featured,
   image {
     ...,

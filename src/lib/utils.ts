@@ -1,4 +1,5 @@
 import { siteConfig } from "@/config/site";
+import type { ItemInfo } from "@/types";
 import { type ClassValue, clsx } from "clsx";
 import type { ReadonlyURLSearchParams } from "next/navigation";
 import { twMerge } from "tailwind-merge";
@@ -89,6 +90,28 @@ export function getItemLinkInWebsite(slug: string) {
  */
 export function getItemStatusLinkInWebsite(id: string) {
   return `${siteConfig.url}/payment/${id}`;
+}
+
+/**
+ * get item target link in Website
+ *
+ * NOTICE: when no affiliate link is provided, the link will be the same as the display link
+ */
+export function getItemTargetLinkInWebsite(item: ItemInfo) {
+  if (item.affiliateLink) {
+    return item.affiliateLink;
+  }
+  
+  const utmParams = new URLSearchParams({
+    utm_source: siteConfig.utm.source,
+    utm_medium: siteConfig.utm.medium,
+    utm_campaign: siteConfig.utm.campaign
+  }).toString();
+  
+  const url = new URL(item.link);
+  url.search = url.search ? `${url.search}&${utmParams}` : `?${utmParams}`;
+  
+  return url.toString();
 }
 
 ///////////////// methods below are not used in the app //////////////////

@@ -36,6 +36,7 @@ export default function ItemCard({ item }: ItemCardProps) {
               <Image
                 src={imageProps?.src}
                 alt={item.image.alt || `image of ${item.name}`}
+                title={item.image.alt || `image of ${item.name}`}
                 fill
                 className="object-cover image-scale"
                 {...(imageBlurDataURL && {

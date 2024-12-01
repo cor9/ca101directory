@@ -101,17 +101,27 @@ export function getItemTargetLinkInWebsite(item: ItemInfo) {
   if (item.affiliateLink) {
     return item.affiliateLink;
   }
-  
-  const utmParams = new URLSearchParams({
-    utm_source: siteConfig.utm.source,
-    utm_medium: siteConfig.utm.medium,
-    utm_campaign: siteConfig.utm.campaign
-  }).toString();
-  
-  const url = new URL(item.link);
-  url.search = url.search ? `${url.search}&${utmParams}` : `?${utmParams}`;
-  
-  return url.toString();
+
+  try {
+    const utmParams = new URLSearchParams({
+      utm_source: siteConfig.utm.source,
+      utm_medium: siteConfig.utm.medium,
+      utm_campaign: siteConfig.utm.campaign,
+    }).toString();
+
+    // make sure the link is valid, has http:// or https:// as prefix
+    const url = new URL(item.link);
+    url.search = url.search ? `${url.search}&${utmParams}` : `?${utmParams}`;
+
+    return url.toString();
+  } catch (error) {
+    console.error(
+      "getItemTargetLinkInWebsite, invalid link:",
+      item.link,
+      error,
+    );
+    return item.link;
+  }
 }
 
 ///////////////// methods below are not used in the app //////////////////

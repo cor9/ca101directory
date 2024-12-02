@@ -23,7 +23,7 @@ export const urlForImage = (source: any) => {
   const url = imageBuilder
     .image(source)
     .auto("format")
-    .width(Math.min(width, 500))
+    .width(Math.min(width, 1000))
     .url();
 
   return {

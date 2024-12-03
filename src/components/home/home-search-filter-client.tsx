@@ -65,6 +65,7 @@ export function HomeSearchFilterClient({
     } else {
       newParams.set(type, value);
     }
+    newParams.delete("page");
     router.push(`${urlPrefix}?${newParams.toString()}`);
   };
 

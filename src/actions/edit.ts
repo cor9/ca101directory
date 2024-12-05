@@ -2,6 +2,7 @@
 
 import { getItemById } from "@/data/item";
 import { currentUser } from "@/lib/auth";
+import type { SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { sendNotifySubmissionEmail } from "@/lib/mail";
 import { EditSchema } from "@/lib/schemas";
 import { FreePlanStatus, PricePlans } from "@/lib/submission";
@@ -13,7 +14,24 @@ import {
 import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
 
-export type EditFormData = {
+// biome-ignore format: conditional type
+// biome-ignore lint/complexity/noBannedTypes: support item icon
+// type IconField = typeof SUPPORT_ITEM_ICON extends true ? { iconId: string } : {};
+
+// export type EditFormData = {
+//   id: string;
+//   name: string;
+//   link: string;
+//   description: string;
+//   introduction: string;
+//   tags: string[];
+//   categories: string[];
+//   imageId: string;
+//   pricePlan: string;
+//   planStatus: string;
+// } & IconField;
+
+type BaseEditFormData = {
   id: string;
   name: string;
   link: string;
@@ -25,6 +43,10 @@ export type EditFormData = {
   pricePlan: string;
   planStatus: string;
 };
+
+export type EditFormData = typeof SUPPORT_ITEM_ICON extends true
+  ? BaseEditFormData & { iconId: string }
+  : BaseEditFormData;
 
 export type ServerActionResponse = {
   status: "success" | "error";
@@ -56,7 +78,9 @@ export async function edit(
       categories,
       pricePlan,
       planStatus,
+      ...rest
     } = EditSchema.parse(formData);
+    const iconId = "iconId" in rest ? rest.iconId : undefined;
     console.log("edit, name:", name, "link:", link);
 
     // check if the user is the submitter of the item
@@ -110,6 +134,16 @@ export async function edit(
           _ref: imageId,
         },
       },
+      icon: iconId
+        ? {
+            _type: "image",
+            alt: `icon of ${name}`,
+            asset: {
+              _type: "reference",
+              _ref: iconId,
+            },
+          }
+        : undefined,
     };
 
     // console.log("edit, data:", data);

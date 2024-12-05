@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
+import { SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { urlForImage } from "@/lib/image";
 import { EditSchema } from "@/lib/schemas";
 import { PricePlans } from "@/lib/submission";
@@ -61,6 +62,9 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
       link: item.link,
       description: item.description,
       introduction: item.introduction,
+      ...(SUPPORT_ITEM_ICON
+        ? { iconId: item.icon?.asset?._ref ?? "" }
+        : {}),
       imageId: item.image?.asset?._ref,
       tags: item.tags.map((tag) => tag._id),
       categories: item.categories.map((category) => category._id),
@@ -103,6 +107,16 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
     setIsUploading(status.isUploading);
     if (status.imageId) {
       form.setValue("imageId", status.imageId);
+    }
+  };
+
+  const handleUploadIconChange = (status: {
+    isUploading: boolean;
+    imageId?: string;
+  }) => {
+    setIsUploading(status.isUploading);
+    if (status.imageId && SUPPORT_ITEM_ICON) {
+      form.setValue("iconId" as keyof EditFormData, status.imageId);
     }
   };
 
@@ -215,27 +229,56 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
               )}
             />
 
+            <FormField
+              control={form.control}
+              name="introduction"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    <div className="flex items-center justify-between gap-4">
+                      <span>Introduction</span>
+                      <span className="text-sm text-muted-foreground">
+                        (Markdown supported)
+                      </span>
+                    </div>
+                  </FormLabel>
+                  <FormControl>
+                    <CustomMde {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
-              <FormField
-                control={form.control}
-                name="introduction"
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>
-                      <div className="flex items-center justify-between gap-4">
-                        <span>Introduction</span>
-                        <span className="text-sm text-muted-foreground">
-                          (Markdown supported)
-                        </span>
-                      </div>
-                    </FormLabel>
-                    <FormControl>
-                      <CustomMde {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {SUPPORT_ITEM_ICON && (
+                <FormField
+                  control={form.control}
+                  name={"iconId" as keyof EditFormData}
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>
+                        <div className="flex items-center justify-between gap-4">
+                          <span>Icon</span>
+                          <span className="text-sm text-muted-foreground">
+                            (1:1, PNG or JPEG, max 1MB)
+                          </span>
+                        </div>
+                      </FormLabel>
+                      <FormControl>
+                        <div className="mt-4 w-full h-[370px]">
+                          <ImageUpload
+                            onUploadChange={handleUploadIconChange}
+                            currentImageUrl={item.icon ? urlForImage(item.icon).src : ""}
+                            type="icon"
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
               <FormField
                 control={form.control}
                 name="imageId"
@@ -245,7 +288,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                       <div className="flex items-center justify-between gap-4">
                         <span>Image</span>
                         <span className="text-sm text-muted-foreground">
-                          (PNG or JPEG, max 1MB)
+                          (16:9,PNG or JPEG, max 1MB)
                         </span>
                       </div>
                     </FormLabel>
@@ -254,6 +297,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                         <ImageUpload
                           onUploadChange={handleUploadChange}
                           currentImageUrl={urlForImage(item.image).src}
+                          type="image"
                         />
                       </div>
                     </FormControl>

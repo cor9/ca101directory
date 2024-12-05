@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
+import { SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { SubmitSchema } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 import type {
@@ -59,6 +60,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
       imageId: "",
       tags: [],
       categories: [],
+      ...(SUPPORT_ITEM_ICON ? { iconId: "" } : {}),
     },
   });
 
@@ -93,6 +95,16 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
     setIsUploading(status.isUploading);
     if (status.imageId) {
       form.setValue("imageId", status.imageId);
+    }
+  };
+
+  const handleUploadIconChange = (status: {
+    isUploading: boolean;
+    imageId?: string;
+  }) => {
+    setIsUploading(status.isUploading);
+    if (status.imageId && SUPPORT_ITEM_ICON) {
+      form.setValue("iconId" as keyof SubmitFormData, status.imageId);
     }
   };
 
@@ -205,27 +217,55 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
               )}
             />
 
+            <FormField
+              control={form.control}
+              name="introduction"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    <div className="flex items-center justify-between gap-4">
+                      <span>Introduction</span>
+                      <span className="text-xs text-muted-foreground">
+                        (Markdown supported)
+                      </span>
+                    </div>
+                  </FormLabel>
+                  <FormControl>
+                    <CustomMde {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
-              <FormField
-                control={form.control}
-                name="introduction"
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>
-                      <div className="flex items-center justify-between gap-4">
-                        <span>Introduction</span>
-                        <span className="text-xs text-muted-foreground">
-                          (Markdown supported)
-                        </span>
-                      </div>
-                    </FormLabel>
-                    <FormControl>
-                      <CustomMde {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {SUPPORT_ITEM_ICON && (
+                <FormField
+                  control={form.control}
+                  name={"iconId" as keyof SubmitFormData}
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>
+                        <div className="flex items-center justify-between gap-4">
+                          <span>Icon</span>
+                          <span className="text-xs text-muted-foreground">
+                            (1:1, PNG or JPEG, max 1MB)
+                          </span>
+                        </div>
+                      </FormLabel>
+                      <FormControl>
+                        <div className="mt-4 w-full h-[370px]">
+                          <ImageUpload
+                            onUploadChange={handleUploadIconChange}
+                            type="icon"
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
               <FormField
                 control={form.control}
                 name="imageId"
@@ -235,13 +275,16 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                       <div className="flex items-center justify-between gap-4">
                         <span>Image</span>
                         <span className="text-xs text-muted-foreground">
-                          (PNG or JPEG, max 1MB)
+                          (16:9, PNG or JPEG, max 1MB)
                         </span>
                       </div>
                     </FormLabel>
                     <FormControl>
                       <div className="mt-4 w-full h-[370px]">
-                        <ImageUpload onUploadChange={handleUploadChange} />
+                        <ImageUpload
+                          onUploadChange={handleUploadChange}
+                          type="image"
+                        />
                       </div>
                     </FormControl>
                     <FormMessage />

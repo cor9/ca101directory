@@ -13,6 +13,7 @@ import { toast } from "sonner";
 interface ImageUploadProps {
   currentImageUrl?: string;
   onUploadChange: (status: { isUploading: boolean; imageId?: string }) => void;
+  type: "icon" | "image";
 }
 
 /**
@@ -21,6 +22,7 @@ interface ImageUploadProps {
 export default function ImageUpload({
   currentImageUrl = null,
   onUploadChange,
+  type = "image",
 }: ImageUploadProps) {
   const [uploading, setUploading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string | null>(currentImageUrl);
@@ -116,7 +118,7 @@ export default function ImageUpload({
   return (
     <div {...getRootProps()} className="h-full">
       <label
-        htmlFor="dropzone-file"
+        htmlFor={`dropzone-file-${type}`}
         className={cn(
           "w-full h-full visually-hidden-focusable rounded-lg cursor-pointer",
           "relative flex flex-col items-center justify-center",
@@ -147,12 +149,20 @@ export default function ImageUpload({
         {/* uploaded state */}
         {imageUrl && !uploading && (
           <div className="p-4 flex flex-col items-center justify-center gap-4 w-full h-full">
-            <div className="relative group overflow-hidden rounded-lg w-full aspect-[16/9]">
+            <div className={cn(
+              "relative group overflow-hidden rounded-lg",
+                type === "icon"
+                  ? "w-32 h-32" // icon mode
+                  : "aspect-[16/9] h-[320px]" // image mode, fixed height
+              )}
+            >
               <Image
                 src={imageUrl}
                 alt="uploaded image"
                 fill
-                className="shadow-lg rounded-lg transition-opacity duration-300 hover:opacity-50"
+                className={cn(
+                  "shadow-lg rounded-lg transition-opacity duration-300 hover:opacity-50",
+                )}
               />
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <p className="text-sm font-medium text-white bg-black bg-opacity-50 px-3 py-2 rounded-md">
@@ -168,7 +178,7 @@ export default function ImageUpload({
       {/* disabled={uploading || imageUrl !== null} */}
       <Input
         {...getInputProps()}
-        id="dropzone-file"
+        id={`dropzone-file-${type}`}
         accept="image/png, image/jpeg"
         type="file"
         className="hidden"

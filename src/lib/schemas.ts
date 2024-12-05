@@ -1,4 +1,5 @@
 import * as z from "zod";
+import { SUPPORT_ITEM_ICON } from "./constants";
 
 /**
  * newsletter schema
@@ -14,7 +15,7 @@ export type NewsletterFormData = z.infer<typeof NewsletterFormSchema>;
 /**
  * submit item
  */
-export const SubmitSchema = z.object({
+export const baseSubmitSchema = {
   name: z
     .string()
     .min(1, { message: "Name is required" })
@@ -35,7 +36,14 @@ export const SubmitSchema = z.object({
     .array(z.string())
     .min(1, { message: "Must select at least one category" }),
   imageId: z.string().min(1, { message: "Must upload an image" }),
-});
+};
+
+export const SubmitSchema = SUPPORT_ITEM_ICON
+  ? z.object({
+      ...baseSubmitSchema,
+      iconId: z.string().min(1, { message: "Must upload an icon" }),
+    })
+  : z.object(baseSubmitSchema);
 
 /**
  * edit item

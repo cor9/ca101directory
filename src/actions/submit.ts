@@ -1,21 +1,40 @@
 "use server";
 
 import { currentUser } from "@/lib/auth";
+import type { SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { SubmitSchema } from "@/lib/schemas";
 import { FreePlanStatus, PricePlans } from "@/lib/submission";
 import { slugify } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
 
-export type SubmitFormData = {
+// biome-ignore format: conditional type
+// biome-ignore lint/complexity/noBannedTypes: support item icon
+// type IconField = typeof SUPPORT_ITEM_ICON extends true ? { iconId: string } : {};
+
+// export type SubmitFormData = {
+//   name: string;
+//   link: string;
+//   description: string;
+//   introduction: string;
+//   tags: string[];
+//   categories: string[];
+//   imageId: string;
+// } & IconField;
+
+type BaseSubmitFormData = {
   name: string;
   link: string;
   description: string;
   introduction: string;
+  imageId: string;
   tags: string[];
   categories: string[];
-  imageId: string;
 };
+
+export type SubmitFormData = typeof SUPPORT_ITEM_ICON extends true
+  ? BaseSubmitFormData & { iconId: string }
+  : BaseSubmitFormData;
 
 export type ServerActionResponse = {
   status: "success" | "error";
@@ -36,8 +55,17 @@ export async function submit(
     }
 
     // console.log("submit, data:", formData);
-    const { name, link, description, introduction, imageId, tags, categories } =
-      SubmitSchema.parse(formData);
+    const {
+      name,
+      link,
+      description,
+      introduction,
+      imageId,
+      tags,
+      categories,
+      ...rest
+    } = SubmitSchema.parse(formData);
+    const iconId = "iconId" in rest ? rest.iconId : undefined;
     console.log("submit, name:", name, "link:", link);
 
     const slug = slugify(name);
@@ -80,6 +108,16 @@ export async function submit(
           _ref: imageId,
         },
       },
+      icon: iconId
+        ? {
+            _type: "image",
+            alt: `icon of ${name}`,
+            asset: {
+              _type: "reference",
+              _ref: iconId,
+            },
+          }
+        : undefined,
     };
 
     // console.log("submit, data:", data);

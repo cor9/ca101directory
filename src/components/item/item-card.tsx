@@ -11,6 +11,9 @@ type ItemCardProps = {
   item: ItemInfo;
 };
 
+/**
+ * ItemCard shows item cover image
+ */
 export default function ItemCard({ item }: ItemCardProps) {
   const imageProps = item?.image ? urlForImage(item.image) : null;
   const imageBlurDataURL = item?.image?.blurDataURL || null;

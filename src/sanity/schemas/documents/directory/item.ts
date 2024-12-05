@@ -102,6 +102,22 @@ export default defineType({
       },
     }),
     defineField({
+      name: "icon",
+      title: "Icon",
+      type: "image",
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alternative Text",
+          description: "Important for SEO and accessiblity",
+          initialValue: (_, parent) => {
+            return `Icon for ${parent?.name || "item"}`;
+          },
+        },
+      ],
+    }),
+    defineField({
       name: "image",
       title: "Image",
       type: "image",
@@ -194,6 +210,7 @@ export default defineType({
         list: [
           "The item is not good fit for our directory",
           "The image of the item is not in good quality",
+          "The icon of the item is not in good quality",
           "The information of the item is not clear",
           "The backlink to our site is not provided",
           "Other reasons",
@@ -236,7 +253,8 @@ export default defineType({
   preview: {
     select: {
       name: "name",
-      media: "image",
+      icon: "icon",
+      image: "image",
       featured: "featured",
       date: "publishDate",
       pricePlan: "pricePlan",
@@ -245,7 +263,8 @@ export default defineType({
     },
     prepare({
       name,
-      media,
+      icon,
+      image,
       featured,
       date,
       pricePlan,
@@ -261,6 +280,7 @@ export default defineType({
         ? `date: ${format(parseISO(date), "yyyy/MM/dd")}`
         : "not published";
       const subtitle = `${feature}${pricePlan.toUpperCase()}: ${status}, ${time}`;
+      const media = icon ?? image;
       return {
         title,
         media,

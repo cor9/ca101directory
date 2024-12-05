@@ -32,3 +32,25 @@ export const urlForImage = (source: any) => {
     height: height,
   };
 };
+
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export const urlForIcon = (source: any) => {
+  if (!source || !source.asset) return;
+  const dimensions = source?.asset?._ref.split("-")[2];
+
+  const [width, height] = dimensions
+    .split("x")
+    .map((num: string) => Number.parseInt(num, 10));
+
+  const url = imageBuilder
+    .image(source)
+    .auto("format")
+    .width(Math.min(width, 64))
+    .url();
+
+  return {
+    src: url,
+    width: width,
+    height: height,
+  };
+};

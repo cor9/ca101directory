@@ -28,6 +28,11 @@ export const itemSimpleFields = /* groq */ `
   link,
   affiliateLink,
   featured,
+  icon {
+    ...,
+    "blurDataURL": asset->metadata.lqip,
+    "imageColor": asset->metadata.palette.dominant.background,
+  },
   image {
     ...,
     "blurDataURL": asset->metadata.lqip,

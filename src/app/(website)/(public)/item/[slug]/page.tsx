@@ -5,7 +5,7 @@ import BackButton from "@/components/shared/back-button";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import { urlForImage } from "@/lib/image";
+import { urlForIcon, urlForImage } from "@/lib/image";
 import { constructMetadata } from "@/lib/metadata";
 import { cn, getItemTargetLinkInWebsite, getLocaleDate } from "@/lib/utils";
 import type { ItemInfoBySlugQueryResult } from "@/sanity.types";
@@ -61,6 +61,8 @@ export default async function ItemPage({ params }: ItemPageProps) {
 
   const imageProps = item?.image ? urlForImage(item?.image) : null;
   const imageBlurDataURL = item?.image?.blurDataURL || null;
+  const iconProps = item?.icon ? urlForIcon(item.icon) : null;
+  const iconBlurDataURL = item?.icon?.blurDataURL || null;
   const publishDate = item.publishDate || item._createdAt;
   const date = getLocaleDate(publishDate);
   const itemLink = getItemTargetLinkInWebsite(item);
@@ -74,18 +76,34 @@ export default async function ItemPage({ params }: ItemPageProps) {
           {/* Basic information */}
           <ItemBreadCrumb item={item} />
 
-          {/* name and description */}
+          {/* icon + name + description */}
           <div className="flex flex-1 items-center">
             <div className="flex flex-col gap-8">
-              <h1
-                className={cn(
-                  "text-4xl tracking-wider font-bold flex items-center gap-2",
-                  item.featured && "text-gradient_indigo-purple font-semibold",
+              <div className="flex w-full items-center gap-4">
+                {iconProps && (
+                  <Image
+                    src={iconProps?.src}
+                    alt={item.icon.alt || `icon of ${item.name}`}
+                    title={item.icon.alt || `icon of ${item.name}`}
+                    width={32}
+                    height={32}
+                    className="object-cover image-scale"
+                    {...(iconBlurDataURL && {
+                      placeholder: "blur",
+                      blurDataURL: iconBlurDataURL,
+                    })}
+                  />
                 )}
-              >
-                {item.featured && <AwardIcon className="w-6 h-6 flex-shrink-0 text-indigo-500" />}
-                {item.name}
-              </h1>
+                <h1
+                  className={cn(
+                    "text-4xl tracking-wider font-bold flex items-center gap-2",
+                    item.featured &&
+                      "text-gradient_indigo-purple font-semibold",
+                  )}
+                >
+                  {item.name}
+                </h1>
+              </div>
               <p className="text-muted-foreground text-balance leading-relaxed">
                 {item.description}
               </p>

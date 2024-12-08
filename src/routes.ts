@@ -8,6 +8,7 @@ export const publicRoutes = [
   "/studio(/.*)?",
 
   "/search(/.*)?",
+  "/collection(/.*)?",
   "/category(/.*)?",
   "/tag(/.*)?",
   "/item(/.*)?",

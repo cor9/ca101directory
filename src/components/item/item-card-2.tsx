@@ -85,16 +85,16 @@ export default function ItemCard2({ item }: ItemCard2Props) {
         {/* min-h-[3rem] is used for making sure height of the card is the same */}
         <Link
           href={`${itemUrlPrefix}/${item.slug.current}`}
-          className="flex-1 block cursor-pointer h-full"
+          className="block cursor-pointer"
         >
-          <p className="text-sm line-clamp-3 leading-relaxed min-h-[6rem] cursor-pointer h-full">
+          <p className="text-sm line-clamp-3 leading-relaxed min-h-[4.5rem]">
             {item.description}
           </p>
         </Link>
       </div>
 
       {/* bottom */}
-      <div className="flex justify-end items-center">
+      <div className="mt-4 flex justify-end items-center">
         {item.tags && item.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 items-center">
             {item.tags.slice(0, 5).map((tag, index) => (

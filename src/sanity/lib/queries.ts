@@ -18,6 +18,15 @@ const categoryFields = /* groq */ `
   ...,
 `;
 
+export const collectionFields = /* groq */ `
+  ...,
+  icon {
+    ...,
+    "blurDataURL": asset->metadata.lqip,
+    "imageColor": asset->metadata.palette.dominant.background,
+  },
+`;
+
 // also used in file data/item.ts and data/submission.ts
 export const itemSimpleFields = /* groq */ `
   _id,
@@ -46,6 +55,7 @@ export const itemSimpleFields = /* groq */ `
   proPlanStatus,
   rejectionReason,
   submitter->,
+  collections[]->,
   categories[]->,
   tags[]->,
 `;
@@ -110,6 +120,15 @@ export const itemListOfLatestQuery = defineQuery(`*[_type == "item" && defined(s
   && forceHidden != true] 
   | order(publishDate desc) [0...$count] {
     ${itemSimpleFields}
+}`);
+
+export const collectionListQuery = defineQuery(`*[_type == "collection" && defined(slug.current)] 
+  | order(priority desc) {
+    ${collectionFields}
+}`);
+
+export const collectionQuery = defineQuery(`*[_type == "collection" && slug.current == $slug][0] {
+  ${collectionFields}
 }`);
 
 export const categoryListQuery = defineQuery(`*[_type == "category" && defined(slug.current)] 

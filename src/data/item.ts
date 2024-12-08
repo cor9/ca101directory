@@ -28,6 +28,7 @@ export async function getItemById(id: string) {
  * get items from sanity
  */
 export async function getItems({
+  collection,
   category,
   tag,
   sortKey,
@@ -36,6 +37,7 @@ export async function getItems({
   filter,
   currentPage,
 }: {
+  collection?: string;
   category?: string;
   tag?: string;
   sortKey?: string;
@@ -44,8 +46,16 @@ export async function getItems({
   filter?: string;
   currentPage: number;
 }) {
-  console.log("getItems, category", category, "tag", tag, "query", query, "filter", filter, "sortKey", sortKey, "reverse", reverse);
+  console.log(
+    "getItems, collection",
+    collection,
+    "category",
+    category,
+    "tag",
+    tag,
+  );
   const { countQuery, dataQuery } = buildQuery(
+    collection,
     category,
     tag,
     sortKey,
@@ -65,6 +75,7 @@ export async function getItems({
  * build count and data query for get items from sanity
  */
 const buildQuery = (
+  collection?: string,
   category?: string,
   tag?: string,
   sortKey?: string,
@@ -87,6 +98,9 @@ const buildQuery = (
   const queryCondition = [queryKeywords, filterCondition]
     .filter(Boolean)
     .join(" ");
+  const collectionCondition = collection
+    ? `&& "${collection}" in collections[]->slug.current`
+    : "";
   const categoryCondition = category
     ? `&& "${category}" in categories[]->slug.current`
     : "";
@@ -97,11 +111,11 @@ const buildQuery = (
   // @sanity-typegen-ignore
   const countQuery = `count(*[_type == "item" && defined(slug.current) 
       && defined(publishDate) && forceHidden != true
-      ${queryCondition} ${categoryCondition} ${tagCondition}])`;
+      ${queryCondition} ${collectionCondition} ${categoryCondition} ${tagCondition}])`;
   // @sanity-typegen-ignore
   const dataQuery = `*[_type == "item" && defined(slug.current) 
       && defined(publishDate) && forceHidden != true
-      ${queryCondition} ${categoryCondition} ${tagCondition}] ${sortOrder} 
+      ${queryCondition} ${collectionCondition} ${categoryCondition} ${tagCondition}] ${sortOrder} 
       [${offsetStart}...${offsetEnd}] {
       ${itemSimpleFields}
     }`;

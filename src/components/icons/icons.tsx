@@ -35,6 +35,7 @@ export const Icons = {
   // used by name
   arrowRight: ArrowRightIcon,
   search: SearchIcon,
+  collection: LayoutListIcon,
   category: LayoutGridIcon,
   tag: TagsIcon,
   blog: FileTextIcon,

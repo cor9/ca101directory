@@ -6,6 +6,7 @@ import blockContent from "./documents/block-content";
 import blogCategory from "./documents/blog/blog-category";
 import blogPost from "./documents/blog/blog-post";
 import category from "./documents/directory/category";
+import collection from "./documents/directory/collection";
 import item from "./documents/directory/item";
 import tag from "./documents/directory/tag";
 import order from "./documents/order/order";
@@ -17,6 +18,7 @@ export const schemaTypes = [
   item,
   tag,
   category,
+  collection,
 
   // blog
   blogPost,

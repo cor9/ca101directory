@@ -75,8 +75,8 @@ const buildQuery = (
 ) => {
   const orderDirection = reverse ? "desc" : "asc";
   const sortOrder = sortKey
-    ? `| order(featured asc, ${sortKey} ${orderDirection})`
-    : "| order(featured asc, publishDate desc)";
+    ? `| order(coalesce(featured, false) desc, ${sortKey} ${orderDirection})`
+    : "| order(coalesce(featured, false) desc, publishDate desc)";
   const queryPattern = query ? `*${query}*` : "";
   const queryKeywords = query
     ? `&& (name match "${queryPattern}" 

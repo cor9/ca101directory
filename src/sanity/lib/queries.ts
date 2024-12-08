@@ -93,7 +93,7 @@ export const itemFullInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.cu
 export const itemListQuery = defineQuery(`*[_type == "item" && defined(slug.current) 
   && defined(publishDate)
   && forceHidden != true] 
-  | order(featured asc, publishDate desc) {
+  | order(coalesce(featured, false) desc, publishDate desc) {
     ${itemSimpleFields}
 }`);
 

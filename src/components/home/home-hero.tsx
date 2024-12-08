@@ -9,7 +9,7 @@ export default function HomeHero() {
   const LabelIcon = Icons[heroConfig.label.icon];
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className="max-w-5xl flex flex-col items-center text-center gap-12">
+      <div className="max-w-5xl flex flex-col items-center text-center gap-8">
         <Link
           href={heroConfig.label.href}
           target="_blank"

@@ -7,6 +7,8 @@ export const SUPPORT_ITEM_ICON =
   process.env.NEXT_PUBLIC_SUPPORT_ITEM_ICON === "true";
 // number of items per page
 export const ITEMS_PER_PAGE = 12;
+// number of collections per page
+export const COLLECTIONS_PER_PAGE = 12;
 // number of posts per page
 export const POSTS_PER_PAGE = 6;
 // number of submissions per page

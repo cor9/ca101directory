@@ -7,7 +7,7 @@ export const footerConfig: FooterConfig = {
       title: "Product",
       items: [
         { title: "Landing", href: "/landing" },
-        { title: "Search", href: "/search" },
+        { title: "Collection", href: "/collection" },
         { title: "Category", href: "/category" },
         { title: "Tag", href: "/tag" },
       ],

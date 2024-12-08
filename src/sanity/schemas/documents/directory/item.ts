@@ -57,6 +57,18 @@ export default defineType({
       rows: 3,
     }),
     defineField({
+      name: "collections",
+      title: "Collections",
+      description: "The collections of the item, may have multiple collections",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "collection" }],
+        },
+      ],
+    }),
+    defineField({
       name: "categories",
       title: "Categories",
       description: "The categories of the item, may have multiple categories",

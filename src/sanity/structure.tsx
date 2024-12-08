@@ -4,6 +4,7 @@ import {
   ClockIcon,
   CloseCircleIcon,
   CogIcon,
+  ColorWheelIcon,
   ComponentIcon,
   DashboardIcon,
   DiamondIcon,
@@ -29,6 +30,7 @@ import verificationToken from "./schemas/documents/auth/verification-token";
 import blogCategory from "./schemas/documents/blog/blog-category";
 import blogPost from "./schemas/documents/blog/blog-post";
 import category from "./schemas/documents/directory/category";
+import collection from "./schemas/documents/directory/collection";
 import item from "./schemas/documents/directory/item";
 import tag from "./schemas/documents/directory/tag";
 import order from "./schemas/documents/order/order";
@@ -225,6 +227,25 @@ export const structure = (
       .title("All Orders")
       .icon(BillIcon);
 
+    // collections
+    const allCollections = S.documentTypeListItem(collection.name)
+      .title("All Collections")
+      .icon(TiersIcon);
+
+    const itemsByCollection = S.listItem()
+      .title("Items By Collection")
+      .icon(MasterDetailIcon)
+      .child(
+        S.documentTypeList(collection.name)
+          .title("Items by Collection")
+          .child((collectionId) =>
+            S.documentList()
+              .title("Items")
+              .filter('_type == "item" && $collectionId in collections[]._ref')
+              .params({ collectionId }),
+          ),
+      );
+
     // categories
     const allCategories = S.documentTypeListItem(category.name)
       .title("All Categories")
@@ -314,6 +335,15 @@ export const structure = (
           ),
 
         S.divider(),
+
+        S.listItem()
+          .title("Collection management")
+          .icon(ColorWheelIcon)
+          .child(
+            S.list()
+              .title("Collection management")
+              .items([allCollections, itemsByCollection]),
+          ),
 
         // S.documentTypeListItem(category.name)
         //   .icon(TiersIcon),

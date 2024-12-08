@@ -1,6 +1,7 @@
 import type { Icons } from "@/components/icons/icons";
 import type {
   BlogPostListQueryResult,
+  CollectionListQueryResult,
   ItemFullInfoBySlugQueryResult,
   ItemListQueryResult,
 } from "@/sanity.types";
@@ -11,6 +12,8 @@ export type ItemInfo = ItemListQueryResult[number];
 export type ItemFullInfo = ItemFullInfoBySlugQueryResult;
 // Blog
 export type BlogPostInfo = BlogPostListQueryResult[number];
+// Collection
+export type CollectionInfo = CollectionListQueryResult[number];
 
 export type SiteConfig = {
   name: string;

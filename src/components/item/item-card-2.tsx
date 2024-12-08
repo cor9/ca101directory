@@ -1,12 +1,13 @@
 "use client";
 
 import { urlForIcon } from "@/lib/image";
-import { cn, getItemTargetLinkInWebsite } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import type { ItemInfo } from "@/types";
 import { HashIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
+import { Skeleton } from "../ui/skeleton";
 
 type ItemCard2Props = {
   item: ItemInfo;
@@ -40,7 +41,7 @@ export default function ItemCard2({ item }: ItemCard2Props) {
               title={item.icon.alt || `icon of ${item.name}`}
               width={32}
               height={32}
-              className="object-cover image-scale"
+              className="object-cover image-scale rounded-md"
               {...(iconBlurDataURL && {
                 placeholder: "blur",
                 blurDataURL: iconBlurDataURL,
@@ -82,7 +83,7 @@ export default function ItemCard2({ item }: ItemCard2Props) {
           )}
         </div>
 
-        {/* min-h-[3rem] is used for making sure height of the card is the same */}
+        {/* min-h-[4.5rem] is used for making sure height of the card is the same */}
         <Link
           href={`${itemUrlPrefix}/${item.slug.current}`}
           className="block cursor-pointer"
@@ -116,6 +117,40 @@ export default function ItemCard2({ item }: ItemCard2Props) {
             )}
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+export function ItemCard2Skeleton() {
+  return (
+    <div className="border rounded-lg flex flex-col justify-between p-6">
+      {/* top */}
+      <div className="flex flex-col gap-4">
+        {/* icon + name */}
+        <div className="flex w-full items-center gap-4">
+          <Skeleton className="h-8 w-8 rounded-md" />
+          <Skeleton className="h-7 w-48" />
+        </div>
+
+        {/* categories */}
+        <div className="flex flex-wrap gap-2 items-center">
+          <Skeleton className="h-6 w-20" />
+          <Skeleton className="h-6 w-24" />
+          <Skeleton className="h-6 w-16" />
+        </div>
+
+        {/* description */}
+        <Skeleton className="h-[4.5rem] w-full" />
+      </div>
+
+      {/* bottom */}
+      <div className="mt-4 flex justify-end items-center">
+        <div className="flex flex-wrap gap-2 items-center">
+          <Skeleton className="h-4 w-16" />
+          <Skeleton className="h-4 w-20" />
+          <Skeleton className="h-4 w-14" />
+        </div>
       </div>
     </div>
   );

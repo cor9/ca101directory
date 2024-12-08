@@ -24,6 +24,7 @@ export const footerConfig: FooterConfig = {
       title: "Pages",
       items: [
         { title: "Home 2", href: "/home2" },
+        { title: "Home 3", href: "/home3" },
       ],
     },
     {

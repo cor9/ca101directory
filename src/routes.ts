@@ -39,6 +39,7 @@ export const publicRoutes = [
   "/shadcn(/.*)?",
   "/loading(/.*)?",
   "/home2(/.*)?",
+  "/home3(/.*)?",
 ];
 
 /**

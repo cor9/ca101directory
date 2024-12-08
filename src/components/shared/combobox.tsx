@@ -102,7 +102,7 @@ export function ResponsiveComboBox({
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline" className="justify-start">
+        <Button variant="outline" className="justify-start w-full">
           {selected && selected.value !== DEFAULT_FILTER_VALUE ? (
             <h2>
               {labelPrefix ? `${labelPrefix}${selected.label}` : selected.label}

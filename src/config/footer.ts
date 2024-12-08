@@ -1,12 +1,11 @@
 import type { FooterConfig } from "@/types";
-import { siteConfig } from "./site";
 
 export const footerConfig: FooterConfig = {
   links: [
     {
       title: "Product",
       items: [
-        { title: "Landing", href: "/landing" },
+        { title: "Search", href: "/search" },
         { title: "Collection", href: "/collection" },
         { title: "Category", href: "/category" },
         { title: "Tag", href: "/tag" },
@@ -22,12 +21,9 @@ export const footerConfig: FooterConfig = {
       ],
     },
     {
-      title: "Support",
+      title: "Pages",
       items: [
-        { title: "GitHub", href: siteConfig.links.github, external: true },
-        { title: "Twitter", href: siteConfig.links.twitter, external: true },
-        { title: "Youtube", href: siteConfig.links.youtube, external: true },
-        { title: "Email", href: `mailto:${siteConfig.mail}`, external: true },
+        { title: "Home 2", href: "/home2" },
       ],
     },
     {

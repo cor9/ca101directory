@@ -259,7 +259,7 @@ export const MultiSelect = React.forwardRef<
                   )}
                 </div>
                 <div className="flex items-center justify-between">
-                  <XIcon
+                  {/* <XIcon
                     className="h-4 mx-2 cursor-pointer text-muted-foreground"
                     onClick={(event) => {
                       event.stopPropagation();
@@ -269,7 +269,7 @@ export const MultiSelect = React.forwardRef<
                   <Separator
                     orientation="vertical"
                     className="flex min-h-6 h-full"
-                  />
+                  /> */}
                   <ChevronDown className="h-4 mx-2 cursor-pointer text-muted-foreground" />
                 </div>
               </div>
@@ -343,18 +343,18 @@ export const MultiSelect = React.forwardRef<
               <CommandGroup>
                 <div className="flex items-center justify-between">
                   {selectedValues.length > 0 && (
-                    <div className="flex items-center">
-                      <CommandItem
-                        onSelect={handleClear}
-                        className="flex-1 justify-center cursor-pointer"
-                      >
-                        Clear
-                      </CommandItem>
-                      <Separator
-                        orientation="vertical"
-                        className="flex min-h-6 h-full"
-                      />
-                    </div>
+                    <CommandItem
+                      onSelect={handleClear}
+                      className="flex-1 justify-center cursor-pointer"
+                    >
+                      Clear
+                    </CommandItem>
+                  )}
+                  {selectedValues.length > 0 && (
+                    <Separator
+                      orientation="vertical"
+                      className="flex min-h-6 h-full"
+                    />
                   )}
                   <CommandItem
                     onSelect={() => setIsPopoverOpen(false)}

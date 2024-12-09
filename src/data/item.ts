@@ -104,7 +104,15 @@ const buildQuery = (
   const categoryCondition = category
     ? `&& "${category}" in categories[]->slug.current`
     : "";
-  const tagCondition = tag ? `&& "${tag}" in tags[]->slug.current` : "";
+  // condition for single tag
+  // const tagCondition = tag ? `&& "${tag}" in tags[]->slug.current` : "";
+  // condition for multiple tags
+  // split tag by comma and check if each tag is in tags[]->slug.current
+  const tagList = tag ? tag.split(",") : [];
+  const tagCondition =
+    tagList && tagList.length > 0
+      ? `&& count((tags[]->slug.current)[@ in [${tagList.map((t) => `"${t}"`).join(", ")}]]) == ${tagList.length}`
+      : "";
   const offsetStart = (currentPage - 1) * ITEMS_PER_PAGE;
   const offsetEnd = offsetStart + ITEMS_PER_PAGE;
 
@@ -120,6 +128,6 @@ const buildQuery = (
       ${itemSimpleFields}
     }`;
   // console.log('buildQuery, countQuery', countQuery);
-  // console.log('buildQuery, dataQuery', dataQuery);
+  console.log("buildQuery, dataQuery", dataQuery);
   return { countQuery, dataQuery };
 };

@@ -5,13 +5,13 @@ import type {
 } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { categoryListQuery, tagListQuery } from "@/sanity/lib/queries";
-import { HomeSearchFilterClient } from "./home-search-filter-client";
+import { HomeSearchFilterClient2 } from "./home-search-filter-client-2";
 
 interface HomeSearchFilterProps {
   urlPrefix: string;
 }
 
-export async function HomeSearchFilter({ urlPrefix }: HomeSearchFilterProps) {
+export async function HomeSearchFilter2({ urlPrefix }: HomeSearchFilterProps) {
   const [categoryList, tagList] = await Promise.all([
     sanityFetch<CategoryListQueryResult>({
       query: categoryListQuery,
@@ -35,7 +35,7 @@ export async function HomeSearchFilter({ urlPrefix }: HomeSearchFilterProps) {
       {/* Desktop View, has Container */}
       <div className="hidden md:flex md:flex-col">
         <div className="w-full">
-          <HomeSearchFilterClient
+          <HomeSearchFilterClient2
             tagList={tags}
             categoryList={categories}
             sortList={SORT_FILTER_LIST}
@@ -48,7 +48,7 @@ export async function HomeSearchFilter({ urlPrefix }: HomeSearchFilterProps) {
       {/* Mobile View, no Container */}
       <div className="md:hidden flex flex-col">
         <div className="">
-          <HomeSearchFilterClient
+          <HomeSearchFilterClient2
             tagList={tags}
             categoryList={categories}
             sortList={SORT_FILTER_LIST}

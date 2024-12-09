@@ -56,7 +56,7 @@ export default async function HomePage({
           <ItemGrid items={items} />
 
           <div className="mt-8 flex items-center justify-center">
-            <CustomPagination routePreix="/home3" totalPages={totalPages} />
+            <CustomPagination routePreix="/" totalPages={totalPages} />
           </div>
         </section>
       )}

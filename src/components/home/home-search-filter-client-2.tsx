@@ -9,6 +9,7 @@ import {
 } from "@/lib/constants";
 import { useRouter, useSearchParams } from "next/navigation";
 import { DEFAULT_FILTER_VALUE, ResponsiveComboBox } from "../shared/combobox";
+import { MultiSelect } from "../shared/multi-select";
 
 interface SearchFilterProps {
   tagList: TagFilterItem[];
@@ -80,8 +81,16 @@ export function HomeSearchFilterClient2({
       label: item.name,
     })),
   ];
+  // Single Select for tag
+  // const tagFilterItemList = [
+  //   { value: DEFAULT_FILTER_VALUE, label: "All Tags" },
+  //   ...tagList.map((item) => ({
+  //     value: item.slug,
+  //     label: item.name,
+  //   })),
+  // ];
+  // MultiSelect for tags
   const tagFilterItemList = [
-    { value: DEFAULT_FILTER_VALUE, label: "All Tags" },
     ...tagList.map((item) => ({
       value: item.slug,
       label: item.name,
@@ -108,12 +117,32 @@ export function HomeSearchFilterClient2({
         onValueChange={(value) => handleFilterChange("category", value)}
       />
 
-      <ResponsiveComboBox
+      {/* Single Select for tag */}
+      {/* <ResponsiveComboBox
         filterItemList={tagFilterItemList}
         placeholder="All Tags"
         labelPrefix="Tag: "
         selectedValue={selectedTag || DEFAULT_FILTER_VALUE}
         onValueChange={(value) => handleFilterChange("tag", value)}
+      /> */}
+
+      {/* MultiSelect for tags */}
+      <MultiSelect
+        className="shadow-none"
+        options={tagFilterItemList.map((tag) => ({
+          value: tag.value,
+          label: tag.label || "",
+        }))}
+        onValueChange={(selected) =>
+          handleFilterChange(
+            "tag",
+            selected.length > 0 ? selected.join(",") : null,
+          )
+        }
+        defaultValue={selectedTag ? selectedTag.split(",") : []}
+        placeholder="Select tags"
+        variant="default"
+        maxCount={1}
       />
 
       <ResponsiveComboBox

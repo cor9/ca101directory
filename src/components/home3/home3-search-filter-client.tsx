@@ -44,7 +44,7 @@ interface SearchFilterProps {
   urlPrefix: string;
 }
 
-export function HomeSearchFilterClient2({
+export function HomeSearchFilterClient({
   tagList,
   categoryList,
   sortList,

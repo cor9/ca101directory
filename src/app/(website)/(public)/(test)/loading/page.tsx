@@ -11,8 +11,9 @@
 // import Loading from "@/app/(website)/(public)/item/[slug]/loading";
 // import Loading from "@/app/(website)/(public)/blog/(blog)/loading";
 // import Loading from "@/app/(website)/(public)/blog/[slug]/loading";
-import Loading from "@/app/(website)/(public)/collection/loading";
+// import Loading from "@/app/(website)/(public)/collection/loading";
 import Container from "@/components/container";
+import Loading from "../home2/loading";
 
 /**
  * This is a loading page for testing purposes.

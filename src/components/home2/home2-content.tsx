@@ -17,9 +17,10 @@ import {
 import Link from "next/link";
 import BlogGrid from "../blog/blog-grid";
 import ItemGrid from "../item/item-grid";
+import ItemGrid2 from "../item/item-grid-2";
 import { Button } from "../ui/button";
 
-export async function LandingContent() {
+export async function HomeContent() {
   const [featuredItems, latestItems, latestBlogPosts] = await Promise.all([
     sanityFetch<ItemListQueryResult>({
       query: itemListOfFeaturedQuery,
@@ -54,7 +55,7 @@ export async function LandingContent() {
             </Link> */}
           </div>
 
-          <ItemGrid items={latestItems} />
+          <ItemGrid2 items={latestItems} />
 
           <Button asChild variant="default" size="lg" className="mx-auto">
             <Link
@@ -85,7 +86,7 @@ export async function LandingContent() {
             </Link> */}
           </div>
 
-          <ItemGrid items={featuredItems} />
+          <ItemGrid2 items={featuredItems} />
 
           <Button asChild variant="default" size="lg" className="mx-auto">
             <Link

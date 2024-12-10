@@ -3,9 +3,9 @@ import { buttonVariants } from "@/components/ui/button";
 import { heroConfig } from "@/config/hero";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import LandingSearchBox from "./landing-search-box";
+import HomeSearchBox from "./home2-search-box";
 
-export default function LandingHero() {
+export default function HomeHero() {
   const LabelIcon = Icons[heroConfig.label.icon];
   return (
     <div className="flex flex-col items-center justify-center">
@@ -39,7 +39,7 @@ export default function LandingHero() {
         </p>
 
         <div className="w-full">
-          <LandingSearchBox />
+          <HomeSearchBox />
         </div>
       </div>
     </div>

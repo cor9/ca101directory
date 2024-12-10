@@ -7,7 +7,7 @@ import { SearchIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function LandingSearchBox() {
+export default function HomeSearchBox() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 

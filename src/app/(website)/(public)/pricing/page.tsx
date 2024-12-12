@@ -23,12 +23,12 @@ export default async function PricingPage() {
             title="Choose a pricing plan"
           />
 
-          <div className="w-full max-w-4xl mx-auto">
+          <div className="w-full mx-auto">
             <PricingPlans />
           </div>
 
           {/* add tips only for Mkdirs demo directory website */}
-          {siteConfig.name === "Mkdirs Demo" && (
+          {siteConfig.name === "Directory" && (
             <p className="text-center text-sm text-muted-foreground leading-normal">
               This is in <span className="font-bold">TEST</span> environment.
               <br />

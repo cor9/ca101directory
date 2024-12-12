@@ -118,11 +118,11 @@ const buildQuery = (
 
   // @sanity-typegen-ignore
   const countQuery = `count(*[_type == "item" && defined(slug.current) 
-      && defined(publishDate) && forceHidden != true
+      && defined(publishDate) && forceHidden != true && sponsor != true
       ${queryCondition} ${collectionCondition} ${categoryCondition} ${tagCondition}])`;
   // @sanity-typegen-ignore
   const dataQuery = `*[_type == "item" && defined(slug.current) 
-      && defined(publishDate) && forceHidden != true
+      && defined(publishDate) && forceHidden != true && sponsor != true
       ${queryCondition} ${collectionCondition} ${categoryCondition} ${tagCondition}] ${sortOrder} 
       [${offsetStart}...${offsetEnd}] {
       ${itemSimpleFields}

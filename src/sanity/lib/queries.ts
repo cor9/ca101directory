@@ -102,7 +102,19 @@ export const itemFullInfoBySlugQuery = defineQuery(`*[_type == "item" && slug.cu
  */
 export const itemListQuery = defineQuery(`*[_type == "item" && defined(slug.current) 
   && defined(publishDate)
-  && forceHidden != true] 
+  && forceHidden != true
+  && sponsor != true]
+  | order(coalesce(featured, false) desc, publishDate desc) {
+    ${itemSimpleFields}
+}`);
+
+// get sponsor items
+export const sponsorItemListQuery = defineQuery(`*[_type == "item" && defined(slug.current) 
+  && defined(publishDate)
+  && forceHidden != true
+  && sponsor == true
+  && sponsorStartDate <= now()
+  && sponsorEndDate >= now()] 
   | order(coalesce(featured, false) desc, publishDate desc) {
     ${itemSimpleFields}
 }`);

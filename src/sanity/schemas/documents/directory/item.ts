@@ -11,6 +11,10 @@ export default defineType({
       name: "status",
       title: "Status",
     },
+    {
+      name: "sponsor",
+      title: "Sponsor",
+    },
   ],
   fields: [
     defineField({
@@ -257,6 +261,38 @@ export default defineType({
       type: "boolean",
       group: "status",
       initialValue: false,
+    }),
+    // sponsor related fields
+    defineField({
+      name: "sponsor",
+      title: "Sponsor",
+      description: "Website owner can mark the item as sponsor",
+      type: "boolean",
+      group: "sponsor",
+      initialValue: false,
+    }),
+    defineField({
+      name: "sponsorStartDate",
+      title: "Sponsor Start Date",
+      description: "The start date of the sponsor",
+      type: "datetime",
+      group: "sponsor",
+      hidden: ({ parent }) => !parent.sponsor,
+    }),
+    defineField({
+      name: "sponsorEndDate",
+      title: "Sponsor End Date",
+      description: "The end date of the sponsor",
+      type: "datetime",
+      group: "sponsor",
+      hidden: ({ parent }) => !parent.sponsor,
+    }),
+    defineField({
+      name: "note",
+      title: "Note",
+      description: "The note to the item, not visible in the directory",
+      type: "string",
+      group: "sponsor",
     }),
   ],
   // https://www.sanity.io/docs/previews-list-views

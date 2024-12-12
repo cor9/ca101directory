@@ -26,8 +26,10 @@ export default function ItemCard2({ item }: ItemCard2Props) {
     <div
       className={cn(
         "border rounded-lg flex flex-col justify-between p-6",
-        "hover:bg-accent/60 transition-colors duration-300",
-        item.featured && "bg-indigo-500/10 hover:bg-indigo-500/20",
+        "duration-300 shadow-sm hover:shadow-md transition-shadow",
+        item.featured
+          ? "dark:hover:border-primary border-orange-300 dark:border-orange-400/50 border-spacing-1.5 bg-orange-50/50 dark:bg-orange-950/10 hover:bg-orange-50"
+          : "hover:bg-accent/60 transition-colors duration-300",
       )}
     >
       {/* top */}

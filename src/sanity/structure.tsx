@@ -6,6 +6,7 @@ import {
   CogIcon,
   ColorWheelIcon,
   ComponentIcon,
+  ConfettiIcon,
   DashboardIcon,
   DiamondIcon,
   DocumentTextIcon,
@@ -173,6 +174,14 @@ export const structure = (
       '_type == "item" && featured == true',
     );
 
+    // sponsor items
+    const sponsorItems = createFilteredListItem(
+      "Sponsor Items",
+      item.name,
+      ConfettiIcon,
+      '_type == "item" && sponsor == true',
+    );
+
     // published items
     const publishedItems = createFilteredListItem(
       "Published Items",
@@ -323,6 +332,7 @@ export const structure = (
               proPlanItemManagement,
               S.divider(),
 
+              sponsorItems,
               featuredItems,
               publishedItems,
               unpublishedItems,

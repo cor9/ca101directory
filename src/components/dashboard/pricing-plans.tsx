@@ -7,7 +7,8 @@ import { priceConfig } from "@/config/price";
 import { PricePlans } from "@/lib/submission";
 import { cn } from "@/lib/utils";
 import type { ItemInfo, PricePlan } from "@/types/index";
-import { CheckIcon, CircleCheckBigIcon, CircleCheckIcon, CircleXIcon, XIcon } from "lucide-react";
+import { CheckIcon, XIcon } from "lucide-react";
+import { SponsorPlanButton } from "../payment/sponsor-plan-button";
 
 interface PricingPlansProps {
   item?: ItemInfo;
@@ -17,7 +18,7 @@ export function PricingPlans({ item }: PricingPlansProps) {
   // console.log('PricingPlans, item:', item);
   return (
     <section className="flex flex-col items-center text-center w-full mx-auto">
-      <div className="grid gap-8 w-full sm:grid-cols-1 md:grid-cols-2 items-center">
+      <div className="grid gap-8 w-full sm:grid-cols-1 lg:grid-cols-3 items-center">
         {priceConfig.plans.map((pricePlan) => (
           <PricingPlanCard
             item={item}
@@ -56,8 +57,13 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
           <span className="text-2xl font-bold uppercase tracking-wider">
             {pricePlan.title}
           </span>
-          <div className="text-4xl font-semibold font-workSans leading-relaxed text-primary">
-            ${pricePlan.price}
+          <div className="flex items-baseline gap-2">
+            <div className="text-4xl font-semibold font-workSans leading-relaxed text-primary">
+              ${pricePlan.price}
+            </div>
+            <div className="text-sm font-semibold font-workSans leading-relaxed text-muted-foreground">
+              {pricePlan.priceSuffix}
+            </div>
           </div>
         </div>
 
@@ -86,6 +92,8 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
           <div className="mt-6 px-6">
             {pricePlan.title === "Free" ? (
               <FreePlanButton item={item} className="w-full" />
+            ) : pricePlan.title === "Sponsor" ? (
+              <SponsorPlanButton item={item} className="w-full" />
             ) : (
               <ProPlanButton
                 item={item}

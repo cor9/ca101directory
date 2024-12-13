@@ -2020,6 +2020,13 @@
           "type": "string"
         },
         "optional": true
+      },
+      "note": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
       }
     }
   },

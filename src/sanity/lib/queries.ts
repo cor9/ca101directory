@@ -36,6 +36,10 @@ export const itemSimpleFields = /* groq */ `
   description,
   link,
   affiliateLink,
+  sponsor,
+  sponsorStartDate,
+  sponsorEndDate,
+  note,
   featured,
   icon {
     ...,
@@ -71,6 +75,7 @@ const itemFieldsWithRelated = /* groq */ `
   "related": *[_type == "item" && defined(slug.current) 
     && defined(publishDate) 
     && forceHidden != true
+    && sponsor != true
     && count(categories[@._ref in ^.^.categories[]._ref]) > 0 && _id != ^._id] 
     | order(publishedDate desc, _createdAt desc) [0...3] {
       ${itemSimpleFields}
@@ -109,12 +114,12 @@ export const itemListQuery = defineQuery(`*[_type == "item" && defined(slug.curr
 }`);
 
 // get sponsor items
+// && sponsorStartDate <= now()
+// && sponsorEndDate >= now()
 export const sponsorItemListQuery = defineQuery(`*[_type == "item" && defined(slug.current) 
   && defined(publishDate)
   && forceHidden != true
-  && sponsor == true
-  && sponsorStartDate <= now()
-  && sponsorEndDate >= now()] 
+  && sponsor == true] 
   | order(coalesce(featured, false) desc, publishDate desc) {
     ${itemSimpleFields}
 }`);
@@ -122,15 +127,17 @@ export const sponsorItemListQuery = defineQuery(`*[_type == "item" && defined(sl
 export const itemListOfFeaturedQuery = defineQuery(`*[_type == "item" && defined(slug.current) 
   && defined(publishDate) 
   && forceHidden != true 
+  && sponsor != true
   && featured == true] 
-  | order(publishDate desc) [0...$count] {
+  | order(coalesce(featured, false) desc, publishDate desc) [0...$count] {
     ${itemSimpleFields}
 }`);
 
 export const itemListOfLatestQuery = defineQuery(`*[_type == "item" && defined(slug.current) 
   && defined(publishDate) 
-  && forceHidden != true] 
-  | order(publishDate desc) [0...$count] {
+  && forceHidden != true
+  && sponsor != true] 
+  | order(coalesce(featured, false) desc, publishDate desc) [0...$count] {
     ${itemSimpleFields}
 }`);
 

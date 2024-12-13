@@ -1,4 +1,5 @@
 import ItemBreadCrumb from "@/components/item/item-bread-crumb";
+import SponsorItemCard from "@/components/item/item-card-sponsor";
 import ItemCustomMdx from "@/components/item/item-custom-mdx";
 import ItemGrid from "@/components/item/item-grid";
 import BackButton from "@/components/shared/back-button";
@@ -8,14 +9,18 @@ import { siteConfig } from "@/config/site";
 import { urlForIcon, urlForImage } from "@/lib/image";
 import { constructMetadata } from "@/lib/metadata";
 import { cn, getItemTargetLinkInWebsite, getLocaleDate } from "@/lib/utils";
-import type { ItemInfoBySlugQueryResult } from "@/sanity.types";
+import type {
+  ItemInfoBySlugQueryResult,
+  SponsorItemListQueryResult,
+} from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import {
   itemFullInfoBySlugQuery,
   itemInfoBySlugQuery,
+  sponsorItemListQuery,
 } from "@/sanity/lib/queries";
 import type { ItemFullInfo } from "@/types";
-import { AwardIcon, GlobeIcon, HashIcon, LayoutGridIcon } from "lucide-react";
+import { GlobeIcon, HashIcon, LayoutGridIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -49,10 +54,22 @@ interface ItemPageProps {
 }
 
 export default async function ItemPage({ params }: ItemPageProps) {
-  const item = await sanityFetch<ItemFullInfo>({
-    query: itemFullInfoBySlugQuery,
-    params: { slug: params.slug },
-  });
+  // if you do not support sponsor item, you can use this code
+  // const item = await sanityFetch<ItemFullInfo>({
+  //   query: itemFullInfoBySlugQuery,
+  //   params: { slug: params.slug },
+  // });
+
+  // if you support sponsor item, you can use this code
+  const [item, sponsorItems] = await Promise.all([
+    sanityFetch<ItemFullInfo>({
+      query: itemFullInfoBySlugQuery,
+      params: { slug: params.slug },
+    }),
+    sanityFetch<SponsorItemListQueryResult>({
+      query: sponsorItemListQuery,
+    }),
+  ]);
 
   if (!item) {
     console.error("ItemPage, item not found");
@@ -66,6 +83,9 @@ export default async function ItemPage({ params }: ItemPageProps) {
   const publishDate = item.publishDate || item._createdAt;
   const date = getLocaleDate(publishDate);
   const itemLink = getItemTargetLinkInWebsite(item);
+  const sponsorItem = sponsorItems?.length
+    ? sponsorItems[Math.floor(Math.random() * sponsorItems.length)]
+    : null;
 
   return (
     <div className="flex flex-col gap-8">
@@ -268,6 +288,9 @@ export default async function ItemPage({ params }: ItemPageProps) {
                   ))}
                 </ul>
               </div>
+
+              {/* sponsor */}
+              {sponsorItem && <SponsorItemCard item={sponsorItem} />}
             </div>
           </div>
         </div>
@@ -284,7 +307,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
           </div>
 
           <div className="mt-4">
-            <ItemGrid items={item.related} />
+            <ItemGrid items={item.related} showSponsor={false} />
           </div>
         </div>
       )}

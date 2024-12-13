@@ -28,7 +28,7 @@ export default function ItemCard2({ item }: ItemCard2Props) {
         "border rounded-lg flex flex-col justify-between p-6",
         "duration-300 shadow-sm hover:shadow-md transition-shadow",
         item.featured
-          ? "dark:hover:border-primary border-orange-300 dark:border-orange-400/50 border-spacing-1.5 bg-orange-50/50 dark:bg-orange-950/10 hover:bg-orange-50"
+          ? "border-orange-300 border-spacing-1.5 bg-orange-50/50 dark:bg-orange-950/10 hover:bg-orange-50 dark:hover:bg-accent/60"
           : "hover:bg-accent/60 transition-colors duration-300",
       )}
     >

@@ -12,7 +12,8 @@
     "start": "next start",
     "lint": "next lint",
     "typegen": "sanity schema extract && sanity typegen generate",
-    "email": "email dev --dir emails --port 3333"
+    "email": "email dev --dir emails --port 3333",
+    "export-user-emails": "tsx scripts/export-user-emails.ts"
   },
   "dependencies": {
     "@auth/core": "^0.34.2",
@@ -109,6 +110,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.20",
+    "dotenv": "^16.4.7",
     "html-loader": "^5.1.0",
     "postcss": "^8.4.41",
     "react-email": "3.0.1",
@@ -119,6 +121,7 @@
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.0",
     "tailwindcss": "^3.4.10",
+    "tsx": "^4.19.2",
     "typescript": "^5.5.4",
     "unist-util-visit": "^5.0.0"
   }

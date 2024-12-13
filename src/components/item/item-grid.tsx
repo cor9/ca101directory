@@ -1,34 +1,42 @@
-import ItemCard, { ItemCardSkeleton } from "@/components/item/item-card";
+import { ItemCardSkeleton } from "@/components/item/item-card";
 import { ITEMS_PER_PAGE, SUPPORT_ITEM_ICON } from "@/lib/constants";
-import type { ItemListQueryResult } from "@/sanity.types";
-import ItemCard2, { ItemCard2Skeleton } from "./item-card-2";
+import type { ItemListQueryResult, SponsorItemListQueryResult } from "@/sanity.types";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { sponsorItemListQuery } from "@/sanity/lib/queries";
+import { ItemCard2Skeleton } from "./item-card-2";
+import ItemGridClient from "./item-grid-client";
 
 interface ItemGridProps {
   items: ItemListQueryResult;
+  showSponsor?: boolean;
 }
 
 /**
- * ItemGrid component
+ * ItemGrid Server Component
  *
- * show item card with icon when SUPPORT_ITEM_ICON is true
+ * 1. show sponsor item card when item.sponsor is true
+ * 2. show item card with icon when SUPPORT_ITEM_ICON is true
  * otherwise show item card with image
  */
-export default function ItemGrid({ items }: ItemGridProps) {
-  return (
-    <div>
-      {items && items.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {items.map((item) =>
-            SUPPORT_ITEM_ICON ? (
-              <ItemCard2 key={item._id} item={item} />
-            ) : (
-              <ItemCard key={item._id} item={item} />
-            ),
-          )}
-        </div>
-      )}
-    </div>
-  );
+export default async function ItemGrid({ items, showSponsor = true }: ItemGridProps) {
+  const sponsorItems = showSponsor
+    ? (await sanityFetch<SponsorItemListQueryResult>({
+        query: sponsorItemListQuery,
+      })) || []
+    : [];
+  // console.log("ItemGrid, sponsorItems", sponsorItems);
+
+  // show sponsor items at the top
+  // const allItems = [...(Array.isArray(sponsorItems) ? sponsorItems : []), ...items];
+
+  // show sponsor items from the 3rd item
+  const allItems = [
+    ...items.slice(0, 2),
+    ...(Array.isArray(sponsorItems) ? sponsorItems : []),
+    ...items.slice(2)
+  ];
+
+  return <ItemGridClient items={allItems} />;
 }
 
 export function ItemGridSkeleton({

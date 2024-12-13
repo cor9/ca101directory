@@ -290,7 +290,7 @@ export default defineType({
     defineField({
       name: "note",
       title: "Note",
-      description: "The note to the item, not visible in the directory",
+      description: "Take a note for the item, not visible to the public",
       type: "string",
       group: "sponsor",
     }),

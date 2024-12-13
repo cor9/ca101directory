@@ -103,7 +103,7 @@ export default async function CollectionPage({
           {/* when items are found */}
           {items && items.length > 0 && (
             <section className="">
-              <ItemGrid items={items} />
+              <ItemGrid items={items} showSponsor={false} />
 
               <div className="mt-8 flex items-center justify-center">
                 <CustomPagination

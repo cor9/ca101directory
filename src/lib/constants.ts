@@ -1,10 +1,8 @@
 // show more logs
 export const SHOW_QUERY_LOGS = false;
-// support item icon, default is false (Mkdirs launches with no item icon)
-// set env variable NEXT_PUBLIC_SUPPORT_ITEM_ICON=true if you want to support item icon
+// support item icon, default is false (aka, show item image)
 // NOTE: if you set true, you should make sure the item icon is available
-export const SUPPORT_ITEM_ICON =
-  process.env.NEXT_PUBLIC_SUPPORT_ITEM_ICON === "true";
+export const SUPPORT_ITEM_ICON = true;
 // number of items per page
 export const ITEMS_PER_PAGE = 12;
 // number of collections per page

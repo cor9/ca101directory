@@ -22,6 +22,7 @@ export const siteConfig: SiteConfig = {
   ],
   author: "Mkdirs",
   url: SITE_URL,
+  // please increase the version number when you update the image
   image: `${SITE_URL}/og.png?v=1`,
   mail: "support@mkdirs.com",
   utm: {
@@ -30,7 +31,7 @@ export const siteConfig: SiteConfig = {
     campaign: "navigation",
   },
   links: {
-    // leave it blank if you don't want to show the link
+    // leave it blank if you don't want to show the link (don't delete)
     twitter: "https://x.com/MkdirsHQ",
     github: "https://github.com/MkdirsHQ",
     youtube: "https://www.youtube.com/@MkdirsHQ",

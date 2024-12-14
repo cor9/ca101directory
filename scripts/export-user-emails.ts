@@ -3,7 +3,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const client = createClient({
+  // biome-ignore lint/style/noNonNullAssertion: <explanation>
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  // biome-ignore lint/style/noNonNullAssertion: <explanation>
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
   apiVersion: '2024-08-01',
   useCdn: false,

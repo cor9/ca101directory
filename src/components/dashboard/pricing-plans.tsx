@@ -69,27 +69,26 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
 
         {/* price plan features and limitations */}
         <div className="flex flex-col flex-grow px-6 py-8">
-          <div className="flex-grow">
-            <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal mb-6">
+          <div className="flex-grow space-y-4">
+            <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal">
               {pricePlan.benefits.map((feature) => (
                 <div key={feature} className="flex items-start gap-x-4">
                   <CheckIcon className="text-primary size-4 shrink-0 text-primary-500 mt-0.5" />
                   <p>{feature}</p>
                 </div>
               ))}
-            </div>
-            <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal text-muted-foreground">
+
               {pricePlan.limitations.map((feature) => (
                 <div key={feature} className="flex items-start gap-x-4">
                   <XIcon className="size-4 shrink-0 mt-0.5" />
-                  <p>{feature}</p>
+                  <p className="text-muted-foreground">{feature}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* action buttons */}
-          <div className="mt-6 px-6">
+          <div className="mt-12 px-6">
             {pricePlan.title === "Free" ? (
               <FreePlanButton item={item} className="w-full" />
             ) : pricePlan.title === "Sponsor" ? (

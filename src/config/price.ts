@@ -23,7 +23,7 @@ export const priceConfig: PriceConfig = {
       title: "Pro",
       description: "For Pro Users",
       benefits: [
-        "Get at least 3 dofollow links to boost your SEO",
+        "Get >= 3 dofollow links to boost your SEO",
         "List now, publish it whenever you want",
         "Permanent link, no backlink required",
         "Featured placement at the top of listings",

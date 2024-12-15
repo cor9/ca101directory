@@ -2,6 +2,7 @@ import type {
   BlogCategoryListQueryForSitemapResult,
   BlogListQueryForSitemapResult,
   CategoryListQueryForSitemapResult,
+  CollectionListQueryForSitemapResult,
   ItemListQueryForSitemapResult,
   PageListQueryForSitemapResult,
   TagListQueryForSitemapResult,
@@ -11,10 +12,12 @@ import {
   blogCategoryListQueryForSitemap,
   blogListQueryForSitemap,
   categoryListQueryForSitemap,
+  collectionListQueryForSitemap,
   itemListQueryForSitemap,
   pageListQueryForSitemap,
   tagListQueryForSitemap,
 } from "@/sanity/lib/queries";
+import collection from "@/sanity/schemas/documents/directory/collection";
 import type { MetadataRoute } from "next";
 
 const site_url = process.env.NEXT_PUBLIC_APP_URL;
@@ -45,6 +48,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: "tag",
+      lastModified: new Date(),
+    },
+    {
+      url: "collection",
       lastModified: new Date(),
     },
     {
@@ -89,6 +96,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     itemListQueryResult,
     categoryListQueryResult,
     tagListQueryResult,
+    collectionListQueryResult,
     blogListQueryResult,
     blogCategoryListQueryResult,
     pageListQueryResult,
@@ -101,6 +109,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
     sanityFetch<TagListQueryForSitemapResult>({
       query: tagListQueryForSitemap,
+    }),
+    sanityFetch<CollectionListQueryForSitemapResult>({
+      query: collectionListQueryForSitemap,
     }),
     sanityFetch<BlogListQueryForSitemapResult>({
       query: blogListQueryForSitemap,
@@ -162,6 +173,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     } else {
       console.warn(`sitemap, tag slug invalid, id:${tag._id}`);
+    }
+  }
+
+  for (const collection of collectionListQueryResult) {
+    if (collection.slug) {
+      const routeUrl = `/collection/${collection.slug}`;
+      // console.log(`sitemap, url:${site_url}${routeUrl}`);
+      sitemapList.push({
+        url: `${site_url}${routeUrl}`,
+        lastModified: new Date(collection._updatedAt).toISOString(),
+      });
+    } else {
+      console.warn(`sitemap, collection slug invalid, id:${collection._id}`);
     }
   }
 

@@ -128,6 +128,6 @@ const buildQuery = (
       ${itemSimpleFields}
     }`;
   // console.log('buildQuery, countQuery', countQuery);
-  console.log("buildQuery, dataQuery", dataQuery);
+  // console.log("buildQuery, dataQuery", dataQuery);
   return { countQuery, dataQuery };
 };

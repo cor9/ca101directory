@@ -350,6 +350,12 @@ export const tagListQueryForSitemap = groq`*[_type == "tag" && defined(slug.curr
   "slug": slug.current,
 }`;
 
+export const collectionListQueryForSitemap = groq`*[_type == "collection" && defined(slug.current)] | order(_createdAt asc) {
+  _id,  
+  _updatedAt,
+  "slug": slug.current,
+}`;
+
 export const blogListQueryForSitemap = groq`*[_type == "blogPost" && defined(slug.current) && defined(publishDate)] | order(publishDate desc, _createdAt asc) {
   _id,  
   _updatedAt,

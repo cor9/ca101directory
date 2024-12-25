@@ -115,8 +115,11 @@ export async function createCheckoutSession(
         },
         success_url: successUrl,
         cancel_url: cancelUrl,
-        payment_method_types: ["card"],
+        // do not limit to card, allow other payment methods
+        // payment_method_types: ["card"],
         billing_address_collection: "auto",
+        // allow promotion codes if you need
+        allow_promotion_codes: true,
       });
 
       redirectUrl = stripeSession.url as string;

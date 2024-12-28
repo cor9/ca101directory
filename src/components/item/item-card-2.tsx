@@ -44,10 +44,10 @@ export default function ItemCard2({ item }: ItemCard2Props) {
               width={32}
               height={32}
               className="object-cover image-scale rounded-md"
-              {...(iconBlurDataURL && {
-                placeholder: "blur",
-                blurDataURL: iconBlurDataURL,
-              })}
+              // {...(iconBlurDataURL && {
+              //   placeholder: "blur",
+              //   blurDataURL: iconBlurDataURL,
+              // })}
             />
           )}
 

@@ -1,6 +1,6 @@
 // show more logs
 export const SHOW_QUERY_LOGS = false;
-// support item icon, default is false (aka, show item image)
+// support item icon, default is true (aka, show item icon)
 // NOTE: if you set true, you should make sure the item icon is available
 export const SUPPORT_ITEM_ICON = true;
 // number of sponsor items in grid, default is 1

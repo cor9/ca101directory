@@ -19,24 +19,24 @@ interface ItemGridProps {
  * otherwise show item card with image
  */
 export default async function ItemGrid({ items, showSponsor = true }: ItemGridProps) {
-  const sponsorItems = showSponsor
-    ? (await sanityFetch<SponsorItemListQueryResult>({
-        query: sponsorItemListQuery,
-      })) || []
-    : [];
+  // const sponsorItems = showSponsor
+  //   ? (await sanityFetch<SponsorItemListQueryResult>({
+  //       query: sponsorItemListQuery,
+  //     })) || []
+  //   : [];
   // console.log("ItemGrid, sponsorItems", sponsorItems);
 
   // show sponsor items at the top
   // const allItems = [...(Array.isArray(sponsorItems) ? sponsorItems : []), ...items];
 
   // show sponsor items from the 3rd item
-  const allItems = [
-    ...items.slice(0, 2),
-    ...(Array.isArray(sponsorItems) ? sponsorItems : []),
-    ...items.slice(2)
-  ];
+  // const allItems = [
+  //   ...items.slice(0, 2),
+  //   ...(Array.isArray(sponsorItems) ? sponsorItems : []),
+  //   ...items.slice(2)
+  // ];
 
-  return <ItemGridClient items={allItems} />;
+  return <ItemGridClient items={items} />;
 }
 
 export function ItemGridSkeleton({

@@ -3,11 +3,8 @@ export const SHOW_QUERY_LOGS = false;
 // support item icon, default is true (aka, show item icon)
 // NOTE: if you set true, you should make sure the item icon is available
 export const SUPPORT_ITEM_ICON = true;
-// number of sponsor items in grid, default is 1
-// reset to 0 if you don't want to show sponsor items in grid
-export const SPONSOR_ITEMS_NUMBER = 1;
-// number of items per page, minus sponsor items
-export const ITEMS_PER_PAGE = 12 - SPONSOR_ITEMS_NUMBER;
+// number of items per page
+export const ITEMS_PER_PAGE = 12;
 // number of collections per page
 export const COLLECTIONS_PER_PAGE = 12;
 // number of posts per page

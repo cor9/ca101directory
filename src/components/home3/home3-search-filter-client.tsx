@@ -139,7 +139,7 @@ export function HomeSearchFilterClient({
             selected.length > 0 ? selected.join(",") : null,
           )
         }
-        defaultValue={selectedTag ? selectedTag.split(",") : []}
+        value={selectedTag ? selectedTag.split(",") : []}
         placeholder="Select tags"
         variant="default"
         maxCount={1}

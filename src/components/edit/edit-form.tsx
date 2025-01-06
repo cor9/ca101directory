@@ -175,7 +175,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                           label: category.name || "",
                         }))}
                         onValueChange={(selected) => field.onChange(selected)}
-                        defaultValue={field.value}
+                        value={field.value}
                         placeholder="Select categories"
                         variant="default"
                         maxCount={3}
@@ -199,7 +199,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                           label: tag.name || "",
                         }))}
                         onValueChange={(selected) => field.onChange(selected)}
-                        defaultValue={field.value}
+                        value={field.value}
                         placeholder="Select tags"
                         variant="default"
                         maxCount={3}

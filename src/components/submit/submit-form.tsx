@@ -163,7 +163,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                           label: category.name || "",
                         }))}
                         onValueChange={(selected) => field.onChange(selected)}
-                        defaultValue={field.value}
+                        value={field.value}
                         placeholder="Select categories"
                         variant="default"
                         maxCount={3}
@@ -187,7 +187,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                           label: tag.name || "",
                         }))}
                         onValueChange={(selected) => field.onChange(selected)}
-                        defaultValue={field.value}
+                        value={field.value}
                         placeholder="Select tags"
                         variant="default"
                         maxCount={3}

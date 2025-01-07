@@ -307,7 +307,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
           </div>
 
           <div className="mt-4">
-            <ItemGrid items={item.related} showSponsor={false} />
+            <ItemGrid items={item.related} sponsorItems={sponsorItems} showSponsor={false} />
           </div>
         </div>
       )}

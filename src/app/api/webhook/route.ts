@@ -2,7 +2,7 @@ import { getOrderByUserIdAndItemId } from "@/data/order";
 import { getUserById } from "@/data/user";
 import { sendPaymentSuccessEmail } from "@/lib/mail";
 import { stripe } from "@/lib/stripe";
-import { PricePlans, ProPlanStatus } from "@/lib/submission";
+import { PricePlans, ProPlanStatus, SponsorPlanStatus } from "@/lib/submission";
 import { getItemLinkInWebsite } from "@/lib/utils";
 import { sanityClient } from "@/sanity/lib/client";
 import { headers } from "next/headers";
@@ -42,10 +42,12 @@ export async function POST(req: Request) {
     const session = event.data.object as Stripe.Checkout.Session;
 
     const userId = session?.metadata?.userId;
-    const itemId = session?.metadata?.itemId;
+    const itemId = session?.metadata?.itemId; 
+    const priceId = session?.metadata?.priceId;
+    const pricePlan = session?.metadata?.pricePlan;
     // console.log('session:', session);
     console.log(
-      `checkout.session.completed, userId: ${userId}, itemId: ${itemId}`,
+      `checkout.session.completed, userId: ${userId}, itemId: ${itemId}, priceId: ${priceId}, pricePlan: ${pricePlan}`,
     );
 
     // check if order already exists, if so, return
@@ -86,8 +88,10 @@ export async function POST(req: Request) {
         .set({
           paid: true,
           featured: true,
-          pricePlan: PricePlans.PRO,
-          proPlanStatus: ProPlanStatus.SUCCESS,
+          pricePlan: pricePlan, // pro or sponsor
+          sponsor: pricePlan === PricePlans.SPONSOR,
+          proPlanStatus: pricePlan === PricePlans.PRO ? ProPlanStatus.SUCCESS : ProPlanStatus.SUBMITTING,
+          sponsorPlanStatus: pricePlan === PricePlans.SPONSOR ? SponsorPlanStatus.SUCCESS : SponsorPlanStatus.SUBMITTING,
           order: {
             _type: "reference",
             _ref: result._id,

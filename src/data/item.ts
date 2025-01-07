@@ -36,6 +36,7 @@ export async function getItems({
   query,
   filter,
   currentPage,
+  hasSponsorItem,
 }: {
   collection?: string;
   category?: string;
@@ -45,6 +46,7 @@ export async function getItems({
   query?: string;
   filter?: string;
   currentPage: number;
+  hasSponsorItem?: boolean;
 }) {
   console.log(
     "getItems, collection",
@@ -53,7 +55,13 @@ export async function getItems({
     category,
     "tag",
     tag,
+    "hasSponsorItem",
+    hasSponsorItem,
   );
+
+  const itemsPerPage = hasSponsorItem ? ITEMS_PER_PAGE - 1 : ITEMS_PER_PAGE;
+  // console.log("getItems, itemsPerPage", itemsPerPage);
+
   const { countQuery, dataQuery } = buildQuery(
     collection,
     category,
@@ -63,6 +71,7 @@ export async function getItems({
     query,
     filter,
     currentPage,
+    itemsPerPage,
   );
   const [totalCount, items] = await Promise.all([
     sanityFetch<number>({ query: countQuery }),
@@ -83,6 +92,7 @@ const buildQuery = (
   query?: string,
   filter?: string,
   currentPage = 1,
+  itemsPerPage = ITEMS_PER_PAGE,
 ) => {
   const orderDirection = reverse ? "desc" : "asc";
   const sortOrder = sortKey
@@ -113,8 +123,8 @@ const buildQuery = (
     tagList && tagList.length > 0
       ? `&& count((tags[]->slug.current)[@ in [${tagList.map((t) => `"${t}"`).join(", ")}]]) == ${tagList.length}`
       : "";
-  const offsetStart = (currentPage - 1) * ITEMS_PER_PAGE;
-  const offsetEnd = offsetStart + ITEMS_PER_PAGE;
+  const offsetStart = (currentPage - 1) * itemsPerPage;
+  const offsetEnd = offsetStart + itemsPerPage;
 
   // @sanity-typegen-ignore
   const countQuery = `count(*[_type == "item" && defined(slug.current) 

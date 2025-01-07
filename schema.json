@@ -1868,6 +1868,10 @@
             {
               "type": "string",
               "value": "pro"
+            },
+            {
+              "type": "string",
+              "value": "sponsor"
             }
           ]
         },
@@ -1951,6 +1955,31 @@
             {
               "type": "string",
               "value": "Other reasons"
+            }
+          ]
+        },
+        "optional": true
+      },
+      "sponsorPlanStatus": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "submitting"
+            },
+            {
+              "type": "string",
+              "value": "pending"
+            },
+            {
+              "type": "string",
+              "value": "success"
+            },
+            {
+              "type": "string",
+              "value": "failed"
             }
           ]
         },

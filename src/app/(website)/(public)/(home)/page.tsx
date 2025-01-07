@@ -9,6 +9,9 @@ import {
   SORT_FILTER_LIST,
 } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
+import type { SponsorItemListQueryResult } from "@/sanity.types";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { sponsorItemListQuery } from "@/sanity/lib/queries";
 
 export const metadata = constructMetadata({
   title: "",
@@ -21,6 +24,13 @@ export default async function HomePage({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   console.log("HomePage, searchParams", searchParams);
+
+  const sponsorItems = (await sanityFetch<SponsorItemListQueryResult>({
+    query: sponsorItemListQuery,
+  })) || [];
+  console.log("HomePage, sponsorItems", sponsorItems);
+  const showSponsor = true;
+  const hasSponsorItem = showSponsor && sponsorItems.length > 0;
 
   const {
     category,
@@ -41,6 +51,7 @@ export default async function HomePage({
     query,
     filter,
     currentPage,
+    hasSponsorItem,
   });
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
   console.log("HomePage, totalCount", totalCount, ", totalPages", totalPages);
@@ -53,7 +64,7 @@ export default async function HomePage({
       {/* when items are found */}
       {items && items.length > 0 && (
         <section className="">
-          <ItemGrid items={items} />
+          <ItemGrid items={items} sponsorItems={sponsorItems} showSponsor={showSponsor} />
 
           <div className="mt-8 flex items-center justify-center">
             <CustomPagination routePreix="/" totalPages={totalPages} />

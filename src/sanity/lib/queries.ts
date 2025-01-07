@@ -57,6 +57,7 @@ export const itemSimpleFields = /* groq */ `
   pricePlan,
   freePlanStatus,
   proPlanStatus,
+  sponsorPlanStatus,
   rejectionReason,
   submitter->,
   collections[]->,

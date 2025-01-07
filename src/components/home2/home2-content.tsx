@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import BlogGrid from "../blog/blog-grid";
-import ItemGrid from "../item/item-grid";
 import ItemGrid2 from "../item/item-grid-2";
 import { Button } from "../ui/button";
 

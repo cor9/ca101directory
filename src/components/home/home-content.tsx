@@ -54,7 +54,7 @@ export async function HomeContent() {
             </Link> */}
           </div>
 
-          <ItemGrid items={latestItems} />
+          <ItemGrid items={latestItems} sponsorItems={[]} showSponsor={false} />
 
           <Button asChild variant="default" size="lg" className="mx-auto">
             <Link
@@ -85,7 +85,7 @@ export async function HomeContent() {
             </Link> */}
           </div>
 
-          <ItemGrid items={featuredItems} />
+          <ItemGrid items={featuredItems} sponsorItems={[]} showSponsor={false} />
 
           <Button asChild variant="default" size="lg" className="mx-auto">
             <Link

@@ -28,9 +28,7 @@ export default function SponsorItemCard({ item }: SponsorItemCardProps) {
       className={cn(
         "border rounded-lg flex flex-col justify-between p-6",
         "duration-300 shadow-sm hover:shadow-md transition-shadow",
-        item.sponsor
-          ? "border-sky-300 border-spacing-1.5 bg-sky-50/50 dark:bg-sky-950/10 hover:bg-sky-50 dark:hover:bg-accent/60"
-          : "hover:bg-accent/60 transition-colors duration-300",
+        "border-sky-300 border-spacing-1.5 bg-sky-50/50 dark:bg-sky-950/10 hover:bg-sky-50 dark:hover:bg-accent/60"
       )}
     >
       {/* top */}

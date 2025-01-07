@@ -95,7 +95,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
       ) : item.publishDate ? (
         <div className="flex items-center justify-center">
           <ArrowUpLeftIcon className="mr-2 size-4 icon-scale" />
-          <span>Go dashboard</span>
+          <span>Go Dashboard</span>
         </div>
       ) : (
         <div>
@@ -127,7 +127,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
           ) : (
             <div className="flex items-center justify-center">
               <ArrowUpLeftIcon className="mr-2 size-4 icon-scale" />
-              <span>Go dashboard</span>
+              <span>Go Dashboard</span>
             </div>
           )}
         </div>

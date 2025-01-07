@@ -67,13 +67,23 @@ export default function SubmissionCardInPublishPage({
                       asChild
                       className="group overflow-hidden flex-1 w-full"
                     >
-                      <Link
-                        href="/dashboard"
-                        className="flex items-center justify-center space-x-2"
-                      >
-                        <CalendarDaysIcon className="w-4 h-6 icon-scale" />
-                        <span className="">Publish Later</span>
-                      </Link>
+                      {item.pricePlan === 'sponsor' ? (
+                        <Link
+                          href={`mailto:support@example.com?subject=Schedule%20Publication%20Time%20for%20${encodeURIComponent(item.name)}`}
+                          className="flex items-center justify-center space-x-2"
+                        >
+                          <CalendarDaysIcon className="w-4 h-6 icon-scale" />
+                          <span className="">Schedule ad time</span>
+                        </Link>
+                      ) : (
+                        <Link
+                          href="/dashboard"
+                          className="flex items-center justify-center space-x-2"
+                        >
+                          <CalendarDaysIcon className="w-4 h-6 icon-scale" />
+                          <span className="">Publish Later</span>
+                        </Link>
+                      )}
                     </Button>
                   </div>
                 </div>

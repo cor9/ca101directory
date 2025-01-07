@@ -1,3 +1,4 @@
+import { PricePlans } from "@/lib/submission";
 import { format, parseISO } from "date-fns";
 import type { SanityImageAssetDocument } from "next-sanity";
 import { defineField, defineType } from "sanity";
@@ -170,7 +171,7 @@ export default defineType({
       group: "status",
       initialValue: "free",
       options: {
-        list: ["free", "pro"],
+        list: ["free", "pro", "sponsor"],
         layout: "radio",
         direction: "horizontal",
       },
@@ -234,6 +235,26 @@ export default defineType({
         layout: "dropdown",
       },
     }),
+    // sponsor related fields
+    defineField({
+      name: "sponsorPlanStatus",
+      title: "Sponsor Plan Status",
+      description: "The status of the item when the item is in sponsor plan",
+      type: "string",
+      group: ["status", "sponsor"],
+      initialValue: "submitting",
+      options: {
+        list: [
+          { title: "Submitting", value: "submitting" },
+          { title: "Pending (Waiting for payment)", value: "pending" },
+          { title: "Success", value: "success" },
+          { title: "Failed", value: "failed" },
+        ],
+        layout: "radio",
+        direction: "horizontal",
+      },
+      hidden: ({ parent }) => parent.pricePlan !== "sponsor",
+    }),
     // payment related fields
     defineField({
       name: "paid",
@@ -266,7 +287,7 @@ export default defineType({
     defineField({
       name: "sponsor",
       title: "Sponsor",
-      description: "Website owner can mark the item as sponsor",
+      description: "(Deprecated) Website owner can mark the item as sponsor",
       type: "boolean",
       group: "sponsor",
       initialValue: false,
@@ -308,6 +329,7 @@ export default defineType({
       pricePlan: "pricePlan",
       freePlanStatus: "freePlanStatus",
       proPlanStatus: "proPlanStatus",
+      sponsorPlanStatus: "sponsorPlanStatus",
     },
     prepare({
       name,
@@ -318,12 +340,12 @@ export default defineType({
       pricePlan,
       freePlanStatus,
       proPlanStatus,
+      sponsorPlanStatus,
     }) {
-      const error = freePlanStatus === "rejected" || proPlanStatus === "failed";
+      const error = freePlanStatus === "rejected" || proPlanStatus === "failed" || sponsorPlanStatus === "failed";
       const title = date ? `✅ ${name}` : error ? `❌ ${name}` : `⏳ ${name}`;
       const feature = featured ? "⭐" : "";
-      const status = pricePlan === "free" ? freePlanStatus : proPlanStatus;
-      // const status = `${freePlanStatus}-${proPlanStatus}`;
+      const status = pricePlan.toUpperCase() === PricePlans.FREE.toUpperCase() ? freePlanStatus : pricePlan.toUpperCase() === PricePlans.PRO.toUpperCase() ? proPlanStatus : sponsorPlanStatus;
       const time = date
         ? `date: ${format(parseISO(date), "yyyy/MM/dd")}`
         : "not published";

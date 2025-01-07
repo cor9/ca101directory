@@ -9,6 +9,9 @@ import {
   SORT_FILTER_LIST,
 } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
+import type { SponsorItemListQueryResult } from "@/sanity.types";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { sponsorItemListQuery } from "@/sanity/lib/queries";
 
 export const metadata = constructMetadata({
   title: "Tag",
@@ -21,6 +24,13 @@ export default async function TagIndexPage({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
+  const sponsorItems = (await sanityFetch<SponsorItemListQueryResult>({
+    query: sponsorItemListQuery,
+  })) || [];
+  console.log("TagIndexPage, sponsorItems", sponsorItems);
+  const showSponsor = true;
+  const hasSponsorItem = showSponsor && sponsorItems.length > 0;
+
   const { sort, page } = searchParams as { [key: string]: string };
   const { sortKey, reverse } =
     SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
@@ -29,6 +39,7 @@ export default async function TagIndexPage({
     sortKey,
     reverse,
     currentPage,
+    hasSponsorItem,
   });
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
   console.log(
@@ -46,7 +57,7 @@ export default async function TagIndexPage({
       {/* when items are found */}
       {items && items.length > 0 && (
         <section className="">
-          <ItemGrid items={items} />
+          <ItemGrid items={items} sponsorItems={sponsorItems} showSponsor={showSponsor} />
 
           <div className="mt-8 flex items-center justify-center">
             <CustomPagination routePreix="/tag" totalPages={totalPages} />

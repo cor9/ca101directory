@@ -1,9 +1,10 @@
+import { PricePlans } from "@/lib/submission";
 import type { PriceConfig } from "@/types";
 
 export const priceConfig: PriceConfig = {
   plans: [
     {
-      title: "Free",
+      title: PricePlans.FREE,
       description: "For Beginners",
       benefits: [
         "Get 3 dofollow links to boost your SEO",
@@ -20,7 +21,7 @@ export const priceConfig: PriceConfig = {
       stripePriceId: null,
     },
     {
-      title: "Pro",
+      title: PricePlans.PRO,
       description: "For Pro Users",
       benefits: [
         "Get >= 3 dofollow links to boost your SEO",
@@ -36,20 +37,20 @@ export const priceConfig: PriceConfig = {
       stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID,
     },
     {
-      title: "Sponsor",
+      title: PricePlans.SPONSOR,
       description: "For Sponsors",
       benefits: [
-        "Show product on the top of every page",
-        "Customize your schedule date",
+        "Everything in Pro plan",
+        "Promote your product on almost every page",
         "Available for all kinds of product",
         "Only one advertisement per period",
-        "Share through social media and newsletters",
+        "Schedule your advertising period",
         "Premium customer support",
       ],
       limitations: [],
       price: 19.9,
       priceSuffix: "/ week",
-      stripePriceId: null,
+      stripePriceId: process.env.NEXT_PUBLIC_STRIPE_SPONSOR_PRICE_ID,
     },
   ],
 };

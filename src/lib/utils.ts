@@ -4,6 +4,7 @@ import { type ClassValue, clsx } from "clsx";
 import type { ReadonlyURLSearchParams } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import { slugify as transliterateSlugify } from "transliteration";
+import { PricePlans } from "./submission";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -64,6 +65,18 @@ export const createUrl = (
 export function absoluteUrl(path: string) {
   return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;
 }
+
+/**
+ * check if the item is valid for sponsor plan
+ */
+export function checkValidSponsor(item: ItemInfo) {
+  const now = new Date();
+  return item.pricePlan.toUpperCase() === PricePlans.SPONSOR.toUpperCase() 
+    && item.sponsorPlanStatus === "success"
+    && new Date(item.sponsorStartDate) <= now
+    && new Date(item.sponsorEndDate) >= now;
+}
+
 
 /**
  * get item link in Sanity Studio

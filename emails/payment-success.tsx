@@ -60,7 +60,11 @@ export const PaymentSuccessEmail = ({
               <Link style={anchor} href={baseUrl}>
                 {siteConfig.name}
               </Link>
-              . We're so excited to include your product in our collection!
+              . We're so excited to include your product in our directory!
+            </Text>
+            <Text style={paragraph}>
+              If you have purchased the sponsor plan, please reply to this email
+              to schedule when your product will be displayed.
             </Text>
             <Text style={paragraph}>
               Your product has been successfully added to our directory. You can

@@ -1,5 +1,6 @@
 import ItemCard from "@/components/item/item-card";
 import { SUPPORT_ITEM_ICON } from "@/lib/constants";
+import { checkValidSponsor } from "@/lib/utils";
 import type { ItemListQueryResult } from "@/sanity.types";
 import ItemCard2 from "./item-card-2";
 import SponsorItemCard from "./item-card-sponsor";
@@ -21,7 +22,7 @@ export default function ItemGridClient({ items }: ItemGridClientProps) {
       {items && items.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {items.map((item) =>
-            item.sponsor ? (
+            checkValidSponsor(item) ? (
               <SponsorItemCard key={item._id} item={item} />
             ) : SUPPORT_ITEM_ICON ? (
               <ItemCard2 key={item._id} item={item} />

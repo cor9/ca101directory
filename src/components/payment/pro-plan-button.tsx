@@ -3,7 +3,7 @@
 import { createCheckoutSession } from "@/actions/create-checkout-session";
 import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
-import { ProPlanStatus } from "@/lib/submission";
+import { PricePlans, ProPlanStatus } from "@/lib/submission";
 import { cn } from "@/lib/utils";
 import type { ItemInfo, PricePlan } from "@/types";
 import {
@@ -33,7 +33,7 @@ export function ProPlanButton({
 
   const handleCreateCheckoutSession = () => {
     startTransition(async () => {
-      createCheckoutSession(item._id, pricePlan.stripePriceId)
+      createCheckoutSession(item._id, pricePlan.stripePriceId, PricePlans.PRO)
         .then((data) => {
           console.log("createCheckoutSession, data:", data);
           // already redirected to stripe checkout page in server action
@@ -114,7 +114,7 @@ export function ProPlanButton({
         item.publishDate ? (
           <div className="flex items-center justify-center">
             <ArrowUpLeftIcon className="mr-2 size-4 icon-scale" />
-            <span>Go dashboard</span>
+            <span>Go Dashboard</span>
           </div>
         ) : (
           // maybe pay success but not published yet

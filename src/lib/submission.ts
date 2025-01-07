@@ -3,6 +3,7 @@ import type { ItemInfo } from "@/types";
 export enum PricePlans {
   FREE = "free",
   PRO = "pro",
+  SPONSOR = "sponsor",
 }
 
 export enum FreePlanStatus {
@@ -19,12 +20,22 @@ export enum ProPlanStatus {
   SUBMITTING = "submitting",
 }
 
+export enum SponsorPlanStatus {
+  SUCCESS = "success",
+  FAILED = "failed",
+  PENDING = "pending",
+  SUBMITTING = "submitting",
+}
+
 export const getPublishable = (item: ItemInfo): boolean => {
   if (item.pricePlan === PricePlans.FREE) {
     return item.freePlanStatus === FreePlanStatus.APPROVED;
   }
   if (item.pricePlan === PricePlans.PRO) {
     return item.proPlanStatus === ProPlanStatus.SUCCESS;
+  }
+  if (item.pricePlan === PricePlans.SPONSOR) {
+    return item.sponsorPlanStatus === SponsorPlanStatus.SUCCESS;
   }
   return false;
 };
@@ -58,6 +69,18 @@ export const getBadgeStyle = (item: ItemInfo): BadgeStyle => {
       case ProPlanStatus.FAILED:
         return BadgeStyles.DANGER;
       case ProPlanStatus.PENDING:
+        return BadgeStyles.WARNING;
+      default:
+        return BadgeStyles.NORMAL;
+    }
+  }
+  if (item.pricePlan === PricePlans.SPONSOR) {
+    switch (item.sponsorPlanStatus) {
+      case SponsorPlanStatus.SUCCESS:
+        return BadgeStyles.SUCCESS;
+      case SponsorPlanStatus.FAILED:
+        return BadgeStyles.DANGER;
+      case SponsorPlanStatus.PENDING:
         return BadgeStyles.WARNING;
       default:
         return BadgeStyles.NORMAL;

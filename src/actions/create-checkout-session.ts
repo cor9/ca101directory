@@ -22,6 +22,7 @@ export type ServerActionResponse = {
 export async function createCheckoutSession(
   itemId: string,
   priceId: string,
+  pricePlan: string,
 ): Promise<ServerActionResponse> {
   let redirectUrl = "";
 
@@ -112,6 +113,8 @@ export async function createCheckoutSession(
         metadata: {
           userId: user.id,
           itemId: itemId,
+          priceId: priceId,
+          pricePlan: pricePlan,
         },
         success_url: successUrl,
         cancel_url: cancelUrl,

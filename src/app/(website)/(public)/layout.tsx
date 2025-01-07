@@ -12,10 +12,11 @@ export default async function MarketingLayout({
 }: MarketingLayoutProps) {
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="sticky top-0 z-50">
+      {/* <div className="sticky top-0 z-50">
         <BannerAd />
         <Navbar scroll={true} config={marketingConfig} />
-      </div>
+      </div> */}
+      <Navbar scroll={true} config={marketingConfig} />
       <main className="flex-1">{children}</main>
       <Footer />
     </div>

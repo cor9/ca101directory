@@ -11,9 +11,9 @@ import {
   SORT_FILTER_LIST,
 } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
-import type { CollectionQueryResult } from "@/sanity.types";
+import type { CollectionQueryResult, SponsorItemListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { collectionQuery } from "@/sanity/lib/queries";
+import { collectionQuery, sponsorItemListQuery } from "@/sanity/lib/queries";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -64,6 +64,13 @@ export default async function CollectionPage({
     return notFound();
   }
 
+  const sponsorItems = (await sanityFetch<SponsorItemListQueryResult>({
+    query: sponsorItemListQuery,
+  })) || [];
+  console.log("CollectionPage, sponsorItems", sponsorItems);
+  const showSponsor = true;
+  const hasSponsorItem = showSponsor && sponsorItems.length > 0;
+
   const { sort, page } = searchParams as { [key: string]: string };
   const { sortKey, reverse } =
     SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
@@ -73,6 +80,7 @@ export default async function CollectionPage({
     sortKey,
     reverse,
     currentPage,
+    hasSponsorItem,
   });
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
   console.log(
@@ -103,7 +111,7 @@ export default async function CollectionPage({
           {/* when items are found */}
           {items && items.length > 0 && (
             <section className="">
-              <ItemGrid items={items} showSponsor={false} />
+              <ItemGrid items={items} sponsorItems={sponsorItems} showSponsor={showSponsor} />
 
               <div className="mt-8 flex items-center justify-center">
                 <CustomPagination

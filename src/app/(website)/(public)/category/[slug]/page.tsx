@@ -9,9 +9,9 @@ import {
   SORT_FILTER_LIST,
 } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
-import type { CategoryQueryResult } from "@/sanity.types";
+import type { CategoryQueryResult, SponsorItemListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { categoryQuery } from "@/sanity/lib/queries";
+import { categoryQuery, sponsorItemListQuery } from "@/sanity/lib/queries";
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -50,6 +50,13 @@ export default async function CategoryPage({
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
+  const sponsorItems = (await sanityFetch<SponsorItemListQueryResult>({
+    query: sponsorItemListQuery,
+  })) || [];
+  console.log("CategoryPage, sponsorItems", sponsorItems);
+  const showSponsor = true;
+  const hasSponsorItem = showSponsor && sponsorItems.length > 0;
+  
   const { sort, page } = searchParams as { [key: string]: string };
   const { sortKey, reverse } =
     SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
@@ -59,6 +66,7 @@ export default async function CategoryPage({
     sortKey,
     reverse,
     currentPage,
+    hasSponsorItem,
   });
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
   console.log(
@@ -76,7 +84,7 @@ export default async function CategoryPage({
       {/* when items are found */}
       {items && items.length > 0 && (
         <section className="">
-          <ItemGrid items={items} />
+          <ItemGrid items={items} sponsorItems={sponsorItems} showSponsor={showSponsor} />
 
           <div className="mt-8 flex items-center justify-center">
             <CustomPagination

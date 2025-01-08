@@ -1,5 +1,9 @@
 // show more logs
 export const SHOW_QUERY_LOGS = false;
+// support category group, default is true (aka, show category group)
+// NOTE: if you set true, you should make sure each category belongs to a group
+// if you set false, the category will be shown in the root level
+export const SUPPORT_CATEGORY_GROUP = true;
 // support item icon, default is true (aka, show item icon)
 // NOTE: if you set true, you should make sure the item icon is available
 export const SUPPORT_ITEM_ICON = true;

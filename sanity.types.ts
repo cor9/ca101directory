@@ -240,6 +240,24 @@ export type Category = {
   name?: string;
   slug?: Slug;
   description?: string;
+  group?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "group";
+  };
+  priority?: number;
+};
+
+export type Group = {
+  _id: string;
+  _type: "group";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  description?: string;
   priority?: number;
 };
 
@@ -489,7 +507,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | BlockContent | Settings | PasswordResetToken | VerificationToken | Page | BlogCategory | BlogPost | Collection | Category | Tag | Item | Order | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | Code | Markdown | MediaTag | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | BlockContent | Settings | PasswordResetToken | VerificationToken | Page | BlogCategory | BlogPost | Collection | Category | Group | Tag | Item | Order | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | User | Account | Code | Markdown | MediaTag | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/sanity/lib/queries.ts
 // Variable: itemByIdQuery
@@ -601,6 +619,12 @@ export type ItemByIdQueryResult = {
     name?: string;
     slug?: Slug;
     description?: string;
+    group?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "group";
+    };
     priority?: number;
   }> | null;
   tags: Array<{
@@ -723,6 +747,12 @@ export type ItemInfoBySlugQueryResult = {
     name?: string;
     slug?: Slug;
     description?: string;
+    group?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "group";
+    };
     priority?: number;
   }> | null;
   tags: Array<{
@@ -845,6 +875,12 @@ export type ItemFullInfoByIdQueryResult = {
     name?: string;
     slug?: Slug;
     description?: string;
+    group?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "group";
+    };
     priority?: number;
   }> | null;
   tags: Array<{
@@ -970,6 +1006,12 @@ export type ItemFullInfoBySlugQueryResult = {
       name?: string;
       slug?: Slug;
       description?: string;
+      group?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "group";
+      };
       priority?: number;
     }> | null;
     tags: Array<{
@@ -1089,6 +1131,12 @@ export type ItemFullInfoBySlugQueryResult = {
     name?: string;
     slug?: Slug;
     description?: string;
+    group?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "group";
+    };
     priority?: number;
   }> | null;
   tags: Array<{
@@ -1211,6 +1259,12 @@ export type ItemListQueryResult = Array<{
     name?: string;
     slug?: Slug;
     description?: string;
+    group?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "group";
+    };
     priority?: number;
   }> | null;
   tags: Array<{
@@ -1333,6 +1387,12 @@ export type SponsorItemListQueryResult = Array<{
     name?: string;
     slug?: Slug;
     description?: string;
+    group?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "group";
+    };
     priority?: number;
   }> | null;
   tags: Array<{
@@ -1455,6 +1515,12 @@ export type ItemListOfFeaturedQueryResult = Array<{
     name?: string;
     slug?: Slug;
     description?: string;
+    group?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "group";
+    };
     priority?: number;
   }> | null;
   tags: Array<{
@@ -1577,6 +1643,12 @@ export type ItemListOfLatestQueryResult = Array<{
     name?: string;
     slug?: Slug;
     description?: string;
+    group?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "group";
+    };
     priority?: number;
   }> | null;
   tags: Array<{
@@ -1644,6 +1716,36 @@ export type CollectionQueryResult = {
   } | null;
   priority?: number;
 } | null;
+// Variable: groupListQuery
+// Query: *[_type=="group"] | order(priority desc, _createdAt asc) {    ...,  "categories": *[_type=='category' && references(^._id)] | order(priority desc, _createdAt asc)  {     ...,   }}
+export type GroupListQueryResult = Array<{
+  _id: string;
+  _type: "group";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  description?: string;
+  priority?: number;
+  categories: Array<{
+    _id: string;
+    _type: "category";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    description?: string;
+    group?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "group";
+    };
+    priority?: number;
+  }>;
+}>;
 // Variable: categoryListQuery
 // Query: *[_type == "category" && defined(slug.current)]   | order(priority desc) {      ...,}
 export type CategoryListQueryResult = Array<{
@@ -1655,6 +1757,12 @@ export type CategoryListQueryResult = Array<{
   name?: string;
   slug?: Slug;
   description?: string;
+  group?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "group";
+  };
   priority?: number;
 }>;
 // Variable: categoryQuery
@@ -1668,6 +1776,12 @@ export type CategoryQueryResult = {
   name?: string;
   slug?: Slug;
   description?: string;
+  group?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "group";
+  };
   priority?: number;
 } | null;
 // Variable: tagListQuery
@@ -1803,6 +1917,12 @@ export type SubmissionListQueryResult = Array<{
     name?: string;
     slug?: Slug;
     description?: string;
+    group?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "group";
+    };
     priority?: number;
   }> | null;
   tags: Array<{
@@ -2310,6 +2430,7 @@ declare module "@sanity/client" {
     "*[_type == \"item\" && defined(slug.current) \n  && defined(publishDate) \n  && forceHidden != true\n  && sponsor != true] \n  | order(coalesce(featured, false) desc, publishDate desc) [0...$count] {\n    \n  _id,\n  _createdAt,\n  name,\n  slug,\n  description,\n  link,\n  affiliateLink,\n  sponsor,\n  sponsorStartDate,\n  sponsorEndDate,\n  note,\n  featured,\n  icon {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  image {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n  publishDate,\n  paid,\n  order,\n  pricePlan,\n  freePlanStatus,\n  proPlanStatus,\n  sponsorPlanStatus,\n  rejectionReason,\n  submitter->,\n  collections[]->,\n  categories[]->,\n  tags[]->,\n\n}": ItemListOfLatestQueryResult;
     "*[_type == \"collection\" && defined(slug.current)] \n  | order(priority desc) {\n    \n  ...,\n  icon {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n\n}": CollectionListQueryResult;
     "*[_type == \"collection\" && slug.current == $slug][0] {\n  \n  ...,\n  icon {\n    ...,\n    \"blurDataURL\": asset->metadata.lqip,\n    \"imageColor\": asset->metadata.palette.dominant.background,\n  },\n\n}": CollectionQueryResult;
+    "*[_type==\"group\"] | order(priority desc, _createdAt asc) {\n  \n  ...,\n  \"categories\": *[_type=='category' && references(^._id)] | order(priority desc, _createdAt asc)\n  { \n    ..., \n  }\n\n}": GroupListQueryResult;
     "*[_type == \"category\" && defined(slug.current)] \n  | order(priority desc) {\n    \n  ...,\n\n}": CategoryListQueryResult;
     "*[_type == \"category\" && slug.current == $slug][0] {\n  \n  ...,\n\n}": CategoryQueryResult;
     "*[_type == \"tag\" && defined(slug.current)] \n  | order(slug.current asc) {\n    \n  ...,\n\n}": TagListQueryResult;

@@ -18,6 +18,14 @@ const categoryFields = /* groq */ `
   ...,
 `;
 
+export const groupFields = /* groq */ `
+  ...,
+  "categories": *[_type=='category' && references(^._id)] | order(priority desc, _createdAt asc)
+  { 
+    ..., 
+  }
+`;
+
 export const collectionFields = /* groq */ `
   ...,
   icon {
@@ -150,6 +158,10 @@ export const collectionListQuery = defineQuery(`*[_type == "collection" && defin
 export const collectionQuery = defineQuery(`*[_type == "collection" && slug.current == $slug][0] {
   ${collectionFields}
 }`);
+
+export const groupListQuery = groq`*[_type=="group"] | order(priority desc, _createdAt asc) {
+  ${groupFields}
+}`;
 
 export const categoryListQuery = defineQuery(`*[_type == "category" && defined(slug.current)] 
   | order(priority desc) {

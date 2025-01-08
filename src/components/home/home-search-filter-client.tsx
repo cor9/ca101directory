@@ -20,12 +20,12 @@ interface SearchFilterProps {
   selectedSort?: string;
 }
 
-interface TagFilterItem {
+export interface TagFilterItem {
   slug: string;
   name: string;
 }
 
-interface CategoryFilterItem {
+export interface CategoryFilterItem {
   slug: string;
   name: string;
 }

@@ -32,6 +32,7 @@ import blogCategory from "./schemas/documents/blog/blog-category";
 import blogPost from "./schemas/documents/blog/blog-post";
 import category from "./schemas/documents/directory/category";
 import collection from "./schemas/documents/directory/collection";
+import group from "./schemas/documents/directory/group";
 import item from "./schemas/documents/directory/item";
 import tag from "./schemas/documents/directory/tag";
 import order from "./schemas/documents/order/order";
@@ -255,6 +256,25 @@ export const structure = (
           ),
       );
 
+    // groups
+    const allGroups = S.documentTypeListItem(group.name)
+      .title("All Groups")
+      .icon(TiersIcon);
+
+    const categoriesByGroup = S.listItem()
+      .title("Categories By Group")
+      .icon(MasterDetailIcon)
+      .child(
+        S.documentTypeList(group.name)
+          .title("Categories by Group")
+          .child((groupId) =>
+            S.documentList()
+              .title("Categories")
+              .filter('_type == "category" && $groupId == group._ref')
+              .params({ groupId }),
+          ),
+      );
+
     // categories
     const allCategories = S.documentTypeListItem(category.name)
       .title("All Categories")
@@ -353,6 +373,15 @@ export const structure = (
             S.list()
               .title("Collection management")
               .items([allCollections, itemsByCollection]),
+          ),
+
+        S.listItem()
+          .title("Group management")
+          .icon(TiersIcon)
+          .child(
+            S.list()
+              .title("Group management")
+              .items([allGroups, categoriesByGroup]),
           ),
 
         // S.documentTypeListItem(category.name)

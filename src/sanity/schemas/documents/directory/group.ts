@@ -1,9 +1,12 @@
 import { format, parseISO } from "date-fns";
 import { defineField, defineType } from "sanity";
 
+/**
+ * Group is a collection of categories
+ */
 export default defineType({
-  name: "category",
-  title: "Category",
+  name: "group",
+  title: "Group",
   type: "document",
   fields: [
     defineField({
@@ -30,17 +33,10 @@ export default defineType({
       rows: 3,
     }),
     defineField({
-      name: "group",
-      title: "Group",
-      type: "reference",
-      to: [{ type: "group" }],
-      description: "The group of the category belongs to",
-    }),
-    defineField({
       name: "priority",
       title: "Priority",
       type: "number",
-      description: "Priority of the category, used to sort the categories",
+      description: "Priority of the group, used to sort the groups",
       initialValue: 0,
     }),
   ],

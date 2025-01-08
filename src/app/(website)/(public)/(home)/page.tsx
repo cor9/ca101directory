@@ -28,7 +28,7 @@ export default async function HomePage({
   const sponsorItems = (await sanityFetch<SponsorItemListQueryResult>({
     query: sponsorItemListQuery,
   })) || [];
-  console.log("HomePage, sponsorItems", sponsorItems);
+  // console.log("HomePage, sponsorItems", sponsorItems);
   const showSponsor = true;
   const hasSponsorItem = showSponsor && sponsorItems.length > 0;
 

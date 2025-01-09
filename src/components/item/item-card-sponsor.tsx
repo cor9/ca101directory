@@ -50,17 +50,19 @@ export default function SponsorItemCard({ item }: SponsorItemCardProps) {
             />
           )}
 
-          <div className="flex-1 flex justify-between items-center">
-            <h3
-              className={cn(
-                "flex-1 text-xl font-medium line-clamp-1 flex items-center gap-2",
-                item.featured && "text-gradient_indigo-purple font-semibold",
-              )}
-            >
-              {item.name}
-            </h3>
+          <div className="flex-1 flex justify-between items-center gap-4 min-w-0">
+            <div className="min-w-0 flex-1">
+              <h3
+                className={cn(
+                  "text-xl font-medium truncate",
+                  item.featured && "text-gradient_indigo-purple font-semibold",
+                )}
+              >
+                {item.name}
+              </h3>
+            </div>
 
-            <span className="text-sm text-sky-500 border border-sky-500 rounded-md px-2 py-0.5">
+            <span className="text-sm text-sky-500 border border-sky-500 rounded-md px-2 py-0.5 shrink-0">
               AD
             </span>
           </div>

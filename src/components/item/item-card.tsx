@@ -94,16 +94,18 @@ export default function ItemCard({ item }: ItemCardProps) {
           <div className="flex items-center justify-between gap-4">
             <h3
               className={cn(
-                "flex-1 text-xl font-medium line-clamp-1 flex items-center gap-2",
+                "min-w-0 flex-1 text-xl font-medium truncate overflow-hidden text-ellipsis",
                 item.featured && "text-gradient_indigo-purple font-semibold",
               )}
             >
-              {item.featured && (
-                <AwardIcon className="w-5 h-5 flex-shrink-0 text-indigo-500" />
-              )}
-              {item.name}
+              <span className="flex items-center gap-2">
+                {item.featured && (
+                  <AwardIcon className="w-5 h-5 flex-shrink-0 text-indigo-500" />
+                )}
+                <span className="truncate">{item.name}</span>
+              </span>
             </h3>
-            <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 shrink-0">
               <span className="">Details</span>
               <ArrowRightIcon className={cn("size-4 icon-scale", "")} />
             </div>

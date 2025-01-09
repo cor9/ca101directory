@@ -43,18 +43,14 @@ export default function ItemCard2({ item }: ItemCard2Props) {
               title={item.icon.alt || `icon of ${item.name}`}
               width={32}
               height={32}
-              className="object-cover image-scale rounded-md"
-              // {...(iconBlurDataURL && {
-              //   placeholder: "blur",
-              //   blurDataURL: iconBlurDataURL,
-              // })}
+              className="object-cover image-scale rounded-md shrink-0"
             />
           )}
 
-          <Link href={`${itemUrlPrefix}/${item.slug.current}`}>
+          <Link href={`${itemUrlPrefix}/${item.slug.current}`} className="min-w-0 flex-1">
             <h3
               className={cn(
-                "flex-1 text-xl font-medium line-clamp-1 flex items-center gap-2",
+                "text-xl font-medium truncate overflow-hidden text-ellipsis",
                 item.featured && "text-gradient_indigo-purple font-semibold",
               )}
             >

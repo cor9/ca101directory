@@ -13,11 +13,16 @@
     "lint": "next lint",
     "typegen": "sanity schema extract && sanity typegen generate",
     "email": "email dev --dir emails --port 3333",
-    "export-user-emails": "tsx scripts/export-user-emails.ts"
+    "export-user-emails": "tsx scripts/export-user-emails.ts",
+    "batch": "tsx scripts/batch-all.ts",
+    "batch:remove": "tsx scripts/batch-all.ts remove",
+    "batch:import": "tsx scripts/batch-all.ts import",
+    "batch:update": "tsx scripts/batch-all.ts update"
   },
   "dependencies": {
     "@auth/core": "^0.34.2",
     "@hookform/resolvers": "^3.9.0",
+    "@microlink/mql": "^0.13.12",
     "@next/third-parties": "^15.0.3",
     "@openpanel/nextjs": "^1.0.5",
     "@opentelemetry/api": "1.8.0",
@@ -78,6 +83,7 @@
     "next-mdx-remote-client": "^1.0.3",
     "next-sanity": "^9.4.5",
     "next-themes": "^0.3.0",
+    "node-fetch": "^3.3.2",
     "react": "^18.3.1",
     "react-day-picker": "^9.0.8",
     "react-dom": "^18.3.1",

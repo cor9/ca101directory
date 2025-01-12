@@ -102,7 +102,8 @@ export default defineType({
       title: "Submitter",
       type: "reference",
       to: [{ type: "user" }],
-      validation: (rule) => rule.required(),
+      // do not require submitter, because the item maybe submitted by admin
+      // validation: (rule) => rule.required(),
     }),
     defineField({
       name: "introduction",

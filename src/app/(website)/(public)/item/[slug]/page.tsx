@@ -209,28 +209,30 @@ export default async function ItemPage({ params }: ItemPageProps) {
               <div className="bg-muted/50 rounded-lg p-6">
                 <h2 className="text-lg font-semibold mb-4">Information</h2>
                 <ul className="space-y-4 text-sm">
-                  <li className="flex justify-between">
-                    <span className="text-muted-foreground">Publisher</span>
-                    <div className="flex items-center gap-2">
-                      <UserAvatar
-                        className="w-5 h-5"
-                        name={item.submitter.name}
-                        image={item.submitter.image}
-                      />
+                {item.submitter && (
+                    <li className="flex justify-between">
+                      <span className="text-muted-foreground">Publisher</span>
+                      <div className="flex items-center gap-2">
+                        <UserAvatar
+                          className="w-5 h-5"
+                          name={item.submitter.name}
+                          image={item.submitter.image}
+                        />
 
-                      {(item.submitter.link && (
-                        <Link
-                          href={item.submitter.link}
-                          target="_blank"
-                          prefetch={false}
-                          rel="nofollow noopener noreferrer"
-                          className="font-medium link-underline"
-                        >
-                          {item.submitter.name}
-                        </Link>
-                      )) || <span>{item.submitter.name}</span>}
-                    </div>
-                  </li>
+                        {(item.submitter.link && (
+                          <Link
+                            href={item.submitter.link}
+                            target="_blank"
+                            prefetch={false}
+                            rel="nofollow noopener noreferrer"
+                            className="font-medium link-underline"
+                          >
+                            {item.submitter.name}
+                          </Link>
+                        )) || <span>{item.submitter.name}</span>}
+                      </div>
+                    </li>
+                  )}
 
                   <li className="flex justify-between space-x-4">
                     <span className="text-muted-foreground">Website</span>

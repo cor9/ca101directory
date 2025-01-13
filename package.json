@@ -18,12 +18,20 @@
     "microlink:insights": "tsx scripts/explore-microlink.ts insights",
     "microlink:screenshot": "tsx scripts/explore-microlink.ts screenshot",
     "microlink:fullpage": "tsx scripts/explore-microlink.ts fullpage",
+    "aisdk:fetch": "tsx scripts/explore-aisdk.ts fetch",
+    "aisdk:structure": "tsx scripts/explore-aisdk.ts structure",
+    "item:remove": "tsx scripts/batch-item.ts remove",
+    "item:import": "tsx scripts/batch-item.ts import",
+    "item:update": "tsx scripts/batch-item.ts update",
+    "item:fetch": "tsx scripts/batch-item.ts fetch",
     "batch": "tsx scripts/batch-all.ts",
     "batch:remove": "tsx scripts/batch-all.ts remove",
     "batch:import": "tsx scripts/batch-all.ts import",
     "batch:update": "tsx scripts/batch-all.ts update"
   },
   "dependencies": {
+    "@ai-sdk/google": "^1.0.15",
+    "@ai-sdk/openai": "^1.0.18",
     "@auth/core": "^0.34.2",
     "@hookform/resolvers": "^3.9.0",
     "@microlink/mql": "^0.13.12",
@@ -71,6 +79,7 @@
     "@sanity/vision": "^3.57.2",
     "@sanity/visual-editing": "^2.1.9",
     "@tailwindcss/typography": "^0.5.15",
+    "ai": "^4.0.33",
     "bcryptjs": "^2.4.3",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.0",
@@ -116,7 +125,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.3",
     "@types/bcryptjs": "^2.4.6",
-    "@types/node": "^22.3.0",
+    "@types/node": "^22.9.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.20",
@@ -132,7 +141,7 @@
     "remark-gfm": "^4.0.0",
     "tailwindcss": "^3.4.10",
     "tsx": "^4.19.2",
-    "typescript": "^5.5.4",
+    "typescript": "^5.6.3",
     "unist-util-visit": "^5.0.0"
   }
 }

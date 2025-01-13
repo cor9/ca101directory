@@ -78,7 +78,7 @@ const links = [
   // Add more links here...
 ];
 
-const fetchSiteData = async (url: string) => {
+const fetchItem = async (url: string) => {
   try {
     const { data } = await mql(url, {
       data: {
@@ -131,7 +131,7 @@ export const importItemsMicrolink = async () => {
     for (const link of links) {
       try {
         console.log(`Processing link: ${link}`);
-        const item = await fetchSiteData(link);
+        const item = await fetchItem(link);
 
         if (!item) {
           console.log(`Skipping ${link} due to fetch error`);

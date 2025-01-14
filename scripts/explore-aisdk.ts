@@ -1,11 +1,22 @@
+import type { Category, Tag } from "@/sanity.types";
 import { google } from "@ai-sdk/google";
+import { createClient } from "@sanity/client";
 import { generateObject, generateText } from "ai";
 import dotenv from "dotenv";
-import fetch from "node-fetch";
-import { Category, Tag } from "sanity";
-import { client } from "sanity";
 import { z } from "zod";
 dotenv.config();
+
+// make sure you have set the environment variables in .env file
+const client = createClient({
+  // biome-ignore lint/style/noNonNullAssertion: <explanation>
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  // biome-ignore lint/style/noNonNullAssertion: <explanation>
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  apiVersion: "2024-08-01",
+  useCdn: false,
+  perspective: "published",
+  token: process.env.SANITY_API_TOKEN,
+});
 
 /**
  * AI SDK API Integration (using Google Gemini)

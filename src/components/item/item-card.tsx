@@ -30,7 +30,7 @@ export default function ItemCard({ item }: ItemCardProps) {
       )}
     >
       {/* top */}
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-4">
         {/* Image container */}
         <div className="group overflow-hidden relative aspect-[16/9] rounded-t-md transition-all border-b">
           {imageProps && (
@@ -83,40 +83,41 @@ export default function ItemCard({ item }: ItemCardProps) {
             </Link>
           ) : null}
         </div>
-      </div>
 
-      {/* center */}
-      <Link
-        href={`${itemUrlPrefix}/${item.slug.current}`}
-        className="flex flex-col gap-4 group"
-      >
-        <div className="px-4 flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-4">
-            <h3
-              className={cn(
-                "min-w-0 flex-1 text-xl font-medium truncate overflow-hidden text-ellipsis",
-                item.featured && "text-gradient_indigo-purple font-semibold",
-              )}
-            >
-              <span className="flex items-center gap-2">
-                {item.featured && (
-                  <AwardIcon className="w-5 h-5 flex-shrink-0 text-indigo-500" />
+
+        {/* center */}
+        <Link
+          href={`${itemUrlPrefix}/${item.slug.current}`}
+          className="flex flex-col gap-4 group"
+        >
+          <div className="px-4 flex flex-col gap-4">
+            <div className="flex items-center justify-between gap-4">
+              <h3
+                className={cn(
+                  "min-w-0 flex-1 text-xl font-medium truncate overflow-hidden text-ellipsis",
+                  item.featured && "text-gradient_indigo-purple font-semibold",
                 )}
-                <span className="truncate">{item.name}</span>
-              </span>
-            </h3>
-            <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 shrink-0">
-              <span className="">Details</span>
-              <ArrowRightIcon className={cn("size-4 icon-scale", "")} />
+              >
+                <span className="flex items-center gap-2">
+                  {item.featured && (
+                    <AwardIcon className="w-5 h-5 flex-shrink-0 text-indigo-500" />
+                  )}
+                  <span className="truncate">{item.name}</span>
+                </span>
+              </h3>
+              <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 shrink-0">
+                <span className="">Details</span>
+                <ArrowRightIcon className={cn("size-4 icon-scale", "")} />
+              </div>
             </div>
-          </div>
 
-          {/* min-h-[3rem] is used for making sure height of the card is the same */}
-          <p className="text-sm line-clamp-2 leading-relaxed min-h-[3rem]">
-            {item.description}
-          </p>
-        </div>
-      </Link>
+            {/* min-h-[3rem] is used for making sure height of the card is the same */}
+            <p className="text-sm line-clamp-2 leading-relaxed min-h-[3rem]">
+              {item.description}
+            </p>
+          </div>
+        </Link>
+      </div>
 
       {/* bottom */}
       <div className="px-4 pb-4 flex justify-end items-center">

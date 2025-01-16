@@ -67,7 +67,7 @@ export default async function CollectionPage({
   const sponsorItems = (await sanityFetch<SponsorItemListQueryResult>({
     query: sponsorItemListQuery,
   })) || [];
-  console.log("CollectionPage, sponsorItems", sponsorItems);
+  // console.log("CollectionPage, sponsorItems", sponsorItems);
   const showSponsor = true;
   const hasSponsorItem = showSponsor && sponsorItems.length > 0;
 

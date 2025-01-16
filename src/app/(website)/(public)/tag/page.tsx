@@ -27,7 +27,7 @@ export default async function TagIndexPage({
   const sponsorItems = (await sanityFetch<SponsorItemListQueryResult>({
     query: sponsorItemListQuery,
   })) || [];
-  console.log("TagIndexPage, sponsorItems", sponsorItems);
+  // console.log("TagIndexPage, sponsorItems", sponsorItems);
   const showSponsor = true;
   const hasSponsorItem = showSponsor && sponsorItems.length > 0;
 

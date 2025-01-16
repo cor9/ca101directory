@@ -53,7 +53,7 @@ export default async function CategoryPage({
   const sponsorItems = (await sanityFetch<SponsorItemListQueryResult>({
     query: sponsorItemListQuery,
   })) || [];
-  console.log("CategoryPage, sponsorItems", sponsorItems);
+  // console.log("CategoryPage, sponsorItems", sponsorItems);
   const showSponsor = true;
   const hasSponsorItem = showSponsor && sponsorItems.length > 0;
   

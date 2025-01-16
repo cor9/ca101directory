@@ -355,18 +355,21 @@ export const categoryListQueryForSitemap = groq`*[_type == "category" && defined
   _id,  
   _updatedAt,
   "slug": slug.current,
+  "count": count(*[_type == "item" && defined(publishDate) && forceHidden != true && references(^._id)])
 }`;
 
 export const tagListQueryForSitemap = groq`*[_type == "tag" && defined(slug.current)] | order(_createdAt asc) {
   _id,  
   _updatedAt,
   "slug": slug.current,
+  "count": count(*[_type == "item" && defined(publishDate) && forceHidden != true && references(^._id)])
 }`;
 
 export const collectionListQueryForSitemap = groq`*[_type == "collection" && defined(slug.current)] | order(_createdAt asc) {
   _id,  
   _updatedAt,
   "slug": slug.current,
+  "count": count(*[_type == "item" && defined(publishDate) && forceHidden != true && references(^._id)])
 }`;
 
 export const blogListQueryForSitemap = groq`*[_type == "blogPost" && defined(slug.current) && defined(publishDate)] | order(publishDate desc, _createdAt asc) {
@@ -379,6 +382,7 @@ export const blogCategoryListQueryForSitemap = groq`*[_type == "blogCategory" &&
   _id,  
   _updatedAt,
   "slug": slug.current,
+  "count": count(*[_type == "blogPost" && defined(publishDate) && references(^._id)])
 }`;
 
 export const pageListQueryForSitemap = groq`*[_type == "page" && defined(slug.current)] | order(_createdAt asc) {

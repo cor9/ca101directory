@@ -30,6 +30,7 @@
     "batch:update": "tsx scripts/batch-all.ts update"
   },
   "dependencies": {
+    "@ai-sdk/deepseek": "^0.1.0",
     "@ai-sdk/google": "^1.0.15",
     "@ai-sdk/openai": "^1.0.18",
     "@auth/core": "^0.34.2",

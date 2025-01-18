@@ -1,5 +1,6 @@
 "use client";
 
+import { fetchWebsite } from "@/actions/fetch-website";
 import { type SubmitFormData, submit } from "@/actions/submit";
 import { Icons } from "@/components/icons/icons";
 import CustomMde from "@/components/shared/custom-mde";
@@ -7,6 +8,14 @@ import ImageUpload from "@/components/shared/image-upload";
 import { MultiSelect } from "@/components/shared/multi-select";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -18,7 +27,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
-import { SUPPORT_ITEM_ICON } from "@/lib/constants";
+import { SUPPORT_AI_SUBMIT, SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { SubmitSchema } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 import type {
@@ -26,7 +35,7 @@ import type {
   TagListQueryResult,
 } from "@/sanity.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SmileIcon } from "lucide-react";
+import { SmileIcon, Wand2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -48,6 +57,10 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [isUploading, setIsUploading] = useState(false);
+  const [isAIProcessing, setIsAIProcessing] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const [iconUrl, setIconUrl] = useState("");
 
   // set default values for form fields and validation schema
   const form = useForm<SubmitFormData>({
@@ -108,6 +121,73 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
     }
   };
 
+  const handleAIFetch = async () => {
+    const link = form.getValues("link");
+    if (!link) {
+      toast.error("Please enter a valid website URL first");
+      setDialogOpen(false);
+      return;
+    }
+
+    setIsAIProcessing(true);
+    try {
+      const response = await fetchWebsite(link);
+      console.log("SubmitForm, handleAIFetch, response:", response);
+      if (response.status === "error") {
+        toast.error(response.message);
+        setDialogOpen(false);
+        return;
+      }
+
+      const data = response.data;
+      if (data.name) {
+        form.setValue("name", data.name);
+      }
+      if (data.description) {
+        form.setValue("description", data.description);
+      }
+      if (data.introduction) {
+        form.setValue("introduction", data.introduction);
+      }
+
+      // convert categories and tags to array of ids from categoryList and tagList
+      if (data.categories) {
+        form.setValue(
+          "categories",
+          data.categories.map((category) =>
+            categoryList.find((c) => c.name === category)?._id,
+          ),
+        );
+      }
+      if (data.tags) {
+        form.setValue(
+          "tags",
+          data.tags.map((tag) => tagList.find((t) => t.name === tag)?._id),
+        );
+      }
+
+      // notify ImageUpload component to show the image
+      if (data.imageId) {
+        form.setValue("imageId", data.imageId);
+        setImageUrl(data.image);
+      }
+
+      // notify ImageUpload component to show the icon
+      if (SUPPORT_ITEM_ICON && data.iconId) {
+        form.setValue("iconId", data.iconId);
+        setIconUrl(data.icon);
+      }
+
+      toast.success("AI fetch website info completed!");
+    } catch (error) {
+      console.error("SubmitForm, handleAIFetch, error:", error);
+      toast.error("Failed to fetch website info");
+    } finally {
+      setIsAIProcessing(false);
+      setDialogOpen(false);
+    }
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={onSubmit}>
@@ -120,12 +200,57 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                 render={({ field }) => (
                   <FormItem className="flex-1">
                     <FormLabel>Link</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter the link to your product"
-                        {...field}
-                      />
-                    </FormControl>
+                    <div className="relative">
+                      <FormControl>
+                        <Input
+                          placeholder="Enter the link to your product"
+                          className={cn(SUPPORT_AI_SUBMIT && "pr-[100px]")}
+                          {...field}
+                        />
+                      </FormControl>
+                      {SUPPORT_AI_SUBMIT && (
+                        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="default"
+                              size="sm"
+                              className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-2 h-7 px-2"
+                              disabled={isAIProcessing}
+                            >
+                              {isAIProcessing ? (
+                                <Icons.spinner className="h-4 w-4 animate-spin" />
+                              ) : (
+                                <Wand2Icon className="h-4 w-4" />
+                              )}
+                              <span className="text-xs">AI Autofill</span>
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>AI Autofill</DialogTitle>
+                              <DialogDescription>
+                                Would you like AI to automatically fill in the form by the URL? It may take some time, so please wait patiently.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="flex justify-end gap-2">
+                              <Button variant="outline" onClick={() => setDialogOpen(false)}>
+                                Cancel
+                              </Button>
+                              <Button onClick={handleAIFetch} disabled={isAIProcessing}>
+                                {isAIProcessing ? (
+                                  <>
+                                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                                    Analyzing...
+                                  </>
+                                ) : (
+                                  "Analyze"
+                                )}
+                              </Button>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      )}
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -256,6 +381,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                       <FormControl>
                         <div className="mt-4 w-full h-[370px]">
                           <ImageUpload
+                            currentImageUrl={iconUrl}
                             onUploadChange={handleUploadIconChange}
                             type="icon"
                           />
@@ -282,6 +408,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                     <FormControl>
                       <div className="mt-4 w-full h-[370px]">
                         <ImageUpload
+                          currentImageUrl={imageUrl}
                           onUploadChange={handleUploadChange}
                           type="image"
                         />

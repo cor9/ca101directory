@@ -2,11 +2,10 @@
 
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-// import { sanityClient } from "@/sanity/lib/client";
 import { ImageUpIcon, Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import type React from "react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 
@@ -17,7 +16,7 @@ interface ImageUploadProps {
 }
 
 /**
- * TODO: failed to upload image in mobile phone
+ * image upload component
  */
 export default function ImageUpload({
   currentImageUrl = null,
@@ -27,6 +26,13 @@ export default function ImageUpload({
   const [uploading, setUploading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string | null>(currentImageUrl);
 
+  // Add effect to watch currentImageUrl changes
+  useEffect(() => {
+    if (currentImageUrl !== imageUrl) {
+      setImageUrl(currentImageUrl);
+    }
+  }, [currentImageUrl, imageUrl]);
+
   const uploadImage = async (file: File) => {
     const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
     if (file.size > maxSizeInBytes) {
@@ -34,16 +40,6 @@ export default function ImageUpload({
       toast.error("Image size should be less than 1MB.");
       return null;
     }
-
-    // NOTICE: can not use sanityClient in client component!!!
-    // try {
-    //   const asset = await sanityClient.assets.upload("image", file);
-    //   return asset;
-    // } catch (error) {
-    //   console.error("uploadImage, error uploading image:", error);
-    //   toast.error("Upload Image failed, please try again.");
-    //   return null;
-    // }
 
     try {
       const formData = new FormData();

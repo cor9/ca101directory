@@ -174,7 +174,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
 
       // notify ImageUpload component to show the icon
       if (SUPPORT_ITEM_ICON && data.iconId) {
-        form.setValue("iconId", data.iconId);
+        form.setValue("iconId" as keyof SubmitFormData, data.iconId);
         setIconUrl(data.icon);
       }
 

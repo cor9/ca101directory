@@ -31,7 +31,7 @@ export default function ImageUpload({
     if (currentImageUrl !== imageUrl) {
       setImageUrl(currentImageUrl);
     }
-  }, [currentImageUrl, imageUrl]);
+  }, [currentImageUrl]);
 
   const uploadImage = async (file: File) => {
     const maxSizeInBytes = 1 * 1024 * 1024; // 1MB

@@ -25,12 +25,17 @@ export default async function HomePage({
 }) {
   console.log("HomePage, searchParams", searchParams);
 
-  const sponsorItems = (await sanityFetch<SponsorItemListQueryResult>({
-    query: sponsorItemListQuery,
-  })) || [];
-  // console.log("HomePage, sponsorItems", sponsorItems);
-  const showSponsor = true;
-  const hasSponsorItem = showSponsor && sponsorItems.length > 0;
+  // Option 1: use these code if you want to show sponsor items in the item grid
+  // const sponsorItems = (await sanityFetch<SponsorItemListQueryResult>({
+  //   query: sponsorItemListQuery,
+  // })) || [];
+  // const showSponsor = true;
+  // const hasSponsorItem = showSponsor && sponsorItems.length > 0;
+
+  // Option 2: use these code if you want to show sponsor items in the hero section
+  const sponsorItems = [];
+  const showSponsor = false;
+  const hasSponsorItem = false;
 
   const {
     category,

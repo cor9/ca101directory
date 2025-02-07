@@ -1,5 +1,5 @@
 import Container from "@/components/container";
-import HomeHero from "@/components/home/home-hero";
+import HomeHeroSponsor from "@/components/home3/home3-hero-sponsor";
 import { HomeSearchFilter } from "@/components/home3/home3-search-filter";
 import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 
@@ -8,7 +8,7 @@ export default function HomeLayout({
 }: { children: React.ReactNode }) {
   return (
     <Container className="mt-12 mb-16 flex flex-col gap-12">
-      <HomeHero />
+      <HomeHeroSponsor />
 
       <div className="flex flex-col gap-8">
         <HomeSearchFilter urlPrefix="/home3" />

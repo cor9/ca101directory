@@ -1,6 +1,8 @@
+import { ApprovalEmail } from "@/emails/approval-email";
 import { NotifySubmissionEmail } from "@/emails/notify-submission-to-admin";
 import { NotifySubmissionToUserEmail } from "@/emails/notify-submission-to-user";
 import { PaymentSuccessEmail } from "@/emails/payment-success";
+import RejectionEmail from "@/emails/rejection-email";
 import { ResetPasswordEmail } from "@/emails/reset-password";
 import VerifyEmail from "@/emails/verify-email";
 import { Resend } from "resend";
@@ -83,5 +85,31 @@ export const sendPaymentSuccessEmail = async (
     to: email,
     subject: "Thank your for your submission",
     react: PaymentSuccessEmail({ userName, itemLink }),
+  });
+};
+
+export const sendApprovalEmail = async (
+  userName: string,
+  email: string,
+  itemLink: string,
+) => {
+  await resend.emails.send({
+    from: process.env.RESEND_EMAIL_FROM,
+    to: email,
+    subject: "Your submission has been approved",
+    react: ApprovalEmail({ userName, itemLink }),
+  });
+};
+
+export const sendRejectionEmail = async (
+  userName: string,
+  email: string,
+  dashboardLink: string,
+) => {
+  await resend.emails.send({
+    from: process.env.RESEND_EMAIL_FROM,
+    to: email,
+    subject: "Please check your submission",
+    react: RejectionEmail({ userName, dashboardLink }),
   });
 };

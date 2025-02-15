@@ -2,6 +2,7 @@ import { ITEMS_PER_PAGE, SHOW_QUERY_LOGS } from "@/lib/constants";
 import type { Item, ItemListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemSimpleFields } from "@/sanity/lib/queries";
+import { ItemInfo } from "@/types";
 
 /**
  * get item by id
@@ -20,6 +21,29 @@ export async function getItemById(id: string) {
     return item;
   } catch (error) {
     console.error("getItemById, error:", error);
+    return null;
+  }
+}
+
+/**
+ * get item info by id, with submitter info & images, etc.
+ */
+export async function getItemInfoById(id: string) {
+  try {
+    // @sanity-typegen-ignore
+    const itemQry = `*[_type == "item" && _id == "${id}"][0] {
+      ${itemSimpleFields}
+    }`;
+    const item = await sanityFetch<ItemInfo>({
+      query: itemQry,
+      disableCache: true,
+    });
+    if (SHOW_QUERY_LOGS) {
+      console.log("getItemInfoById, item:", item);
+    }
+    return item;
+  } catch (error) {
+    console.error("getItemInfoById, error:", error);
     return null;
   }
 }

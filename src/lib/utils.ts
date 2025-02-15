@@ -77,6 +77,12 @@ export function checkValidSponsor(item: ItemInfo) {
     && new Date(item.sponsorEndDate) >= now;
 }
 
+/**
+ * get dashboard link in Website
+ */
+export function getDashboardLink() {
+  return `${siteConfig.url}/dashboard`;
+}
 
 /**
  * get item link in Sanity Studio

@@ -29,6 +29,9 @@ export const publicRoutes = [
   // stripe webhook must be public, otherwise can not receive stripe events
   "/api/webhook",
 
+  // send emails, like submission approval or rejection emails
+  "/api/send-email",
+
   // og images
   "/api/og",
 

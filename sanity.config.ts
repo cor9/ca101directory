@@ -19,6 +19,7 @@ import { markdownSchema } from "sanity-plugin-markdown";
 import { media } from 'sanity-plugin-media';
 import { presentationTool } from 'sanity/presentation';
 import { structureTool } from 'sanity/structure';
+import { customDocumentActionsPlugin } from '@/sanity/plugins/customDocumentActions';
 
 export default defineConfig({
   name: 'Studio',
@@ -88,5 +89,8 @@ export default defineConfig({
     // https://www.sanity.io/plugins/sanity-plugin-asset-source-unsplash
     // Search photos on Unsplash and insert them directly inside of your Sanity Studio.
     unsplashImageAsset(),
+
+    // https://www.sanity.io/docs/document-actions
+    customDocumentActionsPlugin()
   ],
 })

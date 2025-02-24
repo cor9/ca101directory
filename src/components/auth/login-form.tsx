@@ -82,7 +82,7 @@ export const LoginForm = ({ className }: { className?: string }) => {
       bottomButtonLabel="Don't have an account? Sign up"
       bottomButtonHref="/auth/register"
       showSocialLoginButton
-      className={cn("", className)}
+      className={cn("border-none", className)}
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

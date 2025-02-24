@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/auth/auth-dialog";
+} from "@/components/ui/dialog";
 import { LoginForm } from "@/components/auth/login-form";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { authRoutes } from "@/routes";
@@ -47,7 +47,7 @@ export const LoginWrapper = ({
     return (
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogTrigger asChild={asChild}>{children}</DialogTrigger>
-        <DialogContent className="p-0 bg-transparent border-none">
+        <DialogContent className="sm:max-w-[400px] p-0">
           <DialogHeader>
             {/* `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users. */}
             <DialogTitle />

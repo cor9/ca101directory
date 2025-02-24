@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { Logo } from "../logo";
+import { Logo } from "@/components/logo";
 
 interface AuthCardProps {
   children: React.ReactNode;
@@ -31,7 +31,7 @@ export const AuthCard = ({
   className,
 }: AuthCardProps) => {
   return (
-    <Card className={cn("shadow-none sm:w-[400px] max-w-[400px]", className)}>
+    <Card className={cn("shadow-none", className)}>
       <CardHeader className="items-center">
         <Link href="/" prefetch={false}>
           <Logo className="mb-2" />

@@ -9,16 +9,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerPortal,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { userButtonConfig } from "@/config/user-button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { Button } from "@react-email/components";
 import { LogOutIcon } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Drawer } from "vaul";
 
 export function UserButton() {
   const router = useRouter();
@@ -41,28 +48,29 @@ export function UserButton() {
   // Mobile View, use Drawer
   if (isMobile) {
     return (
-      <Drawer.Root open={open} onClose={closeDrawer}>
-        <Drawer.Trigger onClick={() => setOpen(true)}>
+      <Drawer open={open} onClose={closeDrawer}>
+        <DrawerTrigger onClick={() => setOpen(true)}>
           <UserAvatar
             name={user.name || null}
             image={user.image || null}
             className="size-8 border"
           />
-        </Drawer.Trigger>
-        <Drawer.Portal>
-          <Drawer.Overlay
-            className="fixed inset-0 z-40 h-full bg-background/80 backdrop-blur-sm"
-            onClick={closeDrawer}
-          />
-          <Drawer.Content className="fixed inset-x-0 bottom-0 z-50 mt-24 overflow-hidden rounded-t-[10px] border bg-background px-3 text-sm">
-            <div className="sticky top-0 z-20 flex w-full items-center justify-center bg-inherit">
-              <div className="my-3 h-1.5 w-16 rounded-full bg-muted-foreground/20" />
-            </div>
-
-            <div className="flex items-center justify-start gap-2 p-2">
+        </DrawerTrigger>
+        <DrawerPortal>
+          <DrawerOverlay className="fixed inset-0 z-40 bg-background/50" />
+          <DrawerContent className="fixed inset-x-0 bottom-0 z-50 mt-24 overflow-hidden rounded-t-[10px] border bg-background px-3 text-sm">
+            <DrawerHeader>
+              <DrawerTitle />
+            </DrawerHeader>
+            <div className="flex items-center justify-start gap-4 p-2">
+              <UserAvatar
+                name={user?.name || undefined}
+                image={user?.image || undefined}
+                className="size-8 border"
+              />
               <div className="flex flex-col">
-                {user.name && <p className="font-medium">{user.name}</p>}
-                {user.email && (
+                {user?.name && <p className="font-medium">{user.name}</p>}
+                {user?.email && (
                   <p className="w-[200px] truncate text-muted-foreground">
                     {user?.email}
                   </p>
@@ -110,10 +118,9 @@ export function UserButton() {
                 </Link>
               </li>
             </ul>
-          </Drawer.Content>
-          <Drawer.Overlay />
-        </Drawer.Portal>
-      </Drawer.Root>
+          </DrawerContent>
+        </DrawerPortal>
+      </Drawer>
     );
   }
 

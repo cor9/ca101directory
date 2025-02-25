@@ -22,10 +22,11 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
   const [debouncedQuery] = useDebounce(searchQuery, 300); // 300ms debounce
   const lastExecutedQuery = useRef(searchParams?.get("q") || "");
   const previousQueryRef = useRef("");
+  const isUserTypingRef = useRef(false);
 
   useEffect(() => {
     const currentQuery = searchParams?.get("q") || "";
-    if (currentQuery !== previousQueryRef.current) {
+    if (currentQuery !== previousQueryRef.current && !isUserTypingRef.current) {
       setSearchQuery(currentQuery);
       previousQueryRef.current = currentQuery;
     }
@@ -46,10 +47,16 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
       lastExecutedQuery.current = debouncedQuery;
       router.push(newUrl, { scroll: false });
     }
-  }, [debouncedQuery, router, searchParams, searchQuery]);
+  }, [debouncedQuery, router, searchParams, urlPrefix]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    isUserTypingRef.current = true;
     setSearchQuery(e.target.value);
+    
+    // Reset the flag to allow updates after URL changes (but give enough time to complete the current input)
+    setTimeout(() => {
+      isUserTypingRef.current = false;
+    }, 500);
   };
 
   return (

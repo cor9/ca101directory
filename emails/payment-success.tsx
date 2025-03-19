@@ -1,4 +1,5 @@
 import { siteConfig } from "@/config/site";
+import { getBaseUrl } from "@/lib/utils";
 import {
   Body,
   Button,
@@ -30,9 +31,6 @@ interface PaymentSuccessEmailProps {
   itemLink?: string;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
-// const baseUrl = 'https://demo.mkdirs.com';
-
 /**
  * https://demo.react.email/preview/welcome/stripe-welcome
  */
@@ -40,6 +38,7 @@ export const PaymentSuccessEmail = ({
   userName,
   itemLink,
 }: PaymentSuccessEmailProps) => {
+  const baseUrl = getBaseUrl();
   return (
     <Html>
       <Head />

@@ -1,4 +1,5 @@
 import { siteConfig } from "@/config/site";
+import { getBaseUrl } from "@/lib/utils";
 import {
   Body,
   Button,
@@ -29,13 +30,11 @@ interface VerifyEmailProps {
   confirmLink?: string;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
-// const baseUrl = 'https://demo.mkdirs.com';
-
 /**
  * https://demo.react.email/preview/welcome/stripe-welcome
  */
 export const VerifyEmail = ({ confirmLink }: VerifyEmailProps) => {
+  const baseUrl = getBaseUrl();
   return (
     <Html>
       <Head />

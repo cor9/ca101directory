@@ -1,4 +1,5 @@
 import { siteConfig } from "@/config/site";
+import { getBaseUrl } from "@/lib/utils";
 import {
   Body,
   Button,
@@ -31,9 +32,6 @@ interface NotifySubmissionToUserEmailProps {
   statusLink?: string;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
-// const baseUrl = 'https://demo.mkdirs.com';
-
 /**
  * https://demo.react.email/preview/welcome/stripe-welcome
  */
@@ -42,6 +40,7 @@ export const NotifySubmissionToUserEmail = ({
   itemName,
   statusLink,
 }: NotifySubmissionToUserEmailProps) => {
+  const baseUrl = getBaseUrl();
   return (
     <Html>
       <Head />

@@ -54,7 +54,17 @@ export async function submit(
     const iconId = "iconId" in rest ? rest.iconId : undefined;
     console.log("submit, name:", name, "link:", link);
 
-    const slug = slugify(name);
+    let slug = slugify(name);
+    // check if the slug already exists
+    const existingItem = await sanityClient.fetch(
+      `*[_type == "item" && slug.current == $slug][0]`,
+      { slug },
+    );
+    if (existingItem) {
+      const slugLink = slugify(link.replace(/^https?:\/\//, ""));
+      slug = `${slug}-${slugLink}`;
+    }
+
     const data = {
       _type: "item",
       name,

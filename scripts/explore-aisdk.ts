@@ -34,7 +34,10 @@ const client = createClient({
 export const aisdkFetch = async (url: string) => {
   try {
     const response = await fetch(url);
-    const htmlContent = await response.text();
+    const htmlContent = (await response.text())
+      .replace(/class="[^"]*"/g, '')
+      .replace(/<svg[^>]*>.*?<\/svg>/g, '')
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
 
     const prompt = `Analyze the following webpage content and URL: ${url}
 
@@ -86,7 +89,10 @@ export const aisdkStructure = async (url: string) => {
     });
 
     const response = await fetch(url);
-    const htmlContent = await response.text();
+    const htmlContent = (await response.text())
+      .replace(/class="[^"]*"/g, '')
+      .replace(/<svg[^>]*>.*?<\/svg>/g, '')
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
 
     const result = await generateObject({
       model: google("gemini-2.0-flash-exp", {

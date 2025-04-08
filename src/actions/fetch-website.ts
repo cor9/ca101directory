@@ -55,7 +55,7 @@ export async function fetchWebsite(url: string): Promise<ServerActionResponse> {
         message: "AI submit is not supported",
       };
     }
-    
+
     const data = await fetchWebsiteInfo(url);
     if (data === null) {
       return {
@@ -162,7 +162,11 @@ export const fetchWebsiteInfoWithAI = async (url: string) => {
     // TODO: we need to convert htmlContent to simple content for AI to analyze (save time and cost)
     // TODO: if the content is too long, error will be thrown, so sometimes AI submit will fail
     // Google Gemini model support more tokens than DeepSeek model, so we prefer Google Gemini model
-    const htmlContent = await response.text();
+    // Thanks to Justin3go for the code: https://github.com/MkdirsHQ/mkdirs-template/discussions/50
+    const htmlContent = (await response.text())
+      .replace(/class="[^"]*"/g, '')
+      .replace(/<svg[^>]*>.*?<\/svg>/g, '')
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
 
     let aiModel = null;
     if (process.env.DEFAULT_AI_PROVIDER === "google" && process.env.GOOGLE_GENERATIVE_AI_API_KEY !== undefined) {

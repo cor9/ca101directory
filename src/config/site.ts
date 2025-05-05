@@ -4,7 +4,8 @@ const SITE_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 export const siteConfig: SiteConfig = {
   name: "Directory",
-  tagline: "This is a demo site for Mkdirs, the best directory website template",
+  tagline:
+    "This is a demo site for Mkdirs, the best directory website template",
   description:
     "This is a demo site for Mkdirs template. Mkdirs is the ultimate directory website template. With Mkdirs, you can build any trending and profitable directory website in minutes, packed with Listings, Newsletter, Payment, CMS, Blog, Authentication, SEO, Themes and more",
   keywords: [
@@ -22,6 +23,8 @@ export const siteConfig: SiteConfig = {
   ],
   author: "Mkdirs",
   url: SITE_URL,
+  logo: "/logo.png",
+  logoDark: "/logo-dark.png",
   // please increase the version number when you update the image
   image: `${SITE_URL}/og.png?v=1`,
   mail: "support@mkdirs.com",

@@ -22,6 +22,8 @@ export type SiteConfig = {
   keywords: string[];
   author: string;
   url: string;
+  logo: string;
+  logoDark?: string;
   image: string;
   mail: string;
   utm: {

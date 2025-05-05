@@ -1,5 +1,6 @@
 "use client";
 
+import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import Image from "next/image";
@@ -8,8 +9,8 @@ import { useEffect, useState } from "react";
 export function Logo({ className }: { className?: string }) {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const logoLight = "/logo.png";
-  const logoDark = "/logo-dark.png";
+  const logoLight = siteConfig.logo;
+  const logoDark = siteConfig.logoDark ?? logoLight;
 
   // During server-side rendering and initial client render, always use logoLight
   // This prevents hydration mismatch

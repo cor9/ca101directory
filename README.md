@@ -20,7 +20,7 @@ If you found anything that could be improved, please let me know.
 - demo: [demo.mkdirs.com](https://demo.mkdirs.com)
 - discord: [discord.gg/mtjx6W6mNY](https://discord.gg/mtjx6W6mNY)
 - documentation: [docs.mkdirs.com](https://docs.mkdirs.com)
-- roadmap: [mkdirs roadmap](https://github.com/MkdirsHQ/mkdirs-template/issues/10)
+- roadmap: [Mkdirs Roadmap](https://github.com/orgs/MkdirsHQ/projects/1)
 - video (WIP): [youtube.com/@MkdirsHQ](https://www.youtube.com/@MkdirsHQ) 
 
 ## Notice

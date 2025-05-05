@@ -1,5 +1,6 @@
 import { getOrderByUserIdAndItemId } from "@/data/order";
 import { getUserById } from "@/data/user";
+import { sendMessageToDiscord } from "@/lib/discord";
 import { sendPaymentSuccessEmail } from "@/lib/mail";
 import { stripe } from "@/lib/stripe";
 import { PricePlans, ProPlanStatus, SponsorPlanStatus } from "@/lib/submission";
@@ -40,9 +41,11 @@ export async function POST(req: Request) {
   if (event.type === "checkout.session.completed") {
     console.log("checkout.session.completed event");
     const session = event.data.object as Stripe.Checkout.Session;
+    const customerId = session.customer as string;
+    const amount = session.amount_total ? session.amount_total / 100 : 0;
 
     const userId = session?.metadata?.userId;
-    const itemId = session?.metadata?.itemId; 
+    const itemId = session?.metadata?.itemId;
     const priceId = session?.metadata?.priceId;
     const pricePlan = session?.metadata?.pricePlan;
     // console.log('session:', session);
@@ -90,8 +93,14 @@ export async function POST(req: Request) {
           featured: true,
           pricePlan: pricePlan, // pro or sponsor
           sponsor: pricePlan === PricePlans.SPONSOR,
-          proPlanStatus: pricePlan === PricePlans.PRO ? ProPlanStatus.SUCCESS : ProPlanStatus.SUBMITTING,
-          sponsorPlanStatus: pricePlan === PricePlans.SPONSOR ? SponsorPlanStatus.SUCCESS : SponsorPlanStatus.SUBMITTING,
+          proPlanStatus:
+            pricePlan === PricePlans.PRO
+              ? ProPlanStatus.SUCCESS
+              : ProPlanStatus.SUBMITTING,
+          sponsorPlanStatus:
+            pricePlan === PricePlans.SPONSOR
+              ? SponsorPlanStatus.SUCCESS
+              : SponsorPlanStatus.SUBMITTING,
           order: {
             _type: "reference",
             _ref: result._id,
@@ -111,6 +120,9 @@ export async function POST(req: Request) {
         userEmail: ${user.email}, 
         itemLink: ${itemLink}`);
       await sendPaymentSuccessEmail(user.name, user.email, itemLink);
+
+      // send message to discord
+      await sendMessageToDiscord(session.id, customerId, user.name, amount);
     } else {
       console.log("checkout.session.completed, user not found");
       return new Response(null, { status: 404 });

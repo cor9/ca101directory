@@ -24,7 +24,8 @@ export const siteConfig: SiteConfig = {
   author: "Mkdirs",
   url: SITE_URL,
   logo: "/logo.png",
-  logoDark: "/logo-dark.png",
+  // set the logoDark if you have put the logo-dark.png in the public folder
+  // logoDark: "/logo-dark.png",
   // please increase the version number when you update the image
   image: `${SITE_URL}/og.png?v=1`,
   mail: "support@mkdirs.com",

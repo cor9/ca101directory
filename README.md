@@ -18,10 +18,10 @@ If you found anything that could be improved, please let me know.
 
 - website: [mkdirs.com](https://mkdirs.com)
 - demo: [demo.mkdirs.com](https://demo.mkdirs.com)
-- discord: [discord.gg/mtjx6W6mNY](https://discord.gg/mtjx6W6mNY)
 - documentation: [docs.mkdirs.com](https://docs.mkdirs.com)
+- video: [youtube.com/@MkdirsHQ](https://www.youtube.com/@MkdirsHQ) 
 - roadmap: [Mkdirs Roadmap](https://github.com/orgs/MkdirsHQ/projects/1)
-- video (WIP): [youtube.com/@MkdirsHQ](https://www.youtube.com/@MkdirsHQ) 
+- discord: [mksaas.link/discord](https://mksaas.link/discord)
 
 ## Notice
 

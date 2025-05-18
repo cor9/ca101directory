@@ -7,6 +7,7 @@ import { deepseek } from "@ai-sdk/deepseek";
 import { google } from "@ai-sdk/google";
 import { openai } from "@ai-sdk/openai";
 import { xai } from "@ai-sdk/xai";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { generateObject } from "ai";
 import { z } from "zod";
 
@@ -174,6 +175,7 @@ export const fetchWebsiteInfoWithAI = async (url: string) => {
       process.env.DEFAULT_AI_PROVIDER === "google" &&
       process.env.GOOGLE_GENERATIVE_AI_API_KEY !== undefined
     ) {
+      // https://ai-sdk.dev/providers/ai-sdk-providers/google-generative-ai
       aiModel = google("gemini-2.0-flash-exp", {
         structuredOutputs: true,
       });
@@ -181,6 +183,7 @@ export const fetchWebsiteInfoWithAI = async (url: string) => {
       process.env.DEFAULT_AI_PROVIDER === "deepseek" &&
       process.env.DEEPSEEK_API_KEY !== undefined
     ) {
+      // https://ai-sdk.dev/providers/ai-sdk-providers/deepseek
       aiModel = deepseek("deepseek-chat", {
         // structuredOutputs: true,
       });
@@ -188,6 +191,7 @@ export const fetchWebsiteInfoWithAI = async (url: string) => {
       process.env.DEFAULT_AI_PROVIDER === "openai" &&
       process.env.OPENAI_API_KEY !== undefined
     ) {
+      // https://ai-sdk.dev/providers/ai-sdk-providers/openai
       aiModel = openai("gpt-4o-mini", {
         structuredOutputs: true,
       });
@@ -195,9 +199,20 @@ export const fetchWebsiteInfoWithAI = async (url: string) => {
       process.env.DEFAULT_AI_PROVIDER === "xai" &&
       process.env.XAI_API_KEY !== undefined
     ) {
+      // https://ai-sdk.dev/providers/ai-sdk-providers/xai
       aiModel = xai("grok-3", {
         // structuredOutputs: true,
       });
+    } else if (
+      process.env.DEFAULT_AI_PROVIDER === "openrouter" &&
+      process.env.OPENROUTER_API_KEY !== undefined &&
+      process.env.OPENROUTER_MODEL !== undefined
+    ) {
+      // https://ai-sdk.dev/providers/community-providers/openrouter
+      const openrouter = createOpenRouter({
+        apiKey: process.env.OPENROUTER_API_KEY,
+      });
+      aiModel = openrouter(process.env.OPENROUTER_MODEL);
     }
 
     if (aiModel === null) {

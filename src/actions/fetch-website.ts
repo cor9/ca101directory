@@ -3,9 +3,10 @@
 import { slugify } from "@/lib/utils";
 import type { Category, Tag } from "@/sanity.types";
 import { sanityClient } from "@/sanity/lib/client";
-import { deepseek } from '@ai-sdk/deepseek';
+import { deepseek } from "@ai-sdk/deepseek";
 import { google } from "@ai-sdk/google";
 import { openai } from "@ai-sdk/openai";
+import { xai } from "@ai-sdk/xai";
 import { generateObject } from "ai";
 import { z } from "zod";
 
@@ -164,22 +165,38 @@ export const fetchWebsiteInfoWithAI = async (url: string) => {
     // Google Gemini model support more tokens than DeepSeek model, so we prefer Google Gemini model
     // Thanks to Justin3go for the code: https://github.com/MkdirsHQ/mkdirs-template/discussions/50
     const htmlContent = (await response.text())
-      .replace(/class="[^"]*"/g, '')
-      .replace(/<svg[^>]*>.*?<\/svg>/g, '')
-      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+      .replace(/class="[^"]*"/g, "")
+      .replace(/<svg[^>]*>.*?<\/svg>/g, "")
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
 
     let aiModel = null;
-    if (process.env.DEFAULT_AI_PROVIDER === "google" && process.env.GOOGLE_GENERATIVE_AI_API_KEY !== undefined) {
+    if (
+      process.env.DEFAULT_AI_PROVIDER === "google" &&
+      process.env.GOOGLE_GENERATIVE_AI_API_KEY !== undefined
+    ) {
       aiModel = google("gemini-2.0-flash-exp", {
         structuredOutputs: true,
       });
-    } else if (process.env.DEFAULT_AI_PROVIDER === "deepseek" && process.env.DEEPSEEK_API_KEY !== undefined) {
+    } else if (
+      process.env.DEFAULT_AI_PROVIDER === "deepseek" &&
+      process.env.DEEPSEEK_API_KEY !== undefined
+    ) {
       aiModel = deepseek("deepseek-chat", {
         // structuredOutputs: true,
       });
-    } else if (process.env.DEFAULT_AI_PROVIDER === "openai" && process.env.OPENAI_API_KEY !== undefined) {
+    } else if (
+      process.env.DEFAULT_AI_PROVIDER === "openai" &&
+      process.env.OPENAI_API_KEY !== undefined
+    ) {
       aiModel = openai("gpt-4o-mini", {
         structuredOutputs: true,
+      });
+    } else if (
+      process.env.DEFAULT_AI_PROVIDER === "xai" &&
+      process.env.XAI_API_KEY !== undefined
+    ) {
+      aiModel = xai("grok-3", {
+        // structuredOutputs: true,
       });
     }
 
@@ -218,8 +235,12 @@ export const fetchWebsiteInfoWithAI = async (url: string) => {
     // console.log("fetchWebsiteInfoWithAI, url:", url, "result:", result);
 
     // filter AI generated categories and tags to make sure they are in the available categories and tags
-    const filteredCategories = result.object.categories.filter((category) => availableCategories.includes(category));
-    const filteredTags = result.object.tags.filter((tag) => availableTags.includes(tag));
+    const filteredCategories = result.object.categories.filter((category) =>
+      availableCategories.includes(category),
+    );
+    const filteredTags = result.object.tags.filter((tag) =>
+      availableTags.includes(tag),
+    );
     result.object.categories = filteredCategories;
     result.object.tags = filteredTags;
 

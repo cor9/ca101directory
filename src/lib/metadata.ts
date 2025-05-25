@@ -39,7 +39,7 @@ export function constructMetadata({
       url: siteConfig.url,
       title: fullTitle,
       description,
-      siteName: title,
+      siteName: siteConfig.name,
       images: [image],
     },
     twitter: {

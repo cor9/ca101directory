@@ -16,12 +16,12 @@ If you found anything that could be improved, please let me know.
 
 ## Links
 
-- website: [mkdirs.com](https://mkdirs.com)
-- demo: [demo.mkdirs.com](https://demo.mkdirs.com)
-- documentation: [docs.mkdirs.com](https://docs.mkdirs.com)
-- video: [youtube.com/@MkdirsHQ](https://www.youtube.com/@MkdirsHQ) 
-- roadmap: [Mkdirs Roadmap](https://github.com/orgs/MkdirsHQ/projects/1)
-- discord: [mksaas.link/discord](https://mksaas.link/discord)
+- 🔥 website: [mkdirs.com](https://mkdirs.com)
+- 🌐 demo: [demo.mkdirs.com](https://demo.mkdirs.com)
+- 📚 documentation: [docs.mkdirs.com](https://docs.mkdirs.com)
+- 📹 video: [youtube.com/@MkdirsHQ](https://www.youtube.com/@MkdirsHQ) 
+- 🗓️ roadmap: [Mkdirs Roadmap](https://github.com/orgs/MkdirsHQ/projects/1)
+- 💬 discord: [mksaas.link/discord](https://mksaas.link/discord)
 
 ## Repositories
 

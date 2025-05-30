@@ -23,6 +23,14 @@ If you found anything that could be improved, please let me know.
 - roadmap: [Mkdirs Roadmap](https://github.com/orgs/MkdirsHQ/projects/1)
 - discord: [mksaas.link/discord](https://mksaas.link/discord)
 
+## Repositories
+
+By default, you should have access to all 3 repositories. If you find that you’re unable to access any of them, please don’t hesitate to reach out to me, and I’ll assist you in resolving the issue.
+
+- [MkdirsHQ/mkdirs-template](https://github.com/MkdirsHQ/mkdirs-template): https://demo.mkdirs.com (ready)
+- [MkdirsHQ/mkdirs-indiehub](https://github.com/MkdirsHQ/mkdirs-indiehub): https://indiehub.best (ready)
+- [MkdirsHQ/mkdirs-boilerplatehunt](https://github.com/MkdirsHQ/mkdirs-boilerplatehunt): https://boilerplatehunt.com (ready)
+
 ## Notice
 
 > If you have any questions, please [submit an issue](https://github.com/MkdirsHQ/mkdirs-template/issues/new), or contact me at [support@mkdirs.com](mailto:support@mkdirs.com).

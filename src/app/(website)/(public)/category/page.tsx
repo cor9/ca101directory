@@ -23,9 +23,10 @@ export default async function CategoryIndexPage({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const sponsorItems = (await sanityFetch<SponsorItemListQueryResult>({
-    query: sponsorItemListQuery,
-  })) || [];
+  const sponsorItems =
+    (await sanityFetch<SponsorItemListQueryResult>({
+      query: sponsorItemListQuery,
+    })) || [];
   // console.log("CategoryIndexPage, sponsorItems", sponsorItems);
   const showSponsor = true;
   const hasSponsorItem = showSponsor && sponsorItems.length > 0;
@@ -56,10 +57,14 @@ export default async function CategoryIndexPage({
       {/* when items are found */}
       {items && items.length > 0 && (
         <section className="">
-          <ItemGrid items={items} sponsorItems={sponsorItems} showSponsor={showSponsor} />
+          <ItemGrid
+            items={items}
+            sponsorItems={sponsorItems}
+            showSponsor={showSponsor}
+          />
 
           <div className="mt-8 flex items-center justify-center">
-            <CustomPagination routePreix="/category" totalPages={totalPages} />
+            <CustomPagination routePrefix="/category" totalPages={totalPages} />
           </div>
         </section>
       )}

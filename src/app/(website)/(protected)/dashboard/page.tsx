@@ -49,7 +49,10 @@ export default async function DashboardPage({
           <SubmissionList items={submissions} />
 
           <div className="mt-8 flex items-center justify-center">
-            <CustomPagination routePreix="/dashboard" totalPages={totalPages} />
+            <CustomPagination
+              routePrefix="/dashboard"
+              totalPages={totalPages}
+            />
           </div>
         </section>
       )}

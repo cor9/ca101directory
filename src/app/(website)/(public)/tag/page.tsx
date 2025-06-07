@@ -24,9 +24,10 @@ export default async function TagIndexPage({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const sponsorItems = (await sanityFetch<SponsorItemListQueryResult>({
-    query: sponsorItemListQuery,
-  })) || [];
+  const sponsorItems =
+    (await sanityFetch<SponsorItemListQueryResult>({
+      query: sponsorItemListQuery,
+    })) || [];
   // console.log("TagIndexPage, sponsorItems", sponsorItems);
   const showSponsor = true;
   const hasSponsorItem = showSponsor && sponsorItems.length > 0;
@@ -57,10 +58,14 @@ export default async function TagIndexPage({
       {/* when items are found */}
       {items && items.length > 0 && (
         <section className="">
-          <ItemGrid items={items} sponsorItems={sponsorItems} showSponsor={showSponsor} />
+          <ItemGrid
+            items={items}
+            sponsorItems={sponsorItems}
+            showSponsor={showSponsor}
+          />
 
           <div className="mt-8 flex items-center justify-center">
-            <CustomPagination routePreix="/tag" totalPages={totalPages} />
+            <CustomPagination routePrefix="/tag" totalPages={totalPages} />
           </div>
         </section>
       )}

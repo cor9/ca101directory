@@ -73,7 +73,7 @@ export default async function BlogCategoryPage({
 
           <div className="mt-8 flex items-center justify-center">
             <CustomPagination
-              routePreix={`/blog/${params.slug}`}
+              routePrefix={`/blog/${params.slug}`}
               totalPages={totalPages}
             />
           </div>

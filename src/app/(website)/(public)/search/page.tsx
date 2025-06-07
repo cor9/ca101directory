@@ -26,9 +26,10 @@ export default async function SearchPage({
 }) {
   console.log("SearchPage, searchParams", searchParams);
 
-  const sponsorItems = (await sanityFetch<SponsorItemListQueryResult>({
-    query: sponsorItemListQuery,
-  })) || [];
+  const sponsorItems =
+    (await sanityFetch<SponsorItemListQueryResult>({
+      query: sponsorItemListQuery,
+    })) || [];
   // console.log("SearchPage, sponsorItems", sponsorItems);
   const showSponsor = true;
   const hasSponsorItem = showSponsor && sponsorItems.length > 0;
@@ -66,10 +67,14 @@ export default async function SearchPage({
       {/* when items are found */}
       {items && items.length > 0 && (
         <section className="">
-          <ItemGrid items={items} sponsorItems={sponsorItems} showSponsor={showSponsor} />
+          <ItemGrid
+            items={items}
+            sponsorItems={sponsorItems}
+            showSponsor={showSponsor}
+          />
 
           <div className="mt-8 flex items-center justify-center">
-            <CustomPagination routePreix="/search" totalPages={totalPages} />
+            <CustomPagination routePrefix="/search" totalPages={totalPages} />
           </div>
         </section>
       )}

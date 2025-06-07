@@ -40,7 +40,7 @@ export default async function BlogIndexPage({
           <BlogGrid posts={posts} />
 
           <div className="mt-8 flex items-center justify-center">
-            <CustomPagination routePreix="/blog" totalPages={totalPages} />
+            <CustomPagination routePrefix="/blog" totalPages={totalPages} />
           </div>
         </div>
       )}

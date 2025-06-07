@@ -25,9 +25,10 @@ export default async function HomePage({
 }) {
   console.log("HomePage, searchParams", searchParams);
 
-  const sponsorItems = (await sanityFetch<SponsorItemListQueryResult>({
-    query: sponsorItemListQuery,
-  })) || [];
+  const sponsorItems =
+    (await sanityFetch<SponsorItemListQueryResult>({
+      query: sponsorItemListQuery,
+    })) || [];
   // console.log("HomePage, sponsorItems", sponsorItems);
   const showSponsor = true;
   const hasSponsorItem = showSponsor && sponsorItems.length > 0;
@@ -64,10 +65,14 @@ export default async function HomePage({
       {/* when items are found */}
       {items && items.length > 0 && (
         <section className="">
-          <ItemGrid items={items} sponsorItems={sponsorItems} showSponsor={showSponsor} />
+          <ItemGrid
+            items={items}
+            sponsorItems={sponsorItems}
+            showSponsor={showSponsor}
+          />
 
           <div className="mt-8 flex items-center justify-center">
-            <CustomPagination routePreix="/" totalPages={totalPages} />
+            <CustomPagination routePrefix="/" totalPages={totalPages} />
           </div>
         </section>
       )}

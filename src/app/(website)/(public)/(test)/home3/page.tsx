@@ -69,10 +69,14 @@ export default async function HomePage({
       {/* when items are found */}
       {items && items.length > 0 && (
         <section className="">
-          <ItemGrid items={items} sponsorItems={sponsorItems} showSponsor={showSponsor} />
+          <ItemGrid
+            items={items}
+            sponsorItems={sponsorItems}
+            showSponsor={showSponsor}
+          />
 
           <div className="mt-8 flex items-center justify-center">
-            <CustomPagination routePreix="/home3" totalPages={totalPages} />
+            <CustomPagination routePrefix="/home3" totalPages={totalPages} />
           </div>
         </section>
       )}

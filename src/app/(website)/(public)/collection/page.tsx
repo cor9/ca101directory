@@ -61,7 +61,7 @@ export default async function CollectionIndexPage({
 
               <div className="mt-8 flex items-center justify-center">
                 <CustomPagination
-                  routePreix="/collection"
+                  routePrefix="/collection"
                   totalPages={totalPages}
                 />
               </div>

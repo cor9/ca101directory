@@ -13,12 +13,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 type CustomPaginationProps = {
   totalPages: number;
-  routePreix: string;
+  routePrefix: string;
 };
 
 export default function CustomPagination({
   totalPages,
-  routePreix,
+  routePrefix,
 }: CustomPaginationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -27,7 +27,7 @@ export default function CustomPagination({
   const handlePageChange = (page: number | string) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", page.toString());
-    router.push(`${routePreix}?${params.toString()}`);
+    router.push(`${routePrefix}?${params.toString()}`);
   };
 
   const allPages = generatePagination(currentPage, totalPages);

@@ -1,8 +1,3 @@
----
-description: 
-globs: 
-alwaysApply: false
----
 # Tech Stack and Architecture
 
 This document outlines the key technologies used in the Mkdirs template and how they work together.
@@ -22,14 +17,14 @@ This document outlines the key technologies used in the Mkdirs template and how 
 
 ## File Structure
 
-- **[package.json](mdc:package.json)**: Contains all dependencies and scripts
-- **[next.config.mjs](mdc:next.config.mjs)**: Next.js configuration
-- **[tailwind.config.ts](mdc:tailwind.config.ts)**: Tailwind CSS configuration
-- **[sanity.config.ts](mdc:sanity.config.ts)**: Sanity CMS configuration
-- **[src/app](mdc:src/app)**: Next.js app router pages and layouts
-- **[src/components](mdc:src/components)**: Reusable UI components
-- **[src/lib](mdc:src/lib)**: Utility functions and shared code
-- **[src/sanity](mdc:src/sanity)**: Sanity schema definitions and utilities
+- **package.json**: Contains all dependencies and scripts
+- **next.config.mjs**: Next.js configuration
+- **tailwind.config.ts**: Tailwind CSS configuration
+- **sanity.config.ts**: Sanity CMS configuration
+- **src/app**: Next.js app router pages and layouts
+- **src/components**: Reusable UI components
+- **src/lib**: Utility functions and shared code
+- **src/sanity**: Sanity schema definitions and utilities
 
 ## Key Architectural Patterns
 

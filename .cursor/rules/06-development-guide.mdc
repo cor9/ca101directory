@@ -1,8 +1,3 @@
----
-description: 
-globs: 
-alwaysApply: false
----
 # Development Guide
 
 This document provides guidelines for developing and contributing to the Mkdirs template.
@@ -29,7 +24,7 @@ Key environment variables needed for development:
 
 The project uses Biome for code formatting and linting:
 
-- **[biome.json](mdc:biome.json)**: Biome configuration
+- **biome.json**: Biome configuration
 - Run `pnpm lint` to check for code style issues
 - Run `pnpm format` to format the codebase
 
@@ -37,7 +32,7 @@ The project uses Biome for code formatting and linting:
 
 Utility scripts for common tasks:
 
-- **[scripts/](mdc:scripts)**: Directory containing utility scripts
+- **scripts**: Directory containing utility scripts
 - **Batch Operations**: Scripts for batch operations on items
 - **Email Export**: Tools for exporting user emails
 - **Microlink Integration**: Scripts for working with microlink
@@ -54,5 +49,5 @@ Steps for building and deploying the application:
 
 For Docker-based deployment:
 
-- **[Dockerfile](mdc:Dockerfile)**: Docker configuration
-- **[next.config.docker.mjs](mdc:next.config.docker.mjs)**: Next.js configuration for Docker
+- **Dockerfile**: Docker configuration
+- **next.config.docker.mjs**: Next.js configuration for Docker

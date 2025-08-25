@@ -1,8 +1,3 @@
----
-description: 
-globs: 
-alwaysApply: false
----
 # Application Structure
 
 This document outlines the structure of the Next.js application and key entry points.
@@ -11,9 +6,9 @@ This document outlines the structure of the Next.js application and key entry po
 
 The application uses Next.js App Router with a split between website and Sanity Studio routes:
 
-- **[src/app/(website)](mdc:src/app/(website))**: Public-facing website routes
-- **[src/app/(sanity)](mdc:src/app/(sanity))**: Sanity Studio admin routes
-- **[src/app/api](mdc:src/app/api)**: API routes for various functionalities
+- **src/app/(website)**: Public-facing website routes
+- **src/app/(sanity)**: Sanity Studio admin routes
+- **src/app/api**: API routes for various functionalities
 
 ## Key Routes
 
@@ -28,8 +23,8 @@ The application uses Next.js App Router with a split between website and Sanity 
 
 Authentication is handled through NextAuth with various providers and credentials authentication:
 
-- **[src/auth.ts](mdc:src/auth.ts)**: Main authentication configuration
-- **[src/auth.config.ts](mdc:src/auth.config.ts)**: Auth providers and callbacks
+- **src/auth.ts**: Main authentication configuration
+- **src/auth.config.ts**: Auth providers and callbacks
 
 ## Components Organization
 
@@ -51,5 +46,5 @@ The application follows these data flow patterns:
 
 ## Middleware
 
-- **[src/middleware.ts](mdc:src/middleware.ts)**: Handles authentication, redirects, and other middleware functionality
-- **[src/routes.ts](mdc:src/routes.ts)**: Defines route configurations and access control
+- **src/middleware.ts**: Handles authentication, redirects, and other middleware functionality
+- **src/routes.ts**: Defines route configurations and access control

@@ -1,8 +1,3 @@
----
-description: 
-globs: 
-alwaysApply: false
----
 # Project Overview
 
 Mkdirs is a directory website template that allows users to launch AI-powered directory websites in minutes. It comes packed with features like AI integration, listings, payment processing, submission forms, CMS, blog, authentication, newsletter, SEO optimization, and theming support.

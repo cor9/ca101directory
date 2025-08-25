@@ -1,28 +1,23 @@
----
-description: 
-globs: 
-alwaysApply: false
----
 # Sanity CMS Integration
 
 This document outlines how Sanity CMS is integrated into the Mkdirs template.
 
 ## Configuration Files
 
-- **[sanity.config.ts](mdc:sanity.config.ts)**: Main Sanity configuration file
-- **[sanity.cli.ts](mdc:sanity.cli.ts)**: CLI configuration for Sanity
-- **[sanity-typegen.json](mdc:sanity-typegen.json)**: Configuration for type generation
-- **[schema.json](mdc:schema.json)**: Generated Sanity schemas in JSON format
-- **[sanity.types.ts](mdc:sanity.types.ts)**: Generated TypeScript types for Sanity schemas
+- **sanity.config.ts**: Main Sanity configuration file
+- **sanity.cli.ts**: CLI configuration for Sanity
+- **sanity-typegen.json**: Configuration for type generation
+- **schema.json**: Generated Sanity schemas in JSON format
+- **sanity.types.ts**: Generated TypeScript types for Sanity schemas
 
 ## Schema Structure
 
 The Sanity schema is organized in the `src/sanity` directory:
 
-- **[src/sanity/schemas](mdc:src/sanity/schemas)**: Contains all content type definitions
-- **[src/sanity/lib](mdc:src/sanity/lib)**: Utility functions for working with Sanity
-- **@src/sanity/plugins**: Additional plugins for Sanity Studio
-- **@src/sanity/components**: Custom components in Sanity Studio
+- **src/sanity/schemas**: Contains all content type definitions
+- **src/sanity/lib**: Utility functions for working with Sanity
+- **src/sanity/plugins**: Additional plugins for Sanity Studio
+- **src/sanity/components**: Custom components in Sanity Studio
 
 ## Content Types
 

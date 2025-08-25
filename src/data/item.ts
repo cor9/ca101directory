@@ -2,7 +2,7 @@ import { ITEMS_PER_PAGE, SHOW_QUERY_LOGS } from "@/lib/constants";
 import type { Item, ItemListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { itemSimpleFields } from "@/sanity/lib/queries";
-import { ItemInfo } from "@/types";
+import type { ItemInfo } from "@/types";
 
 /**
  * get item by id
@@ -133,10 +133,10 @@ const buildQuery = (
     .filter(Boolean)
     .join(" ");
   const collectionCondition = collection
-    ? `&& "${collection}" in collections[]->slug.current`
+    ? `&& references(*[_type == "collection" && slug.current == "${collection}"]._id)`
     : "";
   const categoryCondition = category
-    ? `&& "${category}" in categories[]->slug.current`
+    ? `&& references(*[_type == "category" && slug.current == "${category}"]._id)`
     : "";
   // condition for single tag
   // const tagCondition = tag ? `&& "${tag}" in tags[]->slug.current` : "";

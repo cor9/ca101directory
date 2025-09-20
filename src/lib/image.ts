@@ -1,56 +1,50 @@
-import { dataset, projectId } from "@/sanity/lib/api";
-import createImageUrlBuilder from "@sanity/image-url";
-
 /**
- * https://www.sanity.io/docs/image-url
+ * Simplified image utilities for Child Actor 101 Directory
+ * Since we're using Airtable, images are direct URLs
  */
-const imageBuilder = createImageUrlBuilder({
-  projectId: projectId || "",
-  dataset: dataset || "",
-});
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export const urlForImage = (source: any) => {
-  if (!source || !source.asset) return;
-  const dimensions = source?.asset?._ref.split("-")[2];
-
-  const [width, height] = dimensions
-    .split("x")
-    .map((num: string) => Number.parseInt(num, 10));
-
-  // NOTICE: width is limited to 500px to avoid performance issues caused by large images
-  // you can increase this number if you want to have higher quality images
-  const url = imageBuilder
-    .image(source)
-    .auto("format")
-    .width(Math.min(width, 1000))
-    .url();
-
-  return {
-    src: url,
-    width: width,
-    height: height,
-  };
+  // For Airtable, source is a direct URL string
+  if (typeof source === 'string') {
+    return {
+      src: source,
+      width: 800, // Default width
+      height: 600, // Default height
+    };
+  }
+  
+  // Fallback for Sanity-style objects (if any remain)
+  if (source && source.asset) {
+    return {
+      src: source.asset._ref || source.asset.url,
+      width: 800,
+      height: 600,
+    };
+  }
+  
+  return null;
 };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export const urlForIcon = (source: any) => {
-  if (!source || !source.asset) return;
-  const dimensions = source?.asset?._ref.split("-")[2];
-
-  const [width, height] = dimensions
-    .split("x")
-    .map((num: string) => Number.parseInt(num, 10));
-
-  const url = imageBuilder
-    .image(source)
-    .auto("format")
-    .width(Math.min(width, 64))
-    .url();
-
-  return {
-    src: url,
-    width: width,
-    height: height,
-  };
+  // For Airtable, source is a direct URL string
+  if (typeof source === 'string') {
+    return {
+      src: source,
+      width: 64,
+      height: 64,
+    };
+  }
+  
+  // Fallback for Sanity-style objects (if any remain)
+  if (source && source.asset) {
+    return {
+      src: source.asset._ref || source.asset.url,
+      width: 64,
+      height: 64,
+    };
+  }
+  
+  return null;
 };

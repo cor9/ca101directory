@@ -1,12 +1,12 @@
 import { ItemCardSkeleton } from "@/components/item/item-card";
 import { ITEMS_PER_PAGE, SUPPORT_ITEM_ICON } from "@/lib/constants";
-import type { ItemListQueryResult, SponsorItemListQueryResult } from "@/sanity.types";
+import type { ItemInfo } from "@/types";
 import { ItemCard2Skeleton } from "./item-card-2";
 import ItemGridClient from "./item-grid-client";
 
 interface ItemGridProps {
-  items: ItemListQueryResult;
-  sponsorItems: SponsorItemListQueryResult;
+  items: ItemInfo[];
+  sponsorItems: any[]; // Disabled for now
   showSponsor?: boolean;
 }
 

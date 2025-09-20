@@ -36,5 +36,13 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# idea
-/.idea/
+# Airtable exports
+airtable csvs/
+*.csv
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db

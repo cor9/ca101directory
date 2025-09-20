@@ -5,37 +5,27 @@ export const faqConfig: FAQConfig = {
   items: [
   {
     id: "item-1",
-    question: "Is it free to submit my product?",
+    question: "How do I get listed in the Child Actor 101 Directory?",
     answer:
-      "Yes, it is. \nYou can submit your product for free to get 3 dofollow links to boost your SEO. \nHowever, the free plan has limitations:\n" +
-      "- Reviewed and listed within 72 hours\n" +
-      "- Requires a backlink to our site\n" +
-      "- No customer support",
+      "Getting listed is easy! Simply choose a plan that fits your needs (Basic $29/month, Pro $49/month, Premium $99/month, or 101 Badge Add-on $25), complete payment, and fill out our submission form. Our team will review your application within 72 hours.",
   },
   {
     id: "item-2",
-    question: "What are the benefits of the Pro plan?",
+    question: "What makes a professional '101 Approved'?",
     answer:
-      "The Pro plan offers several benefits:\n" +
-      "- At least 3 dofollow links\n" +
-      "- Immediate listing, or publish it whenever you want\n" +
-      "- Permanent links with no backlink requirement\n" +
-      "- Featured in listings with an award icon\n" +
-      "- Promotion through our social media and newsletters\n" +
-      "- Premium customer support",
+      "Our 101 Approved badge is given to professionals who meet our high standards for working with young actors. This includes proper certifications, background checks, experience with children, and positive references from families. We personally vet each application.",
   },
   {
     id: "item-3",
-    question:
-      "The differences between Free and Pro plans?",
+    question: "What's the difference between the plans?",
     answer:
-      "Free plan submissions are reviewed and listed within 72 hours, a backlink to our site is required. \nWhile Pro plan submissions are included immediately, no backlink is required. \nBoth plans can be launched whenever you want and update product information anytime.",
+      "Basic ($29/month) gets you a public listing with basic contact info. Pro ($49/month) adds featured placement, logo display, and SEO boosting. Premium ($99/month) includes the 101 Badge if qualified, priority placement, and advanced analytics. The 101 Badge Add-on ($25) adds our trusted badge to existing listings.",
   },
   {
     id: "item-4",
-    question: "Do I need to provide a backlink for my listing?",
+    question: "How do parents find professionals in the directory?",
     answer:
-      `For the Free plan, a backlink to our site is required. \nThe backlink is <a href='${siteConfig.url}' class='underline text-primary' title='${siteConfig.name}'>${siteConfig.url}</a>. \nHowever, if you choose the Pro plan, you get a permanent link without any backlink requirement.`,
+      "Parents can browse by category (Acting Coaches, Headshot Photographers, Demo Reel Editors, etc.), filter by location, age range, virtual services, and more. Featured professionals appear at the top, and 101 Approved professionals have special badges for easy identification.",
     },
   ],
 };

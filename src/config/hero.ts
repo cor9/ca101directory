@@ -2,14 +2,14 @@ import type { HeroConfig } from "@/types";
 
 export const heroConfig: HeroConfig = {
   title: {
-    first: "The Best",
-    second: "Directory Website Template",
+    first: "Find Trusted Acting Professionals",
+    second: "for Your Child",
   },
   subtitle:
-    "This is a demo directory website built with Mkdirs",
+    "A curated directory of vetted coaches, photographers, editors, and industry professionals specializing in youth acting. Every listing is hand-picked for quality and safety.",
   label: {
-    text: "Introducing Mkdirs on",
-    href: "https://x.com/javayhu",
-    icon: "twitter",
+    text: "Trusted by 1000+ families",
+    href: "",
+    icon: "star",
   },
 };

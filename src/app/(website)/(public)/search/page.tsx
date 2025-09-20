@@ -2,20 +2,17 @@ import ItemGrid from "@/components/item/item-grid";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
-import { getItems } from "@/data/item";
+import { getItems } from "@/data/airtable-item";
 import {
   DEFAULT_SORT,
   ITEMS_PER_PAGE,
   SORT_FILTER_LIST,
 } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
-import type { SponsorItemListQueryResult } from "@/sanity.types";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { sponsorItemListQuery } from "@/sanity/lib/queries";
 
 export const metadata = constructMetadata({
-  title: "Search",
-  description: "Search for your needs",
+  title: "Child Actor 101 Directory",
+  description: "Find trusted acting professionals for your child",
   canonicalUrl: `${siteConfig.url}/search`,
 });
 
@@ -26,13 +23,10 @@ export default async function SearchPage({
 }) {
   console.log("SearchPage, searchParams", searchParams);
 
-  const sponsorItems =
-    (await sanityFetch<SponsorItemListQueryResult>({
-      query: sponsorItemListQuery,
-    })) || [];
-  // console.log("SearchPage, sponsorItems", sponsorItems);
-  const showSponsor = true;
-  const hasSponsorItem = showSponsor && sponsorItems.length > 0;
+  // No sponsor items for now - we'll implement this later if needed
+  const sponsorItems: any[] = [];
+  const showSponsor = false;
+  const hasSponsorItem = false;
 
   const {
     category,
@@ -57,7 +51,6 @@ export default async function SearchPage({
   });
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
   console.log("SearchPage, totalCount", totalCount, ", totalPages", totalPages);
-  // console.log('SearchPage, items', items);
 
   return (
     <div>

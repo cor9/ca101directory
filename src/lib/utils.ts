@@ -128,6 +128,11 @@ export function getItemTargetLinkInWebsite(item: ItemInfo) {
     return item.affiliateLink;
   }
 
+  // Return a default link if item.link is undefined or empty
+  if (!item.link) {
+    return "#";
+  }
+
   try {
     const utmParams = new URLSearchParams({
       utm_source: siteConfig.utm.source,
@@ -146,7 +151,7 @@ export function getItemTargetLinkInWebsite(item: ItemInfo) {
       item.link,
       error,
     );
-    return item.link;
+    return item.link || "#";
   }
 }
 

@@ -10,6 +10,6 @@ export const heroConfig: HeroConfig = {
   label: {
     text: "Trusted by 1000+ families",
     href: "",
-    icon: "star",
+    icon: "home",
   },
 };

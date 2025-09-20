@@ -1,11 +1,15 @@
 import Airtable from 'airtable';
 
-// Initialize Airtable
-const airtable = new Airtable({
-  apiKey: process.env.AIRTABLE_API_KEY!,
-});
+// Initialize Airtable only if API key is available
+let airtable: Airtable | null = null;
+let base: Airtable.Base | null = null;
 
-const base = airtable.base(process.env.AIRTABLE_BASE_ID!);
+if (process.env.AIRTABLE_API_KEY && process.env.AIRTABLE_BASE_ID) {
+  airtable = new Airtable({
+    apiKey: process.env.AIRTABLE_API_KEY,
+  });
+  base = airtable.base(process.env.AIRTABLE_BASE_ID);
+}
 
 // Types for our data
 export interface Listing {
@@ -75,6 +79,11 @@ function recordToCategory(record: any): Category {
 
 // API functions
 export async function getListings(): Promise<Listing[]> {
+  if (!base) {
+    console.warn('Airtable not initialized - returning empty listings');
+    return [];
+  }
+  
   try {
     const records = await base('Listings')
       .select({
@@ -91,6 +100,11 @@ export async function getListings(): Promise<Listing[]> {
 }
 
 export async function getListingById(id: string): Promise<Listing | null> {
+  if (!base) {
+    console.warn('Airtable not initialized - returning null');
+    return null;
+  }
+  
   try {
     const record = await base('Listings').find(id);
     return recordToListing(record);
@@ -101,6 +115,11 @@ export async function getListingById(id: string): Promise<Listing | null> {
 }
 
 export async function getCategories(): Promise<Category[]> {
+  if (!base) {
+    console.warn('Airtable not initialized - returning empty categories');
+    return [];
+  }
+  
   try {
     const records = await base('Categories')
       .select()
@@ -114,6 +133,11 @@ export async function getCategories(): Promise<Category[]> {
 }
 
 export async function createListing(data: Partial<Listing>): Promise<string | null> {
+  if (!base) {
+    console.warn('Airtable not initialized - cannot create listing');
+    return null;
+  }
+  
   try {
     const record = await base('Listings').create({
       'Business Name': data.businessName,

@@ -8,47 +8,84 @@ import type { ItemInfo } from "@/types";
 function listingToItem(listing: Listing): ItemInfo {
   return {
     _id: listing.id,
-    _type: "item",
+    _createdAt: listing.dateSubmitted,
     name: listing.businessName,
-    description: listing.description,
-    introduction: listing.servicesOffered || listing.description,
     slug: {
+      _type: "slug" as const,
       current: listing.businessName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
     },
-    publishDate: listing.dateApproved || listing.dateSubmitted,
+    description: listing.description,
+    link: listing.website || '',
+    affiliateLink: null,
+    sponsor: false,
+    sponsorStartDate: null,
+    sponsorEndDate: null,
+    note: null,
     featured: listing.featured,
-    sponsor: false, // We'll handle sponsors separately
-    forceHidden: listing.status !== 'Approved',
-    logo: listing.logo ? {
+    icon: listing.logo ? {
       asset: {
         _ref: listing.logo,
-        _type: "reference"
-      }
-    } : undefined,
-    gallery: listing.gallery?.map(url => ({
+        _type: "reference" as const
+      },
+      hotspot: null,
+      crop: null,
+      alt: `${listing.businessName} logo`,
+      _type: "image" as const,
+      blurDataURL: null,
+      imageColor: null,
+    } : null,
+    image: listing.gallery && listing.gallery.length > 0 ? {
       asset: {
-        _ref: url,
-        _type: "reference"
-      }
-    })) || [],
-    category: listing.category.map(cat => ({
-      _ref: cat.toLowerCase().replace(/\s+/g, '-'),
-      _type: "reference"
+        _ref: listing.gallery[0],
+        _type: "reference" as const
+      },
+      hotspot: null,
+      crop: null,
+      alt: `${listing.businessName} image`,
+      _type: "image" as const,
+      blurDataURL: null,
+      imageColor: null,
+    } : null,
+    publishDate: listing.dateApproved || listing.dateSubmitted,
+    paid: listing.plan !== 'Basic',
+    order: null,
+    pricePlan: listing.plan.toLowerCase() as any,
+    freePlanStatus: listing.status.toLowerCase() as any,
+    proPlanStatus: null,
+    sponsorPlanStatus: null,
+    rejectionReason: null,
+    collections: [],
+    categories: listing.category.map(cat => ({
+      _id: cat.toLowerCase().replace(/\s+/g, '-'),
+      _type: "category" as const,
+      _createdAt: listing.dateSubmitted,
+      _updatedAt: listing.dateSubmitted,
+      _rev: '',
+      name: cat,
+      slug: {
+        _type: "slug" as const,
+        current: cat.toLowerCase().replace(/\s+/g, '-'),
+      },
+      description: null,
+      group: null,
+      priority: null,
     })),
     tags: listing.ageRange.map(age => ({
-      _ref: age.toLowerCase().replace(/\s+/g, '-'),
-      _type: "reference"
+      _id: age.toLowerCase().replace(/\s+/g, '-'),
+      _type: "tag" as const,
+      _createdAt: listing.dateSubmitted,
+      _updatedAt: listing.dateSubmitted,
+      _rev: '',
+      name: age,
+      slug: {
+        _type: "slug" as const,
+        current: age.toLowerCase().replace(/\s+/g, '-'),
+      },
+      description: null,
+      priority: null,
     })),
-    // Custom fields for Child Actor 101
-    location: listing.location,
-    virtual: listing.virtual,
-    ageRange: listing.ageRange,
-    plan: listing.plan,
-    approved101: listing.approved101,
-    website: listing.website,
-    instagram: listing.instagram,
-    email: listing.email,
-    phone: listing.phone,
+    submitter: null,
+    related: [],
   } as ItemInfo;
 }
 

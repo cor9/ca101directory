@@ -2,16 +2,13 @@ import ItemGrid from "@/components/item/item-grid";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
-import { getItems } from "@/data/item";
+import { getItems } from "@/data/airtable-item";
 import {
   DEFAULT_SORT,
   ITEMS_PER_PAGE,
   SORT_FILTER_LIST,
 } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
-import type { SponsorItemListQueryResult } from "@/sanity.types";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { sponsorItemListQuery } from "@/sanity/lib/queries";
 
 export const metadata = constructMetadata({
   title: "",
@@ -25,13 +22,10 @@ export default async function HomePage({
 }) {
   console.log("HomePage, searchParams", searchParams);
 
-  const sponsorItems =
-    (await sanityFetch<SponsorItemListQueryResult>({
-      query: sponsorItemListQuery,
-    })) || [];
-  // console.log("HomePage, sponsorItems", sponsorItems);
-  const showSponsor = true;
-  const hasSponsorItem = showSponsor && sponsorItems.length > 0;
+  // For now, we don't have sponsor items in Airtable
+  const sponsorItems: any[] = [];
+  const showSponsor = false; // Disable sponsor items for now
+  const hasSponsorItem = false;
 
   const {
     category,

@@ -4,11 +4,21 @@ import Airtable from 'airtable';
 let airtable: Airtable | null = null;
 let base: Airtable.Base | null = null;
 
-if (process.env.AIRTABLE_API_KEY && process.env.AIRTABLE_BASE_ID) {
-  airtable = new Airtable({
-    apiKey: process.env.AIRTABLE_API_KEY,
-  });
-  base = airtable.base(process.env.AIRTABLE_BASE_ID);
+// Check if environment variables are available
+const hasAirtableConfig = process.env.AIRTABLE_API_KEY && process.env.AIRTABLE_BASE_ID;
+
+if (hasAirtableConfig) {
+  try {
+    airtable = new Airtable({
+      apiKey: process.env.AIRTABLE_API_KEY,
+    });
+    base = airtable.base(process.env.AIRTABLE_BASE_ID);
+    console.log('✅ Airtable initialized successfully');
+  } catch (error) {
+    console.warn('❌ Airtable initialization failed:', error);
+  }
+} else {
+  console.warn('⚠️ Airtable not configured - missing API key or base ID');
 }
 
 // Types for our data

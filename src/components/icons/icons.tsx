@@ -1,6 +1,8 @@
 import {
   ArrowRightIcon,
+  CameraIcon,
   CreditCardIcon,
+  ExternalLinkIcon,
   FileTextIcon,
   HomeIcon,
   LayoutDashboardIcon,
@@ -9,10 +11,14 @@ import {
   Loader2Icon,
   type LucideIcon,
   MailIcon,
+  MicIcon,
   SearchIcon,
   SettingsIcon,
+  StarIcon,
   TagsIcon,
-  UploadIcon
+  UploadIcon,
+  UsersIcon,
+  VideoIcon,
 } from "lucide-react";
 import { FaBrandsGitHub } from "../icons/github";
 import { FaBrandsGoogle } from "../icons/google";
@@ -46,6 +52,15 @@ export const Icons = {
   settings: SettingsIcon,
   studio: LayoutListIcon,
   email: MailIcon,
+
+  // new icons for category grid and featured listings
+  theater: LayoutGridIcon, // Using LayoutGridIcon as theater icon
+  camera: CameraIcon,
+  video: VideoIcon,
+  users: UsersIcon,
+  star: StarIcon,
+  mic: MicIcon,
+  externalLink: ExternalLinkIcon,
 
   github: FaBrandsGitHub,
   google: FaBrandsGoogle,

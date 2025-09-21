@@ -1,7 +1,7 @@
 "use server";
 
-import { currentUser } from "@/lib/auth";
 import { createListing } from "@/lib/airtable";
+import { currentUser } from "@/lib/auth";
 import type { SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { SubmitSchema } from "@/lib/schemas";
 import { FreePlanStatus, PricePlans } from "@/lib/submission";
@@ -86,7 +86,11 @@ export async function submit(
     // Revalidate the submit page
     revalidatePath("/submit");
 
-    return { status: "success", message: "Successfully submitted listing", id: listingId };
+    return {
+      status: "success",
+      message: "Successfully submitted listing",
+      id: listingId,
+    };
   } catch (error) {
     console.log("submit, error", error);
     return { status: "error", message: "Failed to submit" };

@@ -52,7 +52,7 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     isUserTypingRef.current = true;
     setSearchQuery(e.target.value);
-    
+
     // Reset the flag to allow updates after URL changes (but give enough time to complete the current input)
     setTimeout(() => {
       isUserTypingRef.current = false;
@@ -63,7 +63,7 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
     <div className="flex items-center justify-center">
       <Input
         type="text"
-        placeholder="Search any products you need"
+        placeholder="Search for acting coaches, photographers, editors..."
         autoComplete="off"
         value={searchQuery}
         onChange={handleSearch}

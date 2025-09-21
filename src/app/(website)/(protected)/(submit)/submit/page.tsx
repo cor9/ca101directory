@@ -36,54 +36,52 @@ export default async function SubmitPage() {
   };
 
   // For now, we'll use empty tags since we're using age ranges in Airtable
-  const tagList = {
-    tags: [
-      {
-        _id: "5-8",
-        _type: "tag" as const,
-        _createdAt: new Date().toISOString(),
-        _updatedAt: new Date().toISOString(),
-        _rev: "",
-        name: "5-8",
-        slug: { _type: "slug" as const, current: "5-8" },
-        description: null,
-        priority: null,
-      },
-      {
-        _id: "9-12",
-        _type: "tag" as const,
-        _createdAt: new Date().toISOString(),
-        _updatedAt: new Date().toISOString(),
-        _rev: "",
-        name: "9-12",
-        slug: { _type: "slug" as const, current: "9-12" },
-        description: null,
-        priority: null,
-      },
-      {
-        _id: "13-17",
-        _type: "tag" as const,
-        _createdAt: new Date().toISOString(),
-        _updatedAt: new Date().toISOString(),
-        _rev: "",
-        name: "13-17",
-        slug: { _type: "slug" as const, current: "13-17" },
-        description: null,
-        priority: null,
-      },
-      {
-        _id: "18+",
-        _type: "tag" as const,
-        _createdAt: new Date().toISOString(),
-        _updatedAt: new Date().toISOString(),
-        _rev: "",
-        name: "18+",
-        slug: { _type: "slug" as const, current: "18-plus" },
-        description: null,
-        priority: null,
-      },
-    ],
-  };
+  const tagList = [
+    {
+      _id: "5-8",
+      _type: "tag" as const,
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: "",
+      name: "5-8",
+      slug: { _type: "slug" as const, current: "5-8" },
+      description: null,
+      priority: null,
+    },
+    {
+      _id: "9-12",
+      _type: "tag" as const,
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: "",
+      name: "9-12",
+      slug: { _type: "slug" as const, current: "9-12" },
+      description: null,
+      priority: null,
+    },
+    {
+      _id: "13-17",
+      _type: "tag" as const,
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: "",
+      name: "13-17",
+      slug: { _type: "slug" as const, current: "13-17" },
+      description: null,
+      priority: null,
+    },
+    {
+      _id: "18+",
+      _type: "tag" as const,
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: "",
+      name: "18+",
+      slug: { _type: "slug" as const, current: "18-plus" },
+      description: null,
+      priority: null,
+    },
+  ];
 
   return <AirtableSubmitForm tagList={tagList} categoryList={categoryList} />;
 }

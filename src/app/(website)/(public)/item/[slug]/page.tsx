@@ -10,14 +10,14 @@ export async function generateMetadata({
 }): Promise<Metadata | undefined> {
   return constructMetadata({
     title: "Listing Details - Coming Soon",
-    description: "Listing detail page coming soon with Airtable integration",
+    description: "Listing detail pages coming soon with Airtable integration",
     canonicalUrl: `${siteConfig.url}/item/${params.slug}`,
   });
 }
 
 /**
  * Item detail page - temporarily disabled while migrating to Airtable
- * This will be re-implemented with Airtable integration to show individual listing details
+ * This will be re-implemented with Airtable integration
  */
 export default async function ItemDetailPage({
   params,

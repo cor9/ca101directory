@@ -17,23 +17,21 @@ export default async function SubmitPage() {
   const categories = await getCategories();
 
   // Convert Airtable categories to the format expected by SubmitForm
-  const categoryList = {
-    categories: categories.map((cat) => ({
-      _id: cat.id,
-      _type: "category" as const,
-      _createdAt: new Date().toISOString(),
-      _updatedAt: new Date().toISOString(),
-      _rev: "",
-      name: cat.categoryName,
-      slug: {
-        _type: "slug" as const,
-        current: cat.categoryName.toLowerCase().replace(/\s+/g, "-"),
-      },
-      description: cat.description || null,
-      group: null,
-      priority: null,
-    })),
-  };
+  const categoryList = categories.map((cat) => ({
+    _id: cat.id,
+    _type: "category" as const,
+    _createdAt: new Date().toISOString(),
+    _updatedAt: new Date().toISOString(),
+    _rev: "",
+    name: cat.categoryName,
+    slug: {
+      _type: "slug" as const,
+      current: cat.categoryName.toLowerCase().replace(/\s+/g, "-"),
+    },
+    description: cat.description || null,
+    group: null,
+    priority: null,
+  }));
 
   // For now, we'll use empty tags since we're using age ranges in Airtable
   const tagList = [

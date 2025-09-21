@@ -14,6 +14,11 @@ export default function MinimalHomePage() {
         <li>AIRTABLE_BASE_ID: {process.env.AIRTABLE_BASE_ID ? '✅ Configured' : '❌ Missing'}</li>
       </ul>
       
+      <h2>OAuth Status:</h2>
+      <div style={{ background: '#e7f3ff', padding: '10px', border: '1px solid #b3d9ff', borderRadius: '5px', margin: '20px 0' }}>
+        <strong>🔄 OAuth Approval in Progress:</strong> Google and Facebook OAuth providers are temporarily disabled while waiting for approval (can take 48+ hours). Email/password authentication is available.
+      </div>
+      
       {!process.env.AIRTABLE_API_KEY && (
         <div style={{ background: '#fff3cd', padding: '10px', border: '1px solid #ffeaa7', borderRadius: '5px', margin: '20px 0' }}>
           <strong>⚠️ Configuration Required:</strong> Environment variables are not configured. 

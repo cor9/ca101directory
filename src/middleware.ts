@@ -13,9 +13,8 @@ import NextAuth from "next-auth";
  */
 
 // Check if required environment variables are available
-const hasAuthConfig = process.env.NEXTAUTH_SECRET && 
-  process.env.GOOGLE_CLIENT_ID && 
-  process.env.GOOGLE_CLIENT_SECRET;
+// Only require NEXTAUTH_SECRET for basic auth (OAuth providers temporarily disabled)
+const hasAuthConfig = process.env.NEXTAUTH_SECRET;
 
 let auth: any = null;
 

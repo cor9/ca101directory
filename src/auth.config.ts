@@ -2,12 +2,14 @@ import { SHOW_QUERY_LOGS } from "@/lib/constants";
 import { LoginSchema } from "@/lib/schemas";
 import { AuthError, type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import Facebook from "next-auth/providers/facebook";
-import Google from "next-auth/providers/google";
+// Temporarily disabled while waiting for OAuth approval (can take 48+ hours)
+// import Facebook from "next-auth/providers/facebook";
+// import Google from "next-auth/providers/google";
 
 /**
  * Auth config for Child Actor 101 Directory
- * Supports Google, Facebook, and email authentication
+ * Temporarily using only email/password authentication while OAuth providers are being approved
+ * OAuth approval can take 48+ hours for Google and Facebook
  */
 export default {
   // https://authjs.dev/getting-started/migrating-to-v5#environment-variables
@@ -18,19 +20,20 @@ export default {
   // passed to the app by the proxy to auto-detect the host URL (AUTH_URL)
   // trustHost: true,
   providers: [
+    // Temporarily disabled - OAuth approval in progress (48+ hours)
     // Google OAuth provider
-    Google({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
+    // Google({
+    //   clientId: process.env.GOOGLE_CLIENT_ID!,
+    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    // }),
 
     // Facebook OAuth provider
-    Facebook({
-      clientId: process.env.FACEBOOK_CLIENT_ID!,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
-    }),
+    // Facebook({
+    //   clientId: process.env.FACEBOOK_CLIENT_ID!,
+    //   clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
+    // }),
 
-    // Email/Password authentication
+    // Email/Password authentication (always available)
     Credentials({
       name: "credentials",
       credentials: {

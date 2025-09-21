@@ -143,3 +143,4 @@ RESEND_API_KEY=your_resend_api_key_here
 - **Template**: MkDirs (customized)
 
 The application is now ready for Airtable setup and deployment!
+

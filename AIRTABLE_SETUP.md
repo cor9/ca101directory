@@ -66,3 +66,4 @@ The Airtable integration is already set up in `/src/lib/airtable.ts` with the fo
 2. Add sample data for testing
 3. Update environment variables
 4. Test the integration
+

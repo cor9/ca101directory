@@ -150,6 +150,10 @@ Ensure all required environment variables are set in Vercel:
 - NextAuth configuration
 - Resend email API key
 
+## Documentation
+- [Context Decisions](FOR CURSOR/CONTEXT_DECISIONS.md)  
+- [Guardrails](FOR CURSOR/GUARDRAILS.md)
+
 ## 📈 Future Features
 
 - **Advanced Search**: Location-based filtering, price ranges

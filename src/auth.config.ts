@@ -23,13 +23,13 @@ export default {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
-    
+
     // Facebook OAuth provider
     Facebook({
       clientId: process.env.FACEBOOK_CLIENT_ID!,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
     }),
-    
+
     // Email/Password authentication
     Credentials({
       name: "credentials",
@@ -49,7 +49,7 @@ export default {
           // 1. Hash passwords properly
           // 2. Store user data in Airtable
           // 3. Implement proper password verification
-          
+
           // Placeholder authentication - replace with Airtable integration
           if (email === "admin@childactor101.com" && password === "admin123") {
             return {

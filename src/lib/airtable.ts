@@ -97,7 +97,8 @@ export async function getListings(): Promise<Listing[]> {
   try {
     const records = await base('Listings')
       .select({
-        filterByFormula: "{Status} = 'Approved'",
+        // Temporarily show all listings for testing
+        // filterByFormula: "{Status} = 'Approved'",
         sort: [{ field: 'Featured', direction: 'desc' }, { field: 'Date Approved', direction: 'desc' }],
       })
       .all();

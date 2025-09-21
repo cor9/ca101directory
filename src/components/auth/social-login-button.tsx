@@ -6,8 +6,8 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { FaBrandsGoogle } from "../icons/google";
 import { FaBrandsFacebook } from "../icons/facebook";
+import { FaBrandsGoogle } from "../icons/google";
 
 /**
  * Social login buttons for Child Actor 101 Directory
@@ -16,7 +16,9 @@ import { FaBrandsFacebook } from "../icons/facebook";
 export const SocialLoginButton = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
-  const [isLoading, setIsLoading] = useState<"google" | "facebook" | null>(null);
+  const [isLoading, setIsLoading] = useState<"google" | "facebook" | null>(
+    null,
+  );
 
   const onClick = async (provider: "google" | "facebook") => {
     setIsLoading(provider);

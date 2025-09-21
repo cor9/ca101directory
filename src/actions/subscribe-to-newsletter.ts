@@ -2,6 +2,7 @@
 
 import { NewsletterWelcomeEmail } from "@/emails/newsletter-welcome";
 import { resend } from "@/lib/mail";
+import { addSubscriberToMailerLite } from "@/lib/mailerlite";
 import { type NewsletterFormData, NewsletterFormSchema } from "@/lib/schemas";
 
 export type ServerActionResponse = {
@@ -18,31 +19,44 @@ export async function subscribeToNewsletter(
       return { status: "error", message: "Invalid input" };
     }
 
-    const subscribedResult = await resend.contacts.create({
+    // Add subscriber to MailerLite
+    const mailerLiteResult = await addSubscriberToMailerLite({
       email: validatedInput.data.email,
-      unsubscribed: false,
-      audienceId: process.env.RESEND_AUDIENCE_ID,
+      fields: {
+        source: 'childactor101-directory',
+        subscribed_at: new Date().toISOString(),
+      }
     });
-    console.log("subscribeToNewsletter, subscribedResult", subscribedResult);
-    const subscribed = !subscribedResult.error;
 
-    if (subscribed) {
+    if (!mailerLiteResult.success) {
+      console.error("MailerLite subscription failed:", mailerLiteResult.error);
+      return { 
+        status: "error", 
+        message: mailerLiteResult.error || "Failed to subscribe to newsletter" 
+      };
+    }
+
+    // Send welcome email via Resend
+    try {
       const emailSentResult = await resend.emails.send({
         from: process.env.RESEND_EMAIL_FROM,
         to: validatedInput.data.email,
-        subject: "Welcome to our newsletter!",
+        subject: "Welcome to Child Actor 101 Directory Newsletter!",
         react: NewsletterWelcomeEmail({ email: validatedInput.data.email }),
       });
-      console.log("subscribeToNewsletter, emailSentResult", emailSentResult);
-      const emailSent = !emailSentResult.error;
-      if (emailSent) {
-        return { status: "success", message: "Subscribed to the newsletter" };
+      
+      if (emailSentResult.error) {
+        console.warn("Welcome email failed to send:", emailSentResult.error);
+        // Don't fail the subscription if email fails
       }
+    } catch (emailError) {
+      console.warn("Welcome email error:", emailError);
+      // Don't fail the subscription if email fails
     }
 
-    return {
-      status: "error",
-      message: "Failed to subscribe to the newsletter",
+    return { 
+      status: "success", 
+      message: "Successfully subscribed to newsletter" 
     };
   } catch (error) {
     console.error("subscribeToNewsletter, error:", error);

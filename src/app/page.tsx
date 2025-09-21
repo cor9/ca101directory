@@ -1,6 +1,9 @@
+import Container from "@/components/container";
+import HomeHero from "@/components/home/home-hero";
 import ItemGrid from "@/components/item/item-grid";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
+import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 import { siteConfig } from "@/config/site";
 import { getItems } from "@/data/airtable-item";
 import {
@@ -52,24 +55,35 @@ export default async function HomePage({
   console.log("HomePage, totalCount", totalCount, ", totalPages", totalPages);
 
   return (
-    <div>
-      {/* when no items are found */}
-      {items?.length === 0 && <EmptyGrid />}
+    <Container className="mt-12 mb-16 flex flex-col gap-12">
+      <HomeHero />
 
-      {/* when items are found */}
-      {items && items.length > 0 && (
-        <section className="">
-          <ItemGrid
-            items={items}
-            sponsorItems={sponsorItems}
-            showSponsor={showSponsor}
-          />
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* right content: item grid */}
+        <div className="flex-1">
+          <div className="flex flex-col gap-8">
+            {/* when no items are found */}
+            {items?.length === 0 && <EmptyGrid />}
 
-          <div className="mt-8 flex items-center justify-center">
-            <CustomPagination routePrefix="/" totalPages={totalPages} />
+            {/* when items are found */}
+            {items && items.length > 0 && (
+              <section className="">
+                <ItemGrid
+                  items={items}
+                  sponsorItems={sponsorItems}
+                  showSponsor={showSponsor}
+                />
+
+                <div className="mt-8 flex items-center justify-center">
+                  <CustomPagination routePrefix="/" totalPages={totalPages} />
+                </div>
+              </section>
+            )}
           </div>
-        </section>
-      )}
-    </div>
+        </div>
+      </div>
+
+      <NewsletterCard />
+    </Container>
   );
 }

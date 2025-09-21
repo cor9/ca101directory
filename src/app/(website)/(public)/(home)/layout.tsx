@@ -1,7 +1,5 @@
 import Container from "@/components/container";
-import { HomeCategoryList } from "@/components/home/home-category-list";
 import HomeHero from "@/components/home/home-hero";
-import { HomeSearchFilter } from "@/components/home/home-search-filter";
 import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 
 export default function HomeLayout({
@@ -12,17 +10,11 @@ export default function HomeLayout({
       <HomeHero />
 
       <div className="flex flex-col md:flex-row gap-8">
-        {/* left sidebar: category list */}
-        <div className="hidden md:block w-[250px] flex-shrink-0">
-          <div className="sticky top-24">
-            <HomeCategoryList urlPrefix="/" />
-          </div>
-        </div>
-
         {/* right content: item grid */}
         <div className="flex-1">
           <div className="flex flex-col gap-8">
-            <HomeSearchFilter urlPrefix="/" />
+            {/* Temporarily disabled HomeSearchFilter and HomeCategoryList due to Sanity dependencies */}
+            {/* These will be re-implemented with Airtable integration */}
             {children}
           </div>
         </div>

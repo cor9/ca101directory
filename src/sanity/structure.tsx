@@ -5,12 +5,10 @@ import {
   CloseCircleIcon,
   CogIcon,
   ColorWheelIcon,
-  ComponentIcon,
   ConfettiIcon,
   DashboardIcon,
   DiamondIcon,
   DocumentTextIcon,
-  DocumentsIcon,
   MasterDetailIcon,
   ProjectsIcon,
   StarFilledIcon,
@@ -28,8 +26,6 @@ import account from "./schemas/documents/auth/account";
 import passwordResetToken from "./schemas/documents/auth/password-reset-token";
 import user from "./schemas/documents/auth/user";
 import verificationToken from "./schemas/documents/auth/verification-token";
-import blogCategory from "./schemas/documents/blog/blog-category";
-import blogPost from "./schemas/documents/blog/blog-post";
 import category from "./schemas/documents/directory/category";
 import collection from "./schemas/documents/directory/collection";
 import group from "./schemas/documents/directory/group";
@@ -313,35 +309,9 @@ export const structure = (
           ),
       );
 
-    // blog categories
-    const allBlogCategories = S.documentTypeListItem(blogCategory.name)
-      .title("All Blog Categories")
-      .icon(ComponentIcon);
-
-    const postsByCategory = S.listItem()
-      .title("Posts By Category")
-      .icon(MasterDetailIcon)
-      .child(
-        S.documentTypeList(blogCategory.name)
-          .title("Posts by Category")
-          .child((categoryId) =>
-            S.documentList()
-              .title("Posts")
-              .filter('_type == "blogPost" && $categoryId in categories[]._ref')
-              .params({ categoryId }),
-          ),
-      );
-
     return S.list()
       .title("Content")
       .items([
-        // pendingSubmissionsInFreePlan,
-        // S.divider(),
-
-        // S.documentTypeListItem(item.name)
-        //   .icon(DashboardIcon),
-        // group the item management
-
         S.listItem()
           .title("Item management")
           .icon(DashboardIcon)
@@ -384,8 +354,6 @@ export const structure = (
               .items([allGroups, categoriesByGroup]),
           ),
 
-        // S.documentTypeListItem(category.name)
-        //   .icon(TiersIcon),
         S.listItem()
           .title("Category management")
           .icon(TiersIcon)
@@ -395,8 +363,6 @@ export const structure = (
               .items([allCategories, itemsByCategory]),
           ),
 
-        // S.documentTypeListItem(tag.name)
-        //   .icon(TagsIcon),
         S.listItem()
           .title("Tag management")
           .icon(TagsIcon)
@@ -404,24 +370,7 @@ export const structure = (
 
         S.divider(),
 
-        S.documentTypeListItem(blogPost.name).icon(DocumentsIcon),
-        // S.documentTypeListItem(blogCategory.name)
-        //   .icon(TiersIcon),
-
-        S.listItem()
-          .title("Blog Category management")
-          .icon(ComponentIcon)
-          .child(
-            S.list()
-              .title("Blog Category management")
-              .items([allBlogCategories, postsByCategory]),
-          ),
-
-        S.divider(),
-
         // group the order management
-        // S.documentTypeListItem(order.name)
-        //   .icon(BillIcon),
         S.listItem()
           .title("Order management")
           .icon(BillIcon)

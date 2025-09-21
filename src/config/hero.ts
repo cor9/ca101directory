@@ -8,8 +8,8 @@ export const heroConfig: HeroConfig = {
   subtitle:
     "A curated directory of vetted coaches, photographers, editors, and industry professionals specializing in youth acting. Every listing is hand-picked for quality and safety.",
   label: {
-    text: "Trusted by 1000+ families",
-    href: "",
-    icon: "home",
+    text: "Child Actor 101 Approved",
+    href: "https://childactor101.com",
+    icon: "star",
   },
 };

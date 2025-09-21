@@ -10,6 +10,7 @@ interface Category {
   count?: number;
 }
 
+// Static categories that match the actual data structure
 const categories: Category[] = [
   {
     name: "Acting Classes & Coaches",
@@ -74,23 +75,23 @@ export default function HomeCategoryGrid() {
               href={`/category/${category.slug}`}
               className="group"
             >
-              <div className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:border-blue-300">
+              <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:border-blue-500 hover:bg-gray-750">
                 <div className="flex items-center mb-4">
-                  <div className="p-3 bg-blue-50 rounded-lg group-hover:bg-blue-100 transition-colors">
-                    <IconComponent className="h-6 w-6 text-blue-600" />
+                  <div className="p-3 bg-blue-600 rounded-lg group-hover:bg-blue-500 transition-colors">
+                    <IconComponent className="h-6 w-6 text-white" />
                   </div>
                   <div className="ml-4 flex-1">
-                    <h3 className="font-semibold text-lg group-hover:text-blue-600 transition-colors">
+                    <h3 className="font-semibold text-lg text-white group-hover:text-blue-400 transition-colors">
                       {category.name}
                     </h3>
                     {category.count && (
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-gray-400">
                         {category.count} professionals
                       </p>
                     )}
                   </div>
                 </div>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-gray-300 text-sm">
                   {category.description}
                 </p>
               </div>

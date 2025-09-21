@@ -150,7 +150,7 @@ export function AirtableSubmitForm({
 
     setIsAIProcessing(true);
     try {
-      const result = await fetchWebsite({ url: link });
+      const result = await fetchWebsite(link);
       if (result.status === "success" && result.data) {
         const { name, description, introduction } = result.data;
 

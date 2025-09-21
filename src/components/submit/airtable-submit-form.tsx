@@ -30,10 +30,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { SUPPORT_AI_SUBMIT, SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { SubmitSchema } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
-import type {
-  CategoryListQueryResult,
-  TagListQueryResult,
-} from "@/sanity.types";
+// Removed Sanity types - now using custom interfaces
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SmileIcon, Wand2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -41,9 +38,34 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+interface TagItem {
+  _id: string;
+  _type: string;
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  slug: { _type: string; current: string };
+  description: string | null;
+  priority: string | null;
+}
+
+interface CategoryItem {
+  _id: string;
+  _type: string;
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  slug: { _type: string; current: string };
+  description: string | null;
+  group: string | null;
+  priority: string | null;
+}
+
 interface AirtableSubmitFormProps {
-  tagList: any[];
-  categoryList: any[];
+  tagList: TagItem[];
+  categoryList: CategoryItem[];
 }
 
 /**

@@ -3,6 +3,7 @@ export default function MinimalHomePage() {
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', maxWidth: '800px', margin: '0 auto' }}>
       <h1>🎭 Child Actor 101 Directory</h1>
       <p>Find trusted acting professionals for your child's acting career.</p>
+      <p><strong>Domain:</strong> https://directory.childactor101.com</p>
       
       <h2>Status: Under Construction</h2>
       <p>We're currently setting up our directory. Please check back soon!</p>

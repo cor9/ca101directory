@@ -1,6 +1,6 @@
 import type { SiteConfig } from "@/types";
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
 
 export const siteConfig: SiteConfig = {
   name: "Child Actor 101 Directory",
@@ -29,7 +29,7 @@ export const siteConfig: SiteConfig = {
   image: `${SITE_URL}/og.png?v=1`,
   mail: "hello@childactor101.com",
   utm: {
-    source: "childactor101.com",
+    source: "directory.childactor101.com",
     medium: "referral",
     campaign: "navigation",
   },

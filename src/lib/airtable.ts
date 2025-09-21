@@ -54,7 +54,7 @@ export interface Category {
 }
 
 // Helper function to convert Airtable record to our interface
-function recordToListing(record: any): Listing {
+function recordToListing(record: Airtable.Record<any>): Listing {
   return {
     id: record.id,
     businessName: record.get("Listing Name") || "",
@@ -79,7 +79,7 @@ function recordToListing(record: any): Listing {
   };
 }
 
-function recordToCategory(record: any): Category {
+function recordToCategory(record: Airtable.Record<any>): Category {
   return {
     id: record.id,
     categoryName: record.get("Category Name") || "",
@@ -99,9 +99,7 @@ export async function getListings(): Promise<Listing[]> {
     const records = await base("Listings")
       .select({
         filterByFormula: "{Status} = 'Live'",
-        sort: [
-          { field: "Listing Name", direction: "asc" },
-        ],
+        sort: [{ field: "Listing Name", direction: "asc" }],
       })
       .all();
 
@@ -168,9 +166,9 @@ export async function createListing(
     const record = await base("Listings").create({
       "Listing Name": data.businessName,
       "Form Submitted": true,
-      "Reviewed": false,
-      "Approved": false,
-      "Status": "Pending",
+      Reviewed: false,
+      Approved: false,
+      Status: "Pending",
       "Converted Paid Listing": "",
     });
 

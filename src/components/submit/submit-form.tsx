@@ -203,7 +203,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                     <div className="relative">
                       <FormControl>
                         <Input
-                          placeholder="Enter the link to your product"
+                          placeholder="Enter your business website URL"
                           className={cn(SUPPORT_AI_SUBMIT && "pr-[100px]")}
                           {...field}
                         />
@@ -263,7 +263,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                     <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Enter the name of your product"
+                        placeholder="Enter your business name"
                         {...field}
                       />
                     </FormControl>
@@ -303,7 +303,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                 name="tags"
                 render={({ field }) => (
                   <FormItem className="flex-1">
-                    <FormLabel>Tags</FormLabel>
+                    <FormLabel>Age Range</FormLabel>
                     <FormControl>
                       <MultiSelect
                         className="shadow-none"
@@ -313,9 +313,9 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                         }))}
                         onValueChange={(selected) => field.onChange(selected)}
                         value={field.value}
-                        placeholder="Select tags"
+                        placeholder="Select age ranges you work with"
                         variant="default"
-                        maxCount={3}
+                        maxCount={4}
                       />
                     </FormControl>
                     <FormMessage />
@@ -332,7 +332,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter a brief description of your product"
+                      placeholder="Describe your business and services for child actors"
                       {...field}
                       className="resize-none"
                     />
@@ -349,7 +349,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                 <FormItem>
                   <FormLabel>
                     <div className="flex items-center justify-between gap-4">
-                      <span>Introduction</span>
+                      <span>Services Offered</span>
                       <span className="text-xs text-muted-foreground">
                         (Markdown supported)
                       </span>
@@ -372,7 +372,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                     <FormItem className="flex-1">
                       <FormLabel>
                         <div className="flex items-center justify-between gap-4">
-                          <span>Icon</span>
+                          <span>Business Logo</span>
                           <span className="text-xs text-muted-foreground">
                             (1:1, PNG or JPEG, max 1MB)
                           </span>
@@ -399,7 +399,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                   <FormItem className="flex-1">
                     <FormLabel>
                       <div className="flex items-center justify-between gap-4">
-                        <span>Image</span>
+                        <span>Gallery Images</span>
                         <span className="text-xs text-muted-foreground">
                           (16:9, PNG or JPEG, max 1MB)
                         </span>

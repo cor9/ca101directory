@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 export const metadata = constructMetadata({
   title: "Tags - Coming Soon",
-  description: "Tag functionality coming soon with Airtable integration",
+  description: "Tag listing coming soon with Airtable integration",
   canonicalUrl: `${siteConfig.url}/tag`,
 });
 
@@ -12,7 +12,7 @@ export const metadata = constructMetadata({
  * Tag listing page - temporarily disabled while migrating to Airtable
  * Tag functionality will be re-implemented with Airtable integration
  */
-export default async function TagPage() {
+export default async function TagListingPage() {
   // Temporarily return 404 until Airtable integration is complete
   return notFound();
 }

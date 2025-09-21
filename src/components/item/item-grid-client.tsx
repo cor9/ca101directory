@@ -1,12 +1,12 @@
 import ItemCard from "@/components/item/item-card";
 import { SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { checkValidSponsor } from "@/lib/utils";
-import type { ItemListQueryResult } from "@/sanity.types";
+import type { ItemInfo } from "@/types";
 import ItemCard2 from "./item-card-2";
 import SponsorItemCard from "./item-card-sponsor";
 
 interface ItemGridClientProps {
-  items: ItemListQueryResult;
+  items: ItemInfo[];
 }
 
 /**

@@ -1,19 +1,99 @@
 import type { Icons } from "@/components/icons/icons";
-import type {
-  BlogPostListQueryResult,
-  CollectionListQueryResult,
-  ItemFullInfoBySlugQueryResult,
-  ItemListQueryResult,
-} from "@/sanity.types";
 
-// Itme
-export type ItemInfo = ItemListQueryResult[number];
+// Custom ItemInfo type for Airtable integration (no Sanity dependency)
+export type ItemInfo = {
+  _id: string;
+  _createdAt: string;
+  name: string;
+  slug: {
+    _type: "slug";
+    current?: string;
+  };
+  description: string;
+  link: string;
+  affiliateLink: string | null;
+  sponsor: boolean;
+  sponsorStartDate: string | null;
+  sponsorEndDate: string | null;
+  note: string | null;
+  featured: boolean;
+  icon: {
+    asset: {
+      _ref: string;
+      _type: "reference";
+    };
+    hotspot: any;
+    crop: any;
+    alt: string;
+    _type: "image";
+    blurDataURL: string | null;
+    imageColor: string | null;
+  } | null;
+  image: {
+    asset: {
+      _ref: string;
+      _type: "reference";
+    };
+    hotspot: any;
+    crop: any;
+    alt: string;
+    _type: "image";
+    blurDataURL: string | null;
+    imageColor: string | null;
+  } | null;
+  publishDate: string;
+  paid: boolean;
+  order: number | null;
+  pricePlan: string;
+  freePlanStatus: string;
+  proPlanStatus: string | null;
+  sponsorPlanStatus: string | null;
+  rejectionReason: string | null;
+  collections: any[];
+  categories: Array<{
+    _id: string;
+    _type: "category";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name: string;
+    slug: {
+      _type: "slug";
+      current: string;
+    };
+    description: string | null;
+    group: string | null;
+    priority: number | null;
+  }>;
+  tags: Array<{
+    _id: string;
+    _type: "tag";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name: string;
+    slug: {
+      _type: "slug";
+      current: string;
+    };
+    description: string | null;
+    priority: number | null;
+  }>;
+  submitter: any;
+  related?: any[];
+};
+
 // ItemFullInfo has more fields (eg. introduction and related items)
-export type ItemFullInfo = ItemFullInfoBySlugQueryResult;
-// Blog
-export type BlogPostInfo = BlogPostListQueryResult[number];
-// Collection
-export type CollectionInfo = CollectionListQueryResult[number];
+export type ItemFullInfo = ItemInfo & {
+  introduction?: string;
+  related?: ItemInfo[];
+};
+
+// Blog (disabled for now)
+export type BlogPostInfo = any;
+
+// Collection (disabled for now)
+export type CollectionInfo = any;
 
 export type SiteConfig = {
   name: string;

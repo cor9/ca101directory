@@ -42,14 +42,17 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 interface AirtableSubmitFormProps {
-  tagList: TagListQueryResult;
-  categoryList: CategoryListQueryResult;
+  tagList: any[];
+  categoryList: any[];
 }
 
 /**
  * Airtable-style submission form matching the exact structure and helper text
  */
-export function AirtableSubmitForm({ tagList, categoryList }: AirtableSubmitFormProps) {
+export function AirtableSubmitForm({
+  tagList,
+  categoryList,
+}: AirtableSubmitFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [isUploading, setIsUploading] = useState(false);
@@ -128,11 +131,11 @@ export function AirtableSubmitForm({ tagList, categoryList }: AirtableSubmitForm
       const result = await fetchWebsite({ url: link });
       if (result.status === "success" && result.data) {
         const { name, description, introduction } = result.data;
-        
+
         if (name) form.setValue("name", name);
         if (description) form.setValue("description", description);
         if (introduction) form.setValue("introduction", introduction);
-        
+
         toast.success("AI fetch website info completed!");
       } else {
         toast.error("Failed to fetch website info");
@@ -149,22 +152,27 @@ export function AirtableSubmitForm({ tagList, categoryList }: AirtableSubmitForm
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">The 101 Directory Vendor Intake Submission Form</h1>
-        <p className="text-muted-foreground">To be included as a listing in the Child Actor 101 Resource Directory</p>
+        <h1 className="text-3xl font-bold mb-2">
+          The 101 Directory Vendor Intake Submission Form
+        </h1>
+        <p className="text-muted-foreground">
+          To be included as a listing in the Child Actor 101 Resource Directory
+        </p>
       </div>
 
       <Form {...form}>
         <form onSubmit={onSubmit}>
           <Card className="overflow-hidden">
             <CardContent className="mt-6 space-y-8">
-              
               {/* Listing Name */}
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg font-semibold">Listing Name</FormLabel>
+                    <FormLabel className="text-lg font-semibold">
+                      Listing Name
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="What is the name of your business?"
@@ -182,7 +190,9 @@ export function AirtableSubmitForm({ tagList, categoryList }: AirtableSubmitForm
                 name="link"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg font-semibold">Website</FormLabel>
+                    <FormLabel className="text-lg font-semibold">
+                      Website
+                    </FormLabel>
                     <div className="relative">
                       <FormControl>
                         <Input
@@ -212,14 +222,22 @@ export function AirtableSubmitForm({ tagList, categoryList }: AirtableSubmitForm
                             <DialogHeader>
                               <DialogTitle>AI Autofill</DialogTitle>
                               <DialogDescription>
-                                Would you like AI to automatically fill in the form by the URL? It may take some time, so please wait patiently.
+                                Would you like AI to automatically fill in the
+                                form by the URL? It may take some time, so
+                                please wait patiently.
                               </DialogDescription>
                             </DialogHeader>
                             <div className="flex justify-end gap-2">
-                              <Button variant="outline" onClick={() => setDialogOpen(false)}>
+                              <Button
+                                variant="outline"
+                                onClick={() => setDialogOpen(false)}
+                              >
                                 Cancel
                               </Button>
-                              <Button onClick={handleAIFetch} disabled={isAIProcessing}>
+                              <Button
+                                onClick={handleAIFetch}
+                                disabled={isAIProcessing}
+                              >
                                 {isAIProcessing ? (
                                   <>
                                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -245,7 +263,9 @@ export function AirtableSubmitForm({ tagList, categoryList }: AirtableSubmitForm
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg font-semibold">What You Offer?</FormLabel>
+                    <FormLabel className="text-lg font-semibold">
+                      What You Offer?
+                    </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Briefly describe the main service, class, or product you're listing. Stick to the core of what's being offered."
@@ -272,15 +292,21 @@ export function AirtableSubmitForm({ tagList, categoryList }: AirtableSubmitForm
                 name="introduction"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg font-semibold">Who Is It For?</FormLabel>
+                    <FormLabel className="text-lg font-semibold">
+                      Who Is It For?
+                    </FormLabel>
                     <FormControl>
                       <CustomMde {...field} />
                     </FormControl>
                     <div className="text-sm text-muted-foreground mt-2">
                       <p className="font-medium mb-2">Examples:</p>
                       <ul className="list-disc list-inside space-y-1 ml-4">
-                        <li>"Designed for child actors new to the industry."</li>
-                        <li>"Best for teens looking to up their dramatic range."</li>
+                        <li>
+                          "Designed for child actors new to the industry."
+                        </li>
+                        <li>
+                          "Best for teens looking to up their dramatic range."
+                        </li>
                         <li>"Parents of actors wanting clear, guided help."</li>
                       </ul>
                     </div>
@@ -295,7 +321,9 @@ export function AirtableSubmitForm({ tagList, categoryList }: AirtableSubmitForm
                 name="tags"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg font-semibold">Age Range</FormLabel>
+                    <FormLabel className="text-lg font-semibold">
+                      Age Range
+                    </FormLabel>
                     <FormControl>
                       <MultiSelect
                         className="shadow-none"
@@ -321,7 +349,9 @@ export function AirtableSubmitForm({ tagList, categoryList }: AirtableSubmitForm
                 name="categories"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg font-semibold">Categories</FormLabel>
+                    <FormLabel className="text-lg font-semibold">
+                      Categories
+                    </FormLabel>
                     <FormControl>
                       <MultiSelect
                         className="shadow-none"
@@ -347,7 +377,9 @@ export function AirtableSubmitForm({ tagList, categoryList }: AirtableSubmitForm
                   name={"iconId" as keyof SubmitFormData}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-lg font-semibold">Profile Image</FormLabel>
+                      <FormLabel className="text-lg font-semibold">
+                        Profile Image
+                      </FormLabel>
                       <FormControl>
                         <div className="mt-4 w-full h-[370px]">
                           <ImageUpload
@@ -359,7 +391,10 @@ export function AirtableSubmitForm({ tagList, categoryList }: AirtableSubmitForm
                       </FormControl>
                       <div className="text-sm text-muted-foreground mt-2">
                         <p>Link to your logo or desired image</p>
-                        <p className="italic">Example: https://coaching.childactor101.com/coachlogo.png</p>
+                        <p className="italic">
+                          Example:
+                          https://coaching.childactor101.com/coachlogo.png
+                        </p>
                       </div>
                       <FormMessage />
                     </FormItem>
@@ -369,32 +404,41 @@ export function AirtableSubmitForm({ tagList, categoryList }: AirtableSubmitForm
 
               {/* Legal Requirements Section */}
               <div className="border-t pt-6 mt-8">
-                <h3 className="text-lg font-semibold mb-4">Legal Requirements</h3>
-                
+                <h3 className="text-lg font-semibold mb-4">
+                  Legal Requirements
+                </h3>
+
                 <div className="space-y-4">
                   <div className="p-4 bg-blue-50 rounded-lg">
-                    <h4 className="font-medium mb-2">California Child Performer Services Permit</h4>
+                    <h4 className="font-medium mb-2">
+                      California Child Performer Services Permit
+                    </h4>
                     <p className="text-sm text-muted-foreground mb-2">
-                      Required by California law for anyone providing services to minors in entertainment.
+                      Required by California law for anyone providing services
+                      to minors in entertainment.
                     </p>
-                    <a 
-                      href="https://www.dir.ca.gov/dlse/Child_performer_services_permit.htm" 
-                      target="_blank" 
+                    <a
+                      href="https://www.dir.ca.gov/dlse/Child_performer_services_permit.htm"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline text-sm"
                     >
-                      More Info: https://www.dir.ca.gov/dlse/Child_performer_services_permit.htm
+                      More Info:
+                      https://www.dir.ca.gov/dlse/Child_performer_services_permit.htm
                     </a>
                   </div>
 
                   <div className="p-4 bg-green-50 rounded-lg">
-                    <h4 className="font-medium mb-2">Bonded For Advanced Fees</h4>
+                    <h4 className="font-medium mb-2">
+                      Bonded For Advanced Fees
+                    </h4>
                     <p className="text-sm text-muted-foreground mb-2">
-                      If you charge fees upfront for future services, California law requires a $50,000 bond on file.
+                      If you charge fees upfront for future services, California
+                      law requires a $50,000 bond on file.
                     </p>
-                    <a 
-                      href="https://www.childactor101.com/ab1319" 
-                      target="_blank" 
+                    <a
+                      href="https://www.childactor101.com/ab1319"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-green-600 hover:underline text-sm"
                     >
@@ -403,7 +447,6 @@ export function AirtableSubmitForm({ tagList, categoryList }: AirtableSubmitForm
                   </div>
                 </div>
               </div>
-
             </CardContent>
             <CardFooter
               className={cn(

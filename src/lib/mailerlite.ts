@@ -1,21 +1,30 @@
-import MailerLite from 'mailerlite';
+import MailerLite from "mailerlite";
 
 // Initialize MailerLite only if API key is available
 let mailerLite: MailerLite | null = null;
+let isInitialized = false;
 
-const hasMailerLiteConfig = process.env.MAILERLITE_API_KEY;
+function initializeMailerLite() {
+  if (isInitialized) return;
+  
+  const hasMailerLiteConfig = process.env.MAILERLITE_API_KEY;
 
-if (hasMailerLiteConfig) {
-  try {
-    mailerLite = new MailerLite({
-      api_key: process.env.MAILERLITE_API_KEY,
-    });
-    console.log('✅ MailerLite initialized successfully');
-  } catch (error) {
-    console.warn('❌ MailerLite initialization failed:', error);
+  if (hasMailerLiteConfig) {
+    try {
+      mailerLite = new MailerLite({
+        api_key: process.env.MAILERLITE_API_KEY,
+      });
+      console.log("✅ MailerLite initialized successfully");
+    } catch (error) {
+      console.warn("❌ MailerLite initialization failed:", error);
+      mailerLite = null;
+    }
+  } else {
+    console.warn("⚠️ MailerLite not configured - missing API key");
+    mailerLite = null;
   }
-} else {
-  console.warn('⚠️ MailerLite not configured - missing API key');
+  
+  isInitialized = true;
 }
 
 export interface SubscriberData {
@@ -24,40 +33,45 @@ export interface SubscriberData {
   fields?: Record<string, any>;
 }
 
-export async function addSubscriberToMailerLite(data: SubscriberData): Promise<{ success: boolean; error?: string }> {
+export async function addSubscriberToMailerLite(
+  data: SubscriberData,
+): Promise<{ success: boolean; error?: string }> {
+  // Initialize MailerLite if not already done
+  initializeMailerLite();
+  
   if (!mailerLite) {
-    console.warn('MailerLite not initialized - cannot add subscriber');
-    return { success: false, error: 'MailerLite not configured' };
+    console.warn("MailerLite not initialized - cannot add subscriber");
+    return { success: false, error: "MailerLite not configured" };
   }
 
   try {
     // Get the default group (or you can specify a group ID)
     const groups = await mailerLite.groups.get();
     const defaultGroup = groups.data?.[0];
-    
+
     if (!defaultGroup) {
-      return { success: false, error: 'No groups found in MailerLite' };
+      return { success: false, error: "No groups found in MailerLite" };
     }
 
     // Add subscriber to the group
     const subscriber = await mailerLite.subscribers.create({
       email: data.email,
-      name: data.name || '',
+      name: data.name || "",
       groups: [defaultGroup.id],
       fields: data.fields || {},
     });
 
-    console.log('✅ Subscriber added to MailerLite:', subscriber);
+    console.log("✅ Subscriber added to MailerLite:", subscriber);
     return { success: true };
   } catch (error: any) {
-    console.error('❌ Error adding subscriber to MailerLite:', error);
-    
+    console.error("❌ Error adding subscriber to MailerLite:", error);
+
     // Handle specific MailerLite errors
     if (error.response?.data?.error?.message) {
       return { success: false, error: error.response.data.error.message };
     }
-    
-    return { success: false, error: 'Failed to add subscriber' };
+
+    return { success: false, error: "Failed to add subscriber" };
   }
 }
 

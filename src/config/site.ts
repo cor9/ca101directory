@@ -1,11 +1,11 @@
 import type { SiteConfig } from "@/types";
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
 
 export const siteConfig: SiteConfig = {
   name: "Child Actor 101 Directory",
-  tagline:
-    "Find Trusted Acting Professionals for Your Child",
+  tagline: "Find Trusted Acting Professionals for Your Child",
   description:
     "A curated directory of vetted coaches, photographers, editors, and industry professionals specializing in youth acting. Every listing is hand-picked for quality and safety.",
   keywords: [

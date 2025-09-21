@@ -10,16 +10,16 @@ export async function generateMetadata({
 }): Promise<Metadata | undefined> {
   return constructMetadata({
     title: "Tag - Coming Soon",
-    description: "Tag functionality coming soon with Airtable integration",
+    description: "Tag pages coming soon with Airtable integration",
     canonicalUrl: `${siteConfig.url}/tag/${params.slug}`,
   });
 }
 
 /**
- * Tag detail page - temporarily disabled while migrating to Airtable
- * Tag functionality will be re-implemented with Airtable integration
+ * Tag page - temporarily disabled while migrating to Airtable
+ * This will be re-implemented with Airtable integration
  */
-export default async function TagDetailPage({
+export default async function TagPage({
   params,
 }: {
   params: { slug: string };

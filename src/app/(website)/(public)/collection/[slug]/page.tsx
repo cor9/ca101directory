@@ -10,14 +10,14 @@ export async function generateMetadata({
 }): Promise<Metadata | undefined> {
   return constructMetadata({
     title: "Collection - Coming Soon",
-    description: "Collection feature coming soon with Airtable integration",
+    description: "Collection pages coming soon with Airtable integration",
     canonicalUrl: `${siteConfig.url}/collection/${params.slug}`,
   });
 }
 
 /**
  * Collection page - temporarily disabled while migrating to Airtable
- * Collections are not part of the core Child Actor 101 Directory functionality
+ * This will be re-implemented with Airtable integration
  */
 export default async function CollectionPage({
   params,

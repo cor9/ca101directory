@@ -57,26 +57,25 @@ export interface Category {
 function recordToListing(record: any): Listing {
   return {
     id: record.id,
-    businessName: record.get("Business Name") || "",
-    email: record.get("Email") || "",
-    phone: record.get("Phone") || "",
-    website: record.get("Website"),
-    instagram: record.get("Instagram"),
-    servicesOffered: record.get("Services Offered"),
-    description: record.get("Description") || "",
-    category: record.get("Category") || [],
-    gallery:
-      record.get("Gallery")?.map((attachment: any) => attachment.url) || [],
-    logo: record.get("Logo")?.[0]?.url,
-    location: record.get("Location") || "",
-    virtual: record.get("Virtual") || false,
-    ageRange: record.get("Age Range") || [],
-    plan: record.get("Plan") || "Basic",
-    featured: record.get("Featured") || false,
-    approved101: record.get("101 Approved") || false,
+    businessName: record.get("Listing Name") || "",
+    email: "", // Not in current CSV structure
+    phone: "", // Not in current CSV structure
+    website: "", // Not in current CSV structure
+    instagram: "", // Not in current CSV structure
+    servicesOffered: "", // Not in current CSV structure
+    description: "", // Not in current CSV structure
+    category: [], // Not in current CSV structure
+    gallery: [], // Not in current CSV structure
+    logo: "", // Not in current CSV structure
+    location: "", // Not in current CSV structure
+    virtual: false, // Not in current CSV structure
+    ageRange: [], // Not in current CSV structure
+    plan: "Basic", // Not in current CSV structure
+    featured: false, // Not in current CSV structure
+    approved101: record.get("Approved") || false,
     status: record.get("Status") || "Pending",
-    dateSubmitted: record.get("Date Submitted") || "",
-    dateApproved: record.get("Date Approved"),
+    dateSubmitted: record.get("Form Submitted") ? new Date().toISOString() : "",
+    dateApproved: record.get("Approved") ? new Date().toISOString() : "",
   };
 }
 
@@ -99,27 +98,26 @@ export async function getListings(): Promise<Listing[]> {
   try {
     const records = await base("Listings")
       .select({
-        filterByFormula: "{Status} = 'Approved'",
+        filterByFormula: "{Status} = 'Live'",
         sort: [
-          { field: "Featured", direction: "desc" },
-          { field: "Date Approved", direction: "desc" },
+          { field: "Listing Name", direction: "asc" },
         ],
       })
       .all();
 
     console.log(`✅ Found ${records.length} approved listings in Airtable`);
     const listings = records.map(recordToListing);
-    
+
     // Log first few listings for debugging
     if (listings.length > 0) {
       console.log("Sample approved listing:", {
         id: listings[0].id,
         businessName: listings[0].businessName,
         status: listings[0].status,
-        featured: listings[0].featured
+        featured: listings[0].featured,
       });
     }
-    
+
     return listings;
   } catch (error) {
     console.error("Error fetching listings:", error);
@@ -168,19 +166,12 @@ export async function createListing(
 
   try {
     const record = await base("Listings").create({
-      "Business Name": data.businessName,
-      Email: data.email,
-      Phone: data.phone,
-      Website: data.website,
-      Instagram: data.instagram,
-      "Services Offered": data.servicesOffered,
-      Description: data.description,
-      Location: data.location,
-      Virtual: data.virtual || false,
-      "Age Range": data.ageRange || [],
-      Plan: data.plan || "Basic",
-      Status: "Pending",
-      "Date Submitted": new Date().toISOString(),
+      "Listing Name": data.businessName,
+      "Form Submitted": true,
+      "Reviewed": false,
+      "Approved": false,
+      "Status": "Pending",
+      "Converted Paid Listing": "",
     });
 
     return record.id;

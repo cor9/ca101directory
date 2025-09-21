@@ -4,7 +4,7 @@ export const SHOW_QUERY_LOGS = false;
 // NOTE: if you set true, you should make sure the AI provider
 // and the API_KEY is set in the env variables.
 // if something is wrong in AI submit, you can set false to disable it.
-export const SUPPORT_AI_SUBMIT = false;
+export const SUPPORT_AI_SUBMIT = true;
 // support category group, default is true (aka, show category group)
 // NOTE: if you set true, you should make sure each category belongs to a group
 // if you set false, the category will be shown in the root level

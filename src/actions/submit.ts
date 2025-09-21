@@ -1,11 +1,11 @@
 "use server";
 
 import { currentUser } from "@/lib/auth";
+import { createListing } from "@/lib/airtable";
 import type { SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { SubmitSchema } from "@/lib/schemas";
 import { FreePlanStatus, PricePlans } from "@/lib/submission";
 import { slugify } from "@/lib/utils";
-import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
 
 type BaseSubmitFormData = {
@@ -54,86 +54,39 @@ export async function submit(
     const iconId = "iconId" in rest ? rest.iconId : undefined;
     console.log("submit, name:", name, "link:", link);
 
-    let slug = slugify(name);
-    // check if the slug already exists
-    const existingItem = await sanityClient.fetch(
-      `*[_type == "item" && slug.current == $slug][0]`,
-      { slug },
-    );
-    if (existingItem) {
-      const slugLink = slugify(link.replace(/^https?:\/\//, ""));
-      slug = `${slug}-${slugLink}`;
-    }
-
-    const data = {
-      _type: "item",
-      name,
-      slug: {
-        _type: "slug",
-        current: slug,
-      },
-      link,
-      description,
-      introduction,
-      publishDate: null,
-
-      paid: false,
-      pricePlan: PricePlans.FREE,
-      freePlanStatus: FreePlanStatus.SUBMITTING,
-      submitter: {
-        _type: "reference",
-        _ref: user.id,
-      },
-
-      // The _key only needs to be unique within the array itself
-      tags: tags.map((tag, index) => ({
-        _type: "reference",
-        _ref: tag,
-        _key: index.toString(),
-      })),
-      categories: categories.map((category, index) => ({
-        _type: "reference",
-        _ref: category,
-        _key: index.toString(),
-      })),
-      image: {
-        _type: "image",
-        alt: `image of ${name}`,
-        asset: {
-          _type: "reference",
-          _ref: imageId,
-        },
-      },
-      icon: iconId
-        ? {
-            _type: "image",
-            alt: `icon of ${name}`,
-            asset: {
-              _type: "reference",
-              _ref: iconId,
-            },
-          }
-        : undefined,
+    // Create listing in Airtable
+    const listingData = {
+      businessName: name,
+      email: user.email || "",
+      phone: "", // Will be filled in payment step
+      website: link,
+      description: description,
+      servicesOffered: introduction,
+      category: categories, // Array of category names
+      ageRange: tags, // Array of age range tags
+      location: "", // Will be filled in payment step
+      virtual: false,
+      plan: "Basic" as const,
+      featured: false,
+      approved101: false,
+      status: "Pending" as const,
+      dateSubmitted: new Date().toISOString(),
     };
 
-    // console.log("submit, data:", data);
+    console.log("submit, creating listing in Airtable:", listingData);
 
-    const res = await sanityClient.create(data);
-    if (!res) {
-      console.log("submit, fail");
-      return { status: "error", message: "Failed to submit" };
+    const listingId = await createListing(listingData);
+    if (!listingId) {
+      console.log("submit, failed to create listing in Airtable");
+      return { status: "error", message: "Failed to submit listing" };
     }
 
-    // console.log("submit, success, res:", res);
+    console.log("submit, success, listingId:", listingId);
 
-    // Next.js has a Client-side Router Cache that stores the route segments in the user's browser for a time.
-    // Along with prefetching, this cache ensures that users can quickly navigate between routes
-    // while reducing the number of requests made to the server.
-    // Since you're updating the data displayed in the invoices route, you want to clear this cache and trigger a new request to the server.
-    // You can do this with the revalidatePath function from Next.js.
+    // Revalidate the submit page
     revalidatePath("/submit");
 
-    return { status: "success", message: "Successfully created", id: res._id };
+    return { status: "success", message: "Successfully submitted listing", id: listingId };
   } catch (error) {
     console.log("submit, error", error);
     return { status: "error", message: "Failed to submit" };

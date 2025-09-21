@@ -34,11 +34,11 @@ export default function middleware(req: any) {
     const isPublicRoute = publicRoutes.some((route) =>
       new RegExp(`^${route}$`).test(nextUrl.pathname),
     );
-    
+
     if (isPublicRoute) {
       return null; // Allow access to public routes
     }
-    
+
     // For non-public routes, redirect to homepage
     return Response.redirect(new URL("/", nextUrl));
   }

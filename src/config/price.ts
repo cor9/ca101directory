@@ -13,13 +13,10 @@ export const priceConfig: PriceConfig = {
         "Reviewed and approved within 72 hours",
         "Standard customer support",
       ],
-      limitations: [
-        "No featured placement",
-        "No logo display",
-      ],
+      limitations: ["No featured placement", "No logo display"],
       price: 29,
       priceSuffix: "/month",
-      stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_BASIC,
+      stripePriceId: process.env.NEXT_PUBLIC_STRIPE_BASIC,
     },
     {
       title: "Pro",
@@ -35,7 +32,7 @@ export const priceConfig: PriceConfig = {
       limitations: [],
       price: 49,
       priceSuffix: "/month",
-      stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO,
+      stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRO,
     },
     {
       title: "Premium",
@@ -51,7 +48,7 @@ export const priceConfig: PriceConfig = {
       limitations: [],
       price: 99,
       priceSuffix: "/month",
-      stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PREMIUM,
+      stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PREMIUM,
     },
     {
       title: "101 Badge Add-On",
@@ -62,13 +59,10 @@ export const priceConfig: PriceConfig = {
         "One-time payment",
         "Instant activation",
       ],
-      limitations: [
-        "Requires existing listing",
-        "Must meet 101 standards",
-      ],
+      limitations: ["Requires existing listing", "Must meet 101 standards"],
       price: 25,
       priceSuffix: " one-time",
-      stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_ADDON,
+      stripePriceId: process.env.NEXT_PUBLIC_STRIPE_ADDON,
     },
   ],
 };

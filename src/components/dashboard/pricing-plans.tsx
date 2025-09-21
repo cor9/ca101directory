@@ -2,6 +2,7 @@
 
 import { FreePlanButton } from "@/components/payment/free-plan-button";
 import { ProPlanButton } from "@/components/payment/pro-plan-button";
+import { StripeDirectButton } from "@/components/payment/stripe-direct-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { priceConfig } from "@/config/price";
 import { PricePlans } from "@/lib/submission";
@@ -18,7 +19,7 @@ export function PricingPlans({ item }: PricingPlansProps) {
   // console.log('PricingPlans, item:', item);
   return (
     <section className="flex flex-col items-center text-center w-full mx-auto">
-      <div className="grid gap-8 w-full sm:grid-cols-1 lg:grid-cols-3 items-center">
+      <div className="grid gap-8 w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-start max-w-7xl">
         {priceConfig.plans.map((pricePlan) => (
           <PricingPlanCard
             item={item}
@@ -38,70 +39,67 @@ interface PricingPlanCardProps {
 
 const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
   return (
-    <div className="relative pt-4">
+    <div className="relative">
       {isProPlan(pricePlan) && (
-        <div className="absolute top-0.5 left-1/2 transform -translate-x-1/2 z-10">
-          <div className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold">
-            POPULAR
+        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+          <div className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+            Most Popular
           </div>
         </div>
       )}
       <div
         className={cn(
-          "relative overflow-hidden flex flex-col rounded-xl shadow-sm",
-          isProPlan(pricePlan) ? "border-2 border-primary" : "border",
+          "relative overflow-hidden flex flex-col rounded-xl shadow-sm bg-white",
+          isProPlan(pricePlan)
+            ? "border-2 border-blue-500 shadow-lg"
+            : "border border-gray-200",
         )}
       >
         {/* price plan title and price */}
-        <div className="bg-muted/50 p-6 pr-10 border-b flex flex-row items-center justify-between">
-          <span className="text-2xl font-bold uppercase tracking-wider">
-            {pricePlan.title}
-          </span>
-          <div className="flex items-baseline gap-2">
-            <div className="text-4xl font-semibold font-workSans leading-relaxed text-primary">
+        <div className="p-6 text-center border-b border-gray-100">
+          <h3 className="text-xl font-semibold mb-2">{pricePlan.title}</h3>
+          <div className="flex items-baseline justify-center gap-1">
+            <div className="text-3xl font-bold text-gray-900">
               ${pricePlan.price}
             </div>
-            <div className="text-sm font-semibold font-workSans leading-relaxed text-muted-foreground">
-              {pricePlan.priceSuffix}
-            </div>
+            <div className="text-sm text-gray-500">{pricePlan.priceSuffix}</div>
           </div>
+          <p className="text-sm text-gray-600 mt-2">{pricePlan.description}</p>
         </div>
 
         {/* price plan features and limitations */}
-        <div className="flex flex-col flex-grow px-6 py-8">
-          <div className="flex-grow space-y-4">
-            <div className="grid grid-cols-1 gap-4 text-left text-sm leading-normal">
+        <div className="flex flex-col flex-grow px-6 py-6">
+          <div className="flex-grow space-y-3">
+            <div className="grid grid-cols-1 gap-3 text-left text-sm">
               {pricePlan.benefits.map((feature) => (
-                <div key={feature} className="flex items-start gap-x-4">
-                  <CheckIcon className="text-primary size-4 shrink-0 text-primary-500 mt-0.5" />
-                  <p>{feature}</p>
+                <div key={feature} className="flex items-start gap-x-3">
+                  <CheckIcon className="text-green-600 size-4 shrink-0 mt-0.5" />
+                  <p className="text-gray-700">{feature}</p>
                 </div>
               ))}
 
               {pricePlan.limitations.map((feature) => (
-                <div key={feature} className="flex items-start gap-x-4">
-                  <XIcon className="size-4 shrink-0 mt-0.5" />
-                  <p className="text-muted-foreground">{feature}</p>
+                <div key={feature} className="flex items-start gap-x-3">
+                  <XIcon className="size-4 shrink-0 mt-0.5 text-gray-400" />
+                  <p className="text-gray-500">{feature}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* action buttons */}
-          <div className="mt-12 px-6">
+          <div className="mt-8">
             {pricePlan.title.toUpperCase() === PricePlans.FREE.toUpperCase() ? (
               <FreePlanButton item={item} className="w-full" />
-            ) : pricePlan.title.toUpperCase() === PricePlans.SPONSOR.toUpperCase() ? (
-              <SponsorPlanButton 
-                item={item}
-                pricePlan={pricePlan}
-                className="w-full" />
-            ) : (
-              <ProPlanButton
+            ) : pricePlan.title.toUpperCase() ===
+              PricePlans.SPONSOR.toUpperCase() ? (
+              <SponsorPlanButton
                 item={item}
                 pricePlan={pricePlan}
                 className="w-full"
               />
+            ) : (
+              <StripeDirectButton pricePlan={pricePlan} className="w-full" />
             )}
           </div>
         </div>

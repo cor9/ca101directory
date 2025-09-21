@@ -117,12 +117,12 @@ RESEND_API_KEY=your_resend_api_key_here
 ## 📁 Key Files Modified
 
 - `/src/lib/airtable.ts` - Airtable integration
-- `/src/data/airtable-item.ts` - Data layer for Airtable
+- `/src/data/airtable-item.ts` - Data layer for AirtableA
 - `/src/config/site.ts` - Site configuration
 - `/src/config/hero.ts` - Hero section
 - `/src/config/marketing.ts` - Navigation
 - `/src/config/faq.ts` - FAQ content
-- `/src/config/price.ts` - Pricing plans
+- `/src/config/price.ts` - Pricing plansnanop
 - `/src/app/(website)/(public)/search/page.tsx` - Directory page
 - `/src/app/(website)/(public)/listing/[slug]/page.tsx` - Listing detail page
 
@@ -132,7 +132,7 @@ RESEND_API_KEY=your_resend_api_key_here
 - **Tagline**: Find Trusted Acting Professionals for Your Child
 - **Colors**: Ready for chalkboard green, pastel blue, soft gold theme
 - **Content**: All text updated for Child Actor 101
-- **Navigation**: Streamlined for directory functionality
+- **Navigation**: Streamlined for directory functionalityna
 
 ## 🔧 Technical Stack
 

@@ -6,8 +6,9 @@ import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
-  title: "Pricing",
-  description: "Choose a pricing plan for submitting your product",
+  title: "Pricing Plans - Child Actor 101 Directory",
+  description:
+    "Choose a pricing plan for listing your child actor services. Simple, transparent pricing for professionals.",
   canonicalUrl: `${siteConfig.url}/pricing`,
 });
 
@@ -16,28 +17,36 @@ export default async function PricingPage() {
     <Container className="mt-8 pb-16">
       <div className="w-full flex flex-col gap-16">
         <section className="w-full flex flex-col gap-8 justify-center">
-          <HeaderSection
-            labelAs="h1"
-            label="Pricing"
-            titleAs="h2"
-            title="Choose a pricing plan"
-          />
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold mb-4">
+              Simple, Transparent Pricing
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Choose the perfect plan for your child actor services. All plans
+              include our quality review process and trusted directory listing.
+            </p>
+          </div>
 
           <div className="w-full mx-auto">
             <PricingPlans />
           </div>
 
-          {/* add tips only for Mkdirs demo directory website */}
-          {siteConfig.name === "Directory" && (
-            <p className="text-center text-sm text-muted-foreground leading-normal">
-              This is in <span className="font-bold">TEST</span> environment.
+          <div className="text-center mt-8">
+            <p className="text-sm text-muted-foreground leading-normal">
+              All plans include our{" "}
+              <span className="font-semibold">quality review process</span> and
+              trusted directory listing.
               <br />
-              You can use Stripe test card to simulate the paid submission
-              process.
-              <br />
-              Stripe test card number: 4242 4242 4242 4242
+              Need help choosing?{" "}
+              <a
+                href="mailto:corey@childactor101.com"
+                className="text-blue-600 hover:text-blue-700 font-semibold"
+              >
+                Contact us
+              </a>{" "}
+              for personalized recommendations.
             </p>
-          )}
+          </div>
         </section>
 
         <section className="w-full flex flex-col gap-8 justify-center">

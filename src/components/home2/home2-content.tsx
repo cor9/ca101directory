@@ -1,36 +1,22 @@
-import type {
-  BlogPostListQueryResult,
-  ItemListQueryResult,
-} from "@/sanity.types";
+import type { ItemListQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import {
-  blogPostListOfLatestQuery,
   itemListOfFeaturedQuery,
   itemListOfLatestQuery,
 } from "@/sanity/lib/queries";
-import {
-  ArrowRightIcon,
-  FileTextIcon,
-  SparklesIcon,
-  StarIcon,
-} from "lucide-react";
+import { ArrowRightIcon, SparklesIcon, StarIcon } from "lucide-react";
 import Link from "next/link";
-import BlogGrid from "../blog/blog-grid";
 import ItemGrid2 from "../item/item-grid-2";
 import { Button } from "../ui/button";
 
 export async function HomeContent() {
-  const [featuredItems, latestItems, latestBlogPosts] = await Promise.all([
+  const [featuredItems, latestItems] = await Promise.all([
     sanityFetch<ItemListQueryResult>({
       query: itemListOfFeaturedQuery,
       params: { count: 6 },
     }),
     sanityFetch<ItemListQueryResult>({
       query: itemListOfLatestQuery,
-      params: { count: 6 },
-    }),
-    sanityFetch<BlogPostListQueryResult>({
-      query: blogPostListOfLatestQuery,
       params: { count: 6 },
     }),
   ]);
@@ -47,11 +33,6 @@ export async function HomeContent() {
                 Latest Products
               </h2>
             </div>
-
-            {/* <Link href="/search" className="text-lg group flex items-center gap-2">
-              <span>More</span>
-              <ArrowRightIcon className="size-4 icon-scale" />
-            </Link> */}
           </div>
 
           <ItemGrid2 items={latestItems} />
@@ -78,11 +59,6 @@ export async function HomeContent() {
                 Featured Products
               </h2>
             </div>
-
-            {/* <Link href="/search" className="text-lg group flex items-center gap-2">
-              <span>More</span>
-              <ArrowRightIcon className="size-4 icon-scale" />
-            </Link> */}
           </div>
 
           <ItemGrid2 items={featuredItems} />
@@ -93,37 +69,6 @@ export async function HomeContent() {
               className="text-lg font-semibold px-16 group flex items-center gap-2"
             >
               <span className="tracking-wider">More Featured Products</span>
-              <ArrowRightIcon className="size-4 icon-scale" />
-            </Link>
-          </Button>
-        </div>
-      )}
-
-      {/* latest posts */}
-      {latestBlogPosts && latestBlogPosts.length > 0 && (
-        <div className="flex flex-col gap-8">
-          <div className="flex items-center justify-between gap-8">
-            <div className="flex items-center gap-2">
-              <FileTextIcon className="w-4 h-4 text-indigo-500" />
-              <h2 className="text-lg tracking-wider font-semibold text-gradient_indigo-purple">
-                Latest Posts
-              </h2>
-            </div>
-
-            {/* <Link href="/blog" className="text-lg group flex items-center gap-2">
-              <span>More</span>
-              <ArrowRightIcon className="size-4 icon-scale" />
-            </Link> */}
-          </div>
-
-          <BlogGrid posts={latestBlogPosts} />
-
-          <Button asChild variant="default" size="lg" className="mx-auto">
-            <Link
-              href="/blog"
-              className="text-lg font-semibold px-16 group flex items-center gap-2"
-            >
-              <span className="tracking-wider">More Blog Posts</span>
               <ArrowRightIcon className="size-4 icon-scale" />
             </Link>
           </Button>

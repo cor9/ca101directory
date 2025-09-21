@@ -3,8 +3,6 @@ import passwordResetToken from "./documents/auth/password-reset-token";
 import user from "./documents/auth/user";
 import verificationToken from "./documents/auth/verification-token";
 import blockContent from "./documents/block-content";
-import blogCategory from "./documents/blog/blog-category";
-import blogPost from "./documents/blog/blog-post";
 import category from "./documents/directory/category";
 import collection from "./documents/directory/collection";
 import group from "./documents/directory/group";
@@ -21,10 +19,6 @@ export const schemaTypes = [
   category,
   group,
   collection,
-
-  // blog
-  blogPost,
-  blogCategory,
 
   // page
   page,

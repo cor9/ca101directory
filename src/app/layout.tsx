@@ -23,7 +23,14 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   // https://youtu.be/1MTyCvS05V4?t=21464
-  const session = await auth();
+  let session = null;
+  
+  try {
+    session = await auth();
+  } catch (error) {
+    console.warn("Auth failed in layout:", error);
+    // Continue without session if auth fails
+  }
 
   return (
     <html lang="en" suppressHydrationWarning>

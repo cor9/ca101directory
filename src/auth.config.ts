@@ -2,12 +2,12 @@ import { SHOW_QUERY_LOGS } from "@/lib/constants";
 import { LoginSchema } from "@/lib/schemas";
 import { AuthError, type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import GitHub from "next-auth/providers/github";
+import Facebook from "next-auth/providers/facebook";
 import Google from "next-auth/providers/google";
 
 /**
- * Simplified auth config for Child Actor 101 Directory
- * Authentication will be re-implemented with Airtable when needed
+ * Auth config for Child Actor 101 Directory
+ * Supports Google, Facebook, and email authentication
  */
 export default {
   // https://authjs.dev/getting-started/migrating-to-v5#environment-variables
@@ -18,15 +18,50 @@ export default {
   // passed to the app by the proxy to auto-detect the host URL (AUTH_URL)
   // trustHost: true,
   providers: [
-    // https://authjs.dev/getting-started/authentication/oauth
-    GitHub,
-    Google,
-    // https://authjs.dev/getting-started/authentication/credentials
-    // Simplified credentials provider - authentication disabled for now
+    // Google OAuth provider
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+    
+    // Facebook OAuth provider
+    Facebook({
+      clientId: process.env.FACEBOOK_CLIENT_ID!,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
+    }),
+    
+    // Email/Password authentication
     Credentials({
-      authorize: async (credentials) => {
-        console.log("Authentication disabled - returning null");
-        return null; // Disable authentication for now
+      name: "credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        const validatedFields = LoginSchema.safeParse(credentials);
+
+        if (validatedFields.success) {
+          const { email, password } = validatedFields.data;
+
+          // TODO: Implement Airtable-based user authentication
+          // For now, we'll implement a simple check
+          // In production, you'll want to:
+          // 1. Hash passwords properly
+          // 2. Store user data in Airtable
+          // 3. Implement proper password verification
+          
+          // Placeholder authentication - replace with Airtable integration
+          if (email === "admin@childactor101.com" && password === "admin123") {
+            return {
+              id: "1",
+              email: email,
+              name: "Admin User",
+              role: "ADMIN",
+            };
+          }
+        }
+
+        return null;
       },
     }),
   ],

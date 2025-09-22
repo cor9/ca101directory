@@ -1,12 +1,9 @@
 "use server";
 
-import { signIn } from "@/auth";
-import { getUserByEmail } from "@/data/user";
-import { sendVerificationEmail } from "@/lib/mail";
+import { getUserByEmail } from "@/data/supabase-user";
 import { LoginSchema } from "@/lib/schemas";
-import { generateVerificationToken } from "@/lib/tokens";
+import { supabase } from "@/lib/supabase";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { AuthError } from "next-auth";
 import type * as z from "zod";
 
 export type ServerActionResponse = {
@@ -25,50 +22,36 @@ export async function login(
   }
 
   const { email, password } = validatedFields.data;
-  const existingUser = await getUserByEmail(email);
-  if (!existingUser || !existingUser.email || !existingUser.password) {
-    return { status: "error", message: "User does not exist!" };
-  }
-
-  if (!existingUser.emailVerified) {
-    const verificationToken = await generateVerificationToken(
-      existingUser.email,
-    );
-    await sendVerificationEmail(
-      verificationToken.identifier,
-      verificationToken.token,
-    );
-    return {
-      status: "success",
-      message: "Please check your email for verification",
-    };
-  }
 
   try {
-    console.log("login, start signIn");
-    // https://youtu.be/1MTyCvS05V4?t=9828
-    await signIn("credentials", {
+    // Sign in with Supabase Auth
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
       email,
       password,
-      redirect: false,
-      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
+
+    if (authError) {
+      console.error('Supabase login error:', authError);
+      return { status: "error", message: authError.message };
+    }
+
+    if (!authData.user) {
+      return { status: "error", message: "Login failed" };
+    }
+
+    // Check if user exists in our users table
+    const user = await getUserByEmail(email);
+    if (!user) {
+      return { status: "error", message: "User profile not found" };
+    }
 
     return {
       status: "success",
-      message: "Login success",
+      message: "Login successful",
       redirectUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     };
   } catch (error) {
-    // console.error("login, error:", error);
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          return { status: "error", message: "Invalid credentials!" };
-        default:
-          return { status: "error", message: "Something went wrong!" };
-      }
-    }
+    console.error('Login error:', error);
     return { status: "error", message: "Something went wrong!" };
   }
 }

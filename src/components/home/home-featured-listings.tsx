@@ -44,7 +44,7 @@ const featuredListings: FeaturedListing[] = [
     name: "Coaching with Corey",
     description:
       "Comprehensive acting coaching including private sessions, self-tape services, and career consultations.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
+    image: "https://coaching.childactor101.com/coachlogo.png",
     website: "https://coaching.childactor101.com",
     category: "Acting Classes & Coaches",
     tags: ["Private Coaching", "Self-Tape", "Career Guidance"],
@@ -74,7 +74,11 @@ export default function HomeFeaturedListings() {
                 alt={listing.name}
                 width={400}
                 height={200}
-                className="w-full h-48 object-cover"
+                className={`w-full h-48 object-cover ${
+                  listing.name === "Coaching with Corey" 
+                    ? "bg-gray-800 p-4" 
+                    : ""
+                }`}
               />
               {listing.featured && (
                 <div className="absolute top-4 left-4">
@@ -112,14 +116,23 @@ export default function HomeFeaturedListings() {
                 <span className="text-sm text-muted-foreground">
                   {listing.category}
                 </span>
-                <Link
-                  href={listing.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-700 text-sm font-semibold"
-                >
-                  Visit Website →
-                </Link>
+                {listing.name === "Coaching with Corey" ? (
+                  <Link
+                    href="/item/coaching-with-corey"
+                    className="text-blue-600 hover:text-blue-700 text-sm font-semibold"
+                  >
+                    View Listing →
+                  </Link>
+                ) : (
+                  <Link
+                    href={listing.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-700 text-sm font-semibold"
+                  >
+                    Visit Website →
+                  </Link>
+                )}
               </div>
             </div>
           </div>

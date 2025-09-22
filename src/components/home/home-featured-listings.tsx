@@ -75,8 +75,8 @@ export default function HomeFeaturedListings() {
                 width={400}
                 height={200}
                 className={`w-full h-48 object-cover ${
-                  listing.name === "Coaching with Corey" 
-                    ? "bg-gray-800 p-4" 
+                  listing.name === "Coaching with Corey"
+                    ? "bg-gray-800 p-4"
                     : ""
                 }`}
               />

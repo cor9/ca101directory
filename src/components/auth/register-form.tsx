@@ -66,26 +66,76 @@ export const RegisterForm = () => {
       showSocialLoginButton
       className="border-none"
     >
-      <div className="text-center space-y-6">
-        <div className="space-y-2">
-          <h3 className="text-lg font-semibold">Quick & Easy Sign Up</h3>
-          <p className="text-muted-foreground">
-            Use your existing Google or Facebook account to get started instantly. 
-            No need to create a new password!
-          </p>
-        </div>
-        
-        <div className="space-y-4">
-          <div className="text-sm text-muted-foreground">
-            <p>✅ Secure authentication</p>
-            <p>✅ No password to remember</p>
-            <p>✅ Instant access to submit listings</p>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled={isPending} placeholder="name" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="name@example.com"
+                      type="email"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="******"
+                      type="password"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
-        </div>
-        
-        <FormError message={error} />
-        <FormSuccess message={success} />
-      </div>
+          <FormError message={error} />
+          <FormSuccess message={success} />
+          <Button
+            disabled={isPending}
+            size="lg"
+            type="submit"
+            className="w-full flex items-center justify-center gap-2"
+          >
+            {isPending ? (
+              <Icons.spinner className="w-4 h-4 animate-spin" />
+            ) : (
+              ""
+            )}
+            <span>Create an account</span>
+          </Button>
+        </form>
+      </Form>
     </AuthCard>
   );
 };

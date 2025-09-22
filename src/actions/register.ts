@@ -1,13 +1,8 @@
 "use server";
 
-import { getUserByEmail } from "@/data/user";
-import { sendVerificationEmail } from "@/lib/mail";
+import { createUser, getUserByEmail } from "@/data/supabase-user";
 import { RegisterSchema } from "@/lib/schemas";
-import { generateVerificationToken } from "@/lib/tokens";
-import { sanityClient } from "@/sanity/lib/client";
-import { UserRole } from "@/types/user-role";
-import { uuid } from "@sanity/uuid";
-import bcrypt from "bcryptjs";
+import { supabase } from "@/lib/supabase";
 import type * as z from "zod";
 
 export type ServerActionResponse = {
@@ -18,10 +13,59 @@ export type ServerActionResponse = {
 export async function register(
   values: z.infer<typeof RegisterSchema>,
 ): Promise<ServerActionResponse> {
-  // Temporarily disable email/password registration
-  // Users should use Google/Facebook login instead
-  return { 
-    status: "error", 
-    message: "Email registration is temporarily disabled. Please use Google or Facebook login instead." 
-  };
+  const validatedFields = RegisterSchema.safeParse(values);
+
+  if (!validatedFields.success) {
+    return { status: "error", message: "Invalid Fields!" };
+  }
+
+  const { email, password, name } = validatedFields.data;
+
+  // Check if user already exists
+  const existingUser = await getUserByEmail(email);
+  if (existingUser) {
+    return { status: "error", message: "Email already being used" };
+  }
+
+  try {
+    // Create user with Supabase Auth
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          name,
+        },
+      },
+    });
+
+    if (authError) {
+      console.error('Supabase auth error:', authError);
+      return { status: "error", message: authError.message };
+    }
+
+    if (!authData.user) {
+      return { status: "error", message: "Failed to create user" };
+    }
+
+    // Create user record in our users table
+    const user = await createUser({
+      id: authData.user.id,
+      email: authData.user.email || '',
+      name,
+      role: 'USER'
+    });
+
+    if (!user) {
+      return { status: "error", message: "Failed to create user profile" };
+    }
+
+    return {
+      status: "success",
+      message: "Please check your email for verification",
+    };
+  } catch (error) {
+    console.error('Registration error:', error);
+    return { status: "error", message: "Something went wrong" };
+  }
 }

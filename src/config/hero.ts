@@ -2,11 +2,11 @@ import type { HeroConfig } from "@/types";
 
 export const heroConfig: HeroConfig = {
   title: {
-    first: "Find Trusted Acting Professionals",
-    second: "for Your Child",
+    first: "The #1 Directory for",
+    second: "Child Actor Professionals",
   },
   subtitle:
-    "A curated directory of vetted coaches, photographers, editors, and industry professionals specializing in youth acting. Every listing is hand-picked for quality and safety.",
+    "Join 1000+ families who trust our vetted network of acting coaches, photographers, agents, and industry professionals. Every listing is hand-picked for quality, safety, and results.",
   label: {
     text: "Child Actor 101 Approved",
     href: "https://childactor101.com",

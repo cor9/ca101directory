@@ -4,6 +4,9 @@ import { getItemById } from "@/data/airtable-item";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+// Force dynamic rendering to avoid static/dynamic conflicts
+export const dynamic = 'force-dynamic';
+
 /**
  * Generate static params for all item pages
  * This tells Next.js which item pages to pre-build

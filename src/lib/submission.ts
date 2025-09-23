@@ -1,10 +1,11 @@
 import type { ItemInfo } from "@/types";
 
 export enum PricePlans {
-  FREE = "Free",
-  BASIC = "Basic",
-  PRO = "Pro",
-  PREMIUM = "Premium",
+  FREE = "free",
+  BASIC = "basic",
+  PRO = "pro",
+  PREMIUM = "premium",
+  SPONSOR = "sponsor", // Legacy support - maps to premium tier
 }
 
 export enum FreePlanStatus {

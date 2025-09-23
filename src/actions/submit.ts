@@ -13,9 +13,21 @@ type BaseSubmitFormData = {
   link: string;
   description: string;
   introduction: string;
+  unique: string;
+  format: string;
+  notes: string;
   imageId: string;
   tags: string[];
   categories: string[];
+  plan: string;
+  performerPermit: boolean;
+  bonded: boolean;
+  email: string;
+  phone: string;
+  city: string;
+  state: string;
+  zip: string;
+  bondNumber: string;
 };
 
 export type SubmitFormData = typeof SUPPORT_ITEM_ICON extends true
@@ -46,31 +58,49 @@ export async function submit(
       link,
       description,
       introduction,
+      unique,
+      format,
+      notes,
       imageId,
       tags,
       categories,
+      plan,
+      performerPermit,
+      bonded,
+      email,
+      phone,
+      city,
+      state,
+      zip,
+      bondNumber,
       ...rest
     } = SubmitSchema.parse(formData);
     const iconId = "iconId" in rest ? rest.iconId : undefined;
-    console.log("submit, name:", name, "link:", link);
+    console.log("submit, name:", name, "link:", link, "plan:", plan);
 
     // Create listing in Airtable
     const listingData = {
       businessName: name,
-      email: user.email || "",
-      phone: "", // Will be filled in payment step
+      email: email || user.email || "",
+      phone: phone || "",
       website: link,
       description: description,
       servicesOffered: introduction,
+      uniqueValue: unique,
+      format: format,
+      notes: notes || "",
       category: categories, // Array of category names
       ageRange: tags, // Array of age range tags
-      location: "", // Will be filled in payment step
+      location: city && state ? `${city}, ${state}` : "",
       virtual: false,
-      plan: "Basic" as const,
+      plan: plan.toLowerCase() as any, // Convert to lowercase to match Airtable format
       featured: false,
       approved101: false,
       status: "Pending" as const,
       dateSubmitted: new Date().toISOString(),
+      performerPermit: performerPermit,
+      bonded: bonded,
+      bondNumber: bondNumber || "",
     };
 
     console.log("submit, creating listing in Airtable:", listingData);

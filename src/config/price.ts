@@ -13,7 +13,11 @@ export const priceConfig: PriceConfig = {
         "Reviewed and approved within 72 hours",
         "Standard customer support",
       ],
-      limitations: ["No featured placement", "No logo display", "Limited visibility"],
+      limitations: [
+        "No featured placement",
+        "No logo display",
+        "Limited visibility",
+      ],
       price: 0,
       priceSuffix: "/month",
       stripePriceId: null, // Free plan doesn't need Stripe

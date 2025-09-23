@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { type NextRequest, NextResponse } from "next/server";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 export async function POST(request: NextRequest) {
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     if (file.size > maxSizeInBytes) {
       return NextResponse.json(
         { error: "File must be under 200KB" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     if (!file.type.match(/^image\/(jpeg|jpg|png)$/)) {
       return NextResponse.json(
         { error: "Only JPEG and PNG images are allowed" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       console.error("Supabase upload error:", error);
       return NextResponse.json(
         { error: `Upload failed: ${error.message}` },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
     console.error("Upload API error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

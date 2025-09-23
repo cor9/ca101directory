@@ -9,7 +9,7 @@ const supabase = createClient(
 export async function POST(request: NextRequest) {
   try {
     console.log("Upload API called");
-    
+
     const formData = await request.formData();
     const file = formData.get("file") as File;
     const businessSlug = formData.get("businessSlug") as string;
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
 
     // Upload to Supabase Storage
     const { data, error } = await supabase.storage
-      .from("attachments")
+      .from("public")
       .upload(fileName, file, {
         cacheControl: "3600",
         upsert: false,
@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     // Get public URL
     const {
       data: { publicUrl },
-    } = supabase.storage.from("attachments").getPublicUrl(fileName);
+    } = supabase.storage.from("public").getPublicUrl(fileName);
 
     console.log("Public URL:", publicUrl);
 
@@ -81,9 +81,14 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("Upload API error:", error);
-    console.error("Error stack:", error instanceof Error ? error.stack : "No stack");
+    console.error(
+      "Error stack:",
+      error instanceof Error ? error.stack : "No stack",
+    );
     return NextResponse.json(
-      { error: `Internal server error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+      {
+        error: `Internal server error: ${error instanceof Error ? error.message : "Unknown error"}`,
+      },
       { status: 500 },
     );
   }

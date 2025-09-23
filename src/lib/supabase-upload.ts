@@ -1,11 +1,3 @@
-import { createClient } from "@supabase/supabase-js";
-
-// Initialize Supabase client with service role key for uploads
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-  process.env.SUPABASE_SERVICE_ROLE_KEY || "",
-);
-
 export interface UploadResult {
   success: boolean;
   url?: string;
@@ -13,25 +5,13 @@ export interface UploadResult {
 }
 
 /**
- * Upload logo to Supabase Storage
+ * Upload logo to Supabase Storage via API route
  */
 export async function uploadLogoToSupabase(
   file: File,
   businessSlug?: string,
 ): Promise<UploadResult> {
   try {
-    // Check if Supabase is configured
-    if (
-      !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-      !process.env.SUPABASE_SERVICE_ROLE_KEY
-    ) {
-      return {
-        success: false,
-        error:
-          "Image upload is temporarily unavailable. Please contact support or try again later.",
-      };
-    }
-
     // Validate file size (200KB limit for fast loading)
     const maxSizeInBytes = 200 * 1024; // 200KB
     if (file.size > maxSizeInBytes) {
@@ -49,40 +29,34 @@ export async function uploadLogoToSupabase(
       };
     }
 
-    // Generate unique filename
-    const timestamp = Date.now();
-    const fileExtension = file.type === "image/jpeg" ? "jpg" : "png";
-    const slug = businessSlug || "logo";
-    const fileName = `${slug}-${timestamp}.${fileExtension}`;
+    // Create form data
+    const formData = new FormData();
+    formData.append("file", file);
+    if (businessSlug) {
+      formData.append("businessSlug", businessSlug);
+    }
 
-    // Upload to Supabase Storage using the proper API
-    const { data, error } = await supabase.storage
-      .from("attachments")
-      .upload(fileName, file, {
-        cacheControl: "3600",
-        upsert: false,
-      });
+    // Upload via API route
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
 
-    if (error) {
-      console.error("Supabase upload error:", error);
-      console.error("Error details:", JSON.stringify(error, null, 2));
+    const result = await response.json();
+
+    if (!response.ok) {
       return {
         success: false,
-        error: `Upload failed: ${error.message || "Unknown error"}`,
+        error: result.error || "Upload failed",
       };
     }
 
-    // Get public URL
-    const {
-      data: { publicUrl },
-    } = supabase.storage.from("attachments").getPublicUrl(fileName);
-
     return {
       success: true,
-      url: publicUrl,
+      url: result.url,
     };
   } catch (error) {
-    console.error("Supabase upload error:", error);
+    console.error("Upload error:", error);
     return {
       success: false,
       error: "Upload failed. Please try again.",

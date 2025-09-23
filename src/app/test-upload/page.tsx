@@ -1,17 +1,19 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { uploadLogoToSupabase } from "@/lib/supabase-upload";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function TestUploadPage() {
   const [uploading, setUploading] = useState(false);
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -20,7 +22,7 @@ export default function TestUploadPage() {
 
     try {
       const result = await uploadLogoToSupabase(file, "test-upload");
-      
+
       if (result.success && result.url) {
         setUploadedUrl(result.url);
         console.log("✅ Upload successful:", result.url);
@@ -42,7 +44,10 @@ export default function TestUploadPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label htmlFor="file-upload" className="block text-sm font-medium mb-2">
+            <label
+              htmlFor="file-upload"
+              className="block text-sm font-medium mb-2"
+            >
               Select an image to upload (PNG/JPEG, max 200KB):
             </label>
             <input
@@ -58,7 +63,9 @@ export default function TestUploadPage() {
           {uploading && (
             <div className="text-center py-4">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="mt-2 text-sm text-gray-600">Uploading to Supabase...</p>
+              <p className="mt-2 text-sm text-gray-600">
+                Uploading to Supabase...
+              </p>
             </div>
           )}
 
@@ -76,7 +83,7 @@ export default function TestUploadPage() {
                   URL: {uploadedUrl}
                 </p>
               </div>
-              
+
               <div className="border rounded-lg overflow-hidden">
                 <Image
                   src={uploadedUrl}
@@ -90,9 +97,16 @@ export default function TestUploadPage() {
           )}
 
           <div className="text-xs text-gray-500 space-y-1">
-            <p><strong>Bucket:</strong> directory-logos</p>
-            <p><strong>Endpoint:</strong> crkrittfvylvbtjetxoa.storage.supabase.co</p>
-            <p><strong>Region:</strong> us-west-1</p>
+            <p>
+              <strong>Bucket:</strong> directory-logos
+            </p>
+            <p>
+              <strong>Endpoint:</strong>{" "}
+              crkrittfvylvbtjetxoa.storage.supabase.co
+            </p>
+            <p>
+              <strong>Region:</strong> us-west-1
+            </p>
           </div>
         </CardContent>
       </Card>

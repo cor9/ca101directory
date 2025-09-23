@@ -3,32 +3,43 @@ import { UserNameForm } from "@/components/settings/user-name-form";
 import { UserPasswordForm } from "@/components/settings/user-password-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
-import { currentUser } from "@/lib/auth";
+import { auth } from "@/auth";
 import { constructMetadata } from "@/lib/metadata";
 import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
-  title: "Settings",
-  description: "Manage account settings",
+  title: "Settings - Child Actor 101 Directory",
+  description: "Manage your account settings and preferences",
   canonicalUrl: `${siteConfig.url}/settings`,
 });
 
 export default async function SettingsPage() {
-  const user = await currentUser();
-  // console.log("SettingsPage, user:", user);
+  const session = await auth();
 
-  if (!user) {
-    console.error("SettingsPage, user not found");
+  if (!session?.user) {
     return redirect("/auth/login");
   }
 
   return (
-    <Card className="overflow-hidden">
-      <CardContent className="space-y-4">
-        <UserNameForm />
-        <UserLinkForm />
-        <UserPasswordForm />
-      </CardContent>
-    </Card>
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Account Settings
+          </h1>
+          <p className="text-gray-600">
+            Manage your account information and preferences
+          </p>
+        </div>
+        
+        <Card className="overflow-hidden">
+          <CardContent className="space-y-6 p-6">
+            <UserNameForm />
+            <UserLinkForm />
+            <UserPasswordForm />
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   );
 }

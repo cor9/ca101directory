@@ -8,6 +8,7 @@ import {
 } from "@/assets/fonts";
 import { auth } from "@/auth";
 import { Analytics } from "@/components/analytics/analytics";
+import { FacebookSDK } from "@/components/analytics/facebook-sdk";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { Toaster } from "@/components/ui/sonner";
 import { constructMetadata } from "@/lib/metadata";
@@ -63,6 +64,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <TailwindIndicator />
 
             <Analytics />
+            <FacebookSDK />
           </ThemeProvider>
         </SessionProvider>
       </body>

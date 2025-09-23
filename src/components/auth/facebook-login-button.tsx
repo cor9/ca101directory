@@ -24,6 +24,24 @@ export function FacebookLoginButton() {
     checkFacebookStatus();
   }, []);
 
+  // Parse Facebook elements when verified
+  useEffect(() => {
+    if (isFacebookVerified) {
+      // Ensure Facebook SDK is loaded before rendering the button
+      const checkFB = () => {
+        if (window.FB) {
+          // Parse any Facebook elements on the page
+          window.FB.XFBML.parse();
+        } else {
+          // Retry if Facebook SDK isn't loaded yet
+          setTimeout(checkFB, 100);
+        }
+      };
+      
+      checkFB();
+    }
+  }, [isFacebookVerified]);
+
   // Show placeholder while Facebook verification is pending
   if (!isFacebookVerified) {
     return <FacebookAuthPlaceholder />;

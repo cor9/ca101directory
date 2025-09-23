@@ -4,7 +4,8 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, User, Mail, Calendar } from "lucide-react";
+import { CheckCircle, User, Mail, Calendar, Plus, Eye, Settings } from "lucide-react";
+import Link from "next/link";
 
 export const metadata = constructMetadata({
   title: "Dashboard - Child Actor 101 Directory",
@@ -77,15 +78,24 @@ export default async function DashboardPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Button className="w-full" variant="outline">
-                Submit New Listing
-              </Button>
-              <Button className="w-full" variant="outline">
-                View My Submissions
-              </Button>
-              <Button className="w-full" variant="outline">
-                Account Settings
-              </Button>
+              <Link href="/submit">
+                <Button className="w-full" variant="outline">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Submit New Listing
+                </Button>
+              </Link>
+              <Link href="/submit">
+                <Button className="w-full" variant="outline">
+                  <Eye className="mr-2 h-4 w-4" />
+                  View My Submissions
+                </Button>
+              </Link>
+              <Link href="/settings">
+                <Button className="w-full" variant="outline">
+                  <Settings className="mr-2 h-4 w-4" />
+                  Account Settings
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
@@ -131,9 +141,11 @@ export default async function DashboardPage() {
                 <li>Update your account information</li>
               </ul>
               <div className="pt-4">
-                <Button size="lg">
-                  Get Started - Submit Your First Listing
-                </Button>
+                <Link href="/submit">
+                  <Button size="lg">
+                    Get Started - Submit Your First Listing
+                  </Button>
+                </Link>
               </div>
             </div>
           </CardContent>

@@ -79,6 +79,18 @@ export function AirtableSubmitForm({
       link: "",
       description: "",
       introduction: "",
+      unique: "",
+      format: "In-person",
+      notes: "",
+      email: "",
+      phone: "",
+      city: "",
+      state: "",
+      zip: "",
+      bondNumber: "",
+      plan: "Free",
+      performerPermit: false,
+      bonded: false,
       imageId: "",
       tags: [],
       categories: [],
@@ -242,6 +254,224 @@ export function AirtableSubmitForm({
                 )}
               />
 
+              {/* Why Is It Unique? */}
+              <FormField
+                control={form.control}
+                name="unique"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-lg font-semibold">
+                      Why Is It Unique?
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="What sets this apart from similar listings?"
+                        {...field}
+                        className="resize-none min-h-[100px]"
+                      />
+                    </FormControl>
+                    <div className="text-sm text-muted-foreground mt-2">
+                      <p className="font-medium mb-2">Examples:</p>
+                      <ul className="list-disc list-inside space-y-1 ml-4">
+                        <li>
+                          "Taught by a Nickelodeon casting assistant with 10+ years of experience."
+                        </li>
+                        <li>"Includes a detailed post-session report and clip editing."</li>
+                        <li>"Focuses on authentic emotion over memorization."</li>
+                      </ul>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Format */}
+              <FormField
+                control={form.control}
+                name="format"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-lg font-semibold">
+                      Format
+                    </FormLabel>
+                    <FormControl>
+                      <select
+                        className="form-select w-full"
+                        value={field.value}
+                        onChange={field.onChange}
+                      >
+                        <option value="In-person">In-person</option>
+                        <option value="Online">Online</option>
+                        <option value="Hybrid">Hybrid</option>
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Extras / Notes */}
+              <FormField
+                control={form.control}
+                name="notes"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-lg font-semibold">Extras / Notes</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Include any pricing bundles, language support, materials, etc."
+                        {...field}
+                        className="resize-none min-h-[80px]"
+                      />
+                    </FormControl>
+                    <div className="text-sm text-muted-foreground mt-2">
+                      <p className="font-medium mb-2">Examples:</p>
+                      <ul className="list-disc list-inside space-y-1 ml-4">
+                        <li>"Discounted bundles available for 3+ sessions."</li>
+                        <li>"Spanish-speaking families welcome."</li>
+                        <li>"You'll receive a prep guide before we meet."</li>
+                      </ul>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Bond Number */}
+              <FormField
+                control={form.control}
+                name="bondNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-lg font-semibold">Bond #</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Surety Bond # (filed with Labor Commissioner)" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Contact Information */}
+              <div className="border-t pt-6 mt-8">
+                <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-lg font-semibold">Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="you@example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-lg font-semibold">Phone</FormLabel>
+                        <FormControl>
+                          <Input placeholder="(555) 123-4567" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>City</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Los Angeles" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="state"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>State</FormLabel>
+                        <FormControl>
+                          <Input placeholder="CA" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="zip"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Zip</FormLabel>
+                        <FormControl>
+                          <Input placeholder="90210" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              {/* Plan Selection */}
+              <FormField
+                control={form.control}
+                name="plan"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-lg font-semibold">Plan Selection</FormLabel>
+                    <FormControl>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {["Free", "Basic", "Pro", "Premium"].map((plan) => (
+                          <label
+                            key={plan}
+                            className={`p-4 border rounded-lg cursor-pointer transition-colors ${
+                              field.value === plan
+                                ? "border-blue-500 bg-blue-50"
+                                : "border-gray-200 hover:border-gray-300"
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              value={plan}
+                              checked={field.value === plan}
+                              onChange={() => field.onChange(plan)}
+                              className="sr-only"
+                            />
+                            <div className="text-center">
+                              <div className="font-semibold">{plan}</div>
+                              <div className="text-sm text-muted-foreground">
+                                {plan === "Free" && "Basic listing"}
+                                {plan === "Basic" && "$29/month"}
+                                {plan === "Pro" && "$59/month"}
+                                {plan === "Premium" && "$99/month"}
+                              </div>
+                            </div>
+                          </label>
+                        ))}
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               {/* Age Range */}
               <FormField
                 control={form.control}
@@ -297,7 +527,7 @@ export function AirtableSubmitForm({
                 )}
               />
 
-              {/* Profile Image */}
+              {/* Logo Upload */}
               {SUPPORT_ITEM_ICON && (
                 <FormField
                   control={form.control}
@@ -305,7 +535,7 @@ export function AirtableSubmitForm({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-lg font-semibold">
-                        Profile Image
+                        Logo
                       </FormLabel>
                       <FormControl>
                         <div className="mt-4 w-full h-[370px]">
@@ -317,10 +547,9 @@ export function AirtableSubmitForm({
                         </div>
                       </FormControl>
                       <div className="text-sm text-muted-foreground mt-2">
-                        <p>Link to your logo or desired image</p>
+                        <p>Upload your business logo (PNG/JPEG, max 200KB)</p>
                         <p className="italic">
-                          Example:
-                          https://coaching.childactor101.com/coachlogo.png
+                          Recommended: 400x200px for optimal display
                         </p>
                       </div>
                       <FormMessage />
@@ -372,6 +601,61 @@ export function AirtableSubmitForm({
                       More Info: https://www.childactor101.com/ab1319
                     </a>
                   </div>
+                </div>
+
+                {/* Legal Checkboxes */}
+                <div className="mt-6 space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="performerPermit"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <input
+                            type="checkbox"
+                            checked={field.value}
+                            onChange={field.onChange}
+                            className="mt-1"
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="text-sm font-medium">
+                            I confirm I hold a California Child Performer Services Permit
+                          </FormLabel>
+                          <p className="text-xs text-muted-foreground">
+                            Required by California law for anyone providing services to minors in entertainment.
+                          </p>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="bonded"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <input
+                            type="checkbox"
+                            checked={field.value}
+                            onChange={field.onChange}
+                            className="mt-1"
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="text-sm font-medium">
+                            I am bonded for advanced fees (if applicable)
+                          </FormLabel>
+                          <p className="text-xs text-muted-foreground">
+                            Only check if you charge fees upfront for future services.
+                          </p>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
               </div>
             </CardContent>

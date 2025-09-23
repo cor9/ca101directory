@@ -1,6 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import { compressImage, uploadLogoToSupabase } from "@/lib/supabase-upload";
 import { cn } from "@/lib/utils";
 import { ImageUpIcon, Loader2Icon } from "lucide-react";
 import Image from "next/image";
@@ -8,7 +9,6 @@ import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
-import { uploadLogoToSupabase, compressImage } from "@/lib/supabase-upload";
 
 interface ImageUploadProps {
   currentImageUrl?: string;
@@ -38,20 +38,24 @@ export default function ImageUpload({
     try {
       // Compress image for faster loading (optional)
       const compressedFile = await compressImage(file, 400, 0.8);
-      
+
       // Upload to Supabase Storage
       const result = await uploadLogoToSupabase(compressedFile);
-      
+
       if (result.success && result.url) {
         return {
           url: result.url,
           _id: `supabase-${Date.now()}`, // Generate a simple ID for compatibility
         };
       }
-      throw new Error(result.error || 'Upload failed');
+      throw new Error(result.error || "Upload failed");
     } catch (error) {
       console.error("uploadImage, error uploading image:", error);
-      toast.error(error instanceof Error ? error.message : "Upload failed, please try again.");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Upload failed, please try again.",
+      );
       return null;
     }
   };
@@ -86,7 +90,11 @@ export default function ImageUpload({
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
       const file = acceptedFiles[0];
-      if (file.type === "image/png" || file.type === "image/jpeg" || file.type === "image/jpg") {
+      if (
+        file.type === "image/png" ||
+        file.type === "image/jpeg" ||
+        file.type === "image/jpg"
+      ) {
         handleImageUploadRef.current(file);
       } else {
         toast.error("Only PNG and JPEG images are allowed.");
@@ -135,11 +143,12 @@ export default function ImageUpload({
         {/* uploaded state */}
         {imageUrl && !uploading && (
           <div className="p-4 flex flex-col items-center justify-center gap-4 w-full h-full">
-            <div className={cn(
-              "relative group overflow-hidden rounded-lg",
+            <div
+              className={cn(
+                "relative group overflow-hidden rounded-lg",
                 type === "icon"
                   ? "w-32 h-32" // icon mode
-                  : "aspect-[16/9] h-[320px]" // image mode, fixed height
+                  : "aspect-[16/9] h-[320px]", // image mode, fixed height
               )}
             >
               <Image

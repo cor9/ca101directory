@@ -25,13 +25,14 @@ export async function login(
 
   try {
     // Sign in with Supabase Auth
-    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const { data: authData, error: authError } =
+      await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
     if (authError) {
-      console.error('Supabase login error:', authError);
+      console.error("Supabase login error:", authError);
       return { status: "error", message: authError.message };
     }
 
@@ -51,7 +52,7 @@ export async function login(
       redirectUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     };
   } catch (error) {
-    console.error('Login error:', error);
+    console.error("Login error:", error);
     return { status: "error", message: "Something went wrong!" };
   }
 }

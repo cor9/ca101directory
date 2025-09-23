@@ -64,3 +64,4 @@ CREATE TRIGGER update_user_submissions_updated_at BEFORE UPDATE ON user_submissi
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 CREATE INDEX IF NOT EXISTS idx_user_submissions_user_id ON user_submissions(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_submissions_status ON user_submissions(status);
+

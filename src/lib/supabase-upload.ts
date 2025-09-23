@@ -5,7 +5,7 @@ export interface UploadResult {
 }
 
 /**
- * Upload logo to Supabase Storage via API route
+ * Upload logo to Supabase Storage via API route (uses 'public' bucket)
  */
 export async function uploadLogoToSupabase(
   file: File,

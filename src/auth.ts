@@ -19,6 +19,11 @@ export const {
     signIn: "/auth/login",
     error: "/auth/error",
   },
+  // TODO: Implement Airtable adapter when user management is needed
+  // adapter: AirtableAdapter(airtableClient),
+  // https://authjs.dev/concepts/session-strategies
+  session: { strategy: "jwt" },
+  // https://authjs.dev/concepts/callbacks
   callbacks: {
     // Redirect callback - handle post-login redirects
     redirect: async ({ url, baseUrl }) => {
@@ -33,12 +38,6 @@ export const {
       // Default redirect to dashboard after login
       return `${baseUrl}/dashboard`;
     },
-  // TODO: Implement Airtable adapter when user management is needed
-  // adapter: AirtableAdapter(airtableClient),
-  // https://authjs.dev/concepts/session-strategies
-  session: { strategy: "jwt" },
-  // https://authjs.dev/concepts/callbacks
-  callbacks: {
     // SignIn callback - allow authentication
     signIn: async ({ user, account, profile }) => {
       console.log("Auth signIn:", {

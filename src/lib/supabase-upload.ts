@@ -53,7 +53,7 @@ export async function uploadLogoToSupabase(
 
     // Upload to Supabase Storage using the proper API
     const { data, error } = await supabase.storage
-      .from('directory-logos')
+      .from('attachments')
       .upload(fileName, file, {
         cacheControl: '3600',
         upsert: false
@@ -61,15 +61,16 @@ export async function uploadLogoToSupabase(
 
     if (error) {
       console.error("Supabase upload error:", error);
+      console.error("Error details:", JSON.stringify(error, null, 2));
       return {
         success: false,
-        error: "Upload failed. Please try again.",
+        error: `Upload failed: ${error.message || 'Unknown error'}`,
       };
     }
 
     // Get public URL
     const { data: { publicUrl } } = supabase.storage
-      .from('directory-logos')
+      .from('attachments')
       .getPublicUrl(fileName);
 
     return {

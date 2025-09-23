@@ -31,7 +31,9 @@ export const baseSubmitSchema = {
     .max(4096, {
       message: "Introduction must be 4096 or fewer characters long",
     }),
-  unique: z.string().min(5, { message: "Why is it unique? (minimum 5 characters)" }),
+  unique: z
+    .string()
+    .min(5, { message: "Why is it unique? (minimum 5 characters)" }),
   format: z.enum(["In-person", "Online", "Hybrid"], {
     required_error: "Please select a format",
   }),
@@ -45,7 +47,7 @@ export const baseSubmitSchema = {
   plan: z.enum(["Free", "Basic", "Pro", "Premium"], {
     required_error: "Please select a plan",
   }),
-  performerPermit: z.boolean().refine(val => val === true, {
+  performerPermit: z.boolean().refine((val) => val === true, {
     message: "You must confirm you hold a CA Performer Services Permit.",
   }),
   bonded: z.boolean().optional(),

@@ -274,10 +274,16 @@ export function AirtableSubmitForm({
                       <p className="font-medium mb-2">Examples:</p>
                       <ul className="list-disc list-inside space-y-1 ml-4">
                         <li>
-                          "Taught by a Nickelodeon casting assistant with 10+ years of experience."
+                          "Taught by a Nickelodeon casting assistant with 10+
+                          years of experience."
                         </li>
-                        <li>"Includes a detailed post-session report and clip editing."</li>
-                        <li>"Focuses on authentic emotion over memorization."</li>
+                        <li>
+                          "Includes a detailed post-session report and clip
+                          editing."
+                        </li>
+                        <li>
+                          "Focuses on authentic emotion over memorization."
+                        </li>
                       </ul>
                     </div>
                     <FormMessage />
@@ -316,7 +322,9 @@ export function AirtableSubmitForm({
                 name="notes"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg font-semibold">Extras / Notes</FormLabel>
+                    <FormLabel className="text-lg font-semibold">
+                      Extras / Notes
+                    </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Include any pricing bundles, language support, materials, etc."
@@ -343,9 +351,14 @@ export function AirtableSubmitForm({
                 name="bondNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg font-semibold">Bond #</FormLabel>
+                    <FormLabel className="text-lg font-semibold">
+                      Bond #
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder="Surety Bond # (filed with Labor Commissioner)" {...field} />
+                      <Input
+                        placeholder="Surety Bond # (filed with Labor Commissioner)"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -354,15 +367,19 @@ export function AirtableSubmitForm({
 
               {/* Contact Information */}
               <div className="border-t pt-6 mt-8">
-                <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
-                
+                <h3 className="text-lg font-semibold mb-4">
+                  Contact Information
+                </h3>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-lg font-semibold">Email</FormLabel>
+                        <FormLabel className="text-lg font-semibold">
+                          Email
+                        </FormLabel>
                         <FormControl>
                           <Input placeholder="you@example.com" {...field} />
                         </FormControl>
@@ -376,7 +393,9 @@ export function AirtableSubmitForm({
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-lg font-semibold">Phone</FormLabel>
+                        <FormLabel className="text-lg font-semibold">
+                          Phone
+                        </FormLabel>
                         <FormControl>
                           <Input placeholder="(555) 123-4567" {...field} />
                         </FormControl>
@@ -435,7 +454,9 @@ export function AirtableSubmitForm({
                 name="plan"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg font-semibold">Plan Selection</FormLabel>
+                    <FormLabel className="text-lg font-semibold">
+                      Plan Selection
+                    </FormLabel>
                     <FormControl>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {["Free", "Basic", "Pro", "Premium"].map((plan) => (
@@ -620,10 +641,12 @@ export function AirtableSubmitForm({
                         </FormControl>
                         <div className="space-y-1 leading-none">
                           <FormLabel className="text-sm font-medium">
-                            I confirm I hold a California Child Performer Services Permit
+                            I confirm I hold a California Child Performer
+                            Services Permit
                           </FormLabel>
                           <p className="text-xs text-muted-foreground">
-                            Required by California law for anyone providing services to minors in entertainment.
+                            Required by California law for anyone providing
+                            services to minors in entertainment.
                           </p>
                         </div>
                         <FormMessage />
@@ -649,7 +672,8 @@ export function AirtableSubmitForm({
                             I am bonded for advanced fees (if applicable)
                           </FormLabel>
                           <p className="text-xs text-muted-foreground">
-                            Only check if you charge fees upfront for future services.
+                            Only check if you charge fees upfront for future
+                            services.
                           </p>
                         </div>
                         <FormMessage />

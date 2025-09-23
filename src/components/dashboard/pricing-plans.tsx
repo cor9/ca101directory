@@ -1,7 +1,6 @@
 "use client";
 
 import { FreePlanButton } from "@/components/payment/free-plan-button";
-import { ProPlanButton } from "@/components/payment/pro-plan-button";
 import { StripeDirectButton } from "@/components/payment/stripe-direct-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { priceConfig } from "@/config/price";
@@ -9,7 +8,6 @@ import { PricePlans } from "@/lib/submission";
 import { cn } from "@/lib/utils";
 import type { ItemInfo, PricePlan } from "@/types/index";
 import { CheckIcon, XIcon } from "lucide-react";
-import { SponsorPlanButton } from "../payment/sponsor-plan-button";
 
 interface PricingPlansProps {
   item?: ItemInfo;
@@ -89,15 +87,14 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
 
           {/* action buttons */}
           <div className="mt-8">
-            {pricePlan.title.toUpperCase() === PricePlans.FREE.toUpperCase() ? (
+            {pricePlan.title === PricePlans.FREE ? (
               <FreePlanButton item={item} className="w-full" />
-            ) : pricePlan.title.toUpperCase() ===
-              PricePlans.SPONSOR.toUpperCase() ? (
-              <SponsorPlanButton
-                item={item}
-                pricePlan={pricePlan}
-                className="w-full"
-              />
+            ) : pricePlan.title === PricePlans.BASIC ? (
+              <StripeDirectButton pricePlan={pricePlan} className="w-full" />
+            ) : pricePlan.title === PricePlans.PRO ? (
+              <StripeDirectButton pricePlan={pricePlan} className="w-full" />
+            ) : pricePlan.title === PricePlans.PREMIUM ? (
+              <StripeDirectButton pricePlan={pricePlan} className="w-full" />
             ) : (
               <StripeDirectButton pricePlan={pricePlan} className="w-full" />
             )}
@@ -109,7 +106,7 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
 };
 
 function isProPlan(pricePlan: PricePlan) {
-  return pricePlan.title.toLowerCase() === PricePlans.PRO.toLowerCase();
+  return pricePlan.title === PricePlans.PRO;
 }
 
 export function PricingPlansSkeleton() {

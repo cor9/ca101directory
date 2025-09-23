@@ -39,6 +39,13 @@ export async function POST(request: NextRequest) {
     const slug = businessSlug || "logo";
     const fileName = `${slug}-${timestamp}.${fileExtension}`;
 
+    // Try to create bucket if it doesn't exist (ignore errors if it already exists)
+    await supabase.storage.createBucket("attachments", {
+      public: true,
+      allowedMimeTypes: ["image/jpeg", "image/png"],
+      fileSizeLimit: 200 * 1024,
+    });
+
     // Upload to Supabase Storage
     const { data, error } = await supabase.storage
       .from("attachments")
@@ -49,6 +56,7 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error("Supabase upload error:", error);
+      console.error("Error details:", JSON.stringify(error, null, 2));
       return NextResponse.json(
         { error: `Upload failed: ${error.message}` },
         { status: 500 },

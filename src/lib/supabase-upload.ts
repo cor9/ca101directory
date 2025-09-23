@@ -1,9 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 
-// Initialize Supabase client
+// Initialize Supabase client with service role key for uploads
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
+  process.env.SUPABASE_SERVICE_ROLE_KEY || "",
 );
 
 export interface UploadResult {
@@ -21,10 +21,14 @@ export async function uploadLogoToSupabase(
 ): Promise<UploadResult> {
   try {
     // Check if Supabase is configured
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    if (
+      !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+      !process.env.SUPABASE_SERVICE_ROLE_KEY
+    ) {
       return {
         success: false,
-        error: "Image upload is temporarily unavailable. Please contact support or try again later.",
+        error:
+          "Image upload is temporarily unavailable. Please contact support or try again later.",
       };
     }
 
@@ -53,10 +57,10 @@ export async function uploadLogoToSupabase(
 
     // Upload to Supabase Storage using the proper API
     const { data, error } = await supabase.storage
-      .from('attachments')
+      .from("attachments")
       .upload(fileName, file, {
-        cacheControl: '3600',
-        upsert: false
+        cacheControl: "3600",
+        upsert: false,
       });
 
     if (error) {
@@ -64,14 +68,14 @@ export async function uploadLogoToSupabase(
       console.error("Error details:", JSON.stringify(error, null, 2));
       return {
         success: false,
-        error: `Upload failed: ${error.message || 'Unknown error'}`,
+        error: `Upload failed: ${error.message || "Unknown error"}`,
       };
     }
 
     // Get public URL
-    const { data: { publicUrl } } = supabase.storage
-      .from('attachments')
-      .getPublicUrl(fileName);
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("attachments").getPublicUrl(fileName);
 
     return {
       success: true,

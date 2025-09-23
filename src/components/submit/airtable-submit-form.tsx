@@ -1,6 +1,5 @@
 "use client";
 
-import { fetchWebsite } from "@/actions/fetch-website";
 import { type SubmitFormData, submit } from "@/actions/submit";
 import { Icons } from "@/components/icons/icons";
 import CustomMde from "@/components/shared/custom-mde";
@@ -8,14 +7,6 @@ import ImageUpload from "@/components/shared/image-upload";
 import { MultiSelect } from "@/components/shared/multi-select";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -25,14 +16,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
-import { SUPPORT_AI_SUBMIT, SUPPORT_ITEM_ICON } from "@/lib/constants";
+import { SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { SubmitSchema } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 // Removed Sanity types - now using custom interfaces
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SmileIcon, Wand2Icon } from "lucide-react";
+import { SmileIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -78,8 +68,6 @@ export function AirtableSubmitForm({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [isUploading, setIsUploading] = useState(false);
-  const [isAIProcessing, setIsAIProcessing] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [iconUrl, setIconUrl] = useState("");
 
@@ -141,36 +129,6 @@ export function AirtableSubmitForm({
     }
   };
 
-  const handleAIFetch = async () => {
-    const link = form.getValues("link");
-    if (!link) {
-      toast.error("Please enter a website URL first");
-      return;
-    }
-
-    setIsAIProcessing(true);
-    try {
-      const result = await fetchWebsite(link);
-      if (result.status === "success" && result.data) {
-        const { name, description, introduction } = result.data;
-
-        if (name) form.setValue("name", name);
-        if (description) form.setValue("description", description);
-        if (introduction) form.setValue("introduction", introduction);
-
-        toast.success("AI fetch website info completed!");
-      } else {
-        toast.error("Failed to fetch website info");
-      }
-    } catch (error) {
-      console.error("AirtableSubmitForm, handleAIFetch, error:", error);
-      toast.error("Failed to fetch website info");
-    } finally {
-      setIsAIProcessing(false);
-      setDialogOpen(false);
-    }
-  };
-
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="mb-8">
@@ -206,7 +164,7 @@ export function AirtableSubmitForm({
                 )}
               />
 
-              {/* Website with AI Autofill */}
+              {/* Website */}
               <FormField
                 control={form.control}
                 name="link"
@@ -215,65 +173,12 @@ export function AirtableSubmitForm({
                     <FormLabel className="text-lg font-semibold">
                       Website
                     </FormLabel>
-                    <div className="relative">
-                      <FormControl>
-                        <Input
-                          placeholder="Enter your business website URL"
-                          className={cn(SUPPORT_AI_SUBMIT && "pr-[100px]")}
-                          {...field}
-                        />
-                      </FormControl>
-                      {SUPPORT_AI_SUBMIT && (
-                        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                          <DialogTrigger asChild>
-                            <Button
-                              variant="default"
-                              size="sm"
-                              className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-2 h-7 px-2"
-                              disabled={isAIProcessing}
-                            >
-                              {isAIProcessing ? (
-                                <Icons.spinner className="h-4 w-4 animate-spin" />
-                              ) : (
-                                <Wand2Icon className="h-4 w-4" />
-                              )}
-                              <span className="text-xs">AI Autofill</span>
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>AI Autofill</DialogTitle>
-                              <DialogDescription>
-                                Would you like AI to automatically fill in the
-                                form by the URL? It may take some time, so
-                                please wait patiently.
-                              </DialogDescription>
-                            </DialogHeader>
-                            <div className="flex justify-end gap-2">
-                              <Button
-                                variant="outline"
-                                onClick={() => setDialogOpen(false)}
-                              >
-                                Cancel
-                              </Button>
-                              <Button
-                                onClick={handleAIFetch}
-                                disabled={isAIProcessing}
-                              >
-                                {isAIProcessing ? (
-                                  <>
-                                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                                    Analyzing...
-                                  </>
-                                ) : (
-                                  "Analyze"
-                                )}
-                              </Button>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
-                      )}
-                    </div>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your business website URL"
+                        {...field}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

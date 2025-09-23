@@ -22,7 +22,7 @@ importers:
         version: 1.2.16(zod@3.23.8)
       '@auth/core':
         specifier: ^0.34.2
-        version: 0.34.2
+        version: 0.34.2(nodemailer@7.0.6)
       '@hookform/resolvers':
         specifier: ^3.9.0
         version: 3.9.1(react-hook-form@7.53.1(react@18.3.1))
@@ -220,7 +220,7 @@ importers:
         version: 14.2.17(@babel/core@7.26.0)(@opentelemetry/api@1.8.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-auth:
         specifier: 5.0.0-beta.18
-        version: 5.0.0-beta.18(next@14.2.17(@babel/core@7.26.0)(@opentelemetry/api@1.8.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        version: 5.0.0-beta.18(next@14.2.17(@babel/core@7.26.0)(@opentelemetry/api@1.8.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nodemailer@7.0.6)(react@18.3.1)
       next-mdx-remote-client:
         specifier: ^1.0.3
         version: 1.0.3(@types/react@18.3.12)(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -233,6 +233,9 @@ importers:
       node-fetch:
         specifier: ^3.3.2
         version: 3.3.2
+      nodemailer:
+        specifier: ^7.0.6
+        version: 7.0.6
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -6202,6 +6205,10 @@ packages:
   node-releases@2.0.18:
     resolution: {integrity: sha512-d9VeXT4SJ7ZeOqGX6R5EM022wpL+eWPooLI+5UpWn2jCT1aosUQEhQP214x33Wkwx3JQMvIm+tIoVOdodFS40g==}
 
+  nodemailer@7.0.6:
+    resolution: {integrity: sha512-F44uVzgwo49xboqbFgBGkRaiMgtoBrBEWCVincJPK9+S9Adkzt/wXCLKbf7dxucmxfTI5gHGB+bEmdyzN6QKjw==}
+    engines: {node: '>=6.0.0'}
+
   nopt@7.2.1:
     resolution: {integrity: sha512-taM24ViiimT/XntxbPyJQzCG+p4EKOpgD3mxFwW38mGjVUrfERQOeY4EDHjdnptttfHuHQXFx+lTP08Q+mLa/w==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
@@ -8282,7 +8289,7 @@ snapshots:
       css-tree: 2.3.1
       is-potential-custom-element-name: 1.0.1
 
-  '@auth/core@0.31.0':
+  '@auth/core@0.31.0(nodemailer@7.0.6)':
     dependencies:
       '@panva/hkdf': 1.2.1
       '@types/cookie': 0.6.0
@@ -8291,8 +8298,10 @@ snapshots:
       oauth4webapi: 2.17.0
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
+    optionalDependencies:
+      nodemailer: 7.0.6
 
-  '@auth/core@0.34.2':
+  '@auth/core@0.34.2(nodemailer@7.0.6)':
     dependencies:
       '@panva/hkdf': 1.2.1
       '@types/cookie': 0.6.0
@@ -8301,6 +8310,8 @@ snapshots:
       oauth4webapi: 2.17.0
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
+    optionalDependencies:
+      nodemailer: 7.0.6
 
   '@babel/code-frame@7.26.2':
     dependencies:
@@ -14750,11 +14761,13 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  next-auth@5.0.0-beta.18(next@14.2.17(@babel/core@7.26.0)(@opentelemetry/api@1.8.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
+  next-auth@5.0.0-beta.18(next@14.2.17(@babel/core@7.26.0)(@opentelemetry/api@1.8.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nodemailer@7.0.6)(react@18.3.1):
     dependencies:
-      '@auth/core': 0.31.0
+      '@auth/core': 0.31.0(nodemailer@7.0.6)
       next: 14.2.17(@babel/core@7.26.0)(@opentelemetry/api@1.8.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
+    optionalDependencies:
+      nodemailer: 7.0.6
 
   next-mdx-remote-client@1.0.3(@types/react@18.3.12)(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
@@ -14879,6 +14892,8 @@ snapshots:
       he: 1.2.0
 
   node-releases@2.0.18: {}
+
+  nodemailer@7.0.6: {}
 
   nopt@7.2.1:
     dependencies:

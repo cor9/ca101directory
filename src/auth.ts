@@ -19,6 +19,20 @@ export const {
     signIn: "/auth/login",
     error: "/auth/error",
   },
+  callbacks: {
+    // Redirect callback - handle post-login redirects
+    redirect: async ({ url, baseUrl }) => {
+      console.log("Auth redirect:", { url, baseUrl });
+      
+      // If it's a relative URL, make it absolute
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      
+      // If it's the same origin, allow it
+      if (new URL(url).origin === baseUrl) return url;
+      
+      // Default redirect to dashboard after login
+      return `${baseUrl}/dashboard`;
+    },
   // TODO: Implement Airtable adapter when user management is needed
   // adapter: AirtableAdapter(airtableClient),
   // https://authjs.dev/concepts/session-strategies

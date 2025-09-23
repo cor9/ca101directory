@@ -37,14 +37,14 @@ declare global {
 
   namespace JSX {
     interface IntrinsicElements {
-      'fb:login-button': {
+      "fb:login-button": {
         scope?: string;
         onlogin?: string;
-        'data-size'?: string;
-        'data-button-type'?: string;
-        'data-layout'?: string;
-        'data-auto-logout-link'?: string;
-        'data-use-continue-as'?: string;
+        "data-size"?: string;
+        "data-button-type"?: string;
+        "data-layout"?: string;
+        "data-auto-logout-link"?: string;
+        "data-use-continue-as"?: string;
         className?: string;
         children?: React.ReactNode;
       };

@@ -37,7 +37,7 @@ export function FacebookLoginButton() {
           setTimeout(checkFB, 100);
         }
       };
-      
+
       checkFB();
     }
   }, [isFacebookVerified]);

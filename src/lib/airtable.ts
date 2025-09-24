@@ -32,6 +32,9 @@ export interface Listing {
   instagram?: string;
   servicesOffered?: string;
   description: string;
+  uniqueValue?: string;
+  format?: string;
+  notes?: string;
   category: string[];
   gallery?: string[];
   logo?: string;
@@ -44,6 +47,9 @@ export interface Listing {
   status: "Pending" | "Approved" | "Rejected";
   dateSubmitted: string;
   dateApproved?: string;
+  performerPermit?: boolean;
+  bonded?: boolean;
+  bondNumber?: string;
 }
 
 export interface Category {
@@ -163,15 +169,35 @@ export async function createListing(
   }
 
   try {
+    console.log("Creating listing with data:", data);
+    
     const record = await base("Listings").create({
       "Listing Name": data.businessName,
+      "Email": data.email,
+      "Phone": data.phone,
+      "Website": data.website,
+      "Description": data.description,
+      "Services Offered": data.servicesOffered,
+      "Unique Value": data.uniqueValue,
+      "Format": data.format,
+      "Notes": data.notes,
+      "Category": data.category,
+      "Age Range": data.ageRange,
+      "Location": data.location,
+      "Virtual": data.virtual,
+      "Plan": data.plan,
+      "Featured": data.featured,
+      "Approved": data.approved101,
+      "Status": data.status,
       "Form Submitted": true,
-      Reviewed: false,
-      Approved: false,
-      Status: "Pending",
+      "Reviewed": false,
       "Converted Paid Listing": "",
+      "Performer Permit": data.performerPermit,
+      "Bonded": data.bonded,
+      "Bond Number": data.bondNumber,
     });
 
+    console.log("Successfully created listing:", record.id);
     return record.id;
   } catch (error) {
     console.error("Error creating listing:", error);

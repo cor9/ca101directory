@@ -240,7 +240,10 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                           />
                         </FormControl>
                         {SUPPORT_AI_SUBMIT && (
-                          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                          <Dialog
+                            open={dialogOpen}
+                            onOpenChange={setDialogOpen}
+                          >
                             <DialogTrigger asChild>
                               <Button
                                 variant="default"
@@ -524,10 +527,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                     <FormItem>
                       <FormLabel>City</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Los Angeles"
-                          {...field}
-                        />
+                        <Input placeholder="Los Angeles" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -540,10 +540,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                     <FormItem>
                       <FormLabel>State</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="CA"
-                          {...field}
-                        />
+                        <Input placeholder="CA" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -556,10 +553,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                     <FormItem>
                       <FormLabel>ZIP Code</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="90210"
-                          {...field}
-                        />
+                        <Input placeholder="90210" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -590,7 +584,8 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                           California Child Performer Services Permit
                         </FormLabel>
                         <p className="text-sm text-muted-foreground">
-                          I have a valid California Child Performer Services Permit
+                          I have a valid California Child Performer Services
+                          Permit
                         </p>
                       </div>
                     </FormItem>
@@ -610,11 +605,10 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                         />
                       </FormControl>
                       <div className="space-y-1 leading-none">
-                        <FormLabel>
-                          Bonded For Advanced Fees
-                        </FormLabel>
+                        <FormLabel>Bonded For Advanced Fees</FormLabel>
                         <p className="text-sm text-muted-foreground">
-                          I am bonded for advanced fees as required by California law
+                          I am bonded for advanced fees as required by
+                          California law
                         </p>
                       </div>
                     </FormItem>

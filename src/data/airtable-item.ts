@@ -1,5 +1,5 @@
+import { type Listing, getListingById, getListings } from "@/lib/airtable";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
-import { getListings, getListingById, type Listing } from "@/lib/airtable";
 import type { ItemInfo } from "@/types";
 
 /**
@@ -12,42 +12,50 @@ function listingToItem(listing: Listing): ItemInfo {
     name: listing.businessName,
     slug: {
       _type: "slug" as const,
-      current: listing.businessName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+      current: listing.businessName
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, ""),
     },
     description: listing.description,
-    link: listing.website || '',
+    link: listing.website || "",
     affiliateLink: null,
     sponsor: false,
     sponsorStartDate: null,
     sponsorEndDate: null,
     note: null,
     featured: listing.featured,
-    icon: listing.logo ? {
-      asset: {
-        _ref: listing.logo,
-        _type: "reference" as const
-      },
-      hotspot: null,
-      crop: null,
-      alt: `${listing.businessName} logo`,
-      _type: "image" as const,
-      blurDataURL: null,
-      imageColor: null,
-    } : null,
-    image: listing.gallery && listing.gallery.length > 0 ? {
-      asset: {
-        _ref: listing.gallery[0],
-        _type: "reference" as const
-      },
-      hotspot: null,
-      crop: null,
-      alt: `${listing.businessName} image`,
-      _type: "image" as const,
-      blurDataURL: null,
-      imageColor: null,
-    } : null,
+    icon: listing.logo
+      ? {
+          asset: {
+            _ref: listing.logo,
+            _type: "reference" as const,
+          },
+          hotspot: null,
+          crop: null,
+          alt: `${listing.businessName} logo`,
+          _type: "image" as const,
+          blurDataURL: null,
+          imageColor: null,
+        }
+      : null,
+    image:
+      listing.gallery && listing.gallery.length > 0
+        ? {
+            asset: {
+              _ref: listing.gallery[0],
+              _type: "reference" as const,
+            },
+            hotspot: null,
+            crop: null,
+            alt: `${listing.businessName} image`,
+            _type: "image" as const,
+            blurDataURL: null,
+            imageColor: null,
+          }
+        : null,
     publishDate: listing.dateApproved || listing.dateSubmitted,
-    paid: listing.plan !== 'Basic',
+    paid: listing.plan !== "Basic",
     order: null,
     pricePlan: listing.plan.toLowerCase() as any,
     freePlanStatus: listing.status.toLowerCase() as any,
@@ -55,31 +63,31 @@ function listingToItem(listing: Listing): ItemInfo {
     sponsorPlanStatus: null,
     rejectionReason: null,
     collections: [],
-    categories: listing.category?.split(', ').map(cat => ({
-      _id: cat.trim().toLowerCase().replace(/\s+/g, '-'),
+    categories: listing.category?.split(", ").map((cat) => ({
+      _id: cat.trim().toLowerCase().replace(/\s+/g, "-"),
       _type: "category" as const,
       _createdAt: listing.dateSubmitted,
       _updatedAt: listing.dateSubmitted,
-      _rev: '',
+      _rev: "",
       name: cat.trim(),
       slug: {
         _type: "slug" as const,
-        current: cat.toLowerCase().replace(/\s+/g, '-'),
+        current: cat.toLowerCase().replace(/\s+/g, "-"),
       },
       description: null,
       group: null,
       priority: null,
     })),
-    tags: listing.ageRange.map(age => ({
-      _id: age.toLowerCase().replace(/\s+/g, '-'),
+    tags: listing.ageRange.map((age) => ({
+      _id: age.toLowerCase().replace(/\s+/g, "-"),
       _type: "tag" as const,
       _createdAt: listing.dateSubmitted,
       _updatedAt: listing.dateSubmitted,
-      _rev: '',
+      _rev: "",
       name: age,
       slug: {
         _type: "slug" as const,
-        current: age.toLowerCase().replace(/\s+/g, '-'),
+        current: age.toLowerCase().replace(/\s+/g, "-"),
       },
       description: null,
       priority: null,
@@ -135,46 +143,57 @@ export async function getItems({
   hasSponsorItem?: boolean;
 }) {
   try {
-    console.log("getItems (Airtable), category:", category, "tag:", tag, "query:", query);
+    console.log(
+      "getItems (Airtable), category:",
+      category,
+      "tag:",
+      tag,
+      "query:",
+      query,
+    );
 
     // Get all listings from Airtable
     const allListings = await getListings();
-    
+
     // Apply filters
     let filteredListings = allListings;
 
     // Category filter
     if (category) {
-      filteredListings = filteredListings.filter(listing => 
-        listing.category?.split(', ').some(cat => 
-          cat.trim().toLowerCase().replace(/\s+/g, '-') === category
-        )
+      filteredListings = filteredListings.filter((listing) =>
+        listing.category
+          ?.split(", ")
+          .some(
+            (cat) => cat.trim().toLowerCase().replace(/\s+/g, "-") === category,
+          ),
       );
     }
 
     // Tag filter (age range)
     if (tag) {
       const tagList = tag.split(",");
-      filteredListings = filteredListings.filter(listing =>
-        tagList.every(t => listing.ageRange.includes(t))
+      filteredListings = filteredListings.filter((listing) =>
+        tagList.every((t) => listing.ageRange.includes(t)),
       );
     }
 
     // Query filter (search)
     if (query) {
       const queryLower = query.toLowerCase();
-      filteredListings = filteredListings.filter(listing =>
-        listing.businessName.toLowerCase().includes(queryLower) ||
-        listing.description.toLowerCase().includes(queryLower) ||
-        (listing.servicesOffered && listing.servicesOffered.toLowerCase().includes(queryLower))
+      filteredListings = filteredListings.filter(
+        (listing) =>
+          listing.businessName.toLowerCase().includes(queryLower) ||
+          listing.description.toLowerCase().includes(queryLower) ||
+          (listing.servicesOffered &&
+            listing.servicesOffered.toLowerCase().includes(queryLower)),
       );
     }
 
     // Location filter
     if (filter) {
       // Assuming filter is location-based
-      filteredListings = filteredListings.filter(listing =>
-        listing.location.toLowerCase().includes(filter.toLowerCase())
+      filteredListings = filteredListings.filter((listing) =>
+        listing.location.toLowerCase().includes(filter.toLowerCase()),
       );
     }
 
@@ -182,13 +201,13 @@ export async function getItems({
     if (sortKey) {
       filteredListings.sort((a, b) => {
         let aVal, bVal;
-        
+
         switch (sortKey) {
-          case 'name':
+          case "name":
             aVal = a.businessName;
             bVal = b.businessName;
             break;
-          case 'publishDate':
+          case "publishDate":
             aVal = new Date(a.dateApproved || a.dateSubmitted);
             bVal = new Date(b.dateApproved || b.dateSubmitted);
             break;
@@ -208,14 +227,16 @@ export async function getItems({
       filteredListings.sort((a, b) => {
         if (a.featured && !b.featured) return -1;
         if (!a.featured && b.featured) return 1;
-        return new Date(b.dateApproved || b.dateSubmitted).getTime() - 
-               new Date(a.dateApproved || a.dateSubmitted).getTime();
+        return (
+          new Date(b.dateApproved || b.dateSubmitted).getTime() -
+          new Date(a.dateApproved || a.dateSubmitted).getTime()
+        );
       });
     }
 
     const totalCount = filteredListings.length;
     const itemsPerPage = hasSponsorItem ? ITEMS_PER_PAGE - 1 : ITEMS_PER_PAGE;
-    
+
     // Pagination
     const offsetStart = (currentPage - 1) * itemsPerPage;
     const offsetEnd = offsetStart + itemsPerPage;

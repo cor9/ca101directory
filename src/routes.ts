@@ -42,7 +42,7 @@ export const publicRoutes = [
 
   // submission form (public)
   "/submit(/.*)?",
-  
+
   // test pages
   "/shadcn(/.*)?",
   "/loading(/.*)?",

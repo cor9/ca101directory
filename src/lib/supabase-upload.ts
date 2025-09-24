@@ -5,7 +5,7 @@ export interface UploadResult {
 }
 
 /**
- * Upload logo to Supabase Storage via API route (uses 'public' bucket)
+ * Upload logo to Vercel Blob via API route
  */
 export async function uploadLogoToSupabase(
   file: File,

@@ -201,7 +201,7 @@ export async function createListing(
       Phone: data.phone, // Phone
       City: data.city, // Long text
       State: data.state, // Long text
-      Zip: data.zip ? parseInt(data.zip) : undefined, // Number
+      Zip: data.zip ? Number.parseInt(data.zip) : undefined, // Number
       Categories: data.categories, // Multi-select field
       Tags: data.tags, // Multi-select field (age ranges)
       Plan: data.plan, // Multiple select (single value)
@@ -221,18 +221,18 @@ export async function createListing(
       stack: error instanceof Error ? error.stack : undefined,
       data: data,
     });
-    
+
     // Log more specific error information
     if (error instanceof Error) {
       console.error("Error message:", error.message);
       console.error("Error name:", error.name);
     }
-    
+
     // Try to get more details from Airtable error
-    if (error && typeof error === 'object' && 'error' in error) {
+    if (error && typeof error === "object" && "error" in error) {
       console.error("Airtable error details:", error.error);
     }
-    
+
     return null;
   }
 }

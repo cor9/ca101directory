@@ -1,9 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import { constructMetadata } from "@/lib/metadata";
 import { getListingById } from "@/lib/airtable";
+import { constructMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
-import { GlobeIcon, MapPinIcon, PhoneIcon, MailIcon, StarIcon, CheckCircleIcon } from "lucide-react";
+import {
+  CheckCircleIcon,
+  GlobeIcon,
+  MailIcon,
+  MapPinIcon,
+  PhoneIcon,
+  StarIcon,
+} from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,7 +23,9 @@ export async function generateMetadata({
 }): Promise<Metadata | undefined> {
   const listing = await getListingById(params.slug);
   if (!listing) {
-    console.warn(`generateMetadata, listing not found for slug: ${params.slug}`);
+    console.warn(
+      `generateMetadata, listing not found for slug: ${params.slug}`,
+    );
     return;
   }
 
@@ -48,7 +57,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
         <div className="lg:col-span-3 gap-8 flex flex-col">
           {/* Basic information */}
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Link href="/search" className="hover:text-foreground">Directory</Link>
+            <Link href="/search" className="hover:text-foreground">
+              Directory
+            </Link>
             <span>/</span>
             <span>{listing.businessName}</span>
           </div>
@@ -68,10 +79,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   />
                 )}
                 <div className="flex flex-col gap-2">
-                  <h1 className={cn(
-                    "text-4xl tracking-wider font-bold flex items-center gap-2",
-                    listing.featured && "text-gradient_indigo-purple font-semibold"
-                  )}>
+                  <h1
+                    className={cn(
+                      "text-4xl tracking-wider font-bold flex items-center gap-2",
+                      listing.featured &&
+                        "text-gradient_indigo-purple font-semibold",
+                    )}
+                  >
                     {listing.businessName}
                   </h1>
                   <div className="flex items-center gap-2">
@@ -150,7 +164,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
         <div className="lg:col-span-3 flex flex-col">
           {/* Detailed content */}
           <div className="bg-muted/50 rounded-lg p-6 mr-0 lg:mr-8">
-            <h2 className="text-lg font-semibold mb-4">About This Professional</h2>
+            <h2 className="text-lg font-semibold mb-4">
+              About This Professional
+            </h2>
             <div className="prose prose-sm max-w-none">
               <p>{listing.description}</p>
               {listing.servicesOffered && (
@@ -163,7 +179,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
           </div>
 
           <div className="flex items-center justify-start mt-16">
-            <Link href="/search" className="text-sm text-muted-foreground hover:text-foreground">
+            <Link
+              href="/search"
+              className="text-sm text-muted-foreground hover:text-foreground"
+            >
               ← Back to Directory
             </Link>
           </div>
@@ -175,7 +194,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
             <div className="flex flex-col space-y-4">
               {/* Contact Information */}
               <div className="bg-muted/50 rounded-lg p-6">
-                <h2 className="text-lg font-semibold mb-4">Contact Information</h2>
+                <h2 className="text-lg font-semibold mb-4">
+                  Contact Information
+                </h2>
                 <ul className="space-y-4 text-sm">
                   {listing.location && (
                     <li className="flex items-start gap-3">
@@ -186,7 +207,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   {listing.phone && (
                     <li className="flex items-start gap-3">
                       <PhoneIcon className="w-4 h-4 text-muted-foreground mt-0.5" />
-                      <a href={`tel:${listing.phone}`} className="hover:text-primary">
+                      <a
+                        href={`tel:${listing.phone}`}
+                        className="hover:text-primary"
+                      >
                         {listing.phone}
                       </a>
                     </li>
@@ -194,7 +218,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   {listing.email && (
                     <li className="flex items-start gap-3">
                       <MailIcon className="w-4 h-4 text-muted-foreground mt-0.5" />
-                      <a href={`mailto:${listing.email}`} className="hover:text-primary">
+                      <a
+                        href={`mailto:${listing.email}`}
+                        className="hover:text-primary"
+                      >
                         {listing.email}
                       </a>
                     </li>
@@ -250,4 +277,3 @@ export default async function ListingPage({ params }: ListingPageProps) {
     </div>
   );
 }
-

@@ -90,8 +90,8 @@ export async function submit(
       uniqueValue: unique,
       format: format,
       notes: notes || "",
-      categories: categories, // Array of categories
-      tags: tags, // Array of age range tags
+      categories: categories[0] || "", // Single select field - take first category
+      tags: [], // Not implemented yet in Airtable
       city: city || "",
       state: state || "",
       zip: zip || "",

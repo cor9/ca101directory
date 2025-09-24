@@ -21,8 +21,8 @@ export async function GET(req: NextRequest) {
       city: "Test City", // Long text
       state: "CA", // Long text
       zip: "90210", // Number (will be converted)
-      category: "Acting Classes", // Long text (single value, not array)
-      ageRange: [],
+      categories: "Acting Classes", // Single select field
+      tags: [], // Not implemented yet
       plan: "Basic" as const, // Multiple select (single value)
       featured: false,
       approved101: false,

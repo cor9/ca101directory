@@ -100,6 +100,7 @@ export function AirtableSubmitForm({
 
   // submit form if data is valid
   const onSubmit = form.handleSubmit((data: SubmitFormData) => {
+    console.log("Form submitted with data:", data);
     startTransition(async () => {
       submit(data)
         .then((data) => {
@@ -119,6 +120,9 @@ export function AirtableSubmitForm({
           toast.error("Something went wrong");
         });
     });
+  }, (errors) => {
+    console.error("Form validation errors:", errors);
+    toast.error("Please fix the form errors before submitting");
   });
 
   const handleUploadChange = (status: {

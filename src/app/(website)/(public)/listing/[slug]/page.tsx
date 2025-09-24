@@ -212,10 +212,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
               <div className="bg-muted/50 rounded-lg p-6">
                 <h2 className="text-lg font-semibold mb-4">Categories</h2>
                 <ul className="flex flex-wrap gap-2">
-                  {listing.category?.split(', ').map((cat) => (
+                  {listing.categories?.map((cat) => (
                     <li key={cat}>
                       <span className="text-sm bg-primary/10 text-primary px-2 py-1 rounded">
-                        {cat.trim()}
+                        {cat}
                       </span>
                     </li>
                   ))}
@@ -226,10 +226,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
               <div className="bg-muted/50 rounded-lg p-6">
                 <h2 className="text-lg font-semibold mb-4">Age Range</h2>
                 <ul className="flex flex-wrap gap-2">
-                  {listing.ageRange.map((age) => (
-                    <li key={age}>
+                  {listing.tags?.map((tag) => (
+                    <li key={tag}>
                       <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                        {age}
+                        {tag}
                       </span>
                     </li>
                   ))}

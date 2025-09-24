@@ -35,7 +35,8 @@ export interface Listing {
   uniqueValue?: string;
   format?: string;
   notes?: string;
-  category: string; // Long text field in Airtable
+  categories: string[]; // Multi-select field in Airtable
+  tags: string[]; // Multi-select field in Airtable (age ranges)
   gallery?: string[];
   logo?: string;
   location: string;
@@ -43,7 +44,6 @@ export interface Listing {
   state?: string;
   zip?: string;
   virtual: boolean;
-  ageRange: string[];
   plan: "Basic" | "Pro" | "Premium" | "Free" | "Add-On";
   featured: boolean;
   approved101: boolean;
@@ -76,7 +76,8 @@ function recordToListing(record: Airtable.Record<any>): Listing {
     uniqueValue: record.get("Why Is It Unique?") || "",
     format: record.get("Format (In-person/Online/Hybrid)") || "",
     notes: record.get("Extras/Notes") || "",
-    category: record.get("Categories") || "",
+    categories: record.get("Categories") || [],
+    tags: record.get("Tags") || [],
     gallery: record.get("Gallery") || [],
     logo: record.get("Profile Image") || "",
     location:
@@ -84,7 +85,6 @@ function recordToListing(record: Airtable.Record<any>): Listing {
         ? `${record.get("City")}, ${record.get("State")}`
         : "",
     virtual: false,
-    ageRange: record.get("Age Range") || [],
     plan: record.get("Plan") || "Basic",
     featured: record.get("Top Rated") || false,
     approved101: record.get("Approved Badge") || false,
@@ -202,7 +202,8 @@ export async function createListing(
       City: data.city, // Long text
       State: data.state, // Long text
       Zip: data.zip ? parseInt(data.zip) : undefined, // Number
-      Categories: data.category, // Long text (single value)
+      Categories: data.categories, // Multi-select field
+      Tags: data.tags, // Multi-select field (age ranges)
       Plan: data.plan, // Multiple select (single value)
       Status: data.status, // Single select
     };

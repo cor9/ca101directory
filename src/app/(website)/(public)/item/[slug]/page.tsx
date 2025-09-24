@@ -49,7 +49,7 @@ export async function generateMetadata({
     
     return constructMetadata({
       title: `${listing.businessName} - Child Actor 101 Directory`,
-      description: listing.description || `Professional ${listing.category} services for young actors`,
+      description: listing.description || `Professional ${listing.categories?.[0] || 'acting'} services for young actors`,
       canonicalUrl: `${siteConfig.url}/item/${params.slug}`,
     });
   } catch (error) {
@@ -93,12 +93,12 @@ export default async function ItemDetailPage({
           )}
           
           <div className="flex flex-wrap gap-2 mb-4">
-            {listing.category?.split(', ').map((cat) => (
+            {listing.categories?.map((cat) => (
               <span
                 key={cat}
                 className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
               >
-                {cat.trim()}
+                {cat}
               </span>
             ))}
           </div>
@@ -161,10 +161,10 @@ export default async function ItemDetailPage({
               <p className="mb-4">{listing.servicesOffered}</p>
             )}
             
-            {listing.ageRange && listing.ageRange.length > 0 && (
+            {listing.tags && listing.tags.length > 0 && (
               <div className="mb-4">
                 <strong>Age Range:</strong>{' '}
-                <span>{listing.ageRange.join(', ')}</span>
+                <span>{listing.tags.join(', ')}</span>
               </div>
             )}
             

@@ -24,8 +24,8 @@ export async function generateStaticParams() {
     // Extract unique age ranges (tags) from all listings
     const allAgeRanges = new Set<string>();
     listings.forEach(listing => {
-      listing.ageRange.forEach(age => {
-        allAgeRanges.add(age.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''));
+      listing.tags?.forEach(tag => {
+        allAgeRanges.add(tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''));
       });
     });
     
@@ -50,8 +50,8 @@ export async function generateMetadata({
     
     // Find listings that match this tag (age range)
     const matchingListings = listings.filter(listing =>
-      listing.ageRange.some(age => 
-        age.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
+      listing.tags?.some(tag => 
+        tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
       )
     );
     
@@ -64,8 +64,8 @@ export async function generateMetadata({
     }
     
     // Get the actual age range name from the first matching listing
-    const ageRangeName = matchingListings[0].ageRange.find(age => 
-      age.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
+    const ageRangeName = matchingListings[0].tags?.find(tag => 
+      tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
     );
     
     return constructMetadata({
@@ -95,8 +95,8 @@ export default async function TagPage({
     
     // Find listings that match this tag (age range)
     const matchingListings = listings.filter(listing =>
-      listing.ageRange.some(age => 
-        age.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
+      listing.tags?.some(tag => 
+        tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
       )
     );
     
@@ -105,8 +105,8 @@ export default async function TagPage({
     }
 
     // Get the actual age range name from the first matching listing
-    const ageRangeName = matchingListings[0].ageRange.find(age => 
-      age.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
+    const ageRangeName = matchingListings[0].tags?.find(tag => 
+      tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
     );
 
     // For now, we don't have sponsor items in Airtable

@@ -181,19 +181,19 @@ export async function createListing(
 
     const airtableData = {
       "Business Name": data.businessName,
-      "Email": data.email,
-      "Phone": data.phone,
-      "Website": data.website,
-      "Description": data.description,
+      Email: data.email,
+      Phone: data.phone,
+      Website: data.website,
+      Description: data.description,
       "Services Offered": data.servicesOffered,
-      "Category": data.category,
-      "Location": data.location,
-      "Virtual": data.virtual,
+      Category: data.category,
+      Location: data.location,
+      Virtual: data.virtual,
       "Age Range": data.ageRange,
-      "Plan": data.plan,
-      "Featured": data.featured,
+      Plan: data.plan,
+      Featured: data.featured,
       "101 Approved": data.approved101,
-      "Status": data.status,
+      Status: data.status,
     };
 
     console.log("Airtable data to create:", airtableData);

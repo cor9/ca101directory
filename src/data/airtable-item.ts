@@ -63,13 +63,13 @@ function listingToItem(listing: Listing): ItemInfo {
     sponsorPlanStatus: null,
     rejectionReason: null,
     collections: [],
-    categories: listing.category?.split(", ").map((cat) => ({
+    categories: listing.categories?.map((cat) => ({
       _id: cat.trim().toLowerCase().replace(/\s+/g, "-"),
       _type: "category" as const,
       _createdAt: listing.dateSubmitted,
       _updatedAt: listing.dateSubmitted,
       _rev: "",
-      name: cat.trim(),
+      name: cat,
       slug: {
         _type: "slug" as const,
         current: cat.toLowerCase().replace(/\s+/g, "-"),
@@ -78,16 +78,16 @@ function listingToItem(listing: Listing): ItemInfo {
       group: null,
       priority: null,
     })),
-    tags: listing.ageRange.map((age) => ({
-      _id: age.toLowerCase().replace(/\s+/g, "-"),
+    tags: listing.tags?.map((tag) => ({
+      _id: tag.toLowerCase().replace(/\s+/g, "-"),
       _type: "tag" as const,
       _createdAt: listing.dateSubmitted,
       _updatedAt: listing.dateSubmitted,
       _rev: "",
-      name: age,
+      name: tag,
       slug: {
         _type: "slug" as const,
-        current: age.toLowerCase().replace(/\s+/g, "-"),
+        current: tag.toLowerCase().replace(/\s+/g, "-"),
       },
       description: null,
       priority: null,
@@ -161,11 +161,9 @@ export async function getItems({
     // Category filter
     if (category) {
       filteredListings = filteredListings.filter((listing) =>
-        listing.category
-          ?.split(", ")
-          .some(
-            (cat) => cat.trim().toLowerCase().replace(/\s+/g, "-") === category,
-          ),
+        listing.categories?.some(
+          (cat) => cat.toLowerCase().replace(/\s+/g, "-") === category,
+        ),
       );
     }
 
@@ -173,7 +171,7 @@ export async function getItems({
     if (tag) {
       const tagList = tag.split(",");
       filteredListings = filteredListings.filter((listing) =>
-        tagList.every((t) => listing.ageRange.includes(t)),
+        tagList.every((t) => listing.tags?.includes(t)),
       );
     }
 

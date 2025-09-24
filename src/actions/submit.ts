@@ -109,7 +109,7 @@ export async function submit(
     const listingId = await createListing(listingData);
     if (!listingId) {
       console.log("submit, failed to create listing in Airtable");
-      return { status: "error", message: "Failed to submit listing" };
+      return { status: "error", message: "Failed to submit listing to Airtable. Please check the console for details." };
     }
 
     console.log("submit, success, listingId:", listingId);
@@ -124,6 +124,11 @@ export async function submit(
     };
   } catch (error) {
     console.log("submit, error", error);
-    return { status: "error", message: "Failed to submit" };
+    console.error("Submit error details:", {
+      message: error instanceof Error ? error.message : "Unknown error",
+      stack: error instanceof Error ? error.stack : undefined,
+      formData: formData,
+    });
+    return { status: "error", message: `Failed to submit: ${error instanceof Error ? error.message : "Unknown error"}` };
   }
 }

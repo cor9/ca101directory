@@ -35,8 +35,8 @@ export interface Listing {
   uniqueValue?: string;
   format?: string;
   notes?: string;
-  categories: string[]; // Multi-select field in Airtable
-  tags: string[]; // Multi-select field in Airtable (age ranges)
+  categories: string; // Single select field in Airtable (for now)
+  tags?: string[]; // Multi-select field in Airtable (age ranges) - not implemented yet
   gallery?: string[];
   logo?: string;
   location: string;
@@ -76,8 +76,8 @@ function recordToListing(record: Airtable.Record<any>): Listing {
     uniqueValue: record.get("Why Is It Unique?") || "",
     format: record.get("Format (In-person/Online/Hybrid)") || "",
     notes: record.get("Extras/Notes") || "",
-    categories: record.get("Categories") || [],
-    tags: record.get("Tags") || [],
+    categories: record.get("Categories") || "",
+    tags: [], // Not implemented yet in Airtable
     gallery: record.get("Gallery") || [],
     logo: record.get("Profile Image") || "",
     location:
@@ -191,21 +191,15 @@ export async function createListing(
     // Map data to correct Airtable field types
     const airtableData = {
       "Listing Name": data.businessName, // Single line text
-      "What You Offer?": data.description, // Single line text
-      "Who Is It For?": data.servicesOffered, // Single line text
-      "Why Is It Unique?": data.uniqueValue, // Long text with formatting
-      "Format (In-person/Online/Hybrid)": data.format, // Single select
-      "Extras/Notes": data.notes, // Long text with formatting
       Website: data.website, // Link
       Email: data.email, // Email
       Phone: data.phone, // Phone
       City: data.city, // Long text
       State: data.state, // Long text
       Zip: data.zip ? Number.parseInt(data.zip) : undefined, // Number
-      Categories: data.categories, // Multi-select field
-      Tags: data.tags, // Multi-select field (age ranges)
-      Plan: data.plan, // Multiple select (single value)
-      Status: data.status, // Single select
+      Categories: data.categories, // Single select field
+      Plan: [data.plan], // Multiple select (array)
+      Active: true, // Boolean
     };
 
     console.log("Airtable data to create:", airtableData);

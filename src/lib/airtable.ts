@@ -63,25 +63,28 @@ export interface Category {
 function recordToListing(record: Airtable.Record<any>): Listing {
   return {
     id: record.id,
-    businessName: record.get("Business Name") || "",
+    businessName: record.get("Listing Name") || "",
     email: record.get("Email") || "",
     phone: record.get("Phone") || "",
     website: record.get("Website") || "",
     instagram: record.get("Instagram") || "",
-    servicesOffered: record.get("Services Offered") || "",
-    description: record.get("Description") || "",
-    category: record.get("Category") || [],
+    servicesOffered: record.get("Who Is It For?") || "",
+    description: record.get("What You Offer?") || "",
+    uniqueValue: record.get("Why Is It Unique?") || "",
+    format: record.get("Format (In-person/Online/Hybrid)") || "",
+    notes: record.get("Extras/Notes") || "",
+    category: record.get("Categories") || [],
     gallery: record.get("Gallery") || [],
-    logo: record.get("Logo") || "",
-    location: record.get("Location") || "",
-    virtual: record.get("Virtual") || false,
+    logo: record.get("Profile Image") || "",
+    location: record.get("City") && record.get("State") ? `${record.get("City")}, ${record.get("State")}` : "",
+    virtual: false,
     ageRange: record.get("Age Range") || [],
     plan: record.get("Plan") || "Basic",
-    featured: record.get("Featured") || false,
-    approved101: record.get("101 Approved") || false,
+    featured: record.get("Top Rated") || false,
+    approved101: record.get("Approved Badge") || false,
     status: record.get("Status") || "Pending",
-    dateSubmitted: record.get("Date Submitted") ? new Date().toISOString() : "",
-    dateApproved: record.get("Date Approved") ? new Date().toISOString() : "",
+    dateSubmitted: record.get("Submissions") ? new Date().toISOString() : "",
+    dateApproved: record.get("Approved Badge") ? new Date().toISOString() : "",
   };
 }
 
@@ -105,7 +108,7 @@ export async function getListings(): Promise<Listing[]> {
     const records = await base("Listings")
       .select({
         filterByFormula: "{Status} = 'Live'",
-        sort: [{ field: "Business Name", direction: "asc" }],
+        sort: [{ field: "Listing Name", direction: "asc" }],
       })
       .all();
 
@@ -180,20 +183,22 @@ export async function createListing(
     console.log("Creating listing with data:", data);
 
     const airtableData = {
-      "Business Name": data.businessName,
-      Email: data.email,
-      Phone: data.phone,
-      Website: data.website,
-      Description: data.description,
-      "Services Offered": data.servicesOffered,
-      Category: data.category,
-      Location: data.location,
-      Virtual: data.virtual,
+      "Listing Name": data.businessName,
+      "What You Offer?": data.description,
+      "Who Is It For?": data.servicesOffered,
+      "Why Is It Unique?": data.uniqueValue,
+      "Format (In-person/Online/Hybrid)": data.format,
+      "Extras/Notes": data.notes,
+      "Website": data.website,
+      "Email": data.email,
+      "Phone": data.phone,
+      "City": data.city,
+      "State": data.state,
+      "Zip": data.zip,
       "Age Range": data.ageRange,
-      Plan: data.plan,
-      Featured: data.featured,
-      "101 Approved": data.approved101,
-      Status: data.status,
+      "Categories": data.category,
+      "Plan": data.plan,
+      "Status": data.status,
     };
 
     console.log("Airtable data to create:", airtableData);

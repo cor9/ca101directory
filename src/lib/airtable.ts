@@ -188,7 +188,7 @@ export async function createListing(
   try {
     console.log("Creating listing with data:", data);
 
-    // Try with minimal required fields first
+    // Try with absolute minimum fields first
     const airtableData = {
       "Listing Name": data.businessName,
       "What You Offer?": data.description,
@@ -202,8 +202,6 @@ export async function createListing(
       City: data.city,
       State: data.state,
       Zip: data.zip,
-      "Age Range": data.ageRange,
-      Categories: data.category,
       Plan: data.plan,
       Status: data.status,
     };
@@ -221,13 +219,18 @@ export async function createListing(
       stack: error instanceof Error ? error.stack : undefined,
       data: data,
     });
-
+    
     // Log more specific error information
     if (error instanceof Error) {
       console.error("Error message:", error.message);
       console.error("Error name:", error.name);
     }
-
+    
+    // Try to get more details from Airtable error
+    if (error && typeof error === 'object' && 'error' in error) {
+      console.error("Airtable error details:", error.error);
+    }
+    
     return null;
   }
 }

@@ -30,10 +30,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { SUPPORT_AI_SUBMIT, SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { SubmitSchema } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
-import type {
-  CategoryListQueryResult,
-  TagListQueryResult,
-} from "@/sanity.types";
+// Simple types for categories and tags
+type Category = {
+  _id: string;
+  name: string;
+};
+
+type Tag = {
+  _id: string;
+  name: string;
+};
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SmileIcon, Wand2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -42,8 +48,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 interface SubmitFormProps {
-  tagList: TagListQueryResult;
-  categoryList: CategoryListQueryResult;
+  tagList: Tag[];
+  categoryList: Category[];
 }
 
 /**

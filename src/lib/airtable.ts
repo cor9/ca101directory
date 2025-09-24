@@ -188,6 +188,7 @@ export async function createListing(
   try {
     console.log("Creating listing with data:", data);
 
+    // Try with minimal required fields first
     const airtableData = {
       "Listing Name": data.businessName,
       "What You Offer?": data.description,

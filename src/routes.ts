@@ -31,12 +31,18 @@ export const publicRoutes = [
   // send emails, like submission approval or rejection emails
   "/api/send-email",
 
+  // test airtable connection
+  "/api/test-airtable",
+
   // og images
   "/api/og",
 
   // draft mode
   "/api/draft",
 
+  // submission form (public)
+  "/submit(/.*)?",
+  
   // test pages
   "/shadcn(/.*)?",
   "/loading(/.*)?",

@@ -35,7 +35,7 @@ export interface Listing {
   uniqueValue?: string;
   format?: string;
   notes?: string;
-  category: string[];
+  category: string; // Long text field in Airtable
   gallery?: string[];
   logo?: string;
   location: string;
@@ -76,7 +76,7 @@ function recordToListing(record: Airtable.Record<any>): Listing {
     uniqueValue: record.get("Why Is It Unique?") || "",
     format: record.get("Format (In-person/Online/Hybrid)") || "",
     notes: record.get("Extras/Notes") || "",
-    category: record.get("Categories") || [],
+    category: record.get("Categories") || "",
     gallery: record.get("Gallery") || [],
     logo: record.get("Profile Image") || "",
     location:

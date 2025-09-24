@@ -55,13 +55,13 @@ function listingToItem(listing: Listing): ItemInfo {
     sponsorPlanStatus: null,
     rejectionReason: null,
     collections: [],
-    categories: listing.category.map(cat => ({
-      _id: cat.toLowerCase().replace(/\s+/g, '-'),
+    categories: listing.category?.split(', ').map(cat => ({
+      _id: cat.trim().toLowerCase().replace(/\s+/g, '-'),
       _type: "category" as const,
       _createdAt: listing.dateSubmitted,
       _updatedAt: listing.dateSubmitted,
       _rev: '',
-      name: cat,
+      name: cat.trim(),
       slug: {
         _type: "slug" as const,
         current: cat.toLowerCase().replace(/\s+/g, '-'),

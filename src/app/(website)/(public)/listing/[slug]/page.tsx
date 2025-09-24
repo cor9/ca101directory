@@ -212,10 +212,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
               <div className="bg-muted/50 rounded-lg p-6">
                 <h2 className="text-lg font-semibold mb-4">Categories</h2>
                 <ul className="flex flex-wrap gap-2">
-                  {listing.category.map((cat) => (
+                  {listing.category?.split(', ').map((cat) => (
                     <li key={cat}>
                       <span className="text-sm bg-primary/10 text-primary px-2 py-1 rounded">
-                        {cat}
+                        {cat.trim()}
                       </span>
                     </li>
                   ))}

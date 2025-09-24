@@ -90,7 +90,7 @@ export async function submit(
       uniqueValue: unique,
       format: format,
       notes: notes || "",
-      category: categories, // Array of category names
+      category: categories.join(", "), // Convert array to comma-separated string
       ageRange: tags, // Array of age range tags
       location: city && state ? `${city}, ${state}` : "",
       virtual: false,

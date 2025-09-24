@@ -170,7 +170,7 @@ export async function createListing(
 
   try {
     console.log("Creating listing with data:", data);
-
+    
     const record = await base("Listings").create({
       "Listing Name": data.businessName,
       Email: data.email,
@@ -201,6 +201,10 @@ export async function createListing(
     return record.id;
   } catch (error) {
     console.error("Error creating listing:", error);
+    console.error("Error details:", {
+      message: error instanceof Error ? error.message : "Unknown error",
+      data: data,
+    });
     return null;
   }
 }

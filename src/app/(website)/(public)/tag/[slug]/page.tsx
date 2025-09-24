@@ -20,15 +20,20 @@ import { notFound } from "next/navigation";
 export async function generateStaticParams() {
   try {
     const listings = await getListings();
-    
+
     // Extract unique age ranges (tags) from all listings
     const allAgeRanges = new Set<string>();
-    listings.forEach(listing => {
-      listing.tags?.forEach(tag => {
-        allAgeRanges.add(tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''));
+    listings.forEach((listing) => {
+      listing.tags?.forEach((tag) => {
+        allAgeRanges.add(
+          tag
+            .toLowerCase()
+            .replace(/\s+/g, "-")
+            .replace(/[^a-z0-9-]/g, ""),
+        );
       });
     });
-    
+
     // Convert age ranges to slugs
     return Array.from(allAgeRanges).map((ageRange) => ({
       slug: ageRange,
@@ -47,14 +52,18 @@ export async function generateMetadata({
 }): Promise<Metadata | undefined> {
   try {
     const listings = await getListings();
-    
+
     // Find listings that match this tag (age range)
-    const matchingListings = listings.filter(listing =>
-      listing.tags?.some(tag => 
-        tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
-      )
+    const matchingListings = listings.filter((listing) =>
+      listing.tags?.some(
+        (tag) =>
+          tag
+            .toLowerCase()
+            .replace(/\s+/g, "-")
+            .replace(/[^a-z0-9-]/g, "") === params.slug,
+      ),
     );
-    
+
     if (matchingListings.length === 0) {
       return constructMetadata({
         title: "Tag Not Found - Child Actor 101 Directory",
@@ -62,12 +71,16 @@ export async function generateMetadata({
         canonicalUrl: `${siteConfig.url}/tag/${params.slug}`,
       });
     }
-    
+
     // Get the actual age range name from the first matching listing
-    const ageRangeName = matchingListings[0].tags?.find(tag => 
-      tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
+    const ageRangeName = matchingListings[0].tags?.find(
+      (tag) =>
+        tag
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, "") === params.slug,
     );
-    
+
     return constructMetadata({
       title: `${ageRangeName} - Child Actor 101 Directory`,
       description: `Find acting professionals for ${ageRangeName} age range`,
@@ -92,21 +105,29 @@ export default async function TagPage({
 }) {
   try {
     const listings = await getListings();
-    
+
     // Find listings that match this tag (age range)
-    const matchingListings = listings.filter(listing =>
-      listing.tags?.some(tag => 
-        tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
-      )
+    const matchingListings = listings.filter((listing) =>
+      listing.tags?.some(
+        (tag) =>
+          tag
+            .toLowerCase()
+            .replace(/\s+/g, "-")
+            .replace(/[^a-z0-9-]/g, "") === params.slug,
+      ),
     );
-    
+
     if (matchingListings.length === 0) {
       return notFound();
     }
 
     // Get the actual age range name from the first matching listing
-    const ageRangeName = matchingListings[0].tags?.find(tag => 
-      tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
+    const ageRangeName = matchingListings[0].tags?.find(
+      (tag) =>
+        tag
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, "") === params.slug,
     );
 
     // For now, we don't have sponsor items in Airtable
@@ -118,7 +139,7 @@ export default async function TagPage({
     const { sortKey, reverse } =
       SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
     const currentPage = page ? Number(page) : 1;
-    
+
     const { items, totalCount } = await getItems({
       tag: params.slug,
       sortKey,
@@ -126,7 +147,7 @@ export default async function TagPage({
       currentPage,
       hasSponsorItem,
     });
-    
+
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
     return (

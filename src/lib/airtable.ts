@@ -188,22 +188,23 @@ export async function createListing(
   try {
     console.log("Creating listing with data:", data);
 
-    // Try with absolute minimum fields first
+    // Map data to correct Airtable field types
     const airtableData = {
-      "Listing Name": data.businessName,
-      "What You Offer?": data.description,
-      "Who Is It For?": data.servicesOffered,
-      "Why Is It Unique?": data.uniqueValue,
-      "Format (In-person/Online/Hybrid)": data.format,
-      "Extras/Notes": data.notes,
-      Website: data.website,
-      Email: data.email,
-      Phone: data.phone,
-      City: data.city,
-      State: data.state,
-      Zip: data.zip,
-      Plan: data.plan,
-      Status: data.status,
+      "Listing Name": data.businessName, // Single line text
+      "What You Offer?": data.description, // Single line text
+      "Who Is It For?": data.servicesOffered, // Single line text
+      "Why Is It Unique?": data.uniqueValue, // Long text with formatting
+      "Format (In-person/Online/Hybrid)": data.format, // Single select
+      "Extras/Notes": data.notes, // Long text with formatting
+      Website: data.website, // Link
+      Email: data.email, // Email
+      Phone: data.phone, // Phone
+      City: data.city, // Long text
+      State: data.state, // Long text
+      Zip: data.zip ? parseInt(data.zip) : undefined, // Number
+      Categories: data.category, // Long text (single value)
+      Plan: data.plan, // Multiple select (single value)
+      Status: data.status, // Single select
     };
 
     console.log("Airtable data to create:", airtableData);

@@ -7,23 +7,23 @@ export async function GET(req: NextRequest) {
   try {
     console.log("Testing Airtable connection...");
     
-    // Test data - minimal required fields only
+    // Test data - correct data types for Airtable fields
     const testData = {
       businessName: "Test Business",
       email: "test@example.com",
       phone: "555-1234",
       website: "https://example.com",
-      description: "Test description",
-      servicesOffered: "Test services",
-      uniqueValue: "Test unique value",
-      format: "In-person",
-      notes: "Test notes",
-      city: "Test City",
-      state: "CA",
-      zip: "90210",
-      category: [],
+      description: "Test description", // Single line text
+      servicesOffered: "Test services", // Single line text
+      uniqueValue: "Test unique value", // Long text with formatting
+      format: "In-person", // Single select
+      notes: "Test notes", // Long text with formatting
+      city: "Test City", // Long text
+      state: "CA", // Long text
+      zip: "90210", // Number (will be converted)
+      category: "Acting Classes", // Long text (single value, not array)
       ageRange: [],
-      plan: "Basic" as const,
+      plan: "Basic", // Multiple select (single value)
       featured: false,
       approved101: false,
       status: "Pending" as const,

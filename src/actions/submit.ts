@@ -109,6 +109,7 @@ export async function submit(
     const listingId = await createListing(listingData);
     if (!listingId) {
       console.log("submit, failed to create listing in Airtable");
+      console.error("Airtable creation failed - check server logs for details");
       return { status: "error", message: "Failed to submit listing to Airtable. Please check the console for details." };
     }
 

@@ -164,7 +164,7 @@ export async function createListing(
   data: Partial<Listing>,
 ): Promise<string | null> {
   console.log("createListing called with data:", data);
-  
+
   if (!base) {
     console.warn("Airtable not initialized - cannot create listing");
     console.log("Airtable config check:", {
@@ -178,29 +178,29 @@ export async function createListing(
 
   try {
     console.log("Creating listing with data:", data);
-    
+
     const airtableData = {
       "Business Name": data.businessName,
-      "Email": data.email,
-      "Phone": data.phone,
-      "Website": data.website,
-      "Description": data.description,
+      Email: data.email,
+      Phone: data.phone,
+      Website: data.website,
+      Description: data.description,
       "Services Offered": data.servicesOffered,
-      "Category": data.category,
-      "Location": data.location,
-      "Virtual": data.virtual,
+      Category: data.category,
+      Location: data.location,
+      Virtual: data.virtual,
       "Age Range": data.ageRange,
-      "Plan": data.plan,
-      "Featured": data.featured,
+      Plan: data.plan,
+      Featured: data.featured,
       "101 Approved": data.approved101,
-      "Status": data.status,
+      Status: data.status,
       "Form Submitted": true,
-      "Reviewed": false,
+      Reviewed: false,
       "Converted Paid Listing": "",
     };
-    
+
     console.log("Airtable data to create:", airtableData);
-    
+
     const record = await base("Listings").create(airtableData);
 
     console.log("Successfully created listing:", record.id);
@@ -212,13 +212,13 @@ export async function createListing(
       stack: error instanceof Error ? error.stack : undefined,
       data: data,
     });
-    
+
     // Log more specific error information
     if (error instanceof Error) {
       console.error("Error message:", error.message);
       console.error("Error name:", error.name);
     }
-    
+
     return null;
   }
 }

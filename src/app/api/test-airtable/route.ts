@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   try {
     console.log("Testing Airtable connection...");
     
-    // Test data
+    // Test data - minimal required fields only
     const testData = {
       businessName: "Test Business",
       email: "test@example.com",

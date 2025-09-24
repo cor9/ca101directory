@@ -1,65 +1,56 @@
-import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { NextRequest } from 'next/server';
+import { put } from '@vercel/blob';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-);
+export const runtime = 'edge';
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    console.log("Upload API called");
-    
-    // First, let's see what buckets exist
-    const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets();
-    console.log("Available buckets:", buckets);
-    console.log("Buckets error:", bucketsError);
-
-    const formData = await request.formData();
-    const file = formData.get("file") as File;
+    const formData = await req.formData();
+    const file = formData.get('file') as File;
+    const businessSlug = formData.get('businessSlug') as string;
 
     if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+      return Response.json({ error: 'No file provided' }, { status: 400 });
+    }
+
+    // Validate file size (200KB limit)
+    const maxSizeInBytes = 200 * 1024;
+    if (file.size > maxSizeInBytes) {
+      return Response.json(
+        { error: 'File must be under 200KB' },
+        { status: 400 }
+      );
+    }
+
+    // Validate file type
+    if (!file.type.match(/^image\/(jpeg|jpg|png)$/)) {
+      return Response.json(
+        { error: 'Only JPEG and PNG images are allowed' },
+        { status: 400 }
+      );
     }
 
     // Generate unique filename
     const timestamp = Date.now();
-    const fileExtension = file.type === "image/jpeg" ? "jpg" : "png";
-    const fileName = `logo-${timestamp}.${fileExtension}`;
+    const fileExtension = file.type === 'image/jpeg' ? 'jpg' : 'png';
+    const slug = businessSlug || 'logo';
+    const filename = `${slug}-${timestamp}.${fileExtension}`;
 
-    console.log("Uploading file:", fileName);
+    // Upload to Vercel Blob
+    const blob = await put(`uploads/${filename}`, file, { 
+      access: 'public' 
+    });
 
-    // Try uploading to the first available bucket
-    const bucketName = buckets && buckets.length > 0 ? buckets[0].name : "public";
-    console.log("Using bucket:", bucketName);
-
-    const { data, error } = await supabase.storage
-      .from(bucketName)
-      .upload(fileName, file, {
-        cacheControl: "3600",
-        upsert: false,
-      });
-
-    if (error) {
-      console.error("Supabase upload error:", error);
-      return NextResponse.json(
-        { error: `Upload failed: ${error.message}` },
-        { status: 500 },
-      );
-    }
-
-    const { data: { publicUrl } } = supabase.storage.from(bucketName).getPublicUrl(fileName);
-
-    return NextResponse.json({
+    return Response.json({ 
       success: true,
-      url: publicUrl,
-      fileName: fileName,
+      url: blob.url, 
+      fileName: filename 
     });
   } catch (error) {
-    console.error("Upload API error:", error);
-    return NextResponse.json(
-      { error: `Internal server error: ${error instanceof Error ? error.message : 'Unknown error'}` },
-      { status: 500 },
+    console.error('Vercel Blob upload error:', error);
+    return Response.json(
+      { error: `Upload failed: ${error instanceof Error ? error.message : 'Unknown error'}` },
+      { status: 500 }
     );
   }
 }

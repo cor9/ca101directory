@@ -47,10 +47,11 @@ export async function submit(
   formData: SubmitFormData,
 ): Promise<ServerActionResponse> {
   try {
-    const user = await currentUser();
-    if (!user) {
-      return { status: "error", message: "Unauthorized" };
-    }
+    // Allow submissions without authentication for public form
+    // const user = await currentUser();
+    // if (!user) {
+    //   return { status: "error", message: "Unauthorized" };
+    // }
 
     // console.log("submit, data:", formData);
     const {
@@ -81,7 +82,7 @@ export async function submit(
     // Create listing in Airtable
     const listingData = {
       businessName: name,
-      email: email || user.email || "",
+      email: email || "", // Use form email instead of user email
       phone: phone || "",
       website: link,
       description: description,

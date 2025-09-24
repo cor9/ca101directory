@@ -170,30 +170,30 @@ export async function createListing(
 
   try {
     console.log("Creating listing with data:", data);
-    
+
     const record = await base("Listings").create({
       "Listing Name": data.businessName,
-      "Email": data.email,
-      "Phone": data.phone,
-      "Website": data.website,
-      "Description": data.description,
+      Email: data.email,
+      Phone: data.phone,
+      Website: data.website,
+      Description: data.description,
       "Services Offered": data.servicesOffered,
       "Unique Value": data.uniqueValue,
-      "Format": data.format,
-      "Notes": data.notes,
-      "Category": data.category,
+      Format: data.format,
+      Notes: data.notes,
+      Category: data.category,
       "Age Range": data.ageRange,
-      "Location": data.location,
-      "Virtual": data.virtual,
-      "Plan": data.plan,
-      "Featured": data.featured,
-      "Approved": data.approved101,
-      "Status": data.status,
+      Location: data.location,
+      Virtual: data.virtual,
+      Plan: data.plan,
+      Featured: data.featured,
+      Approved: data.approved101,
+      Status: data.status,
       "Form Submitted": true,
-      "Reviewed": false,
+      Reviewed: false,
       "Converted Paid Listing": "",
       "Performer Permit": data.performerPermit,
-      "Bonded": data.bonded,
+      Bonded: data.bonded,
       "Bond Number": data.bondNumber,
     });
 

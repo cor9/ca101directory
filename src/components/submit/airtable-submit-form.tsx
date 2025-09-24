@@ -99,31 +99,34 @@ export function AirtableSubmitForm({
   });
 
   // submit form if data is valid
-  const onSubmit = form.handleSubmit((data: SubmitFormData) => {
-    console.log("Form submitted with data:", data);
-    startTransition(async () => {
-      submit(data)
-        .then((data) => {
-          if (data.status === "success") {
-            console.log("AirtableSubmitForm, success:", data.message);
-            form.reset();
-            router.push(`/payment/${data.id}`);
-            toast.success(data.message);
-          }
-          if (data.status === "error") {
-            console.error("AirtableSubmitForm, error:", data.message);
-            toast.error(data.message);
-          }
-        })
-        .catch((error) => {
-          console.error("AirtableSubmitForm, error:", error);
-          toast.error("Something went wrong");
-        });
-    });
-  }, (errors) => {
-    console.error("Form validation errors:", errors);
-    toast.error("Please fix the form errors before submitting");
-  });
+  const onSubmit = form.handleSubmit(
+    (data: SubmitFormData) => {
+      console.log("Form submitted with data:", data);
+      startTransition(async () => {
+        submit(data)
+          .then((data) => {
+            if (data.status === "success") {
+              console.log("AirtableSubmitForm, success:", data.message);
+              form.reset();
+              router.push(`/payment/${data.id}`);
+              toast.success(data.message);
+            }
+            if (data.status === "error") {
+              console.error("AirtableSubmitForm, error:", data.message);
+              toast.error(data.message);
+            }
+          })
+          .catch((error) => {
+            console.error("AirtableSubmitForm, error:", error);
+            toast.error("Something went wrong");
+          });
+      });
+    },
+    (errors) => {
+      console.error("Form validation errors:", errors);
+      toast.error("Please fix the form errors before submitting");
+    },
+  );
 
   const handleUploadChange = (status: {
     isUploading: boolean;

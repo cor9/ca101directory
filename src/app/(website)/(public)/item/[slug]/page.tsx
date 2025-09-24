@@ -49,7 +49,7 @@ export async function generateMetadata({
     
     return constructMetadata({
       title: `${listing.businessName} - Child Actor 101 Directory`,
-      description: listing.description || `Professional ${listing.category.join(', ')} services for young actors`,
+      description: listing.description || `Professional ${listing.category} services for young actors`,
       canonicalUrl: `${siteConfig.url}/item/${params.slug}`,
     });
   } catch (error) {

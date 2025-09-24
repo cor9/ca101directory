@@ -163,15 +163,23 @@ export async function getCategories(): Promise<Category[]> {
 export async function createListing(
   data: Partial<Listing>,
 ): Promise<string | null> {
+  console.log("createListing called with data:", data);
+  
   if (!base) {
     console.warn("Airtable not initialized - cannot create listing");
+    console.log("Airtable config check:", {
+      hasApiKey: !!process.env.AIRTABLE_API_KEY,
+      hasBaseId: !!process.env.AIRTABLE_BASE_ID,
+      apiKeyLength: process.env.AIRTABLE_API_KEY?.length,
+      baseId: process.env.AIRTABLE_BASE_ID,
+    });
     return null;
   }
 
   try {
     console.log("Creating listing with data:", data);
     
-    const record = await base("Listings").create({
+    const airtableData = {
       "Business Name": data.businessName,
       "Email": data.email,
       "Phone": data.phone,
@@ -189,7 +197,11 @@ export async function createListing(
       "Form Submitted": true,
       "Reviewed": false,
       "Converted Paid Listing": "",
-    });
+    };
+    
+    console.log("Airtable data to create:", airtableData);
+    
+    const record = await base("Listings").create(airtableData);
 
     console.log("Successfully created listing:", record.id);
     return record.id;
@@ -197,8 +209,16 @@ export async function createListing(
     console.error("Error creating listing:", error);
     console.error("Error details:", {
       message: error instanceof Error ? error.message : "Unknown error",
+      stack: error instanceof Error ? error.stack : undefined,
       data: data,
     });
+    
+    // Log more specific error information
+    if (error instanceof Error) {
+      console.error("Error message:", error.message);
+      console.error("Error name:", error.name);
+    }
+    
     return null;
   }
 }

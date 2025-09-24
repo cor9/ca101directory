@@ -44,7 +44,7 @@ export interface Listing {
   zip?: string;
   virtual: boolean;
   ageRange: string[];
-  plan: "Basic" | "Pro" | "Premium" | "Add-On";
+  plan: "Basic" | "Pro" | "Premium" | "Free" | "Add-On";
   featured: boolean;
   approved101: boolean;
   status: "Pending" | "Approved" | "Rejected";

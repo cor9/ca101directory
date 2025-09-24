@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
       zip: "90210", // Number (will be converted)
       category: "Acting Classes", // Long text (single value, not array)
       ageRange: [],
-      plan: "Basic", // Multiple select (single value)
+      plan: "Basic" as const, // Multiple select (single value)
       featured: false,
       approved101: false,
       status: "Pending" as const,

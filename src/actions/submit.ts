@@ -85,16 +85,18 @@ export async function submit(
       email: email || "", // Use form email instead of user email
       phone: phone || "",
       website: link,
-      description: description,
-      servicesOffered: introduction,
+      description: description, // Maps to "What You Offer?" in Airtable
+      servicesOffered: introduction, // Maps to "Who Is It For?" in Airtable
       uniqueValue: unique,
       format: format,
       notes: notes || "",
       category: categories.join(", "), // Convert array to comma-separated string
       ageRange: tags, // Array of age range tags
-      location: city && state ? `${city}, ${state}` : "",
+      city: city || "",
+      state: state || "",
+      zip: zip || "",
       virtual: false,
-      plan: plan.toLowerCase() as any, // Convert to lowercase to match Airtable format
+      plan: plan as "Basic" | "Pro" | "Premium" | "Free", // Keep original case to match Listing interface
       featured: false,
       approved101: false,
       status: "Pending" as const,

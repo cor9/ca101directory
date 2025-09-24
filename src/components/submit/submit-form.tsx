@@ -70,6 +70,18 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
       link: "",
       description: "",
       introduction: "",
+      unique: "",
+      format: "In-person",
+      notes: "",
+      email: "",
+      phone: "",
+      city: "",
+      state: "",
+      zip: "",
+      bondNumber: "",
+      plan: "Free",
+      performerPermit: false,
+      bonded: false,
       imageId: "",
       tags: [],
       categories: [],
@@ -193,205 +205,491 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
       <form onSubmit={onSubmit}>
         <Card className="overflow-hidden">
           <CardContent className="mt-6 space-y-6">
-            <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
-              <FormField
-                control={form.control}
-                name="link"
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Link</FormLabel>
-                    <div className="relative">
+            {/* Business Information */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Business Information</h3>
+              <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Business Name *</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter your business website URL"
-                          className={cn(SUPPORT_AI_SUBMIT && "pr-[100px]")}
+                          placeholder="Enter your business name"
                           {...field}
                         />
                       </FormControl>
-                      {SUPPORT_AI_SUBMIT && (
-                        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                          <DialogTrigger asChild>
-                            <Button
-                              variant="default"
-                              size="sm"
-                              className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-2 h-7 px-2"
-                              disabled={isAIProcessing}
-                            >
-                              {isAIProcessing ? (
-                                <Icons.spinner className="h-4 w-4 animate-spin" />
-                              ) : (
-                                <Wand2Icon className="h-4 w-4" />
-                              )}
-                              <span className="text-xs">AI Autofill</span>
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>AI Autofill</DialogTitle>
-                              <DialogDescription>
-                                Would you like AI to automatically fill in the
-                                form by the URL? It may take some time, so
-                                please wait patiently.
-                              </DialogDescription>
-                            </DialogHeader>
-                            <div className="flex justify-end gap-2">
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="link"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Website URL *</FormLabel>
+                      <div className="relative">
+                        <FormControl>
+                          <Input
+                            placeholder="https://yourwebsite.com"
+                            className={cn(SUPPORT_AI_SUBMIT && "pr-[100px]")}
+                            {...field}
+                          />
+                        </FormControl>
+                        {SUPPORT_AI_SUBMIT && (
+                          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                            <DialogTrigger asChild>
                               <Button
-                                variant="outline"
-                                onClick={() => setDialogOpen(false)}
-                              >
-                                Cancel
-                              </Button>
-                              <Button
-                                onClick={handleAIFetch}
+                                variant="default"
+                                size="sm"
+                                className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-2 h-7 px-2"
                                 disabled={isAIProcessing}
                               >
                                 {isAIProcessing ? (
-                                  <>
-                                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                                    Analyzing...
-                                  </>
+                                  <Icons.spinner className="h-4 w-4 animate-spin" />
                                 ) : (
-                                  "Analyze"
+                                  <Wand2Icon className="h-4 w-4" />
                                 )}
+                                <span className="text-xs">AI Autofill</span>
                               </Button>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
-                      )}
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter your business name"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>AI Autofill</DialogTitle>
+                                <DialogDescription>
+                                  Would you like AI to automatically fill in the
+                                  form by the URL? It may take some time, so
+                                  please wait patiently.
+                                </DialogDescription>
+                              </DialogHeader>
+                              <div className="flex justify-end gap-2">
+                                <Button
+                                  variant="outline"
+                                  onClick={() => setDialogOpen(false)}
+                                >
+                                  Cancel
+                                </Button>
+                                <Button
+                                  onClick={handleAIFetch}
+                                  disabled={isAIProcessing}
+                                >
+                                  {isAIProcessing ? (
+                                    <>
+                                      <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                                      Analyzing...
+                                    </>
+                                  ) : (
+                                    "Analyze"
+                                  )}
+                                </Button>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
+                        )}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
 
-            <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
-              <FormField
-                control={form.control}
-                name="categories"
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Categories</FormLabel>
-                    <FormControl>
-                      <MultiSelect
-                        className="shadow-none"
-                        options={categoryList.map((category) => ({
-                          value: category._id,
-                          label: category.name || "",
-                        }))}
-                        onValueChange={(selected) => field.onChange(selected)}
-                        value={field.value}
-                        placeholder="Select categories"
-                        variant="default"
-                        maxCount={3}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="tags"
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Age Range</FormLabel>
-                    <FormControl>
-                      <MultiSelect
-                        className="shadow-none"
-                        options={tagList.map((tag) => ({
-                          value: tag._id,
-                          label: tag.name || "",
-                        }))}
-                        onValueChange={(selected) => field.onChange(selected)}
-                        value={field.value}
-                        placeholder="Select age ranges you work with"
-                        variant="default"
-                        maxCount={4}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Describe your business and services for child actors"
-                      {...field}
-                      className="resize-none"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="introduction"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    <div className="flex items-center justify-between gap-4">
-                      <span>Services Offered</span>
-                      <span className="text-xs text-muted-foreground">
-                        (Markdown supported)
-                      </span>
-                    </div>
-                  </FormLabel>
-                  <FormControl>
-                    <CustomMde {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
-              {SUPPORT_ITEM_ICON && (
+            {/* Service Details */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Service Details</h3>
+              <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
                 <FormField
                   control={form.control}
-                  name={"iconId" as keyof SubmitFormData}
+                  name="categories"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Categories *</FormLabel>
+                      <FormControl>
+                        <MultiSelect
+                          className="shadow-none"
+                          options={categoryList.map((category) => ({
+                            value: category._id,
+                            label: category.name || "",
+                          }))}
+                          onValueChange={(selected) => field.onChange(selected)}
+                          value={field.value}
+                          placeholder="Select categories"
+                          variant="default"
+                          maxCount={3}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="tags"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Age Range *</FormLabel>
+                      <FormControl>
+                        <MultiSelect
+                          className="shadow-none"
+                          options={tagList.map((tag) => ({
+                            value: tag._id,
+                            label: tag.name || "",
+                          }))}
+                          onValueChange={(selected) => field.onChange(selected)}
+                          value={field.value}
+                          placeholder="Select age ranges you work with"
+                          variant="default"
+                          maxCount={4}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            {/* Service Descriptions */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Service Descriptions</h3>
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>What You Offer? *</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Briefly describe what services you offer for child actors"
+                        {...field}
+                        className="resize-none"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="introduction"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      <div className="flex items-center justify-between gap-4">
+                        <span>Who Is It For? *</span>
+                        <span className="text-xs text-muted-foreground">
+                          (Markdown supported)
+                        </span>
+                      </div>
+                    </FormLabel>
+                    <FormControl>
+                      <CustomMde {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="unique"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Why Is It Unique? *</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="What makes your services special or different from others?"
+                        {...field}
+                        className="resize-none"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* Additional Information */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Additional Information</h3>
+              <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
+                <FormField
+                  control={form.control}
+                  name="format"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Format *</FormLabel>
+                      <FormControl>
+                        <select
+                          {...field}
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          <option value="In-person">In-person</option>
+                          <option value="Online">Online</option>
+                          <option value="Hybrid">Hybrid</option>
+                        </select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="plan"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Plan *</FormLabel>
+                      <FormControl>
+                        <select
+                          {...field}
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          <option value="Free">Free</option>
+                          <option value="Basic">Basic</option>
+                          <option value="Pro">Pro</option>
+                          <option value="Premium">Premium</option>
+                        </select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="notes"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Extras/Notes</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Any additional information, special requirements, or notes"
+                        {...field}
+                        className="resize-none"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* Contact Information */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Contact Information</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email *</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="your@email.com"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="tel"
+                          placeholder="(555) 123-4567"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="city"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>City</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Los Angeles"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="state"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>State</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="CA"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="zip"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>ZIP Code</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="90210"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            {/* Legal Compliance */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Legal Compliance</h3>
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="performerPermit"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <input
+                          type="checkbox"
+                          checked={field.value}
+                          onChange={field.onChange}
+                          className="mt-1"
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel>
+                          California Child Performer Services Permit
+                        </FormLabel>
+                        <p className="text-sm text-muted-foreground">
+                          I have a valid California Child Performer Services Permit
+                        </p>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="bonded"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <input
+                          type="checkbox"
+                          checked={field.value}
+                          onChange={field.onChange}
+                          className="mt-1"
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel>
+                          Bonded For Advanced Fees
+                        </FormLabel>
+                        <p className="text-sm text-muted-foreground">
+                          I am bonded for advanced fees as required by California law
+                        </p>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="bondNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Bond Number</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter bond number if applicable"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            {/* Images */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Images</h3>
+              <div className="flex flex-col md:flex-row md:space-x-4 space-y-6 md:space-y-0">
+                {SUPPORT_ITEM_ICON && (
+                  <FormField
+                    control={form.control}
+                    name={"iconId" as keyof SubmitFormData}
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>
+                          <div className="flex items-center justify-between gap-4">
+                            <span>Business Logo</span>
+                            <span className="text-xs text-muted-foreground">
+                              (1:1, PNG or JPEG, max 1MB)
+                            </span>
+                          </div>
+                        </FormLabel>
+                        <FormControl>
+                          <div className="mt-4 w-full h-[370px]">
+                            <ImageUpload
+                              currentImageUrl={iconUrl}
+                              onUploadChange={handleUploadIconChange}
+                              type="icon"
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+                <FormField
+                  control={form.control}
+                  name="imageId"
                   render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormLabel>
                         <div className="flex items-center justify-between gap-4">
-                          <span>Business Logo</span>
+                          <span>Gallery Images</span>
                           <span className="text-xs text-muted-foreground">
-                            (1:1, PNG or JPEG, max 1MB)
+                            (16:9, PNG or JPEG, max 1MB)
                           </span>
                         </div>
                       </FormLabel>
                       <FormControl>
                         <div className="mt-4 w-full h-[370px]">
                           <ImageUpload
-                            currentImageUrl={iconUrl}
-                            onUploadChange={handleUploadIconChange}
-                            type="icon"
+                            currentImageUrl={imageUrl}
+                            onUploadChange={handleUploadChange}
+                            type="image"
                           />
                         </div>
                       </FormControl>
@@ -399,33 +697,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                     </FormItem>
                   )}
                 />
-              )}
-              <FormField
-                control={form.control}
-                name="imageId"
-                render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>
-                      <div className="flex items-center justify-between gap-4">
-                        <span>Gallery Images</span>
-                        <span className="text-xs text-muted-foreground">
-                          (16:9, PNG or JPEG, max 1MB)
-                        </span>
-                      </div>
-                    </FormLabel>
-                    <FormControl>
-                      <div className="mt-4 w-full h-[370px]">
-                        <ImageUpload
-                          currentImageUrl={imageUrl}
-                          onUploadChange={handleUploadChange}
-                          type="image"
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              </div>
             </div>
           </CardContent>
           <CardFooter

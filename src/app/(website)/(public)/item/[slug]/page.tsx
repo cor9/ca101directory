@@ -93,12 +93,12 @@ export default async function ItemDetailPage({
           )}
           
           <div className="flex flex-wrap gap-2 mb-4">
-            {listing.category.map((cat, index) => (
+            {listing.category?.split(', ').map((cat) => (
               <span
-                key={index}
+                key={cat}
                 className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
               >
-                {cat}
+                {cat.trim()}
               </span>
             ))}
           </div>

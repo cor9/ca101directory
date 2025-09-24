@@ -146,8 +146,8 @@ export async function getItems({
     // Category filter
     if (category) {
       filteredListings = filteredListings.filter(listing => 
-        listing.category.some(cat => 
-          cat.toLowerCase().replace(/\s+/g, '-') === category
+        listing.category?.split(', ').some(cat => 
+          cat.trim().toLowerCase().replace(/\s+/g, '-') === category
         )
       );
     }

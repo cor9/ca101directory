@@ -39,6 +39,9 @@ export interface Listing {
   gallery?: string[];
   logo?: string;
   location: string;
+  city?: string;
+  state?: string;
+  zip?: string;
   virtual: boolean;
   ageRange: string[];
   plan: "Basic" | "Pro" | "Premium" | "Add-On";
@@ -76,7 +79,10 @@ function recordToListing(record: Airtable.Record<any>): Listing {
     category: record.get("Categories") || [],
     gallery: record.get("Gallery") || [],
     logo: record.get("Profile Image") || "",
-    location: record.get("City") && record.get("State") ? `${record.get("City")}, ${record.get("State")}` : "",
+    location:
+      record.get("City") && record.get("State")
+        ? `${record.get("City")}, ${record.get("State")}`
+        : "",
     virtual: false,
     ageRange: record.get("Age Range") || [],
     plan: record.get("Plan") || "Basic",
@@ -189,16 +195,16 @@ export async function createListing(
       "Why Is It Unique?": data.uniqueValue,
       "Format (In-person/Online/Hybrid)": data.format,
       "Extras/Notes": data.notes,
-      "Website": data.website,
-      "Email": data.email,
-      "Phone": data.phone,
-      "City": data.city,
-      "State": data.state,
-      "Zip": data.zip,
+      Website: data.website,
+      Email: data.email,
+      Phone: data.phone,
+      City: data.city,
+      State: data.state,
+      Zip: data.zip,
       "Age Range": data.ageRange,
-      "Categories": data.category,
-      "Plan": data.plan,
-      "Status": data.status,
+      Categories: data.category,
+      Plan: data.plan,
+      Status: data.status,
     };
 
     console.log("Airtable data to create:", airtableData);

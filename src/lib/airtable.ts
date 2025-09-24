@@ -63,25 +63,25 @@ export interface Category {
 function recordToListing(record: Airtable.Record<any>): Listing {
   return {
     id: record.id,
-    businessName: record.get("Listing Name") || "",
-    email: "", // Not in current CSV structure
-    phone: "", // Not in current CSV structure
-    website: "", // Not in current CSV structure
-    instagram: "", // Not in current CSV structure
-    servicesOffered: "", // Not in current CSV structure
-    description: "", // Not in current CSV structure
-    category: [], // Not in current CSV structure
-    gallery: [], // Not in current CSV structure
-    logo: "", // Not in current CSV structure
-    location: "", // Not in current CSV structure
-    virtual: false, // Not in current CSV structure
-    ageRange: [], // Not in current CSV structure
-    plan: "Basic", // Not in current CSV structure
-    featured: false, // Not in current CSV structure
-    approved101: record.get("Approved") || false,
+    businessName: record.get("Business Name") || "",
+    email: record.get("Email") || "",
+    phone: record.get("Phone") || "",
+    website: record.get("Website") || "",
+    instagram: record.get("Instagram") || "",
+    servicesOffered: record.get("Services Offered") || "",
+    description: record.get("Description") || "",
+    category: record.get("Category") || [],
+    gallery: record.get("Gallery") || [],
+    logo: record.get("Logo") || "",
+    location: record.get("Location") || "",
+    virtual: record.get("Virtual") || false,
+    ageRange: record.get("Age Range") || [],
+    plan: record.get("Plan") || "Basic",
+    featured: record.get("Featured") || false,
+    approved101: record.get("101 Approved") || false,
     status: record.get("Status") || "Pending",
-    dateSubmitted: record.get("Form Submitted") ? new Date().toISOString() : "",
-    dateApproved: record.get("Approved") ? new Date().toISOString() : "",
+    dateSubmitted: record.get("Date Submitted") ? new Date().toISOString() : "",
+    dateApproved: record.get("Date Approved") ? new Date().toISOString() : "",
   };
 }
 
@@ -105,7 +105,7 @@ export async function getListings(): Promise<Listing[]> {
     const records = await base("Listings")
       .select({
         filterByFormula: "{Status} = 'Live'",
-        sort: [{ field: "Listing Name", direction: "asc" }],
+        sort: [{ field: "Business Name", direction: "asc" }],
       })
       .all();
 
@@ -172,29 +172,23 @@ export async function createListing(
     console.log("Creating listing with data:", data);
     
     const record = await base("Listings").create({
-      "Listing Name": data.businessName,
-      Email: data.email,
-      Phone: data.phone,
-      Website: data.website,
-      Description: data.description,
+      "Business Name": data.businessName,
+      "Email": data.email,
+      "Phone": data.phone,
+      "Website": data.website,
+      "Description": data.description,
       "Services Offered": data.servicesOffered,
-      "Unique Value": data.uniqueValue,
-      Format: data.format,
-      Notes: data.notes,
-      Category: data.category,
+      "Category": data.category,
+      "Location": data.location,
+      "Virtual": data.virtual,
       "Age Range": data.ageRange,
-      Location: data.location,
-      Virtual: data.virtual,
-      Plan: data.plan,
-      Featured: data.featured,
-      Approved: data.approved101,
-      Status: data.status,
+      "Plan": data.plan,
+      "Featured": data.featured,
+      "101 Approved": data.approved101,
+      "Status": data.status,
       "Form Submitted": true,
-      Reviewed: false,
+      "Reviewed": false,
       "Converted Paid Listing": "",
-      "Performer Permit": data.performerPermit,
-      Bonded: data.bonded,
-      "Bond Number": data.bondNumber,
     });
 
     console.log("Successfully created listing:", record.id);

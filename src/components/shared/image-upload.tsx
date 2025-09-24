@@ -77,9 +77,11 @@ export default function ImageUpload({
       if (asset) {
         setImageUrl(asset.url);
         onUploadChange({ isUploading: false, imageId: asset._id });
+        toast.success("Image uploaded successfully!");
       }
     } catch (error) {
       console.error("handleImageUpload, error uploading image:", error);
+      toast.error("Failed to upload image. Please try again.");
     } finally {
       setUploading(false);
       onUploadChange({ isUploading: false });

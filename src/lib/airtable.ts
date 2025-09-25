@@ -227,8 +227,31 @@ export async function getCategories(): Promise<Category[]> {
   }
 }
 
+// Interface for form data that matches what we actually pass
+interface FormData {
+  name: string;
+  link: string;
+  description: string;
+  introduction: string;
+  unique: string;
+  format: string;
+  notes: string;
+  email: string;
+  phone: string;
+  city: string;
+  state: string;
+  zip: string;
+  bondNumber: string;
+  plan: string;
+  performerPermit: boolean;
+  bonded: boolean;
+  categories: string[]; // Array of category IDs
+  tags: string[];
+  iconId: string;
+}
+
 export async function createListing(
-  data: Partial<Listing>,
+  data: FormData,
   categoryList?: any[],
 ): Promise<string | null> {
   console.log("createListing called with data:", data);

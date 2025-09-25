@@ -96,26 +96,26 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
   });
 
   // submit form if data is valid
-  const onSubmit = form.handleSubmit((data: SubmitFormData) => {
-    // console.log('SubmitForm, onSubmit, data:', data);
+  const onSubmit = form.handleSubmit(async (data: SubmitFormData) => {
+    console.log('SubmitForm, onSubmit, data:', data);
     startTransition(async () => {
-      submit(data)
-        .then((data) => {
-          if (data.status === "success") {
-            console.log("SubmitForm, success:", data.message);
-            form.reset();
-            router.push(`/payment/${data.id}`);
-            toast.success(data.message);
-          }
-          if (data.status === "error") {
-            console.error("SubmitForm, error:", data.message);
-            toast.error(data.message);
-          }
-        })
-        .catch((error) => {
-          console.error("SubmitForm, error:", error);
-          toast.error("Something went wrong");
-        });
+      try {
+        const result = await submit(data);
+        console.log("SubmitForm, result:", result);
+        
+        if (result.status === "success") {
+          console.log("SubmitForm, success:", result.message);
+          form.reset();
+          router.push(`/payment/${result.id}`);
+          toast.success(result.message);
+        } else {
+          console.error("SubmitForm, error:", result.message);
+          toast.error(result.message);
+        }
+      } catch (error) {
+        console.error("SubmitForm, catch error:", error);
+        toast.error("Failed to submit listing. Please try again.");
+      }
     });
   });
 

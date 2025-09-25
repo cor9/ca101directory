@@ -85,8 +85,8 @@ export async function submit(
       ? categoryList.find(cat => cat.id === categories[0])?.categoryName || ""
       : "";
 
-    // Create listing in Airtable
-    const listingData = {
+    // Create listing data with sanitization for Airtable
+    const rawListingData = {
       businessName: name,
       email: email || "", // Use form email instead of user email
       phone: phone || "",
@@ -110,11 +110,12 @@ export async function submit(
       performerPermit: performerPermit,
       bonded: bonded,
       bondNumber: bondNumber || "",
+      iconId: iconId || "", // Add iconId for sanitization
     };
 
-    console.log("submit, creating listing in Airtable:", listingData);
+    console.log("submit, creating listing in Airtable:", rawListingData);
 
-    const listingId = await createListing(listingData);
+    const listingId = await createListing(rawListingData);
     if (!listingId) {
       console.log("submit, failed to create listing in Airtable");
       console.error("Airtable creation failed - check server logs for details");

@@ -1,5 +1,32 @@
 import Airtable from "airtable";
 
+// Sanitize payload for Airtable - strip empty strings and convert Vercel Blob IDs to attachments
+function sanitizePayload(input: Record<string, any>) {
+  const fields: Record<string, any> = {};
+
+  Object.entries(input).forEach(([key, value]) => {
+    // Skip empty values
+    if (value === "" || value === undefined || value === null) {
+      return;
+    }
+
+    // Handle Vercel blob IDs -> Airtable attachment
+    if (key === "iconId" || key === "imageId") {
+      fields["Profile Image"] = [
+        {
+          url: `https://ca101directory.public.blob.vercel-storage.com/${value}`
+        }
+      ];
+      return;
+    }
+
+    // Normal case: copy as-is
+    fields[key] = value;
+  });
+
+  return { fields };
+}
+
 // Initialize Airtable only if API key is available
 let airtable: Airtable | null = null;
 let base: Airtable.Base | null = null;
@@ -189,7 +216,7 @@ export async function createListing(
     console.log("Creating listing with data:", data);
 
     // Map data to correct Airtable field types
-    const airtableData = {
+    const rawAirtableData = {
       "Listing Name": data.businessName, // Single line text
       Website: data.website, // Link
       Email: data.email, // Email
@@ -200,11 +227,16 @@ export async function createListing(
       Categories: data.categories, // Single select field
       Plan: [data.plan], // Multiple select (array)
       Active: true, // Boolean
+      iconId: (data as any).iconId, // Add iconId for sanitization
     };
 
-    console.log("Airtable data to create:", airtableData);
+    console.log("Raw Airtable data:", rawAirtableData);
 
-    const record = await base("Listings").create(airtableData);
+    // Sanitize the payload for Airtable
+    const sanitizedData = sanitizePayload(rawAirtableData);
+    console.log("Sanitized Airtable data:", sanitizedData);
+
+    const record = await base("Listings").create(sanitizedData.fields);
 
     console.log("Successfully created listing:", record.id);
     return record.id;

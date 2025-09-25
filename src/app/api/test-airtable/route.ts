@@ -6,7 +6,7 @@ export const runtime = "edge";
 export async function GET(req: NextRequest) {
   try {
     console.log("Testing Airtable connection...");
-    
+
     // Test data - correct data types for Airtable fields
     const testData = {
       businessName: "Test Business",
@@ -30,9 +30,9 @@ export async function GET(req: NextRequest) {
     };
 
     console.log("Creating test listing with data:", testData);
-    
+
     const listingId = await createListing(testData);
-    
+
     if (listingId) {
       return Response.json({
         success: true,
@@ -40,16 +40,22 @@ export async function GET(req: NextRequest) {
         listingId: listingId,
       });
     } else {
-      return Response.json({
-        success: false,
-        message: "Failed to create listing in Airtable",
-      }, { status: 500 });
+      return Response.json(
+        {
+          success: false,
+          message: "Failed to create listing in Airtable",
+        },
+        { status: 500 },
+      );
     }
   } catch (error) {
     console.error("Airtable test error:", error);
-    return Response.json({
-      success: false,
-      message: `Airtable test failed: ${error instanceof Error ? error.message : "Unknown error"}`,
-    }, { status: 500 });
+    return Response.json(
+      {
+        success: false,
+        message: `Airtable test failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+      },
+      { status: 500 },
+    );
   }
 }

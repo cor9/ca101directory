@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import { getCategories } from "@/lib/airtable";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
@@ -44,9 +44,11 @@ export async function POST(request: NextRequest) {
       if (raw.categories?.length) {
         // Convert category IDs to labels
         const categoryId = raw.categories[0] || raw.categories;
-        if (typeof categoryId === 'string' && categoryId.startsWith('rec')) {
+        if (typeof categoryId === "string" && categoryId.startsWith("rec")) {
           // This is a record ID, convert it to the category name
-          const categoryName = categoryList?.find(cat => cat.id === categoryId)?.categoryName || "Acting Classes";
+          const categoryName =
+            categoryList?.find((cat) => cat.id === categoryId)?.categoryName ||
+            "Acting Classes";
           fields["Categories"] = categoryName;
         } else {
           // This is already a category name
@@ -58,8 +60,8 @@ export async function POST(request: NextRequest) {
       if (raw.iconId) {
         fields["Profile Image"] = [
           {
-            url: `https://ca101directory.public.blob.vercel-storage.com/${raw.iconId}`
-          }
+            url: `https://ca101directory.public.blob.vercel-storage.com/${raw.iconId}`,
+          },
         ];
       }
 
@@ -74,14 +76,13 @@ export async function POST(request: NextRequest) {
       success: true,
       original: body,
       transformed: transformed,
-      categories: categoryList
+      categories: categoryList,
     });
-
   } catch (error) {
     console.error("Test transform error:", error);
     return NextResponse.json(
       { error: "Transform test failed", details: error },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

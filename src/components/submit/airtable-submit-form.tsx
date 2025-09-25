@@ -2,7 +2,6 @@
 
 import { type SubmitFormData, submit } from "@/actions/submit";
 import { Icons } from "@/components/icons/icons";
-import CustomMde from "@/components/shared/custom-mde";
 import ImageUpload from "@/components/shared/image-upload";
 import { MultiSelect } from "@/components/shared/multi-select";
 import { Button } from "@/components/ui/button";
@@ -242,7 +241,11 @@ export function AirtableSubmitForm({
                       Who Is It For?
                     </FormLabel>
                     <FormControl>
-                      <CustomMde {...field} />
+                      <Textarea
+                        placeholder="Briefly describe who this service is designed for. Be specific about your target audience."
+                        className="min-h-[100px]"
+                        {...field}
+                      />
                     </FormControl>
                     <div className="text-sm text-muted-foreground mt-2">
                       <p className="font-medium mb-2">Examples:</p>

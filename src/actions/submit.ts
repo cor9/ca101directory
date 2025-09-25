@@ -1,6 +1,6 @@
 "use server";
 
-import { createListing } from "@/lib/airtable";
+import { createListing, getCategories } from "@/lib/airtable";
 import { currentUser } from "@/lib/auth";
 import type { SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { SubmitSchema } from "@/lib/schemas";
@@ -79,6 +79,12 @@ export async function submit(
     const iconId = "iconId" in rest ? rest.iconId : undefined;
     console.log("submit, name:", name, "link:", link, "plan:", plan);
 
+    // Get categories to convert IDs to names
+    const categoryList = await getCategories();
+    const categoryName = categories.length > 0 
+      ? categoryList.find(cat => cat._id === categories[0])?.name || ""
+      : "";
+
     // Create listing in Airtable
     const listingData = {
       businessName: name,
@@ -90,7 +96,7 @@ export async function submit(
       uniqueValue: unique,
       format: format,
       notes: notes || "",
-      categories: categories[0] || "", // Single select field - take first category
+      categories: categoryName, // Single select field - convert ID to name
       tags: [], // Not implemented yet in Airtable
       city: city || "",
       state: state || "",

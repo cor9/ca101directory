@@ -81,12 +81,14 @@ export async function submit(
 
     // Get categories to convert IDs to names
     const categoryList = await getCategories();
-    const categoryName = categories.length > 0
-      ? categoryList.find(cat => cat.id === categories[0])?.categoryName || ""
-      : "";
+    const categoryName =
+      categories.length > 0
+        ? categoryList.find((cat) => cat.id === categories[0])?.categoryName ||
+          ""
+        : "";
 
     // Create form data in the format expected by toAirtable transform
-    const formData = {
+    const airtableFormData = {
       name: name,
       link: link,
       description: description,
@@ -108,9 +110,9 @@ export async function submit(
       iconId: iconId,
     };
 
-    console.log("submit, creating listing in Airtable:", formData);
+    console.log("submit, creating listing in Airtable:", airtableFormData);
 
-    const listingId = await createListing(formData, categoryList);
+    const listingId = await createListing(airtableFormData, categoryList);
     if (!listingId) {
       console.log("submit, failed to create listing in Airtable");
       console.error("Airtable creation failed - check server logs for details");

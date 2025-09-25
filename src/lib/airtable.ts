@@ -34,9 +34,11 @@ function toAirtable(input: any, categoryList?: any[]) {
   if (raw.categories?.length) {
     // Convert category IDs to labels
     const categoryId = raw.categories[0] || raw.categories;
-    if (typeof categoryId === 'string' && categoryId.startsWith('rec')) {
+    if (typeof categoryId === "string" && categoryId.startsWith("rec")) {
       // This is a record ID, convert it to the category name
-      const categoryName = categoryList?.find(cat => cat.id === categoryId)?.categoryName || "Acting Classes";
+      const categoryName =
+        categoryList?.find((cat) => cat.id === categoryId)?.categoryName ||
+        "Acting Classes";
       fields["Categories"] = categoryName;
     } else {
       // This is already a category name
@@ -48,8 +50,8 @@ function toAirtable(input: any, categoryList?: any[]) {
   if (raw.iconId) {
     fields["Profile Image"] = [
       {
-        url: `https://ca101directory.public.blob.vercel-storage.com/${raw.iconId}`
-      }
+        url: `https://ca101directory.public.blob.vercel-storage.com/${raw.iconId}`,
+      },
     ];
   }
 
@@ -227,7 +229,7 @@ export async function getCategories(): Promise<Category[]> {
 
 export async function createListing(
   data: Partial<Listing>,
-  categoryList?: any[]
+  categoryList?: any[],
 ): Promise<string | null> {
   console.log("createListing called with data:", data);
 

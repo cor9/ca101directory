@@ -104,14 +104,11 @@ export default async function ItemDetailPage({
           )}
 
           <div className="flex flex-wrap gap-2 mb-4">
-            {listing.categories?.map((cat) => (
-              <span
-                key={cat}
-                className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
-              >
-                {cat}
+            {listing.categories && (
+              <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                {listing.categories}
               </span>
-            ))}
+            )}
           </div>
         </div>
 

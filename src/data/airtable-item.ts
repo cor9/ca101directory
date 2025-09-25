@@ -63,21 +63,21 @@ function listingToItem(listing: Listing): ItemInfo {
     sponsorPlanStatus: null,
     rejectionReason: null,
     collections: [],
-    categories: listing.categories?.map((cat) => ({
-      _id: cat.trim().toLowerCase().replace(/\s+/g, "-"),
+    categories: listing.categories ? [{
+      _id: listing.categories.trim().toLowerCase().replace(/\s+/g, "-"),
       _type: "category" as const,
       _createdAt: listing.dateSubmitted,
       _updatedAt: listing.dateSubmitted,
       _rev: "",
-      name: cat,
+      name: listing.categories,
       slug: {
         _type: "slug" as const,
-        current: cat.toLowerCase().replace(/\s+/g, "-"),
+        current: listing.categories.toLowerCase().replace(/\s+/g, "-"),
       },
       description: null,
       group: null,
       priority: null,
-    })),
+    }] : [],
     tags: listing.tags?.map((tag) => ({
       _id: tag.toLowerCase().replace(/\s+/g, "-"),
       _type: "tag" as const,
@@ -161,9 +161,7 @@ export async function getItems({
     // Category filter
     if (category) {
       filteredListings = filteredListings.filter((listing) =>
-        listing.categories?.some(
-          (cat) => cat.toLowerCase().replace(/\s+/g, "-") === category,
-        ),
+        listing.categories?.toLowerCase().replace(/\s+/g, "-") === category,
       );
     }
 

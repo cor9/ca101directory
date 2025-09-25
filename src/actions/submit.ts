@@ -81,8 +81,8 @@ export async function submit(
 
     // Get categories to convert IDs to names
     const categoryList = await getCategories();
-    const categoryName = categories.length > 0 
-      ? categoryList.find(cat => cat._id === categories[0])?.name || ""
+    const categoryName = categories.length > 0
+      ? categoryList.find(cat => cat.id === categories[0])?.categoryName || ""
       : "";
 
     // Create listing in Airtable

@@ -97,12 +97,12 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
 
   // submit form if data is valid
   const onSubmit = form.handleSubmit(async (data: SubmitFormData) => {
-    console.log('SubmitForm, onSubmit, data:', data);
+    console.log("SubmitForm, onSubmit, data:", data);
     startTransition(async () => {
       try {
         const result = await submit(data);
         console.log("SubmitForm, result:", result);
-        
+
         if (result.status === "success") {
           console.log("SubmitForm, success:", result.message);
           form.reset();

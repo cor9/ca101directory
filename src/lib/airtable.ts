@@ -47,7 +47,7 @@ function toAirtable(input: any, categoryList?: any[]) {
   }
 
   // Handle Vercel Blob attachment
-  if (raw.iconId) {
+  if (raw.iconId && typeof raw.iconId === 'string') {
     fields["Profile Image"] = [
       {
         url: `https://ca101directory.public.blob.vercel-storage.com/${raw.iconId}`,
@@ -247,7 +247,7 @@ interface FormData {
   bonded: boolean;
   categories: string[]; // Array of category IDs
   tags: string[];
-  iconId: string;
+  iconId?: string | unknown; // Optional and can be unknown type
 }
 
 export async function createListing(

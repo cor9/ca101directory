@@ -85,37 +85,32 @@ export async function submit(
       ? categoryList.find(cat => cat.id === categories[0])?.categoryName || ""
       : "";
 
-    // Create listing data with sanitization for Airtable
-    const rawListingData = {
-      businessName: name,
-      email: email || "", // Use form email instead of user email
-      phone: phone || "",
-      website: link,
-      description: description, // Maps to "What You Offer?" in Airtable
-      servicesOffered: introduction, // Maps to "Who Is It For?" in Airtable
-      uniqueValue: unique,
+    // Create form data in the format expected by toAirtable transform
+    const formData = {
+      name: name,
+      link: link,
+      description: description,
+      introduction: introduction,
+      unique: unique,
       format: format,
-      notes: notes || "",
-      categories: categoryName, // Single select field - convert ID to name
-      tags: [], // Not implemented yet in Airtable
-      city: city || "",
-      state: state || "",
-      zip: zip || "",
-      virtual: false,
-      plan: plan as "Basic" | "Pro" | "Premium" | "Free", // Keep original case to match Listing interface
-      featured: false,
-      approved101: false,
-      status: "Pending" as const,
-      dateSubmitted: new Date().toISOString(),
+      notes: notes,
+      email: email,
+      phone: phone,
+      city: city,
+      state: state,
+      zip: zip,
+      bondNumber: bondNumber,
+      plan: plan,
       performerPermit: performerPermit,
       bonded: bonded,
-      bondNumber: bondNumber || "",
-      iconId: iconId || "", // Add iconId for sanitization
+      categories: categories, // Pass the original category IDs
+      tags: [], // Not implemented yet
+      iconId: iconId,
     };
 
-    console.log("submit, creating listing in Airtable:", rawListingData);
+    console.log("submit, creating listing in Airtable:", formData);
 
-    const listingId = await createListing(rawListingData);
+    const listingId = await createListing(formData, categoryList);
     if (!listingId) {
       console.log("submit, failed to create listing in Airtable");
       console.error("Airtable creation failed - check server logs for details");

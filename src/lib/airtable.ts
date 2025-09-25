@@ -47,7 +47,7 @@ function toAirtable(input: any, categoryList?: any[]) {
   }
 
   // Handle Vercel Blob attachment
-  if (raw.iconId && typeof raw.iconId === 'string') {
+  if (raw.iconId && typeof raw.iconId === "string") {
     fields["Profile Image"] = [
       {
         url: `https://ca101directory.public.blob.vercel-storage.com/${raw.iconId}`,

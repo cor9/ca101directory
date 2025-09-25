@@ -13,8 +13,16 @@ export const metadata = constructMetadata({
  * Submit page - re-enabled with Airtable integration
  */
 export default async function SubmitPage() {
-  // Get categories from Airtable
-  const categories = await getCategories();
+  // Get categories from Airtable with error handling
+  let categories = [];
+  try {
+    categories = await getCategories();
+    console.log("SubmitPage: Successfully fetched categories:", categories.length);
+  } catch (error) {
+    console.error("SubmitPage: Error fetching categories:", error);
+    // Fallback to empty array if Airtable fails
+    categories = [];
+  }
 
   // Convert Airtable categories to the format expected by SubmitForm
   const categoryList = categories.map((cat) => ({

@@ -1,7 +1,7 @@
 import { AirtableSubmitForm } from "@/components/submit/airtable-submit-form";
 import { siteConfig } from "@/config/site";
-import { constructMetadata } from "@/lib/metadata";
 import { getCategories } from "@/lib/airtable";
+import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
   title: "Submit Your Listing",
@@ -17,7 +17,10 @@ export default async function SubmitPage() {
   let categories = [];
   try {
     categories = await getCategories();
-    console.log("SubmitPage: Successfully fetched categories:", categories.length);
+    console.log(
+      "SubmitPage: Successfully fetched categories:",
+      categories.length,
+    );
   } catch (error) {
     console.error("SubmitPage: Error fetching categories:", error);
     // Fallback to empty array if Airtable fails
@@ -56,7 +59,7 @@ export default async function SubmitPage() {
       },
       description: "Services for children ages 0-5",
       group: "age-range",
-      priority: 1,
+      priority: "1",
     },
     {
       _id: "tag-2",
@@ -71,7 +74,7 @@ export default async function SubmitPage() {
       },
       description: "Services for children ages 6-12",
       group: "age-range",
-      priority: 2,
+      priority: "2",
     },
     {
       _id: "tag-3",
@@ -86,7 +89,7 @@ export default async function SubmitPage() {
       },
       description: "Services for children ages 13-17",
       group: "age-range",
-      priority: 3,
+      priority: "3",
     },
   ];
 

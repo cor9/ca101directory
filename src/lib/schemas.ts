@@ -59,7 +59,7 @@ export const baseSubmitSchema = {
 export const SubmitSchema = SUPPORT_ITEM_ICON
   ? z.object({
       ...baseSubmitSchema,
-      iconId: z.string().min(1, { message: "Must upload an icon" }),
+      iconId: z.string().optional(), // Make optional instead of required
     })
   : z.object(baseSubmitSchema);
 

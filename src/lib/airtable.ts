@@ -42,8 +42,8 @@ export function toAirtable(raw: any) {
   if (raw.iconId) {
     fields["Profile Image"] = [
       {
-        url: `https://ca101directory.public.blob.vercel-storage.com/${raw.iconId}`
-      }
+        url: `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${raw.iconId}`,
+      },
     ];
   }
 
@@ -245,9 +245,7 @@ interface FormData {
   iconId?: string | unknown; // Optional and can be unknown type
 }
 
-export async function createListing(
-  data: FormData,
-): Promise<string | null> {
+export async function createListing(data: FormData): Promise<string | null> {
   console.log("createListing called with data:", data);
 
   if (!base) {

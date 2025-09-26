@@ -163,7 +163,7 @@ export async function getListings(): Promise<Listing[]> {
   try {
     const records = await base("Listings")
       .select({
-        filterByFormula: "AND({Status} = 'Approved', {Active} = 1)",
+        filterByFormula: "{Status} = 'Approved'",
         sort: [{ field: "Listing Name", direction: "asc" }],
       })
       .all();

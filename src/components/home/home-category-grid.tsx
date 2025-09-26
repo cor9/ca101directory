@@ -1,4 +1,5 @@
 import { Icons } from "@/components/icons/icons";
+import { getListings, getCategories } from "@/lib/airtable";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -10,8 +11,8 @@ interface Category {
   count?: number;
 }
 
-// Static categories that match the actual data structure
-const categories: Category[] = [
+// Fallback categories if no Airtable data
+const fallbackCategories: Category[] = [
   {
     name: "Acting Classes & Coaches",
     slug: "acting-classes-coaches",
@@ -56,7 +57,59 @@ const categories: Category[] = [
   },
 ];
 
-export default function HomeCategoryGrid() {
+// Icon mapping for categories
+const categoryIconMap: Record<string, keyof typeof Icons> = {
+  "Acting Classes & Coaches": "theater",
+  "Headshot Photographers": "camera",
+  "Demo Reel Editors": "video",
+  "Talent Agents": "users",
+  "Casting Directors": "star",
+  "Voice Coaches": "mic",
+  "Acting Coaches": "theater",
+  "Photographers": "camera",
+  "Editors": "video",
+  "Agents": "users",
+  "Directors": "star",
+  "Coaches": "mic",
+};
+
+export default async function HomeCategoryGrid() {
+  // Get real categories from Airtable
+  let categories: Category[] = [];
+  
+  try {
+    const [airtableCategories, listings] = await Promise.all([
+      getCategories(),
+      getListings()
+    ]);
+    
+    // Count listings per category
+    const categoryCounts: Record<string, number> = {};
+    for (const listing of listings) {
+      if (listing.categories) {
+        for (const category of listing.categories) {
+          categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+        }
+      }
+    }
+    
+    categories = airtableCategories
+      .slice(0, 6) // Limit to 6 categories
+      .map(category => ({
+        name: category.categoryName,
+        slug: category.categoryName.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, ""),
+        icon: categoryIconMap[category.categoryName] || "star",
+        description: category.description || `Professional ${category.categoryName.toLowerCase()} services`,
+        count: categoryCounts[category.categoryName] || 0,
+      }));
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+  }
+
+  // Use fallback if no Airtable categories
+  if (categories.length === 0) {
+    categories = fallbackCategories;
+  }
   return (
     <section className="py-16">
       <div className="text-center mb-12">

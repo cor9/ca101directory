@@ -40,7 +40,7 @@ export function toAirtable(formData: any) {
           ]
         : [],
       Plan: formData.plan,
-      Status: "Pending",
+      Status: "PENDING",
     },
   };
 
@@ -95,7 +95,7 @@ export interface Listing {
   plan: "Basic" | "Pro" | "Premium" | "Free" | "Add-On";
   featured: boolean;
   approved101: boolean;
-  status: "Pending" | "Approved" | "Rejected";
+  status: "PENDING" | "APPROVED" | "REJECTED";
   active: boolean;
   dateSubmitted: string;
   dateApproved?: string;
@@ -137,7 +137,7 @@ function recordToListing(record: Airtable.Record<any>): Listing {
     plan: record.get("Plan") || "Basic",
     featured: record.get("Top Rated") || false,
     approved101: record.get("Approved Badge") || false,
-    status: record.get("Status") || "Pending",
+    status: record.get("Status") || "PENDING",
     active: record.get("Active") || false,
     dateSubmitted: record.get("Submissions") ? new Date().toISOString() : "",
     dateApproved: record.get("Approved Badge") ? new Date().toISOString() : "",
@@ -163,7 +163,7 @@ export async function getListings(): Promise<Listing[]> {
   try {
     const records = await base("Listings")
       .select({
-        filterByFormula: "{Status} = 'Approved'",
+        filterByFormula: "{Status} = 'APPROVED'",
         sort: [{ field: "Listing Name", direction: "asc" }],
       })
       .all();

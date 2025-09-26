@@ -27,7 +27,7 @@ export async function GET() {
       total: listings.length,
       listings: listingsWithSlugs,
       debug: {
-        filter: "{Status} = 'Approved'",
+        filter: "{Status} = 'APPROVED'",
         environment: {
           hasApiKey: !!process.env.AIRTABLE_API_KEY,
           hasBaseId: !!process.env.AIRTABLE_BASE_ID,

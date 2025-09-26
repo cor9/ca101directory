@@ -29,9 +29,22 @@ function toAirtable(input: any, categoryList?: any[]) {
     fields["Bonded For Advanced Fees"] = true;
   }
 
-  // Only include tags if they match Airtable's defined options
+  // Convert tag IDs to age range labels for Airtable
   if (raw.tags?.length) {
-    fields["Age Range"] = raw.tags;
+    const ageRangeMap: Record<string, string> = {
+      "tag-1": "0-5",
+      "tag-2": "6-12", 
+      "tag-3": "13-17",
+      "tag-4": "18+"
+    };
+    
+    const ageRanges = raw.tags
+      .map((tagId: string) => ageRangeMap[tagId])
+      .filter(Boolean); // Remove undefined values
+    
+    if (ageRanges.length > 0) {
+      fields["Age Range"] = ageRanges;
+    }
   }
 
   // Categories must be labels, not IDs
@@ -39,7 +52,9 @@ function toAirtable(input: any, categoryList?: any[]) {
     fields["Categories"] = raw.categories.map((c: string) => {
       if (c.startsWith("rec")) {
         // Convert record ID to category name using categoryList
-        const categoryName = categoryList?.find((cat) => cat.id === c)?.categoryName;
+        const categoryName = categoryList?.find(
+          (cat) => cat.id === c,
+        )?.categoryName;
         return categoryName || "Acting Classes & Coaches"; // fallback
       }
       return c; // Already a category name

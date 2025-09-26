@@ -5,18 +5,55 @@ function toAirtable(input: any, categoryList?: any[]) {
   const raw = Array.isArray(input) ? input[0] : input;
   const fields: Record<string, any> = {};
 
-  // Map form fields to Airtable field names (only fields that exist in current schema)
+  // Map form fields to Airtable field names
   if (raw.name) fields["Listing Name"] = raw.name;
   if (raw.link) fields["Website"] = raw.link;
+  if (raw.description) fields["What You Offer?"] = raw.description;
+  if (raw.introduction) fields["Who Is It For?"] = raw.introduction;
+  if (raw.unique) fields["Why Is It Unique?"] = raw.unique;
+  if (raw.format) fields["Format (In-person/Online/Hybrid)"] = raw.format;
+  if (raw.notes) fields["Extras/Notes"] = raw.notes;
   if (raw.email) fields["Email"] = raw.email;
   if (raw.phone) fields["Phone"] = raw.phone;
   if (raw.city) fields["City"] = raw.city;
   if (raw.state) fields["State"] = raw.state;
   if (raw.zip) fields["Zip"] = raw.zip;
+  if (raw.bondNumber) fields["Bond#"] = raw.bondNumber;
   if (raw.plan) fields["Plan"] = raw.plan;
-  
-  // Set Active to true for new listings
-  fields["Active"] = true;
+
+  // Handle boolean fields
+  if (raw.performerPermit) {
+    fields["California Child Performer Services Permit"] = true;
+  }
+  if (raw.bonded) {
+    fields["Bonded For Advanced Fees"] = true;
+  }
+
+  // Only include tags if they match Airtable's defined options
+  if (raw.tags?.length) {
+    fields["Age Range"] = raw.tags;
+  }
+
+  // Categories must be labels, not IDs
+  if (raw.categories?.length) {
+    fields["Categories"] = raw.categories.map((c: string) => {
+      if (c.startsWith("rec")) {
+        // Convert record ID to category name using categoryList
+        const categoryName = categoryList?.find((cat) => cat.id === c)?.categoryName;
+        return categoryName || "Acting Classes & Coaches"; // fallback
+      }
+      return c; // Already a category name
+    });
+  }
+
+  // Attachments
+  if (raw.iconId && typeof raw.iconId === "string") {
+    fields["Profile Image"] = [
+      {
+        url: `https://ca101directory.public.blob.vercel-storage.com/${raw.iconId}`,
+      },
+    ];
+  }
 
   return { fields };
 }

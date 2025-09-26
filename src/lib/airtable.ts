@@ -188,6 +188,30 @@ export async function getListings(): Promise<Listing[]> {
   }
 }
 
+export async function getAllListings(): Promise<Listing[]> {
+  if (!base) {
+    console.warn("Airtable not initialized - returning empty listings");
+    return [];
+  }
+
+  try {
+    const records = await base("Listings")
+      .select({
+        // No filter - get all records
+        sort: [{ field: "Listing Name", direction: "asc" }],
+      })
+      .all();
+
+    console.log(`✅ Found ${records.length} total listings in Airtable`);
+    const listings = records.map(recordToListing);
+
+    return listings;
+  } catch (error) {
+    console.error("Error fetching all listings:", error);
+    return [];
+  }
+}
+
 export async function getListingById(id: string): Promise<Listing | null> {
   if (!base) {
     console.warn("Airtable not initialized - returning null");

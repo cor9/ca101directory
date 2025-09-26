@@ -7,26 +7,27 @@ export async function GET(req: NextRequest) {
   try {
     console.log("Testing Airtable connection...");
 
-    // Test data - correct data types for Airtable fields
+    // Test data - FormData interface for createListing
     const testData = {
-      businessName: "Test Business",
+      name: "Test Business",
+      link: "https://example.com",
+      description: "Test description",
+      introduction: "Test introduction",
+      unique: "Test unique value",
+      format: "In-person" as const,
+      notes: "Test notes",
       email: "test@example.com",
       phone: "555-1234",
-      website: "https://example.com",
-      description: "Test description", // Single line text
-      servicesOffered: "Test services", // Single line text
-      uniqueValue: "Test unique value", // Long text with formatting
-      format: "In-person", // Single select
-      notes: "Test notes", // Long text with formatting
-      city: "Test City", // Long text
-      state: "CA", // Long text
-      zip: "90210", // Number (will be converted)
-      categories: "Acting Classes", // Single select field
-      tags: [], // Not implemented yet
-      plan: "Basic" as const, // Multiple select (single value)
-      featured: false,
-      approved101: false,
-      status: "Pending" as const,
+      city: "Test City",
+      state: "CA",
+      zip: "90210",
+      bondNumber: "12345",
+      plan: "Basic" as const,
+      performerPermit: false,
+      bonded: false,
+      categories: ["rec4gFz49LQTQpzhw"], // Acting Classes & Coaches
+      tags: [],
+      iconId: undefined,
     };
 
     console.log("Creating test listing with data:", testData);

@@ -32,10 +32,10 @@ export function toAirtable(formData: any) {
       Zip: formData.zip,
       "Age Range": mappedTags,
       Categories: mappedCategories,
-      "Profile Image": formData.imageId
+      "Profile Image": formData.iconId
         ? [
             {
-              url: `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${formData.imageId}`,
+              url: `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${formData.iconId}`,
             },
           ]
         : [],
@@ -282,10 +282,10 @@ export async function createListing(data: FormData): Promise<string | null> {
               .map((c: string) => categoryMap[c] || c)
               .filter(Boolean)
           : [],
-        "Profile Image": data.imageId
+        "Profile Image": data.iconId
           ? [
               {
-                url: `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${data.imageId}`,
+                url: `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${data.iconId}`,
               },
             ]
           : [],

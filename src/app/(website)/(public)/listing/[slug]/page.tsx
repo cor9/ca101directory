@@ -16,25 +16,69 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+// Force dynamic rendering to avoid static/dynamic conflicts
+export const dynamic = "force-dynamic";
+
+/**
+ * Generate static params for all listing pages
+ * This tells Next.js which listing pages to pre-build
+ */
+export async function generateStaticParams() {
+  try {
+    const { getListings } = await import("@/lib/airtable");
+    const listings = await getListings();
+
+    // Convert listing names to slugs
+    return listings.map((listing) => ({
+      slug: listing.businessName
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, ""),
+    }));
+  } catch (error) {
+    console.error("generateStaticParams error:", error);
+    // Return empty array if Airtable is not configured
+    return [];
+  }
+}
+
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata | undefined> {
-  const listing = await getListingById(params.slug);
-  if (!listing) {
-    console.warn(
-      `generateMetadata, listing not found for slug: ${params.slug}`,
+  try {
+    const { getListings } = await import("@/lib/airtable");
+    const listings = await getListings();
+    const listing = listings.find(
+      (listing) =>
+        listing.businessName
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, "") === params.slug,
     );
-    return;
-  }
 
-  return constructMetadata({
-    title: `${listing.businessName} - Child Actor 101 Directory`,
-    description: listing.description,
-    canonicalUrl: `${siteConfig.url}/listing/${params.slug}`,
-    image: listing.logo,
-  });
+    if (!listing) {
+      console.warn(
+        `generateMetadata, listing not found for slug: ${params.slug}`,
+      );
+      return;
+    }
+
+    return constructMetadata({
+      title: `${listing.businessName} - Child Actor 101 Directory`,
+      description: listing.description,
+      canonicalUrl: `${siteConfig.url}/listing/${params.slug}`,
+      image: listing.logo,
+    });
+  } catch (error) {
+    console.error("generateMetadata error:", error);
+    return constructMetadata({
+      title: "Listing - Child Actor 101 Directory",
+      description: "Professional acting services for young actors",
+      canonicalUrl: `${siteConfig.url}/listing/${params.slug}`,
+    });
+  }
 }
 
 interface ListingPageProps {
@@ -42,14 +86,23 @@ interface ListingPageProps {
 }
 
 export default async function ListingPage({ params }: ListingPageProps) {
-  const listing = await getListingById(params.slug);
+  try {
+    const { getListings } = await import("@/lib/airtable");
+    const listings = await getListings();
+    const listing = listings.find(
+      (listing) =>
+        listing.businessName
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, "") === params.slug,
+    );
 
-  if (!listing) {
-    console.error("ListingPage, listing not found");
-    return notFound();
-  }
+    if (!listing) {
+      console.error("ListingPage, listing not found");
+      return notFound();
+    }
 
-  return (
+    return (
     <div className="flex flex-col gap-8">
       {/* Header section */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
@@ -276,4 +329,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
       </div>
     </div>
   );
+  } catch (error) {
+    console.error("ListingPage error:", error);
+    return notFound();
+  }
 }

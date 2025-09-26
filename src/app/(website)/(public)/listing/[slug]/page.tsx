@@ -217,33 +217,35 @@ export default async function ListingPage({ params }: ListingPageProps) {
           <div className="lg:col-span-3 flex flex-col">
             {/* Detailed content */}
             <div className="bg-muted/50 rounded-lg p-6 mr-0 lg:mr-8">
-              <h2 className="text-lg font-semibold mb-4">
+              <h2 className="text-xl font-semibold mb-6 text-foreground">
                 About This Professional
               </h2>
-              <div className="prose prose-sm max-w-none">
-                <p>{listing.description}</p>
+              <div className="prose prose-sm max-w-none text-foreground">
+                <p className="text-base leading-relaxed mb-4">{listing.description}</p>
                 {listing.servicesOffered && (
-                  <div className="mt-4">
-                    <h3 className="font-semibold mb-2">Services Offered:</h3>
-                    <p>{listing.servicesOffered}</p>
+                  <div className="mt-6">
+                    <h3 className="font-semibold mb-3 text-foreground">Services Offered:</h3>
+                    <p className="text-base leading-relaxed">{listing.servicesOffered}</p>
                   </div>
                 )}
                 {listing.uniqueValue && (
-                  <div className="mt-4">
-                    <h3 className="font-semibold mb-2">What Makes This Unique:</h3>
-                    <p>{listing.uniqueValue}</p>
+                  <div className="mt-6">
+                    <h3 className="font-semibold mb-3 text-foreground">
+                      What Makes This Unique:
+                    </h3>
+                    <p className="text-base leading-relaxed">{listing.uniqueValue}</p>
                   </div>
                 )}
                 {listing.format && (
-                  <div className="mt-4">
-                    <h3 className="font-semibold mb-2">Service Format:</h3>
-                    <p>{listing.format}</p>
+                  <div className="mt-6">
+                    <h3 className="font-semibold mb-3 text-foreground">Service Format:</h3>
+                    <p className="text-base leading-relaxed">{listing.format}</p>
                   </div>
                 )}
                 {listing.notes && (
-                  <div className="mt-4">
-                    <h3 className="font-semibold mb-2">Additional Notes:</h3>
-                    <p>{listing.notes}</p>
+                  <div className="mt-6">
+                    <h3 className="font-semibold mb-3 text-foreground">Additional Notes:</h3>
+                    <p className="text-base leading-relaxed">{listing.notes}</p>
                   </div>
                 )}
               </div>
@@ -265,22 +267,22 @@ export default async function ListingPage({ params }: ListingPageProps) {
               <div className="flex flex-col space-y-4">
                 {/* Contact Information */}
                 <div className="bg-muted/50 rounded-lg p-6">
-                  <h2 className="text-lg font-semibold mb-4">
+                  <h2 className="text-lg font-semibold mb-4 text-foreground">
                     Contact Information
                   </h2>
-                  <ul className="space-y-4 text-sm">
+                  <ul className="space-y-4 text-base">
                     {listing.location && (
                       <li className="flex items-start gap-3">
-                        <MapPinIcon className="w-4 h-4 text-muted-foreground mt-0.5" />
-                        <span>{listing.location}</span>
+                        <MapPinIcon className="w-4 h-4 text-muted-foreground mt-1" />
+                        <span className="text-foreground">{listing.location}</span>
                       </li>
                     )}
                     {listing.phone && (
                       <li className="flex items-start gap-3">
-                        <PhoneIcon className="w-4 h-4 text-muted-foreground mt-0.5" />
+                        <PhoneIcon className="w-4 h-4 text-muted-foreground mt-1" />
                         <a
                           href={`tel:${listing.phone}`}
-                          className="hover:text-primary"
+                          className="hover:text-primary text-foreground"
                         >
                           {listing.phone}
                         </a>
@@ -288,10 +290,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     )}
                     {listing.email && (
                       <li className="flex items-start gap-3">
-                        <MailIcon className="w-4 h-4 text-muted-foreground mt-0.5" />
+                        <MailIcon className="w-4 h-4 text-muted-foreground mt-1" />
                         <a
                           href={`mailto:${listing.email}`}
-                          className="hover:text-primary"
+                          className="hover:text-primary text-foreground"
                         >
                           {listing.email}
                         </a>
@@ -299,8 +301,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     )}
                     {listing.virtual && (
                       <li className="flex items-start gap-3">
-                        <GlobeIcon className="w-4 h-4 text-muted-foreground mt-0.5" />
-                        <span>Virtual services available</span>
+                        <GlobeIcon className="w-4 h-4 text-muted-foreground mt-1" />
+                        <span className="text-foreground">Virtual services available</span>
                       </li>
                     )}
                   </ul>
@@ -308,36 +310,50 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
                 {/* Categories */}
                 <div className="bg-muted/50 rounded-lg p-6">
-                  <h2 className="text-lg font-semibold mb-4">Categories</h2>
+                  <h2 className="text-lg font-semibold mb-4 text-foreground">Categories</h2>
                   <ul className="flex flex-wrap gap-2">
-                    {listing.categories && (
+                    {listing.categories && Array.isArray(listing.categories) ? (
+                      listing.categories.map((category) => (
+                        <li key={category}>
+                          <span className="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">
+                            {category}
+                          </span>
+                        </li>
+                      ))
+                    ) : listing.categories ? (
                       <li>
-                        <span className="text-sm bg-primary/10 text-primary px-2 py-1 rounded">
+                        <span className="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">
                           {listing.categories}
                         </span>
                       </li>
+                    ) : (
+                      <li className="text-sm text-muted-foreground">No categories listed</li>
                     )}
                   </ul>
                 </div>
 
                 {/* Age Range */}
                 <div className="bg-muted/50 rounded-lg p-6">
-                  <h2 className="text-lg font-semibold mb-4">Age Range</h2>
+                  <h2 className="text-lg font-semibold mb-4 text-foreground">Age Range</h2>
                   <ul className="flex flex-wrap gap-2">
-                    {listing.tags?.map((tag) => (
-                      <li key={tag}>
-                        <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                          {tag}
-                        </span>
-                      </li>
-                    ))}
+                    {listing.tags && listing.tags.length > 0 ? (
+                      listing.tags.map((tag) => (
+                        <li key={tag}>
+                          <span className="text-sm bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+                            {tag}
+                          </span>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-sm text-muted-foreground">No age range specified</li>
+                    )}
                   </ul>
                 </div>
 
                 {/* Plan */}
                 <div className="bg-muted/50 rounded-lg p-6">
-                  <h2 className="text-lg font-semibold mb-4">Listing Plan</h2>
-                  <span className="text-sm bg-purple-100 text-purple-800 px-2 py-1 rounded">
+                  <h2 className="text-lg font-semibold mb-4 text-foreground">Listing Plan</h2>
+                  <span className="text-sm bg-purple-100 text-purple-800 px-3 py-1 rounded-full font-medium">
                     {listing.plan}
                   </span>
                 </div>
@@ -345,12 +361,16 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 {/* Certifications & Compliance */}
                 {(listing.performerPermit || listing.bonded) && (
                   <div className="bg-muted/50 rounded-lg p-6">
-                    <h2 className="text-lg font-semibold mb-4">Certifications & Compliance</h2>
+                    <h2 className="text-lg font-semibold mb-4 text-foreground">
+                      Certifications & Compliance
+                    </h2>
                     <ul className="space-y-2 text-sm">
                       {listing.performerPermit && (
                         <li className="flex items-center gap-2">
                           <CheckCircleIcon className="w-4 h-4 text-green-600" />
-                          <span>California Child Performer Services Permit</span>
+                          <span>
+                            California Child Performer Services Permit
+                          </span>
                         </li>
                       )}
                       {listing.bonded && (
@@ -358,7 +378,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
                           <CheckCircleIcon className="w-4 h-4 text-green-600" />
                           <span>Bonded for Advanced Fees</span>
                           {listing.bondNumber && (
-                            <span className="text-muted-foreground">(Bond #{listing.bondNumber})</span>
+                            <span className="text-muted-foreground">
+                              (Bond #{listing.bondNumber})
+                            </span>
                           )}
                         </li>
                       )}

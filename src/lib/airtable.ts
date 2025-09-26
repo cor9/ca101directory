@@ -5,7 +5,7 @@ function toAirtable(input: any, categoryList?: any[]) {
   const raw = Array.isArray(input) ? input[0] : input;
   const fields: Record<string, any> = {};
 
-  // Map form fields to Airtable field names
+  // Basic fields - only include if not empty
   if (raw.name) fields["Listing Name"] = raw.name;
   if (raw.link) fields["Website"] = raw.link;
   if (raw.description) fields["What You Offer?"] = raw.description;
@@ -21,66 +21,68 @@ function toAirtable(input: any, categoryList?: any[]) {
   if (raw.bondNumber) fields["Bond#"] = raw.bondNumber;
   if (raw.plan) fields["Plan"] = raw.plan;
 
-  // Handle boolean fields
-  if (raw.performerPermit) {
-    fields["California Child Performer Services Permit"] = true;
-  }
-  if (raw.bonded) {
-    fields["Bonded For Advanced Fees"] = true;
-  }
+  // Booleans → checkboxes
+  if (raw.performerPermit) fields["California Child Performer Services Permit"] = true;
+  if (raw.bonded) fields["Bonded For Advanced Fees"] = true;
 
-  // Convert tag IDs to age range labels for Airtable
+  // Tags → map to Airtable Age Range options
   if (raw.tags?.length) {
-    const ageRangeMap: Record<string, string> = {
-      "tag-1": "0-5",
-      "tag-2": "6-12",
-      "tag-3": "13-17",
-      "tag-4": "18+",
-    };
-
-    const ageRanges = raw.tags
-      .map((tagId: string) => ageRangeMap[tagId])
-      .filter(Boolean); // Remove undefined values
-
-    if (ageRanges.length > 0) {
-      fields["Age Range"] = ageRanges;
-    }
-  }
-
-  // Categories must be labels, not IDs
-  if (raw.categories?.length) {
-    console.log("toAirtable: raw.categories:", raw.categories);
-    console.log("toAirtable: categoryList:", categoryList);
-
-    fields["Categories"] = raw.categories.map((c: string) => {
-      if (c.startsWith("rec")) {
-        // Convert record ID to category name using categoryList
-        const category = categoryList?.find((cat) => cat.id === c);
-        console.log(`toAirtable: looking for category ${c}, found:`, category);
-        const categoryName = category?.categoryName;
-        console.log(`toAirtable: categoryName for ${c}:`, categoryName);
-        return categoryName || "Acting Classes & Coaches"; // fallback
+    fields["Age Range"] = raw.tags.map((t: string) => {
+      switch (t) {
+        case "tag-1": return "5-8";
+        case "tag-2": return "9-12";
+        case "tag-3": return "13-17";
+        case "tag-4": return "18+";
+        default: return t;
       }
-      return c; // Already a category name
     });
-
-    console.log("toAirtable: final categories:", fields["Categories"]);
   }
 
-  // Attachments
-  console.log("toAirtable: raw.iconId:", raw.iconId, "type:", typeof raw.iconId);
+  // Categories → convert IDs to labels
+  if (raw.categories?.length) {
+    fields["Categories"] = raw.categories.map((c: string) => {
+      switch (c) {
+        case "recxsGFD5Xs9eSrrT": return "Audition Prep";
+        case "recU2Jd1GsEfx3dXN": return "Acting Camps";
+        case "recGWyL3dBfz7nDah": return "Acting Schools";
+        case "rec4gFz49LQTQpzhw": return "Acting Classes & Coaches";
+        case "recBPeoMS8Ghm2mRt": return "Headshot Photographers";
+        case "recTSyIC1sely9Fwl": return "Demo Reel Creators";
+        case "recAPXv9eCyzYgcgr": return "Reels Editors";
+        case "recrSwhgGyYYlOMR4": return "Vocal Coaches";
+        case "rec0eZlDZC86OjLkd": return "Talent Managers";
+        case "rec2mbj4iZVFfYbtH": return "Branding Coaches";
+        case "rec3jCyLDaKsL36wY": return "Mental Health for Performers";
+        case "recDaDp71kATa5Nho": return "Theatre Training";
+        case "recEzCXUrNjduDPv3": return "Photobooths";
+        case "recFtiDORwyd6Ej0W": return "Voiceover Studios";
+        case "recHRNvMQqmImHd88": return "Wardrobe Stylists";
+        case "recJ49lV4DM7viH4r": return "Casting Workshops";
+        case "recLAGc9mi29wP6Ly": return "Hair/Makeup Artists";
+        case "recaKFcvvAY3NqkF0": return "Social Media Consultants";
+        case "recbLZdIkrvWBu4gC": return "Publicists";
+        case "reco5EsuJlr5Fsgzq": return "Financial Advisors";
+        case "recuEMmRy0yDs4lMq": return "On-Set Tutors";
+        case "recuGGsXdALBP95rU": return "Entertainment Lawyers";
+        case "recuUt5HgXOqd8wjD": return "Costume Rental";
+        case "recvBdvbiJdHP6IiT": return "Self-Tape Studios";
+        case "recyn6J2gCtzSVkVn": return "College Prep Coaches";
+        default: return c;
+      }
+    });
+  }
+
+  // Attachments → turn blob ID into public URL
   if (raw.iconId && typeof raw.iconId === "string") {
-    const blobUrl = `https://ca101directory.public.blob.vercel-storage.com/${raw.iconId}`;
-    console.log("toAirtable: creating Profile Image with URL:", blobUrl);
     fields["Profile Image"] = [
       {
-        url: blobUrl,
-      },
+        url: `https://ca101directory.public.blob.vercel-storage.com/${raw.iconId}`
+      }
     ];
-    console.log("toAirtable: Profile Image field:", fields["Profile Image"]);
-  } else {
-    console.log("toAirtable: no iconId or invalid type, skipping Profile Image");
   }
+
+  // Set default status
+  fields["Status"] = "Pending";
 
   return { fields };
 }

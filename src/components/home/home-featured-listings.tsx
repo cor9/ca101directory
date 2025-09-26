@@ -1,4 +1,5 @@
 import { Icons } from "@/components/icons/icons";
+import { getListings } from "@/lib/airtable";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,8 +15,8 @@ interface FeaturedListing {
   featured?: boolean;
 }
 
-// Sample featured listings - in production, these would come from Airtable
-const featuredListings: FeaturedListing[] = [
+// Fallback featured listings if no Airtable data
+const fallbackListings: FeaturedListing[] = [
   {
     id: "1",
     name: "Young Actors Studio",
@@ -52,7 +53,33 @@ const featuredListings: FeaturedListing[] = [
   },
 ];
 
-export default function HomeFeaturedListings() {
+export default async function HomeFeaturedListings() {
+  // Get real listings from Airtable
+  let listings: FeaturedListing[] = [];
+  
+  try {
+    const airtableListings = await getListings();
+    listings = airtableListings
+      .filter(listing => listing.featured) // Only show featured listings
+      .slice(0, 3) // Limit to 3
+      .map(listing => ({
+        id: listing.id,
+        name: listing.businessName,
+        description: listing.description,
+        image: listing.logo || "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop",
+        website: listing.website || "#",
+        category: listing.categories?.[0] || "Acting Professional",
+        tags: listing.tags || [],
+        featured: listing.featured,
+      }));
+  } catch (error) {
+    console.error("Error fetching featured listings:", error);
+  }
+
+  // Use fallback if no Airtable listings
+  if (listings.length === 0) {
+    listings = fallbackListings;
+  }
   return (
     <section className="py-16 bg-gray-50">
       <div className="text-center mb-12">
@@ -63,7 +90,7 @@ export default function HomeFeaturedListings() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {featuredListings.map((listing) => (
+        {listings.map((listing) => (
           <div
             key={listing.id}
             className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300"
@@ -116,14 +143,7 @@ export default function HomeFeaturedListings() {
                 <span className="text-sm text-muted-foreground">
                   {listing.category}
                 </span>
-                {listing.name === "Coaching with Corey" ? (
-                  <Link
-                    href="/item/coaching-with-corey"
-                    className="text-blue-600 hover:text-blue-700 text-sm font-semibold"
-                  >
-                    View Listing →
-                  </Link>
-                ) : (
+                {listing.website && listing.website !== "#" ? (
                   <Link
                     href={listing.website}
                     target="_blank"
@@ -131,6 +151,13 @@ export default function HomeFeaturedListings() {
                     className="text-blue-600 hover:text-blue-700 text-sm font-semibold"
                   >
                     Visit Website →
+                  </Link>
+                ) : (
+                  <Link
+                    href={`/item/${listing.name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`}
+                    className="text-blue-600 hover:text-blue-700 text-sm font-semibold"
+                  >
+                    View Listing →
                   </Link>
                 )}
               </div>

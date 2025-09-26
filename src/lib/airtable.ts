@@ -1,120 +1,52 @@
 import Airtable from "airtable";
+import { categoryMap, tagMap } from "./mappings";
 
 // Transform form data to Airtable format with proper field mapping
-function toAirtable(input: any, categoryList?: any[]) {
-  const raw = Array.isArray(input) ? input[0] : input;
+export function toAirtable(raw: any) {
   console.log("🔍 toAirtable INPUT:", JSON.stringify(raw, null, 2));
   const fields: Record<string, any> = {};
 
-  // Basic fields - only include if not empty
-  if (raw.name) fields["Listing Name"] = raw.name;
-  if (raw.link) fields["Website"] = raw.link;
-  if (raw.description) fields["What You Offer?"] = raw.description;
-  if (raw.introduction) fields["Who Is It For?"] = raw.introduction;
-  if (raw.unique) fields["Why Is It Unique?"] = raw.unique;
-  if (raw.format) fields["Format (In-person/Online/Hybrid)"] = raw.format;
-  if (raw.notes) fields["Extras/Notes"] = raw.notes;
-  if (raw.email) fields["Email"] = raw.email;
-  if (raw.phone) fields["Phone"] = raw.phone;
-  if (raw.city) fields["City"] = raw.city;
-  if (raw.state) fields["State"] = raw.state;
-  if (raw.zip) fields["Zip"] = raw.zip;
-  if (raw.bondNumber) fields["Bond#"] = raw.bondNumber;
-  if (raw.plan) fields["Plan"] = raw.plan;
+  // Basic fields
+  fields["Listing Name"] = raw.name;
+  fields["Website"] = raw.link;
+  fields["What You Offer?"] = raw.description;
+  fields["Who Is It For?"] = raw.introduction;
+  fields["Why Is It Unique?"] = raw.unique;
+  fields["Format (In-person/Online/Hybrid)"] = raw.format;
+  fields["Extras/Notes"] = raw.notes;
+  fields["Email"] = raw.email;
+  fields["Phone"] = raw.phone;
+  fields["City"] = raw.city;
+  fields["State"] = raw.state;
+  fields["Zip"] = raw.zip;
+  fields["Bond#"] = raw.bondNumber;
+  fields["Plan"] = raw.plan;
+  fields["California Child Performer Services Permit"] = !!raw.performerPermit;
+  fields["Bonded For Advanced Fees"] = !!raw.bonded;
 
-  // Booleans → checkboxes
-  if (raw.performerPermit)
-    fields["California Child Performer Services Permit"] = true;
-  if (raw.bonded) fields["Bonded For Advanced Fees"] = true;
-
-  // Tags → map to Airtable Age Range options
-  if (raw.tags?.length) {
-    fields["Age Range"] = raw.tags.map((t: string) => {
-      switch (t) {
-        case "tag-1":
-          return "5-8";
-        case "tag-2":
-          return "9-12";
-        case "tag-3":
-          return "13-17";
-        case "tag-4":
-          return "18+";
-        default:
-          return t;
-      }
-    });
-  }
-
-  // Categories → convert IDs to labels
+  // ✅ Fix categories: IDs → Labels
   if (raw.categories?.length) {
-    fields["Categories"] = raw.categories.map((c: string) => {
-      switch (c) {
-        case "recxsGFD5Xs9eSrrT":
-          return "Audition Prep";
-        case "recU2Jd1GsEfx3dXN":
-          return "Acting Camps";
-        case "recGWyL3dBfz7nDah":
-          return "Acting Schools";
-        case "rec4gFz49LQTQpzhw":
-          return "Acting Classes & Coaches";
-        case "recBPeoMS8Ghm2mRt":
-          return "Headshot Photographers";
-        case "recTSyIC1sely9Fwl":
-          return "Demo Reel Creators";
-        case "recAPXv9eCyzYgcgr":
-          return "Reels Editors";
-        case "recrSwhgGyYYlOMR4":
-          return "Vocal Coaches";
-        case "rec0eZlDZC86OjLkd":
-          return "Talent Managers";
-        case "rec2mbj4iZVFfYbtH":
-          return "Branding Coaches";
-        case "rec3jCyLDaKsL36wY":
-          return "Mental Health for Performers";
-        case "recDaDp71kATa5Nho":
-          return "Theatre Training";
-        case "recEzCXUrNjduDPv3":
-          return "Photobooths";
-        case "recFtiDORwyd6Ej0W":
-          return "Voiceover Studios";
-        case "recHRNvMQqmImHd88":
-          return "Wardrobe Stylists";
-        case "recJ49lV4DM7viH4r":
-          return "Casting Workshops";
-        case "recLAGc9mi29wP6Ly":
-          return "Hair/Makeup Artists";
-        case "recaKFcvvAY3NqkF0":
-          return "Social Media Consultants";
-        case "recbLZdIkrvWBu4gC":
-          return "Publicists";
-        case "reco5EsuJlr5Fsgzq":
-          return "Financial Advisors";
-        case "recuEMmRy0yDs4lMq":
-          return "On-Set Tutors";
-        case "recuGGsXdALBP95rU":
-          return "Entertainment Lawyers";
-        case "recuUt5HgXOqd8wjD":
-          return "Costume Rental";
-        case "recvBdvbiJdHP6IiT":
-          return "Self-Tape Studios";
-        case "recyn6J2gCtzSVkVn":
-          return "College Prep Coaches";
-        default:
-          return c;
-      }
-    });
+    fields["Categories"] = raw.categories
+      .map((c: string) => categoryMap[c] || c)
+      .filter(Boolean);
   }
 
-  // Attachments → turn blob ID into public URL
-  if (raw.iconId && typeof raw.iconId === "string") {
+  // ✅ Fix tags: fake values → real labels
+  if (raw.tags?.length) {
+    fields["Age Range"] = raw.tags
+      .map((t: string) => tagMap[t] || t)
+      .filter(Boolean);
+  }
+
+  // ✅ Blob ID → Airtable attachment
+  if (raw.iconId) {
     fields["Profile Image"] = [
       {
-        url: `https://ca101directory.public.blob.vercel-storage.com/${raw.iconId}`,
-      },
+        url: `https://ca101directory.public.blob.vercel-storage.com/${raw.iconId}`
+      }
     ];
   }
 
-  // Set default status
   fields["Status"] = "Pending";
 
   console.log("🔍 toAirtable OUTPUT:", JSON.stringify({ fields }, null, 2));
@@ -315,7 +247,6 @@ interface FormData {
 
 export async function createListing(
   data: FormData,
-  categoryList?: any[],
 ): Promise<string | null> {
   console.log("createListing called with data:", data);
 
@@ -334,7 +265,7 @@ export async function createListing(
     console.log("Creating listing with data:", data);
 
     // Transform the data using the new toAirtable function
-    const airtablePayload = toAirtable(data, categoryList);
+    const airtablePayload = toAirtable(data);
     console.log("Transformed Airtable payload:", airtablePayload);
 
     const record = await base("Listings").create(airtablePayload.fields);

@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   try {
     console.log("Testing Airtable connection...");
 
-    // Test data - FormData interface for createListing
+    // Test data - FormData interface for createListing (simplified for current schema)
     const testData = {
       name: "Test Business",
       link: "https://example.com",

@@ -33,15 +33,15 @@ function toAirtable(input: any, categoryList?: any[]) {
   if (raw.tags?.length) {
     const ageRangeMap: Record<string, string> = {
       "tag-1": "0-5",
-      "tag-2": "6-12", 
+      "tag-2": "6-12",
       "tag-3": "13-17",
-      "tag-4": "18+"
+      "tag-4": "18+",
     };
-    
+
     const ageRanges = raw.tags
       .map((tagId: string) => ageRangeMap[tagId])
       .filter(Boolean); // Remove undefined values
-    
+
     if (ageRanges.length > 0) {
       fields["Age Range"] = ageRanges;
     }
@@ -49,16 +49,22 @@ function toAirtable(input: any, categoryList?: any[]) {
 
   // Categories must be labels, not IDs
   if (raw.categories?.length) {
+    console.log("toAirtable: raw.categories:", raw.categories);
+    console.log("toAirtable: categoryList:", categoryList);
+    
     fields["Categories"] = raw.categories.map((c: string) => {
       if (c.startsWith("rec")) {
         // Convert record ID to category name using categoryList
-        const categoryName = categoryList?.find(
-          (cat) => cat.id === c,
-        )?.categoryName;
+        const category = categoryList?.find((cat) => cat.id === c);
+        console.log(`toAirtable: looking for category ${c}, found:`, category);
+        const categoryName = category?.categoryName;
+        console.log(`toAirtable: categoryName for ${c}:`, categoryName);
         return categoryName || "Acting Classes & Coaches"; // fallback
       }
       return c; // Already a category name
     });
+    
+    console.log("toAirtable: final categories:", fields["Categories"]);
   }
 
   // Attachments

@@ -32,17 +32,21 @@ function toAirtable(input: any, categoryList?: any[]) {
   // Handle multi-select fields
   if (raw.tags?.length) fields["Tags"] = raw.tags;
   if (raw.categories?.length) {
-    // Convert category IDs to labels
-    const categoryId = raw.categories[0] || raw.categories;
-    if (typeof categoryId === "string" && categoryId.startsWith("rec")) {
-      // This is a record ID, convert it to the category name
-      const categoryName =
-        categoryList?.find((cat) => cat.id === categoryId)?.categoryName ||
-        "Acting Classes";
-      fields["Categories"] = categoryName;
-    } else {
-      // This is already a category name
-      fields["Categories"] = categoryId;
+    // Convert category IDs to category names for multi-select
+    const categoryNames = raw.categories
+      .map((categoryId: string) => {
+        if (typeof categoryId === "string" && categoryId.startsWith("rec")) {
+          // This is a record ID, convert it to the category name
+          return categoryList?.find((cat) => cat.id === categoryId)?.categoryName;
+        } else {
+          // This is already a category name
+          return categoryId;
+        }
+      })
+      .filter(Boolean); // Remove any undefined values
+    
+    if (categoryNames.length > 0) {
+      fields["Categories"] = categoryNames;
     }
   }
 
@@ -93,7 +97,7 @@ export interface Listing {
   uniqueValue?: string;
   format?: string;
   notes?: string;
-  categories: string; // Single select field in Airtable (for now)
+  categories: string[]; // Multi-select field in Airtable
   tags?: string[]; // Multi-select field in Airtable (age ranges) - not implemented yet
   gallery?: string[];
   logo?: string;
@@ -134,7 +138,7 @@ function recordToListing(record: Airtable.Record<any>): Listing {
     uniqueValue: record.get("Why Is It Unique?") || "",
     format: record.get("Format (In-person/Online/Hybrid)") || "",
     notes: record.get("Extras/Notes") || "",
-    categories: record.get("Categories") || "",
+    categories: record.get("Categories") || [],
     tags: [], // Not implemented yet in Airtable
     gallery: record.get("Gallery") || [],
     logo: record.get("Profile Image") || "",

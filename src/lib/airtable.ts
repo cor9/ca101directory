@@ -51,7 +51,7 @@ function toAirtable(input: any, categoryList?: any[]) {
   if (raw.categories?.length) {
     console.log("toAirtable: raw.categories:", raw.categories);
     console.log("toAirtable: categoryList:", categoryList);
-    
+
     fields["Categories"] = raw.categories.map((c: string) => {
       if (c.startsWith("rec")) {
         // Convert record ID to category name using categoryList
@@ -63,17 +63,23 @@ function toAirtable(input: any, categoryList?: any[]) {
       }
       return c; // Already a category name
     });
-    
+
     console.log("toAirtable: final categories:", fields["Categories"]);
   }
 
   // Attachments
+  console.log("toAirtable: raw.iconId:", raw.iconId, "type:", typeof raw.iconId);
   if (raw.iconId && typeof raw.iconId === "string") {
+    const blobUrl = `https://ca101directory.public.blob.vercel-storage.com/${raw.iconId}`;
+    console.log("toAirtable: creating Profile Image with URL:", blobUrl);
     fields["Profile Image"] = [
       {
-        url: `https://ca101directory.public.blob.vercel-storage.com/${raw.iconId}`,
+        url: blobUrl,
       },
     ];
+    console.log("toAirtable: Profile Image field:", fields["Profile Image"]);
+  } else {
+    console.log("toAirtable: no iconId or invalid type, skipping Profile Image");
   }
 
   return { fields };

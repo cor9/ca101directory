@@ -3,8 +3,10 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
+    // Get all listings (not just approved ones) for debugging
+    const { getListings } = await import("@/lib/airtable");
     const listings = await getListings();
-    
+
     // Generate slugs for each listing
     const listingsWithSlugs = listings.map((listing) => ({
       id: listing.id,
@@ -25,7 +27,7 @@ export async function GET() {
       total: listings.length,
       listings: listingsWithSlugs,
       debug: {
-        filter: "AND({Status} = 'Approved', {Active} = 1)",
+        filter: "{Status} = 'Approved'",
         environment: {
           hasApiKey: !!process.env.AIRTABLE_API_KEY,
           hasBaseId: !!process.env.AIRTABLE_BASE_ID,
@@ -43,7 +45,7 @@ export async function GET() {
           hasBaseId: !!process.env.AIRTABLE_BASE_ID,
         },
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

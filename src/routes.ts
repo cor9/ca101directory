@@ -37,6 +37,9 @@ export const publicRoutes = [
   // debug listings
   "/api/debug-listings",
 
+  // debug all listings
+  "/api/debug-all-listings",
+
   // og images
   "/api/og",
 

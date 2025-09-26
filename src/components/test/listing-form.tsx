@@ -41,9 +41,9 @@ export default function ListingForm() {
   // Override with query string if present
   useEffect(() => {
     const queryOverrides: Record<string, string> = {};
-    for (const [key, value] of searchParams.entries()) {
+    searchParams.forEach((value, key) => {
       queryOverrides[key] = value;
-    }
+    });
     setFormData((prev) => ({ ...prev, ...queryOverrides }));
   }, [searchParams]);
 

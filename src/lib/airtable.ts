@@ -24,29 +24,43 @@ export function toAirtable(raw: any) {
   fields["California Child Performer Services Permit"] = !!raw.performerPermit;
   fields["Bonded For Advanced Fees"] = !!raw.bonded;
 
-  // ✅ Fix categories: IDs → Labels
+  // ✅ FORCE MAP categories: IDs → Labels
   if (raw.categories?.length) {
-    fields["Categories"] = raw.categories
-      .map((c: string) => categoryMap[c] || c)
-      .map((c: string) => c.trim()) // Remove leading/trailing spaces
+    console.log("🔍 RAW CATEGORIES:", raw.categories);
+    const mappedCategories = raw.categories
+      .map((c: string) => {
+        const mapped = categoryMap[c] || c;
+        console.log(`🔍 Mapping ${c} → ${mapped}`);
+        return mapped;
+      })
+      .map((c: string) => c.trim())
       .filter(Boolean);
+    console.log("🔍 MAPPED CATEGORIES:", mappedCategories);
+    fields["Categories"] = mappedCategories;
   }
 
-  // ✅ Fix tags: fake values → real labels
+  // ✅ FORCE MAP tags: fake values → real labels
   if (raw.tags?.length) {
-    fields["Age Range"] = raw.tags
-      .map((t: string) => tagMap[t] || t)
-      .map((t: string) => t.trim()) // Remove leading/trailing spaces
+    console.log("🔍 RAW TAGS:", raw.tags);
+    const mappedTags = raw.tags
+      .map((t: string) => {
+        const mapped = tagMap[t] || t;
+        console.log(`🔍 Mapping ${t} → ${mapped}`);
+        return mapped;
+      })
+      .map((t: string) => t.trim())
       .filter(Boolean);
+    console.log("🔍 MAPPED TAGS:", mappedTags);
+    fields["Age Range"] = mappedTags;
   }
 
   // ✅ Blob ID → Airtable attachment
   if (raw.iconId) {
-    // Check if iconId is already a full URL or just a blob ID
-    const imageUrl = raw.iconId.startsWith('http') 
-      ? raw.iconId 
+    console.log("🔍 RAW ICONID:", raw.iconId);
+    const imageUrl = raw.iconId.startsWith("http")
+      ? raw.iconId
       : `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${raw.iconId}`;
-    
+    console.log("🔍 IMAGE URL:", imageUrl);
     fields["Profile Image"] = [
       {
         url: imageUrl,

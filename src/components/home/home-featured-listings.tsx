@@ -56,17 +56,19 @@ const fallbackListings: FeaturedListing[] = [
 export default async function HomeFeaturedListings() {
   // Get real listings from Airtable
   let listings: FeaturedListing[] = [];
-  
+
   try {
     const airtableListings = await getListings();
     listings = airtableListings
-      .filter(listing => listing.featured) // Only show featured listings
+      .filter((listing) => listing.featured) // Only show featured listings
       .slice(0, 3) // Limit to 3
-      .map(listing => ({
+      .map((listing) => ({
         id: listing.id,
         name: listing.businessName,
         description: listing.description,
-        image: listing.logo || "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop",
+        image:
+          listing.logo ||
+          "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop",
         website: listing.website || "#",
         category: listing.categories?.[0] || "Acting Professional",
         tags: listing.tags || [],
@@ -143,23 +145,15 @@ export default async function HomeFeaturedListings() {
                 <span className="text-sm text-muted-foreground">
                   {listing.category}
                 </span>
-                {listing.website && listing.website !== "#" ? (
-                  <Link
-                    href={listing.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-700 text-sm font-semibold"
-                  >
-                    Visit Website →
-                  </Link>
-                ) : (
-                  <Link
-                    href={`/item/${listing.name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`}
-                    className="text-blue-600 hover:text-blue-700 text-sm font-semibold"
-                  >
-                    View Listing →
-                  </Link>
-                )}
+                <Link
+                  href={`/listing/${listing.name
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")
+                    .replace(/[^a-z0-9-]/g, "")}`}
+                  className="text-blue-600 hover:text-blue-700 text-sm font-semibold"
+                >
+                  View Listing →
+                </Link>
               </div>
             </div>
           </div>

@@ -14,15 +14,19 @@ function toAirtable(input: any, categoryList?: any[]) {
   if (raw.format) fields["Format"] = raw.format;
   if (raw.notes) fields["Notes"] = raw.notes;
   if (raw.email) fields["Email"] = raw.email;
+  if (raw.phone) fields["Phone"] = raw.phone;
+  if (raw.city) fields["City"] = raw.city;
+  if (raw.state) fields["State"] = raw.state;
+  if (raw.zip) fields["Zip"] = raw.zip;
   if (raw.bondNumber) fields["Bond#"] = raw.bondNumber;
   if (raw.plan) fields["Plan"] = raw.plan;
 
   // Handle boolean fields
   if (raw.performerPermit) {
-    fields["Performer Permit"] = true;
+    fields["California Child Performer Services Permit"] = true;
   }
   if (raw.bonded) {
-    fields["Bonded"] = true;
+    fields["Bonded For Advanced Fees"] = true;
   }
 
   // Handle multi-select fields
@@ -129,23 +133,26 @@ function recordToListing(record: Airtable.Record<any>): Listing {
     phone: record.get("Phone") || "",
     website: record.get("Website") || "",
     instagram: record.get("Instagram") || "",
-    servicesOffered: record.get("Introduction") || "",
-    description: record.get("Description") || "",
-    uniqueValue: record.get("Unique") || "",
-    format: record.get("Format") || "",
-    notes: record.get("Notes") || "",
+    servicesOffered: record.get("Who Is It For?") || "",
+    description: record.get("What You Offer?") || "",
+    uniqueValue: record.get("Why Is It Unique?") || "",
+    format: record.get("Format (In-person/Online/Hybrid)") || "",
+    notes: record.get("Extras/Notes") || "",
     categories: record.get("Categories") || [],
     tags: record.get("Tags") || [],
     gallery: record.get("Gallery") || [],
     logo: record.get("Profile Image") || "",
-    location: record.get("Location") || "",
+    location:
+      record.get("City") && record.get("State")
+        ? `${record.get("City")}, ${record.get("State")}`
+        : "",
     virtual: false,
     plan: record.get("Plan") || "Basic",
-    featured: record.get("Featured") || false,
-    approved101: record.get("101 Approved") || false,
+    featured: record.get("Top Rated") || false,
+    approved101: record.get("Approved Badge") || false,
     status: record.get("Status") || "Pending",
-    dateSubmitted: record.get("Date Submitted") ? new Date().toISOString() : "",
-    dateApproved: record.get("Date Approved") ? new Date().toISOString() : "",
+    dateSubmitted: record.get("Submissions") ? new Date().toISOString() : "",
+    dateApproved: record.get("Approved Badge") ? new Date().toISOString() : "",
   };
 }
 

@@ -1,77 +1,51 @@
 import Airtable from "airtable";
 import { categoryMap, tagMap } from "./mappings";
 
-// Transform form data to Airtable format with proper field mapping
-export function toAirtable(raw: any) {
-  console.log("🔍 toAirtable INPUT:", JSON.stringify(raw, null, 2));
-  const fields: Record<string, any> = {};
+// Transform form data to Airtable format with exact field names
+export function toAirtable(formData: any) {
+  console.log("🔍 toAirtable INPUT:", JSON.stringify(formData, null, 2));
 
-  // Basic fields
-  fields["Listing Name"] = raw.name;
-  fields["Website"] = raw.link;
-  fields["What You Offer?"] = raw.description;
-  fields["Who Is It For?"] = raw.introduction;
-  fields["Why Is It Unique?"] = raw.unique;
-  fields["Format (In-person/Online/Hybrid)"] = raw.format;
-  fields["Extras/Notes"] = raw.notes;
-  fields["Email"] = raw.email;
-  fields["Phone"] = raw.phone;
-  fields["City"] = raw.city;
-  fields["State"] = raw.state;
-  fields["Zip"] = raw.zip;
-  fields["Bond#"] = raw.bondNumber;
-  fields["Plan"] = raw.plan;
-  fields["California Child Performer Services Permit"] = !!raw.performerPermit;
-  fields["Bonded For Advanced Fees"] = !!raw.bonded;
+  // Map categories and tags
+  const mappedCategories =
+    formData.categories
+      ?.map((c: string) => categoryMap[c] || c)
+      .filter(Boolean) || [];
+  const mappedTags =
+    formData.tags?.map((t: string) => tagMap[t] || t).filter(Boolean) || [];
 
-  // ✅ FORCE MAP categories: IDs → Labels
-  if (raw.categories?.length) {
-    console.log("🔍 RAW CATEGORIES:", raw.categories);
-    const mappedCategories = raw.categories
-      .map((c: string) => {
-        const mapped = categoryMap[c] || c;
-        console.log(`🔍 Mapping ${c} → ${mapped}`);
-        return mapped;
-      })
-      .map((c: string) => c.trim())
-      .filter(Boolean);
-    console.log("🔍 MAPPED CATEGORIES:", mappedCategories);
-    fields["Categories"] = mappedCategories;
-  }
+  const record = {
+    fields: {
+      "Listing Name": formData.name,
+      "What You Offer?": formData.description,
+      "Who Is It For?": formData.introduction,
+      "Why Is It Unique?": formData.unique,
+      "Format (In-person/Online/Hybrid)": formData.format,
+      "Extras/Notes": formData.notes,
+      "California Child Performer Services Permit ": !!formData.performerPermit,
+      "Bonded For Advanced Fees": !!formData.bonded,
+      "Bond#": formData.bondNumber || "",
+      Website: formData.link,
+      Email: formData.email,
+      Phone: formData.phone,
+      City: formData.city,
+      State: formData.state,
+      Zip: formData.zip,
+      "Age Range": mappedTags,
+      Categories: mappedCategories,
+      "Profile Image": formData.iconId
+        ? [
+            {
+              url: `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${formData.iconId}`,
+            },
+          ]
+        : [],
+      Plan: formData.plan,
+      Status: "Pending",
+    },
+  };
 
-  // ✅ FORCE MAP tags: fake values → real labels
-  if (raw.tags?.length) {
-    console.log("🔍 RAW TAGS:", raw.tags);
-    const mappedTags = raw.tags
-      .map((t: string) => {
-        const mapped = tagMap[t] || t;
-        console.log(`🔍 Mapping ${t} → ${mapped}`);
-        return mapped;
-      })
-      .map((t: string) => t.trim())
-      .filter(Boolean);
-    console.log("🔍 MAPPED TAGS:", mappedTags);
-    fields["Age Range"] = mappedTags;
-  }
-
-  // ✅ Blob ID → Airtable attachment
-  if (raw.iconId) {
-    console.log("🔍 RAW ICONID:", raw.iconId);
-    const imageUrl = raw.iconId.startsWith("http")
-      ? raw.iconId
-      : `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${raw.iconId}`;
-    console.log("🔍 IMAGE URL:", imageUrl);
-    fields["Profile Image"] = [
-      {
-        url: imageUrl,
-      },
-    ];
-  }
-
-  fields["Status"] = "Pending";
-
-  console.log("🔍 toAirtable OUTPUT:", JSON.stringify({ fields }, null, 2));
-  return { fields };
+  console.log("🔍 toAirtable OUTPUT:", JSON.stringify(record, null, 2));
+  return record;
 }
 
 // Initialize Airtable only if API key is available
@@ -122,6 +96,7 @@ export interface Listing {
   featured: boolean;
   approved101: boolean;
   status: "Pending" | "Approved" | "Rejected";
+  active: boolean;
   dateSubmitted: string;
   dateApproved?: string;
   performerPermit?: boolean;
@@ -163,6 +138,7 @@ function recordToListing(record: Airtable.Record<any>): Listing {
     featured: record.get("Top Rated") || false,
     approved101: record.get("Approved Badge") || false,
     status: record.get("Status") || "Pending",
+    active: record.get("Active") || false,
     dateSubmitted: record.get("Submissions") ? new Date().toISOString() : "",
     dateApproved: record.get("Approved Badge") ? new Date().toISOString() : "",
   };
@@ -187,7 +163,7 @@ export async function getListings(): Promise<Listing[]> {
   try {
     const records = await base("Listings")
       .select({
-        filterByFormula: "{Status} = 'Live'",
+        filterByFormula: "AND({Status} = 'Approved', {Active} = 1)",
         sort: [{ field: "Listing Name", direction: "asc" }],
       })
       .all();
@@ -269,28 +245,77 @@ interface FormData {
 export async function createListing(data: FormData): Promise<string | null> {
   console.log("createListing called with data:", data);
 
-  if (!base) {
-    console.warn("Airtable not initialized - cannot create listing");
-    console.log("Airtable config check:", {
-      hasApiKey: !!process.env.AIRTABLE_API_KEY,
-      hasBaseId: !!process.env.AIRTABLE_BASE_ID,
-      apiKeyLength: process.env.AIRTABLE_API_KEY?.length,
-      baseId: process.env.AIRTABLE_BASE_ID,
-    });
+  if (!process.env.AIRTABLE_API_KEY || !process.env.AIRTABLE_BASE_ID) {
+    console.warn("Airtable not configured - missing API key or base ID");
     return null;
   }
 
   try {
     console.log("Creating listing with data:", data);
 
-    // Transform the data using the new toAirtable function
-    const airtablePayload = toAirtable(data);
-    console.log("Transformed Airtable payload:", airtablePayload);
+    // Use the same transform logic as the API route
+    const record = {
+      fields: {
+        "Listing Name": data.name,
+        "What You Offer?": data.description,
+        "Who Is It For?": data.introduction,
+        "Why Is It Unique?": data.unique,
+        "Format (In-person/Online/Hybrid)":
+          data.format === "Online"
+            ? "Online Only"
+            : data.format === "In-person"
+              ? "In-Person Only"
+              : "Hybrid (Online & In-Person)",
+        "Extras/Notes": data.notes,
+        "California Child Performer Services Permit ": !!data.performerPermit,
+        "Bonded For Advanced Fees": !!data.bonded,
+        "Bond#": data.bondNumber || "",
+        Website: data.link,
+        Email: data.email,
+        Phone: data.phone,
+        City: data.city,
+        State: data.state,
+        Zip: data.zip,
+        "Age Range": (data.tags || []).map((t: string) => tagMap[t] || t),
+        Categories: Array.isArray(data.categories)
+          ? data.categories
+              .map((c: string) => categoryMap[c] || c)
+              .filter(Boolean)
+          : [],
+        "Profile Image": data.iconId
+          ? [
+              {
+                url: `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${data.iconId}`,
+              },
+            ]
+          : [],
+        Plan: data.plan, // must be one of "Free", "Basic", "Pro", "Premium"
+      },
+    };
 
-    const record = await base("Listings").create(airtablePayload.fields);
+    console.log("Final Airtable payload:", record);
 
-    console.log("Successfully created listing:", record.id);
-    return record.id;
+    const response = await fetch(
+      `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Listings`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(record),
+      },
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Airtable API error:", response.status, errorText);
+      return null;
+    }
+
+    const result = await response.json();
+    console.log("Successfully created listing:", result.id);
+    return result.id;
   } catch (error) {
     console.error("Error creating listing:", error);
     console.error("Error details:", {
@@ -298,18 +323,6 @@ export async function createListing(data: FormData): Promise<string | null> {
       stack: error instanceof Error ? error.stack : undefined,
       data: data,
     });
-
-    // Log more specific error information
-    if (error instanceof Error) {
-      console.error("Error message:", error.message);
-      console.error("Error name:", error.name);
-    }
-
-    // Try to get more details from Airtable error
-    if (error && typeof error === "object" && "error" in error) {
-      console.error("Airtable error details:", error.error);
-    }
-
     return null;
   }
 }

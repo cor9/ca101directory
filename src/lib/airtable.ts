@@ -28,6 +28,7 @@ export function toAirtable(raw: any) {
   if (raw.categories?.length) {
     fields["Categories"] = raw.categories
       .map((c: string) => categoryMap[c] || c)
+      .map((c: string) => c.trim()) // Remove leading/trailing spaces
       .filter(Boolean);
   }
 
@@ -35,14 +36,20 @@ export function toAirtable(raw: any) {
   if (raw.tags?.length) {
     fields["Age Range"] = raw.tags
       .map((t: string) => tagMap[t] || t)
+      .map((t: string) => t.trim()) // Remove leading/trailing spaces
       .filter(Boolean);
   }
 
   // ✅ Blob ID → Airtable attachment
   if (raw.iconId) {
+    // Check if iconId is already a full URL or just a blob ID
+    const imageUrl = raw.iconId.startsWith('http') 
+      ? raw.iconId 
+      : `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${raw.iconId}`;
+    
     fields["Profile Image"] = [
       {
-        url: `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${raw.iconId}`,
+        url: imageUrl,
       },
     ];
   }

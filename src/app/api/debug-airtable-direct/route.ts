@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
 import { getAllAirtableRecords } from "@/lib/direct-airtable";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
     const records = await getAllAirtableRecords();
-    
+
     return NextResponse.json({
       total: records.length,
       records: records,

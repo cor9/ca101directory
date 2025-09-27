@@ -129,7 +129,7 @@
   .text-brand-yellow-dark {
     color: hsl(var(--brand-yellow-dark));
   }
-  
+
   .bg-brand-orange {
     background-color: hsl(var(--brand-orange));
   }
@@ -157,7 +157,7 @@
   .bg-brand-yellow-dark {
     background-color: hsl(var(--brand-yellow-dark));
   }
-  
+
   .border-brand-orange {
     border-color: hsl(var(--brand-orange));
   }
@@ -196,6 +196,13 @@
 
 .text-gradient_indigo-purple {
   background: linear-gradient(90deg, #6366f1 0%, rgb(168 85 247 / 0.8) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient_blue-orange {
+  background: linear-gradient(90deg, hsl(var(--brand-blue)) 0%, hsl(var(--brand-orange)) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

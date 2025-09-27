@@ -105,7 +105,7 @@ export default async function ItemDetailPage({
 
           <div className="flex flex-wrap gap-2 mb-4">
             {listing.categories && (
-              <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+              <span className="px-3 py-1 bg-brand-blue/10 text-brand-blue rounded-full text-sm">
                 {listing.categories}
               </span>
             )}
@@ -124,7 +124,7 @@ export default async function ItemDetailPage({
                   href={listing.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
+                  className="text-brand-blue hover:underline"
                 >
                   {listing.website}
                 </a>
@@ -136,7 +136,7 @@ export default async function ItemDetailPage({
                 <strong>Email:</strong>{" "}
                 <a
                   href={`mailto:${listing.email}`}
-                  className="text-blue-600 hover:underline"
+                  className="text-brand-blue hover:underline"
                 >
                   {listing.email}
                 </a>
@@ -148,7 +148,7 @@ export default async function ItemDetailPage({
                 <strong>Phone:</strong>{" "}
                 <a
                   href={`tel:${listing.phone}`}
-                  className="text-blue-600 hover:underline"
+                  className="text-brand-blue hover:underline"
                 >
                   {listing.phone}
                 </a>
@@ -184,7 +184,7 @@ export default async function ItemDetailPage({
                     listing.plan === "Premium"
                       ? "bg-purple-100 text-purple-800"
                       : listing.plan === "Pro"
-                        ? "bg-blue-100 text-blue-800"
+                        ? "bg-brand-blue/10 text-brand-blue"
                         : "bg-gray-100 text-gray-800"
                   }`}
                 >

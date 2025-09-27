@@ -29,7 +29,10 @@
     "batch": "tsx scripts/batch-all.ts",
     "batch:remove": "tsx scripts/batch-all.ts remove",
     "batch:import": "tsx scripts/batch-all.ts import",
-    "batch:update": "tsx scripts/batch-all.ts update"
+    "batch:update": "tsx scripts/batch-all.ts update",
+    "airtable:sync": "tsx scripts/batch-airtable-sync.ts sync",
+    "airtable:remove": "tsx scripts/batch-airtable-sync.ts remove",
+    "airtable:update": "tsx scripts/batch-airtable-sync.ts update"
   },
   "dependencies": {
     "@ai-sdk/deepseek": "^0.1.0",

@@ -134,9 +134,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   <div className="flex flex-col gap-2">
                     <h1
                       className={cn(
-                        "text-4xl tracking-wider font-bold flex items-center gap-2",
+                        "text-4xl tracking-wider font-bold flex items-center gap-2 text-foreground",
                         listing.featured &&
-                          "text-gradient_indigo-purple font-semibold",
+                          "text-gradient_blue-orange font-semibold",
                       )}
                     >
                       {listing.businessName}
@@ -157,7 +157,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     </div>
                   </div>
                 </div>
-                <p className="text-muted-foreground text-balance leading-relaxed">
+                <p className="text-foreground text-balance leading-relaxed">
                   {listing.description}
                 </p>
               </div>
@@ -376,15 +376,6 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   </ul>
                 </div>
 
-                {/* Plan */}
-                <div className="bg-muted/50 rounded-lg p-6">
-                  <h2 className="text-lg font-semibold mb-4 text-foreground">
-                    Listing Plan
-                  </h2>
-                  <span className="text-sm bg-purple-100 text-purple-800 px-3 py-1 rounded-full font-medium">
-                    {listing.plan}
-                  </span>
-                </div>
 
                 {/* Certifications & Compliance */}
                 {(listing.performerPermit || listing.bonded) && (

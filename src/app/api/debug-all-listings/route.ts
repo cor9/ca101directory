@@ -8,8 +8,15 @@ export async function GET() {
     const allListings = await getAllListings();
 
     // Also get raw Airtable records to see what's actually there
-    const { getAllAirtableRecords } = await import("@/lib/direct-airtable");
-    const rawRecords = await getAllAirtableRecords();
+    let rawRecords = [];
+    let rawError = null;
+    try {
+      const { getAllAirtableRecords } = await import("@/lib/direct-airtable");
+      rawRecords = await getAllAirtableRecords();
+    } catch (error) {
+      rawError = error instanceof Error ? error.message : "Unknown error";
+      console.error("Raw Airtable query error:", error);
+    }
 
     const listingsWithSlugs = allListings.map((listing) => ({
       id: listing.id,
@@ -38,6 +45,7 @@ export async function GET() {
     return NextResponse.json({
       total: allListings.length,
       rawTotal: rawRecords.length,
+      rawError: rawError,
       listings: listingsWithSlugs,
       rawRecords: rawRecords.slice(0, 2), // Show first 2 raw records for debugging
       debug: {

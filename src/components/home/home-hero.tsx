@@ -49,7 +49,7 @@ export default function HomeHero() {
           </Link>
           <Link
             href="/auth/register"
-            className="border-2 border-brand-blue text-brand-blue hover:bg-brand-blue/10 px-8 py-3 rounded-lg font-semibold transition-colors"
+            className="border-2 border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white px-8 py-3 rounded-lg font-semibold transition-colors"
           >
             Get Started Free
           </Link>

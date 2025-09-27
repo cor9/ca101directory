@@ -121,10 +121,10 @@ export default async function HomePage({
       {/* Call-to-Action Section */}
       <Container className="py-16">
         <div className="rounded-2xl bg-gradient-to-r from-brand-orange/5 via-brand-yellow/5 to-brand-blue/5 border border-brand-blue/20 px-6 py-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-brand-blue">
+          <h2 className="mb-4 text-3xl font-bold text-white">
             {homeConfig.ctaBanner.heading}
           </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-lg text-brand-blue/80">
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-white/90">
             {homeConfig.ctaBanner.description}
           </p>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -136,7 +136,7 @@ export default async function HomePage({
             </Link>
             <Link
               href={homeConfig.ctaBanner.secondaryCta.href}
-              className="rounded-lg border-2 border-brand-blue px-8 py-3 font-semibold text-brand-blue transition-colors hover:bg-brand-blue/10"
+              className="rounded-lg border-2 border-white px-8 py-3 font-semibold text-white transition-colors hover:bg-white/10"
             >
               {homeConfig.ctaBanner.secondaryCta.label}
             </Link>
@@ -148,10 +148,10 @@ export default async function HomePage({
       <Container className="py-16">
         <div className="rounded-2xl bg-muted p-8">
           <div className="mx-auto mb-8 max-w-2xl text-center">
-            <h2 className="text-2xl font-bold text-brand-blue">
+            <h2 className="text-2xl font-bold text-gray-900">
               {homeConfig.pricing.heading}
             </h2>
-            <p className="mt-3 text-base text-brand-blue/70">
+            <p className="mt-3 text-base text-gray-600">
               {homeConfig.pricing.subheading}
             </p>
           </div>
@@ -185,10 +185,10 @@ export default async function HomePage({
                   <p className="mt-2 text-sm text-muted-foreground">
                     {plan.description}
                   </p>
-                  <div className="mt-6 text-3xl font-bold text-brand-blue">
+                  <div className="mt-6 text-3xl font-bold text-gray-900">
                     {priceDisplay}
                     {plan.price !== 0 ? (
-                      <span className="ml-1 text-lg font-semibold text-brand-blue/70">
+                      <span className="ml-1 text-lg font-semibold text-gray-600">
                         {plan.priceSuffix}
                       </span>
                     ) : null}
@@ -217,7 +217,7 @@ export default async function HomePage({
           <div className="mt-6 text-center">
             <Link
               href="/pricing"
-              className="font-semibold text-brand-blue hover:text-brand-blue-dark"
+              className="font-semibold text-gray-900 hover:text-brand-blue transition-colors"
             >
               View Full Pricing Details →
             </Link>

@@ -120,23 +120,23 @@ export default async function HomePage({
 
       {/* Call-to-Action Section */}
       <Container className="py-16">
-        <div className="rounded-2xl bg-gradient-to-r from-[#FF6B35]/10 via-[#F7931E]/10 to-[#004E89]/10 px-6 py-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-[#004E89]">
+        <div className="rounded-2xl bg-gradient-to-r from-brand-orange/10 via-brand-yellow/10 to-brand-blue/10 px-6 py-12 text-center">
+          <h2 className="mb-4 text-3xl font-bold text-brand-blue">
             {homeConfig.ctaBanner.heading}
           </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-lg text-[#004E89]/80">
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-brand-blue/80">
             {homeConfig.ctaBanner.description}
           </p>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               href={homeConfig.ctaBanner.primaryCta.href}
-              className="rounded-lg bg-[#FF6B35] px-8 py-3 font-semibold text-white transition-colors hover:bg-[#e35e2f]"
+              className="rounded-lg bg-brand-orange px-8 py-3 font-semibold text-white transition-colors hover:bg-brand-orange-dark"
             >
               {homeConfig.ctaBanner.primaryCta.label}
             </Link>
             <Link
               href={homeConfig.ctaBanner.secondaryCta.href}
-              className="rounded-lg border-2 border-[#004E89] px-8 py-3 font-semibold text-[#004E89] transition-colors hover:bg-[#004E89]/10"
+              className="rounded-lg border-2 border-brand-blue px-8 py-3 font-semibold text-brand-blue transition-colors hover:bg-brand-blue/10"
             >
               {homeConfig.ctaBanner.secondaryCta.label}
             </Link>
@@ -146,12 +146,12 @@ export default async function HomePage({
 
       {/* Pricing Preview Section */}
       <Container className="py-16">
-        <div className="rounded-2xl bg-gray-50 p-8">
+        <div className="rounded-2xl bg-muted p-8">
           <div className="mx-auto mb-8 max-w-2xl text-center">
-            <h2 className="text-2xl font-bold text-[#004E89]">
+            <h2 className="text-2xl font-bold text-brand-blue">
               {homeConfig.pricing.heading}
             </h2>
-            <p className="mt-3 text-base text-[#004E89]/70">
+            <p className="mt-3 text-base text-brand-blue/70">
               {homeConfig.pricing.subheading}
             </p>
           </div>
@@ -168,35 +168,35 @@ export default async function HomePage({
               return (
                 <article
                   key={plan.title}
-                  className={`flex h-full flex-col rounded-xl border bg-white p-6 shadow-sm transition-shadow ${
+                  className={`flex h-full flex-col rounded-xl border bg-card p-6 shadow-sm transition-shadow ${
                     isFeatured
-                      ? "border-[#FF6B35] shadow-lg shadow-[#FF6B35]/25"
-                      : "border-gray-200"
+                      ? "border-brand-orange shadow-lg shadow-brand-orange/25"
+                      : "border-border"
                   }`}
                 >
                   {isFeatured ? (
-                    <span className="mb-4 inline-flex w-fit items-center rounded-full bg-[#FF6B35] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+                    <span className="mb-4 inline-flex w-fit items-center rounded-full bg-brand-orange px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
                       Most Popular
                     </span>
                   ) : null}
-                  <h3 className="text-xl font-semibold text-[#0f172a]">
+                  <h3 className="text-xl font-semibold text-card-foreground">
                     {plan.title}
                   </h3>
                   <p className="mt-2 text-sm text-muted-foreground">
                     {plan.description}
                   </p>
-                  <div className="mt-6 text-3xl font-bold text-[#004E89]">
+                  <div className="mt-6 text-3xl font-bold text-brand-blue">
                     {priceDisplay}
                     {plan.price !== 0 ? (
-                      <span className="ml-1 text-lg font-semibold text-[#004E89]/70">
+                      <span className="ml-1 text-lg font-semibold text-brand-blue/70">
                         {plan.priceSuffix}
                       </span>
                     ) : null}
                   </div>
-                  <ul className="mt-6 space-y-2 text-sm text-[#0f172a]">
+                  <ul className="mt-6 space-y-2 text-sm text-card-foreground">
                     {plan.benefits.map((benefit) => (
                       <li key={benefit} className="flex items-start gap-2">
-                        <span aria-hidden className="mt-1 text-[#FF6B35]">
+                        <span aria-hidden className="mt-1 text-brand-orange">
                           ✓
                         </span>
                         <span>{benefit}</span>
@@ -217,7 +217,7 @@ export default async function HomePage({
           <div className="mt-6 text-center">
             <Link
               href="/pricing"
-              className="font-semibold text-[#004E89] hover:text-[#00345f]"
+              className="font-semibold text-brand-blue hover:text-brand-blue-dark"
             >
               View Full Pricing Details →
             </Link>

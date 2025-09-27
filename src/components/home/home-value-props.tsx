@@ -3,17 +3,17 @@ import { Icons } from "@/components/icons/icons";
 import { homeConfig } from "@/config/home";
 
 const accentStyles = [
-  "bg-[#FF6B35]/10 text-[#FF6B35]",
-  "bg-[#F7931E]/10 text-[#F7931E]",
-  "bg-[#FFFFFF]/10 text-white",
+  "bg-brand-orange/10 text-brand-orange",
+  "bg-brand-yellow/10 text-brand-yellow",
+  "bg-white/10 text-white",
 ];
 
 export default function HomeValueProps() {
   return (
-    <section className="bg-[#004E89] py-16 text-white">
+    <section className="bg-brand-blue py-16 text-white">
       <Container>
         <div className="mx-auto mb-12 max-w-3xl text-center">
-          <p className="text-sm uppercase tracking-wider text-[#F7931E]">
+          <p className="text-sm uppercase tracking-wider text-brand-yellow">
             Why families choose us
           </p>
           <h2 className="mb-4 text-3xl font-bold md:text-4xl">

@@ -6,7 +6,7 @@ export default function HomeHowItWorks() {
     <section className="py-16">
       <Container>
         <div className="mx-auto mb-12 max-w-3xl text-center">
-          <p className="text-sm uppercase tracking-wider text-[#FF6B35]">
+          <p className="text-sm uppercase tracking-wider text-brand-orange">
             How it works
           </p>
           <h2 className="mb-4 text-3xl font-bold md:text-4xl">
@@ -23,12 +23,12 @@ export default function HomeHowItWorks() {
           {homeConfig.howItWorks.map((step, index) => (
             <article
               key={step.title}
-              className="relative h-full rounded-2xl border border-gray-200 bg-white p-8 shadow-sm"
+              className="relative h-full rounded-2xl border border-border bg-card p-8 shadow-sm"
             >
-              <span className="absolute -top-4 left-8 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#F7931E] text-lg font-semibold text-white shadow-lg shadow-[#F7931E]/30">
+              <span className="absolute -top-4 left-8 inline-flex h-10 w-10 items-center justify-center rounded-full bg-brand-yellow text-lg font-semibold text-white shadow-lg shadow-brand-yellow/30">
                 {index + 1}
               </span>
-              <h3 className="mb-3 text-xl font-semibold text-[#0f172a]">
+              <h3 className="mb-3 text-xl font-semibold text-card-foreground">
                 {step.title}
               </h3>
               <p className="text-sm leading-relaxed text-muted-foreground">

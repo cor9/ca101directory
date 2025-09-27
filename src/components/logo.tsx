@@ -3,7 +3,6 @@
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export function Logo({ className }: { className?: string }) {
@@ -22,12 +21,12 @@ export function Logo({ className }: { className?: string }) {
   }, []);
 
   return (
-    <Image
+    <img
       src={logo}
       alt="Logo"
       title="Logo"
-      width={96}
-      height={96}
+      width={32}
+      height={32}
       className={cn("size-8 rounded-md", className)}
     />
   );

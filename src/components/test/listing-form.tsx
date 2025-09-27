@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function ListingForm() {
   const searchParams = useSearchParams();
@@ -31,7 +31,7 @@ export default function ListingForm() {
           bonded: "true",
           categories: "rec4gFz49LQTQpzhw,recxsGFD5Xs9eSrrT",
           tags: "tag-1,tag-2,tag-3",
-          iconId: "supabase-1758872013372"
+          iconId: "supabase-1758872013372",
         }
       : {};
 
@@ -47,14 +47,16 @@ export default function ListingForm() {
     setFormData((prev) => ({ ...prev, ...queryOverrides }));
   }, [searchParams]);
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    
+
     // Convert form data to the format expected by the transform
     const submitData = {
       name: formData.name,
@@ -75,7 +77,7 @@ export default function ListingForm() {
       bonded: formData.bonded === "true",
       categories: formData.categories ? formData.categories.split(",") : [],
       tags: formData.tags ? formData.tags.split(",") : [],
-      iconId: formData.iconId
+      iconId: formData.iconId,
     };
 
     console.log("Submitting:", submitData);
@@ -206,7 +208,12 @@ export default function ListingForm() {
               type="checkbox"
               name="performerPermit"
               checked={formData.performerPermit === "true"}
-              onChange={(e) => setFormData(prev => ({ ...prev, performerPermit: e.target.checked ? "true" : "false" }))}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  performerPermit: e.target.checked ? "true" : "false",
+                }))
+              }
             />
             Performer Permit
           </label>
@@ -215,7 +222,12 @@ export default function ListingForm() {
               type="checkbox"
               name="bonded"
               checked={formData.bonded === "true"}
-              onChange={(e) => setFormData(prev => ({ ...prev, bonded: e.target.checked ? "true" : "false" }))}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  bonded: e.target.checked ? "true" : "false",
+                }))
+              }
             />
             Bonded
           </label>
@@ -241,7 +253,10 @@ export default function ListingForm() {
           onChange={handleChange}
           className="border p-2 w-full"
         />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <button
+          type="submit"
+          className="bg-brand-orange text-white px-4 py-2 rounded"
+        >
           Test Transform
         </button>
       </form>

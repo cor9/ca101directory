@@ -18,8 +18,8 @@ export function FacebookAuthPlaceholder() {
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader className="text-center">
-        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-          <Facebook className="h-6 w-6 text-blue-600" />
+        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand-blue/10">
+          <Facebook className="h-6 w-6 text-brand-blue" />
         </div>
         <CardTitle className="text-xl">Facebook Login</CardTitle>
         <CardDescription>

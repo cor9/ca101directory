@@ -474,7 +474,7 @@ export function AirtableSubmitForm({
                             key={plan}
                             className={`p-4 border rounded-lg cursor-pointer transition-colors ${
                               field.value === plan
-                                ? "border-blue-500 bg-blue-50"
+                                ? "border-brand-orange bg-brand-orange/10"
                                 : "border-gray-200 hover:border-gray-300"
                             }`}
                           >
@@ -596,7 +596,7 @@ export function AirtableSubmitForm({
                 </h3>
 
                 <div className="space-y-4">
-                  <div className="p-4 bg-blue-50 rounded-lg">
+                  <div className="p-4 bg-brand-blue/5 rounded-lg">
                     <h4 className="font-medium mb-2">
                       California Child Performer Services Permit
                     </h4>
@@ -608,7 +608,7 @@ export function AirtableSubmitForm({
                       href="https://www.dir.ca.gov/dlse/Child_performer_services_permit.htm"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline text-sm"
+                      className="text-brand-blue hover:underline text-sm"
                     >
                       More Info:
                       https://www.dir.ca.gov/dlse/Child_performer_services_permit.htm

@@ -35,17 +35,17 @@ const dataCallout = {
   idea: {
     icon: Lightbulb,
     classes:
-      "border-blue-200 bg-blue-50 text-blue-800 dark:bg-blue-950 dark:text-blue-200",
+      "border-brand-blue/20 bg-brand-blue/5 text-brand-blue dark:bg-brand-blue/10 dark:text-brand-blue",
   },
   info: {
     icon: Info,
     classes:
-      "border-blue-200 bg-blue-50 text-blue-800 dark:bg-blue-950 dark:text-blue-200",
+      "border-brand-blue/20 bg-brand-blue/5 text-brand-blue dark:bg-brand-blue/10 dark:text-brand-blue",
   },
   note: {
     icon: FileText,
     classes:
-      "border-blue-200 bg-blue-50 text-blue-800 dark:bg-blue-950 dark:text-blue-200",
+      "border-brand-blue/20 bg-brand-blue/5 text-brand-blue dark:bg-brand-blue/10 dark:text-brand-blue",
   },
   success: {
     icon: CircleCheckBig,
@@ -55,7 +55,7 @@ const dataCallout = {
   warning: {
     icon: AlertTriangle,
     classes:
-      "border-orange-200 bg-orange-50 text-orange-800 dark:bg-orange-400/20 dark:text-orange-300",
+      "border-brand-orange/20 bg-brand-orange/5 text-brand-orange dark:bg-brand-orange/10 dark:text-brand-orange",
   },
 };
 

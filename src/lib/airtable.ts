@@ -209,9 +209,12 @@ export async function getAllListings(): Promise<Listing[]> {
     );
     console.log("🔍 First record data:", records[0]?.fields);
 
-    const listings = records.map(recordToListing);
-
-    return listings;
+    // Return raw records for debugging
+    return records.map(record => ({
+      id: record.id,
+      fields: record.fields,
+      createdTime: record.createdTime
+    })) as any;
   } catch (error) {
     console.error("Error fetching all listings:", error);
     return [];

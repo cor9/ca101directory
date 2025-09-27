@@ -20,7 +20,6 @@ export async function GET() {
       records: records.map((record) => ({
         id: record.id,
         fields: record.fields,
-        createdTime: record.createdTime,
       })),
     });
   } catch (error) {

@@ -63,16 +63,16 @@ export const syncAirtableToSite = async () => {
     let skippedCount = 0;
     
     for (const record of approvedRecords) {
+      const fields = record.fields;
+      const listingName = typeof fields["Listing Name"] === 'string' ? fields["Listing Name"] : "Untitled Listing";
+      
       try {
-        const fields = record.fields;
-        
-        // Check if item already exists
         const existingItem = await client.fetch(
-          `*[_type == "item" && name == "${fields["Listing Name"]?.replace(/"/g, '\\"')}"]`
+          `*[_type == "item" && name == "${listingName.replace(/"/g, '\\"')}"]`
         );
         
         if (existingItem.length > 0) {
-          console.log(`⏭️ Skipping existing item: ${fields["Listing Name"]}`);
+          console.log(`⏭️ Skipping existing item: ${listingName}`);
           skippedCount++;
           continue;
         }
@@ -80,57 +80,57 @@ export const syncAirtableToSite = async () => {
         // Transform Airtable data to Sanity format
         const itemData = {
           _type: "item",
-          name: fields["Listing Name"] || "Untitled Listing",
+          name: listingName,
           slug: {
             _type: "slug",
-            current: slugify(fields["Listing Name"] || "untitled-listing"),
+            current: slugify(listingName),
           },
-          link: fields.Website || "",
-          description: fields["What You Offer?"] || "",
-          introduction: fields["Who Is It For?"] || "",
-          unique: fields["Why Is It Unique?"] || "",
-          notes: fields["Extras/Notes"] || "",
-          format: fields["Format (In-person/Online/Hybrid)"] || "Hybrid",
-          performerPermit: fields["California Child Performer Services Permit "] || false,
-          bonded: fields["Bonded For Advanced Fees"] || false,
-          bondNumber: fields["Bond#"] || "",
-          email: fields.Email || "",
-          phone: fields.Phone || "",
-          city: fields.City || "",
-          state: fields.State || "",
-          zip: fields.Zip || "",
-          plan: fields.Plan || "Free",
+          link: typeof fields.Website === 'string' ? fields.Website : "",
+          description: typeof fields["What You Offer?"] === 'string' ? fields["What You Offer?"] : "",
+          introduction: typeof fields["Who Is It For?"] === 'string' ? fields["Who Is It For?"] : "",
+          unique: typeof fields["Why Is It Unique?"] === 'string' ? fields["Why Is It Unique?"] : "",
+          notes: typeof fields["Extras/Notes"] === 'string' ? fields["Extras/Notes"] : "",
+          format: typeof fields["Format (In-person/Online/Hybrid)"] === 'string' ? fields["Format (In-person/Online/Hybrid)"] : "Hybrid",
+          performerPermit: Boolean(fields["California Child Performer Services Permit "]),
+          bonded: Boolean(fields["Bonded For Advanced Fees"]),
+          bondNumber: typeof fields["Bond#"] === 'string' ? fields["Bond#"] : "",
+          email: typeof fields.Email === 'string' ? fields.Email : "",
+          phone: typeof fields.Phone === 'string' ? fields.Phone : "",
+          city: typeof fields.City === 'string' ? fields.City : "",
+          state: typeof fields.State === 'string' ? fields.State : "",
+          zip: typeof fields.Zip === 'string' ? fields.Zip : "",
+          plan: typeof fields.Plan === 'string' ? fields.Plan : "Free",
           publishDate: new Date(),
-          pricePlan: fields.Plan === "Free" ? "free" : "pro",
-          freePlanStatus: fields.Plan === "Free" ? "approved" : undefined,
-          proPlanStatus: fields.Plan !== "Free" ? "approved" : undefined,
+          pricePlan: (typeof fields.Plan === 'string' ? fields.Plan : "Free") === "Free" ? "free" : "pro",
+          freePlanStatus: (typeof fields.Plan === 'string' ? fields.Plan : "Free") === "Free" ? "approved" : undefined,
+          proPlanStatus: (typeof fields.Plan === 'string' ? fields.Plan : "Free") !== "Free" ? "approved" : undefined,
           
           // Map categories
-          categories: mapCategories(fields.Categories || [], categories),
+          categories: mapCategories(Array.isArray(fields.Categories) ? fields.Categories : [], categories),
           
           // Map tags (age ranges)
-          tags: mapTags(fields["Age Range"] || [], tags),
+          tags: mapTags(Array.isArray(fields["Age Range"]) ? fields["Age Range"] : [], tags),
           
           // Handle profile image if available
-          ...(fields["Profile Image"] && fields["Profile Image"].length > 0 ? {
+          ...(Array.isArray(fields["Profile Image"]) && fields["Profile Image"].length > 0 ? {
             icon: {
               _type: "image",
               asset: {
                 _type: "reference",
-                _ref: await uploadImageFromUrl(fields["Profile Image"][0].url, `${slugify(fields["Listing Name"])}_logo`),
+                _ref: await uploadImageFromUrl(fields["Profile Image"][0].url, `${slugify(listingName)}_logo`),
               },
-              alt: `Logo of ${fields["Listing Name"]}`,
+              alt: `Logo of ${listingName}`,
             },
           } : {}),
         };
         
         // Create the item in Sanity
         const result = await client.create(itemData);
-        console.log(`✅ Synced: ${fields["Listing Name"]} (ID: ${result._id})`);
+        console.log(`✅ Synced: ${listingName} (ID: ${result._id})`);
         syncedCount++;
         
       } catch (error) {
-        console.error(`❌ Error syncing ${fields["Listing Name"]}:`, error);
+        console.error(`❌ Error syncing ${listingName}:`, error);
       }
     }
     

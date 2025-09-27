@@ -113,34 +113,40 @@ export interface Category {
 
 // Helper function to convert Airtable record to our interface
 function recordToListing(record: Airtable.Record<any>): Listing {
+  const fields = record.fields;
+  
   return {
     id: record.id,
-    businessName: record.get("Listing Name") || "",
-    email: record.get("Email") || "",
-    phone: record.get("Phone") || "",
-    website: record.get("Website") || "",
-    instagram: record.get("Instagram") || "",
-    servicesOffered: record.get("Who Is It For?") || "",
-    description: record.get("What You Offer?") || "",
-    uniqueValue: record.get("Why Is It Unique?") || "",
-    format: record.get("Format (In-person/Online/Hybrid)") || "",
-    notes: record.get("Extras/Notes") || "",
-    categories: record.get("Categories") || [],
-    tags: record.get("Age Range") || [], // Map Age Range to tags
-    gallery: record.get("Gallery") || [],
-    logo: record.get("Profile Image") || "",
-    location:
-      record.get("City") && record.get("State")
-        ? `${record.get("City")}, ${record.get("State")}`
-        : "",
+    businessName: fields["Listing Name"] || "Untitled Listing",
+    email: fields["Email"] || "",
+    phone: fields["Phone"] || "",
+    website: fields["Website"] || "",
+    instagram: fields["Instagram"] || "",
+    servicesOffered: fields["Who Is It For?"] || "",
+    description: fields["What You Offer?"] || "Professional acting services for young performers",
+    uniqueValue: fields["Why Is It Unique?"] || "",
+    format: fields["Format (In-person/Online/Hybrid)"] || "Hybrid",
+    notes: fields["Extras/Notes"] || "",
+    categories: Array.isArray(fields["Categories"]) ? fields["Categories"] : [],
+    tags: Array.isArray(fields["Age Range"]) ? fields["Age Range"] : [],
+    gallery: Array.isArray(fields["Gallery"]) ? fields["Gallery"] : [],
+    logo: Array.isArray(fields["Profile Image"]) && fields["Profile Image"].length > 0 
+      ? fields["Profile Image"][0].url 
+      : "",
+    location: fields["City"] && fields["State"]
+      ? `${fields["City"]}, ${fields["State"]}`
+      : fields["City"] || fields["State"] || "",
     virtual: false,
-    plan: record.get("Plan") || "Free",
-    featured: record.get("Featured") || false,
-    approved101: record.get("Approved101") || false,
-    status: record.get("Status") || "PENDING",
-    active: record.get("Active") || true, // Default to true for approved listings
+    plan: fields["Plan"] || "Free",
+    featured: fields["Featured"] || false,
+    approved101: fields["Approved101"] || false,
+    status: fields["Status"] || "PENDING",
+    active: fields["Active"] !== false, // Default to true for approved listings
     dateSubmitted: new Date().toISOString(),
-    dateApproved: record.get("Status") === "APPROVED" ? new Date().toISOString() : "",
+    dateApproved: fields["Status"] === "APPROVED" ? new Date().toISOString() : "",
+    performerPermit: fields["California Child Performer Services Permit "] || false,
+    bonded: fields["Bonded For Advanced Fees"] || false,
+    bondNumber: fields["Bond#"] || "",
   };
 }
 

@@ -21,7 +21,6 @@ export async function getAllAirtableRecords() {
     return records.map((record) => ({
       id: record.id,
       fields: record.fields,
-      createdTime: record.createdTime,
     }));
   } catch (error) {
     console.error("Error fetching Airtable records:", error);

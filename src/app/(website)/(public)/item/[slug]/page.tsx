@@ -95,12 +95,12 @@ export default async function ItemDetailPage({
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-foreground mb-4">
             {listing.businessName}
           </h1>
 
           {listing.description && (
-            <p className="text-lg text-gray-600 mb-4">{listing.description}</p>
+            <p className="text-lg text-foreground mb-4">{listing.description}</p>
           )}
 
           <div className="flex flex-wrap gap-2 mb-4">
@@ -176,22 +176,6 @@ export default async function ItemDetailPage({
               </div>
             )}
 
-            {listing.plan && (
-              <div className="mb-4">
-                <strong>Plan:</strong>{" "}
-                <span
-                  className={`px-2 py-1 rounded text-sm ${
-                    listing.plan === "Premium"
-                      ? "bg-purple-100 text-purple-800"
-                      : listing.plan === "Pro"
-                        ? "bg-brand-blue/10 text-brand-blue"
-                        : "bg-gray-100 text-gray-800"
-                  }`}
-                >
-                  {listing.plan}
-                </span>
-              </div>
-            )}
           </div>
         </div>
       </div>

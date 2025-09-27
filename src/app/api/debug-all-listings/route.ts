@@ -4,7 +4,7 @@ export async function GET() {
   try {
     // Get all listings from Airtable (including pending ones)
     const { getAllListings } = await import("@/lib/airtable");
-    
+
     const allListings = await getAllListings();
 
     const listingsWithSlugs = allListings.map((listing) => ({
@@ -16,7 +16,15 @@ export async function GET() {
       email: listing.email,
       phone: listing.phone,
       website: listing.website,
+      description: listing.description,
+      uniqueValue: listing.uniqueValue,
+      format: listing.format,
+      notes: listing.notes,
       categories: listing.categories,
+      tags: listing.tags,
+      location: listing.location,
+      featured: listing.featured,
+      approved101: listing.approved101,
       slug: listing.businessName
         .toLowerCase()
         .replace(/\s+/g, "-")

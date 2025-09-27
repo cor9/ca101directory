@@ -47,11 +47,14 @@ export default function ItemCard2({ item }: ItemCard2Props) {
             />
           )}
 
-          <Link href={`${itemUrlPrefix}/${item.slug.current}`} className="min-w-0 flex-1">
+          <Link
+            href={`${itemUrlPrefix}/${item.slug.current}`}
+            className="min-w-0 flex-1"
+          >
             <h3
               className={cn(
-                "text-xl font-medium truncate overflow-hidden text-ellipsis",
-                item.featured && "text-gradient_indigo-purple font-semibold",
+                "text-xl font-medium truncate overflow-hidden text-ellipsis text-foreground",
+                item.featured && "text-gradient_blue-orange font-semibold",
               )}
             >
               {item.name}
@@ -86,7 +89,7 @@ export default function ItemCard2({ item }: ItemCard2Props) {
           href={`${itemUrlPrefix}/${item.slug.current}`}
           className="block cursor-pointer"
         >
-          <p className="text-sm line-clamp-3 leading-relaxed min-h-[4.5rem]">
+          <p className="text-sm line-clamp-3 leading-relaxed min-h-[4.5rem] text-foreground">
             {item.description}
           </p>
         </Link>

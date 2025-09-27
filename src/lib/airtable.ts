@@ -203,6 +203,9 @@ export async function getAllListings(): Promise<Listing[]> {
       .all();
 
     console.log(`✅ Found ${records.length} total listings in Airtable`);
+    console.log("🔍 First record fields:", Object.keys(records[0]?.fields || {}));
+    console.log("🔍 First record data:", records[0]?.fields);
+    
     const listings = records.map(recordToListing);
 
     return listings;

@@ -83,7 +83,7 @@ export default async function HomeFeaturedListings() {
     listings = fallbackListings;
   }
   return (
-    <section className="py-16 bg-muted">
+    <section className="py-16 bg-gradient-to-b from-muted/50 to-background">
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold mb-4">Featured Professionals</h2>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -104,9 +104,7 @@ export default async function HomeFeaturedListings() {
                 width={400}
                 height={200}
                 className={`w-full h-48 object-cover ${
-                  listing.name === "Coaching with Corey"
-                    ? "bg-muted p-4"
-                    : ""
+                  listing.name === "Coaching with Corey" ? "bg-muted p-4" : ""
                 }`}
               />
               {listing.featured && (

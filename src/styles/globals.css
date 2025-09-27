@@ -37,19 +37,19 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    
-    /* Brand colors */
-    --brand-orange: 14 100% 60%; /* #FF6B35 */
-    --brand-orange-light: 14 100% 70%; /* lighter orange */
-    --brand-orange-dark: 14 100% 50%; /* darker orange */
-    --brand-yellow: 32 100% 50%; /* #F7931E */
-    --brand-yellow-light: 32 100% 60%; /* lighter yellow */
-    --brand-yellow-dark: 32 100% 40%; /* darker yellow */
-    --brand-blue: 210 100% 30%; /* #004E89 */
-    --brand-blue-light: 210 100% 40%; /* lighter blue */
-    --brand-blue-dark: 210 100% 20%; /* darker blue */
+
+    /* Brand colors - softer, more muted */
+    --brand-orange: 14 85% 55%; /* softer orange */
+    --brand-orange-light: 14 85% 65%; /* lighter orange */
+    --brand-orange-dark: 14 85% 45%; /* darker orange */
+    --brand-yellow: 32 85% 45%; /* softer yellow */
+    --brand-yellow-light: 32 85% 55%; /* lighter yellow */
+    --brand-yellow-dark: 32 85% 35%; /* darker yellow */
+    --brand-blue: 210 85% 25%; /* softer blue */
+    --brand-blue-light: 210 85% 35%; /* lighter blue */
+    --brand-blue-dark: 210 85% 15%; /* darker blue */
   }
- 
+
   .dark {
     --background: 210 100% 8%; /* Dark blue background */
     --foreground: 0 0% 95%;
@@ -75,17 +75,17 @@
     --chart-3: 210 100% 40%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    
-    /* Brand colors for dark mode */
-    --brand-orange: 14 100% 65%; /* Brighter orange for dark mode */
-    --brand-orange-light: 14 100% 75%;
-    --brand-orange-dark: 14 100% 55%;
-    --brand-yellow: 32 100% 55%; /* Brighter yellow for dark mode */
-    --brand-yellow-light: 32 100% 65%;
-    --brand-yellow-dark: 32 100% 45%;
-    --brand-blue: 210 100% 50%; /* Brighter blue for dark mode */
-    --brand-blue-light: 210 100% 60%;
-    --brand-blue-dark: 210 100% 40%;
+
+    /* Brand colors for dark mode - softer */
+    --brand-orange: 14 85% 60%; /* Softer orange for dark mode */
+    --brand-orange-light: 14 85% 70%;
+    --brand-orange-dark: 14 85% 50%;
+    --brand-yellow: 32 85% 50%; /* Softer yellow for dark mode */
+    --brand-yellow-light: 32 85% 60%;
+    --brand-yellow-dark: 32 85% 40%;
+    --brand-blue: 210 85% 45%; /* Softer blue for dark mode */
+    --brand-blue-light: 210 85% 55%;
+    --brand-blue-dark: 210 85% 35%;
   }
 }
 

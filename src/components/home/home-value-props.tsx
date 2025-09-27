@@ -10,16 +10,16 @@ const accentStyles = [
 
 export default function HomeValueProps() {
   return (
-    <section className="bg-brand-blue py-16 text-white">
+    <section className="py-16 bg-gradient-to-br from-brand-blue/90 to-brand-blue">
       <Container>
         <div className="mx-auto mb-12 max-w-3xl text-center">
-          <p className="text-sm uppercase tracking-wider text-brand-yellow">
+          <p className="text-sm uppercase tracking-wider text-brand-yellow/90">
             Why families choose us
           </p>
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold md:text-4xl text-white">
             Built for the unique needs of young performers
           </h2>
-          <p className="text-base text-white/80">
+          <p className="text-base text-white/90">
             We do the legwork so you can focus on supporting your child. Explore
             verified listings with transparency into quality, safety, and fit.
           </p>
@@ -33,7 +33,7 @@ export default function HomeValueProps() {
             return (
               <article
                 key={value.title}
-                className="flex h-full flex-col rounded-2xl border border-white/10 bg-white/5 p-8 shadow-lg shadow-brand-blue/40"
+                className="flex h-full flex-col rounded-2xl border border-white/20 bg-white/10 backdrop-blur-sm p-8 shadow-lg shadow-black/20 hover:bg-white/15 transition-all duration-300"
               >
                 <span
                   className={`mb-6 inline-flex h-12 w-12 items-center justify-center rounded-full ${accent}`}
@@ -43,7 +43,7 @@ export default function HomeValueProps() {
                 <h3 className="mb-3 text-xl font-semibold text-white">
                   {value.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-white/80">
+                <p className="text-sm leading-relaxed text-white/90">
                   {value.description}
                 </p>
               </article>

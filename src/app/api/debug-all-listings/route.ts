@@ -18,25 +18,12 @@ export async function GET() {
       console.error("Raw Airtable query error:", error);
     }
 
-    const listingsWithSlugs = allListings.map((listing) => ({
+    // Since getAllListings now returns raw records, use them directly
+    const listingsWithSlugs = allListings.map((listing: any) => ({
       id: listing.id,
-      businessName: listing.businessName,
-      status: listing.status,
-      active: listing.active,
-      plan: listing.plan,
-      email: listing.email,
-      phone: listing.phone,
-      website: listing.website,
-      description: listing.description,
-      uniqueValue: listing.uniqueValue,
-      format: listing.format,
-      notes: listing.notes,
-      categories: listing.categories,
-      tags: listing.tags,
-      location: listing.location,
-      featured: listing.featured,
-      approved101: listing.approved101,
-      slug: listing.businessName
+      fields: listing.fields,
+      createdTime: listing.createdTime,
+      slug: (listing.fields?.["Listing Name"] || "")
         .toLowerCase()
         .replace(/\s+/g, "-")
         .replace(/[^a-z0-9-]/g, ""),

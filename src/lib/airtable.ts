@@ -139,8 +139,8 @@ function recordToListing(record: Airtable.Record<any>): Listing {
     approved101: record.get("Approved101") || false,
     status: record.get("Status") || "PENDING",
     active: record.get("Active") || true, // Default to true for approved listings
-    dateSubmitted: record.createdTime || "",
-    dateApproved: record.get("Status") === "APPROVED" ? record.createdTime : "",
+    dateSubmitted: new Date().toISOString(),
+    dateApproved: record.get("Status") === "APPROVED" ? new Date().toISOString() : "",
   };
 }
 

@@ -12,14 +12,7 @@ export async function getAllAirtableRecords() {
     const records = await base("Listings")
       .select({
         // Get basic fields first to see what exists
-        fields: [
-          "Listing Name",
-          "Email",
-          "Phone",
-          "Website",
-          "Status",
-          "Plan",
-        ],
+        fields: ["Listing Name", "Email", "Phone", "Website", "Status", "Plan"],
       })
       .all();
 

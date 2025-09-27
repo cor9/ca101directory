@@ -120,7 +120,7 @@ export default async function HomePage({
 
       {/* Call-to-Action Section */}
       <Container className="py-16">
-        <div className="rounded-2xl bg-gradient-to-r from-brand-orange/10 via-brand-yellow/10 to-brand-blue/10 px-6 py-12 text-center">
+        <div className="rounded-2xl bg-gradient-to-r from-brand-orange/5 via-brand-yellow/5 to-brand-blue/5 border border-brand-blue/20 px-6 py-12 text-center">
           <h2 className="mb-4 text-3xl font-bold text-brand-blue">
             {homeConfig.ctaBanner.heading}
           </h2>

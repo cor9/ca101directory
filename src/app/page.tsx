@@ -148,10 +148,10 @@ export default async function HomePage({
       <Container className="py-16">
         <div className="rounded-2xl bg-muted p-8">
           <div className="mx-auto mb-8 max-w-2xl text-center">
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-bold text-foreground">
               {homeConfig.pricing.heading}
             </h2>
-            <p className="mt-3 text-base text-gray-600">
+            <p className="mt-3 text-base text-muted-foreground">
               {homeConfig.pricing.subheading}
             </p>
           </div>
@@ -185,10 +185,10 @@ export default async function HomePage({
                   <p className="mt-2 text-sm text-muted-foreground">
                     {plan.description}
                   </p>
-                  <div className="mt-6 text-3xl font-bold text-gray-900">
+                  <div className="mt-6 text-3xl font-bold text-foreground">
                     {priceDisplay}
                     {plan.price !== 0 ? (
-                      <span className="ml-1 text-lg font-semibold text-gray-600">
+                      <span className="ml-1 text-lg font-semibold text-muted-foreground">
                         {plan.priceSuffix}
                       </span>
                     ) : null}
@@ -217,7 +217,7 @@ export default async function HomePage({
           <div className="mt-6 text-center">
             <Link
               href="/pricing"
-              className="font-semibold text-gray-900 hover:text-brand-blue transition-colors"
+              className="font-semibold text-foreground hover:text-brand-blue transition-colors"
             >
               View Full Pricing Details →
             </Link>

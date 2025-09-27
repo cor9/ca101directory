@@ -58,6 +58,24 @@ const config = {
     				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
     				border: 'hsl(var(--sidebar-border))',
     				ring: 'hsl(var(--sidebar-ring))'
+    			},
+    			// Brand colors
+    			brand: {
+    				orange: {
+    					DEFAULT: 'hsl(var(--brand-orange))',
+    					light: 'hsl(var(--brand-orange-light))',
+    					dark: 'hsl(var(--brand-orange-dark))'
+    				},
+    				yellow: {
+    					DEFAULT: 'hsl(var(--brand-yellow))',
+    					light: 'hsl(var(--brand-yellow-light))',
+    					dark: 'hsl(var(--brand-yellow-dark))'
+    				},
+    				blue: {
+    					DEFAULT: 'hsl(var(--brand-blue))',
+    					light: 'hsl(var(--brand-blue-light))',
+    					dark: 'hsl(var(--brand-blue-dark))'
+    				}
     			}
     		},
     		borderRadius: {

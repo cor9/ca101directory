@@ -40,7 +40,7 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
     <div className="relative">
       {isProPlan(pricePlan) && (
         <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-          <div className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+          <div className="bg-brand-orange text-white px-4 py-1 rounded-full text-sm font-semibold">
             Most Popular
           </div>
         </div>
@@ -49,13 +49,15 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
         className={cn(
           "relative overflow-hidden flex flex-col rounded-xl shadow-sm bg-white",
           isProPlan(pricePlan)
-            ? "border-2 border-blue-500 shadow-lg"
+            ? "border-2 border-brand-orange shadow-lg"
             : "border border-gray-200",
         )}
       >
         {/* price plan title and price */}
         <div className="p-6 text-center border-b border-gray-100">
-          <h3 className="text-xl font-semibold mb-2">{pricePlan.title}</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900">
+            {pricePlan.title}
+          </h3>
           <div className="flex items-baseline justify-center gap-1">
             <div className="text-3xl font-bold text-gray-900">
               ${pricePlan.price}

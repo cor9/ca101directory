@@ -178,6 +178,35 @@ export type PricePlan = {
   stripePriceId: string | null;
 };
 
+export type HomeConfig = {
+  valueProps: Array<{
+    title: string;
+    description: string;
+    icon: keyof typeof Icons;
+  }>;
+  howItWorks: Array<{
+    title: string;
+    description: string;
+  }>;
+  pricing: {
+    heading: string;
+    subheading: string;
+    featuredPlan: string;
+  };
+  ctaBanner: {
+    heading: string;
+    description: string;
+    primaryCta: {
+      label: string;
+      href: string;
+    };
+    secondaryCta: {
+      label: string;
+      href: string;
+    };
+  };
+};
+
 export type FAQConfig = {
   items: FAQItem[];
 };

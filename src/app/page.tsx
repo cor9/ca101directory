@@ -2,10 +2,14 @@ import Container from "@/components/container";
 import HomeCategoryGrid from "@/components/home/home-category-grid";
 import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import HomeHero from "@/components/home/home-hero";
+import HomeHowItWorks from "@/components/home/home-how-it-works";
+import HomeValueProps from "@/components/home/home-value-props";
 import ItemGrid from "@/components/item/item-grid";
 import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
+import { homeConfig } from "@/config/home";
+import { priceConfig } from "@/config/price";
 import { siteConfig } from "@/config/site";
 import { getItems } from "@/data/airtable-item";
 import {
@@ -17,7 +21,8 @@ import { constructMetadata } from "@/lib/metadata";
 import Link from "next/link";
 
 export const metadata = constructMetadata({
-  title: "",
+  title: `${siteConfig.name} | ${siteConfig.tagline}`,
+  description: siteConfig.description,
   canonicalUrl: `${siteConfig.url}/`,
 });
 
@@ -43,7 +48,8 @@ export default async function HomePage({
   } = searchParams as { [key: string]: string };
   const { sortKey, reverse } =
     SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
-  const currentPage = page ? Number(page) : 1;
+  const rawPage = page ? Number(page) : 1;
+  const currentPage = Number.isNaN(rawPage) ? 1 : Math.max(1, rawPage);
   const { items, totalCount } = await getItems({
     category,
     tag,
@@ -57,6 +63,12 @@ export default async function HomePage({
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
   console.log("HomePage, totalCount", totalCount, ", totalPages", totalPages);
 
+  const currencyFormatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  });
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -64,8 +76,14 @@ export default async function HomePage({
         <HomeHero />
       </Container>
 
+      {/* Value Props Section */}
+      <HomeValueProps />
+
       {/* Category Grid Section */}
       <HomeCategoryGrid />
+
+      {/* How It Works Section */}
+      <HomeHowItWorks />
 
       {/* Featured Listings Section */}
       <HomeFeaturedListings />
@@ -102,26 +120,25 @@ export default async function HomePage({
 
       {/* Call-to-Action Section */}
       <Container className="py-16">
-        <div className="text-center py-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl">
-          <h2 className="text-3xl font-bold mb-4">
-            Ready to List Your Business?
+        <div className="rounded-2xl bg-gradient-to-r from-[#FF6B35]/10 via-[#F7931E]/10 to-[#004E89]/10 px-6 py-12 text-center">
+          <h2 className="mb-4 text-3xl font-bold text-[#004E89]">
+            {homeConfig.ctaBanner.heading}
           </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join our trusted directory of child actor professionals. Get
-            discovered by families looking for quality services.
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-[#004E89]/80">
+            {homeConfig.ctaBanner.description}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
-              href="/submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+              href={homeConfig.ctaBanner.primaryCta.href}
+              className="rounded-lg bg-[#FF6B35] px-8 py-3 font-semibold text-white transition-colors hover:bg-[#e35e2f]"
             >
-              Submit Your Listing
+              {homeConfig.ctaBanner.primaryCta.label}
             </Link>
             <Link
-              href="/pricing"
-              className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-lg font-semibold transition-colors"
+              href={homeConfig.ctaBanner.secondaryCta.href}
+              className="rounded-lg border-2 border-[#004E89] px-8 py-3 font-semibold text-[#004E89] transition-colors hover:bg-[#004E89]/10"
             >
-              View Pricing Plans
+              {homeConfig.ctaBanner.secondaryCta.label}
             </Link>
           </div>
         </div>
@@ -129,54 +146,78 @@ export default async function HomePage({
 
       {/* Pricing Preview Section */}
       <Container className="py-16">
-        <div className="bg-gray-50 rounded-2xl p-8">
-          <h2 className="text-2xl font-bold text-center mb-8">
-            Simple, Transparent Pricing
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div className="bg-white p-6 rounded-lg border">
-              <h3 className="text-xl font-semibold mb-2">Basic</h3>
-              <div className="text-3xl font-bold mb-4">
-                $29<span className="text-lg text-gray-500">/month</span>
-              </div>
-              <ul className="space-y-2 text-sm">
-                <li>✓ Business listing</li>
-                <li>✓ Contact information</li>
-                <li>✓ Basic profile</li>
-              </ul>
-            </div>
-            <div className="bg-white p-6 rounded-lg border border-blue-500 relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
-                Most Popular
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Pro</h3>
-              <div className="text-3xl font-bold mb-4">
-                $49<span className="text-lg text-gray-500">/month</span>
-              </div>
-              <ul className="space-y-2 text-sm">
-                <li>✓ Everything in Basic</li>
-                <li>✓ Featured placement</li>
-                <li>✓ Gallery images</li>
-                <li>✓ Priority support</li>
-              </ul>
-            </div>
-            <div className="bg-white p-6 rounded-lg border">
-              <h3 className="text-xl font-semibold mb-2">Premium</h3>
-              <div className="text-3xl font-bold mb-4">
-                $99<span className="text-lg text-gray-500">/month</span>
-              </div>
-              <ul className="space-y-2 text-sm">
-                <li>✓ Everything in Pro</li>
-                <li>✓ Top placement</li>
-                <li>✓ Analytics dashboard</li>
-                <li>✓ Custom branding</li>
-              </ul>
-            </div>
+        <div className="rounded-2xl bg-gray-50 p-8">
+          <div className="mx-auto mb-8 max-w-2xl text-center">
+            <h2 className="text-2xl font-bold text-[#004E89]">
+              {homeConfig.pricing.heading}
+            </h2>
+            <p className="mt-3 text-base text-[#004E89]/70">
+              {homeConfig.pricing.subheading}
+            </p>
           </div>
-          <div className="text-center mt-6">
+          <div className="mx-auto grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {priceConfig.plans.map((plan) => {
+              const isFeatured =
+                plan.title.toLowerCase() ===
+                homeConfig.pricing.featuredPlan.toLowerCase();
+              const priceDisplay =
+                plan.price === 0
+                  ? "Free"
+                  : currencyFormatter.format(plan.price);
+
+              return (
+                <article
+                  key={plan.title}
+                  className={`flex h-full flex-col rounded-xl border bg-white p-6 shadow-sm transition-shadow ${
+                    isFeatured
+                      ? "border-[#FF6B35] shadow-lg shadow-[#FF6B35]/25"
+                      : "border-gray-200"
+                  }`}
+                >
+                  {isFeatured ? (
+                    <span className="mb-4 inline-flex w-fit items-center rounded-full bg-[#FF6B35] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+                      Most Popular
+                    </span>
+                  ) : null}
+                  <h3 className="text-xl font-semibold text-[#0f172a]">
+                    {plan.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {plan.description}
+                  </p>
+                  <div className="mt-6 text-3xl font-bold text-[#004E89]">
+                    {priceDisplay}
+                    {plan.price !== 0 ? (
+                      <span className="ml-1 text-lg font-semibold text-[#004E89]/70">
+                        {plan.priceSuffix}
+                      </span>
+                    ) : null}
+                  </div>
+                  <ul className="mt-6 space-y-2 text-sm text-[#0f172a]">
+                    {plan.benefits.map((benefit) => (
+                      <li key={benefit} className="flex items-start gap-2">
+                        <span aria-hidden className="mt-1 text-[#FF6B35]">
+                          ✓
+                        </span>
+                        <span>{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {plan.limitations.length > 0 ? (
+                    <ul className="mt-4 space-y-1 text-xs text-muted-foreground">
+                      {plan.limitations.map((limitation) => (
+                        <li key={limitation}>✕ {limitation}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </article>
+              );
+            })}
+          </div>
+          <div className="mt-6 text-center">
             <Link
               href="/pricing"
-              className="text-blue-600 hover:text-blue-700 font-semibold"
+              className="font-semibold text-[#004E89] hover:text-[#00345f]"
             >
               View Full Pricing Details →
             </Link>

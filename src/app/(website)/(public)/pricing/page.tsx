@@ -40,7 +40,7 @@ export default async function PricingPage() {
               Need help choosing?{" "}
               <a
                 href="mailto:corey@childactor101.com"
-                className="text-blue-600 hover:text-blue-700 font-semibold"
+                className="text-brand-blue hover:text-brand-blue-dark font-semibold"
               >
                 Contact us
               </a>{" "}

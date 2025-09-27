@@ -1,5 +1,5 @@
 import { Icons } from "@/components/icons/icons";
-import { getListings, getCategories } from "@/lib/airtable";
+import { getCategories, getListings } from "@/lib/airtable";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -66,23 +66,23 @@ const categoryIconMap: Record<string, keyof typeof Icons> = {
   "Casting Directors": "star",
   "Voice Coaches": "mic",
   "Acting Coaches": "theater",
-  "Photographers": "camera",
-  "Editors": "video",
-  "Agents": "users",
-  "Directors": "star",
-  "Coaches": "mic",
+  Photographers: "camera",
+  Editors: "video",
+  Agents: "users",
+  Directors: "star",
+  Coaches: "mic",
 };
 
 export default async function HomeCategoryGrid() {
   // Get real categories from Airtable
   let categories: Category[] = [];
-  
+
   try {
     const [airtableCategories, listings] = await Promise.all([
       getCategories(),
-      getListings()
+      getListings(),
     ]);
-    
+
     // Count listings per category
     const categoryCounts: Record<string, number> = {};
     for (const listing of listings) {
@@ -92,14 +92,19 @@ export default async function HomeCategoryGrid() {
         }
       }
     }
-    
+
     categories = airtableCategories
       .slice(0, 6) // Limit to 6 categories
-      .map(category => ({
+      .map((category) => ({
         name: category.categoryName,
-        slug: category.categoryName.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, ""),
+        slug: category.categoryName
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, ""),
         icon: categoryIconMap[category.categoryName] || "star",
-        description: category.description || `Professional ${category.categoryName.toLowerCase()} services`,
+        description:
+          category.description ||
+          `Professional ${category.categoryName.toLowerCase()} services`,
         count: categoryCounts[category.categoryName] || 0,
       }));
   } catch (error) {
@@ -128,25 +133,23 @@ export default async function HomeCategoryGrid() {
               href={`/category/${category.slug}`}
               className="group"
             >
-              <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:border-blue-500 hover:bg-gray-750">
+              <div className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:border-brand-blue hover:bg-accent">
                 <div className="flex items-center mb-4">
-                  <div className="p-3 bg-blue-600 rounded-lg group-hover:bg-blue-500 transition-colors">
+                  <div className="p-3 bg-brand-blue rounded-lg group-hover:bg-brand-blue-dark transition-colors">
                     <IconComponent className="h-6 w-6 text-white" />
                   </div>
                   <div className="ml-4 flex-1">
-                    <h3 className="font-semibold text-lg text-white group-hover:text-blue-400 transition-colors">
+                    <h3 className="font-semibold text-lg text-card-foreground group-hover:text-brand-blue transition-colors">
                       {category.name}
                     </h3>
                     {category.count && (
-                      <p className="text-sm text-gray-400">
+                      <p className="text-sm text-muted-foreground">
                         {category.count} professionals
                       </p>
                     )}
                   </div>
                 </div>
-                <p className="text-gray-300 text-sm">
-                  {category.description}
-                </p>
+                <p className="text-muted-foreground text-sm">{category.description}</p>
               </div>
             </Link>
           );
@@ -156,7 +159,7 @@ export default async function HomeCategoryGrid() {
       <div className="text-center mt-12">
         <Link
           href="/search"
-          className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+          className="inline-flex items-center px-6 py-3 bg-brand-blue text-white rounded-lg hover:bg-brand-blue-dark transition-colors font-semibold"
         >
           View All Categories
           <Icons.arrowRight className="ml-2 h-4 w-4" />

@@ -33,7 +33,7 @@ export default function HomeValueProps() {
             return (
               <article
                 key={value.title}
-                className="flex h-full flex-col rounded-2xl border border-white/10 bg-white/5 p-8 shadow-lg shadow-[#002e52]/40"
+                className="flex h-full flex-col rounded-2xl border border-white/10 bg-white/5 p-8 shadow-lg shadow-brand-blue/40"
               >
                 <span
                   className={`mb-6 inline-flex h-12 w-12 items-center justify-center rounded-full ${accent}`}

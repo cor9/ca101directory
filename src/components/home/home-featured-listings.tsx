@@ -83,7 +83,7 @@ export default async function HomeFeaturedListings() {
     listings = fallbackListings;
   }
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-muted">
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold mb-4">Featured Professionals</h2>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -95,7 +95,7 @@ export default async function HomeFeaturedListings() {
         {listings.map((listing) => (
           <div
             key={listing.id}
-            className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300"
+            className="bg-card rounded-xl shadow-sm border border-border overflow-hidden hover:shadow-lg transition-all duration-300"
           >
             <div className="relative">
               <Image
@@ -105,13 +105,13 @@ export default async function HomeFeaturedListings() {
                 height={200}
                 className={`w-full h-48 object-cover ${
                   listing.name === "Coaching with Corey"
-                    ? "bg-gray-800 p-4"
+                    ? "bg-muted p-4"
                     : ""
                 }`}
               />
               {listing.featured && (
                 <div className="absolute top-4 left-4">
-                  <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  <span className="bg-brand-blue text-white px-3 py-1 rounded-full text-sm font-semibold">
                     Featured
                   </span>
                 </div>
@@ -120,10 +120,10 @@ export default async function HomeFeaturedListings() {
 
             <div className="p-6">
               <div className="flex items-start justify-between mb-3">
-                <h3 className="font-semibold text-lg text-gray-900">
+                <h3 className="font-semibold text-lg text-card-foreground">
                   {listing.name}
                 </h3>
-                <Icons.externalLink className="h-4 w-4 text-gray-400" />
+                <Icons.externalLink className="h-4 w-4 text-muted-foreground" />
               </div>
 
               <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
@@ -134,7 +134,7 @@ export default async function HomeFeaturedListings() {
                 {listing.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
-                    className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
+                    className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-full"
                   >
                     {tag}
                   </span>
@@ -150,7 +150,7 @@ export default async function HomeFeaturedListings() {
                     .toLowerCase()
                     .replace(/\s+/g, "-")
                     .replace(/[^a-z0-9-]/g, "")}`}
-                  className="text-blue-600 hover:text-blue-700 text-sm font-semibold"
+                  className="text-brand-blue hover:text-brand-blue-dark text-sm font-semibold"
                 >
                   View Listing →
                 </Link>
@@ -163,7 +163,7 @@ export default async function HomeFeaturedListings() {
       <div className="text-center mt-12">
         <Link
           href="/search"
-          className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+          className="inline-flex items-center px-6 py-3 bg-brand-blue text-white rounded-lg hover:bg-brand-blue-dark transition-colors font-semibold"
         >
           View All Professionals
           <Icons.arrowRight className="ml-2 h-4 w-4" />

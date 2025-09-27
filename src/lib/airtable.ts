@@ -126,7 +126,7 @@ function recordToListing(record: Airtable.Record<any>): Listing {
     format: record.get("Format (In-person/Online/Hybrid)") || "",
     notes: record.get("Extras/Notes") || "",
     categories: record.get("Categories") || [],
-    tags: record.get("Tags") || [],
+    tags: record.get("Age Range") || [], // Map Age Range to tags
     gallery: record.get("Gallery") || [],
     logo: record.get("Profile Image") || "",
     location:
@@ -134,13 +134,13 @@ function recordToListing(record: Airtable.Record<any>): Listing {
         ? `${record.get("City")}, ${record.get("State")}`
         : "",
     virtual: false,
-    plan: record.get("Plan") || "Basic",
-    featured: record.get("Top Rated") || false,
-    approved101: record.get("Approved Badge") || false,
+    plan: record.get("Plan") || "Free",
+    featured: record.get("Featured") || false,
+    approved101: record.get("Approved101") || false,
     status: record.get("Status") || "PENDING",
-    active: record.get("Active") || false,
-    dateSubmitted: record.get("Submissions") ? new Date().toISOString() : "",
-    dateApproved: record.get("Approved Badge") ? new Date().toISOString() : "",
+    active: record.get("Active") || true, // Default to true for approved listings
+    dateSubmitted: record.createdTime || "",
+    dateApproved: record.get("Status") === "APPROVED" ? record.createdTime : "",
   };
 }
 
@@ -209,12 +209,9 @@ export async function getAllListings(): Promise<Listing[]> {
     );
     console.log("🔍 First record data:", records[0]?.fields);
 
-    // Return raw records for debugging
-    return records.map((record) => ({
-      id: record.id,
-      fields: record.fields,
-      createdTime: record.createdTime,
-    })) as any;
+    const listings = records.map(recordToListing);
+
+    return listings;
   } catch (error) {
     console.error("Error fetching all listings:", error);
     return [];

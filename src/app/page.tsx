@@ -121,10 +121,10 @@ export default async function HomePage({
       {/* Call-to-Action Section */}
       <Container className="py-16">
         <div className="rounded-2xl bg-gradient-to-r from-brand-orange/5 via-brand-yellow/5 to-brand-blue/5 border border-brand-blue/20 px-6 py-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-white">
+          <h2 className="mb-4 text-3xl font-bold text-gray-900">
             {homeConfig.ctaBanner.heading}
           </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-lg text-white/90">
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-gray-700">
             {homeConfig.ctaBanner.description}
           </p>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -136,7 +136,7 @@ export default async function HomePage({
             </Link>
             <Link
               href={homeConfig.ctaBanner.secondaryCta.href}
-              className="rounded-lg border-2 border-white px-8 py-3 font-semibold text-white transition-colors hover:bg-white/10"
+              className="rounded-lg border-2 border-brand-blue px-8 py-3 font-semibold text-brand-blue transition-colors hover:bg-brand-blue hover:text-white"
             >
               {homeConfig.ctaBanner.secondaryCta.label}
             </Link>

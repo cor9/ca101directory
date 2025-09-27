@@ -41,6 +41,9 @@ export const publicRoutes = [
   // debug all listings
   "/api/debug-all-listings",
 
+  // debug airtable direct
+  "/api/debug-airtable-direct",
+
   // og images
   "/api/og",
 

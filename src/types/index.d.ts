@@ -1,5 +1,17 @@
 import type { Icons } from "@/components/icons/icons";
 
+// Stripe pricing table custom elements
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'stripe-pricing-table': {
+        'pricing-table-id': string;
+        'publishable-key': string;
+      };
+    }
+  }
+}
+
 // Custom ItemInfo type for Airtable integration (no Sanity dependency)
 export type ItemInfo = {
   _id: string;

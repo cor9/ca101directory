@@ -1,5 +1,5 @@
 import Container from "@/components/container";
-import { PricingPlans } from "@/components/dashboard/pricing-plans";
+import { FreePlanCard } from "@/components/pricing/free-plan-card";
 import { PricingFaq } from "@/components/pricing/pricing-faq";
 import { HeaderSection } from "@/components/shared/header-section";
 import { siteConfig } from "@/config/site";
@@ -45,7 +45,7 @@ export default async function PricingPage() {
                 </p>
               </div>
               <div className="max-w-md mx-auto">
-                <PricingPlans />
+                <FreePlanCard />
               </div>
             </div>
 

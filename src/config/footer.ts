@@ -3,38 +3,38 @@ import type { FooterConfig } from "@/types";
 export const footerConfig: FooterConfig = {
   links: [
     {
-      title: "Product",
+      title: "Directory",
       items: [
-        { title: "Search", href: "/search" },
-        { title: "Collection", href: "/collection" },
-        { title: "Category", href: "/category" },
-        { title: "Tag", href: "/tag" },
+        { title: "Search Professionals", href: "/search" },
+        { title: "Browse Categories", href: "/category" },
+        { title: "All Listings", href: "/directory" },
+        { title: "Age Groups", href: "/tag" },
+      ],
+    },
+    {
+      title: "For Professionals",
+      items: [
+        { title: "Submit Listing", href: "/submit" },
+        { title: "Pricing Plans", href: "/pricing" },
+        { title: "Claim Listing", href: "/claim" },
+        { title: "Dashboard", href: "/dashboard" },
       ],
     },
     {
       title: "Resources",
       items: [
-        { title: "Blog", href: "/blog" },
-        { title: "Pricing", href: "/pricing" },
-        { title: "Submit", href: "/submit" },
-        { title: "Studio", href: "/studio", external: true },
+        { title: "About Child Actor 101", href: "https://childactor101.com", external: true },
+        { title: "Parent Resources", href: "https://childactor101.com/resources", external: true },
+        { title: "Industry News", href: "https://childactor101.com/blog", external: true },
+        { title: "Contact Support", href: "mailto:corey@childactor101.com" },
       ],
     },
     {
-      title: "Pages",
+      title: "Legal",
       items: [
-        { title: "Home 2", href: "/home2" },
-        { title: "Home 3", href: "/home3" },
-        { title: "Collection 1", href: "/collection/the-best-google-analytics-alternatives-in-2024" },
-        { title: "Collection 2", href: "/collection/the-best-alternatives-to-semrush-in-2024" },
-      ],
-    },
-    {
-      title: "Company",
-      items: [
-        { title: "About Us", href: "/about" },
         { title: "Privacy Policy", href: "/privacy" },
         { title: "Terms of Service", href: "/terms" },
+        { title: "California Permit Info", href: "https://childactor101.com/permit-info", external: true },
         { title: "Sitemap", href: "/sitemap.xml" },
       ],
     },

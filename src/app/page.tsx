@@ -72,7 +72,7 @@ export default async function HomePage({
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <Container className="mt-12 mb-16">
+      <Container className="mt-8 mb-20">
         <HomeHero />
       </Container>
 
@@ -89,11 +89,16 @@ export default async function HomePage({
       <HomeFeaturedListings />
 
       {/* All Listings Section */}
-      <Container className="py-16">
+      <Container id="search-results" className="py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">All Professionals</h2>
+          <h2 className="text-3xl font-bold mb-4">
+            {query ? `Search Results for "${query}"` : "All Professionals"}
+          </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Browse our complete directory of vetted child actor professionals
+            {query 
+              ? `Found ${totalCount} professional${totalCount !== 1 ? 's' : ''} matching your search`
+              : "Browse our complete directory of vetted child actor professionals"
+            }
           </p>
         </div>
 
@@ -121,10 +126,10 @@ export default async function HomePage({
       {/* Call-to-Action Section */}
       <Container className="py-16">
         <div className="rounded-2xl bg-gradient-to-r from-brand-orange/5 via-brand-yellow/5 to-brand-blue/5 border border-brand-blue/20 px-6 py-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-gray-900">
+          <h2 className="mb-4 text-3xl font-bold text-foreground">
             {homeConfig.ctaBanner.heading}
           </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-lg text-gray-700">
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground">
             {homeConfig.ctaBanner.description}
           </p>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">

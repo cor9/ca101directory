@@ -4,6 +4,7 @@ import { PricingFaq } from "@/components/pricing/pricing-faq";
 import { HeaderSection } from "@/components/shared/header-section";
 import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
+import Image from "next/image";
 import Script from "next/script";
 
 export const metadata = constructMetadata({
@@ -24,6 +25,23 @@ export default async function PricingPage() {
         <div className="w-full flex flex-col gap-16">
           <section className="w-full flex flex-col gap-8 justify-center">
             <div className="text-center mb-12">
+              {/* Prominent Logo */}
+              <div className="flex justify-center mb-8">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-brand-orange/20 via-brand-blue/20 to-brand-yellow/20 rounded-full blur-2xl scale-110" />
+                  <div className="relative bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-xl border border-white/20">
+                    <Image
+                      src="/ca101directorylogo.png"
+                      alt="Child Actor 101 Directory Logo"
+                      width={300}
+                      height={150}
+                      className="w-auto h-20 mx-auto drop-shadow-lg"
+                      priority
+                    />
+                  </div>
+                </div>
+              </div>
+              
               <h1 className="text-4xl font-bold mb-4">
                 Simple, Transparent Pricing
               </h1>

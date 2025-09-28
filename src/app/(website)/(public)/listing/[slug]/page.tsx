@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { ClaimedListingActions } from "@/components/listing/claimed-listing-actions";
+import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { getListingById } from "@/lib/airtable";
 import { constructMetadata } from "@/lib/metadata";
@@ -10,8 +10,8 @@ import {
   MailIcon,
   MapPinIcon,
   PhoneIcon,
-  StarIcon,
   ShieldIcon,
+  StarIcon,
 } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -329,7 +329,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 </div>
 
                 {/* Claim Listing Section */}
-                {!listing.claimedBy && (
+                {!listing.claimed && (
                   <div className="bg-gradient-to-r from-brand-orange/5 to-brand-blue/5 rounded-lg p-6 border border-brand-orange/20">
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0">
@@ -340,14 +340,74 @@ export default async function ListingPage({ params }: ListingPageProps) {
                           Own This Business?
                         </h2>
                         <p className="text-muted-foreground mb-4">
-                          Claim your listing to gain full control, edit details, and upgrade to premium plans.
+                          Claim your listing to gain full control, edit details,
+                          and upgrade to premium plans.
                         </p>
-                        <Button asChild className="bg-brand-orange hover:bg-brand-orange-dark">
-                          <Link href={`/claim/${params.slug}`} className="flex items-center gap-2">
+                        <Button
+                          asChild
+                          className="bg-brand-orange hover:bg-brand-orange-dark"
+                        >
+                          <Link
+                            href={`/claim/${params.slug}`}
+                            className="flex items-center gap-2"
+                          >
                             <ShieldIcon className="w-4 h-4" />
                             Claim This Listing
                           </Link>
                         </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Claim Status Section */}
+                {listing.claimed && (
+                  <div className="bg-gradient-to-r from-brand-blue/5 to-brand-green/5 rounded-lg p-6 border border-brand-blue/20">
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0">
+                        <CheckCircleIcon className="w-8 h-8 text-brand-blue" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-brand-blue mb-2">
+                          Listing Claimed
+                        </h3>
+                        <p className="text-sm text-muted-foreground mb-3">
+                          This listing has been claimed by the business owner.
+                        </p>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">Claimed by:</span>
+                            <span className="text-muted-foreground">{listing.claimedByEmail}</span>
+                          </div>
+                          {listing.claimDate && (
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium">Claimed on:</span>
+                              <span className="text-muted-foreground">
+                                {new Date(listing.claimDate).toLocaleDateString()}
+                              </span>
+                            </div>
+                          )}
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">Verification Status:</span>
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              listing.verificationStatus === 'Verified' 
+                                ? 'bg-green-100 text-green-800' 
+                                : listing.verificationStatus === 'Denied'
+                                ? 'bg-red-100 text-red-800'
+                                : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                              {listing.verificationStatus || 'Pending'}
+                            </span>
+                          </div>
+                          {listing.badge101 && (
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium">101 Badge:</span>
+                              <span className="px-2 py-1 bg-brand-orange text-white rounded-full text-xs font-medium">
+                                ✓ Verified Professional
+                              </span>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -437,11 +497,14 @@ export default async function ListingPage({ params }: ListingPageProps) {
           </div>
 
           {/* Claimed Listing Actions - Show for owners */}
-          {listing.claimedBy && (
+          {/* TODO: Add claimedBy field to Listing interface and fix type compatibility */}
+          {/* 
+          {listing.claimed && (
             <div className="mt-8">
               <ClaimedListingActions listing={listing} isOwner={true} />
             </div>
           )}
+          */}
         </div>
       </div>
     );

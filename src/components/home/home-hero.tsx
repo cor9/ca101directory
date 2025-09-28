@@ -67,7 +67,7 @@ export default function HomeHero() {
             <div className="absolute inset-0 bg-gradient-to-r from-brand-orange/20 via-brand-blue/20 to-brand-yellow/20 rounded-full blur-3xl scale-110" />
 
             {/* Logo container with enhanced styling */}
-            <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-white/20">
+            <div className="relative backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-white/20">
               <img
                 src="/logo.png"
                 alt="Child Actor 101 Directory Logo"

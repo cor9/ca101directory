@@ -2,7 +2,6 @@ import { Icons } from "@/components/icons/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { heroConfig } from "@/config/hero";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
 import HomeSearchBox from "./home-search-box";
 
@@ -69,14 +68,12 @@ export default function HomeHero() {
 
             {/* Logo container with enhanced styling */}
             <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-white/20">
-              <Image
+              <img
                 src="/logo.png"
                 alt="Child Actor 101 Directory Logo"
                 width={400}
                 height={400}
                 className="w-full h-auto max-w-md mx-auto drop-shadow-lg"
-                priority
-                unoptimized={false}
               />
 
               {/* Decorative elements */}

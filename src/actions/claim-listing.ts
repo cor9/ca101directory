@@ -1,7 +1,6 @@
 "use server";
 
 import { getListingById, updateListingClaim } from "@/lib/airtable";
-import { sendClaimVerificationEmail } from "@/lib/claim-verification-email";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
@@ -59,14 +58,20 @@ export async function claimListing(formData: FormData) {
       redirect(`/claim/${data.listingSlug}?error=processing-failed`);
     }
 
-    // Send verification email
-    await sendClaimVerificationEmail({
-      to: data.email,
-      businessName: data.businessName,
-      listingName: listing.businessName,
-      verificationToken,
-      listingSlug: data.listingSlug,
-    });
+    // Send verification email (dynamic import to avoid build-time initialization)
+    try {
+      const { sendClaimVerificationEmail } = await import("@/lib/claim-verification-email");
+      await sendClaimVerificationEmail({
+        to: data.email,
+        businessName: data.businessName,
+        listingName: listing.businessName,
+        verificationToken,
+        listingSlug: data.listingSlug,
+      });
+    } catch (emailError) {
+      console.warn("Failed to send verification email:", emailError);
+      // Continue with the claim process even if email fails
+    }
 
     redirect(`/claim/${data.listingSlug}?success=email-sent`);
   } catch (error) {

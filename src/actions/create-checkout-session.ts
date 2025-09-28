@@ -99,7 +99,7 @@ export async function createCheckoutSession(
         }
       );
       // TODO: optimize the success and cancel urls with sessionId!!!
-      const successUrl = absoluteUrl(`/publish/${itemId}?pay=success`);
+      const successUrl = absoluteUrl(`/payment-success`);
       const cancelUrl = absoluteUrl(`/payment/${itemId}?pay=failed`);
       const stripeSession = await stripe.checkout.sessions.create({
         customer: stripeCustomerId,

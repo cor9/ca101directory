@@ -294,6 +294,7 @@ interface FormData {
   bonded: boolean;
   categories: string[]; // Array of category IDs
   tags: string[];
+  gallery?: string[]; // Array of gallery image URLs
   iconId?: string | unknown; // Optional and can be unknown type
 }
 
@@ -343,6 +344,11 @@ export async function createListing(data: FormData): Promise<string | null> {
                 url: `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${data.iconId}`,
               },
             ]
+          : [],
+        "Gallery": data.gallery && data.gallery.length > 0
+          ? data.gallery.map((url) => ({
+              url: `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${url}`,
+            }))
           : [],
         Plan: data.plan, // must be one of "Free", "Basic", "Pro", "Premium"
       },

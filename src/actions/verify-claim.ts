@@ -1,18 +1,21 @@
 "use server";
 
-import { sanityClient } from "@/sanity/lib/client";
 import { currentUser } from "@/lib/auth";
+import { sanityClient } from "@/sanity/lib/client";
 
 export async function verifyClaim(token: string) {
   try {
     // Find the claim request by token
     const claimRequest = await sanityClient.fetch(
       `*[_type == "claimRequest" && verificationToken == $token && status == "pending"][0]`,
-      { token }
+      { token } as any
     );
 
     if (!claimRequest) {
-      return { status: "error", message: "Invalid or expired verification token" };
+      return {
+        status: "error",
+        message: "Invalid or expired verification token",
+      };
     }
 
     // Check if token has expired
@@ -25,7 +28,7 @@ export async function verifyClaim(token: string) {
     // Get the listing
     const listing = await sanityClient.fetch(
       `*[_type == "item" && _id == $listingId][0]`,
-      { listingId: claimRequest.listing._ref }
+      { listingId: claimRequest.listing._ref } as any
     );
 
     if (!listing) {
@@ -34,7 +37,10 @@ export async function verifyClaim(token: string) {
 
     // Check if listing is already claimed
     if (listing.claimedBy) {
-      return { status: "error", message: "This listing has already been claimed" };
+      return {
+        status: "error",
+        message: "This listing has already been claimed",
+      };
     }
 
     // Get current user (if logged in) or create a new user record
@@ -75,11 +81,11 @@ export async function verifyClaim(token: string) {
       })
       .commit();
 
-    return { 
-      status: "success", 
+    return {
+      status: "success",
       message: "Listing successfully claimed!",
       listingName: listing.name,
-      listingSlug: listing.slug?.current
+      listingSlug: listing.slug?.current,
     };
   } catch (error) {
     console.error("Verify claim error:", error);

@@ -12,7 +12,7 @@ export default function HomeHero() {
     <div className="relative flex flex-col items-center justify-center">
       {/* Background gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-brand-orange/5 via-brand-blue/5 to-brand-yellow/5 rounded-3xl -m-8" />
-      
+
       <div className="relative max-w-6xl flex flex-col lg:flex-row items-center text-center lg:text-left gap-12 lg:gap-16">
         {/* Left side - Content */}
         <div className="flex-1 flex flex-col items-center lg:items-start gap-8">
@@ -66,18 +66,18 @@ export default function HomeHero() {
           <div className="relative">
             {/* Glow effect behind logo */}
             <div className="absolute inset-0 bg-gradient-to-r from-brand-orange/20 via-brand-blue/20 to-brand-yellow/20 rounded-full blur-3xl scale-110" />
-            
+
             {/* Logo container with enhanced styling */}
             <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-white/20">
               <Image
-                src="/ca101directorylogo.png"
+                src="/logo.png"
                 alt="Child Actor 101 Directory Logo"
                 width={500}
                 height={250}
                 className="w-full h-auto max-w-lg mx-auto drop-shadow-lg"
                 priority
               />
-              
+
               {/* Decorative elements */}
               <div className="absolute -top-2 -right-2 w-4 h-4 bg-brand-orange rounded-full animate-pulse" />
               <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-brand-blue rounded-full animate-pulse delay-300" />

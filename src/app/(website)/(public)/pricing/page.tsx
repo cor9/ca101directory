@@ -31,7 +31,7 @@ export default async function PricingPage() {
                   <div className="absolute inset-0 bg-gradient-to-r from-brand-orange/20 via-brand-blue/20 to-brand-yellow/20 rounded-full blur-2xl scale-110" />
                   <div className="relative bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-xl border border-white/20">
                     <Image
-                      src="/ca101directorylogo.png"
+                      src="/logo.png"
                       alt="Child Actor 101 Directory Logo"
                       width={300}
                       height={150}
@@ -41,7 +41,7 @@ export default async function PricingPage() {
                   </div>
                 </div>
               </div>
-              
+
               <h1 className="text-4xl font-bold mb-4">
                 Simple, Transparent Pricing
               </h1>

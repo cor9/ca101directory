@@ -1,15 +1,19 @@
 import { cn } from "@/lib/utils";
-import type { ReactNode } from "react";
+import type { ReactNode, HTMLAttributes } from "react";
+
+interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
+  className?: string;
+  children?: ReactNode;
+}
 
 export default function Container({
   className,
   children,
-}: {
-  className?: string;
-  children?: ReactNode;
-}) {
+  id,
+  ...props
+}: ContainerProps) {
   return (
     // max-w-6xl
-    <div className={cn("container", "max-w-7xl", className)}>{children}</div>
+    <div id={id} className={cn("container", "max-w-7xl", className)} {...props}>{children}</div>
   );
 }

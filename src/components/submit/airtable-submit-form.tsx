@@ -94,7 +94,7 @@ export function AirtableSubmitForm({
       state: "",
       zip: "",
       bondNumber: "",
-      plan: "Free",
+      plan: "Basic",
       performerPermit: false,
       bonded: false,
       imageId: "",
@@ -589,11 +589,11 @@ export function AirtableSubmitForm({
                 render={({ field }) => {
                   const currentPlan = form.watch("plan");
                   const isPremium = currentPlan === "Premium";
-                  
+
                   if (!isPremium) {
                     return null; // Don't show gallery upload for non-Premium plans
                   }
-                  
+
                   return (
                     <FormItem>
                       <FormLabel className="text-lg font-semibold">
@@ -605,10 +605,14 @@ export function AirtableSubmitForm({
                             {[1, 2, 3].map((index) => (
                               <div key={index} className="w-full h-[200px]">
                                 <ImageUpload
-                                  currentImageUrl={field.value?.[index - 1] || ""}
+                                  currentImageUrl={
+                                    field.value?.[index - 1] || ""
+                                  }
                                   onUploadChange={(status) => {
                                     if (status.imageId) {
-                                      const newGallery = [...(field.value || [])];
+                                      const newGallery = [
+                                        ...(field.value || []),
+                                      ];
                                       newGallery[index - 1] = status.imageId;
                                       field.onChange(newGallery);
                                     }
@@ -621,7 +625,10 @@ export function AirtableSubmitForm({
                         </div>
                       </FormControl>
                       <div className="text-sm text-muted-foreground mt-2">
-                        <p>Upload up to 3 additional images to showcase your business (PNG/JPEG, max 200KB each)</p>
+                        <p>
+                          Upload up to 3 additional images to showcase your
+                          business (PNG/JPEG, max 200KB each)
+                        </p>
                         <p className="italic">
                           Recommended: 800x600px for optimal display
                         </p>
@@ -763,7 +770,7 @@ export function AirtableSubmitForm({
                     </div>
                     <FormControl>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {["Free", "Basic", "Pro", "Premium"].map((plan) => (
+                        {["Basic", "Pro", "Premium"].map((plan) => (
                           <label
                             key={plan}
                             className={`p-4 border rounded-lg cursor-pointer transition-colors ${
@@ -782,7 +789,6 @@ export function AirtableSubmitForm({
                             <div className="text-center">
                               <div className="font-semibold">{plan}</div>
                               <div className="text-sm text-muted-foreground">
-                                {plan === "Free" && "Basic listing"}
                                 {plan === "Basic" && "$29/month"}
                                 {plan === "Pro" && "$59/month"}
                                 {plan === "Premium" && "$99/month"}

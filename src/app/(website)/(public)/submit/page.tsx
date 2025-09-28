@@ -1,4 +1,5 @@
 import { AirtableSubmitForm } from "@/components/submit/airtable-submit-form";
+import FreeSubmitForm from "@/components/submit/free-submit-form";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/lib/airtable";
 import { constructMetadata } from "@/lib/metadata";
@@ -93,5 +94,48 @@ export default async function SubmitPage() {
     },
   ];
 
-  return <AirtableSubmitForm tagList={tagList} categoryList={categoryList} />;
+  // Convert categories to the format expected by FreeSubmitForm
+  const freeFormCategories = categories.map((cat) => ({
+    id: cat.id,
+    name: cat.categoryName,
+  }));
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold mb-4">Submit Your Listing</h1>
+        <p className="text-xl text-muted-foreground mb-8">
+          Choose your submission type
+        </p>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        {/* Free Form */}
+        <div>
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold text-brand-orange mb-2">
+              Free Listing
+            </h2>
+            <p className="text-muted-foreground">
+              Quick and easy - perfect for getting started
+            </p>
+          </div>
+          <FreeSubmitForm categories={freeFormCategories} />
+        </div>
+
+        {/* Full Form */}
+        <div>
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold text-brand-blue mb-2">
+              Premium Listing
+            </h2>
+            <p className="text-muted-foreground">
+              Full features with logo, detailed descriptions, and more
+            </p>
+          </div>
+          <AirtableSubmitForm tagList={tagList} categoryList={categoryList} />
+        </div>
+      </div>
+    </div>
+  );
 }

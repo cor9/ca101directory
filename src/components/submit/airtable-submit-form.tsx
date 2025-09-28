@@ -15,6 +15,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { SubmitSchema } from "@/lib/schemas";
@@ -458,50 +465,6 @@ export function AirtableSubmitForm({
                 </div>
               </div>
 
-              {/* Plan Selection */}
-              <FormField
-                control={form.control}
-                name="plan"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg font-semibold">
-                      Plan Selection
-                    </FormLabel>
-                    <FormControl>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {["Free", "Basic", "Pro", "Premium"].map((plan) => (
-                          <label
-                            key={plan}
-                            className={`p-4 border rounded-lg cursor-pointer transition-colors ${
-                              field.value === plan
-                                ? "border-brand-orange bg-brand-orange/10"
-                                : "border-gray-200 hover:border-gray-300"
-                            }`}
-                          >
-                            <input
-                              type="radio"
-                              value={plan}
-                              checked={field.value === plan}
-                              onChange={() => field.onChange(plan)}
-                              className="sr-only"
-                            />
-                            <div className="text-center">
-                              <div className="font-semibold">{plan}</div>
-                              <div className="text-sm text-muted-foreground">
-                                {plan === "Free" && "Basic listing"}
-                                {plan === "Basic" && "$29/month"}
-                                {plan === "Pro" && "$59/month"}
-                                {plan === "Premium" && "$99/month"}
-                              </div>
-                            </div>
-                          </label>
-                        ))}
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
 
               {/* Age Range */}
               <FormField
@@ -535,27 +498,50 @@ export function AirtableSubmitForm({
               <FormField
                 control={form.control}
                 name="categories"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg font-semibold">
-                      Categories
-                    </FormLabel>
-                    <FormControl>
-                      <MultiSelect
-                        className="shadow-none"
-                        options={categoryList.map((category) => ({
-                          value: category._id,
-                          label: category.name || "",
-                        }))}
-                        onValueChange={(selected) => field.onChange(selected)}
-                        value={field.value}
-                        placeholder="Select categories"
-                        variant="default"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                render={({ field }) => {
+                  const currentPlan = form.watch("plan");
+                  const isMultiSelect = currentPlan === "Pro" || currentPlan === "Premium";
+                  
+                  return (
+                    <FormItem>
+                      <FormLabel className="text-lg font-semibold">
+                        Categories {isMultiSelect ? "(Select Multiple)" : "(Select One)"}
+                      </FormLabel>
+                      <FormControl>
+                        {isMultiSelect ? (
+                          <MultiSelect
+                            className="shadow-none"
+                            options={categoryList.map((category) => ({
+                              value: category._id,
+                              label: category.name || "",
+                            }))}
+                            onValueChange={(selected) => field.onChange(selected)}
+                            value={field.value}
+                            placeholder="Select categories"
+                            variant="default"
+                          />
+                        ) : (
+                          <Select
+                            onValueChange={(value) => field.onChange([value])}
+                            value={field.value?.[0] || ""}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a category" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {categoryList.map((category) => (
+                                <SelectItem key={category._id} value={category._id}>
+                                  {category.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
 
               {/* Logo Upload */}
@@ -699,6 +685,60 @@ export function AirtableSubmitForm({
                 isPending && "pointer-events-none",
               )}
             >
+              {/* Plan Selection - Moved to end for better UX */}
+              <FormField
+                control={form.control}
+                name="plan"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-lg font-semibold">
+                      Choose Your Plan
+                    </FormLabel>
+                    <div className="text-center mb-4">
+                      <a 
+                        href="/pricing" 
+                        target="_blank" 
+                        className="text-brand-blue hover:text-brand-blue-dark underline text-sm"
+                      >
+                        View detailed pricing and features →
+                      </a>
+                    </div>
+                    <FormControl>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {["Free", "Basic", "Pro", "Premium"].map((plan) => (
+                          <label
+                            key={plan}
+                            className={`p-4 border rounded-lg cursor-pointer transition-colors ${
+                              field.value === plan
+                                ? "border-brand-orange bg-brand-orange/10"
+                                : "border-gray-200 hover:border-gray-300"
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              value={plan}
+                              checked={field.value === plan}
+                              onChange={() => field.onChange(plan)}
+                              className="sr-only"
+                            />
+                            <div className="text-center">
+                              <div className="font-semibold">{plan}</div>
+                              <div className="text-sm text-muted-foreground">
+                                {plan === "Free" && "Basic listing"}
+                                {plan === "Basic" && "$29/month"}
+                                {plan === "Pro" && "$59/month"}
+                                {plan === "Premium" && "$99/month"}
+                              </div>
+                            </div>
+                          </label>
+                        ))}
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <Button
                 type="submit"
                 disabled={isPending || isUploading}

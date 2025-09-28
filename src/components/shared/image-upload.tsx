@@ -1,7 +1,6 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { compressImage, uploadLogoToSupabase } from "@/lib/supabase-upload";
 import { cn } from "@/lib/utils";
 import { ImageUpIcon, Loader2Icon } from "lucide-react";
 import Image from "next/image";
@@ -36,16 +35,24 @@ export default function ImageUpload({
 
   const uploadImage = async (file: File) => {
     try {
-      // Compress image for faster loading (optional)
-      const compressedFile = await compressImage(file, 400, 0.8);
+      // Upload to Vercel Blob via API route
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("businessSlug", "logo");
 
-      // Upload to Supabase Storage
-      const result = await uploadLogoToSupabase(compressedFile);
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
 
       if (result.success && result.url) {
+        // Extract filename from URL for compatibility
+        const filename = result.fileName || `logo-${Date.now()}`;
         return {
           url: result.url,
-          _id: `supabase-${Date.now()}`, // Generate a simple ID for compatibility
+          _id: filename, // Use filename as ID for compatibility
         };
       }
       throw new Error(result.error || "Upload failed");

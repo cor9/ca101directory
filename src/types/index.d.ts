@@ -166,6 +166,8 @@ export type NestedNavItem = {
 
 export type PriceConfig = {
   plans: PricePlan[];
+  annualPlans?: PricePlan[];
+  foundingBundles?: PricePlan[];
 };
 
 export type PricePlan = {

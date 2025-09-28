@@ -1,6 +1,6 @@
 "use server";
 
-import { getListingById } from "@/lib/airtable";
+import { getListingById, updateListingClaim } from "@/lib/airtable";
 import { sendClaimVerificationEmail } from "@/lib/claim-verification-email";
 import { redirect } from "next/navigation";
 import { z } from "zod";
@@ -10,6 +10,7 @@ const claimSchema = z.object({
   email: z.string().email(),
   businessName: z.string().min(1),
   verificationMessage: z.string().optional(),
+  plan: z.string().optional(),
 });
 
 export async function claimListing(formData: FormData) {
@@ -19,6 +20,7 @@ export async function claimListing(formData: FormData) {
       email: formData.get("email"),
       businessName: formData.get("businessName"),
       verificationMessage: formData.get("verificationMessage"),
+      plan: formData.get("plan"),
     });
 
     // Find the listing by slug (convert slug back to business name)
@@ -30,24 +32,32 @@ export async function claimListing(formData: FormData) {
     const listing = await getListingById(businessName);
 
     if (!listing) {
-      return { status: "error", message: "Listing not found" };
+      redirect(`/claim/${data.listingSlug}?error=listing-not-found`);
     }
 
     // Check if listing is already claimed
-    // TODO: Add claimedBy field to Airtable Listing interface
-    // if (listing.claimedBy) {
-    //   return {
-    //     status: "error",
-    //     message: "This listing has already been claimed",
-    //   };
-    // }
+    if (listing.claimed) {
+      redirect(`/claim/${data.listingSlug}?error=already-claimed`);
+    }
 
     // Generate verification token
     const verificationToken = crypto.randomUUID();
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
-    // TODO: Store claim request in database (Supabase or Airtable)
-    // For now, we'll just send the email and handle verification differently
+    // Update the listing in Airtable with claim information
+    const claimDate = new Date().toISOString();
+    const success = await updateListingClaim(listing.id, {
+      claimed: true,
+      claimedByEmail: data.email,
+      claimDate: claimDate,
+      verificationStatus: "Pending",
+      plan: data.plan || "Free",
+    });
+
+    if (!success) {
+      console.error("Failed to update listing claim status");
+      redirect(`/claim/${data.listingSlug}?error=processing-failed`);
+    }
 
     // Send verification email
     await sendClaimVerificationEmail({
@@ -58,9 +68,9 @@ export async function claimListing(formData: FormData) {
       listingSlug: data.listingSlug,
     });
 
-    return { status: "success", message: "Verification email sent!" };
+    redirect(`/claim/${data.listingSlug}?success=email-sent`);
   } catch (error) {
     console.error("Claim listing error:", error);
-    return { status: "error", message: "Failed to process claim request" };
+    redirect(`/claim/${formData.get("listingSlug")}?error=processing-failed`);
   }
 }

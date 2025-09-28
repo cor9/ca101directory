@@ -102,6 +102,12 @@ export interface Listing {
   performerPermit?: boolean;
   bonded?: boolean;
   bondNumber?: string;
+  // New claim-related fields
+  claimed?: boolean;
+  claimedByEmail?: string;
+  claimDate?: string;
+  verificationStatus?: "Pending" | "Verified" | "Denied";
+  badge101?: boolean;
 }
 
 export interface Category {
@@ -114,7 +120,7 @@ export interface Category {
 // Helper function to convert Airtable record to our interface
 function recordToListing(record: Airtable.Record<any>): Listing {
   const fields = record.fields;
-  
+
   return {
     id: record.id,
     businessName: fields["Listing Name"] || "Untitled Listing",
@@ -123,19 +129,24 @@ function recordToListing(record: Airtable.Record<any>): Listing {
     website: fields["Website"] || "",
     instagram: fields["Instagram"] || "",
     servicesOffered: fields["Who Is It For?"] || "",
-    description: fields["What You Offer?"] || "Professional acting services for young performers",
+    description:
+      fields["What You Offer?"] ||
+      "Professional acting services for young performers",
     uniqueValue: fields["Why Is It Unique?"] || "",
     format: fields["Format (In-person/Online/Hybrid)"] || "Hybrid",
     notes: fields["Extras/Notes"] || "",
     categories: Array.isArray(fields["Categories"]) ? fields["Categories"] : [],
     tags: Array.isArray(fields["Age Range"]) ? fields["Age Range"] : [],
     gallery: Array.isArray(fields["Gallery"]) ? fields["Gallery"] : [],
-    logo: Array.isArray(fields["Profile Image"]) && fields["Profile Image"].length > 0 
-      ? fields["Profile Image"][0].url 
-      : "",
-    location: fields["City"] && fields["State"]
-      ? `${fields["City"]}, ${fields["State"]}`
-      : fields["City"] || fields["State"] || "",
+    logo:
+      Array.isArray(fields["Profile Image"]) &&
+      fields["Profile Image"].length > 0
+        ? fields["Profile Image"][0].url
+        : "",
+    location:
+      fields["City"] && fields["State"]
+        ? `${fields["City"]}, ${fields["State"]}`
+        : fields["City"] || fields["State"] || "",
     virtual: false,
     plan: fields["Plan"] || "Free",
     featured: fields["Featured"] || false,
@@ -143,10 +154,18 @@ function recordToListing(record: Airtable.Record<any>): Listing {
     status: fields["Status"] || "PENDING",
     active: fields["Active"] !== false, // Default to true for approved listings
     dateSubmitted: new Date().toISOString(),
-    dateApproved: fields["Status"] === "APPROVED" ? new Date().toISOString() : "",
-    performerPermit: fields["California Child Performer Services Permit "] || false,
+    dateApproved:
+      fields["Status"] === "APPROVED" ? new Date().toISOString() : "",
+    performerPermit:
+      fields["California Child Performer Services Permit "] || false,
     bonded: fields["Bonded For Advanced Fees"] || false,
     bondNumber: fields["Bond#"] || "",
+    // New claim-related fields
+    claimed: fields["Claimed?"] || false,
+    claimedByEmail: fields["Claimed By Email"] || "",
+    claimDate: fields["Claim Date"] || "",
+    verificationStatus: fields["Verification Status"] || "Pending",
+    badge101: fields["101 Badge"] || false,
   };
 }
 
@@ -360,5 +379,68 @@ export async function createListing(data: FormData): Promise<string | null> {
       data: data,
     });
     return null;
+  }
+}
+
+// Update a listing's claim status
+export async function updateListingClaim(
+  listingId: string,
+  claimData: {
+    claimed: boolean;
+    claimedByEmail: string;
+    claimDate: string;
+    verificationStatus: "Pending" | "Verified" | "Denied";
+    plan?: string;
+    badge101?: boolean;
+  }
+): Promise<boolean> {
+  if (!hasAirtableConfig) {
+    console.warn("Airtable not configured");
+    return false;
+  }
+
+  try {
+    const updateFields: any = {
+      "Claimed?": claimData.claimed,
+      "Claimed By Email": claimData.claimedByEmail,
+      "Claim Date": claimData.claimDate,
+      "Verification Status": claimData.verificationStatus,
+    };
+
+    // Update plan if provided
+    if (claimData.plan) {
+      updateFields["Plan"] = claimData.plan;
+    }
+
+    // Update 101 Badge if provided
+    if (claimData.badge101 !== undefined) {
+      updateFields["101 Badge"] = claimData.badge101;
+    }
+
+    const response = await fetch(
+      `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Listings/${listingId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fields: updateFields,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Airtable API error:", response.status, errorText);
+      return false;
+    }
+
+    console.log("Successfully updated listing claim status");
+    return true;
+  } catch (error) {
+    console.error("Error updating listing claim:", error);
+    return false;
   }
 }

@@ -1,18 +1,70 @@
+import { claimListing } from "@/actions/claim-listing";
+import { createCheckoutSession } from "@/actions/create-checkout-session";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CheckCircleIcon, MailIcon, ShieldIcon, AlertCircleIcon } from "lucide-react";
-import { claimListing } from "@/actions/claim-listing";
+import { getListingById } from "@/lib/airtable";
+import {
+  AlertCircleIcon,
+  CheckCircleIcon,
+  CreditCardIcon,
+  MailIcon,
+  ShieldIcon,
+} from "lucide-react";
 
 interface ClaimListingPageProps {
   params: { slug: string };
 }
 
-export default async function ClaimListingPage({ params }: ClaimListingPageProps) {
+export default async function ClaimListingPage({
+  params,
+}: ClaimListingPageProps) {
   const listingSlug = params.slug;
+
+  // Get the listing details
+  const businessName = listingSlug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
+  const listing = await getListingById(businessName);
+
+  if (!listing) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-2xl">
+        <Alert className="border-red-200 bg-red-50">
+          <AlertCircleIcon className="h-4 w-4 text-red-600" />
+          <AlertDescription className="text-red-800">
+            <strong>Listing not found.</strong> The listing you're trying to
+            claim doesn't exist.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+
+  if (listing.claimed) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-2xl">
+        <Alert className="border-yellow-200 bg-yellow-50">
+          <AlertCircleIcon className="h-4 w-4 text-yellow-600" />
+          <AlertDescription className="text-yellow-800">
+            <strong>Already claimed.</strong> This listing has already been
+            claimed by {listing.claimedByEmail}.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
@@ -41,7 +93,7 @@ export default async function ClaimListingPage({ params }: ClaimListingPageProps
         <CardContent>
           <form action={claimListing} className="space-y-6">
             <input type="hidden" name="listingSlug" value={listingSlug} />
-            
+
             <div className="space-y-2">
               <Label htmlFor="email">Your Email Address</Label>
               <Input
@@ -69,7 +121,9 @@ export default async function ClaimListingPage({ params }: ClaimListingPageProps
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="verificationMessage">Verification Message (Optional)</Label>
+              <Label htmlFor="verificationMessage">
+                Verification Message (Optional)
+              </Label>
               <Textarea
                 id="verificationMessage"
                 name="verificationMessage"
@@ -89,13 +143,18 @@ export default async function ClaimListingPage({ params }: ClaimListingPageProps
                 <ul className="mt-2 space-y-1 text-sm">
                   <li>• We'll send a verification email to your address</li>
                   <li>• Click the link in the email to confirm ownership</li>
-                  <li>• Once verified, you'll get full control of your listing</li>
+                  <li>
+                    • Once verified, you'll get full control of your listing
+                  </li>
                   <li>• You can then edit details and upgrade to paid plans</li>
                 </ul>
               </AlertDescription>
             </Alert>
 
-            <Button type="submit" className="w-full bg-brand-orange hover:bg-brand-orange-dark">
+            <Button
+              type="submit"
+              className="w-full bg-brand-orange hover:bg-brand-orange-dark"
+            >
               <MailIcon className="w-4 h-4 mr-2" />
               Send Verification Email
             </Button>

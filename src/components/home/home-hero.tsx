@@ -77,9 +77,6 @@ export default function HomeHero() {
                 className="w-full h-auto max-w-md mx-auto drop-shadow-lg"
                 priority
                 unoptimized={false}
-                onError={(e) => {
-                  console.error('Logo failed to load:', e);
-                }}
               />
 
               {/* Decorative elements */}

@@ -69,7 +69,7 @@ export default function HomeHero() {
             {/* Logo container with enhanced styling */}
             <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-white/20">
               <img
-                src="/images/logo.png"
+                src="/logo.png"
                 alt="Child Actor 101 Directory Logo"
                 width={400}
                 height={400}

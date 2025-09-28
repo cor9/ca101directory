@@ -1,6 +1,6 @@
 "use server";
 
-import { sendClaimVerificationEmail } from "@/lib/mail";
+import { sendClaimVerificationEmail } from "@/lib/claim-verification-email";
 import { sanityClient } from "@/sanity/lib/client";
 import { redirect } from "next/navigation";
 import { z } from "zod";
@@ -24,7 +24,7 @@ export async function claimListing(formData: FormData) {
     // Find the listing by slug
     const listings = await sanityClient.fetch(
       `*[_type == "item" && slug.current == $slug][0]`,
-      { slug: data.listingSlug }
+      { slug: data.listingSlug },
     );
 
     if (!listings) {
@@ -33,7 +33,10 @@ export async function claimListing(formData: FormData) {
 
     // Check if listing is already claimed
     if (listings.claimedBy) {
-      return { status: "error", message: "This listing has already been claimed" };
+      return {
+        status: "error",
+        message: "This listing has already been claimed",
+      };
     }
 
     // Generate verification token

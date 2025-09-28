@@ -1,4 +1,5 @@
 import ItemGrid from "@/components/item/item-grid";
+import HomeSearchBox from "@/components/home/home-search-box";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
@@ -53,7 +54,24 @@ export default async function SearchPage({
   console.log("SearchPage, totalCount", totalCount, ", totalPages", totalPages);
 
   return (
-    <div>
+    <div className="container max-w-7xl py-16">
+      <div className="text-center mb-12">
+        <h1 className="text-3xl font-bold mb-4">
+          {query ? `Search Results for "${query}"` : "Search Professionals"}
+        </h1>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+          {query 
+            ? `Found ${totalCount} professional${totalCount !== 1 ? 's' : ''} matching your search`
+            : "Search our directory of vetted child actor professionals"
+          }
+        </p>
+        
+        {/* Search Box */}
+        <div className="max-w-md mx-auto">
+          <HomeSearchBox urlPrefix="/search" />
+        </div>
+      </div>
+
       {/* when no items are found */}
       {items?.length === 0 && <EmptyGrid />}
 

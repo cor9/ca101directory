@@ -72,10 +72,14 @@ export default function HomeHero() {
               <Image
                 src="/logo.png"
                 alt="Child Actor 101 Directory Logo"
-                width={500}
-                height={250}
-                className="w-full h-auto max-w-lg mx-auto drop-shadow-lg"
+                width={400}
+                height={400}
+                className="w-full h-auto max-w-md mx-auto drop-shadow-lg"
                 priority
+                unoptimized={false}
+                onError={(e) => {
+                  console.error('Logo failed to load:', e);
+                }}
               />
 
               {/* Decorative elements */}

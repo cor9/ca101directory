@@ -22,7 +22,7 @@ export const siteConfig: SiteConfig = {
   ],
   author: "Child Actor 101",
   url: SITE_URL,
-  logo: "/ca101directory-logo.png",
+  logo: "/logo.png",
   // set the logoDark if you have put the logo-dark.png in the public folder
   // logoDark: "/logo-dark.png",
   // please increase the version number when you update the image

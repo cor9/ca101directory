@@ -1,7 +1,7 @@
 "use server";
 
 import { sendClaimVerificationEmail } from "@/lib/claim-verification-email";
-import { sanityClient } from "@/sanity/lib/client";
+import { getListingById } from "@/lib/airtable";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
@@ -21,18 +21,20 @@ export async function claimListing(formData: FormData) {
       verificationMessage: formData.get("verificationMessage"),
     });
 
-    // Find the listing by slug
-    const listings = await sanityClient.fetch(
-      `*[_type == "item" && slug.current == $slug][0]`,
-      { slug: data.listingSlug },
-    );
+    // Find the listing by slug (convert slug back to business name)
+    const businessName = data.listingSlug
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
 
-    if (!listings) {
+    const listing = await getListingById(businessName);
+
+    if (!listing) {
       return { status: "error", message: "Listing not found" };
     }
 
     // Check if listing is already claimed
-    if (listings.claimedBy) {
+    if (listing.claimedBy) {
       return {
         status: "error",
         message: "This listing has already been claimed",
@@ -43,26 +45,14 @@ export async function claimListing(formData: FormData) {
     const verificationToken = crypto.randomUUID();
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
-    // Store claim request
-    await sanityClient.create({
-      _type: "claimRequest",
-      listing: {
-        _type: "reference",
-        _ref: listings._id,
-      },
-      email: data.email,
-      businessName: data.businessName,
-      verificationMessage: data.verificationMessage,
-      verificationToken,
-      expiresAt,
-      status: "pending",
-    });
+    // TODO: Store claim request in database (Supabase or Airtable)
+    // For now, we'll just send the email and handle verification differently
 
     // Send verification email
     await sendClaimVerificationEmail({
       to: data.email,
       businessName: data.businessName,
-      listingName: listings.name,
+      listingName: listing.businessName,
       verificationToken,
       listingSlug: data.listingSlug,
     });

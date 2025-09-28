@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { ClaimedListingActions } from "@/components/listing/claimed-listing-actions";
 import { siteConfig } from "@/config/site";
 import { getListingById } from "@/lib/airtable";
 import { constructMetadata } from "@/lib/metadata";
@@ -10,6 +11,7 @@ import {
   MapPinIcon,
   PhoneIcon,
   StarIcon,
+  ShieldIcon,
 } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -326,6 +328,31 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   </ul>
                 </div>
 
+                {/* Claim Listing Section */}
+                {!listing.claimedBy && (
+                  <div className="bg-gradient-to-r from-brand-orange/5 to-brand-blue/5 rounded-lg p-6 border border-brand-orange/20">
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0">
+                        <ShieldIcon className="w-8 h-8 text-brand-orange" />
+                      </div>
+                      <div className="flex-1">
+                        <h2 className="text-lg font-semibold mb-2 text-foreground">
+                          Own This Business?
+                        </h2>
+                        <p className="text-muted-foreground mb-4">
+                          Claim your listing to gain full control, edit details, and upgrade to premium plans.
+                        </p>
+                        <Button asChild className="bg-brand-orange hover:bg-brand-orange-dark">
+                          <Link href={`/claim/${params.slug}`} className="flex items-center gap-2">
+                            <ShieldIcon className="w-4 h-4" />
+                            Claim This Listing
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Categories */}
                 <div className="bg-muted/50 rounded-lg p-6">
                   <h2 className="text-lg font-semibold mb-4 text-foreground">
@@ -376,7 +403,6 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   </ul>
                 </div>
 
-
                 {/* Certifications & Compliance */}
                 {(listing.performerPermit || listing.bonded) && (
                   <div className="bg-muted/50 rounded-lg p-6">
@@ -409,6 +435,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
               </div>
             </div>
           </div>
+
+          {/* Claimed Listing Actions - Show for owners */}
+          {listing.claimedBy && (
+            <div className="mt-8">
+              <ClaimedListingActions listing={listing} isOwner={true} />
+            </div>
+          )}
         </div>
       </div>
     );

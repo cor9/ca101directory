@@ -8,6 +8,7 @@ import ItemGrid from "@/components/item/item-grid";
 import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
+import FilterBar from "@/components/shared/filter-bar";
 import { homeConfig } from "@/config/home";
 import { priceConfig } from "@/config/price";
 import { siteConfig } from "@/config/site";
@@ -95,11 +96,15 @@ export default async function HomePage({
             {query ? `Search Results for "${query}"` : "All Professionals"}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {query 
-              ? `Found ${totalCount} professional${totalCount !== 1 ? 's' : ''} matching your search`
-              : "Browse our complete directory of vetted child actor professionals"
-            }
+            {query
+              ? `Found ${totalCount} professional${totalCount !== 1 ? "s" : ""} matching your search`
+              : "Browse our complete directory of vetted child actor professionals"}
           </p>
+        </div>
+
+        {/* Filter Bar */}
+        <div className="mb-8">
+          <FilterBar />
         </div>
 
         <div className="flex flex-col gap-8">

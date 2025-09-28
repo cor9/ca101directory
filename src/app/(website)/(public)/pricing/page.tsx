@@ -1,4 +1,5 @@
 import Container from "@/components/container";
+import { PricingPlans } from "@/components/dashboard/pricing-plans";
 import { PricingFaq } from "@/components/pricing/pricing-faq";
 import { HeaderSection } from "@/components/shared/header-section";
 import { siteConfig } from "@/config/site";
@@ -28,8 +29,24 @@ export default async function PricingPage() {
               </h1>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                 Choose the perfect plan for your child actor services. All plans
-                include our quality review process and trusted directory listing.
+                include our quality review process and trusted directory
+                listing.
               </p>
+            </div>
+
+            {/* Free Plan */}
+            <div className="w-full mx-auto mb-12">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-brand-blue mb-2">
+                  🆓 Free Forever Plan
+                </h2>
+                <p className="text-muted-foreground">
+                  Start with our free plan - no payment required
+                </p>
+              </div>
+              <div className="max-w-md mx-auto">
+                <PricingPlans />
+              </div>
             </div>
 
             {/* Founding Vendor Bundles */}
@@ -83,8 +100,8 @@ export default async function PricingPage() {
             <div className="text-center mt-8">
               <p className="text-sm text-muted-foreground leading-normal">
                 All plans include our{" "}
-                <span className="font-semibold">quality review process</span> and
-                trusted directory listing.
+                <span className="font-semibold">quality review process</span>{" "}
+                and trusted directory listing.
                 <br />
                 Need help choosing?{" "}
                 <a

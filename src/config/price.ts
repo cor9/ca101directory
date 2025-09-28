@@ -4,10 +4,29 @@ import type { PriceConfig } from "@/types";
 export const priceConfig: PriceConfig = {
   plans: [
     {
+      title: "Free",
+      description: "Basic listing to get started",
+      benefits: [
+        "Public listing in our directory",
+        "Searchable by parents",
+        "Basic contact information",
+        "Reviewed and approved within 72 hours",
+        "Standard customer support",
+      ],
+      limitations: [
+        "No featured placement",
+        "No logo display",
+        "Limited visibility",
+      ],
+      price: 0,
+      priceSuffix: "/forever",
+      stripePriceId: null, // Free plan doesn't need Stripe
+    },
+    {
       title: "Basic",
       description: "Perfect for getting started",
       benefits: [
-        "Public listing in our directory",
+        "All Free features included",
         "Logo display on your listing",
         "Enhanced visibility",
         "Priority review process",

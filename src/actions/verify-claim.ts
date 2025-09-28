@@ -1,13 +1,10 @@
 "use server";
 
-import { getListingById } from "@/lib/airtable";
+import { getListingById, updateListingClaim } from "@/lib/airtable";
 import { currentUser } from "@/lib/auth";
 
 export async function verifyClaim(token: string) {
   try {
-    // For now, we'll implement a simplified verification
-    // In a real implementation, you'd store claim requests in Supabase or Airtable
-
     // Extract listing slug from token (this is a simplified approach)
     // In production, you'd store the token with the claim request in a database
 
@@ -33,13 +30,12 @@ export async function verifyClaim(token: string) {
     }
 
     // Check if listing is already claimed
-    // TODO: Add claimedBy field to Airtable Listing interface
-    // if (listing.claimedBy) {
-    //   return {
-    //     status: "error",
-    //     message: "This listing has already been claimed",
-    //   };
-    // }
+    if (listing.claimed) {
+      return {
+        status: "error",
+        message: "This listing has already been claimed",
+      };
+    }
 
     // Get current user (if logged in) or create a new user record
     const user = await currentUser();
@@ -51,13 +47,25 @@ export async function verifyClaim(token: string) {
       userId = `user_${Date.now()}`;
     }
 
-    // TODO: Update the listing in Airtable to mark it as claimed
-    // This would require adding a "claimedBy" field to Airtable
-    // For now, we'll just return success
+    // Update the listing in Airtable to mark it as verified
+    const success = await updateListingClaim(listing.id, {
+      claimed: true,
+      claimedByEmail: listing.claimedByEmail || user?.email || "unknown@example.com",
+      claimDate: new Date().toISOString(),
+      verificationStatus: "Verified",
+      plan: listing.plan || "Free",
+    });
+
+    if (!success) {
+      return {
+        status: "error",
+        message: "Failed to update listing claim status",
+      };
+    }
 
     return {
       status: "success",
-      message: "Listing successfully claimed!",
+      message: "Listing successfully claimed and verified!",
       listingName: listing.businessName,
       listingSlug: listingSlug,
     };

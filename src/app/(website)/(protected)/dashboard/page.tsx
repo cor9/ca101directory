@@ -27,10 +27,10 @@ export default async function DashboardPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-foreground mb-2">
             Welcome to your Dashboard
           </h1>
-          <p className="text-gray-600">
+          <p className="text-muted-foreground">
             Manage your Child Actor 101 Directory account and submissions
           </p>
         </div>
@@ -49,15 +49,15 @@ export default async function DashboardPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               <div>
-                <p className="text-sm font-medium text-gray-500">Email</p>
+                <p className="text-sm font-medium text-muted-foreground">Email</p>
                 <p className="text-sm">{session.user.email}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">Name</p>
+                <p className="text-sm font-medium text-muted-foreground">Name</p>
                 <p className="text-sm">{session.user.name || "Not provided"}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">Account Status</p>
+                <p className="text-sm font-medium text-muted-foreground">Account Status</p>
                 <div className="flex items-center gap-1">
                   <CheckCircle className="h-4 w-4 text-green-500" />
                   <span className="text-sm text-green-600">Active</span>
@@ -84,7 +84,7 @@ export default async function DashboardPage() {
                   Submit New Listing
                 </Button>
               </Link>
-              <Link href="/submit">
+              <Link href="/dashboard/submissions">
                 <Button className="w-full" variant="outline">
                   <Eye className="mr-2 h-4 w-4" />
                   View My Submissions
@@ -112,8 +112,8 @@ export default async function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="text-center py-4">
-                <p className="text-sm text-gray-500">No recent activity</p>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-sm text-muted-foreground">No recent activity</p>
+                <p className="text-xs text-muted-foreground mt-1">
                   Submit your first listing to get started
                 </p>
               </div>
@@ -131,10 +131,10 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 Thank you for joining the Child Actor 101 Directory! This is your personal dashboard where you can:
               </p>
-              <ul className="list-disc list-inside space-y-2 text-gray-600">
+              <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                 <li>Submit new professional listings</li>
                 <li>Manage your existing submissions</li>
                 <li>Track the status of your listings</li>

@@ -1,6 +1,6 @@
 "use server";
 
-import { createListing, getCategories } from "@/lib/airtable";
+import { createListing } from "@/lib/airtable";
 import { currentUser } from "@/lib/auth";
 import type { SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { SubmitSchema } from "@/lib/schemas";
@@ -19,6 +19,7 @@ type BaseSubmitFormData = {
   imageId: string;
   tags: string[];
   categories: string[];
+  gallery?: string[];
   plan: string;
   performerPermit: boolean;
   bonded: boolean;
@@ -79,14 +80,6 @@ export async function submit(
     const iconId = "iconId" in rest ? rest.iconId : undefined;
     console.log("submit, name:", name, "link:", link, "plan:", plan);
 
-    // Get categories to convert IDs to names
-    const categoryList = await getCategories();
-    const categoryName =
-      categories.length > 0
-        ? categoryList.find((cat) => cat.id === categories[0])?.categoryName ||
-          ""
-        : "";
-
     // Create form data in the format expected by toAirtable transform
     const airtableFormData = {
       name: name,
@@ -105,13 +98,14 @@ export async function submit(
       plan: plan,
       performerPermit: performerPermit,
       bonded: bonded,
-      categories: categories, // Pass the original category IDs
-      tags: [], // Not implemented yet
+      categories: categories, // Pass the original category IDs - transform will convert them
+      tags: tags, // Pass the original tag IDs - transform will convert them
       iconId: iconId,
     };
 
     console.log("submit, creating listing in Airtable:", airtableFormData);
 
+    // Call Airtable directly from server action
     const listingId = await createListing(airtableFormData);
     if (!listingId) {
       console.log("submit, failed to create listing in Airtable");

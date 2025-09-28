@@ -100,6 +100,7 @@ export function AirtableSubmitForm({
       imageId: "",
       tags: [],
       categories: [],
+      gallery: [],
       ...(SUPPORT_ITEM_ICON ? { iconId: "" } : {}),
     },
   });
@@ -465,7 +466,6 @@ export function AirtableSubmitForm({
                 </div>
               </div>
 
-
               {/* Age Range */}
               <FormField
                 control={form.control}
@@ -500,12 +500,14 @@ export function AirtableSubmitForm({
                 name="categories"
                 render={({ field }) => {
                   const currentPlan = form.watch("plan");
-                  const isMultiSelect = currentPlan === "Pro" || currentPlan === "Premium";
-                  
+                  const isMultiSelect =
+                    currentPlan === "Pro" || currentPlan === "Premium";
+
                   return (
                     <FormItem>
                       <FormLabel className="text-lg font-semibold">
-                        Categories {isMultiSelect ? "(Select Multiple)" : "(Select One)"}
+                        Categories{" "}
+                        {isMultiSelect ? "(Select Multiple)" : "(Select One)"}
                       </FormLabel>
                       <FormControl>
                         {isMultiSelect ? (
@@ -515,7 +517,9 @@ export function AirtableSubmitForm({
                               value: category._id,
                               label: category.name || "",
                             }))}
-                            onValueChange={(selected) => field.onChange(selected)}
+                            onValueChange={(selected) =>
+                              field.onChange(selected)
+                            }
                             value={field.value}
                             placeholder="Select categories"
                             variant="default"
@@ -530,7 +534,10 @@ export function AirtableSubmitForm({
                             </SelectTrigger>
                             <SelectContent>
                               {categoryList.map((category) => (
-                                <SelectItem key={category._id} value={category._id}>
+                                <SelectItem
+                                  key={category._id}
+                                  value={category._id}
+                                >
                                   {category.name}
                                 </SelectItem>
                               ))}
@@ -574,6 +581,56 @@ export function AirtableSubmitForm({
                   )}
                 />
               )}
+
+              {/* Gallery Upload - Premium Only */}
+              <FormField
+                control={form.control}
+                name="gallery"
+                render={({ field }) => {
+                  const currentPlan = form.watch("plan");
+                  const isPremium = currentPlan === "Premium";
+                  
+                  if (!isPremium) {
+                    return null; // Don't show gallery upload for non-Premium plans
+                  }
+                  
+                  return (
+                    <FormItem>
+                      <FormLabel className="text-lg font-semibold">
+                        Gallery Images (Premium Feature)
+                      </FormLabel>
+                      <FormControl>
+                        <div className="space-y-4">
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {[1, 2, 3].map((index) => (
+                              <div key={index} className="w-full h-[200px]">
+                                <ImageUpload
+                                  currentImageUrl={field.value?.[index - 1] || ""}
+                                  onUploadChange={(status) => {
+                                    if (status.imageId) {
+                                      const newGallery = [...(field.value || [])];
+                                      newGallery[index - 1] = status.imageId;
+                                      field.onChange(newGallery);
+                                    }
+                                  }}
+                                  type="image"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </FormControl>
+                      <div className="text-sm text-muted-foreground mt-2">
+                        <p>Upload up to 3 additional images to showcase your business (PNG/JPEG, max 200KB each)</p>
+                        <p className="italic">
+                          Recommended: 800x600px for optimal display
+                        </p>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
 
               {/* Legal Requirements Section */}
               <div className="border-t pt-6 mt-8">
@@ -695,10 +752,11 @@ export function AirtableSubmitForm({
                       Choose Your Plan
                     </FormLabel>
                     <div className="text-center mb-4">
-                      <a 
-                        href="/pricing" 
-                        target="_blank" 
+                      <a
+                        href="/pricing"
+                        target="_blank"
                         className="text-brand-blue hover:text-brand-blue-dark underline text-sm"
+                        rel="noreferrer"
                       >
                         View detailed pricing and features →
                       </a>

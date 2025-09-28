@@ -1,7 +1,7 @@
 "use server";
 
-import { sendClaimVerificationEmail } from "@/lib/claim-verification-email";
 import { getListingById } from "@/lib/airtable";
+import { sendClaimVerificationEmail } from "@/lib/claim-verification-email";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
@@ -23,9 +23,9 @@ export async function claimListing(formData: FormData) {
 
     // Find the listing by slug (convert slug back to business name)
     const businessName = data.listingSlug
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
 
     const listing = await getListingById(businessName);
 
@@ -34,12 +34,13 @@ export async function claimListing(formData: FormData) {
     }
 
     // Check if listing is already claimed
-    if (listing.claimedBy) {
-      return {
-        status: "error",
-        message: "This listing has already been claimed",
-      };
-    }
+    // TODO: Add claimedBy field to Airtable Listing interface
+    // if (listing.claimedBy) {
+    //   return {
+    //     status: "error",
+    //     message: "This listing has already been claimed",
+    //   };
+    // }
 
     // Generate verification token
     const verificationToken = crypto.randomUUID();

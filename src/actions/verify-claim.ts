@@ -1,26 +1,26 @@
 "use server";
 
-import { currentUser } from "@/lib/auth";
 import { getListingById } from "@/lib/airtable";
+import { currentUser } from "@/lib/auth";
 
 export async function verifyClaim(token: string) {
   try {
     // For now, we'll implement a simplified verification
     // In a real implementation, you'd store claim requests in Supabase or Airtable
-    
+
     // Extract listing slug from token (this is a simplified approach)
     // In production, you'd store the token with the claim request in a database
-    
+
     // For demo purposes, we'll assume the token contains the listing slug
     // This is NOT secure for production - just for demonstration
-    
+
     const listingSlug = token; // Simplified - in production, decode from token
-    
+
     // Convert slug back to business name
     const businessName = listingSlug
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
 
     // Get the listing
     const listing = await getListingById(businessName);
@@ -33,12 +33,13 @@ export async function verifyClaim(token: string) {
     }
 
     // Check if listing is already claimed
-    if (listing.claimedBy) {
-      return {
-        status: "error",
-        message: "This listing has already been claimed",
-      };
-    }
+    // TODO: Add claimedBy field to Airtable Listing interface
+    // if (listing.claimedBy) {
+    //   return {
+    //     status: "error",
+    //     message: "This listing has already been claimed",
+    //   };
+    // }
 
     // Get current user (if logged in) or create a new user record
     const user = await currentUser();

@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SORT_FILTER_LIST, DEFAULT_SORT, QUERY_FILTER_LIST, DEFAULT_QUERY } from "@/lib/constants";
+import { categoryMap } from "@/lib/mappings";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 
@@ -22,7 +23,7 @@ export default function FilterBar({ className = "" }: FilterBarProps) {
 
   const currentSort = searchParams.get("sort") || null;
   const currentFilter = searchParams.get("f") || null;
-  const currentTag = searchParams.get("tag") || null;
+  const currentCategory = searchParams.get("category") || null;
 
   const createQueryString = useCallback(
     (name: string, value: string | null) => {
@@ -47,9 +48,9 @@ export default function FilterBar({ className = "" }: FilterBarProps) {
     router.push(`/?${createQueryString("f", newFilter)}`);
   };
 
-  const handleTagChange = (value: string) => {
-    const newTag = value === "null" ? null : value;
-    router.push(`/?${createQueryString("tag", newTag)}`);
+  const handleCategoryChange = (value: string) => {
+    const newCategory = value === "null" ? null : value;
+    router.push(`/?${createQueryString("category", newCategory)}`);
   };
 
   const handleReset = () => {
@@ -61,19 +62,20 @@ export default function FilterBar({ className = "" }: FilterBarProps) {
 
   return (
     <div className={`flex flex-wrap items-center gap-4 ${className}`}>
-      {/* Tag Filter */}
+      {/* Category Filter */}
       <div className="flex items-center gap-2">
-        <label className="text-sm font-medium text-muted-foreground">Select tags:</label>
-        <Select value={currentTag || "null"} onValueChange={handleTagChange}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="All Tags" />
+        <label className="text-sm font-medium text-muted-foreground">Select category:</label>
+        <Select value={currentCategory || "null"} onValueChange={handleCategoryChange}>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue placeholder="All Categories" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="null">All Tags</SelectItem>
-            <SelectItem value="5-8">Ages 5-8</SelectItem>
-            <SelectItem value="9-12">Ages 9-12</SelectItem>
-            <SelectItem value="13-17">Ages 13-17</SelectItem>
-            <SelectItem value="18">Ages 18+</SelectItem>
+            <SelectItem value="null">All Categories</SelectItem>
+            {Object.values(categoryMap).map((category) => (
+              <SelectItem key={category} value={category.toLowerCase().replace(/\s+/g, "-")}>
+                {category}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
@@ -124,3 +126,4 @@ export default function FilterBar({ className = "" }: FilterBarProps) {
     </div>
   );
 }
+

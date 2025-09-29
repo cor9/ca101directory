@@ -7,7 +7,7 @@ export const faqConfig: FAQConfig = {
       id: "item-1",
       question: "How do I get listed in the Child Actor 101 Directory?",
       answer:
-        "Getting listed is easy! Simply choose a plan that fits your needs (Standard $25/month, Pro $50/month, or 101 Badge Add-on $25), complete payment, and fill out our submission form. Our team will review your application within 72 hours.",
+        "Getting listed is easy! Simply choose a plan that fits your needs (Standard $25/month, Pro $50/month, or 101 Badge Add-on $10 for Standard plans), complete payment, and fill out our submission form. Our team will review your application within 72 hours.",
     },
     {
       id: "item-2",
@@ -19,7 +19,7 @@ export const faqConfig: FAQConfig = {
       id: "item-3",
       question: "What's the difference between the plans?",
       answer:
-        "Standard ($25/month) gets you a public listing with basic contact info. Pro ($50/month) adds featured placement, logo display, and SEO boosting. The 101 Badge Add-on ($25) adds our trusted badge to existing listings.",
+        "Standard ($25/month) gets you a public listing with basic contact info. Pro ($50/month) adds featured placement, logo display, and SEO boosting. The 101 Badge Add-on ($10) adds our trusted badge to Standard plans.",
     },
     {
       id: "item-4",

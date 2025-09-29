@@ -19,7 +19,7 @@ export const faqConfig: FAQConfig = {
     id: "item-3",
     question: "What's the difference between the plans?",
     answer:
-      "Basic ($29/month) gets you a public listing with basic contact info. Pro ($49/month) adds featured placement, logo display, and SEO boosting. Premium ($99/month) includes the 101 Badge if qualified, priority placement, and advanced analytics. The 101 Badge Add-on ($25) adds our trusted badge to existing listings.",
+      "Standard ($25/month) gets you a public listing with basic contact info. Pro ($50/month) adds featured placement, logo display, and SEO boosting. Premium ($99/month) includes the 101 Badge if qualified, priority placement, and advanced analytics. The 101 Badge Add-on ($25) adds our trusted badge to existing listings.",
   },
   {
     id: "item-4",

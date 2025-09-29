@@ -83,6 +83,22 @@ export default async function PricingPage() {
               />
             </div>
 
+            {/* 101 Badge Add-on */}
+            <div className="w-full mx-auto mt-12">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-brand-orange mb-2">
+                  🏆 101 Approved Badge Add-on
+                </h2>
+                <p className="text-muted-foreground">
+                  Add our trusted badge to your Standard plan listing
+                </p>
+              </div>
+              <stripe-pricing-table
+                pricing-table-id="prctbl_1SCqZVBqTvwy9ZuSqFvjgpqP"
+                publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
+              />
+            </div>
+
             <div className="text-center mt-8">
               <p className="text-sm text-muted-foreground leading-normal">
                 All plans include our{" "}

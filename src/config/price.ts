@@ -23,7 +23,7 @@ export const priceConfig: PriceConfig = {
       stripePriceId: null, // Free plan doesn't need Stripe
     },
     {
-      title: "Basic",
+      title: "Standard",
       description: "Perfect for getting started",
       benefits: [
         "All Free features included",
@@ -35,13 +35,13 @@ export const priceConfig: PriceConfig = {
       limitations: ["No featured placement", "No 101 Badge"],
       price: 25,
       priceSuffix: "/month",
-      stripePriceId: "prod_T8QcNtQzrwS4Ql", // Basic Monthly
+      stripePriceId: "prod_T97UwQNWLmnlay", // Standard Monthly
     },
     {
       title: "Pro",
       description: "For established professionals",
       benefits: [
-        "All Basic features included",
+        "All Standard features included",
         "Featured placement at top of listings",
         "SEO boosting features",
         "Priority customer support",
@@ -49,30 +49,14 @@ export const priceConfig: PriceConfig = {
         "Advanced analytics",
       ],
       limitations: ["No 101 Badge"],
-      price: 45,
+      price: 50,
       priceSuffix: "/month",
-      stripePriceId: "prod_T8QopLJ3dxTZ1Z", // Pro Monthly
-    },
-    {
-      title: "Premium",
-      description: "For top-tier professionals",
-      benefits: [
-        "All Pro features included",
-        "101 Badge (if qualified)",
-        "Priority placement",
-        "Premium customer support",
-        "Custom promotion opportunities",
-        "Dedicated account manager",
-      ],
-      limitations: [],
-      price: 90,
-      priceSuffix: "/month",
-      stripePriceId: "prod_T8R9f8RbVsavty", // Premium Monthly
+      stripePriceId: "prod_T97nFsGLkxfRxB", // Pro Monthly
     },
   ],
   annualPlans: [
     {
-      title: "Basic Annual",
+      title: "Standard Annual",
       description: "Perfect for getting started",
       benefits: [
         "Public listing in our directory",
@@ -85,46 +69,45 @@ export const priceConfig: PriceConfig = {
       limitations: ["No featured placement", "No 101 Badge"],
       price: 250,
       priceSuffix: "/year",
-      stripePriceId: "prod_T8QguikBmjYjdB", // Basic Annual
+      stripePriceId: "prod_T97UwQNWLmnlay", // Standard Annual
     },
     {
       title: "Pro Annual",
       description: "For established professionals",
       benefits: [
-        "All Basic features included",
+        "All Standard features included",
         "Featured placement at top of listings",
         "SEO boosting features",
         "Priority customer support",
         "Social media promotion",
         "Advanced analytics",
-        "2 months free (save $90)",
+        "2 months free (save $100)",
       ],
       limitations: ["No 101 Badge"],
-      price: 450,
+      price: 500,
       priceSuffix: "/year",
-      stripePriceId: "prod_T8Qvb6K2rgnpZm", // Pro Annual
-    },
-    {
-      title: "Premium Annual",
-      description: "For top-tier professionals",
-      benefits: [
-        "All Pro features included",
-        "101 Badge (if qualified)",
-        "Priority placement",
-        "Premium customer support",
-        "Custom promotion opportunities",
-        "Dedicated account manager",
-        "2 months free (save $180)",
-      ],
-      limitations: [],
-      price: 900,
-      priceSuffix: "/year",
-      stripePriceId: "prod_T8RGnW9sc2Q4Bj", // Premium Annual
+      stripePriceId: "prod_T97nFsGLkxfRxB", // Pro Annual
     },
   ],
   foundingBundles: [
     {
-      title: "Founding Pro Bundle",
+      title: "Founding Standard",
+      description: "Limited time founding offer",
+      benefits: [
+        "All Standard features included",
+        "Logo display on your listing",
+        "Enhanced visibility",
+        "Priority review process",
+        "Email support",
+        "6 months for $125 (save $25)",
+      ],
+      limitations: ["No featured placement", "No 101 Badge"],
+      price: 125,
+      priceSuffix: "/6 months",
+      stripePriceId: "prod_T97zPhO5FmuWdj", // Founding Standard
+    },
+    {
+      title: "Founding Pro",
       description: "Limited time founding offer",
       benefits: [
         "All Pro features included",
@@ -133,29 +116,12 @@ export const priceConfig: PriceConfig = {
         "Priority customer support",
         "Social media promotion",
         "Advanced analytics",
-        "6 months for $199 (save $71)",
+        "6 months for $250 (save $50)",
       ],
       limitations: ["No 101 Badge"],
-      price: 199,
+      price: 250,
       priceSuffix: "/6 months",
-      stripePriceId: "prod_T8RcdmVOvg01LS", // Founding Pro
-    },
-    {
-      title: "Founding Premium Bundle",
-      description: "Limited time founding offer",
-      benefits: [
-        "All Premium features included",
-        "101 Badge (if qualified)",
-        "Priority placement",
-        "Premium customer support",
-        "Custom promotion opportunities",
-        "Dedicated account manager",
-        "6 months for $399 (save $141)",
-      ],
-      limitations: [],
-      price: 399,
-      priceSuffix: "/6 months",
-      stripePriceId: "prod_T8RmbPVwnvfT7E", // Founding Premium
+      stripePriceId: "prod_T987vSSXcnn6oU", // Founding Pro
     },
   ],
 };

@@ -67,50 +67,18 @@ export default async function PricingPage() {
               </div>
             </div>
 
-            {/* Founding Vendor Bundles */}
-            <div className="w-full mx-auto mb-12">
-              <div className="text-center mb-8">
-                <h2 className="text-2xl font-bold text-brand-orange mb-2">
-                  🎉 Founding Vendor Bundles
-                </h2>
-                <p className="text-muted-foreground">
-                  Limited time offers for early adopters
-                </p>
-              </div>
-              <stripe-pricing-table
-                pricing-table-id="prctbl_1SCBmdBqTvwy9ZuSiH2AP9j2"
-                publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
-              />
-            </div>
-
-            {/* Annual Plans */}
-            <div className="w-full mx-auto mb-12">
-              <div className="text-center mb-8">
-                <h2 className="text-2xl font-bold text-brand-blue mb-2">
-                  💰 Annual Plans
-                </h2>
-                <p className="text-muted-foreground">
-                  Save 2 months with annual billing
-                </p>
-              </div>
-              <stripe-pricing-table
-                pricing-table-id="prctbl_1SCBrkBqTvwy9ZuSjRImYrdl"
-                publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
-              />
-            </div>
-
-            {/* Monthly Plans */}
+            {/* Stripe Pricing Table */}
             <div className="w-full mx-auto">
               <div className="text-center mb-8">
                 <h2 className="text-2xl font-bold text-brand-blue mb-2">
-                  📅 Monthly Plans
+                  Choose Your Plan
                 </h2>
                 <p className="text-muted-foreground">
-                  Flexible monthly billing
+                  Select from our Standard, Pro, or Founding Vendor plans
                 </p>
               </div>
               <stripe-pricing-table
-                pricing-table-id="prctbl_1SCBtjBqTvwy9ZuSiybkeqGE"
+                pricing-table-id="prctbl_1SCpyNBqTvwy9ZuSNiSGY03P"
                 publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
               />
             </div>

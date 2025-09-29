@@ -94,7 +94,7 @@ export function AirtableSubmitForm({
       state: "",
       zip: "",
       bondNumber: "",
-      plan: "Basic",
+      plan: "Standard",
       performerPermit: false,
       bonded: false,
       imageId: "",
@@ -500,8 +500,7 @@ export function AirtableSubmitForm({
                 name="categories"
                 render={({ field }) => {
                   const currentPlan = form.watch("plan");
-                  const isMultiSelect =
-                    currentPlan === "Pro" || currentPlan === "Premium";
+                  const isMultiSelect = currentPlan === "Standard" || currentPlan === "Pro";
 
                   return (
                     <FormItem>
@@ -588,16 +587,16 @@ export function AirtableSubmitForm({
                 name="gallery"
                 render={({ field }) => {
                   const currentPlan = form.watch("plan");
-                  const isPremium = currentPlan === "Premium";
+                  const isPro = currentPlan === "Pro";
 
-                  if (!isPremium) {
-                    return null; // Don't show gallery upload for non-Premium plans
+                  if (!isPro) {
+                    return null; // Don't show gallery upload for non-Pro plans
                   }
 
                   return (
                     <FormItem>
                       <FormLabel className="text-lg font-semibold">
-                        Gallery Images (Premium Feature)
+                        Gallery Images (Pro Feature)
                       </FormLabel>
                       <FormControl>
                         <div className="space-y-4">
@@ -770,7 +769,7 @@ export function AirtableSubmitForm({
                     </div>
                     <FormControl>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {["Basic", "Pro", "Premium"].map((plan) => (
+                        {["Standard", "Pro"].map((plan) => (
                           <label
                             key={plan}
                             className={`p-4 border rounded-lg cursor-pointer transition-colors ${
@@ -789,9 +788,8 @@ export function AirtableSubmitForm({
                             <div className="text-center">
                               <div className="font-semibold">{plan}</div>
                               <div className="text-sm text-muted-foreground">
-                                {plan === "Basic" && "$29/month"}
-                                {plan === "Pro" && "$59/month"}
-                                {plan === "Premium" && "$99/month"}
+                                {plan === "Standard" && "$25/month"}
+                                {plan === "Pro" && "$50/month"}
                               </div>
                             </div>
                           </label>

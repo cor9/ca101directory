@@ -151,6 +151,8 @@ export async function getItems({
       category,
       "tag:",
       tag,
+      "region:",
+      region,
       "query:",
       query,
     );
@@ -180,8 +182,8 @@ export async function getItems({
 
     // Region filter
     if (region) {
-      filteredListings = filteredListings.filter((listing) =>
-        listing.region === region,
+      filteredListings = filteredListings.filter(
+        (listing) => listing.region === region,
       );
     }
 

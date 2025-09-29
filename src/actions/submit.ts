@@ -80,7 +80,7 @@ export async function submit(
       ...rest
     } = SubmitSchema.parse(formData);
     const iconId = "iconId" in rest ? rest.iconId : undefined;
-    console.log("submit, name:", name, "link:", link, "plan:", plan);
+    console.log("submit, name:", name, "link:", link, "plan:", plan, "region:", region);
 
     // Create form data in the format expected by toAirtable transform
     const airtableFormData = {

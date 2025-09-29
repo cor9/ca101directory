@@ -8,7 +8,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SORT_FILTER_LIST, DEFAULT_SORT, QUERY_FILTER_LIST, DEFAULT_QUERY } from "@/lib/constants";
+import {
+  DEFAULT_QUERY,
+  DEFAULT_SORT,
+  QUERY_FILTER_LIST,
+  SORT_FILTER_LIST,
+} from "@/lib/constants";
 import { categoryMap } from "@/lib/mappings";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
@@ -24,6 +29,7 @@ export default function FilterBar({ className = "" }: FilterBarProps) {
   const currentSort = searchParams.get("sort") || null;
   const currentFilter = searchParams.get("f") || null;
   const currentCategory = searchParams.get("category") || null;
+  const currentRegion = searchParams.get("region") || null;
 
   const createQueryString = useCallback(
     (name: string, value: string | null) => {
@@ -35,7 +41,7 @@ export default function FilterBar({ className = "" }: FilterBarProps) {
       }
       return params.toString();
     },
-    [searchParams]
+    [searchParams],
   );
 
   const handleSortChange = (value: string) => {
@@ -53,26 +59,43 @@ export default function FilterBar({ className = "" }: FilterBarProps) {
     router.push(`/?${createQueryString("category", newCategory)}`);
   };
 
+  const handleRegionChange = (value: string) => {
+    const newRegion = value === "null" ? null : value;
+    router.push(`/?${createQueryString("region", newRegion)}`);
+  };
+
   const handleReset = () => {
     router.push("/");
   };
 
-  const currentSortLabel = SORT_FILTER_LIST.find(item => item.slug === currentSort)?.label || DEFAULT_SORT.label;
-  const currentFilterLabel = QUERY_FILTER_LIST.find(item => item.slug === currentFilter)?.label || DEFAULT_QUERY.label;
+  const currentSortLabel =
+    SORT_FILTER_LIST.find((item) => item.slug === currentSort)?.label ||
+    DEFAULT_SORT.label;
+  const currentFilterLabel =
+    QUERY_FILTER_LIST.find((item) => item.slug === currentFilter)?.label ||
+    DEFAULT_QUERY.label;
 
   return (
     <div className={`flex flex-wrap items-center gap-4 ${className}`}>
       {/* Category Filter */}
       <div className="flex items-center gap-2">
-        <label className="text-sm font-medium text-muted-foreground">Select category:</label>
-        <Select value={currentCategory || "null"} onValueChange={handleCategoryChange}>
+        <label className="text-sm font-medium text-muted-foreground">
+          Select category:
+        </label>
+        <Select
+          value={currentCategory || "null"}
+          onValueChange={handleCategoryChange}
+        >
           <SelectTrigger className="w-[200px]">
             <SelectValue placeholder="All Categories" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="null">All Categories</SelectItem>
             {Object.values(categoryMap).map((category) => (
-              <SelectItem key={category} value={category.toLowerCase().replace(/\s+/g, "-")}>
+              <SelectItem
+                key={category}
+                value={category.toLowerCase().replace(/\s+/g, "-")}
+              >
                 {category}
               </SelectItem>
             ))}
@@ -80,16 +103,52 @@ export default function FilterBar({ className = "" }: FilterBarProps) {
         </Select>
       </div>
 
+      {/* Region Filter */}
+      <div className="flex items-center gap-2">
+        <label className="text-sm font-medium text-muted-foreground">
+          Select region:
+        </label>
+        <Select
+          value={currentRegion || "null"}
+          onValueChange={handleRegionChange}
+        >
+          <SelectTrigger className="w-[200px]">
+            <SelectValue placeholder="All Regions" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="null">All Regions</SelectItem>
+            <SelectItem value="Los Angeles">Los Angeles</SelectItem>
+            <SelectItem value="San Francisco Bay Area">San Francisco Bay Area</SelectItem>
+            <SelectItem value="San Diego">San Diego</SelectItem>
+            <SelectItem value="Sacramento">Sacramento</SelectItem>
+            <SelectItem value="Central Valley">Central Valley</SelectItem>
+            <SelectItem value="Orange County">Orange County</SelectItem>
+            <SelectItem value="Ventura County">Ventura County</SelectItem>
+            <SelectItem value="Riverside County">Riverside County</SelectItem>
+            <SelectItem value="San Bernardino County">San Bernardino County</SelectItem>
+            <SelectItem value="Other">Other</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
       {/* Filter */}
       <div className="flex items-center gap-2">
-        <label className="text-sm font-medium text-muted-foreground">Filter:</label>
-        <Select value={currentFilter || "null"} onValueChange={handleFilterChange}>
+        <label className="text-sm font-medium text-muted-foreground">
+          Filter:
+        </label>
+        <Select
+          value={currentFilter || "null"}
+          onValueChange={handleFilterChange}
+        >
           <SelectTrigger className="w-[140px]">
             <SelectValue placeholder="No Filter" />
           </SelectTrigger>
           <SelectContent>
             {QUERY_FILTER_LIST.map((filter) => (
-              <SelectItem key={filter.slug || "null"} value={filter.slug || "null"}>
+              <SelectItem
+                key={filter.slug || "null"}
+                value={filter.slug || "null"}
+              >
                 {filter.label}
               </SelectItem>
             ))}
@@ -99,7 +158,9 @@ export default function FilterBar({ className = "" }: FilterBarProps) {
 
       {/* Sort */}
       <div className="flex items-center gap-2">
-        <label className="text-sm font-medium text-muted-foreground">Sort by:</label>
+        <label className="text-sm font-medium text-muted-foreground">
+          Sort by:
+        </label>
         <Select value={currentSort || "null"} onValueChange={handleSortChange}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Sort by Time (dsc)" />
@@ -115,9 +176,9 @@ export default function FilterBar({ className = "" }: FilterBarProps) {
       </div>
 
       {/* Reset Button */}
-      <Button 
-        variant="outline" 
-        size="sm" 
+      <Button
+        variant="outline"
+        size="sm"
         onClick={handleReset}
         className="ml-auto"
       >
@@ -126,4 +187,3 @@ export default function FilterBar({ className = "" }: FilterBarProps) {
     </div>
   );
 }
-

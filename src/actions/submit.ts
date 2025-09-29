@@ -28,6 +28,7 @@ type BaseSubmitFormData = {
   city: string;
   state: string;
   zip: string;
+  region: string;
   bondNumber: string;
 };
 
@@ -74,6 +75,7 @@ export async function submit(
       city,
       state,
       zip,
+      region,
       bondNumber,
       ...rest
     } = SubmitSchema.parse(formData);
@@ -94,6 +96,7 @@ export async function submit(
       city: city,
       state: state,
       zip: zip,
+      region: region,
       bondNumber: bondNumber,
       plan: plan,
       performerPermit: performerPermit,

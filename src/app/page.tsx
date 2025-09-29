@@ -7,8 +7,8 @@ import HomeValueProps from "@/components/home/home-value-props";
 import ItemGrid from "@/components/item/item-grid";
 import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 import EmptyGrid from "@/components/shared/empty-grid";
-import CustomPagination from "@/components/shared/pagination";
 import FilterBar from "@/components/shared/filter-bar";
+import CustomPagination from "@/components/shared/pagination";
 import { homeConfig } from "@/config/home";
 import { priceConfig } from "@/config/price";
 import { siteConfig } from "@/config/site";
@@ -42,6 +42,7 @@ export default async function HomePage({
   const {
     category,
     tag,
+    region,
     sort,
     page,
     q: query,
@@ -54,6 +55,7 @@ export default async function HomePage({
   const { items, totalCount } = await getItems({
     category,
     tag,
+    region,
     sortKey,
     reverse,
     query,

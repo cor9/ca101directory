@@ -2,7 +2,13 @@
 
 import { type SubmitFormData, submit } from "@/actions/submit";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -64,7 +70,7 @@ export default function FreeSubmitForm({ categories }: FreeSubmitFormProps) {
     startTransition(async () => {
       try {
         const result = await submit(data);
-        
+
         if (result?.status === "success") {
           toast.success("Listing submitted successfully!");
           router.push(`/submit/success?id=${result.id}`);
@@ -91,7 +97,7 @@ export default function FreeSubmitForm({ categories }: FreeSubmitFormProps) {
             Get started with a basic listing. Upgrade later for more features.
           </p>
         </CardHeader>
-        
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <CardContent className="space-y-6">
@@ -170,10 +176,7 @@ export default function FreeSubmitForm({ categories }: FreeSubmitFormProps) {
                   <FormItem>
                     <FormLabel>Website *</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="https://yourwebsite.com"
-                        {...field}
-                      />
+                      <Input placeholder="https://yourwebsite.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -207,10 +210,7 @@ export default function FreeSubmitForm({ categories }: FreeSubmitFormProps) {
                   <FormItem>
                     <FormLabel>City *</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Los Angeles"
-                        {...field}
-                      />
+                      <Input placeholder="Los Angeles" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -225,10 +225,38 @@ export default function FreeSubmitForm({ categories }: FreeSubmitFormProps) {
                   <FormItem>
                     <FormLabel>State *</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="CA"
-                        {...field}
-                      />
+                      <Input placeholder="CA" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Region */}
+              <FormField
+                control={form.control}
+                name="region"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Region *</FormLabel>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select your region" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Los Angeles">Los Angeles</SelectItem>
+                          <SelectItem value="San Francisco Bay Area">San Francisco Bay Area</SelectItem>
+                          <SelectItem value="San Diego">San Diego</SelectItem>
+                          <SelectItem value="Sacramento">Sacramento</SelectItem>
+                          <SelectItem value="Central Valley">Central Valley</SelectItem>
+                          <SelectItem value="Orange County">Orange County</SelectItem>
+                          <SelectItem value="Ventura County">Ventura County</SelectItem>
+                          <SelectItem value="Riverside County">Riverside County</SelectItem>
+                          <SelectItem value="San Bernardino County">San Bernardino County</SelectItem>
+                          <SelectItem value="Other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -274,10 +302,11 @@ export default function FreeSubmitForm({ categories }: FreeSubmitFormProps) {
                   <li>• 101 Badge</li>
                 </ul>
                 <div className="text-center">
-                  <a 
-                    href="/pricing" 
-                    target="_blank" 
+                  <a
+                    href="/pricing"
+                    target="_blank"
                     className="text-orange-700 hover:text-orange-800 underline text-sm font-medium"
+                    rel="noreferrer"
                   >
                     View pricing plans →
                   </a>
@@ -289,7 +318,9 @@ export default function FreeSubmitForm({ categories }: FreeSubmitFormProps) {
                 className="w-full bg-brand-orange hover:bg-brand-orange-dark"
                 disabled={isPending || isSubmitting}
               >
-                {isPending || isSubmitting ? "Submitting..." : "Submit Free Listing"}
+                {isPending || isSubmitting
+                  ? "Submitting..."
+                  : "Submit Free Listing"}
               </Button>
             </CardFooter>
           </form>

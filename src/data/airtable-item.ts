@@ -63,21 +63,22 @@ function listingToItem(listing: Listing): ItemInfo {
     sponsorPlanStatus: null,
     rejectionReason: null,
     collections: [],
-    categories: listing.categories?.map((categoryName) => ({
-      _id: categoryName.trim().toLowerCase().replace(/\s+/g, "-"),
-      _type: "category" as const,
-      _createdAt: listing.dateSubmitted,
-      _updatedAt: listing.dateSubmitted,
-      _rev: "",
-      name: categoryName,
-      slug: {
-        _type: "slug" as const,
-        current: categoryName.toLowerCase().replace(/\s+/g, "-"),
-      },
-      description: null,
-      group: null,
-      priority: null,
-    })) || [],
+    categories:
+      listing.categories?.map((categoryName) => ({
+        _id: categoryName.trim().toLowerCase().replace(/\s+/g, "-"),
+        _type: "category" as const,
+        _createdAt: listing.dateSubmitted,
+        _updatedAt: listing.dateSubmitted,
+        _rev: "",
+        name: categoryName,
+        slug: {
+          _type: "slug" as const,
+          current: categoryName.toLowerCase().replace(/\s+/g, "-"),
+        },
+        description: null,
+        group: null,
+        priority: null,
+      })) || [],
     tags: listing.tags?.map((tag) => ({
       _id: tag.toLowerCase().replace(/\s+/g, "-"),
       _type: "tag" as const,
@@ -125,6 +126,7 @@ export async function getItems({
   collection,
   category,
   tag,
+  region,
   sortKey,
   reverse,
   query,
@@ -135,6 +137,7 @@ export async function getItems({
   collection?: string;
   category?: string;
   tag?: string;
+  region?: string;
   sortKey?: string;
   reverse?: boolean;
   query?: string;
@@ -161,8 +164,8 @@ export async function getItems({
     // Category filter
     if (category) {
       filteredListings = filteredListings.filter((listing) =>
-        listing.categories?.some(cat => 
-          cat.toLowerCase().replace(/\s+/g, "-") === category
+        listing.categories?.some(
+          (cat) => cat.toLowerCase().replace(/\s+/g, "-") === category,
         ),
       );
     }
@@ -172,6 +175,13 @@ export async function getItems({
       const tagList = tag.split(",");
       filteredListings = filteredListings.filter((listing) =>
         tagList.every((t) => listing.tags?.includes(t)),
+      );
+    }
+
+    // Region filter
+    if (region) {
+      filteredListings = filteredListings.filter((listing) =>
+        listing.region === region,
       );
     }
 

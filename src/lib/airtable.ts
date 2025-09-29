@@ -91,6 +91,7 @@ export interface Listing {
   city?: string;
   state?: string;
   zip?: string;
+  region?: string;
   virtual: boolean;
   plan: "Basic" | "Pro" | "Premium" | "Free" | "Add-On";
   featured: boolean;
@@ -160,6 +161,10 @@ function recordToListing(record: Airtable.Record<any>): Listing {
       fields["California Child Performer Services Permit "] || false,
     bonded: fields["Bonded For Advanced Fees"] || false,
     bondNumber: fields["Bond#"] || "",
+    city: fields["City"] || "",
+    state: fields["State"] || "",
+    zip: fields["Zip"] || "",
+    region: fields["Region"] || "",
     // New claim-related fields
     claimed: fields["Claimed?"] || false,
     claimedByEmail: fields["Claimed By Email"] || "",
@@ -288,6 +293,7 @@ interface FormData {
   city: string;
   state: string;
   zip: string;
+  region: string;
   bondNumber: string;
   plan: string;
   performerPermit: boolean;
@@ -332,6 +338,7 @@ export async function createListing(data: FormData): Promise<string | null> {
         City: data.city,
         State: data.state,
         Zip: data.zip,
+        Region: data.region,
         "Age Range": (data.tags || []).map((t: string) => tagMap[t] || t),
         Categories: Array.isArray(data.categories)
           ? data.categories
@@ -345,11 +352,12 @@ export async function createListing(data: FormData): Promise<string | null> {
               },
             ]
           : [],
-        "Gallery": data.gallery && data.gallery.length > 0
-          ? data.gallery.map((url) => ({
-              url: `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${url}`,
-            }))
-          : [],
+        Gallery:
+          data.gallery && data.gallery.length > 0
+            ? data.gallery.map((url) => ({
+                url: `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${url}`,
+              }))
+            : [],
         Plan: data.plan, // must be one of "Free", "Basic", "Pro", "Premium"
       },
     };
@@ -398,7 +406,7 @@ export async function updateListingClaim(
     verificationStatus: "Pending" | "Verified" | "Denied";
     plan?: string;
     badge101?: boolean;
-  }
+  },
 ): Promise<boolean> {
   if (!hasAirtableConfig) {
     console.warn("Airtable not configured");
@@ -434,7 +442,7 @@ export async function updateListingClaim(
         body: JSON.stringify({
           fields: updateFields,
         }),
-      }
+      },
     );
 
     if (!response.ok) {

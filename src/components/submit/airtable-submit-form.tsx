@@ -452,6 +452,36 @@ export function AirtableSubmitForm({
 
                   <FormField
                     control={form.control}
+                    name="region"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Region</FormLabel>
+                        <FormControl>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select your region" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Los Angeles">Los Angeles</SelectItem>
+                              <SelectItem value="San Francisco Bay Area">San Francisco Bay Area</SelectItem>
+                              <SelectItem value="San Diego">San Diego</SelectItem>
+                              <SelectItem value="Sacramento">Sacramento</SelectItem>
+                              <SelectItem value="Central Valley">Central Valley</SelectItem>
+                              <SelectItem value="Orange County">Orange County</SelectItem>
+                              <SelectItem value="Ventura County">Ventura County</SelectItem>
+                              <SelectItem value="Riverside County">Riverside County</SelectItem>
+                              <SelectItem value="San Bernardino County">San Bernardino County</SelectItem>
+                              <SelectItem value="Other">Other</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
                     name="zip"
                     render={({ field }) => (
                       <FormItem>
@@ -500,7 +530,8 @@ export function AirtableSubmitForm({
                 name="categories"
                 render={({ field }) => {
                   const currentPlan = form.watch("plan");
-                  const isMultiSelect = currentPlan === "Standard" || currentPlan === "Pro";
+                  const isMultiSelect =
+                    currentPlan === "Standard" || currentPlan === "Pro";
 
                   return (
                     <FormItem>

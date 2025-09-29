@@ -43,6 +43,7 @@ export const baseSubmitSchema = {
   city: z.string().optional(),
   state: z.string().optional(),
   zip: z.string().optional(),
+  region: z.string().optional(),
   bondNumber: z.string().optional(),
   plan: z.enum(["Free", "Basic", "Pro", "Premium"], {
     required_error: "Please select a plan",

@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   try {
     console.log("Testing Airtable connection...");
 
-    // Test data - FormData interface for createListing (simplified for current schema)
+    // Test data - minimal fields for current Airtable schema
     const testData = {
       name: "Test Business",
       link: "https://example.com",
@@ -21,12 +21,13 @@ export async function GET(req: NextRequest) {
       city: "Test City",
       state: "CA",
       zip: "90210",
+      region: "Los Angeles",
       bondNumber: "12345",
       plan: "Basic" as const,
       performerPermit: false,
       bonded: false,
-      categories: ["rec4gFz49LQTQpzhw"], // Acting Classes & Coaches
-      tags: [],
+      categories: [], // Empty for now
+      tags: [], // Empty for now
       iconId: undefined,
     };
 

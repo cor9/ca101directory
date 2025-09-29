@@ -32,8 +32,6 @@ export default async function HomePage({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  console.log("HomePage, searchParams", searchParams);
-
   // For now, we don't have sponsor items in Airtable
   const sponsorItems: never[] = [];
   const showSponsor = false; // Disable sponsor items for now
@@ -48,6 +46,8 @@ export default async function HomePage({
     q: query,
     f: filter,
   } = searchParams as { [key: string]: string };
+  
+  console.log("HomePage, searchParams", searchParams, "region:", region);
   const { sortKey, reverse } =
     SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
   const rawPage = page ? Number(page) : 1;

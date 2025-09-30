@@ -109,6 +109,7 @@ export interface Listing {
   claimDate?: string;
   verificationStatus?: "Pending" | "Verified" | "Denied";
   badge101?: boolean;
+  owner_id?: string;
 }
 
 export interface Category {

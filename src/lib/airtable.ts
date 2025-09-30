@@ -167,11 +167,12 @@ function recordToListing(record: Airtable.Record<any>): Listing {
     zip: fields["Zip"] || "",
     region: fields["Region"] || "",
     // New claim-related fields
-    claimed: fields["Claimed?"] || false,
+    claimed: Boolean(fields["Claimed?"]) || false,
     claimedByEmail: fields["Claimed By Email"] || "",
     claimDate: fields["Claim Date"] || "",
     verificationStatus: fields["Verification Status"] || "Pending",
     badge101: fields["101 Badge"] || false,
+    owner_id: fields["Owner ID"] || "",
   };
 }
 

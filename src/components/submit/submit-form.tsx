@@ -89,8 +89,14 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
       performerPermit: false,
       bonded: false,
       imageId: "",
-      tags: [],
-      categories: [],
+      tags:
+        process.env.NODE_ENV === "development"
+          ? ["tag-1", "tag-2", "tag-3"]
+          : [],
+      categories:
+        process.env.NODE_ENV === "development"
+          ? ["recxsGFD5Xs9eSrrT", "rec4gFz49LQTQpzhw"]
+          : [],
       ...(SUPPORT_ITEM_ICON ? { iconId: "" } : {}),
     },
   });
@@ -106,7 +112,14 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
         if (result.status === "success") {
           console.log("SubmitForm, success:", result.message);
           form.reset();
-          router.push(`/payment/${result.id}`);
+
+          // Redirect based on plan
+          if (data.plan === "Free") {
+            router.push(`/submit/success?id=${result.id}`);
+          } else {
+            router.push(`/payment/${result.id}`);
+          }
+
           toast.success(result.message);
         } else {
           console.error("SubmitForm, error:", result.message);

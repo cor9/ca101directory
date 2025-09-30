@@ -16,16 +16,28 @@ export const footerConfig: FooterConfig = {
       items: [
         { title: "Submit Listing", href: "/submit" },
         { title: "Pricing Plans", href: "/pricing" },
-        { title: "Claim Listing", href: "/claim" },
+        { title: "Claim Listing", href: "/claim-upgrade" },
         { title: "Dashboard", href: "/dashboard" },
       ],
     },
     {
       title: "Resources",
       items: [
-        { title: "About Child Actor 101", href: "https://childactor101.com", external: true },
-        { title: "Parent Resources", href: "https://childactor101.com/resources", external: true },
-        { title: "Industry News", href: "https://childactor101.com/blog", external: true },
+        {
+          title: "About Child Actor 101",
+          href: "https://childactor101.com",
+          external: true,
+        },
+        {
+          title: "Parent Resources",
+          href: "https://childactor101.com/resources",
+          external: true,
+        },
+        {
+          title: "Industry News",
+          href: "https://childactor101.com/blog",
+          external: true,
+        },
         { title: "Contact Support", href: "mailto:corey@childactor101.com" },
       ],
     },
@@ -34,7 +46,11 @@ export const footerConfig: FooterConfig = {
       items: [
         { title: "Privacy Policy", href: "/privacy" },
         { title: "Terms of Service", href: "/terms" },
-        { title: "California Permit Info", href: "https://childactor101.com/permit-info", external: true },
+        {
+          title: "California Permit Info",
+          href: "https://childactor101.com/permit-info",
+          external: true,
+        },
         { title: "Sitemap", href: "/sitemap.xml" },
       ],
     },

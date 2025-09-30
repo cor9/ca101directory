@@ -1,9 +1,9 @@
+import { auth } from "@/auth";
 import { UserLinkForm } from "@/components/settings/user-link-form";
 import { UserNameForm } from "@/components/settings/user-name-form";
 import { UserPasswordForm } from "@/components/settings/user-password-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
-import { auth } from "@/auth";
 import { constructMetadata } from "@/lib/metadata";
 import { redirect } from "next/navigation";
 
@@ -31,7 +31,7 @@ export default async function SettingsPage() {
             Manage your account information and preferences
           </p>
         </div>
-        
+
         <Card className="overflow-hidden">
           <CardContent className="space-y-6 p-6">
             <UserNameForm />

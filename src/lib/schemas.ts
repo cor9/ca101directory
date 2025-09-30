@@ -65,6 +65,77 @@ export const SubmitSchema = SUPPORT_ITEM_ICON
     })
   : z.object(baseSubmitSchema);
 
+export type SubmitFormData = z.infer<typeof SubmitSchema>;
+
+/**
+ * Vendor suggestion form schema
+ */
+export const VendorSuggestionSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Vendor name is required" })
+    .max(100, { message: "Name must be 100 or fewer characters long" }),
+  website: z
+    .string()
+    .url({ message: "Please enter a valid website URL" })
+    .optional()
+    .or(z.literal("")),
+  category: z.string().min(1, { message: "Category is required" }),
+  city: z
+    .string()
+    .min(1, { message: "City is required" })
+    .max(50, { message: "City must be 50 or fewer characters long" }),
+  state: z
+    .string()
+    .min(2, { message: "State is required" })
+    .max(2, { message: "Please use 2-letter state code" }),
+  region: z
+    .string()
+    .min(1, { message: "Region is required" })
+    .max(50, { message: "Region must be 50 or fewer characters long" }),
+  notes: z
+    .string()
+    .max(500, { message: "Notes must be 500 or fewer characters long" })
+    .optional(),
+  suggestedBy: z
+    .string()
+    .email({ message: "Please enter a valid email address" })
+    .optional()
+    .or(z.literal("")),
+});
+
+export type VendorSuggestionFormData = z.infer<typeof VendorSuggestionSchema>;
+
+/**
+ * Review form schema
+ */
+export const ReviewSchema = z.object({
+  vendorId: z.string().min(1, { message: "Vendor ID is required" }),
+  rating: z
+    .number()
+    .min(1, { message: "Rating must be at least 1" })
+    .max(5, { message: "Rating must be at most 5" }),
+  comment: z
+    .string()
+    .min(10, { message: "Comment must be at least 10 characters" })
+    .max(1000, { message: "Comment must be 1000 or fewer characters" }),
+});
+
+export type ReviewFormData = z.infer<typeof ReviewSchema>;
+
+/**
+ * Claim listing form schema
+ */
+export const ClaimListingSchema = z.object({
+  listingId: z.string().min(1, { message: "Listing ID is required" }),
+  message: z
+    .string()
+    .min(10, { message: "Message must be at least 10 characters" })
+    .max(1000, { message: "Message must be 1000 or fewer characters" }),
+});
+
+export type ClaimListingFormData = z.infer<typeof ClaimListingSchema>;
+
 /**
  * edit item
  */

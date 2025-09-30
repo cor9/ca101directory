@@ -1,5 +1,5 @@
-import ItemGrid from "@/components/item/item-grid";
 import HomeSearchBox from "@/components/home/home-search-box";
+import ItemGrid from "@/components/item/item-grid";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
@@ -60,12 +60,11 @@ export default async function SearchPage({
           {query ? `Search Results for "${query}"` : "Search Professionals"}
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-          {query 
-            ? `Found ${totalCount} professional${totalCount !== 1 ? 's' : ''} matching your search`
-            : "Search our directory of vetted child actor professionals"
-          }
+          {query
+            ? `Found ${totalCount} professional${totalCount !== 1 ? "s" : ""} matching your search`
+            : "Search our directory of vetted child actor professionals"}
         </p>
-        
+
         {/* Search Box */}
         <div className="max-w-md mx-auto">
           <HomeSearchBox urlPrefix="/search" />

@@ -1,6 +1,11 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend only if API key is available
+let resend: Resend | null = null;
+
+if (process.env.RESEND_API_KEY) {
+  resend = new Resend(process.env.RESEND_API_KEY);
+}
 
 interface ClaimVerificationEmailProps {
   to: string;
@@ -17,6 +22,11 @@ export async function sendClaimVerificationEmail({
   verificationToken,
   listingSlug,
 }: ClaimVerificationEmailProps) {
+  if (!resend) {
+    console.warn("Resend not configured - skipping email send");
+    return null;
+  }
+
   const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/verify-claim/${verificationToken}`;
 
   try {

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { CheckCircleIcon, HomeIcon, SearchIcon, EyeIcon } from "lucide-react";
+import { CheckCircleIcon, EyeIcon, HomeIcon, SearchIcon } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -8,7 +8,10 @@ interface PublishPageProps {
   searchParams: { pay?: string };
 }
 
-export default function PublishPage({ params, searchParams }: PublishPageProps) {
+export default function PublishPage({
+  params,
+  searchParams,
+}: PublishPageProps) {
   const listingId = params.id;
   const paymentStatus = searchParams.pay;
 
@@ -16,23 +19,26 @@ export default function PublishPage({ params, searchParams }: PublishPageProps) 
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6">
-      <div className={`flex items-center justify-center w-16 h-16 rounded-full ${
-        isSuccess ? "bg-green-100" : "bg-brand-blue/10"
-      }`}>
-        <CheckCircleIcon className={`w-8 h-8 ${
-          isSuccess ? "text-green-600" : "text-brand-blue"
-        }`} />
+      <div
+        className={`flex items-center justify-center w-16 h-16 rounded-full ${
+          isSuccess ? "bg-green-100" : "bg-brand-blue/10"
+        }`}
+      >
+        <CheckCircleIcon
+          className={`w-8 h-8 ${
+            isSuccess ? "text-green-600" : "text-brand-blue"
+          }`}
+        />
       </div>
-      
+
       <div className="space-y-2">
         <h1 className="text-3xl font-bold text-foreground">
           {isSuccess ? "Payment Successful!" : "Publishing Your Listing"}
         </h1>
         <p className="text-lg text-muted-foreground max-w-md">
-          {isSuccess 
+          {isSuccess
             ? "Thank you for your payment! Your listing is now live and visible to families searching for acting professionals."
-            : "Your listing is being processed and will be published shortly."
-          }
+            : "Your listing is being processed and will be published shortly."}
         </p>
         {listingId && (
           <p className="text-sm text-muted-foreground">

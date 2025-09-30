@@ -1,4 +1,5 @@
 import Container from "@/components/container";
+import { DirectoryFilters } from "@/components/directory/directory-filters";
 import ItemGrid from "@/components/item/item-grid";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
@@ -14,7 +15,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = constructMetadata({
   title: "Directory - Child Actor 101 Directory",
-  description: "Browse our complete directory of vetted child actor professionals",
+  description:
+    "Browse our complete directory of vetted child actor professionals",
   canonicalUrl: `${siteConfig.url}/directory`,
 });
 
@@ -32,14 +34,14 @@ export default async function DirectoryPage({
   const { sortKey, reverse } =
     SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
   const currentPage = page ? Number(page) : 1;
-  
+
   const { items, totalCount } = await getItems({
     sortKey,
     reverse,
     currentPage,
     hasSponsorItem,
   });
-  
+
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   return (
@@ -51,15 +53,18 @@ export default async function DirectoryPage({
             Professional Directory
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Browse our complete directory of vetted child actor professionals. 
-            Every listing has been carefully reviewed for quality, safety, and results.
+            Browse our complete directory of vetted child actor professionals.
+            Every listing has been carefully reviewed for quality, safety, and
+            results.
           </p>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <div className="text-center p-6 bg-gradient-to-r from-brand-orange/5 via-brand-yellow/5 to-brand-blue/5 rounded-lg border border-brand-blue/20">
-            <div className="text-3xl font-bold text-brand-blue mb-2">{totalCount}</div>
+            <div className="text-3xl font-bold text-brand-blue mb-2">
+              {totalCount}
+            </div>
             <div className="text-muted-foreground">Total Professionals</div>
           </div>
           <div className="text-center p-6 bg-gradient-to-r from-brand-orange/5 via-brand-yellow/5 to-brand-blue/5 rounded-lg border border-brand-blue/20">
@@ -89,7 +94,10 @@ export default async function DirectoryPage({
               />
 
               <div className="mt-8 flex items-center justify-center">
-                <CustomPagination routePrefix="/directory" totalPages={totalPages} />
+                <CustomPagination
+                  routePrefix="/directory"
+                  totalPages={totalPages}
+                />
               </div>
             </section>
           )}

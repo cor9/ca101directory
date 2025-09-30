@@ -1,81 +1,100 @@
 "use server";
 
-import { getListingById, updateListingClaim } from "@/lib/airtable";
-import { redirect } from "next/navigation";
-import { z } from "zod";
+import { auth } from "@/auth";
+import type { ClaimListingFormData } from "@/lib/schemas";
+import { createClient } from "@/lib/supabase/server";
 
-const claimSchema = z.object({
-  listingSlug: z.string().min(1),
-  email: z.string().email(),
-  businessName: z.string().min(1),
-  verificationMessage: z.string().optional(),
-  plan: z.string().optional(),
-});
-
-export async function claimListing(formData: FormData) {
+export async function claimListing(formData: ClaimListingFormData) {
   try {
-    const data = claimSchema.parse({
-      listingSlug: formData.get("listingSlug"),
-      email: formData.get("email"),
-      businessName: formData.get("businessName"),
-      verificationMessage: formData.get("verificationMessage"),
-      plan: formData.get("plan"),
-    });
+    const session = await auth();
 
-    // Find the listing by slug (convert slug back to business name)
-    const businessName = data.listingSlug
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-
-    const listing = await getListingById(businessName);
-
-    if (!listing) {
-      redirect(`/claim/${data.listingSlug}?error=listing-not-found`);
+    if (!session?.user?.id) {
+      return {
+        success: false,
+        message: "You must be logged in to claim a listing.",
+      };
     }
 
-    // Check if listing is already claimed
+    const supabase = createClient();
+
+    // Check if listing exists and is not already claimed
+    const { data: listing, error: listingError } = await supabase
+      .from("listings")
+      .select("id, claimed, owner_id")
+      .eq("id", formData.listingId)
+      .single();
+
+    if (listingError || !listing) {
+      return {
+        success: false,
+        message: "Listing not found.",
+      };
+    }
+
     if (listing.claimed) {
-      redirect(`/claim/${data.listingSlug}?error=already-claimed`);
+      return {
+        success: false,
+        message: "This listing has already been claimed.",
+      };
     }
 
-    // Generate verification token
-    const verificationToken = crypto.randomUUID();
-    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
-
-    // Update the listing in Airtable with claim information
-    const claimDate = new Date().toISOString();
-    const success = await updateListingClaim(listing.id, {
-      claimed: true,
-      claimedByEmail: data.email,
-      claimDate: claimDate,
-      verificationStatus: "Pending",
-      plan: data.plan || "Free",
-    });
-
-    if (!success) {
-      console.error("Failed to update listing claim status");
-      redirect(`/claim/${data.listingSlug}?error=processing-failed`);
+    if (listing.owner_id === session.user.id) {
+      return {
+        success: false,
+        message: "You already own this listing.",
+      };
     }
 
-    // Send verification email (dynamic import to avoid build-time initialization)
-    try {
-      const { sendClaimVerificationEmail } = await import("@/lib/claim-verification-email");
-      await sendClaimVerificationEmail({
-        to: data.email,
-        businessName: data.businessName,
-        listingName: listing.businessName,
-        verificationToken,
-        listingSlug: data.listingSlug,
-      });
-    } catch (emailError) {
-      console.warn("Failed to send verification email:", emailError);
-      // Continue with the claim process even if email fails
+    // Check if user has already submitted a claim for this listing
+    const { data: existingClaim } = await supabase
+      .from("claims")
+      .select("id")
+      .eq("listing_id", formData.listingId)
+      .eq("vendor_id", session.user.id)
+      .single();
+
+    if (existingClaim) {
+      return {
+        success: false,
+        message: "You have already submitted a claim for this listing.",
+      };
     }
 
-    redirect(`/claim/${data.listingSlug}?success=email-sent`);
+    // Insert the claim
+    const { data, error } = await supabase
+      .from("claims")
+      .insert({
+        listing_id: formData.listingId,
+        vendor_id: session.user.id,
+        message: formData.message,
+        approved: false,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Error submitting claim:", error);
+      return {
+        success: false,
+        message: "Failed to submit claim. Please try again.",
+      };
+    }
+
+    console.log("✅ Claim submitted successfully:", data.id);
+
+    return {
+      success: true,
+      message:
+        "Your claim has been submitted for review. We'll notify you when it's approved.",
+      claimId: data.id,
+    };
   } catch (error) {
-    console.error("Claim listing error:", error);
-    redirect(`/claim/${formData.get("listingSlug")}?error=processing-failed`);
+    console.error("❌ Error submitting claim:", error);
+
+    return {
+      success: false,
+      message: "An unexpected error occurred. Please try again.",
+      error: error instanceof Error ? error.message : "Unknown error",
+    };
   }
 }

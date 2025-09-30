@@ -100,7 +100,9 @@ export default async function ItemDetailPage({
           </h1>
 
           {listing.description && (
-            <p className="text-lg text-foreground mb-4">{listing.description}</p>
+            <p className="text-lg text-foreground mb-4">
+              {listing.description}
+            </p>
           )}
 
           <div className="flex flex-wrap gap-2 mb-4">
@@ -175,7 +177,6 @@ export default async function ItemDetailPage({
                 <span>{listing.tags.join(", ")}</span>
               </div>
             )}
-
           </div>
         </div>
       </div>

@@ -1,26 +1,35 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  CrownIcon, 
-  StarIcon, 
-  TrendingUpIcon, 
-  CheckCircleIcon,
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import type { ItemInfo } from "@/types";
+import {
   ArrowRightIcon,
+  BarChartIcon,
+  CheckCircleIcon,
+  CrownIcon,
   EditIcon,
-  BarChartIcon
+  StarIcon,
+  TrendingUpIcon,
 } from "lucide-react";
 import Link from "next/link";
-import type { ItemInfo } from "@/types";
 
 interface ClaimedListingActionsProps {
   listing: ItemInfo;
   isOwner?: boolean;
 }
 
-export function ClaimedListingActions({ listing, isOwner = false }: ClaimedListingActionsProps) {
+export function ClaimedListingActions({
+  listing,
+  isOwner = false,
+}: ClaimedListingActionsProps) {
   if (!isOwner) {
     return null;
   }
@@ -46,7 +55,10 @@ export function ClaimedListingActions({ listing, isOwner = false }: ClaimedListi
         <CardContent className="space-y-4">
           <div className="flex flex-wrap gap-2">
             <Button variant="outline" size="sm" asChild>
-              <Link href={`/edit/${listing._id}`} className="flex items-center gap-2">
+              <Link
+                href={`/edit/${listing._id}`}
+                className="flex items-center gap-2"
+              >
                 <EditIcon className="w-4 h-4" />
                 Edit Listing
               </Link>
@@ -72,8 +84,10 @@ export function ClaimedListingActions({ listing, isOwner = false }: ClaimedListi
         <CardContent>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Badge 
-                variant={isFree ? "secondary" : isPro ? "default" : "destructive"}
+              <Badge
+                variant={
+                  isFree ? "secondary" : isPro ? "default" : "destructive"
+                }
                 className="text-sm"
               >
                 {currentPlan.charAt(0).toUpperCase() + currentPlan.slice(1)}
@@ -83,7 +97,11 @@ export function ClaimedListingActions({ listing, isOwner = false }: ClaimedListi
               </span>
             </div>
             {isFree && (
-              <Button size="sm" asChild className="bg-brand-orange hover:bg-brand-orange-dark">
+              <Button
+                size="sm"
+                asChild
+                className="bg-brand-orange hover:bg-brand-orange-dark"
+              >
                 <Link href="/pricing" className="flex items-center gap-2">
                   Upgrade
                   <ArrowRightIcon className="w-4 h-4" />
@@ -131,7 +149,10 @@ export function ClaimedListingActions({ listing, isOwner = false }: ClaimedListi
                     <span>Priority support</span>
                   </div>
                 </div>
-                <Button size="sm" className="w-full mt-3 bg-brand-blue hover:bg-brand-blue-dark">
+                <Button
+                  size="sm"
+                  className="w-full mt-3 bg-brand-blue hover:bg-brand-blue-dark"
+                >
                   Upgrade to Pro - $45/month
                 </Button>
               </div>
@@ -140,7 +161,9 @@ export function ClaimedListingActions({ listing, isOwner = false }: ClaimedListi
               <div className="p-4 border border-brand-orange/20 rounded-lg bg-brand-orange/5">
                 <div className="flex items-center gap-2 mb-2">
                   <CrownIcon className="w-4 h-4 text-brand-orange" />
-                  <h4 className="font-semibold text-brand-orange">Premium Plan</h4>
+                  <h4 className="font-semibold text-brand-orange">
+                    Premium Plan
+                  </h4>
                 </div>
                 <p className="text-sm text-muted-foreground mb-3">
                   All Pro features plus 101 Badge and premium support
@@ -159,7 +182,10 @@ export function ClaimedListingActions({ listing, isOwner = false }: ClaimedListi
                     <span>Dedicated support</span>
                   </div>
                 </div>
-                <Button size="sm" className="w-full mt-3 bg-brand-orange hover:bg-brand-orange-dark">
+                <Button
+                  size="sm"
+                  className="w-full mt-3 bg-brand-orange hover:bg-brand-orange-dark"
+                >
                   Upgrade to Premium - $90/month
                 </Button>
               </div>

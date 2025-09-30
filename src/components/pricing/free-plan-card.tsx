@@ -63,10 +63,11 @@ export function FreePlanCard() {
 
         {/* Action button */}
         <div className="mt-8">
-          <Button asChild className="w-full bg-brand-orange hover:bg-brand-orange-dark">
-            <Link href="/submit">
-              Get Started Free
-            </Link>
+          <Button
+            asChild
+            className="w-full bg-brand-orange hover:bg-brand-orange-dark"
+          >
+            <Link href="/submit">Get Started Free</Link>
           </Button>
         </div>
       </div>

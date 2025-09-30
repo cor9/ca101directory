@@ -4,9 +4,9 @@ import type { Icons } from "@/components/icons/icons";
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'stripe-pricing-table': {
-        'pricing-table-id': string;
-        'publishable-key': string;
+      "stripe-pricing-table": {
+        "pricing-table-id": string;
+        "publishable-key": string;
       };
     }
   }

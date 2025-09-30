@@ -149,7 +149,9 @@ export default async function HomeCategoryGrid() {
                     )}
                   </div>
                 </div>
-                <p className="text-muted-foreground text-sm">{category.description}</p>
+                <p className="text-muted-foreground text-sm">
+                  {category.description}
+                </p>
               </div>
             </Link>
           );
@@ -158,7 +160,7 @@ export default async function HomeCategoryGrid() {
 
       <div className="text-center mt-12">
         <Link
-          href="/search"
+          href="/category"
           className="inline-flex items-center px-6 py-3 bg-brand-blue text-white rounded-lg hover:bg-brand-blue-dark transition-colors font-semibold"
         >
           View All Categories

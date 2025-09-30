@@ -19,7 +19,7 @@ export function ClaimButton({
   ownerId,
   className,
 }: ClaimButtonProps) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   // Don't show button if listing is already claimed
   if (claimed) {
@@ -37,6 +37,8 @@ export function ClaimButton({
     .replace(/\s+/g, "-")
     .replace(/[^a-z0-9-]/g, "");
 
+  // Show button regardless of session status for now
+  // The claim-upgrade page will handle authentication
   return (
     <Button asChild variant="outline" className={className}>
       <Link href={`/claim-upgrade/${slug}`}>

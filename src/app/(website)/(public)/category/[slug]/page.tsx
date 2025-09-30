@@ -3,7 +3,7 @@ import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
 import { getItems } from "@/data/airtable-item";
-import { getCategories } from "@/lib/airtable";
+import { getListings } from "@/lib/airtable";
 import {
   DEFAULT_SORT,
   ITEMS_PER_PAGE,
@@ -19,11 +19,19 @@ import { notFound } from "next/navigation";
  */
 export async function generateStaticParams() {
   try {
-    const categories = await getCategories();
+    const listings = await getListings();
+    
+    // Extract unique categories from listings
+    const categorySet = new Set<string>();
+    listings.forEach(listing => {
+      listing.categories?.forEach(category => {
+        categorySet.add(category);
+      });
+    });
     
     // Convert category names to slugs
-    return categories.map((category) => ({
-      slug: category.categoryName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+    return Array.from(categorySet).map((categoryName) => ({
+      slug: categoryName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
     }));
   } catch (error) {
     console.error("generateStaticParams error:", error);
@@ -38,12 +46,21 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata | undefined> {
   try {
-    const categories = await getCategories();
-    const category = categories.find(cat => 
-      cat.categoryName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
+    const listings = await getListings();
+    
+    // Extract unique categories from listings
+    const categorySet = new Set<string>();
+    listings.forEach(listing => {
+      listing.categories?.forEach(category => {
+        categorySet.add(category);
+      });
+    });
+    
+    const categoryName = Array.from(categorySet).find(cat => 
+      cat.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
     );
     
-    if (!category) {
+    if (!categoryName) {
       return constructMetadata({
         title: "Category Not Found - Child Actor 101 Directory",
         description: "The requested category could not be found",
@@ -52,8 +69,8 @@ export async function generateMetadata({
     }
     
     return constructMetadata({
-      title: `${category.categoryName} - Child Actor 101 Directory`,
-      description: `Find ${category.categoryName.toLowerCase()} professionals for your child's acting career`,
+      title: `${categoryName} - Child Actor 101 Directory`,
+      description: `Find ${categoryName.toLowerCase()} professionals for your child's acting career`,
       canonicalUrl: `${siteConfig.url}/category/${params.slug}`,
     });
   } catch (error) {
@@ -74,13 +91,22 @@ export default async function CategoryPage({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   try {
-    // Get categories to validate the slug
-    const categories = await getCategories();
-    const category = categories.find(cat => 
-      cat.categoryName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
+    // Get listings to validate the slug and find category name
+    const listings = await getListings();
+    
+    // Extract unique categories from listings
+    const categorySet = new Set<string>();
+    listings.forEach(listing => {
+      listing.categories?.forEach(category => {
+        categorySet.add(category);
+      });
+    });
+    
+    const categoryName = Array.from(categorySet).find(cat => 
+      cat.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
     );
     
-    if (!category) {
+    if (!categoryName) {
       return notFound();
     }
 
@@ -109,10 +135,10 @@ export default async function CategoryPage({
         {/* Category header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            {category.categoryName}
+            {categoryName}
           </h1>
           <p className="text-lg text-gray-600">
-            Find {category.categoryName.toLowerCase()} professionals for your child's acting career
+            Find {categoryName.toLowerCase()} professionals for your child's acting career
           </p>
         </div>
 

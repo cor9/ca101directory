@@ -1,15 +1,30 @@
+import { auth } from "@/auth";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { CheckCircle, User, Mail, Calendar, Plus, Eye, Settings } from "lucide-react";
+import {
+  Calendar,
+  CheckCircle,
+  Eye,
+  Mail,
+  Plus,
+  Settings,
+  User,
+} from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
   title: "Dashboard - Child Actor 101 Directory",
-  description: "Your dashboard for managing your Child Actor 101 Directory account",
+  description:
+    "Your dashboard for managing your Child Actor 101 Directory account",
   canonicalUrl: `${siteConfig.url}/dashboard`,
 });
 
@@ -49,15 +64,21 @@ export default async function DashboardPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Email</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Email
+                </p>
                 <p className="text-sm">{session.user.email}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Name</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Name
+                </p>
                 <p className="text-sm">{session.user.name || "Not provided"}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Account Status</p>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Account Status
+                </p>
                 <div className="flex items-center gap-1">
                   <CheckCircle className="h-4 w-4 text-green-500" />
                   <span className="text-sm text-green-600">Active</span>
@@ -73,9 +94,7 @@ export default async function DashboardPage() {
                 <Calendar className="h-5 w-5" />
                 Quick Actions
               </CardTitle>
-              <CardDescription>
-                Common tasks and actions
-              </CardDescription>
+              <CardDescription>Common tasks and actions</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               <Link href="/submit">
@@ -112,7 +131,9 @@ export default async function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="text-center py-4">
-                <p className="text-sm text-muted-foreground">No recent activity</p>
+                <p className="text-sm text-muted-foreground">
+                  No recent activity
+                </p>
                 <p className="text-xs text-muted-foreground mt-1">
                   Submit your first listing to get started
                 </p>
@@ -132,7 +153,8 @@ export default async function DashboardPage() {
           <CardContent>
             <div className="space-y-4">
               <p className="text-muted-foreground">
-                Thank you for joining the Child Actor 101 Directory! This is your personal dashboard where you can:
+                Thank you for joining the Child Actor 101 Directory! This is
+                your personal dashboard where you can:
               </p>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                 <li>Submit new professional listings</li>

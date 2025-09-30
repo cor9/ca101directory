@@ -457,20 +457,41 @@ export function AirtableSubmitForm({
                       <FormItem>
                         <FormLabel>Region</FormLabel>
                         <FormControl>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
                             <SelectTrigger>
                               <SelectValue placeholder="Select your region" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="Los Angeles">Los Angeles</SelectItem>
-                              <SelectItem value="San Francisco Bay Area">San Francisco Bay Area</SelectItem>
-                              <SelectItem value="San Diego">San Diego</SelectItem>
-                              <SelectItem value="Sacramento">Sacramento</SelectItem>
-                              <SelectItem value="Central Valley">Central Valley</SelectItem>
-                              <SelectItem value="Orange County">Orange County</SelectItem>
-                              <SelectItem value="Ventura County">Ventura County</SelectItem>
-                              <SelectItem value="Riverside County">Riverside County</SelectItem>
-                              <SelectItem value="San Bernardino County">San Bernardino County</SelectItem>
+                              <SelectItem value="Los Angeles">
+                                Los Angeles
+                              </SelectItem>
+                              <SelectItem value="San Francisco Bay Area">
+                                San Francisco Bay Area
+                              </SelectItem>
+                              <SelectItem value="San Diego">
+                                San Diego
+                              </SelectItem>
+                              <SelectItem value="Sacramento">
+                                Sacramento
+                              </SelectItem>
+                              <SelectItem value="Central Valley">
+                                Central Valley
+                              </SelectItem>
+                              <SelectItem value="Orange County">
+                                Orange County
+                              </SelectItem>
+                              <SelectItem value="Ventura County">
+                                Ventura County
+                              </SelectItem>
+                              <SelectItem value="Riverside County">
+                                Riverside County
+                              </SelectItem>
+                              <SelectItem value="San Bernardino County">
+                                San Bernardino County
+                              </SelectItem>
                               <SelectItem value="Other">Other</SelectItem>
                             </SelectContent>
                           </Select>

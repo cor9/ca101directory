@@ -1,12 +1,26 @@
+import { auth } from "@/auth";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Plus, Eye, Edit, Calendar, MapPin, Globe } from "lucide-react";
+import {
+  ArrowLeft,
+  Calendar,
+  Edit,
+  Eye,
+  Globe,
+  MapPin,
+  Plus,
+} from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
   title: "My Submissions - Child Actor 101 Directory",
@@ -38,7 +52,7 @@ export default async function UserSubmissionsPage() {
       website: "https://example.com",
     },
     {
-      id: "2", 
+      id: "2",
       name: "Voice Coach Services",
       description: "Voice training for young performers",
       status: "Pending",
@@ -117,7 +131,8 @@ export default async function UserSubmissionsPage() {
               </div>
               <h3 className="text-lg font-semibold mb-2">No submissions yet</h3>
               <p className="text-muted-foreground mb-4">
-                You haven't submitted any listings yet. Get started by submitting your first listing.
+                You haven't submitted any listings yet. Get started by
+                submitting your first listing.
               </p>
               <Link href="/submit">
                 <Button>
@@ -134,7 +149,9 @@ export default async function UserSubmissionsPage() {
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
-                      <CardTitle className="text-xl">{submission.name}</CardTitle>
+                      <CardTitle className="text-xl">
+                        {submission.name}
+                      </CardTitle>
                       <CardDescription className="mt-1">
                         {submission.description}
                       </CardDescription>
@@ -154,7 +171,8 @@ export default async function UserSubmissionsPage() {
                     <div className="space-y-2">
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Calendar className="h-4 w-4" />
-                        Submitted: {new Date(submission.submittedAt).toLocaleDateString()}
+                        Submitted:{" "}
+                        {new Date(submission.submittedAt).toLocaleDateString()}
                       </div>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <MapPin className="h-4 w-4" />
@@ -162,9 +180,9 @@ export default async function UserSubmissionsPage() {
                       </div>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Globe className="h-4 w-4" />
-                        <a 
-                          href={submission.website} 
-                          target="_blank" 
+                        <a
+                          href={submission.website}
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="text-brand-blue hover:underline"
                         >
@@ -196,3 +214,6 @@ export default async function UserSubmissionsPage() {
     </div>
   );
 }
+
+
+

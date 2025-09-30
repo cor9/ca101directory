@@ -1,3 +1,4 @@
+import { ClaimButton } from "@/components/claim/claim-button";
 import { ClaimedListingActions } from "@/components/listing/claimed-listing-actions";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
@@ -343,18 +344,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
                           Claim your listing to gain full control, edit details,
                           and upgrade to premium plans.
                         </p>
-                        <Button
-                          asChild
+                        <ClaimButton
+                          listingId={listing.id}
+                          listingName={listing.businessName}
+                          claimed={listing.claimed || false}
+                          ownerId={listing.owner_id}
                           className="bg-brand-orange hover:bg-brand-orange-dark"
-                        >
-                          <Link
-                            href={`/claim/${params.slug}`}
-                            className="flex items-center gap-2"
-                          >
-                            <ShieldIcon className="w-4 h-4" />
-                            Claim This Listing
-                          </Link>
-                        </Button>
+                        />
                       </div>
                     </div>
                   </div>
@@ -377,26 +373,34 @@ export default async function ListingPage({ params }: ListingPageProps) {
                         <div className="space-y-2 text-sm">
                           <div className="flex items-center gap-2">
                             <span className="font-medium">Claimed by:</span>
-                            <span className="text-muted-foreground">{listing.claimedByEmail}</span>
+                            <span className="text-muted-foreground">
+                              {listing.claimedByEmail}
+                            </span>
                           </div>
                           {listing.claimDate && (
                             <div className="flex items-center gap-2">
                               <span className="font-medium">Claimed on:</span>
                               <span className="text-muted-foreground">
-                                {new Date(listing.claimDate).toLocaleDateString()}
+                                {new Date(
+                                  listing.claimDate,
+                                ).toLocaleDateString()}
                               </span>
                             </div>
                           )}
                           <div className="flex items-center gap-2">
-                            <span className="font-medium">Verification Status:</span>
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              listing.verificationStatus === 'Verified' 
-                                ? 'bg-green-100 text-green-800' 
-                                : listing.verificationStatus === 'Denied'
-                                ? 'bg-red-100 text-red-800'
-                                : 'bg-yellow-100 text-yellow-800'
-                            }`}>
-                              {listing.verificationStatus || 'Pending'}
+                            <span className="font-medium">
+                              Verification Status:
+                            </span>
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                listing.verificationStatus === "Verified"
+                                  ? "bg-green-100 text-green-800"
+                                  : listing.verificationStatus === "Denied"
+                                    ? "bg-red-100 text-red-800"
+                                    : "bg-yellow-100 text-yellow-800"
+                              }`}
+                            >
+                              {listing.verificationStatus || "Pending"}
                             </span>
                           </div>
                           {listing.badge101 && (

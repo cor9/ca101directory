@@ -1,3 +1,4 @@
+import { Icons } from "@/components/icons/icons";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -6,10 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Icons } from "@/components/icons/icons";
 import { siteConfig } from "@/config/site";
-import { constructMetadata } from "@/lib/metadata";
 import { getCategories, getListings } from "@/lib/airtable";
+import { constructMetadata } from "@/lib/metadata";
 import Link from "next/link";
 
 export const metadata = constructMetadata({
@@ -114,7 +114,8 @@ export default async function CategoryPage() {
                     {category.name}
                   </CardTitle>
                   <Badge variant="secondary" className="w-fit mx-auto">
-                    {category.count} professional{category.count !== 1 ? 's' : ''}
+                    {category.count} professional
+                    {category.count !== 1 ? "s" : ""}
                   </Badge>
                 </CardHeader>
                 <CardContent>

@@ -22,5 +22,10 @@ export const marketingConfig: MarketingConfig = {
       href: "/submit",
       icon: "submit",
     },
+    {
+      title: "Suggest Vendor",
+      href: "/suggest-vendor",
+      icon: "plus",
+    },
   ],
 };

@@ -20,6 +20,7 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams?.get("q") || "");
   const [debouncedQuery] = useDebounce(searchQuery, 300); // 300ms debounce
+  const [isSearching, setIsSearching] = useState(false);
   const lastExecutedQuery = useRef(searchParams?.get("q") || "");
   const previousQueryRef = useRef("");
   const isUserTypingRef = useRef(false);
@@ -35,6 +36,7 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (debouncedQuery !== lastExecutedQuery.current) {
+      setIsSearching(true);
       const newParams = new URLSearchParams(searchParams?.toString());
       if (debouncedQuery) {
         newParams.set("q", debouncedQuery);
@@ -46,6 +48,23 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
       console.log(`useEffect, newUrl: ${newUrl}`);
       lastExecutedQuery.current = debouncedQuery;
       router.push(newUrl, { scroll: false });
+      
+      // Smooth scroll to results after a short delay to allow the page to update
+      if (debouncedQuery) {
+        setTimeout(() => {
+          const resultsElement = document.getElementById('search-results');
+          if (resultsElement) {
+            resultsElement.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start',
+              inline: 'nearest'
+            });
+          }
+          setIsSearching(false);
+        }, 100);
+      } else {
+        setIsSearching(false);
+      }
     }
   }, [debouncedQuery, router, searchParams, urlPrefix]);
 
@@ -72,9 +91,13 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
           "focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary focus:border-2 focus:border-r-0",
         )}
       />
-      <Button type="submit" className="rounded-l-none size-12">
-        <SearchIcon className="size-6" aria-hidden="true" />
-        <span className="sr-only">Search</span>
+      <Button 
+        type="submit" 
+        className="rounded-l-none size-12"
+        disabled={isSearching}
+      >
+        <SearchIcon className={cn("size-6", isSearching && "animate-pulse")} aria-hidden="true" />
+        <span className="sr-only">{isSearching ? "Searching..." : "Search"}</span>
       </Button>
     </div>
   );

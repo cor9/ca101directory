@@ -72,10 +72,8 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
           {/* navbar left show logo and links */}
           <div className="flex items-center gap-6 md:gap-10">
             {/* logo */}
-            <Link href="/" className="flex items-center space-x-2">
-              <Logo />
-
-              <span className="text-xl font-bold">{siteConfig.name}</span>
+            <Link href="/" className="flex items-center">
+              <Logo size="lg" variant="hero" />
             </Link>
 
             {/* links */}
@@ -150,12 +148,10 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                   {/* logo */}
                   <Link
                     href="/"
-                    className="flex items-center space-x-2 pl-4 pt-4"
+                    className="pl-4 pt-4"
                     onClick={() => setOpen(false)}
                   >
-                    <Logo />
-
-                    <span className="text-xl font-bold">{siteConfig.name}</span>
+                    <Logo size="lg" variant="hero" />
                   </Link>
 
                   <nav className="flex flex-1 flex-col gap-2 p-2 pt-8 font-medium">
@@ -191,12 +187,9 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
             {/* logo */}
             <Link
               href="/"
-              className="flex items-center space-x-2"
               onClick={() => setOpen(false)}
             >
-              <Logo className="size-8" />
-
-              <span className="text-xl font-bold">{siteConfig.name}</span>
+              <Logo size="md" variant="hero" />
             </Link>
           </div>
 

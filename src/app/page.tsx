@@ -46,7 +46,7 @@ export default async function HomePage({
     q: query,
     f: filter,
   } = searchParams as { [key: string]: string };
-  
+
   console.log("HomePage, searchParams", searchParams, "region:", region);
   const { sortKey, reverse } =
     SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;

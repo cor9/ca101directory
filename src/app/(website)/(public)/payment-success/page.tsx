@@ -1,5 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { CheckCircleIcon, HomeIcon, SearchIcon, MailIcon, ClockIcon } from "lucide-react";
+import {
+  CheckCircleIcon,
+  ClockIcon,
+  HomeIcon,
+  MailIcon,
+  SearchIcon,
+} from "lucide-react";
 import Link from "next/link";
 
 export default function PaymentSuccessPage() {
@@ -8,18 +14,21 @@ export default function PaymentSuccessPage() {
       <div className="flex items-center justify-center w-16 h-16 bg-green-100 rounded-full">
         <CheckCircleIcon className="w-8 h-8 text-green-600" />
       </div>
-      
+
       <div className="space-y-4">
         <h1 className="text-3xl font-bold text-foreground">
           ✅ Payment Received — Your Listing Is In Review
         </h1>
-        
+
         <div className="text-lg text-muted-foreground max-w-2xl space-y-4">
           <p>
-            Thank you for your payment! Your listing has been submitted and is now in the review queue.
+            Thank you for your payment! Your listing has been submitted and is
+            now in the review queue.
           </p>
           <p>
-            Our team typically approves listings within 72 hours. Once approved, you'll receive an email confirmation and your listing will be visible in the 101 Directory.
+            Our team typically approves listings within 72 hours. Once approved,
+            you'll receive an email confirmation and your listing will be
+            visible in the 101 Directory.
           </p>
         </div>
       </div>
@@ -36,7 +45,10 @@ export default function PaymentSuccessPage() {
           </li>
           <li className="flex items-start gap-2">
             <CheckCircleIcon className="w-4 h-4 mt-0.5 text-brand-blue" />
-            <span>While you wait, prepare your logo, gallery photos, and any copy edits you might want to add.</span>
+            <span>
+              While you wait, prepare your logo, gallery photos, and any copy
+              edits you might want to add.
+            </span>
           </li>
         </ul>
       </div>

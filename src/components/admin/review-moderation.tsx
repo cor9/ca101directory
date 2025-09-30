@@ -19,10 +19,10 @@ interface PendingReview {
   parent_id: string;
   profiles?: {
     full_name?: string;
-  };
+  } | null;
   listings?: {
     businessName?: string;
-  };
+  } | null;
 }
 
 export function ReviewModeration() {
@@ -58,7 +58,11 @@ export function ReviewModeration() {
           return;
         }
 
-        setReviews(data || []);
+        setReviews((data || []).map(review => ({
+          ...review,
+          profiles: Array.isArray(review.profiles) ? review.profiles[0] : review.profiles,
+          listings: Array.isArray(review.listings) ? review.listings[0] : review.listings,
+        })));
       } catch (error) {
         console.error("Error fetching pending reviews:", error);
       } finally {

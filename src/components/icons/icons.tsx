@@ -1,6 +1,7 @@
 import {
   ArrowRightIcon,
   CameraIcon,
+  CheckIcon,
   CreditCardIcon,
   ExternalLinkIcon,
   FileTextIcon,
@@ -13,15 +14,18 @@ import {
   type LucideIcon,
   MailIcon,
   MicIcon,
+  PlusIcon,
   SearchIcon,
   SettingsIcon,
   ShieldCheckIcon,
   SparklesIcon,
   StarIcon,
   TagsIcon,
+  TrashIcon,
   UploadIcon,
   UsersIcon,
   VideoIcon,
+  XIcon,
 } from "lucide-react";
 import { FaBrandsGitHub } from "../icons/github";
 import { FaBrandsGoogle } from "../icons/google";
@@ -73,4 +77,10 @@ export const Icons = {
   twitter: FaBrandsXTwitter,
   youtube: IonLogoYoutube,
   productHunt: LogosProductHunt,
+  
+  // Admin icons
+  check: CheckIcon,
+  x: XIcon,
+  trash: TrashIcon,
+  plus: PlusIcon,
 };

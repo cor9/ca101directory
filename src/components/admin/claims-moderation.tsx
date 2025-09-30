@@ -18,10 +18,10 @@ interface PendingClaim {
   profiles?: {
     full_name?: string;
     email?: string;
-  };
+  } | null;
   listings?: {
     businessName?: string;
-  };
+  } | null;
 }
 
 export function ClaimsModeration() {
@@ -57,7 +57,11 @@ export function ClaimsModeration() {
           return;
         }
 
-        setClaims(data || []);
+        setClaims((data || []).map(claim => ({
+          ...claim,
+          profiles: Array.isArray(claim.profiles) ? claim.profiles[0] : claim.profiles,
+          listings: Array.isArray(claim.listings) ? claim.listings[0] : claim.listings,
+        })));
       } catch (error) {
         console.error("Error fetching pending claims:", error);
       } finally {

@@ -15,7 +15,7 @@ interface Review {
   parent_id: string;
   profiles?: {
     full_name?: string;
-  };
+  } | null;
 }
 
 interface ReviewsDisplayProps {
@@ -55,7 +55,10 @@ export function ReviewsDisplay({ vendorId, className }: ReviewsDisplayProps) {
           return;
         }
 
-        setReviews(data || []);
+        setReviews((data || []).map(review => ({
+          ...review,
+          profiles: Array.isArray(review.profiles) ? review.profiles[0] : review.profiles,
+        })));
 
         // Calculate average rating
         if (data && data.length > 0) {

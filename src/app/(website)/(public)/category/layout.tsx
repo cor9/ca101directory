@@ -15,14 +15,15 @@ export default function CategoryLayout({
             titleAs="h2"
             title="Explore by categories"
           />
-
-          <div className="w-full">
-            <CategoryFilter />
-          </div>
         </div>
       </div>
 
-      <Container className="mt-4">{children}</Container>
+      <Container className="mt-4">
+        <div className="flex gap-8">
+          <CategoryFilter />
+          <div className="flex-1 min-w-0">{children}</div>
+        </div>
+      </Container>
     </div>
   );
 }

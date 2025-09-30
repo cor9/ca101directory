@@ -27,7 +27,7 @@ export function ClaimButton({
   }
 
   // Don't show button if user already owns this listing
-  if (ownerId === session?.user?.id) {
+  if (ownerId && ownerId === session?.user?.id) {
     return null;
   }
 

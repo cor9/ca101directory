@@ -100,7 +100,7 @@ export default async function ItemDetailPage({
     // Debug claim fields
     console.log("Item page claim debug:", {
       businessName: listing.businessName,
-      claimed: listing.claimed,
+      claimed: listing["Claimed?"] === "checked",
       _debugClaimed: listing._debugClaimed,
       _debugClaimedByEmail: listing._debugClaimedByEmail,
       _debugOwnerId: listing._debugOwnerId,
@@ -214,7 +214,7 @@ export default async function ItemDetailPage({
         )}
 
         {/* Claim Listing Section */}
-        {listing.claimed !== true && (
+        {listing["Claimed?"] !== "checked" && (
           <div className="mt-8 bg-gradient-to-r from-brand-orange/5 to-brand-blue/5 rounded-lg p-6 border border-brand-orange/20">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0">
@@ -231,7 +231,7 @@ export default async function ItemDetailPage({
                 <ClaimButton
                   listingId={listing.id}
                   listingName={listing.businessName}
-                  claimed={listing.claimed || false}
+                  claimed={listing["Claimed?"] === "checked"}
                   ownerId={listing.owner_id}
                   className="bg-brand-orange hover:bg-brand-orange-dark"
                 />

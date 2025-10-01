@@ -73,7 +73,7 @@ export default async function ClaimSuccessPage({
     console.error("Error fetching claim data:", error);
   }
 
-  const listingName = claimData?.listings?.listing_name || "Your Listing";
+  const listingName = claimData?.listings?.["Listing Name"] || "Your Listing";
   const planName = profileData?.subscription_plan
     ? profileData.subscription_plan.charAt(0).toUpperCase() +
       profileData.subscription_plan.slice(1)

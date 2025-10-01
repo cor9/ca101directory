@@ -87,11 +87,12 @@ export default async function HomeCategoryGrid() {
     // Count listings per category
     const categoryCounts: Record<string, number> = {};
     for (const listing of listings) {
-      if (listing.categories) {
-        const categoryList = listing.categories.split(',');
+      if (listing.Categories) {
+        const categoryList = listing.Categories.split(",");
         for (const category of categoryList) {
           const trimmedCategory = category.trim();
-          categoryCounts[trimmedCategory] = (categoryCounts[trimmedCategory] || 0) + 1;
+          categoryCounts[trimmedCategory] =
+            (categoryCounts[trimmedCategory] || 0) + 1;
         }
       }
     }

@@ -30,6 +30,10 @@ export interface UserWithRole {
  * Get user role with fallback to 'guest'
  */
 export function getRole(user: UserWithRole | null | undefined): UserRole {
+  // If user exists but no role is set, default to 'vendor' for legacy users
+  if (user && !user.role) {
+    return "vendor";
+  }
   return user?.role ?? "guest";
 }
 

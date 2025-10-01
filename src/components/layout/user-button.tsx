@@ -50,11 +50,11 @@ export function UserButton() {
     return (
       <Drawer open={open} onClose={closeDrawer}>
         <DrawerTrigger onClick={() => setOpen(true)}>
-          <UserAvatar
-            name={user.name || null}
-            image={user.image || null}
-            className="size-8 border"
-          />
+        <UserAvatar
+          name={user.name || user.email || "User"}
+          image={user.image || null}
+          className="size-8 border"
+        />
         </DrawerTrigger>
         <DrawerPortal>
           <DrawerOverlay className="fixed inset-0 z-40 bg-background/50" />
@@ -64,15 +64,15 @@ export function UserButton() {
             </DrawerHeader>
             <div className="flex items-center justify-start gap-4 p-2">
               <UserAvatar
-                name={user?.name || undefined}
+                name={user.name || user.email || "User"}
                 image={user?.image || undefined}
                 className="size-8 border"
               />
               <div className="flex flex-col">
-                {user?.name && <p className="font-medium">{user.name}</p>}
+                <p className="font-medium">{user.name || user.email || "User"}</p>
                 {user?.email && (
                   <p className="w-[200px] truncate text-muted-foreground">
-                    {user?.email}
+                    {user.email}
                   </p>
                 )}
               </div>
@@ -129,7 +129,7 @@ export function UserButton() {
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger>
         <UserAvatar
-          name={user.name || null}
+          name={user.name || user.email || "User"}
           image={user.image || null}
           className="size-8 border"
         />
@@ -137,10 +137,10 @@ export function UserButton() {
       <DropdownMenuContent align="end">
         <div className="flex items-center justify-start gap-2 p-2">
           <div className="flex flex-col space-y-1 leading-none">
-            {user.name && <p className="font-medium">{user.name}</p>}
+            <p className="font-medium">{user.name || user.email || "User"}</p>
             {user.email && (
               <p className="w-[200px] truncate text-sm text-muted-foreground">
-                {user?.email}
+                {user.email}
               </p>
             )}
           </div>

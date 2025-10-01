@@ -31,7 +31,7 @@ export async function verifyClaim(token: string) {
     }
 
     // Check if listing is already claimed
-    if (listing.claimed === true) {
+    if (listing["Claimed?"] === "checked") {
       return {
         status: "error",
         message: "This listing has already been claimed",
@@ -66,7 +66,7 @@ export async function verifyClaim(token: string) {
     return {
       status: "success",
       message: "Listing successfully claimed and verified!",
-      listingName: listing.listing_name,
+      listingName: listing["Listing Name"],
       listingSlug: listingSlug,
     };
   } catch (error) {

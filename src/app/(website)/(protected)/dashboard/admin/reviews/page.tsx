@@ -72,7 +72,7 @@ export default async function AdminReviewsPage() {
                   <div className="flex items-start justify-between">
                     <div className="space-y-1">
                       <CardTitle className="text-lg">
-                        {review.listing?.listing_name || "Unknown Listing"}
+                        {review.listing?.["Listing Name"] || "Unknown Listing"}
                       </CardTitle>
                       <div className="flex items-center gap-2">
                         <div className="flex items-center space-x-1">

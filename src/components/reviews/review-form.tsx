@@ -42,17 +42,12 @@ export function ReviewForm({
   const { data: session, status } = useSession();
   const [isPending, startTransition] = useTransition();
 
-  // Debug session state
-  console.log("ReviewForm session state:", { session, status, vendorName });
-
   // Don't show form if user is not logged in
   if (status === "loading") {
     return (
       <Card className={className}>
         <CardContent className="p-6">
-          <div className="text-center text-muted-foreground">
-            Loading...
-          </div>
+          <div className="text-center text-muted-foreground">Loading...</div>
         </CardContent>
       </Card>
     );
@@ -74,14 +69,10 @@ export function ReviewForm({
             </p>
             <div className="flex gap-2 justify-center">
               <Button asChild variant="outline">
-                <Link href="/auth/login">
-                  Sign In
-                </Link>
+                <Link href="/auth/login">Sign In</Link>
               </Button>
               <Button asChild>
-                <Link href="/auth/register">
-                  Sign Up as Parent
-                </Link>
+                <Link href="/auth/register">Sign Up as Parent</Link>
               </Button>
             </div>
           </div>
@@ -106,7 +97,8 @@ export function ReviewForm({
               Only parents can submit reviews for vendors.
             </p>
             <p className="text-sm text-muted-foreground">
-              If you're a parent, please make sure you're logged in with the correct account.
+              If you're a parent, please make sure you're logged in with the
+              correct account.
             </p>
           </div>
         </CardContent>

@@ -56,16 +56,21 @@ export default {
               console.error("Profile fetch error:", profileError);
               console.error("Profile data:", profile);
               console.error("User ID:", authData.user.id);
-              
+
               // TEMPORARY WORKAROUND: Create profile if it doesn't exist
-              console.log("Creating missing profile for user:", authData.user.id);
+              console.log(
+                "Creating missing profile for user:",
+                authData.user.id,
+              );
               const { data: newProfile, error: createError } = await supabase
                 .from("profiles")
                 .insert({
                   id: authData.user.id,
                   email: authData.user.email,
-                  full_name: authData.user.user_metadata?.full_name || authData.user.email,
-                  role: authData.user.user_metadata?.role || 'parent',
+                  full_name:
+                    authData.user.user_metadata?.full_name ||
+                    authData.user.email,
+                  role: authData.user.user_metadata?.role || "parent",
                   created_at: new Date().toISOString(),
                   updated_at: new Date().toISOString(),
                 })
@@ -76,7 +81,7 @@ export default {
                 console.error("Failed to create profile:", createError);
                 return null;
               }
-              
+
               console.log("Created new profile:", newProfile);
               profile = newProfile;
             }

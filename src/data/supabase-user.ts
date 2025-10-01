@@ -3,8 +3,8 @@ import { supabase } from '@/lib/supabase'
 export interface User {
   id: string
   email: string
-  name: string
-  role: 'USER' | 'ADMIN'
+  full_name: string
+  role: 'parent' | 'vendor' | 'admin'
   created_at: string
   updated_at: string
 }
@@ -12,7 +12,7 @@ export interface User {
 export const getUserByEmail = async (email: string): Promise<User | null> => {
   try {
     const { data, error } = await supabase
-      .from('users')
+      .from('profiles')
       .select('*')
       .eq('email', email)
       .single()
@@ -32,7 +32,7 @@ export const getUserByEmail = async (email: string): Promise<User | null> => {
 export const getUserById = async (userId: string): Promise<User | null> => {
   try {
     const { data, error } = await supabase
-      .from('users')
+      .from('profiles')
       .select('*')
       .eq('id', userId)
       .single()
@@ -53,16 +53,16 @@ export const createUser = async (userData: {
   id: string
   email: string
   name: string
-  role?: 'USER' | 'ADMIN'
+  role?: 'parent' | 'vendor' | 'admin'
 }): Promise<User | null> => {
   try {
     const { data, error } = await supabase
-      .from('users')
+      .from('profiles')
       .insert([{
         id: userData.id,
         email: userData.email,
-        name: userData.name,
-        role: userData.role || 'USER',
+        full_name: userData.name,
+        role: userData.role || 'parent',
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       }])
@@ -84,7 +84,7 @@ export const createUser = async (userData: {
 export const updateUser = async (userId: string, updates: Partial<User>): Promise<User | null> => {
   try {
     const { data, error } = await supabase
-      .from('users')
+      .from('profiles')
       .update({
         ...updates,
         updated_at: new Date().toISOString()

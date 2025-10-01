@@ -8,6 +8,7 @@ import type * as z from "zod";
 export type ServerActionResponse = {
   status: "success" | "error";
   message?: string;
+  redirectUrl?: string;
 };
 
 export async function register(
@@ -48,12 +49,12 @@ export async function register(
       return { status: "error", message: "Failed to create user" };
     }
 
-    // Create user record in our users table
+    // Create user record in our profiles table
     const user = await createUser({
       id: authData.user.id,
       email: authData.user.email || '',
       name,
-      role: 'USER'
+      role: 'parent'
     });
 
     if (!user) {
@@ -62,7 +63,8 @@ export async function register(
 
     return {
       status: "success",
-      message: "Please check your email for verification",
+      message: "Account created successfully! Redirecting to dashboard...",
+      redirectUrl: "/dashboard"
     };
   } catch (error) {
     console.error('Registration error:', error);

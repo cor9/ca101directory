@@ -1,7 +1,6 @@
 "use client";
 
 import { BottomButton } from "@/components/auth/bottom-button";
-import { SocialLoginButton } from "@/components/auth/social-login-button";
 import {
   Card,
   CardContent,
@@ -18,7 +17,6 @@ interface AuthCardProps {
   headerLabel: string;
   bottomButtonLabel: string;
   bottomButtonHref: string;
-  showSocialLoginButton?: boolean;
   className?: string;
 }
 
@@ -27,7 +25,6 @@ export const AuthCard = ({
   headerLabel,
   bottomButtonLabel,
   bottomButtonHref,
-  showSocialLoginButton,
   className,
 }: AuthCardProps) => {
   return (
@@ -39,11 +36,6 @@ export const AuthCard = ({
         <CardDescription>{headerLabel}</CardDescription>
       </CardHeader>
       <CardContent>{children}</CardContent>
-      {showSocialLoginButton && (
-        <CardFooter>
-          <SocialLoginButton />
-        </CardFooter>
-      )}
       <CardFooter>
         <BottomButton label={bottomButtonLabel} href={bottomButtonHref} />
       </CardFooter>

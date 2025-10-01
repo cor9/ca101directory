@@ -28,7 +28,6 @@ import {
   XIcon,
 } from "lucide-react";
 import { FaBrandsGitHub } from "../icons/github";
-import { FaBrandsGoogle } from "../icons/google";
 import { LogosProductHunt } from "../icons/product-hunt";
 import { FaBrandsXTwitter } from "../icons/twitter";
 import { IonLogoYoutube } from "./youtube";
@@ -73,7 +72,6 @@ export const Icons = {
   handshake: HandshakeIcon,
 
   github: FaBrandsGitHub,
-  google: FaBrandsGoogle,
   twitter: FaBrandsXTwitter,
   youtube: IonLogoYoutube,
   productHunt: LogosProductHunt,

@@ -61,7 +61,7 @@ export function SanityAdapter(
         const createdUser = await sanityClient.create({
           _type: options.schemas.user,
           _id: `user.${uuid()}`,
-          role: UserRole.USER,
+          role: UserRole.PARENT,
           name: user.name,
           email: user.email,
           image: user.image,

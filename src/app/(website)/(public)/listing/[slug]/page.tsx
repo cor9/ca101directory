@@ -1,5 +1,7 @@
 import { ClaimButton } from "@/components/claim/claim-button";
 import { ClaimedListingActions } from "@/components/listing/claimed-listing-actions";
+import { ReviewsDisplay } from "@/components/reviews/reviews-display";
+import { ReviewForm } from "@/components/reviews/review-form";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { getListingById } from "@/lib/airtable";
@@ -268,6 +270,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
               </div>
             </div>
 
+            {/* Review Form */}
+            <div className="mt-8">
+              <ReviewForm vendorId={listing.id} vendorName={listing.businessName} />
+            </div>
+
             <div className="flex items-center justify-start mt-16">
               <Link
                 href="/search"
@@ -466,6 +473,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     )}
                   </ul>
                 </div>
+
+                {/* Reviews Display */}
+                <ReviewsDisplay vendorId={listing.id} />
 
                 {/* Certifications & Compliance */}
                 {(listing.performerPermit || listing.bonded) && (

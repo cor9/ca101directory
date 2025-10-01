@@ -4,9 +4,6 @@ import { getUserById, updateUser } from "@/data/supabase-user";
 import { currentUser } from "@/lib/auth";
 import { stripe } from "@/lib/stripe";
 import { absoluteUrl } from "@/lib/utils";
-import { sanityClient } from "@/sanity/lib/client";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { itemByIdQuery } from "@/sanity/lib/queries";
 import type { ItemInfo } from "@/types";
 import { redirect } from "next/navigation";
 
@@ -32,96 +29,82 @@ export async function createCheckoutSession(
       return { status: "error", message: "Unauthorized" };
     }
 
-    const item = await sanityFetch<ItemInfo>({
-      query: itemByIdQuery,
-      params: { id: itemId },
-    });
-    if (!item) {
-      return { status: "error", message: "Item not found!" };
-    }
+    // TODO: Replace Sanity item fetching with Airtable/Supabase equivalent
+    // For now, we'll skip item validation and proceed with Stripe checkout
+    console.log("Creating checkout session for item:", itemId);
 
     // 1. get user's stripeCustomerId
     const supabaseUser = await getUserById(user.id);
-    if (item.submitter._id !== user.id) {
-      return { status: "error", message: "You are not allowed to do this!" };
+    if (!supabaseUser) {
+      return { status: "error", message: "User not found!" };
     }
     let stripeCustomerId = supabaseUser?.stripe_customer_id;
     // console.log('stripeCustomerId:', stripeCustomerId);
 
-    // 2. if the item is paid and the submitter is the user, then redirect to the billing portal
-    if (stripeCustomerId && item.paid) {
-      console.log("item is paid, redirect to billing portal");
-      const billingUrl = absoluteUrl("/dashboard");
-      const stripeSession = await stripe.billingPortal.sessions.create({
-        customer: stripeCustomerId,
-        return_url: billingUrl,
+    // 2. For now, always create checkout session (skip paid item check)
+    console.log("Creating Stripe checkout session");
+    
+    // 3. make sure the user has a stripeCustomerId
+    if (!stripeCustomerId) {
+      console.log("creating customer in Stripe and Supabase");
+      const customer = await stripe.customers.create({
+        email: user.email,
       });
-      redirectUrl = stripeSession.url as string;
-      // console.log('stripe billing portal session created, url:', redirectUrl);
-    } else {
-      // 3. make sure the user has a stripeCustomerId
-      console.log("item is not paid, redirect to stripe checkout session");
-      if (!stripeCustomerId) {
-        console.log("creating customer in Stripe and Supabase");
-        const customer = await stripe.customers.create({
-          email: user.email,
-        });
-        if (!customer) {
-          return {
-            status: "error",
-            message: "Failed to create customer in Stripe",
-          };
-        }
-
-        const updatedUser = await updateUser(user.id, {
-          stripe_customer_id: customer.id,
-        });
-        if (!updatedUser) {
-          return {
-            status: "error",
-            message: "Failed to save customer in Supabase",
-          };
-        }
-        stripeCustomerId = customer.id;
+      if (!customer) {
+        return {
+          status: "error",
+          message: "Failed to create customer in Stripe",
+        };
       }
 
-      // 4. create stripe checkout session
-      console.log("Creating Stripe checkout session:", {
-        customerId: stripeCustomerId,
-        priceId,
-        userId: user.id,
-        itemId,
+      const updatedUser = await updateUser(user.id, {
+        stripe_customer_id: customer.id,
       });
-      // TODO: optimize the success and cancel urls with sessionId!!!
-      const successUrl = absoluteUrl("/payment-success");
-      const cancelUrl = absoluteUrl(`/payment/${itemId}?pay=failed`);
-      const stripeSession = await stripe.checkout.sessions.create({
-        customer: stripeCustomerId,
-        mode: "payment",
-        line_items: [
-          {
-            price: priceId,
-            quantity: 1,
-          },
-        ],
-        metadata: {
-          userId: user.id,
-          itemId: itemId,
-          priceId: priceId,
-          pricePlan: pricePlan,
-        },
-        success_url: successUrl,
-        cancel_url: cancelUrl,
-        // do not limit to card, allow other payment methods
-        // payment_method_types: ["card"],
-        billing_address_collection: "auto",
-        // allow promotion codes if you need
-        allow_promotion_codes: true,
-      });
-
-      redirectUrl = stripeSession.url as string;
-      console.log("stripe checkout session created, url:", redirectUrl);
+      if (!updatedUser) {
+        return {
+          status: "error",
+          message: "Failed to save customer in Supabase",
+        };
+      }
+      stripeCustomerId = customer.id;
     }
+
+    // 4. create stripe checkout session
+    console.log("Creating Stripe checkout session:", {
+      customerId: stripeCustomerId,
+      priceId,
+      userId: user.id,
+      itemId,
+    });
+    // TODO: optimize the success and cancel urls with sessionId!!!
+    const successUrl = absoluteUrl("/payment-success");
+    const cancelUrl = absoluteUrl(`/payment/${itemId}?pay=failed`);
+    const stripeSession = await stripe.checkout.sessions.create({
+      customer: stripeCustomerId,
+      mode: "payment",
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      metadata: {
+        userId: user.id,
+        itemId: itemId,
+        priceId: priceId,
+        pricePlan: pricePlan,
+      },
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+      // do not limit to card, allow other payment methods
+      // payment_method_types: ["card"],
+      billing_address_collection: "auto",
+      // allow promotion codes if you need
+      allow_promotion_codes: true,
+    });
+
+    redirectUrl = stripeSession.url as string;
+    console.log("stripe checkout session created, url:", redirectUrl);
   } catch (error) {
     return {
       status: "error",

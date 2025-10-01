@@ -45,21 +45,6 @@ export async function getPublicListings(params?: {
   city?: string;
   category?: string;
 }) {
-  // First, let's get all listings to debug
-  const { data: allData, error: allError } = await supabase
-    .from("listings")
-    .select("*")
-    .limit(5);
-  
-  console.log("Debug - All listings (first 5):", allData);
-  console.log("Debug - All listings error:", allError);
-  
-  if (allData && allData.length > 0) {
-    console.log("Debug - First listing keys:", Object.keys(allData[0]));
-    console.log("Debug - First listing Status:", allData[0]["Status"]);
-    console.log("Debug - First listing Active:", allData[0]["Active"]);
-  }
-
   let query = supabase.from("listings").select("*");
 
   if (params?.state) query = query.eq("State", params.state);
@@ -83,9 +68,6 @@ export async function getPublicListings(params?: {
   const { data, error } = await query.order("Listing Name", {
     ascending: true,
   });
-  
-  console.log("Debug - Filtered query result:", data);
-  console.log("Debug - Filtered query error:", error);
   
   if (error) throw error;
   return data as Listing[];

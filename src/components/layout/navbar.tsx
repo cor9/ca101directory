@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { siteConfig } from "@/config/site";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 import type { DashboardConfig, MarketingConfig } from "@/types";
@@ -29,11 +28,11 @@ import { Logo } from "../logo";
 interface NavBarProps {
   scroll?: boolean;
   config: DashboardConfig | MarketingConfig;
+  user?: { id: string; email: string; name: string; role: string } | undefined;
 }
 
-export function Navbar({ scroll = false, config }: NavBarProps) {
+export function Navbar({ scroll = false, config, user }: NavBarProps) {
   const scrolled = useScroll(50);
-  const user = useCurrentUser();
   // console.log(`navbar: user:`, user);
 
   const pathname = usePathname();

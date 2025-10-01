@@ -22,6 +22,8 @@ import { StarRating } from "@/components/ui/star-rating";
 import { Textarea } from "@/components/ui/textarea";
 import { type ReviewFormData, ReviewSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -37,7 +39,70 @@ export function ReviewForm({
   vendorName,
   className,
 }: ReviewFormProps) {
+  const { data: session, status } = useSession();
   const [isPending, startTransition] = useTransition();
+
+  // Don't show form if user is not logged in
+  if (status === "loading") {
+    return (
+      <Card className={className}>
+        <CardContent className="p-6">
+          <div className="text-center text-muted-foreground">
+            Loading...
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!session?.user) {
+    return (
+      <Card className={className}>
+        <CardHeader>
+          <CardTitle className="text-xl font-bold">Write a Review</CardTitle>
+          <CardDescription>
+            Share your experience with {vendorName}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center space-y-4">
+            <p className="text-muted-foreground">
+              You must be logged in to write a review.
+            </p>
+            <Button asChild>
+              <Link href="/auth/login">
+                Sign In to Review
+              </Link>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Only parents can submit reviews
+  if (session.user.role !== "parent") {
+    return (
+      <Card className={className}>
+        <CardHeader>
+          <CardTitle className="text-xl font-bold">Write a Review</CardTitle>
+          <CardDescription>
+            Share your experience with {vendorName}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center space-y-4">
+            <p className="text-muted-foreground">
+              Only parents can submit reviews for vendors.
+            </p>
+            <p className="text-sm text-muted-foreground">
+              If you're a parent, please make sure you're logged in with the correct account.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   const form = useForm<ReviewFormData>({
     resolver: zodResolver(ReviewSchema),

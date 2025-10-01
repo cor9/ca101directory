@@ -75,7 +75,7 @@ export const Icons = {
   twitter: FaBrandsXTwitter,
   youtube: IonLogoYoutube,
   productHunt: LogosProductHunt,
-  
+
   // Admin icons
   check: CheckIcon,
   x: XIcon,

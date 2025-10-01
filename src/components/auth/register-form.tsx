@@ -49,7 +49,7 @@ export const RegisterForm = () => {
           if (data.status === "success") {
             console.log("register, success:", data.message);
             setSuccess(data.message);
-            
+
             // Redirect to dashboard if redirectUrl is provided
             if (data.redirectUrl) {
               window.location.href = data.redirectUrl;

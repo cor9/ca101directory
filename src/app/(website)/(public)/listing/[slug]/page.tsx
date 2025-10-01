@@ -337,7 +337,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 </div>
 
                 {/* Claim Listing Section */}
-                {!listing.claimed && (
+                {listing.claimed !== true && (
                   <div className="bg-gradient-to-r from-brand-orange/5 to-brand-blue/5 rounded-lg p-6 border border-brand-orange/20">
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0">

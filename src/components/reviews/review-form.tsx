@@ -67,13 +67,20 @@ export function ReviewForm({
         <CardContent>
           <div className="text-center space-y-4">
             <p className="text-muted-foreground">
-              You must be logged in to write a review.
+              You must be logged in as a parent to write a review.
             </p>
-            <Button asChild>
-              <Link href="/auth/login">
-                Sign In to Review
-              </Link>
-            </Button>
+            <div className="flex gap-2 justify-center">
+              <Button asChild variant="outline">
+                <Link href="/auth/login">
+                  Sign In
+                </Link>
+              </Button>
+              <Button asChild>
+                <Link href="/auth/register">
+                  Sign Up as Parent
+                </Link>
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>

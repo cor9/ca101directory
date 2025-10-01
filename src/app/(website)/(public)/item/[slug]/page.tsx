@@ -1,6 +1,10 @@
+import { ClaimButton } from "@/components/claim/claim-button";
+import { ReviewsDisplay } from "@/components/reviews/reviews-display";
+import { ReviewForm } from "@/components/reviews/review-form";
 import { siteConfig } from "@/config/site";
 import { getItemById } from "@/data/airtable-item";
 import { constructMetadata } from "@/lib/metadata";
+import { ShieldIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -91,6 +95,16 @@ export default async function ItemDetailPage({
       return notFound();
     }
 
+    // Debug claim fields
+    console.log("Item page claim debug:", {
+      businessName: listing.businessName,
+      claimed: listing.claimed,
+      _debugClaimed: listing._debugClaimed,
+      _debugClaimedByEmail: listing._debugClaimedByEmail,
+      _debugOwnerId: listing._debugOwnerId,
+      _debugAllFields: listing._debugAllFields,
+    });
+
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
@@ -179,6 +193,46 @@ export default async function ItemDetailPage({
             )}
           </div>
         </div>
+
+        {/* Review Form */}
+        <div className="mt-8">
+          <ReviewForm
+            vendorId={listing.id}
+            vendorName={listing.businessName}
+          />
+        </div>
+
+        {/* Reviews Display */}
+        <div className="mt-8">
+          <ReviewsDisplay vendorId={listing.id} />
+        </div>
+
+        {/* Claim Listing Section */}
+        {listing.claimed !== true && (
+          <div className="mt-8 bg-gradient-to-r from-brand-orange/5 to-brand-blue/5 rounded-lg p-6 border border-brand-orange/20">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0">
+                <ShieldIcon className="w-8 h-8 text-brand-orange" />
+              </div>
+              <div className="flex-1">
+                <h2 className="text-lg font-semibold mb-2 text-foreground">
+                  Own This Business?
+                </h2>
+                <p className="text-muted-foreground mb-4">
+                  Claim your listing to gain full control, edit details,
+                  and upgrade to premium plans.
+                </p>
+                <ClaimButton
+                  listingId={listing.id}
+                  listingName={listing.businessName}
+                  claimed={listing.claimed || false}
+                  ownerId={listing.owner_id}
+                  className="bg-brand-orange hover:bg-brand-orange-dark"
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   } catch (error) {

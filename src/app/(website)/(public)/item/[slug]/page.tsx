@@ -1,6 +1,6 @@
 import { ClaimButton } from "@/components/claim/claim-button";
-import { ReviewsDisplay } from "@/components/reviews/reviews-display";
 import { ReviewForm } from "@/components/reviews/review-form";
+import { ReviewsDisplay } from "@/components/reviews/reviews-display";
 import { siteConfig } from "@/config/site";
 import { getItemById } from "@/data/airtable-item";
 import { constructMetadata } from "@/lib/metadata";
@@ -92,6 +92,7 @@ export default async function ItemDetailPage({
     );
 
     if (!listing) {
+      console.error("ItemDetailPage, listing not found for slug:", params.slug);
       return notFound();
     }
 
@@ -196,10 +197,7 @@ export default async function ItemDetailPage({
 
         {/* Review Form */}
         <div className="mt-8">
-          <ReviewForm
-            vendorId={listing.id}
-            vendorName={listing.businessName}
-          />
+          <ReviewForm vendorId={listing.id} vendorName={listing.businessName} />
         </div>
 
         {/* Reviews Display */}
@@ -219,8 +217,8 @@ export default async function ItemDetailPage({
                   Own This Business?
                 </h2>
                 <p className="text-muted-foreground mb-4">
-                  Claim your listing to gain full control, edit details,
-                  and upgrade to premium plans.
+                  Claim your listing to gain full control, edit details, and
+                  upgrade to premium plans.
                 </p>
                 <ClaimButton
                   listingId={listing.id}

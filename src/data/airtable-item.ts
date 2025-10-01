@@ -9,31 +9,31 @@ function listingToItem(listing: Listing): ItemInfo {
   return {
     _id: listing.id,
     _createdAt: new Date().toISOString(),
-    name: listing.listing_name || "Untitled Listing",
+    name: listing["Listing Name"] || "Untitled Listing",
     slug: {
       _type: "slug" as const,
-      current: (listing.listing_name || "untitled")
+      current: (listing["Listing Name"] || "untitled")
         .toLowerCase()
         .replace(/\s+/g, "-")
         .replace(/[^a-z0-9-]/g, ""),
     },
-    description: listing.what_you_offer || "",
-    link: listing.website || "",
+    description: listing["What You Offer?"] || "",
+    link: listing.Website || "",
     affiliateLink: null,
     sponsor: false,
     sponsorStartDate: null,
     sponsorEndDate: null,
     note: null,
     featured: false, // Will be determined by plan
-    icon: listing.profile_image
+    icon: listing["Profile Image"]
       ? {
           asset: {
-            _ref: listing.profile_image,
+            _ref: listing["Profile Image"],
             _type: "reference" as const,
           },
           hotspot: null,
           crop: null,
-          alt: `${listing.listing_name} logo`,
+          alt: `${listing["Listing Name"]} logo`,
           _type: "image" as const,
           blurDataURL: null,
           imageColor: null,
@@ -41,16 +41,16 @@ function listingToItem(listing: Listing): ItemInfo {
       : null,
     image: null, // Gallery images will be handled separately
     publishDate: new Date().toISOString(),
-    paid: listing.plan !== "Free",
+    paid: listing.Plan !== "Free",
     order: null,
-    pricePlan: (listing.plan || "Free").toLowerCase() as "free" | "basic" | "pro" | "premium",
-    freePlanStatus: (listing.status || "Pending").toLowerCase() as "pending" | "approved" | "rejected",
+    pricePlan: (listing.Plan || "Free").toLowerCase() as "free" | "basic" | "pro" | "premium",
+    freePlanStatus: (listing.Status || "Pending").toLowerCase() as "pending" | "approved" | "rejected",
     proPlanStatus: null,
     sponsorPlanStatus: null,
     rejectionReason: null,
     collections: [],
-    categories: listing.categories
-      ? listing.categories.split(',').map((categoryName) => ({
+    categories: listing.Categories
+      ? listing.Categories.split(',').map((categoryName) => ({
           _id: categoryName.trim().toLowerCase().replace(/\s+/g, "-"),
           _type: "category" as const,
           _createdAt: new Date().toISOString(),
@@ -66,8 +66,8 @@ function listingToItem(listing: Listing): ItemInfo {
           priority: null,
         }))
       : [],
-    tags: listing.age_range
-      ? listing.age_range.split(',').map((tag) => ({
+    tags: listing["Age Range"]
+      ? listing["Age Range"].split(',').map((tag) => ({
           _id: tag.toLowerCase().replace(/\s+/g, "-"),
           _type: "tag" as const,
           _createdAt: new Date().toISOString(),
@@ -160,8 +160,8 @@ export async function getItems({
     if (tag) {
       const tagList = tag.split(",");
       filteredListings = filteredListings.filter((listing) =>
-        listing.age_range && tagList.every((t) => 
-          listing.age_range?.includes(t)
+        listing["Age Range"] && tagList.every((t) => 
+          listing["Age Range"]?.includes(t)
         ),
       );
     }
@@ -169,8 +169,8 @@ export async function getItems({
     // Location filter
     if (filter) {
       filteredListings = filteredListings.filter((listing) =>
-        (listing.city?.toLowerCase().includes(filter.toLowerCase())) ||
-        (listing.state?.toLowerCase().includes(filter.toLowerCase()))
+        (listing.City?.toLowerCase().includes(filter.toLowerCase())) ||
+        (listing.State?.toLowerCase().includes(filter.toLowerCase()))
       );
     }
 
@@ -182,16 +182,16 @@ export async function getItems({
 
         switch (sortKey) {
           case "name":
-            aVal = a.listing_name || "";
-            bVal = b.listing_name || "";
+            aVal = a["Listing Name"] || "";
+            bVal = b["Listing Name"] || "";
             break;
           case "publishDate":
             aVal = new Date();
             bVal = new Date();
             break;
           default:
-            aVal = a.listing_name || "";
-            bVal = b.listing_name || "";
+            aVal = a["Listing Name"] || "";
+            bVal = b["Listing Name"] || "";
         }
 
         if (reverse) {
@@ -202,8 +202,8 @@ export async function getItems({
     } else {
       // Default sort: by name
       filteredListings.sort((a, b) => {
-        const aName = a.listing_name || "";
-        const bName = b.listing_name || "";
+        const aName = a["Listing Name"] || "";
+        const bName = b["Listing Name"] || "";
         return aName.localeCompare(bName);
       });
     }

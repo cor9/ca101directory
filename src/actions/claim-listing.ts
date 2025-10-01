@@ -31,7 +31,7 @@ export async function claimListing(formData: ClaimListingFormData) {
       };
     }
 
-    if (listing.claimed) {
+    if (listing["Claimed?"] === "checked") {
       return {
         success: false,
         message: "This listing has already been claimed.",

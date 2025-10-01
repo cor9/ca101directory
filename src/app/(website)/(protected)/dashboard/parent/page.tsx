@@ -94,10 +94,10 @@ export default async function ParentDashboard() {
                   className="bg-card rounded-lg p-4 border"
                 >
                   <h3 className="font-medium text-sm mb-2">
-                    {favorite.listing?.listing_name || "Unknown Listing"}
+                    {favorite.listing?.["Listing Name"] || "Unknown Listing"}
                   </h3>
                   <p className="text-xs text-muted-foreground line-clamp-2">
-                    {favorite.listing?.what_you_offer ||
+                    {favorite.listing?.["What You Offer?"] ||
                       "No description available"}
                   </p>
                   <div className="mt-2 text-xs text-muted-foreground">
@@ -128,7 +128,7 @@ export default async function ParentDashboard() {
                 <div key={review.id} className="bg-card rounded-lg p-4 border">
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="font-medium text-sm">
-                      {review.listing?.listing_name || "Unknown Listing"}
+                      {review.listing?.["Listing Name"] || "Unknown Listing"}
                     </h3>
                     <div className="flex items-center gap-1">
                       {[1, 2, 3, 4, 5].map((star) => (

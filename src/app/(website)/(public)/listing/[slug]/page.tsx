@@ -40,7 +40,7 @@ export async function generateStaticParams() {
     // Convert listing names to slugs
     return listings.map((listing) => ({
       slug:
-        listing.listing_name
+        listing["Listing Name"]
           ?.toLowerCase()
           .replace(/\s+/g, "-")
           .replace(/[^a-z0-9-]/g, "") || listing.id,
@@ -68,12 +68,12 @@ export async function generateMetadata({
     }
 
     return constructMetadata({
-      title: `${listing.listing_name} - Child Actor 101 Directory`,
+      title: `${listing["Listing Name"]} - Child Actor 101 Directory`,
       description:
-        listing.what_you_offer ||
+        listing["What You Offer?"] ||
         "Professional acting services for young actors",
       canonicalUrl: `${siteConfig.url}/listing/${params.slug}`,
-      image: listing.profile_image,
+      image: listing["Profile Image"],
     });
   } catch (error) {
     console.error("generateMetadata error:", error);
@@ -105,11 +105,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
     // Debug listing data
     console.log("Listing data:", {
       id: listing.id,
-      name: listing.listing_name,
+      name: listing["Listing Name"],
       owner_id: listing.owner_id,
-      claimed: listing.claimed,
-      plan: listing.plan,
-      approved_101_badge: listing.approved_101_badge,
+      claimed: listing["Claimed?"] === "checked",
+      plan: listing.Plan,
+      approved_101_badge: listing["Approved 101 Badge"] === "checked",
     });
 
     return (
@@ -124,18 +124,18 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 Directory
               </Link>
               <span>/</span>
-              <span>{listing.listing_name}</span>
+              <span>{listing["Listing Name"]}</span>
             </div>
 
             {/* logo + name + description */}
             <div className="flex flex-1 items-center">
               <div className="flex flex-col gap-8">
                 <div className="flex w-full items-center gap-4">
-                  {listing.profile_image && (
+                  {listing["Profile Image"] && (
                     <Image
-                      src={listing.profile_image}
-                      alt={`Logo of ${listing.listing_name}`}
-                      title={`Logo of ${listing.listing_name}`}
+                      src={listing["Profile Image"]}
+                      alt={`Logo of ${listing["Listing Name"]}`}
+                      title={`Logo of ${listing["Listing Name"]}`}
                       width={64}
                       height={64}
                       className="object-cover rounded-lg"
@@ -145,57 +145,57 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     <h1
                       className={cn(
                         "text-4xl tracking-wider font-bold flex items-center gap-2 text-foreground",
-                        listing.plan === "Premium" &&
+                        listing.Plan === "Premium" &&
                           "text-gradient_blue-orange font-semibold",
                       )}
                     >
-                      {listing.listing_name}
+                      {listing["Listing Name"]}
                     </h1>
                     <div className="flex items-center gap-2">
-                      {listing.plan === "Premium" && (
+                      {listing.Plan === "Premium" && (
                         <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full flex items-center gap-1">
                           <StarIcon className="h-3 w-3" />
                           Featured
                         </span>
                       )}
-                      {listing.approved_101_badge && (
+                      {listing["Approved 101 Badge"] === "checked" && (
                         <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full flex items-center gap-1">
                           <CheckCircleIcon className="h-3 w-3" />
                           101 Approved
                         </span>
                       )}
-                      {listing.plan && (
+                      {listing.Plan && (
                         <span
                           className={cn(
                             "text-xs px-2 py-1 rounded-full",
-                            listing.plan === "Premium" &&
+                            listing.Plan === "Premium" &&
                               "bg-brand-orange text-white",
-                            listing.plan === "Pro" &&
+                            listing.Plan === "Pro" &&
                               "bg-brand-blue text-white",
-                            listing.plan === "Basic" &&
+                            listing.Plan === "Basic" &&
                               "bg-gray-100 text-gray-800",
-                            listing.plan === "Free" &&
+                            listing.Plan === "Free" &&
                               "bg-gray-100 text-gray-600",
                           )}
                         >
-                          {listing.plan}
+                          {listing.Plan}
                         </span>
                       )}
                     </div>
                   </div>
                 </div>
                 <p className="text-foreground text-balance leading-relaxed">
-                  {listing.what_you_offer}
+                  {listing["What You Offer?"]}
                 </p>
               </div>
             </div>
 
             {/* action buttons */}
             <div className="flex gap-4">
-              {listing.website && (
+              {listing.Website && (
                 <Button size="lg" variant="default" asChild className="group">
                   <Link
-                    href={listing.website}
+                    href={listing.Website}
                     target="_blank"
                     prefetch={false}
                     className="flex items-center justify-center space-x-2"
@@ -229,12 +229,12 @@ export default async function ListingPage({ params }: ListingPageProps) {
           {/* Right column */}
           <div className="lg:col-span-2">
             {/* Gallery */}
-            {listing.gallery && (
+            {listing.Gallery && (
               <div className="relative group overflow-hidden rounded-lg aspect-[16/9]">
                 <Image
-                  src={listing.gallery}
-                  alt={`Gallery image for ${listing.listing_name}`}
-                  title={`Gallery image for ${listing.listing_name}`}
+                  src={listing.Gallery}
+                  alt={`Gallery image for ${listing["Listing Name"]}`}
+                  title={`Gallery image for ${listing["Listing Name"]}`}
                   loading="eager"
                   fill
                   className="border w-full shadow-lg object-cover image-scale"
@@ -255,45 +255,45 @@ export default async function ListingPage({ params }: ListingPageProps) {
               </h2>
               <div className="prose prose-sm max-w-none text-foreground">
                 <p className="text-base leading-relaxed mb-4">
-                  {listing.what_you_offer}
+                  {listing["What You Offer?"]}
                 </p>
-                {listing.who_is_it_for && (
+                {listing["Who Is It For?"] && (
                   <div className="mt-6">
                     <h3 className="font-semibold mb-3 text-foreground">
                       Who Is It For:
                     </h3>
                     <p className="text-base leading-relaxed">
-                      {listing.who_is_it_for}
+                      {listing["Who Is It For?"]}
                     </p>
                   </div>
                 )}
-                {listing.why_is_it_unique && (
+                {listing["Why Is It Unique?"] && (
                   <div className="mt-6">
                     <h3 className="font-semibold mb-3 text-foreground">
                       What Makes This Unique:
                     </h3>
                     <p className="text-base leading-relaxed">
-                      {listing.why_is_it_unique}
+                      {listing["Why Is It Unique?"]}
                     </p>
                   </div>
                 )}
-                {listing.format && (
+                {listing["Format (In-person/Online/Hybrid)"] && (
                   <div className="mt-6">
                     <h3 className="font-semibold mb-3 text-foreground">
                       Service Format:
                     </h3>
                     <p className="text-base leading-relaxed">
-                      {listing.format}
+                      {listing["Format (In-person/Online/Hybrid)"]}
                     </p>
                   </div>
                 )}
-                {listing.extras_notes && (
+                {listing["Extras/Notes"] && (
                   <div className="mt-6">
                     <h3 className="font-semibold mb-3 text-foreground">
                       Additional Notes:
                     </h3>
                     <p className="text-base leading-relaxed">
-                      {listing.extras_notes}
+                      {listing["Extras/Notes"]}
                     </p>
                   </div>
                 )}
@@ -305,7 +305,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
               <div className="mt-8">
                 <ReviewForm
                   listingId={listing.id}
-                  listingName={listing.listing_name || "Listing"}
+                  listingName={listing["Listing Name"] || "Listing"}
                 />
               </div>
             )}
@@ -330,39 +330,41 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     Contact Information
                   </h2>
                   <ul className="space-y-4 text-base">
-                    {(listing.city || listing.state || listing.region) && (
+                    {(listing.City || listing.State || listing.Region) && (
                       <li className="flex items-start gap-3">
                         <MapPinIcon className="w-4 h-4 text-muted-foreground mt-1" />
                         <span className="text-foreground">
-                          {[listing.city, listing.state, listing.region]
+                          {[listing.City, listing.State, listing.Region]
                             .filter(Boolean)
                             .join(", ")}
                         </span>
                       </li>
                     )}
-                    {listing.phone && (
+                    {listing.Phone && (
                       <li className="flex items-start gap-3">
                         <PhoneIcon className="w-4 h-4 text-muted-foreground mt-1" />
                         <a
-                          href={`tel:${listing.phone}`}
+                          href={`tel:${listing.Phone}`}
                           className="hover:text-primary text-foreground"
                         >
-                          {listing.phone}
+                          {listing.Phone}
                         </a>
                       </li>
                     )}
-                    {listing.email && (
+                    {listing.Email && (
                       <li className="flex items-start gap-3">
                         <MailIcon className="w-4 h-4 text-muted-foreground mt-1" />
                         <a
-                          href={`mailto:${listing.email}`}
+                          href={`mailto:${listing.Email}`}
                           className="hover:text-primary text-foreground"
                         >
-                          {listing.email}
+                          {listing.Email}
                         </a>
                       </li>
                     )}
-                    {listing.format?.toLowerCase().includes("online") && (
+                    {listing["Format (In-person/Online/Hybrid)"]
+                      ?.toLowerCase()
+                      .includes("online") && (
                       <li className="flex items-start gap-3">
                         <GlobeIcon className="w-4 h-4 text-muted-foreground mt-1" />
                         <span className="text-foreground">
@@ -374,7 +376,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 </div>
 
                 {/* Claim Listing Section */}
-                {!listing.claimed && !isOwner && (
+                {!listing["Claimed?"] && !isOwner && (
                   <div className="bg-gradient-to-r from-brand-orange/5 to-brand-blue/5 rounded-lg p-6 border border-brand-orange/20">
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0">
@@ -390,8 +392,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                         </p>
                         <ClaimButton
                           listingId={listing.id}
-                          listingName={listing.listing_name || "Listing"}
-                          claimed={listing.claimed || false}
+                          listingName={listing["Listing Name"] || "Listing"}
+                          claimed={listing["Claimed?"] === "checked"}
                           ownerId={listing.owner_id}
                           className="bg-brand-orange hover:bg-brand-orange-dark"
                         />
@@ -401,7 +403,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 )}
 
                 {/* Claim Status Section */}
-                {listing.claimed && (
+                {listing["Claimed?"] === "checked" && (
                   <div className="bg-gradient-to-r from-brand-blue/5 to-brand-green/5 rounded-lg p-6 border border-brand-blue/20">
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0">
@@ -418,15 +420,15 @@ export default async function ListingPage({ params }: ListingPageProps) {
                           <div className="flex items-center gap-2">
                             <span className="font-medium">Claimed by:</span>
                             <span className="text-muted-foreground">
-                              {listing.claimed_by_email}
+                              {listing["Claimed by? (Email)"]}
                             </span>
                           </div>
-                          {listing.date_claimed && (
+                          {listing["Date Claimed"] && (
                             <div className="flex items-center gap-2">
                               <span className="font-medium">Claimed on:</span>
                               <span className="text-muted-foreground">
                                 {new Date(
-                                  listing.date_claimed,
+                                  listing["Date Claimed"],
                                 ).toLocaleDateString()}
                               </span>
                             </div>
@@ -437,17 +439,17 @@ export default async function ListingPage({ params }: ListingPageProps) {
                             </span>
                             <span
                               className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                listing.verification_status === "Verified"
+                                listing["Verification Status"] === "Verified"
                                   ? "bg-green-100 text-green-800"
-                                  : listing.verification_status === "Denied"
+                                  : listing["Verification Status"] === "Denied"
                                     ? "bg-red-100 text-red-800"
                                     : "bg-yellow-100 text-yellow-800"
                               }`}
                             >
-                              {listing.verification_status || "Pending"}
+                              {listing["Verification Status"] || "Pending"}
                             </span>
                           </div>
-                          {listing.approved_101_badge && (
+                          {listing["Approved 101 Badge"] === "checked" && (
                             <div className="flex items-center gap-2">
                               <span className="font-medium">101 Badge:</span>
                               <span className="px-2 py-1 bg-brand-orange text-white rounded-full text-xs font-medium">
@@ -467,8 +469,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     Categories
                   </h2>
                   <ul className="flex flex-wrap gap-2">
-                    {listing.categories ? (
-                      listing.categories.split(",").map((category) => (
+                    {listing.Categories ? (
+                      listing.Categories.split(",").map((category) => (
                         <li key={category.trim()}>
                           <span className="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">
                             {category.trim()}
@@ -489,8 +491,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     Age Range
                   </h2>
                   <ul className="flex flex-wrap gap-2">
-                    {listing.age_range ? (
-                      listing.age_range.split(",").map((age) => (
+                    {listing["Age Range"] ? (
+                      listing["Age Range"].split(",").map((age) => (
                         <li key={age.trim()}>
                           <span className="text-sm bg-brand-blue/10 text-brand-blue px-3 py-1 rounded-full">
                             {age.trim()}
@@ -511,14 +513,17 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 )}
 
                 {/* Certifications & Compliance */}
-                {(listing.ca_performer_permit ||
-                  listing.bonded_for_advanced_fees) && (
+                {(listing["California Child Performer Services Permit "] ===
+                  "checked" ||
+                  listing["Bonded For Advanced Fees"] === "checked") && (
                   <div className="bg-muted/50 rounded-lg p-6">
                     <h2 className="text-lg font-semibold mb-4 text-foreground">
                       Certifications & Compliance
                     </h2>
                     <ul className="space-y-2 text-sm">
-                      {listing.ca_performer_permit && (
+                      {listing[
+                        "California Child Performer Services Permit "
+                      ] === "checked" && (
                         <li className="flex items-center gap-2">
                           <CheckCircleIcon className="w-4 h-4 text-green-600" />
                           <span>
@@ -526,13 +531,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
                           </span>
                         </li>
                       )}
-                      {listing.bonded_for_advanced_fees && (
+                      {listing["Bonded For Advanced Fees"] === "checked" && (
                         <li className="flex items-center gap-2">
                           <CheckCircleIcon className="w-4 h-4 text-green-600" />
                           <span>Bonded for Advanced Fees</span>
-                          {listing.bond_number && (
+                          {listing["Bond#"] && (
                             <span className="text-muted-foreground">
-                              (Bond #{listing.bond_number})
+                              (Bond #{listing["Bond#"]})
                             </span>
                           )}
                         </li>
@@ -549,7 +554,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
             <div className="mt-8">
               <ReviewForm
                 listingId={listing.id}
-                listingName={listing.listing_name || "this listing"}
+                listingName={listing["Listing Name"] || "this listing"}
               />
             </div>
           )}
@@ -557,7 +562,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
           {/* Claimed Listing Actions - Show for owners */}
           {/* TODO: Add claimedBy field to Listing interface and fix type compatibility */}
           {/* 
-          {listing.claimed && (
+          {listing["Claimed?"] === "checked" && (
             <div className="mt-8">
               <ClaimedListingActions listing={listing} isOwner={true} />
             </div>

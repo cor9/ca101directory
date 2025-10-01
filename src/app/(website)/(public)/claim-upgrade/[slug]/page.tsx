@@ -29,7 +29,7 @@ export default async function ClaimUpgradePage({
     const listings = await getPublicListings();
     const listing = listings.find(
       (listing) =>
-        listing.listing_name
+        listing["Listing Name"]
           ?.toLowerCase()
           .replace(/\s+/g, "-")
           .replace(/[^a-z0-9-]/g, "") === params.slug,
@@ -40,7 +40,7 @@ export default async function ClaimUpgradePage({
     }
 
     // Check if listing is already claimed
-    if (listing.claimed) {
+    if (listing["Claimed?"] === "checked") {
       return (
         <div className="mb-16">
           <div className="mt-8">
@@ -66,7 +66,7 @@ export default async function ClaimUpgradePage({
               labelAs="h1"
               label="Claim & Upgrade"
               titleAs="h2"
-              title={`Claim "${listing.listing_name}"`}
+              title={`Claim "${listing["Listing Name"]}"`}
               subtitle="To claim your listing and gain full control, you must upgrade to a paid plan."
             />
           </div>

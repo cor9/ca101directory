@@ -2,35 +2,37 @@ import { supabase } from "@/lib/supabase";
 
 export type Listing = {
   id: string; // UUID
-  listing_name: string | null;
-  what_you_offer: string | null;
-  who_is_it_for: string | null;
-  why_is_it_unique: string | null;
-  format: string | null;
-  extras_notes: string | null;
-  website: string | null;
-  email: string | null;
-  phone: string | null;
-  region: string | null;
-  city: string | null;
-  state: string | null;
-  zip: string | null;
-  categories: string | null;
-  approved_101_badge: boolean | null;
-  profile_image: string | null;
-  active: boolean | null;
-  claimed: boolean | null;
-  claimed_by_email: string | null;
-  status: string | null;
-  age_range: string | null;
-  gallery: string | null;
-  plan: string | null;
-  stripe_plan_id: string | null;
-  ca_performer_permit: boolean | null;
-  bonded_for_advanced_fees: boolean | null;
-  bond_number: string | null;
-  date_claimed: string | null;
-  verification_status: string | null;
+  "Listing Name": string | null;
+  "What You Offer?": string | null;
+  "Who Is It For?": string | null;
+  "Why Is It Unique?": string | null;
+  "Format (In-person/Online/Hybrid)": string | null;
+  "Extras/Notes": string | null;
+  Website: string | null;
+  Email: string | null;
+  Phone: string | null;
+  Region: string | null;
+  City: string | null;
+  State: string | null;
+  Zip: string | null;
+  Categories: string | null;
+  "Approved 101 Badge": string | null;
+  "Profile Image": string | null;
+  Active: string | null;
+  "Claimed?": string | null;
+  "Claimed by? (Email)": string | null;
+  Status: string | null;
+  "Age Range": string | null;
+  Gallery: string | null;
+  Plan: string | null;
+  "Stripe Plan ID": string | null;
+  "California Child Performer Services Permit ": string | null;
+  "Bonded For Advanced Fees": string | null;
+  "Bond#": string | null;
+  "Date Claimed": string | null;
+  "Verification Status": string | null;
+  "Plan.": string | null;
+  Submissions: string | null;
   owner_id: string | null; // UUID reference to profiles
   plan_id: string | null; // UUID reference to plans
   category_id: string | null; // UUID reference to categories

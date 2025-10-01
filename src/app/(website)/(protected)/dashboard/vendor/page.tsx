@@ -45,13 +45,13 @@ export default async function VendorDashboard() {
     (listing) => listing.owner_id === session.user.id,
   );
   const activeListings = userListings.filter(
-    (listing) => listing.status === "Live" && listing.active,
+    (listing) => listing.Status === "Live" && listing.Active === "checked",
   );
 
   // Calculate stats
   const totalViews = 0; // TODO: Implement view tracking
   const totalReviews = 0; // TODO: Implement review counting
-  const currentPlan = userListings[0]?.plan || "Free";
+  const currentPlan = userListings[0]?.Plan || "Free";
 
   return (
     <VendorDashboardLayout>
@@ -135,36 +135,36 @@ export default async function VendorDashboard() {
                     <div className="flex items-start justify-between">
                       <div className="space-y-1">
                         <CardTitle className="text-lg">
-                          {listing.listing_name}
+                          {listing["Listing Name"]}
                         </CardTitle>
                         <CardDescription>
-                          {listing.what_you_offer}
+                          {listing["What You Offer?"]}
                         </CardDescription>
                       </div>
                       <div className="flex items-center gap-2">
                         <Badge
                           variant={
-                            listing.status === "Live"
+                            listing.Status === "Live"
                               ? "default"
-                              : listing.status === "Pending"
+                              : listing.Status === "Pending"
                                 ? "secondary"
                                 : "destructive"
                           }
                         >
-                          {listing.status}
+                          {listing.Status}
                         </Badge>
-                        {listing.plan && (
+                        {listing.Plan && (
                           <Badge
                             variant="outline"
                             className={
-                              listing.plan === "Premium"
+                              listing.Plan === "Premium"
                                 ? "border-brand-orange text-brand-orange"
-                                : listing.plan === "Pro"
+                                : listing.Plan === "Pro"
                                   ? "border-brand-blue text-brand-blue"
                                   : "border-gray-300 text-gray-600"
                             }
                           >
-                            {listing.plan}
+                            {listing.Plan}
                           </Badge>
                         )}
                       </div>
@@ -173,18 +173,18 @@ export default async function VendorDashboard() {
                   <CardContent>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        {listing.city && listing.state && (
+                        {listing.City && listing.State && (
                           <span>
-                            {listing.city}, {listing.state}
+                            {listing.City}, {listing.State}
                           </span>
                         )}
-                        {listing.approved_101_badge && (
+                        {listing["Approved 101 Badge"] === "checked" && (
                           <div className="flex items-center gap-1">
                             <CheckCircleIcon className="w-4 h-4 text-green-600" />
                             <span>101 Approved</span>
                           </div>
                         )}
-                        {listing.plan === "Premium" && (
+                        {listing.Plan === "Premium" && (
                           <div className="flex items-center gap-1">
                             <StarIcon className="w-4 h-4 text-yellow-500" />
                             <span>Featured</span>
@@ -195,7 +195,7 @@ export default async function VendorDashboard() {
                         <Button variant="outline" size="sm" asChild>
                           <Link
                             href={`/listing/${
-                              listing.listing_name
+                              listing["Listing Name"]
                                 ?.toLowerCase()
                                 .replace(/\s+/g, "-")
                                 .replace(/[^a-z0-9-]/g, "") || listing.id

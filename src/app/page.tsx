@@ -47,7 +47,7 @@ export default async function HomePage({
   // Apply 101 Approved filter
   if (approved101 === "true") {
     listings = listings.filter(
-      (listing) => listing.approved_101_badge === true,
+      (listing) => listing["Approved 101 Badge"] === "checked",
     );
   }
 
@@ -68,15 +68,15 @@ export default async function HomePage({
       }
     };
 
-    const aPriority = planPriority(a.plan);
-    const bPriority = planPriority(b.plan);
+    const aPriority = planPriority(a.Plan);
+    const bPriority = planPriority(b.Plan);
 
     if (aPriority !== bPriority) {
       return bPriority - aPriority; // Higher priority first
     }
 
     // If same priority, sort by name
-    return (a.listing_name || "").localeCompare(b.listing_name || "");
+    return (a["Listing Name"] || "").localeCompare(b["Listing Name"] || "");
   });
 
   const totalCount = listings.length;

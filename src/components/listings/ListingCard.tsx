@@ -22,13 +22,13 @@ interface ListingCardProps {
 
 export function ListingCard({ listing, className }: ListingCardProps) {
   const slug =
-    listing.listing_name
+    listing["Listing Name"]
       ?.toLowerCase()
       .replace(/\s+/g, "-")
       .replace(/[^a-z0-9-]/g, "") || listing.id;
 
-  const categories = listing.categories?.split(",").map((c) => c.trim()) || [];
-  const ageRange = listing.age_range?.split(",").map((a) => a.trim()) || [];
+  const categories = listing.Categories?.split(",").map((c) => c.trim()) || [];
+  const ageRange = listing["Age Range"]?.split(",").map((a) => a.trim()) || [];
 
   // Plan-based sorting priority (Premium > Pro > Basic > Free)
   const getPlanPriority = (plan: string | null) => {
@@ -46,7 +46,7 @@ export function ListingCard({ listing, className }: ListingCardProps) {
     }
   };
 
-  const planPriority = getPlanPriority(listing.plan);
+  const planPriority = getPlanPriority(listing.Plan);
 
   return (
     <Card
@@ -59,11 +59,11 @@ export function ListingCard({ listing, className }: ListingCardProps) {
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
-            {listing.profile_image && (
+            {listing["Profile Image"] && (
               <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-muted">
                 <Image
-                  src={listing.profile_image}
-                  alt={listing.listing_name || "Listing"}
+                  src={listing["Profile Image"]}
+                  alt={listing["Listing Name"] || "Listing"}
                   fill
                   className="object-cover"
                 />
@@ -71,10 +71,10 @@ export function ListingCard({ listing, className }: ListingCardProps) {
             )}
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-lg text-card-foreground group-hover:text-brand-blue transition-colors line-clamp-1">
-                {listing.listing_name || "Untitled Listing"}
+                {listing["Listing Name"] || "Untitled Listing"}
               </h3>
               <div className="flex items-center gap-2 mt-1">
-                {listing.approved_101_badge && (
+                {listing["Approved 101 Badge"] === "checked" && (
                   <Badge
                     variant="secondary"
                     className="bg-green-100 text-green-800 text-xs"
@@ -83,18 +83,18 @@ export function ListingCard({ listing, className }: ListingCardProps) {
                     101 Approved
                   </Badge>
                 )}
-                {listing.plan && (
+                {listing.Plan && (
                   <Badge
-                    variant={listing.plan === "Premium" ? "default" : "outline"}
+                    variant={listing.Plan === "Premium" ? "default" : "outline"}
                     className={cn(
                       "text-xs",
-                      listing.plan === "Premium" &&
+                      listing.Plan === "Premium" &&
                         "bg-brand-orange text-white",
-                      listing.plan === "Pro" && "bg-brand-blue text-white",
-                      listing.plan === "Basic" && "bg-gray-100 text-gray-800",
+                      listing.Plan === "Pro" && "bg-brand-blue text-white",
+                      listing.Plan === "Basic" && "bg-gray-100 text-gray-800",
                     )}
                   >
-                    {listing.plan}
+                    {listing.Plan}
                   </Badge>
                 )}
               </div>
@@ -108,15 +108,15 @@ export function ListingCard({ listing, className }: ListingCardProps) {
 
       <CardContent className="pb-3">
         <p className="text-muted-foreground text-sm line-clamp-2 mb-4">
-          {listing.what_you_offer || "Professional acting services"}
+          {listing["What You Offer?"] || "Professional acting services"}
         </p>
 
         {/* Location */}
-        {(listing.city || listing.state || listing.region) && (
+        {(listing.City || listing.State || listing.Region) && (
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
             <MapPinIcon className="w-4 h-4" />
             <span>
-              {[listing.city, listing.state, listing.region]
+              {[listing.City, listing.State, listing.Region]
                 .filter(Boolean)
                 .join(", ")}
             </span>
@@ -166,10 +166,10 @@ export function ListingCard({ listing, className }: ListingCardProps) {
       <CardFooter className="pt-3">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-2">
-            {listing.website && (
+            {listing.Website && (
               <Button size="sm" variant="outline" asChild>
                 <Link
-                  href={listing.website}
+                  href={listing.Website}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-1"

@@ -81,7 +81,6 @@ export const LoginForm = ({ className }: { className?: string }) => {
       headerLabel="Welcome back"
       bottomButtonLabel="Don't have an account? Sign up"
       bottomButtonHref="/auth/register"
-      showSocialLoginButton
       className={cn("border-none", className)}
     >
       <Form {...form}>

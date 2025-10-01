@@ -4,7 +4,7 @@ import NextAuth from "next-auth";
 
 /**
  * Auth configuration for Child Actor 101 Directory
- * Supports Google, Facebook, and email authentication
+ * Email-only authentication using Supabase
  */
 export const {
   handlers,
@@ -35,7 +35,7 @@ export const {
       // If it's the same origin, allow it
       if (new URL(url).origin === baseUrl) return url;
 
-      // Default redirect to dashboard after login
+      // Default redirect to dashboard after login/signup
       return `${baseUrl}/dashboard`;
     },
     // SignIn callback - allow authentication
@@ -46,7 +46,7 @@ export const {
       });
 
       // Allow all sign-ins for now
-      // TODO: Implement proper user validation with Airtable
+      // TODO: Implement proper user validation with Supabase
       return true;
     },
 

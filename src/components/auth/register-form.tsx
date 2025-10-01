@@ -49,6 +49,11 @@ export const RegisterForm = () => {
           if (data.status === "success") {
             console.log("register, success:", data.message);
             setSuccess(data.message);
+            
+            // Redirect to dashboard if redirectUrl is provided
+            if (data.redirectUrl) {
+              window.location.href = data.redirectUrl;
+            }
           }
         })
         .catch((error) => {
@@ -63,7 +68,6 @@ export const RegisterForm = () => {
       headerLabel="Create an account"
       bottomButtonLabel="Already have an account? Sign in"
       bottomButtonHref="/auth/login"
-      showSocialLoginButton
       className="border-none"
     >
       <Form {...form}>

@@ -35,7 +35,7 @@ export const footerConfig: FooterConfig = {
         },
         {
           title: "Industry News",
-          href: "https://childactor101.com/blog",
+          href: "https://childactor101.com/101-blog",
           external: true,
         },
         { title: "Contact Support", href: "mailto:corey@childactor101.com" },

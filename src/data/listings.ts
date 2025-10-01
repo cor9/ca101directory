@@ -2,37 +2,37 @@ import { supabase } from "@/lib/supabase";
 
 export type Listing = {
   id: string; // UUID
-  "Listing Name": string | null;
-  "What You Offer?": string | null;
-  "Who Is It For?": string | null;
-  "Why Is It Unique?": string | null;
-  "Format (In-person/Online/Hybrid)": string | null;
-  "Extras/Notes": string | null;
-  Website: string | null;
-  Email: string | null;
-  Phone: string | null;
-  Region: string | null;
-  City: string | null;
-  State: string | null;
-  Zip: string | null;
-  Categories: string | null;
-  "Approved 101 Badge": string | null;
-  "Profile Image": string | null;
-  Active: string | null;
-  "Claimed?": string | null;
-  "Claimed by? (Email)": string | null;
-  Status: string | null;
-  "Age Range": string | null;
-  Gallery: string | null;
-  Plan: string | null;
-  "Stripe Plan ID": string | null;
-  "California Child Performer Services Permit ": string | null;
-  "Bonded For Advanced Fees": string | null;
-  "Bond#": string | null;
-  "Date Claimed": string | null;
-  "Verification Status": string | null;
-  "Plan.": string | null;
-  Submissions: string | null;
+  listing_name: string | null;
+  what_you_offer: string | null;
+  who_is_it_for: string | null;
+  why_is_it_unique: string | null;
+  format: string | null;
+  extras_notes: string | null;
+  ca_permit: string | null;
+  bonded: string | null;
+  bond_number: string | null;
+  website: string | null;
+  email: string | null;
+  phone: string | null;
+  region: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  age_range: string | null;
+  categories: string | null;
+  approved_101_badge: string | null;
+  profile_image: string | null;
+  stripe_plan_id: string | null;
+  plan: string | null;
+  active: string | null;
+  claimed: string | null;
+  claimed_by_email: string | null;
+  date_claimed: string | null;
+  verification_status: string | null;
+  gallery: string | null;
+  plan_duplicate: string | null; // Appears to be a duplicate/legacy field from Airtable
+  submissions: string | null; // Appears to be a duplicate/legacy field from Airtable
+  status: string | null;
   owner_id: string | null; // UUID reference to profiles
   plan_id: string | null; // UUID reference to plans
   category_id: string | null; // UUID reference to categories
@@ -49,25 +49,25 @@ export async function getPublicListings(params?: {
 }) {
   let query = supabase.from("listings").select("*");
 
-  if (params?.state) query = query.eq("State", params.state);
-  if (params?.region) query = query.eq("Region", params.region);
-  if (params?.city) query = query.eq("City", params.city);
+  if (params?.state) query = query.eq("state", params.state);
+  if (params?.region) query = query.eq("region", params.region);
+  if (params?.city) query = query.eq("city", params.city);
   if (params?.category)
-    query = query.ilike("Categories", `%${params.category}%`);
+    query = query.ilike("categories", `%${params.category}%`);
   if (params?.q)
     query = query.or(
       [
-        `"Listing Name".ilike.%${params.q}%`,
-        `"What You Offer?".ilike.%${params.q}%`,
-        `City.ilike.%${params.q}%`,
-        `State.ilike.%${params.q}%`,
+        `listing_name.ilike.%${params.q}%`,
+        `what_you_offer.ilike.%${params.q}%`,
+        `city.ilike.%${params.q}%`,
+        `state.ilike.%${params.q}%`,
       ].join(","),
     );
 
   // Only show approved/active listings (handle both Airtable and Supabase status values)
-  query = query.in("Status", ["Live", "APPROVED", "Approved"]).eq("Active", true);
+  query = query.in("status", ["Live", "APPROVED", "Approved"]).eq("active", "checked");
 
-  const { data, error } = await query.order("Listing Name", {
+  const { data, error } = await query.order("listing_name", {
     ascending: true,
   });
   

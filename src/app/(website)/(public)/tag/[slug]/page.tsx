@@ -24,11 +24,12 @@ export async function generateStaticParams() {
     // Extract unique age ranges (tags) from all listings
     const allAgeRanges = new Set<string>();
     listings.forEach((listing) => {
-      if (listing["Age Range"]) {
+      if (listing.age_range) {
         // Age Range is a comma-separated string in Supabase
-        listing["Age Range"].split(',').forEach((tag) => {
+        listing.age_range.split(",").forEach((tag) => {
           allAgeRanges.add(
-            tag.trim()
+            tag
+              .trim()
               .toLowerCase()
               .replace(/\s+/g, "-")
               .replace(/[^a-z0-9-]/g, ""),
@@ -58,10 +59,11 @@ export async function generateMetadata({
 
     // Find listings that match this tag (age range)
     const matchingListings = listings.filter((listing) => {
-      if (!listing["Age Range"]) return false;
-      return listing["Age Range"].split(',').some(
+      if (!listing.age_range) return false;
+      return listing.age_range.split(",").some(
         (tag) =>
-          tag.trim()
+          tag
+            .trim()
             .toLowerCase()
             .replace(/\s+/g, "-")
             .replace(/[^a-z0-9-]/g, "") === params.slug,
@@ -77,13 +79,17 @@ export async function generateMetadata({
     }
 
     // Get the actual age range name from the first matching listing
-    const ageRangeName = matchingListings[0]["Age Range"]?.split(',').find(
-      (tag) =>
-        tag.trim()
-          .toLowerCase()
-          .replace(/\s+/g, "-")
-          .replace(/[^a-z0-9-]/g, "") === params.slug,
-    )?.trim();
+    const ageRangeName = matchingListings[0]["Age Range"]
+      ?.split(",")
+      .find(
+        (tag) =>
+          tag
+            .trim()
+            .toLowerCase()
+            .replace(/\s+/g, "-")
+            .replace(/[^a-z0-9-]/g, "") === params.slug,
+      )
+      ?.trim();
 
     return constructMetadata({
       title: `${ageRangeName} - Child Actor 101 Directory`,
@@ -112,10 +118,11 @@ export default async function TagPage({
 
     // Find listings that match this tag (age range)
     const matchingListings = listings.filter((listing) => {
-      if (!listing["Age Range"]) return false;
-      return listing["Age Range"].split(',').some(
+      if (!listing.age_range) return false;
+      return listing.age_range.split(",").some(
         (tag) =>
-          tag.trim()
+          tag
+            .trim()
             .toLowerCase()
             .replace(/\s+/g, "-")
             .replace(/[^a-z0-9-]/g, "") === params.slug,
@@ -127,13 +134,17 @@ export default async function TagPage({
     }
 
     // Get the actual age range name from the first matching listing
-    const ageRangeName = matchingListings[0]["Age Range"]?.split(',').find(
-      (tag) =>
-        tag.trim()
-          .toLowerCase()
-          .replace(/\s+/g, "-")
-          .replace(/[^a-z0-9-]/g, "") === params.slug,
-    )?.trim();
+    const ageRangeName = matchingListings[0]["Age Range"]
+      ?.split(",")
+      .find(
+        (tag) =>
+          tag
+            .trim()
+            .toLowerCase()
+            .replace(/\s+/g, "-")
+            .replace(/[^a-z0-9-]/g, "") === params.slug,
+      )
+      ?.trim();
 
     // For now, we don't have sponsor items in Airtable
     const sponsorItems: any[] = [];

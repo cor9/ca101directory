@@ -9,7 +9,6 @@ import { ListingCard } from "@/components/listings/ListingCard";
 import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 import EmptyGrid from "@/components/shared/empty-grid";
 import { homeConfig } from "@/config/home";
-import { priceConfig } from "@/config/price";
 import { siteConfig } from "@/config/site";
 import { getPublicListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
@@ -177,72 +176,11 @@ export default async function HomePage({
               {homeConfig.pricing.subheading}
             </p>
           </div>
-          <div className="mx-auto grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-            {priceConfig.plans.map((plan) => {
-              const isFeatured =
-                plan.title.toLowerCase() ===
-                homeConfig.pricing.featuredPlan.toLowerCase();
-              const priceDisplay =
-                plan.price === 0
-                  ? "Free"
-                  : currencyFormatter.format(plan.price);
-
-              return (
-                <article
-                  key={plan.title}
-                  className={`flex h-full flex-col rounded-xl border bg-card p-6 shadow-sm transition-shadow ${
-                    isFeatured
-                      ? "border-brand-orange shadow-lg shadow-brand-orange/25"
-                      : "border-border"
-                  }`}
-                >
-                  {isFeatured ? (
-                    <span className="mb-4 inline-flex w-fit items-center rounded-full bg-brand-orange px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
-                      Most Popular
-                    </span>
-                  ) : null}
-                  <h3 className="text-xl font-semibold text-card-foreground">
-                    {plan.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {plan.description}
-                  </p>
-                  <div className="mt-6 text-3xl font-bold text-foreground">
-                    {priceDisplay}
-                    {plan.price !== 0 ? (
-                      <span className="ml-1 text-lg font-semibold text-muted-foreground">
-                        {plan.priceSuffix}
-                      </span>
-                    ) : null}
-                  </div>
-                  <ul className="mt-6 space-y-2 text-sm text-card-foreground">
-                    {plan.benefits.map((benefit) => (
-                      <li key={benefit} className="flex items-start gap-2">
-                        <span aria-hidden className="mt-1 text-brand-orange">
-                          ✓
-                        </span>
-                        <span>{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  {plan.limitations.length > 0 ? (
-                    <ul className="mt-4 space-y-1 text-xs text-muted-foreground">
-                      {plan.limitations.map((limitation) => (
-                        <li key={limitation}>✕ {limitation}</li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </article>
-              );
-            })}
-          </div>
-          <div className="mt-6 text-center">
-            <Link
-              href="/pricing"
-              className="font-semibold text-foreground hover:text-brand-blue transition-colors"
-            >
-              View Full Pricing Details →
-            </Link>
+          <div className="mx-auto max-w-4xl">
+            <stripe-pricing-table
+              pricing-table-id="prctbl_1SCpyNBqTvwy9ZuSNiSGY03P"
+              publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
+            />
           </div>
         </div>
       </Container>

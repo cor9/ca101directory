@@ -39,7 +39,6 @@ export default function SettingsForm() {
       password: undefined,
       newPassword: undefined,
       name: user?.name || undefined,
-      link: user?.link || undefined,
     },
   });
 
@@ -47,7 +46,6 @@ export default function SettingsForm() {
     if (user) {
       form.reset({
         name: user?.name || undefined,
-        link: user?.link || undefined,
       });
     }
   }, [user, form]);
@@ -86,24 +84,6 @@ export default function SettingsForm() {
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input {...field} placeholder="name" disabled={isPending} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="link"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Link</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Link (e.g. https://x.com/username)"
-                      disabled={isPending}
-                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

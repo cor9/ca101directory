@@ -151,7 +151,6 @@ export const EditSchema = SubmitSchema.extend({
 export const SettingsSchema = z
   .object({
     name: z.string().min(1, { message: "Name is required" }),
-    link: z.string().optional(),
     password: z.optional(z.string().min(6)),
     newPassword: z.optional(z.string().min(6)),
   })
@@ -190,15 +189,6 @@ export const UserNameSchema = z.object({
 });
 
 export type UserNameData = z.infer<typeof UserNameSchema>;
-
-export const UserLinkSchema = z.object({
-  link: z
-    .string()
-    .min(0, { message: "Link is optional" })
-    .max(128, { message: "Link must be 128 or fewer characters long" }),
-});
-
-export type UserLinkData = z.infer<typeof UserLinkSchema>;
 
 export const UserPasswordSchema = z
   .object({

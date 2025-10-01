@@ -1,24 +1,13 @@
 import { auth } from "@/auth";
-import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  isAdminDashboardEnabled,
+  isParentDashboardEnabled,
+  isVendorDashboardEnabled,
+} from "@/config/feature-flags";
 import { siteConfig } from "@/config/site";
+import { userHasListings } from "@/lib/api/listings";
+import { getDashboardRoute, getRole } from "@/lib/auth/roles";
 import { constructMetadata } from "@/lib/metadata";
-import {
-  Calendar,
-  CheckCircle,
-  Eye,
-  Mail,
-  Plus,
-  Settings,
-  User,
-} from "lucide-react";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
@@ -29,7 +18,16 @@ export const metadata = constructMetadata({
 });
 
 /**
- * Dashboard page - User account management
+ * Dashboard page - Smart router that redirects users based on their role
+ *
+ * Role-based routing:
+ * - vendor → /dashboard/vendor
+ * - parent → /dashboard/parent
+ * - admin → /dashboard/admin
+ * - guest → /auth/login
+ *
+ * For vendors, also check if they have listings to determine if they should
+ * be treated as a vendor or fall back to parent dashboard
  */
 export default async function DashboardPage() {
   const session = await auth();
@@ -38,141 +36,54 @@ export default async function DashboardPage() {
     redirect("/auth/login");
   }
 
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Welcome to your Dashboard
-          </h1>
-          <p className="text-muted-foreground">
-            Manage your Child Actor 101 Directory account and submissions
-          </p>
-        </div>
+  const userRole = getRole(session.user as any);
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {/* User Info Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <User className="h-5 w-5" />
-                Account Information
-              </CardTitle>
-              <CardDescription>
-                Your account details and login information
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Email
-                </p>
-                <p className="text-sm">{session.user.email}</p>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Name
-                </p>
-                <p className="text-sm">{session.user.name || "Not provided"}</p>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Account Status
-                </p>
-                <div className="flex items-center gap-1">
-                  <CheckCircle className="h-4 w-4 text-green-500" />
-                  <span className="text-sm text-green-600">Active</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+  // Handle role-based routing with feature flag checks
+  switch (userRole) {
+    case "admin": {
+      if (isAdminDashboardEnabled()) {
+        redirect("/dashboard/admin");
+      } else {
+        redirect("/auth/login");
+      }
+      break;
+    }
 
-          {/* Quick Actions Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                Quick Actions
-              </CardTitle>
-              <CardDescription>Common tasks and actions</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Link href="/submit">
-                <Button className="w-full" variant="outline">
-                  <Plus className="mr-2 h-4 w-4" />
-                  Submit New Listing
-                </Button>
-              </Link>
-              <Link href="/dashboard/submissions">
-                <Button className="w-full" variant="outline">
-                  <Eye className="mr-2 h-4 w-4" />
-                  View My Submissions
-                </Button>
-              </Link>
-              <Link href="/settings">
-                <Button className="w-full" variant="outline">
-                  <Settings className="mr-2 h-4 w-4" />
-                  Account Settings
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+    case "vendor": {
+      if (isVendorDashboardEnabled()) {
+        // Check if vendor actually has listings
+        const hasListings = await userHasListings(session.user.id);
+        if (hasListings) {
+          redirect("/dashboard/vendor");
+        } else {
+          // Vendor without listings - check if parent dashboard is available as fallback
+          if (isParentDashboardEnabled()) {
+            redirect("/dashboard/parent");
+          } else {
+            // No fallback available, redirect to vendor dashboard anyway
+            redirect("/dashboard/vendor");
+          }
+        }
+      } else {
+        redirect("/auth/login");
+      }
+      break;
+    }
 
-          {/* Status Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Mail className="h-5 w-5" />
-                Recent Activity
-              </CardTitle>
-              <CardDescription>
-                Your latest submissions and updates
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-4">
-                <p className="text-sm text-muted-foreground">
-                  No recent activity
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Submit your first listing to get started
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+    case "parent": {
+      if (isParentDashboardEnabled()) {
+        redirect("/dashboard/parent");
+      } else {
+        // Parent features disabled, redirect to login
+        redirect("/auth/login");
+      }
+      break;
+    }
 
-        {/* Welcome Message */}
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle>Welcome to Child Actor 101 Directory!</CardTitle>
-            <CardDescription>
-              You're now logged in and ready to submit your professional listing
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <p className="text-muted-foreground">
-                Thank you for joining the Child Actor 101 Directory! This is
-                your personal dashboard where you can:
-              </p>
-              <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                <li>Submit new professional listings</li>
-                <li>Manage your existing submissions</li>
-                <li>Track the status of your listings</li>
-                <li>Update your account information</li>
-              </ul>
-              <div className="pt-4">
-                <Link href="/submit">
-                  <Button size="lg">
-                    Get Started - Submit Your First Listing
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
+    case "guest":
+    default: {
+      redirect("/auth/login");
+      break;
+    }
+  }
 }

@@ -1,0 +1,218 @@
+# Production Environment Variables for Child Actor 101 Directory
+# Copy this file to .env.production and update with your actual values
+
+# ===========================================
+# SUPABASE CONFIGURATION
+# ===========================================
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+
+# ===========================================
+# STRIPE CONFIGURATION (LIVE MODE)
+# ===========================================
+STRIPE_SECRET_KEY=sk_live_your_live_stripe_secret_key
+STRIPE_WEBHOOK_SECRET=whsec_your_stripe_webhook_secret
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_your_live_stripe_publishable_key
+
+# ===========================================
+# NEXTAUTH CONFIGURATION
+# ===========================================
+NEXTAUTH_SECRET=your_production_nextauth_secret_32_chars_min
+NEXTAUTH_URL=https://directory.childactor101.com
+
+# ===========================================
+# EMAIL CONFIGURATION
+# ===========================================
+RESEND_API_KEY=re_your_resend_api_key
+
+# ===========================================
+# VERCEL BLOB STORAGE
+# ===========================================
+VERCEL_BLOB_READ_WRITE_TOKEN=vercel_blob_your_token
+VERCEL_BLOB_BUCKET_NAME=your_blob_bucket_name
+
+# ===========================================
+# FEATURE FLAGS - CHOOSE DEPLOYMENT MODE
+# ===========================================
+
+# Option A: Full Directory Mode (All Features Enabled)
+NEXT_PUBLIC_ENABLE_PARENT_AUTH=true
+NEXT_PUBLIC_ENABLE_PARENT_DASHBOARD=true
+NEXT_PUBLIC_ENABLE_REVIEWS=true
+NEXT_PUBLIC_ENABLE_FAVORITES=true
+
+# Option B: Directory Lite Mode (Vendor/Guest Only)
+# NEXT_PUBLIC_DIRECTORY_LITE=true
+# This automatically disables all parent features
+
+# ===========================================
+# INDIVIDUAL FEATURE CONTROL (Optional)
+# ===========================================
+# NEXT_PUBLIC_ENABLE_PARENT_AUTH=false
+# NEXT_PUBLIC_ENABLE_REVIEWS=false
+# NEXT_PUBLIC_ENABLE_FAVORITES=false
+# NEXT_PUBLIC_ENABLE_PARENT_DASHBOARD=false
+
+# ===========================================
+# ANALYTICS & MONITORING (Optional)
+# ===========================================
+# NEXT_PUBLIC_VERCEL_ANALYTICS_ID=your_vercel_analytics_id
+# SENTRY_DSN=your_sentry_dsn
+
+# ===========================================
+# DEVELOPMENT/DEBUG FLAGS (Set to false in production)
+# ===========================================
+NEXT_PUBLIC_DEBUG=false
+NEXT_PUBLIC_VERBOSE_LOGGING=false
+
+# ===========================================
+# SECURITY CONFIGURATION
+# ===========================================
+# CORS_ORIGINS=https://directory.childactor101.com,https://childactor101.com
+# RATE_LIMIT_REQUESTS_PER_MINUTE=60
+
+# ===========================================
+# DATABASE CONFIGURATION
+# ===========================================
+# DATABASE_URL=postgresql://postgres:password@db.supabase.co:5432/postgres
+# DIRECT_URL=postgresql://postgres:password@db.supabase.co:5432/postgres
+
+# ===========================================
+# BACKUP & MAINTENANCE
+# ===========================================
+# BACKUP_SCHEDULE=daily
+# MAINTENANCE_MODE=false
+
+# ===========================================
+# SOCIAL MEDIA INTEGRATION (Optional)
+# ===========================================
+# FACEBOOK_APP_ID=your_facebook_app_id
+# FACEBOOK_APP_SECRET=your_facebook_app_secret
+# TWITTER_API_KEY=your_twitter_api_key
+# TWITTER_API_SECRET=your_twitter_api_secret
+
+# ===========================================
+# CDN & ASSET OPTIMIZATION (Optional)
+# ===========================================
+# NEXT_PUBLIC_CDN_URL=https://cdn.childactor101.com
+# NEXT_PUBLIC_ASSET_PREFIX=/assets
+
+# ===========================================
+# CUSTOM DOMAIN CONFIGURATION
+# ===========================================
+# NEXT_PUBLIC_SITE_URL=https://directory.childactor101.com
+# NEXT_PUBLIC_SITE_NAME=Child Actor 101 Directory
+
+# ===========================================
+# WEBHOOK CONFIGURATION
+# ===========================================
+# STRIPE_WEBHOOK_ENDPOINT=https://directory.childactor101.com/api/webhooks/stripe
+# AIRTABLE_WEBHOOK_ENDPOINT=https://directory.childactor101.com/api/webhooks/airtable
+
+# ===========================================
+# PERFORMANCE & CACHING
+# ===========================================
+# REDIS_URL=redis://your_redis_url
+# CACHE_TTL=3600
+
+# ===========================================
+# NOTIFICATION CONFIGURATION
+# ===========================================
+# SLACK_WEBHOOK_URL=https://hooks.slack.com/your_webhook
+# DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/your_webhook
+
+# ===========================================
+# BACKUP & RECOVERY
+# ===========================================
+# BACKUP_RETENTION_DAYS=30
+# BACKUP_ENCRYPTION_KEY=your_backup_encryption_key
+
+# ===========================================
+# COMPLIANCE & LEGAL
+# ===========================================
+# GDPR_ENABLED=true
+# COOKIE_CONSENT_REQUIRED=true
+# TERMS_OF_SERVICE_URL=https://childactor101.com/terms
+# PRIVACY_POLICY_URL=https://childactor101.com/privacy
+
+# ===========================================
+# TESTING & QA
+# ===========================================
+# E2E_TESTING_ENABLED=false
+# PERFORMANCE_MONITORING=true
+# ERROR_TRACKING=true
+
+# ===========================================
+# THIRD-PARTY INTEGRATIONS
+# ===========================================
+# GOOGLE_ANALYTICS_ID=GA-XXXXXXXXX
+# FACEBOOK_PIXEL_ID=your_facebook_pixel_id
+# HOTJAR_SITE_ID=your_hotjar_site_id
+
+# ===========================================
+# CUSTOM BUSINESS LOGIC
+# ===========================================
+# MAX_LISTINGS_PER_USER=5
+# REVIEW_MODERATION_REQUIRED=true
+# AUTO_APPROVE_LISTINGS=false
+# NOTIFICATION_EMAIL_FROM=noreply@childactor101.com
+
+# ===========================================
+# SECURITY HEADERS & CSP
+# ===========================================
+# CSP_REPORT_URI=https://directory.childactor101.com/api/csp-report
+# HSTS_MAX_AGE=31536000
+# SECURE_COOKIES=true
+
+# ===========================================
+# API RATE LIMITING
+# ===========================================
+# API_RATE_LIMIT=100
+# API_RATE_WINDOW=900000
+# API_RATE_SKIP_SUCCESSFUL_REQUESTS=true
+
+# ===========================================
+# FILE UPLOAD CONFIGURATION
+# ===========================================
+# MAX_FILE_SIZE=10485760
+# ALLOWED_FILE_TYPES=jpg,jpeg,png,gif,webp
+# UPLOAD_TIMEOUT=30000
+
+# ===========================================
+# SEARCH & INDEXING
+# ===========================================
+# ELASTICSEARCH_URL=https://your_elasticsearch_url
+# SEARCH_INDEX_NAME=childactor101_directory
+# SEARCH_ANALYZER=standard
+
+# ===========================================
+# CUSTOM METRICS & MONITORING
+# ===========================================
+# METRICS_ENDPOINT=https://directory.childactor101.com/api/metrics
+# HEALTH_CHECK_ENDPOINT=https://directory.childactor101.com/api/health
+# STATUS_PAGE_URL=https://status.childactor101.com
+
+# ===========================================
+# DEVELOPMENT & STAGING OVERRIDES
+# ===========================================
+# NODE_ENV=production
+# NEXT_PUBLIC_APP_ENV=production
+# LOG_LEVEL=info
+# DEBUG_MODE=false
+
+# ===========================================
+# END OF CONFIGURATION
+# ===========================================
+# 
+# IMPORTANT NOTES:
+# 1. Never commit this file with real values to version control
+# 2. Use Vercel's environment variable interface for production
+# 3. Rotate secrets regularly
+# 4. Monitor for any exposed secrets
+# 5. Use different values for staging and production
+# 6. Test all integrations before going live
+# 7. Keep backups of your configuration
+# 8. Document any custom environment variables
+# 9. Use strong, unique passwords and API keys
+# 10. Enable 2FA on all service accounts

@@ -1,4 +1,4 @@
-import { type Listing, getListingById, getListings } from "@/lib/airtable";
+import { type Listing, getListingById, getPublicListings } from "@/data/listings";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
 import type { ItemInfo } from "@/types";
 
@@ -8,98 +8,87 @@ import type { ItemInfo } from "@/types";
 function listingToItem(listing: Listing): ItemInfo {
   return {
     _id: listing.id,
-    _createdAt: listing.dateSubmitted,
-    name: listing.businessName,
+    _createdAt: new Date().toISOString(),
+    name: listing.listing_name || "Untitled Listing",
     slug: {
       _type: "slug" as const,
-      current: listing.businessName
+      current: (listing.listing_name || "untitled")
         .toLowerCase()
         .replace(/\s+/g, "-")
         .replace(/[^a-z0-9-]/g, ""),
     },
-    description: listing.description,
+    description: listing.what_you_offer || "",
     link: listing.website || "",
     affiliateLink: null,
     sponsor: false,
     sponsorStartDate: null,
     sponsorEndDate: null,
     note: null,
-    featured: listing.featured,
-    icon: listing.logo
+    featured: false, // Will be determined by plan
+    icon: listing.profile_image
       ? {
           asset: {
-            _ref: listing.logo,
+            _ref: listing.profile_image,
             _type: "reference" as const,
           },
           hotspot: null,
           crop: null,
-          alt: `${listing.businessName} logo`,
+          alt: `${listing.listing_name} logo`,
           _type: "image" as const,
           blurDataURL: null,
           imageColor: null,
         }
       : null,
-    image:
-      listing.gallery && listing.gallery.length > 0
-        ? {
-            asset: {
-              _ref: listing.gallery[0],
-              _type: "reference" as const,
-            },
-            hotspot: null,
-            crop: null,
-            alt: `${listing.businessName} image`,
-            _type: "image" as const,
-            blurDataURL: null,
-            imageColor: null,
-          }
-        : null,
-    publishDate: listing.dateApproved || listing.dateSubmitted,
-    paid: listing.plan !== "Basic",
+    image: null, // Gallery images will be handled separately
+    publishDate: new Date().toISOString(),
+    paid: listing.plan !== "Free",
     order: null,
-    pricePlan: listing.plan.toLowerCase() as any,
-    freePlanStatus: listing.status.toLowerCase() as any,
+    pricePlan: (listing.plan || "Free").toLowerCase() as "free" | "basic" | "pro" | "premium",
+    freePlanStatus: (listing.status || "Pending").toLowerCase() as "pending" | "approved" | "rejected",
     proPlanStatus: null,
     sponsorPlanStatus: null,
     rejectionReason: null,
     collections: [],
-    categories:
-      listing.categories?.map((categoryName) => ({
-        _id: categoryName.trim().toLowerCase().replace(/\s+/g, "-"),
-        _type: "category" as const,
-        _createdAt: listing.dateSubmitted,
-        _updatedAt: listing.dateSubmitted,
-        _rev: "",
-        name: categoryName,
-        slug: {
-          _type: "slug" as const,
-          current: categoryName.toLowerCase().replace(/\s+/g, "-"),
-        },
-        description: null,
-        group: null,
-        priority: null,
-      })) || [],
-    tags: listing.tags?.map((tag) => ({
-      _id: tag.toLowerCase().replace(/\s+/g, "-"),
-      _type: "tag" as const,
-      _createdAt: listing.dateSubmitted,
-      _updatedAt: listing.dateSubmitted,
-      _rev: "",
-      name: tag,
-      slug: {
-        _type: "slug" as const,
-        current: tag.toLowerCase().replace(/\s+/g, "-"),
-      },
-      description: null,
-      priority: null,
-    })),
+    categories: listing.categories
+      ? listing.categories.split(',').map((categoryName) => ({
+          _id: categoryName.trim().toLowerCase().replace(/\s+/g, "-"),
+          _type: "category" as const,
+          _createdAt: new Date().toISOString(),
+          _updatedAt: new Date().toISOString(),
+          _rev: "",
+          name: categoryName.trim(),
+          slug: {
+            _type: "slug" as const,
+            current: categoryName.trim().toLowerCase().replace(/\s+/g, "-"),
+          },
+          description: null,
+          group: null,
+          priority: null,
+        }))
+      : [],
+    tags: listing.age_range
+      ? listing.age_range.split(',').map((tag) => ({
+          _id: tag.toLowerCase().replace(/\s+/g, "-"),
+          _type: "tag" as const,
+          _createdAt: new Date().toISOString(),
+          _updatedAt: new Date().toISOString(),
+          _rev: "",
+          name: tag,
+          slug: {
+            _type: "slug" as const,
+            current: tag.toLowerCase().replace(/\s+/g, "-"),
+          },
+          description: null,
+          priority: null,
+        }))
+      : [],
     submitter: null,
     related: [],
   } as ItemInfo;
 }
 
 /**
- * Get item by id from Airtable
+ * Get item by id from Supabase
  */
 export async function getItemById(id: string): Promise<ItemInfo | null> {
   try {
@@ -113,14 +102,14 @@ export async function getItemById(id: string): Promise<ItemInfo | null> {
 }
 
 /**
- * Get item info by id (same as getItemById for Airtable)
+ * Get item info by id (same as getItemById for Supabase)
  */
 export async function getItemInfoById(id: string): Promise<ItemInfo | null> {
   return getItemById(id);
 }
 
 /**
- * Get items from Airtable with filtering and pagination
+ * Get items from Supabase with filtering and pagination
  */
 export async function getItems({
   collection,
@@ -147,7 +136,7 @@ export async function getItems({
 }) {
   try {
     console.log(
-      "getItems (Airtable), category:",
+      "getItems (Supabase), category:",
       category,
       "tag:",
       tag,
@@ -157,90 +146,65 @@ export async function getItems({
       query,
     );
 
-    // Get all listings from Airtable
-    const allListings = await getListings();
+    // Get all listings from Supabase
+    const allListings = await getPublicListings({
+      q: query,
+      region,
+      category,
+    });
 
-    // Apply filters
+    // Apply additional filters
     let filteredListings = allListings;
-
-    // Category filter
-    if (category) {
-      filteredListings = filteredListings.filter((listing) =>
-        listing.categories?.some(
-          (cat) => cat.toLowerCase().replace(/\s+/g, "-") === category,
-        ),
-      );
-    }
 
     // Tag filter (age range)
     if (tag) {
       const tagList = tag.split(",");
       filteredListings = filteredListings.filter((listing) =>
-        tagList.every((t) => listing.tags?.includes(t)),
-      );
-    }
-
-    // Region filter
-    if (region) {
-      filteredListings = filteredListings.filter(
-        (listing) => listing.region === region,
-      );
-    }
-
-    // Query filter (search)
-    if (query) {
-      const queryLower = query.toLowerCase();
-      filteredListings = filteredListings.filter(
-        (listing) =>
-          listing.businessName.toLowerCase().includes(queryLower) ||
-          listing.description.toLowerCase().includes(queryLower) ||
-          (listing.servicesOffered &&
-            listing.servicesOffered.toLowerCase().includes(queryLower)),
+        listing.age_range && tagList.every((t) => 
+          listing.age_range?.includes(t)
+        ),
       );
     }
 
     // Location filter
     if (filter) {
-      // Assuming filter is location-based
       filteredListings = filteredListings.filter((listing) =>
-        listing.location.toLowerCase().includes(filter.toLowerCase()),
+        (listing.city?.toLowerCase().includes(filter.toLowerCase())) ||
+        (listing.state?.toLowerCase().includes(filter.toLowerCase()))
       );
     }
 
     // Sort
     if (sortKey) {
       filteredListings.sort((a, b) => {
-        let aVal, bVal;
+        let aVal: string | Date;
+        let bVal: string | Date;
 
         switch (sortKey) {
           case "name":
-            aVal = a.businessName;
-            bVal = b.businessName;
+            aVal = a.listing_name || "";
+            bVal = b.listing_name || "";
             break;
           case "publishDate":
-            aVal = new Date(a.dateApproved || a.dateSubmitted);
-            bVal = new Date(b.dateApproved || b.dateSubmitted);
+            aVal = new Date();
+            bVal = new Date();
             break;
           default:
-            aVal = a.businessName;
-            bVal = b.businessName;
+            aVal = a.listing_name || "";
+            bVal = b.listing_name || "";
         }
 
         if (reverse) {
           return aVal > bVal ? -1 : aVal < bVal ? 1 : 0;
-        } else {
-          return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
         }
+        return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
       });
     } else {
-      // Default sort: featured first, then by approval date
+      // Default sort: by name
       filteredListings.sort((a, b) => {
-        if (a.featured && !b.featured) return -1;
-        if (!a.featured && b.featured) return 1;
-        return (
-          new Date(b.dateApproved || b.dateSubmitted).getTime() -
-          new Date(a.dateApproved || a.dateSubmitted).getTime()
-        );
+        const aName = a.listing_name || "";
+        const bName = b.listing_name || "";
+        return aName.localeCompare(bName);
       });
     }
 
@@ -257,7 +221,7 @@ export async function getItems({
 
     return { items, totalCount };
   } catch (error) {
-    console.error("getItems (Airtable), error:", error);
+    console.error("getItems (Supabase), error:", error);
     return { items: [], totalCount: 0 };
   }
 }

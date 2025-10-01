@@ -1,33 +1,36 @@
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import { ClaimUpgradeForm } from "@/components/claim/claim-upgrade-form";
 import Container from "@/components/container";
 import { HeaderSection } from "@/components/shared/header-section";
-import { ClaimUpgradeForm } from "@/components/claim/claim-upgrade-form";
-import { getListings } from "@/lib/airtable";
+import { getPublicListings } from "@/data/listings";
+import { redirect } from "next/navigation";
 import { notFound } from "next/navigation";
 
 export const metadata = {
   title: "Claim & Upgrade Your Listing - Child Actor 101 Directory",
-  description: "Claim your business listing and upgrade to a paid plan for full control",
+  description:
+    "Claim your business listing and upgrade to a paid plan for full control",
 };
 
 interface ClaimUpgradePageProps {
   params: { slug: string };
 }
 
-export default async function ClaimUpgradePage({ params }: ClaimUpgradePageProps) {
+export default async function ClaimUpgradePage({
+  params,
+}: ClaimUpgradePageProps) {
   const session = await auth();
-  
+
   if (!session?.user?.id) {
     redirect(`/login?callbackUrl=/claim-upgrade/${params.slug}`);
   }
 
   try {
-    const listings = await getListings();
+    const listings = await getPublicListings();
     const listing = listings.find(
       (listing) =>
-        listing.businessName
-          .toLowerCase()
+        listing.listing_name
+          ?.toLowerCase()
           .replace(/\s+/g, "-")
           .replace(/[^a-z0-9-]/g, "") === params.slug,
     );
@@ -63,7 +66,7 @@ export default async function ClaimUpgradePage({ params }: ClaimUpgradePageProps
               labelAs="h1"
               label="Claim & Upgrade"
               titleAs="h2"
-              title={`Claim "${listing.businessName}"`}
+              title={`Claim "${listing.listing_name}"`}
               subtitle="To claim your listing and gain full control, you must upgrade to a paid plan."
             />
           </div>

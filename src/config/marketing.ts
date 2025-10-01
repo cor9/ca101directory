@@ -1,3 +1,4 @@
+import { isParentNavEnabled } from "@/config/feature-flags";
 import type { MarketingConfig } from "@/types";
 
 export const marketingConfig: MarketingConfig = {

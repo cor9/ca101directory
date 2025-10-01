@@ -1,6 +1,6 @@
 # Child Actor 101 Directory
 
-A curated directory of vetted coaches, photographers, editors, and industry professionals specializing in youth acting. Built on the MkDirs template with Airtable CMS and Stripe payment integration.
+A curated directory of vetted coaches, photographers, editors, and industry professionals specializing in youth acting. Built with Next.js, Supabase, and Stripe payment integration.
 
 ## 🎭 Project Overview
 
@@ -9,40 +9,60 @@ A curated directory of vetted coaches, photographers, editors, and industry prof
 ### Key Features
 - **Vetted Professionals**: Every listing is manually reviewed for quality and safety
 - **Specialized Categories**: Acting coaches, photographers, editors, and industry professionals
-- **Vendor Payment Plans**: Basic ($29/mo), Pro ($49/mo), Premium ($99/mo), Add-on ($25)
+- **Vendor Payment Plans**: Free, Basic ($25/mo), Pro ($50/mo), Premium ($90/mo)
 - **Parent-Friendly Interface**: Easy search and filtering for families
 - **Safety First**: Background checks and verification processes
+- **UUID-Based Architecture**: Scalable database with proper relationships
+- **Tri-Role System**: Guest, Parent, Vendor, and Admin roles with distinct permissions
+- **Smart Dashboard Routing**: Automatic redirection based on user role and listing ownership
+- **Permission-Based Access**: Granular permissions with reusable components
+- **Feature Flag System**: Deploy in Directory Lite mode (vendor/guest only) or Full Directory mode
+- **Review System**: Parent reviews with admin moderation workflow
+- **Favorites System**: Save and manage favorite listings
+- **Real-Time Updates**: Live data synchronization with Supabase
 
 ## 🚀 Current Status
 
-### ✅ **COMPLETED & WORKING**
+### ✅ **PRODUCTION READY**
 - **Core Directory Functionality**: Homepage, search, categories, listings
-- **Airtable Integration**: Data layer successfully implemented
+- **Supabase Integration**: Complete UUID-based database with foreign key relationships
 - **Child Actor 101 Branding**: Custom colors, fonts, and content
-- **Stripe Payment Plans**: Ready for vendor subscriptions
+- **Stripe Payment Plans**: Live payment processing for vendor subscriptions
+- **Authentication System**: Email-only auth with role-based access control
+- **Vendor Management**: Claim listings, upgrade plans, manage profiles
+- **Review System**: Parent reviews with admin moderation
+- **Favorites System**: Save and manage favorite listings
+- **Admin Dashboard**: Content moderation and user management
+- **Feature Flag System**: Deploy in Directory Lite or Full Directory mode
 - **Responsive Design**: Mobile and desktop optimized
 - **SEO Optimization**: Meta tags and structured data
 
-### 🔄 **IN PROGRESS**
-- **Sanity Dependencies**: Removing remaining Sanity CMS dependencies
-- **Secondary Features**: Blog functionality (not core to directory)
-
-### 📋 **NEXT STEPS**
-- **Deploy to Vercel**: Core functionality ready for production
-- **Airtable Setup**: Configure base with Listings and Categories tables
-- **Stripe Configuration**: Set up payment webhooks
-- **Content Migration**: Add initial listings and categories
+### 🎯 **LATEST UPDATES (January 2025)**
+- **Phase 3 Complete**: Directory Lite mode with live Supabase data and advanced filtering
+- **Phase 4 Complete**: Parent feature reintroduction with reviews and favorites
+- **UUID Migration**: Complete migration from Airtable to Supabase with UUID primary keys
+- **Database Schema**: Proper foreign key relationships and RLS policies
+- **Performance**: Optimized queries with proper indexes
+- **Security**: Enhanced authentication and authorization
+- **Scalability**: UUID-based architecture for future growth
+- **Tri-Role System**: Complete role-based authentication (Guest, Parent, Vendor, Admin)
+- **Smart Dashboard Routing**: Automatic redirection based on user role and listing ownership
+- **Permission System**: Granular permissions with reusable components
+- **Feature Flag System**: Comprehensive toggle system for deployment modes
+- **Review System**: Parent reviews with admin moderation workflow
+- **Favorites System**: Save and manage favorite listings with real-time updates
 
 ## 🛠️ Tech Stack
 
 - **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **CMS**: Airtable (replacing Sanity)
+- **Database**: Supabase (PostgreSQL with UUID primary keys)
 - **Payments**: Stripe Checkout
 - **Deployment**: Vercel
-- **Authentication**: NextAuth.js (simplified)
+- **Authentication**: Supabase Auth (email-only)
 - **Email**: Resend
+- **Image Storage**: Vercel Blob
 
 ## 📁 Project Structure
 
@@ -55,7 +75,7 @@ src/
 │   └── api/               # API routes
 ├── components/            # React components
 ├── config/                # Site configuration
-├── data/                  # Data layer (Airtable integration)
+├── data/                  # Data layer (Supabase integration)
 ├── lib/                   # Utility functions
 └── types/                 # TypeScript type definitions
 ```
@@ -65,9 +85,10 @@ src/
 ### 1. Environment Variables
 Create `.env.local` with:
 ```bash
-# Airtable
-AIRTABLE_API_KEY=your_airtable_api_key
-AIRTABLE_BASE_ID=your_airtable_base_id
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 
 # Stripe
 STRIPE_SECRET_KEY=your_stripe_secret_key
@@ -80,22 +101,43 @@ NEXTAUTH_URL=http://localhost:3000
 
 # Resend (Email)
 RESEND_API_KEY=your_resend_api_key
+
+# Vercel Blob
+BLOB_READ_WRITE_TOKEN=your_vercel_blob_token
 ```
 
-### 2. Airtable Setup
-Follow the detailed guide in `AIRTABLE_SETUP.md` to:
-- Create Listings table with required fields
-- Create Categories table with required fields
-- Set up proper field types and relationships
+### 2. Supabase Setup
+1. **Create Supabase Project**: Set up a new project at [supabase.com](https://supabase.com)
+2. **Run Migration**: Execute `supabase-uuid-migration.sql` in the Supabase SQL Editor
+3. **Import Data**: Import your CSV data into the new UUID-based tables
+4. **Configure RLS**: Review and adjust Row Level Security policies as needed
 
-### 3. Stripe Configuration
+### 3. Feature Flag Configuration
+Configure deployment mode via environment variables:
+
+**Full Directory Mode (All Features):**
+```env
+NEXT_PUBLIC_ENABLE_PARENT_AUTH=true
+NEXT_PUBLIC_ENABLE_PARENT_DASHBOARD=true
+NEXT_PUBLIC_ENABLE_REVIEWS=true
+NEXT_PUBLIC_ENABLE_FAVORITES=true
+```
+
+**Directory Lite Mode (Vendor/Guest Only):**
+```env
+NEXT_PUBLIC_DIRECTORY_LITE=true
+# Automatically disables all parent features
+```
+
+### 4. Stripe Configuration
 Configure payment plans in `src/config/price.ts`:
-- Basic Plan: $29/month
-- Pro Plan: $49/month  
-- Premium Plan: $99/month
-- 101 Badge Add-on: $25 one-time
+- Free Plan: $0/forever
+- Basic Plan: $25/month
+- Pro Plan: $50/month  
+- Premium Plan: $90/month
+- Annual plans available with 2-month savings
 
-### 4. Development
+### 5. Development
 ```bash
 # Install dependencies
 pnpm install
@@ -110,22 +152,40 @@ pnpm build
 ## 📚 Documentation
 
 - **Setup Guide**: `SETUP_GUIDE.md` - Comprehensive setup instructions
-- **Airtable Schema**: `AIRTABLE_SETUP.md` - Database structure
+- **Supabase Migration**: `supabase-uuid-migration.sql` - Database schema with UUIDs
+- **Migration Summary**: `UUID-MIGRATION-SUMMARY.md` - Complete migration details
+- **Tri-Role System**: `tri-role-data-models.sql` - Complete role-based database schema
 - **Deployment**: `VERCEL_DEPLOYMENT.md` - Vercel deployment checklist
+- **Context Decisions**: `FOR CURSOR/context_Decisions.md` - Development history and decisions
 
 ## 🎯 User Flows
 
-### For Parents
+### For Guests
 1. **Browse Directory**: Search and filter by category, location, price
 2. **View Listings**: See detailed professional profiles with reviews
-3. **Contact Professionals**: Direct communication through platform
-4. **Book Services**: Schedule sessions and manage bookings
+3. **Plan-Based Sorting**: Premium listings appear first
+4. **Advanced Filtering**: Filter by category, region, state, 101 Approved badge
+
+### For Parents
+1. **Browse Directory**: Search and filter by category, location, price
+2. **Save Favorites**: Bookmark preferred professionals
+3. **Write Reviews**: Rate and review vendors (pending admin approval)
+4. **Track Progress**: Monitor your child's acting journey
+5. **Dashboard Access**: Personalized dashboard with saved content and activity
 
 ### For Vendors
-1. **Choose Plan**: Select Basic, Pro, or Premium subscription
-2. **Create Profile**: Add business details, photos, services
+1. **Choose Plan**: Select Free, Basic, Pro, or Premium subscription
+2. **Submit Listing**: Create new listing or claim existing profile
 3. **Get Verified**: Submit for "101 Approved" badge
 4. **Manage Listings**: Update availability, pricing, services
+5. **View Analytics**: Track listing performance and reviews
+6. **Dashboard Access**: Role-based dashboard with listing management tools
+
+### For Admins
+1. **Content Moderation**: Approve/reject reviews, claims, and suggestions
+2. **User Management**: Manage user accounts and roles
+3. **Platform Analytics**: Track system usage and performance
+4. **System Configuration**: Manage feature flags and platform settings
 
 ## 🎨 Branding
 
@@ -145,23 +205,29 @@ pnpm build
 
 ### Environment Variables for Production
 Ensure all required environment variables are set in Vercel:
-- Airtable API credentials
+- Supabase database credentials
 - Stripe payment keys
 - NextAuth configuration
 - Resend email API key
+- Vercel Blob storage token
 
-## Documentation
-- [Context Decisions](FOR CURSOR/CONTEXT_DECISIONS.md)  
-- [Guardrails](FOR CURSOR/GUARDRAILS.md)
+## 📋 Additional Documentation
+- [Context Decisions](FOR%20CURSOR/context_Decisions.md) - Development history and decisions
+- [Guardrails](FOR%20CURSOR/Guardrails.md) - Development guidelines and restrictions
+- [Vercel Guardrails](FOR%20CURSOR/Vercel-Guardrails.md) - Deployment safety guidelines
 
 ## 📈 Future Features
 
+- **Phase 5**: Content and collections for growth, SEO, and engagement
 - **Advanced Search**: Location-based filtering, price ranges
-- **Reviews & Ratings**: Parent feedback system
 - **Booking System**: Integrated scheduling
 - **Mobile App**: React Native version
-- **Analytics Dashboard**: Vendor performance metrics
+- **Analytics Dashboard**: Enhanced vendor performance metrics
 - **Multi-language**: Spanish support for diverse communities
+- **API Integration**: Third-party service integrations
+- **Advanced Filtering**: More granular search options
+- **Notification System**: Email and push notifications
+- **Social Features**: Community forums and discussions
 
 ## 🤝 Contributing
 
@@ -181,4 +247,24 @@ Built on MkDirs template. See original [License](LICENSE) for details.
 
 **Built with ❤️ for the Child Actor 101 community**
 
-*Every child deserves access to safe, professional acting resources.*# Deployment trigger - Sun Sep 21 11:51:19 PDT 2025
+*Every child deserves access to safe, professional acting resources.*
+
+---
+
+## 🎯 **Quick Start**
+
+1. **Clone the repository**
+2. **Set up environment variables** (see Setup Instructions)
+3. **Run Supabase migration** (`supabase-uuid-migration.sql`)
+4. **Install dependencies**: `pnpm install`
+5. **Start development**: `pnpm dev`
+6. **Build for production**: `pnpm build`
+
+## 🚀 **Live Demo**
+
+- **Production**: [directory.childactor101.com](https://directory.childactor101.com)
+- **Staging**: [ca101-directory.vercel.app](https://ca101-directory.vercel.app)
+
+---
+
+*Last updated: January 2025 - Phase 4 Complete: Parent Feature Reintroduction*

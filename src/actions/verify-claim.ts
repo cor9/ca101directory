@@ -1,6 +1,7 @@
 "use server";
 
-import { getListingById, updateListingClaim } from "@/lib/airtable";
+import { claimListingByEmail, claimListingByUserId } from "@/data/claims";
+import { getListingById } from "@/data/listings";
 import { currentUser } from "@/lib/auth";
 
 export async function verifyClaim(token: string) {
@@ -20,7 +21,7 @@ export async function verifyClaim(token: string) {
       .join(" ");
 
     // Get the listing
-    const listing = await getListingById(businessName);
+    const listing = await getListingById(token);
 
     if (!listing) {
       return {
@@ -30,7 +31,7 @@ export async function verifyClaim(token: string) {
     }
 
     // Check if listing is already claimed
-    if (listing.claimed) {
+    if (listing.claimed === true) {
       return {
         status: "error",
         message: "This listing has already been claimed",
@@ -47,14 +48,13 @@ export async function verifyClaim(token: string) {
       userId = `user_${Date.now()}`;
     }
 
-    // Update the listing in Airtable to mark it as verified
-    const success = await updateListingClaim(listing.id, {
-      claimed: true,
-      claimedByEmail: listing.claimedByEmail || user?.email || "unknown@example.com",
-      claimDate: new Date().toISOString(),
-      verificationStatus: "Verified",
-      plan: listing.plan || "Free",
-    });
+    // Update the listing in Supabase to mark it as verified
+    const success = user?.id
+      ? await claimListingByUserId(listing.id, user.id)
+      : await claimListingByEmail(
+          listing.id,
+          user?.email || "unknown@example.com",
+        );
 
     if (!success) {
       return {
@@ -66,7 +66,7 @@ export async function verifyClaim(token: string) {
     return {
       status: "success",
       message: "Listing successfully claimed and verified!",
-      listingName: listing.businessName,
+      listingName: listing.listing_name,
       listingSlug: listingSlug,
     };
   } catch (error) {

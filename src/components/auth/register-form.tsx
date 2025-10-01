@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { getEnabledRoles } from "@/config/feature-flags";
 import { RegisterSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
@@ -27,13 +28,19 @@ export const RegisterForm = () => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
+  // Get enabled roles for registration
+  const enabledRoles = getEnabledRoles();
+  const defaultRole = enabledRoles.includes("parent")
+    ? "parent"
+    : enabledRoles[0] || "vendor";
+
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: "",
       password: "",
       name: "",
-      role: "parent",
+      role: defaultRole as "parent" | "vendor",
     },
   });
 
@@ -136,24 +143,28 @@ export const RegisterForm = () => {
                       defaultValue={field.value}
                       className="flex flex-col space-y-2"
                     >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="parent" id="parent" />
-                        <label
-                          htmlFor="parent"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Parent/Legal Guardian
-                        </label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="vendor" id="vendor" />
-                        <label
-                          htmlFor="vendor"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Professional/Vendor
-                        </label>
-                      </div>
+                      {enabledRoles.includes("parent") && (
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="parent" id="parent" />
+                          <label
+                            htmlFor="parent"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          >
+                            Parent/Legal Guardian
+                          </label>
+                        </div>
+                      )}
+                      {enabledRoles.includes("vendor") && (
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="vendor" id="vendor" />
+                          <label
+                            htmlFor="vendor"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          >
+                            Professional/Vendor
+                          </label>
+                        </div>
+                      )}
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />

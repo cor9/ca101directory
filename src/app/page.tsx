@@ -1,23 +1,17 @@
 import Container from "@/components/container";
+import { ListingFilters } from "@/components/filters/ListingFilters";
 import HomeCategoryGrid from "@/components/home/home-category-grid";
 import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import HomeHero from "@/components/home/home-hero";
 import HomeHowItWorks from "@/components/home/home-how-it-works";
 import HomeValueProps from "@/components/home/home-value-props";
-import ItemGrid from "@/components/item/item-grid";
+import { ListingCard } from "@/components/listings/ListingCard";
 import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 import EmptyGrid from "@/components/shared/empty-grid";
-import FilterBar from "@/components/shared/filter-bar";
-import CustomPagination from "@/components/shared/pagination";
 import { homeConfig } from "@/config/home";
 import { priceConfig } from "@/config/price";
 import { siteConfig } from "@/config/site";
-import { getItems } from "@/data/airtable-item";
-import {
-  DEFAULT_SORT,
-  ITEMS_PER_PAGE,
-  SORT_FILTER_LIST,
-} from "@/lib/constants";
+import { getPublicListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
 import Link from "next/link";
 
@@ -32,39 +26,60 @@ export default async function HomePage({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  // For now, we don't have sponsor items in Airtable
-  const sponsorItems: never[] = [];
-  const showSponsor = false; // Disable sponsor items for now
-  const hasSponsorItem = false;
-
   const {
     category,
-    tag,
     region,
-    sort,
-    page,
+    state,
+    approved101,
     q: query,
-    f: filter,
   } = searchParams as { [key: string]: string };
 
-  console.log("HomePage, searchParams", searchParams, "region:", region);
-  const { sortKey, reverse } =
-    SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
-  const rawPage = page ? Number(page) : 1;
-  const currentPage = Number.isNaN(rawPage) ? 1 : Math.max(1, rawPage);
-  const { items, totalCount } = await getItems({
+  console.log("HomePage, searchParams", searchParams);
+
+  // Get listings from Supabase with filters
+  let listings = await getPublicListings({
+    q: query,
     category,
-    tag,
     region,
-    sortKey,
-    reverse,
-    query,
-    filter,
-    currentPage,
-    hasSponsorItem,
+    state,
   });
-  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-  console.log("HomePage, totalCount", totalCount, ", totalPages", totalPages);
+
+  // Apply 101 Approved filter
+  if (approved101 === "true") {
+    listings = listings.filter(
+      (listing) => listing.approved_101_badge === true,
+    );
+  }
+
+  // Sort by plan tier (Premium > Pro > Basic > Free) then by name
+  listings.sort((a, b) => {
+    const planPriority = (plan: string | null) => {
+      switch (plan) {
+        case "Premium":
+          return 4;
+        case "Pro":
+          return 3;
+        case "Basic":
+          return 2;
+        case "Free":
+          return 1;
+        default:
+          return 0;
+      }
+    };
+
+    const aPriority = planPriority(a.plan);
+    const bPriority = planPriority(b.plan);
+
+    if (aPriority !== bPriority) {
+      return bPriority - aPriority; // Higher priority first
+    }
+
+    // If same priority, sort by name
+    return (a.listing_name || "").localeCompare(b.listing_name || "");
+  });
+
+  const totalCount = listings.length;
 
   const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -104,29 +119,24 @@ export default async function HomePage({
           </p>
         </div>
 
-        {/* Filter Bar */}
-        <div className="mb-8">
-          <FilterBar />
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Filters Sidebar */}
+          <div className="lg:col-span-1">
+            <ListingFilters />
+          </div>
 
-        <div className="flex flex-col gap-8">
-          {/* when no items are found */}
-          {items?.length === 0 && <EmptyGrid />}
-
-          {/* when items are found */}
-          {items && items.length > 0 && (
-            <section className="">
-              <ItemGrid
-                items={items}
-                sponsorItems={sponsorItems}
-                showSponsor={showSponsor}
-              />
-
-              <div className="mt-8 flex items-center justify-center">
-                <CustomPagination routePrefix="/" totalPages={totalPages} />
+          {/* Listings Grid */}
+          <div className="lg:col-span-3">
+            {listings.length === 0 ? (
+              <EmptyGrid />
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {listings.map((listing) => (
+                  <ListingCard key={listing.id} listing={listing} />
+                ))}
               </div>
-            </section>
-          )}
+            )}
+          </div>
         </div>
       </Container>
 

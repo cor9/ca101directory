@@ -1,13 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import type { Listing } from "@/data/listings";
 import { cn } from "@/lib/utils";
-import type { Listing } from "@/lib/airtable";
+import { Check, Star } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface ClaimUpgradeFormProps {
   listing: Listing;
@@ -52,12 +58,14 @@ const plans = [
 export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
   const router = useRouter();
   const [selectedPlan, setSelectedPlan] = useState<string>("standard");
-  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("yearly");
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
+    "yearly",
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSelectPlan = async (planId: string) => {
     setIsLoading(true);
-    
+
     try {
       const response = await fetch("/api/create-checkout-session", {
         method: "POST",
@@ -74,7 +82,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
       });
 
       const { url } = await response.json();
-      
+
       if (url) {
         window.location.href = url;
       } else {
@@ -100,7 +108,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
               "px-4 py-2 rounded-md text-sm font-medium transition-colors",
               billingCycle === "monthly"
                 ? "bg-background text-foreground shadow-sm"
-                : "text-muted-foreground hover:text-foreground"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             Monthly
@@ -112,7 +120,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
               "px-4 py-2 rounded-md text-sm font-medium transition-colors",
               billingCycle === "yearly"
                 ? "bg-background text-foreground shadow-sm"
-                : "text-muted-foreground hover:text-foreground"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             Yearly
@@ -131,7 +139,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
             className={cn(
               "relative cursor-pointer transition-all hover:shadow-lg",
               selectedPlan === plan.id && "ring-2 ring-primary",
-              plan.popular && "border-primary"
+              plan.popular && "border-primary",
             )}
             onClick={() => setSelectedPlan(plan.id)}
           >
@@ -143,25 +151,28 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
                 </Badge>
               </div>
             )}
-            
+
             <CardHeader className="text-center">
               <CardTitle className="text-2xl">{plan.name}</CardTitle>
               <CardDescription>{plan.description}</CardDescription>
               <div className="mt-4">
                 <div className="text-4xl font-bold">
-                  ${billingCycle === "yearly" ? plan.yearlyPrice : plan.monthlyPrice}
+                  $
+                  {billingCycle === "yearly"
+                    ? plan.yearlyPrice
+                    : plan.monthlyPrice}
                 </div>
                 <div className="text-muted-foreground">
                   per {billingCycle === "yearly" ? "year" : "month"}
                 </div>
                 {billingCycle === "yearly" && (
                   <div className="text-sm text-green-600 mt-1">
-                    Save ${(plan.monthlyPrice * 12) - plan.yearlyPrice}/year
+                    Save ${plan.monthlyPrice * 12 - plan.yearlyPrice}/year
                   </div>
                 )}
               </div>
             </CardHeader>
-            
+
             <CardContent>
               <ul className="space-y-3">
                 {plan.features.map((feature) => (
@@ -171,7 +182,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
                   </li>
                 ))}
               </ul>
-              
+
               <Button
                 className="w-full mt-6"
                 variant={selectedPlan === plan.id ? "default" : "outline"}
@@ -191,7 +202,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
       {/* Additional Info */}
       <div className="mt-8 text-center text-sm text-muted-foreground">
         <p>
-          After payment, your claim will be submitted for review. Once approved, 
+          After payment, your claim will be submitted for review. Once approved,
           you'll have full control over your listing.
         </p>
       </div>

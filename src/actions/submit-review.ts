@@ -1,11 +1,20 @@
 "use server";
 
 import { auth } from "@/auth";
+import { isReviewAPIEnabled } from "@/config/feature-flags";
 import type { ReviewFormData } from "@/lib/schemas";
-import { createClient } from "@/lib/supabase/server";
+import { createServerClient } from "@/lib/supabase";
 
 export async function submitReview(formData: ReviewFormData) {
   try {
+    // Check if review API is enabled
+    if (!isReviewAPIEnabled()) {
+      return {
+        success: false,
+        message: "Review functionality is currently disabled.",
+      };
+    }
+
     const session = await auth();
 
     if (!session?.user?.id) {
@@ -23,7 +32,7 @@ export async function submitReview(formData: ReviewFormData) {
       };
     }
 
-    const supabase = createClient();
+    const supabase = createServerClient();
 
     // Check if user has already reviewed this vendor
     const { data: existingReview } = await supabase

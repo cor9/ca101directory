@@ -1,6 +1,6 @@
 "use server";
 
-import { getUserById } from "@/data/user";
+import { getUserById } from "@/data/supabase-user";
 import { currentUser } from "@/lib/auth";
 import { stripe } from "@/lib/stripe";
 import { absoluteUrl } from "@/lib/utils";
@@ -96,7 +96,7 @@ export async function createCheckoutSession(
         itemId,
       });
       // TODO: optimize the success and cancel urls with sessionId!!!
-      const successUrl = absoluteUrl(`/payment-success`);
+      const successUrl = absoluteUrl("/payment-success");
       const cancelUrl = absoluteUrl(`/payment/${itemId}?pay=failed`);
       const stripeSession = await stripe.checkout.sessions.create({
         customer: stripeCustomerId,

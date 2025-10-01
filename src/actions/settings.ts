@@ -1,7 +1,7 @@
 "use server";
 
 import { unstable_update } from "@/auth";
-import { getUserById } from "@/data/user";
+import { getUserById } from "@/data/supabase-user";
 import { currentUser } from "@/lib/auth";
 import type { SettingsSchema } from "@/lib/schemas";
 import { sanityClient } from "@/sanity/lib/client";

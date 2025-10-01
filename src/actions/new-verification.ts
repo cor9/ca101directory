@@ -1,6 +1,6 @@
 "use server";
 
-import { getUserByEmail } from "@/data/user";
+import { getUserByEmail } from "@/data/supabase-user";
 import { getVerificationTokenByToken } from "@/data/verification-token";
 import { sanityClient } from "@/sanity/lib/client";
 

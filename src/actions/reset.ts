@@ -1,6 +1,6 @@
 "use server";
 
-import { getUserByEmail } from "@/data/user";
+import { getUserByEmail } from "@/data/supabase-user";
 import { sendPasswordResetEmail } from "@/lib/mail";
 import { ResetSchema } from "@/lib/schemas";
 import { generatePasswordResetToken } from "@/lib/tokens";

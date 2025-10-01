@@ -1,6 +1,6 @@
 "use server";
 
-import { getUserById } from "@/data/user";
+import { getUserById } from "@/data/supabase-user";
 import { currentUser } from "@/lib/auth";
 import type { UserPasswordData } from "@/lib/schemas";
 import { sanityClient } from "@/sanity/lib/client";

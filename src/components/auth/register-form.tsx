@@ -138,13 +138,19 @@ export const RegisterForm = () => {
                     >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="parent" id="parent" />
-                        <label htmlFor="parent" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        <label
+                          htmlFor="parent"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
                           Parent/Legal Guardian
                         </label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="vendor" id="vendor" />
-                        <label htmlFor="vendor" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        <label
+                          htmlFor="vendor"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
                           Professional/Vendor
                         </label>
                       </div>

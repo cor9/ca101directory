@@ -1,9 +1,9 @@
 "use server";
 
-import { getUserByEmail } from "@/data/supabase-user";
 import { LoginSchema } from "@/lib/schemas";
-import { supabase } from "@/lib/supabase";
+import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { AuthError } from "next-auth";
 import type * as z from "zod";
 
 export type ServerActionResponse = {
@@ -24,27 +24,11 @@ export async function login(
   const { email, password } = validatedFields.data;
 
   try {
-    // Sign in with Supabase Auth
-    const { data: authData, error: authError } =
-      await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-    if (authError) {
-      console.error("Supabase login error:", authError);
-      return { status: "error", message: authError.message };
-    }
-
-    if (!authData.user) {
-      return { status: "error", message: "Login failed" };
-    }
-
-    // Check if user exists in our users table
-    const user = await getUserByEmail(email);
-    if (!user) {
-      return { status: "error", message: "User profile not found" };
-    }
+    await signIn("credentials", {
+      email,
+      password,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+    });
 
     return {
       status: "success",
@@ -52,7 +36,14 @@ export async function login(
       redirectUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     };
   } catch (error) {
-    console.error("Login error:", error);
-    return { status: "error", message: "Something went wrong!" };
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return { status: "error", message: "Invalid credentials!" };
+        default:
+          return { status: "error", message: "Something went wrong!" };
+      }
+    }
+    throw error;
   }
 }

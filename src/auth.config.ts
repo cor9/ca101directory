@@ -1,5 +1,6 @@
 import { SHOW_QUERY_LOGS } from "@/lib/constants";
 import { LoginSchema } from "@/lib/schemas";
+import { supabase } from "@/lib/supabase";
 import { AuthError, type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
@@ -30,22 +31,40 @@ export default {
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
 
-          // TODO: Implement Supabase-based user authentication
-          // For now, we'll implement a simple check
-          // In production, you'll want to:
-          // 1. Use Supabase Auth API
-          // 2. Hash passwords properly
-          // 3. Store user data in Supabase profiles table
-          // 4. Implement proper password verification
+          try {
+            // Sign in with Supabase Auth
+            const { data: authData, error: authError } =
+              await supabase.auth.signInWithPassword({
+                email,
+                password,
+              });
 
-          // Placeholder authentication - replace with Supabase integration
-          if (email === "admin@childactor101.com" && password === "admin123") {
+            if (authError || !authData.user) {
+              console.error("Supabase login error:", authError);
+              return null;
+            }
+
+            // Get user profile from profiles table
+            const { data: profile, error: profileError } = await supabase
+              .from("profiles")
+              .select("*")
+              .eq("id", authData.user.id)
+              .single();
+
+            if (profileError || !profile) {
+              console.error("Profile fetch error:", profileError);
+              return null;
+            }
+
             return {
-              id: "1",
-              email: email,
-              name: "Admin User",
-              role: "ADMIN",
+              id: profile.id,
+              email: profile.email,
+              name: profile.full_name,
+              role: profile.role.toUpperCase(),
             };
+          } catch (error) {
+            console.error("Authorization error:", error);
+            return null;
           }
         }
 

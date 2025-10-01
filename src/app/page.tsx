@@ -47,7 +47,7 @@ export default async function HomePage({
   // Apply 101 Approved filter
   if (approved101 === "true") {
     listings = listings.filter(
-      (listing) => listing["Approved 101 Badge"] === "checked",
+      (listing) => listing.approved_101_badge === "checked",
     );
   }
 
@@ -68,8 +68,8 @@ export default async function HomePage({
       }
     };
 
-    const aPriority = planPriority(a.Plan);
-    const bPriority = planPriority(b.Plan);
+    const aPriority = planPriority(a.plan);
+    const bPriority = planPriority(b.plan);
 
     if (aPriority !== bPriority) {
       return bPriority - aPriority; // Higher priority first

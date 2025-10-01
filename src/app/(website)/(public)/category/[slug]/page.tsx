@@ -20,21 +20,24 @@ import { notFound } from "next/navigation";
 export async function generateStaticParams() {
   try {
     const listings = await getPublicListings();
-    
+
     // Extract unique categories from listings
     const categorySet = new Set<string>();
-    listings.forEach(listing => {
-      if (listing.Categories) {
+    listings.forEach((listing) => {
+      if (listing.categories) {
         // Categories is a comma-separated string in Supabase
-        listing.Categories.split(',').forEach(category => {
+        listing.categories.split(",").forEach((category) => {
           categorySet.add(category.trim());
         });
       }
     });
-    
+
     // Convert category names to slugs
     return Array.from(categorySet).map((categoryName) => ({
-      slug: categoryName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+      slug: categoryName
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, ""),
     }));
   } catch (error) {
     console.error("generateStaticParams error:", error);
@@ -50,22 +53,26 @@ export async function generateMetadata({
 }): Promise<Metadata | undefined> {
   try {
     const listings = await getPublicListings();
-    
+
     // Extract unique categories from listings
     const categorySet = new Set<string>();
-    listings.forEach(listing => {
-      if (listing.Categories) {
+    listings.forEach((listing) => {
+      if (listing.categories) {
         // Categories is a comma-separated string in Supabase
-        listing.Categories.split(',').forEach(category => {
+        listing.categories.split(",").forEach((category) => {
           categorySet.add(category.trim());
         });
       }
     });
-    
-    const categoryName = Array.from(categorySet).find(cat => 
-      cat.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
+
+    const categoryName = Array.from(categorySet).find(
+      (cat) =>
+        cat
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, "") === params.slug,
     );
-    
+
     if (!categoryName) {
       return constructMetadata({
         title: "Category Not Found - Child Actor 101 Directory",
@@ -73,7 +80,7 @@ export async function generateMetadata({
         canonicalUrl: `${siteConfig.url}/category/${params.slug}`,
       });
     }
-    
+
     return constructMetadata({
       title: `${categoryName} - Child Actor 101 Directory`,
       description: `Find ${categoryName.toLowerCase()} professionals for your child's acting career`,
@@ -99,22 +106,26 @@ export default async function CategoryPage({
   try {
     // Get listings to validate the slug and find category name
     const listings = await getPublicListings();
-    
+
     // Extract unique categories from listings
     const categorySet = new Set<string>();
-    listings.forEach(listing => {
-      if (listing.Categories) {
+    listings.forEach((listing) => {
+      if (listing.categories) {
         // Categories is a comma-separated string in Supabase
-        listing.Categories.split(',').forEach(category => {
+        listing.categories.split(",").forEach((category) => {
           categorySet.add(category.trim());
         });
       }
     });
-    
-    const categoryName = Array.from(categorySet).find(cat => 
-      cat.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === params.slug
+
+    const categoryName = Array.from(categorySet).find(
+      (cat) =>
+        cat
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, "") === params.slug,
     );
-    
+
     if (!categoryName) {
       return notFound();
     }
@@ -128,7 +139,7 @@ export default async function CategoryPage({
     const { sortKey, reverse } =
       SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
     const currentPage = page ? Number(page) : 1;
-    
+
     const { items, totalCount } = await getItems({
       category: params.slug,
       sortKey,
@@ -136,7 +147,7 @@ export default async function CategoryPage({
       currentPage,
       hasSponsorItem,
     });
-    
+
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
     return (
@@ -147,7 +158,8 @@ export default async function CategoryPage({
             {categoryName}
           </h1>
           <p className="text-lg text-gray-600">
-            Find {categoryName.toLowerCase()} professionals for your child's acting career
+            Find {categoryName.toLowerCase()} professionals for your child's
+            acting career
           </p>
         </div>
 

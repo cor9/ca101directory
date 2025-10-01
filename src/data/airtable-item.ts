@@ -13,31 +13,31 @@ function listingToItem(listing: Listing): ItemInfo {
   return {
     _id: listing.id,
     _createdAt: new Date().toISOString(),
-    name: listing["Listing Name"] || "Untitled Listing",
+        name: listing.listing_name || "Untitled Listing",
     slug: {
       _type: "slug" as const,
-      current: (listing["Listing Name"] || "untitled")
+      current: (listing.listing_name || "untitled")
         .toLowerCase()
         .replace(/\s+/g, "-")
         .replace(/[^a-z0-9-]/g, ""),
     },
-    description: listing["What You Offer?"] || "",
-    link: listing.Website || "",
+    description: listing.what_you_offer || "",
+    link: listing.website || "",
     affiliateLink: null,
     sponsor: false,
     sponsorStartDate: null,
     sponsorEndDate: null,
     note: null,
     featured: false, // Will be determined by plan
-    icon: listing["Profile Image"]
+    icon: listing.profile_image
       ? {
           asset: {
-            _ref: listing["Profile Image"],
+            _ref: listing.profile_image,
             _type: "reference" as const,
           },
           hotspot: null,
           crop: null,
-          alt: `${listing["Listing Name"]} logo`,
+          alt: `${listing.listing_name} logo`,
           _type: "image" as const,
           blurDataURL: null,
           imageColor: null,
@@ -45,14 +45,14 @@ function listingToItem(listing: Listing): ItemInfo {
       : null,
     image: null, // Gallery images will be handled separately
     publishDate: new Date().toISOString(),
-    paid: listing.Plan !== "Free",
+    paid: listing.plan !== "Free",
     order: null,
-    pricePlan: (listing.Plan || "Free").toLowerCase() as
+    pricePlan: (listing.plan || "Free").toLowerCase() as
       | "free"
       | "basic"
       | "pro"
       | "premium",
-    freePlanStatus: (listing.Status || "Pending").toLowerCase() as
+    freePlanStatus: (listing.status || "Pending").toLowerCase() as
       | "pending"
       | "approved"
       | "rejected",
@@ -60,8 +60,8 @@ function listingToItem(listing: Listing): ItemInfo {
     sponsorPlanStatus: null,
     rejectionReason: null,
     collections: [],
-    categories: listing.Categories
-      ? listing.Categories.split(",").map((categoryName) => ({
+    categories: listing.categories
+      ? listing.categories.split(",").map((categoryName) => ({
           _id: categoryName.trim().toLowerCase().replace(/\s+/g, "-"),
           _type: "category" as const,
           _createdAt: new Date().toISOString(),
@@ -77,8 +77,8 @@ function listingToItem(listing: Listing): ItemInfo {
           priority: null,
         }))
       : [],
-    tags: listing["Age Range"]
-      ? listing["Age Range"].split(",").map((tag) => ({
+    tags: listing.age_range
+      ? listing.age_range.split(",").map((tag) => ({
           _id: tag.toLowerCase().replace(/\s+/g, "-"),
           _type: "tag" as const,
           _createdAt: new Date().toISOString(),
@@ -181,8 +181,8 @@ export async function getItems({
     if (filter) {
       filteredListings = filteredListings.filter(
         (listing) =>
-          listing.City?.toLowerCase().includes(filter.toLowerCase()) ||
-          listing.State?.toLowerCase().includes(filter.toLowerCase()),
+          listing.city?.toLowerCase().includes(filter.toLowerCase()) ||
+          listing.state?.toLowerCase().includes(filter.toLowerCase()),
       );
     }
 

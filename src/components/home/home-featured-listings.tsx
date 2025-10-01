@@ -60,20 +60,20 @@ export default async function HomeFeaturedListings() {
   try {
     const supabaseListings = await getPublicListings();
     listings = supabaseListings
-      .filter((listing) => listing.Plan === "Premium" || listing.Plan === "Pro") // Show premium/pro listings as featured
+      .filter((listing) => listing.plan === "Premium" || listing.plan === "Pro") // Show premium/pro listings as featured
       .slice(0, 3) // Limit to 3
       .map((listing) => ({
         id: listing.id,
         name: listing["Listing Name"] || "Untitled Listing",
         description:
-          listing["What You Offer?"] || "Professional acting services",
+          listing.what_you_offer || "Professional acting services",
         image:
-          listing["Profile Image"] ||
+          listing.profile_image ||
           "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop",
-        website: listing.Website || "#",
-        category: listing.Categories?.split(",")[0] || "Acting Professional",
-        tags: listing["Age Range"]?.split(",") || [],
-        featured: listing.Plan === "Premium",
+        website: listing.website || "#",
+        category: listing.categories?.split(",")[0] || "Acting Professional",
+        tags: listing.age_range?.split(",") || [],
+        featured: listing.plan === "Premium",
       }));
   } catch (error) {
     console.error("Error fetching featured listings:", error);

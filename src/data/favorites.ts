@@ -17,7 +17,7 @@ export async function getUserFavorites(userId: string): Promise<Favorite[]> {
     .from("favorites")
     .select(`
       *,
-      listing:listings_public(*)
+      listing:listings(*)
     `)
     .eq("user_id", userId)
     .order("created_at", { ascending: false });

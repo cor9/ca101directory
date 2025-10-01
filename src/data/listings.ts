@@ -45,7 +45,7 @@ export async function getPublicListings(params?: {
   city?: string;
   category?: string;
 }) {
-  let query = supabase.from("listings_public").select("*");
+  let query = supabase.from("listings").select("*");
 
   if (params?.state) query = query.eq("state", params.state);
   if (params?.region) query = query.eq("region", params.region);
@@ -74,7 +74,7 @@ export async function getPublicListings(params?: {
 
 export async function getListingById(id: string) {
   const { data, error } = await supabase
-    .from("listings_public")
+    .from("listings")
     .select("*")
     .eq("id", id)
     .single();
@@ -84,7 +84,7 @@ export async function getListingById(id: string) {
 
 export async function getListingBySlug(slug: string) {
   const { data, error } = await supabase
-    .from("listings_public")
+    .from("listings")
     .select("*")
     .eq("slug", slug)
     .single();

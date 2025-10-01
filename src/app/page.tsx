@@ -13,6 +13,7 @@ import { siteConfig } from "@/config/site";
 import { getPublicListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
 import Link from "next/link";
+import Script from "next/script";
 
 export const metadata = constructMetadata({
   title: `${siteConfig.name} | ${siteConfig.tagline}`,
@@ -87,7 +88,12 @@ export default async function HomePage({
   });
 
   return (
-    <div className="flex flex-col">
+    <>
+      <Script
+        src="https://js.stripe.com/v3/pricing-table.js"
+        strategy="afterInteractive"
+      />
+      <div className="flex min-h-screen flex-col">
       {/* Hero Section */}
       <Container className="mt-8 mb-20">
         <HomeHero />
@@ -189,6 +195,7 @@ export default async function HomePage({
       <Container className="py-16">
         <NewsletterCard />
       </Container>
-    </div>
+      </div>
+    </>
   );
 }

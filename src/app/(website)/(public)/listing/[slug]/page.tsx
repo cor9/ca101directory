@@ -114,6 +114,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
       _debugClaimed: listing._debugClaimed,
       _debugClaimedByEmail: listing._debugClaimedByEmail,
       _debugOwnerId: listing._debugOwnerId,
+      _debugAllFields: listing._debugAllFields,
     });
 
     return (

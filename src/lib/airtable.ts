@@ -115,6 +115,7 @@ export interface Listing {
   _debugClaimed?: any;
   _debugClaimedByEmail?: any;
   _debugOwnerId?: any;
+  _debugAllFields?: string[];
 }
 
 export interface Category {
@@ -183,6 +184,9 @@ function recordToListing(record: Airtable.Record<any>): Listing {
     _debugClaimed: fields["Claimed?"],
     _debugClaimedByEmail: fields["Claimed By Email"],
     _debugOwnerId: fields["Owner ID"],
+    
+    // Debug all fields to see what's available
+    _debugAllFields: Object.keys(fields),
   };
 }
 

@@ -44,11 +44,19 @@ export const footerConfig: FooterConfig = {
     {
       title: "Legal",
       items: [
-        { title: "Privacy Policy", href: "/privacy" },
-        { title: "Terms of Service", href: "/terms" },
         {
-          title: "California Permit Info",
-          href: "https://childactor101.com/permit-info",
+          title: "Terms and Conditions",
+          href: "https://www.childactor101.com/terms-and-conditions",
+          external: true,
+        },
+        {
+          title: "Privacy Policy",
+          href: "https://www.childactor101.com/privacy-policy",
+          external: true,
+        },
+        {
+          title: "California Child Permit",
+          href: "https://www.childactor101.com/ab1660",
           external: true,
         },
         { title: "Sitemap", href: "/sitemap.xml" },

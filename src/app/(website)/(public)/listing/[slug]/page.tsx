@@ -362,9 +362,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                         </a>
                       </li>
                     )}
-                    {listing.format
-                      ?.toLowerCase()
-                      .includes("online") && (
+                    {listing.format?.toLowerCase().includes("online") && (
                       <li className="flex items-start gap-3">
                         <GlobeIcon className="w-4 h-4 text-muted-foreground mt-1" />
                         <span className="text-foreground">
@@ -513,8 +511,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 )}
 
                 {/* Certifications & Compliance */}
-                {(listing.ca_permit ===
-                  "checked" ||
+                {(listing.ca_permit === "checked" ||
                   listing.bonded === "checked") && (
                   <div className="bg-muted/50 rounded-lg p-6">
                     <h2 className="text-lg font-semibold mb-4 text-foreground">

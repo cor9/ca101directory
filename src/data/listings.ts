@@ -65,12 +65,14 @@ export async function getPublicListings(params?: {
     );
 
   // Only show approved/active listings (handle both Airtable and Supabase status values)
-  query = query.in("status", ["Live", "APPROVED", "Approved"]).eq("active", "checked");
+  query = query
+    .in("status", ["Live", "APPROVED", "Approved"])
+    .eq("active", "checked");
 
   const { data, error } = await query.order("listing_name", {
     ascending: true,
   });
-  
+
   if (error) throw error;
   return data as Listing[];
 }

@@ -58,7 +58,7 @@ export const {
       });
 
       if (user) {
-        token.role = (user as any).role || "USER";
+        token.role = (user as any).role || "parent";
         token.id = user.id;
       }
 

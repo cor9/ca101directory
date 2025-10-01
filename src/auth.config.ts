@@ -87,7 +87,7 @@ export default {
               id: profile.id,
               email: profile.email,
               name: profile.full_name,
-              role: profile.role.toUpperCase(),
+              role: profile.role,
             };
           } catch (error) {
             console.error("Authorization error:", error);

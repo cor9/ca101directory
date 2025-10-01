@@ -3,7 +3,7 @@ import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
 import { getItems } from "@/data/airtable-item";
-import { getListings } from "@/lib/airtable";
+import { getPublicListings } from "@/data/listings";
 import {
   DEFAULT_SORT,
   ITEMS_PER_PAGE,
@@ -19,19 +19,22 @@ import { notFound } from "next/navigation";
  */
 export async function generateStaticParams() {
   try {
-    const listings = await getListings();
+    const listings = await getPublicListings();
 
     // Extract unique age ranges (tags) from all listings
     const allAgeRanges = new Set<string>();
     listings.forEach((listing) => {
-      listing.tags?.forEach((tag) => {
-        allAgeRanges.add(
-          tag
-            .toLowerCase()
-            .replace(/\s+/g, "-")
-            .replace(/[^a-z0-9-]/g, ""),
-        );
-      });
+      if (listing["Age Range"]) {
+        // Age Range is a comma-separated string in Supabase
+        listing["Age Range"].split(',').forEach((tag) => {
+          allAgeRanges.add(
+            tag.trim()
+              .toLowerCase()
+              .replace(/\s+/g, "-")
+              .replace(/[^a-z0-9-]/g, ""),
+          );
+        });
+      }
     });
 
     // Convert age ranges to slugs
@@ -40,7 +43,7 @@ export async function generateStaticParams() {
     }));
   } catch (error) {
     console.error("generateStaticParams error:", error);
-    // Return empty array if Airtable is not configured
+    // Return empty array if Supabase is not configured
     return [];
   }
 }
@@ -51,18 +54,19 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata | undefined> {
   try {
-    const listings = await getListings();
+    const listings = await getPublicListings();
 
     // Find listings that match this tag (age range)
-    const matchingListings = listings.filter((listing) =>
-      listing.tags?.some(
+    const matchingListings = listings.filter((listing) => {
+      if (!listing["Age Range"]) return false;
+      return listing["Age Range"].split(',').some(
         (tag) =>
-          tag
+          tag.trim()
             .toLowerCase()
             .replace(/\s+/g, "-")
             .replace(/[^a-z0-9-]/g, "") === params.slug,
-      ),
-    );
+      );
+    });
 
     if (matchingListings.length === 0) {
       return constructMetadata({
@@ -73,13 +77,13 @@ export async function generateMetadata({
     }
 
     // Get the actual age range name from the first matching listing
-    const ageRangeName = matchingListings[0].tags?.find(
+    const ageRangeName = matchingListings[0]["Age Range"]?.split(',').find(
       (tag) =>
-        tag
+        tag.trim()
           .toLowerCase()
           .replace(/\s+/g, "-")
           .replace(/[^a-z0-9-]/g, "") === params.slug,
-    );
+    )?.trim();
 
     return constructMetadata({
       title: `${ageRangeName} - Child Actor 101 Directory`,
@@ -104,31 +108,32 @@ export default async function TagPage({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   try {
-    const listings = await getListings();
+    const listings = await getPublicListings();
 
     // Find listings that match this tag (age range)
-    const matchingListings = listings.filter((listing) =>
-      listing.tags?.some(
+    const matchingListings = listings.filter((listing) => {
+      if (!listing["Age Range"]) return false;
+      return listing["Age Range"].split(',').some(
         (tag) =>
-          tag
+          tag.trim()
             .toLowerCase()
             .replace(/\s+/g, "-")
             .replace(/[^a-z0-9-]/g, "") === params.slug,
-      ),
-    );
+      );
+    });
 
     if (matchingListings.length === 0) {
       return notFound();
     }
 
     // Get the actual age range name from the first matching listing
-    const ageRangeName = matchingListings[0].tags?.find(
+    const ageRangeName = matchingListings[0]["Age Range"]?.split(',').find(
       (tag) =>
-        tag
+        tag.trim()
           .toLowerCase()
           .replace(/\s+/g, "-")
           .replace(/[^a-z0-9-]/g, "") === params.slug,
-    );
+    )?.trim();
 
     // For now, we don't have sponsor items in Airtable
     const sponsorItems: any[] = [];

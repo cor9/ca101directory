@@ -1,4 +1,8 @@
-import { type Listing, getListingById, getPublicListings } from "@/data/listings";
+import {
+  type Listing,
+  getListingById,
+  getPublicListings,
+} from "@/data/listings";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
 import type { ItemInfo } from "@/types";
 
@@ -43,14 +47,21 @@ function listingToItem(listing: Listing): ItemInfo {
     publishDate: new Date().toISOString(),
     paid: listing.Plan !== "Free",
     order: null,
-    pricePlan: (listing.Plan || "Free").toLowerCase() as "free" | "basic" | "pro" | "premium",
-    freePlanStatus: (listing.Status || "Pending").toLowerCase() as "pending" | "approved" | "rejected",
+    pricePlan: (listing.Plan || "Free").toLowerCase() as
+      | "free"
+      | "basic"
+      | "pro"
+      | "premium",
+    freePlanStatus: (listing.Status || "Pending").toLowerCase() as
+      | "pending"
+      | "approved"
+      | "rejected",
     proPlanStatus: null,
     sponsorPlanStatus: null,
     rejectionReason: null,
     collections: [],
     categories: listing.Categories
-      ? listing.Categories.split(',').map((categoryName) => ({
+      ? listing.Categories.split(",").map((categoryName) => ({
           _id: categoryName.trim().toLowerCase().replace(/\s+/g, "-"),
           _type: "category" as const,
           _createdAt: new Date().toISOString(),
@@ -67,7 +78,7 @@ function listingToItem(listing: Listing): ItemInfo {
         }))
       : [],
     tags: listing["Age Range"]
-      ? listing["Age Range"].split(',').map((tag) => ({
+      ? listing["Age Range"].split(",").map((tag) => ({
           _id: tag.toLowerCase().replace(/\s+/g, "-"),
           _type: "tag" as const,
           _createdAt: new Date().toISOString(),
@@ -159,18 +170,19 @@ export async function getItems({
     // Tag filter (age range)
     if (tag) {
       const tagList = tag.split(",");
-      filteredListings = filteredListings.filter((listing) =>
-        listing["Age Range"] && tagList.every((t) => 
-          listing["Age Range"]?.includes(t)
-        ),
+      filteredListings = filteredListings.filter(
+        (listing) =>
+          listing["Age Range"] &&
+          tagList.every((t) => listing["Age Range"]?.includes(t)),
       );
     }
 
     // Location filter
     if (filter) {
-      filteredListings = filteredListings.filter((listing) =>
-        (listing.City?.toLowerCase().includes(filter.toLowerCase())) ||
-        (listing.State?.toLowerCase().includes(filter.toLowerCase()))
+      filteredListings = filteredListings.filter(
+        (listing) =>
+          listing.City?.toLowerCase().includes(filter.toLowerCase()) ||
+          listing.State?.toLowerCase().includes(filter.toLowerCase()),
       );
     }
 

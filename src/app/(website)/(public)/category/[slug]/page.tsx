@@ -3,7 +3,7 @@ import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
 import { getItems } from "@/data/airtable-item";
-import { getListings } from "@/lib/airtable";
+import { getPublicListings } from "@/data/listings";
 import {
   DEFAULT_SORT,
   ITEMS_PER_PAGE,
@@ -19,14 +19,17 @@ import { notFound } from "next/navigation";
  */
 export async function generateStaticParams() {
   try {
-    const listings = await getListings();
+    const listings = await getPublicListings();
     
     // Extract unique categories from listings
     const categorySet = new Set<string>();
     listings.forEach(listing => {
-      listing.categories?.forEach(category => {
-        categorySet.add(category);
-      });
+      if (listing.Categories) {
+        // Categories is a comma-separated string in Supabase
+        listing.Categories.split(',').forEach(category => {
+          categorySet.add(category.trim());
+        });
+      }
     });
     
     // Convert category names to slugs
@@ -35,7 +38,7 @@ export async function generateStaticParams() {
     }));
   } catch (error) {
     console.error("generateStaticParams error:", error);
-    // Return empty array if Airtable is not configured
+    // Return empty array if Supabase is not configured
     return [];
   }
 }
@@ -46,14 +49,17 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata | undefined> {
   try {
-    const listings = await getListings();
+    const listings = await getPublicListings();
     
     // Extract unique categories from listings
     const categorySet = new Set<string>();
     listings.forEach(listing => {
-      listing.categories?.forEach(category => {
-        categorySet.add(category);
-      });
+      if (listing.Categories) {
+        // Categories is a comma-separated string in Supabase
+        listing.Categories.split(',').forEach(category => {
+          categorySet.add(category.trim());
+        });
+      }
     });
     
     const categoryName = Array.from(categorySet).find(cat => 
@@ -92,14 +98,17 @@ export default async function CategoryPage({
 }) {
   try {
     // Get listings to validate the slug and find category name
-    const listings = await getListings();
+    const listings = await getPublicListings();
     
     // Extract unique categories from listings
     const categorySet = new Set<string>();
     listings.forEach(listing => {
-      listing.categories?.forEach(category => {
-        categorySet.add(category);
-      });
+      if (listing.Categories) {
+        // Categories is a comma-separated string in Supabase
+        listing.Categories.split(',').forEach(category => {
+          categorySet.add(category.trim());
+        });
+      }
     });
     
     const categoryName = Array.from(categorySet).find(cat => 

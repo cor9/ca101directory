@@ -5,6 +5,7 @@ export interface User {
   email: string;
   full_name: string;
   role: "parent" | "vendor" | "admin";
+  stripe_customer_id?: string;
   created_at: string;
   updated_at: string;
 }

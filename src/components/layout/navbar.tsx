@@ -18,6 +18,7 @@ import { siteConfig } from "@/config/site";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 import type { DashboardConfig, MarketingConfig } from "@/types";
+import type { ExtendedUser } from "@/types/next-auth";
 import { ArrowRightIcon, MenuIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -28,7 +29,7 @@ import { Logo } from "../logo";
 interface NavBarProps {
   scroll?: boolean;
   config: DashboardConfig | MarketingConfig;
-  user?: { id?: string; email?: string; name?: string; role?: string } | undefined;
+  user?: ExtendedUser | undefined;
 }
 
 export function Navbar({ scroll = false, config, user }: NavBarProps) {

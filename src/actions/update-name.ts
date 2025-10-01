@@ -1,10 +1,9 @@
 "use server";
 
 import { unstable_update } from "@/auth";
-import { getUserById } from "@/data/supabase-user";
+import { getUserById, updateUser } from "@/data/supabase-user";
 import { currentUser } from "@/lib/auth";
 import { type UserNameData, UserNameSchema } from "@/lib/schemas";
-import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
 
 export type ServerActionResponse = {
@@ -29,18 +28,18 @@ export async function updateUserName(
     // console.log('updateUserName, values:', values);
     const { name } = UserNameSchema.parse(values);
 
-    const updatedUser = await sanityClient
-      .patch(dbUser._id)
-      .set({
-        name: name,
-      })
-      .commit();
-    // console.log("updateUserName, user:", updatedUser);
+    const updatedUser = await updateUser(user.id, {
+      full_name: name,
+    });
+
+    if (!updatedUser) {
+      return { status: "error", message: "Failed to update user name!" };
+    }
 
     // unstable update in Beta version
     unstable_update({
       user: {
-        name: updatedUser.name,
+        name: updatedUser.full_name,
       },
     });
 

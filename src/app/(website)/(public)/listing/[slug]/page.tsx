@@ -1,7 +1,7 @@
 import { ClaimButton } from "@/components/claim/claim-button";
 import { ClaimedListingActions } from "@/components/listing/claimed-listing-actions";
-import { ReviewsDisplay } from "@/components/reviews/reviews-display";
 import { ReviewForm } from "@/components/reviews/review-form";
+import { ReviewsDisplay } from "@/components/reviews/reviews-display";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { getListingById } from "@/lib/airtable";
@@ -115,6 +115,14 @@ export default async function ListingPage({ params }: ListingPageProps) {
       _debugClaimedByEmail: listing._debugClaimedByEmail,
       _debugOwnerId: listing._debugOwnerId,
       _debugAllFields: listing._debugAllFields,
+    });
+
+    // Debug component visibility
+    console.log("Component visibility debug:", {
+      showClaimButton: listing.claimed !== true,
+      showReviewForm: true,
+      showReviewsDisplay: true,
+      listingId: listing.id,
     });
 
     return (
@@ -282,7 +290,19 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
             {/* Review Form */}
             <div className="mt-8">
-              <ReviewForm vendorId={listing.id} vendorName={listing.businessName} />
+              {(() => {
+                console.log("ReviewForm render check:", {
+                  vendorId: listing.id,
+                  vendorName: listing.businessName,
+                  willRender: true
+                });
+                return true;
+              })() && (
+                <ReviewForm
+                  vendorId={listing.id}
+                  vendorName={listing.businessName}
+                />
+              )}
             </div>
 
             <div className="flex items-center justify-start mt-16">
@@ -347,7 +367,14 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 </div>
 
                 {/* Claim Listing Section */}
-                {listing.claimed !== true && (
+                {(() => {
+                  console.log("Claim section render check:", {
+                    claimed: listing.claimed,
+                    condition: listing.claimed !== true,
+                    willRender: listing.claimed !== true
+                  });
+                  return listing.claimed !== true;
+                })() && (
                   <div className="bg-gradient-to-r from-brand-orange/5 to-brand-blue/5 rounded-lg p-6 border border-brand-orange/20">
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0">
@@ -485,7 +512,15 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 </div>
 
                 {/* Reviews Display */}
-                <ReviewsDisplay vendorId={listing.id} />
+                {(() => {
+                  console.log("ReviewsDisplay render check:", {
+                    vendorId: listing.id,
+                    willRender: true
+                  });
+                  return true;
+                })() && (
+                  <ReviewsDisplay vendorId={listing.id} />
+                )}
 
                 {/* Certifications & Compliance */}
                 {(listing.performerPermit || listing.bonded) && (

@@ -1,10 +1,9 @@
 "use server";
 
 import { unstable_update } from "@/auth";
-import { getUserById } from "@/data/supabase-user";
+import { getUserById, updateUser } from "@/data/supabase-user";
 import { currentUser } from "@/lib/auth";
 import { type UserLinkData, UserLinkSchema } from "@/lib/schemas";
-import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
 
 export type ServerActionResponse = {
@@ -29,13 +28,13 @@ export async function updateUserLink(
     // console.log('updateUserLink, values:', values);
     const { link } = UserLinkSchema.parse(values);
 
-    const updatedUser = await sanityClient
-      .patch(dbUser._id)
-      .set({
-        link: link,
-      })
-      .commit();
-    // console.log("updateUserLink, user:", updatedUser);
+    const updatedUser = await updateUser(user.id, {
+      link: link,
+    });
+
+    if (!updatedUser) {
+      return { status: "error", message: "Failed to update user link!" };
+    }
 
     // unstable update in Beta version
     unstable_update({

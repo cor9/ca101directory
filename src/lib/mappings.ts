@@ -27,10 +27,17 @@ export const categoryMap: Record<string, string> = {
   recyn6J2gCtzSVkVn: "College Prep Coaches",
 };
 
-// Map fake tags to Airtable Age Range options
+// Map tags to format and region options instead of age ranges
 export const tagMap: Record<string, string> = {
-  "tag-1": "5-8",
-  "tag-2": "9-12",
-  "tag-3": "13-17",
-  "tag-4": "18+",
+  // Format tags
+  "online": "Online Only",
+  "in-person": "In-Person Only", 
+  "hybrid": "Hybrid (Online & In-Person)",
+  
+  // Region tags (we'll add these as we populate the region field)
+  "los-angeles": "Los Angeles",
+  "new-york": "New York",
+  "atlanta": "Atlanta",
+  "chicago": "Chicago",
+  "virtual": "Virtual/Remote",
 };

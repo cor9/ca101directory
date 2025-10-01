@@ -48,7 +48,7 @@ export async function getUserReviews(userId: string): Promise<Review[]> {
     .from("reviews")
     .select(`
       *,
-      listing:listings_public(*)
+      listing:listings(*)
     `)
     .eq("user_id", userId)
     .order("created_at", { ascending: false });
@@ -70,7 +70,7 @@ export async function getPendingReviews(): Promise<Review[]> {
     .select(`
       *,
       user:profiles(id, email, name),
-      listing:listings_public(*)
+      listing:listings(*)
     `)
     .eq("status", "pending")
     .order("created_at", { ascending: false });

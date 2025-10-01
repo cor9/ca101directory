@@ -28,7 +28,7 @@ import { Logo } from "../logo";
 interface NavBarProps {
   scroll?: boolean;
   config: DashboardConfig | MarketingConfig;
-  user?: { id: string; email: string; name: string; role: string } | undefined;
+  user?: { id?: string; email?: string; name?: string; role?: string } | undefined;
 }
 
 export function Navbar({ scroll = false, config, user }: NavBarProps) {

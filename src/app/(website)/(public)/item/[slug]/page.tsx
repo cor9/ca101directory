@@ -1,6 +1,7 @@
 import { ClaimButton } from "@/components/claim/claim-button";
 import { ReviewForm } from "@/components/reviews/review-form";
 import { ReviewsDisplay } from "@/components/reviews/reviews-display";
+import { isReviewsEnabled } from "@/config/feature-flags";
 import { siteConfig } from "@/config/site";
 import { getItemById } from "@/data/airtable-item";
 import { constructMetadata } from "@/lib/metadata";
@@ -196,14 +197,21 @@ export default async function ItemDetailPage({
         </div>
 
         {/* Review Form */}
-        <div className="mt-8">
-          <ReviewForm vendorId={listing.id} vendorName={listing.businessName} />
-        </div>
+        {isReviewsEnabled() && (
+          <div className="mt-8">
+            <ReviewForm
+              vendorId={listing.id}
+              vendorName={listing.businessName}
+            />
+          </div>
+        )}
 
         {/* Reviews Display */}
-        <div className="mt-8">
-          <ReviewsDisplay vendorId={listing.id} />
-        </div>
+        {isReviewsEnabled() && (
+          <div className="mt-8">
+            <ReviewsDisplay vendorId={listing.id} />
+          </div>
+        )}
 
         {/* Claim Listing Section */}
         {listing.claimed !== true && (

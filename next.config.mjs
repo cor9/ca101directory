@@ -15,6 +15,48 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === "production",
   },
 
+  // Production optimizations
+  poweredByHeader: false,
+  generateEtags: false,
+
+  // Security headers
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "DENY",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
+        ],
+      },
+    ];
+  },
+
+  // Redirects for production
+  async redirects() {
+    return [
+      {
+        source: "/dashboard",
+        destination: "/dashboard/vendor",
+        permanent: false,
+      },
+    ];
+  },
+
   images: {
     // https://vercel.com/docs/image-optimization/managing-image-optimization-costs#minimizing-image-optimization-costs
     // vercel has limits on image optimization, 1000 images per month
@@ -44,7 +86,21 @@ const nextConfig = {
         protocol: "https",
         hostname: "via.placeholder.com", // https://www.sanity.io/learn/course/day-one-with-sanity-studio/bringing-content-to-a-next-js-front-end
       },
+      {
+        protocol: "https",
+        hostname: "*.vercel-storage.com", // Vercel Blob storage
+      },
     ],
+  },
+
+  // Environment variables validation
+  env: {
+    CUSTOM_KEY: process.env.CUSTOM_KEY,
+  },
+
+  // Experimental features for production
+  experimental: {
+    serverComponentsExternalPackages: ["@supabase/supabase-js"],
   },
 };
 

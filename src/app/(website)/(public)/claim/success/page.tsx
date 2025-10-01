@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { createClient } from "@/lib/supabase/server";
+import { createServerClient } from "@/lib/supabase";
 import { CheckCircle, Clock, CreditCard, Mail } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -38,7 +38,7 @@ export default async function ClaimSuccessPage({
   let profileData = null;
 
   try {
-    const supabase = createClient();
+    const supabase = createServerClient();
 
     // Get the most recent claim for this user
     const { data: claims } = await supabase
@@ -48,7 +48,7 @@ export default async function ClaimSuccessPage({
         message,
         created_at,
         listings!claims_listing_id_fkey (
-          businessName
+          listing_name
         )
       `)
       .eq("vendor_id", session.user.id)
@@ -73,7 +73,7 @@ export default async function ClaimSuccessPage({
     console.error("Error fetching claim data:", error);
   }
 
-  const listingName = claimData?.listings?.businessName || "Your Listing";
+  const listingName = claimData?.listings?.listing_name || "Your Listing";
   const planName = profileData?.subscription_plan
     ? profileData.subscription_plan.charAt(0).toUpperCase() +
       profileData.subscription_plan.slice(1)

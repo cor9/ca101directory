@@ -1,6 +1,6 @@
 import { SHOW_QUERY_LOGS } from "@/lib/constants";
 import { LoginSchema } from "@/lib/schemas";
-import { supabase } from "@/lib/supabase";
+import { createServerClient } from "@/lib/supabase";
 import { AuthError, type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
@@ -33,6 +33,7 @@ export default {
 
           try {
             // Sign in with Supabase Auth
+            const supabase = createServerClient();
             const { data: authData, error: authError } =
               await supabase.auth.signInWithPassword({
                 email,

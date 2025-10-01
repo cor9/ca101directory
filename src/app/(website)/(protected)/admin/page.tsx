@@ -4,7 +4,7 @@ import { ReviewModeration } from "@/components/admin/review-moderation";
 import { VendorSuggestionsModeration } from "@/components/admin/vendor-suggestions-moderation";
 import Container from "@/components/container";
 import { HeaderSection } from "@/components/shared/header-section";
-import { createClient } from "@/lib/supabase/server";
+import { createServerClient } from "@/lib/supabase";
 import { redirect } from "next/navigation";
 
 export default async function AdminPage() {
@@ -14,7 +14,7 @@ export default async function AdminPage() {
     redirect("/login");
   }
 
-  const supabase = createClient();
+  const supabase = createServerClient();
 
   // Check if user is admin
   const { data: profile } = await supabase

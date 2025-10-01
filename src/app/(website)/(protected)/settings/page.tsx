@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { UserLinkForm } from "@/components/settings/user-link-form";
 import { UserNameForm } from "@/components/settings/user-name-form";
 import { UserPasswordForm } from "@/components/settings/user-password-form";
 import { Card, CardContent } from "@/components/ui/card";
@@ -35,7 +34,6 @@ export default async function SettingsPage() {
         <Card className="overflow-hidden">
           <CardContent className="space-y-6 p-6">
             <UserNameForm />
-            <UserLinkForm />
             <UserPasswordForm />
           </CardContent>
         </Card>

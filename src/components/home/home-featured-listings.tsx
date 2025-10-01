@@ -1,5 +1,5 @@
 import { Icons } from "@/components/icons/icons";
-import { getListings } from "@/lib/airtable";
+import { getPublicListings } from "@/data/listings";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -54,31 +54,31 @@ const fallbackListings: FeaturedListing[] = [
 ];
 
 export default async function HomeFeaturedListings() {
-  // Get real listings from Airtable
+  // Get real listings from Supabase
   let listings: FeaturedListing[] = [];
 
   try {
-    const airtableListings = await getListings();
-    listings = airtableListings
-      .filter((listing) => listing.featured) // Only show featured listings
+    const supabaseListings = await getPublicListings();
+    listings = supabaseListings
+      .filter((listing) => listing.plan === "Premium" || listing.plan === "Pro") // Show premium/pro listings as featured
       .slice(0, 3) // Limit to 3
       .map((listing) => ({
         id: listing.id,
-        name: listing.businessName,
-        description: listing.description,
+        name: listing.listing_name || "Untitled Listing",
+        description: listing.what_you_offer || "Professional acting services",
         image:
-          listing.logo ||
+          listing.profile_image ||
           "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop",
         website: listing.website || "#",
-        category: listing.categories?.[0] || "Acting Professional",
-        tags: listing.tags || [],
-        featured: listing.featured,
+        category: listing.categories?.split(',')[0] || "Acting Professional",
+        tags: listing.age_range?.split(',') || [],
+        featured: listing.plan === "Premium",
       }));
   } catch (error) {
     console.error("Error fetching featured listings:", error);
   }
 
-  // Use fallback if no Airtable listings
+  // Use fallback if no Supabase listings
   if (listings.length === 0) {
     listings = fallbackListings;
   }

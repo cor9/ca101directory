@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createServerClient } from "@/lib/supabase";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      const supabase = createClient();
+      const supabase = createServerClient();
 
       try {
         // 1. Insert claim row

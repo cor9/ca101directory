@@ -1,7 +1,8 @@
 import { AirtableSubmitForm } from "@/components/submit/airtable-submit-form";
 import FreeSubmitForm from "@/components/submit/free-submit-form";
+import { SupabaseSubmitForm } from "@/components/submit/supabase-submit-form";
 import { siteConfig } from "@/config/site";
-import { getCategories } from "@/lib/airtable";
+import { getCategories } from "@/data/categories";
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
@@ -14,7 +15,7 @@ export const metadata = constructMetadata({
  * Submit page - now with working form rendering
  */
 export default async function SubmitPage() {
-  // Get categories from Airtable with error handling
+  // Get categories from Supabase with error handling
   let categories = [];
   try {
     categories = await getCategories();
@@ -24,21 +25,21 @@ export default async function SubmitPage() {
     );
   } catch (error) {
     console.error("SubmitPage: Error fetching categories:", error);
-    // Fallback to empty array if Airtable fails
+    // Fallback to empty array if Supabase fails
     categories = [];
   }
 
-  // Convert Airtable categories to the format expected by SubmitForm
+  // Convert Supabase categories to the format expected by SubmitForm
   const categoryList = categories.map((cat) => ({
     _id: cat.id,
     _type: "category" as const,
     _createdAt: new Date().toISOString(),
     _updatedAt: new Date().toISOString(),
     _rev: "",
-    name: cat.categoryName,
+    name: cat.category_name,
     slug: {
       _type: "slug" as const,
-      current: cat.categoryName.toLowerCase().replace(/\s+/g, "-"),
+      current: cat.category_name.toLowerCase().replace(/\s+/g, "-"),
     },
     description: cat.description || null,
     group: null,
@@ -142,7 +143,7 @@ export default async function SubmitPage() {
   // Convert categories to the format expected by FreeSubmitForm
   const freeFormCategories = categories.map((cat) => ({
     id: cat.id,
-    name: cat.categoryName,
+    name: cat.category_name,
   }));
 
   return (
@@ -154,31 +155,18 @@ export default async function SubmitPage() {
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-        {/* Free Form */}
-        <div>
-          <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold text-brand-orange mb-2">
-              Free Listing
-            </h2>
-            <p className="text-muted-foreground">
-              Quick and easy - perfect for getting started
-            </p>
-          </div>
-          <FreeSubmitForm categories={freeFormCategories} />
-        </div>
-
-        {/* Full Form */}
+      <div className="max-w-4xl mx-auto">
+        {/* Supabase Form */}
         <div>
           <div className="text-center mb-6">
             <h2 className="text-2xl font-bold text-brand-blue mb-2">
-              Premium Listing
+              Submit Your Listing
             </h2>
             <p className="text-muted-foreground">
-              Full features with logo, detailed descriptions, and more
+              Create a professional listing for your child actor business
             </p>
           </div>
-          <AirtableSubmitForm tagList={tagList} categoryList={categoryList} />
+          <SupabaseSubmitForm categories={freeFormCategories} />
         </div>
       </div>
     </div>

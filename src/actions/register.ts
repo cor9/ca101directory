@@ -1,5 +1,6 @@
 "use server";
 
+import { isRoleEnabled } from "@/config/feature-flags";
 import { createUser, getUserByEmail } from "@/data/supabase-user";
 import { RegisterSchema } from "@/lib/schemas";
 import { supabase } from "@/lib/supabase";
@@ -21,6 +22,14 @@ export async function register(
   }
 
   const { email, password, name, role } = validatedFields.data;
+
+  // Check if the selected role is enabled
+  if (!isRoleEnabled(role)) {
+    return {
+      status: "error",
+      message: `${role} registration is currently disabled`,
+    };
+  }
 
   // Check if user already exists
   const existingUser = await getUserByEmail(email);

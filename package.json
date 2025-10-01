@@ -1,10 +1,22 @@
 {
-  "name": "mkdirs-template",
+  "name": "child-actor-101-directory",
   "version": "1.0.0",
   "private": true,
   "author": {
-    "name": "Mkdirs",
-    "url": "https://github.com/MkdirsHQ"
+    "name": "Child Actor 101",
+    "url": "https://childactor101.com"
+  },
+  "description": "Professional directory for child actor services and resources",
+  "keywords": [
+    "child actors",
+    "directory",
+    "entertainment",
+    "professional services"
+  ],
+  "homepage": "https://directory.childactor101.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/childactor101/directory"
   },
   "scripts": {
     "dev": "next dev",
@@ -32,7 +44,10 @@
     "batch:update": "tsx scripts/batch-all.ts update",
     "airtable:sync": "tsx scripts/batch-airtable-sync.ts sync",
     "airtable:remove": "tsx scripts/batch-airtable-sync.ts remove",
-    "airtable:update": "tsx scripts/batch-airtable-sync.ts update"
+    "airtable:update": "tsx scripts/batch-airtable-sync.ts update",
+    "test": "echo \"No tests specified\" && exit 0",
+    "test:build": "next build",
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
     "@ai-sdk/deepseek": "^0.1.0",

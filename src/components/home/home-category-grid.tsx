@@ -1,5 +1,6 @@
 import { Icons } from "@/components/icons/icons";
-import { getCategories, getListings } from "@/lib/airtable";
+import { getCategories } from "@/data/categories";
+import { getPublicListings } from "@/data/listings";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -74,44 +75,44 @@ const categoryIconMap: Record<string, keyof typeof Icons> = {
 };
 
 export default async function HomeCategoryGrid() {
-  // Get real categories from Airtable
+  // Get real categories from Supabase
   let categories: Category[] = [];
 
   try {
-    const [airtableCategories, listings] = await Promise.all([
+    const [supabaseCategories, listings] = await Promise.all([
       getCategories(),
-      getListings(),
+      getPublicListings(),
     ]);
 
     // Count listings per category
     const categoryCounts: Record<string, number> = {};
     for (const listing of listings) {
       if (listing.categories) {
-        for (const category of listing.categories) {
-          categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+        const categoryList = listing.categories.split(',');
+        for (const category of categoryList) {
+          const trimmedCategory = category.trim();
+          categoryCounts[trimmedCategory] = (categoryCounts[trimmedCategory] || 0) + 1;
         }
       }
     }
 
-    categories = airtableCategories
+    categories = supabaseCategories
       .slice(0, 6) // Limit to 6 categories
       .map((category) => ({
-        name: category.categoryName,
-        slug: category.categoryName
+        name: category.category_name,
+        slug: category.category_name
           .toLowerCase()
           .replace(/\s+/g, "-")
           .replace(/[^a-z0-9-]/g, ""),
-        icon: categoryIconMap[category.categoryName] || "star",
-        description:
-          category.description ||
-          `Professional ${category.categoryName.toLowerCase()} services`,
-        count: categoryCounts[category.categoryName] || 0,
+        icon: categoryIconMap[category.category_name] || "star",
+        description: `Professional ${category.category_name.toLowerCase()} services`,
+        count: categoryCounts[category.category_name] || 0,
       }));
   } catch (error) {
     console.error("Error fetching categories:", error);
   }
 
-  // Use fallback if no Airtable categories
+  // Use fallback if no Supabase categories
   if (categories.length === 0) {
     categories = fallbackCategories;
   }

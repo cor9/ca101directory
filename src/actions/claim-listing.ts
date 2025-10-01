@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import type { ClaimListingFormData } from "@/lib/schemas";
-import { createClient } from "@/lib/supabase/server";
+import { createServerClient } from "@/lib/supabase";
 
 export async function claimListing(formData: ClaimListingFormData) {
   try {
@@ -15,7 +15,7 @@ export async function claimListing(formData: ClaimListingFormData) {
       };
     }
 
-    const supabase = createClient();
+    const supabase = createServerClient();
 
     // Check if listing exists and is not already claimed
     const { data: listing, error: listingError } = await supabase

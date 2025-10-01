@@ -1,16 +1,16 @@
 "use client";
 
 import { BottomButton } from "@/components/auth/bottom-button";
+import { Logo } from "@/components/logo";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader
+  CardHeader,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { Logo } from "@/components/logo";
 
 interface AuthCardProps {
   children: React.ReactNode;

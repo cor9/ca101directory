@@ -41,7 +41,7 @@ export async function register(
     });
 
     if (authError) {
-      console.error('Supabase auth error:', authError);
+      console.error("Supabase auth error:", authError);
       return { status: "error", message: authError.message };
     }
 
@@ -52,9 +52,9 @@ export async function register(
     // Create user record in our profiles table
     const user = await createUser({
       id: authData.user.id,
-      email: authData.user.email || '',
+      email: authData.user.email || "",
       name,
-      role: 'parent'
+      role: "parent",
     });
 
     if (!user) {
@@ -64,10 +64,10 @@ export async function register(
     return {
       status: "success",
       message: "Account created successfully! Redirecting to dashboard...",
-      redirectUrl: "/dashboard"
+      redirectUrl: "/dashboard",
     };
   } catch (error) {
-    console.error('Registration error:', error);
+    console.error("Registration error:", error);
     return { status: "error", message: "Something went wrong" };
   }
 }

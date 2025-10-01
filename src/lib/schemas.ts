@@ -288,6 +288,9 @@ export const RegisterSchema = z.object({
   name: z.string().min(1, {
     message: "Name is required",
   }),
+  role: z.enum(["parent", "vendor"], {
+    required_error: "Please select your role",
+  }),
 });
 
 /**

@@ -110,6 +110,11 @@ export interface Listing {
   verificationStatus?: "Pending" | "Verified" | "Denied";
   badge101?: boolean;
   owner_id?: string;
+  
+  // Debug fields (temporary)
+  _debugClaimed?: any;
+  _debugClaimedByEmail?: any;
+  _debugOwnerId?: any;
 }
 
 export interface Category {
@@ -173,6 +178,11 @@ function recordToListing(record: Airtable.Record<any>): Listing {
     verificationStatus: fields["Verification Status"] || "Pending",
     badge101: fields["101 Badge"] || false,
     owner_id: fields["Owner ID"] || "",
+    
+    // Debug claim fields
+    _debugClaimed: fields["Claimed?"],
+    _debugClaimedByEmail: fields["Claimed By Email"],
+    _debugOwnerId: fields["Owner ID"],
   };
 }
 

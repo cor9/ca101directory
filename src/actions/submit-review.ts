@@ -15,6 +15,14 @@ export async function submitReview(formData: ReviewFormData) {
       };
     }
 
+    // Only parents can submit reviews
+    if (session.user.role !== "parent") {
+      return {
+        success: false,
+        message: "Only parents can submit reviews.",
+      };
+    }
+
     const supabase = createClient();
 
     // Check if user has already reviewed this vendor

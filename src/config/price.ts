@@ -133,39 +133,4 @@ export const priceConfig: PriceConfig = {
       stripePriceId: STRIPE_PRICE_IDS.PREMIUM_ANNUAL,
     },
   ],
-  foundingBundles: [
-    {
-      title: "Founding Standard",
-      description: "Limited time founding offer",
-      benefits: [
-        "All Standard features included",
-        "Logo display on your listing",
-        "Enhanced visibility",
-        "Priority review process",
-        "Email support",
-        "6 months for $125 (save $25)",
-      ],
-      limitations: ["No featured placement", "No 101 Badge"],
-      price: 125,
-      priceSuffix: "/6 months",
-      stripePriceId: "prod_T97zPhO5FmuWdj", // Founding Standard
-    },
-    {
-      title: "Founding Pro",
-      description: "Limited time founding offer",
-      benefits: [
-        "All Pro features included",
-        "Featured placement at top of listings",
-        "SEO boosting features",
-        "Priority customer support",
-        "Social media promotion",
-        "Advanced analytics",
-        "6 months for $250 (save $50)",
-      ],
-      limitations: ["No 101 Badge"],
-      price: 250,
-      priceSuffix: "/6 months",
-      stripePriceId: "prod_T987vSSXcnn6oU", // Founding Pro
-    },
-  ],
 };

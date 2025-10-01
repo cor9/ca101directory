@@ -41,6 +41,7 @@ export default {
 
             if (authError || !authData.user) {
               console.error("Supabase login error:", authError);
+              console.error("Auth data:", authData);
               return null;
             }
 
@@ -53,8 +54,12 @@ export default {
 
             if (profileError || !profile) {
               console.error("Profile fetch error:", profileError);
+              console.error("Profile data:", profile);
+              console.error("User ID:", authData.user.id);
               return null;
             }
+
+            console.log("Login successful, profile:", profile);
 
             return {
               id: profile.id,

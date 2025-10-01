@@ -107,6 +107,15 @@ export default async function ListingPage({ params }: ListingPageProps) {
       return notFound();
     }
 
+    // Debug claim fields
+    console.log("Listing claim debug:", {
+      businessName: listing.businessName,
+      claimed: listing.claimed,
+      _debugClaimed: listing._debugClaimed,
+      _debugClaimedByEmail: listing._debugClaimedByEmail,
+      _debugOwnerId: listing._debugOwnerId,
+    });
+
     return (
       <div className="flex flex-col gap-8">
         {/* Header section */}

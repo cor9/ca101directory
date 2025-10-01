@@ -42,6 +42,9 @@ export function ReviewForm({
   const { data: session, status } = useSession();
   const [isPending, startTransition] = useTransition();
 
+  // Debug session state
+  console.log("ReviewForm session state:", { session, status, vendorName });
+
   // Don't show form if user is not logged in
   if (status === "loading") {
     return (

@@ -52,7 +52,7 @@ export const submitToReview = async (
     const statusLink = getItemStatusLinkInWebsite(itemId);
     const reviewLink = getItemLinkInStudio(itemId);
     sendNotifySubmissionEmail(
-      user.name,
+      user.full_name,
       user.email,
       result.name,
       statusLink,

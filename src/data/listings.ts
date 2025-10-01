@@ -47,25 +47,25 @@ export async function getPublicListings(params?: {
 }) {
   let query = supabase.from("listings").select("*");
 
-  if (params?.state) query = query.eq("state", params.state);
-  if (params?.region) query = query.eq("region", params.region);
-  if (params?.city) query = query.eq("city", params.city);
+  if (params?.state) query = query.eq("State", params.state);
+  if (params?.region) query = query.eq("Region", params.region);
+  if (params?.city) query = query.eq("City", params.city);
   if (params?.category)
-    query = query.ilike("categories", `%${params.category}%`);
+    query = query.ilike("Categories", `%${params.category}%`);
   if (params?.q)
     query = query.or(
       [
-        `listing_name.ilike.%${params.q}%`,
-        `what_you_offer.ilike.%${params.q}%`,
-        `city.ilike.%${params.q}%`,
-        `state.ilike.%${params.q}%`,
+        `"Listing Name".ilike.%${params.q}%`,
+        `"What You Offer?".ilike.%${params.q}%`,
+        `City.ilike.%${params.q}%`,
+        `State.ilike.%${params.q}%`,
       ].join(","),
     );
 
   // Only show approved/active listings (handle both Airtable and Supabase status values)
   query = query.in("Status", ["Live", "APPROVED", "Approved"]).eq("Active", true);
 
-  const { data, error } = await query.order("listing_name", {
+  const { data, error } = await query.order("Listing Name", {
     ascending: true,
   });
   if (error) throw error;

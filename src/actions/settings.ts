@@ -1,11 +1,10 @@
 "use server";
 
 import { unstable_update } from "@/auth";
-import { getUserById } from "@/data/supabase-user";
+import { getUserById, updateUser } from "@/data/supabase-user";
 import { currentUser } from "@/lib/auth";
 import type { SettingsSchema } from "@/lib/schemas";
-import { sanityClient } from "@/sanity/lib/client";
-import bcrypt from "bcryptjs";
+import { supabase } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 import type * as z from "zod";
 
@@ -35,34 +34,35 @@ export async function settings(
     }
 
     // password change needs verification
-    if (values.password && values.newPassword && dbUser.password) {
-      const passwordsMatch = await bcrypt.compare(
-        values.password,
-        dbUser.password,
-      );
-
-      if (!passwordsMatch) {
-        return { status: "error", message: "Incorrect password!" };
+    if (values.password && values.newPassword) {
+      // For Supabase Auth, we don't need to verify old password
+      // Supabase handles this internally
+      const { error: passwordError } = await supabase.auth.updateUser({
+        password: values.newPassword
+      });
+      
+      if (passwordError) {
+        return { status: "error", message: "Failed to update password!" };
       }
-
-      const hashedPassword = await bcrypt.hash(values.newPassword, 10);
-      values.password = hashedPassword;
-      values.newPassword = undefined;
     }
 
-    const updatedUser = await sanityClient
-      .patch(dbUser._id)
-      .set({
-        ...values,
-      })
-      .commit();
+    // Update other profile fields using Supabase
+    const updateData: Partial<{ full_name: string; email: string }> = {};
+    if (values.name) updateData.full_name = values.name;
+    if (values.email) updateData.email = values.email;
+    
+    const updatedUser = await updateUser(user.id, updateData);
     console.log("settings, updatedUser:", updatedUser);
+
+    if (!updatedUser) {
+      return { status: "error", message: "Failed to update profile!" };
+    }
 
     // unstable update in Beta version
     unstable_update({
       user: {
-        name: updatedUser.name,
-        link: updatedUser.link,
+        name: updatedUser.full_name,
+        email: updatedUser.email,
       },
     });
 

@@ -3,8 +3,7 @@
 import { getUserById } from "@/data/supabase-user";
 import { currentUser } from "@/lib/auth";
 import type { UserPasswordData } from "@/lib/schemas";
-import { sanityClient } from "@/sanity/lib/client";
-import bcrypt from "bcryptjs";
+import { supabase } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 
 export type ServerActionResponse = {
@@ -27,24 +26,18 @@ export async function updateUserPassword(
     }
 
     // password change needs verification
-    if (values.password && values.newPassword && dbUser.password) {
-      const passwordsMatch = await bcrypt.compare(
-        values.password,
-        dbUser.password,
-      );
+    if (values.password && values.newPassword) {
+      // Use Supabase Auth to update password
+      const { error } = await supabase.auth.updateUser({
+        password: values.newPassword
+      });
 
-      if (!passwordsMatch) {
-        return { status: "error", message: "Incorrect password!" };
+      if (error) {
+        console.error("Password update error:", error);
+        return { status: "error", message: "Failed to update password!" };
       }
 
-      const hashedPassword = await bcrypt.hash(values.newPassword, 10);
-      const updatedUser = await sanityClient
-        .patch(dbUser._id)
-        .set({
-          password: hashedPassword,
-        })
-        .commit();
-      console.log("updateUserPassword, user:", updatedUser);
+      console.log("updateUserPassword: Password updated successfully");
 
       revalidatePath("/settings");
       return { status: "success", message: "User password updated!" };

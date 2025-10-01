@@ -13,7 +13,7 @@ function listingToItem(listing: Listing): ItemInfo {
   return {
     _id: listing.id,
     _createdAt: new Date().toISOString(),
-        name: listing.listing_name || "Untitled Listing",
+    name: listing.listing_name || "Untitled Listing",
     slug: {
       _type: "slug" as const,
       current: (listing.listing_name || "untitled")

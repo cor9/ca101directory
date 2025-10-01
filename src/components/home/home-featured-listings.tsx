@@ -65,8 +65,7 @@ export default async function HomeFeaturedListings() {
       .map((listing) => ({
         id: listing.id,
         name: listing["Listing Name"] || "Untitled Listing",
-        description:
-          listing.what_you_offer || "Professional acting services",
+        description: listing.what_you_offer || "Professional acting services",
         image:
           listing.profile_image ||
           "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop",

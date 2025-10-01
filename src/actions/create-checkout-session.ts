@@ -1,6 +1,6 @@
 "use server";
 
-import { getUserById } from "@/data/supabase-user";
+import { getUserById, updateUser } from "@/data/supabase-user";
 import { currentUser } from "@/lib/auth";
 import { stripe } from "@/lib/stripe";
 import { absoluteUrl } from "@/lib/utils";
@@ -41,11 +41,11 @@ export async function createCheckoutSession(
     }
 
     // 1. get user's stripeCustomerId
-    const sanityUser = await getUserById(user.id);
+    const supabaseUser = await getUserById(user.id);
     if (item.submitter._id !== user.id) {
       return { status: "error", message: "You are not allowed to do this!" };
     }
-    let stripeCustomerId = sanityUser?.stripeCustomerId;
+    let stripeCustomerId = supabaseUser?.stripe_customer_id;
     // console.log('stripeCustomerId:', stripeCustomerId);
 
     // 2. if the item is paid and the submitter is the user, then redirect to the billing portal
@@ -62,7 +62,7 @@ export async function createCheckoutSession(
       // 3. make sure the user has a stripeCustomerId
       console.log("item is not paid, redirect to stripe checkout session");
       if (!stripeCustomerId) {
-        console.log("creating customer in Stripe and Sanity");
+        console.log("creating customer in Stripe and Supabase");
         const customer = await stripe.customers.create({
           email: user.email,
         });
@@ -73,16 +73,13 @@ export async function createCheckoutSession(
           };
         }
 
-        const result = await sanityClient
-          .patch(user.id)
-          .set({
-            stripeCustomerId: customer.id,
-          })
-          .commit();
-        if (!result) {
+        const updatedUser = await updateUser(user.id, {
+          stripe_customer_id: customer.id,
+        });
+        if (!updatedUser) {
           return {
             status: "error",
-            message: "Failed to save customer in Sanity",
+            message: "Failed to save customer in Supabase",
           };
         }
         stripeCustomerId = customer.id;

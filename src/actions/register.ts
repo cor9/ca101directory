@@ -20,7 +20,7 @@ export async function register(
     return { status: "error", message: "Invalid Fields!" };
   }
 
-  const { email, password, name } = validatedFields.data;
+  const { email, password, name, role } = validatedFields.data;
 
   // Check if user already exists
   const existingUser = await getUserByEmail(email);
@@ -35,7 +35,8 @@ export async function register(
       password,
       options: {
         data: {
-          name,
+          full_name: name,
+          role: role,
         },
       },
     });
@@ -54,7 +55,7 @@ export async function register(
       id: authData.user.id,
       email: authData.user.email || "",
       name,
-      role: "parent",
+      role: role,
     });
 
     if (!user) {

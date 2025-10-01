@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 interface ClaimButtonProps {
@@ -19,15 +18,8 @@ export function ClaimButton({
   ownerId,
   className,
 }: ClaimButtonProps) {
-  const { data: session, status } = useSession();
-
   // Don't show button if listing is already claimed
   if (claimed) {
-    return null;
-  }
-
-  // Don't show button if user already owns this listing
-  if (ownerId && ownerId === session?.user?.id) {
     return null;
   }
 
@@ -37,7 +29,7 @@ export function ClaimButton({
     .replace(/\s+/g, "-")
     .replace(/[^a-z0-9-]/g, "");
 
-  // Show button regardless of session status for now
+  // Show button for all unclaimed listings
   // The claim-upgrade page will handle authentication
   return (
     <Button asChild variant="outline" className={className}>

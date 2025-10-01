@@ -8,7 +8,7 @@ export const footerConfig: FooterConfig = {
         { title: "Search Professionals", href: "/search" },
         { title: "Browse Categories", href: "/category" },
         { title: "All Listings", href: "/directory" },
-        { title: "Age Groups", href: "/tag" },
+        { title: "Tags", href: "/tag" },
       ],
     },
     {

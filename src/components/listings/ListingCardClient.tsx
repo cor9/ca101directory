@@ -91,7 +91,7 @@ export function ListingCardClient({ listing, className }: ListingCardClientProps
             />
           ) : (
             <div className="w-full h-full bg-muted flex items-center justify-center">
-              <Icons.logo className="h-12 w-12 text-muted-foreground" />
+              <Icons.studio className="h-12 w-12 text-muted-foreground" />
             </div>
           )}
 

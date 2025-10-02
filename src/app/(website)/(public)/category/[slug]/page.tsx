@@ -131,6 +131,7 @@ export default async function CategoryPage({
       itemsCount: items?.length || 0,
       totalCount,
       categoryName,
+      items: items?.slice(0, 3), // Show first 3 items for debugging
     });
 
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);

@@ -45,7 +45,7 @@ export async function register(
       password,
       options: {
         data: {
-          full_name: name,
+          name: name,
           role: role,
         },
       },

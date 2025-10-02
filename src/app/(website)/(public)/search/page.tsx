@@ -50,11 +50,24 @@ export default async function SearchPage({
     state,
     region,
   } = searchParams as { [key: string]: string };
+  
+  // Convert category ID to category name
+  let categoryName: string | undefined = undefined;
+  if (category && category !== "all") {
+    const foundCategory = categories.find((cat) => cat.id === category);
+    categoryName = foundCategory?.category_name;
+    console.log("SearchPage: Category mapping:", {
+      categoryId: category,
+      categoryName,
+      foundCategory,
+    });
+  }
+  
   const { sortKey, reverse } =
     SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
   const currentPage = page ? Number(page) : 1;
   const { items, totalCount } = await getItems({
-    category,
+    category: categoryName, // Pass category name instead of ID
     tag,
     state,
     region,

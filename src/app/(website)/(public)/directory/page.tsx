@@ -54,8 +54,21 @@ export default async function DirectoryPage({
     SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
   const currentPage = page ? Number(page) : 1;
 
+  // Convert category ID to category name
+  let categoryName: string | undefined = undefined;
+  if (category && category !== "all") {
+    const foundCategory = categories.find((cat) => cat.id === category);
+    categoryName = foundCategory?.category_name;
+    console.log("DirectoryPage: Category mapping:", {
+      categoryId: category,
+      categoryName,
+      foundCategory,
+    });
+  }
+
   console.log("DirectoryPage: Getting items with params:", {
     category,
+    categoryName,
     state,
     region,
     query,
@@ -66,7 +79,7 @@ export default async function DirectoryPage({
   });
 
   const { items, totalCount } = await getItems({
-    category,
+    category: categoryName, // Pass category name instead of ID
     state,
     region,
     query,

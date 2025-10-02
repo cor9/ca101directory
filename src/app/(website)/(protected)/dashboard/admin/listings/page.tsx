@@ -8,7 +8,7 @@ import { constructMetadata } from "@/lib/metadata";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircleIcon, EditIcon, StarIcon } from "lucide-react";
+import { CheckCircleIcon, EditIcon } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 

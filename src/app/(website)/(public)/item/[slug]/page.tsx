@@ -38,8 +38,8 @@ export default async function ItemDetailPage({
     const supabaseListing = await getListingBySlug(params.slug);
     
     if (supabaseListing) {
-      console.log("ItemDetailPage: Found Supabase listing, redirecting to /listing/");
-      redirect(`/listing/${params.slug}`);
+      console.log("ItemDetailPage: Found Supabase listing, redirecting to UUID-based URL:", supabaseListing.id);
+      redirect(`/listing/${supabaseListing.id}`);
     } else {
       console.error("ItemDetailPage: Listing not found for slug:", params.slug);
       return notFound();

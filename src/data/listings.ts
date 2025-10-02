@@ -109,19 +109,23 @@ export async function getListingById(id: string) {
 export async function getListingBySlug(slug: string) {
   console.log("getListingBySlug: Looking for slug:", slug);
 
-  // First try to find by slug column
-  const { data: slugData, error: slugError } = await supabase
-    .from("listings")
-    .select("*")
-    .eq("slug", slug)
-    .single();
-
-  if (slugData && !slugError) {
-    console.log("getListingBySlug: Found by slug column");
-    return slugData as Listing;
+  // First try to find by UUID (if it looks like a UUID)
+  if (slug.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
+    console.log("getListingBySlug: Treating as UUID");
+    const { data, error } = await supabase
+      .from("listings")
+      .select("*")
+      .eq("id", slug)
+      .single();
+    
+    if (data && !error) {
+      console.log("getListingBySlug: Found by UUID:", data.listing_name);
+      return data as Listing;
+    }
+    console.log("getListingBySlug: UUID not found, trying slug lookup");
   }
 
-  // If not found by slug, try to find by generated slug from listing_name
+  // If not found by UUID, try to find by generated slug from listing_name
   const { data: nameData, error: nameError } = await supabase
     .from("listings")
     .select("*");
@@ -149,6 +153,8 @@ export async function getListingBySlug(slug: string) {
     });
     
     return generatedSlug === slug;
+
+
   });
 
   if (listing) {

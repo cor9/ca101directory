@@ -219,6 +219,18 @@ export type HomeConfig = {
       href: string;
     };
   };
+  parentCta: {
+    heading: string;
+    description: string;
+    primaryCta: {
+      label: string;
+      href: string;
+    };
+    secondaryCta: {
+      label: string;
+      href: string;
+    };
+  };
 };
 
 export type FAQConfig = {

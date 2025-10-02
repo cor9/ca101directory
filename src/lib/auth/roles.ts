@@ -30,11 +30,17 @@ export interface UserWithRole {
  * Get user role with fallback to 'guest'
  */
 export function getRole(user: UserWithRole | null | undefined): UserRole {
+  console.log("getRole called with user:", user);
+  
   // If user exists but no role is set, default to 'vendor' for legacy users
   if (user && !user.role) {
+    console.log("User exists but no role, defaulting to vendor");
     return "vendor";
   }
-  return user?.role ?? "guest";
+  
+  const role = user?.role ?? "guest";
+  console.log("getRole returning:", role);
+  return role;
 }
 
 /**
@@ -55,7 +61,9 @@ export function hasAnyRole(
   roles: UserRole[],
 ): boolean {
   const userRole = getRole(user);
-  return roles.includes(userRole);
+  const hasAccess = roles.includes(userRole);
+  console.log("hasAnyRole:", { userRole, roles, hasAccess });
+  return hasAccess;
 }
 
 /**

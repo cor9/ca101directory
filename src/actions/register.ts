@@ -14,6 +14,7 @@ export type ServerActionResponse = {
 
 export async function register(
   values: z.infer<typeof RegisterSchema>,
+  nextUrl?: string,
 ): Promise<ServerActionResponse> {
   const validatedFields = RegisterSchema.safeParse(values);
 
@@ -74,7 +75,7 @@ export async function register(
     return {
       status: "success",
       message: "Account created successfully! Redirecting to dashboard...",
-      redirectUrl: "/dashboard",
+      redirectUrl: nextUrl || "/dashboard",
     };
   } catch (error) {
     console.error("Registration error:", error);

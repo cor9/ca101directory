@@ -9,8 +9,8 @@ import CustomPagination from "@/components/shared/pagination";
 import { BlogSection } from "@/components/blog/blog-section";
 import { CollectionsSection } from "@/components/collections/collections-section";
 import { siteConfig } from "@/config/site";
-import { getCategories } from "@/data/categories";
-import { getPublicListings } from "@/data/listings";
+import { getCategoriesClient } from "@/data/categories-client";
+import { getPublicListingsClient } from "@/data/listings-client";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -36,8 +36,8 @@ function HomePageContent() {
       try {
         // Fetch categories and listings
         const [categoriesData, listingsData] = await Promise.all([
-          getCategories(),
-          getPublicListings({
+          getCategoriesClient(),
+          getPublicListingsClient({
     q: query,
     category,
     region,

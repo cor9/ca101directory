@@ -14,7 +14,8 @@ export default function HomePricingPreview() {
             Simple, Transparent Pricing
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Choose the plan that fits where you are today and upgrade as your performer grows.
+            Choose the plan that fits where you are today and upgrade as your
+            performer grows.
           </p>
         </div>
 
@@ -24,7 +25,9 @@ export default function HomePricingPreview() {
             <CardHeader className="text-center">
               <CardTitle className="text-2xl">Free</CardTitle>
               <div className="text-4xl font-bold text-brand-blue">$0</div>
-              <p className="text-muted-foreground">Perfect for getting started</p>
+              <p className="text-muted-foreground">
+                Perfect for getting started
+              </p>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
@@ -88,3 +91,5 @@ export default function HomePricingPreview() {
     </section>
   );
 }
+
+

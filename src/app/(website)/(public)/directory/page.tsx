@@ -26,16 +26,19 @@ export default async function DirectoryPage({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   // No sponsor items for now
-  const sponsorItems: any[] = [];
+  const sponsorItems: unknown[] = [];
   const showSponsor = false;
   const hasSponsorItem = false;
 
-  const { sort, page } = searchParams as { [key: string]: string };
+  const { sort, page, category, state, region } = searchParams as { [key: string]: string };
   const { sortKey, reverse } =
     SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
   const currentPage = page ? Number(page) : 1;
 
   const { items, totalCount } = await getItems({
+    category,
+    state,
+    region,
     sortKey,
     reverse,
     currentPage,
@@ -76,6 +79,11 @@ export default async function DirectoryPage({
             <div className="text-muted-foreground">Families Served</div>
           </div>
         </div>
+      </Container>
+
+      {/* Filters */}
+      <Container className="pb-8">
+        <DirectoryFilters className="mb-8" />
       </Container>
 
       {/* Listings */}

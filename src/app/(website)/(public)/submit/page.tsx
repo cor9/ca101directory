@@ -30,21 +30,23 @@ export default async function SubmitPage() {
   }
 
   // Convert Supabase categories to the format expected by SubmitForm
-  const categoryList = categories.map((cat) => ({
-    _id: cat.id,
-    _type: "category" as const,
-    _createdAt: new Date().toISOString(),
-    _updatedAt: new Date().toISOString(),
-    _rev: "",
-    name: cat.category_name,
-    slug: {
-      _type: "slug" as const,
-      current: cat.category_name.toLowerCase().replace(/\s+/g, "-"),
-    },
-    description: cat.description || null,
-    group: null,
-    priority: null,
-  }));
+  const categoryList = categories
+    .filter((cat) => cat.category_name) // Filter out categories with null/undefined names
+    .map((cat) => ({
+      _id: cat.id,
+      _type: "category" as const,
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: "",
+      name: cat.category_name,
+      slug: {
+        _type: "slug" as const,
+        current: cat.category_name?.toLowerCase().replace(/\s+/g, "-") || "unknown",
+      },
+      description: cat.description || null,
+      group: null,
+      priority: null,
+    }));
 
   // Format and region tags instead of age ranges
   const tagList = [
@@ -141,10 +143,12 @@ export default async function SubmitPage() {
   ];
 
   // Convert categories to the format expected by FreeSubmitForm
-  const freeFormCategories = categories.map((cat) => ({
-    id: cat.id,
-    name: cat.category_name,
-  }));
+  const freeFormCategories = categories
+    .filter((cat) => cat.category_name) // Filter out categories with null/undefined names
+    .map((cat) => ({
+      id: cat.id,
+      name: cat.category_name,
+    }));
 
   return (
     <div className="container mx-auto px-4 py-8">

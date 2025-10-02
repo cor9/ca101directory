@@ -134,6 +134,14 @@ export default async function CategoryPage({
       items: items?.slice(0, 3), // Show first 3 items for debugging
     });
 
+    // Debug: Test getPublicListings directly
+    const directListings = await getPublicListings({ category: categoryName });
+    console.log("CategoryPage: Direct getPublicListings result:", {
+      directCount: directListings?.length || 0,
+      categoryName,
+      sampleListings: directListings?.slice(0, 3),
+    });
+
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
     return (

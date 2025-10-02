@@ -35,6 +35,7 @@ export type Listing = {
   ca_permit_required: boolean | null;
   is_bonded: boolean | null;
   has_gallery: boolean | null;
+  comped: boolean | null;
   
   // Additional new fields
   owner_id: string | null; // UUID reference to users

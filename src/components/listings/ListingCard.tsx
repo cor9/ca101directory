@@ -28,6 +28,13 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
       ?.toLowerCase()
       .replace(/\s+/g, "-")
       .replace(/[^a-z0-9-]/g, "") || listing.id;
+  
+  console.log("ListingCard: Generated slug:", {
+    listingName: listing.listing_name,
+    slug,
+    href: `/listing/${slug}`,
+    listingId: listing.id
+  });
 
   const categories = listing.categories?.split(",").map((c) => c.trim()) || [];
   const ageRange = listing.age_range?.split(",").map((a) => a.trim()) || [];

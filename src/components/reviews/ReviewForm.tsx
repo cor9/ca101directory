@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Star } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -22,12 +23,12 @@ import { z } from "zod";
 
 const ReviewSchema = z.object({
   stars: z.number().min(1, "Please select a rating").max(5),
-  text: z.string().min(10, "Review must be at least 10 characters"),
+  text: z.string().min(10, "Review must be at least 10 characters").max(500, "Review must be 500 characters or less"),
 });
 
 interface ReviewFormProps {
   listingId: string;
-  listingName: string;
+  listingName?: string;
   onReviewSubmitted?: () => void;
   className?: string;
 }
@@ -89,9 +90,23 @@ export function ReviewForm({
   if (!session?.user) {
     return (
       <div className={cn("p-4 border rounded-lg bg-muted/50", className)}>
-        <p className="text-sm text-muted-foreground">
-          Please log in to write a review for {listingName}.
-        </p>
+        <div className="text-center space-y-3">
+          <p className="text-sm text-muted-foreground">
+            Create a free parent account to write reviews{listingName ? ` for ${listingName}` : ""}.
+          </p>
+          <div className="flex gap-2 justify-center">
+            <Button asChild size="sm">
+              <Link href="/auth/register?role=parent">
+                Sign Up
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="sm">
+              <Link href="/auth/login">
+                Log In
+              </Link>
+            </Button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -113,7 +128,7 @@ export function ReviewForm({
         )}
       >
         <p className="text-sm text-green-700 dark:text-green-300">
-          Thank you! You've already submitted a review for {listingName}. It
+          Thank you! You've already submitted a review{listingName ? ` for ${listingName}` : ""}. It
           will be reviewed before being published.
         </p>
       </div>

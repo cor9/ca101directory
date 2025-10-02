@@ -8,8 +8,10 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { isFavoritesEnabled } from "@/config/feature-flags";
+import { StarRating } from "@/components/ui/star-rating";
+import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import type { Listing } from "@/data/listings";
+import { getListingAverageRating } from "@/data/reviews";
 import { cn } from "@/lib/utils";
 import { CheckCircleIcon, GlobeIcon, MapPinIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
@@ -20,7 +22,7 @@ interface ListingCardProps {
   className?: string;
 }
 
-export function ListingCard({ listing, className }: ListingCardProps) {
+export async function ListingCard({ listing, className }: ListingCardProps) {
   const slug =
     listing.listing_name
       ?.toLowerCase()
@@ -29,6 +31,16 @@ export function ListingCard({ listing, className }: ListingCardProps) {
 
   const categories = listing.categories?.split(",").map((c) => c.trim()) || [];
   const ageRange = listing.age_range?.split(",").map((a) => a.trim()) || [];
+
+  // Get average rating if reviews are enabled
+  let averageRating = { average: 0, count: 0 };
+  if (isReviewsEnabled()) {
+    try {
+      averageRating = await getListingAverageRating(listing.id);
+    } catch (error) {
+      console.error("Error fetching rating:", error);
+    }
+  }
 
   // Plan-based sorting priority (Premium > Pro > Basic > Free)
   const getPlanPriority = (plan: string | null) => {
@@ -123,6 +135,16 @@ export function ListingCard({ listing, className }: ListingCardProps) {
           </div>
         )}
 
+        {/* Rating */}
+        {isReviewsEnabled() && averageRating.count > 0 && (
+          <div className="flex items-center gap-2 text-sm mb-3">
+            <StarRating value={Math.round(averageRating.average)} readonly size="sm" />
+            <span className="text-muted-foreground">
+              {averageRating.average.toFixed(1)} ({averageRating.count} review{averageRating.count !== 1 ? "s" : ""})
+            </span>
+          </div>
+        )}
+
         {/* Categories */}
         {categories.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-3">
@@ -182,6 +204,7 @@ export function ListingCard({ listing, className }: ListingCardProps) {
             {isFavoritesEnabled() && (
               <FavoriteButton
                 listingId={listing.id}
+                listingName={listing.listing_name}
                 size="sm"
                 variant="ghost"
               />

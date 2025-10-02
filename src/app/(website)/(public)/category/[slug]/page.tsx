@@ -3,6 +3,7 @@ import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
 import { getItems } from "@/data/airtable-item";
+import { getCategories } from "@/data/categories";
 import { getPublicListings } from "@/data/listings";
 import {
   DEFAULT_SORT,
@@ -19,22 +20,11 @@ import { notFound } from "next/navigation";
  */
 export async function generateStaticParams() {
   try {
-    const listings = await getPublicListings();
-
-    // Extract unique categories from listings
-    const categorySet = new Set<string>();
-    for (const listing of listings) {
-      if (listing.categories) {
-        // Categories is a comma-separated string in Supabase
-        for (const category of listing.categories.split(",")) {
-          categorySet.add(category.trim());
-        }
-      }
-    }
+    const categories = await getCategories();
 
     // Convert category names to slugs
-    return Array.from(categorySet).map((categoryName) => ({
-      slug: categoryName
+    return categories.map((category) => ({
+      slug: category.category_name
         .toLowerCase()
         .replace(/\s+/g, "-")
         .replace(/[^a-z0-9-]/g, ""),
@@ -52,28 +42,17 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata | undefined> {
   try {
-    const listings = await getPublicListings();
+    const categories = await getCategories();
 
-    // Extract unique categories from listings
-    const categorySet = new Set<string>();
-    for (const listing of listings) {
-      if (listing.categories) {
-        // Categories is a comma-separated string in Supabase
-        for (const category of listing.categories.split(",")) {
-          categorySet.add(category.trim());
-        }
-      }
-    }
-
-    const categoryName = Array.from(categorySet).find(
+    const category = categories.find(
       (cat) =>
-        cat
+        cat.category_name
           .toLowerCase()
           .replace(/\s+/g, "-")
           .replace(/[^a-z0-9-]/g, "") === params.slug,
     );
 
-    if (!categoryName) {
+    if (!category) {
       return constructMetadata({
         title: "Category Not Found - Child Actor 101 Directory",
         description: "The requested category could not be found",
@@ -82,8 +61,8 @@ export async function generateMetadata({
     }
 
     return constructMetadata({
-      title: `${categoryName} - Child Actor 101 Directory`,
-      description: `Find ${categoryName.toLowerCase()} professionals for your child's acting career`,
+      title: `${category.category_name} - Child Actor 101 Directory`,
+      description: category.description || `Find ${category.category_name.toLowerCase()} professionals for your child's acting career`,
       canonicalUrl: `${siteConfig.url}/category/${params.slug}`,
     });
   } catch (error) {
@@ -104,38 +83,28 @@ export default async function CategoryPage({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   try {
-    // Get listings to validate the slug and find category name
-    const listings = await getPublicListings();
+    // Get categories to validate the slug and find category name
+    const categories = await getCategories();
 
-    // Extract unique categories from listings
-    const categorySet = new Set<string>();
-    for (const listing of listings) {
-      if (listing.categories) {
-        // Categories is a comma-separated string in Supabase
-        for (const category of listing.categories.split(",")) {
-          categorySet.add(category.trim());
-        }
-      }
-    }
-
-    const categoryName = Array.from(categorySet).find(
+    const category = categories.find(
       (cat) =>
-        cat
+        cat.category_name
           .toLowerCase()
           .replace(/\s+/g, "-")
           .replace(/[^a-z0-9-]/g, "") === params.slug,
     );
 
-    if (!categoryName) {
+    if (!category) {
       console.log("CategoryPage: No category found for slug:", params.slug);
       return notFound();
     }
 
+    const categoryName = category.category_name;
+
     console.log("CategoryPage Debug:", {
       slug: params.slug,
       categoryName,
-      totalListings: listings.length,
-      categorySet: Array.from(categorySet),
+      category,
     });
 
     // For now, we don't have sponsor items in Airtable

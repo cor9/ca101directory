@@ -93,13 +93,20 @@ interface ListingPageProps {
 
 export default async function ListingPage({ params }: ListingPageProps) {
   try {
+    console.log("ListingPage: Attempting to load listing for slug:", params.slug);
     const listing = await getListingBySlug(params.slug);
     const session = await auth();
 
     if (!listing) {
-      console.error("ListingPage, listing not found");
+      console.error("ListingPage: Listing not found for slug:", params.slug);
       return notFound();
     }
+
+    console.log("ListingPage: Successfully found listing:", {
+      id: listing.id,
+      name: listing.listing_name,
+      slug: params.slug
+    });
 
     // Check if current user owns this listing
     const isOwner = session?.user?.id === listing.owner_id;

@@ -60,7 +60,7 @@ export default async function HomeFeaturedListings() {
   try {
     const supabaseListings = await getPublicListings();
     listings = supabaseListings
-      .filter((listing) => listing.plan === "Premium" || listing.plan === "Pro") // Show premium/pro listings as featured
+      .filter((listing) => listing.plan === "pro" || listing.featured === true) // Show pro listings or featured ones
       .slice(0, 3) // Limit to 3
       .map((listing) => ({
         id: listing.id,
@@ -70,9 +70,9 @@ export default async function HomeFeaturedListings() {
           listing.profile_image ||
           "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop",
         website: listing.website || "#",
-        category: listing.categories?.split(",")[0] || "Acting Professional",
-        tags: listing.age_range?.split(",") || [],
-        featured: listing.plan === "Premium",
+        category: listing.categories?.[0] || "Acting Professional", // categories is now an array
+        tags: listing.age_range || [], // age_range is now an array
+        featured: listing.featured || listing.plan === "pro",
       }));
   } catch (error) {
     console.error("Error fetching featured listings:", error);

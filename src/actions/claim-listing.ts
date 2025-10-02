@@ -20,7 +20,7 @@ export async function claimListing(formData: ClaimListingFormData) {
     // Check if listing exists and is not already claimed
     const { data: listing, error: listingError } = await supabase
       .from("listings")
-      .select("id, claimed, owner_id")
+      .select("id, is_claimed, owner_id")
       .eq("id", formData.listingId)
       .single();
 
@@ -31,12 +31,12 @@ export async function claimListing(formData: ClaimListingFormData) {
       };
     }
 
-    if (listing.claimed === "checked") {
+    if (listing.is_claimed === true) {
       return {
         success: false,
         message: "This listing has already been claimed.",
       };
-    }
+    };
 
     if (listing.owner_id === session.user.id) {
       return {

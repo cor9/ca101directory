@@ -430,7 +430,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 </div>
 
                 {/* Claim Listing Section */}
-                {!listing.claimed && !isOwner && (
+                {!listing.is_claimed && !isOwner && (
                   <div className="bg-gradient-to-r from-brand-orange/5 to-brand-blue/5 rounded-lg p-6 border border-brand-orange/20">
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0">
@@ -446,8 +446,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                         </p>
                         <ClaimButton
                           listingId={listing.id}
-                          listingName={listing["Listing Name"] || "Listing"}
-                          claimed={listing.claimed === "checked"}
+                          listingName={listing.listing_name || "Listing"}
+                          claimed={listing.is_claimed === true}
                           ownerId={listing.owner_id}
                           className="bg-brand-orange hover:bg-brand-orange-dark"
                         />
@@ -457,7 +457,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 )}
 
                 {/* Claim Status Section */}
-                {listing.claimed === "checked" && (
+                {listing.is_claimed === true && (
                   <div className="bg-gradient-to-r from-brand-blue/5 to-brand-green/5 rounded-lg p-6 border border-brand-blue/20">
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0">
@@ -523,8 +523,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     Categories
                   </h2>
                   <ul className="flex flex-wrap gap-2">
-                    {listing.categories ? (
-                      listing.categories.split(",").map((category) => (
+                    {listing.categories && listing.categories.length > 0 ? (
+                      listing.categories.map((category) => (
                         <li key={category.trim()}>
                           <span className="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">
                             {category.trim()}
@@ -545,8 +545,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     Age Range
                   </h2>
                   <ul className="flex flex-wrap gap-2">
-                    {listing.age_range ? (
-                      listing.age_range.split(",").map((age) => (
+                    {listing.age_range && listing.age_range.length > 0 ? (
+                      listing.age_range.map((age) => (
                         <li key={age.trim()}>
                           <span className="text-sm bg-brand-blue/10 text-brand-blue px-3 py-1 rounded-full">
                             {age.trim()}

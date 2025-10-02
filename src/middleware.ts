@@ -16,34 +16,55 @@ import NextAuth from "next-auth";
 // Only require NEXTAUTH_SECRET for basic auth (OAuth providers temporarily disabled)
 const hasAuthConfig = process.env.NEXTAUTH_SECRET;
 
-let auth: any = null;
+console.log("Middleware Debug:", {
+  hasAuthConfig: !!hasAuthConfig,
+  nextAuthSecret: hasAuthConfig ? "***" : "missing",
+  nodeEnv: process.env.NODE_ENV,
+});
+
+let auth: ReturnType<typeof NextAuth>["auth"] | null = null;
 
 if (hasAuthConfig) {
   try {
     auth = NextAuth(authConfig).auth;
+    console.log("NextAuth initialized successfully");
   } catch (error) {
     console.warn("NextAuth initialization failed:", error);
   }
+} else {
+  console.warn("NEXTAUTH_SECRET not found, auth disabled");
 }
 
 // since we have put role in user session, so we can know the role of the user
-export default function middleware(req: any) {
+export default function middleware(req: Request) {
+  const { nextUrl } = req;
+  
+  console.log("Middleware request:", {
+    pathname: nextUrl.pathname,
+    hasAuth: !!auth,
+  });
+
   // If auth is not available, allow all public routes
   if (!auth) {
-    const { nextUrl } = req;
     const isPublicRoute = publicRoutes.some((route) =>
       new RegExp(`^${route}$`).test(nextUrl.pathname),
     );
+
+    console.log("No auth, checking public route:", {
+      pathname: nextUrl.pathname,
+      isPublicRoute,
+    });
 
     if (isPublicRoute) {
       return null; // Allow access to public routes
     }
 
     // For non-public routes, redirect to homepage
+    console.log("Redirecting to homepage for non-public route");
     return Response.redirect(new URL("/", nextUrl));
   }
 
-  return auth((req: any) => {
+  return auth((req: Request) => {
     const { nextUrl } = req;
     const isLoggedIn = !!req.auth;
 

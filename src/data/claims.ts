@@ -4,7 +4,7 @@ export async function claimListingByEmail(listingId: string, email: string) {
   const { error } = await supabase
     .from("listings")
     .update({
-      claimed: true,
+      claimed: "checked",
       claimed_by_email: email,
       status: "Pending Review",
     })
@@ -17,7 +17,7 @@ export async function claimListingByUserId(listingId: string, userId: string) {
   const { error } = await supabase
     .from("listings")
     .update({
-      claimed: true,
+      claimed: "checked",
       owner_id: userId,
       status: "Pending Review",
     })

@@ -45,14 +45,27 @@ export function RoleGuard({
     }
 
     const userRole = getRole(session.user as any);
+    
+    // Debug logging
+    console.log("RoleGuard Debug:", {
+      user: session.user,
+      userRole,
+      allowedRoles,
+      hasAccess: hasAnyRole(session.user as any, allowedRoles)
+    });
 
     // Guests are never allowed to access protected routes
     if (isGuest(session.user as any)) {
+      console.log("RoleGuard: User is guest, redirecting to login");
       router.push("/auth/login");
       return;
     }
 
     if (!hasAnyRole(session.user as any, allowedRoles)) {
+      console.log("RoleGuard: User doesn't have required role", {
+        userRole,
+        allowedRoles
+      });
       // User doesn't have required role
       if (showFallback) {
         // Show fallback component
@@ -62,6 +75,8 @@ export function RoleGuard({
       router.push(fallbackRoute);
       return;
     }
+    
+    console.log("RoleGuard: Access granted");
   }, [session, status, router, allowedRoles, fallbackRoute, showFallback]);
 
   // Show loading state

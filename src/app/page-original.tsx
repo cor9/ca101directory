@@ -2,7 +2,7 @@ import ItemGrid from "@/components/item/item-grid";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
-import { getItems } from "@/data/airtable-item";
+import { getItems } from "@/data/item-service";
 import {
   DEFAULT_SORT,
   ITEMS_PER_PAGE,

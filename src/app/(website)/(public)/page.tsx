@@ -12,7 +12,7 @@ import ItemGrid from "@/components/item/item-grid";
 import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 import SearchBox from "@/components/search/search-box";
 import { siteConfig } from "@/config/site";
-import { getItems } from "@/data/airtable-item";
+import { getItems } from "@/data/item-service";
 import { getCategories } from "@/data/categories";
 import { DEFAULT_SORT, ITEMS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";

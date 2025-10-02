@@ -5,7 +5,7 @@ import SearchBox from "@/components/search/search-box";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
-import { getItems } from "@/data/airtable-item";
+import { getItems } from "@/data/item-service";
 import { getCategories } from "@/data/categories";
 import {
   DEFAULT_SORT,

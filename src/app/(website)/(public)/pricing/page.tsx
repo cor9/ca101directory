@@ -1,5 +1,4 @@
 import Container from "@/components/container";
-import { FreePlanCard } from "@/components/pricing/free-plan-card";
 import { PricingFaq } from "@/components/pricing/pricing-faq";
 import { HeaderSection } from "@/components/shared/header-section";
 import { siteConfig } from "@/config/site";
@@ -50,21 +49,6 @@ export default async function PricingPage() {
                 include our quality review process and trusted directory
                 listing.
               </p>
-            </div>
-
-            {/* Free Plan */}
-            <div className="w-full mx-auto mb-12">
-              <div className="text-center mb-8">
-                <h2 className="text-2xl font-bold text-brand-blue mb-2">
-                  🆓 Free Forever Plan
-                </h2>
-                <p className="text-muted-foreground">
-                  Start with our free plan - no payment required
-                </p>
-              </div>
-              <div className="max-w-md mx-auto">
-                <FreePlanCard />
-              </div>
             </div>
 
             {/* First Stripe Pricing Table */}

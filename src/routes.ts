@@ -58,6 +58,9 @@ export const publicRoutes = [
   // submission form (public)
   "/submit(/.*)?",
 
+  // claim and upgrade routes (public)
+  "/claim-upgrade(/.*)?",
+
   // test pages
   "/shadcn(/.*)?",
   "/loading(/.*)?",

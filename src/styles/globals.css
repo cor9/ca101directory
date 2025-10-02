@@ -48,6 +48,9 @@
     --brand-blue: 210 100% 20%; /* #004E89 - Logo blue */
     --brand-blue-light: 210 100% 30%; /* lighter blue */
     --brand-blue-dark: 210 100% 10%; /* darker blue */
+    --brand-purple: 270 100% 60%; /* Purple for blog section */
+    --brand-purple-light: 270 100% 70%; /* lighter purple */
+    --brand-purple-dark: 270 100% 50%; /* darker purple */
   }
 
   .dark {
@@ -86,6 +89,9 @@
     --brand-blue: 210 100% 30%; /* Brighter blue for dark mode */
     --brand-blue-light: 210 100% 40%;
     --brand-blue-dark: 210 100% 20%;
+    --brand-purple: 270 100% 65%; /* Brighter purple for dark mode */
+    --brand-purple-light: 270 100% 75%;
+    --brand-purple-dark: 270 100% 55%;
   }
 }
 

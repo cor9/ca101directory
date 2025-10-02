@@ -72,6 +72,11 @@ const config = {
           light: "hsl(var(--brand-yellow-light))",
           dark: "hsl(var(--brand-yellow-dark))",
         },
+        "brand-purple": {
+          DEFAULT: "hsl(var(--brand-purple))",
+          light: "hsl(var(--brand-purple-light))",
+          dark: "hsl(var(--brand-purple-dark))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

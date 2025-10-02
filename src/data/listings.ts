@@ -155,8 +155,6 @@ export async function getListingBySlug(slug: string) {
     });
     
     return generatedSlug === slug;
-
-
   });
 
   if (listing) {

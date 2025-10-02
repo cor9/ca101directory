@@ -21,7 +21,7 @@ export function ClaimButton({
   // Don't show button if listing is already claimed
   if (claimed) {
     return null;
-  }
+  };
 
   // Create slug from listing name for URL
   const slug = listingName

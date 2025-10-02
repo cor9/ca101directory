@@ -61,7 +61,7 @@ function listingToItem(listing: Listing): ItemInfo {
     rejectionReason: null,
     collections: [],
     categories: listing.categories
-      ? listing.categories.split(",").map((categoryName) => ({
+      ? listing.categories.map((categoryName) => ({
           _id: categoryName.trim().toLowerCase().replace(/\s+/g, "-"),
           _type: "category" as const,
           _createdAt: new Date().toISOString(),
@@ -78,7 +78,7 @@ function listingToItem(listing: Listing): ItemInfo {
         }))
       : [],
     tags: listing.age_range
-      ? listing.age_range.split(",").map((tag) => ({
+      ? listing.age_range.map((tag) => ({
           _id: tag.toLowerCase().replace(/\s+/g, "-"),
           _type: "tag" as const,
           _createdAt: new Date().toISOString(),

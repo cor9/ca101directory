@@ -9,35 +9,42 @@ export type Listing = {
   why_is_it_unique: string | null;
   format: string | null;
   extras_notes: string | null;
-  ca_permit: string | null;
-  bonded: string | null;
-  bond_number: string | null;
-  website: string | null;
-  email: string | null;
-  phone: string | null;
+  bond_number: string | null; // VARCHAR(50)
+  website: string | null; // VARCHAR(500) with URL constraint
+  email: string | null; // VARCHAR(255) with email constraint
+  phone: string | null; // VARCHAR(20) with length constraint
   region: string | null;
   city: string | null;
   state: string | null;
-  zip: string | null;
-  age_range: string | null;
-  categories: string | null;
-  approved_101_badge: string | null;
+  zip: number | null; // INTEGER with ZIP constraint (10000-99999)
+  age_range: string[] | null; // TEXT[] array
+  categories: string[] | null; // TEXT[] array
   profile_image: string | null;
-  stripe_plan_id: string | null;
-  plan: string | null;
-  comped: boolean | null;
-  active: string | null;
-  claimed: string | null;
+  stripe_plan_id: string | null; // VARCHAR(100)
+  plan: string | null; // constrained to 'free', 'standard', 'pro', 'founding'
   claimed_by_email: string | null;
   date_claimed: string | null;
   verification_status: string | null;
   gallery: string | null;
-  plan_duplicate: string | null; // Appears to be a duplicate/legacy field from Airtable
-  submissions: string | null; // Appears to be a duplicate/legacy field from Airtable
-  status: string | null;
-  owner_id: string | null; // UUID reference to profiles
-  plan_id: string | null; // UUID reference to plans
-  category_id: string | null; // UUID reference to categories
+  status: string | null; // constrained to 'draft', 'pending', 'published', 'rejected', 'archived'
+  
+  // New boolean fields (replacing old text fields)
+  is_active: boolean | null;
+  is_claimed: boolean | null;
+  is_approved_101: boolean | null;
+  ca_permit_required: boolean | null;
+  is_bonded: boolean | null;
+  has_gallery: boolean | null;
+  
+  // Additional new fields
+  owner_id: string | null; // UUID reference to users
+  primary_category_id: string | null; // UUID reference to categories
+  description: string | null;
+  tags: string[] | null; // TEXT[] array
+  location: string | null; // POINT type
+  featured: boolean | null;
+  priority: number | null;
+  
   created_at: string | null;
   updated_at: string | null;
 };
@@ -58,7 +65,9 @@ export async function getPublicListings(params?: {
   if (params?.city) query = query.eq("city", params.city);
   if (params?.category) {
     console.log("getPublicListings: Filtering by category:", params.category);
-    query = query.ilike("categories", `%${params.category}%`);
+    // categories contains array of words that can be combined to match category names
+    // Check if the category name is contained in any combination of the categories array
+    query = query.or(`categories.cs.{${params.category}},categories.cd.{${params.category}}`);
   }
   if (params?.q)
     query = query.or(
@@ -70,10 +79,10 @@ export async function getPublicListings(params?: {
       ].join(","),
     );
 
-  // Only show approved/active listings (handle both Airtable and Supabase status values)
+  // Only show approved/active listings (using new boolean fields)
   query = query
-    .in("status", ["Live", "APPROVED", "Approved"])
-    .eq("active", "checked");
+    .eq("status", "published")
+    .eq("is_active", true);
 
   console.log("getPublicListings: Query built, executing...");
 
@@ -129,8 +138,8 @@ export async function getListingBySlug(slug: string) {
   const { data: nameData, error: nameError } = await supabase
     .from("listings")
     .select("*")
-    .in("status", ["Live", "APPROVED", "Approved"])
-    .eq("active", "checked");
+    .eq("status", "published")
+    .eq("is_active", true);
 
   if (nameError) {
     console.error("getListingBySlug: Error fetching listings:", nameError);

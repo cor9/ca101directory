@@ -40,7 +40,7 @@ export default async function ClaimUpgradePage({
     }
 
     // Check if listing is already claimed
-    if (listing.claimed === "checked") {
+    if (listing.is_claimed === true) {
       return (
         <div className="mb-16">
           <div className="mt-8">

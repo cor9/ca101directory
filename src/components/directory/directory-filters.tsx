@@ -104,7 +104,9 @@ export function DirectoryFilters({ className }: DirectoryFiltersProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedState, setSelectedState] = useState<string>("");
   const [selectedRegion, setSelectedRegion] = useState<string>("");
-  const [categories, setCategories] = useState<Array<{id: string, category_name: string}>>([]);
+  const [categories, setCategories] = useState<
+    Array<{ id: string; category_name: string }>
+  >([]);
 
   // Load categories from database
   useEffect(() => {
@@ -136,11 +138,16 @@ export function DirectoryFilters({ className }: DirectoryFiltersProps) {
     }
 
     newParams.delete("page"); // Reset to first page when filtering
-    router.push(`/directory?${newParams.toString()}`);
+    
+    // Use current pathname instead of hardcoded /directory
+    const currentPath = window.location.pathname;
+    router.push(`${currentPath}?${newParams.toString()}`);
   };
 
   const clearAllFilters = () => {
-    router.push("/directory");
+    // Use current pathname instead of hardcoded /directory
+    const currentPath = window.location.pathname;
+    router.push(currentPath);
   };
 
   const hasActiveFilters = selectedCategory || selectedState || selectedRegion;
@@ -169,7 +176,9 @@ export function DirectoryFilters({ className }: DirectoryFiltersProps) {
           <div className="flex flex-wrap gap-2">
             {selectedCategory && (
               <Badge variant="secondary" className="flex items-center gap-1">
-                Category: {categories.find(cat => cat.id === selectedCategory)?.category_name || selectedCategory}
+                Category:{" "}
+                {categories.find((cat) => cat.id === selectedCategory)
+                  ?.category_name || selectedCategory}
                 <button
                   type="button"
                   onClick={() => updateFilters("category", "")}
@@ -210,7 +219,12 @@ export function DirectoryFilters({ className }: DirectoryFiltersProps) {
         <div className="space-y-4">
           {/* Category Filter */}
           <div>
-            <label htmlFor="category-select" className="text-sm font-medium mb-2 block">Category</label>
+            <label
+              htmlFor="category-select"
+              className="text-sm font-medium mb-2 block"
+            >
+              Category
+            </label>
             <Select
               value={selectedCategory}
               onValueChange={(value) => updateFilters("category", value)}
@@ -231,7 +245,12 @@ export function DirectoryFilters({ className }: DirectoryFiltersProps) {
 
           {/* State Filter */}
           <div>
-            <label htmlFor="state-select" className="text-sm font-medium mb-2 block">State</label>
+            <label
+              htmlFor="state-select"
+              className="text-sm font-medium mb-2 block"
+            >
+              State
+            </label>
             <Select
               value={selectedState}
               onValueChange={(value) => updateFilters("state", value)}
@@ -252,7 +271,12 @@ export function DirectoryFilters({ className }: DirectoryFiltersProps) {
 
           {/* Region Filter */}
           <div>
-            <label htmlFor="region-select" className="text-sm font-medium mb-2 block">Region</label>
+            <label
+              htmlFor="region-select"
+              className="text-sm font-medium mb-2 block"
+            >
+              Region
+            </label>
             <Select
               value={selectedRegion}
               onValueChange={(value) => updateFilters("region", value)}

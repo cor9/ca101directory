@@ -57,5 +57,18 @@ export const homeConfig: HomeConfig = {
       href: "/pricing",
     },
   },
+  parentCta: {
+    heading: "Ready to Find the Perfect Professionals?",
+    description:
+      "Create a free parent account to save favorites, create custom lists, rate services, and leave reviews to help other families.",
+    primaryCta: {
+      label: "Create Parent Account",
+      href: "/auth/register?role=parent",
+    },
+    secondaryCta: {
+      label: "Sign In",
+      href: "/auth/login",
+    },
+  },
 };
 

@@ -111,6 +111,32 @@ export default async function HomePage({
         {/* Featured Listings Section */}
         <HomeFeaturedListings />
 
+        {/* Parent CTA Section */}
+        <Container className="py-16">
+          <div className="rounded-2xl bg-gradient-to-r from-brand-blue/5 via-brand-yellow/5 to-brand-orange/5 border border-brand-blue/20 px-6 py-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-foreground">
+              {homeConfig.parentCta.heading}
+            </h2>
+            <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground">
+              {homeConfig.parentCta.description}
+            </p>
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link
+                href={homeConfig.parentCta.primaryCta.href}
+                className="rounded-lg bg-brand-blue px-8 py-3 font-semibold text-white transition-colors hover:bg-brand-blue-dark"
+              >
+                {homeConfig.parentCta.primaryCta.label}
+              </Link>
+              <Link
+                href={homeConfig.parentCta.secondaryCta.href}
+                className="rounded-lg border-2 border-brand-orange px-8 py-3 font-semibold text-brand-orange transition-colors hover:bg-brand-orange hover:text-white"
+              >
+                {homeConfig.parentCta.secondaryCta.label}
+              </Link>
+            </div>
+          </div>
+        </Container>
+
         {/* All Listings Section */}
         <Container id="search-results" className="py-16">
           <div className="text-center mb-12">

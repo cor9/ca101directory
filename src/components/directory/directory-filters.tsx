@@ -101,15 +101,15 @@ export function DirectoryFilters({ className, categories = [] }: DirectoryFilter
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [selectedState, setSelectedState] = useState<string>("");
-  const [selectedRegion, setSelectedRegion] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedState, setSelectedState] = useState<string>("all");
+  const [selectedRegion, setSelectedRegion] = useState<string>("all");
 
   // Initialize filters from URL params
   useEffect(() => {
-    setSelectedCategory(searchParams.get("category") || "");
-    setSelectedState(searchParams.get("state") || "");
-    setSelectedRegion(searchParams.get("region") || "");
+    setSelectedCategory(searchParams.get("category") || "all");
+    setSelectedState(searchParams.get("state") || "all");
+    setSelectedRegion(searchParams.get("region") || "all");
   }, [searchParams]);
 
   const updateFilters = (key: string, value: string) => {
@@ -134,7 +134,7 @@ export function DirectoryFilters({ className, categories = [] }: DirectoryFilter
     router.push(currentPath);
   };
 
-  const hasActiveFilters = selectedCategory || selectedState || selectedRegion;
+  const hasActiveFilters = (selectedCategory && selectedCategory !== "all") || (selectedState && selectedState !== "all") || (selectedRegion && selectedRegion !== "all");
 
   return (
     <Card className={className}>
@@ -158,38 +158,38 @@ export function DirectoryFilters({ className, categories = [] }: DirectoryFilter
         {/* Active Filters */}
         {hasActiveFilters && (
           <div className="flex flex-wrap gap-2">
-            {selectedCategory && (
+            {selectedCategory && selectedCategory !== "all" && (
               <Badge variant="secondary" className="flex items-center gap-1">
                 Category:{" "}
                 {categories.find((cat) => cat.id === selectedCategory)
                   ?.category_name || selectedCategory}
                 <button
                   type="button"
-                  onClick={() => updateFilters("category", "")}
+                  onClick={() => updateFilters("category", "all")}
                   className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
                 >
                   <X className="h-3 w-3" />
                 </button>
               </Badge>
             )}
-            {selectedState && (
+            {selectedState && selectedState !== "all" && (
               <Badge variant="secondary" className="flex items-center gap-1">
                 State: {selectedState}
                 <button
                   type="button"
-                  onClick={() => updateFilters("state", "")}
+                  onClick={() => updateFilters("state", "all")}
                   className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
                 >
                   <X className="h-3 w-3" />
                 </button>
               </Badge>
             )}
-            {selectedRegion && (
+            {selectedRegion && selectedRegion !== "all" && (
               <Badge variant="secondary" className="flex items-center gap-1">
                 Region: {selectedRegion}
                 <button
                   type="button"
-                  onClick={() => updateFilters("region", "")}
+                  onClick={() => updateFilters("region", "all")}
                   className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
                 >
                   <X className="h-3 w-3" />
@@ -217,7 +217,7 @@ export function DirectoryFilters({ className, categories = [] }: DirectoryFilter
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Categories</SelectItem>
+                <SelectItem value="all">All Categories</SelectItem>
                 {categories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
                     {category.category_name}
@@ -243,7 +243,7 @@ export function DirectoryFilters({ className, categories = [] }: DirectoryFilter
                 <SelectValue placeholder="All States" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All States</SelectItem>
+                <SelectItem value="all">All States</SelectItem>
                 {states.map((state) => (
                   <SelectItem key={state} value={state}>
                     {state}
@@ -269,7 +269,7 @@ export function DirectoryFilters({ className, categories = [] }: DirectoryFilter
                 <SelectValue placeholder="All Regions" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Regions</SelectItem>
+                <SelectItem value="all">All Regions</SelectItem>
                 {regions.map((region) => (
                   <SelectItem key={region} value={region}>
                     {region}

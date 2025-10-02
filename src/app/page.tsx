@@ -210,7 +210,7 @@ export default async function HomePage({
             </div>
             <div className="mx-auto max-w-4xl">
               <stripe-pricing-table
-                pricing-table-id="prctbl_1SCpyNBqTvwy9ZuSNiSGY03P"
+                pricing-table-id="prctbl_1SDbLwBqTvwy9ZuSXKTXVb7E"
                 publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
               />
             </div>

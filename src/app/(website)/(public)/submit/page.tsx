@@ -155,18 +155,33 @@ export default async function SubmitPage() {
         </p>
       </div>
 
-      <div className="max-w-4xl mx-auto">
-        {/* Supabase Form */}
-        <div>
-          <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold text-brand-blue mb-2">
-              Submit Your Listing
-            </h2>
-            <p className="text-muted-foreground">
-              Create a professional listing for your child actor business
-            </p>
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Free Listing Form */}
+          <div>
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-brand-blue mb-2">
+                Free Listing
+              </h2>
+              <p className="text-muted-foreground">
+                Get started with a basic listing. Upgrade later for more features.
+              </p>
+            </div>
+            <FreeSubmitForm categories={freeFormCategories} />
           </div>
-          <SupabaseSubmitForm categories={freeFormCategories} />
+
+          {/* Paid Listing Form */}
+          <div>
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-brand-orange mb-2">
+                Paid Listing
+              </h2>
+              <p className="text-muted-foreground">
+                Create a professional listing with advanced features and priority placement.
+              </p>
+            </div>
+            <SupabaseSubmitForm categories={freeFormCategories} />
+          </div>
         </div>
       </div>
     </div>

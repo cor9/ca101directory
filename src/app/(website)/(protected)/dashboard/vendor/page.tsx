@@ -175,20 +175,34 @@ export default async function VendorDashboard() {
                           >
                             {listing.status}
                           </Badge>
-                          {listing.plan && (
-                            <Badge
-                              variant="outline"
-                              className={
-                                listing.plan === "Premium"
-                                  ? "border-brand-orange text-brand-orange"
-                                  : listing.plan === "Pro"
-                                    ? "border-brand-blue text-brand-blue"
-                                    : "border-gray-300 text-gray-600"
-                              }
-                            >
-                              {listing.plan}
-                            </Badge>
-                          )}
+                          {(() => {
+                            // Determine badge text and styling
+                            let badgeText = 'Free';
+                            let badgeClassName = "border-gray-300 text-gray-600";
+
+                            if (listing.comped) {
+                              badgeText = 'Pro';
+                              badgeClassName = "border-brand-blue text-brand-blue";
+                            } else if (listing.plan === 'pro') {
+                              badgeText = 'Pro';
+                              badgeClassName = "border-brand-blue text-brand-blue";
+                            } else if (listing.plan === 'standard') {
+                              badgeText = 'Standard';
+                              badgeClassName = "border-gray-300 text-gray-600";
+                            } else if (listing.plan === 'premium') {
+                              badgeText = 'Featured';
+                              badgeClassName = "border-brand-orange text-brand-orange";
+                            }
+
+                            return (
+                              <Badge
+                                variant="outline"
+                                className={badgeClassName}
+                              >
+                                {badgeText}
+                              </Badge>
+                            );
+                          })()}
                           {listing.comped && (
                             <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 text-xs">
                               Comped

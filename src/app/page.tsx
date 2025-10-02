@@ -1,13 +1,13 @@
 "use client";
 
+import { BlogSection } from "@/components/blog/blog-section";
+import { CollectionsSection } from "@/components/collections/collections-section";
 import Container from "@/components/container";
 import HomeSearchBox from "@/components/home/home-search-box";
 import { ListingCardClient } from "@/components/listings/ListingCardClient";
 import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
-import { BlogSection } from "@/components/blog/blog-section";
-import { CollectionsSection } from "@/components/collections/collections-section";
 import { siteConfig } from "@/config/site";
 import { getCategoriesClient } from "@/data/categories-client";
 import { getPublicListingsClient } from "@/data/listings-client";
@@ -38,50 +38,51 @@ function HomePageContent() {
         const [categoriesData, listingsData] = await Promise.all([
           getCategoriesClient(),
           getPublicListingsClient({
-    q: query,
-    category,
-    region,
-    state,
+            q: query,
+            category,
+            region,
+            state,
           }),
         ]);
 
         setCategories(categoriesData || []);
 
-  // Apply 101 Approved filter
+        // Apply 101 Approved filter
         let filteredListings = listingsData;
-  if (approved101 === "true") {
+        if (approved101 === "true") {
           filteredListings = listingsData.filter(
-      (listing) => listing.approved_101_badge === "checked",
-    );
-  }
+            (listing) => listing.approved_101_badge === "checked",
+          );
+        }
 
-  // Sort by plan tier (Premium > Pro > Basic > Free) then by name
-        filteredListings.sort((a, b) => {
-    const planPriority = (plan: string | null) => {
-      switch (plan) {
-        case "Premium":
-          return 4;
-        case "Pro":
-          return 3;
-        case "Basic":
-          return 2;
-        case "Free":
-          return 1;
-        default:
-          return 0;
-      }
-    };
+         // Sort by plan tier (Featured > Pro > Standard > Free) then by name
+         filteredListings.sort((a, b) => {
+           const planPriority = (plan: string | null, comped: boolean | null) => {
+             if (comped) return 3; // Comped listings are treated as Pro
+             switch (plan) {
+               case "premium":
+                 return 4;
+               case "pro":
+                 return 3;
+               case "standard":
+                 return 2;
+               case "free":
+                 return 1;
+               default:
+                 return 0; // null/undefined plans default to Free
+             }
+           };
 
-    const aPriority = planPriority(a.plan);
-    const bPriority = planPriority(b.plan);
+           const aPriority = planPriority(a.plan, a.comped);
+           const bPriority = planPriority(b.plan, b.comped);
 
-    if (aPriority !== bPriority) {
-      return bPriority - aPriority; // Higher priority first
-    }
+           if (aPriority !== bPriority) {
+             return bPriority - aPriority; // Higher priority first
+           }
 
-    // If same priority, sort by name
-          return (a.listing_name || "").localeCompare(b.listing_name || "");
-        });
+           // If same priority, sort by name
+           return (a.listing_name || "").localeCompare(b.listing_name || "");
+         });
 
         setListings(filteredListings || []);
       } catch (error) {
@@ -319,42 +320,42 @@ function HomePageContent() {
                       : "Professional Directory"}
                   </h1>
                   <p className="text-muted-foreground">
-              {query
-                ? `Found ${totalCount} professional${totalCount !== 1 ? "s" : ""} matching your search`
+                    {query
+                      ? `Found ${totalCount} professional${totalCount !== 1 ? "s" : ""} matching your search`
                       : `Browse ${totalCount} vetted child actor professionals`}
                   </p>
-            </div>
+                </div>
 
-            {/* Listings Grid */}
+                {/* Listings Grid */}
                 {paginatedListings.length === 0 ? (
-                <EmptyGrid />
-              ) : (
+                  <EmptyGrid />
+                ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                     {(paginatedListings || []).map((listing) => (
-                    <ListingCardClient key={listing.id} listing={listing} />
-                  ))}
-                </div>
-              )}
+                      <ListingCardClient key={listing.id} listing={listing} />
+                    ))}
+                  </div>
+                )}
 
                 {/* Pagination */}
                 {totalPages > 1 && (
                   <div className="flex justify-center">
                     <CustomPagination routePrefix="/" totalPages={totalPages} />
-            </div>
+                  </div>
                 )}
-          </div>
+              </div>
             </div>
           </div>
         </Container>
 
-                {/* Collections Section */}
-                <Container className="py-16">
-                  <CollectionsSection />
-                </Container>
-
-                {/* Blog Section */}
+        {/* Collections Section */}
         <Container className="py-16">
-                  <BlogSection />
+          <CollectionsSection />
+        </Container>
+
+        {/* Blog Section */}
+        <Container className="py-16">
+          <BlogSection />
         </Container>
 
         {/* Newsletter Section */}
@@ -363,8 +364,8 @@ function HomePageContent() {
         </Container>
       </div>
     </>
-          );
-        }
+  );
+}
 
 export default function HomePage() {
   return (

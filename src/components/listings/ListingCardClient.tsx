@@ -58,23 +58,24 @@ export function ListingCardClient({ listing, className }: ListingCardClientProps
     fetchRating();
   }, [listing.id]);
 
-  // Plan-based sorting priority (Premium > Pro > Basic > Free)
-  const getPlanPriority = (plan: string | null) => {
+  // Plan-based sorting priority (Featured > Pro > Standard > Free)
+  const getPlanPriority = (plan: string | null, comped: boolean | null) => {
+    if (comped) return 3; // Comped listings are treated as Pro
     switch (plan) {
-      case "Premium":
+      case "premium":
         return 4;
-      case "Pro":
+      case "pro":
         return 3;
-      case "Basic":
+      case "standard":
         return 2;
-      case "Free":
+      case "free":
         return 1;
       default:
-        return 0;
+        return 0; // null/undefined plans default to Free
     }
   };
 
-  const planPriority = getPlanPriority(listing.plan);
+  const planPriority = getPlanPriority(listing.plan, listing.comped);
 
   return (
     <Card className={cn("h-full flex flex-col", className)}>
@@ -96,26 +97,36 @@ export function ListingCardClient({ listing, className }: ListingCardClientProps
           )}
 
           {/* Plan Badge */}
-          {listing.plan && (
-            <div className="absolute top-2 left-2">
-              <Badge
-                variant="secondary"
-                className={cn(
-                  "text-xs font-medium",
-                  listing.plan === "Premium" &&
-                    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
-                  listing.plan === "Pro" &&
-                    "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-                  listing.plan === "Basic" &&
-                    "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-                  listing.plan === "Free" &&
-                    "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200",
-                )}
-              >
-                {listing.plan}
-              </Badge>
-            </div>
-          )}
+          <div className="absolute top-2 left-2">
+            {(() => {
+              // Determine badge text and styling
+              let badgeText = 'Free';
+              let badgeClassName = "text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
+
+              if (listing.comped) {
+                badgeText = 'Pro';
+                badgeClassName = "text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+              } else if (listing.plan === 'pro') {
+                badgeText = 'Pro';
+                badgeClassName = "text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+              } else if (listing.plan === 'standard') {
+                badgeText = 'Standard';
+                badgeClassName = "text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+              } else if (listing.plan === 'premium') {
+                badgeText = 'Featured';
+                badgeClassName = "text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+              }
+
+              return (
+                <Badge
+                  variant="secondary"
+                  className={badgeClassName}
+                >
+                  {badgeText}
+                </Badge>
+              );
+            })()}
+          </div>
 
           {/* 101 Approved Badge */}
           {listing.approved_101_badge === "checked" && (

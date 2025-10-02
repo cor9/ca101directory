@@ -208,11 +208,30 @@ export default async function HomePage({
                 {homeConfig.pricing.subheading}
               </p>
             </div>
-            <div className="mx-auto max-w-4xl">
-              <stripe-pricing-table
-                pricing-table-id="prctbl_1SDbLwBqTvwy9ZuSXKTXVb7E"
-                publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
-              />
+            <div className="mx-auto max-w-4xl space-y-8">
+              {/* Free Vendor Pricing Table */}
+              <div>
+                <div className="text-center mb-4">
+                  <h3 className="text-xl font-semibold text-brand-blue">Free Vendor Listing</h3>
+                  <p className="text-sm text-muted-foreground">Get started with a basic listing at no cost</p>
+                </div>
+                <stripe-pricing-table
+                  pricing-table-id="prctbl_1SDbLwBqTvwy9ZuSXKTXVb7E"
+                  publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
+                />
+              </div>
+              
+              {/* Paid Vendor Pricing Table */}
+              <div>
+                <div className="text-center mb-4">
+                  <h3 className="text-xl font-semibold text-brand-orange">Premium Vendor Plans</h3>
+                  <p className="text-sm text-muted-foreground">Upgrade for advanced features and priority placement</p>
+                </div>
+                <stripe-pricing-table
+                  pricing-table-id="prctbl_1SCpyNBqTvwy9ZuSNiSGY03P"
+                  publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
+                />
+              </div>
             </div>
           </div>
         </Container>

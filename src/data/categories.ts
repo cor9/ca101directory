@@ -27,7 +27,11 @@ export async function getCategories() {
         updated_at: category.updated_at || null,
       })) || [];
 
-    console.log("getCategories: Returning", transformedData.length, "categories");
+    console.log(
+      "getCategories: Returning",
+      transformedData.length,
+      "categories",
+    );
     return transformedData;
   } catch (error) {
     console.error("getCategories: Error fetching categories:", error);

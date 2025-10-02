@@ -172,8 +172,8 @@ export async function getItems({
       const tagList = tag.split(",");
       filteredListings = filteredListings.filter(
         (listing) =>
-          listing["Age Range"] &&
-          tagList.every((t) => listing["Age Range"]?.includes(t)),
+          listing.age_range &&
+          tagList.every((t) => listing.age_range?.includes(t)),
       );
     }
 
@@ -194,16 +194,16 @@ export async function getItems({
 
         switch (sortKey) {
           case "name":
-            aVal = a["Listing Name"] || "";
-            bVal = b["Listing Name"] || "";
+            aVal = a.listing_name || "";
+            bVal = b.listing_name || "";
             break;
           case "publishDate":
             aVal = new Date();
             bVal = new Date();
             break;
           default:
-            aVal = a["Listing Name"] || "";
-            bVal = b["Listing Name"] || "";
+            aVal = a.listing_name || "";
+            bVal = b.listing_name || "";
         }
 
         if (reverse) {
@@ -214,8 +214,8 @@ export async function getItems({
     } else {
       // Default sort: by name
       filteredListings.sort((a, b) => {
-        const aName = a["Listing Name"] || "";
-        const bName = b["Listing Name"] || "";
+        const aName = a.listing_name || "";
+        const bName = b.listing_name || "";
         return aName.localeCompare(bName);
       });
     }

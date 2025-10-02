@@ -47,6 +47,8 @@ export async function getPublicListings(params?: {
   city?: string;
   category?: string;
 }) {
+  console.log("getPublicListings: Starting fetch with params:", params);
+  
   let query = supabase.from("listings").select("*");
 
   if (params?.state) query = query.eq("state", params.state);
@@ -73,7 +75,18 @@ export async function getPublicListings(params?: {
     ascending: true,
   });
 
-  if (error) throw error;
+  console.log("getPublicListings: Result:", { 
+    dataCount: data?.length || 0, 
+    error,
+    sampleData: data?.[0] 
+  });
+
+  if (error) {
+    console.error("getPublicListings: Error:", error);
+    throw error;
+  }
+  
+  console.log("getPublicListings: Returning", data?.length || 0, "listings");
   return data as Listing[];
 }
 

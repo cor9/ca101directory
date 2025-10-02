@@ -10,7 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getCategories } from "@/data/categories";
 import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -95,31 +94,16 @@ const regions = [
 
 interface DirectoryFiltersProps {
   className?: string;
+  categories?: Array<{ id: string; category_name: string }>;
 }
 
-export function DirectoryFilters({ className }: DirectoryFiltersProps) {
+export function DirectoryFilters({ className, categories = [] }: DirectoryFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedState, setSelectedState] = useState<string>("");
   const [selectedRegion, setSelectedRegion] = useState<string>("");
-  const [categories, setCategories] = useState<
-    Array<{ id: string; category_name: string }>
-  >([]);
-
-  // Load categories from database
-  useEffect(() => {
-    const loadCategories = async () => {
-      try {
-        const cats = await getCategories();
-        setCategories(cats || []);
-      } catch (error) {
-        console.error("Error loading categories:", error);
-      }
-    };
-    loadCategories();
-  }, []);
 
   // Initialize filters from URL params
   useEffect(() => {

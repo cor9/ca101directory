@@ -11,7 +11,7 @@ export default async function AdminPage() {
   const session = await auth();
 
   if (!session?.user?.id) {
-    redirect("/login");
+    redirect("/auth/login?next=/admin");
   }
 
   const supabase = createServerClient();

@@ -7,7 +7,7 @@ import { getItemById } from "@/data/airtable-item";
 import { constructMetadata } from "@/lib/metadata";
 import { ShieldIcon } from "lucide-react";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 // Force dynamic rendering to avoid static/dynamic conflicts
 export const dynamic = "force-dynamic";
@@ -93,8 +93,18 @@ export default async function ItemDetailPage({
     );
 
     if (!listing) {
-      console.error("ItemDetailPage, listing not found for slug:", params.slug);
-      return notFound();
+      console.log("ItemDetailPage: No Airtable listing found, checking Supabase listings");
+      // Try to find this slug in Supabase listings and redirect to /listing/
+      const { getListingBySlug } = await import("@/data/listings");
+      const supabaseListing = await getListingBySlug(params.slug);
+      
+      if (supabaseListing) {
+        console.log("ItemDetailPage: Found Supabase listing, redirecting to /listing/");
+        redirect(`/listing/${params.slug}`);
+      } else {
+        console.error("ItemDetailPage, listing not found for slug:", params.slug);
+        return notFound();
+      }
     }
 
     // Debug claim fields

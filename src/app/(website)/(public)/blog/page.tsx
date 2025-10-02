@@ -1,11 +1,12 @@
-import Container from "@/components/container";
 import { BlogSection } from "@/components/blog/blog-section";
-import { constructMetadata } from "@/lib/metadata";
+import Container from "@/components/container";
 import { siteConfig } from "@/config/site";
+import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
   title: "Blog - Child Actor 101 Directory",
-  description: "Read our latest blog posts about child acting, headshots, training, and industry insights.",
+  description:
+    "Read our latest blog posts about child acting, headshots, training, and industry insights.",
   canonicalUrl: `${siteConfig.url}/blog`,
 });
 

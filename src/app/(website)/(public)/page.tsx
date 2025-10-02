@@ -1,5 +1,6 @@
 import Container from "@/components/container";
 import { DirectoryFilters } from "@/components/directory/directory-filters";
+import HomeFAQ from "@/components/home/home-faq";
 import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import HomeHero from "@/components/home/home-hero";
 import HomeHowItWorks from "@/components/home/home-how-it-works";
@@ -7,7 +8,6 @@ import HomeParentCta from "@/components/home/home-parent-cta";
 import HomePricingPreview from "@/components/home/home-pricing-preview";
 import HomeValueProps from "@/components/home/home-value-props";
 import HomeVendorCta from "@/components/home/home-vendor-cta";
-import HomeFAQ from "@/components/home/home-faq";
 import ItemGrid from "@/components/item/item-grid";
 import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 import SearchBox from "@/components/search/search-box";

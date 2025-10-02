@@ -29,7 +29,7 @@ export async function updateUserName(
     const { name } = UserNameSchema.parse(values);
 
     const updatedUser = await updateUser(user.id, {
-      full_name: name,
+      name: name,
     });
 
     if (!updatedUser) {
@@ -39,7 +39,7 @@ export async function updateUserName(
     // unstable update in Beta version
     unstable_update({
       user: {
-        name: updatedUser.full_name,
+        name: updatedUser.name,
       },
     });
 

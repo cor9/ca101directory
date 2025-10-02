@@ -45,7 +45,10 @@ interface DirectoryFiltersProps {
   categories?: Array<{ id: string; category_name: string }>;
 }
 
-export function DirectoryFilters({ className, categories = [] }: DirectoryFiltersProps) {
+export function DirectoryFilters({
+  className,
+  categories = [],
+}: DirectoryFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -80,7 +83,9 @@ export function DirectoryFilters({ className, categories = [] }: DirectoryFilter
     router.push(currentPath);
   };
 
-  const hasActiveFilters = (selectedCategory && selectedCategory !== "all") || (selectedRegion && selectedRegion !== "all");
+  const hasActiveFilters =
+    (selectedCategory && selectedCategory !== "all") ||
+    (selectedRegion && selectedRegion !== "all");
 
   return (
     <Card className={className}>
@@ -160,7 +165,6 @@ export function DirectoryFilters({ className, categories = [] }: DirectoryFilter
               </SelectContent>
             </Select>
           </div>
-
 
           {/* Region Filter */}
           <div>

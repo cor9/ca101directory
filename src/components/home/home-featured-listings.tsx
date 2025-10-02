@@ -64,7 +64,7 @@ export default async function HomeFeaturedListings() {
       .slice(0, 3) // Limit to 3
       .map((listing) => ({
         id: listing.id,
-        name: listing["Listing Name"] || "Untitled Listing",
+        name: listing.listing_name || "Untitled Listing",
         description: listing.what_you_offer || "Professional acting services",
         image:
           listing.profile_image ||

@@ -25,6 +25,18 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
               {siteConfig.tagline}
             </p>
 
+            <p className="text-muted-foreground text-sm">
+              A service of{" "}
+              <Link
+                href="https://childactor101.com"
+                target="_blank"
+                rel="noreferrer"
+                className="text-primary hover:underline"
+              >
+                Child Actor 101
+              </Link>
+            </p>
+
             <div className="flex items-center gap-2">
               {siteConfig.links.github && (
                 <Link

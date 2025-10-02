@@ -127,6 +127,7 @@ export async function getItems({
   category,
   tag,
   region,
+  state,
   sortKey,
   reverse,
   query,
@@ -138,6 +139,7 @@ export async function getItems({
   category?: string;
   tag?: string;
   region?: string;
+  state?: string;
   sortKey?: string;
   reverse?: boolean;
   query?: string;
@@ -153,6 +155,8 @@ export async function getItems({
       tag,
       "region:",
       region,
+      "state:",
+      state,
       "query:",
       query,
     );
@@ -161,6 +165,7 @@ export async function getItems({
     const allListings = await getPublicListings({
       q: query,
       region,
+      state,
       category,
     });
 

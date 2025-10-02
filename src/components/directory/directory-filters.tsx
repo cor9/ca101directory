@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { categoryMap } from "@/lib/mappings";
+import { getCategories } from "@/data/categories";
 import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -104,6 +104,20 @@ export function DirectoryFilters({ className }: DirectoryFiltersProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedState, setSelectedState] = useState<string>("");
   const [selectedRegion, setSelectedRegion] = useState<string>("");
+  const [categories, setCategories] = useState<Array<{id: string, category_name: string}>>([]);
+
+  // Load categories from database
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const cats = await getCategories();
+        setCategories(cats || []);
+      } catch (error) {
+        console.error("Error loading categories:", error);
+      }
+    };
+    loadCategories();
+  }, []);
 
   // Initialize filters from URL params
   useEffect(() => {
@@ -155,8 +169,9 @@ export function DirectoryFilters({ className }: DirectoryFiltersProps) {
           <div className="flex flex-wrap gap-2">
             {selectedCategory && (
               <Badge variant="secondary" className="flex items-center gap-1">
-                Category: {categoryMap[selectedCategory] || selectedCategory}
+                Category: {categories.find(cat => cat.id === selectedCategory)?.category_name || selectedCategory}
                 <button
+                  type="button"
                   onClick={() => updateFilters("category", "")}
                   className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
                 >
@@ -168,6 +183,7 @@ export function DirectoryFilters({ className }: DirectoryFiltersProps) {
               <Badge variant="secondary" className="flex items-center gap-1">
                 State: {selectedState}
                 <button
+                  type="button"
                   onClick={() => updateFilters("state", "")}
                   className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
                 >
@@ -179,6 +195,7 @@ export function DirectoryFilters({ className }: DirectoryFiltersProps) {
               <Badge variant="secondary" className="flex items-center gap-1">
                 Region: {selectedRegion}
                 <button
+                  type="button"
                   onClick={() => updateFilters("region", "")}
                   className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
                 >
@@ -193,19 +210,19 @@ export function DirectoryFilters({ className }: DirectoryFiltersProps) {
         <div className="space-y-4">
           {/* Category Filter */}
           <div>
-            <label className="text-sm font-medium mb-2 block">Category</label>
+            <label htmlFor="category-select" className="text-sm font-medium mb-2 block">Category</label>
             <Select
               value={selectedCategory}
               onValueChange={(value) => updateFilters("category", value)}
             >
-              <SelectTrigger>
+              <SelectTrigger id="category-select">
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">All Categories</SelectItem>
-                {Object.entries(categoryMap).map(([id, name]) => (
-                  <SelectItem key={id} value={id}>
-                    {name}
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.category_name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -214,12 +231,12 @@ export function DirectoryFilters({ className }: DirectoryFiltersProps) {
 
           {/* State Filter */}
           <div>
-            <label className="text-sm font-medium mb-2 block">State</label>
+            <label htmlFor="state-select" className="text-sm font-medium mb-2 block">State</label>
             <Select
               value={selectedState}
               onValueChange={(value) => updateFilters("state", value)}
             >
-              <SelectTrigger>
+              <SelectTrigger id="state-select">
                 <SelectValue placeholder="All States" />
               </SelectTrigger>
               <SelectContent>
@@ -235,12 +252,12 @@ export function DirectoryFilters({ className }: DirectoryFiltersProps) {
 
           {/* Region Filter */}
           <div>
-            <label className="text-sm font-medium mb-2 block">Region</label>
+            <label htmlFor="region-select" className="text-sm font-medium mb-2 block">Region</label>
             <Select
               value={selectedRegion}
               onValueChange={(value) => updateFilters("region", value)}
             >
-              <SelectTrigger>
+              <SelectTrigger id="region-select">
                 <SelectValue placeholder="All Regions" />
               </SelectTrigger>
               <SelectContent>

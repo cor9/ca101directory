@@ -23,14 +23,14 @@ export async function generateStaticParams() {
 
     // Extract unique categories from listings
     const categorySet = new Set<string>();
-    listings.forEach((listing) => {
+    for (const listing of listings) {
       if (listing.categories) {
         // Categories is a comma-separated string in Supabase
-        listing.categories.split(",").forEach((category) => {
+        for (const category of listing.categories.split(",")) {
           categorySet.add(category.trim());
-        });
+        }
       }
-    });
+    }
 
     // Convert category names to slugs
     return Array.from(categorySet).map((categoryName) => ({
@@ -56,14 +56,14 @@ export async function generateMetadata({
 
     // Extract unique categories from listings
     const categorySet = new Set<string>();
-    listings.forEach((listing) => {
+    for (const listing of listings) {
       if (listing.categories) {
         // Categories is a comma-separated string in Supabase
-        listing.categories.split(",").forEach((category) => {
+        for (const category of listing.categories.split(",")) {
           categorySet.add(category.trim());
-        });
+        }
       }
-    });
+    }
 
     const categoryName = Array.from(categorySet).find(
       (cat) =>
@@ -109,14 +109,14 @@ export default async function CategoryPage({
 
     // Extract unique categories from listings
     const categorySet = new Set<string>();
-    listings.forEach((listing) => {
+    for (const listing of listings) {
       if (listing.categories) {
         // Categories is a comma-separated string in Supabase
-        listing.categories.split(",").forEach((category) => {
+        for (const category of listing.categories.split(",")) {
           categorySet.add(category.trim());
-        });
+        }
       }
-    });
+    }
 
     const categoryName = Array.from(categorySet).find(
       (cat) =>
@@ -127,11 +127,19 @@ export default async function CategoryPage({
     );
 
     if (!categoryName) {
+      console.log("CategoryPage: No category found for slug:", params.slug);
       return notFound();
     }
 
+    console.log("CategoryPage Debug:", {
+      slug: params.slug,
+      categoryName,
+      totalListings: listings.length,
+      categorySet: Array.from(categorySet),
+    });
+
     // For now, we don't have sponsor items in Airtable
-    const sponsorItems: any[] = [];
+    const sponsorItems: unknown[] = [];
     const showSponsor = false;
     const hasSponsorItem = false;
 
@@ -141,11 +149,17 @@ export default async function CategoryPage({
     const currentPage = page ? Number(page) : 1;
 
     const { items, totalCount } = await getItems({
-      category: params.slug,
+      category: categoryName, // Use the actual category name, not the slug
       sortKey,
       reverse,
       currentPage,
       hasSponsorItem,
+    });
+
+    console.log("CategoryPage: getItems result:", {
+      itemsCount: items?.length || 0,
+      totalCount,
+      categoryName,
     });
 
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);

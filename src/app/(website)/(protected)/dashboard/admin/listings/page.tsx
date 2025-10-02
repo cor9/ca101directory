@@ -112,7 +112,7 @@ export default async function AdminListingsPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-green-600">
-                  {sortedListings.filter(l => l.approved_101_badge === "checked").length}
+                  {sortedListings.filter(l => l.is_approved_101 === true).length}
                 </div>
               </CardContent>
             </Card>
@@ -174,7 +174,7 @@ export default async function AdminListingsPage() {
                           )}
                           
                           {/* 101 Approved Badge */}
-                          {listing.approved_101_badge === "checked" && (
+                          {listing.is_approved_101 === true && (
                             <Badge variant="secondary" className="bg-green-100 text-green-800 text-xs">
                               <CheckCircleIcon className="w-3 h-3 mr-1" />
                               101 Approved

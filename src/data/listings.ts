@@ -128,7 +128,9 @@ export async function getListingBySlug(slug: string) {
   // If not found by UUID, try to find by generated slug from listing_name
   const { data: nameData, error: nameError } = await supabase
     .from("listings")
-    .select("*");
+    .select("*")
+    .in("status", ["Live", "APPROVED", "Approved"])
+    .eq("active", "checked");
 
   if (nameError) {
     console.error("getListingBySlug: Error fetching listings:", nameError);

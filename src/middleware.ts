@@ -6,6 +6,7 @@ import {
   publicRoutes,
 } from "@/routes";
 import NextAuth from "next-auth";
+import type { NextRequest } from "next/server";
 
 /**
  * https://www.youtube.com/watch?v=1MTyCvS05V4
@@ -36,7 +37,7 @@ if (hasAuthConfig) {
 }
 
 // since we have put role in user session, so we can know the role of the user
-export default function middleware(req: Request) {
+export default function middleware(req: NextRequest) {
   const { nextUrl } = req;
   
   console.log("Middleware request:", {
@@ -64,7 +65,7 @@ export default function middleware(req: Request) {
     return Response.redirect(new URL("/", nextUrl));
   }
 
-  return auth((req: Request) => {
+  return auth((req: NextRequest) => {
     const { nextUrl } = req;
     const isLoggedIn = !!req.auth;
 

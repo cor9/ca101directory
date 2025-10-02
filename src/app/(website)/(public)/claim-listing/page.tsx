@@ -135,7 +135,7 @@ export default function ClaimListingPage() {
                 </div>
               </div>
               <div className="flex gap-3">
-                <CheckCircle className="h-5 w-5 text-purple-600 mt-0.5" />
+                <CheckCircle className="h-5 w-5 text-brand-blue mt-0.5" />
                 <div>
                   <h4 className="font-medium">Verified Badge</h4>
                   <p className="text-sm text-muted-foreground">

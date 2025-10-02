@@ -138,7 +138,7 @@ export function DirectoryFilters({ className }: DirectoryFiltersProps) {
     }
 
     newParams.delete("page"); // Reset to first page when filtering
-    
+
     // Use current pathname instead of hardcoded /directory
     const currentPath = window.location.pathname;
     router.push(`${currentPath}?${newParams.toString()}`);

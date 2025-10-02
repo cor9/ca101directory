@@ -164,7 +164,8 @@ export default async function SubmitPage() {
                 Free Listing
               </h2>
               <p className="text-muted-foreground">
-                Get started with a basic listing. Upgrade later for more features.
+                Get started with a basic listing. Upgrade later for more
+                features.
               </p>
             </div>
             <FreeSubmitForm categories={freeFormCategories} />
@@ -177,7 +178,8 @@ export default async function SubmitPage() {
                 Paid Listing
               </h2>
               <p className="text-muted-foreground">
-                Create a professional listing with advanced features and priority placement.
+                Create a professional listing with advanced features and
+                priority placement.
               </p>
             </div>
             <SupabaseSubmitForm categories={freeFormCategories} />

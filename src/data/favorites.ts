@@ -90,7 +90,9 @@ export async function addToFavorites(
       console.error("Error adding to favorites:", error);
       // If table doesn't exist, throw a more user-friendly error
       if (error.code === "PGRST205") {
-        throw new Error("Favorites feature is not available yet. Please try again later.");
+        throw new Error(
+          "Favorites feature is not available yet. Please try again later.",
+        );
       }
       throw error;
     }
@@ -118,7 +120,9 @@ export async function removeFromFavorites(
       console.error("Error removing from favorites:", error);
       // If table doesn't exist, throw a more user-friendly error
       if (error.code === "PGRST205") {
-        throw new Error("Favorites feature is not available yet. Please try again later.");
+        throw new Error(
+          "Favorites feature is not available yet. Please try again later.",
+        );
       }
       throw error;
     }

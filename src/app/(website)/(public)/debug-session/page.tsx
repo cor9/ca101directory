@@ -1,7 +1,7 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { getRole } from "@/lib/auth/roles";
+import { useSession } from "next-auth/react";
 
 export default function DebugSessionPage() {
   const { data: session, status } = useSession();
@@ -19,7 +19,7 @@ export default function DebugSessionPage() {
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">Session Debug</h1>
-      
+
       <div className="space-y-4">
         <div>
           <h2 className="text-lg font-semibold">Session Status:</h2>

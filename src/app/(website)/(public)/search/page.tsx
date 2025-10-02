@@ -1,9 +1,9 @@
-import HomeSearchBox from "@/components/home/home-search-box";
+import Container from "@/components/container";
 import { DirectoryFilters } from "@/components/directory/directory-filters";
+import HomeSearchBox from "@/components/home/home-search-box";
 import ItemGrid from "@/components/item/item-grid";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
-import Container from "@/components/container";
 import { siteConfig } from "@/config/site";
 import { getItems } from "@/data/airtable-item";
 import {

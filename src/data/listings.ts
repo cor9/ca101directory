@@ -2,6 +2,7 @@ import { supabase } from "@/lib/supabase";
 
 export type Listing = {
   id: string; // UUID
+  slug: string | null;
   listing_name: string | null;
   what_you_offer: string | null;
   who_is_it_for: string | null;
@@ -48,7 +49,7 @@ export async function getPublicListings(params?: {
   category?: string;
 }) {
   console.log("getPublicListings: Starting fetch with params:", params);
-  
+
   let query = supabase.from("listings").select("*");
 
   if (params?.state) query = query.eq("state", params.state);
@@ -75,17 +76,17 @@ export async function getPublicListings(params?: {
     ascending: true,
   });
 
-  console.log("getPublicListings: Result:", { 
-    dataCount: data?.length || 0, 
+  console.log("getPublicListings: Result:", {
+    dataCount: data?.length || 0,
     error,
-    sampleData: data?.[0] 
+    sampleData: data?.[0],
   });
 
   if (error) {
     console.error("getPublicListings: Error:", error);
     throw error;
   }
-  
+
   console.log("getPublicListings: Returning", data?.length || 0, "listings");
   return data as Listing[];
 }
@@ -101,11 +102,45 @@ export async function getListingById(id: string) {
 }
 
 export async function getListingBySlug(slug: string) {
-  const { data, error } = await supabase
+  console.log("getListingBySlug: Looking for slug:", slug);
+
+  // First try to find by slug column
+  const { data: slugData, error: slugError } = await supabase
     .from("listings")
     .select("*")
     .eq("slug", slug)
     .single();
-  if (error) throw error;
-  return data as Listing;
+
+  if (slugData && !slugError) {
+    console.log("getListingBySlug: Found by slug column");
+    return slugData as Listing;
+  }
+
+  // If not found by slug, try to find by generated slug from listing_name
+  const { data: nameData, error: nameError } = await supabase
+    .from("listings")
+    .select("*");
+
+  if (nameError) {
+    console.error("getListingBySlug: Error fetching listings:", nameError);
+    throw nameError;
+  }
+
+  // Find listing where generated slug matches
+  const listing = nameData?.find((item) => {
+    const generatedSlug =
+      item.listing_name
+        ?.toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "") || item.id;
+    return generatedSlug === slug;
+  });
+
+  if (listing) {
+    console.log("getListingBySlug: Found by generated slug");
+    return listing as Listing;
+  }
+
+  console.log("getListingBySlug: No listing found for slug:", slug);
+  return null;
 }

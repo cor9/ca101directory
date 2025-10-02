@@ -62,7 +62,9 @@ export async function generateMetadata({
 
     return constructMetadata({
       title: `${category.category_name} - Child Actor 101 Directory`,
-      description: category.description || `Find ${category.category_name.toLowerCase()} professionals for your child's acting career`,
+      description:
+        category.description ||
+        `Find ${category.category_name.toLowerCase()} professionals for your child's acting career`,
       canonicalUrl: `${siteConfig.url}/category/${params.slug}`,
     });
   } catch (error) {

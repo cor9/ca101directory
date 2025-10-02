@@ -28,7 +28,7 @@ export default function SponsorItemCard({ item }: SponsorItemCardProps) {
       className={cn(
         "border rounded-lg flex flex-col justify-between p-6",
         "duration-300 shadow-sm hover:shadow-md transition-shadow",
-        "border-sky-300 border-spacing-1.5 bg-sky-50/50 dark:bg-sky-950/10 hover:bg-sky-50 dark:hover:bg-accent/60"
+        "border-sky-300 border-spacing-1.5 bg-sky-50/50 dark:bg-sky-950/10 hover:bg-sky-50 dark:hover:bg-accent/60",
       )}
     >
       {/* top */}
@@ -55,7 +55,7 @@ export default function SponsorItemCard({ item }: SponsorItemCardProps) {
               <h3
                 className={cn(
                   "text-xl font-medium truncate",
-                  item.featured && "text-gradient_indigo-purple font-semibold",
+                  item.featured && "text-gradient_blue-orange font-semibold",
                 )}
               >
                 {item.name}

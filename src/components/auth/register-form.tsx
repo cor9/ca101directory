@@ -19,9 +19,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { getEnabledRoles } from "@/config/feature-flags";
 import { RegisterSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { useSearchParams } from "next/navigation";
 import type * as z from "zod";
 
 export const RegisterForm = () => {
@@ -33,11 +33,12 @@ export const RegisterForm = () => {
   // Get enabled roles for registration
   const enabledRoles = getEnabledRoles();
   const roleFromUrl = searchParams.get("role");
-  const defaultRole = roleFromUrl && enabledRoles.includes(roleFromUrl)
-    ? roleFromUrl
-    : enabledRoles.includes("parent")
-    ? "parent"
-    : enabledRoles[0] || "vendor";
+  const defaultRole =
+    roleFromUrl && enabledRoles.includes(roleFromUrl)
+      ? roleFromUrl
+      : enabledRoles.includes("parent")
+        ? "parent"
+        : enabledRoles[0] || "vendor";
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),

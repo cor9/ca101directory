@@ -16,14 +16,15 @@ export async function getCategories() {
   }
 
   // Transform the data to match expected format
-  const transformedData = data?.map(category => ({
-    id: category.id,
-    category_name: category["Category Name"],
-    description: category.description || null,
-    icon: category.icon || null,
-    created_at: category["Created Time"] || null,
-    updated_at: category["Created Time"] || null,
-  })) || [];
+  const transformedData =
+    data?.map((category) => ({
+      id: category.id,
+      category_name: category["Category Name"],
+      description: category.description || null,
+      icon: category.icon || null,
+      created_at: category["Created Time"] || null,
+      updated_at: category["Created Time"] || null,
+    })) || [];
 
   console.log("getCategories: Returning", transformedData.length, "categories");
   return transformedData;

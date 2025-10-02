@@ -108,9 +108,6 @@ export default async function HomePage({
         {/* How It Works Section */}
         <HomeHowItWorks />
 
-        {/* Featured Listings Section */}
-        <HomeFeaturedListings />
-
         {/* Parent CTA Section */}
         <Container className="py-16">
           <div className="rounded-2xl bg-gradient-to-r from-brand-blue/5 via-brand-yellow/5 to-brand-orange/5 border border-brand-blue/20 px-6 py-12 text-center">
@@ -137,41 +134,54 @@ export default async function HomePage({
           </div>
         </Container>
 
-        {/* All Listings Section */}
-        <Container id="search-results" className="py-16">
+        {/* Featured Listings Section */}
+        <HomeFeaturedListings />
+
+        {/* Sample Professionals Section */}
+        <Container id="sample-professionals" className="py-16">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">
-              {query ? `Search Results for "${query}"` : "All Professionals"}
-            </h2>
+            <h2 className="text-3xl font-bold mb-4">Trusted Professionals</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {query
-                ? `Found ${totalCount} professional${totalCount !== 1 ? "s" : ""} matching your search`
-                : "Browse our complete directory of vetted child actor professionals"}
+              Get a taste of our vetted directory. Browse categories or search
+              for exactly what you need.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Filters Sidebar */}
-            <div className="lg:col-span-1">
-              <ListingFilters />
+          {/* Show only first 6 listings */}
+          {listings.length === 0 ? (
+            <EmptyGrid />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {listings.slice(0, 6).map((listing) => (
+                <ListingCard key={listing.id} listing={listing} />
+              ))}
             </div>
+          )}
 
-            {/* Listings Grid */}
-            <div className="lg:col-span-3">
-              {listings.length === 0 ? (
-                <EmptyGrid />
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {listings.map((listing) => (
-                    <ListingCard key={listing.id} listing={listing} />
-                  ))}
-                </div>
-              )}
+          {/* Browse Actions */}
+          <div className="text-center space-y-4">
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link
+                href="/directory"
+                className="inline-flex items-center justify-center rounded-lg bg-brand-blue px-8 py-3 font-semibold text-white transition-colors hover:bg-brand-blue-dark"
+              >
+                Browse All {totalCount} Professionals
+              </Link>
+              <Link
+                href="/category"
+                className="inline-flex items-center justify-center rounded-lg border-2 border-brand-orange px-8 py-3 font-semibold text-brand-orange transition-colors hover:bg-brand-orange hover:text-white"
+              >
+                Browse by Category
+              </Link>
             </div>
+            <p className="text-sm text-muted-foreground">
+              Use our filters to find professionals by location, specialty, and
+              more
+            </p>
           </div>
         </Container>
 
-        {/* Call-to-Action Section */}
+        {/* Vendor CTA Section */}
         <Container className="py-16">
           <div className="rounded-2xl bg-gradient-to-r from-brand-orange/5 via-brand-yellow/5 to-brand-blue/5 border border-brand-blue/20 px-6 py-12 text-center">
             <h2 className="mb-4 text-3xl font-bold text-foreground">
@@ -212,20 +222,28 @@ export default async function HomePage({
               {/* Free Vendor Pricing Table */}
               <div>
                 <div className="text-center mb-4">
-                  <h3 className="text-xl font-semibold text-brand-blue">Free Vendor Listing</h3>
-                  <p className="text-sm text-muted-foreground">Get started with a basic listing at no cost</p>
+                  <h3 className="text-xl font-semibold text-brand-blue">
+                    Free Vendor Listing
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Get started with a basic listing at no cost
+                  </p>
                 </div>
                 <stripe-pricing-table
                   pricing-table-id="prctbl_1SDbLwBqTvwy9ZuSXKTXVb7E"
                   publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
                 />
               </div>
-              
+
               {/* Paid Vendor Pricing Table */}
               <div>
                 <div className="text-center mb-4">
-                  <h3 className="text-xl font-semibold text-brand-orange">Premium Vendor Plans</h3>
-                  <p className="text-sm text-muted-foreground">Upgrade for advanced features and priority placement</p>
+                  <h3 className="text-xl font-semibold text-brand-orange">
+                    Premium Vendor Plans
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Upgrade for advanced features and priority placement
+                  </p>
                 </div>
                 <stripe-pricing-table
                   pricing-table-id="prctbl_1SCpyNBqTvwy9ZuSNiSGY03P"

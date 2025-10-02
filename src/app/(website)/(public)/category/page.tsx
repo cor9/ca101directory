@@ -118,20 +118,54 @@ export default async function CategoryPage() {
           const IconComponent = Icons[category.icon];
           // Create a color palette for variety
           const colorVariants = [
-            { bg: "bg-gradient-to-br from-brand-blue to-blue-600", text: "text-brand-blue", border: "border-brand-blue/20 hover:border-brand-blue/40" },
-            { bg: "bg-gradient-to-br from-brand-orange to-orange-600", text: "text-brand-orange", border: "border-brand-orange/20 hover:border-brand-orange/40" },
-            { bg: "bg-gradient-to-br from-brand-yellow to-yellow-600", text: "text-brand-yellow", border: "border-brand-yellow/20 hover:border-brand-yellow/40" },
-            { bg: "bg-gradient-to-br from-purple-500 to-purple-700", text: "text-purple-600", border: "border-purple-500/20 hover:border-purple-500/40" },
-            { bg: "bg-gradient-to-br from-green-500 to-green-700", text: "text-green-600", border: "border-green-500/20 hover:border-green-500/40" },
-            { bg: "bg-gradient-to-br from-pink-500 to-pink-700", text: "text-pink-600", border: "border-pink-500/20 hover:border-pink-500/40" },
-            { bg: "bg-gradient-to-br from-indigo-500 to-indigo-700", text: "text-indigo-600", border: "border-indigo-500/20 hover:border-indigo-500/40" },
-            { bg: "bg-gradient-to-br from-teal-500 to-teal-700", text: "text-teal-600", border: "border-teal-500/20 hover:border-teal-500/40" },
+            {
+              bg: "bg-gradient-to-br from-brand-blue to-blue-600",
+              text: "text-brand-blue",
+              border: "border-brand-blue/20 hover:border-brand-blue/40",
+            },
+            {
+              bg: "bg-gradient-to-br from-brand-orange to-orange-600",
+              text: "text-brand-orange",
+              border: "border-brand-orange/20 hover:border-brand-orange/40",
+            },
+            {
+              bg: "bg-gradient-to-br from-brand-yellow to-yellow-600",
+              text: "text-brand-yellow",
+              border: "border-brand-yellow/20 hover:border-brand-yellow/40",
+            },
+            {
+              bg: "bg-gradient-to-br from-purple-500 to-purple-700",
+              text: "text-purple-600",
+              border: "border-purple-500/20 hover:border-purple-500/40",
+            },
+            {
+              bg: "bg-gradient-to-br from-green-500 to-green-700",
+              text: "text-green-600",
+              border: "border-green-500/20 hover:border-green-500/40",
+            },
+            {
+              bg: "bg-gradient-to-br from-pink-500 to-pink-700",
+              text: "text-pink-600",
+              border: "border-pink-500/20 hover:border-pink-500/40",
+            },
+            {
+              bg: "bg-gradient-to-br from-indigo-500 to-indigo-700",
+              text: "text-indigo-600",
+              border: "border-indigo-500/20 hover:border-indigo-500/40",
+            },
+            {
+              bg: "bg-gradient-to-br from-teal-500 to-teal-700",
+              text: "text-teal-600",
+              border: "border-teal-500/20 hover:border-teal-500/40",
+            },
           ];
           const colors = colorVariants[index % colorVariants.length];
-          
+
           return (
             <Link key={category.slug} href={`/category/${category.slug}`}>
-              <Card className={`h-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${colors.border}`}>
+              <Card
+                className={`h-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${colors.border}`}
+              >
                 <CardHeader className="text-center">
                   <div className="flex justify-center mb-2">
                     <div className={`p-3 ${colors.bg} rounded-xl shadow-lg`}>
@@ -141,7 +175,9 @@ export default async function CategoryPage() {
                   <CardTitle className={`text-lg ${colors.text} font-bold`}>
                     {category.name}
                   </CardTitle>
-                  <Badge className={`w-fit mx-auto ${colors.bg} text-white hover:opacity-90`}>
+                  <Badge
+                    className={`w-fit mx-auto ${colors.bg} text-white hover:opacity-90`}
+                  >
                     {category.count} professional
                     {category.count !== 1 ? "s" : ""}
                   </Badge>

@@ -72,6 +72,15 @@ export async function register(
       return { status: "error", message: "Failed to create user profile" };
     }
 
+    // Check if email confirmation is required
+    if (authData.user.email_confirmed_at === null) {
+      return {
+        status: "success",
+        message: "Account created successfully! Please check your email to confirm your account before signing in.",
+        redirectUrl: "/auth/login",
+      };
+    }
+
     return {
       status: "success",
       message: "Account created successfully! Redirecting to dashboard...",

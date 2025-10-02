@@ -368,8 +368,13 @@ export function SupabaseSubmitForm({ categories }: SupabaseSubmitFormProps) {
                 <Label htmlFor="plan-pro">Pro</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Founding Standard" id="plan-founding-standard" />
-                <Label htmlFor="plan-founding-standard">Founding Standard</Label>
+                <RadioGroupItem
+                  value="Founding Standard"
+                  id="plan-founding-standard"
+                />
+                <Label htmlFor="plan-founding-standard">
+                  Founding Standard
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Founding Pro" id="plan-founding-pro" />

@@ -2,7 +2,7 @@
 
 import Container from "@/components/container";
 import HomeSearchBox from "@/components/home/home-search-box";
-import { ListingCard } from "@/components/listings/ListingCard";
+import { ListingCardClient } from "@/components/listings/ListingCardClient";
 import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
@@ -331,7 +331,7 @@ function HomePageContent() {
               ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                     {paginatedListings.map((listing) => (
-                    <ListingCard key={listing.id} listing={listing} />
+                    <ListingCardClient key={listing.id} listing={listing} />
                   ))}
                 </div>
               )}

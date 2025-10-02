@@ -47,8 +47,8 @@ export async function settings(
     }
 
     // Update other profile fields using Supabase
-    const updateData: Partial<{ full_name: string }> = {};
-    if (values.name) updateData.full_name = values.name;
+    const updateData: Partial<{ name: string }> = {};
+    if (values.name) updateData.name = values.name;
     
     const updatedUser = await updateUser(user.id, updateData);
     console.log("settings, updatedUser:", updatedUser);
@@ -60,7 +60,7 @@ export async function settings(
     // unstable update in Beta version
     unstable_update({
       user: {
-        name: updatedUser.full_name,
+        name: updatedUser.name,
       },
     });
 

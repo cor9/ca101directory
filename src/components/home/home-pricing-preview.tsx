@@ -1,7 +1,7 @@
 import Container from "@/components/container";
 import { Button } from "@/components/ui/button";
-import Script from "next/script";
 import Link from "next/link";
+import Script from "next/script";
 
 export default function HomePricingPreview() {
   return (
@@ -26,13 +26,11 @@ export default function HomePricingPreview() {
             pricing-table-id="prctbl_1SDjLkBqTvwy9ZuSAAkAI8XS"
             publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
           />
-          
+
           {/* Link to full pricing page */}
           <div className="text-center mt-8">
             <Button variant="outline" asChild>
-              <Link href="/pricing">
-                View All Pricing Plans
-              </Link>
+              <Link href="/pricing">View All Pricing Plans</Link>
             </Button>
           </div>
         </div>

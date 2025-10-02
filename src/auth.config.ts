@@ -68,8 +68,8 @@ export default {
                 .insert({
                   id: authData.user.id,
                   email: authData.user.email,
-                  full_name:
-                    authData.user.user_metadata?.full_name ||
+                  name:
+                    authData.user.user_metadata?.name ||
                     authData.user.email,
                   role: authData.user.user_metadata?.role || "parent",
                   created_at: new Date().toISOString(),
@@ -92,7 +92,7 @@ export default {
             return {
               id: profile.id,
               email: profile.email,
-              name: profile.full_name,
+              name: profile.name,
               role: profile.role,
             };
           } catch (error) {

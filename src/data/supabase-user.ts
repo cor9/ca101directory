@@ -3,7 +3,7 @@ import { supabase } from "@/lib/supabase";
 export interface User {
   id: string;
   email: string;
-  full_name: string;
+  name: string;
   role: "parent" | "vendor" | "admin";
   stripe_customer_id?: string;
   created_at: string;
@@ -63,7 +63,7 @@ export const createUser = async (userData: {
         {
           id: userData.id,
           email: userData.email,
-          full_name: userData.name,
+          name: userData.name,
           role: userData.role || "parent",
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),

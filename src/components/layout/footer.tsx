@@ -16,9 +16,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
         <div className="flex flex-col items-start col-span-full md:col-span-2">
           <div className="space-y-4">
             <div className="items-center space-x-2 flex">
-              <Logo />
-
-              <span className="text-xl font-bold">{siteConfig.name}</span>
+              <Logo showText={false} />
             </div>
 
             <p className="text-muted-foreground text-base p4-4 md:pr-12">

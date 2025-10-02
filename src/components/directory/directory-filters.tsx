@@ -14,59 +14,7 @@ import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-// US States for the dropdown
-const states = [
-  "AL",
-  "AK",
-  "AZ",
-  "AR",
-  "CA",
-  "CO",
-  "CT",
-  "DE",
-  "FL",
-  "GA",
-  "HI",
-  "ID",
-  "IL",
-  "IN",
-  "IA",
-  "KS",
-  "KY",
-  "LA",
-  "ME",
-  "MD",
-  "MA",
-  "MI",
-  "MN",
-  "MS",
-  "MO",
-  "MT",
-  "NE",
-  "NV",
-  "NH",
-  "NJ",
-  "NM",
-  "NY",
-  "NC",
-  "ND",
-  "OH",
-  "OK",
-  "OR",
-  "PA",
-  "RI",
-  "SC",
-  "SD",
-  "TN",
-  "TX",
-  "UT",
-  "VT",
-  "VA",
-  "WA",
-  "WV",
-  "WI",
-  "WY",
-];
+// Removed states array - using regions only
 
 // Common regions (can be expanded)
 const regions = [
@@ -102,13 +50,11 @@ export function DirectoryFilters({ className, categories = [] }: DirectoryFilter
   const searchParams = useSearchParams();
 
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [selectedState, setSelectedState] = useState<string>("all");
   const [selectedRegion, setSelectedRegion] = useState<string>("all");
 
   // Initialize filters from URL params
   useEffect(() => {
     setSelectedCategory(searchParams.get("category") || "all");
-    setSelectedState(searchParams.get("state") || "all");
     setSelectedRegion(searchParams.get("region") || "all");
   }, [searchParams]);
 
@@ -134,7 +80,7 @@ export function DirectoryFilters({ className, categories = [] }: DirectoryFilter
     router.push(currentPath);
   };
 
-  const hasActiveFilters = (selectedCategory && selectedCategory !== "all") || (selectedState && selectedState !== "all") || (selectedRegion && selectedRegion !== "all");
+  const hasActiveFilters = (selectedCategory && selectedCategory !== "all") || (selectedRegion && selectedRegion !== "all");
 
   return (
     <Card className={className}>
@@ -172,18 +118,6 @@ export function DirectoryFilters({ className, categories = [] }: DirectoryFilter
                 </button>
               </Badge>
             )}
-            {selectedState && selectedState !== "all" && (
-              <Badge variant="secondary" className="flex items-center gap-1">
-                State: {selectedState}
-                <button
-                  type="button"
-                  onClick={() => updateFilters("state", "all")}
-                  className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </Badge>
-            )}
             {selectedRegion && selectedRegion !== "all" && (
               <Badge variant="secondary" className="flex items-center gap-1">
                 Region: {selectedRegion}
@@ -200,7 +134,7 @@ export function DirectoryFilters({ className, categories = [] }: DirectoryFilter
         )}
 
         {/* Filter Controls */}
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Category Filter */}
           <div>
             <label
@@ -227,31 +161,6 @@ export function DirectoryFilters({ className, categories = [] }: DirectoryFilter
             </Select>
           </div>
 
-          {/* State Filter */}
-          <div>
-            <label
-              htmlFor="state-select"
-              className="text-sm font-medium mb-2 block"
-            >
-              State
-            </label>
-            <Select
-              value={selectedState}
-              onValueChange={(value) => updateFilters("state", value)}
-            >
-              <SelectTrigger id="state-select">
-                <SelectValue placeholder="All States" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All States</SelectItem>
-                {states.map((state) => (
-                  <SelectItem key={state} value={state}>
-                    {state}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
 
           {/* Region Filter */}
           <div>

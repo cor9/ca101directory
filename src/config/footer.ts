@@ -25,16 +25,6 @@ export const footerConfig: FooterConfig = {
       ],
     },
     {
-      title: "Studio",
-      items: [
-        { title: "Pages", href: "/pages" },
-        { title: "Home 2", href: "/home-2" },
-        { title: "Home 3", href: "/home-3" },
-        { title: "Collection 1", href: "/collection-1" },
-        { title: "Collection 2", href: "/collection-2" },
-      ],
-    },
-    {
       title: "Company",
       items: [
         { title: "About Us", href: "/about" },

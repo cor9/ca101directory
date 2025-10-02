@@ -25,6 +25,7 @@ export type Listing = {
   profile_image: string | null;
   stripe_plan_id: string | null;
   plan: string | null;
+  comped: boolean | null;
   active: string | null;
   claimed: string | null;
   claimed_by_email: string | null;

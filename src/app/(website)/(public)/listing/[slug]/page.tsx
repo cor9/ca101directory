@@ -103,6 +103,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
     // Check if current user owns this listing
     const isOwner = session?.user?.id === listing.owner_id;
+    
+    // Check if current user is admin
+    const isAdmin = session?.user?.role === "admin";
 
     // Get average rating if reviews are enabled
     let averageRating = { average: 0, count: 0 };
@@ -208,6 +211,12 @@ export default async function ListingPage({ params }: ListingPageProps) {
                           )}
                         >
                           {listing.plan}
+                        </span>
+                      )}
+                      {/* Admin-only comped badge */}
+                      {isAdmin && listing.comped && (
+                        <span className="text-xs bg-yellow-500 text-white px-2 py-1 rounded-full">
+                          Comped
                         </span>
                       )}
                     </div>

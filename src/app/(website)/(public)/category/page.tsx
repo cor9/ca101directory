@@ -8,7 +8,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
-import { getCategories, getListings } from "@/lib/airtable";
+import { getCategories } from "@/data/categories";
+import { getPublicListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
 import Link from "next/link";
 
@@ -52,33 +53,47 @@ export default async function CategoryPage() {
   }> = [];
 
   try {
-    const [airtableCategories, listings] = await Promise.all([
+    const [supabaseCategories, listings] = await Promise.all([
       getCategories(),
-      getListings(),
+      getPublicListings(),
     ]);
+
+    console.log("CategoryPage Debug:", {
+      supabaseCategoriesCount: supabaseCategories?.length || 0,
+      listingsCount: listings?.length || 0,
+      supabaseCategories: supabaseCategories,
+      sampleListing: listings?.[0],
+    });
 
     // Count listings per category
     const categoryCounts: Record<string, number> = {};
     for (const listing of listings) {
       if (listing.categories) {
-        for (const category of listing.categories) {
-          categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+        const categoryList = listing.categories.split(",");
+        for (const category of categoryList) {
+          const trimmedCategory = category.trim();
+          categoryCounts[trimmedCategory] =
+            (categoryCounts[trimmedCategory] || 0) + 1;
         }
       }
     }
 
-    categories = airtableCategories.map((category) => ({
-      name: category.categoryName,
-      slug: category.categoryName
+    console.log("Category counts:", categoryCounts);
+
+    categories = supabaseCategories.map((category) => ({
+      name: category.category_name,
+      slug: category.category_name
         .toLowerCase()
         .replace(/\s+/g, "-")
         .replace(/[^a-z0-9-]/g, ""),
-      icon: categoryIconMap[category.categoryName] || "star",
+      icon: categoryIconMap[category.category_name] || "star",
       description:
         category.description ||
-        `Professional ${category.categoryName.toLowerCase()} services`,
-      count: categoryCounts[category.categoryName] || 0,
+        `Professional ${category.category_name.toLowerCase()} services`,
+      count: categoryCounts[category.category_name] || 0,
     }));
+
+    console.log("Final categories:", categories);
   } catch (error) {
     console.error("Error fetching categories:", error);
   }

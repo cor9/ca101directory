@@ -11,21 +11,13 @@ export async function POST(request: NextRequest) {
   try {
     const session = await auth();
 
-    // Check if user is authenticated and is admin
+    // Check if user is authenticated
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const supabase = createServerClient();
-
-    // Check if user is admin
-    const { data: profile, error: profileError } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", session.user.id)
-      .single();
-
-    if (profileError || profile?.role !== "admin") {
+    // Check if user is admin (simplified check)
+    if (session.user.role !== "admin") {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
@@ -37,6 +29,8 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const supabase = createServerClient();
 
     // Update the listing
     const updateData: {

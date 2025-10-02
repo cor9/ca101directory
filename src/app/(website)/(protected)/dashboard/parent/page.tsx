@@ -52,7 +52,7 @@ export default async function ParentDashboard() {
       <ParentDashboardLayout>
         <div className="space-y-6">
           {/* Welcome Section */}
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 rounded-lg p-6">
+          <div className="bg-gradient-to-r from-blue-50 to-orange-50 dark:from-blue-950/20 dark:to-orange-950/20 rounded-lg p-6">
             <h1 className="text-2xl font-bold text-foreground mb-2">
               Welcome, Parent!
             </h1>

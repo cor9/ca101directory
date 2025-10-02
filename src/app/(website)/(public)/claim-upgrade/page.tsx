@@ -1,14 +1,21 @@
 import Container from "@/components/container";
 import { HeaderSection } from "@/components/shared/header-section";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Shield, Users, Clock, Star } from "lucide-react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { CheckCircle, Clock, Shield, Star, Users } from "lucide-react";
+import Link from "next/link";
 
 export const metadata = {
   title: "Claim & Upgrade Your Listing - Child Actor 101 Directory",
-  description: "Claim your business listing and upgrade to a paid plan for full control",
+  description:
+    "Claim your business listing and upgrade to a paid plan for full control",
 };
 
 export default function ClaimUpgradePage() {
@@ -130,7 +137,7 @@ export default function ClaimUpgradePage() {
                 </div>
               </div>
               <div className="flex gap-3">
-                <Star className="h-5 w-5 text-purple-600 mt-0.5" />
+                <Star className="h-5 w-5 text-brand-blue mt-0.5" />
                 <div>
                   <h4 className="font-medium">Premium Features</h4>
                   <p className="text-sm text-muted-foreground">
@@ -154,7 +161,10 @@ export default function ClaimUpgradePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="border rounded-lg p-6">
                 <h3 className="text-xl font-semibold mb-2">Standard</h3>
-                <div className="text-3xl font-bold mb-4">$25<span className="text-lg text-muted-foreground">/month</span></div>
+                <div className="text-3xl font-bold mb-4">
+                  $25
+                  <span className="text-lg text-muted-foreground">/month</span>
+                </div>
                 <ul className="space-y-2 text-sm mb-6">
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-600" />
@@ -186,7 +196,10 @@ export default function ClaimUpgradePage() {
                     Popular
                   </Badge>
                 </div>
-                <div className="text-3xl font-bold mb-4">$50<span className="text-lg text-muted-foreground">/month</span></div>
+                <div className="text-3xl font-bold mb-4">
+                  $50
+                  <span className="text-lg text-muted-foreground">/month</span>
+                </div>
                 <ul className="space-y-2 text-sm mb-6">
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-600" />
@@ -220,12 +233,11 @@ export default function ClaimUpgradePage() {
             Ready to Claim Your Listing?
           </h3>
           <p className="text-muted-foreground mb-6">
-            Search our directory to find your business and start the claim process
+            Search our directory to find your business and start the claim
+            process
           </p>
           <Button asChild size="lg">
-            <Link href="/directory">
-              Browse Directory
-            </Link>
+            <Link href="/directory">Browse Directory</Link>
           </Button>
         </div>
       </Container>

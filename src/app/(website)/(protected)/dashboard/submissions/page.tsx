@@ -79,7 +79,7 @@ export default async function UserSubmissionsPage() {
   const getPlanColor = (plan: string) => {
     switch (plan) {
       case "Premium":
-        return "bg-purple-100 text-purple-800";
+        return "bg-blue-100 text-blue-800";
       case "Pro":
         return "bg-blue-100 text-blue-800";
       case "Basic":
@@ -214,6 +214,3 @@ export default async function UserSubmissionsPage() {
     </div>
   );
 }
-
-
-

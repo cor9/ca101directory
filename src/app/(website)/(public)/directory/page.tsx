@@ -30,7 +30,9 @@ export default async function DirectoryPage({
   const showSponsor = false;
   const hasSponsorItem = false;
 
-  const { sort, page, category, state, region } = searchParams as { [key: string]: string };
+  const { sort, page, category, state, region } = searchParams as {
+    [key: string]: string;
+  };
   const { sortKey, reverse } =
     SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
   const currentPage = page ? Number(page) : 1;

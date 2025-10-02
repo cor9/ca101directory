@@ -84,7 +84,6 @@ export default function ItemCard({ item }: ItemCardProps) {
           ) : null}
         </div>
 
-
         {/* center */}
         <Link
           href={`${itemUrlPrefix}/${item.slug.current}`}
@@ -95,12 +94,12 @@ export default function ItemCard({ item }: ItemCardProps) {
               <h3
                 className={cn(
                   "min-w-0 flex-1 text-xl font-medium truncate overflow-hidden text-ellipsis",
-                  item.featured && "text-gradient_indigo-purple font-semibold",
+                  item.featured && "text-gradient_blue-orange font-semibold",
                 )}
               >
                 <span className="flex items-center gap-2">
                   {item.featured && (
-                    <AwardIcon className="w-5 h-5 flex-shrink-0 text-indigo-500" />
+                    <AwardIcon className="w-5 h-5 flex-shrink-0 text-brand-blue" />
                   )}
                   <span className="truncate">{item.name}</span>
                 </span>

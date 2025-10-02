@@ -42,7 +42,7 @@ export async function generateStaticParams() {
     // Convert listing names to slugs
     return listings.map((listing) => ({
       slug:
-        listing["Listing Name"]
+        listing.listing_name
           ?.toLowerCase()
           .replace(/\s+/g, "-")
           .replace(/[^a-z0-9-]/g, "") || listing.id,
@@ -70,9 +70,9 @@ export async function generateMetadata({
     }
 
     return constructMetadata({
-      title: `${listing["Listing Name"]} - Child Actor 101 Directory`,
+      title: `${listing.listing_name} - Child Actor 101 Directory`,
       description:
-        listing["What You Offer?"] ||
+        listing.what_you_offer ||
         "Professional acting services for young actors",
       canonicalUrl: `${siteConfig.url}/listing/${params.slug}`,
       image: listing.profile_image,
@@ -117,7 +117,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
     // Debug listing data
     console.log("Listing data:", {
       id: listing.id,
-      name: listing["Listing Name"],
+      name: listing.listing_name,
       owner_id: listing.owner_id,
       claimed: listing.claimed === "checked",
       plan: listing.plan,
@@ -136,7 +136,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 Directory
               </Link>
               <span>/</span>
-              <span>{listing["Listing Name"]}</span>
+              <span>{listing.listing_name}</span>
             </div>
 
             {/* logo + name + description */}
@@ -161,19 +161,25 @@ export default async function ListingPage({ params }: ListingPageProps) {
                           "text-gradient_blue-orange font-semibold",
                       )}
                     >
-                      {listing["Listing Name"]}
+                      {listing.listing_name}
                     </h1>
-                    
+
                     {/* Rating */}
                     {isReviewsEnabled() && averageRating.count > 0 && (
                       <div className="flex items-center gap-2 mb-2">
-                        <StarRating value={Math.round(averageRating.average)} readonly size="md" />
+                        <StarRating
+                          value={Math.round(averageRating.average)}
+                          readonly
+                          size="md"
+                        />
                         <span className="text-sm text-muted-foreground">
-                          {averageRating.average.toFixed(1)} ({averageRating.count} review{averageRating.count !== 1 ? "s" : ""})
+                          {averageRating.average.toFixed(1)} (
+                          {averageRating.count} review
+                          {averageRating.count !== 1 ? "s" : ""})
                         </span>
                       </div>
                     )}
-                    
+
                     <div className="flex items-center gap-2">
                       {listing.plan === "Premium" && (
                         <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full flex items-center gap-1">
@@ -242,7 +248,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
               {isFavoritesEnabled() && !isOwner && (
                 <FavoriteButton
                   listingId={listing.id}
-                  listingName={listing["Listing Name"]}
+                  listingName={listing.listing_name}
                   size="lg"
                   variant="outline"
                 />
@@ -575,7 +581,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
             <div className="mt-8">
               <ReviewForm
                 listingId={listing.id}
-                listingName={listing["Listing Name"] || "this listing"}
+                listingName={listing.listing_name || "this listing"}
               />
             </div>
           )}

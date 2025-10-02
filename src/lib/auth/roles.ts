@@ -31,13 +31,13 @@ export interface UserWithRole {
  */
 export function getRole(user: UserWithRole | null | undefined): UserRole {
   console.log("getRole called with user:", user);
-  
+
   // If user exists but no role is set, default to 'vendor' for legacy users
   if (user && !user.role) {
     console.log("User exists but no role, defaulting to vendor");
     return "vendor";
   }
-  
+
   const role = user?.role ?? "guest";
   console.log("getRole returning:", role);
   return role;

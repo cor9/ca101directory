@@ -1,22 +1,24 @@
-import Container from "@/components/container";
-import HomeHero from "@/components/home/home-hero";
-import HomeValueProps from "@/components/home/home-value-props";
-import HomeHowItWorks from "@/components/home/home-how-it-works";
-import HomeFeaturedListings from "@/components/home/home-featured-listings";
-import HomeCategoryGrid from "@/components/home/home-category-grid";
-import HomeParentCta from "@/components/home/home-parent-cta";
-import HomeVendorCta from "@/components/home/home-vendor-cta";
-import HomePricingPreview from "@/components/home/home-pricing-preview";
 import { BlogSection } from "@/components/blog/blog-section";
 import { CollectionsSection } from "@/components/collections/collections-section";
+import Container from "@/components/container";
+import HomeCategoryGrid from "@/components/home/home-category-grid";
+import HomeFeaturedListings from "@/components/home/home-featured-listings";
+import HomeHero from "@/components/home/home-hero";
+import HomeHowItWorks from "@/components/home/home-how-it-works";
+import HomeParentCta from "@/components/home/home-parent-cta";
+import HomePricingPreview from "@/components/home/home-pricing-preview";
+import HomeValueProps from "@/components/home/home-value-props";
+import HomeVendorCta from "@/components/home/home-vendor-cta";
 import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
 import Script from "next/script";
+import { Suspense } from "react";
 
 export const metadata = constructMetadata({
   title: "Child Actor 101 Directory - Find Trusted Acting Professionals",
-  description: "Find trusted acting coaches, photographers, agents, and other professionals for your child's acting career",
+  description:
+    "Find trusted acting coaches, photographers, agents, and other professionals for your child's acting career",
   canonicalUrl: `${siteConfig.url}/`,
 });
 
@@ -27,7 +29,7 @@ export default function HomePage() {
         src="https://js.stripe.com/v3/pricing-table.js"
         strategy="afterInteractive"
       />
-      
+
       <div className="flex min-h-screen flex-col">
         {/* Hero Section */}
         <Container className="mt-8 mb-20">
@@ -95,12 +97,40 @@ export default function HomePage() {
 
         {/* Collections Section */}
         <Container className="py-16">
-          <CollectionsSection />
+          <Suspense fallback={
+            <div className="text-center py-16">
+              <div className="animate-pulse">
+                <div className="h-8 bg-muted rounded w-1/3 mx-auto mb-4" />
+                <div className="h-4 bg-muted rounded w-1/2 mx-auto mb-8" />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="h-32 bg-muted rounded" />
+                  ))}
+                </div>
+              </div>
+            </div>
+          }>
+            <CollectionsSection />
+          </Suspense>
         </Container>
 
         {/* Blog Section */}
         <Container className="py-16">
-          <BlogSection />
+          <Suspense fallback={
+            <div className="text-center py-16">
+              <div className="animate-pulse">
+                <div className="h-8 bg-muted rounded w-1/3 mx-auto mb-4" />
+                <div className="h-4 bg-muted rounded w-1/2 mx-auto mb-8" />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="h-48 bg-muted rounded" />
+                  ))}
+                </div>
+              </div>
+            </div>
+          }>
+            <BlogSection />
+          </Suspense>
         </Container>
 
         {/* Newsletter Section */}

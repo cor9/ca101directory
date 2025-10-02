@@ -34,12 +34,20 @@ export default async function HomePage() {
   }
 
   // Fetch first few listings for homepage preview
-  const { items, totalCount } = await getItems({
-    sortKey: DEFAULT_SORT.sortKey,
-    reverse: DEFAULT_SORT.reverse,
-    currentPage: 1,
-    hasSponsorItem: false,
-  });
+  let items = [];
+  let totalCount = 0;
+  try {
+    const result = await getItems({
+      sortKey: DEFAULT_SORT.sortKey,
+      reverse: DEFAULT_SORT.reverse,
+      currentPage: 1,
+      hasSponsorItem: false,
+    });
+    items = result.items;
+    totalCount = result.totalCount;
+  } catch (error) {
+    console.error("Error fetching items:", error);
+  }
 
   // Show only first 6 items on homepage
   const previewItems = items.slice(0, 6);

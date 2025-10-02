@@ -3,11 +3,21 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
+    const apiKey = process.env.AIRTABLE_API_KEY;
+    const baseId = process.env.AIRTABLE_BASE_ID;
+
+    if (!apiKey || !baseId) {
+      return NextResponse.json(
+        { error: "Missing Airtable configuration" },
+        { status: 500 },
+      );
+    }
+
     const airtable = new Airtable({
-      apiKey: process.env.AIRTABLE_API_KEY!,
+      apiKey,
     });
 
-    const base = airtable.base(process.env.AIRTABLE_BASE_ID!);
+    const base = airtable.base(baseId);
 
     const records = await base("Listings")
       .select({

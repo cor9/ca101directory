@@ -131,6 +131,8 @@ export async function getListingBySlug(slug: string) {
     throw nameError;
   }
 
+  console.log("getListingBySlug: Checking", nameData?.length || 0, "listings");
+  
   // Find listing where generated slug matches
   const listing = nameData?.find((item) => {
     const generatedSlug =
@@ -138,11 +140,19 @@ export async function getListingBySlug(slug: string) {
         ?.toLowerCase()
         .replace(/\s+/g, "-")
         .replace(/[^a-z0-9-]/g, "") || item.id;
+    
+    console.log("getListingBySlug: Comparing", {
+      listingName: item.listing_name,
+      generatedSlug,
+      targetSlug: slug,
+      match: generatedSlug === slug
+    });
+    
     return generatedSlug === slug;
   });
 
   if (listing) {
-    console.log("getListingBySlug: Found by generated slug");
+    console.log("getListingBySlug: Found by generated slug:", listing.listing_name);
     return listing as Listing;
   }
 

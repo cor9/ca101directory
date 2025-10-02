@@ -5,58 +5,47 @@ export const footerConfig: FooterConfig = {
     {
       title: "Directory",
       items: [
-        { title: "Search Professionals", href: "/search" },
-        { title: "Browse Categories", href: "/category" },
-        { title: "All Listings", href: "/directory" },
-        { title: "Tags", href: "/tag" },
-      ],
-    },
-    {
-      title: "For Professionals",
-      items: [
-        { title: "Submit Listing", href: "/submit" },
-        { title: "Pricing Plans", href: "/pricing" },
-        { title: "Claim Listing", href: "/claim-upgrade" },
-        { title: "Dashboard", href: "/dashboard" },
+        { title: "Search", href: "/search" },
+        { title: "Collection", href: "/collection" },
+        { title: "Category", href: "/category" },
+        { title: "Filters", href: "/directory" },
       ],
     },
     {
       title: "Resources",
       items: [
+        { title: "Blog", href: "/blog" },
+        { title: "Pricing", href: "/pricing" },
+        { title: "Submit", href: "/submit" },
         {
-          title: "About Child Actor 101",
-          href: "https://childactor101.com",
+          title: "Recommendations",
+          href: "https://www.amazon.com/shop/influencer-be722a62?ref_=cm_sw_r_cp_ud_aipsfshop_ASWY2EF8HWY1E2JV2AVE",
           external: true,
         },
-        {
-          title: "Parent Resources",
-          href: "https://childactor101.com/resources",
-          external: true,
-        },
-        {
-          title: "Industry News",
-          href: "https://childactor101.com/101-blog",
-          external: true,
-        },
-        { title: "Contact Support", href: "mailto:corey@childactor101.com" },
       ],
     },
     {
-      title: "Legal",
+      title: "Studio",
       items: [
-        {
-          title: "Terms and Conditions",
-          href: "https://www.childactor101.com/terms-and-conditions",
-          external: true,
-        },
+        { title: "Pages", href: "/pages" },
+        { title: "Home 2", href: "/home-2" },
+        { title: "Home 3", href: "/home-3" },
+        { title: "Collection 1", href: "/collection-1" },
+        { title: "Collection 2", href: "/collection-2" },
+      ],
+    },
+    {
+      title: "Company",
+      items: [
+        { title: "About Us", href: "/about" },
         {
           title: "Privacy Policy",
           href: "https://www.childactor101.com/privacy-policy",
           external: true,
         },
         {
-          title: "California Child Permit",
-          href: "https://www.childactor101.com/ab1660",
+          title: "Terms of Service",
+          href: "https://www.childactor101.com/terms-and-conditions",
           external: true,
         },
         { title: "Sitemap", href: "/sitemap.xml" },

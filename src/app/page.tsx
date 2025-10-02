@@ -1,7 +1,4 @@
-import { BlogSection } from "@/components/blog/blog-section";
-import { CollectionsSection } from "@/components/collections/collections-section";
 import Container from "@/components/container";
-import HomeCategoryGrid from "@/components/home/home-category-grid";
 import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import HomeHero from "@/components/home/home-hero";
 import HomeHowItWorks from "@/components/home/home-how-it-works";
@@ -13,7 +10,6 @@ import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
 import Script from "next/script";
-import { Suspense } from "react";
 
 export const metadata = constructMetadata({
   title: "Child Actor 101 Directory - Find Trusted Acting Professionals",
@@ -42,11 +38,6 @@ export default function HomePage() {
         {/* How It Works Section */}
         <Container className="py-16">
           <HomeHowItWorks />
-        </Container>
-
-        {/* Category Grid Section */}
-        <Container className="py-16">
-          <HomeCategoryGrid />
         </Container>
 
         {/* Parent CTA Section */}
@@ -93,44 +84,6 @@ export default function HomePage() {
         {/* Pricing Preview Section */}
         <Container className="py-16">
           <HomePricingPreview />
-        </Container>
-
-        {/* Collections Section */}
-        <Container className="py-16">
-          <Suspense fallback={
-            <div className="text-center py-16">
-              <div className="animate-pulse">
-                <div className="h-8 bg-muted rounded w-1/3 mx-auto mb-4" />
-                <div className="h-4 bg-muted rounded w-1/2 mx-auto mb-8" />
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="h-32 bg-muted rounded" />
-                  ))}
-                </div>
-              </div>
-            </div>
-          }>
-            <CollectionsSection />
-          </Suspense>
-        </Container>
-
-        {/* Blog Section */}
-        <Container className="py-16">
-          <Suspense fallback={
-            <div className="text-center py-16">
-              <div className="animate-pulse">
-                <div className="h-8 bg-muted rounded w-1/3 mx-auto mb-4" />
-                <div className="h-4 bg-muted rounded w-1/2 mx-auto mb-8" />
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="h-48 bg-muted rounded" />
-                  ))}
-                </div>
-              </div>
-            </div>
-          }>
-            <BlogSection />
-          </Suspense>
         </Container>
 
         {/* Newsletter Section */}

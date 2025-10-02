@@ -39,18 +39,19 @@ export default async function AdminListingsPage() {
   
   // Sort listings by plan priority and name
   const sortedListings = allListings.sort((a, b) => {
-    const planPriority = (plan: string | null) => {
+    const planPriority = (plan: string | null, comped: boolean | null) => {
+      if (comped) return 3; // Comped listings are treated as Pro
       switch (plan) {
-        case "Premium": return 4;
-        case "Pro": return 3;
-        case "Basic": return 2;
-        case "Free": return 1;
-        default: return 0;
+        case "premium": return 4;
+        case "pro": return 3;
+        case "standard": return 2;
+        case "free": return 1;
+        default: return 0; // null/undefined plans default to Free
       }
     };
 
-    const aPriority = planPriority(a.plan);
-    const bPriority = planPriority(b.plan);
+    const aPriority = planPriority(a.plan, a.comped);
+    const bPriority = planPriority(b.plan, b.comped);
 
     if (aPriority !== bPriority) {
       return bPriority - aPriority; // Higher priority first
@@ -136,20 +137,34 @@ export default async function AdminListingsPage() {
                         </h3>
                         <div className="flex items-center gap-2">
                           {/* Plan Badge */}
-                          {listing.plan && (
-                            <Badge
-                              variant={listing.plan === "Premium" ? "default" : "outline"}
-                              className={`
-                                text-xs
-                                ${listing.plan === "Premium" ? "bg-brand-orange text-white" : ""}
-                                ${listing.plan === "Pro" ? "bg-brand-blue text-white" : ""}
-                                ${listing.plan === "Basic" ? "bg-gray-100 text-gray-800" : ""}
-                                ${listing.plan === "Free" ? "bg-gray-100 text-gray-600" : ""}
-                              `}
-                            >
-                              {listing.plan}
-                            </Badge>
-                          )}
+                          {(() => {
+                            // Determine badge text and styling
+                            let badgeText = 'Free';
+                            let badgeClassName = "text-xs bg-gray-100 text-gray-600";
+
+                            if (listing.comped) {
+                              badgeText = 'Pro';
+                              badgeClassName = "text-xs bg-brand-blue text-white";
+                            } else if (listing.plan === 'pro') {
+                              badgeText = 'Pro';
+                              badgeClassName = "text-xs bg-brand-blue text-white";
+                            } else if (listing.plan === 'standard') {
+                              badgeText = 'Standard';
+                              badgeClassName = "text-xs bg-gray-100 text-gray-800";
+                            } else if (listing.plan === 'premium') {
+                              badgeText = 'Featured';
+                              badgeClassName = "text-xs bg-brand-orange text-white";
+                            }
+
+                            return (
+                              <Badge
+                                variant="outline"
+                                className={badgeClassName}
+                              >
+                                {badgeText}
+                              </Badge>
+                            );
+                          })()}
                           
                           {/* Comped Badge */}
                           {listing.comped && (

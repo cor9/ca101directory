@@ -196,23 +196,31 @@ export default async function ListingPage({ params }: ListingPageProps) {
                           101 Approved
                         </span>
                       )}
-                      {listing.plan && (
-                        <span
-                          className={cn(
-                            "text-xs px-2 py-1 rounded-full",
-                            listing.plan === "Premium" &&
-                              "bg-brand-orange text-white",
-                            listing.plan === "Pro" &&
-                              "bg-brand-blue text-white",
-                            listing.plan === "Basic" &&
-                              "bg-gray-100 text-gray-800",
-                            listing.plan === "Free" &&
-                              "bg-gray-100 text-gray-600",
-                          )}
-                        >
-                          {listing.plan}
-                        </span>
-                      )}
+                      {(() => {
+                        // Determine badge text and styling
+                        let badgeText = 'Free';
+                        let badgeClassName = "text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600";
+
+                        if (listing.comped) {
+                          badgeText = 'Pro';
+                          badgeClassName = "text-xs px-2 py-1 rounded-full bg-brand-blue text-white";
+                        } else if (listing.plan === 'pro') {
+                          badgeText = 'Pro';
+                          badgeClassName = "text-xs px-2 py-1 rounded-full bg-brand-blue text-white";
+                        } else if (listing.plan === 'standard') {
+                          badgeText = 'Standard';
+                          badgeClassName = "text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800";
+                        } else if (listing.plan === 'premium') {
+                          badgeText = 'Featured';
+                          badgeClassName = "text-xs px-2 py-1 rounded-full bg-brand-orange text-white";
+                        }
+
+                        return (
+                          <span className={badgeClassName}>
+                            {badgeText}
+                          </span>
+                        );
+                      })()}
                       {/* Admin-only comped badge */}
                       {isAdmin && listing.comped && (
                         <span className="text-xs bg-yellow-500 text-white px-2 py-1 rounded-full">

@@ -17,6 +17,7 @@ interface FavoriteButtonProps {
   size?: "sm" | "default" | "lg";
   variant?: "default" | "outline" | "ghost";
   listingName?: string;
+  listingOwnerId?: string;
 }
 
 export function FavoriteButton({
@@ -27,11 +28,20 @@ export function FavoriteButton({
   size = "default",
   variant = "outline",
   listingName,
+  listingOwnerId,
 }: FavoriteButtonProps) {
   const { data: session } = useSession();
   const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
   const [isLoading, setIsLoading] = useState(false);
   const [showGuestModal, setShowGuestModal] = useState(false);
+
+  // Check if user is the owner of this listing
+  const isOwner = session?.user?.id && listingOwnerId && session.user.id === listingOwnerId;
+
+  // Don't render the button if user owns the listing
+  if (isOwner) {
+    return null;
+  }
 
   const handleToggle = async () => {
     if (!session?.user?.id) {

@@ -273,6 +273,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 <FavoriteButton
                   listingId={listing.id}
                   listingName={listing.listing_name}
+                  listingOwnerId={listing.owner_id}
                   size="lg"
                   variant="outline"
                 />
@@ -359,7 +360,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
               <div className="mt-8">
                 <ReviewForm
                   listingId={listing.id}
-                  listingName={listing["Listing Name"] || "Listing"}
+                  listingName={listing.listing_name || "Listing"}
+                  listingOwnerId={listing.owner_id}
                 />
               </div>
             )}

@@ -29,6 +29,7 @@ const ReviewSchema = z.object({
 interface ReviewFormProps {
   listingId: string;
   listingName?: string;
+  listingOwnerId?: string;
   onReviewSubmitted?: () => void;
   className?: string;
 }
@@ -36,6 +37,7 @@ interface ReviewFormProps {
 export function ReviewForm({
   listingId,
   listingName,
+  listingOwnerId,
   onReviewSubmitted,
   className,
 }: ReviewFormProps) {
@@ -86,6 +88,24 @@ export function ReviewForm({
       setIsSubmitting(false);
     }
   };
+
+  // Check if user is the owner of this listing
+  const isOwner = session?.user?.id && listingOwnerId && session.user.id === listingOwnerId;
+
+  if (isOwner) {
+    return (
+      <div className={cn("p-4 border rounded-lg bg-blue-50 dark:bg-blue-950/20", className)}>
+        <div className="text-center space-y-3">
+          <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">
+            You cannot review your own listing.
+          </p>
+          <p className="text-xs text-blue-600 dark:text-blue-400">
+            Only parents and families can review vendor listings.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (!session?.user) {
     return (

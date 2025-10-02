@@ -1,6 +1,9 @@
 "use client";
 
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { createUrl } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { SearchIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -15,6 +18,7 @@ export default function SearchBox({ urlPrefix }: SearchBoxProps) {
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams?.get("q") || "");
   const [debouncedQuery] = useDebounce(searchQuery, 300); // 300ms debounce
+  const [isSearching, setIsSearching] = useState(false);
   const lastExecutedQuery = useRef(searchParams?.get("q") || "");
   const previousQueryRef = useRef("");
 
@@ -29,6 +33,7 @@ export default function SearchBox({ urlPrefix }: SearchBoxProps) {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (debouncedQuery !== lastExecutedQuery.current) {
+      setIsSearching(true);
       const newParams = new URLSearchParams(searchParams?.toString());
       if (debouncedQuery) {
         newParams.set("q", debouncedQuery);
@@ -40,29 +45,51 @@ export default function SearchBox({ urlPrefix }: SearchBoxProps) {
       console.log(`useEffect, newUrl: ${newUrl}`);
       lastExecutedQuery.current = debouncedQuery;
       router.push(newUrl, { scroll: false });
+      
+      // Smooth scroll to results after a short delay to allow the page to update
+      if (debouncedQuery) {
+        setTimeout(() => {
+          const resultsElement = document.getElementById('search-results');
+          if (resultsElement) {
+            resultsElement.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start',
+              inline: 'nearest'
+            });
+          }
+          setIsSearching(false);
+        }, 100);
+      } else {
+        setIsSearching(false);
+      }
     }
-  }, [debouncedQuery, router, searchParams, searchQuery]);
+  }, [debouncedQuery, router, searchParams, urlPrefix]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
   return (
-    <div className="flex items-center justify-start">
-      <div className="w-full relative">
-        <input
-          type="text"
-          name="search"
-          placeholder="Search..."
-          autoComplete="off"
-          value={searchQuery}
-          onChange={handleSearch}
-          className="w-full rounded-lg border bg-background px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        />
-        <div className="absolute right-0 top-0 mr-4 flex h-full items-center">
-          <SearchIcon className="h-4 text-muted-foreground" />
-        </div>
-      </div>
+    <div className="flex items-center justify-center">
+      <Input
+        type="text"
+        placeholder="Search for acting coaches, photographers, editors..."
+        autoComplete="off"
+        value={searchQuery}
+        onChange={handleSearch}
+        className={cn(
+          "w-[320px] sm:w-[480px] md:w-[640px] h-12 rounded-r-none",
+          "focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary focus:border-2 focus:border-r-0",
+        )}
+      />
+      <Button 
+        type="submit" 
+        className="rounded-l-none size-12"
+        disabled={isSearching}
+      >
+        <SearchIcon className={cn("size-6", isSearching && "animate-pulse")} aria-hidden="true" />
+        <span className="sr-only">{isSearching ? "Searching..." : "Search"}</span>
+      </Button>
     </div>
   );
 }

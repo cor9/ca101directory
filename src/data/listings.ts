@@ -56,8 +56,10 @@ export async function getPublicListings(params?: {
   if (params?.state) query = query.eq("state", params.state);
   if (params?.region) query = query.eq("region", params.region);
   if (params?.city) query = query.eq("city", params.city);
-  if (params?.category)
+  if (params?.category) {
+    console.log("getPublicListings: Filtering by category:", params.category);
     query = query.ilike("categories", `%${params.category}%`);
+  }
   if (params?.q)
     query = query.or(
       [
@@ -72,6 +74,8 @@ export async function getPublicListings(params?: {
   query = query
     .in("status", ["Live", "APPROVED", "Approved"])
     .eq("active", "checked");
+
+  console.log("getPublicListings: Query built, executing...");
 
   const { data, error } = await query.order("listing_name", {
     ascending: true,

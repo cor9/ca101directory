@@ -65,41 +65,46 @@ export default function middleware(req: NextRequest) {
     return Response.redirect(new URL("/", nextUrl));
   }
 
-  return auth(req, {
-    callbacks: {
-      authorized: ({ token, req }) => {
-        const { nextUrl } = req;
-        const isLoggedIn = !!token;
+  return auth((req) => {
+    const { nextUrl } = req;
+    const isLoggedIn = !!req.auth;
 
-        const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
-        const isPublicRoute = publicRoutes.some((route) =>
-          new RegExp(`^${route}$`).test(nextUrl.pathname),
-        );
-        const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+    const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+    const isPublicRoute = publicRoutes.some((route) =>
+      new RegExp(`^${route}$`).test(nextUrl.pathname),
+    );
+    const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-        // do nothing if on api auth routes
-        if (isApiAuthRoute) {
-          return true;
-        }
+    // do nothing if on api auth routes
+    if (isApiAuthRoute) {
+      return null;
+    }
 
-        // redirect to dashboard if logged in and on auth routes
-        if (isAuthRoute) {
-          if (isLoggedIn) {
-            console.log("middleware, redirecting to dashboard");
-            return false; // This will trigger redirect
-          }
-          return true;
-        }
+    // redirect to dashboard if logged in and on auth routes
+    if (isAuthRoute) {
+      if (isLoggedIn) {
+        console.log("middleware, redirecting to dashboard");
+        return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      }
+      return null;
+    }
 
-        // redirect to login if not logged in and not on public routes
-        if (!isLoggedIn && !isPublicRoute) {
-          return false; // This will trigger redirect
-        }
+    // redirect to login if not logged in and not on public routes
+    if (!isLoggedIn && !isPublicRoute) {
+      let callbackUrl = nextUrl.pathname;
+      if (nextUrl.search) {
+        callbackUrl += nextUrl.search;
+      }
 
-        return true;
-      },
-    },
-  });
+      const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+
+      return Response.redirect(
+        new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl),
+      );
+    }
+
+    return null;
+  })(req);
 }
 
 // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher

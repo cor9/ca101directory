@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { GuestActionModal } from "@/components/auth/guest-action-modal";
 import { toggleFavorite } from "@/data/favorites";
 import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
@@ -15,6 +16,7 @@ interface FavoriteButtonProps {
   className?: string;
   size?: "sm" | "default" | "lg";
   variant?: "default" | "outline" | "ghost";
+  listingName?: string;
 }
 
 export function FavoriteButton({
@@ -24,15 +26,17 @@ export function FavoriteButton({
   className,
   size = "default",
   variant = "outline",
+  listingName,
 }: FavoriteButtonProps) {
   const { data: session } = useSession();
   const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
   const [isLoading, setIsLoading] = useState(false);
+  const [showGuestModal, setShowGuestModal] = useState(false);
 
   const handleToggle = async () => {
     if (!session?.user?.id) {
-      // Redirect to registration with parent role
-      window.location.href = `/auth/register?role=parent&next=${encodeURIComponent(window.location.pathname)}`;
+      // Show modal for guest users
+      setShowGuestModal(true);
       return;
     }
 
@@ -54,21 +58,30 @@ export function FavoriteButton({
   };
 
   return (
-    <Button
-      variant={variant}
-      size={size}
-      onClick={handleToggle}
-      disabled={isLoading}
-      className={cn(
-        "transition-colors",
-        isFavorited && "text-red-500 hover:text-red-600",
-        className,
-      )}
-    >
-      <Heart className={cn("h-4 w-4", isFavorited && "fill-current")} />
-      <span className="sr-only">
-        {isFavorited ? "Remove from favorites" : "Add to favorites"}
-      </span>
-    </Button>
+    <>
+      <Button
+        variant={variant}
+        size={size}
+        onClick={handleToggle}
+        disabled={isLoading}
+        className={cn(
+          "transition-colors",
+          isFavorited && "text-red-500 hover:text-red-600",
+          className,
+        )}
+      >
+        <Heart className={cn("h-4 w-4", isFavorited && "fill-current")} />
+        <span className="sr-only">
+          {isFavorited ? "Remove from favorites" : "Add to favorites"}
+        </span>
+      </Button>
+
+      <GuestActionModal
+        isOpen={showGuestModal}
+        onClose={() => setShowGuestModal(false)}
+        action="favorite"
+        listingName={listingName}
+      />
+    </>
   );
 }

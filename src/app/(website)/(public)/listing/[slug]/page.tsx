@@ -5,9 +5,11 @@ import { ClaimedListingActions } from "@/components/listing/claimed-listing-acti
 import { ReviewForm } from "@/components/reviews/ReviewForm";
 import { ReviewsDisplay } from "@/components/reviews/ReviewsDisplay";
 import { Button } from "@/components/ui/button";
+import { StarRating } from "@/components/ui/star-rating";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import { siteConfig } from "@/config/site";
 import { getListingBySlug } from "@/data/listings";
+import { getListingAverageRating } from "@/data/reviews";
 import { constructMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
 import {
@@ -102,6 +104,16 @@ export default async function ListingPage({ params }: ListingPageProps) {
     // Check if current user owns this listing
     const isOwner = session?.user?.id === listing.owner_id;
 
+    // Get average rating if reviews are enabled
+    let averageRating = { average: 0, count: 0 };
+    if (isReviewsEnabled()) {
+      try {
+        averageRating = await getListingAverageRating(listing.id);
+      } catch (error) {
+        console.error("Error fetching rating:", error);
+      }
+    }
+
     // Debug listing data
     console.log("Listing data:", {
       id: listing.id,
@@ -151,6 +163,17 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     >
                       {listing["Listing Name"]}
                     </h1>
+                    
+                    {/* Rating */}
+                    {isReviewsEnabled() && averageRating.count > 0 && (
+                      <div className="flex items-center gap-2 mb-2">
+                        <StarRating value={Math.round(averageRating.average)} readonly size="md" />
+                        <span className="text-sm text-muted-foreground">
+                          {averageRating.average.toFixed(1)} ({averageRating.count} review{averageRating.count !== 1 ? "s" : ""})
+                        </span>
+                      </div>
+                    )}
+                    
                     <div className="flex items-center gap-2">
                       {listing.plan === "Premium" && (
                         <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full flex items-center gap-1">
@@ -219,6 +242,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
               {isFavoritesEnabled() && !isOwner && (
                 <FavoriteButton
                   listingId={listing.id}
+                  listingName={listing["Listing Name"]}
                   size="lg"
                   variant="outline"
                 />

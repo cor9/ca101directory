@@ -1,7 +1,9 @@
 import HomeSearchBox from "@/components/home/home-search-box";
+import { DirectoryFilters } from "@/components/directory/directory-filters";
 import ItemGrid from "@/components/item/item-grid";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
+import Container from "@/components/container";
 import { siteConfig } from "@/config/site";
 import { getItems } from "@/data/airtable-item";
 import {
@@ -25,7 +27,7 @@ export default async function SearchPage({
   console.log("SearchPage, searchParams", searchParams);
 
   // No sponsor items for now - we'll implement this later if needed
-  const sponsorItems: any[] = [];
+  const sponsorItems: unknown[] = [];
   const showSponsor = false;
   const hasSponsorItem = false;
 
@@ -36,6 +38,8 @@ export default async function SearchPage({
     page,
     q: query,
     f: filter,
+    state,
+    region,
   } = searchParams as { [key: string]: string };
   const { sortKey, reverse } =
     SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
@@ -43,6 +47,8 @@ export default async function SearchPage({
   const { items, totalCount } = await getItems({
     category,
     tag,
+    state,
+    region,
     sortKey,
     reverse,
     query,
@@ -70,6 +76,11 @@ export default async function SearchPage({
           <HomeSearchBox urlPrefix="/search" />
         </div>
       </div>
+
+      {/* Filters */}
+      <Container className="pb-8">
+        <DirectoryFilters className="mb-8" />
+      </Container>
 
       {/* when no items are found */}
       {items?.length === 0 && <EmptyGrid />}

@@ -67,7 +67,7 @@ export default async function PricingPage() {
               </div>
             </div>
 
-            {/* Stripe Pricing Table */}
+            {/* First Stripe Pricing Table */}
             <div className="w-full mx-auto">
               <div className="text-center mb-8">
                 <h2 className="text-2xl font-bold text-brand-blue mb-2">
@@ -78,12 +78,28 @@ export default async function PricingPage() {
                 </p>
               </div>
               <stripe-pricing-table
+                pricing-table-id="prctbl_1SDbLwBqTvwy9ZuSXKTXVb7E"
+                publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
+              />
+            </div>
+
+            {/* Second Stripe Pricing Table */}
+            <div className="w-full mx-auto mt-12">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-brand-blue mb-2">
+                  Additional Plans
+                </h2>
+                <p className="text-muted-foreground">
+                  More options for your business needs
+                </p>
+              </div>
+              <stripe-pricing-table
                 pricing-table-id="prctbl_1SCpyNBqTvwy9ZuSNiSGY03P"
                 publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
               />
             </div>
 
-            {/* 101 Badge Add-on */}
+            {/* Third Stripe Pricing Table */}
             <div className="w-full mx-auto mt-12">
               <div className="text-center mb-8">
                 <h2 className="text-2xl font-bold text-brand-orange mb-2">

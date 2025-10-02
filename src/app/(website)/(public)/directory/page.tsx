@@ -1,6 +1,7 @@
 import Container from "@/components/container";
 import { DirectoryFilters } from "@/components/directory/directory-filters";
 import ItemGrid from "@/components/item/item-grid";
+import SearchBox from "@/components/search/search-box";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
@@ -39,21 +40,46 @@ export default async function DirectoryPage({
   const showSponsor = false;
   const hasSponsorItem = false;
 
-  const { sort, page, category, state, region } = searchParams as {
+  const {
+    sort,
+    page,
+    category,
+    state,
+    region,
+    q: query,
+  } = searchParams as {
     [key: string]: string;
   };
   const { sortKey, reverse } =
     SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
   const currentPage = page ? Number(page) : 1;
 
-  const { items, totalCount } = await getItems({
+  console.log("DirectoryPage: Getting items with params:", {
     category,
     state,
     region,
+    query,
     sortKey,
     reverse,
     currentPage,
     hasSponsorItem,
+  });
+
+  const { items, totalCount } = await getItems({
+    category,
+    state,
+    region,
+    query,
+    sortKey,
+    reverse,
+    currentPage,
+    hasSponsorItem,
+  });
+
+  console.log("DirectoryPage: Received items:", {
+    itemsCount: items?.length || 0,
+    totalCount,
+    sampleItems: items?.slice(0, 2),
   });
 
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
@@ -89,6 +115,13 @@ export default async function DirectoryPage({
             <div className="text-3xl font-bold text-brand-blue mb-2">1000+</div>
             <div className="text-muted-foreground">Families Served</div>
           </div>
+        </div>
+      </Container>
+
+      {/* Search */}
+      <Container className="pb-8">
+        <div className="mb-8">
+          <SearchBox urlPrefix="/directory" />
         </div>
       </Container>
 

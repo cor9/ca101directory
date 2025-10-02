@@ -126,19 +126,19 @@ export function ClaimedListingActions({
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Pro Plan */}
+              {/* Standard Plan */}
               <div className="p-4 border border-brand-blue/20 rounded-lg bg-brand-blue/5">
                 <div className="flex items-center gap-2 mb-2">
                   <StarIcon className="w-4 h-4 text-brand-blue" />
-                  <h4 className="font-semibold text-brand-blue">Pro Plan</h4>
+                  <h4 className="font-semibold text-brand-blue">Standard Plan</h4>
                 </div>
                 <p className="text-sm text-muted-foreground mb-3">
-                  Featured placement, logo display, priority support
+                  Enhanced visibility and professional features
                 </p>
                 <div className="space-y-1 text-sm">
                   <div className="flex items-center gap-2">
                     <CheckCircleIcon className="w-3 h-3 text-green-600" />
-                    <span>Featured placement</span>
+                    <span>Enhanced visibility</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircleIcon className="w-3 h-3 text-green-600" />
@@ -153,40 +153,40 @@ export function ClaimedListingActions({
                   size="sm"
                   className="w-full mt-3 bg-brand-blue hover:bg-brand-blue-dark"
                 >
-                  Upgrade to Pro - $45/month
+                  Upgrade to Standard - $25/month
                 </Button>
               </div>
 
-              {/* Premium Plan */}
+              {/* Pro Plan */}
               <div className="p-4 border border-brand-orange/20 rounded-lg bg-brand-orange/5">
                 <div className="flex items-center gap-2 mb-2">
                   <CrownIcon className="w-4 h-4 text-brand-orange" />
                   <h4 className="font-semibold text-brand-orange">
-                    Premium Plan
+                    Pro Plan
                   </h4>
                 </div>
                 <p className="text-sm text-muted-foreground mb-3">
-                  All Pro features plus 101 Badge and premium support
+                  All Standard features plus premium placement and 101 Badge
                 </p>
                 <div className="space-y-1 text-sm">
                   <div className="flex items-center gap-2">
                     <CheckCircleIcon className="w-3 h-3 text-green-600" />
-                    <span>All Pro features</span>
+                    <span>All Standard features</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircleIcon className="w-3 h-3 text-green-600" />
+                    <span>Premium placement</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircleIcon className="w-3 h-3 text-green-600" />
                     <span>101 Badge (if qualified)</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircleIcon className="w-3 h-3 text-green-600" />
-                    <span>Dedicated support</span>
                   </div>
                 </div>
                 <Button
                   size="sm"
                   className="w-full mt-3 bg-brand-orange hover:bg-brand-orange-dark"
                 >
-                  Upgrade to Premium - $90/month
+                  Upgrade to Pro - $50/month
                 </Button>
               </div>
             </div>

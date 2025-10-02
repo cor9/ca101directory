@@ -35,7 +35,7 @@ const BLOG_POSTS: BlogPost[] = [
       "Learn how to maximize your headshot session to get multiple looks that showcase your child's versatility and range.",
     pubDate: "2024-01-15",
     categories: ["Headshots"],
-    featuredImage: "https://images.squarespace-cdn.com/content/v1/childactor101/headshot-session-3-looks.jpg",
+    featuredImage: "http://static1.squarespace.com/static/616e111657e9bc2d5ed77edc/t/6617490825d3af09e49f1b77/1712802060133/Cream+Simple+Minimalist+Photo+Film+Photo+Collage.jpg?format=1500w",
   },
   {
     title: "Track Your Auditions and Expenses for Free",
@@ -44,7 +44,7 @@ const BLOG_POSTS: BlogPost[] = [
       "Essential tools and strategies to help parents track their child's auditions and manage entertainment industry expenses.",
     pubDate: "2024-01-10",
     categories: ["Self Tapes", "Getting Started"],
-    featuredImage: "https://images.squarespace-cdn.com/content/v1/childactor101/track-auditions-expenses.jpg",
+    featuredImage: "http://static1.squarespace.com/static/616e111657e9bc2d5ed77edc/616fe338cca8f97e6279b2f6/63144ef0e3bb8d1814174251/1662282312893/8940CFFC-FC43-4FF7-893D-8049608264E7.jpeg?format=1500w",
   },
   {
     title: "When Should My Child Start Acting Training?",
@@ -53,7 +53,7 @@ const BLOG_POSTS: BlogPost[] = [
       "A comprehensive guide for parents on the right age to begin acting training and what to expect at different stages.",
     pubDate: "2024-01-05",
     categories: ["Training", "Getting Started"],
-    featuredImage: "https://images.squarespace-cdn.com/content/v1/childactor101/acting-training-age.jpg",
+    featuredImage: "http://static1.squarespace.com/static/616e111657e9bc2d5ed77edc/t/67ef99bdc2c3e8556bd69b45/1743755709953/8C80EBC0-456E-43E2-BAF2-01EAF8B2EFC3.png?format=1500w",
   },
   {
     title: "Navigating Hollywood: Agent or Manager?",
@@ -62,7 +62,7 @@ const BLOG_POSTS: BlogPost[] = [
       "Understanding the difference between agents and managers and which one your child actor needs for their career.",
     pubDate: "2024-01-01",
     categories: ["Talent Representation"],
-    featuredImage: "https://images.squarespace-cdn.com/content/v1/childactor101/agent-vs-manager.jpg",
+    featuredImage: "http://static1.squarespace.com/static/616e111657e9bc2d5ed77edc/t/66b4e4e1f41a8873dd16c7c8/1723131111104/dickwhimsy_Pixar_style_mom_and_her_kid_actor_in_a_dilemma_over__b99a75c2-d819-4b34-89dc-8745a1214bcc.png?format=1500w",
   },
   {
     title: "On-Set Etiquette for Child Actors",
@@ -71,7 +71,7 @@ const BLOG_POSTS: BlogPost[] = [
       "Essential on-set behavior and etiquette that every child actor and their parents should know for professional success.",
     pubDate: "2023-12-28",
     categories: ["Working Actor"],
-    featuredImage: "https://images.squarespace-cdn.com/content/v1/childactor101/on-set-etiquette.jpg",
+    featuredImage: "http://static1.squarespace.com/static/616e111657e9bc2d5ed77edc/t/66b32492f7efea50d64e0fdb/1723016343137/IMG_0039.png?format=1500w",
   },
   {
     title: "Headshot Hacks: Mastering the No-Makeup Look",
@@ -80,7 +80,7 @@ const BLOG_POSTS: BlogPost[] = [
       "Professional makeup tips and techniques for achieving the perfect natural look in your child's headshots.",
     pubDate: "2023-12-25",
     categories: ["Headshots"],
-    featuredImage: "https://images.squarespace-cdn.com/content/v1/childactor101/no-makeup-headshot-look.jpg",
+    featuredImage: "http://static1.squarespace.com/static/616e111657e9bc2d5ed77edc/t/65cd760420845e02129bb8cb/1707963914249/Spring_makeup_for_teens.png?format=1500w",
   },
 ];
 

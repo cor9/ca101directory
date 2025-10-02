@@ -45,7 +45,7 @@ function HomePageContent() {
           }),
         ]);
 
-        setCategories(categoriesData);
+        setCategories(categoriesData || []);
 
   // Apply 101 Approved filter
         let filteredListings = listingsData;
@@ -83,7 +83,7 @@ function HomePageContent() {
           return (a.listing_name || "").localeCompare(b.listing_name || "");
         });
 
-        setListings(filteredListings);
+        setListings(filteredListings || []);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -145,13 +145,13 @@ function HomePageContent() {
                     >
                       All Categories
                     </Link>
-                    {categories.slice(0, 8).map((category) => (
+                    {(categories || []).slice(0, 8).map((category) => (
                       <Link
                         key={category.id}
-                        href={`/category/${category.category_name.toLowerCase().replace(/\s+/g, "-")}`}
+                        href={`/category/${category.category_name?.toLowerCase().replace(/\s+/g, "-") || category.id}`}
                         className="block w-full text-left px-3 py-2 rounded-md hover:bg-muted transition-colors"
                       >
-                        {category.category_name}
+                        {category.category_name || "Untitled Category"}
                       </Link>
                     ))}
                   </div>
@@ -330,7 +330,7 @@ function HomePageContent() {
                 <EmptyGrid />
               ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                    {paginatedListings.map((listing) => (
+                    {(paginatedListings || []).map((listing) => (
                     <ListingCardClient key={listing.id} listing={listing} />
                   ))}
                 </div>

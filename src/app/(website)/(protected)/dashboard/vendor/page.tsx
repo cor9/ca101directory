@@ -59,6 +59,7 @@ export default async function VendorDashboard() {
   const totalViews = 0; // TODO: Implement view tracking
   const totalReviews = 0; // TODO: Implement review counting
   const currentPlan = userListings[0]?.plan || "Free";
+  const isComped = userListings.some(listing => listing.comped);
 
   return (
     <DashboardGuard allowedRoles={["vendor"]}>
@@ -101,7 +102,14 @@ export default async function VendorDashboard() {
               <div className="text-2xl font-bold text-primary">
                 {currentPlan}
               </div>
-              <div className="text-sm text-muted-foreground">Current Plan</div>
+              <div className="text-sm text-muted-foreground">
+                Current Plan
+                {isComped && (
+                  <span className="ml-2 text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">
+                    Comped
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 
@@ -179,6 +187,11 @@ export default async function VendorDashboard() {
                               }
                             >
                               {listing.plan}
+                            </Badge>
+                          )}
+                          {listing.comped && (
+                            <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 text-xs">
+                              Comped
                             </Badge>
                           )}
                         </div>
@@ -260,9 +273,15 @@ export default async function VendorDashboard() {
               <div className="space-y-2">
                 <h3 className="font-medium">Business Growth</h3>
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href="/pricing">Upgrade Plan</Link>
-                  </Button>
+                  {isComped ? (
+                    <div className="text-sm text-muted-foreground">
+                      Your plan is comped by admin
+                    </div>
+                  ) : (
+                    <Button variant="outline" size="sm" asChild>
+                      <Link href="/pricing">Upgrade Plan</Link>
+                    </Button>
+                  )}
                   <Button variant="outline" size="sm" disabled>
                     View Analytics
                   </Button>

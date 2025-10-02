@@ -1,7 +1,12 @@
 import Container from "@/components/container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircleIcon, EyeIcon, StarIcon, TrendingUpIcon } from "lucide-react";
+import {
+  CheckCircleIcon,
+  EyeIcon,
+  StarIcon,
+  TrendingUpIcon,
+} from "lucide-react";
 import Link from "next/link";
 
 export default function HomeVendorCta() {
@@ -13,7 +18,8 @@ export default function HomeVendorCta() {
             Ready to List Your Business?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Join our trusted directory of child actor professionals. Get discovered by families looking for quality services.
+            Join our trusted directory of child actor professionals. Get
+            discovered by families looking for quality services.
           </p>
         </div>
 
@@ -25,7 +31,8 @@ export default function HomeVendorCta() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Reach thousands of families actively searching for quality professionals.
+                Reach thousands of families actively searching for quality
+                professionals.
               </p>
             </CardContent>
           </Card>
@@ -57,17 +64,14 @@ export default function HomeVendorCta() {
 
         <div className="text-center">
           <Button size="lg" asChild className="mr-4">
-            <Link href="/submit">
-              Submit Your Listing
-            </Link>
+            <Link href="/submit">Submit Your Listing</Link>
           </Button>
           <Button size="lg" variant="outline" asChild>
-            <Link href="/pricing">
-              View Pricing Plans
-            </Link>
+            <Link href="/pricing">View Pricing Plans</Link>
           </Button>
         </div>
       </Container>
     </section>
   );
 }
+

@@ -1,0 +1,30 @@
+
+Headshots
+https://www.childactor101.com/101-blog/getting-multifaceted-shots-from-a-3-look-headshot-session
+https://www.childactor101.com/headshot-guide
+https://www.childactor101.com/101-blog/headshot-hacks-mastering-the-no-makeup-look-for-your-child-actor-essential-makeup-tips-for-perfect-photos
+
+Self Tapes
+https://www.childactor101.com/101-blog/pvr68iuo938gsyb250tdh0m4wifk9o
+https://www.childactor101.com/101-blog/track-your-auditions-and-expenses-for-free
+https://www.childactor101.com/101-blog/how-to-help-your-child-actor-self-tape-auditions-while-traveling-a-parents-guide-to-taping-in-a-hotel-room
+
+Training
+https://www.childactor101.com/101-blog/when-should-my-child-start-acting-training-a-parents-guide-to-the-right-age
+https://www.childactor101.com/101-blog/the-harsh-truth-if-youre-not-taking-training-seriously-your-kid-isnbspjust-a-hobbyist
+https://www.childactor101.com/101-blog/the-screen-time-that-counts-8-reasons-why-child-actors-need-to-be-watching-tv-shows
+
+Getting Started
+https://www.childactor101.com/101-blog/what-it-takes
+https://www.childactor101.com/101-blog/is-your-child-ready-for-an-agent-a-guide-for-parents-of-aspiring-young-actors
+https://www.childactor101.com/101-blog/the-critical-conversation
+
+Talent Representation
+https://www.childactor101.com/101-blog/navigating-hollywood-do-you-need-a-talent-agent-or-a-manager
+https://www.childactor101.com/101-blog/hot-topic-should-you-be-your-childs-momager
+https://www.childactor101.com/101-blog/ready-to-wow-agents-and-managers-inside-tips-to-ace-your-meeting
+
+Working Actor
+https://www.childactor101.com/101-blog/on-set-etiquette-essential-guide-for-child-actors-and-their-parents
+https://www.childactor101.com/101-blog/a-rundown-on-child-labor-laws-in
+https://www.childactor101.com/101-blog/background-acting-the-pros-and-cons-for-young-performers

@@ -13,7 +13,8 @@ export default function HomeParentCta() {
             Ready to Find the Perfect Professionals?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Create a free parent account to save favorites, write reviews, and get personalized recommendations.
+            Create a free parent account to save favorites, write reviews, and
+            get personalized recommendations.
           </p>
         </div>
 
@@ -37,7 +38,8 @@ export default function HomeParentCta() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Share your experiences to help other families make informed decisions.
+                Share your experiences to help other families make informed
+                decisions.
               </p>
             </CardContent>
           </Card>
@@ -49,7 +51,8 @@ export default function HomeParentCta() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Connect with other parents and get insider tips from industry experts.
+                Connect with other parents and get insider tips from industry
+                experts.
               </p>
             </CardContent>
           </Card>
@@ -57,17 +60,14 @@ export default function HomeParentCta() {
 
         <div className="text-center">
           <Button size="lg" asChild className="mr-4">
-            <Link href="/auth/register?role=parent">
-              Create Free Account
-            </Link>
+            <Link href="/auth/register?role=parent">Create Free Account</Link>
           </Button>
           <Button size="lg" variant="outline" asChild>
-            <Link href="/auth/login">
-              Sign In
-            </Link>
+            <Link href="/auth/login">Sign In</Link>
           </Button>
         </div>
       </Container>
     </section>
   );
 }
+

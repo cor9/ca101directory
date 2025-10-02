@@ -360,16 +360,20 @@ export function SupabaseSubmitForm({ categories }: SupabaseSubmitFormProps) {
                 <Label htmlFor="plan-free">Free - Basic listing</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Basic" id="plan-basic" />
-                <Label htmlFor="plan-basic">Basic - $25/month</Label>
+                <RadioGroupItem value="Standard" id="plan-standard" />
+                <Label htmlFor="plan-standard">Standard - $25/month</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Pro" id="plan-pro" />
-                <Label htmlFor="plan-pro">Pro - $45/month</Label>
+                <Label htmlFor="plan-pro">Pro - $50/month</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Premium" id="plan-premium" />
-                <Label htmlFor="plan-premium">Premium - $90/month</Label>
+                <RadioGroupItem value="Founding Standard" id="plan-founding-standard" />
+                <Label htmlFor="plan-founding-standard">Founding Standard - $125/6 months</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="Founding Pro" id="plan-founding-pro" />
+                <Label htmlFor="plan-founding-pro">Founding Pro - $250/6 months</Label>
               </div>
             </RadioGroup>
           </div>

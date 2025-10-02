@@ -1,4 +1,5 @@
 import Container from "@/components/container";
+import { DirectoryFilters } from "@/components/directory/directory-filters";
 import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import HomeHero from "@/components/home/home-hero";
 import HomeHowItWorks from "@/components/home/home-how-it-works";
@@ -6,8 +7,13 @@ import HomeParentCta from "@/components/home/home-parent-cta";
 import HomePricingPreview from "@/components/home/home-pricing-preview";
 import HomeValueProps from "@/components/home/home-value-props";
 import HomeVendorCta from "@/components/home/home-vendor-cta";
+import ItemGrid from "@/components/item/item-grid";
 import { NewsletterCard } from "@/components/newsletter/newsletter-card";
+import SearchBox from "@/components/search/search-box";
 import { siteConfig } from "@/config/site";
+import { getItems } from "@/data/airtable-item";
+import { getCategories } from "@/data/categories";
+import { DEFAULT_SORT, ITEMS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import Script from "next/script";
 
@@ -18,7 +24,26 @@ export const metadata = constructMetadata({
   canonicalUrl: `${siteConfig.url}/`,
 });
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Fetch categories for filters
+  let categories = [];
+  try {
+    categories = await getCategories();
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+  }
+
+  // Fetch first few listings for homepage preview
+  const { items, totalCount } = await getItems({
+    sortKey: DEFAULT_SORT.sortKey,
+    reverse: DEFAULT_SORT.reverse,
+    currentPage: 1,
+    hasSponsorItem: false,
+  });
+
+  // Show only first 6 items on homepage
+  const previewItems = items.slice(0, 6);
+
   return (
     <>
       <Script
@@ -50,29 +75,45 @@ export default function HomePage() {
           <HomeFeaturedListings />
         </Container>
 
-        {/* Sample Professionals Section */}
+        {/* Directory Preview Section */}
         <Container className="py-16">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">
-              Sample Professionals
+              Browse Our Directory
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Browse our complete directory of vetted child actor professionals.
+              Search and filter through our complete directory of {totalCount}{" "}
+              vetted child actor professionals.
             </p>
-            <div className="flex gap-4 justify-center mt-6">
-              <a
-                href="/directory"
-                className="px-6 py-3 bg-brand-orange text-white rounded-lg hover:bg-brand-orange-dark transition-colors"
-              >
-                Browse All
-              </a>
-              <a
-                href="/category"
-                className="px-6 py-3 border border-brand-orange text-brand-orange rounded-lg hover:bg-brand-orange/10 transition-colors"
-              >
-                Browse by Category
-              </a>
-            </div>
+          </div>
+
+          {/* Search Bar */}
+          <div className="mb-8">
+            <SearchBox urlPrefix="/directory" />
+          </div>
+
+          {/* Filters */}
+          <div className="mb-8">
+            <DirectoryFilters className="mb-8" categories={categories} />
+          </div>
+
+          {/* Listings Grid */}
+          <div id="search-results">
+            <ItemGrid
+              items={previewItems}
+              sponsorItems={[]}
+              showSponsor={false}
+            />
+          </div>
+
+          {/* View More Button */}
+          <div className="text-center mt-12">
+            <a
+              href="/directory"
+              className="px-6 py-3 bg-brand-orange text-white rounded-lg hover:bg-brand-orange-dark transition-colors"
+            >
+              View All {totalCount} Professionals
+            </a>
           </div>
         </Container>
 

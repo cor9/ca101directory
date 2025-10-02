@@ -86,7 +86,7 @@ export default function ItemCard({ item }: ItemCardProps) {
 
         {/* center */}
         <Link
-          href={`${itemUrlPrefix}/${item.slug.current}`}
+          href={`/listing/${item._id}`}
           className="flex flex-col gap-4 group"
         >
           <div className="px-4 flex flex-col gap-4">

@@ -48,7 +48,7 @@ export default function ItemCard2({ item }: ItemCard2Props) {
           )}
 
           <Link
-            href={`${itemUrlPrefix}/${item.slug.current}`}
+            href={`/listing/${item._id}`}
             className="min-w-0 flex-1"
           >
             <h3
@@ -86,7 +86,7 @@ export default function ItemCard2({ item }: ItemCard2Props) {
 
         {/* min-h-[4.5rem] is used for making sure height of the card is the same */}
         <Link
-          href={`${itemUrlPrefix}/${item.slug.current}`}
+          href={`/listing/${item._id}`}
           className="block cursor-pointer"
         >
           <p className="text-sm line-clamp-3 leading-relaxed min-h-[4.5rem] text-foreground">

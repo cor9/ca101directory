@@ -20,10 +20,10 @@ export async function getCategories() {
     const transformedData =
       data?.map((category) => ({
         id: category.id,
-        category_name: category.category_name,
+        category_name: category["Category Name"] || category.category_name,
         description: category.description || null,
         icon: category.icon || null,
-        created_at: category.created_at || null,
+        created_at: category["Created Time"] || category.created_at || null,
         updated_at: category.updated_at || null,
       })) || [];
 

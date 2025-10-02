@@ -35,8 +35,7 @@ const BLOG_POSTS: BlogPost[] = [
       "Learn how to maximize your headshot session to get multiple looks that showcase your child's versatility and range.",
     pubDate: "2024-01-15",
     categories: ["Headshots"],
-    featuredImage:
-      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop",
+    featuredImage: "https://www.childactor101.com/wp-content/uploads/2024/01/3-look-headshot-session.jpg",
   },
   {
     title: "Track Your Auditions and Expenses for Free",
@@ -45,8 +44,7 @@ const BLOG_POSTS: BlogPost[] = [
       "Essential tools and strategies to help parents track their child's auditions and manage entertainment industry expenses.",
     pubDate: "2024-01-10",
     categories: ["Self Tapes", "Getting Started"],
-    featuredImage:
-      "https://images.unsplash.com/photo-1529634310410-0c3c5188c374?w=400&h=300&fit=crop",
+    featuredImage: "https://www.childactor101.com/wp-content/uploads/2024/01/track-auditions-expenses.jpg",
   },
   {
     title: "When Should My Child Start Acting Training?",
@@ -55,8 +53,7 @@ const BLOG_POSTS: BlogPost[] = [
       "A comprehensive guide for parents on the right age to begin acting training and what to expect at different stages.",
     pubDate: "2024-01-05",
     categories: ["Training", "Getting Started"],
-    featuredImage:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
+    featuredImage: "https://www.childactor101.com/wp-content/uploads/2024/01/acting-training-age.jpg",
   },
   {
     title: "Navigating Hollywood: Agent or Manager?",
@@ -65,8 +62,7 @@ const BLOG_POSTS: BlogPost[] = [
       "Understanding the difference between agents and managers and which one your child actor needs for their career.",
     pubDate: "2024-01-01",
     categories: ["Talent Representation"],
-    featuredImage:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=300&fit=crop",
+    featuredImage: "https://www.childactor101.com/wp-content/uploads/2024/01/agent-vs-manager.jpg",
   },
   {
     title: "On-Set Etiquette for Child Actors",
@@ -75,8 +71,7 @@ const BLOG_POSTS: BlogPost[] = [
       "Essential on-set behavior and etiquette that every child actor and their parents should know for professional success.",
     pubDate: "2023-12-28",
     categories: ["Working Actor"],
-    featuredImage:
-      "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=400&h=300&fit=crop",
+    featuredImage: "https://www.childactor101.com/wp-content/uploads/2023/12/on-set-etiquette.jpg",
   },
   {
     title: "Headshot Hacks: Mastering the No-Makeup Look",
@@ -85,8 +80,7 @@ const BLOG_POSTS: BlogPost[] = [
       "Professional makeup tips and techniques for achieving the perfect natural look in your child's headshots.",
     pubDate: "2023-12-25",
     categories: ["Headshots"],
-    featuredImage:
-      "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=300&fit=crop",
+    featuredImage: "https://www.childactor101.com/wp-content/uploads/2023/12/no-makeup-headshot-look.jpg",
   },
 ];
 

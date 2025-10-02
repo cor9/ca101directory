@@ -88,11 +88,16 @@ export default async function HomePage() {
         {/* Directory Preview Section */}
         <Container className="py-16">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-brand-orange to-brand-yellow rounded-full mb-4 shadow-lg">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-brand-blue via-brand-orange to-brand-yellow bg-clip-text text-transparent mb-4">
               Browse Our Directory
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Search and filter through our complete directory of {totalCount}{" "}
+              Search and filter through our complete directory of <span className="font-bold text-brand-orange">{totalCount}</span>{" "}
               vetted child actor professionals.
             </p>
           </div>
@@ -120,8 +125,11 @@ export default async function HomePage() {
           <div className="text-center mt-12">
             <a
               href="/directory"
-              className="px-6 py-3 bg-brand-orange text-white rounded-lg hover:bg-brand-orange-dark transition-colors"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-brand-orange to-brand-yellow text-white font-semibold rounded-xl hover:from-brand-orange-dark hover:to-brand-yellow-dark transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
               View All {totalCount} Professionals
             </a>
           </div>

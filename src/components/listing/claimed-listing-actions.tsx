@@ -153,7 +153,7 @@ export function ClaimedListingActions({
                   size="sm"
                   className="w-full mt-3 bg-brand-blue hover:bg-brand-blue-dark"
                 >
-                  Upgrade to Standard - $25/month
+                  Upgrade to Standard
                 </Button>
               </div>
 
@@ -186,7 +186,7 @@ export function ClaimedListingActions({
                   size="sm"
                   className="w-full mt-3 bg-brand-orange hover:bg-brand-orange-dark"
                 >
-                  Upgrade to Pro - $50/month
+                  Upgrade to Pro
                 </Button>
               </div>
             </div>

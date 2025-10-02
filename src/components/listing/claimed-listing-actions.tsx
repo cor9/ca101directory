@@ -130,7 +130,9 @@ export function ClaimedListingActions({
               <div className="p-4 border border-brand-blue/20 rounded-lg bg-brand-blue/5">
                 <div className="flex items-center gap-2 mb-2">
                   <StarIcon className="w-4 h-4 text-brand-blue" />
-                  <h4 className="font-semibold text-brand-blue">Standard Plan</h4>
+                  <h4 className="font-semibold text-brand-blue">
+                    Standard Plan
+                  </h4>
                 </div>
                 <p className="text-sm text-muted-foreground mb-3">
                   Enhanced visibility and professional features
@@ -161,9 +163,7 @@ export function ClaimedListingActions({
               <div className="p-4 border border-brand-orange/20 rounded-lg bg-brand-orange/5">
                 <div className="flex items-center gap-2 mb-2">
                   <CrownIcon className="w-4 h-4 text-brand-orange" />
-                  <h4 className="font-semibold text-brand-orange">
-                    Pro Plan
-                  </h4>
+                  <h4 className="font-semibold text-brand-orange">Pro Plan</h4>
                 </div>
                 <p className="text-sm text-muted-foreground mb-3">
                   All Standard features plus premium placement and 101 Badge

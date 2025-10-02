@@ -6,6 +6,7 @@ import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
 import { getItems } from "@/data/airtable-item";
+import { getCategories } from "@/data/categories";
 import {
   DEFAULT_SORT,
   ITEMS_PER_PAGE,
@@ -25,6 +26,14 @@ export default async function SearchPage({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   console.log("SearchPage, searchParams", searchParams);
+
+  // Fetch categories for filters
+  let categories = [];
+  try {
+    categories = await getCategories();
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+  }
 
   // No sponsor items for now - we'll implement this later if needed
   const sponsorItems: unknown[] = [];
@@ -79,7 +88,7 @@ export default async function SearchPage({
 
       {/* Filters */}
       <Container className="pb-8">
-        <DirectoryFilters className="mb-8" />
+        <DirectoryFilters className="mb-8" categories={categories} />
       </Container>
 
       {/* when no items are found */}

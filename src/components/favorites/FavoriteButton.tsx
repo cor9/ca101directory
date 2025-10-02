@@ -31,7 +31,8 @@ export function FavoriteButton({
 
   const handleToggle = async () => {
     if (!session?.user?.id) {
-      toast.error("Please log in to save favorites");
+      // Redirect to registration with parent role
+      window.location.href = `/auth/register?role=parent&next=${encodeURIComponent(window.location.pathname)}`;
       return;
     }
 
@@ -51,10 +52,6 @@ export function FavoriteButton({
       setIsLoading(false);
     }
   };
-
-  if (!session?.user) {
-    return null; // Don't show button if not logged in
-  }
 
   return (
     <Button

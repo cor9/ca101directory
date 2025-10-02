@@ -21,16 +21,21 @@ import { RegisterSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
 import type * as z from "zod";
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
+  const searchParams = useSearchParams();
 
   // Get enabled roles for registration
   const enabledRoles = getEnabledRoles();
-  const defaultRole = enabledRoles.includes("parent")
+  const roleFromUrl = searchParams.get("role");
+  const defaultRole = roleFromUrl && enabledRoles.includes(roleFromUrl)
+    ? roleFromUrl
+    : enabledRoles.includes("parent")
     ? "parent"
     : enabledRoles[0] || "vendor";
 
@@ -48,8 +53,10 @@ export const RegisterForm = () => {
     setError("");
     setSuccess("");
 
+    const nextUrl = searchParams.get("next");
+
     startTransition(() => {
-      register(values)
+      register(values, nextUrl || undefined)
         .then((data) => {
           if (data.status === "error") {
             console.log("register, error:", data.message);

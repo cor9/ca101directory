@@ -17,15 +17,29 @@ export default function HomePricingPreview() {
           </p>
         </div>
 
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-4xl mx-auto space-y-8">
           <Script
             src="https://js.stripe.com/v3/pricing-table.js"
             strategy="afterInteractive"
           />
-          <stripe-pricing-table
-            pricing-table-id="prctbl_1SDjLkBqTvwy9ZuSAAkAI8XS"
-            publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
-          />
+
+          {/* Free Plan */}
+          <div className="text-center">
+            <h3 className="text-xl font-semibold mb-4">Free Plan</h3>
+            <stripe-pricing-table
+              pricing-table-id="prctbl_1SDbLwBqTvwy9ZuSXKTXVb7E"
+              publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
+            />
+          </div>
+
+          {/* Standard/Pro Plans */}
+          <div className="text-center">
+            <h3 className="text-xl font-semibold mb-4">Paid Plans</h3>
+            <stripe-pricing-table
+              pricing-table-id="prctbl_1SCpyNBqTvwy9ZuSNiSGY03P"
+              publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
+            />
+          </div>
 
           {/* Link to full pricing page */}
           <div className="text-center mt-8">

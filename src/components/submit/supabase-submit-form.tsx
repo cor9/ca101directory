@@ -30,32 +30,55 @@ interface Category {
   name: string;
 }
 
-interface SupabaseSubmitFormProps {
-  categories: Category[];
+interface Listing {
+  id: string;
+  listing_name: string;
+  description?: string;
+  phone?: string;
+  email?: string;
+  website?: string;
+  city?: string;
+  state?: string;
+  zip?: number;
+  categories?: string[];
+  age_range?: string[];
+  format?: string;
+  notes?: string;
+  image_url?: string;
 }
 
-export function SupabaseSubmitForm({ categories }: SupabaseSubmitFormProps) {
+interface SupabaseSubmitFormProps {
+  categories: Category[];
+  existingListing?: Listing | null;
+  isClaimFlow?: boolean;
+}
+
+export function SupabaseSubmitForm({ 
+  categories, 
+  existingListing, 
+  isClaimFlow = false 
+}: SupabaseSubmitFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    link: "",
-    description: "",
+    name: existingListing?.listing_name || "",
+    link: existingListing?.website || "",
+    description: existingListing?.description || "",
     introduction: "",
     unique: "",
-    format: "",
-    notes: "",
-    imageId: "",
-    tags: [] as string[],
-    categories: [] as string[],
+    format: existingListing?.format || "",
+    notes: existingListing?.notes || "",
+    imageId: existingListing?.image_url || "",
+    tags: existingListing?.age_range || [],
+    categories: existingListing?.categories || [],
     plan: "Free",
     performerPermit: false,
     bonded: false,
-    email: "",
-    phone: "",
-    city: "",
-    state: "",
-    zip: "",
+    email: existingListing?.email || "",
+    phone: existingListing?.phone || "",
+    city: existingListing?.city || "",
+    state: existingListing?.state || "",
+    zip: existingListing?.zip?.toString() || "",
     region: "",
     bondNumber: "",
   });
@@ -97,7 +120,14 @@ export function SupabaseSubmitForm({ categories }: SupabaseSubmitFormProps) {
 
       if (result.status === "success") {
         toast.success("Listing submitted successfully!");
-        router.push("/submit/success");
+        
+        if (isClaimFlow) {
+          // For claim flow, redirect to plan selection
+          router.push(`/plan-selection?listingId=${result.listingId}`);
+        } else {
+          // For regular submission, go to success page
+          router.push("/submit/success");
+        }
       } else {
         toast.error(result.message || "Failed to submit listing");
       }

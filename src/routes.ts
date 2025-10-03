@@ -58,6 +58,12 @@ export const publicRoutes = [
   // submission form (public)
   "/submit(/.*)?",
 
+  // plan selection (public)
+  "/plan-selection(/.*)?",
+
+  // payment success (public)
+  "/payment-success(/.*)?",
+
   // claim and upgrade routes (public)
   "/claim-upgrade(/.*)?",
 

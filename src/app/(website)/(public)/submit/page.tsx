@@ -3,7 +3,10 @@ import FreeSubmitForm from "@/components/submit/free-submit-form";
 import { SupabaseSubmitForm } from "@/components/submit/supabase-submit-form";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
+import { getListingBySlug } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
   title: "Submit Your Listing",
@@ -14,7 +17,34 @@ export const metadata = constructMetadata({
 /**
  * Submit page - now with working form rendering
  */
-export default async function SubmitPage() {
+export default async function SubmitPage({
+  searchParams,
+}: {
+  searchParams: { claim?: string; listingId?: string };
+}) {
+  // Check if this is a claim flow
+  const isClaimFlow = searchParams.claim === "true";
+  const listingId = searchParams.listingId;
+
+  // For claim flow, require authentication
+  if (isClaimFlow) {
+    const session = await auth();
+    if (!session?.user) {
+      redirect(`/auth/register?callbackUrl=${encodeURIComponent(`/submit?claim=true&listingId=${listingId}`)}`);
+    }
+  }
+
+  // Get existing listing data if claiming
+  let existingListing = null;
+  if (isClaimFlow && listingId) {
+    try {
+      existingListing = await getListingBySlug(listingId);
+      console.log("SubmitPage: Found existing listing for claim:", existingListing?.listing_name);
+    } catch (error) {
+      console.error("SubmitPage: Error fetching existing listing:", error);
+    }
+  }
+
   // Get categories from Supabase with error handling
   let categories = [];
   try {
@@ -153,42 +183,74 @@ export default async function SubmitPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4">Submit Your Listing</h1>
+        <h1 className="text-4xl font-bold mb-4">
+          {isClaimFlow ? "Claim Your Listing" : "Submit Your Listing"}
+        </h1>
         <p className="text-xl text-muted-foreground mb-8">
-          Choose your submission type
+          {isClaimFlow 
+            ? "Fill out your listing details and choose a plan" 
+            : "Choose your submission type"
+          }
         </p>
+        {existingListing && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 max-w-2xl mx-auto">
+            <p className="text-sm text-blue-800">
+              <strong>Claiming:</strong> {existingListing.listing_name}
+            </p>
+          </div>
+        )}
       </div>
 
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Free Listing Form */}
-          <div>
-            <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold text-brand-blue mb-2">
-                Free Listing
-              </h2>
-              <p className="text-muted-foreground">
-                Get started with a basic listing. Upgrade later for more
-                features.
-              </p>
-            </div>
-            <FreeSubmitForm categories={freeFormCategories} />
-          </div>
-
-          {/* Paid Listing Form */}
-          <div>
+        {isClaimFlow ? (
+          // Show only the paid form for claim flow
+          <div className="max-w-4xl mx-auto">
             <div className="text-center mb-6">
               <h2 className="text-2xl font-bold text-brand-orange mb-2">
-                Paid Listing
+                Complete Your Listing
               </h2>
               <p className="text-muted-foreground">
-                Create a professional listing with advanced features and
-                priority placement.
+                Fill out your listing details and choose a plan to claim this listing.
               </p>
             </div>
-            <SupabaseSubmitForm categories={freeFormCategories} />
+            <SupabaseSubmitForm 
+              categories={freeFormCategories} 
+              existingListing={existingListing}
+              isClaimFlow={true}
+            />
           </div>
-        </div>
+        ) : (
+          // Show both forms for regular submission
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Free Listing Form */}
+            <div>
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold text-brand-blue mb-2">
+                  Free Listing
+                </h2>
+                <p className="text-muted-foreground">
+                  Get started with a basic listing. Upgrade later for more
+                  features.
+                </p>
+              </div>
+              <FreeSubmitForm categories={freeFormCategories} />
+            </div>
+
+            {/* Paid Listing Form */}
+            <div>
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold text-brand-orange mb-2">
+                  Paid Listing
+                </h2>
+                <p className="text-muted-foreground">
+                  Create a professional listing with advanced features and
+                  priority placement.
+                </p>
+              </div>
+              <SupabaseSubmitForm categories={freeFormCategories} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

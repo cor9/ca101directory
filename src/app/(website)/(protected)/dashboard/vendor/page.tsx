@@ -59,7 +59,7 @@ export default async function VendorDashboard() {
   const totalViews = 0; // TODO: Implement view tracking
   const totalReviews = 0; // TODO: Implement review counting
   const currentPlan = userListings[0]?.plan || "Free";
-  const isComped = userListings.some(listing => listing.comped);
+  const isComped = userListings.some((listing) => listing.comped);
 
   return (
     <DashboardGuard allowedRoles={["vendor"]}>
@@ -177,21 +177,25 @@ export default async function VendorDashboard() {
                           </Badge>
                           {(() => {
                             // Determine badge text and styling
-                            let badgeText = 'Free';
-                            let badgeClassName = "border-gray-300 text-gray-600";
+                            let badgeText = "Free";
+                            let badgeClassName =
+                              "border-gray-300 text-gray-600";
 
                             if (listing.comped) {
-                              badgeText = 'Pro';
-                              badgeClassName = "border-brand-blue text-brand-blue";
-                            } else if (listing.plan === 'pro') {
-                              badgeText = 'Pro';
-                              badgeClassName = "border-brand-blue text-brand-blue";
-                            } else if (listing.plan === 'standard') {
-                              badgeText = 'Standard';
+                              badgeText = "Pro";
+                              badgeClassName =
+                                "border-brand-blue text-brand-blue";
+                            } else if (listing.plan === "pro") {
+                              badgeText = "Pro";
+                              badgeClassName =
+                                "border-brand-blue text-brand-blue";
+                            } else if (listing.plan === "standard") {
+                              badgeText = "Standard";
                               badgeClassName = "border-gray-300 text-gray-600";
-                            } else if (listing.plan === 'premium') {
-                              badgeText = 'Featured';
-                              badgeClassName = "border-brand-orange text-brand-orange";
+                            } else if (listing.plan === "premium") {
+                              badgeText = "Featured";
+                              badgeClassName =
+                                "border-brand-orange text-brand-orange";
                             }
 
                             return (
@@ -204,7 +208,10 @@ export default async function VendorDashboard() {
                             );
                           })()}
                           {listing.comped && (
-                            <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 text-xs">
+                            <Badge
+                              variant="secondary"
+                              className="bg-yellow-100 text-yellow-800 text-xs"
+                            >
                               Comped
                             </Badge>
                           )}

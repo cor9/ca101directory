@@ -96,11 +96,11 @@ export function EditForm({ listing, categories }: EditFormProps) {
         isEdit: true,
       });
 
-      if (result.success) {
+      if (result.status === "success") {
         toast.success("Listing updated successfully!");
         router.push("/dashboard/vendor");
       } else {
-        toast.error(result.error || "Failed to update listing");
+        toast.error(result.message || "Failed to update listing");
       }
     } catch (error) {
       console.error("Error updating listing:", error);

@@ -1,7 +1,8 @@
+import { auth } from "@/auth";
 import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { getListingById } from "@/data/listings";
+import { redirect, notFound } from "next/navigation";
 
 export async function generateMetadata({
   params,
@@ -9,17 +10,35 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata | undefined> {
   return constructMetadata({
-    title: "Edit Listing - Coming Soon",
-    description: "Edit your listing - feature coming soon with Airtable integration",
+    title: "Edit Listing",
+    description: "Edit your professional listing",
     canonicalUrl: `${siteConfig.url}/edit/${params.id}`,
   });
 }
 
 /**
- * Edit page - temporarily disabled while migrating to Airtable
- * This will be re-implemented with Airtable integration
+ * Edit page - Edit existing listing
  */
 export default async function EditPage({ params }: { params: { id: string } }) {
-  // Temporarily return 404 until Airtable integration is complete
-  return notFound();
+  const session = await auth();
+
+  if (!session?.user) {
+    redirect("/auth/login?next=/edit/" + encodeURIComponent(params.id));
+  }
+
+  // Get the listing
+  const listing = await getListingById(params.id);
+
+  if (!listing) {
+    notFound();
+  }
+
+  // Check if user owns this listing
+  if (listing.owner_id !== session.user.id) {
+    redirect("/dashboard/vendor");
+  }
+
+  // For now, redirect to submit page with claim toggle
+  // This reuses the existing form but pre-fills with listing data
+  redirect(`/submit?claim=true&listingId=${params.id}`);
 }

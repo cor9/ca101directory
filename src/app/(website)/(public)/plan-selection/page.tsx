@@ -89,7 +89,7 @@ export default function PlanSelectionPage() {
 
     if (planId === "free") {
       // For free plan, redirect directly to payment success
-      router.push("/payment-success");
+      router.push("/payment-successful");
     } else {
       // For paid plans, redirect to Stripe checkout
       try {
@@ -102,7 +102,7 @@ export default function PlanSelectionPage() {
             listingId,
             planId,
             billingCycle: "monthly",
-            successUrl: `${window.location.origin}/payment-success`,
+            successUrl: `${window.location.origin}/payment-successful`,
             cancelUrl: `${window.location.origin}/plan-selection?listingId=${listingId}`,
           }),
         });

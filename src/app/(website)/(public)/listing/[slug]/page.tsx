@@ -93,7 +93,10 @@ interface ListingPageProps {
 
 export default async function ListingPage({ params }: ListingPageProps) {
   try {
-    console.log("ListingPage: Attempting to load listing for slug:", params.slug);
+    console.log(
+      "ListingPage: Attempting to load listing for slug:",
+      params.slug,
+    );
     const listing = await getListingBySlug(params.slug);
     const session = await auth();
 
@@ -105,12 +108,12 @@ export default async function ListingPage({ params }: ListingPageProps) {
     console.log("ListingPage: Successfully found listing:", {
       id: listing.id,
       name: listing.listing_name,
-      slug: params.slug
+      slug: params.slug,
     });
 
     // Check if current user owns this listing
     const isOwner = session?.user?.id === listing.owner_id;
-    
+
     // Check if current user is admin
     const isAdmin = session?.user?.role === "admin";
 
@@ -205,27 +208,30 @@ export default async function ListingPage({ params }: ListingPageProps) {
                       )}
                       {(() => {
                         // Determine badge text and styling
-                        let badgeText = 'Free';
-                        let badgeClassName = "text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600";
+                        let badgeText = "Free";
+                        let badgeClassName =
+                          "text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600";
 
                         if (listing.comped) {
-                          badgeText = 'Pro';
-                          badgeClassName = "text-xs px-2 py-1 rounded-full bg-brand-blue text-white";
-                        } else if (listing.plan === 'pro') {
-                          badgeText = 'Pro';
-                          badgeClassName = "text-xs px-2 py-1 rounded-full bg-brand-blue text-white";
-                        } else if (listing.plan === 'standard') {
-                          badgeText = 'Standard';
-                          badgeClassName = "text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800";
-                        } else if (listing.plan === 'premium') {
-                          badgeText = 'Featured';
-                          badgeClassName = "text-xs px-2 py-1 rounded-full bg-brand-orange text-white";
+                          badgeText = "Pro";
+                          badgeClassName =
+                            "text-xs px-2 py-1 rounded-full bg-brand-blue text-white";
+                        } else if (listing.plan === "pro") {
+                          badgeText = "Pro";
+                          badgeClassName =
+                            "text-xs px-2 py-1 rounded-full bg-brand-blue text-white";
+                        } else if (listing.plan === "standard") {
+                          badgeText = "Standard";
+                          badgeClassName =
+                            "text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800";
+                        } else if (listing.plan === "premium") {
+                          badgeText = "Featured";
+                          badgeClassName =
+                            "text-xs px-2 py-1 rounded-full bg-brand-orange text-white";
                         }
 
                         return (
-                          <span className={badgeClassName}>
-                            {badgeText}
-                          </span>
+                          <span className={badgeClassName}>{badgeText}</span>
                         );
                       })()}
                       {/* Admin-only comped badge */}

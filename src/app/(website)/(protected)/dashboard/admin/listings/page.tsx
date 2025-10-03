@@ -1,13 +1,13 @@
 import { auth } from "@/auth";
+import { CompedToggle } from "@/components/admin/comped-toggle";
 import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
-import { CompedToggle } from "@/components/admin/comped-toggle";
-import { siteConfig } from "@/config/site";
-import { getPublicListings } from "@/data/listings";
-import { constructMetadata } from "@/lib/metadata";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { siteConfig } from "@/config/site";
+import { getPublicListings } from "@/data/listings";
+import { constructMetadata } from "@/lib/metadata";
 import { CheckCircleIcon, EditIcon } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -20,7 +20,7 @@ export const metadata = constructMetadata({
 
 /**
  * Admin Listings Management Page
- * 
+ *
  * Allows admins to:
  * - View all listings
  * - Toggle comped status
@@ -36,17 +36,22 @@ export default async function AdminListingsPage() {
 
   // Get all listings for admin management
   const allListings = await getPublicListings();
-  
+
   // Sort listings by plan priority and name
   const sortedListings = allListings.sort((a, b) => {
     const planPriority = (plan: string | null, comped: boolean | null) => {
       if (comped) return 3; // Comped listings are treated as Pro
       switch (plan) {
-        case "premium": return 4;
-        case "pro": return 3;
-        case "standard": return 2;
-        case "free": return 1;
-        default: return 0; // null/undefined plans default to Free
+        case "premium":
+          return 4;
+        case "pro":
+          return 3;
+        case "standard":
+          return 2;
+        case "free":
+          return 1;
+        default:
+          return 0; // null/undefined plans default to Free
       }
     };
 
@@ -66,7 +71,9 @@ export default async function AdminListingsPage() {
           {/* Header */}
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Listings Management</h1>
+              <h1 className="text-2xl font-bold text-foreground">
+                Listings Management
+              </h1>
               <p className="text-muted-foreground">
                 Manage all listings, toggle comped status, and moderate content
               </p>
@@ -80,39 +87,56 @@ export default async function AdminListingsPage() {
           <div className="grid gap-4 md:grid-cols-4">
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Total Listings</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Total Listings
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{sortedListings.length}</div>
+                <div className="text-2xl font-bold">
+                  {sortedListings.length}
+                </div>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Comped Listings</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Comped Listings
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-yellow-600">
-                  {sortedListings.filter(l => l.comped).length}
+                  {sortedListings.filter((l) => l.comped).length}
                 </div>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">Pro/Featured</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Pro/Featured
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-blue-600">
-                  {sortedListings.filter(l => l.plan === "Pro" || l.plan === "Premium").length}
+                  {
+                    sortedListings.filter(
+                      (l) => l.plan === "Pro" || l.plan === "Premium",
+                    ).length
+                  }
                 </div>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium">101 Approved</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  101 Approved
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-green-600">
-                  {sortedListings.filter(l => l.is_approved_101 === true).length}
+                  {
+                    sortedListings.filter((l) => l.is_approved_101 === true)
+                      .length
+                  }
                 </div>
               </CardContent>
             </Card>
@@ -139,21 +163,26 @@ export default async function AdminListingsPage() {
                           {/* Plan Badge */}
                           {(() => {
                             // Determine badge text and styling
-                            let badgeText = 'Free';
-                            let badgeClassName = "text-xs bg-gray-100 text-gray-600";
+                            let badgeText = "Free";
+                            let badgeClassName =
+                              "text-xs bg-gray-100 text-gray-600";
 
                             if (listing.comped) {
-                              badgeText = 'Pro';
-                              badgeClassName = "text-xs bg-brand-blue text-white";
-                            } else if (listing.plan === 'pro') {
-                              badgeText = 'Pro';
-                              badgeClassName = "text-xs bg-brand-blue text-white";
-                            } else if (listing.plan === 'standard') {
-                              badgeText = 'Standard';
-                              badgeClassName = "text-xs bg-gray-100 text-gray-800";
-                            } else if (listing.plan === 'premium') {
-                              badgeText = 'Featured';
-                              badgeClassName = "text-xs bg-brand-orange text-white";
+                              badgeText = "Pro";
+                              badgeClassName =
+                                "text-xs bg-brand-blue text-white";
+                            } else if (listing.plan === "pro") {
+                              badgeText = "Pro";
+                              badgeClassName =
+                                "text-xs bg-brand-blue text-white";
+                            } else if (listing.plan === "standard") {
+                              badgeText = "Standard";
+                              badgeClassName =
+                                "text-xs bg-gray-100 text-gray-800";
+                            } else if (listing.plan === "premium") {
+                              badgeText = "Featured";
+                              badgeClassName =
+                                "text-xs bg-brand-orange text-white";
                             }
 
                             return (
@@ -165,44 +194,62 @@ export default async function AdminListingsPage() {
                               </Badge>
                             );
                           })()}
-                          
+
                           {/* Comped Badge */}
                           {listing.comped && (
-                            <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 text-xs">
+                            <Badge
+                              variant="secondary"
+                              className="bg-yellow-100 text-yellow-800 text-xs"
+                            >
                               Comped
                             </Badge>
                           )}
-                          
+
                           {/* 101 Approved Badge */}
                           {listing.is_approved_101 === true && (
-                            <Badge variant="secondary" className="bg-green-100 text-green-800 text-xs">
+                            <Badge
+                              variant="secondary"
+                              className="bg-green-100 text-green-800 text-xs"
+                            >
                               <CheckCircleIcon className="w-3 h-3 mr-1" />
                               101 Approved
                             </Badge>
                           )}
                         </div>
                       </div>
-                      
+
                       <div className="text-sm text-muted-foreground">
                         <div className="flex items-center gap-4">
                           <span>Email: {listing.email || "N/A"}</span>
-                          <span>Location: {[listing.city, listing.state].filter(Boolean).join(", ") || "N/A"}</span>
+                          <span>
+                            Location:{" "}
+                            {[listing.city, listing.state]
+                              .filter(Boolean)
+                              .join(", ") || "N/A"}
+                          </span>
                           <span>Status: {listing.status || "Unknown"}</span>
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-2">
                       {/* Comped Toggle */}
-                      <CompedToggle 
+                      <CompedToggle
                         listingId={listing.id}
                         isComped={listing.comped || false}
                         currentPlan={listing.plan}
                       />
-                      
+
                       {/* Edit Button */}
                       <Button size="sm" variant="outline" asChild>
-                        <Link href={`/listing/${listing.listing_name?.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "") || listing.id}`}>
+                        <Link
+                          href={`/listing/${
+                            listing.listing_name
+                              ?.toLowerCase()
+                              .replace(/\s+/g, "-")
+                              .replace(/[^a-z0-9-]/g, "") || listing.id
+                          }`}
+                        >
                           <EditIcon className="w-4 h-4 mr-1" />
                           View
                         </Link>
@@ -210,7 +257,7 @@ export default async function AdminListingsPage() {
                     </div>
                   </div>
                 ))}
-                
+
                 {sortedListings.length === 0 && (
                   <div className="text-center py-8 text-muted-foreground">
                     No listings found.

@@ -61,7 +61,7 @@ export default function PaymentSuccessPage() {
           </Link>
         </Button>
         <Button variant="outline" asChild>
-          <Link href="/dashboard" className="flex items-center gap-2">
+          <Link href="/dashboard/vendor" className="flex items-center gap-2">
             <CheckCircleIcon className="w-4 h-4" />
             View Dashboard
           </Link>

@@ -2,6 +2,7 @@
 
 import { submitToSupabase } from "@/actions/submit-supabase";
 import ImageUpload from "@/components/shared/image-upload";
+import { GalleryUpload } from "@/components/submit/gallery-upload";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -86,7 +87,20 @@ export function SupabaseSubmitForm({
   });
 
   const [isImageUploading, setIsImageUploading] = useState(false);
-  const [galleryImages, setGalleryImages] = useState<string[]>([]);
+  const [galleryImages, setGalleryImages] = useState<string[]>(() => {
+    // Handle both string and array types for gallery
+    if (Array.isArray(existingListing?.gallery)) {
+      return existingListing.gallery;
+    }
+    if (typeof existingListing?.gallery === 'string') {
+      try {
+        return JSON.parse(existingListing.gallery);
+      } catch {
+        return [];
+      }
+    }
+    return [];
+  });
   const [isGalleryUploading, setIsGalleryUploading] = useState(false);
 
   const getMaxGalleryImages = () => {
@@ -518,27 +532,12 @@ export function SupabaseSubmitForm({
           {/* Gallery Upload */}
           <div className="space-y-2">
             <Label>Gallery Images</Label>
-            <div className="grid grid-cols-2 gap-4">
-              {Array.from({ length: getMaxGalleryImages() }).map((_, index) => (
-                <div
-                  key={`gallery-${index}`}
-                  className="h-32 border-2 border-dashed border-gray-300 rounded-lg"
-                >
-                  <ImageUpload
-                    currentImageUrl={galleryImages[index] || ""}
-                    onUploadChange={(status) => {
-                      setIsGalleryUploading(status.isUploading);
-                      if (status.imageId) {
-                        const newGallery = [...galleryImages];
-                        newGallery[index] = status.imageId;
-                        setGalleryImages(newGallery);
-                      }
-                    }}
-                    type="image"
-                  />
-                </div>
-              ))}
-            </div>
+            <GalleryUpload
+              maxImages={getMaxGalleryImages()}
+              currentImages={galleryImages}
+              onImagesChange={setGalleryImages}
+              onUploadingChange={setIsGalleryUploading}
+            />
             <p className="text-xs text-muted-foreground">
               {getMaxGalleryImages() === 1
                 ? "Standard plan includes 1 gallery image"

@@ -1,8 +1,9 @@
 import { auth } from "@/auth";
 import { siteConfig } from "@/config/site";
-import { constructMetadata } from "@/lib/metadata";
 import { getListingById } from "@/data/listings";
-import { redirect, notFound } from "next/navigation";
+import { constructMetadata } from "@/lib/metadata";
+import type { Metadata } from "next";
+import { notFound, redirect } from "next/navigation";
 
 export async function generateMetadata({
   params,

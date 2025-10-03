@@ -15,14 +15,14 @@
     /* New Design System Colors */
     --background: 0 0% 100%; /* White for light mode */
     --foreground: 220 15% 11%; /* Charcoal Ink #1E1F23 */
-    --card: 30 20% 97%; /* Cream #F7F4EF */
+    --card: 60 100% 94%; /* Cream #FFFDD0 */
     --card-foreground: 220 15% 11%; /* Charcoal on cream */
-    --popover: 30 20% 97%; /* Cream */
+    --popover: 60 100% 94%; /* Cream */
     --popover-foreground: 220 15% 11%; /* Charcoal */
     --primary: 0 60% 50%; /* Tomato Red #CC3D3D */
     --primary-foreground: 0 0% 100%; /* White */
     --secondary: 210 50% 40%; /* Retro Blue #336699 */
-    --secondary-foreground: 30 20% 97%; /* Cream */
+    --secondary-foreground: 60 100% 94%; /* Cream */
     --muted: 220 14% 96%; /* Light gray */
     --muted-foreground: 220 9% 46%; /* Muted gray */
     --accent: 45 100% 45%; /* Mustard Gold #E5A400 */
@@ -40,7 +40,7 @@
     --chart-5: 0 60% 50%; /* Tomato Red */
 
     /* New Brand Colors - Design System */
-    --cream: 30 20% 97%; /* #F7F4EF - Base Light */
+    --cream: 60 100% 94%; /* #FFFDD0 - Base Light */
     --charcoal: 220 15% 11%; /* #1E1F23 - Primary Dark */
     --retro-blue: 210 50% 40%; /* #336699 - Accent 1 */
     --tomato-red: 0 60% 50%; /* #CC3D3D - Accent 2 */
@@ -57,15 +57,15 @@
   .dark {
     /* Dark mode uses dark navy background */
     --background: 210 100% 8%; /* Dark Navy */
-    --foreground: 30 20% 97%; /* Cream text on dark */
-    --card: 30 20% 97%; /* Cream cards */
+    --foreground: 60 100% 94%; /* Cream text on dark */
+    --card: 60 100% 94%; /* Cream cards */
     --card-foreground: 220 15% 11%; /* Charcoal text on cream */
-    --popover: 30 20% 97%; /* Cream popover */
+    --popover: 60 100% 94%; /* Cream popover */
     --popover-foreground: 220 15% 11%; /* Charcoal text */
     --primary: 0 60% 50%; /* Tomato Red */
     --primary-foreground: 0 0% 100%; /* White */
     --secondary: 210 50% 40%; /* Retro Blue */
-    --secondary-foreground: 30 20% 97%; /* Cream */
+    --secondary-foreground: 60 100% 94%; /* Cream */
     --muted: 210 50% 15%; /* Dark Navy muted */
     --muted-foreground: 0 0% 83%; /* Light gray #D3D3D3 */
     --accent: 45 100% 45%; /* Mustard Gold */
@@ -82,7 +82,7 @@
     --chart-5: 0 60% 50%; /* Tomato Red */
 
     /* Design System colors for dark mode */
-    --cream: 30 20% 97%; /* #F7F4EF - Base Light */
+    --cream: 60 100% 94%; /* #FFFDD0 - Base Light */
     --charcoal: 220 15% 11%; /* #1E1F23 - Primary Dark */
     --retro-blue: 210 50% 40%; /* #336699 - Accent 1 */
     --tomato-red: 0 60% 50%; /* #CC3D3D - Accent 2 */

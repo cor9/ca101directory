@@ -105,14 +105,14 @@ export async function submitToSupabase(
       age_range: tags,
       profile_image: imageId,
       gallery: gallery && gallery.length > 0 ? JSON.stringify(gallery) : null,
-      plan: plan.toLowerCase(),
+      plan: plan, // Keep plan as-is since forms already send correct values
       ca_permit_required: performerPermit,
       is_bonded: bonded,
       bond_number: bondNumber,
-      status: "pending",
+      status: "Pending",
       is_active: active ?? true,
       is_claimed: false,
-      owner_id: null, // Set to null to avoid foreign key constraint issues
+      owner_id: user?.id || null, // Link to current user if authenticated
       is_approved_101: false,
     };
 

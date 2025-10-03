@@ -1,6 +1,7 @@
 "use client";
 
 import { submitToSupabase } from "@/actions/submit-supabase";
+import ImageUpload from "@/components/shared/image-upload";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,7 +22,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import ImageUpload from "@/components/shared/image-upload";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -54,10 +54,10 @@ interface SupabaseSubmitFormProps {
   isClaimFlow?: boolean;
 }
 
-export function SupabaseSubmitForm({ 
-  categories, 
-  existingListing, 
-  isClaimFlow = false 
+export function SupabaseSubmitForm({
+  categories,
+  existingListing,
+  isClaimFlow = false,
 }: SupabaseSubmitFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -85,6 +85,14 @@ export function SupabaseSubmitForm({
   });
 
   const [isImageUploading, setIsImageUploading] = useState(false);
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
+  const [isGalleryUploading, setIsGalleryUploading] = useState(false);
+
+  const getMaxGalleryImages = () => {
+    if (formData.plan === "Pro") return 4;
+    if (formData.plan === "Standard") return 1;
+    return 0; // Free plan gets no gallery images
+  };
 
   const handleInputChange = (
     field: string,
@@ -119,11 +127,17 @@ export function SupabaseSubmitForm({
     setIsSubmitting(true);
 
     try {
-      const result = await submitToSupabase(formData);
+      // Add gallery images to form data
+      const formDataWithGallery = {
+        ...formData,
+        gallery: galleryImages.filter((img) => img), // Remove empty strings
+      };
+
+      const result = await submitToSupabase(formDataWithGallery);
 
       if (result.status === "success") {
         toast.success("Listing submitted successfully!");
-        
+
         if (isClaimFlow) {
           // For claim flow, redirect to plan selection
           router.push(`/plan-selection?listingId=${result.listingId}`);
@@ -500,13 +514,48 @@ export function SupabaseSubmitForm({
             </p>
           </div>
 
+          {/* Gallery Upload */}
+          <div className="space-y-2">
+            <Label>Gallery Images</Label>
+            <div className="grid grid-cols-2 gap-4">
+              {Array.from({ length: getMaxGalleryImages() }).map((_, index) => (
+                <div
+                  key={index}
+                  className="h-32 border-2 border-dashed border-gray-300 rounded-lg"
+                >
+                  <ImageUpload
+                    currentImageUrl={galleryImages[index] || ""}
+                    onUploadChange={(status) => {
+                      setIsGalleryUploading(status.isUploading);
+                      if (status.imageId) {
+                        const newGallery = [...galleryImages];
+                        newGallery[index] = status.imageId;
+                        setGalleryImages(newGallery);
+                      }
+                    }}
+                    type="image"
+                  />
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {getMaxGalleryImages() === 1
+                ? "Standard plan includes 1 gallery image"
+                : `Pro plan includes up to ${getMaxGalleryImages()} gallery images`}
+            </p>
+          </div>
+
           {/* Submit Button */}
-          <Button 
-            type="submit" 
-            disabled={isSubmitting || isImageUploading} 
+          <Button
+            type="submit"
+            disabled={isSubmitting || isImageUploading || isGalleryUploading}
             className="w-full"
           >
-            {isSubmitting ? "Submitting..." : isImageUploading ? "Uploading Image..." : "Submit Listing"}
+            {isSubmitting
+              ? "Submitting..."
+              : isImageUploading || isGalleryUploading
+                ? "Uploading Images..."
+                : "Submit Listing"}
           </Button>
         </form>
       </CardContent>

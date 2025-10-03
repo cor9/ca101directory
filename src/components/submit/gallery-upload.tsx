@@ -53,7 +53,7 @@ export function GalleryUpload({
       ) {
         const file = filesToUpload[i];
         const index = availableIndexes[i];
-        setUploadingFiles((prev) => new Set([...prev, index]));
+        setUploadingFiles((prev) => new Set([...Array.from(prev), index]));
 
         // Upload image inline
         try {

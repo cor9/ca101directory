@@ -88,13 +88,18 @@ export function EditForm({ listing, categories }: EditFormProps) {
     setIsSubmitting(true);
 
     try {
-      const result = await submitToSupabase({
+      // Ensure required fields are present
+      const submitData = {
         ...formData,
+        tags: formData.tags.length > 0 ? formData.tags : ["hybrid"], // Default tag
+        categories: formData.categories.length > 0 ? formData.categories : ["acting-coaches"], // Default category
         gallery: galleryImages,
         // Mark as update to existing listing
         listingId: listing.id,
         isEdit: true,
-      });
+      };
+
+      const result = await submitToSupabase(submitData);
 
       if (result.status === "success") {
         toast.success("Listing updated successfully!");

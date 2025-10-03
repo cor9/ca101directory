@@ -45,7 +45,7 @@ export const baseSubmitSchema = {
   zip: z.string().optional(),
   region: z.string().optional(),
   bondNumber: z.string().optional(),
-  plan: z.enum(["Free", "Basic", "Pro", "Premium"], {
+  plan: z.enum(["Free", "Standard", "Pro", "Founding Standard", "Founding Pro"], {
     required_error: "Please select a plan",
   }),
   performerPermit: z.boolean().optional(), // Make optional for testing

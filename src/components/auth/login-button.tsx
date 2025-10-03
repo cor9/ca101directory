@@ -17,12 +17,14 @@ interface LoginWrapperProps {
   children: React.ReactNode;
   mode?: "modal" | "redirect";
   asChild?: boolean;
+  defaultRole?: "parent" | "vendor";
 }
 
 export const LoginWrapper = ({
   children,
   mode = "redirect",
   asChild,
+  defaultRole,
 }: LoginWrapperProps) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -31,7 +33,8 @@ export const LoginWrapper = ({
   const { isTablet, isDesktop } = useMediaQuery();
 
   const handleLogin = () => {
-    router.push("/auth/login");
+    const roleParam = defaultRole ? `?role=${defaultRole}` : "";
+    router.push(`/auth/login${roleParam}`);
   };
 
   // Close the modal on route change
@@ -52,7 +55,7 @@ export const LoginWrapper = ({
             {/* `DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users. */}
             <DialogTitle />
           </DialogHeader>
-          <LoginForm />
+          <LoginForm defaultRole={defaultRole} />
         </DialogContent>
       </Dialog>
     );

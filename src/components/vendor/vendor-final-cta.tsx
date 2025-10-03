@@ -5,10 +5,11 @@ export default function VendorFinalCta() {
         Ready to grow your business?
       </h2>
       <p className="text-xl text-cream/90 mb-8 max-w-2xl mx-auto">
-        Join thousands of professionals who trust Child Actor 101 to connect them with families
+        Join thousands of professionals who trust Child Actor 101 to connect
+        them with families
       </p>
       <a
-        href="/submit"
+        href="/auth/register?role=vendor"
         className="inline-flex items-center px-8 py-4 bg-cream text-charcoal rounded-xl hover:bg-cream/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-semibold text-lg"
       >
         List Your Business Today

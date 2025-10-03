@@ -8,11 +8,11 @@ export default function VendorPricing() {
         "Basic listing",
         "Contact information",
         "Service description",
-        "Standard visibility"
+        "Standard visibility",
       ],
-      cta: "Get Started Free",
-      ctaLink: "/submit",
-      popular: false
+        cta: "Get Started Free",
+        ctaLink: "/auth/register?role=vendor",
+      popular: false,
     },
     {
       name: "Standard",
@@ -23,11 +23,11 @@ export default function VendorPricing() {
         "Logo display",
         "Enhanced visibility",
         "Priority placement",
-        "Basic analytics"
+        "Basic analytics",
       ],
-      cta: "Choose Standard",
-      ctaLink: "/submit",
-      popular: true
+        cta: "Choose Standard",
+        ctaLink: "/auth/register?role=vendor",
+      popular: true,
     },
     {
       name: "Pro",
@@ -39,12 +39,12 @@ export default function VendorPricing() {
         "Gallery images (5 total)",
         "Advanced analytics",
         "SEO boost",
-        "Premium support"
+        "Premium support",
       ],
-      cta: "Choose Pro",
-      ctaLink: "/submit",
-      popular: false
-    }
+        cta: "Choose Pro",
+        ctaLink: "/auth/register?role=vendor",
+      popular: false,
+    },
   ];
 
   const foundingDeals = [
@@ -58,11 +58,11 @@ export default function VendorPricing() {
         "Everything in Standard",
         "6-month commitment",
         "Founding vendor badge",
-        "Priority support"
+        "Priority support",
       ],
-      cta: "Limited Time Offer",
-      ctaLink: "/submit",
-      urgent: true
+        cta: "Limited Time Offer",
+        ctaLink: "/auth/register?role=vendor",
+      urgent: true,
     },
     {
       name: "Founding Pro",
@@ -75,12 +75,12 @@ export default function VendorPricing() {
         "6-month commitment",
         "Founding vendor badge",
         "Priority support",
-        "Exclusive placement"
+        "Exclusive placement",
       ],
-      cta: "Limited Time Offer",
-      ctaLink: "/submit",
-      urgent: true
-    }
+        cta: "Limited Time Offer",
+        ctaLink: "/auth/register?role=vendor",
+      urgent: true,
+    },
   ];
 
   return (
@@ -108,20 +108,38 @@ export default function VendorPricing() {
                 </span>
               </div>
             )}
-            
+
             <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-charcoal mb-2">{plan.name}</h3>
+              <h3 className="text-2xl font-bold text-charcoal mb-2">
+                {plan.name}
+              </h3>
               <div className="mb-4">
-                <span className="text-4xl font-bold text-charcoal">{plan.price}</span>
+                <span className="text-4xl font-bold text-charcoal">
+                  {plan.price}
+                </span>
                 <span className="text-charcoal/70">/{plan.period}</span>
               </div>
             </div>
 
             <ul className="space-y-3 mb-8">
               {plan.features.map((feature, index) => (
-                <li key={`${plan.name}-feature-${index}`} className="flex items-center text-charcoal/70">
-                  <svg className="w-5 h-5 text-retro-blue mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                <li
+                  key={`${plan.name}-feature-${index}`}
+                  className="flex items-center text-charcoal/70"
+                >
+                  <svg
+                    className="w-5 h-5 text-retro-blue mr-3 flex-shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                   {feature}
                 </li>
@@ -145,13 +163,20 @@ export default function VendorPricing() {
       {/* Founding Deals */}
       <div className="bg-gradient-to-r from-mustard-gold/10 to-tomato-red/10 rounded-xl p-8 mb-8">
         <div className="text-center mb-8">
-          <h3 className="text-2xl font-bold text-charcoal mb-2">Founding Vendor Deals</h3>
-          <p className="text-charcoal/70">Limited time offers for early adopters</p>
+          <h3 className="text-2xl font-bold text-charcoal mb-2">
+            Founding Vendor Deals
+          </h3>
+          <p className="text-charcoal/70">
+            Limited time offers for early adopters
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {foundingDeals.map((deal) => (
-            <div key={deal.name} className="bg-cream border border-cream rounded-xl p-6 relative">
+            <div
+              key={deal.name}
+              className="bg-cream border border-cream rounded-xl p-6 relative"
+            >
               {deal.urgent && (
                 <div className="absolute -top-3 left-4">
                   <span className="bg-tomato-red text-cream px-3 py-1 rounded-full text-sm font-semibold">
@@ -159,23 +184,42 @@ export default function VendorPricing() {
                   </span>
                 </div>
               )}
-              
+
               <div className="text-center mb-6">
-                <h4 className="text-xl font-bold text-charcoal mb-2">{deal.name}</h4>
+                <h4 className="text-xl font-bold text-charcoal mb-2">
+                  {deal.name}
+                </h4>
                 <div className="mb-2">
-                  <span className="text-3xl font-bold text-charcoal">{deal.price}</span>
+                  <span className="text-3xl font-bold text-charcoal">
+                    {deal.price}
+                  </span>
                   <span className="text-charcoal/70">/{deal.period}</span>
                 </div>
                 <div className="text-sm text-charcoal/60 mb-2">
-                  <span className="line-through">{deal.originalPrice}</span> • {deal.savings}
+                  <span className="line-through">{deal.originalPrice}</span> •{" "}
+                  {deal.savings}
                 </div>
               </div>
 
               <ul className="space-y-2 mb-6">
                 {deal.features.map((feature, index) => (
-                  <li key={`${deal.name}-feature-${index}`} className="flex items-center text-sm text-charcoal/70">
-                    <svg className="w-4 h-4 text-mustard-gold mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <li
+                    key={`${deal.name}-feature-${index}`}
+                    className="flex items-center text-sm text-charcoal/70"
+                  >
+                    <svg
+                      className="w-4 h-4 text-mustard-gold mr-2 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                     {feature}
                   </li>

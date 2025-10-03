@@ -36,6 +36,7 @@ export const {
       if (new URL(url).origin === baseUrl) return url;
 
       // Default redirect to dashboard after login/signup
+      // Role-based redirects will be handled in the login action
       return `${baseUrl}/dashboard`;
     },
     // SignIn callback - allow authentication

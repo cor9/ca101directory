@@ -4,6 +4,7 @@ import { isRoleEnabled } from "@/config/feature-flags";
 import { createUser, getUserByEmail } from "@/data/supabase-user";
 import { RegisterSchema } from "@/lib/schemas";
 import { supabase } from "@/lib/supabase";
+import { getRoleBasedRedirect } from "@/lib/auth-redirects";
 import type * as z from "zod";
 
 export type ServerActionResponse = {
@@ -84,7 +85,7 @@ export async function register(
     return {
       status: "success",
       message: "Account created successfully! Redirecting to dashboard...",
-      redirectUrl: nextUrl || "/dashboard",
+      redirectUrl: nextUrl || getRoleBasedRedirect(role),
     };
   } catch (error) {
     console.error("Registration error:", error);

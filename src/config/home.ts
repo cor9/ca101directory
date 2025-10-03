@@ -3,22 +3,28 @@ import type { HomeConfig } from "@/types";
 export const homeConfig: HomeConfig = {
   valueProps: [
     {
-      title: "Vetted Industry Experts",
+      title: "Relevant",
       description:
-        "Every professional is personally reviewed by the Child Actor 101 team for safety, credentials, and proven results.",
-      icon: "shieldCheck",
+        "Every listing is focused on youth acting — no filler, no distractions.",
+      icon: "target",
     },
     {
-      title: "Family-First Guidance",
+      title: "Transparent",
       description:
-        "Get insights tailored for parents and young performers, including age-appropriate services and on-set expectations.",
-      icon: "sparkles",
+        "You see what's offered, where they are, and how they work. Clear, simple, honest.",
+      icon: "eye",
     },
     {
-      title: "Trusted Community Network",
+      title: "Supportive",
       description:
-        "Connect with coaches, agents, and creatives who collaborate to move child actors forward in their careers.",
-      icon: "handshake",
+        "Vendors who help kids grow, not just sell services.",
+      icon: "heart",
+    },
+    {
+      title: "Community-Driven",
+      description:
+        "Built by parents, coaches, and managers who actually understand this business.",
+      icon: "users",
     },
   ],
   howItWorks: [

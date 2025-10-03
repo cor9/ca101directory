@@ -69,8 +69,8 @@ export default async function CategoryPage() {
     const categoryCounts: Record<string, number> = {};
     for (const listing of listings) {
       if (listing.categories) {
-        const categoryList = listing.categories.split(",");
-        for (const category of categoryList) {
+        // categories is now an array, no need to split
+        for (const category of listing.categories) {
           const trimmedCategory = category.trim();
           categoryCounts[trimmedCategory] =
             (categoryCounts[trimmedCategory] || 0) + 1;

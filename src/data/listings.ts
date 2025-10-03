@@ -69,9 +69,7 @@ export async function getPublicListings(params?: {
     // Handle special cases for multi-word categories
     if (params.category === "Talent Managers") {
       // Look for listings that have both "Talent" and "Managers" in categories
-      query = query.or(
-        `categories.cs.{Talent},categories.cs.{Managers}`
-      );
+      query = query.or(`categories.cs.{Talent},categories.cs.{Managers}`);
     } else {
       // categories contains array of words that can be combined to match category names
       // Check if the category name is contained in any combination of the categories array

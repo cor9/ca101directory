@@ -92,7 +92,7 @@ export function SupabaseSubmitForm({
     if (Array.isArray(existingListing?.gallery)) {
       return existingListing.gallery;
     }
-    if (typeof existingListing?.gallery === 'string') {
+    if (typeof existingListing?.gallery === "string") {
       try {
         return JSON.parse(existingListing.gallery);
       } catch {

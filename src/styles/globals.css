@@ -12,86 +12,88 @@
  */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 14 100% 60%; /* #FF6B35 - Orange */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 100% 15%; /* Dark blue secondary */
-    --secondary-foreground: 0 0% 95%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 32 100% 50%; /* Orange accent */
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 14 100% 60%; /* #FF6B35 */
+    /* New Design System Colors */
+    --background: 0 0% 100%; /* White for light mode */
+    --foreground: 220 15% 11%; /* Charcoal Ink #1E1F23 */
+    --card: 30 20% 97%; /* Cream #F7F4EF */
+    --card-foreground: 220 15% 11%; /* Charcoal on cream */
+    --popover: 30 20% 97%; /* Cream */
+    --popover-foreground: 220 15% 11%; /* Charcoal */
+    --primary: 0 60% 50%; /* Tomato Red #CC3D3D */
+    --primary-foreground: 0 0% 100%; /* White */
+    --secondary: 210 50% 40%; /* Retro Blue #336699 */
+    --secondary-foreground: 30 20% 97%; /* Cream */
+    --muted: 220 14% 96%; /* Light gray */
+    --muted-foreground: 220 9% 46%; /* Muted gray */
+    --accent: 45 100% 45%; /* Mustard Gold #E5A400 */
+    --accent-foreground: 0 0% 100%; /* White */
+    --destructive: 0 60% 50%; /* Tomato Red */
+    --destructive-foreground: 0 0% 100%; /* White */
+    --border: 220 13% 91%; /* Light border */
+    --input: 220 13% 91%; /* Light input */
+    --ring: 0 60% 50%; /* Tomato Red ring */
     --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --chart-1: 0 60% 50%; /* Tomato Red */
+    --chart-2: 210 50% 40%; /* Retro Blue */
+    --chart-3: 45 100% 45%; /* Mustard Gold */
+    --chart-4: 180 50% 35%; /* Muted Teal */
+    --chart-5: 0 60% 50%; /* Tomato Red */
 
-    /* Brand colors - matching logo */
-    --brand-orange: 14 100% 60%; /* #FF6B35 - Logo orange */
-    --brand-orange-light: 14 100% 70%; /* lighter orange */
-    --brand-orange-dark: 14 100% 50%; /* darker orange */
-    --brand-yellow: 32 100% 50%; /* #F7931E - Logo gold */
-    --brand-yellow-light: 32 100% 60%; /* lighter gold */
-    --brand-yellow-dark: 32 100% 40%; /* darker gold */
-    --brand-blue: 210 100% 20%; /* #004E89 - Logo blue */
-    --brand-blue-light: 210 100% 30%; /* lighter blue */
-    --brand-blue-dark: 210 100% 10%; /* darker blue */
-    --brand-purple: 270 100% 60%; /* Purple for blog section */
-    --brand-purple-light: 270 100% 70%; /* lighter purple */
-    --brand-purple-dark: 270 100% 50%; /* darker purple */
+    /* New Brand Colors - Design System */
+    --cream: 30 20% 97%; /* #F7F4EF - Base Light */
+    --charcoal: 220 15% 11%; /* #1E1F23 - Primary Dark */
+    --retro-blue: 210 50% 40%; /* #336699 - Accent 1 */
+    --tomato-red: 0 60% 50%; /* #CC3D3D - Accent 2 */
+    --mustard-gold: 45 100% 45%; /* #E5A400 - Accent 3 */
+    --muted-teal: 180 50% 35%; /* #2D888D - Accent 4 */
+    
+    /* Category-specific colors */
+    --coaches-color: 210 50% 40%; /* Retro Blue */
+    --photographers-color: 45 100% 45%; /* Mustard Gold */
+    --editors-color: 180 50% 35%; /* Muted Teal */
+    --studios-color: 0 60% 50%; /* Tomato Red */
   }
 
   .dark {
-    --background: 210 100% 8%; /* Dark blue background */
-    --foreground: 0 0% 95%;
-    --card: 210 100% 10%;
-    --card-foreground: 0 0% 95%;
-    --popover: 210 100% 10%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 14 100% 65%; /* Brighter orange for dark mode */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 100% 20%; /* Logo blue secondary */
-    --secondary-foreground: 0 0% 95%;
-    --muted: 210 50% 15%;
-    --muted-foreground: 0 0% 70%;
-    --accent: 32 100% 55%; /* Brighter gold accent */
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 95%;
-    --border: 210 50% 20%;
-    --input: 210 50% 20%;
-    --ring: 14 100% 65%; /* Orange ring for dark mode */
-    --chart-1: 14 100% 65%;
-    --chart-2: 32 100% 55%;
-    --chart-3: 210 100% 40%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    /* Dark mode uses charcoal ink background */
+    --background: 220 15% 11%; /* Charcoal Ink #1E1F23 */
+    --foreground: 30 20% 97%; /* Cream text on dark */
+    --card: 30 20% 97%; /* Cream cards */
+    --card-foreground: 220 15% 11%; /* Charcoal text on cream */
+    --popover: 30 20% 97%; /* Cream popover */
+    --popover-foreground: 220 15% 11%; /* Charcoal text */
+    --primary: 0 60% 50%; /* Tomato Red */
+    --primary-foreground: 0 0% 100%; /* White */
+    --secondary: 210 50% 40%; /* Retro Blue */
+    --secondary-foreground: 30 20% 97%; /* Cream */
+    --muted: 220 15% 17%; /* Very Dark Gray #2A2C30 */
+    --muted-foreground: 0 0% 83%; /* Light gray #D3D3D3 */
+    --accent: 45 100% 45%; /* Mustard Gold */
+    --accent-foreground: 0 0% 100%; /* White */
+    --destructive: 0 60% 50%; /* Tomato Red */
+    --destructive-foreground: 0 0% 100%; /* White */
+    --border: 220 15% 17%; /* Very Dark Gray border */
+    --input: 220 15% 17%; /* Very Dark Gray input */
+    --ring: 0 60% 50%; /* Tomato Red ring */
+    --chart-1: 0 60% 50%; /* Tomato Red */
+    --chart-2: 210 50% 40%; /* Retro Blue */
+    --chart-3: 45 100% 45%; /* Mustard Gold */
+    --chart-4: 180 50% 35%; /* Muted Teal */
+    --chart-5: 0 60% 50%; /* Tomato Red */
 
-    /* Brand colors for dark mode - matching logo */
-    --brand-orange: 14 100% 65%; /* Brighter orange for dark mode */
-    --brand-orange-light: 14 100% 75%;
-    --brand-orange-dark: 14 100% 55%;
-    --brand-yellow: 32 100% 55%; /* Brighter gold for dark mode */
-    --brand-yellow-light: 32 100% 65%;
-    --brand-yellow-dark: 32 100% 45%;
-    --brand-blue: 210 100% 30%; /* Brighter blue for dark mode */
-    --brand-blue-light: 210 100% 40%;
-    --brand-blue-dark: 210 100% 20%;
-    --brand-purple: 270 100% 65%; /* Brighter purple for dark mode */
-    --brand-purple-light: 270 100% 75%;
-    --brand-purple-dark: 270 100% 55%;
+    /* Design System colors for dark mode */
+    --cream: 30 20% 97%; /* #F7F4EF - Base Light */
+    --charcoal: 220 15% 11%; /* #1E1F23 - Primary Dark */
+    --retro-blue: 210 50% 40%; /* #336699 - Accent 1 */
+    --tomato-red: 0 60% 50%; /* #CC3D3D - Accent 2 */
+    --mustard-gold: 45 100% 45%; /* #E5A400 - Accent 3 */
+    --muted-teal: 180 50% 35%; /* #2D888D - Accent 4 */
+    
+    /* Category-specific colors */
+    --coaches-color: 210 50% 40%; /* Retro Blue */
+    --photographers-color: 45 100% 45%; /* Mustard Gold */
+    --editors-color: 180 50% 35%; /* Muted Teal */
+    --studios-color: 0 60% 50%; /* Tomato Red */
   }
 }
 
@@ -107,71 +109,102 @@
 }
 
 @layer utilities {
-  /* Brand color utilities */
-  .text-brand-orange {
-    color: hsl(var(--brand-orange));
+  /* New Design System Utilities */
+  .text-cream {
+    color: hsl(var(--cream));
   }
-  .text-brand-orange-light {
-    color: hsl(var(--brand-orange-light));
+  .text-charcoal {
+    color: hsl(var(--charcoal));
   }
-  .text-brand-orange-dark {
-    color: hsl(var(--brand-orange-dark));
+  .text-retro-blue {
+    color: hsl(var(--retro-blue));
   }
-  .text-brand-blue {
-    color: hsl(var(--brand-blue));
+  .text-tomato-red {
+    color: hsl(var(--tomato-red));
   }
-  .text-brand-blue-light {
-    color: hsl(var(--brand-blue-light));
+  .text-mustard-gold {
+    color: hsl(var(--mustard-gold));
   }
-  .text-brand-blue-dark {
-    color: hsl(var(--brand-blue-dark));
-  }
-  .text-brand-yellow {
-    color: hsl(var(--brand-yellow));
-  }
-  .text-brand-yellow-light {
-    color: hsl(var(--brand-yellow-light));
-  }
-  .text-brand-yellow-dark {
-    color: hsl(var(--brand-yellow-dark));
+  .text-muted-teal {
+    color: hsl(var(--muted-teal));
   }
 
-  .bg-brand-orange {
-    background-color: hsl(var(--brand-orange));
+  .bg-cream {
+    background-color: hsl(var(--cream));
   }
-  .bg-brand-orange-light {
-    background-color: hsl(var(--brand-orange-light));
+  .bg-charcoal {
+    background-color: hsl(var(--charcoal));
   }
-  .bg-brand-orange-dark {
-    background-color: hsl(var(--brand-orange-dark));
+  .bg-retro-blue {
+    background-color: hsl(var(--retro-blue));
   }
-  .bg-brand-blue {
-    background-color: hsl(var(--brand-blue));
+  .bg-tomato-red {
+    background-color: hsl(var(--tomato-red));
   }
-  .bg-brand-blue-light {
-    background-color: hsl(var(--brand-blue-light));
+  .bg-mustard-gold {
+    background-color: hsl(var(--mustard-gold));
   }
-  .bg-brand-blue-dark {
-    background-color: hsl(var(--brand-blue-dark));
-  }
-  .bg-brand-yellow {
-    background-color: hsl(var(--brand-yellow));
-  }
-  .bg-brand-yellow-light {
-    background-color: hsl(var(--brand-yellow-light));
-  }
-  .bg-brand-yellow-dark {
-    background-color: hsl(var(--brand-yellow-dark));
+  .bg-muted-teal {
+    background-color: hsl(var(--muted-teal));
   }
 
-  .border-brand-orange {
-    border-color: hsl(var(--brand-orange));
+  .border-cream {
+    border-color: hsl(var(--cream));
   }
-  .border-brand-blue {
-    border-color: hsl(var(--brand-blue));
+  .border-charcoal {
+    border-color: hsl(var(--charcoal));
   }
-  .border-brand-yellow {
-    border-color: hsl(var(--brand-yellow));
+  .border-retro-blue {
+    border-color: hsl(var(--retro-blue));
+  }
+  .border-tomato-red {
+    border-color: hsl(var(--tomato-red));
+  }
+  .border-mustard-gold {
+    border-color: hsl(var(--mustard-gold));
+  }
+  .border-muted-teal {
+    border-color: hsl(var(--muted-teal));
+  }
+
+  /* Category-specific utilities */
+  .text-coaches {
+    color: hsl(var(--coaches-color));
+  }
+  .text-photographers {
+    color: hsl(var(--photographers-color));
+  }
+  .text-editors {
+    color: hsl(var(--editors-color));
+  }
+  .text-studios {
+    color: hsl(var(--studios-color));
+  }
+
+  .bg-coaches {
+    background-color: hsl(var(--coaches-color));
+  }
+  .bg-photographers {
+    background-color: hsl(var(--photographers-color));
+  }
+  .bg-editors {
+    background-color: hsl(var(--editors-color));
+  }
+  .bg-studios {
+    background-color: hsl(var(--studios-color));
+  }
+
+  .border-coaches {
+    border-color: hsl(var(--coaches-color));
+  }
+  .border-photographers {
+    border-color: hsl(var(--photographers-color));
+  }
+  .border-editors {
+    border-color: hsl(var(--editors-color));
+  }
+  .border-studios {
+    border-color: hsl(var(--studios-color));
   }
 
   .link-underline {

@@ -81,7 +81,7 @@ export function ListingCardClient({
   const planPriority = getPlanPriority(listing.plan, listing.comped);
 
   return (
-    <Card className={cn("h-full flex flex-col", className)}>
+    <Card className={cn("h-full flex flex-col bg-cream border-cream hover:shadow-tomato-red/10", className)}>
       <CardHeader className="relative p-0">
         {/* Profile Image */}
         <div className="relative w-full h-48 overflow-hidden rounded-t-lg">
@@ -109,20 +109,16 @@ export function ListingCardClient({
 
               if (listing.comped) {
                 badgeText = "Pro";
-                badgeClassName =
-                  "text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+                badgeClassName = "text-xs font-medium bg-retro-blue text-cream";
               } else if (listing.plan === "pro") {
                 badgeText = "Pro";
-                badgeClassName =
-                  "text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+                badgeClassName = "text-xs font-medium bg-retro-blue text-cream";
               } else if (listing.plan === "standard") {
                 badgeText = "Standard";
-                badgeClassName =
-                  "text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+                badgeClassName = "text-xs font-medium bg-mustard-gold text-cream";
               } else if (listing.plan === "premium") {
                 badgeText = "Featured";
-                badgeClassName =
-                  "text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+                badgeClassName = "text-xs font-medium bg-tomato-red text-cream";
               }
 
               return (
@@ -149,17 +145,17 @@ export function ListingCardClient({
       </CardHeader>
 
       <CardContent className="pb-3">
-        <h3 className="font-semibold text-lg mb-2 line-clamp-1">
+        <h3 className="font-semibold text-lg mb-2 line-clamp-1 text-charcoal">
           {listing.listing_name}
         </h3>
 
-        <p className="text-muted-foreground text-sm line-clamp-2 mb-4">
+        <p className="text-charcoal/70 text-sm line-clamp-2 mb-4">
           {listing.what_you_offer || "Professional acting services"}
         </p>
 
         {/* Location */}
         {(listing.city || listing.state || listing.region) && (
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+          <div className="flex items-center gap-2 text-sm text-charcoal/60 mb-3">
             <MapPinIcon className="w-4 h-4" />
             <span>
               {[listing.city, listing.state, listing.region]
@@ -177,7 +173,7 @@ export function ListingCardClient({
               readonly
               size="sm"
             />
-            <span className="text-muted-foreground">
+            <span className="text-charcoal/60">
               {averageRating.average.toFixed(1)} ({averageRating.count} review
               {averageRating.count !== 1 ? "s" : ""})
             </span>
@@ -190,14 +186,14 @@ export function ListingCardClient({
             {categories.slice(0, 2).map((category) => (
               <Badge
                 key={category}
-                variant="secondary"
-                className="text-xs font-normal"
+                variant="outline"
+                className="text-xs font-normal border-retro-blue text-retro-blue"
               >
                 {category}
               </Badge>
             ))}
             {categories.length > 2 && (
-              <Badge variant="secondary" className="text-xs font-normal">
+              <Badge variant="outline" className="text-xs font-normal border-retro-blue text-retro-blue">
                 +{categories.length - 2}
               </Badge>
             )}
@@ -211,13 +207,13 @@ export function ListingCardClient({
               <Badge
                 key={age}
                 variant="outline"
-                className="text-xs font-normal"
+                className="text-xs font-normal bg-mustard-gold/10 text-mustard-gold border-mustard-gold"
               >
                 {age}
               </Badge>
             ))}
             {ageRange.length > 3 && (
-              <Badge variant="outline" className="text-xs font-normal">
+              <Badge variant="outline" className="text-xs font-normal bg-mustard-gold/10 text-mustard-gold border-mustard-gold">
                 +{ageRange.length - 3}
               </Badge>
             )}
@@ -250,7 +246,7 @@ export function ListingCardClient({
               />
             )}
           </div>
-          <Button size="sm" asChild>
+          <Button size="sm" asChild className="bg-tomato-red hover:bg-tomato-red/90 text-cream">
             <Link href={`/listing/${slug}`}>View Details</Link>
           </Button>
         </div>

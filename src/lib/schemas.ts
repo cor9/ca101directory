@@ -56,6 +56,7 @@ export const baseSubmitSchema = {
     .min(1, { message: "Must select at least one category" }),
   gallery: z.array(z.string()).optional(), // Optional gallery images
   imageId: z.string().optional(), // Make optional for testing
+  active: z.boolean().optional(), // Optional active status
 };
 
 export const SubmitSchema = SUPPORT_ITEM_ICON

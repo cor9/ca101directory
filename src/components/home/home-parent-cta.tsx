@@ -21,7 +21,7 @@ export default function HomeParentCta() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card className="text-center">
             <CardHeader>
-              <HeartIcon className="h-8 w-8 text-brand-orange mx-auto mb-2" />
+              <HeartIcon className="h-8 w-8 text-tomato-red mx-auto mb-2" />
               <CardTitle className="text-lg">Save Favorites</CardTitle>
             </CardHeader>
             <CardContent>
@@ -33,7 +33,7 @@ export default function HomeParentCta() {
 
           <Card className="text-center">
             <CardHeader>
-              <StarIcon className="h-8 w-8 text-brand-blue mx-auto mb-2" />
+              <StarIcon className="h-8 w-8 text-retro-blue mx-auto mb-2" />
               <CardTitle className="text-lg">Write Reviews</CardTitle>
             </CardHeader>
             <CardContent>
@@ -46,7 +46,7 @@ export default function HomeParentCta() {
 
           <Card className="text-center">
             <CardHeader>
-              <UsersIcon className="h-8 w-8 text-brand-yellow mx-auto mb-2" />
+              <UsersIcon className="h-8 w-8 text-mustard-gold mx-auto mb-2" />
               <CardTitle className="text-lg">Join Community</CardTitle>
             </CardHeader>
             <CardContent>

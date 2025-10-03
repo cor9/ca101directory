@@ -251,7 +251,7 @@ export function BlogSection() {
         {filteredPosts.map((post) => (
           <Card
             key={post.link}
-            className="h-full flex flex-col overflow-hidden bg-gray-900 border-gray-700"
+            className="h-full flex flex-col overflow-hidden bg-cream border-cream hover:shadow-tomato-red/10"
           >
             {/* Featured Image */}
             <div className="relative h-48 overflow-hidden">
@@ -266,7 +266,7 @@ export function BlogSection() {
                 {post.categories.map((category) => (
                   <Badge
                     key={category}
-                    className="bg-gray-800/90 text-white text-xs px-2 py-1"
+                    className="bg-retro-blue/90 text-cream text-xs px-2 py-1"
                   >
                     {category}
                   </Badge>
@@ -276,20 +276,20 @@ export function BlogSection() {
 
             <CardContent className="flex-1 flex flex-col p-6">
               {/* Title */}
-              <CardTitle className="text-lg font-semibold text-white mb-3 line-clamp-2">
+              <CardTitle className="text-lg font-semibold text-charcoal mb-3 line-clamp-2">
                 {post.title}
               </CardTitle>
 
               {/* Description */}
-              <p className="text-gray-300 text-sm mb-4 flex-1 line-clamp-3">
+              <p className="text-charcoal/70 text-sm mb-4 flex-1 line-clamp-3">
                 {post.description}
               </p>
 
               {/* Author and Date */}
-              <div className="flex items-center justify-between text-xs text-gray-400 mb-4">
+              <div className="flex items-center justify-between text-xs text-charcoal/60 mb-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 bg-brand-purple rounded-full flex items-center justify-center">
-                    <span className="text-white text-xs font-bold">C</span>
+                  <div className="w-6 h-6 bg-retro-blue rounded-full flex items-center justify-center">
+                    <span className="text-cream text-xs font-bold">C</span>
                   </div>
                   <span>Child Actor 101</span>
                 </div>
@@ -307,7 +307,7 @@ export function BlogSection() {
                 asChild
                 variant="outline"
                 size="sm"
-                className="w-full border-gray-600 text-white hover:bg-gray-800"
+                className="w-full border-retro-blue text-retro-blue hover:bg-retro-blue hover:text-cream"
               >
                 <Link
                   href={post.link}

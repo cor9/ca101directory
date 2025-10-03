@@ -88,7 +88,7 @@ export default async function HomePage() {
         {/* Directory Preview Section */}
         <Container className="py-16">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-brand-orange to-brand-yellow rounded-full mb-4 shadow-lg">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-tomato-red to-mustard-gold rounded-full mb-4 shadow-lg">
               <svg
                 className="w-8 h-8 text-white"
                 fill="none"
@@ -103,12 +103,12 @@ export default async function HomePage() {
                 />
               </svg>
             </div>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-brand-blue via-brand-orange to-brand-yellow bg-clip-text text-transparent mb-4">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-retro-blue via-tomato-red to-mustard-gold bg-clip-text text-transparent mb-4">
               Browse Our Directory
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Search and filter through our complete directory of{" "}
-              <span className="font-bold text-brand-orange">{totalCount}</span>{" "}
+              <span className="font-bold text-tomato-red">{totalCount}</span>{" "}
               vetted child actor professionals.
             </p>
           </div>

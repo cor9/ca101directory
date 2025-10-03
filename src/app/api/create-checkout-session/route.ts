@@ -21,16 +21,22 @@ const PLAN_PRICES = {
 
 export async function POST(request: NextRequest) {
   try {
+    console.log("Starting checkout session creation...");
+    
     const session = await auth();
+    console.log("Auth session:", { userId: session?.user?.id, email: session?.user?.email });
     
     if (!session?.user?.id) {
+      console.log("No user session found");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await request.json();
+    console.log("Request body:", body);
     const { listingId, planId, billingCycle, successUrl, cancelUrl } = body;
 
     if (!listingId || !planId || !billingCycle || !successUrl || !cancelUrl) {
+      console.log("Missing required parameters:", { listingId, planId, billingCycle, successUrl, cancelUrl });
       return NextResponse.json(
         { error: "Missing required parameters" },
         { status: 400 }
@@ -38,6 +44,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!PLAN_PRICES[planId as keyof typeof PLAN_PRICES]) {
+      console.log("Invalid plan ID:", planId);
       return NextResponse.json(
         { error: "Invalid plan ID" },
         { status: 400 }
@@ -45,8 +52,10 @@ export async function POST(request: NextRequest) {
     }
 
     const price = PLAN_PRICES[planId as keyof typeof PLAN_PRICES][billingCycle as keyof typeof PLAN_PRICES.standard];
+    console.log("Calculated price:", price, "for plan:", planId, "cycle:", billingCycle);
     
     if (!price) {
+      console.log("Invalid billing cycle:", billingCycle);
       return NextResponse.json(
         { error: "Invalid billing cycle" },
         { status: 400 }
@@ -54,6 +63,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create Stripe checkout session
+    console.log("Creating Stripe checkout session...");
     const checkoutSession = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -86,11 +96,20 @@ export async function POST(request: NextRequest) {
       customer_email: session.user.email || undefined,
     });
 
+    console.log("Checkout session created successfully:", checkoutSession.id);
     return NextResponse.json({ url: checkoutSession.url });
   } catch (error) {
     console.error("Error creating checkout session:", error);
+    console.error("Error details:", {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      name: error instanceof Error ? error.name : undefined
+    });
     return NextResponse.json(
-      { error: "Internal server error" },
+      { 
+        error: "Internal server error",
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }

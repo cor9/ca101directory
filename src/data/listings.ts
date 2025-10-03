@@ -89,7 +89,7 @@ export async function getPublicListings(params?: {
     );
 
   // Only show approved/active listings (using new boolean fields)
-  query = query.eq("status", "published").eq("is_active", true);
+  query = query.eq("status", "Live").eq("is_active", true);
 
   console.log("getPublicListings: Query built, executing...");
 
@@ -136,6 +136,8 @@ export async function getListingBySlug(slug: string) {
       .from("listings")
       .select("*")
       .eq("id", slug)
+      .eq("status", "Live")
+      .eq("is_active", true)
       .single();
 
     if (data && !error) {
@@ -149,7 +151,7 @@ export async function getListingBySlug(slug: string) {
   const { data: nameData, error: nameError } = await supabase
     .from("listings")
     .select("*")
-    .eq("status", "published")
+    .eq("status", "Live")
     .eq("is_active", true);
 
   if (nameError) {

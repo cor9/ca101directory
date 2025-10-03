@@ -47,6 +47,7 @@ interface Listing {
   format?: string;
   notes?: string;
   image_url?: string;
+  gallery?: string | null;
 }
 
 interface SupabaseSubmitFormProps {

@@ -6,7 +6,7 @@ export const homeConfig: HomeConfig = {
       title: "Relevant",
       description:
         "Every listing is focused on youth acting — no filler, no distractions.",
-      icon: "target",
+      icon: "star",
     },
     {
       title: "Transparent",

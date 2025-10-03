@@ -1,3 +1,4 @@
+import { LoginWrapper } from "@/components/auth/login-button";
 import { Icons } from "@/components/icons/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { heroConfig } from "@/config/hero";
@@ -6,7 +7,6 @@ import { SearchIcon } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import HomeSearchBox from "./home-search-box";
-import { LoginWrapper } from "@/components/auth/login-button";
 
 export default function HomeHero() {
   const LabelIcon = Icons[heroConfig.label.icon];
@@ -71,12 +71,12 @@ export default function HomeHero() {
               Join Free
             </Link>
           </div>
-          
+
           {/* Vendor link */}
           <p className="text-sm text-charcoal/60 mt-2">
             Are you a coach, photographer, or rep?{" "}
-            <Link 
-              href="/list-your-business" 
+            <Link
+              href="/list-your-business"
               className="text-retro-blue hover:text-tomato-red font-semibold transition-colors"
             >
               List your business here →

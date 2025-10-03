@@ -28,16 +28,16 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
       ?.toLowerCase()
       .replace(/\s+/g, "-")
       .replace(/[^a-z0-9-]/g, "") || listing.id;
-  
+
   console.log("ListingCard: Generated slug:", {
     listingName: listing.listing_name,
     slug,
     href: `/listing/${slug}`,
-    listingId: listing.id
+    listingId: listing.id,
   });
 
-  const categories = listing.categories?.split(",").map((c) => c.trim()) || [];
-  const ageRange = listing.age_range?.split(",").map((a) => a.trim()) || [];
+  const categories = listing.categories || [];
+  const ageRange = listing.age_range || [];
 
   // Get average rating if reviews are enabled
   let averageRating = { average: 0, count: 0 };
@@ -105,33 +105,34 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
                 )}
                 {(() => {
                   // Determine badge text and styling
-                  let badgeText = 'Free';
-                  let badgeVariant: "default" | "secondary" | "destructive" | "outline" = "outline";
+                  let badgeText = "Free";
+                  let badgeVariant:
+                    | "default"
+                    | "secondary"
+                    | "destructive"
+                    | "outline" = "outline";
                   let badgeClassName = "text-xs bg-gray-100 text-gray-600";
 
                   if (listing.comped) {
-                    badgeText = 'Pro';
+                    badgeText = "Pro";
                     badgeVariant = "default";
                     badgeClassName = "text-xs bg-brand-blue text-white";
-                  } else if (listing.plan === 'pro') {
-                    badgeText = 'Pro';
+                  } else if (listing.plan === "pro") {
+                    badgeText = "Pro";
                     badgeVariant = "default";
                     badgeClassName = "text-xs bg-brand-blue text-white";
-                  } else if (listing.plan === 'standard') {
-                    badgeText = 'Standard';
+                  } else if (listing.plan === "standard") {
+                    badgeText = "Standard";
                     badgeVariant = "secondary";
                     badgeClassName = "text-xs bg-gray-100 text-gray-800";
-                  } else if (listing.plan === 'premium') {
-                    badgeText = 'Featured';
+                  } else if (listing.plan === "premium") {
+                    badgeText = "Featured";
                     badgeVariant = "default";
                     badgeClassName = "text-xs bg-brand-orange text-white";
                   }
 
                   return (
-                    <Badge
-                      variant={badgeVariant}
-                      className={badgeClassName}
-                    >
+                    <Badge variant={badgeVariant} className={badgeClassName}>
                       {badgeText}
                     </Badge>
                   );
@@ -165,9 +166,14 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
         {/* Rating */}
         {isReviewsEnabled() && averageRating.count > 0 && (
           <div className="flex items-center gap-2 text-sm mb-3">
-            <StarRating value={Math.round(averageRating.average)} readonly size="sm" />
+            <StarRating
+              value={Math.round(averageRating.average)}
+              readonly
+              size="sm"
+            />
             <span className="text-muted-foreground">
-              {averageRating.average.toFixed(1)} ({averageRating.count} review{averageRating.count !== 1 ? "s" : ""})
+              {averageRating.average.toFixed(1)} ({averageRating.count} review
+              {averageRating.count !== 1 ? "s" : ""})
             </span>
           </div>
         )}

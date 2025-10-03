@@ -25,7 +25,10 @@ interface ListingCardClientProps {
   className?: string;
 }
 
-export function ListingCardClient({ listing, className }: ListingCardClientProps) {
+export function ListingCardClient({
+  listing,
+  className,
+}: ListingCardClientProps) {
   const [averageRating, setAverageRating] = useState({ average: 0, count: 0 });
   const [ratingLoading, setRatingLoading] = useState(true);
 
@@ -35,8 +38,8 @@ export function ListingCardClient({ listing, className }: ListingCardClientProps
       .replace(/\s+/g, "-")
       .replace(/[^a-z0-9-]/g, "") || listing.id;
 
-  const categories = listing.categories?.split(",").map((c) => c.trim()) || [];
-  const ageRange = listing.age_range?.split(",").map((a) => a.trim()) || [];
+  const categories = listing.categories || [];
+  const ageRange = listing.age_range || [];
 
   // Get average rating if reviews are enabled
   useEffect(() => {
@@ -100,28 +103,30 @@ export function ListingCardClient({ listing, className }: ListingCardClientProps
           <div className="absolute top-2 left-2">
             {(() => {
               // Determine badge text and styling
-              let badgeText = 'Free';
-              let badgeClassName = "text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
+              let badgeText = "Free";
+              let badgeClassName =
+                "text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
 
               if (listing.comped) {
-                badgeText = 'Pro';
-                badgeClassName = "text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
-              } else if (listing.plan === 'pro') {
-                badgeText = 'Pro';
-                badgeClassName = "text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
-              } else if (listing.plan === 'standard') {
-                badgeText = 'Standard';
-                badgeClassName = "text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
-              } else if (listing.plan === 'premium') {
-                badgeText = 'Featured';
-                badgeClassName = "text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+                badgeText = "Pro";
+                badgeClassName =
+                  "text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+              } else if (listing.plan === "pro") {
+                badgeText = "Pro";
+                badgeClassName =
+                  "text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+              } else if (listing.plan === "standard") {
+                badgeText = "Standard";
+                badgeClassName =
+                  "text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+              } else if (listing.plan === "premium") {
+                badgeText = "Featured";
+                badgeClassName =
+                  "text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
               }
 
               return (
-                <Badge
-                  variant="secondary"
-                  className={badgeClassName}
-                >
+                <Badge variant="secondary" className={badgeClassName}>
                   {badgeText}
                 </Badge>
               );
@@ -167,9 +172,14 @@ export function ListingCardClient({ listing, className }: ListingCardClientProps
         {/* Rating */}
         {isReviewsEnabled() && !ratingLoading && averageRating.count > 0 && (
           <div className="flex items-center gap-2 text-sm mb-3">
-            <StarRating value={Math.round(averageRating.average)} readonly size="sm" />
+            <StarRating
+              value={Math.round(averageRating.average)}
+              readonly
+              size="sm"
+            />
             <span className="text-muted-foreground">
-              {averageRating.average.toFixed(1)} ({averageRating.count} review{averageRating.count !== 1 ? "s" : ""})
+              {averageRating.average.toFixed(1)} ({averageRating.count} review
+              {averageRating.count !== 1 ? "s" : ""})
             </span>
           </div>
         )}

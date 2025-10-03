@@ -25,8 +25,8 @@ export async function generateStaticParams() {
     const allAgeRanges = new Set<string>();
     listings.forEach((listing) => {
       if (listing.age_range) {
-        // Age Range is a comma-separated string in Supabase
-        listing.age_range.split(",").forEach((tag) => {
+        // Age Range is now an array in Supabase
+        listing.age_range.forEach((tag) => {
           allAgeRanges.add(
             tag
               .trim()
@@ -60,7 +60,7 @@ export async function generateMetadata({
     // Find listings that match this tag (age range)
     const matchingListings = listings.filter((listing) => {
       if (!listing.age_range) return false;
-      return listing.age_range.split(",").some(
+      return listing.age_range.some(
         (tag) =>
           tag
             .trim()
@@ -80,7 +80,6 @@ export async function generateMetadata({
 
     // Get the actual age range name from the first matching listing
     const ageRangeName = matchingListings[0]["Age Range"]
-      ?.split(",")
       .find(
         (tag) =>
           tag
@@ -119,7 +118,7 @@ export default async function TagPage({
     // Find listings that match this tag (age range)
     const matchingListings = listings.filter((listing) => {
       if (!listing.age_range) return false;
-      return listing.age_range.split(",").some(
+      return listing.age_range.some(
         (tag) =>
           tag
             .trim()
@@ -135,7 +134,6 @@ export default async function TagPage({
 
     // Get the actual age range name from the first matching listing
     const ageRangeName = matchingListings[0]["Age Range"]
-      ?.split(",")
       .find(
         (tag) =>
           tag

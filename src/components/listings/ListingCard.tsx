@@ -94,7 +94,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
                 {listing.listing_name || "Untitled Listing"}
               </h3>
               <div className="flex items-center gap-2 mt-1">
-                {listing.approved_101_badge === "checked" && (
+                {listing.is_approved_101 === true && (
                   <Badge
                     variant="secondary"
                     className="bg-green-100 text-green-800 text-xs"

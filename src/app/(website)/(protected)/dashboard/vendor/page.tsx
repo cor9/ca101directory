@@ -52,7 +52,7 @@ export default async function VendorDashboard() {
     (listing) => listing.owner_id === session.user.id,
   );
   const activeListings = userListings.filter(
-    (listing) => listing.status === "Live" && listing.active === "checked",
+    (listing) => listing.status === "published" && listing.is_active === true,
   );
 
   // Calculate stats
@@ -219,7 +219,7 @@ export default async function VendorDashboard() {
                               {listing.city}, {listing.state}
                             </span>
                           )}
-                          {listing.approved_101_badge === "checked" && (
+                          {listing.is_approved_101 === true && (
                             <div className="flex items-center gap-1">
                               <CheckCircleIcon className="w-4 h-4 text-green-600" />
                               <span>101 Approved</span>

@@ -129,9 +129,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
       id: listing.id,
       name: listing.listing_name,
       owner_id: listing.owner_id,
-      claimed: listing.claimed === "checked",
+      claimed: listing.is_claimed === true,
       plan: listing.plan,
-      approved_101_badge: listing.approved_101_badge === "checked",
+      approved_101_badge: listing.is_approved_101 === true,
     });
 
     return (
@@ -197,7 +197,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                           Featured
                         </span>
                       )}
-                      {listing.approved_101_badge === "checked" && (
+                      {listing.is_approved_101 === true && (
                         <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full flex items-center gap-1">
                           <CheckCircleIcon className="h-3 w-3" />
                           101 Approved
@@ -503,7 +503,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                               {listing.verification_status || "Pending"}
                             </span>
                           </div>
-                          {listing.approved_101_badge === "checked" && (
+                          {listing.is_approved_101 === true && (
                             <div className="flex items-center gap-2">
                               <span className="font-medium">101 Badge:</span>
                               <span className="px-2 py-1 bg-brand-orange text-white rounded-full text-xs font-medium">
@@ -567,8 +567,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 )}
 
                 {/* Certifications & Compliance */}
-                {(listing.ca_permit === "checked" ||
-                  listing.bonded === "checked") && (
+                {(listing.ca_permit_required === true ||
+                  listing.is_bonded === true) && (
                   <div className="bg-muted/50 rounded-lg p-6">
                     <h2 className="text-lg font-semibold mb-4 text-foreground">
                       Certifications & Compliance
@@ -584,7 +584,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                           </span>
                         </li>
                       )}
-                      {listing.bonded === "checked" && (
+                      {listing.is_bonded === true && (
                         <li className="flex items-center gap-2">
                           <CheckCircleIcon className="w-4 h-4 text-green-600" />
                           <span>Bonded for Advanced Fees</span>
@@ -615,7 +615,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
           {/* Claimed Listing Actions - Show for owners */}
           {/* TODO: Add claimedBy field to Listing interface and fix type compatibility */}
           {/* 
-          {listing.claimed === "checked" && (
+          {listing.is_claimed === true && (
             <div className="mt-8">
               <ClaimedListingActions listing={listing} isOwner={true} />
             </div>

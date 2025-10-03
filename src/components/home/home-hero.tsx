@@ -31,14 +31,14 @@ export default function HomeHero() {
             <LabelIcon className="size-4" />
           </Link>
 
-          <h1 className="max-w-5xl font-bold text-balance text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="max-w-5xl font-bold text-balance text-cream text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
             {heroConfig.title.first}{" "}
             <span className="text-gradient_blue-orange font-bold">
               {heroConfig.title.second}
             </span>
           </h1>
 
-          <p className="max-w-4xl text-balance text-muted-foreground sm:text-xl lg:text-left">
+          <p className="max-w-4xl text-balance text-cream/90 sm:text-xl lg:text-left">
             {heroConfig.subtitle}
           </p>
 
@@ -73,7 +73,7 @@ export default function HomeHero() {
           </div>
 
           {/* Vendor link */}
-          <p className="text-sm text-charcoal/60 mt-2">
+          <p className="text-sm text-cream/80 mt-2">
             Are you a coach, photographer, or rep?{" "}
             <Link
               href="/list-your-business"

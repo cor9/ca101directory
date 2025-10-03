@@ -56,27 +56,19 @@ const config = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // Brand colors matching logo
-        "brand-orange": {
-          DEFAULT: "hsl(var(--brand-orange))",
-          light: "hsl(var(--brand-orange-light))",
-          dark: "hsl(var(--brand-orange-dark))",
-        },
-        "brand-blue": {
-          DEFAULT: "hsl(var(--brand-blue))",
-          light: "hsl(var(--brand-blue-light))",
-          dark: "hsl(var(--brand-blue-dark))",
-        },
-        "brand-yellow": {
-          DEFAULT: "hsl(var(--brand-yellow))",
-          light: "hsl(var(--brand-yellow-light))",
-          dark: "hsl(var(--brand-yellow-dark))",
-        },
-        "brand-purple": {
-          DEFAULT: "hsl(var(--brand-purple))",
-          light: "hsl(var(--brand-purple-light))",
-          dark: "hsl(var(--brand-purple-dark))",
-        },
+        // New Design System Colors
+        cream: "hsl(var(--cream))",
+        charcoal: "hsl(var(--charcoal))",
+        "retro-blue": "hsl(var(--retro-blue))",
+        "tomato-red": "hsl(var(--tomato-red))",
+        "mustard-gold": "hsl(var(--mustard-gold))",
+        "muted-teal": "hsl(var(--muted-teal))",
+        
+        // Category-specific colors
+        coaches: "hsl(var(--coaches-color))",
+        photographers: "hsl(var(--photographers-color))",
+        editors: "hsl(var(--editors-color))",
+        studios: "hsl(var(--studios-color))",
       },
       borderRadius: {
         lg: "var(--radius)",

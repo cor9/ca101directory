@@ -71,8 +71,8 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
   return (
     <Card
       className={cn(
-        "group hover:shadow-lg transition-all duration-300 border-border",
-        planPriority >= 3 && "ring-1 ring-brand-orange/20",
+        "group hover:shadow-lg transition-all duration-300 bg-cream border-cream hover:shadow-tomato-red/10",
+        planPriority >= 3 && "ring-1 ring-tomato-red/20",
         className,
       )}
     >
@@ -90,7 +90,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
               </div>
             )}
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-lg text-card-foreground group-hover:text-brand-blue transition-colors line-clamp-1">
+              <h3 className="font-semibold text-lg text-charcoal group-hover:text-retro-blue transition-colors line-clamp-1">
                 {listing.listing_name || "Untitled Listing"}
               </h3>
               <div className="flex items-center gap-2 mt-1">
@@ -116,19 +116,19 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
                   if (listing.comped) {
                     badgeText = "Pro";
                     badgeVariant = "default";
-                    badgeClassName = "text-xs bg-brand-blue text-white";
+                    badgeClassName = "text-xs bg-retro-blue text-cream";
                   } else if (listing.plan === "pro") {
                     badgeText = "Pro";
                     badgeVariant = "default";
-                    badgeClassName = "text-xs bg-brand-blue text-white";
+                    badgeClassName = "text-xs bg-retro-blue text-cream";
                   } else if (listing.plan === "standard") {
                     badgeText = "Standard";
                     badgeVariant = "secondary";
-                    badgeClassName = "text-xs bg-gray-100 text-gray-800";
+                    badgeClassName = "text-xs bg-mustard-gold text-cream";
                   } else if (listing.plan === "premium") {
                     badgeText = "Featured";
                     badgeVariant = "default";
-                    badgeClassName = "text-xs bg-brand-orange text-white";
+                    badgeClassName = "text-xs bg-tomato-red text-cream";
                   }
 
                   return (
@@ -141,19 +141,19 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
             </div>
           </div>
           {planPriority >= 3 && (
-            <StarIcon className="w-5 h-5 text-brand-orange" />
+            <StarIcon className="w-5 h-5 text-tomato-red" />
           )}
         </div>
       </CardHeader>
 
       <CardContent className="pb-3">
-        <p className="text-muted-foreground text-sm line-clamp-2 mb-4">
+        <p className="text-charcoal/70 text-sm line-clamp-2 mb-4">
           {listing.what_you_offer || "Professional acting services"}
         </p>
 
         {/* Location */}
         {(listing.city || listing.state || listing.region) && (
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+          <div className="flex items-center gap-2 text-sm text-charcoal/60 mb-3">
             <MapPinIcon className="w-4 h-4" />
             <span>
               {[listing.city, listing.state, listing.region]
@@ -171,7 +171,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
               readonly
               size="sm"
             />
-            <span className="text-muted-foreground">
+            <span className="text-charcoal/60">
               {averageRating.average.toFixed(1)} ({averageRating.count} review
               {averageRating.count !== 1 ? "s" : ""})
             </span>
@@ -182,12 +182,12 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
         {categories.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-3">
             {categories.slice(0, 2).map((category) => (
-              <Badge key={category} variant="outline" className="text-xs">
+              <Badge key={category} variant="outline" className="text-xs border-retro-blue text-retro-blue">
                 {category}
               </Badge>
             ))}
             {categories.length > 2 && (
-              <Badge variant="outline" className="text-xs">
+              <Badge variant="outline" className="text-xs border-retro-blue text-retro-blue">
                 +{categories.length - 2} more
               </Badge>
             )}
@@ -201,7 +201,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
               <Badge
                 key={age}
                 variant="secondary"
-                className="text-xs bg-brand-blue/10 text-brand-blue"
+                className="text-xs bg-mustard-gold/10 text-mustard-gold"
               >
                 {age}
               </Badge>
@@ -209,7 +209,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
             {ageRange.length > 3 && (
               <Badge
                 variant="secondary"
-                className="text-xs bg-brand-blue/10 text-brand-blue"
+                className="text-xs bg-mustard-gold/10 text-mustard-gold"
               >
                 +{ageRange.length - 3}
               </Badge>
@@ -243,7 +243,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
               />
             )}
           </div>
-          <Button size="sm" asChild>
+          <Button size="sm" asChild className="bg-tomato-red hover:bg-tomato-red/90 text-cream">
             <Link href={`/listing/${slug}`}>View Details</Link>
           </Button>
         </div>

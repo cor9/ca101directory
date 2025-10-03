@@ -27,6 +27,7 @@ type BaseSubmitFormData = {
   zip: string;
   region: string;
   bondNumber: string;
+  active?: boolean;
 };
 
 export type SubmitFormData = BaseSubmitFormData;
@@ -71,6 +72,7 @@ export async function submitToSupabase(
       region,
       bondNumber,
       gallery,
+      active,
     } = SubmitSchema.parse(formData);
 
     console.log(

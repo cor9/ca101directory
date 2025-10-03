@@ -82,6 +82,7 @@ export function SupabaseSubmitForm({
     zip: existingListing?.zip?.toString() || "",
     region: "",
     bondNumber: "",
+    active: true,
   });
 
   const [isImageUploading, setIsImageUploading] = useState(false);
@@ -520,7 +521,7 @@ export function SupabaseSubmitForm({
             <div className="grid grid-cols-2 gap-4">
               {Array.from({ length: getMaxGalleryImages() }).map((_, index) => (
                 <div
-                  key={index}
+                  key={`gallery-${index}`}
                   className="h-32 border-2 border-dashed border-gray-300 rounded-lg"
                 >
                   <ImageUpload

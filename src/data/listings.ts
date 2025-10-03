@@ -27,7 +27,7 @@ export type Listing = {
   verification_status: string | null;
   gallery: string | null;
   status: string | null; // constrained to 'draft', 'pending', 'published', 'rejected', 'archived'
-  
+
   // New boolean fields (replacing old text fields)
   is_active: boolean | null;
   is_claimed: boolean | null;
@@ -36,7 +36,7 @@ export type Listing = {
   is_bonded: boolean | null;
   has_gallery: boolean | null;
   comped: boolean | null;
-  
+
   // Additional new fields
   owner_id: string | null; // UUID reference to users
   primary_category_id: string | null; // UUID reference to categories
@@ -45,7 +45,7 @@ export type Listing = {
   location: string | null; // POINT type
   featured: boolean | null;
   priority: number | null;
-  
+
   created_at: string | null;
   updated_at: string | null;
 };
@@ -66,9 +66,19 @@ export async function getPublicListings(params?: {
   if (params?.city) query = query.eq("city", params.city);
   if (params?.category) {
     console.log("getPublicListings: Filtering by category:", params.category);
-    // categories contains array of words that can be combined to match category names
-    // Check if the category name is contained in any combination of the categories array
-    query = query.or(`categories.cs.{${params.category}},categories.cd.{${params.category}}`);
+    // Handle special cases for multi-word categories
+    if (params.category === "Talent Managers") {
+      // Look for listings that have both "Talent" and "Managers" in categories
+      query = query.or(
+        `categories.cs.{Talent},categories.cs.{Managers}`
+      );
+    } else {
+      // categories contains array of words that can be combined to match category names
+      // Check if the category name is contained in any combination of the categories array
+      query = query.or(
+        `categories.cs.{${params.category}},categories.cd.{${params.category}}`,
+      );
+    }
   }
   if (params?.q)
     query = query.or(
@@ -81,9 +91,7 @@ export async function getPublicListings(params?: {
     );
 
   // Only show approved/active listings (using new boolean fields)
-  query = query
-    .eq("status", "published")
-    .eq("is_active", true);
+  query = query.eq("status", "published").eq("is_active", true);
 
   console.log("getPublicListings: Query built, executing...");
 
@@ -120,14 +128,18 @@ export async function getListingBySlug(slug: string) {
   console.log("getListingBySlug: Looking for slug:", slug);
 
   // First try to find by UUID (if it looks like a UUID)
-  if (slug.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
+  if (
+    slug.match(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
+    )
+  ) {
     console.log("getListingBySlug: Treating as UUID");
     const { data, error } = await supabase
       .from("listings")
       .select("*")
       .eq("id", slug)
       .single();
-    
+
     if (data && !error) {
       console.log("getListingBySlug: Found by UUID:", data.listing_name);
       return data as Listing;
@@ -148,7 +160,7 @@ export async function getListingBySlug(slug: string) {
   }
 
   console.log("getListingBySlug: Checking", nameData?.length || 0, "listings");
-  
+
   // Find listing where generated slug matches
   const listing = nameData?.find((item) => {
     const generatedSlug =
@@ -156,19 +168,22 @@ export async function getListingBySlug(slug: string) {
         ?.toLowerCase()
         .replace(/\s+/g, "-")
         .replace(/[^a-z0-9-]/g, "") || item.id;
-    
+
     console.log("getListingBySlug: Comparing", {
       listingName: item.listing_name,
       generatedSlug,
       targetSlug: slug,
-      match: generatedSlug === slug
+      match: generatedSlug === slug,
     });
-    
+
     return generatedSlug === slug;
   });
 
   if (listing) {
-    console.log("getListingBySlug: Found by generated slug:", listing.listing_name);
+    console.log(
+      "getListingBySlug: Found by generated slug:",
+      listing.listing_name,
+    );
     return listing as Listing;
   }
 

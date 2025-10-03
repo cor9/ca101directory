@@ -26,7 +26,8 @@ export function GalleryUpload({
     async (acceptedFiles: File[]) => {
       if (acceptedFiles.length === 0) return;
 
-      const availableSlots = maxImages - currentImages.filter(img => img).length;
+      const availableSlots =
+        maxImages - currentImages.filter((img) => img).length;
       const filesToUpload = acceptedFiles.slice(0, availableSlots);
 
       if (filesToUpload.length < acceptedFiles.length) {
@@ -34,22 +35,26 @@ export function GalleryUpload({
       }
 
       onUploadingChange(true);
-      
+
       // Find available slots
       const availableIndexes: number[] = [];
       const newImages = [...currentImages];
-      
+
       for (let i = 0; i < maxImages; i++) {
         if (!newImages[i] || newImages[i] === "") {
           availableIndexes.push(i);
         }
       }
 
-      for (let i = 0; i < filesToUpload.length && i < availableIndexes.length; i++) {
+      for (
+        let i = 0;
+        i < filesToUpload.length && i < availableIndexes.length;
+        i++
+      ) {
         const file = filesToUpload[i];
         const index = availableIndexes[i];
-        setUploadingFiles(prev => new Set([...prev, index]));
-            
+        setUploadingFiles((prev) => new Set([...prev, index]));
+
         // Upload image inline
         try {
           const formData = new FormData();
@@ -70,20 +75,22 @@ export function GalleryUpload({
           }
         } catch (error) {
           console.error("Upload error:", error);
-          toast.error(`Failed to upload image: ${error instanceof Error ? error.message : "Unknown error"}`);
+          toast.error(
+            `Failed to upload image: ${error instanceof Error ? error.message : "Unknown error"}`,
+          );
         }
-        
-        setUploadingFiles(prev => {
+
+        setUploadingFiles((prev) => {
           const newSet = new Set(prev);
           newSet.delete(index);
           return newSet;
         });
       }
-      
+
       onImagesChange(newImages);
       onUploadingChange(false);
     },
-    [currentImages, maxImages, onImagesChange, onUploadingChange]
+    [currentImages, maxImages, onImagesChange, onUploadingChange],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -113,15 +120,17 @@ export function GalleryUpload({
           isDragActive
             ? "border-brand-blue bg-brand-blue/10"
             : "border-gray-300 hover:border-gray-400",
-          maxImages === 0 && "opacity-50 cursor-not-allowed"
+          maxImages === 0 && "opacity-50 cursor-not-allowed",
         )}
       >
         <input {...getInputProps()} disabled={maxImages === 0} />
         <div className="space-y-2">
-          <ImageUpIcon className={cn(
-            "w-8 h-8 mx-auto",
-            isDragActive ? "text-brand-blue" : "text-gray-400"
-          )} />
+          <ImageUpIcon
+            className={cn(
+              "w-8 h-8 mx-auto",
+              isDragActive ? "text-brand-blue" : "text-gray-400",
+            )}
+          />
           <div className="space-y-1">
             {maxImages === 0 ? (
               <p className="text-sm text-gray-500">
@@ -130,7 +139,9 @@ export function GalleryUpload({
             ) : (
               <>
                 <p className="text-sm text-gray-600">
-                  {isDragActive ? "Drop images here" : "Drag & drop images here, or click to select"}
+                  {isDragActive
+                    ? "Drop images here"
+                    : "Drag & drop images here, or click to select"}
                 </p>
                 <p className="text-xs text-gray-500">
                   Up to {maxImages} images • JPG, PNG, WebP up to 5MB each
@@ -147,7 +158,7 @@ export function GalleryUpload({
           {Array.from({ length: maxImages }).map((_, index) => {
             const image = currentImages[index];
             const isUploading = uploadingFiles.has(index);
-            
+
             return (
               <div
                 key={`gallery-slot-${index}-${maxImages}`}

@@ -12,7 +12,7 @@ export const homeConfig: HomeConfig = {
       title: "Transparent",
       description:
         "You see what's offered, where they are, and how they work. Clear, simple, honest.",
-      icon: "eye",
+      icon: "check",
     },
     {
       title: "Supportive",

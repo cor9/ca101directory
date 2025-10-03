@@ -58,7 +58,7 @@ export default async function EditPage({ params }: { params: { id: string } }) {
           Update your listing information and images
         </p>
       </div>
-      
+
       <EditForm listing={listing} categories={formCategories} />
     </div>
   );

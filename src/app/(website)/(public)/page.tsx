@@ -12,8 +12,8 @@ import ItemGrid from "@/components/item/item-grid";
 import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 import SearchBox from "@/components/search/search-box";
 import { siteConfig } from "@/config/site";
-import { getItems } from "@/data/item-service";
 import { getCategories } from "@/data/categories";
+import { getItems } from "@/data/item-service";
 import { DEFAULT_SORT, ITEMS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import Script from "next/script";
@@ -62,114 +62,40 @@ export default async function HomePage() {
       />
 
       <div className="flex min-h-screen flex-col">
-        {/* Hero Section */}
+        {/* 1. Hero Section */}
         <Container className="mt-8 mb-20">
           <HomeHero />
         </Container>
 
-        {/* Value Props Section */}
+        {/* 2. Why Families Choose Us */}
         <HomeValueProps />
 
-        {/* How It Works Section */}
-        <Container className="py-16">
-          <HomeHowItWorks />
+        {/* 3. Vendor Ribbon CTA */}
+        <Container className="py-8">
+          <div className="bg-gradient-to-r from-retro-blue/10 to-tomato-red/10 border border-retro-blue/20 rounded-lg p-6 text-center">
+            <p className="text-lg text-charcoal mb-2">
+              Are you a coach, photographer, or rep?{" "}
+              <a 
+                href="/list-your-business" 
+                className="text-retro-blue hover:text-tomato-red font-semibold transition-colors"
+              >
+                List your business here →
+              </a>
+            </p>
+          </div>
         </Container>
 
-        {/* Parent CTA Section */}
-        <Container className="py-16">
-          <HomeParentCta />
-        </Container>
-
-        {/* Featured Listings Section */}
+        {/* 4. Featured Vendors */}
         <Container className="py-16">
           <HomeFeaturedListings />
         </Container>
 
-        {/* Directory Preview Section */}
+        {/* 5. How It Works (for Families) */}
         <Container className="py-16">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-tomato-red to-mustard-gold rounded-full mb-4 shadow-lg">
-              <svg
-                className="w-8 h-8 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </div>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-retro-blue via-tomato-red to-mustard-gold bg-clip-text text-transparent mb-4">
-              Browse Our Directory
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Search and filter through our complete directory of{" "}
-              <span className="font-bold text-tomato-red">{totalCount}</span>{" "}
-              vetted child actor professionals.
-            </p>
-          </div>
-
-          {/* Search Bar */}
-          <div className="mb-8">
-            <SearchBox urlPrefix="/directory" />
-          </div>
-
-          {/* Filters */}
-          <div className="mb-8">
-            <DirectoryFilters className="mb-8" categories={categories} />
-          </div>
-
-          {/* Listings Grid */}
-          <div id="search-results">
-            <ItemGrid
-              items={previewItems}
-              sponsorItems={[]}
-              showSponsor={false}
-            />
-          </div>
-
-          {/* View More Button */}
-          <div className="text-center mt-12">
-            <a
-              href="/directory"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-brand-orange to-brand-yellow text-white font-semibold rounded-xl hover:from-brand-orange-dark hover:to-brand-yellow-dark transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              <svg
-                className="w-5 h-5 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                />
-              </svg>
-              View All {totalCount} Professionals
-            </a>
-          </div>
+          <HomeHowItWorks />
         </Container>
 
-        {/* Vendor CTA Section */}
-        <Container className="py-16">
-          <HomeVendorCta />
-        </Container>
-
-        {/* Pricing Preview Section */}
-        <Container className="py-16">
-          <HomePricingPreview />
-        </Container>
-
-        {/* FAQ Section */}
-        <HomeFAQ />
-
-        {/* Newsletter Section */}
+        {/* 6. Newsletter Signup (Families) */}
         <Container className="py-16">
           <NewsletterCard />
         </Container>

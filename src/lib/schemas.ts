@@ -45,9 +45,12 @@ export const baseSubmitSchema = {
   zip: z.string().optional(),
   region: z.string().optional(),
   bondNumber: z.string().optional(),
-  plan: z.enum(["Free", "Standard", "Pro", "Founding Standard", "Founding Pro"], {
-    required_error: "Please select a plan",
-  }),
+  plan: z.enum(
+    ["Free", "Standard", "Pro", "Founding Standard", "Founding Pro"],
+    {
+      required_error: "Please select a plan",
+    },
+  ),
   performerPermit: z.boolean().optional(), // Make optional for testing
   bonded: z.boolean().optional(),
   tags: z.array(z.string()).min(1, { message: "Must select at least one tag" }),

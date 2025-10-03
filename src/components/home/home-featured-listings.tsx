@@ -83,10 +83,10 @@ export default async function HomeFeaturedListings() {
     listings = fallbackListings;
   }
   return (
-    <section className="py-16 bg-gradient-to-b from-muted/50 to-background">
+    <section className="py-16">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold mb-4">Featured Professionals</h2>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+        <h2 className="text-3xl font-bold mb-4 text-charcoal">Featured Professionals</h2>
+        <p className="text-lg text-charcoal/70 max-w-2xl mx-auto">
           Hand-picked professionals trusted by families across the industry
         </p>
       </div>
@@ -95,21 +95,21 @@ export default async function HomeFeaturedListings() {
         {listings.map((listing) => (
           <div
             key={listing.id}
-            className="bg-card rounded-xl shadow-sm border border-border overflow-hidden hover:shadow-lg transition-all duration-300"
+            className="bg-cream border border-cream rounded-xl shadow-sm overflow-hidden hover:shadow-lg hover:border-retro-blue transition-all duration-300"
           >
-            <div className="relative">
+            <div className="relative aspect-[3/2]">
               <Image
                 src={listing.image}
                 alt={listing.name}
                 width={400}
-                height={200}
-                className={`w-full h-48 object-cover ${
+                height={267}
+                className={`w-full h-full object-cover ${
                   listing.name === "Coaching with Corey" ? "bg-muted p-4" : ""
                 }`}
               />
               {listing.featured && (
                 <div className="absolute top-4 left-4">
-                  <span className="bg-brand-blue text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  <span className="bg-retro-blue text-cream px-3 py-1 rounded-full text-sm font-semibold">
                     Featured
                   </span>
                 </div>
@@ -118,13 +118,13 @@ export default async function HomeFeaturedListings() {
 
             <div className="p-6">
               <div className="flex items-start justify-between mb-3">
-                <h3 className="font-semibold text-lg text-card-foreground">
+                <h3 className="font-semibold text-lg text-charcoal">
                   {listing.name}
                 </h3>
-                <Icons.externalLink className="h-4 w-4 text-muted-foreground" />
+                <Icons.externalLink className="h-4 w-4 text-charcoal/60" />
               </div>
 
-              <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+              <p className="text-charcoal/70 text-sm mb-4 line-clamp-4">
                 {listing.description}
               </p>
 
@@ -132,7 +132,7 @@ export default async function HomeFeaturedListings() {
                 {listing.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
-                    className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-full"
+                    className="px-2 py-1 bg-retro-blue/10 text-retro-blue text-xs rounded-full"
                   >
                     {tag}
                   </span>
@@ -140,7 +140,7 @@ export default async function HomeFeaturedListings() {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm text-charcoal/60">
                   {listing.category}
                 </span>
                 <Link
@@ -148,7 +148,7 @@ export default async function HomeFeaturedListings() {
                     .toLowerCase()
                     .replace(/\s+/g, "-")
                     .replace(/[^a-z0-9-]/g, "")}`}
-                  className="text-brand-blue hover:text-brand-blue-dark text-sm font-semibold"
+                  className="text-retro-blue hover:text-tomato-red text-sm font-semibold transition-colors"
                 >
                   View Listing →
                 </Link>
@@ -160,11 +160,11 @@ export default async function HomeFeaturedListings() {
 
       <div className="text-center mt-12">
         <Link
-          href="/search"
-          className="inline-flex items-center px-6 py-3 bg-brand-blue text-white rounded-lg hover:bg-brand-blue-dark transition-colors font-semibold"
+          href="/directory"
+          className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-retro-blue to-tomato-red text-cream rounded-xl hover:from-retro-blue/90 hover:to-tomato-red/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-semibold"
         >
-          View All Professionals
-          <Icons.arrowRight className="ml-2 h-4 w-4" />
+          View All Listings
+          <Icons.arrowRight className="ml-2 h-5 w-5" />
         </Link>
       </div>
     </section>

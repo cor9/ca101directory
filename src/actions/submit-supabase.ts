@@ -120,7 +120,7 @@ export async function submitToSupabase(
 
     let data: any;
     let error: any;
-    
+
     if (formData.isEdit && formData.listingId) {
       // Update existing listing
       console.log("Updating existing listing:", formData.listingId);
@@ -132,7 +132,7 @@ export async function submitToSupabase(
         is_claimed: undefined, // Don't change claimed status on edit
         updated_at: new Date().toISOString(),
       };
-      
+
       ({ data, error } = await supabase
         .from("listings")
         .update(updateData)
@@ -153,7 +153,7 @@ export async function submitToSupabase(
       console.error("Supabase error:", error);
       return {
         status: "error",
-        message: `Failed to ${formData.isEdit ? 'update' : 'submit'} listing: ${error.message}`,
+        message: `Failed to ${formData.isEdit ? "update" : "submit"} listing: ${error.message}`,
       };
     }
 
@@ -165,7 +165,9 @@ export async function submitToSupabase(
 
     return {
       status: "success",
-      message: formData.isEdit ? "Successfully updated listing" : "Successfully submitted listing",
+      message: formData.isEdit
+        ? "Successfully updated listing"
+        : "Successfully submitted listing",
       id: data.id,
       listingId: data.id,
     };

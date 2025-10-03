@@ -77,11 +77,18 @@ const categoryIconMap: Record<string, keyof typeof Icons> = {
 // Helper function to get category-specific accent color
 const getCategoryAccentColor = (categoryName: string) => {
   const name = categoryName.toLowerCase();
-  if (name.includes('coach') || name.includes('acting')) return 'retro-blue';
-  if (name.includes('photo') || name.includes('headshot')) return 'mustard-gold';
-  if (name.includes('edit') || name.includes('reel') || name.includes('video')) return 'muted-teal';
-  if (name.includes('studio') || name.includes('space') || name.includes('venue')) return 'tomato-red';
-  return 'retro-blue'; // default
+  if (name.includes("coach") || name.includes("acting")) return "retro-blue";
+  if (name.includes("photo") || name.includes("headshot"))
+    return "mustard-gold";
+  if (name.includes("edit") || name.includes("reel") || name.includes("video"))
+    return "muted-teal";
+  if (
+    name.includes("studio") ||
+    name.includes("space") ||
+    name.includes("venue")
+  )
+    return "tomato-red";
+  return "retro-blue"; // default
 };
 
 export default async function HomeCategoryGrid() {
@@ -148,11 +155,15 @@ export default async function HomeCategoryGrid() {
             >
               <div className="bg-cream border border-cream rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:border-retro-blue hover:bg-cream/90">
                 <div className="flex items-center mb-4">
-                  <div className={`p-3 bg-${accentColor} rounded-lg group-hover:bg-${accentColor}/90 transition-colors`}>
+                  <div
+                    className={`p-3 bg-${accentColor} rounded-lg group-hover:bg-${accentColor}/90 transition-colors`}
+                  >
                     <IconComponent className="h-6 w-6 text-cream" />
                   </div>
                   <div className="ml-4 flex-1">
-                    <h3 className={`font-semibold text-lg text-charcoal group-hover:text-${accentColor} transition-colors`}>
+                    <h3
+                      className={`font-semibold text-lg text-charcoal group-hover:text-${accentColor} transition-colors`}
+                    >
                       {category.name}
                     </h3>
                     {category.count && (

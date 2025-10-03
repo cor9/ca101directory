@@ -5,15 +5,15 @@ import { NewsletterForm } from "./newsletter-form";
 
 export function NewsletterCard() {
   return (
-    <div className="w-full px-4 py-8 md:p-12 bg-muted rounded-lg">
+    <div className="w-full px-4 py-8 md:p-12 bg-cream border border-cream rounded-lg">
       <div className="flex flex-col items-center justify-center gap-8">
         <HeaderSection
           id="newsletter"
           labelAs="h2"
           label="Newsletter"
-          title="Join the Community"
+          title="Join 12,000+ families for tips, insights, and trusted vendor spotlights"
           titleAs="h3"
-          subtitle="Subscribe to our newsletter for the latest news and updates"
+          subtitle="Get weekly updates on industry trends, featured professionals, and exclusive resources for your child's acting journey"
         />
 
         <NewsletterForm />

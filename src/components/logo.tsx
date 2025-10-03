@@ -12,11 +12,11 @@ interface LogoProps {
   variant?: "default" | "hero" | "minimal";
 }
 
-export function Logo({ 
-  className, 
-  size = "md", 
-  showText = true, 
-  variant = "default" 
+export function Logo({
+  className,
+  size = "md",
+  showText = true,
+  variant = "default",
 }: LogoProps) {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -34,16 +34,16 @@ export function Logo({
 
   const sizeClasses = {
     sm: "h-6 w-auto",
-    md: "h-8 w-auto", 
+    md: "h-8 w-auto",
     lg: "h-12 w-auto",
-    xl: "h-16 w-auto"
+    xl: "h-16 w-auto",
   };
 
   const textSizeClasses = {
     sm: "text-sm",
     md: "text-lg",
-    lg: "text-xl", 
-    xl: "text-2xl"
+    lg: "text-xl",
+    xl: "text-2xl",
   };
 
   if (variant === "minimal") {
@@ -67,11 +67,20 @@ export function Logo({
             src={logo}
             alt="Child Actor 101 Directory"
             title="Child Actor 101 Directory"
-            className={cn(sizeClasses[size], "relative rounded-lg drop-shadow-lg", className)}
+            className={cn(
+              sizeClasses[size],
+              "relative rounded-lg drop-shadow-lg",
+              className,
+            )}
           />
         </div>
         {showText && (
-          <span className={cn("font-bold text-gradient_blue-orange", textSizeClasses[size])}>
+          <span
+            className={cn(
+              "font-bold text-gradient_blue-orange",
+              textSizeClasses[size],
+            )}
+          >
             {siteConfig.name}
           </span>
         )}

@@ -247,11 +247,11 @@ export default async function VendorDashboard() {
                             </Link>
                           </Button>
                           <Button size="sm" asChild>
-                            <Link href="/dashboard/vendor/edit">
-                              <EditIcon className="w-4 h-4 mr-1" />
-                              Edit
-                            </Link>
-                          </Button>
+                              <Link href={`/edit/${listing.id}`}>
+                                <EditIcon className="w-4 h-4 mr-1" />
+                                Edit
+                              </Link>
+                            </Button>
                         </div>
                       </div>
                     </CardContent>
@@ -276,7 +276,7 @@ export default async function VendorDashboard() {
                   </Button>
                   {userListings.length > 0 && (
                     <Button variant="outline" size="sm" asChild>
-                      <Link href="/dashboard/vendor/edit">
+                      <Link href={`/edit/${userListings[0]?.id}`}>
                         <EditIcon className="w-4 h-4 mr-1" />
                         Edit Listing
                       </Link>

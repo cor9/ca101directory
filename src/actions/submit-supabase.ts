@@ -35,6 +35,7 @@ export type ServerActionResponse = {
   status: "success" | "error";
   message?: string;
   id?: string;
+  listingId?: string;
 };
 
 /**
@@ -139,6 +140,7 @@ export async function submitToSupabase(
       status: "success",
       message: "Successfully submitted listing",
       id: data.id,
+      listingId: data.id,
     };
   } catch (error) {
     console.log("submitToSupabase, error", error);

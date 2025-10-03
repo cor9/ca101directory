@@ -101,7 +101,7 @@ export async function submitToSupabase(
       categories: categories.join(","),
       age_range: tags.join(","),
       profile_image: imageId,
-      gallery: null, // TODO: Handle gallery uploads
+      gallery: formData.gallery || null,
       plan: plan,
       ca_performer_permit: performerPermit,
       bonded_for_advanced_fees: bonded,

@@ -13,11 +13,11 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: "No file provided" }, { status: 400 });
     }
 
-    // Validate file size (200KB limit)
-    const maxSizeInBytes = 200 * 1024;
+    // Validate file size (5MB limit)
+    const maxSizeInBytes = 5 * 1024 * 1024;
     if (file.size > maxSizeInBytes) {
       return Response.json(
-        { error: "File must be under 200KB" },
+        { error: "File must be under 5MB" },
         { status: 400 },
       );
     }

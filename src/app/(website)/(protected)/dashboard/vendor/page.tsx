@@ -241,14 +241,7 @@ export default async function VendorDashboard() {
                         </div>
                         <div className="flex items-center gap-2">
                           <Button variant="outline" size="sm" asChild>
-                            <Link
-                              href={`/listing/${
-                                listing.listing_name
-                                  ?.toLowerCase()
-                                  .replace(/\s+/g, "-")
-                                  .replace(/[^a-z0-9-]/g, "") || listing.id
-                              }`}
-                            >
+                            <Link href={`/listing/${listing.id}`}>
                               <ExternalLinkIcon className="w-4 h-4 mr-1" />
                               View
                             </Link>

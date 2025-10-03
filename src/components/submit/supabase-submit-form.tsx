@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import ImageUpload from "@/components/shared/image-upload";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -82,6 +83,8 @@ export function SupabaseSubmitForm({
     region: "",
     bondNumber: "",
   });
+
+  const [isImageUploading, setIsImageUploading] = useState(false);
 
   const handleInputChange = (
     field: string,
@@ -160,8 +163,12 @@ export function SupabaseSubmitForm({
                 value={formData.name}
                 onChange={(e) => handleInputChange("name", e.target.value)}
                 placeholder="Your business name"
+                maxLength={32}
                 required
               />
+              <p className="text-xs text-muted-foreground">
+                {formData.name.length}/32 characters
+              </p>
             </div>
 
             <div className="space-y-2">
@@ -173,8 +180,12 @@ export function SupabaseSubmitForm({
                   handleInputChange("description", e.target.value)
                 }
                 placeholder="Describe your services"
+                maxLength={256}
                 required
               />
+              <p className="text-xs text-muted-foreground">
+                {formData.description.length}/256 characters
+              </p>
             </div>
 
             <div className="space-y-2">
@@ -215,11 +226,9 @@ export function SupabaseSubmitForm({
                   <SelectValue placeholder="Select service format" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Online Only">Online Only</SelectItem>
-                  <SelectItem value="In-Person Only">In-Person Only</SelectItem>
-                  <SelectItem value="Hybrid (Online & In-Person)">
-                    Hybrid (Online & In-Person)
-                  </SelectItem>
+                  <SelectItem value="Online">Online</SelectItem>
+                  <SelectItem value="In-person">In-Person</SelectItem>
+                  <SelectItem value="Hybrid">Hybrid</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -471,9 +480,33 @@ export function SupabaseSubmitForm({
             />
           </div>
 
+          {/* Image Upload */}
+          <div className="space-y-2">
+            <Label>Profile Image</Label>
+            <div className="h-48 border-2 border-dashed border-gray-300 rounded-lg">
+              <ImageUpload
+                currentImageUrl={formData.imageId}
+                onUploadChange={(status) => {
+                  setIsImageUploading(status.isUploading);
+                  if (status.imageId) {
+                    handleInputChange("imageId", status.imageId);
+                  }
+                }}
+                type="image"
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Upload a professional photo or logo for your listing
+            </p>
+          </div>
+
           {/* Submit Button */}
-          <Button type="submit" disabled={isSubmitting} className="w-full">
-            {isSubmitting ? "Submitting..." : "Submit Listing"}
+          <Button 
+            type="submit" 
+            disabled={isSubmitting || isImageUploading} 
+            className="w-full"
+          >
+            {isSubmitting ? "Submitting..." : isImageUploading ? "Uploading Image..." : "Submit Listing"}
           </Button>
         </form>
       </CardContent>

@@ -52,7 +52,7 @@ export default async function VendorDashboard() {
     (listing) => listing.owner_id === session.user.id,
   );
   const activeListings = userListings.filter(
-    (listing) => listing.status === "published" && listing.is_active === true,
+    (listing) => listing.status === "Live" && listing.is_active === true,
   );
 
   // Calculate stats

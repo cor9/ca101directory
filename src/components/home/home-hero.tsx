@@ -6,6 +6,7 @@ import { SearchIcon } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import HomeSearchBox from "./home-search-box";
+import { LoginWrapper } from "@/components/auth/login-button";
 
 export default function HomeHero() {
   const LabelIcon = Icons[heroConfig.label.icon];
@@ -58,19 +59,29 @@ export default function HomeHero() {
 
           {/* Auth buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
+            <LoginWrapper mode="redirect" defaultRole="parent">
+              <button className="bg-tomato-red hover:bg-tomato-red/90 text-cream px-8 py-3 rounded-lg font-semibold transition-colors">
+                Sign In
+              </button>
+            </LoginWrapper>
             <Link
-              href="/auth/login"
-              className="bg-tomato-red hover:bg-tomato-red/90 text-cream px-8 py-3 rounded-lg font-semibold transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/auth/register"
+              href="/auth/register?role=parent"
               className="border-2 border-retro-blue text-retro-blue hover:bg-retro-blue hover:text-cream px-8 py-3 rounded-lg font-semibold transition-colors"
             >
-              Get Started Free
+              Join Free
             </Link>
           </div>
+          
+          {/* Vendor link */}
+          <p className="text-sm text-charcoal/60 mt-2">
+            Are you a coach, photographer, or rep?{" "}
+            <Link 
+              href="/list-your-business" 
+              className="text-retro-blue hover:text-tomato-red font-semibold transition-colors"
+            >
+              List your business here →
+            </Link>
+          </p>
         </div>
 
         {/* Right side - Hero Logo */}

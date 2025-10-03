@@ -85,7 +85,9 @@ export default async function HomeFeaturedListings() {
   return (
     <section className="py-16">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold mb-4 text-charcoal">Featured Professionals</h2>
+        <h2 className="text-3xl font-bold mb-4 text-charcoal">
+          Featured Professionals
+        </h2>
         <p className="text-lg text-charcoal/70 max-w-2xl mx-auto">
           Hand-picked professionals trusted by families across the industry
         </p>

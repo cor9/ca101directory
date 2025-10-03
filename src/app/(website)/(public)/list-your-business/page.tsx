@@ -1,12 +1,12 @@
 import Container from "@/components/container";
-import { constructMetadata } from "@/lib/metadata";
-import { siteConfig } from "@/config/site";
-import VendorHero from "@/components/vendor/vendor-hero";
-import VendorValueProps from "@/components/vendor/vendor-value-props";
-import VendorPricing from "@/components/vendor/vendor-pricing";
-import VendorTestimonials from "@/components/vendor/vendor-testimonials";
 import VendorFAQ from "@/components/vendor/vendor-faq";
 import VendorFinalCta from "@/components/vendor/vendor-final-cta";
+import VendorHero from "@/components/vendor/vendor-hero";
+import VendorPricing from "@/components/vendor/vendor-pricing";
+import VendorTestimonials from "@/components/vendor/vendor-testimonials";
+import VendorValueProps from "@/components/vendor/vendor-value-props";
+import { siteConfig } from "@/config/site";
+import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
   title: "List Your Business - Child Actor 101 Directory",

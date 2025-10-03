@@ -67,6 +67,9 @@ export const publicRoutes = [
   // claim and upgrade routes (public)
   "/claim-upgrade(/.*)?",
 
+  // vendor landing page (public)
+  "/list-your-business",
+
   // test pages
   "/shadcn(/.*)?",
   "/loading(/.*)?",

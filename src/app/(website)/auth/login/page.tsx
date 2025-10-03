@@ -1,15 +1,13 @@
+"use client";
+
 import { LoginForm } from "@/components/auth/login-form";
-import { siteConfig } from "@/config/site";
-import { constructMetadata } from "@/lib/metadata";
+import { useSearchParams } from "next/navigation";
 
-export const metadata = constructMetadata({
-  title: "Login",
-  description: "Login to your account",
-  canonicalUrl: `${siteConfig.url}/auth/login`,
-});
-
-const LoginPage = () => {
-  return <LoginForm className="border-none" />;
+const LoginPageClient = () => {
+  const searchParams = useSearchParams();
+  const role = searchParams.get("role") as "parent" | "vendor" | null;
+  
+  return <LoginForm className="border-none" defaultRole={role || undefined} />;
 };
 
-export default LoginPage;
+export default LoginPageClient;

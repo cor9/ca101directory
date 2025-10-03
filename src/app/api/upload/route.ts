@@ -1,4 +1,4 @@
-import { put } from "@vercel/blob";
+import { createServerClient } from "@/lib/supabase";
 import type { NextRequest } from "next/server";
 
 export const runtime = "edge";
@@ -36,18 +36,32 @@ export async function POST(req: NextRequest) {
     const slug = businessSlug || "logo";
     const filename = `${slug}-${timestamp}.${fileExtension}`;
 
-    // Upload to Vercel Blob
-    const blob = await put(`uploads/${filename}`, file, {
-      access: "public",
-    });
+    // Upload to Supabase Storage
+    const supabase = createServerClient();
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("listing-images")
+      .upload(filename, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    if (uploadError) {
+      console.error("Supabase upload error:", uploadError);
+      return Response.json({ error: "Upload failed" }, { status: 500 });
+    }
+
+    // Get public URL
+    const { data: urlData } = supabase.storage
+      .from("listing-images")
+      .getPublicUrl(uploadData.path);
 
     return Response.json({
       success: true,
-      url: blob.url,
+      url: urlData.publicUrl,
       fileName: filename,
     });
   } catch (error) {
-    console.error("Vercel Blob upload error:", error);
+    console.error("Supabase upload error:", error);
     return Response.json(
       {
         error: `Upload failed: ${error instanceof Error ? error.message : "Unknown error"}`,

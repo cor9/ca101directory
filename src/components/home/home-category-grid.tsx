@@ -88,7 +88,7 @@ export default async function HomeCategoryGrid() {
     const categoryCounts: Record<string, number> = {};
     for (const listing of listings) {
       if (listing.categories) {
-        const categoryList = listing.categories.split(",");
+        const categoryList = listing.categories;
         for (const category of categoryList) {
           const trimmedCategory = category.trim();
           categoryCounts[trimmedCategory] =

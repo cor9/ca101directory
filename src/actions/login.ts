@@ -1,12 +1,12 @@
 "use server";
 
 import { signIn } from "@/auth";
+import { getRoleBasedRedirect } from "@/lib/auth-redirects";
 import { LoginSchema } from "@/lib/schemas";
+import { createServerClient } from "@/lib/supabase";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 import type * as z from "zod";
-import { getRoleBasedRedirect } from "@/lib/auth-redirects";
-import { createServerClient } from "@/lib/supabase";
 
 export type ServerActionResponse = {
   status: "success" | "error";
@@ -45,7 +45,11 @@ export async function login(
       .single();
 
     // Determine redirect URL based on role
-    const redirectUrl = callbackUrl || (profile?.role ? getRoleBasedRedirect(profile.role) : DEFAULT_LOGIN_REDIRECT);
+    const redirectUrl =
+      callbackUrl ||
+      (profile?.role
+        ? getRoleBasedRedirect(profile.role)
+        : DEFAULT_LOGIN_REDIRECT);
 
     await signIn("credentials", {
       email,

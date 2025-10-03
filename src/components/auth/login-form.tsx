@@ -24,7 +24,10 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
 
-export const LoginForm = ({ className, defaultRole }: { className?: string; defaultRole?: "parent" | "vendor" }) => {
+export const LoginForm = ({
+  className,
+  defaultRole,
+}: { className?: string; defaultRole?: "parent" | "vendor" }) => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const urlError =

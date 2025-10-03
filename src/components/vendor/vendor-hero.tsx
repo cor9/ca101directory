@@ -11,9 +11,7 @@ export default function VendorHero() {
       </p>
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <LoginWrapper mode="redirect" defaultRole="vendor">
-          <button
-            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-retro-blue to-tomato-red text-cream rounded-xl hover:from-retro-blue/90 hover:to-tomato-red/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-semibold text-lg"
-          >
+          <button className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-retro-blue to-tomato-red text-cream rounded-xl hover:from-retro-blue/90 hover:to-tomato-red/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-semibold text-lg">
             Sign In as Vendor
             <svg
               className="ml-2 h-5 w-5"

@@ -275,7 +275,9 @@ export function EditForm({ listing, categories }: EditFormProps) {
           <Checkbox
             id="performerPermit"
             checked={formData.performerPermit}
-            onCheckedChange={(checked) => handleInputChange("performerPermit", checked)}
+            onCheckedChange={(checked) =>
+              handleInputChange("performerPermit", checked)
+            }
           />
           <Label htmlFor="performerPermit">
             California Child Performer Services Permit Required
@@ -353,11 +355,11 @@ export function EditForm({ listing, categories }: EditFormProps) {
         </div>
       </div>
 
-      {/* Format/Tags */}
+      {/* Service Format Tags */}
       <div className="space-y-2">
         <Label>Service Format</Label>
         <div className="space-y-2">
-          {["online", "in-person", "hybrid", "los-angeles", "new-york", "virtual"].map((tag) => (
+          {["online", "in-person", "hybrid"].map((tag) => (
             <label key={tag} className="flex items-center space-x-2">
               <input
                 type="checkbox"
@@ -365,7 +367,43 @@ export function EditForm({ listing, categories }: EditFormProps) {
                 onChange={() => handleTagToggle(tag)}
                 className="rounded"
               />
-              <span className="text-sm capitalize">{tag.replace("-", " ")}</span>
+              <span className="text-sm capitalize">
+                {tag.replace("-", " ")}
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Location/Region Tags */}
+      <div className="space-y-2">
+        <Label>Location/Region</Label>
+        <div className="grid grid-cols-2 gap-2">
+          {[
+            "los-angeles",
+            "northern-california",
+            "pnw",
+            "new-mexico",
+            "arizona",
+            "texas",
+            "chicago",
+            "atlanta-southeast",
+            "new-orleans",
+            "florida",
+            "new-york",
+            "northeast-wilmington",
+            "global-online",
+          ].map((tag) => (
+            <label key={tag} className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={formData.tags.includes(tag)}
+                onChange={() => handleTagToggle(tag)}
+                className="rounded"
+              />
+              <span className="text-sm capitalize">
+                {tag.replace("-", " ")}
+              </span>
             </label>
           ))}
         </div>

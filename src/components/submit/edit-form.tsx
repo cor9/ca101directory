@@ -1,7 +1,7 @@
 "use client";
 
 import { submitToSupabase } from "@/actions/submit-supabase";
-import { ImageUpload } from "@/components/shared/image-upload";
+import ImageUpload from "@/components/shared/image-upload";
 import { GalleryUpload } from "@/components/submit/gallery-upload";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";

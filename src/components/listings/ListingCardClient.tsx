@@ -129,7 +129,7 @@ export function ListingCardClient({ listing, className }: ListingCardClientProps
           </div>
 
           {/* 101 Approved Badge */}
-          {listing.approved_101_badge === "checked" && (
+          {listing.is_approved_101 === true && (
             <div className="absolute top-2 right-2">
               <Badge
                 variant="secondary"

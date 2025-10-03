@@ -11,7 +11,7 @@ import Link from "next/link";
 
 export default function HomeVendorCta() {
   return (
-    <section className="py-16 bg-gradient-to-r from-brand-blue/5 via-brand-orange/5 to-brand-yellow/5">
+    <section className="py-16 bg-gradient-to-r from-retro-blue/5 via-tomato-red/5 to-mustard-gold/5">
       <Container>
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-foreground mb-4">
@@ -26,7 +26,7 @@ export default function HomeVendorCta() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card className="text-center">
             <CardHeader>
-              <EyeIcon className="h-8 w-8 text-brand-blue mx-auto mb-2" />
+              <EyeIcon className="h-8 w-8 text-retro-blue mx-auto mb-2" />
               <CardTitle className="text-lg">Get Discovered</CardTitle>
             </CardHeader>
             <CardContent>
@@ -39,7 +39,7 @@ export default function HomeVendorCta() {
 
           <Card className="text-center">
             <CardHeader>
-              <CheckCircleIcon className="h-8 w-8 text-brand-orange mx-auto mb-2" />
+              <CheckCircleIcon className="h-8 w-8 text-tomato-red mx-auto mb-2" />
               <CardTitle className="text-lg">Build Trust</CardTitle>
             </CardHeader>
             <CardContent>
@@ -51,7 +51,7 @@ export default function HomeVendorCta() {
 
           <Card className="text-center">
             <CardHeader>
-              <TrendingUpIcon className="h-8 w-8 text-brand-yellow mx-auto mb-2" />
+              <TrendingUpIcon className="h-8 w-8 text-mustard-gold mx-auto mb-2" />
               <CardTitle className="text-lg">Grow Your Business</CardTitle>
             </CardHeader>
             <CardContent>

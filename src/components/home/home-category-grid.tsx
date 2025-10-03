@@ -74,6 +74,16 @@ const categoryIconMap: Record<string, keyof typeof Icons> = {
   Coaches: "mic",
 };
 
+// Helper function to get category-specific accent color
+const getCategoryAccentColor = (categoryName: string) => {
+  const name = categoryName.toLowerCase();
+  if (name.includes('coach') || name.includes('acting')) return 'retro-blue';
+  if (name.includes('photo') || name.includes('headshot')) return 'mustard-gold';
+  if (name.includes('edit') || name.includes('reel') || name.includes('video')) return 'muted-teal';
+  if (name.includes('studio') || name.includes('space') || name.includes('venue')) return 'tomato-red';
+  return 'retro-blue'; // default
+};
+
 export default async function HomeCategoryGrid() {
   // Get real categories from Supabase
   let categories: Category[] = [];
@@ -129,29 +139,30 @@ export default async function HomeCategoryGrid() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {categories.map((category) => {
           const IconComponent = Icons[category.icon];
+          const accentColor = getCategoryAccentColor(category.name);
           return (
             <Link
               key={category.slug}
               href={`/category/${category.slug}`}
               className="group"
             >
-              <div className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:border-brand-blue hover:bg-accent">
+              <div className="bg-cream border border-cream rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:border-retro-blue hover:bg-cream/90">
                 <div className="flex items-center mb-4">
-                  <div className="p-3 bg-brand-blue rounded-lg group-hover:bg-brand-blue-dark transition-colors">
-                    <IconComponent className="h-6 w-6 text-white" />
+                  <div className={`p-3 bg-${accentColor} rounded-lg group-hover:bg-${accentColor}/90 transition-colors`}>
+                    <IconComponent className="h-6 w-6 text-cream" />
                   </div>
                   <div className="ml-4 flex-1">
-                    <h3 className="font-semibold text-lg text-card-foreground group-hover:text-brand-blue transition-colors">
+                    <h3 className={`font-semibold text-lg text-charcoal group-hover:text-${accentColor} transition-colors`}>
                       {category.name}
                     </h3>
                     {category.count && (
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-charcoal/60">
                         {category.count} professionals
                       </p>
                     )}
                   </div>
                 </div>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-charcoal/70 text-sm">
                   {category.description}
                 </p>
               </div>

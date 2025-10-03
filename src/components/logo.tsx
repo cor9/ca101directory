@@ -62,7 +62,7 @@ export function Logo({
       <div className={cn("flex items-center gap-3", className)}>
         <div className="relative">
           {/* Subtle glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-orange/20 via-brand-blue/20 to-brand-yellow/20 rounded-lg blur-sm scale-110" />
+          <div className="absolute inset-0 bg-gradient-to-r from-tomato-red/20 via-retro-blue/20 to-mustard-gold/20 rounded-lg blur-sm scale-110" />
           <img
             src={logo}
             alt="Child Actor 101 Directory"

@@ -112,7 +112,7 @@ export async function submitToSupabase(
       status: "pending",
       is_active: active ?? true,
       is_claimed: false,
-      owner_id: user?.id || null,
+      owner_id: null, // Set to null to avoid foreign key constraint issues
       is_approved_101: false,
     };
 

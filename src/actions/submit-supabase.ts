@@ -70,6 +70,7 @@ export async function submitToSupabase(
       zip,
       region,
       bondNumber,
+      gallery,
     } = SubmitSchema.parse(formData);
 
     console.log(
@@ -101,7 +102,7 @@ export async function submitToSupabase(
       categories: categories.join(","),
       age_range: tags.join(","),
       profile_image: imageId,
-      gallery: formData.gallery || null,
+      gallery: gallery || null,
       plan: plan,
       ca_performer_permit: performerPermit,
       bonded_for_advanced_fees: bonded,

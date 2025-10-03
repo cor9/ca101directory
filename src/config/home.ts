@@ -16,8 +16,7 @@ export const homeConfig: HomeConfig = {
     },
     {
       title: "Supportive",
-      description:
-        "Vendors who help kids grow, not just sell services.",
+      description: "Vendors who help kids grow, not just sell services.",
       icon: "heart",
     },
     {

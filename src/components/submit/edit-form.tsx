@@ -189,19 +189,19 @@ export function EditForm({ listing, categories }: EditFormProps) {
       </div>
 
       <div className="space-y-2">
-          <Label htmlFor="format">Format</Label>
-          <select
-            id="format"
-            value={formData.format}
-            onChange={(e) => handleInputChange("format", e.target.value)}
-            className="w-full p-2 border rounded-md"
-          >
-            <option value="">Select format</option>
-            <option value="In-person">In-person Only</option>
-            <option value="Online">Online Only</option>
-            <option value="Hybrid">Hybrid (Online & In-person)</option>
-          </select>
-        </div>
+        <Label htmlFor="format">Format</Label>
+        <select
+          id="format"
+          value={formData.format}
+          onChange={(e) => handleInputChange("format", e.target.value)}
+          className="w-full p-2 border rounded-md"
+        >
+          <option value="">Select format</option>
+          <option value="In-person">In-person Only</option>
+          <option value="Online">Online Only</option>
+          <option value="Hybrid">Hybrid (Online & In-person)</option>
+        </select>
+      </div>
 
       <div className="space-y-2">
         <Label htmlFor="notes">Additional Notes/Extras</Label>

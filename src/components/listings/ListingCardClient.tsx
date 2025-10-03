@@ -81,7 +81,12 @@ export function ListingCardClient({
   const planPriority = getPlanPriority(listing.plan, listing.comped);
 
   return (
-    <Card className={cn("h-full flex flex-col bg-cream border-cream hover:shadow-tomato-red/10", className)}>
+    <Card
+      className={cn(
+        "h-full flex flex-col bg-cream border-cream hover:shadow-tomato-red/10",
+        className,
+      )}
+    >
       <CardHeader className="relative p-0">
         {/* Profile Image */}
         <div className="relative w-full h-48 overflow-hidden rounded-t-lg">
@@ -115,7 +120,8 @@ export function ListingCardClient({
                 badgeClassName = "text-xs font-medium bg-retro-blue text-cream";
               } else if (listing.plan === "standard") {
                 badgeText = "Standard";
-                badgeClassName = "text-xs font-medium bg-mustard-gold text-cream";
+                badgeClassName =
+                  "text-xs font-medium bg-mustard-gold text-cream";
               } else if (listing.plan === "premium") {
                 badgeText = "Featured";
                 badgeClassName = "text-xs font-medium bg-tomato-red text-cream";
@@ -193,7 +199,10 @@ export function ListingCardClient({
               </Badge>
             ))}
             {categories.length > 2 && (
-              <Badge variant="outline" className="text-xs font-normal border-retro-blue text-retro-blue">
+              <Badge
+                variant="outline"
+                className="text-xs font-normal border-retro-blue text-retro-blue"
+              >
                 +{categories.length - 2}
               </Badge>
             )}
@@ -213,7 +222,10 @@ export function ListingCardClient({
               </Badge>
             ))}
             {ageRange.length > 3 && (
-              <Badge variant="outline" className="text-xs font-normal bg-mustard-gold/10 text-mustard-gold border-mustard-gold">
+              <Badge
+                variant="outline"
+                className="text-xs font-normal bg-mustard-gold/10 text-mustard-gold border-mustard-gold"
+              >
                 +{ageRange.length - 3}
               </Badge>
             )}
@@ -246,7 +258,11 @@ export function ListingCardClient({
               />
             )}
           </div>
-          <Button size="sm" asChild className="bg-tomato-red hover:bg-tomato-red/90 text-cream">
+          <Button
+            size="sm"
+            asChild
+            className="bg-tomato-red hover:bg-tomato-red/90 text-cream"
+          >
             <Link href={`/listing/${slug}`}>View Details</Link>
           </Button>
         </div>

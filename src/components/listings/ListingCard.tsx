@@ -182,12 +182,19 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
         {categories.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-3">
             {categories.slice(0, 2).map((category) => (
-              <Badge key={category} variant="outline" className="text-xs border-retro-blue text-retro-blue">
+              <Badge
+                key={category}
+                variant="outline"
+                className="text-xs border-retro-blue text-retro-blue"
+              >
                 {category}
               </Badge>
             ))}
             {categories.length > 2 && (
-              <Badge variant="outline" className="text-xs border-retro-blue text-retro-blue">
+              <Badge
+                variant="outline"
+                className="text-xs border-retro-blue text-retro-blue"
+              >
                 +{categories.length - 2} more
               </Badge>
             )}
@@ -243,7 +250,11 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
               />
             )}
           </div>
-          <Button size="sm" asChild className="bg-tomato-red hover:bg-tomato-red/90 text-cream">
+          <Button
+            size="sm"
+            asChild
+            className="bg-tomato-red hover:bg-tomato-red/90 text-cream"
+          >
             <Link href={`/listing/${slug}`}>View Details</Link>
           </Button>
         </div>

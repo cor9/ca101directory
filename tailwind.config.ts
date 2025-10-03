@@ -63,7 +63,7 @@ const config = {
         "tomato-red": "hsl(var(--tomato-red))",
         "mustard-gold": "hsl(var(--mustard-gold))",
         "muted-teal": "hsl(var(--muted-teal))",
-        
+
         // Category-specific colors
         coaches: "hsl(var(--coaches-color))",
         photographers: "hsl(var(--photographers-color))",

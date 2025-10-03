@@ -43,7 +43,7 @@ export type ServerActionResponse = {
  * Submit listing to Supabase
  */
 export async function submitToSupabase(
-  formData: SubmitFormData,
+  formData: SubmitFormData & { listingId?: string; isEdit?: boolean },
 ): Promise<ServerActionResponse> {
   try {
     // Get current user for owner_id
@@ -118,18 +118,42 @@ export async function submitToSupabase(
 
     console.log("submitToSupabase, creating listing in Supabase:", listingData);
 
-    // Insert into Supabase
-    const { data, error } = await supabase
-      .from("listings")
-      .insert([listingData])
-      .select()
-      .single();
+    let data: any;
+    let error: any;
+    
+    if (formData.isEdit && formData.listingId) {
+      // Update existing listing
+      console.log("Updating existing listing:", formData.listingId);
+      const updateData = {
+        ...listingData,
+        // Keep existing status and ownership for edits
+        status: undefined, // Don't change status on edit
+        owner_id: undefined, // Don't change ownership on edit
+        is_claimed: undefined, // Don't change claimed status on edit
+        updated_at: new Date().toISOString(),
+      };
+      
+      ({ data, error } = await supabase
+        .from("listings")
+        .update(updateData)
+        .eq("id", formData.listingId)
+        .eq("owner_id", user?.id) // Ensure user owns this listing
+        .select()
+        .single());
+    } else {
+      // Insert new listing
+      ({ data, error } = await supabase
+        .from("listings")
+        .insert([listingData])
+        .select()
+        .single());
+    }
 
     if (error) {
-      console.error("Supabase insert error:", error);
+      console.error("Supabase error:", error);
       return {
         status: "error",
-        message: `Failed to submit listing: ${error.message}`,
+        message: `Failed to ${formData.isEdit ? 'update' : 'submit'} listing: ${error.message}`,
       };
     }
 
@@ -141,7 +165,7 @@ export async function submitToSupabase(
 
     return {
       status: "success",
-      message: "Successfully submitted listing",
+      message: formData.isEdit ? "Successfully updated listing" : "Successfully submitted listing",
       id: data.id,
       listingId: data.id,
     };

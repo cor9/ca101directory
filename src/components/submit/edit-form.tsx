@@ -92,7 +92,10 @@ export function EditForm({ listing, categories }: EditFormProps) {
       const submitData = {
         ...formData,
         tags: formData.tags.length > 0 ? formData.tags : ["hybrid"], // Default tag
-        categories: formData.categories.length > 0 ? formData.categories : ["acting-coaches"], // Default category
+        categories:
+          formData.categories.length > 0
+            ? formData.categories
+            : ["acting-coaches"], // Default category
         gallery: galleryImages,
         // Mark as update to existing listing
         listingId: listing.id,
@@ -185,6 +188,32 @@ export function EditForm({ listing, categories }: EditFormProps) {
         />
       </div>
 
+      <div className="space-y-2">
+        <Label htmlFor="format">Format</Label>
+        <select
+          id="format"
+          value={formData.format}
+          onChange={(e) => handleInputChange("format", e.target.value)}
+          className="w-full p-2 border rounded-md"
+        >
+          <option value="">Select format</option>
+          <option value="In-person">In-person Only</option>
+          <option value="Online">Online Only</option>
+          <option value="Hybrid">Hybrid (Online & In-person)</option>
+        </select>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="notes">Additional Notes/Extras</Label>
+        <Textarea
+          id="notes"
+          value={formData.notes}
+          onChange={(e) => handleInputChange("notes", e.target.value)}
+          placeholder="Any additional information"
+          rows={3}
+        />
+      </div>
+
       {/* Contact Information */}
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-2">
@@ -207,6 +236,70 @@ export function EditForm({ listing, categories }: EditFormProps) {
             placeholder="(555) 123-4567"
           />
         </div>
+      </div>
+
+      {/* Location Information */}
+      <div className="grid gap-6 md:grid-cols-3">
+        <div className="space-y-2">
+          <Label htmlFor="city">City</Label>
+          <Input
+            id="city"
+            value={formData.city}
+            onChange={(e) => handleInputChange("city", e.target.value)}
+            placeholder="Los Angeles"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="state">State</Label>
+          <Input
+            id="state"
+            value={formData.state}
+            onChange={(e) => handleInputChange("state", e.target.value)}
+            placeholder="CA"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="zip">ZIP Code</Label>
+          <Input
+            id="zip"
+            value={formData.zip}
+            onChange={(e) => handleInputChange("zip", e.target.value)}
+            placeholder="90210"
+          />
+        </div>
+      </div>
+
+      {/* Legal Compliance */}
+      <div className="space-y-4">
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="performerPermit"
+            checked={formData.performerPermit}
+            onCheckedChange={(checked) => handleInputChange("performerPermit", checked)}
+          />
+          <Label htmlFor="performerPermit">
+            California Child Performer Services Permit Required
+          </Label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="bonded"
+            checked={formData.bonded}
+            onCheckedChange={(checked) => handleInputChange("bonded", checked)}
+          />
+          <Label htmlFor="bonded">Bonded For Advanced Fees</Label>
+        </div>
+        {formData.bonded && (
+          <div className="space-y-2">
+            <Label htmlFor="bondNumber">Bond Number</Label>
+            <Input
+              id="bondNumber"
+              value={formData.bondNumber}
+              onChange={(e) => handleInputChange("bondNumber", e.target.value)}
+              placeholder="Enter bond number"
+            />
+          </div>
+        )}
       </div>
 
       {/* Profile Image */}
@@ -255,6 +348,24 @@ export function EditForm({ listing, categories }: EditFormProps) {
                 className="rounded"
               />
               <span className="text-sm">{category.name}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Format/Tags */}
+      <div className="space-y-2">
+        <Label>Service Format</Label>
+        <div className="space-y-2">
+          {["online", "in-person", "hybrid", "los-angeles", "new-york", "virtual"].map((tag) => (
+            <label key={tag} className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={formData.tags.includes(tag)}
+                onChange={() => handleTagToggle(tag)}
+                className="rounded"
+              />
+              <span className="text-sm capitalize">{tag.replace("-", " ")}</span>
             </label>
           ))}
         </div>

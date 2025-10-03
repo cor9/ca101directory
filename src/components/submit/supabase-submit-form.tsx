@@ -105,9 +105,8 @@ export function SupabaseSubmitForm({
   const [isGalleryUploading, setIsGalleryUploading] = useState(false);
 
   const getMaxGalleryImages = () => {
-    if (formData.plan === "Pro") return 4;
-    if (formData.plan === "Standard") return 1;
-    return 0; // Free plan gets no gallery images
+    if (formData.plan === "Pro") return 4; // Pro gets 4 gallery images (plus 1 profile = 5 total)
+    return 0; // Only Pro gets gallery images
   };
 
   const handleInputChange = (
@@ -540,9 +539,9 @@ export function SupabaseSubmitForm({
               onUploadingChange={setIsGalleryUploading}
             />
             <p className="text-xs text-muted-foreground">
-              {getMaxGalleryImages() === 1
-                ? "Standard plan includes 1 gallery image"
-                : `Pro plan includes up to ${getMaxGalleryImages()} gallery images`}
+              {getMaxGalleryImages() === 0
+                ? "Gallery images are only available with Pro plan"
+                : "Pro plan includes 4 gallery images (5 total with profile)"}
             </p>
           </div>
 

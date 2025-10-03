@@ -653,7 +653,7 @@ export function AirtableSubmitForm({
                       <FormControl>
                         <div className="space-y-4">
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {[1, 2, 3].map((index) => (
+                            {Array.from({ length: 5 }, (_, index) => index + 1).map((index) => (
                               <div key={index} className="w-full h-[200px]">
                                 <ImageUpload
                                   currentImageUrl={

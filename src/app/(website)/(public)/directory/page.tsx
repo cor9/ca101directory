@@ -2,7 +2,7 @@ import Container from "@/components/container";
 import { DirectoryFilters } from "@/components/directory/directory-filters";
 import ItemGrid from "@/components/item/item-grid";
 import DirectoryHeader from "@/components/directory/DirectoryHeader";
-import { regionsList } from "@/components/directory/directory-filters";
+import { regionsList } from "@/data/regions";
 import ListingCard from "@/components/directory/ListingCard";
 import SearchBox from "@/components/search/search-box";
 import EmptyGrid from "@/components/shared/empty-grid";

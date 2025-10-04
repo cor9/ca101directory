@@ -32,7 +32,7 @@ export function Gallery({ listing }: GalleryProps) {
   const galleryImages = typeof listing.gallery === 'string' 
     ? parseGalleryImages(listing.gallery)
     : Array.isArray(listing.gallery) 
-      ? listing.gallery.map(img => getListingImageUrl(img))
+      ? (listing.gallery as string[]).map(img => getListingImageUrl(img))
       : [];
 
   if (!listing.gallery && listing.plan !== "pro" && !listing.comped) {
@@ -68,7 +68,7 @@ export function Gallery({ listing }: GalleryProps) {
                 }}
                 tabIndex={0}
                 role="button"
-                // biome-ignore lint/a11y/preferButtonElement: Need div for image layout
+                // biome-ignore lint/a11y/preferButtonElement: div needed for image layout
               >
                 <Image
                   src={imageUrl}

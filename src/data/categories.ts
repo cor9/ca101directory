@@ -1,5 +1,22 @@
 import { supabase } from "@/lib/supabase";
 
+export async function getCategoryIconsMap(): Promise<Record<string, string>> {
+  try {
+    const { data, error } = await supabase
+      .from("category_icons")
+      .select("category_name, filename");
+    if (error) throw error;
+    const map: Record<string, string> = {};
+    for (const row of data || []) {
+      map[row.category_name] = row.filename;
+    }
+    return map;
+  } catch (e) {
+    console.error("getCategoryIconsMap error", e);
+    return {};
+  }
+}
+
 export async function getCategories() {
   console.log("getCategories: Starting fetch from categories table");
 

@@ -155,7 +155,7 @@ export function DirectoryFilters({
               <SelectTrigger id="category-select" className="bg-white/80 text-surface border-[color:var(--card-border)] rounded-full focus:ring-4 focus:ring-[color:var(--ring)] focus:outline-none">
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
-              <SelectContent className="z-50">
+              <SelectContent className="z-[9999]">
                 <SelectItem value="all">All Categories</SelectItem>
                 {categories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
@@ -181,7 +181,7 @@ export function DirectoryFilters({
               <SelectTrigger id="region-select" className="bg-white/80 text-surface border-[color:var(--card-border)] rounded-full focus:ring-4 focus:ring-[color:var(--ring)] focus:outline-none">
                 <SelectValue placeholder="All Regions" />
               </SelectTrigger>
-              <SelectContent className="z-50">
+              <SelectContent className="z-[9999]">
                 <SelectItem value="all">All Regions</SelectItem>
                 {regionsList.map((region) => (
                   <SelectItem key={region} value={region}>

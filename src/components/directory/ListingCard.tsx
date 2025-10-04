@@ -3,13 +3,18 @@ import type { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ListingCard({ item, categoryIconMap }: { item: ItemInfo; categoryIconMap?: Record<string, string> }) {
+export default function ListingCard({ item, categoryIconMap, allCategories = [] }: { item: ItemInfo; categoryIconMap?: Record<string, string>; allCategories?: string[] }) {
   const iconAny = (item as unknown as { icon?: unknown }).icon;
   const profileRef =
     (iconAny && typeof iconAny === "object" && (iconAny as { asset?: { _ref?: string } }).asset?.
       _ref) || (typeof iconAny === "string" ? (iconAny as string) : null);
   const profileUrl = profileRef ? getListingImageUrl(profileRef) : null;
-  const primaryCategory = item.categories?.[0]?.name || "";
+  // Normalize category to full name (avoid splitting words like "Acting Classes & Coaches")
+  const rawFirst = item.categories?.[0]?.name || "";
+  const primaryCategory =
+    allCategories.find(
+      (full) => full.toLowerCase() === rawFirst.toLowerCase(),
+    ) || rawFirst;
   const localMap: Record<string, string> = {
     "Acting Classes & Coaches": "/categories/masks.png",
     "Headshot Photographers": "/categories/camera.png",
@@ -123,7 +128,7 @@ export default function ListingCard({ item, categoryIconMap }: { item: ItemInfo;
               href={item.link}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 rounded-full border border-[color:var(--card-border)] px-3 py-2 text-sm hover:text-[color:var(--orange)]"
+              className="inline-flex items-center gap-1 rounded-full bg-[color:var(--navy-800)] text-[color:var(--ink)] px-3 py-2 text-sm hover:bg-[color:var(--navy-700)]"
             >
               Website
             </a>

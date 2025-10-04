@@ -4,10 +4,10 @@ import type { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ListingCard({ item }: { item: ItemInfo }) {
+export default function ListingCard({ item, categoryIconMap }: { item: ItemInfo; categoryIconMap?: Record<string, string> }) {
   const imageProps = item?.image ? urlForImage(item.image) : null;
   const primaryCategory = item.categories?.[0]?.name || "";
-  const categoryIconMap: Record<string, string> = {
+  const localMap: Record<string, string> = {
     "Acting Classes & Coaches": "/categories/masks.png",
     "Headshot Photographers": "/categories/camera.png",
     "Self-Tape Studios": "/categories/selftape.png",
@@ -37,8 +37,11 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
     Reel: "/categories/filmreel.png",
     "Scene Writing": "/categories/script.png",
   };
-  const fallbackIcon = categoryIconMap[primaryCategory]
-    ? getCategoryIconUrl(categoryIconMap[primaryCategory].split("/").pop() || "")
+  const fileFromProps = categoryIconMap?.[primaryCategory];
+  const fileFromLocal = localMap[primaryCategory];
+  const picked = fileFromProps || fileFromLocal;
+  const fallbackIcon = picked
+    ? getCategoryIconUrl((picked.includes("/") ? picked.split("/").pop() : picked) || "")
     : undefined;
   const planLabel =
     item.pricePlan ||

@@ -7,7 +7,7 @@ import SearchBox from "@/components/search/search-box";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
-import { getCategories } from "@/data/categories";
+import { getCategories, getCategoryIconsMap } from "@/data/categories";
 import { getItems } from "@/data/item-service";
 import {
   DEFAULT_SORT,
@@ -31,8 +31,10 @@ export default async function DirectoryPage({
 }) {
   // Fetch categories for filters
   let categories = [];
+  let categoryIconMap: Record<string, string> = {};
   try {
     categories = await getCategories();
+    categoryIconMap = await getCategoryIconsMap();
   } catch (error) {
     console.error("Error fetching categories:", error);
   }
@@ -125,7 +127,7 @@ export default async function DirectoryPage({
           <>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {items.map((it) => (
-                <ListingCard key={it._id} item={it} />
+                <ListingCard key={it._id} item={it} categoryIconMap={categoryIconMap} />
               ))}
             </div>
 

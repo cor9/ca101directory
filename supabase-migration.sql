@@ -122,3 +122,33 @@ create policy "update_own_listing_by_email" on listings
 alter table listings add column if not exists slug text;
 update listings set slug = lower(regexp_replace("Listing Name", '[^a-zA-Z0-9]+', '-', 'g'));
 create index if not exists idx_listings_slug on listings (slug);
+
+-- Category icons mapping table
+create table if not exists public.category_icons (
+  id uuid primary key default gen_random_uuid(),
+  category_name text not null unique,
+  filename text not null,
+  created_at timestamp with time zone default now(),
+  updated_at timestamp with time zone default now()
+);
+
+-- simple updated_at trigger
+create or replace function public.set_updated_at()
+returns trigger as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$ language plpgsql;
+
+drop trigger if exists trg_category_icons_updated on public.category_icons;
+create trigger trg_category_icons_updated
+before update on public.category_icons
+for each row execute function public.set_updated_at();
+
+-- RLS (public read)
+alter table public.category_icons enable row level security;
+do $$ begin
+  create policy "category_icons_read" on public.category_icons
+    for select using (true);
+exception when duplicate_object then null; end $$;

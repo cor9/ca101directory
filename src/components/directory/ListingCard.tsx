@@ -1,4 +1,5 @@
 import { urlForImage } from "@/lib/image";
+import { getCategoryIconUrl } from "@/lib/image-urls";
 import type { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,20 +24,22 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
     "Theatre Training": "/categories/kidstheatre.png",
     "Entertainment Lawyers": "/categories/legalfile.png",
     "Financial Advisors": "/categories/moneybag.png",
-    "Publicists": "/categories/publicist.png",
+    Publicists: "/categories/publicist.png",
     "Hair/Makeup Artists": "/categories/makeup.png",
     "Wardrobe Stylists": "/categories/wardrobe.png",
     "Branding Coaches": "/categories/colowheel.png",
     "Mental Health for Performers": "/categories/mentalhealth.png",
     "On-Set Tutors": "/categories/tutor.png",
     "Reel Creator": "/categories/reelcreator.png",
-    "Feedback": "/categories/play1.png",
+    Feedback: "/categories/play1.png",
     "Career Consultation": "/categories/consult.png",
     "Dance Classes": "/categories/danceclass.png",
-    "Reel": "/categories/filmreel.png",
+    Reel: "/categories/filmreel.png",
     "Scene Writing": "/categories/script.png",
   };
-  const fallbackIcon = categoryIconMap[primaryCategory];
+  const fallbackIcon = categoryIconMap[primaryCategory]
+    ? getCategoryIconUrl(categoryIconMap[primaryCategory].split("/").pop() || "")
+    : undefined;
   const planLabel =
     item.pricePlan ||
     (item.proPlanStatus

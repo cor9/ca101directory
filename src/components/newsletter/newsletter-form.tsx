@@ -67,19 +67,20 @@ export function NewsletterForm() {
                   type="email"
                   className={cn(
                     "w-[280px] sm:w-[320px] md:w-[400px] h-12 rounded-r-none",
-                    "focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary focus:border-2 focus:border-r-0",
+                    "bg-paper border-secondary-denim text-surface placeholder:text-surface/60",
+                    "focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary-orange focus:border-2 focus:border-r-0",
                   )}
                   placeholder="Enter your email"
                   {...field}
                 />
               </FormControl>
-              <FormMessage className="pt-2 text-sm" />
+              <FormMessage className="pt-2 text-sm text-error" />
             </FormItem>
           )}
         />
         <Button
           type="submit"
-          className="rounded-l-none size-12"
+          className="rounded-l-none size-12 btn-primary"
           disabled={isPending}
         >
           {isPending ? (

@@ -85,10 +85,10 @@ export default async function HomeFeaturedListings() {
   return (
     <section className="py-16">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold mb-4 text-cream">
+        <h2 className="text-3xl font-bold mb-4 text-paper">
           Featured Professionals
         </h2>
-        <p className="text-lg text-cream/90 max-w-2xl mx-auto">
+        <p className="text-lg text-paper/90 max-w-2xl mx-auto">
           Hand-picked professionals trusted by families across the industry
         </p>
       </div>
@@ -97,7 +97,7 @@ export default async function HomeFeaturedListings() {
         {listings.map((listing) => (
           <div
             key={listing.id}
-            className="bg-cream border border-cream rounded-xl shadow-sm overflow-hidden hover:shadow-lg hover:border-retro-blue transition-all duration-300"
+            className="surface overflow-hidden hover:shadow-hover hover:border-secondary transition-all duration-300"
           >
             <div className="relative aspect-[3/2]">
               <Image
@@ -111,7 +111,7 @@ export default async function HomeFeaturedListings() {
               />
               {listing.featured && (
                 <div className="absolute top-4 left-4">
-                  <span className="bg-retro-blue text-cream px-3 py-1 rounded-full text-sm font-semibold">
+                  <span className="chip chip-cat">
                     Featured
                   </span>
                 </div>
@@ -120,13 +120,13 @@ export default async function HomeFeaturedListings() {
 
             <div className="p-6">
               <div className="flex items-start justify-between mb-3">
-                <h3 className="font-semibold text-lg text-charcoal">
+                <h3 className="font-semibold text-lg text-surface">
                   {listing.name}
                 </h3>
-                <Icons.externalLink className="h-4 w-4 text-charcoal/60" />
+                <Icons.externalLink className="h-4 w-4 text-surface/60" />
               </div>
 
-              <p className="text-charcoal/70 text-sm mb-4 line-clamp-4">
+              <p className="text-surface/70 text-sm mb-4 line-clamp-4">
                 {listing.description}
               </p>
 
@@ -134,7 +134,7 @@ export default async function HomeFeaturedListings() {
                 {listing.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
-                    className="px-2 py-1 bg-retro-blue/10 text-retro-blue text-xs rounded-full"
+                    className="chip chip-attr"
                   >
                     {tag}
                   </span>
@@ -142,7 +142,7 @@ export default async function HomeFeaturedListings() {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-sm text-charcoal/60">
+                <span className="text-sm text-surface/60">
                   {listing.category}
                 </span>
                 <Link
@@ -150,7 +150,7 @@ export default async function HomeFeaturedListings() {
                     .toLowerCase()
                     .replace(/\s+/g, "-")
                     .replace(/[^a-z0-9-]/g, "")}`}
-                  className="text-retro-blue hover:text-tomato-red text-sm font-semibold transition-colors"
+                  className="text-secondary hover:text-primary text-sm font-semibold transition-colors"
                 >
                   View Listing →
                 </Link>
@@ -163,7 +163,7 @@ export default async function HomeFeaturedListings() {
       <div className="text-center mt-12">
         <Link
           href="/directory"
-          className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-retro-blue to-tomato-red text-cream rounded-xl hover:from-retro-blue/90 hover:to-tomato-red/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-semibold"
+          className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-secondary to-primary text-paper rounded-xl hover:from-secondary600 hover:to-primary600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-semibold"
         >
           View All Listings
           <Icons.arrowRight className="ml-2 h-5 w-5" />

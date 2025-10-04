@@ -56,7 +56,23 @@ const config = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // New Design System Colors
+        // Production-ready color system from artwork
+        bg: "#0D1B2A",
+        bg2: "#142B3B",
+        surface: "#FFFDD0",
+        paper: "#FAFAF4",
+        ink: "#0F1113",
+        text: "#1F2327",
+        primary: "#E4572E",
+        primary600: "#CC4E2A",
+        secondary: "#3A76A6",
+        secondary600: "#2E5E85",
+        highlight: "#E4A72E",
+        success: "#AEBF98",
+        info: "#3E9CA3",
+        error: "#C84F41",
+
+        // Legacy colors (to be phased out)
         cream: "hsl(var(--cream))",
         charcoal: "hsl(var(--charcoal))",
         "retro-blue": "hsl(var(--retro-blue))",
@@ -74,6 +90,11 @@ const config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        card: "12px",
+      },
+      boxShadow: {
+        card: "0 6px 14px rgba(13, 27, 42, 0.25)",
+        hover: "0 10px 20px rgba(13, 27, 42, 0.35)",
       },
       fontFamily: {
         bricolage: ["var(--font-bricolage)", ...fontFamily.sans],

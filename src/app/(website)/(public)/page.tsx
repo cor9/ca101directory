@@ -72,12 +72,12 @@ export default async function HomePage() {
 
         {/* 3. Vendor Ribbon CTA */}
         <Container className="py-8">
-          <div className="bg-gradient-to-r from-retro-blue/10 to-tomato-red/10 border border-retro-blue/20 rounded-lg p-6 text-center">
-            <p className="text-lg text-cream mb-2">
+          <div className="bg-gradient-to-r from-secondary/10 to-primary/10 border border-secondary/20 rounded-lg p-6 text-center">
+            <p className="text-lg text-paper mb-2">
               Are you a coach, photographer, or rep?{" "}
               <a
                 href="/list-your-business"
-                className="text-retro-blue hover:text-tomato-red font-semibold transition-colors"
+                className="text-secondary hover:text-primary font-semibold transition-colors"
               >
                 List your business here →
               </a>

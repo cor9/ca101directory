@@ -386,9 +386,14 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   <li className="flex items-start gap-3">
                     <MapPinIcon className="w-4 h-4 text-primary-orange mt-1 flex-shrink-0" />
                     <span style={{ color: "#0C1A2B" }}>
-                      {[listing.city, listing.state, listing.region]
+                      {[listing.city, listing.state]
                         .filter(Boolean)
                         .join(", ")}
+                      {listing.region && listing.region !== listing.city && (
+                        <span className="text-sm text-gray-600 ml-1">
+                          ({listing.region})
+                        </span>
+                      )}
                     </span>
                   </li>
                 )}
@@ -558,18 +563,20 @@ export default async function ListingPage({ params }: ListingPageProps) {
               </h2>
               <div className="flex flex-wrap gap-2">
                 {listing.categories && listing.categories.length > 0 ? (
-                  listing.categories.map((category, index) => {
-                    const colors = ["orange", "blue", "mustard", "green"];
-                    const colorClass = colors[index % colors.length];
-                    return (
-                      <span
-                        key={category.trim()}
-                        className={`badge ${colorClass}`}
-                      >
-                        {category.trim()}
-                      </span>
-                    );
-                  })
+                  listing.categories
+                    .filter(category => category && category.trim() && !category.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i))
+                    .map((category, index) => {
+                      const colors = ["orange", "blue", "mustard", "green"];
+                      const colorClass = colors[index % colors.length];
+                      return (
+                        <span
+                          key={category.trim()}
+                          className={`badge ${colorClass}`}
+                        >
+                          {category.trim()}
+                        </span>
+                      );
+                    })
                 ) : (
                   <span className="text-sm" style={{ color: "#666" }}>
                     No categories listed
@@ -588,11 +595,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
               </h2>
               <div className="flex flex-wrap gap-2">
                 {listing.age_range && listing.age_range.length > 0 ? (
-                  listing.age_range.map((age) => (
-                    <span key={age.trim()} className="badge blue">
-                      {age.trim()}
-                    </span>
-                  ))
+                  listing.age_range
+                    .filter(age => age && age.trim() && !age.includes("Age Range") && !age.includes("los-angeles") && !age.includes("hybrid"))
+                    .map((age) => (
+                      <span key={age.trim()} className="badge blue">
+                        {age.trim()}
+                      </span>
+                    ))
                 ) : (
                   <span className="text-sm" style={{ color: "#666" }}>
                     No age range specified
@@ -619,8 +628,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   Certifications & Compliance
                 </h2>
                 <ul className="space-y-2 text-sm">
-                  {listing["California Child Performer Services Permit "] ===
-                    "checked" && (
+                  {listing.ca_permit_required === true && (
                     <li className="flex items-center gap-2">
                       <CheckCircleIcon className="w-4 h-4 text-green-600" />
                       <span style={{ color: "#0C1A2B" }}>

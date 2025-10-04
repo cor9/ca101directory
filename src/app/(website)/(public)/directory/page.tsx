@@ -1,6 +1,7 @@
 import Container from "@/components/container";
 import { DirectoryFilters } from "@/components/directory/directory-filters";
 import ItemGrid from "@/components/item/item-grid";
+import DirectoryHeader from "@/components/directory/DirectoryHeader";
 import SearchBox from "@/components/search/search-box";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
@@ -98,38 +99,8 @@ export default async function DirectoryPage({
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   return (
-    <div className="flex flex-col">
-      {/* Header */}
-      <Container className="py-16">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-surface mb-4">
-            Professional Directory
-          </h1>
-          <p className="text-xl text-surface/80 max-w-3xl mx-auto">
-            Browse our complete directory of vetted child actor professionals.
-            Every listing has been carefully reviewed for quality, safety, and
-            results.
-          </p>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="text-center p-6 bg-paper rounded-lg border border-surface/20 shadow-sm">
-            <div className="text-3xl font-bold text-primary-orange mb-2">
-              {totalCount}
-            </div>
-            <div className="text-surface/80">Total Professionals</div>
-          </div>
-          <div className="text-center p-6 bg-paper rounded-lg border border-surface/20 shadow-sm">
-            <div className="text-3xl font-bold text-primary-orange mb-2">8</div>
-            <div className="text-surface/80">Categories</div>
-          </div>
-          <div className="text-center p-6 bg-paper rounded-lg border border-surface/20 shadow-sm">
-            <div className="text-3xl font-bold text-primary-orange mb-2">1000+</div>
-            <div className="text-surface/80">Families Served</div>
-          </div>
-        </div>
-      </Container>
+    <div className="flex flex-col bg-[color:var(--navy)] bg-[radial-gradient(1200px_600px_at_70%_-10%,#122338,transparent)]">
+      <DirectoryHeader total={totalCount} categoriesCount={categories?.length} familiesCount={12000} />
 
       {/* Search */}
       <Container className="pb-8">

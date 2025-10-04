@@ -1,104 +1,22 @@
-/* Production-ready color system pulled from Child Actor 101 artwork */
+:root{
+  --navy:#0C1A2B;
+  --navy-900:#0C1A2B;
+  --navy-800:#122338;
+  --navy-700:#19324B;
 
-:root {
-  /* Core Brand Palette */
-  --bg: #0D1B2A;
-  --bg-2: #142B3B; /* gradient end */
-  --surface: #FFFDD0;
-  --paper: #FAFAF4;
+  --cream:#FFFDD0;
+  --cream-ink:#1B1F29;
+  --ink:#E9EEF7;
 
-  --text: #1F2327;
-  --ink: #0F1113;
+  --orange:#F25C05;
+  --logo-blue:#2E77B8;
+  --mustard:#E2B25B;
 
-  --primary: #E4572E;
-  --primary-600: #CC4E2A;
-
-  --secondary: #3A76A6;
-  --secondary-600: #2E5E85;
-
-  --highlight: #E4A72E;
-  --success: #AEBF98;
-  --info: #3E9CA3;
-  --error: #C84F41;
-
-  --shadow-card: 0 6px 14px rgba(13, 27, 42, 0.25);
-  --shadow-hover: 0 10px 20px rgba(13, 27, 42, 0.35);
-}
-
-body {
-  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
-  color: var(--paper); /* default on navy chrome only */
-}
-
-/* Generic surface */
-.surface {
-  background: var(--surface);
-  color: var(--text);
-  border-radius: 12px;
-  box-shadow: var(--shadow-card);
-}
-
-/* Buttons */
-.btn-primary {
-  background: var(--primary);
-  color: #fff;
-  border-radius: 10px;
-  padding: 0.7rem 1rem;
-  font-weight: 700;
-}
-
-.btn-primary:hover {
-  background: var(--primary-600);
-  box-shadow: 0 6px 14px rgba(228, 87, 46, 0.35);
-}
-
-.btn-secondary {
-  background: var(--secondary);
-  color: #fff;
-}
-
-.btn-secondary:hover {
-  background: var(--secondary-600);
-}
-
-/* Chips */
-.chip {
-  border-radius: 999px;
-  padding: 0.25rem 0.55rem;
-  font-weight: 600;
-  font-size: 0.8rem;
-}
-
-.chip-cat {
-  background: var(--secondary);
-  color: #fff;
-}
-
-.chip-attr {
-  background: var(--highlight);
-  color: var(--ink);
-}
-
-.chip-approve {
-  background: var(--success);
-  color: var(--ink);
-}
-
-/* Listing card */
-.card-listing {
-  composes: surface;
-  overflow: hidden;
-}
-
-.card-listing img {
-  aspect-ratio: 3/2;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-
-.card-listing:hover {
-  box-shadow: var(--shadow-hover);
-  transform: translateY(-2px);
-  transition: 0.2s ease;
+  --card-border:#E6DFC3;
+  --chip-bg:#F7F1D8;
+  --success:#3EB489;
+  --muted:#93A3B5;
+  --ring:#7FB3FF;
+  --shadow-cream: 0 8px 30px rgba(12,26,43,.22);
+  --shadow-cream-lg: 0 16px 44px rgba(12,26,43,.28);
 }

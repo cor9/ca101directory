@@ -88,7 +88,9 @@ export function DirectoryFilters({
     (selectedRegion && selectedRegion !== "all");
 
   return (
-    <Card className={`${className} bg-paper border border-surface/20 rounded-2xl shadow-[var(--shadow-cream)] relative z-[60] overflow-visible`}>
+    <Card
+      className={`${className} bg-paper border border-surface/20 rounded-2xl shadow-[var(--shadow-cream)] relative z-[60] overflow-visible`}
+    >
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg text-surface">Filters</CardTitle>
@@ -152,13 +154,22 @@ export function DirectoryFilters({
               value={selectedCategory}
               onValueChange={(value) => updateFilters("category", value)}
             >
-              <SelectTrigger id="category-select" className="bg-white/80 text-surface border-[color:var(--card-border)] rounded-full focus:ring-4 focus:ring-[color:var(--ring)] focus:outline-none">
+              <SelectTrigger
+                id="category-select"
+                className="bg-white/80 text-surface border-[color:var(--card-border)] rounded-full focus:ring-4 focus:ring-[color:var(--ring)] focus:outline-none"
+              >
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
-              <SelectContent className="z-[9999]">
-                <SelectItem value="all">All Categories</SelectItem>
+              <SelectContent className="z-[9999] bg-[color:var(--cream)] text-[color:var(--cream-ink)] border border-[color:var(--card-border)] shadow-[var(--shadow-cream)]">
+                <SelectItem value="all" className="text-[color:var(--cream-ink)]">
+                  All Categories
+                </SelectItem>
                 {categories.map((category) => (
-                  <SelectItem key={category.id} value={category.id}>
+                  <SelectItem
+                    key={category.id}
+                    value={category.id}
+                    className="text-[color:var(--cream-ink)] focus:text-[color:var(--cream-ink)]"
+                  >
                     {category.category_name}
                   </SelectItem>
                 ))}
@@ -178,13 +189,22 @@ export function DirectoryFilters({
               value={selectedRegion}
               onValueChange={(value) => updateFilters("region", value)}
             >
-              <SelectTrigger id="region-select" className="bg-white/80 text-surface border-[color:var(--card-border)] rounded-full focus:ring-4 focus:ring-[color:var(--ring)] focus:outline-none">
+              <SelectTrigger
+                id="region-select"
+                className="bg-white/80 text-surface border-[color:var(--card-border)] rounded-full focus:ring-4 focus:ring-[color:var(--ring)] focus:outline-none"
+              >
                 <SelectValue placeholder="All Regions" />
               </SelectTrigger>
-              <SelectContent className="z-[9999]">
-                <SelectItem value="all">All Regions</SelectItem>
+              <SelectContent className="z-[9999] bg-[color:var(--cream)] text-[color:var(--cream-ink)] border border-[color:var(--card-border)] shadow-[var(--shadow-cream)]">
+                <SelectItem value="all" className="text-[color:var(--cream-ink)]">
+                  All Regions
+                </SelectItem>
                 {regionsList.map((region) => (
-                  <SelectItem key={region} value={region}>
+                  <SelectItem
+                    key={region}
+                    value={region}
+                    className="text-[color:var(--cream-ink)] focus:text-[color:var(--cream-ink)]"
+                  >
                     {region}
                   </SelectItem>
                 ))}

@@ -3,17 +3,28 @@ import type { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ListingCard({ item, categoryIconMap, allCategories = [] }: { item: ItemInfo; categoryIconMap?: Record<string, string>; allCategories?: string[] }) {
+export default function ListingCard({
+  item,
+  categoryIconMap,
+  allCategories = [],
+}: {
+  item: ItemInfo;
+  categoryIconMap?: Record<string, string>;
+  allCategories?: string[];
+}) {
   const iconAny = (item as unknown as { icon?: unknown }).icon;
   const profileRef =
-    (iconAny && typeof iconAny === "object" && (iconAny as { asset?: { _ref?: string } }).asset?.
-      _ref) || (typeof iconAny === "string" ? (iconAny as string) : null);
+    (iconAny &&
+      typeof iconAny === "object" &&
+      (iconAny as { asset?: { _ref?: string } }).asset?._ref) ||
+    (typeof iconAny === "string" ? (iconAny as string) : null);
   const profileUrl = profileRef ? getListingImageUrl(profileRef) : null;
   // Normalize category to full name (avoid splitting words like "Acting Classes & Coaches")
   const rawFirst = item.categories?.[0]?.name || "";
+  // Map by startsWith to avoid partial tokens like "Acting"
   const primaryCategory =
-    allCategories.find(
-      (full) => full.toLowerCase() === rawFirst.toLowerCase(),
+    allCategories.find((full) =>
+      full.toLowerCase().startsWith(rawFirst.toLowerCase()),
     ) || rawFirst;
   const localMap: Record<string, string> = {
     "Acting Classes & Coaches": "/categories/masks.png",
@@ -49,7 +60,9 @@ export default function ListingCard({ item, categoryIconMap, allCategories = [] 
   const fileFromLocal = localMap[primaryCategory];
   const picked = fileFromProps || fileFromLocal;
   const fallbackIcon = picked
-    ? getCategoryIconUrl((picked.includes("/") ? picked.split("/").pop() : picked) || "")
+    ? getCategoryIconUrl(
+        (picked.includes("/") ? picked.split("/").pop() : picked) || "",
+      )
     : undefined;
   const planLabel =
     item.pricePlan ||
@@ -73,7 +86,12 @@ export default function ListingCard({ item, categoryIconMap, allCategories = [] 
     <article className="bg-[color:var(--cream)] text-[color:var(--cream-ink)] rounded-2xl border border-[color:var(--card-border)] shadow-[var(--shadow-cream)] overflow-hidden transition-transform hover:-translate-y-0.5 hover:shadow-[var(--shadow-cream-lg)]">
       <div className="aspect-[16/9] bg-[#EDE6C8] relative overflow-hidden z-[10]">
         {profileUrl ? (
-          <Image src={profileUrl} alt={item.name} fill className="object-cover" />
+          <Image
+            src={profileUrl}
+            alt={item.name}
+            fill
+            className="object-cover"
+          />
         ) : fallbackIcon ? (
           <Image
             src={fallbackIcon}
@@ -105,14 +123,20 @@ export default function ListingCard({ item, categoryIconMap, allCategories = [] 
 
         {item.categories && item.categories.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {item.categories.slice(0, 3).map((c) => (
+            {item.categories.slice(0, 3).map((c) => {
+              const full =
+                allCategories.find((name) =>
+                  name.toLowerCase().startsWith(c.name.toLowerCase()),
+                ) || c.name;
+              return (
               <span
                 key={c._id}
                 className="rounded-full bg-[color:var(--chip-bg)] border border-[color:var(--card-border)] px-2 py-1 text-xs"
               >
-                {c.name}
+                {full}
               </span>
-            ))}
+              );
+            })}
           </div>
         )}
 

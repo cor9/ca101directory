@@ -71,10 +71,10 @@ export default function VendorValueProps() {
     <section className="py-16">
       <Container>
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4 text-paper">
+          <h2 className="bauhaus-heading text-3xl mb-4 text-paper">
             Why List With Us
           </h2>
-          <p className="text-lg text-paper/90 max-w-2xl mx-auto">
+          <p className="bauhaus-body text-lg text-paper/90 max-w-2xl mx-auto">
             Join thousands of professionals who trust us to connect them with
             families
           </p>
@@ -94,10 +94,10 @@ export default function VendorValueProps() {
                 <div className={`inline-flex items-center justify-center w-16 h-16 ${colorClass} rounded-full mb-6 text-paper`}>
                   {prop.icon}
                 </div>
-                <h3 className="text-xl font-semibold mb-4 text-paper">
+                <h3 className="bauhaus-heading text-xl mb-4 text-paper">
                   {prop.title}
                 </h3>
-                <p className="text-paper/90">{prop.description}</p>
+                <p className="bauhaus-body text-paper/90">{prop.description}</p>
               </div>
             );
           })}

@@ -1,18 +1,18 @@
 export default function VendorFinalCta() {
   return (
     <div className="bg-paper border border-primary-orange/20 rounded-xl p-12 text-center shadow-lg">
-      <h2 className="text-3xl md:text-4xl font-bold text-surface mb-4">
+      <h2 className="bauhaus-heading text-3xl md:text-4xl text-surface mb-4">
         Ready to grow your business?
       </h2>
-      <p className="text-xl text-surface/80 mb-8 max-w-2xl mx-auto">
+      <p className="bauhaus-body text-xl text-surface/80 mb-8 max-w-2xl mx-auto">
         Join thousands of professionals who trust Child Actor 101 to connect
         them with families
       </p>
       <a
         href="/auth/register?role=vendor"
-        className="inline-flex items-center px-8 py-4 bg-primary-orange text-paper rounded-xl hover:bg-primary-orange/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-semibold text-lg"
+        className="bauhaus-btn-primary text-lg"
       >
-        List Your Business Today
+        LIST YOUR BUSINESS TODAY
         <svg
           className="ml-2 h-5 w-5"
           fill="none"

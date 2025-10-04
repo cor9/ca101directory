@@ -36,10 +36,10 @@ export default function VendorFAQ() {
     <section className="py-16">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4 text-paper">
+          <h2 className="bauhaus-heading text-3xl mb-4 text-paper">
             Frequently Asked Questions
           </h2>
-          <p className="text-lg text-paper/90">
+          <p className="bauhaus-body text-lg text-paper/90">
             Everything you need to know about listing your business
           </p>
         </div>

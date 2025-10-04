@@ -26,10 +26,10 @@ export default function VendorTestimonials() {
   return (
     <div>
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold mb-4 text-paper">
+        <h2 className="bauhaus-heading text-3xl mb-4 text-paper">
           What Our Vendors Say
         </h2>
-        <p className="text-lg text-paper/90 max-w-2xl mx-auto">
+        <p className="bauhaus-body text-lg text-paper/90 max-w-2xl mx-auto">
           Real results from professionals who trust our platform
         </p>
       </div>

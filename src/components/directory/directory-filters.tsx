@@ -88,16 +88,16 @@ export function DirectoryFilters({
     (selectedRegion && selectedRegion !== "all");
 
   return (
-    <Card className={className}>
+    <Card className={`${className} bg-paper border-surface/20`}>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">Filters</CardTitle>
+          <CardTitle className="text-lg text-surface">Filters</CardTitle>
           {hasActiveFilters && (
             <Button
               variant="ghost"
               size="sm"
               onClick={clearAllFilters}
-              className="text-muted-foreground hover:text-foreground"
+              className="text-surface/60 hover:text-surface"
             >
               <X className="h-4 w-4 mr-1" />
               Clear All
@@ -144,7 +144,7 @@ export function DirectoryFilters({
           <div>
             <label
               htmlFor="category-select"
-              className="text-sm font-medium mb-2 block"
+              className="text-sm font-medium mb-2 block text-surface"
             >
               Category
             </label>
@@ -170,7 +170,7 @@ export function DirectoryFilters({
           <div>
             <label
               htmlFor="region-select"
-              className="text-sm font-medium mb-2 block"
+              className="text-sm font-medium mb-2 block text-surface"
             >
               Region
             </label>

@@ -172,10 +172,10 @@ export function SupabaseSubmitForm({
   };
 
   return (
-    <Card>
+    <Card className="surface border-surface/20">
       <CardHeader>
-        <CardTitle>Submit Your Listing</CardTitle>
-        <CardDescription>
+        <CardTitle style={{ color: "#1F2327" }}>Submit Your Listing</CardTitle>
+        <CardDescription style={{ color: "#333" }}>
           Create a professional listing for your child actor business
         </CardDescription>
       </CardHeader>
@@ -183,10 +183,10 @@ export function SupabaseSubmitForm({
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Information */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Basic Information</h3>
+            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>Basic Information</h3>
 
             <div className="space-y-2">
-              <Label htmlFor="name">Business Name *</Label>
+              <Label htmlFor="name" style={{ color: "#1F2327" }}>Business Name *</Label>
               <Input
                 id="name"
                 value={formData.name}
@@ -194,14 +194,15 @@ export function SupabaseSubmitForm({
                 placeholder="Your business name"
                 maxLength={32}
                 required
+                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs" style={{ color: "#666" }}>
                 {formData.name.length}/32 characters
               </p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">What You Offer *</Label>
+              <Label htmlFor="description" style={{ color: "#1F2327" }}>What You Offer *</Label>
               <Textarea
                 id="description"
                 value={formData.description}
@@ -211,14 +212,15 @@ export function SupabaseSubmitForm({
                 placeholder="Describe your services"
                 maxLength={256}
                 required
+                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs" style={{ color: "#666" }}>
                 {formData.description.length}/256 characters
               </p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="introduction">Who Is It For</Label>
+              <Label htmlFor="introduction" style={{ color: "#1F2327" }}>Who Is It For</Label>
               <Textarea
                 id="introduction"
                 value={formData.introduction}
@@ -226,32 +228,34 @@ export function SupabaseSubmitForm({
                   handleInputChange("introduction", e.target.value)
                 }
                 placeholder="Describe your target audience"
+                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="unique">What Makes You Unique</Label>
+              <Label htmlFor="unique" style={{ color: "#1F2327" }}>What Makes You Unique</Label>
               <Textarea
                 id="unique"
                 value={formData.unique}
                 onChange={(e) => handleInputChange("unique", e.target.value)}
                 placeholder="What sets you apart from competitors"
+                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
             </div>
           </div>
 
           {/* Service Format */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Service Format</h3>
+            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>Service Format</h3>
 
             <div className="space-y-2">
-              <Label>Format *</Label>
+              <Label style={{ color: "#1F2327" }}>Format *</Label>
               <Select
                 value={formData.format}
                 onValueChange={(value) => handleInputChange("format", value)}
                 required
               >
-                <SelectTrigger>
+                <SelectTrigger className="bg-paper border-secondary-denim text-surface">
                   <SelectValue placeholder="Select service format" />
                 </SelectTrigger>
                 <SelectContent>
@@ -263,7 +267,7 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="space-y-2">
-              <Label>Age Ranges</Label>
+              <Label style={{ color: "#1F2327" }}>Age Ranges</Label>
               <div className="grid grid-cols-2 gap-2">
                 {["5-8", "9-12", "13-17", "18+"].map((age) => (
                   <div key={age} className="flex items-center space-x-2">
@@ -272,7 +276,7 @@ export function SupabaseSubmitForm({
                       checked={formData.tags.includes(age)}
                       onCheckedChange={() => handleTagToggle(age)}
                     />
-                    <Label htmlFor={`age-${age}`} className="text-sm">
+                    <Label htmlFor={`age-${age}`} className="text-sm" style={{ color: "#333" }}>
                       {age}
                     </Label>
                   </div>
@@ -283,7 +287,7 @@ export function SupabaseSubmitForm({
 
           {/* Categories */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Categories</h3>
+            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>Categories</h3>
             <div className="grid grid-cols-2 gap-2">
               {categories.map((category) => (
                 <div key={category.id} className="flex items-center space-x-2">
@@ -295,6 +299,7 @@ export function SupabaseSubmitForm({
                   <Label
                     htmlFor={`category-${category.id}`}
                     className="text-sm"
+                    style={{ color: "#333" }}
                   >
                     {category.name}
                   </Label>
@@ -305,11 +310,11 @@ export function SupabaseSubmitForm({
 
           {/* Contact Information */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Contact Information</h3>
+            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>Contact Information</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email *</Label>
+                <Label htmlFor="email" style={{ color: "#1F2327" }}>Email *</Label>
                 <Input
                   id="email"
                   type="email"
@@ -317,50 +322,54 @@ export function SupabaseSubmitForm({
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   placeholder="your@email.com"
                   required
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone</Label>
+                <Label htmlFor="phone" style={{ color: "#1F2327" }}>Phone</Label>
                 <Input
                   id="phone"
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
                   placeholder="(555) 123-4567"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="link">Website</Label>
+              <Label htmlFor="link" style={{ color: "#1F2327" }}>Website</Label>
               <Input
                 id="link"
                 type="url"
                 value={formData.link}
                 onChange={(e) => handleInputChange("link", e.target.value)}
                 placeholder="https://yourwebsite.com"
+                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="city">City</Label>
+                <Label htmlFor="city" style={{ color: "#1F2327" }}>City</Label>
                 <Input
                   id="city"
                   value={formData.city}
                   onChange={(e) => handleInputChange("city", e.target.value)}
                   placeholder="Los Angeles"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="state">State</Label>
+                <Label htmlFor="state" style={{ color: "#1F2327" }}>State</Label>
                 <Select
                   value={formData.state}
                   onValueChange={(value) => handleInputChange("state", value)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-paper border-secondary-denim text-surface">
                     <SelectValue placeholder="Select state" />
                   </SelectTrigger>
                   <SelectContent>
@@ -375,23 +384,24 @@ export function SupabaseSubmitForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="zip">ZIP Code</Label>
+                <Label htmlFor="zip" style={{ color: "#1F2327" }}>ZIP Code</Label>
                 <Input
                   id="zip"
                   value={formData.zip}
                   onChange={(e) => handleInputChange("zip", e.target.value)}
                   placeholder="90210"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="region">Region</Label>
+              <Label htmlFor="region" style={{ color: "#1F2327" }}>Region</Label>
               <Select
                 value={formData.region}
                 onValueChange={(value) => handleInputChange("region", value)}
               >
-                <SelectTrigger>
+                <SelectTrigger className="bg-paper border-secondary-denim text-surface">
                   <SelectValue placeholder="Select region" />
                 </SelectTrigger>
                 <SelectContent>
@@ -418,42 +428,42 @@ export function SupabaseSubmitForm({
 
           {/* Plan Selection */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Plan Selection</h3>
+            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>Plan Selection</h3>
             <RadioGroup
               value={formData.plan}
               onValueChange={(value) => handleInputChange("plan", value)}
             >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Free" id="plan-free" />
-                <Label htmlFor="plan-free">Free</Label>
+                <Label htmlFor="plan-free" style={{ color: "#333" }}>Free</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Standard" id="plan-standard" />
-                <Label htmlFor="plan-standard">Standard</Label>
+                <Label htmlFor="plan-standard" style={{ color: "#333" }}>Standard</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Pro" id="plan-pro" />
-                <Label htmlFor="plan-pro">Pro</Label>
+                <Label htmlFor="plan-pro" style={{ color: "#333" }}>Pro</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem
                   value="Founding Standard"
                   id="plan-founding-standard"
                 />
-                <Label htmlFor="plan-founding-standard">
+                <Label htmlFor="plan-founding-standard" style={{ color: "#333" }}>
                   Founding Standard
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Founding Pro" id="plan-founding-pro" />
-                <Label htmlFor="plan-founding-pro">Founding Pro</Label>
+                <Label htmlFor="plan-founding-pro" style={{ color: "#333" }}>Founding Pro</Label>
               </div>
             </RadioGroup>
           </div>
 
           {/* Legal Compliance */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Legal Compliance</h3>
+            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>Legal Compliance</h3>
 
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
@@ -464,7 +474,7 @@ export function SupabaseSubmitForm({
                     handleInputChange("performerPermit", checked)
                   }
                 />
-                <Label htmlFor="performerPermit" className="text-sm">
+                <Label htmlFor="performerPermit" className="text-sm" style={{ color: "#333" }}>
                   California Child Performer Services Permit
                 </Label>
               </div>
@@ -477,14 +487,14 @@ export function SupabaseSubmitForm({
                     handleInputChange("bonded", checked)
                   }
                 />
-                <Label htmlFor="bonded" className="text-sm">
+                <Label htmlFor="bonded" className="text-sm" style={{ color: "#333" }}>
                   Bonded for Advanced Fees
                 </Label>
               </div>
 
               {formData.bonded && (
                 <div className="space-y-2">
-                  <Label htmlFor="bondNumber">Bond Number</Label>
+                  <Label htmlFor="bondNumber" style={{ color: "#1F2327" }}>Bond Number</Label>
                   <Input
                     id="bondNumber"
                     value={formData.bondNumber}
@@ -492,6 +502,7 @@ export function SupabaseSubmitForm({
                       handleInputChange("bondNumber", e.target.value)
                     }
                     placeholder="Bond number"
+                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                   />
                 </div>
               )}
@@ -500,19 +511,20 @@ export function SupabaseSubmitForm({
 
           {/* Additional Notes */}
           <div className="space-y-2">
-            <Label htmlFor="notes">Additional Notes</Label>
+            <Label htmlFor="notes" style={{ color: "#1F2327" }}>Additional Notes</Label>
             <Textarea
               id="notes"
               value={formData.notes}
               onChange={(e) => handleInputChange("notes", e.target.value)}
               placeholder="Any additional information"
+              className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
             />
           </div>
 
           {/* Image Upload */}
           <div className="space-y-2">
-            <Label>Profile Image</Label>
-            <div className="h-48 border-2 border-dashed border-gray-300 rounded-lg">
+            <Label style={{ color: "#1F2327" }}>Profile Image</Label>
+            <div className="h-48 border-2 border-dashed border-secondary-denim rounded-lg">
               <ImageUpload
                 currentImageUrl={formData.imageId}
                 onUploadChange={(status) => {
@@ -524,21 +536,21 @@ export function SupabaseSubmitForm({
                 type="image"
               />
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs" style={{ color: "#666" }}>
               Upload a professional photo or logo for your listing
             </p>
           </div>
 
           {/* Gallery Upload */}
           <div className="space-y-2">
-            <Label>Gallery Images</Label>
+            <Label style={{ color: "#1F2327" }}>Gallery Images</Label>
             <GalleryUpload
               maxImages={getMaxGalleryImages()}
               currentImages={galleryImages}
               onImagesChange={setGalleryImages}
               onUploadingChange={setIsGalleryUploading}
             />
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs" style={{ color: "#666" }}>
               {getMaxGalleryImages() === 0
                 ? "Gallery images are only available with Pro plan"
                 : "Pro plan includes 4 gallery images (5 total with profile)"}
@@ -549,7 +561,7 @@ export function SupabaseSubmitForm({
           <Button
             type="submit"
             disabled={isSubmitting || isImageUploading || isGalleryUploading}
-            className="w-full"
+            className="w-full btn-primary"
           >
             {isSubmitting
               ? "Submitting..."

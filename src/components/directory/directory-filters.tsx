@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 // Removed states array - using regions only
 
 // Common regions (can be expanded)
-const regions = [
+export const regionsList = [
   "Los Angeles County",
   "Orange County",
   "San Diego County",
@@ -88,7 +88,7 @@ export function DirectoryFilters({
     (selectedRegion && selectedRegion !== "all");
 
   return (
-    <Card className={`${className} bg-paper border border-surface/20`}>
+    <Card className={`${className} bg-paper border border-surface/20 rounded-2xl shadow-[var(--shadow-cream)]`}>
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg text-surface">Filters</CardTitle>
@@ -97,7 +97,7 @@ export function DirectoryFilters({
               variant="ghost"
               size="sm"
               onClick={clearAllFilters}
-              className="text-surface/60 hover:text-surface"
+              className="text-surface/60 hover:text-surface rounded-full"
             >
               <X className="h-4 w-4 mr-1" />
               Clear All
@@ -152,10 +152,10 @@ export function DirectoryFilters({
               value={selectedCategory}
               onValueChange={(value) => updateFilters("category", value)}
             >
-              <SelectTrigger id="category-select" className="bg-paper text-surface border-surface/30">
+              <SelectTrigger id="category-select" className="bg-white/80 text-surface border-[color:var(--card-border)] rounded-full focus:ring-4 focus:ring-[color:var(--ring)] focus:outline-none">
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="z-50">
                 <SelectItem value="all">All Categories</SelectItem>
                 {categories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
@@ -178,12 +178,12 @@ export function DirectoryFilters({
               value={selectedRegion}
               onValueChange={(value) => updateFilters("region", value)}
             >
-              <SelectTrigger id="region-select" className="bg-paper text-surface border-surface/30">
+              <SelectTrigger id="region-select" className="bg-white/80 text-surface border-[color:var(--card-border)] rounded-full focus:ring-4 focus:ring-[color:var(--ring)] focus:outline-none">
                 <SelectValue placeholder="All Regions" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="z-50">
                 <SelectItem value="all">All Regions</SelectItem>
-                {regions.map((region) => (
+                {regionsList.map((region) => (
                   <SelectItem key={region} value={region}>
                     {region}
                   </SelectItem>

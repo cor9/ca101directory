@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
-const supabaseHostname = supabaseUrl ? new URL(supabaseUrl).hostname : undefined;
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+const supabaseHostname = supabaseUrl
+  ? new URL(supabaseUrl).hostname
+  : undefined;
 
 const nextConfig = {
   // Configure `pageExtensions` to include markdown and MDX files

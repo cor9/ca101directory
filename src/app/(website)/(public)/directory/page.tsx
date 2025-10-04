@@ -2,6 +2,7 @@ import Container from "@/components/container";
 import { DirectoryFilters } from "@/components/directory/directory-filters";
 import ItemGrid from "@/components/item/item-grid";
 import DirectoryHeader from "@/components/directory/DirectoryHeader";
+import { regionsList } from "@/components/directory/directory-filters";
 import ListingCard from "@/components/directory/ListingCard";
 import SearchBox from "@/components/search/search-box";
 import EmptyGrid from "@/components/shared/empty-grid";
@@ -103,7 +104,7 @@ export default async function DirectoryPage({
 
   return (
     <div className="flex flex-col bg-[color:var(--navy)] bg-[radial-gradient(1200px_600px_at_70%_-10%,#122338,transparent)]">
-      <DirectoryHeader total={totalCount} categoriesCount={categories?.length} familiesCount={12000} />
+      <DirectoryHeader total={totalCount} categoriesCount={categories?.length} regionsCount={regionsList.length} />
 
       {/* Search */}
       <Container className="pb-8">

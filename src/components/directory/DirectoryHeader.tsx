@@ -1,11 +1,11 @@
 export default function DirectoryHeader({
   total,
   categoriesCount,
-  familiesCount,
+  regionsCount,
 }: {
   total: number;
   categoriesCount?: number;
-  familiesCount?: number;
+  regionsCount?: number;
 }) {
   return (
     <section className="mx-auto max-w-7xl px-6 pt-10 pb-6">
@@ -20,7 +20,7 @@ export default function DirectoryHeader({
         {[
           { label: "Professionals", value: total?.toLocaleString() },
           { label: "Categories", value: categoriesCount ?? "—" },
-          { label: "Families Reached", value: familiesCount ?? "12,000+" },
+          { label: "Regions", value: regionsCount ?? "—" },
         ].map((s) => (
           <div
             key={s.label}

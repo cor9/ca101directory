@@ -85,6 +85,12 @@ const config = {
         photographers: "hsl(var(--photographers-color))",
         editors: "hsl(var(--editors-color))",
         studios: "hsl(var(--studios-color))",
+
+        // Bauhaus Mid-Century Modern Hollywood Colors
+        "bauhaus-mustard": "var(--mustard-yellow)",
+        "bauhaus-orange": "var(--faded-red-orange)", 
+        "bauhaus-blue": "var(--robin-egg-blue)",
+        "bauhaus-charcoal": "var(--charcoal)",
       },
       borderRadius: {
         lg: "var(--radius)",

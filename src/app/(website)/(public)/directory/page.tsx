@@ -128,7 +128,12 @@ export default async function DirectoryPage({
           <>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {items.map((it) => (
-                <ListingCard key={it._id} item={it} categoryIconMap={categoryIconMap} />
+                <ListingCard
+                  key={it._id}
+                  item={it}
+                  categoryIconMap={categoryIconMap}
+                  allCategories={categories?.map((c) => c.category_name) || []}
+                />
               ))}
             </div>
 

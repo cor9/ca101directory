@@ -138,15 +138,13 @@ export function EditForm({ listing, categories }: EditFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-        <h2 className="text-lg font-semibold text-blue-800 mb-2">
-          Editing: {listing.listing_name}
-        </h2>
-        <p className="text-sm text-blue-600">
-          Current Plan: <strong>{listing.plan}</strong>
-        </p>
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Edit Your Listing</h2>
+        <p className="text-gray-600">Make changes to your listing information below.</p>
       </div>
+      
+      <form onSubmit={handleSubmit} className="space-y-6">
 
       {/* Business Information */}
       <div className="grid gap-6 md:grid-cols-2">
@@ -429,22 +427,38 @@ export function EditForm({ listing, categories }: EditFormProps) {
       </div>
 
       {/* Submit Button */}
-      <div className="flex gap-4">
-        <Button
-          type="submit"
-          disabled={isSubmitting || isImageUploading || isGalleryUploading}
-          className="w-full"
-        >
-          {isSubmitting ? "Updating..." : "Update Listing"}
-        </Button>
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => router.push("/dashboard/vendor")}
-        >
-          Cancel
-        </Button>
+      <div className="bg-gray-50 border-t border-gray-200 -mx-6 px-6 py-6 mt-8">
+        <div className="flex gap-4">
+          <Button
+            type="submit"
+            disabled={isSubmitting || isImageUploading || isGalleryUploading}
+            className="flex-1 bg-primary-orange hover:bg-primary-orange/90 text-white font-semibold py-3 px-6 text-lg shadow-lg hover:shadow-xl transition-all duration-200"
+          >
+            {isSubmitting ? (
+              <>
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3" />
+                Updating Listing...
+              </>
+            ) : (
+              <>
+                ✓ Update Listing
+              </>
+            )}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => router.push("/dashboard/vendor")}
+            className="px-6 py-3 text-gray-600 hover:text-gray-800 border-gray-300 hover:border-gray-400"
+          >
+            Cancel
+          </Button>
+        </div>
+        <p className="text-sm text-gray-500 mt-3 text-center">
+          Your changes will be saved immediately after clicking "Update Listing"
+        </p>
       </div>
-    </form>
+      </form>
+    </div>
   );
 }

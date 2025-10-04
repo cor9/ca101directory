@@ -227,7 +227,7 @@ export default async function SubmitPage({
           </div>
         ) : (
           // Show both forms for regular submission
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Free Listing Form */}
             <div>
               <div className="text-center mb-6">

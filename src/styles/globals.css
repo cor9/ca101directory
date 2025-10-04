@@ -365,18 +365,18 @@
 
   /* Listing page design system */
   .listing-page {
-    background: #0C1A2B; /* navy backdrop */
+    background: #0c1a2b; /* navy backdrop */
     padding: 2rem;
     min-height: 100vh;
   }
 
   .listing-card {
-    background: #FFFDD0; /* cream */
+    background: #fffdd0; /* cream */
     border-radius: 12px;
     padding: 2rem;
     margin-bottom: 1.5rem;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    color: #0C1A2B; /* navy text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #0c1a2b; /* navy text */
     line-height: 1.7;
   }
 
@@ -386,7 +386,7 @@
     font-size: 0.9rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    color: #2A2A2A;
+    color: #2a2a2a;
   }
 
   /* Sidebar layout */
@@ -406,10 +406,18 @@
     font-weight: 600;
     color: #fff;
   }
-  .badge.orange { background: #F25C05; }
-  .badge.blue { background: #0C88F2; }
-  .badge.mustard { background: #F2B705; }
-  .badge.green { background: #1F7A4D; }
+  .badge.orange {
+    background: #f25c05;
+  }
+  .badge.blue {
+    background: #0c88f2;
+  }
+  .badge.mustard {
+    background: #f2b705;
+  }
+  .badge.green {
+    background: #1f7a4d;
+  }
 
   /* Text line clamping utilities */
   .line-clamp-1 {

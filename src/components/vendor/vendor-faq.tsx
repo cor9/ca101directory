@@ -50,7 +50,10 @@ export default function VendorFAQ() {
               key={`faq-${faq.question}`}
               className="surface border border-surface/20 rounded-xl p-6"
             >
-              <h3 className="text-lg font-semibold mb-3" style={{ color: "#1F2327" }}>
+              <h3
+                className="text-lg font-semibold mb-3"
+                style={{ color: "#1F2327" }}
+              >
                 {faq.question}
               </h3>
               <p style={{ color: "#333" }}>{faq.answer}</p>

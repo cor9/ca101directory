@@ -97,17 +97,25 @@ export default async function ParentDashboard() {
           {/* Recent Favorites */}
           {isFavoritesEnabled() && favorites.length > 0 && (
             <div className="bg-surface/20 rounded-lg p-6 border border-surface/20">
-              <h2 className="text-lg font-semibold mb-4 text-paper">Recent Favorites</h2>
+              <h2 className="text-lg font-semibold mb-4 text-paper">
+                Recent Favorites
+              </h2>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {favorites.slice(0, 6).map((favorite) => (
                   <div
                     key={favorite.id}
                     className="surface rounded-lg p-4 border border-surface/20"
                   >
-                    <h3 className="font-medium text-sm mb-2" style={{ color: "#1F2327" }}>
+                    <h3
+                      className="font-medium text-sm mb-2"
+                      style={{ color: "#1F2327" }}
+                    >
                       {favorite.listing?.listing_name || "Unknown Listing"}
                     </h3>
-                    <p className="text-xs line-clamp-2" style={{ color: "#333" }}>
+                    <p
+                      className="text-xs line-clamp-2"
+                      style={{ color: "#333" }}
+                    >
                       {favorite.listing?.what_you_offer ||
                         "No description available"}
                     </p>
@@ -133,7 +141,9 @@ export default async function ParentDashboard() {
           {/* Recent Reviews */}
           {isReviewsEnabled() && reviews.length > 0 && (
             <div className="bg-surface/20 rounded-lg p-6 border border-surface/20">
-              <h2 className="text-lg font-semibold mb-4 text-paper">Recent Reviews</h2>
+              <h2 className="text-lg font-semibold mb-4 text-paper">
+                Recent Reviews
+              </h2>
               <div className="space-y-4">
                 {reviews.slice(0, 3).map((review) => (
                   <div
@@ -141,7 +151,10 @@ export default async function ParentDashboard() {
                     className="surface rounded-lg p-4 border border-surface/20"
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-medium text-sm" style={{ color: "#1F2327" }}>
+                      <h3
+                        className="font-medium text-sm"
+                        style={{ color: "#1F2327" }}
+                      >
                         {review.listing?.listing_name || "Unknown Listing"}
                       </h3>
                       <div className="flex items-center gap-1">
@@ -159,7 +172,10 @@ export default async function ParentDashboard() {
                         ))}
                       </div>
                     </div>
-                    <p className="text-xs line-clamp-2" style={{ color: "#333" }}>
+                    <p
+                      className="text-xs line-clamp-2"
+                      style={{ color: "#333" }}
+                    >
                       {review.text}
                     </p>
                     <div className="mt-2 text-xs" style={{ color: "#666" }}>
@@ -187,7 +203,9 @@ export default async function ParentDashboard() {
           {/* Empty State */}
           {favorites.length === 0 && reviews.length === 0 && (
             <div className="bg-surface/20 rounded-lg p-6 text-center border border-surface/20">
-              <h2 className="text-lg font-semibold mb-2 text-paper">Get Started</h2>
+              <h2 className="text-lg font-semibold mb-2 text-paper">
+                Get Started
+              </h2>
               <p className="text-paper/90 mb-4">
                 Start exploring the directory to find professionals for your
                 child's acting journey.
@@ -211,7 +229,9 @@ export default async function ParentDashboard() {
 
           {/* Quick Actions */}
           <div className="bg-surface/20 rounded-lg p-6 border border-surface/20">
-            <h2 className="text-lg font-semibold mb-4 text-paper">Quick Actions</h2>
+            <h2 className="text-lg font-semibold mb-4 text-paper">
+              Quick Actions
+            </h2>
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <h3 className="font-medium text-paper">Discover Vendors</h3>

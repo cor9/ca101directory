@@ -3,15 +3,15 @@ import { Icons } from "@/components/icons/icons";
 import { homeConfig } from "@/config/home";
 
 const accentStyles = [
-  "bg-secondary/10 text-secondary",
-  "bg-primary/10 text-primary",
+  "bg-secondary-denim/10 text-secondary-denim",
+  "bg-primary-orange/10 text-primary-orange",
   "bg-highlight/10 text-highlight",
   "bg-info/10 text-info",
 ];
 
 export default function HomeValueProps() {
   return (
-    <section className="py-16 bg-gradient-to-br from-secondary/90 to-secondary">
+    <section className="py-16 bg-gradient-to-br from-secondary-denim/90 to-secondary-denim">
       <Container>
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <p className="text-sm uppercase tracking-wider text-paper/90">

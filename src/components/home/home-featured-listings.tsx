@@ -97,7 +97,7 @@ export default async function HomeFeaturedListings() {
         {listings.map((listing) => (
           <div
             key={listing.id}
-            className="surface overflow-hidden hover:shadow-hover hover:border-secondary transition-all duration-300"
+            className="surface overflow-hidden hover:shadow-hover hover:border-secondary-denim transition-all duration-300"
           >
             <div className="relative aspect-[3/2]">
               <Image
@@ -150,7 +150,7 @@ export default async function HomeFeaturedListings() {
                     .toLowerCase()
                     .replace(/\s+/g, "-")
                     .replace(/[^a-z0-9-]/g, "")}`}
-                  className="text-secondary hover:text-primary text-sm font-semibold transition-colors"
+                  className="text-secondary-denim hover:text-primary-orange text-sm font-semibold transition-colors"
                 >
                   View Listing →
                 </Link>
@@ -163,7 +163,7 @@ export default async function HomeFeaturedListings() {
       <div className="text-center mt-12">
         <Link
           href="/directory"
-          className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-secondary to-primary text-paper rounded-xl hover:from-secondary600 hover:to-primary600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-semibold"
+          className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-secondary-denim to-primary-orange text-paper rounded-xl hover:from-secondary-denim-600 hover:to-primary-orange-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-semibold"
         >
           View All Listings
           <Icons.arrowRight className="ml-2 h-5 w-5" />

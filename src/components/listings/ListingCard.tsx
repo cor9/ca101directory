@@ -90,7 +90,10 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
               </div>
             )}
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-lg group-hover:text-primary-orange transition-colors line-clamp-1" style={{ color: "#1F2327" }}>
+              <h3
+                className="font-semibold text-lg group-hover:text-primary-orange transition-colors line-clamp-1"
+                style={{ color: "#1F2327" }}
+              >
                 {listing.listing_name || "Untitled Listing"}
               </h3>
               <div className="flex items-center gap-2 mt-1">
@@ -153,7 +156,10 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
 
         {/* Location */}
         {(listing.city || listing.state || listing.region) && (
-          <div className="flex items-center gap-2 text-sm mb-3" style={{ color: "#666" }}>
+          <div
+            className="flex items-center gap-2 text-sm mb-3"
+            style={{ color: "#666" }}
+          >
             <MapPinIcon className="w-4 h-4" />
             <span>
               {[listing.city, listing.state, listing.region]
@@ -229,7 +235,12 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-2">
             {listing.website && (
-              <Button size="sm" variant="outline" asChild className="btn-secondary">
+              <Button
+                size="sm"
+                variant="outline"
+                asChild
+                className="btn-secondary"
+              >
                 <Link
                   href={listing.website}
                   target="_blank"
@@ -250,11 +261,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
               />
             )}
           </div>
-          <Button
-            size="sm"
-            asChild
-            className="btn-primary"
-          >
+          <Button size="sm" asChild className="btn-primary">
             <Link href={`/listing/${slug}`}>View Details</Link>
           </Button>
         </div>

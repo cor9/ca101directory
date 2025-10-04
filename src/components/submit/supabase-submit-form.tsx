@@ -183,10 +183,14 @@ export function SupabaseSubmitForm({
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Information */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>Basic Information</h3>
+            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>
+              Basic Information
+            </h3>
 
             <div className="space-y-2">
-              <Label htmlFor="name" style={{ color: "#1F2327" }}>Business Name *</Label>
+              <Label htmlFor="name" style={{ color: "#1F2327" }}>
+                Business Name *
+              </Label>
               <Input
                 id="name"
                 value={formData.name}
@@ -202,7 +206,9 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description" style={{ color: "#1F2327" }}>What You Offer *</Label>
+              <Label htmlFor="description" style={{ color: "#1F2327" }}>
+                What You Offer *
+              </Label>
               <Textarea
                 id="description"
                 value={formData.description}
@@ -220,7 +226,9 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="introduction" style={{ color: "#1F2327" }}>Who Is It For</Label>
+              <Label htmlFor="introduction" style={{ color: "#1F2327" }}>
+                Who Is It For
+              </Label>
               <Textarea
                 id="introduction"
                 value={formData.introduction}
@@ -233,7 +241,9 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="unique" style={{ color: "#1F2327" }}>What Makes You Unique</Label>
+              <Label htmlFor="unique" style={{ color: "#1F2327" }}>
+                What Makes You Unique
+              </Label>
               <Textarea
                 id="unique"
                 value={formData.unique}
@@ -246,7 +256,9 @@ export function SupabaseSubmitForm({
 
           {/* Service Format */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>Service Format</h3>
+            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>
+              Service Format
+            </h3>
 
             <div className="space-y-2">
               <Label style={{ color: "#1F2327" }}>Format *</Label>
@@ -276,7 +288,11 @@ export function SupabaseSubmitForm({
                       checked={formData.tags.includes(age)}
                       onCheckedChange={() => handleTagToggle(age)}
                     />
-                    <Label htmlFor={`age-${age}`} className="text-sm" style={{ color: "#333" }}>
+                    <Label
+                      htmlFor={`age-${age}`}
+                      className="text-sm"
+                      style={{ color: "#333" }}
+                    >
                       {age}
                     </Label>
                   </div>
@@ -287,7 +303,9 @@ export function SupabaseSubmitForm({
 
           {/* Categories */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>Categories</h3>
+            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>
+              Categories
+            </h3>
             <div className="grid grid-cols-2 gap-2">
               {categories.map((category) => (
                 <div key={category.id} className="flex items-center space-x-2">
@@ -310,11 +328,15 @@ export function SupabaseSubmitForm({
 
           {/* Contact Information */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>Contact Information</h3>
+            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>
+              Contact Information
+            </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="email" style={{ color: "#1F2327" }}>Email *</Label>
+                <Label htmlFor="email" style={{ color: "#1F2327" }}>
+                  Email *
+                </Label>
                 <Input
                   id="email"
                   type="email"
@@ -327,7 +349,9 @@ export function SupabaseSubmitForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone" style={{ color: "#1F2327" }}>Phone</Label>
+                <Label htmlFor="phone" style={{ color: "#1F2327" }}>
+                  Phone
+                </Label>
                 <Input
                   id="phone"
                   type="tel"
@@ -340,7 +364,9 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="link" style={{ color: "#1F2327" }}>Website</Label>
+              <Label htmlFor="link" style={{ color: "#1F2327" }}>
+                Website
+              </Label>
               <Input
                 id="link"
                 type="url"
@@ -353,7 +379,9 @@ export function SupabaseSubmitForm({
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="city" style={{ color: "#1F2327" }}>City</Label>
+                <Label htmlFor="city" style={{ color: "#1F2327" }}>
+                  City
+                </Label>
                 <Input
                   id="city"
                   value={formData.city}
@@ -364,7 +392,9 @@ export function SupabaseSubmitForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="state" style={{ color: "#1F2327" }}>State</Label>
+                <Label htmlFor="state" style={{ color: "#1F2327" }}>
+                  State
+                </Label>
                 <Select
                   value={formData.state}
                   onValueChange={(value) => handleInputChange("state", value)}
@@ -384,7 +414,9 @@ export function SupabaseSubmitForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="zip" style={{ color: "#1F2327" }}>ZIP Code</Label>
+                <Label htmlFor="zip" style={{ color: "#1F2327" }}>
+                  ZIP Code
+                </Label>
                 <Input
                   id="zip"
                   value={formData.zip}
@@ -396,7 +428,9 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="region" style={{ color: "#1F2327" }}>Region</Label>
+              <Label htmlFor="region" style={{ color: "#1F2327" }}>
+                Region
+              </Label>
               <Select
                 value={formData.region}
                 onValueChange={(value) => handleInputChange("region", value)}
@@ -428,42 +462,57 @@ export function SupabaseSubmitForm({
 
           {/* Plan Selection */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>Plan Selection</h3>
+            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>
+              Plan Selection
+            </h3>
             <RadioGroup
               value={formData.plan}
               onValueChange={(value) => handleInputChange("plan", value)}
             >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Free" id="plan-free" />
-                <Label htmlFor="plan-free" style={{ color: "#333" }}>Free</Label>
+                <Label htmlFor="plan-free" style={{ color: "#333" }}>
+                  Free
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Standard" id="plan-standard" />
-                <Label htmlFor="plan-standard" style={{ color: "#333" }}>Standard</Label>
+                <Label htmlFor="plan-standard" style={{ color: "#333" }}>
+                  Standard
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Pro" id="plan-pro" />
-                <Label htmlFor="plan-pro" style={{ color: "#333" }}>Pro</Label>
+                <Label htmlFor="plan-pro" style={{ color: "#333" }}>
+                  Pro
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem
                   value="Founding Standard"
                   id="plan-founding-standard"
                 />
-                <Label htmlFor="plan-founding-standard" style={{ color: "#333" }}>
+                <Label
+                  htmlFor="plan-founding-standard"
+                  style={{ color: "#333" }}
+                >
                   Founding Standard
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="Founding Pro" id="plan-founding-pro" />
-                <Label htmlFor="plan-founding-pro" style={{ color: "#333" }}>Founding Pro</Label>
+                <Label htmlFor="plan-founding-pro" style={{ color: "#333" }}>
+                  Founding Pro
+                </Label>
               </div>
             </RadioGroup>
           </div>
 
           {/* Legal Compliance */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>Legal Compliance</h3>
+            <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>
+              Legal Compliance
+            </h3>
 
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
@@ -474,7 +523,11 @@ export function SupabaseSubmitForm({
                     handleInputChange("performerPermit", checked)
                   }
                 />
-                <Label htmlFor="performerPermit" className="text-sm" style={{ color: "#333" }}>
+                <Label
+                  htmlFor="performerPermit"
+                  className="text-sm"
+                  style={{ color: "#333" }}
+                >
                   California Child Performer Services Permit
                 </Label>
               </div>
@@ -487,14 +540,20 @@ export function SupabaseSubmitForm({
                     handleInputChange("bonded", checked)
                   }
                 />
-                <Label htmlFor="bonded" className="text-sm" style={{ color: "#333" }}>
+                <Label
+                  htmlFor="bonded"
+                  className="text-sm"
+                  style={{ color: "#333" }}
+                >
                   Bonded for Advanced Fees
                 </Label>
               </div>
 
               {formData.bonded && (
                 <div className="space-y-2">
-                  <Label htmlFor="bondNumber" style={{ color: "#1F2327" }}>Bond Number</Label>
+                  <Label htmlFor="bondNumber" style={{ color: "#1F2327" }}>
+                    Bond Number
+                  </Label>
                   <Input
                     id="bondNumber"
                     value={formData.bondNumber}
@@ -511,7 +570,9 @@ export function SupabaseSubmitForm({
 
           {/* Additional Notes */}
           <div className="space-y-2">
-            <Label htmlFor="notes" style={{ color: "#1F2327" }}>Additional Notes</Label>
+            <Label htmlFor="notes" style={{ color: "#1F2327" }}>
+              Additional Notes
+            </Label>
             <Textarea
               id="notes"
               value={formData.notes}

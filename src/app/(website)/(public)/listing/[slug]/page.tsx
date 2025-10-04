@@ -142,7 +142,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
         {/* Header Card */}
         <div className="listing-card">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm mb-6" style={{ color: "#666" }}>
+          <div
+            className="flex items-center gap-2 text-sm mb-6"
+            style={{ color: "#666" }}
+          >
             <Link href="/" className="hover:text-primary-orange">
               Directory
             </Link>
@@ -163,10 +166,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
               />
             )}
             <div className="flex-1 max-w-2xl">
-              <h1 className="text-3xl font-bold mb-3 line-clamp-2" style={{ color: "#0C1A2B" }}>
+              <h1
+                className="text-3xl font-bold mb-3 line-clamp-2"
+                style={{ color: "#0C1A2B" }}
+              >
                 {listing.listing_name}
               </h1>
-              
+
               {/* Rating */}
               {isReviewsEnabled() && averageRating.count > 0 && (
                 <div className="flex items-center gap-2 mb-4">
@@ -176,8 +182,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     size="md"
                   />
                   <span className="text-sm" style={{ color: "#666" }}>
-                    {averageRating.average.toFixed(1)} (
-                    {averageRating.count} review
+                    {averageRating.average.toFixed(1)} ({averageRating.count}{" "}
+                    review
                     {averageRating.count !== 1 ? "s" : ""})
                   </span>
                 </div>
@@ -197,7 +203,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
               </div>
 
               {/* Description */}
-              <p className="text-lg leading-relaxed mb-6 line-clamp-4" style={{ color: "#0C1A2B" }}>
+              <p
+                className="text-lg leading-relaxed mb-6 line-clamp-4"
+                style={{ color: "#0C1A2B" }}
+              >
                 {listing["What You Offer?"]}
               </p>
 
@@ -247,44 +256,62 @@ export default async function ListingPage({ params }: ListingPageProps) {
           <div className="space-y-6">
             {/* About Card */}
             <div className="listing-card">
-              <h2 className="text-xl font-bold mb-4" style={{ color: "#0C1A2B" }}>
+              <h2
+                className="text-xl font-bold mb-4"
+                style={{ color: "#0C1A2B" }}
+              >
                 About This Professional
               </h2>
-              <p className="text-base leading-relaxed mb-6 line-clamp-6" style={{ color: "#0C1A2B" }}>
+              <p
+                className="text-base leading-relaxed mb-6 line-clamp-6"
+                style={{ color: "#0C1A2B" }}
+              >
                 {listing["What You Offer?"]}
               </p>
-              
+
               {listing.who_is_it_for && (
                 <div className="mb-6">
                   <h3>Who Is It For</h3>
-                  <p className="text-base leading-relaxed line-clamp-4" style={{ color: "#0C1A2B" }}>
+                  <p
+                    className="text-base leading-relaxed line-clamp-4"
+                    style={{ color: "#0C1A2B" }}
+                  >
                     {listing.who_is_it_for}
                   </p>
                 </div>
               )}
-              
+
               {listing.why_is_it_unique && (
                 <div className="mb-6">
                   <h3>What Makes This Unique</h3>
-                  <p className="text-base leading-relaxed line-clamp-4" style={{ color: "#0C1A2B" }}>
+                  <p
+                    className="text-base leading-relaxed line-clamp-4"
+                    style={{ color: "#0C1A2B" }}
+                  >
                     {listing.why_is_it_unique}
                   </p>
                 </div>
               )}
-              
+
               {listing.format && (
                 <div className="mb-6">
                   <h3>Service Format</h3>
-                  <p className="text-base leading-relaxed line-clamp-2" style={{ color: "#0C1A2B" }}>
+                  <p
+                    className="text-base leading-relaxed line-clamp-2"
+                    style={{ color: "#0C1A2B" }}
+                  >
                     {listing.format}
                   </p>
                 </div>
               )}
-              
+
               {listing.extras_notes && (
                 <div>
                   <h3>Additional Notes</h3>
-                  <p className="text-base leading-relaxed line-clamp-4" style={{ color: "#0C1A2B" }}>
+                  <p
+                    className="text-base leading-relaxed line-clamp-4"
+                    style={{ color: "#0C1A2B" }}
+                  >
                     {listing.extras_notes}
                   </p>
                 </div>
@@ -317,9 +344,12 @@ export default async function ListingPage({ params }: ListingPageProps) {
           {/* Right Column - Sidebar */}
           <div className="space-y-6">
             {/* Gallery - Show for Pro listings or if gallery exists */}
-            {(listing.gallery || (listing.plan === "pro" || listing.comped)) && (
+            {(listing.gallery || listing.plan === "pro" || listing.comped) && (
               <div className="listing-card">
-                <h2 className="text-lg font-semibold mb-4" style={{ color: "#0C1A2B" }}>
+                <h2
+                  className="text-lg font-semibold mb-4"
+                  style={{ color: "#0C1A2B" }}
+                >
                   Gallery
                 </h2>
                 {listing.gallery ? (
@@ -335,7 +365,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   </div>
                 ) : (
                   <div className="aspect-[4/3] bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                    <p className="text-gray-500 text-sm">No gallery images yet</p>
+                    <p className="text-gray-500 text-sm">
+                      No gallery images yet
+                    </p>
                   </div>
                 )}
               </div>
@@ -343,7 +375,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
             {/* Contact Information */}
             <div className="listing-card">
-              <h2 className="text-lg font-semibold mb-4" style={{ color: "#0C1A2B" }}>
+              <h2
+                className="text-lg font-semibold mb-4"
+                style={{ color: "#0C1A2B" }}
+              >
                 Contact Information
               </h2>
               <ul className="space-y-4 text-base">
@@ -394,18 +429,27 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
             {/* Claim Listing Section */}
             {!listing.is_claimed && !isOwner && (
-              <div className="listing-card" style={{ background: "linear-gradient(135deg, #FFFDD0 0%, #F8F4E6 100%)" }}>
+              <div
+                className="listing-card"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #FFFDD0 0%, #F8F4E6 100%)",
+                }}
+              >
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0">
                     <ShieldIcon className="w-8 h-8 text-primary-orange" />
                   </div>
                   <div className="flex-1">
-                    <h2 className="text-lg font-semibold mb-2" style={{ color: "#0C1A2B" }}>
+                    <h2
+                      className="text-lg font-semibold mb-2"
+                      style={{ color: "#0C1A2B" }}
+                    >
                       Own This Business?
                     </h2>
                     <p className="mb-4" style={{ color: "#666" }}>
-                      Claim your listing to gain full control, edit details,
-                      and upgrade to premium plans.
+                      Claim your listing to gain full control, edit details, and
+                      upgrade to premium plans.
                     </p>
                     <ClaimButton
                       listingId={listing.id}
@@ -421,7 +465,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
             {/* Claim Status Section */}
             {listing.is_claimed === true && (
-              <div className="listing-card" style={{ background: "linear-gradient(135deg, #FFFDD0 0%, #E8F4FD 100%)" }}>
+              <div
+                className="listing-card"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #FFFDD0 0%, #E8F4FD 100%)",
+                }}
+              >
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0">
                     <CheckCircleIcon className="w-8 h-8 text-secondary-denim" />
@@ -435,21 +485,36 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     </p>
                     <div className="space-y-2 text-sm">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium" style={{ color: "#0C1A2B" }}>Claimed by:</span>
+                        <span
+                          className="font-medium"
+                          style={{ color: "#0C1A2B" }}
+                        >
+                          Claimed by:
+                        </span>
                         <span style={{ color: "#666" }}>
                           {listing["Claimed by? (Email)"]}
                         </span>
                       </div>
                       {listing.date_claimed && (
                         <div className="flex items-center gap-2">
-                          <span className="font-medium" style={{ color: "#0C1A2B" }}>Claimed on:</span>
+                          <span
+                            className="font-medium"
+                            style={{ color: "#0C1A2B" }}
+                          >
+                            Claimed on:
+                          </span>
                           <span style={{ color: "#666" }}>
-                            {new Date(listing.date_claimed).toLocaleDateString()}
+                            {new Date(
+                              listing.date_claimed,
+                            ).toLocaleDateString()}
                           </span>
                         </div>
                       )}
                       <div className="flex items-center gap-2">
-                        <span className="font-medium" style={{ color: "#0C1A2B" }}>
+                        <span
+                          className="font-medium"
+                          style={{ color: "#0C1A2B" }}
+                        >
                           Verification Status:
                         </span>
                         <span
@@ -466,7 +531,12 @@ export default async function ListingPage({ params }: ListingPageProps) {
                       </div>
                       {listing.is_approved_101 === true && (
                         <div className="flex items-center gap-2">
-                          <span className="font-medium" style={{ color: "#0C1A2B" }}>101 Badge:</span>
+                          <span
+                            className="font-medium"
+                            style={{ color: "#0C1A2B" }}
+                          >
+                            101 Badge:
+                          </span>
                           <span className="px-2 py-1 bg-primary-orange text-white rounded-full text-xs font-medium">
                             ✓ Verified Professional
                           </span>
@@ -480,16 +550,22 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
             {/* Categories */}
             <div className="listing-card">
-              <h2 className="text-lg font-semibold mb-4" style={{ color: "#0C1A2B" }}>
+              <h2
+                className="text-lg font-semibold mb-4"
+                style={{ color: "#0C1A2B" }}
+              >
                 Categories
               </h2>
               <div className="flex flex-wrap gap-2">
                 {listing.categories && listing.categories.length > 0 ? (
                   listing.categories.map((category, index) => {
-                    const colors = ['orange', 'blue', 'mustard', 'green'];
+                    const colors = ["orange", "blue", "mustard", "green"];
                     const colorClass = colors[index % colors.length];
                     return (
-                      <span key={category.trim()} className={`badge ${colorClass}`}>
+                      <span
+                        key={category.trim()}
+                        className={`badge ${colorClass}`}
+                      >
                         {category.trim()}
                       </span>
                     );
@@ -504,7 +580,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
             {/* Age Range */}
             <div className="listing-card">
-              <h2 className="text-lg font-semibold mb-4" style={{ color: "#0C1A2B" }}>
+              <h2
+                className="text-lg font-semibold mb-4"
+                style={{ color: "#0C1A2B" }}
+              >
                 Age Range
               </h2>
               <div className="flex flex-wrap gap-2">
@@ -530,13 +609,18 @@ export default async function ListingPage({ params }: ListingPageProps) {
             )}
 
             {/* Certifications & Compliance */}
-            {(listing.ca_permit_required === true || listing.is_bonded === true) && (
+            {(listing.ca_permit_required === true ||
+              listing.is_bonded === true) && (
               <div className="listing-card">
-                <h2 className="text-lg font-semibold mb-4" style={{ color: "#0C1A2B" }}>
+                <h2
+                  className="text-lg font-semibold mb-4"
+                  style={{ color: "#0C1A2B" }}
+                >
                   Certifications & Compliance
                 </h2>
                 <ul className="space-y-2 text-sm">
-                  {listing["California Child Performer Services Permit "] === "checked" && (
+                  {listing["California Child Performer Services Permit "] ===
+                    "checked" && (
                     <li className="flex items-center gap-2">
                       <CheckCircleIcon className="w-4 h-4 text-green-600" />
                       <span style={{ color: "#0C1A2B" }}>
@@ -547,7 +631,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   {listing.is_bonded === true && (
                     <li className="flex items-center gap-2">
                       <CheckCircleIcon className="w-4 h-4 text-green-600" />
-                      <span style={{ color: "#0C1A2B" }}>Bonded for Advanced Fees</span>
+                      <span style={{ color: "#0C1A2B" }}>
+                        Bonded for Advanced Fees
+                      </span>
                       {listing.bond_number && (
                         <span style={{ color: "#666" }}>
                           (Bond #{listing.bond_number})

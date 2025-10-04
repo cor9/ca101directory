@@ -31,14 +31,14 @@ export default function HomeHero() {
             <LabelIcon className="size-4" />
           </Link>
 
-          <h1 className="max-w-5xl font-bold text-balance text-paper text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="bauhaus-heading max-w-5xl text-balance text-paper text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
             {heroConfig.title.first}{" "}
-            <span className="text-gradient_blue-orange font-bold">
+            <span className="text-bauhaus-orange">
               {heroConfig.title.second}
             </span>
           </h1>
 
-          <p className="max-w-4xl text-balance text-paper/90 sm:text-xl lg:text-left">
+          <p className="bauhaus-body max-w-4xl text-balance text-paper/90 sm:text-xl lg:text-left">
             {heroConfig.subtitle}
           </p>
 
@@ -60,10 +60,10 @@ export default function HomeHero() {
           {/* Auth buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
             <LoginWrapper mode="redirect" defaultRole="parent">
-              <button className="btn-primary">Sign In</button>
+              <button className="bauhaus-btn-primary">SIGN IN</button>
             </LoginWrapper>
-            <Link href="/auth/register?role=parent" className="btn-secondary">
-              Join Free
+            <Link href="/auth/register?role=parent" className="bauhaus-btn-secondary">
+              JOIN FREE
             </Link>
           </div>
 

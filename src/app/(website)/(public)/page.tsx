@@ -85,17 +85,17 @@ export default async function HomePage() {
                 </span>
               </div>
 
-              <p className="text-3xl font-bold text-paper mb-4 leading-tight">
+              <p className="bauhaus-heading text-3xl text-paper mb-4 leading-tight">
                 Are you a coach, photographer, or rep?{" "}
                 <a
                   href="/list-your-business"
-                  className="text-primary-orange hover:text-secondary-denim font-bold transition-all duration-300 text-3xl underline decoration-2 underline-offset-4 hover:decoration-secondary-denim hover:scale-105 inline-block"
+                  className="text-bauhaus-orange hover:text-bauhaus-blue transition-all duration-300 text-3xl underline decoration-2 underline-offset-4 hover:decoration-bauhaus-blue hover:scale-105 inline-block"
                 >
                   List your business here →
                 </a>
               </p>
 
-              <p className="text-lg text-paper/80 max-w-2xl mx-auto">
+              <p className="bauhaus-body text-lg text-paper/80 max-w-2xl mx-auto">
                 Join 12,000+ families already using our directory. Get featured
                 placement, build trust, and grow your business.
               </p>

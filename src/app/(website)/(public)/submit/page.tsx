@@ -189,10 +189,10 @@ export default async function SubmitPage({
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4">
+        <h1 className="bauhaus-heading text-4xl mb-4">
           {isClaimFlow ? "Claim Your Listing" : "Submit Your Listing"}
         </h1>
-        <p className="text-xl text-muted-foreground mb-8">
+        <p className="bauhaus-body text-xl text-muted-foreground mb-8">
           {isClaimFlow
             ? "Fill out your listing details and choose a plan"
             : "Choose your submission type"}
@@ -211,10 +211,10 @@ export default async function SubmitPage({
           // Show only the paid form for claim flow
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold text-brand-orange mb-2">
+              <h2 className="bauhaus-heading text-2xl text-bauhaus-orange mb-2">
                 Complete Your Listing
               </h2>
-              <p className="text-muted-foreground">
+              <p className="bauhaus-body text-muted-foreground">
                 Fill out your listing details and choose a plan to claim this
                 listing.
               </p>
@@ -231,10 +231,10 @@ export default async function SubmitPage({
             {/* Free Listing Form */}
             <div>
               <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold text-brand-blue mb-2">
+                <h2 className="bauhaus-heading text-2xl text-bauhaus-blue mb-2">
                   Free Listing
                 </h2>
-                <p className="text-muted-foreground">
+                <p className="bauhaus-body text-muted-foreground">
                   Get started with a basic listing. Upgrade later for more
                   features.
                 </p>
@@ -245,10 +245,10 @@ export default async function SubmitPage({
             {/* Paid Listing Form */}
             <div>
               <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold text-brand-orange mb-2">
+                <h2 className="bauhaus-heading text-2xl text-bauhaus-orange mb-2">
                   Paid Listing
                 </h2>
-                <p className="text-muted-foreground">
+                <p className="bauhaus-body text-muted-foreground">
                   Create a professional listing with advanced features and
                   priority placement.
                 </p>

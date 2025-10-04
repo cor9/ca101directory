@@ -25,14 +25,14 @@ export default function ItemCard({ item }: ItemCardProps) {
   return (
     <div
       className={cn(
-        "cursor-pointer border rounded-lg flex flex-col justify-between gap-4",
-        "hover:bg-accent/60 transition-colors duration-300",
+        "cursor-pointer bg-paper border border-surface/20 rounded-lg flex flex-col justify-between gap-4 shadow-sm hover:shadow-md transition-all duration-300",
+        "hover:scale-[1.02] hover:border-primary-orange/30",
       )}
     >
       {/* top */}
       <div className="flex flex-col gap-4">
         {/* Image container */}
-        <div className="group overflow-hidden relative aspect-[16/9] rounded-t-md transition-all border-b">
+        <div className="group overflow-hidden relative aspect-[16/9] rounded-t-lg transition-all">
           {imageProps && (
             <div className="relative w-full h-full">
               <Image
@@ -87,31 +87,31 @@ export default function ItemCard({ item }: ItemCardProps) {
         {/* center */}
         <Link
           href={`/listing/${item._id}`}
-          className="flex flex-col gap-4 group"
+          className="flex flex-col gap-4 group hover:bg-paper/50 transition-colors duration-200 rounded-lg"
         >
           <div className="px-4 flex flex-col gap-4">
             <div className="flex items-center justify-between gap-4">
               <h3
                 className={cn(
-                  "min-w-0 flex-1 text-xl font-medium truncate overflow-hidden text-ellipsis",
-                  item.featured && "text-gradient_blue-orange font-semibold",
+                  "min-w-0 flex-1 text-xl font-medium truncate overflow-hidden text-ellipsis text-surface",
+                  item.featured && "text-primary-orange font-semibold",
                 )}
               >
                 <span className="flex items-center gap-2">
                   {item.featured && (
-                    <AwardIcon className="w-5 h-5 flex-shrink-0 text-brand-blue" />
+                    <AwardIcon className="w-5 h-5 flex-shrink-0 text-primary-orange" />
                   )}
                   <span className="truncate">{item.name}</span>
                 </span>
               </h3>
-              <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 shrink-0">
-                <span className="">Details</span>
-                <ArrowRightIcon className={cn("size-4 icon-scale", "")} />
+              <div className="flex items-center justify-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity duration-300 shrink-0">
+                <span className="text-primary-orange font-medium text-sm">View Details</span>
+                <ArrowRightIcon className={cn("size-4 icon-scale text-primary-orange", "")} />
               </div>
             </div>
 
             {/* min-h-[3rem] is used for making sure height of the card is the same */}
-            <p className="text-sm line-clamp-2 leading-relaxed min-h-[3rem]">
+            <p className="text-sm line-clamp-2 leading-relaxed min-h-[3rem] text-surface/80">
               {item.description}
             </p>
           </div>
@@ -128,14 +128,14 @@ export default function ItemCard({ item }: ItemCardProps) {
                 href={`/tag/${tag.slug.current}`}
                 className="flex items-center justify-center space-x-0.5 group"
               >
-                <HashIcon className="w-3 h-3 text-muted-foreground icon-scale" />
-                <span className="text-sm text-muted-foreground link-underline">
+                <HashIcon className="w-3 h-3 text-surface/60 icon-scale" />
+                <span className="text-sm text-surface/60 link-underline">
                   {tag.name}
                 </span>
               </Link>
             ))}
             {item.tags.length > 5 && (
-              <span className="text-sm text-muted-foreground px-1">
+              <span className="text-sm text-surface/60 px-1">
                 +{item.tags.length - 5}
               </span>
             )}

@@ -102,10 +102,10 @@ export default async function DirectoryPage({
       {/* Header */}
       <Container className="py-16">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-4">
+          <h1 className="text-4xl font-bold text-paper mb-4">
             Professional Directory
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl text-paper/90 max-w-3xl mx-auto">
             Browse our complete directory of vetted child actor professionals.
             Every listing has been carefully reviewed for quality, safety, and
             results.
@@ -114,19 +114,19 @@ export default async function DirectoryPage({
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="text-center p-6 bg-gradient-to-r from-brand-orange/5 via-brand-yellow/5 to-brand-blue/5 rounded-lg border border-brand-blue/20">
-            <div className="text-3xl font-bold text-brand-blue mb-2">
+          <div className="text-center p-6 bg-paper rounded-lg border border-surface/20 shadow-sm">
+            <div className="text-3xl font-bold text-primary-orange mb-2">
               {totalCount}
             </div>
-            <div className="text-muted-foreground">Total Professionals</div>
+            <div className="text-surface/80">Total Professionals</div>
           </div>
-          <div className="text-center p-6 bg-gradient-to-r from-brand-orange/5 via-brand-yellow/5 to-brand-blue/5 rounded-lg border border-brand-blue/20">
-            <div className="text-3xl font-bold text-brand-blue mb-2">8</div>
-            <div className="text-muted-foreground">Categories</div>
+          <div className="text-center p-6 bg-paper rounded-lg border border-surface/20 shadow-sm">
+            <div className="text-3xl font-bold text-primary-orange mb-2">8</div>
+            <div className="text-surface/80">Categories</div>
           </div>
-          <div className="text-center p-6 bg-gradient-to-r from-brand-orange/5 via-brand-yellow/5 to-brand-blue/5 rounded-lg border border-brand-blue/20">
-            <div className="text-3xl font-bold text-brand-blue mb-2">1000+</div>
-            <div className="text-muted-foreground">Families Served</div>
+          <div className="text-center p-6 bg-paper rounded-lg border border-surface/20 shadow-sm">
+            <div className="text-3xl font-bold text-primary-orange mb-2">1000+</div>
+            <div className="text-surface/80">Families Served</div>
           </div>
         </div>
       </Container>

@@ -166,8 +166,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
       "Scene Writing": "/categories/script.png",
     };
 
-    // Reconstruct categories when stored as split tokens (e.g., ["Acting","Classes","&","Coaches"]) 
-    function reconstructCategories(tokens: string[]): string[] {
+    // Reconstruct categories when stored as split tokens (e.g., ["Acting","Classes","&","Coaches"])
+    const reconstructCategories = (tokens: string[]): string[] => {
       const cleanedTokens = tokens.map((t) => (t || "").trim()).filter(Boolean);
       if (cleanedTokens.length === 0) return [];
 
@@ -181,7 +181,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
       let i = 0;
       while (i < cleanedTokens.length) {
         let matched = false;
-        for (let w = Math.min(maxWords, cleanedTokens.length - i); w >= 1; w--) {
+        for (
+          let w = Math.min(maxWords, cleanedTokens.length - i);
+          w >= 1;
+          w--
+        ) {
           const candidate = cleanedTokens.slice(i, i + w).join(" ");
           const key = normalizeCategory(candidate);
           const display = categoryNameLookup.get(key);
@@ -199,9 +203,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
       }
       // De-duplicate while preserving order
       return Array.from(new Set(results));
-    }
+    };
 
-    const reconstructed = reconstructCategories((listing.categories || []) as string[]);
+    const reconstructed = reconstructCategories(
+      (listing.categories || []) as string[],
+    );
 
     const displayCategories = reconstructed.map((name) => {
       const key = normalizeCategory(name);

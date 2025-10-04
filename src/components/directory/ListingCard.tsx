@@ -1,11 +1,14 @@
-import { urlForImage } from "@/lib/image";
-import { getCategoryIconUrl } from "@/lib/image-urls";
+import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import type { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function ListingCard({ item, categoryIconMap }: { item: ItemInfo; categoryIconMap?: Record<string, string> }) {
-  const imageProps = item?.image ? urlForImage(item.image) : null;
+  const iconAny = (item as unknown as { icon?: unknown }).icon;
+  const profileRef =
+    (iconAny && typeof iconAny === "object" && (iconAny as { asset?: { _ref?: string } }).asset?.
+      _ref) || (typeof iconAny === "string" ? (iconAny as string) : null);
+  const profileUrl = profileRef ? getListingImageUrl(profileRef) : null;
   const primaryCategory = item.categories?.[0]?.name || "";
   const localMap: Record<string, string> = {
     "Acting Classes & Coaches": "/categories/masks.png",
@@ -64,13 +67,8 @@ export default function ListingCard({ item, categoryIconMap }: { item: ItemInfo;
   return (
     <article className="bg-[color:var(--cream)] text-[color:var(--cream-ink)] rounded-2xl border border-[color:var(--card-border)] shadow-[var(--shadow-cream)] overflow-hidden transition-transform hover:-translate-y-0.5 hover:shadow-[var(--shadow-cream-lg)]">
       <div className="aspect-[16/9] bg-[#EDE6C8] relative overflow-hidden">
-        {imageProps ? (
-          <Image
-            src={imageProps.src}
-            alt={item.image.alt || item.name}
-            fill
-            className="object-cover"
-          />
+        {profileUrl ? (
+          <Image src={profileUrl} alt={item.name} fill className="object-cover" />
         ) : fallbackIcon ? (
           <Image
             src={fallbackIcon}
@@ -83,9 +81,6 @@ export default function ListingCard({ item, categoryIconMap }: { item: ItemInfo;
 
       <div className="p-5 space-y-3">
         <div className="flex items-center gap-2">
-          <span className="rounded-full bg-[color:var(--mustard)]/20 text-[color:var(--cream-ink)] text-xs font-semibold px-2 py-1">
-            {planLabel}
-          </span>
           {approved && (
             <span className="rounded-full bg-[color:var(--success)]/18 text-[color:var(--success)] text-xs font-semibold px-2 py-1">
               101 Approved

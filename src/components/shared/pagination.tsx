@@ -33,7 +33,7 @@ export default function CustomPagination({
   const allPages = generatePagination(currentPage, totalPages);
 
   return (
-    <Pagination>
+    <Pagination className="bg-[color:var(--cream)] border border-[color:var(--card-border)] rounded-full shadow-[var(--shadow-cream)] px-2 py-1 text-[color:var(--cream-ink)]">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
@@ -59,7 +59,11 @@ export default function CustomPagination({
               <PaginationLink
                 onClick={() => handlePageChange(page)}
                 isActive={currentPage === page}
-                className={currentPage === page ? "" : "cursor-pointer"}
+                className={
+                  currentPage === page
+                    ? "bg-[color:var(--navy-800)] text-[color:var(--ink)] rounded-full"
+                    : "cursor-pointer hover:text-[color:var(--orange)]"
+                }
               >
                 {page}
               </PaginationLink>

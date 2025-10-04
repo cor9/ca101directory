@@ -67,11 +67,27 @@ export default async function VendorDashboard() {
     currentPlan = "Pro (Comped)";
   } else {
     const plans = userListings.map((listing) => listing.plan).filter(Boolean);
-    if (plans.includes("pro")) {
+    // Check for various capitalizations of plan names
+    const hasPro = plans.some(plan => 
+      plan?.toLowerCase() === "pro" || 
+      plan === "Pro" || 
+      plan === "Founding Pro"
+    );
+    const hasStandard = plans.some(plan => 
+      plan?.toLowerCase() === "standard" || 
+      plan === "Standard" || 
+      plan === "Founding Standard"
+    );
+    const hasPremium = plans.some(plan => 
+      plan?.toLowerCase() === "premium" || 
+      plan === "Premium"
+    );
+    
+    if (hasPro) {
       currentPlan = "Pro";
-    } else if (plans.includes("standard")) {
+    } else if (hasStandard) {
       currentPlan = "Standard";
-    } else if (plans.includes("premium")) {
+    } else if (hasPremium) {
       currentPlan = "Premium";
     }
   }

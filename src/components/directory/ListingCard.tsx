@@ -5,6 +5,38 @@ import Link from "next/link";
 
 export default function ListingCard({ item }: { item: ItemInfo }) {
   const imageProps = item?.image ? urlForImage(item.image) : null;
+  const primaryCategory = item.categories?.[0]?.name || "";
+  const categoryIconMap: Record<string, string> = {
+    "Acting Classes & Coaches": "/categories/masks.png",
+    "Headshot Photographers": "/categories/camera.png",
+    "Self-Tape Studios": "/categories/selftape.png",
+    "Demo Reel Creators": "/categories/reelcreator.png",
+    "Vocal Coaches": "/categories/singer.png",
+    "Talent Managers": "/categories/rep.png",
+    "Casting Workshops": "/categories/handwriting.png",
+    "Reels Editors": "/categories/reel_editor.png",
+    "Social Media Consultants": "/categories/socialmedia.png",
+    "Acting Camps": "/categories/theatre.png",
+    "Acting Schools": "/categories/masks.png",
+    "Audition Prep": "/categories/audprep.png",
+    "Voiceover Studios": "/categories/mic.png",
+    "Theatre Training": "/categories/kidstheatre.png",
+    "Entertainment Lawyers": "/categories/legalfile.png",
+    "Financial Advisors": "/categories/moneybag.png",
+    "Publicists": "/categories/publicist.png",
+    "Hair/Makeup Artists": "/categories/makeup.png",
+    "Wardrobe Stylists": "/categories/wardrobe.png",
+    "Branding Coaches": "/categories/colowheel.png",
+    "Mental Health for Performers": "/categories/mentalhealth.png",
+    "On-Set Tutors": "/categories/tutor.png",
+    "Reel Creator": "/categories/reelcreator.png",
+    "Feedback": "/categories/play1.png",
+    "Career Consultation": "/categories/consult.png",
+    "Dance Classes": "/categories/danceclass.png",
+    "Reel": "/categories/filmreel.png",
+    "Scene Writing": "/categories/script.png",
+  };
+  const fallbackIcon = categoryIconMap[primaryCategory];
   const planLabel =
     item.pricePlan ||
     (item.proPlanStatus
@@ -25,15 +57,22 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
     : false;
   return (
     <article className="bg-[color:var(--cream)] text-[color:var(--cream-ink)] rounded-2xl border border-[color:var(--card-border)] shadow-[var(--shadow-cream)] overflow-hidden transition-transform hover:-translate-y-0.5 hover:shadow-[var(--shadow-cream-lg)]">
-      <div className="aspect-[16/9] bg-[#EDE6C8] relative">
-        {imageProps && (
+      <div className="aspect-[16/9] bg-[#EDE6C8] relative overflow-hidden">
+        {imageProps ? (
           <Image
             src={imageProps.src}
             alt={item.image.alt || item.name}
             fill
             className="object-cover"
           />
-        )}
+        ) : fallbackIcon ? (
+          <Image
+            src={fallbackIcon}
+            alt={primaryCategory || item.name}
+            fill
+            className="object-contain p-6"
+          />
+        ) : null}
       </div>
 
       <div className="p-5 space-y-3">

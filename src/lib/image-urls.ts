@@ -62,16 +62,21 @@ export function parseGalleryImages(galleryString: string | null): string[] {
 }
 
 /**
- * Get URL for category icon PNGs (served from local /categories/ folder)
+ * Get Supabase Storage URL for category icon PNGs
  */
 export function getCategoryIconUrl(filename: string): string {
   if (!filename) return "";
   if (filename.startsWith("http")) return filename;
   
-  // Category icons are served from the local /categories/ folder in public directory
-  // Remove any path prefixes and just use the filename
-  const justFilename = filename.split('/').pop() || filename;
-  
-  // Return local path to categories folder
-  return `/categories/${justFilename}`;
+  // Normalize stored path variants similar to listing images
+  let normalizedPath = filename.replace(
+    /^\/?storage\/v1\/object\/public\//,
+    "",
+  );
+  if (!normalizedPath.startsWith("category_icons/")) {
+    normalizedPath = `category_icons/${normalizedPath}`;
+  }
+  const supabaseUrl =
+    process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+  return `${supabaseUrl}/storage/v1/object/public/${normalizedPath}`;
 }

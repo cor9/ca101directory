@@ -18,8 +18,8 @@ export default function HomeValueProps() {
       <Container>
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <p
-            className="text-sm uppercase tracking-wider"
-            style={{ color: "#EAEAEA" }}
+            className="text-lg font-bold uppercase tracking-wider"
+            style={{ color: "#F25C05" }}
           >
             Why families choose us
           </p>

@@ -10,7 +10,7 @@ export default function HomeHowItWorks() {
             How it works
           </p>
           <h2 className="mb-4 text-3xl font-bold md:text-4xl text-paper">
-            A simple path from search to signed booking
+            A simple path from <span className="text-bauhaus-blue">search</span> to signed <span className="text-bauhaus-orange">booking</span>
           </h2>
           <p className="text-paper/90">
             The directory is designed to guide families through every step of

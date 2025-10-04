@@ -8,7 +8,7 @@ export function NewsletterCard() {
     <div className="w-full px-4 py-8 md:p-12 bg-surface border border-surface rounded-lg">
       <div className="flex flex-col items-center justify-center gap-8">
         <div className="flex flex-col items-center text-center">
-          <h2 className="uppercase tracking-wider text-gradient_blue-orange font-semibold">
+          <h2 className="text-xl uppercase tracking-wider text-gradient_blue-orange font-bold">
             Newsletter
           </h2>
           <h3

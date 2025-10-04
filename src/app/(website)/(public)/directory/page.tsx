@@ -2,6 +2,7 @@ import Container from "@/components/container";
 import { DirectoryFilters } from "@/components/directory/directory-filters";
 import ItemGrid from "@/components/item/item-grid";
 import DirectoryHeader from "@/components/directory/DirectoryHeader";
+import ListingCard from "@/components/directory/ListingCard";
 import SearchBox from "@/components/search/search-box";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
@@ -115,30 +116,27 @@ export default async function DirectoryPage({
       </Container>
 
       {/* Listings */}
-      <Container className="pb-16">
-        <div className="flex flex-col gap-8">
-          {/* when no items are found */}
-          {items?.length === 0 && <EmptyGrid />}
+      <section className="mx-auto max-w-7xl px-6 py-8">
+        {/* when no items are found */}
+        {items?.length === 0 && <EmptyGrid />}
 
-          {/* when items are found */}
-          {items && items.length > 0 && (
-            <section className="">
-              <ItemGrid
-                items={items}
-                sponsorItems={sponsorItems}
-                showSponsor={showSponsor}
-              />
+        {/* when items are found */}
+        {items && items.length > 0 && (
+          <>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {items.map((it) => (
+                <ListingCard key={it._id} item={it} />
+              ))}
+            </div>
 
-              <div className="mt-8 flex items-center justify-center">
-                <CustomPagination
-                  routePrefix="/directory"
-                  totalPages={totalPages}
-                />
+            <div className="mt-10 flex justify-center">
+              <div className="bg-[color:var(--cream)] border border-[color:var(--card-border)] rounded-full shadow-[var(--shadow-cream)] px-2 py-1">
+                <CustomPagination routePrefix="/directory" totalPages={totalPages} />
               </div>
-            </section>
-          )}
-        </div>
-      </Container>
+            </div>
+          </>
+        )}
+      </section>
     </div>
   );
 }

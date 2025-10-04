@@ -28,12 +28,12 @@ export const AuthCard = ({
   className,
 }: AuthCardProps) => {
   return (
-    <Card className={cn("shadow-none", className)}>
+    <Card className={cn("surface shadow-card", className)}>
       <CardHeader className="items-center">
         <Link href="/" prefetch={false}>
           <Logo className="mb-2" />
         </Link>
-        <CardDescription>{headerLabel}</CardDescription>
+        <CardDescription className="text-surface">{headerLabel}</CardDescription>
       </CardHeader>
       <CardContent>{children}</CardContent>
       <CardFooter>

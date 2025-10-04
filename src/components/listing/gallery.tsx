@@ -49,42 +49,42 @@ export function Gallery({ listing }: GalleryProps) {
           Gallery
         </h2>
         {galleryImages.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {galleryImages.map((imageUrl, index) => (
-              <div 
-                key={`gallery-${index}-${imageUrl}`} 
-                className="relative group overflow-hidden rounded-lg aspect-[4/3] cursor-pointer hover:opacity-90 transition-opacity"
-                onClick={() => openModal(
-                  imageUrl, 
-                  `Gallery image ${index + 1} for ${listing.listing_name}`
-                )}
+              <button
+                key={`gallery-${index}-${imageUrl}`}
+                className="relative group overflow-hidden rounded-lg h-44 md:h-48 lg:h-56 cursor-pointer hover:opacity-90 transition-opacity"
+                type="button"
+                onClick={() =>
+                  openModal(
+                    imageUrl,
+                    `Gallery image ${index + 1} for ${listing.listing_name}`,
+                  )
+                }
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     openModal(
-                      imageUrl, 
-                      `Gallery image ${index + 1} for ${listing.listing_name}`
+                      imageUrl,
+                      `Gallery image ${index + 1} for ${listing.listing_name}`,
                     );
                   }
                 }}
-                tabIndex={0}
-                role="button"
-                // biome-ignore lint/a11y/preferButtonElement: div needed for image layout
               >
                 <Image
                   src={imageUrl}
                   alt={`Gallery image ${index + 1} for ${listing.listing_name}`}
                   title="Click to view larger image"
-                  loading="eager"
+                  loading="lazy"
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                   fill
                   className="border w-full shadow-lg object-cover"
                 />
-                {/* Hover overlay */}
                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white bg-opacity-90 px-3 py-1 rounded-full">
                     <span className="text-sm font-medium text-gray-800">Click to enlarge</span>
                   </div>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         ) : (

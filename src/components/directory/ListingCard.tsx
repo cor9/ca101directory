@@ -64,7 +64,7 @@ export default function ListingCard({
           ? fileFromProps.split("/").pop()
           : fileFromProps) || "",
       )
-    : fileFromLocal;
+    : fileFromLocal || "/categories/clapperboard.png";
   const approved = Array.isArray(item.tags)
     ? item.tags.some(
         (t) =>

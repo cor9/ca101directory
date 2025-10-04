@@ -13,7 +13,8 @@ export default function DirectoryHeader({
         Find Trusted Professionals
       </h1>
       <p className="mt-3 text-[color:var(--muted)] max-w-2xl">
-        Discover {total?.toLocaleString()} verified child acting professionals and services. Each listing is carefully vetted for quality and safety.
+        The Child Actor 101 Directory connects families with industry professionals who work with young performers.
+        From classes to career support, find trusted services all in one place.
       </p>
 
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -34,5 +35,3 @@ export default function DirectoryHeader({
     </section>
   );
 }
-
-

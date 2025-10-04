@@ -12,34 +12,29 @@
  */
 @layer base {
   :root {
-    /* New Design System Colors */
-    --background: 0 0% 100%; /* White for light mode */
-    --foreground: 220 15% 11%; /* Charcoal Ink #1E1F23 */
-    --card: 60 100% 94%; /* Cream #FFFDD0 */
-    --card-foreground: 220 15% 11%; /* Charcoal on cream */
-    --popover: 60 100% 94%; /* Cream */
-    --popover-foreground: 220 15% 11%; /* Charcoal */
-    --primary: 0 60% 50%; /* Tomato Red #CC3D3D */
-    --primary-foreground: 0 0% 100%; /* White */
-    --secondary: 210 50% 40%; /* Retro Blue #336699 */
-    --secondary-foreground: 60 100% 94%; /* Cream */
-    --muted: 220 14% 96%; /* Light gray */
-    --muted-foreground: 220 9% 46%; /* Muted gray */
-    --accent: 45 100% 45%; /* Mustard Gold #E5A400 */
-    --accent-foreground: 0 0% 100%; /* White */
-    --destructive: 0 60% 50%; /* Tomato Red */
-    --destructive-foreground: 0 0% 100%; /* White */
-    --border: 220 13% 91%; /* Light border */
-    --input: 220 13% 91%; /* Light input */
-    --ring: 0 60% 50%; /* Tomato Red ring */
+    /* Production-ready color system from artwork */
+    --background: #0D1B2A;
+    --foreground: #FAFAF4; /* Paper White for text on navy */
+    --card: #FFFDD0; /* Cream surface */
+    --card-foreground: #1F2327; /* Ink text on cream */
+    --popover: #FFFDD0; /* Cream popover */
+    --popover-foreground: #1F2327; /* Ink text */
+    --primary: #E4572E; /* Clapper Orange */
+    --primary-foreground: #FAFAF4; /* Paper White */
+    --secondary: #3A76A6; /* Denim */
+    --secondary-foreground: #FAFAF4; /* Paper White */
+    --muted: #142B3B; /* Navy gradient end */
+    --muted-foreground: #FAFAF4; /* Paper White */
+    --accent: #E4A72E; /* Mustard */
+    --accent-foreground: #0F1113; /* Ink */
+    --destructive: #C84F41; /* Brick */
+    --destructive-foreground: #FAFAF4; /* Paper White */
+    --border: #3A76A6; /* Denim border */
+    --input: #142B3B; /* Navy input */
+    --ring: #E4572E; /* Clapper Orange ring */
     --radius: 0.5rem;
-    --chart-1: 0 60% 50%; /* Tomato Red */
-    --chart-2: 210 50% 40%; /* Retro Blue */
-    --chart-3: 45 100% 45%; /* Mustard Gold */
-    --chart-4: 180 50% 35%; /* Muted Teal */
-    --chart-5: 0 60% 50%; /* Tomato Red */
 
-    /* New Brand Colors - Design System */
+    /* Legacy colors (to be phased out) */
     --cream: 60 100% 94%; /* #FFFDD0 - Base Light */
     --charcoal: 220 15% 11%; /* #1E1F23 - Primary Dark */
     --retro-blue: 210 50% 40%; /* #336699 - Accent 1 */
@@ -55,45 +50,40 @@
   }
 
   .dark {
-    /* Dark mode uses dark navy background */
-    --background: 210 100% 8%; /* Dark Navy */
-    --foreground: 60 100% 94%; /* Cream text on dark */
-    --card: 60 100% 94%; /* Cream cards */
-    --card-foreground: 220 15% 11%; /* Charcoal text on cream */
-    --popover: 60 100% 94%; /* Cream popover */
-    --popover-foreground: 220 15% 11%; /* Charcoal text */
-    --primary: 0 60% 50%; /* Tomato Red */
-    --primary-foreground: 0 0% 100%; /* White */
-    --secondary: 210 50% 40%; /* Retro Blue */
-    --secondary-foreground: 60 100% 94%; /* Cream */
-    --muted: 210 50% 15%; /* Dark Navy muted */
-    --muted-foreground: 0 0% 83%; /* Light gray #D3D3D3 */
-    --accent: 45 100% 45%; /* Mustard Gold */
-    --accent-foreground: 0 0% 100%; /* White */
-    --destructive: 0 60% 50%; /* Tomato Red */
-    --destructive-foreground: 0 0% 100%; /* White */
-    --border: 210 50% 20%; /* Dark Navy border */
-    --input: 210 50% 20%; /* Dark Navy input */
-    --ring: 0 60% 50%; /* Tomato Red ring */
-    --chart-1: 0 60% 50%; /* Tomato Red */
-    --chart-2: 210 50% 40%; /* Retro Blue */
-    --chart-3: 45 100% 45%; /* Mustard Gold */
-    --chart-4: 180 50% 35%; /* Muted Teal */
-    --chart-5: 0 60% 50%; /* Tomato Red */
+    /* Same as root - we're using the navy gradient as default */
+    --background: #0D1B2A;
+    --foreground: #FAFAF4;
+    --card: #FFFDD0;
+    --card-foreground: #1F2327;
+    --popover: #FFFDD0;
+    --popover-foreground: #1F2327;
+    --primary: #E4572E;
+    --primary-foreground: #FAFAF4;
+    --secondary: #3A76A6;
+    --secondary-foreground: #FAFAF4;
+    --muted: #142B3B;
+    --muted-foreground: #FAFAF4;
+    --accent: #E4A72E;
+    --accent-foreground: #0F1113;
+    --destructive: #C84F41;
+    --destructive-foreground: #FAFAF4;
+    --border: #3A76A6;
+    --input: #142B3B;
+    --ring: #E4572E;
 
-    /* Design System colors for dark mode */
-    --cream: 60 100% 94%; /* #FFFDD0 - Base Light */
-    --charcoal: 220 15% 11%; /* #1E1F23 - Primary Dark */
-    --retro-blue: 210 50% 40%; /* #336699 - Accent 1 */
-    --tomato-red: 0 60% 50%; /* #CC3D3D - Accent 2 */
-    --mustard-gold: 45 100% 45%; /* #E5A400 - Accent 3 */
-    --muted-teal: 180 50% 35%; /* #2D888D - Accent 4 */
+    /* Legacy colors */
+    --cream: 60 100% 94%;
+    --charcoal: 220 15% 11%;
+    --retro-blue: 210 50% 40%;
+    --tomato-red: 0 60% 50%;
+    --mustard-gold: 45 100% 45%;
+    --muted-teal: 180 50% 35%;
 
     /* Category-specific colors */
-    --coaches-color: 210 50% 40%; /* Retro Blue */
-    --photographers-color: 45 100% 45%; /* Mustard Gold */
-    --editors-color: 180 50% 35%; /* Muted Teal */
-    --studios-color: 0 60% 50%; /* Tomato Red */
+    --coaches-color: 210 50% 40%;
+    --photographers-color: 45 100% 45%;
+    --editors-color: 180 50% 35%;
+    --studios-color: 0 60% 50%;
   }
 }
 
@@ -104,12 +94,125 @@
 
   body {
     @apply bg-background text-foreground;
+    background: linear-gradient(180deg, #0D1B2A 0%, #142B3B 100%);
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
 @layer utilities {
-  /* New Design System Utilities */
+  /* Production-ready color system utilities */
+  .text-paper {
+    color: #FAFAF4;
+  }
+  .text-ink {
+    color: #0F1113;
+  }
+  .text-surface {
+    color: #1F2327;
+  }
+  .text-primary {
+    color: #E4572E;
+  }
+  .text-secondary {
+    color: #3A76A6;
+  }
+  .text-highlight {
+    color: #E4A72E;
+  }
+  .text-success {
+    color: #AEBF98;
+  }
+  .text-info {
+    color: #3E9CA3;
+  }
+  .text-error {
+    color: #C84F41;
+  }
+
+  .bg-surface {
+    background-color: #FFFDD0;
+  }
+  .bg-paper {
+    background-color: #FAFAF4;
+  }
+  .bg-primary {
+    background-color: #E4572E;
+  }
+  .bg-secondary {
+    background-color: #3A76A6;
+  }
+  .bg-highlight {
+    background-color: #E4A72E;
+  }
+  .bg-success {
+    background-color: #AEBF98;
+  }
+  .bg-info {
+    background-color: #3E9CA3;
+  }
+  .bg-error {
+    background-color: #C84F41;
+  }
+
+  .border-surface {
+    border-color: #FFFDD0;
+  }
+  .border-primary {
+    border-color: #E4572E;
+  }
+  .border-secondary {
+    border-color: #3A76A6;
+  }
+
+  /* Surface component */
+  .surface {
+    background: #FFFDD0;
+    color: #1F2327;
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(13, 27, 42, 0.25);
+  }
+
+  /* Button utilities */
+  .btn-primary {
+    background: #E4572E;
+    color: #fff;
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    font-weight: 700;
+  }
+  .btn-primary:hover {
+    background: #CC4E2A;
+    box-shadow: 0 6px 14px rgba(228, 87, 46, 0.35);
+  }
+  .btn-secondary {
+    background: #3A76A6;
+    color: #fff;
+  }
+  .btn-secondary:hover {
+    background: #2E5E85;
+  }
+
+  /* Chip utilities */
+  .chip {
+    border-radius: 999px;
+    padding: 0.25rem 0.55rem;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+  .chip-cat {
+    background: #3A76A6;
+    color: #fff;
+  }
+  .chip-attr {
+    background: #E4A72E;
+    color: #0F1113;
+  }
+  .chip-approve {
+    background: #AEBF98;
+    color: #0F1113;
+  }
+
+  /* Legacy utilities (to be phased out) */
   .text-cream {
     color: hsl(var(--cream));
   }

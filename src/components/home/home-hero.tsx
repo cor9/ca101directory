@@ -31,14 +31,14 @@ export default function HomeHero() {
             <LabelIcon className="size-4" />
           </Link>
 
-          <h1 className="max-w-5xl font-bold text-balance text-cream text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="max-w-5xl font-bold text-balance text-paper text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
             {heroConfig.title.first}{" "}
             <span className="text-gradient_blue-orange font-bold">
               {heroConfig.title.second}
             </span>
           </h1>
 
-          <p className="max-w-4xl text-balance text-cream/90 sm:text-xl lg:text-left">
+          <p className="max-w-4xl text-balance text-paper/90 sm:text-xl lg:text-left">
             {heroConfig.subtitle}
           </p>
 
@@ -60,24 +60,24 @@ export default function HomeHero() {
           {/* Auth buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
             <LoginWrapper mode="redirect" defaultRole="parent">
-              <button className="bg-tomato-red hover:bg-tomato-red/90 text-cream px-8 py-3 rounded-lg font-semibold transition-colors">
+              <button className="btn-primary">
                 Sign In
               </button>
             </LoginWrapper>
             <Link
               href="/auth/register?role=parent"
-              className="border-2 border-retro-blue text-retro-blue hover:bg-retro-blue hover:text-cream px-8 py-3 rounded-lg font-semibold transition-colors"
+              className="btn-secondary"
             >
               Join Free
             </Link>
           </div>
 
           {/* Vendor link */}
-          <p className="text-sm text-cream/80 mt-2">
+          <p className="text-sm text-paper/80 mt-2">
             Are you a coach, photographer, or rep?{" "}
             <Link
               href="/list-your-business"
-              className="text-retro-blue hover:text-tomato-red font-semibold transition-colors"
+              className="text-secondary hover:text-primary font-semibold transition-colors"
             >
               List your business here →
             </Link>

@@ -45,8 +45,8 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
         {item.categories && item.categories.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {item.categories.slice(0, 3).map((c) => (
-              <span key={c._id || c} className="rounded-full bg-[color:var(--chip-bg)] border border-[color:var(--card-border)] px-2 py-1 text-xs">
-                {c.name || c}
+              <span key={c._id} className="rounded-full bg-[color:var(--chip-bg)] border border-[color:var(--card-border)] px-2 py-1 text-xs">
+                {c.name}
               </span>
             ))}
           </div>

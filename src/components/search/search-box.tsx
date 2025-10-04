@@ -78,13 +78,13 @@ export default function SearchBox({ urlPrefix }: SearchBoxProps) {
         value={searchQuery}
         onChange={handleSearch}
         className={cn(
-          "w-[320px] sm:w-[480px] md:w-[640px] h-12 rounded-r-none",
-          "focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary focus:border-2 focus:border-r-0",
+          "w-[320px] sm:w-[480px] md:w-[640px] h-12 rounded-r-none bg-paper text-surface placeholder:text-surface/50",
+          "focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary-orange focus:border-2 focus:border-r-0",
         )}
       />
       <Button
         type="submit"
-        className="rounded-l-none size-12"
+        className="rounded-l-none size-12 bg-primary-orange hover:bg-primary-orange/90 text-paper"
         disabled={isSearching}
       >
         <SearchIcon

@@ -60,24 +60,19 @@ export default function HomeHero() {
           {/* Auth buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
             <LoginWrapper mode="redirect" defaultRole="parent">
-              <button className="btn-primary">
-                Sign In
-              </button>
+              <button className="btn-primary">Sign In</button>
             </LoginWrapper>
-            <Link
-              href="/auth/register?role=parent"
-              className="btn-secondary"
-            >
+            <Link href="/auth/register?role=parent" className="btn-secondary">
               Join Free
             </Link>
           </div>
 
           {/* Vendor link */}
-          <p className="text-sm text-paper/80 mt-2">
+          <p className="text-lg text-paper/80 mt-2">
             Are you a coach, photographer, or rep?{" "}
             <Link
               href="/list-your-business"
-              className="text-secondary-denim hover:text-primary-orange font-semibold transition-colors"
+              className="text-secondary-denim hover:text-primary-orange font-bold transition-colors text-lg"
             >
               List your business here →
             </Link>

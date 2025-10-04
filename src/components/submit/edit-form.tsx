@@ -25,13 +25,19 @@ export function EditForm({ listing, categories }: EditFormProps) {
   // Helper function to normalize format values from database
   const normalizeFormat = (format: string | undefined): string => {
     if (!format) return "";
-    // Capitalize first letter of each word
-    const normalized = format
-      .toLowerCase()
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join("-");
-    return normalized;
+    const lowerFormat = format.toLowerCase();
+    // Map to exact schema values
+    if (lowerFormat === "in-person" || lowerFormat === "in person") {
+      return "In-person";
+    }
+    if (lowerFormat === "online") {
+      return "Online";
+    }
+    if (lowerFormat === "hybrid") {
+      return "Hybrid";
+    }
+    // Default: capitalize first letter only
+    return format.charAt(0).toUpperCase() + format.slice(1).toLowerCase();
   };
 
   const [formData, setFormData] = useState({

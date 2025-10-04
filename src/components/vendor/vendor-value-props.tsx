@@ -68,13 +68,13 @@ export default function VendorValueProps() {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-r from-retro-blue/5 to-tomato-red/5">
+    <section className="py-16">
       <Container>
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4 text-charcoal">
+          <h2 className="text-3xl font-bold mb-4 text-paper">
             Why List With Us
           </h2>
-          <p className="text-lg text-charcoal/70 max-w-2xl mx-auto">
+          <p className="text-lg text-paper/90 max-w-2xl mx-auto">
             Join thousands of professionals who trust us to connect them with
             families
           </p>
@@ -83,13 +83,13 @@ export default function VendorValueProps() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {valueProps.map((prop, index) => (
             <div key={`value-prop-${prop.title}`} className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-retro-blue to-tomato-red rounded-full mb-6 text-cream">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-orange rounded-full mb-6 text-paper">
                 {prop.icon}
               </div>
-              <h3 className="text-xl font-semibold mb-4 text-charcoal">
+              <h3 className="text-xl font-semibold mb-4 text-paper">
                 {prop.title}
               </h3>
-              <p className="text-charcoal/70">{prop.description}</p>
+              <p className="text-paper/90">{prop.description}</p>
             </div>
           ))}
         </div>

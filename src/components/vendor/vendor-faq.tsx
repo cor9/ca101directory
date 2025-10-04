@@ -33,13 +33,13 @@ export default function VendorFAQ() {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-r from-retro-blue/5 to-tomato-red/5">
+    <section className="py-16">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4 text-charcoal">
+          <h2 className="text-3xl font-bold mb-4 text-paper">
             Frequently Asked Questions
           </h2>
-          <p className="text-lg text-charcoal/70">
+          <p className="text-lg text-paper/90">
             Everything you need to know about listing your business
           </p>
         </div>
@@ -48,12 +48,12 @@ export default function VendorFAQ() {
           {faqs.map((faq, index) => (
             <div
               key={`faq-${faq.question}`}
-              className="bg-cream border border-cream rounded-xl p-6"
+              className="surface border border-surface/20 rounded-xl p-6"
             >
-              <h3 className="text-lg font-semibold text-charcoal mb-3">
+              <h3 className="text-lg font-semibold mb-3" style={{ color: "#1F2327" }}>
                 {faq.question}
               </h3>
-              <p className="text-charcoal/70">{faq.answer}</p>
+              <p style={{ color: "#333" }}>{faq.answer}</p>
             </div>
           ))}
         </div>

@@ -86,8 +86,8 @@ export default function VendorPricing() {
   return (
     <div>
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold mb-4 text-charcoal">Pricing Plans</h2>
-        <p className="text-lg text-charcoal/70 max-w-2xl mx-auto">
+        <h2 className="text-3xl font-bold mb-4 text-paper">Pricing Plans</h2>
+        <p className="text-lg text-paper/90 max-w-2xl mx-auto">
           Choose the plan that works best for your business
         </p>
       </div>
@@ -97,27 +97,27 @@ export default function VendorPricing() {
         {plans.map((plan) => (
           <div
             key={plan.name}
-            className={`bg-cream border border-cream rounded-xl p-8 relative ${
-              plan.popular ? "ring-2 ring-retro-blue shadow-lg" : ""
+            className={`surface border border-surface/20 rounded-xl p-8 relative ${
+              plan.popular ? "ring-2 ring-primary-orange shadow-lg" : ""
             }`}
           >
             {plan.popular && (
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-retro-blue text-cream px-4 py-2 rounded-full text-sm font-semibold">
+                <span className="bg-primary-orange text-paper px-4 py-2 rounded-full text-sm font-semibold">
                   Most Popular
                 </span>
               </div>
             )}
 
             <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-charcoal mb-2">
+              <h3 className="text-2xl font-bold mb-2" style={{ color: "#1F2327" }}>
                 {plan.name}
               </h3>
               <div className="mb-4">
-                <span className="text-4xl font-bold text-charcoal">
+                <span className="text-4xl font-bold" style={{ color: "#1F2327" }}>
                   {plan.price}
                 </span>
-                <span className="text-charcoal/70">/{plan.period}</span>
+                <span style={{ color: "#666" }}>/{plan.period}</span>
               </div>
             </div>
 
@@ -125,10 +125,11 @@ export default function VendorPricing() {
               {plan.features.map((feature, index) => (
                 <li
                   key={`${plan.name}-feature-${index}`}
-                  className="flex items-center text-charcoal/70"
+                  className="flex items-center"
+                  style={{ color: "#333" }}
                 >
                   <svg
-                    className="w-5 h-5 text-retro-blue mr-3 flex-shrink-0"
+                    className="w-5 h-5 text-primary-orange mr-3 flex-shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -150,8 +151,8 @@ export default function VendorPricing() {
               href={plan.ctaLink}
               className={`w-full block text-center py-3 px-6 rounded-lg font-semibold transition-all duration-300 ${
                 plan.popular
-                  ? "bg-gradient-to-r from-retro-blue to-tomato-red text-cream hover:from-retro-blue/90 hover:to-tomato-red/90"
-                  : "bg-charcoal/10 text-charcoal hover:bg-charcoal/20"
+                  ? "btn-primary"
+                  : "btn-secondary"
               }`}
             >
               {plan.cta}
@@ -161,12 +162,12 @@ export default function VendorPricing() {
       </div>
 
       {/* Founding Deals */}
-      <div className="bg-gradient-to-r from-mustard-gold/10 to-tomato-red/10 rounded-xl p-8 mb-8">
+      <div className="bg-surface/20 border border-surface/20 rounded-xl p-8 mb-8">
         <div className="text-center mb-8">
-          <h3 className="text-2xl font-bold text-charcoal mb-2">
+          <h3 className="text-2xl font-bold mb-2 text-paper">
             Founding Vendor Deals
           </h3>
-          <p className="text-charcoal/70">
+          <p className="text-paper/90">
             Limited time offers for early adopters
           </p>
         </div>
@@ -175,27 +176,27 @@ export default function VendorPricing() {
           {foundingDeals.map((deal) => (
             <div
               key={deal.name}
-              className="bg-cream border border-cream rounded-xl p-6 relative"
+              className="surface border border-surface/20 rounded-xl p-6 relative"
             >
               {deal.urgent && (
                 <div className="absolute -top-3 left-4">
-                  <span className="bg-tomato-red text-cream px-3 py-1 rounded-full text-sm font-semibold">
+                  <span className="bg-primary-orange text-paper px-3 py-1 rounded-full text-sm font-semibold">
                     Limited Time
                   </span>
                 </div>
               )}
 
               <div className="text-center mb-6">
-                <h4 className="text-xl font-bold text-charcoal mb-2">
+                <h4 className="text-xl font-bold mb-2" style={{ color: "#1F2327" }}>
                   {deal.name}
                 </h4>
                 <div className="mb-2">
-                  <span className="text-3xl font-bold text-charcoal">
+                  <span className="text-3xl font-bold" style={{ color: "#1F2327" }}>
                     {deal.price}
                   </span>
-                  <span className="text-charcoal/70">/{deal.period}</span>
+                  <span style={{ color: "#666" }}>/{deal.period}</span>
                 </div>
-                <div className="text-sm text-charcoal/60 mb-2">
+                <div className="text-sm mb-2" style={{ color: "#666" }}>
                   <span className="line-through">{deal.originalPrice}</span> •{" "}
                   {deal.savings}
                 </div>
@@ -205,10 +206,11 @@ export default function VendorPricing() {
                 {deal.features.map((feature, index) => (
                   <li
                     key={`${deal.name}-feature-${index}`}
-                    className="flex items-center text-sm text-charcoal/70"
+                    className="flex items-center text-sm"
+                    style={{ color: "#333" }}
                   >
                     <svg
-                      className="w-4 h-4 text-mustard-gold mr-2 flex-shrink-0"
+                      className="w-4 h-4 text-highlight mr-2 flex-shrink-0"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -228,7 +230,7 @@ export default function VendorPricing() {
 
               <a
                 href={deal.ctaLink}
-                className="w-full block text-center py-3 px-6 bg-gradient-to-r from-mustard-gold to-tomato-red text-cream rounded-lg font-semibold hover:from-mustard-gold/90 hover:to-tomato-red/90 transition-all duration-300"
+                className="w-full block text-center py-3 px-6 btn-primary rounded-lg font-semibold"
               >
                 {deal.cta}
               </a>

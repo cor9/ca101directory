@@ -9,15 +9,16 @@ export default function DirectoryHeader({
 }) {
   return (
     <section className="mx-auto max-w-7xl px-6 pt-10 pb-6">
-      <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-[color:var(--ink)]">
+      <h1 className="bauhaus-heading text-4xl md:text-5xl tracking-tight text-[color:var(--ink)]">
         Find Trusted Professionals
       </h1>
-      <p className="mt-3 text-[color:var(--muted)] max-w-2xl">
-        The Child Actor 101 Directory connects families with industry professionals who work with young performers.
-        From classes to career support, find trusted services all in one place.
+      <p className="bauhaus-body mt-4 text-[color:var(--muted)] max-w-2xl">
+        The Child Actor 101 Directory connects families with industry
+        professionals who work with young performers. From classes to career
+        support, find trusted services all in one place.
       </p>
 
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="mt-8 bauhaus-grid bauhaus-grid-3">
         {[
           { label: "Professionals", value: total?.toLocaleString() },
           { label: "Categories", value: categoriesCount ?? "—" },
@@ -25,10 +26,10 @@ export default function DirectoryHeader({
         ].map((s) => (
           <div
             key={s.label}
-            className="bg-[color:var(--cream)] text-[color:var(--cream-ink)] rounded-2xl border border-[color:var(--card-border)] shadow-[var(--shadow-cream)] px-5 py-4"
+            className="bauhaus-card p-6 text-center"
           >
-            <div className="text-2xl font-bold">{s.value}</div>
-            <div className="text-sm opacity-80">{s.label}</div>
+            <div className="bauhaus-heading text-3xl text-bauhaus-orange">{s.value}</div>
+            <div className="bauhaus-body text-sm opacity-80 uppercase tracking-wide">{s.label}</div>
           </div>
         ))}
       </div>

@@ -81,8 +81,8 @@ export default function ListingCard({
     );
   };
   return (
-    <article className="bg-[color:var(--cream)] text-[color:var(--cream-ink)] rounded-2xl border border-[color:var(--card-border)] shadow-[var(--shadow-cream)] overflow-hidden transition-transform hover:-translate-y-0.5 hover:shadow-[var(--shadow-cream-lg)]">
-      <div className="aspect-[16/9] bg-[#EDE6C8] relative overflow-hidden z-[10]">
+    <article className="bauhaus-card overflow-hidden p-0">
+      <div className="aspect-[16/9] bg-[#EDE6C8] relative overflow-hidden">
         {profileUrl ? (
           <Image
             src={profileUrl}
@@ -100,24 +100,22 @@ export default function ListingCard({
         ) : null}
       </div>
 
-      <div className="p-5 space-y-3">
+      <div className="p-6 space-y-4">
         <div className="flex items-center gap-2">
           {approved && (
-            <span className="rounded-full bg-[color:var(--success)]/18 text-[color:var(--success)] text-xs font-semibold px-2 py-1">
-              101 Approved
+            <span className="bauhaus-chip bauhaus-chip-mustard text-xs font-semibold">
+              101 APPROVED
             </span>
           )}
         </div>
 
-        <h3 className="text-lg md:text-xl font-bold line-clamp-2">
+        <h3 className="bauhaus-heading text-lg md:text-xl line-clamp-2">
           {item.name}
         </h3>
 
         {item.description && (
-          <p className="text-sm opacity-85 line-clamp-2">{item.description}</p>
+          <p className="bauhaus-body text-sm opacity-85 line-clamp-2">{item.description}</p>
         )}
-
-        {/* Optional meta row can be added when structured location fields exist */}
 
         {item.categories && item.categories.length > 0 && (
           <div className="flex flex-wrap gap-2">
@@ -133,9 +131,9 @@ export default function ListingCard({
                 return (
                   <span
                     key={c._id}
-                    className="rounded-full bg-[color:var(--chip-bg)] border border-[color:var(--card-border)] px-2 py-1 text-xs"
+                    className="bauhaus-chip text-xs"
                   >
-                    {full}
+                    {full.toUpperCase()}
                   </span>
                 );
               })}
@@ -145,18 +143,18 @@ export default function ListingCard({
         <div className="pt-2 flex items-center gap-3">
           <Link
             href={`/listing/${item._id}`}
-            className="rounded-full bg-[color:var(--orange)] text-white px-4 py-2 text-sm hover:bg-[#e25403]"
+            className="bauhaus-btn-primary text-sm"
           >
-            View Listing →
+            VIEW LISTING →
           </Link>
           {item.link && (
             <a
               href={item.link}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 rounded-full bg-[color:var(--navy-800)] text-[color:var(--ink)] px-3 py-2 text-sm hover:bg-[color:var(--navy-700)]"
+              className="bauhaus-btn-secondary text-sm"
             >
-              Website
+              WEBSITE
             </a>
           )}
         </div>

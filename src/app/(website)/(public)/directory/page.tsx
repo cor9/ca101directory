@@ -1,15 +1,15 @@
 import Container from "@/components/container";
+import DirectoryHeader from "@/components/directory/DirectoryHeader";
+import ListingCard from "@/components/directory/ListingCard";
 import { DirectoryFilters } from "@/components/directory/directory-filters";
 import ItemGrid from "@/components/item/item-grid";
-import DirectoryHeader from "@/components/directory/DirectoryHeader";
-import { regionsList } from "@/data/regions";
-import ListingCard from "@/components/directory/ListingCard";
 import SearchBox from "@/components/search/search-box";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
 import { getCategories, getCategoryIconsMap } from "@/data/categories";
 import { getItems } from "@/data/item-service";
+import { regionsList } from "@/data/regions";
 import {
   DEFAULT_SORT,
   ITEMS_PER_PAGE,
@@ -104,7 +104,11 @@ export default async function DirectoryPage({
 
   return (
     <div className="flex flex-col bg-[color:var(--navy)] bg-[radial-gradient(1200px_600px_at_70%_-10%,#122338,transparent)]">
-      <DirectoryHeader total={totalCount} categoriesCount={categories?.length} regionsCount={regionsList.length} />
+      <DirectoryHeader
+        total={totalCount}
+        categoriesCount={categories?.length}
+        regionsCount={regionsList.length}
+      />
 
       {/* Search */}
       <Container className="pb-8">
@@ -126,7 +130,7 @@ export default async function DirectoryPage({
         {/* when items are found */}
         {items && items.length > 0 && (
           <>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="bauhaus-grid bauhaus-grid-3">
               {items.map((it) => (
                 <ListingCard
                   key={it._id}
@@ -139,7 +143,10 @@ export default async function DirectoryPage({
 
             <div className="mt-10 flex justify-center">
               <div className="bg-[color:var(--cream)] border border-[color:var(--card-border)] rounded-full shadow-[var(--shadow-cream)] px-2 py-1">
-                <CustomPagination routePrefix="/directory" totalPages={totalPages} />
+                <CustomPagination
+                  routePrefix="/directory"
+                  totalPages={totalPages}
+                />
               </div>
             </div>
           </>

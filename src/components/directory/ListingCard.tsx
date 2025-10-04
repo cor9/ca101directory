@@ -64,15 +64,6 @@ export default function ListingCard({
         (picked.includes("/") ? picked.split("/").pop() : picked) || "",
       )
     : undefined;
-  const planLabel =
-    item.pricePlan ||
-    (item.proPlanStatus
-      ? "Pro"
-      : item.freePlanStatus
-        ? "Free"
-        : item.paid
-          ? "Pro"
-          : "Free");
   const approved = Array.isArray(item.tags)
     ? item.tags.some(
         (t) =>
@@ -129,12 +120,12 @@ export default function ListingCard({
                   name.toLowerCase().startsWith(c.name.toLowerCase()),
                 ) || c.name;
               return (
-              <span
-                key={c._id}
-                className="rounded-full bg-[color:var(--chip-bg)] border border-[color:var(--card-border)] px-2 py-1 text-xs"
-              >
-                {full}
-              </span>
+                <span
+                  key={c._id}
+                  className="rounded-full bg-[color:var(--chip-bg)] border border-[color:var(--card-border)] px-2 py-1 text-xs"
+                >
+                  {full}
+                </span>
               );
             })}
           </div>

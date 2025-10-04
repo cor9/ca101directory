@@ -10,10 +10,11 @@ import { Button } from "@/components/ui/button";
 import { StarRating } from "@/components/ui/star-rating";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import { siteConfig } from "@/config/site";
+import { getCategories, getCategoryIconsMap } from "@/data/categories";
 import { getListingBySlug } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
 import { constructMetadata } from "@/lib/metadata";
-import { getListingImageUrl } from "@/lib/image-urls";
+import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import { cn } from "@/lib/utils";
 import {
   CheckCircleIcon,
@@ -107,6 +108,45 @@ export default async function ListingPage({ params }: ListingPageProps) {
       console.error("ListingPage: Listing not found for slug:", params.slug);
       return notFound();
     }
+
+    const [categoryRecords, categoryIconMap] = await Promise.all([
+      getCategories(),
+      getCategoryIconsMap(),
+    ]);
+
+    const normalizeCategory = (value: string) =>
+      value.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+
+    const categoryNameLookup = new Map<string, string>();
+    categoryRecords.forEach((cat) => {
+      const key = normalizeCategory(cat.category_name || "");
+      if (key) {
+        categoryNameLookup.set(key, cat.category_name);
+      }
+    });
+
+    const iconLookup = new Map<string, string>();
+    Object.entries(categoryIconMap || {}).forEach(([name, filename]) => {
+      const key = normalizeCategory(name);
+      if (key) {
+        iconLookup.set(key, filename);
+      }
+    });
+
+    const displayCategories = (listing.categories || []).map((category) => {
+      const key = normalizeCategory(category);
+      const displayName =
+        categoryNameLookup.get(key) ||
+        (categoryIconMap as Record<string, string>)?.[category] ||
+        category;
+      const iconFilename = iconLookup.get(key);
+      return {
+        original: category,
+        displayName,
+        iconUrl: iconFilename ? getCategoryIconUrl(iconFilename) : null,
+        key: `${category}-${iconFilename || ""}`,
+      };
+    });
 
     console.log("ListingPage: Successfully found listing:", {
       id: listing.id,
@@ -529,21 +569,27 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 Categories
               </h2>
               <div className="flex flex-wrap gap-2">
-                {listing.categories && listing.categories.length > 0 ? (
-                  listing.categories
-                    .filter(category => category?.trim() && !category.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i))
-                    .map((category, index) => {
-                      const colors = ["orange", "blue", "mustard", "green"];
-                      const colorClass = colors[index % colors.length];
-                      return (
-                        <span
-                          key={category.trim()}
-                          className={`badge ${colorClass}`}
-                        >
-                          {category.trim()}
-                        </span>
-                      );
-                    })
+                {displayCategories.length > 0 ? (
+                  displayCategories.map(({ key, displayName, iconUrl }, index) => {
+                    const colors = ["orange", "blue", "mustard", "green"];
+                    const colorClass = colors[index % colors.length];
+                    return (
+                      <span
+                        key={key}
+                        className={`badge ${colorClass} flex items-center gap-2`}>
+                        {iconUrl && (
+                          <Image
+                            src={iconUrl}
+                            alt={displayName}
+                            width={20}
+                            height={20}
+                            className="h-5 w-5 rounded-full object-contain"
+                          />
+                        )}
+                        {displayName}
+                      </span>
+                    );
+                  })
                 ) : (
                   <span className="text-sm" style={{ color: "#666" }}>
                     No categories listed

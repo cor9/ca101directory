@@ -166,24 +166,58 @@ export default async function ListingPage({ params }: ListingPageProps) {
       "Scene Writing": "/categories/script.png",
     };
 
-    const displayCategories = (listing.categories || []).map((category) => {
-      const key = normalizeCategory(category);
-      const displayName =
-        categoryNameLookup.get(key) ||
-        (categoryIconMap as Record<string, string>)?.[category] ||
-        category;
+    // Reconstruct categories when stored as split tokens (e.g., ["Acting","Classes","&","Coaches"]) 
+    function reconstructCategories(tokens: string[]): string[] {
+      const cleanedTokens = tokens.map((t) => (t || "").trim()).filter(Boolean);
+      if (cleanedTokens.length === 0) return [];
+
+      const knownNames = Array.from(categoryNameLookup.values());
+      const maxWords = knownNames.reduce((m, name) => {
+        const words = name.split(/\s+/).length;
+        return Math.max(m, words);
+      }, 1);
+
+      const results: string[] = [];
+      let i = 0;
+      while (i < cleanedTokens.length) {
+        let matched = false;
+        for (let w = Math.min(maxWords, cleanedTokens.length - i); w >= 1; w--) {
+          const candidate = cleanedTokens.slice(i, i + w).join(" ");
+          const key = normalizeCategory(candidate);
+          const display = categoryNameLookup.get(key);
+          if (display) {
+            results.push(display);
+            i += w;
+            matched = true;
+            break;
+          }
+        }
+        if (!matched) {
+          // Skip unrecognized single token
+          i += 1;
+        }
+      }
+      // De-duplicate while preserving order
+      return Array.from(new Set(results));
+    }
+
+    const reconstructed = reconstructCategories((listing.categories || []) as string[]);
+
+    const displayCategories = reconstructed.map((name) => {
+      const key = normalizeCategory(name);
+      const displayName = categoryNameLookup.get(key) || name;
       const iconFilename = iconLookup.get(key);
       const localIconEntry = Object.entries(localIconMap).find(
-        ([name]) => normalizeCategory(name) === key,
+        ([n]) => normalizeCategory(n) === key,
       );
       const localIcon = localIconEntry?.[1];
       return {
-        original: category,
+        original: name,
         displayName,
         iconUrl: iconFilename
           ? getCategoryIconUrl(iconFilename)
           : localIcon || null,
-        key: `${category}-${iconFilename || localIcon || ""}`,
+        key: `${name}-${iconFilename || localIcon || ""}`,
       };
     });
 
@@ -656,7 +690,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                       if (val.includes("los-angeles")) return false;
                       if (val.includes("hybrid")) return false;
                       // Exclude UUID-like tokens
-                      const uuidLike = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+                      const uuidLike =
+                        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
                       if (uuidLike.test(val)) return false;
                       return true;
                     })

@@ -41,10 +41,10 @@ export default async function PricingPage() {
                 </div>
               </div>
 
-              <h1 className="text-4xl font-bold mb-4">
+              <h1 className="bauhaus-heading text-4xl mb-4">
                 Simple, Transparent Pricing
               </h1>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              <p className="bauhaus-body text-xl text-muted-foreground max-w-3xl mx-auto">
                 Choose the perfect plan for your child actor services. All plans
                 include our quality review process and trusted directory
                 listing.
@@ -54,7 +54,7 @@ export default async function PricingPage() {
             {/* First Stripe Pricing Table */}
             <div className="w-full mx-auto">
               <div className="text-center mb-8">
-                <h2 className="text-2xl font-bold text-brand-blue mb-2">
+                <h2 className="bauhaus-heading text-2xl text-bauhaus-blue mb-2">
                   Choose Your Plan
                 </h2>
                 <p className="text-muted-foreground">

@@ -102,10 +102,10 @@ export default async function CategoryPage() {
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-foreground mb-4">
+        <h1 className="bauhaus-heading text-4xl text-foreground mb-4">
           Browse by Category
         </h1>
-        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+        <p className="bauhaus-body text-xl text-muted-foreground max-w-3xl mx-auto">
           Find trusted acting professionals organized by specialty. Each
           category contains verified professionals ready to help your child
           succeed in the entertainment industry.
@@ -113,7 +113,7 @@ export default async function CategoryPage() {
       </div>
 
       {/* Categories Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+      <div className="bauhaus-grid bauhaus-grid-3 xl:grid-cols-4 gap-6 mb-12">
         {categories.map((category, index) => {
           const IconComponent = Icons[category.icon];
           // Create a color palette for variety

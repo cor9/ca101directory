@@ -16,11 +16,11 @@ export default function PaymentSuccessPage() {
       </div>
 
       <div className="space-y-4">
-        <h1 className="text-3xl font-bold text-foreground">
+        <h1 className="bauhaus-heading text-3xl text-foreground">
           ✅ Payment Received — Your Listing Is In Review
         </h1>
 
-        <div className="text-lg text-muted-foreground max-w-2xl space-y-4">
+        <div className="bauhaus-body text-lg text-muted-foreground max-w-2xl space-y-4">
           <p>
             Thank you for your payment! Your listing has been submitted and is
             now in the review queue.
@@ -34,7 +34,7 @@ export default function PaymentSuccessPage() {
       </div>
 
       <div className="bg-gradient-to-r from-brand-orange/5 via-brand-yellow/5 to-brand-blue/5 rounded-lg p-6 border border-brand-blue/20 max-w-2xl">
-        <h3 className="font-semibold text-brand-blue mb-4 flex items-center justify-center gap-2">
+        <h3 className="bauhaus-heading text-bauhaus-blue mb-4 flex items-center justify-center gap-2">
           <ClockIcon className="w-5 h-5" />
           Next Steps
         </h3>

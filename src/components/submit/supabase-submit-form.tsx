@@ -63,13 +63,25 @@ export function SupabaseSubmitForm({
 }: SupabaseSubmitFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // Helper function to normalize format values from database
+  const normalizeFormat = (format: string | undefined): string => {
+    if (!format) return "";
+    // Capitalize first letter of each word
+    const normalized = format
+      .toLowerCase()
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join("-");
+    return normalized;
+  };
+
   const [formData, setFormData] = useState({
     name: existingListing?.listing_name || "",
     link: existingListing?.website || "",
     description: existingListing?.description || "",
     introduction: "",
     unique: "",
-    format: existingListing?.format || "",
+    format: normalizeFormat(existingListing?.format),
     notes: existingListing?.notes || "",
     imageId: existingListing?.image_url || "",
     tags: existingListing?.age_range || [],

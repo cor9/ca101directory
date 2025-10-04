@@ -21,13 +21,26 @@ interface EditFormProps {
 export function EditForm({ listing, categories }: EditFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Helper function to normalize format values from database
+  const normalizeFormat = (format: string | undefined): string => {
+    if (!format) return "";
+    // Capitalize first letter of each word
+    const normalized = format
+      .toLowerCase()
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join("-");
+    return normalized;
+  };
+
   const [formData, setFormData] = useState({
     name: listing.listing_name || "",
     link: listing.website || "",
     description: listing.what_you_offer || "",
     introduction: listing.who_is_it_for || "",
     unique: listing.why_is_it_unique || "",
-    format: listing.format || "",
+    format: normalizeFormat(listing.format),
     notes: listing.extras_notes || "",
     imageId: listing.profile_image || "",
     tags: listing.age_range || [],

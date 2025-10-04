@@ -11,6 +11,7 @@ import { siteConfig } from "@/config/site";
 import { getListingBySlug } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
 import { constructMetadata } from "@/lib/metadata";
+import { getListingImageUrl, parseGalleryImages } from "@/lib/image-urls";
 import { cn } from "@/lib/utils";
 import {
   CheckCircleIcon,
@@ -75,7 +76,7 @@ export async function generateMetadata({
         listing.what_you_offer ||
         "Professional acting services for young actors",
       canonicalUrl: `${siteConfig.url}/listing/${params.slug}`,
-      image: listing.profile_image,
+      image: listing.profile_image ? getListingImageUrl(listing.profile_image) : undefined,
     });
   } catch (error) {
     console.error("generateMetadata error:", error);
@@ -157,7 +158,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
           <div className="flex items-start gap-8 mb-6">
             {listing.profile_image && (
               <Image
-                src={listing.profile_image}
+                src={getListingImageUrl(listing.profile_image)}
                 alt={`Logo of ${listing.listing_name}`}
                 title={`Logo of ${listing.listing_name}`}
                 width={120}
@@ -352,24 +353,37 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 >
                   Gallery
                 </h2>
-                {listing.gallery ? (
-                  <div className="relative group overflow-hidden rounded-lg aspect-[4/3]">
-                    <Image
-                      src={listing.gallery}
-                      alt={`Gallery image for ${listing.listing_name}`}
-                      title={`Gallery image for ${listing.listing_name}`}
-                      loading="eager"
-                      fill
-                      className="border w-full shadow-lg object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div className="aspect-[4/3] bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                    <p className="text-gray-500 text-sm">
-                      No gallery images yet
-                    </p>
-                  </div>
-                )}
+                {(() => {
+                  // Parse gallery images
+                  const galleryImages = typeof listing.gallery === 'string' 
+                    ? parseGalleryImages(listing.gallery)
+                    : Array.isArray(listing.gallery) 
+                      ? listing.gallery.map(img => getListingImageUrl(img))
+                      : [];
+                  
+                  return galleryImages.length > 0 ? (
+                    <div className="grid grid-cols-1 gap-4">
+                      {galleryImages.map((imageUrl, index) => (
+                        <div key={`gallery-${index}-${imageUrl}`} className="relative group overflow-hidden rounded-lg aspect-[4/3]">
+                          <Image
+                            src={imageUrl}
+                            alt={`Gallery image ${index + 1} for ${listing.listing_name}`}
+                            title={`Gallery image ${index + 1} for ${listing.listing_name}`}
+                            loading="eager"
+                            fill
+                            className="border w-full shadow-lg object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="aspect-[4/3] bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+                      <p className="text-gray-500 text-sm">
+                        No gallery images yet
+                      </p>
+                    </div>
+                  );
+                })()}
               </div>
             )}
 
@@ -564,7 +578,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
               <div className="flex flex-wrap gap-2">
                 {listing.categories && listing.categories.length > 0 ? (
                   listing.categories
-                    .filter(category => category && category.trim() && !category.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i))
+                    .filter(category => category?.trim() && !category.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i))
                     .map((category, index) => {
                       const colors = ["orange", "blue", "mustard", "green"];
                       const colorClass = colors[index % colors.length];
@@ -596,7 +610,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
               <div className="flex flex-wrap gap-2">
                 {listing.age_range && listing.age_range.length > 0 ? (
                   listing.age_range
-                    .filter(age => age && age.trim() && !age.includes("Age Range") && !age.includes("los-angeles") && !age.includes("hybrid"))
+                    .filter(age => age?.trim() && !age.includes("Age Range") && !age.includes("los-angeles") && !age.includes("hybrid"))
                     .map((age) => (
                       <span key={age.trim()} className="badge blue">
                         {age.trim()}

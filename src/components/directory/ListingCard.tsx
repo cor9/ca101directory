@@ -66,7 +66,7 @@ export default function ListingCard({ item, categoryIconMap }: { item: ItemInfo;
     : false;
   return (
     <article className="bg-[color:var(--cream)] text-[color:var(--cream-ink)] rounded-2xl border border-[color:var(--card-border)] shadow-[var(--shadow-cream)] overflow-hidden transition-transform hover:-translate-y-0.5 hover:shadow-[var(--shadow-cream-lg)]">
-      <div className="aspect-[16/9] bg-[#EDE6C8] relative overflow-hidden">
+      <div className="aspect-[16/9] bg-[#EDE6C8] relative overflow-hidden z-[10]">
         {profileUrl ? (
           <Image src={profileUrl} alt={item.name} fill className="object-cover" />
         ) : fallbackIcon ? (

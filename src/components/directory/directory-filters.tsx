@@ -88,7 +88,7 @@ export function DirectoryFilters({
     (selectedRegion && selectedRegion !== "all");
 
   return (
-    <Card className={`${className} bg-paper border border-surface/20 rounded-2xl shadow-[var(--shadow-cream)]`}>
+    <Card className={`${className} bg-paper border border-surface/20 rounded-2xl shadow-[var(--shadow-cream)] relative z-[60] overflow-visible`}>
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg text-surface">Filters</CardTitle>

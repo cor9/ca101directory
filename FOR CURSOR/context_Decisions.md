@@ -1875,3 +1875,25 @@ The blog section is now fully implemented with a professional dark theme, catego
 - 🎯 **Auth Integration** - Authenticated submissions now properly connected to user accounts
 
 **Status:** 🚀 **SOFT LAUNCH READY - Submission and Auth Systems Operating**
+
+---
+
+## ✅ Image URL Normalization (October 2025)
+
+**Decision:** Standardize image URL handling for Supabase Storage across listing cards and detail pages.
+
+**Why:** Some `profile_image` and category icon values are stored as plain filenames (e.g., `logo.jpg`), some as bucket-relative paths (e.g., `listing-images/logo.jpg`), and some as full public URLs. Previous logic could duplicate the bucket segment (e.g., `.../listing-images/listing-images/logo.jpg`), causing 404s and missing images on listing cards.
+
+**What changed:**
+- Updated `src/lib/image-urls.ts` helpers to normalize inputs:
+  - Accept full URLs unchanged
+  - Strip leading `storage/v1/object/public/` when present
+  - Prepend the correct bucket segment only when missing
+- Applied the same normalization for category icons (`category_icons` bucket).
+
+**Impact:**
+- Directory cards and listing pages reliably display logos whether the database stores filenames, bucket paths, or full URLs.
+- No changes required to component usage; fallbacks to category icons still work.
+
+**Files:**
+- `src/lib/image-urls.ts`

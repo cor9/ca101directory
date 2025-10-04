@@ -15,10 +15,25 @@ export function getListingImageUrl(filename: string): string {
     return filename;
   }
 
-  // Otherwise, construct Supabase Storage URL
+  // Normalize any stored path variants to avoid double bucket prefixes
+  // Supported inputs:
+  // - "filename.jpg"
+  // - "listing-images/filename.jpg"
+  // - "storage/v1/object/public/listing-images/filename.jpg"
+  // - "/storage/v1/object/public/listing-images/filename.jpg"
+  let normalizedPath = filename.replace(
+    /^\/?storage\/v1\/object\/public\//,
+    "",
+  );
+
+  // If path already contains the bucket segment, keep it; otherwise prepend it
+  if (!normalizedPath.startsWith("listing-images/")) {
+    normalizedPath = `listing-images/${normalizedPath}`;
+  }
+
   const supabaseUrl =
     process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
-  return `${supabaseUrl}/storage/v1/object/public/listing-images/${filename}`;
+  return `${supabaseUrl}/storage/v1/object/public/${normalizedPath}`;
 }
 
 /**
@@ -52,8 +67,15 @@ export function parseGalleryImages(galleryString: string | null): string[] {
 export function getCategoryIconUrl(filename: string): string {
   if (!filename) return "";
   if (filename.startsWith("http")) return filename;
+  // Normalize stored path variants similar to listing images
+  let normalizedPath = filename.replace(
+    /^\/?storage\/v1\/object\/public\//,
+    "",
+  );
+  if (!normalizedPath.startsWith("category_icons/")) {
+    normalizedPath = `category_icons/${normalizedPath}`;
+  }
   const supabaseUrl =
     process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
-  // Uses bucket: category_icons (public)
-  return `${supabaseUrl}/storage/v1/object/public/category_icons/${filename}`;
+  return `${supabaseUrl}/storage/v1/object/public/${normalizedPath}`;
 }

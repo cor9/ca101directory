@@ -5,6 +5,15 @@ import { urlForImage } from "@/lib/image";
 
 export default function ListingCard({ item }: { item: ItemInfo }) {
   const imageProps = item?.image ? urlForImage(item.image) : null;
+  const planLabel =
+    item.pricePlan || (item.proPlanStatus ? "Pro" : item.freePlanStatus ? "Free" : item.paid ? "Pro" : "Free");
+  const approved = Array.isArray(item.tags)
+    ? item.tags.some((t) =>
+        (t?.name && String(t.name).toLowerCase().includes("101")) ||
+        (t?.slug?.current && String(t.slug.current).toLowerCase().includes("101")) ||
+        (t?.name && String(t.name).toLowerCase().includes("approved"))
+      )
+    : false;
   return (
     <article className="bg-[color:var(--cream)] text-[color:var(--cream-ink)] rounded-2xl border border-[color:var(--card-border)] shadow-[var(--shadow-cream)] overflow-hidden transition-transform hover:-translate-y-0.5 hover:shadow-[var(--shadow-cream-lg)]">
       <div className="aspect-[16/9] bg-[#EDE6C8] relative">
@@ -16,9 +25,9 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
       <div className="p-5 space-y-3">
         <div className="flex items-center gap-2">
           <span className="rounded-full bg-[color:var(--mustard)]/20 text-[color:var(--cream-ink)] text-xs font-semibold px-2 py-1">
-            {item.plan || "Free"}
+            {planLabel}
           </span>
-          {item.approved && (
+          {approved && (
             <span className="rounded-full bg-[color:var(--success)]/18 text-[color:var(--success)] text-xs font-semibold px-2 py-1">
               101 Approved
             </span>
@@ -31,10 +40,7 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
           <p className="text-sm opacity-85 line-clamp-2">{item.description}</p>
         )}
 
-        <div className="text-sm opacity-80">
-          {item.city}{item.state ? ", " : ""}{item.state}
-          {item.region ? ` • ${item.region}` : ""}
-        </div>
+        {/* Optional meta row can be added when structured location fields exist */}
 
         {item.categories && item.categories.length > 0 && (
           <div className="flex flex-wrap gap-2">

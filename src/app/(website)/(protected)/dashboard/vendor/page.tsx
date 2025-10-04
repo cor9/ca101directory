@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
-import { getPublicListings } from "@/data/listings";
+import { fetchUserListings } from "@/lib/api/listings";
 import { constructMetadata } from "@/lib/metadata";
 import {
   CheckCircleIcon,
@@ -47,10 +47,7 @@ export default async function VendorDashboard() {
   }
 
   // Get user's listings
-  const allListings = await getPublicListings();
-  const userListings = allListings.filter(
-    (listing) => listing.owner_id === session.user.id,
-  );
+  const userListings = await fetchUserListings(session.user.id);
   const activeListings = userListings.filter(
     (listing) => listing.status === "Live" && listing.is_active === true,
   );

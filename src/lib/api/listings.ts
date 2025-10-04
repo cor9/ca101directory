@@ -1,9 +1,9 @@
 import { supabase } from "@/lib/supabase";
 
 /**
- * Fetch listings for a specific user
+ * Fetch ALL listings for a specific user (for dashboard)
  * @param userId - The user's ID
- * @returns Array of listings owned by the user
+ * @returns Array of ALL listings owned by the user (regardless of status)
  */
 export async function fetchUserListings(userId: string) {
   try {
@@ -11,7 +11,7 @@ export async function fetchUserListings(userId: string) {
       .from("listings")
       .select("*")
       .eq("owner_id", userId)
-      .eq("active", true);
+      .order("created_at", { ascending: false });
 
     if (error) {
       console.error("fetchUserListings error:", error);

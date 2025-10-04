@@ -185,10 +185,7 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
             </Sheet>
 
             {/* logo */}
-            <Link
-              href="/"
-              onClick={() => setOpen(false)}
-            >
+            <Link href="/" onClick={() => setOpen(false)}>
               <Logo size="md" variant="hero" />
             </Link>
           </div>

@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { categoryMap, tagMap } from "@/lib/mappings";
+import { NextResponse } from "next/server";
 
 function toAirtable(formData: any) {
   return {
@@ -8,23 +8,37 @@ function toAirtable(formData: any) {
       "What You Offer?": formData.description,
       "Who Is It For?": formData.introduction,
       "Why Is It Unique?": formData.unique,
-      "Format (In-person/Online/Hybrid)": formData.format === "Online" ? "Online Only" : formData.format === "In-person" ? "In-Person Only" : "Hybrid (Online & In-Person)",
+      "Format (In-person/Online/Hybrid)":
+        formData.format === "Online"
+          ? "Online Only"
+          : formData.format === "In-person"
+            ? "In-Person Only"
+            : "Hybrid (Online & In-Person)",
       "Extras/Notes": formData.notes,
       "California Child Performer Services Permit ": !!formData.performerPermit,
       "Bonded For Advanced Fees": !!formData.bonded,
       "Bond#": formData.bondNumber || "",
-      "Website": formData.link,
-      "Email": formData.email,
-      "Phone": formData.phone,
-      "City": formData.city,
-      "State": formData.state,
-      "Zip": formData.zip,
+      Website: formData.link,
+      Email: formData.email,
+      Phone: formData.phone,
+      City: formData.city,
+      State: formData.state,
+      Zip: formData.zip,
       "Age Range": (formData.tags || []).map((t: string) => tagMap[t] || t),
-      "Categories": Array.isArray(formData.categories) ? formData.categories.map((c: string) => categoryMap[c] || c).filter(Boolean) : [],
-      "Profile Image": (formData.imageId || formData.iconId)
-        ? [{ url: `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${formData.imageId || formData.iconId}` }]
+      Categories: Array.isArray(formData.categories)
+        ? formData.categories
+            .map((c: string) => categoryMap[c] || c)
+            .filter(Boolean)
         : [],
-      "Plan": formData.plan, // must be one of "Free", "Basic", "Pro", "Premium"
+      "Profile Image":
+        formData.imageId || formData.iconId
+          ? [
+              {
+                url: `https://veynyzggmlgdy8nr.public.blob.vercel-storage.com/${formData.imageId || formData.iconId}`,
+              },
+            ]
+          : [],
+      Plan: formData.plan, // must be one of "Free", "Basic", "Pro", "Premium"
     },
   };
 }

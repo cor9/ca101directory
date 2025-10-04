@@ -5,8 +5,8 @@ import ItemGrid from "@/components/item/item-grid";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
-import { getItems } from "@/data/item-service";
 import { getCategories } from "@/data/categories";
+import { getItems } from "@/data/item-service";
 import {
   DEFAULT_SORT,
   ITEMS_PER_PAGE,
@@ -50,7 +50,7 @@ export default async function SearchPage({
     state,
     region,
   } = searchParams as { [key: string]: string };
-  
+
   // Convert category ID to category name
   let categoryName: string | undefined = undefined;
   if (category && category !== "all") {
@@ -62,7 +62,7 @@ export default async function SearchPage({
       foundCategory,
     });
   }
-  
+
   const { sortKey, reverse } =
     SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
   const currentPage = page ? Number(page) : 1;

@@ -47,10 +47,7 @@ export default function ItemCard2({ item }: ItemCard2Props) {
             />
           )}
 
-          <Link
-            href={`/listing/${item._id}`}
-            className="min-w-0 flex-1"
-          >
+          <Link href={`/listing/${item._id}`} className="min-w-0 flex-1">
             <h3
               className={cn(
                 "text-xl font-medium truncate overflow-hidden text-ellipsis text-foreground",
@@ -85,10 +82,7 @@ export default function ItemCard2({ item }: ItemCard2Props) {
         </div>
 
         {/* min-h-[4.5rem] is used for making sure height of the card is the same */}
-        <Link
-          href={`/listing/${item._id}`}
-          className="block cursor-pointer"
-        >
+        <Link href={`/listing/${item._id}`} className="block cursor-pointer">
           <p className="text-sm line-clamp-3 leading-relaxed min-h-[4.5rem] text-foreground">
             {item.description}
           </p>

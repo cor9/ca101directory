@@ -9,14 +9,15 @@ import { createServerClient } from "./supabase";
  */
 export function getListingImageUrl(filename: string): string {
   if (!filename) return "";
-  
+
   // If it's already a full URL (from old Vercel Blob or external), return as-is
   if (filename.startsWith("http")) {
     return filename;
   }
-  
+
   // Otherwise, construct Supabase Storage URL
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+  const supabaseUrl =
+    process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
   return `${supabaseUrl}/storage/v1/object/public/listing-images/${filename}`;
 }
 
@@ -25,11 +26,11 @@ export function getListingImageUrl(filename: string): string {
  */
 export function parseGalleryImages(galleryString: string | null): string[] {
   if (!galleryString) return [];
-  
+
   try {
     const parsed = JSON.parse(galleryString);
     if (Array.isArray(parsed)) {
-      return parsed.map(url => {
+      return parsed.map((url) => {
         // Convert old Vercel Blob URLs to new Supabase URLs
         if (url.includes("vercel-storage.com")) {
           const filename = url.split("/").pop();
@@ -41,6 +42,6 @@ export function parseGalleryImages(galleryString: string | null): string[] {
   } catch (error) {
     console.error("Failed to parse gallery images:", error);
   }
-  
+
   return [];
 }

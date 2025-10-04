@@ -1,7 +1,7 @@
 "use client";
 
-import Script from "next/script";
 import { useSearchParams } from "next/navigation";
+import Script from "next/script";
 import { useState } from "react";
 
 export default function PlanSelectionPage() {

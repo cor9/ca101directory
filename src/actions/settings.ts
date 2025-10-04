@@ -38,9 +38,9 @@ export async function settings(
       // For Supabase Auth, we don't need to verify old password
       // Supabase handles this internally
       const { error: passwordError } = await supabase.auth.updateUser({
-        password: values.newPassword
+        password: values.newPassword,
       });
-      
+
       if (passwordError) {
         return { status: "error", message: "Failed to update password!" };
       }
@@ -49,7 +49,7 @@ export async function settings(
     // Update other profile fields using Supabase
     const updateData: Partial<{ name: string }> = {};
     if (values.name) updateData.name = values.name;
-    
+
     const updatedUser = await updateUser(user.id, updateData);
     console.log("settings, updatedUser:", updatedUser);
 

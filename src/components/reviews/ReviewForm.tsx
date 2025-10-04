@@ -23,7 +23,10 @@ import { z } from "zod";
 
 const ReviewSchema = z.object({
   stars: z.number().min(1, "Please select a rating").max(5),
-  text: z.string().min(10, "Review must be at least 10 characters").max(500, "Review must be 500 characters or less"),
+  text: z
+    .string()
+    .min(10, "Review must be at least 10 characters")
+    .max(500, "Review must be 500 characters or less"),
 });
 
 interface ReviewFormProps {
@@ -90,11 +93,17 @@ export function ReviewForm({
   };
 
   // Check if user is the owner of this listing
-  const isOwner = session?.user?.id && listingOwnerId && session.user.id === listingOwnerId;
+  const isOwner =
+    session?.user?.id && listingOwnerId && session.user.id === listingOwnerId;
 
   if (isOwner) {
     return (
-      <div className={cn("p-4 border rounded-lg bg-blue-50 dark:bg-blue-950/20", className)}>
+      <div
+        className={cn(
+          "p-4 border rounded-lg bg-blue-50 dark:bg-blue-950/20",
+          className,
+        )}
+      >
         <div className="text-center space-y-3">
           <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">
             You cannot review your own listing.
@@ -112,18 +121,15 @@ export function ReviewForm({
       <div className={cn("p-4 border rounded-lg bg-muted/50", className)}>
         <div className="text-center space-y-3">
           <p className="text-sm text-muted-foreground">
-            Create a free parent account to write reviews{listingName ? ` for ${listingName}` : ""}.
+            Create a free parent account to write reviews
+            {listingName ? ` for ${listingName}` : ""}.
           </p>
           <div className="flex gap-2 justify-center">
             <Button asChild size="sm">
-              <Link href="/auth/register?role=parent">
-                Sign Up
-              </Link>
+              <Link href="/auth/register?role=parent">Sign Up</Link>
             </Button>
             <Button asChild variant="outline" size="sm">
-              <Link href="/auth/login">
-                Log In
-              </Link>
+              <Link href="/auth/login">Log In</Link>
             </Button>
           </div>
         </div>
@@ -148,8 +154,9 @@ export function ReviewForm({
         )}
       >
         <p className="text-sm text-green-700 dark:text-green-300">
-          Thank you! You've already submitted a review{listingName ? ` for ${listingName}` : ""}. It
-          will be reviewed before being published.
+          Thank you! You've already submitted a review
+          {listingName ? ` for ${listingName}` : ""}. It will be reviewed before
+          being published.
         </p>
       </div>
     );

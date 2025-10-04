@@ -22,10 +22,13 @@ const PLAN_PRICES = {
 export async function POST(request: NextRequest) {
   try {
     console.log("Starting checkout session creation...");
-    
+
     const session = await auth();
-    console.log("Auth session:", { userId: session?.user?.id, email: session?.user?.email });
-    
+    console.log("Auth session:", {
+      userId: session?.user?.id,
+      email: session?.user?.email,
+    });
+
     if (!session?.user?.id) {
       console.log("No user session found");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -36,29 +39,42 @@ export async function POST(request: NextRequest) {
     const { listingId, planId, billingCycle, successUrl, cancelUrl } = body;
 
     if (!listingId || !planId || !billingCycle || !successUrl || !cancelUrl) {
-      console.log("Missing required parameters:", { listingId, planId, billingCycle, successUrl, cancelUrl });
+      console.log("Missing required parameters:", {
+        listingId,
+        planId,
+        billingCycle,
+        successUrl,
+        cancelUrl,
+      });
       return NextResponse.json(
         { error: "Missing required parameters" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!PLAN_PRICES[planId as keyof typeof PLAN_PRICES]) {
       console.log("Invalid plan ID:", planId);
-      return NextResponse.json(
-        { error: "Invalid plan ID" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid plan ID" }, { status: 400 });
     }
 
-    const price = PLAN_PRICES[planId as keyof typeof PLAN_PRICES][billingCycle as keyof typeof PLAN_PRICES.standard];
-    console.log("Calculated price:", price, "for plan:", planId, "cycle:", billingCycle);
-    
+    const price =
+      PLAN_PRICES[planId as keyof typeof PLAN_PRICES][
+        billingCycle as keyof typeof PLAN_PRICES.standard
+      ];
+    console.log(
+      "Calculated price:",
+      price,
+      "for plan:",
+      planId,
+      "cycle:",
+      billingCycle,
+    );
+
     if (!price) {
       console.log("Invalid billing cycle:", billingCycle);
       return NextResponse.json(
         { error: "Invalid billing cycle" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -75,11 +91,14 @@ export async function POST(request: NextRequest) {
               description: `Claim and upgrade your business listing with ${planId} plan`,
             },
             unit_amount: price,
-            recurring: billingCycle === "yearly" ? {
-              interval: "year",
-            } : {
-              interval: "month",
-            },
+            recurring:
+              billingCycle === "yearly"
+                ? {
+                    interval: "year",
+                  }
+                : {
+                    interval: "month",
+                  },
           },
           quantity: 1,
         },
@@ -101,16 +120,16 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Error creating checkout session:", error);
     console.error("Error details:", {
-      message: error instanceof Error ? error.message : 'Unknown error',
+      message: error instanceof Error ? error.message : "Unknown error",
       stack: error instanceof Error ? error.stack : undefined,
-      name: error instanceof Error ? error.name : undefined
+      name: error instanceof Error ? error.name : undefined,
     });
     return NextResponse.json(
-      { 
+      {
         error: "Internal server error",
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

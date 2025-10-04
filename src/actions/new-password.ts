@@ -44,7 +44,7 @@ export async function newPassword(
 
   // Update password using Supabase Auth
   const { error } = await supabase.auth.updateUser({
-    password: password
+    password: password,
   });
 
   if (error) {

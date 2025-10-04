@@ -23,7 +23,7 @@ export async function getPublicListingsClient(params?: {
     // Apply filters
     if (params?.q) {
       query = query.or(
-        `listing_name.ilike.%${params.q}%,what_you_offer.ilike.%${params.q}%,who_is_it_for.ilike.%${params.q}%`
+        `listing_name.ilike.%${params.q}%,what_you_offer.ilike.%${params.q}%,who_is_it_for.ilike.%${params.q}%`,
       );
     }
 
@@ -45,9 +45,9 @@ export async function getPublicListingsClient(params?: {
 
     const { data, error } = await query;
 
-    console.log("getPublicListingsClient: Result:", { 
-      count: data?.length || 0, 
-      error 
+    console.log("getPublicListingsClient: Result:", {
+      count: data?.length || 0,
+      error,
     });
 
     if (error) {

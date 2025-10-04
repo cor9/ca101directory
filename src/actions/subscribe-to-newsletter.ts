@@ -31,7 +31,7 @@ export async function subscribeToNewsletter(
       });
 
       mailerLiteSuccess = mailerLiteResult.success;
-      
+
       if (!mailerLiteResult.success) {
         console.warn("MailerLite subscription failed:", mailerLiteResult.error);
         // Don't fail the entire process if MailerLite fails
@@ -50,9 +50,9 @@ export async function subscribeToNewsletter(
         subject: "Welcome to Child Actor 101 Directory Newsletter!",
         react: NewsletterWelcomeEmail({ email: validatedInput.data.email }),
       });
-      
+
       emailSent = !emailSentResult.error;
-      
+
       if (emailSentResult.error) {
         console.warn("Welcome email failed to send:", emailSentResult.error);
       }

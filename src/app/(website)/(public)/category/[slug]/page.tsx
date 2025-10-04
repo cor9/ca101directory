@@ -2,8 +2,8 @@ import ItemGrid from "@/components/item/item-grid";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
-import { getItems } from "@/data/item-service";
 import { getCategories } from "@/data/categories";
+import { getItems } from "@/data/item-service";
 import { getPublicListings } from "@/data/listings";
 import {
   DEFAULT_SORT,

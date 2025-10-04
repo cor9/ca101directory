@@ -24,17 +24,15 @@ export function ClaimButton({
   // Don't show button if listing is already claimed
   if (claimed) {
     return null;
-  };
+  }
 
   // If user is not authenticated, redirect to sign up with return URL
   if (!session) {
     const signUpUrl = `/auth/register?callbackUrl=${encodeURIComponent(`/submit?claim=true&listingId=${listingId}`)}`;
-    
+
     return (
       <Button asChild variant="outline" className={className}>
-        <Link href={signUpUrl}>
-          Sign Up to Claim This Listing
-        </Link>
+        <Link href={signUpUrl}>Sign Up to Claim This Listing</Link>
       </Button>
     );
   }
@@ -44,9 +42,7 @@ export function ClaimButton({
 
   return (
     <Button asChild variant="outline" className={className}>
-      <Link href={claimUrl}>
-        Claim This Listing
-      </Link>
+      <Link href={claimUrl}>Claim This Listing</Link>
     </Button>
   );
 }

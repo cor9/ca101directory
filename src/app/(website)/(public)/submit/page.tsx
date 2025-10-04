@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { AirtableSubmitForm } from "@/components/submit/airtable-submit-form";
 import FreeSubmitForm from "@/components/submit/free-submit-form";
 import { SupabaseSubmitForm } from "@/components/submit/supabase-submit-form";
@@ -5,7 +6,6 @@ import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
 import { getListingBySlug } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
-import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
@@ -30,7 +30,9 @@ export default async function SubmitPage({
   if (isClaimFlow) {
     const session = await auth();
     if (!session?.user) {
-      redirect(`/auth/register?callbackUrl=${encodeURIComponent(`/submit?claim=true&listingId=${listingId}`)}`);
+      redirect(
+        `/auth/register?callbackUrl=${encodeURIComponent(`/submit?claim=true&listingId=${listingId}`)}`,
+      );
     }
   }
 
@@ -39,7 +41,10 @@ export default async function SubmitPage({
   if (isClaimFlow && listingId) {
     try {
       existingListing = await getListingBySlug(listingId);
-      console.log("SubmitPage: Found existing listing for claim:", existingListing?.listing_name);
+      console.log(
+        "SubmitPage: Found existing listing for claim:",
+        existingListing?.listing_name,
+      );
     } catch (error) {
       console.error("SubmitPage: Error fetching existing listing:", error);
     }
@@ -71,7 +76,8 @@ export default async function SubmitPage({
       name: cat.category_name,
       slug: {
         _type: "slug" as const,
-        current: cat.category_name?.toLowerCase().replace(/\s+/g, "-") || "unknown",
+        current:
+          cat.category_name?.toLowerCase().replace(/\s+/g, "-") || "unknown",
       },
       description: cat.description || null,
       group: null,
@@ -187,10 +193,9 @@ export default async function SubmitPage({
           {isClaimFlow ? "Claim Your Listing" : "Submit Your Listing"}
         </h1>
         <p className="text-xl text-muted-foreground mb-8">
-          {isClaimFlow 
-            ? "Fill out your listing details and choose a plan" 
-            : "Choose your submission type"
-          }
+          {isClaimFlow
+            ? "Fill out your listing details and choose a plan"
+            : "Choose your submission type"}
         </p>
         {existingListing && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 max-w-2xl mx-auto">
@@ -210,11 +215,12 @@ export default async function SubmitPage({
                 Complete Your Listing
               </h2>
               <p className="text-muted-foreground">
-                Fill out your listing details and choose a plan to claim this listing.
+                Fill out your listing details and choose a plan to claim this
+                listing.
               </p>
             </div>
-            <SupabaseSubmitForm 
-              categories={freeFormCategories} 
+            <SupabaseSubmitForm
+              categories={freeFormCategories}
               existingListing={existingListing}
               isClaimFlow={true}
             />

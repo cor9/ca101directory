@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { CheckIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -12,7 +12,11 @@ interface CompedToggleProps {
   currentPlan: string | null;
 }
 
-export function CompedToggle({ listingId, isComped, currentPlan }: CompedToggleProps) {
+export function CompedToggle({
+  listingId,
+  isComped,
+  currentPlan,
+}: CompedToggleProps) {
   const [comped, setComped] = useState(isComped);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,9 +40,9 @@ export function CompedToggle({ listingId, isComped, currentPlan }: CompedToggleP
 
       setComped(!comped);
       toast.success(
-        !comped 
-          ? "Listing marked as comped (Pro plan)" 
-          : "Comped status removed"
+        !comped
+          ? "Listing marked as comped (Pro plan)"
+          : "Comped status removed",
       );
     } catch (error) {
       console.error("Error toggling comped status:", error);
@@ -59,9 +63,12 @@ export function CompedToggle({ listingId, isComped, currentPlan }: CompedToggleP
       >
         {comped ? "Comped" : "Mark Comped"}
       </Button>
-      
+
       {comped && (
-        <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 text-xs">
+        <Badge
+          variant="secondary"
+          className="bg-yellow-100 text-yellow-800 text-xs"
+        >
           <CheckIcon className="w-3 h-3 mr-1" />
           Pro
         </Badge>

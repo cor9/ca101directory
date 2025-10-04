@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { GuestActionModal } from "@/components/auth/guest-action-modal";
+import { Button } from "@/components/ui/button";
 import { toggleFavorite } from "@/data/favorites";
 import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
@@ -36,7 +36,8 @@ export function FavoriteButton({
   const [showGuestModal, setShowGuestModal] = useState(false);
 
   // Check if user is the owner of this listing
-  const isOwner = session?.user?.id && listingOwnerId && session.user.id === listingOwnerId;
+  const isOwner =
+    session?.user?.id && listingOwnerId && session.user.id === listingOwnerId;
 
   // Don't render the button if user owns the listing
   if (isOwner) {

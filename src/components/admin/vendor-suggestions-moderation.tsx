@@ -61,10 +61,14 @@ export function VendorSuggestionsModeration() {
           return;
         }
 
-        setSuggestions((data || []).map(suggestion => ({
-          ...suggestion,
-          profiles: Array.isArray(suggestion.profiles) ? suggestion.profiles[0] : suggestion.profiles,
-        })));
+        setSuggestions(
+          (data || []).map((suggestion) => ({
+            ...suggestion,
+            profiles: Array.isArray(suggestion.profiles)
+              ? suggestion.profiles[0]
+              : suggestion.profiles,
+          })),
+        );
       } catch (error) {
         console.error("Error fetching vendor suggestions:", error);
       } finally {

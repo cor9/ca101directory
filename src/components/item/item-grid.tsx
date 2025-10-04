@@ -17,7 +17,11 @@ interface ItemGridProps {
  * 2. show item card with icon when SUPPORT_ITEM_ICON is true
  * otherwise show item card with image
  */
-export default async function ItemGrid({ items, sponsorItems, showSponsor = true }: ItemGridProps) {
+export default async function ItemGrid({
+  items,
+  sponsorItems,
+  showSponsor = true,
+}: ItemGridProps) {
   if (!showSponsor) {
     return <ItemGridClient items={items} />;
   }
@@ -28,8 +32,10 @@ export default async function ItemGrid({ items, sponsorItems, showSponsor = true
   // show sponsor item in the 3rd item
   const allItems = [
     ...items.slice(0, 2),
-    ...(Array.isArray(sponsorItems) && sponsorItems.length > 0 ? [sponsorItems[0]] : []),
-    ...items.slice(2)
+    ...(Array.isArray(sponsorItems) && sponsorItems.length > 0
+      ? [sponsorItems[0]]
+      : []),
+    ...items.slice(2),
   ];
 
   return <ItemGridClient items={allItems} />;

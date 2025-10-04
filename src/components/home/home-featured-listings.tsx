@@ -45,7 +45,7 @@ const fallbackListings: FeaturedListing[] = [
     name: "Coaching with Corey",
     description:
       "Comprehensive acting coaching including private sessions, self-tape services, and career consultations.",
-    image: "https://coaching.childactor101.com/coachlogo.png",
+    image: "/coachingwithcorey.png",
     website: "https://coaching.childactor101.com",
     category: "Acting Classes & Coaches",
     tags: ["Private Coaching", "Self-Tape", "Career Guidance"],

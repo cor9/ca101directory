@@ -1,6 +1,6 @@
+import Container from "@/components/container";
 import { HeaderSection } from "@/components/shared/header-section";
 import { VendorSuggestionForm } from "@/components/vendor-suggestion/vendor-suggestion-form";
-import Container from "@/components/container";
 
 export default function SuggestVendorPage() {
   return (

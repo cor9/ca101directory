@@ -12,7 +12,8 @@ import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
   title: "Child Actor 101 Directory - Find Trusted Acting Professionals",
-  description: "Find trusted acting coaches, photographers, agents, and other professionals for your child's acting career",
+  description:
+    "Find trusted acting coaches, photographers, agents, and other professionals for your child's acting career",
   canonicalUrl: `${siteConfig.url}/`,
 });
 

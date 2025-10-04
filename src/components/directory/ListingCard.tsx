@@ -74,6 +74,12 @@ export default function ListingCard({
           (t?.name && String(t.name).toLowerCase().includes("approved")),
       )
     : false;
+  const isUuidLike = (value: string | undefined): boolean => {
+    if (!value) return false;
+    return /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
+      value.trim(),
+    );
+  };
   return (
     <article className="bg-[color:var(--cream)] text-[color:var(--cream-ink)] rounded-2xl border border-[color:var(--card-border)] shadow-[var(--shadow-cream)] overflow-hidden transition-transform hover:-translate-y-0.5 hover:shadow-[var(--shadow-cream-lg)]">
       <div className="aspect-[16/9] bg-[#EDE6C8] relative overflow-hidden z-[10]">
@@ -115,20 +121,24 @@ export default function ListingCard({
 
         {item.categories && item.categories.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {item.categories.slice(0, 3).map((c) => {
-              const full =
-                allCategories.find((name) =>
-                  name.toLowerCase().startsWith(c.name.toLowerCase()),
-                ) || c.name;
-              return (
-                <span
-                  key={c._id}
-                  className="rounded-full bg-[color:var(--chip-bg)] border border-[color:var(--card-border)] px-2 py-1 text-xs"
-                >
-                  {full}
-                </span>
-              );
-            })}
+            {item.categories
+              .filter((c) => c?.name && !isUuidLike(c.name))
+              .slice(0, 3)
+              .map((c) => {
+                const name = c.name || "";
+                const full =
+                  allCategories.find((candidate) =>
+                    candidate.toLowerCase().startsWith(name.toLowerCase()),
+                  ) || name;
+                return (
+                  <span
+                    key={c._id}
+                    className="rounded-full bg-[color:var(--chip-bg)] border border-[color:var(--card-border)] px-2 py-1 text-xs"
+                  >
+                    {full}
+                  </span>
+                );
+              })}
           </div>
         )}
 

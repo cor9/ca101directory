@@ -273,7 +273,7 @@ export default async function VendorDashboard() {
                             variant="outline"
                             size="sm"
                             asChild
-                            className="btn-secondary"
+                            className="border-primary-orange text-primary-orange hover:bg-primary-orange hover:text-white transition-colors"
                           >
                             <Link href={`/listing/${listing.id}`}>
                               <ExternalLinkIcon className="w-4 h-4 mr-1" />
@@ -308,7 +308,7 @@ export default async function VendorDashboard() {
                     variant="outline"
                     size="sm"
                     asChild
-                    className="btn-secondary"
+                    className="border-primary-orange text-primary-orange hover:bg-primary-orange hover:text-white transition-colors"
                   >
                     <Link href="/submit">
                       <PlusIcon className="w-4 h-4 mr-1" />
@@ -320,7 +320,7 @@ export default async function VendorDashboard() {
                       variant="outline"
                       size="sm"
                       asChild
-                      className="btn-secondary"
+                      className="border-primary-orange text-primary-orange hover:bg-primary-orange hover:text-white transition-colors"
                     >
                       <Link href={`/edit/${userListings[0]?.id}`}>
                         <EditIcon className="w-4 h-4 mr-1" />
@@ -342,7 +342,7 @@ export default async function VendorDashboard() {
                       variant="outline"
                       size="sm"
                       asChild
-                      className="btn-secondary"
+                      className="border-primary-orange text-primary-orange hover:bg-primary-orange hover:text-white transition-colors"
                     >
                       <Link href="/pricing">Upgrade Plan</Link>
                     </Button>
@@ -351,7 +351,7 @@ export default async function VendorDashboard() {
                     variant="outline"
                     size="sm"
                     disabled
-                    className="btn-secondary"
+                    className="border-gray-300 text-gray-500 cursor-not-allowed"
                   >
                     View Analytics
                   </Button>

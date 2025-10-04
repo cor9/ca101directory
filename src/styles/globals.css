@@ -363,6 +363,92 @@
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
   }
 
+  /* Listing page design system */
+  .listing-page {
+    background: #0C1A2B; /* navy backdrop */
+    padding: 2rem;
+    min-height: 100vh;
+  }
+
+  .listing-card {
+    background: #FFFDD0; /* cream */
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    color: #0C1A2B; /* navy text */
+    line-height: 1.7;
+  }
+
+  /* Section headings */
+  .listing-card h3 {
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #2A2A2A;
+  }
+
+  /* Sidebar layout */
+  .listing-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    border-radius: 16px;
+    padding: 0.3rem 0.8rem;
+    margin: 0.2rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+  }
+  .badge.orange { background: #F25C05; }
+  .badge.blue { background: #0C88F2; }
+  .badge.mustard { background: #F2B705; }
+  .badge.green { background: #1F7A4D; }
+
+  /* Text line clamping utilities */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+  .line-clamp-4 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+  }
+  .line-clamp-5 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+  }
+  .line-clamp-6 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+  }
+
   .step {
     counter-increment: step;
   }

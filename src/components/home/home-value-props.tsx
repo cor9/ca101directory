@@ -43,21 +43,11 @@ export default function HomeValueProps() {
             return (
               <article
                 key={value.title}
-                className="family-card flex h-full flex-col rounded-xl p-6 text-left transition-all duration-200 hover:transform hover:-translate-y-1"
+                className="family-card flex h-full flex-col rounded-xl p-6 text-left transition-all duration-200 hover:transform hover:-translate-y-1 hover:shadow-xl"
                 style={{
                   background: "#FFFDD0",
                   color: "#0C1A2B",
                   boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-4px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 6px 16px rgba(0,0,0,0.25)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 4px 12px rgba(0,0,0,0.15)";
                 }}
               >
                 <div

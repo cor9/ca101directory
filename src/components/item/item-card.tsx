@@ -104,8 +104,8 @@ export default function ItemCard({ item }: ItemCardProps) {
                   <span className="truncate">{item.name}</span>
                 </span>
               </h3>
-              <div className="flex items-center justify-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity duration-300 shrink-0">
-                <span className="text-primary-orange font-medium text-sm">View Details</span>
+              <div className="flex items-center justify-center gap-2 opacity-100 shrink-0">
+                <span className="text-primary-orange font-semibold text-sm bg-primary-orange/10 px-3 py-1 rounded-full">View Details</span>
                 <ArrowRightIcon className={cn("size-4 icon-scale text-primary-orange", "")} />
               </div>
             </div>

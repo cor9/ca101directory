@@ -102,10 +102,10 @@ export default async function DirectoryPage({
       {/* Header */}
       <Container className="py-16">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-paper mb-4">
+          <h1 className="text-4xl font-bold text-surface mb-4">
             Professional Directory
           </h1>
-          <p className="text-xl text-paper/90 max-w-3xl mx-auto">
+          <p className="text-xl text-surface/80 max-w-3xl mx-auto">
             Browse our complete directory of vetted child actor professionals.
             Every listing has been carefully reviewed for quality, safety, and
             results.

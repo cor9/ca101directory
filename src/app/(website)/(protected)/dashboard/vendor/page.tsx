@@ -78,17 +78,11 @@ export default async function VendorDashboard() {
       plan === "Standard" || 
       plan === "Founding Standard"
     );
-    const hasPremium = plans.some(plan => 
-      plan?.toLowerCase() === "premium" || 
-      plan === "Premium"
-    );
     
     if (hasPro) {
       currentPlan = "Pro";
     } else if (hasStandard) {
       currentPlan = "Standard";
-    } else if (hasPremium) {
-      currentPlan = "Premium";
     }
   }
 

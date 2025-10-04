@@ -120,20 +120,20 @@ export default async function ListingPage({ params }: ListingPageProps) {
       value.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
 
     const categoryNameLookup = new Map<string, string>();
-    categoryRecords.forEach((cat) => {
+    for (const cat of categoryRecords) {
       const key = normalizeCategory(cat.category_name || "");
       if (key) {
         categoryNameLookup.set(key, cat.category_name);
       }
-    });
+    }
 
     const iconLookup = new Map<string, string>();
-    Object.entries(categoryIconMap || {}).forEach(([name, filename]) => {
+    for (const [name, filename] of Object.entries(categoryIconMap || {})) {
       const key = normalizeCategory(name);
       if (key) {
         iconLookup.set(key, filename);
       }
-    });
+    }
 
     const localIconMap: Record<string, string> = {
       "Acting Classes & Coaches": "/categories/masks.png",
@@ -280,7 +280,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 className="text-lg leading-relaxed mb-6 line-clamp-4"
                 style={{ color: "#0C1A2B" }}
               >
-                {listing["What You Offer?"]}
+                {listing.what_you_offer}
               </p>
 
               {/* Action Buttons */}
@@ -339,7 +339,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 className="text-base leading-relaxed mb-6 line-clamp-6"
                 style={{ color: "#0C1A2B" }}
               >
-                {listing["What You Offer?"]}
+                {listing.what_you_offer}
               </p>
 
               {listing.who_is_it_for && (
@@ -649,16 +649,20 @@ export default async function ListingPage({ params }: ListingPageProps) {
               <div className="flex flex-wrap gap-2">
                 {listing.age_range && listing.age_range.length > 0 ? (
                   listing.age_range
-                    .filter(
-                      (age) =>
-                        age?.trim() &&
-                        !age.includes("Age Range") &&
-                        !age.includes("los-angeles") &&
-                        !age.includes("hybrid"),
-                    )
+                    .filter((age) => {
+                      const val = age?.trim() || "";
+                      if (!val) return false;
+                      if (val.includes("Age Range")) return false;
+                      if (val.includes("los-angeles")) return false;
+                      if (val.includes("hybrid")) return false;
+                      // Exclude UUID-like tokens
+                      const uuidLike = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+                      if (uuidLike.test(val)) return false;
+                      return true;
+                    })
                     .map((age) => (
-                      <span key={age.trim()} className="badge blue">
-                        {age.trim()}
+                      <span key={(age || "").trim()} className="badge blue">
+                        {(age || "").trim()}
                       </span>
                     ))
                 ) : (

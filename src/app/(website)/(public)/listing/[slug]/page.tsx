@@ -138,232 +138,162 @@ export default async function ListingPage({ params }: ListingPageProps) {
     });
 
     return (
-      <div className="flex flex-col gap-8">
-        {/* Header section */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          {/* Left column */}
-          <div className="lg:col-span-3 gap-8 flex flex-col">
-            {/* Basic information */}
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Link href="/" className="hover:text-foreground">
-                Directory
-              </Link>
-              <span>/</span>
-              <span>{listing.listing_name}</span>
-            </div>
-
-            {/* logo + name + description */}
-            <div className="flex flex-1 items-center">
-              <div className="flex flex-col gap-8">
-                <div className="flex w-full items-center gap-4">
-                  {listing.profile_image && (
-                    <Image
-                      src={listing.profile_image}
-                      alt={`Logo of ${listing["Listing Name"]}`}
-                      title={`Logo of ${listing["Listing Name"]}`}
-                      width={64}
-                      height={64}
-                      className="object-cover rounded-lg"
-                    />
-                  )}
-                  <div className="flex flex-col gap-2">
-                    <h1
-                      className={cn(
-                        "text-4xl tracking-wider font-bold flex items-center gap-2 text-foreground",
-                        listing.plan === "Premium" &&
-                          "text-gradient_blue-orange font-semibold",
-                      )}
-                    >
-                      {listing.listing_name}
-                    </h1>
-
-                    {/* Rating */}
-                    {isReviewsEnabled() && averageRating.count > 0 && (
-                      <div className="flex items-center gap-2 mb-2">
-                        <StarRating
-                          value={Math.round(averageRating.average)}
-                          readonly
-                          size="md"
-                        />
-                        <span className="text-sm text-muted-foreground">
-                          {averageRating.average.toFixed(1)} (
-                          {averageRating.count} review
-                          {averageRating.count !== 1 ? "s" : ""})
-                        </span>
-                      </div>
-                    )}
-
-                    <div className="flex items-center gap-2">
-                      {listing.plan === "Premium" && (
-                        <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                          <StarIcon className="h-3 w-3" />
-                          Featured
-                        </span>
-                      )}
-                      {listing.is_approved_101 === true && (
-                        <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                          <CheckCircleIcon className="h-3 w-3" />
-                          101 Approved
-                        </span>
-                      )}
-                      {(() => {
-                        // Determine badge text and styling
-                        let badgeText = "Free";
-                        let badgeClassName =
-                          "text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600";
-
-                        if (listing.comped) {
-                          badgeText = "Pro";
-                          badgeClassName =
-                            "text-xs px-2 py-1 rounded-full bg-brand-blue text-white";
-                        } else if (listing.plan === "pro") {
-                          badgeText = "Pro";
-                          badgeClassName =
-                            "text-xs px-2 py-1 rounded-full bg-brand-blue text-white";
-                        } else if (listing.plan === "standard") {
-                          badgeText = "Standard";
-                          badgeClassName =
-                            "text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800";
-                        } else if (listing.plan === "premium") {
-                          badgeText = "Featured";
-                          badgeClassName =
-                            "text-xs px-2 py-1 rounded-full bg-brand-orange text-white";
-                        }
-
-                        return (
-                          <span className={badgeClassName}>{badgeText}</span>
-                        );
-                      })()}
-                      {/* Admin-only comped badge */}
-                      {isAdmin && listing.comped && (
-                        <span className="text-xs bg-yellow-500 text-white px-2 py-1 rounded-full">
-                          Comped
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <p className="text-foreground text-balance leading-relaxed">
-                  {listing["What You Offer?"]}
-                </p>
-              </div>
-            </div>
-
-            {/* action buttons */}
-            <div className="flex gap-4">
-              {listing.website && (
-                <Button size="lg" variant="default" asChild className="group">
-                  <Link
-                    href={listing.website}
-                    target="_blank"
-                    prefetch={false}
-                    className="flex items-center justify-center space-x-2"
-                  >
-                    <GlobeIcon className="w-4 h-4 icon-scale" />
-                    <span>Visit Website</span>
-                  </Link>
-                </Button>
-              )}
-              {isOwner && (
-                <Button size="lg" variant="outline" asChild>
-                  <Link
-                    href="/dashboard/vendor"
-                    className="flex items-center justify-center space-x-2"
-                  >
-                    <EditIcon className="w-4 h-4" />
-                    <span>Edit Listing</span>
-                  </Link>
-                </Button>
-              )}
-              {isFavoritesEnabled() && !isOwner && (
-                <FavoriteButton
-                  listingId={listing.id}
-                  listingName={listing.listing_name}
-                  listingOwnerId={listing.owner_id}
-                  size="lg"
-                  variant="outline"
-                />
-              )}
-            </div>
+      <div className="listing-page">
+        {/* Header Card */}
+        <div className="listing-card">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 text-sm mb-6" style={{ color: "#666" }}>
+            <Link href="/" className="hover:text-primary-orange">
+              Directory
+            </Link>
+            <span>/</span>
+            <span>{listing.listing_name}</span>
           </div>
 
-          {/* Right column */}
-          <div className="lg:col-span-2">
-            {/* Gallery */}
-            {listing.gallery && (
-              <div className="relative group overflow-hidden rounded-lg aspect-[16/9]">
-                <Image
-                  src={listing.gallery}
-                  alt={`Gallery image for ${listing["Listing Name"]}`}
-                  title={`Gallery image for ${listing["Listing Name"]}`}
-                  loading="eager"
-                  fill
-                  className="border w-full shadow-lg object-cover image-scale"
-                />
-              </div>
+          {/* Vendor Header */}
+          <div className="flex items-start gap-8 mb-6">
+            {listing.profile_image && (
+              <Image
+                src={listing.profile_image}
+                alt={`Logo of ${listing.listing_name}`}
+                title={`Logo of ${listing.listing_name}`}
+                width={120}
+                height={120}
+                className="object-cover rounded-lg flex-shrink-0"
+              />
             )}
+            <div className="flex-1 max-w-2xl">
+              <h1 className="text-3xl font-bold mb-3 line-clamp-2" style={{ color: "#0C1A2B" }}>
+                {listing.listing_name}
+              </h1>
+              
+              {/* Rating */}
+              {isReviewsEnabled() && averageRating.count > 0 && (
+                <div className="flex items-center gap-2 mb-4">
+                  <StarRating
+                    value={Math.round(averageRating.average)}
+                    readonly
+                    size="md"
+                  />
+                  <span className="text-sm" style={{ color: "#666" }}>
+                    {averageRating.average.toFixed(1)} (
+                    {averageRating.count} review
+                    {averageRating.count !== 1 ? "s" : ""})
+                  </span>
+                </div>
+              )}
+
+              {/* Badges - Only show 101 Approved, remove plan highlighting */}
+              <div className="flex items-center gap-2 mb-4">
+                {listing.is_approved_101 === true && (
+                  <span className="badge green">
+                    <CheckCircleIcon className="h-3 w-3 mr-1" />
+                    101 Approved
+                  </span>
+                )}
+                {isAdmin && listing.comped && (
+                  <span className="badge mustard">Comped</span>
+                )}
+              </div>
+
+              {/* Description */}
+              <p className="text-lg leading-relaxed mb-6 line-clamp-4" style={{ color: "#0C1A2B" }}>
+                {listing["What You Offer?"]}
+              </p>
+
+              {/* Action Buttons */}
+              <div className="flex gap-4">
+                {listing.website && (
+                  <Button size="lg" asChild className="btn-primary">
+                    <Link
+                      href={listing.website}
+                      target="_blank"
+                      prefetch={false}
+                      className="flex items-center justify-center space-x-2"
+                    >
+                      <GlobeIcon className="w-4 h-4" />
+                      <span>Visit Website</span>
+                    </Link>
+                  </Button>
+                )}
+                {isOwner && (
+                  <Button size="lg" asChild className="btn-secondary">
+                    <Link
+                      href="/dashboard/vendor"
+                      className="flex items-center justify-center space-x-2"
+                    >
+                      <EditIcon className="w-4 h-4" />
+                      <span>Edit Listing</span>
+                    </Link>
+                  </Button>
+                )}
+                {isFavoritesEnabled() && !isOwner && (
+                  <FavoriteButton
+                    listingId={listing.id}
+                    listingName={listing.listing_name}
+                    listingOwnerId={listing.owner_id}
+                    size="lg"
+                    variant="outline"
+                  />
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Content section */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          {/* Left column */}
-          <div className="lg:col-span-3 flex flex-col">
-            {/* Detailed content */}
-            <div className="bg-muted/50 rounded-lg p-6 mr-0 lg:mr-8">
-              <h2 className="text-xl font-semibold mb-6 text-foreground">
+        {/* Main Content Grid */}
+        <div className="listing-container">
+          {/* Left Column - Story Cards */}
+          <div className="space-y-6">
+            {/* About Card */}
+            <div className="listing-card">
+              <h2 className="text-xl font-bold mb-4" style={{ color: "#0C1A2B" }}>
                 About This Professional
               </h2>
-              <div className="prose prose-sm max-w-none text-foreground">
-                <p className="text-base leading-relaxed mb-4">
-                  {listing["What You Offer?"]}
-                </p>
-                {listing.who_is_it_for && (
-                  <div className="mt-6">
-                    <h3 className="font-semibold mb-3 text-foreground">
-                      Who Is It For:
-                    </h3>
-                    <p className="text-base leading-relaxed">
-                      {listing.who_is_it_for}
-                    </p>
-                  </div>
-                )}
-                {listing.why_is_it_unique && (
-                  <div className="mt-6">
-                    <h3 className="font-semibold mb-3 text-foreground">
-                      What Makes This Unique:
-                    </h3>
-                    <p className="text-base leading-relaxed">
-                      {listing.why_is_it_unique}
-                    </p>
-                  </div>
-                )}
-                {listing.format && (
-                  <div className="mt-6">
-                    <h3 className="font-semibold mb-3 text-foreground">
-                      Service Format:
-                    </h3>
-                    <p className="text-base leading-relaxed">
-                      {listing.format}
-                    </p>
-                  </div>
-                )}
-                {listing.extras_notes && (
-                  <div className="mt-6">
-                    <h3 className="font-semibold mb-3 text-foreground">
-                      Additional Notes:
-                    </h3>
-                    <p className="text-base leading-relaxed">
-                      {listing.extras_notes}
-                    </p>
-                  </div>
-                )}
-              </div>
+              <p className="text-base leading-relaxed mb-6 line-clamp-6" style={{ color: "#0C1A2B" }}>
+                {listing["What You Offer?"]}
+              </p>
+              
+              {listing.who_is_it_for && (
+                <div className="mb-6">
+                  <h3>Who Is It For</h3>
+                  <p className="text-base leading-relaxed line-clamp-4" style={{ color: "#0C1A2B" }}>
+                    {listing.who_is_it_for}
+                  </p>
+                </div>
+              )}
+              
+              {listing.why_is_it_unique && (
+                <div className="mb-6">
+                  <h3>What Makes This Unique</h3>
+                  <p className="text-base leading-relaxed line-clamp-4" style={{ color: "#0C1A2B" }}>
+                    {listing.why_is_it_unique}
+                  </p>
+                </div>
+              )}
+              
+              {listing.format && (
+                <div className="mb-6">
+                  <h3>Service Format</h3>
+                  <p className="text-base leading-relaxed line-clamp-2" style={{ color: "#0C1A2B" }}>
+                    {listing.format}
+                  </p>
+                </div>
+              )}
+              
+              {listing.extras_notes && (
+                <div>
+                  <h3>Additional Notes</h3>
+                  <p className="text-base leading-relaxed line-clamp-4" style={{ color: "#0C1A2B" }}>
+                    {listing.extras_notes}
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Review Form */}
             {isReviewsEnabled() && (
-              <div className="mt-8">
+              <div className="listing-card">
                 <ReviewForm
                   listingId={listing.id}
                   listingName={listing.listing_name || "Listing"}
@@ -372,261 +302,263 @@ export default async function ListingPage({ params }: ListingPageProps) {
               </div>
             )}
 
-            <div className="flex items-center justify-start mt-16">
+            {/* Back Link */}
+            <div className="flex items-center justify-start">
               <Link
                 href="/"
-                className="text-sm text-muted-foreground hover:text-foreground"
+                className="text-sm hover:text-primary-orange"
+                style={{ color: "#666" }}
               >
                 ← Back to Directory
               </Link>
             </div>
           </div>
 
-          {/* Right column */}
-          <div className="lg:col-span-2">
-            <div className="flex flex-col space-y-8">
-              <div className="flex flex-col space-y-4">
-                {/* Contact Information */}
-                <div className="bg-muted/50 rounded-lg p-6">
-                  <h2 className="text-lg font-semibold mb-4 text-foreground">
-                    Contact Information
-                  </h2>
-                  <ul className="space-y-4 text-base">
-                    {(listing.city || listing.state || listing.region) && (
-                      <li className="flex items-start gap-3">
-                        <MapPinIcon className="w-4 h-4 text-muted-foreground mt-1" />
-                        <span className="text-foreground">
-                          {[listing.city, listing.state, listing.region]
-                            .filter(Boolean)
-                            .join(", ")}
-                        </span>
-                      </li>
-                    )}
-                    {listing.phone && (
-                      <li className="flex items-start gap-3">
-                        <PhoneIcon className="w-4 h-4 text-muted-foreground mt-1" />
-                        <a
-                          href={`tel:${listing.phone}`}
-                          className="hover:text-primary text-foreground"
-                        >
-                          {listing.phone}
-                        </a>
-                      </li>
-                    )}
-                    {listing.email && (
-                      <li className="flex items-start gap-3">
-                        <MailIcon className="w-4 h-4 text-muted-foreground mt-1" />
-                        <a
-                          href={`mailto:${listing.email}`}
-                          className="hover:text-primary text-foreground"
-                        >
-                          {listing.email}
-                        </a>
-                      </li>
-                    )}
-                    {listing.format?.toLowerCase().includes("online") && (
-                      <li className="flex items-start gap-3">
-                        <GlobeIcon className="w-4 h-4 text-muted-foreground mt-1" />
-                        <span className="text-foreground">
-                          Virtual services available
-                        </span>
-                      </li>
-                    )}
-                  </ul>
-                </div>
-
-                {/* Claim Listing Section */}
-                {!listing.is_claimed && !isOwner && (
-                  <div className="bg-gradient-to-r from-brand-orange/5 to-brand-blue/5 rounded-lg p-6 border border-brand-orange/20">
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0">
-                        <ShieldIcon className="w-8 h-8 text-brand-orange" />
-                      </div>
-                      <div className="flex-1">
-                        <h2 className="text-lg font-semibold mb-2 text-foreground">
-                          Own This Business?
-                        </h2>
-                        <p className="text-muted-foreground mb-4">
-                          Claim your listing to gain full control, edit details,
-                          and upgrade to premium plans.
-                        </p>
-                        <ClaimButton
-                          listingId={listing.id}
-                          listingName={listing.listing_name || "Listing"}
-                          claimed={listing.is_claimed === true}
-                          ownerId={listing.owner_id}
-                          className="bg-brand-orange hover:bg-brand-orange-dark"
-                        />
-                      </div>
-                    </div>
+          {/* Right Column - Sidebar */}
+          <div className="space-y-6">
+            {/* Gallery - Show for Pro listings or if gallery exists */}
+            {(listing.gallery || (listing.plan === "pro" || listing.comped)) && (
+              <div className="listing-card">
+                <h2 className="text-lg font-semibold mb-4" style={{ color: "#0C1A2B" }}>
+                  Gallery
+                </h2>
+                {listing.gallery ? (
+                  <div className="relative group overflow-hidden rounded-lg aspect-[4/3]">
+                    <Image
+                      src={listing.gallery}
+                      alt={`Gallery image for ${listing.listing_name}`}
+                      title={`Gallery image for ${listing.listing_name}`}
+                      loading="eager"
+                      fill
+                      className="border w-full shadow-lg object-cover"
+                    />
                   </div>
-                )}
-
-                {/* Claim Status Section */}
-                {listing.is_claimed === true && (
-                  <div className="bg-gradient-to-r from-brand-blue/5 to-brand-green/5 rounded-lg p-6 border border-brand-blue/20">
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0">
-                        <CheckCircleIcon className="w-8 h-8 text-brand-blue" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-brand-blue mb-2">
-                          Listing Claimed
-                        </h3>
-                        <p className="text-sm text-muted-foreground mb-3">
-                          This listing has been claimed by the business owner.
-                        </p>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium">Claimed by:</span>
-                            <span className="text-muted-foreground">
-                              {listing["Claimed by? (Email)"]}
-                            </span>
-                          </div>
-                          {listing.date_claimed && (
-                            <div className="flex items-center gap-2">
-                              <span className="font-medium">Claimed on:</span>
-                              <span className="text-muted-foreground">
-                                {new Date(
-                                  listing.date_claimed,
-                                ).toLocaleDateString()}
-                              </span>
-                            </div>
-                          )}
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium">
-                              Verification Status:
-                            </span>
-                            <span
-                              className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                listing.verification_status === "Verified"
-                                  ? "bg-green-100 text-green-800"
-                                  : listing.verification_status === "Denied"
-                                    ? "bg-red-100 text-red-800"
-                                    : "bg-yellow-100 text-yellow-800"
-                              }`}
-                            >
-                              {listing.verification_status || "Pending"}
-                            </span>
-                          </div>
-                          {listing.is_approved_101 === true && (
-                            <div className="flex items-center gap-2">
-                              <span className="font-medium">101 Badge:</span>
-                              <span className="px-2 py-1 bg-brand-orange text-white rounded-full text-xs font-medium">
-                                ✓ Verified Professional
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Categories */}
-                <div className="bg-muted/50 rounded-lg p-6">
-                  <h2 className="text-lg font-semibold mb-4 text-foreground">
-                    Categories
-                  </h2>
-                  <ul className="flex flex-wrap gap-2">
-                    {listing.categories && listing.categories.length > 0 ? (
-                      listing.categories.map((category) => (
-                        <li key={category.trim()}>
-                          <span className="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full">
-                            {category.trim()}
-                          </span>
-                        </li>
-                      ))
-                    ) : (
-                      <li className="text-sm text-muted-foreground">
-                        No categories listed
-                      </li>
-                    )}
-                  </ul>
-                </div>
-
-                {/* Age Range */}
-                <div className="bg-muted/50 rounded-lg p-6">
-                  <h2 className="text-lg font-semibold mb-4 text-foreground">
-                    Age Range
-                  </h2>
-                  <ul className="flex flex-wrap gap-2">
-                    {listing.age_range && listing.age_range.length > 0 ? (
-                      listing.age_range.map((age) => (
-                        <li key={age.trim()}>
-                          <span className="text-sm bg-brand-blue/10 text-brand-blue px-3 py-1 rounded-full">
-                            {age.trim()}
-                          </span>
-                        </li>
-                      ))
-                    ) : (
-                      <li className="text-sm text-muted-foreground">
-                        No age range specified
-                      </li>
-                    )}
-                  </ul>
-                </div>
-
-                {/* Reviews Display */}
-                {isReviewsEnabled() && (
-                  <ReviewsDisplay listingId={listing.id} />
-                )}
-
-                {/* Certifications & Compliance */}
-                {(listing.ca_permit_required === true ||
-                  listing.is_bonded === true) && (
-                  <div className="bg-muted/50 rounded-lg p-6">
-                    <h2 className="text-lg font-semibold mb-4 text-foreground">
-                      Certifications & Compliance
-                    </h2>
-                    <ul className="space-y-2 text-sm">
-                      {listing[
-                        "California Child Performer Services Permit "
-                      ] === "checked" && (
-                        <li className="flex items-center gap-2">
-                          <CheckCircleIcon className="w-4 h-4 text-green-600" />
-                          <span>
-                            California Child Performer Services Permit
-                          </span>
-                        </li>
-                      )}
-                      {listing.is_bonded === true && (
-                        <li className="flex items-center gap-2">
-                          <CheckCircleIcon className="w-4 h-4 text-green-600" />
-                          <span>Bonded for Advanced Fees</span>
-                          {listing.bond_number && (
-                            <span className="text-muted-foreground">
-                              (Bond #{listing.bond_number})
-                            </span>
-                          )}
-                        </li>
-                      )}
-                    </ul>
+                ) : (
+                  <div className="aspect-[4/3] bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+                    <p className="text-gray-500 text-sm">No gallery images yet</p>
                   </div>
                 )}
               </div>
+            )}
+
+            {/* Contact Information */}
+            <div className="listing-card">
+              <h2 className="text-lg font-semibold mb-4" style={{ color: "#0C1A2B" }}>
+                Contact Information
+              </h2>
+              <ul className="space-y-4 text-base">
+                {(listing.city || listing.state || listing.region) && (
+                  <li className="flex items-start gap-3">
+                    <MapPinIcon className="w-4 h-4 text-primary-orange mt-1 flex-shrink-0" />
+                    <span style={{ color: "#0C1A2B" }}>
+                      {[listing.city, listing.state, listing.region]
+                        .filter(Boolean)
+                        .join(", ")}
+                    </span>
+                  </li>
+                )}
+                {listing.phone && (
+                  <li className="flex items-start gap-3">
+                    <PhoneIcon className="w-4 h-4 text-primary-orange mt-1 flex-shrink-0" />
+                    <a
+                      href={`tel:${listing.phone}`}
+                      className="hover:text-primary-orange"
+                      style={{ color: "#0C1A2B" }}
+                    >
+                      {listing.phone}
+                    </a>
+                  </li>
+                )}
+                {listing.email && (
+                  <li className="flex items-start gap-3">
+                    <MailIcon className="w-4 h-4 text-primary-orange mt-1 flex-shrink-0" />
+                    <a
+                      href={`mailto:${listing.email}`}
+                      className="hover:text-primary-orange"
+                      style={{ color: "#0C1A2B" }}
+                    >
+                      {listing.email}
+                    </a>
+                  </li>
+                )}
+                {listing.format?.toLowerCase().includes("online") && (
+                  <li className="flex items-start gap-3">
+                    <GlobeIcon className="w-4 h-4 text-primary-orange mt-1 flex-shrink-0" />
+                    <span style={{ color: "#0C1A2B" }}>
+                      Virtual services available
+                    </span>
+                  </li>
+                )}
+              </ul>
             </div>
+
+            {/* Claim Listing Section */}
+            {!listing.is_claimed && !isOwner && (
+              <div className="listing-card" style={{ background: "linear-gradient(135deg, #FFFDD0 0%, #F8F4E6 100%)" }}>
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0">
+                    <ShieldIcon className="w-8 h-8 text-primary-orange" />
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-lg font-semibold mb-2" style={{ color: "#0C1A2B" }}>
+                      Own This Business?
+                    </h2>
+                    <p className="mb-4" style={{ color: "#666" }}>
+                      Claim your listing to gain full control, edit details,
+                      and upgrade to premium plans.
+                    </p>
+                    <ClaimButton
+                      listingId={listing.id}
+                      listingName={listing.listing_name || "Listing"}
+                      claimed={listing.is_claimed === true}
+                      ownerId={listing.owner_id}
+                      className="btn-primary"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Claim Status Section */}
+            {listing.is_claimed === true && (
+              <div className="listing-card" style={{ background: "linear-gradient(135deg, #FFFDD0 0%, #E8F4FD 100%)" }}>
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0">
+                    <CheckCircleIcon className="w-8 h-8 text-secondary-denim" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-secondary-denim mb-2">
+                      Listing Claimed
+                    </h3>
+                    <p className="text-sm mb-3" style={{ color: "#666" }}>
+                      This listing has been claimed by the business owner.
+                    </p>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium" style={{ color: "#0C1A2B" }}>Claimed by:</span>
+                        <span style={{ color: "#666" }}>
+                          {listing["Claimed by? (Email)"]}
+                        </span>
+                      </div>
+                      {listing.date_claimed && (
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium" style={{ color: "#0C1A2B" }}>Claimed on:</span>
+                          <span style={{ color: "#666" }}>
+                            {new Date(listing.date_claimed).toLocaleDateString()}
+                          </span>
+                        </div>
+                      )}
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium" style={{ color: "#0C1A2B" }}>
+                          Verification Status:
+                        </span>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            listing.verification_status === "Verified"
+                              ? "bg-green-100 text-green-800"
+                              : listing.verification_status === "Denied"
+                                ? "bg-red-100 text-red-800"
+                                : "bg-yellow-100 text-yellow-800"
+                          }`}
+                        >
+                          {listing.verification_status || "Pending"}
+                        </span>
+                      </div>
+                      {listing.is_approved_101 === true && (
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium" style={{ color: "#0C1A2B" }}>101 Badge:</span>
+                          <span className="px-2 py-1 bg-primary-orange text-white rounded-full text-xs font-medium">
+                            ✓ Verified Professional
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Categories */}
+            <div className="listing-card">
+              <h2 className="text-lg font-semibold mb-4" style={{ color: "#0C1A2B" }}>
+                Categories
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {listing.categories && listing.categories.length > 0 ? (
+                  listing.categories.map((category, index) => {
+                    const colors = ['orange', 'blue', 'mustard', 'green'];
+                    const colorClass = colors[index % colors.length];
+                    return (
+                      <span key={category.trim()} className={`badge ${colorClass}`}>
+                        {category.trim()}
+                      </span>
+                    );
+                  })
+                ) : (
+                  <span className="text-sm" style={{ color: "#666" }}>
+                    No categories listed
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Age Range */}
+            <div className="listing-card">
+              <h2 className="text-lg font-semibold mb-4" style={{ color: "#0C1A2B" }}>
+                Age Range
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {listing.age_range && listing.age_range.length > 0 ? (
+                  listing.age_range.map((age) => (
+                    <span key={age.trim()} className="badge blue">
+                      {age.trim()}
+                    </span>
+                  ))
+                ) : (
+                  <span className="text-sm" style={{ color: "#666" }}>
+                    No age range specified
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Reviews Display */}
+            {isReviewsEnabled() && (
+              <div className="listing-card">
+                <ReviewsDisplay listingId={listing.id} />
+              </div>
+            )}
+
+            {/* Certifications & Compliance */}
+            {(listing.ca_permit_required === true || listing.is_bonded === true) && (
+              <div className="listing-card">
+                <h2 className="text-lg font-semibold mb-4" style={{ color: "#0C1A2B" }}>
+                  Certifications & Compliance
+                </h2>
+                <ul className="space-y-2 text-sm">
+                  {listing["California Child Performer Services Permit "] === "checked" && (
+                    <li className="flex items-center gap-2">
+                      <CheckCircleIcon className="w-4 h-4 text-green-600" />
+                      <span style={{ color: "#0C1A2B" }}>
+                        California Child Performer Services Permit
+                      </span>
+                    </li>
+                  )}
+                  {listing.is_bonded === true && (
+                    <li className="flex items-center gap-2">
+                      <CheckCircleIcon className="w-4 h-4 text-green-600" />
+                      <span style={{ color: "#0C1A2B" }}>Bonded for Advanced Fees</span>
+                      {listing.bond_number && (
+                        <span style={{ color: "#666" }}>
+                          (Bond #{listing.bond_number})
+                        </span>
+                      )}
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
           </div>
-
-          {/* Review Form - Show for non-owners when reviews are enabled */}
-          {isReviewsEnabled() && !isOwner && (
-            <div className="mt-8">
-              <ReviewForm
-                listingId={listing.id}
-                listingName={listing.listing_name || "this listing"}
-              />
-            </div>
-          )}
-
-          {/* Claimed Listing Actions - Show for owners */}
-          {/* TODO: Add claimedBy field to Listing interface and fix type compatibility */}
-          {/* 
-          {listing.is_claimed === true && (
-            <div className="mt-8">
-              <ClaimedListingActions listing={listing} isOwner={true} />
-            </div>
-          )}
-          */}
         </div>
       </div>
     );

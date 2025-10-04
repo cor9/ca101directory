@@ -94,13 +94,14 @@ export const LoginForm = ({
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="text-surface">Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
                       placeholder="name@example.com"
                       type="email"
+                      className="bg-paper border-secondary text-surface placeholder:text-surface/60"
                     />
                   </FormControl>
                   <FormMessage />
@@ -113,12 +114,12 @@ export const LoginForm = ({
               render={({ field }) => (
                 <FormItem>
                   <div className="flex justify-between items-center">
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel className="text-surface">Password</FormLabel>
                     <Button
                       size="sm"
                       variant="link"
                       asChild
-                      className="px-0 font-normal text-muted-foreground"
+                      className="px-0 font-normal text-secondary hover:text-primary"
                     >
                       <Link href="/auth/reset" className="text-xs underline">
                         Forgot password?
@@ -131,6 +132,7 @@ export const LoginForm = ({
                       disabled={isPending}
                       placeholder="******"
                       type="password"
+                      className="bg-paper border-secondary text-surface placeholder:text-surface/60"
                     />
                   </FormControl>
                   <FormMessage />
@@ -144,7 +146,7 @@ export const LoginForm = ({
             disabled={isPending}
             size="lg"
             type="submit"
-            className="w-full flex items-center justify-center gap-2"
+            className="w-full btn-primary flex items-center justify-center gap-2"
           >
             {isPending ? (
               <Icons.spinner className="w-4 h-4 animate-spin" />

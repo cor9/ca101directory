@@ -95,9 +95,14 @@ export const RegisterForm = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel className="text-surface">Name</FormLabel>
                   <FormControl>
-                    <Input {...field} disabled={isPending} placeholder="name" />
+                    <Input 
+                      {...field} 
+                      disabled={isPending} 
+                      placeholder="name" 
+                      className="bg-paper border-secondary text-surface placeholder:text-surface/60"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -108,13 +113,14 @@ export const RegisterForm = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="text-surface">Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
                       placeholder="name@example.com"
                       type="email"
+                      className="bg-paper border-secondary text-surface placeholder:text-surface/60"
                     />
                   </FormControl>
                   <FormMessage />
@@ -126,13 +132,14 @@ export const RegisterForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="text-surface">Password</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
                       placeholder="******"
                       type="password"
+                      className="bg-paper border-secondary text-surface placeholder:text-surface/60"
                     />
                   </FormControl>
                   <FormMessage />
@@ -144,7 +151,7 @@ export const RegisterForm = () => {
               name="role"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel>I am a...</FormLabel>
+                  <FormLabel className="text-surface">I am a...</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -156,7 +163,7 @@ export const RegisterForm = () => {
                           <RadioGroupItem value="parent" id="parent" />
                           <label
                             htmlFor="parent"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-surface"
                           >
                             Parent/Legal Guardian
                           </label>
@@ -167,7 +174,7 @@ export const RegisterForm = () => {
                           <RadioGroupItem value="vendor" id="vendor" />
                           <label
                             htmlFor="vendor"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-surface"
                           >
                             Professional/Vendor
                           </label>
@@ -186,7 +193,7 @@ export const RegisterForm = () => {
             disabled={isPending}
             size="lg"
             type="submit"
-            className="w-full flex items-center justify-center gap-2"
+            className="w-full btn-primary flex items-center justify-center gap-2"
           >
             {isPending ? (
               <Icons.spinner className="w-4 h-4 animate-spin" />

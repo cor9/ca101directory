@@ -13,8 +13,8 @@ import { siteConfig } from "@/config/site";
 import { getCategories, getCategoryIconsMap } from "@/data/categories";
 import { getListingBySlug } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
-import { constructMetadata } from "@/lib/metadata";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
+import { constructMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
 import {
   CheckCircleIcon,
@@ -79,7 +79,9 @@ export async function generateMetadata({
         listing.what_you_offer ||
         "Professional acting services for young actors",
       canonicalUrl: `${siteConfig.url}/listing/${params.slug}`,
-      image: listing.profile_image ? getListingImageUrl(listing.profile_image) : undefined,
+      image: listing.profile_image
+        ? getListingImageUrl(listing.profile_image)
+        : undefined,
     });
   } catch (error) {
     console.error("generateMetadata error:", error);
@@ -133,6 +135,37 @@ export default async function ListingPage({ params }: ListingPageProps) {
       }
     });
 
+    const localIconMap: Record<string, string> = {
+      "Acting Classes & Coaches": "/categories/masks.png",
+      "Headshot Photographers": "/categories/camera.png",
+      "Self-Tape Studios": "/categories/selftape.png",
+      "Demo Reel Creators": "/categories/reelcreator.png",
+      "Vocal Coaches": "/categories/singer.png",
+      "Talent Managers": "/categories/rep.png",
+      "Casting Workshops": "/categories/handwriting.png",
+      "Reels Editors": "/categories/reel_editor.png",
+      "Social Media Consultants": "/categories/socialmedia.png",
+      "Acting Camps": "/categories/theatre.png",
+      "Acting Schools": "/categories/masks.png",
+      "Audition Prep": "/categories/audprep.png",
+      "Voiceover Studios": "/categories/mic.png",
+      "Theatre Training": "/categories/kidstheatre.png",
+      "Entertainment Lawyers": "/categories/legalfile.png",
+      "Financial Advisors": "/categories/moneybag.png",
+      Publicists: "/categories/publicist.png",
+      "Hair/Makeup Artists": "/categories/makeup.png",
+      "Wardrobe Stylists": "/categories/wardrobe.png",
+      "Branding Coaches": "/categories/colowheel.png",
+      "Mental Health for Performers": "/categories/mentalhealth.png",
+      "On-Set Tutors": "/categories/tutor.png",
+      "Reel Creator": "/categories/reelcreator.png",
+      Feedback: "/categories/play1.png",
+      "Career Consultation": "/categories/consult.png",
+      "Dance Classes": "/categories/danceclass.png",
+      Reel: "/categories/filmreel.png",
+      "Scene Writing": "/categories/script.png",
+    };
+
     const displayCategories = (listing.categories || []).map((category) => {
       const key = normalizeCategory(category);
       const displayName =
@@ -140,11 +173,17 @@ export default async function ListingPage({ params }: ListingPageProps) {
         (categoryIconMap as Record<string, string>)?.[category] ||
         category;
       const iconFilename = iconLookup.get(key);
+      const localIconEntry = Object.entries(localIconMap).find(
+        ([name]) => normalizeCategory(name) === key,
+      );
+      const localIcon = localIconEntry?.[1];
       return {
         original: category,
         displayName,
-        iconUrl: iconFilename ? getCategoryIconUrl(iconFilename) : null,
-        key: `${category}-${iconFilename || ""}`,
+        iconUrl: iconFilename
+          ? getCategoryIconUrl(iconFilename)
+          : localIcon || null,
+        key: `${category}-${iconFilename || localIcon || ""}`,
       };
     });
 
@@ -393,9 +432,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   <li className="flex items-start gap-3">
                     <MapPinIcon className="w-4 h-4 text-primary-orange mt-1 flex-shrink-0" />
                     <span style={{ color: "#0C1A2B" }}>
-                      {[listing.city, listing.state]
-                        .filter(Boolean)
-                        .join(", ")}
+                      {[listing.city, listing.state].filter(Boolean).join(", ")}
                       {listing.region && listing.region !== listing.city && (
                         <span className="text-sm text-gray-600 ml-1">
                           ({listing.region})
@@ -570,26 +607,29 @@ export default async function ListingPage({ params }: ListingPageProps) {
               </h2>
               <div className="flex flex-wrap gap-2">
                 {displayCategories.length > 0 ? (
-                  displayCategories.map(({ key, displayName, iconUrl }, index) => {
-                    const colors = ["orange", "blue", "mustard", "green"];
-                    const colorClass = colors[index % colors.length];
-                    return (
-                      <span
-                        key={key}
-                        className={`badge ${colorClass} flex items-center gap-2`}>
-                        {iconUrl && (
-                          <Image
-                            src={iconUrl}
-                            alt={displayName}
-                            width={20}
-                            height={20}
-                            className="h-5 w-5 rounded-full object-contain"
-                          />
-                        )}
-                        {displayName}
-                      </span>
-                    );
-                  })
+                  displayCategories.map(
+                    ({ key, displayName, iconUrl }, index) => {
+                      const colors = ["orange", "blue", "mustard", "green"];
+                      const colorClass = colors[index % colors.length];
+                      return (
+                        <span
+                          key={key}
+                          className={`badge ${colorClass} flex items-center gap-2`}
+                        >
+                          {iconUrl && (
+                            <Image
+                              src={iconUrl}
+                              alt={displayName}
+                              width={20}
+                              height={20}
+                              className="h-5 w-5 rounded-full object-contain"
+                            />
+                          )}
+                          {displayName}
+                        </span>
+                      );
+                    },
+                  )
                 ) : (
                   <span className="text-sm" style={{ color: "#666" }}>
                     No categories listed
@@ -609,7 +649,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
               <div className="flex flex-wrap gap-2">
                 {listing.age_range && listing.age_range.length > 0 ? (
                   listing.age_range
-                    .filter(age => age?.trim() && !age.includes("Age Range") && !age.includes("los-angeles") && !age.includes("hybrid"))
+                    .filter(
+                      (age) =>
+                        age?.trim() &&
+                        !age.includes("Age Range") &&
+                        !age.includes("los-angeles") &&
+                        !age.includes("hybrid"),
+                    )
                     .map((age) => (
                       <span key={age.trim()} className="badge blue">
                         {age.trim()}

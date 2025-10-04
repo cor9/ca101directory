@@ -58,12 +58,13 @@ export default function ListingCard({
   };
   const fileFromProps = categoryIconMap?.[primaryCategory];
   const fileFromLocal = localMap[primaryCategory];
-  const picked = fileFromProps || fileFromLocal;
-  const fallbackIcon = picked
+  const fallbackIcon = fileFromProps
     ? getCategoryIconUrl(
-        (picked.includes("/") ? picked.split("/").pop() : picked) || "",
+        (fileFromProps.includes("/")
+          ? fileFromProps.split("/").pop()
+          : fileFromProps) || "",
       )
-    : undefined;
+    : fileFromLocal;
   const approved = Array.isArray(item.tags)
     ? item.tags.some(
         (t) =>

@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+const supabaseHostname = supabaseUrl ? new URL(supabaseUrl).hostname : undefined;
+
 const nextConfig = {
   // Configure `pageExtensions` to include markdown and MDX files
   // https://nextjs.org/docs/pages/building-your-application/configuring/mdx
@@ -86,10 +89,15 @@ const nextConfig = {
         protocol: "https",
         hostname: "via.placeholder.com", // https://www.sanity.io/learn/course/day-one-with-sanity-studio/bringing-content-to-a-next-js-front-end
       },
-      {
-        protocol: "https",
-        hostname: "*.vercel-storage.com", // Vercel Blob storage
-      },
+      // Allow Supabase Storage public assets (listing images, category icons)
+      ...(supabaseHostname
+        ? [
+            {
+              protocol: "https",
+              hostname: supabaseHostname,
+            },
+          ]
+        : []),
     ],
   },
 

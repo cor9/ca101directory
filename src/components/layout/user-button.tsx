@@ -3,13 +3,6 @@
 import { Icons } from "@/components/icons/icons";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   Drawer,
   DrawerContent,
   DrawerHeader,
@@ -18,6 +11,13 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { userButtonConfig } from "@/config/user-button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -50,11 +50,11 @@ export function UserButton() {
     return (
       <Drawer open={open} onClose={closeDrawer}>
         <DrawerTrigger onClick={() => setOpen(true)}>
-        <UserAvatar
-          name={user.name || user.email || "User"}
-          image={user.image || null}
-          className="size-8 border"
-        />
+          <UserAvatar
+            name={user.name || user.email || "User"}
+            image={user.image || null}
+            className="size-8 border"
+          />
         </DrawerTrigger>
         <DrawerPortal>
           <DrawerOverlay className="fixed inset-0 z-40 bg-background/50" />
@@ -69,7 +69,9 @@ export function UserButton() {
                 className="size-8 border"
               />
               <div className="flex flex-col">
-                <p className="font-medium">{user.name || user.email || "User"}</p>
+                <p className="font-medium">
+                  {user.name || user.email || "User"}
+                </p>
                 {user?.email && (
                   <p className="w-[200px] truncate text-muted-foreground">
                     {user.email}

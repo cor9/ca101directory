@@ -1,7 +1,7 @@
 "use server";
 
-import type { VendorSuggestionFormData } from "@/lib/schemas";
 import { createVendorSuggestion } from "@/data/suggestions";
+import type { VendorSuggestionFormData } from "@/lib/schemas";
 
 export async function suggestVendor(formData: VendorSuggestionFormData) {
   try {

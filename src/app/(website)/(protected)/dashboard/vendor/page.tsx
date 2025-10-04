@@ -247,11 +247,11 @@ export default async function VendorDashboard() {
                             </Link>
                           </Button>
                           <Button size="sm" asChild>
-                              <Link href={`/edit/${listing.id}`}>
-                                <EditIcon className="w-4 h-4 mr-1" />
-                                Edit
-                              </Link>
-                            </Button>
+                            <Link href={`/edit/${listing.id}`}>
+                              <EditIcon className="w-4 h-4 mr-1" />
+                              Edit
+                            </Link>
+                          </Button>
                         </div>
                       </div>
                     </CardContent>

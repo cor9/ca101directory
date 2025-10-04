@@ -48,16 +48,16 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
       console.log(`useEffect, newUrl: ${newUrl}`);
       lastExecutedQuery.current = debouncedQuery;
       router.push(newUrl, { scroll: false });
-      
+
       // Smooth scroll to results after a short delay to allow the page to update
       if (debouncedQuery) {
         setTimeout(() => {
-          const resultsElement = document.getElementById('search-results');
+          const resultsElement = document.getElementById("search-results");
           if (resultsElement) {
-            resultsElement.scrollIntoView({ 
-              behavior: 'smooth', 
-              block: 'start',
-              inline: 'nearest'
+            resultsElement.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+              inline: "nearest",
             });
           }
           setIsSearching(false);
@@ -91,13 +91,18 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
           "focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary focus:border-2 focus:border-r-0",
         )}
       />
-      <Button 
-        type="submit" 
+      <Button
+        type="submit"
         className="rounded-l-none size-12"
         disabled={isSearching}
       >
-        <SearchIcon className={cn("size-6", isSearching && "animate-pulse")} aria-hidden="true" />
-        <span className="sr-only">{isSearching ? "Searching..." : "Search"}</span>
+        <SearchIcon
+          className={cn("size-6", isSearching && "animate-pulse")}
+          aria-hidden="true"
+        />
+        <span className="sr-only">
+          {isSearching ? "Searching..." : "Search"}
+        </span>
       </Button>
     </div>
   );

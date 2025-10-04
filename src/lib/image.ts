@@ -6,14 +6,14 @@
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export const urlForImage = (source: any) => {
   // For Airtable, source is a direct URL string
-  if (typeof source === 'string') {
+  if (typeof source === "string") {
     return {
       src: source,
       width: 800, // Default width
       height: 600, // Default height
     };
   }
-  
+
   // Fallback for Sanity-style objects (if any remain)
   if (source && source.asset) {
     return {
@@ -22,21 +22,21 @@ export const urlForImage = (source: any) => {
       height: 600,
     };
   }
-  
+
   return null;
 };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export const urlForIcon = (source: any) => {
   // For Airtable, source is a direct URL string
-  if (typeof source === 'string') {
+  if (typeof source === "string") {
     return {
       src: source,
       width: 64,
       height: 64,
     };
   }
-  
+
   // Fallback for Sanity-style objects (if any remain)
   if (source && source.asset) {
     return {
@@ -45,6 +45,6 @@ export const urlForIcon = (source: any) => {
       height: 64,
     };
   }
-  
+
   return null;
 };

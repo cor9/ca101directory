@@ -1,10 +1,10 @@
+import { auth } from "@/auth";
 import {
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
   authRoutes,
   publicRoutes,
 } from "@/routes";
-import { auth } from "@/auth";
 import type { NextRequest } from "next/server";
 
 /**
@@ -25,7 +25,7 @@ console.log("Middleware Debug:", {
 // since we have put role in user session, so we can know the role of the user
 export default async function middleware(req: NextRequest) {
   const { nextUrl } = req;
-  
+
   console.log("Middleware request:", {
     pathname: nextUrl.pathname,
     hasAuth: !!hasAuthConfig,

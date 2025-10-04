@@ -15,18 +15,17 @@ export default function SuccessPage({ searchParams }: SuccessPageProps) {
       <div className="flex items-center justify-center w-16 h-16 bg-green-100 rounded-full">
         <CheckCircleIcon className="w-8 h-8 text-green-600" />
       </div>
-      
+
       <div className="space-y-2">
         <h1 className="text-3xl font-bold text-gray-900">
           Listing Submitted Successfully!
         </h1>
         <p className="text-lg text-gray-600 max-w-md">
-          Thank you for submitting your listing. We'll review it and get back to you soon.
+          Thank you for submitting your listing. We'll review it and get back to
+          you soon.
         </p>
         {listingId && (
-          <p className="text-sm text-gray-500">
-            Reference ID: {listingId}
-          </p>
+          <p className="text-sm text-gray-500">Reference ID: {listingId}</p>
         )}
       </div>
 

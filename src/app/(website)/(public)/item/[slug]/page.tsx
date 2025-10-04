@@ -32,13 +32,19 @@ export default async function ItemDetailPage({
   params: { slug: string };
 }) {
   try {
-    console.log("ItemDetailPage: Redirecting item slug to Supabase listing:", params.slug);
+    console.log(
+      "ItemDetailPage: Redirecting item slug to Supabase listing:",
+      params.slug,
+    );
     // Try to find this slug in Supabase listings and redirect to /listing/
     const { getListingBySlug } = await import("@/data/listings");
     const supabaseListing = await getListingBySlug(params.slug);
-    
+
     if (supabaseListing) {
-      console.log("ItemDetailPage: Found Supabase listing, redirecting to UUID-based URL:", supabaseListing.id);
+      console.log(
+        "ItemDetailPage: Found Supabase listing, redirecting to UUID-based URL:",
+        supabaseListing.id,
+      );
       redirect(`/listing/${supabaseListing.id}`);
     } else {
       console.error("ItemDetailPage: Listing not found for slug:", params.slug);

@@ -43,19 +43,23 @@ export default {
             if (authError || !authData.user) {
               console.error("Supabase login error:", authError);
               console.error("Auth data:", authData);
-              
+
               // Check if user's email is not confirmed
               if (authError?.message?.includes("email_not_confirmed")) {
-                throw new AuthError("Please check your email and confirm your account.");
+                throw new AuthError(
+                  "Please check your email and confirm your account.",
+                );
               }
-              
+
               return null;
             }
 
             // Check if email is confirmed
             if (!authData.user.email_confirmed_at) {
               console.error("Email not confirmed for user:", authData.user.id);
-              throw new AuthError("Email not confirmed. Please check your email and click the confirmation link.");
+              throw new AuthError(
+                "Email not confirmed. Please check your email and click the confirmation link.",
+              );
             }
 
             // Get user profile from profiles table

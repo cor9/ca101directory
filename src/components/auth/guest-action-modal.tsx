@@ -28,13 +28,15 @@ export function GuestActionModal({
     if (action === "favorite") {
       return {
         title: "Save This Vendor",
-        description: "Create a free parent account to save vendors and write reviews.",
+        description:
+          "Create a free parent account to save vendors and write reviews.",
         icon: <Heart className="h-6 w-6 text-red-500" />,
       };
     }
     return {
       title: "Write a Review",
-      description: "Create a free parent account to save vendors and write reviews.",
+      description:
+        "Create a free parent account to save vendors and write reviews.",
       icon: <Star className="h-6 w-6 text-yellow-500" />,
     };
   };
@@ -56,15 +58,11 @@ export function GuestActionModal({
 
         <div className="space-y-3 pt-4">
           <Button asChild className="w-full" size="lg">
-            <Link href="/auth/register?role=parent">
-              Sign Up
-            </Link>
+            <Link href="/auth/register?role=parent">Sign Up</Link>
           </Button>
-          
+
           <Button asChild variant="outline" className="w-full" size="lg">
-            <Link href="/auth/login">
-              Log In
-            </Link>
+            <Link href="/auth/login">Log In</Link>
           </Button>
         </div>
 

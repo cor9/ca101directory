@@ -36,7 +36,7 @@ export async function claimListing(formData: ClaimListingFormData) {
         success: false,
         message: "This listing has already been claimed.",
       };
-    };
+    }
 
     if (listing.owner_id === session.user.id) {
       return {

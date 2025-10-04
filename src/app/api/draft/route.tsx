@@ -6,6 +6,6 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request) {
   return NextResponse.json(
     { error: "Draft mode is not available with Airtable CMS" },
-    { status: 501 }
+    { status: 501 },
   );
 }

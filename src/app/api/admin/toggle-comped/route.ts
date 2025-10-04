@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     if (!listingId || typeof comped !== "boolean") {
       return NextResponse.json(
         { error: "Invalid request data" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
       console.error("Error updating listing:", error);
       return NextResponse.json(
         { error: "Failed to update listing" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     console.error("Toggle comped error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

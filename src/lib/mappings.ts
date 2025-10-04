@@ -30,14 +30,14 @@ export const categoryMap: Record<string, string> = {
 // Map tags to format and region options instead of age ranges
 export const tagMap: Record<string, string> = {
   // Format tags
-  "online": "Online Only",
-  "in-person": "In-Person Only", 
-  "hybrid": "Hybrid (Online & In-Person)",
-  
+  online: "Online Only",
+  "in-person": "In-Person Only",
+  hybrid: "Hybrid (Online & In-Person)",
+
   // Region tags (we'll add these as we populate the region field)
   "los-angeles": "Los Angeles",
   "new-york": "New York",
-  "atlanta": "Atlanta",
-  "chicago": "Chicago",
-  "virtual": "Virtual/Remote",
+  atlanta: "Atlanta",
+  chicago: "Chicago",
+  virtual: "Virtual/Remote",
 };

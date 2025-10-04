@@ -43,7 +43,7 @@ export async function createCheckoutSession(
 
     // 2. For now, always create checkout session (skip paid item check)
     console.log("Creating Stripe checkout session");
-    
+
     // 3. make sure the user has a stripeCustomerId
     if (!stripeCustomerId) {
       console.log("creating customer in Stripe and Supabase");

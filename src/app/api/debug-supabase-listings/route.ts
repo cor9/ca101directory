@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -16,7 +16,7 @@ export async function GET() {
           error: "Failed to fetch listings from Supabase",
           details: error.message,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -31,18 +31,21 @@ export async function GET() {
     }
 
     // Count by status
-    const counts = listings.reduce((acc, listing) => {
-      const key = `${listing.status || 'null'}_${listing.active ? 'active' : 'inactive'}`;
-      acc[key] = (acc[key] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+    const counts = listings.reduce(
+      (acc, listing) => {
+        const key = `${listing.status || "null"}_${listing.active ? "active" : "inactive"}`;
+        acc[key] = (acc[key] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
 
     return NextResponse.json({
       total: listings.length,
       listings: listings.slice(0, 5), // Show first 5 listings
       counts,
-      sampleStatuses: Array.from(new Set(listings.map(l => l.status))),
-      sampleActive: Array.from(new Set(listings.map(l => l.active))),
+      sampleStatuses: Array.from(new Set(listings.map((l) => l.status))),
+      sampleActive: Array.from(new Set(listings.map((l) => l.active))),
       debug: {
         query: "SELECT * FROM listings ORDER BY created_at DESC",
         environment: {
@@ -58,7 +61,7 @@ export async function GET() {
         error: "Failed to fetch listings from Supabase",
         details: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

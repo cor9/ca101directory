@@ -29,7 +29,7 @@ export async function updateUserPassword(
     if (values.password && values.newPassword) {
       // Use Supabase Auth to update password
       const { error } = await supabase.auth.updateUser({
-        password: values.newPassword
+        password: values.newPassword,
       });
 
       if (error) {

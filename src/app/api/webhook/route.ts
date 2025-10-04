@@ -22,5 +22,7 @@ export async function POST(req: Request) {
   // 3. Update Airtable records based on payment status
   // 4. Send confirmation emails
 
-  return new Response("Webhook received (Airtable integration pending)", { status: 200 });
+  return new Response("Webhook received (Airtable integration pending)", {
+    status: 200,
+  });
 }

@@ -6,7 +6,7 @@ let isInitialized = false;
 
 function initializeMailerLite() {
   if (isInitialized) return;
-  
+
   const hasMailerLiteConfig = process.env.MAILERLITE_API_KEY;
 
   if (hasMailerLiteConfig) {
@@ -23,7 +23,7 @@ function initializeMailerLite() {
     console.warn("⚠️ MailerLite not configured - missing API key");
     mailerLite = null;
   }
-  
+
   isInitialized = true;
 }
 
@@ -38,7 +38,7 @@ export async function addSubscriberToMailerLite(
 ): Promise<{ success: boolean; error?: string }> {
   // Initialize MailerLite if not already done
   initializeMailerLite();
-  
+
   if (!mailerLite) {
     console.warn("MailerLite not initialized - cannot add subscriber");
     return { success: false, error: "MailerLite not configured" };

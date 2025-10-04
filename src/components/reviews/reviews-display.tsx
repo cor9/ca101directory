@@ -55,10 +55,14 @@ export function ReviewsDisplay({ vendorId, className }: ReviewsDisplayProps) {
           return;
         }
 
-        setReviews((data || []).map(review => ({
-          ...review,
-          profiles: Array.isArray(review.profiles) ? review.profiles[0] : review.profiles,
-        })));
+        setReviews(
+          (data || []).map((review) => ({
+            ...review,
+            profiles: Array.isArray(review.profiles)
+              ? review.profiles[0]
+              : review.profiles,
+          })),
+        );
 
         // Calculate average rating
         if (data && data.length > 0) {

@@ -35,21 +35,29 @@ export default function VendorTestimonials() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {testimonials.map((testimonial, index) => (
-          <div
-            key={`testimonial-${testimonial.author}`}
-            className="surface border border-surface/20 rounded-xl p-6 hover:shadow-lg transition-all duration-300"
-          >
-            <div className="mb-4">
-              <svg
-                className="w-8 h-8 text-primary-orange mb-4"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" />
-              </svg>
-            </div>
+        {testimonials.map((testimonial, index) => {
+          const colors = [
+            "text-primary-orange", 
+            "text-primary-mustard", 
+            "text-primary-teal"
+          ];
+          const colorClass = colors[index % colors.length];
+          
+          return (
+            <div
+              key={`testimonial-${testimonial.author}`}
+              className="surface border border-surface/20 rounded-xl p-6 hover:shadow-lg transition-all duration-300"
+            >
+              <div className="mb-4">
+                <svg
+                  className={`w-8 h-8 ${colorClass} mb-4`}
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" />
+                </svg>
+              </div>
             <blockquote className="mb-6 italic" style={{ color: "#333" }}>
               "{testimonial.quote}"
             </blockquote>
@@ -63,7 +71,8 @@ export default function VendorTestimonials() {
               </div>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

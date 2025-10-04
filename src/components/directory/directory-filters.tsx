@@ -88,8 +88,8 @@ export function DirectoryFilters({
     (selectedRegion && selectedRegion !== "all");
 
   return (
-    <Card className={`${className} bg-paper border-surface/20`}>
-      <CardHeader>
+    <Card className={`${className} bg-paper border border-surface/20`}>
+      <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg text-surface">Filters</CardTitle>
           {hasActiveFilters && (
@@ -105,7 +105,7 @@ export function DirectoryFilters({
           )}
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 pt-0">
         {/* Active Filters */}
         {hasActiveFilters && (
           <div className="flex flex-wrap gap-2">
@@ -152,7 +152,7 @@ export function DirectoryFilters({
               value={selectedCategory}
               onValueChange={(value) => updateFilters("category", value)}
             >
-              <SelectTrigger id="category-select">
+              <SelectTrigger id="category-select" className="bg-paper text-surface border-surface/30">
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
               <SelectContent>
@@ -178,7 +178,7 @@ export function DirectoryFilters({
               value={selectedRegion}
               onValueChange={(value) => updateFilters("region", value)}
             >
-              <SelectTrigger id="region-select">
+              <SelectTrigger id="region-select" className="bg-paper text-surface border-surface/30">
                 <SelectValue placeholder="All Regions" />
               </SelectTrigger>
               <SelectContent>

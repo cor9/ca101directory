@@ -7,14 +7,17 @@ export function NewsletterCard() {
   return (
     <div className="w-full px-4 py-8 md:p-12 bg-surface border border-surface rounded-lg">
       <div className="flex flex-col items-center justify-center gap-8">
-        <HeaderSection
-          id="newsletter"
-          labelAs="h2"
-          label="Newsletter"
-          title="Join 12,000+ families for tips, insights, and trusted vendor spotlights"
-          titleAs="h3"
-          subtitle="Get weekly updates on industry trends, featured professionals, and exclusive resources for your child's acting journey"
-        />
+        <div className="flex flex-col items-center text-center">
+          <h2 className="uppercase tracking-wider text-gradient_blue-orange font-semibold">
+            Newsletter
+          </h2>
+          <h3 className="mt-4 px-4 text-2xl md:text-4xl text-surface">
+            Join 12,000+ families for tips, insights, and trusted vendor spotlights
+          </h3>
+          <p className="mt-6 px-4 text-balance text-lg text-surface/70">
+            Get weekly updates on industry trends, featured professionals, and exclusive resources for your child's acting journey
+          </p>
+        </div>
 
         <NewsletterForm />
       </div>

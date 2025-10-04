@@ -161,7 +161,10 @@ export function DirectoryFilters({
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
               <SelectContent className="z-[9999] bg-[color:var(--cream)] text-[color:var(--cream-ink)] border border-[color:var(--card-border)] shadow-[var(--shadow-cream)]">
-                <SelectItem value="all" className="text-[color:var(--cream-ink)]">
+                <SelectItem
+                  value="all"
+                  className="text-[color:var(--cream-ink)]"
+                >
                   All Categories
                 </SelectItem>
                 {categories.map((category) => (
@@ -196,7 +199,10 @@ export function DirectoryFilters({
                 <SelectValue placeholder="All Regions" />
               </SelectTrigger>
               <SelectContent className="z-[9999] bg-[color:var(--cream)] text-[color:var(--cream-ink)] border border-[color:var(--card-border)] shadow-[var(--shadow-cream)]">
-                <SelectItem value="all" className="text-[color:var(--cream-ink)]">
+                <SelectItem
+                  value="all"
+                  className="text-[color:var(--cream-ink)]"
+                >
                   All Regions
                 </SelectItem>
                 {regionsList.map((region) => (

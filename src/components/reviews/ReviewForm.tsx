@@ -105,10 +105,10 @@ export function ReviewForm({
         )}
       >
         <div className="text-center space-y-3">
-          <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">
+          <p className="bauhaus-heading text-lg text-blue-700 dark:text-blue-300">
             You cannot review your own listing.
           </p>
-          <p className="text-xs text-blue-600 dark:text-blue-400">
+          <p className="bauhaus-body text-base text-blue-600 dark:text-blue-400 font-semibold">
             Only parents and families can review vendor listings.
           </p>
         </div>

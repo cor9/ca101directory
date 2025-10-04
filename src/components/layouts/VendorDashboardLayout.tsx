@@ -56,18 +56,18 @@ export function VendorDashboardLayout({
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="border-b border-secondary-denim/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
-                <Building2 className="h-6 w-6 text-primary" />
-                <h1 className="text-2xl font-bold">Vendor Dashboard</h1>
+                <Building2 className="h-6 w-6 text-primary-orange" />
+                <h1 className="text-2xl font-bold text-paper">Vendor Dashboard</h1>
               </div>
             </div>
             <div className="flex items-center gap-4">
               <RoleBadge showIcon />
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm text-paper/80">
                 {session?.user?.email}
               </span>
             </div>
@@ -80,7 +80,7 @@ export function VendorDashboardLayout({
           {/* Sidebar Navigation */}
           <aside className="lg:col-span-1">
             <nav className="space-y-2">
-              <h2 className="text-lg font-semibold mb-4">Navigation</h2>
+              <h2 className="text-lg font-semibold mb-4 text-paper">Navigation</h2>
               {vendorNavItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = pathname === item.href;
@@ -90,14 +90,15 @@ export function VendorDashboardLayout({
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground",
-                      isActive && "bg-accent text-accent-foreground",
+                      "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+                      "hover:bg-secondary-denim/20 hover:text-paper",
+                      isActive ? "bg-secondary-denim/30 text-paper" : "text-paper/80",
                     )}
                   >
                     <Icon className="h-4 w-4" />
                     <div className="flex-1">
                       <div className="font-medium">{item.label}</div>
-                      <div className="text-xs text-muted-foreground">
+                      <div className="text-xs text-paper/60">
                         {item.description}
                       </div>
                     </div>
@@ -107,19 +108,19 @@ export function VendorDashboardLayout({
             </nav>
 
             {/* Quick Actions */}
-            <div className="mt-8 p-4 bg-muted/50 rounded-lg">
-              <h3 className="text-sm font-medium mb-3">Quick Actions</h3>
+            <div className="mt-8 p-4 bg-surface/20 rounded-lg border border-surface/20">
+              <h3 className="text-sm font-medium mb-3 text-paper">Quick Actions</h3>
               <div className="space-y-2">
                 <Link
                   href="/submit"
-                  className="flex items-center gap-2 text-xs text-primary hover:underline"
+                  className="flex items-center gap-2 text-xs text-primary-orange hover:underline"
                 >
                   <Plus className="h-3 w-3" />
                   Submit New Listing
                 </Link>
                 <Link
                   href="/dashboard/vendor/listing"
-                  className="flex items-center gap-2 text-xs text-primary hover:underline"
+                  className="flex items-center gap-2 text-xs text-primary-orange hover:underline"
                 >
                   <Eye className="h-3 w-3" />
                   View My Listing
@@ -128,17 +129,17 @@ export function VendorDashboardLayout({
             </div>
 
             {/* Help Section */}
-            <div className="mt-4 p-4 bg-muted/50 rounded-lg">
+            <div className="mt-4 p-4 bg-surface/20 rounded-lg border border-surface/20">
               <div className="flex items-center gap-2 mb-2">
-                <HelpCircle className="h-4 w-4 text-muted-foreground" />
-                <h3 className="text-sm font-medium">Need Help?</h3>
+                <HelpCircle className="h-4 w-4 text-paper/60" />
+                <h3 className="text-sm font-medium text-paper">Need Help?</h3>
               </div>
-              <p className="text-xs text-muted-foreground mb-3">
+              <p className="text-xs text-paper/70 mb-3">
                 Grow your business with Child Actor 101 Directory.
               </p>
               <Link
                 href="/pricing"
-                className="text-xs text-primary hover:underline"
+                className="text-xs text-primary-orange hover:underline"
               >
                 View pricing plans →
               </Link>

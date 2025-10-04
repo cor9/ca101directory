@@ -52,7 +52,7 @@
   "redirects": [
     {
       "source": "/dashboard",
-      "destination": "/dashboard/vendor",
+      "destination": "/dashboard/parent",
       "permanent": false
     }
   ],

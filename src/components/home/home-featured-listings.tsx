@@ -111,9 +111,7 @@ export default async function HomeFeaturedListings() {
               />
               {listing.featured && (
                 <div className="absolute top-4 left-4">
-                  <span className="chip chip-cat">
-                    Featured
-                  </span>
+                  <span className="chip chip-cat">Featured</span>
                 </div>
               )}
             </div>
@@ -132,10 +130,7 @@ export default async function HomeFeaturedListings() {
 
               <div className="flex flex-wrap gap-2 mb-4">
                 {listing.tags.slice(0, 3).map((tag) => (
-                  <span
-                    key={tag}
-                    className="chip chip-attr"
-                  >
+                  <span key={tag} className="chip chip-attr">
                     {tag}
                   </span>
                 ))}

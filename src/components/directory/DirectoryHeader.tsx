@@ -10,10 +10,10 @@ export default function DirectoryHeader({
   return (
     <section className="mx-auto max-w-7xl px-6 pt-10 pb-6">
       <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-[color:var(--ink)]">
-        Professional Directory
+        Find Trusted Professionals
       </h1>
       <p className="mt-3 text-[color:var(--muted)] max-w-2xl">
-        Browse {total?.toLocaleString()} vetted child-actor professionals. Listings shown as cream cards for readability.
+        Discover {total?.toLocaleString()} verified child acting professionals and services. Each listing is carefully vetted for quality and safety.
       </p>
 
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">

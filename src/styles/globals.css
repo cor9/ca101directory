@@ -13,25 +13,25 @@
 @layer base {
   :root {
     /* Production-ready color system from artwork */
-    --background: #0D1B2A;
-    --foreground: #FAFAF4; /* Paper White for text on navy */
-    --card: #FFFDD0; /* Cream surface */
-    --card-foreground: #1F2327; /* Ink text on cream */
-    --popover: #FFFDD0; /* Cream popover */
-    --popover-foreground: #1F2327; /* Ink text */
-    --primary: #E4572E; /* Clapper Orange */
-    --primary-foreground: #FAFAF4; /* Paper White */
-    --secondary: #3A76A6; /* Denim */
-    --secondary-foreground: #FAFAF4; /* Paper White */
-    --muted: #142B3B; /* Navy gradient end */
-    --muted-foreground: #FAFAF4; /* Paper White */
-    --accent: #E4A72E; /* Mustard */
-    --accent-foreground: #0F1113; /* Ink */
-    --destructive: #C84F41; /* Brick */
-    --destructive-foreground: #FAFAF4; /* Paper White */
-    --border: #3A76A6; /* Denim border */
-    --input: #142B3B; /* Navy input */
-    --ring: #E4572E; /* Clapper Orange ring */
+    --background: #0d1b2a;
+    --foreground: #fafaf4; /* Paper White for text on navy */
+    --card: #fffdd0; /* Cream surface */
+    --card-foreground: #1f2327; /* Ink text on cream */
+    --popover: #fffdd0; /* Cream popover */
+    --popover-foreground: #1f2327; /* Ink text */
+    --primary: #e4572e; /* Clapper Orange */
+    --primary-foreground: #fafaf4; /* Paper White */
+    --secondary: #3a76a6; /* Denim */
+    --secondary-foreground: #fafaf4; /* Paper White */
+    --muted: #142b3b; /* Navy gradient end */
+    --muted-foreground: #fafaf4; /* Paper White */
+    --accent: #e4a72e; /* Mustard */
+    --accent-foreground: #0f1113; /* Ink */
+    --destructive: #c84f41; /* Brick */
+    --destructive-foreground: #fafaf4; /* Paper White */
+    --border: #3a76a6; /* Denim border */
+    --input: #142b3b; /* Navy input */
+    --ring: #e4572e; /* Clapper Orange ring */
     --radius: 0.5rem;
 
     /* Legacy colors (to be phased out) */
@@ -51,25 +51,25 @@
 
   .dark {
     /* Same as root - we're using the navy gradient as default */
-    --background: #0D1B2A;
-    --foreground: #FAFAF4;
-    --card: #FFFDD0;
-    --card-foreground: #1F2327;
-    --popover: #FFFDD0;
-    --popover-foreground: #1F2327;
-    --primary: #E4572E;
-    --primary-foreground: #FAFAF4;
-    --secondary: #3A76A6;
-    --secondary-foreground: #FAFAF4;
-    --muted: #142B3B;
-    --muted-foreground: #FAFAF4;
-    --accent: #E4A72E;
-    --accent-foreground: #0F1113;
-    --destructive: #C84F41;
-    --destructive-foreground: #FAFAF4;
-    --border: #3A76A6;
-    --input: #142B3B;
-    --ring: #E4572E;
+    --background: #0d1b2a;
+    --foreground: #fafaf4;
+    --card: #fffdd0;
+    --card-foreground: #1f2327;
+    --popover: #fffdd0;
+    --popover-foreground: #1f2327;
+    --primary: #e4572e;
+    --primary-foreground: #fafaf4;
+    --secondary: #3a76a6;
+    --secondary-foreground: #fafaf4;
+    --muted: #142b3b;
+    --muted-foreground: #fafaf4;
+    --accent: #e4a72e;
+    --accent-foreground: #0f1113;
+    --destructive: #c84f41;
+    --destructive-foreground: #fafaf4;
+    --border: #3a76a6;
+    --input: #142b3b;
+    --ring: #e4572e;
 
     /* Legacy colors */
     --cream: 60 100% 94%;
@@ -94,7 +94,7 @@
 
   body {
     @apply bg-background text-foreground;
-    background: linear-gradient(180deg, #0D1B2A 0%, #142B3B 100%);
+    background: linear-gradient(180deg, #0d1b2a 0%, #142b3b 100%);
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
@@ -102,94 +102,94 @@
 @layer utilities {
   /* Production-ready color system utilities */
   .text-paper {
-    color: #FAFAF4;
+    color: #fafaf4;
   }
   .text-ink {
-    color: #0F1113;
+    color: #0f1113;
   }
   .text-surface {
-    color: #1F2327;
+    color: #1f2327;
   }
   .text-primary-orange {
-    color: #E4572E;
+    color: #e4572e;
   }
   .text-secondary-denim {
-    color: #3A76A6;
+    color: #3a76a6;
   }
   .text-highlight {
-    color: #E4A72E;
+    color: #e4a72e;
   }
   .text-success {
-    color: #AEBF98;
+    color: #aebf98;
   }
   .text-info {
-    color: #3E9CA3;
+    color: #3e9ca3;
   }
   .text-error {
-    color: #C84F41;
+    color: #c84f41;
   }
 
   .bg-surface {
-    background-color: #FFFDD0;
+    background-color: #fffdd0;
   }
   .bg-paper {
-    background-color: #FAFAF4;
+    background-color: #fafaf4;
   }
   .bg-primary-orange {
-    background-color: #E4572E;
+    background-color: #e4572e;
   }
   .bg-secondary-denim {
-    background-color: #3A76A6;
+    background-color: #3a76a6;
   }
   .bg-highlight {
-    background-color: #E4A72E;
+    background-color: #e4a72e;
   }
   .bg-success {
-    background-color: #AEBF98;
+    background-color: #aebf98;
   }
   .bg-info {
-    background-color: #3E9CA3;
+    background-color: #3e9ca3;
   }
   .bg-error {
-    background-color: #C84F41;
+    background-color: #c84f41;
   }
 
   .border-surface {
-    border-color: #FFFDD0;
+    border-color: #fffdd0;
   }
   .border-primary-orange {
-    border-color: #E4572E;
+    border-color: #e4572e;
   }
   .border-secondary-denim {
-    border-color: #3A76A6;
+    border-color: #3a76a6;
   }
 
   /* Surface component */
   .surface {
-    background: #FFFDD0;
-    color: #1F2327;
+    background: #fffdd0;
+    color: #1f2327;
     border-radius: 12px;
     box-shadow: 0 6px 14px rgba(13, 27, 42, 0.25);
   }
 
   /* Button utilities */
   .btn-primary {
-    background: #E4572E;
+    background: #e4572e;
     color: #fff;
     border-radius: 10px;
     padding: 0.7rem 1rem;
     font-weight: 700;
   }
   .btn-primary:hover {
-    background: #CC4E2A;
+    background: #cc4e2a;
     box-shadow: 0 6px 14px rgba(228, 87, 46, 0.35);
   }
   .btn-secondary {
-    background: #3A76A6;
+    background: #3a76a6;
     color: #fff;
   }
   .btn-secondary:hover {
-    background: #2E5E85;
+    background: #2e5e85;
   }
 
   /* Chip utilities */
@@ -200,16 +200,16 @@
     font-size: 0.8rem;
   }
   .chip-cat {
-    background: #3A76A6;
+    background: #3a76a6;
     color: #fff;
   }
   .chip-attr {
-    background: #E4A72E;
-    color: #0F1113;
+    background: #e4a72e;
+    color: #0f1113;
   }
   .chip-approve {
-    background: #AEBF98;
-    color: #0F1113;
+    background: #aebf98;
+    color: #0f1113;
   }
 
   /* Legacy utilities (to be phased out) */
@@ -339,8 +339,8 @@
 .text-gradient_blue-orange {
   background: linear-gradient(
     90deg,
-    hsl(var(--brand-blue)) 0%,
-    hsl(var(--brand-orange)) 100%
+    #3a76a6 0%,
+    #e4572e 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

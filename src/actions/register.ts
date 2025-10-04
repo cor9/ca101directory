@@ -5,7 +5,7 @@ import { createUser, getUserByEmail } from "@/data/supabase-user";
 import { getRoleBasedRedirect } from "@/lib/auth-redirects";
 import { RegisterSchema } from "@/lib/schemas";
 import { supabase } from "@/lib/supabase";
-import { UserRole } from "@/types/user-role";
+import type { UserRole } from "@/types/user-role";
 import type * as z from "zod";
 
 export type ServerActionResponse = {

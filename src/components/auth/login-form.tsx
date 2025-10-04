@@ -101,7 +101,7 @@ export const LoginForm = ({
                       disabled={isPending}
                       placeholder="name@example.com"
                       type="email"
-                      className="bg-paper border-secondary text-surface placeholder:text-surface/60"
+                      className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                     />
                   </FormControl>
                   <FormMessage />
@@ -119,7 +119,7 @@ export const LoginForm = ({
                       size="sm"
                       variant="link"
                       asChild
-                      className="px-0 font-normal text-secondary hover:text-primary"
+                      className="px-0 font-normal text-secondary-denim hover:text-primary-orange"
                     >
                       <Link href="/auth/reset" className="text-xs underline">
                         Forgot password?
@@ -132,7 +132,7 @@ export const LoginForm = ({
                       disabled={isPending}
                       placeholder="******"
                       type="password"
-                      className="bg-paper border-secondary text-surface placeholder:text-surface/60"
+                      className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                     />
                   </FormControl>
                   <FormMessage />

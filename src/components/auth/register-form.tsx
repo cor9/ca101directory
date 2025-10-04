@@ -97,11 +97,11 @@ export const RegisterForm = () => {
                 <FormItem>
                   <FormLabel className="text-surface">Name</FormLabel>
                   <FormControl>
-                    <Input 
-                      {...field} 
-                      disabled={isPending} 
-                      placeholder="name" 
-                      className="bg-paper border-secondary text-surface placeholder:text-surface/60"
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="name"
+                      className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                     />
                   </FormControl>
                   <FormMessage />
@@ -120,7 +120,7 @@ export const RegisterForm = () => {
                       disabled={isPending}
                       placeholder="name@example.com"
                       type="email"
-                      className="bg-paper border-secondary text-surface placeholder:text-surface/60"
+                      className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                     />
                   </FormControl>
                   <FormMessage />
@@ -139,7 +139,7 @@ export const RegisterForm = () => {
                       disabled={isPending}
                       placeholder="******"
                       type="password"
-                      className="bg-paper border-secondary text-surface placeholder:text-surface/60"
+                      className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                     />
                   </FormControl>
                   <FormMessage />

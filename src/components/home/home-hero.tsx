@@ -77,7 +77,7 @@ export default function HomeHero() {
             Are you a coach, photographer, or rep?{" "}
             <Link
               href="/list-your-business"
-              className="text-secondary hover:text-primary font-semibold transition-colors"
+              className="text-secondary-denim hover:text-primary-orange font-semibold transition-colors"
             >
               List your business here →
             </Link>

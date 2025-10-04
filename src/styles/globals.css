@@ -110,10 +110,10 @@
   .text-surface {
     color: #1F2327;
   }
-  .text-primary {
+  .text-primary-orange {
     color: #E4572E;
   }
-  .text-secondary {
+  .text-secondary-denim {
     color: #3A76A6;
   }
   .text-highlight {
@@ -135,10 +135,10 @@
   .bg-paper {
     background-color: #FAFAF4;
   }
-  .bg-primary {
+  .bg-primary-orange {
     background-color: #E4572E;
   }
-  .bg-secondary {
+  .bg-secondary-denim {
     background-color: #3A76A6;
   }
   .bg-highlight {
@@ -157,10 +157,10 @@
   .border-surface {
     border-color: #FFFDD0;
   }
-  .border-primary {
+  .border-primary-orange {
     border-color: #E4572E;
   }
-  .border-secondary {
+  .border-secondary-denim {
     border-color: #3A76A6;
   }
 

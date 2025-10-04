@@ -2,6 +2,8 @@ import { auth } from "@/auth";
 import { ClaimButton } from "@/components/claim/claim-button";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { ClaimedListingActions } from "@/components/listing/claimed-listing-actions";
+import { Gallery } from "@/components/listing/gallery";
+import { ProfileImage } from "@/components/listing/listing-images";
 import { ReviewForm } from "@/components/reviews/ReviewForm";
 import { ReviewsDisplay } from "@/components/reviews/ReviewsDisplay";
 import { Button } from "@/components/ui/button";
@@ -11,7 +13,7 @@ import { siteConfig } from "@/config/site";
 import { getListingBySlug } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
 import { constructMetadata } from "@/lib/metadata";
-import { getListingImageUrl, parseGalleryImages } from "@/lib/image-urls";
+import { getListingImageUrl } from "@/lib/image-urls";
 import { cn } from "@/lib/utils";
 import {
   CheckCircleIcon,
@@ -156,16 +158,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
           {/* Vendor Header */}
           <div className="flex items-start gap-8 mb-6">
-            {listing.profile_image && (
-              <Image
-                src={getListingImageUrl(listing.profile_image)}
-                alt={`Logo of ${listing.listing_name}`}
-                title={`Logo of ${listing.listing_name}`}
-                width={120}
-                height={120}
-                className="object-cover rounded-lg flex-shrink-0"
-              />
-            )}
+            <ProfileImage listing={listing} />
             <div className="flex-1 max-w-2xl">
               <h1
                 className="text-3xl font-bold mb-3 line-clamp-2"
@@ -344,48 +337,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
           {/* Right Column - Sidebar */}
           <div className="space-y-6">
-            {/* Gallery - Show for Pro listings or if gallery exists */}
-            {(listing.gallery || listing.plan === "pro" || listing.comped) && (
-              <div className="listing-card">
-                <h2
-                  className="text-lg font-semibold mb-4"
-                  style={{ color: "#0C1A2B" }}
-                >
-                  Gallery
-                </h2>
-                {(() => {
-                  // Parse gallery images
-                  const galleryImages = typeof listing.gallery === 'string' 
-                    ? parseGalleryImages(listing.gallery)
-                    : Array.isArray(listing.gallery) 
-                      ? listing.gallery.map(img => getListingImageUrl(img))
-                      : [];
-                  
-                  return galleryImages.length > 0 ? (
-                    <div className="grid grid-cols-1 gap-4">
-                      {galleryImages.map((imageUrl, index) => (
-                        <div key={`gallery-${index}-${imageUrl}`} className="relative group overflow-hidden rounded-lg aspect-[4/3]">
-                          <Image
-                            src={imageUrl}
-                            alt={`Gallery image ${index + 1} for ${listing.listing_name}`}
-                            title={`Gallery image ${index + 1} for ${listing.listing_name}`}
-                            loading="eager"
-                            fill
-                            className="border w-full shadow-lg object-cover"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="aspect-[4/3] bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                      <p className="text-gray-500 text-sm">
-                        No gallery images yet
-                      </p>
-                    </div>
-                  );
-                })()}
-              </div>
-            )}
+            {/* Gallery */}
+            <Gallery listing={listing} />
 
             {/* Contact Information */}
             <div className="listing-card">

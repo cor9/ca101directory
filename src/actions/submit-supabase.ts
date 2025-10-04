@@ -93,7 +93,7 @@ export async function submitToSupabase(
       what_you_offer: description,
       who_is_it_for: introduction,
       why_is_it_unique: unique,
-      format: format?.toLowerCase(),
+      format: format,
       extras_notes: notes,
       email: email,
       phone: phone,

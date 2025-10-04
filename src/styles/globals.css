@@ -176,20 +176,52 @@
   .btn-primary {
     background: #e4572e;
     color: #fff;
-    border-radius: 10px;
-    padding: 0.7rem 1rem;
+    border-radius: 12px;
+    padding: 0.875rem 1.5rem;
     font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    box-shadow: 0 4px 12px rgba(228, 87, 46, 0.3);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
   }
   .btn-primary:hover {
     background: #cc4e2a;
-    box-shadow: 0 6px 14px rgba(228, 87, 46, 0.35);
+    box-shadow: 0 6px 16px rgba(228, 87, 46, 0.4);
+    transform: translateY(-1px);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(228, 87, 46, 0.3);
   }
   .btn-secondary {
     background: #3a76a6;
     color: #fff;
+    border-radius: 12px;
+    padding: 0.875rem 1.5rem;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    box-shadow: 0 4px 12px rgba(58, 118, 166, 0.3);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
   }
   .btn-secondary:hover {
     background: #2e5e85;
+    box-shadow: 0 6px 16px rgba(58, 118, 166, 0.4);
+    transform: translateY(-1px);
+  }
+  .btn-secondary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(58, 118, 166, 0.3);
   }
 
   /* Chip utilities */

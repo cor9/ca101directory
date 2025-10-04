@@ -68,15 +68,17 @@ export default function HomeHero() {
           </div>
 
           {/* Vendor link */}
-          <p className="text-lg text-paper/80 mt-2">
-            Are you a coach, photographer, or rep?{" "}
-            <Link
-              href="/list-your-business"
-              className="text-secondary-denim hover:text-primary-orange font-bold transition-colors text-lg"
-            >
-              List your business here →
-            </Link>
-          </p>
+          <div className="mt-6 p-4 bg-gradient-to-r from-primary-orange/10 to-secondary-denim/10 border border-primary-orange/20 rounded-xl">
+            <p className="text-lg text-paper/90">
+              Are you a coach, photographer, or rep?{" "}
+              <Link
+                href="/list-your-business"
+                className="text-primary-orange hover:text-secondary-denim font-bold transition-all duration-300 text-lg underline decoration-2 underline-offset-2 hover:decoration-secondary-denim hover:scale-105 inline-block"
+              >
+                List your business here →
+              </Link>
+            </p>
+          </div>
         </div>
 
         {/* Right side - Hero Logo */}

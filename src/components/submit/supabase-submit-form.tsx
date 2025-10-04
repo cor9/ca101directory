@@ -272,7 +272,7 @@ export function SupabaseSubmitForm({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Online">Online</SelectItem>
-                  <SelectItem value="In-person">In-Person</SelectItem>
+                  <SelectItem value="In-person">In-person</SelectItem>
                   <SelectItem value="Hybrid">Hybrid</SelectItem>
                 </SelectContent>
               </Select>

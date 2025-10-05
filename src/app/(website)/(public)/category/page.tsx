@@ -116,105 +116,70 @@ export default async function CategoryPage() {
       <div className="bauhaus-grid bauhaus-grid-3 xl:grid-cols-4 gap-6 mb-12">
         {categories.map((category, index) => {
           const IconComponent = Icons[category.icon];
-          // Create a color palette for variety
-          const colorVariants = [
+          // Use consistent Bauhaus colors instead of rainbow
+          const bauhausColors = [
             {
-              bg: "bg-gradient-to-br from-brand-blue to-blue-600",
-              text: "text-brand-blue",
-              border: "border-brand-blue/20 hover:border-brand-blue/40",
+              bg: "bg-bauhaus-mustard",
+              text: "text-bauhaus-charcoal",
+              border: "border-bauhaus-mustard/20 hover:border-bauhaus-mustard/40",
             },
             {
-              bg: "bg-gradient-to-br from-brand-orange to-orange-600",
-              text: "text-brand-orange",
-              border: "border-brand-orange/20 hover:border-brand-orange/40",
+              bg: "bg-bauhaus-orange", 
+              text: "text-white",
+              border: "border-bauhaus-orange/20 hover:border-bauhaus-orange/40",
             },
             {
-              bg: "bg-gradient-to-br from-brand-yellow to-yellow-600",
-              text: "text-brand-yellow",
-              border: "border-brand-yellow/20 hover:border-brand-yellow/40",
-            },
-            {
-              bg: "bg-gradient-to-br from-purple-500 to-purple-700",
-              text: "text-purple-600",
-              border: "border-purple-500/20 hover:border-purple-500/40",
-            },
-            {
-              bg: "bg-gradient-to-br from-green-500 to-green-700",
-              text: "text-green-600",
-              border: "border-green-500/20 hover:border-green-500/40",
-            },
-            {
-              bg: "bg-gradient-to-br from-pink-500 to-pink-700",
-              text: "text-pink-600",
-              border: "border-pink-500/20 hover:border-pink-500/40",
-            },
-            {
-              bg: "bg-gradient-to-br from-indigo-500 to-indigo-700",
-              text: "text-indigo-600",
-              border: "border-indigo-500/20 hover:border-indigo-500/40",
-            },
-            {
-              bg: "bg-gradient-to-br from-teal-500 to-teal-700",
-              text: "text-teal-600",
-              border: "border-teal-500/20 hover:border-teal-500/40",
+              bg: "bg-bauhaus-blue",
+              text: "text-white", 
+              border: "border-bauhaus-blue/20 hover:border-bauhaus-blue/40",
             },
           ];
-          const colors = colorVariants[index % colorVariants.length];
+          const colors = bauhausColors[index % bauhausColors.length];
 
           return (
             <Link key={category.slug} href={`/category/${category.slug}`}>
-              <Card
-                className={`h-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${colors.border}`}
-              >
-                <CardHeader className="text-center">
-                  <div className="flex justify-center mb-2">
-                    <div className={`p-3 ${colors.bg} rounded-xl shadow-lg`}>
-                      <IconComponent className="h-6 w-6 text-white" />
+              <div className="bauhaus-card h-full hover:shadow-xl transition-all duration-300">
+                <div className="text-center p-6">
+                  <div className="flex justify-center mb-4">
+                    <div className={`p-4 ${colors.bg} rounded-lg shadow-bauhaus`}>
+                      {/* Placeholder icon - you can replace with category-specific icons */}
+                      <div className={`h-8 w-8 ${colors.text} flex items-center justify-center font-bold text-xl`}>
+                        {category.name.charAt(0)}
+                      </div>
                     </div>
                   </div>
-                  <CardTitle className={`text-lg ${colors.text} font-bold`}>
+                  <h3 className={`bauhaus-heading text-xl mb-3 ${colors.text === 'text-white' ? 'text-bauhaus-charcoal' : colors.text}`}>
                     {category.name}
-                  </CardTitle>
-                  <Badge
-                    className={`w-fit mx-auto ${colors.bg} text-white hover:opacity-90`}
-                  >
-                    {category.count} professional
-                    {category.count !== 1 ? "s" : ""}
-                  </Badge>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-center text-muted-foreground">
+                  </h3>
+                  <div className={`bauhaus-chip ${colors.bg} ${colors.text} mb-4`}>
+                    {category.count} PROFESSIONAL{category.count !== 1 ? "S" : ""}
+                  </div>
+                  <p className="bauhaus-body text-sm text-muted-foreground">
                     {category.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
+                  </p>
+                </div>
+              </div>
             </Link>
           );
         })}
       </div>
 
       {/* Call to Action */}
-      <div className="text-center bg-gradient-to-r from-brand-orange/5 via-brand-yellow/5 to-brand-blue/5 rounded-2xl p-8 border border-brand-blue/20">
-        <h2 className="text-2xl font-bold text-foreground mb-4">
+      <div className="bauhaus-card text-center p-8">
+        <h2 className="bauhaus-heading text-2xl text-foreground mb-4">
           Don't See Your Category?
         </h2>
-        <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+        <p className="bauhaus-body text-muted-foreground mb-6 max-w-2xl mx-auto">
           We're constantly adding new categories and professionals. If you don't
           see what you're looking for, try our search feature or submit a
           listing request.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            href="/search"
-            className="inline-flex items-center justify-center px-6 py-3 border-2 border-brand-blue text-brand-blue font-semibold rounded-lg hover:bg-brand-blue hover:text-white transition-colors"
-          >
-            Search All Professionals
+          <Link href="/search" className="bauhaus-btn-primary">
+            SEARCH ALL PROFESSIONALS
           </Link>
-          <Link
-            href="/submit"
-            className="inline-flex items-center justify-center px-6 py-3 bg-brand-orange text-white font-semibold rounded-lg hover:bg-brand-orange-dark transition-colors"
-          >
-            Submit Your Listing
+          <Link href="/submit" className="bauhaus-btn-secondary">
+            SUBMIT YOUR LISTING
           </Link>
         </div>
       </div>

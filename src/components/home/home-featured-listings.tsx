@@ -61,10 +61,10 @@ export default async function HomeFeaturedListings() {
   try {
     const supabaseListings = await getPublicListings();
     listings = supabaseListings
-      .filter(
-        (listing) => listing.featured === true
-      ) // Show only admin-selected featured listings
-      .sort((a, b) => (a.listing_name || '').localeCompare(b.listing_name || '')) // Alphabetical order
+      .filter((listing) => listing.featured === true) // Show only admin-selected featured listings
+      .sort((a, b) =>
+        (a.listing_name || "").localeCompare(b.listing_name || ""),
+      ) // Alphabetical order
       .slice(0, 3) // Limit to 3
       .map((listing) => ({
         id: listing.id,

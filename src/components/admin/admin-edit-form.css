@@ -1,5 +1,8 @@
 .admin-edit-form {
   color: #1e1f23 !important;
+  background-color: white !important;
+  min-height: 100vh;
+  padding: 1rem;
 }
 
 .admin-edit-form * {
@@ -16,7 +19,7 @@
 }
 
 .admin-edit-form h1,
-.admin-edit-form h2, 
+.admin-edit-form h2,
 .admin-edit-form h3,
 .admin-edit-form h4,
 .admin-edit-form h5,
@@ -41,4 +44,41 @@
 
 .admin-edit-form .text-blue-800 {
   color: #1e40af !important;
+}
+
+/* Ensure form elements are visible */
+.admin-edit-form input,
+.admin-edit-form textarea,
+.admin-edit-form select {
+  background-color: white !important;
+  color: #1e1f23 !important;
+  border: 1px solid #d1d5db !important;
+}
+
+.admin-edit-form .card {
+  background-color: white !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+.admin-edit-form .checkbox {
+  background-color: white !important;
+}
+
+/* Rich text editor styling */
+.admin-edit-form .rich-text-editor .ql-editor {
+  background-color: white !important;
+  color: #1e1f23 !important;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.admin-edit-form .rich-text-editor .ql-toolbar {
+  background-color: #f9fafb !important;
+  color: #1e1f23 !important;
+  border-color: #d1d5db !important;
+}
+
+.admin-edit-form .rich-text-editor .ql-container {
+  background-color: white !important;
+  border-color: #d1d5db !important;
 }

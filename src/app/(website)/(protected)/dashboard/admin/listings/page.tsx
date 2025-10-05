@@ -242,9 +242,7 @@ export default async function AdminListingsPage() {
 
                       {/* Edit Button */}
                       <Button size="sm" variant="default" asChild>
-                        <Link
-                          href={`/dashboard/admin/edit/${listing.id}`}
-                        >
+                        <Link href={`/dashboard/admin/edit/${listing.id}`}>
                           <EditIcon className="w-4 h-4 mr-1" />
                           Edit
                         </Link>

@@ -23,7 +23,7 @@ export const metadata = constructMetadata({
 export default async function AdminDashboard() {
   // Remove server-side auth check - let DashboardGuard handle it
   // This fixes server/client session mismatch issues
-  
+
   // Get platform data for stats
   const allListings = await getPublicListings();
   const pendingListings = allListings.filter(

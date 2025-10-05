@@ -3,11 +3,12 @@
 import { adminUpdateListing } from "@/actions/admin-edit";
 import ImageUpload from "@/components/shared/image-upload";
 import { GalleryUpload } from "@/components/submit/gallery-upload";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -15,12 +16,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import type { Listing } from "@/data/listings";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 interface AdminEditFormProps {
   listing: Listing;
@@ -148,7 +148,7 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
 
   const availableTags = [
     "0-2 years",
-    "3-5 years", 
+    "3-5 years",
     "6-8 years",
     "9-12 years",
     "13-17 years",
@@ -172,13 +172,18 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
         <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
             <Label htmlFor="status">Status</Label>
-            <Select value={formData.status} onValueChange={(value) => handleInputChange("status", value)}>
+            <Select
+              value={formData.status}
+              onValueChange={(value) => handleInputChange("status", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent>
                 {statusOptions.map((status) => (
-                  <SelectItem key={status} value={status}>{status}</SelectItem>
+                  <SelectItem key={status} value={status}>
+                    {status}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -186,13 +191,18 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
 
           <div>
             <Label htmlFor="plan">Plan</Label>
-            <Select value={formData.plan} onValueChange={(value) => handleInputChange("plan", value)}>
+            <Select
+              value={formData.plan}
+              onValueChange={(value) => handleInputChange("plan", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select plan" />
               </SelectTrigger>
               <SelectContent>
                 {planOptions.map((plan) => (
-                  <SelectItem key={plan} value={plan}>{plan}</SelectItem>
+                  <SelectItem key={plan} value={plan}>
+                    {plan}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -202,7 +212,9 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
             <Checkbox
               id="comped"
               checked={formData.comped}
-              onCheckedChange={(checked) => handleInputChange("comped", checked === true)}
+              onCheckedChange={(checked) =>
+                handleInputChange("comped", checked === true)
+              }
             />
             <Label htmlFor="comped">Comped</Label>
           </div>
@@ -211,7 +223,9 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
             <Checkbox
               id="featured"
               checked={formData.featured}
-              onCheckedChange={(checked) => handleInputChange("featured", checked === true)}
+              onCheckedChange={(checked) =>
+                handleInputChange("featured", checked === true)
+              }
             />
             <Label htmlFor="featured">Featured</Label>
           </div>
@@ -220,7 +234,9 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
             <Checkbox
               id="active"
               checked={formData.active}
-              onCheckedChange={(checked) => handleInputChange("active", checked === true)}
+              onCheckedChange={(checked) =>
+                handleInputChange("active", checked === true)
+              }
             />
             <Label htmlFor="active">Active</Label>
           </div>
@@ -272,7 +288,9 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
             <Textarea
               id="introduction"
               value={formData.introduction}
-              onChange={(e) => handleInputChange("introduction", e.target.value)}
+              onChange={(e) =>
+                handleInputChange("introduction", e.target.value)
+              }
               placeholder="Describe your target audience..."
               rows={3}
             />
@@ -369,13 +387,18 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
 
           <div>
             <Label htmlFor="format">Format</Label>
-            <Select value={formData.format} onValueChange={(value) => handleInputChange("format", value)}>
+            <Select
+              value={formData.format}
+              onValueChange={(value) => handleInputChange("format", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select format" />
               </SelectTrigger>
               <SelectContent>
                 {formatOptions.map((format) => (
-                  <SelectItem key={format} value={format}>{format}</SelectItem>
+                  <SelectItem key={format} value={format}>
+                    {format}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -451,10 +474,10 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
           <div>
             <Label>Gallery Images</Label>
             <GalleryUpload
-              images={galleryImages}
+              maxImages={10}
+              currentImages={galleryImages}
               onImagesChange={setGalleryImages}
-              onUploadStart={() => setIsGalleryUploading(true)}
-              onUploadEnd={() => setIsGalleryUploading(false)}
+              onUploadingChange={setIsGalleryUploading}
             />
           </div>
         </CardContent>
@@ -470,16 +493,22 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
             <Checkbox
               id="performerPermit"
               checked={formData.performerPermit}
-              onCheckedChange={(checked) => handleInputChange("performerPermit", checked === true)}
+              onCheckedChange={(checked) =>
+                handleInputChange("performerPermit", checked === true)
+              }
             />
-            <Label htmlFor="performerPermit">CA Performer Permit Required</Label>
+            <Label htmlFor="performerPermit">
+              CA Performer Permit Required
+            </Label>
           </div>
 
           <div className="flex items-center space-x-2">
             <Checkbox
               id="bonded"
               checked={formData.bonded}
-              onCheckedChange={(checked) => handleInputChange("bonded", checked === true)}
+              onCheckedChange={(checked) =>
+                handleInputChange("bonded", checked === true)
+              }
             />
             <Label htmlFor="bonded">Bonded</Label>
           </div>
@@ -490,7 +519,9 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
               <Input
                 id="bondNumber"
                 value={formData.bondNumber}
-                onChange={(e) => handleInputChange("bondNumber", e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("bondNumber", e.target.value)
+                }
                 placeholder="Enter bond number"
               />
             </div>

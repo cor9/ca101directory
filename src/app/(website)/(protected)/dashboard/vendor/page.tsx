@@ -61,7 +61,7 @@ export default async function VendorDashboard() {
   const isComped = userListings.some((listing) => listing.comped);
 
   if (isComped) {
-    currentPlan = "Pro (Comped)";
+    currentPlan = "Pro";
   } else {
     const plans = userListings.map((listing) => listing.plan).filter(Boolean);
     // Check for various capitalizations of plan names

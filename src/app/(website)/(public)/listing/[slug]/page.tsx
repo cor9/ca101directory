@@ -310,14 +310,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     101 Approved
                   </span>
                 )}
-                {isAdmin && listing.comped && (
-                  <span className="badge mustard">Comped</span>
-                )}
               </div>
 
               {/* Description */}
               <p
-                className="text-lg leading-relaxed mb-6 line-clamp-4"
+                className="text-lg leading-relaxed mb-6"
                 style={{ color: "#0C1A2B" }}
               >
                 {listing.what_you_offer}
@@ -376,7 +373,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 About This Professional
               </h2>
               <p
-                className="text-base leading-relaxed mb-6 line-clamp-6"
+                className="text-base leading-relaxed mb-6"
                 style={{ color: "#0C1A2B" }}
               >
                 {listing.what_you_offer}
@@ -386,7 +383,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 <div className="mb-6">
                   <h3>Who Is It For</h3>
                   <p
-                    className="text-base leading-relaxed line-clamp-4"
+                    className="text-base leading-relaxed"
                     style={{ color: "#0C1A2B" }}
                   >
                     {listing.who_is_it_for}
@@ -398,7 +395,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 <div className="mb-6">
                   <h3>What Makes This Unique</h3>
                   <p
-                    className="text-base leading-relaxed line-clamp-4"
+                    className="text-base leading-relaxed"
                     style={{ color: "#0C1A2B" }}
                   >
                     {listing.why_is_it_unique}
@@ -410,7 +407,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 <div className="mb-6">
                   <h3>Service Format</h3>
                   <p
-                    className="text-base leading-relaxed line-clamp-2"
+                    className="text-base leading-relaxed"
                     style={{ color: "#0C1A2B" }}
                   >
                     {listing.format}
@@ -422,7 +419,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 <div>
                   <h3>Additional Notes</h3>
                   <p
-                    className="text-base leading-relaxed line-clamp-4"
+                    className="text-base leading-relaxed"
                     style={{ color: "#0C1A2B" }}
                   >
                     {listing.extras_notes}

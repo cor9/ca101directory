@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 import { getPublicListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
-import { CheckCircleIcon, EditIcon } from "lucide-react";
+import { CheckCircleIcon, EditIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -241,6 +241,16 @@ export default async function AdminListingsPage() {
                       />
 
                       {/* Edit Button */}
+                      <Button size="sm" variant="default" asChild>
+                        <Link
+                          href={`/dashboard/admin/edit/${listing.id}`}
+                        >
+                          <EditIcon className="w-4 h-4 mr-1" />
+                          Edit
+                        </Link>
+                      </Button>
+
+                      {/* View Button */}
                       <Button size="sm" variant="outline" asChild>
                         <Link
                           href={`/listing/${
@@ -250,7 +260,7 @@ export default async function AdminListingsPage() {
                               .replace(/[^a-z0-9-]/g, "") || listing.id
                           }`}
                         >
-                          <EditIcon className="w-4 h-4 mr-1" />
+                          <EyeIcon className="w-4 h-4 mr-1" />
                           View
                         </Link>
                       </Button>

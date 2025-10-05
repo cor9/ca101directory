@@ -30,6 +30,7 @@ export const publicRoutes = [
 
   // stripe webhook must be public, otherwise can not receive stripe events
   "/api/webhook",
+  "/api/webhooks/stripe",
 
   // send emails, like submission approval or rejection emails
   "/api/send-email",
@@ -75,9 +76,6 @@ export const publicRoutes = [
   "/loading(/.*)?",
   "/home2(/.*)?",
   "/home3(/.*)?",
-
-  // debug authentication (temporary)
-  "/debug-auth",
 ];
 
 /**

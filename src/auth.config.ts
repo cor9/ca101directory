@@ -86,7 +86,7 @@ export default {
                   email: authData.user.email,
                   name:
                     authData.user.user_metadata?.name || authData.user.email,
-                  role: authData.user.user_metadata?.role || "parent",
+                  role: authData.user.user_metadata?.role || "guest",
                   created_at: new Date().toISOString(),
                   updated_at: new Date().toISOString(),
                 })

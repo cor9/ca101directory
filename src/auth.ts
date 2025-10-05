@@ -1,6 +1,6 @@
 import authConfig from "@/auth.config";
-import type { UserRole } from "@/types/user-role";
 import { createServerClient } from "@/lib/supabase";
+import type { UserRole } from "@/types/user-role";
 import NextAuth from "next-auth";
 
 /**
@@ -75,7 +75,7 @@ export const {
             .select("role")
             .eq("id", token.sub)
             .single();
-          
+
           if (profile?.role) {
             token.role = profile.role;
             console.log("JWT token role refreshed to:", token.role);
@@ -90,12 +90,23 @@ export const {
 
     // Session callback - add user data to session
     session: async ({ session, token }) => {
-      console.log("Auth session:", { user: session.user?.email });
+      console.log("Auth session callback:", { 
+        user: session.user?.email, 
+        tokenRole: token.role,
+        tokenId: token.id,
+      });
 
       if (token) {
         session.user.id = token.id as string;
         session.user.role = token.role as UserRole;
+        console.log("Session user role set to:", session.user.role);
       }
+
+      console.log("Final session:", {
+        userId: session.user.id,
+        userRole: session.user.role,
+        userEmail: session.user.email,
+      });
 
       return session;
     },

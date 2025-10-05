@@ -46,7 +46,11 @@ export function AdminNotifications({ className }: AdminNotificationsProps) {
   };
 
   const dismissNotification = (listingId: string) => {
-    setDismissed(prev => new Set([...prev, listingId]));
+    setDismissed(prev => {
+      const newSet = new Set(prev);
+      newSet.add(listingId);
+      return newSet;
+    });
   };
 
   const visibleListings = pendingListings.filter(listing => !dismissed.has(listing.id));

@@ -56,37 +56,60 @@ export type Listing = {
 function filterDuplicateListings(listings: Listing[]): Listing[] {
   // Group listings by owner_id and listing_name
   const listingGroups = new Map<string, Listing[]>();
-  
+  const unclaimedListings: Listing[] = [];
+
   for (const listing of listings) {
-    if (!listing.owner_id || !listing.listing_name) continue;
-    
+    if (!listing.listing_name) continue;
+
+    // Handle unclaimed listings (no owner_id) separately
+    if (!listing.owner_id) {
+      unclaimedListings.push(listing);
+      continue;
+    }
+
     const key = `${listing.owner_id}-${listing.listing_name.toLowerCase().trim()}`;
     if (!listingGroups.has(key)) {
       listingGroups.set(key, []);
     }
     listingGroups.get(key)!.push(listing);
   }
-  
+
   // For each group, keep only the highest plan listing
   const filteredListings: Listing[] = [];
-  const planPriority = { 'Pro': 4, 'Founding Pro': 4, 'Standard': 3, 'Founding Standard': 3, 'Free': 1 };
-  
+  const planPriority = {
+    Pro: 4,
+    "Founding Pro": 4,
+    Standard: 3,
+    "Founding Standard": 3,
+    Free: 1,
+  };
+
   for (const group of Array.from(listingGroups.values())) {
     if (group.length === 1) {
       filteredListings.push(group[0]);
     } else {
       // Sort by plan priority (highest first) and keep the best one
       const sortedGroup = group.sort((a, b) => {
-        const aPriority = planPriority[a.plan as keyof typeof planPriority] || 1;
-        const bPriority = planPriority[b.plan as keyof typeof planPriority] || 1;
+        const aPriority =
+          planPriority[a.plan as keyof typeof planPriority] || 1;
+        const bPriority =
+          planPriority[b.plan as keyof typeof planPriority] || 1;
         return bPriority - aPriority;
       });
       filteredListings.push(sortedGroup[0]);
-      
-      console.log(`Filtered duplicate listings for ${group[0].listing_name}: kept ${sortedGroup[0].plan}, hidden ${group.slice(1).map(l => l.plan).join(', ')}`);
+
+      console.log(
+        `Filtered duplicate listings for ${group[0].listing_name}: kept ${sortedGroup[0].plan}, hidden ${group
+          .slice(1)
+          .map((l) => l.plan)
+          .join(", ")}`,
+      );
     }
   }
-  
+
+  // Add all unclaimed listings back (they don't have duplicates by owner)
+  filteredListings.push(...unclaimedListings);
+
   return filteredListings;
 }
 
@@ -151,7 +174,11 @@ export async function getPublicListings(params?: {
   // Filter out duplicate free listings when user has upgraded
   const filteredData = filterDuplicateListings(data as Listing[]);
 
-  console.log("getPublicListings: Returning", filteredData?.length || 0, "listings after duplicate filtering");
+  console.log(
+    "getPublicListings: Returning",
+    filteredData?.length || 0,
+    "listings after duplicate filtering",
+  );
   return filteredData;
 }
 

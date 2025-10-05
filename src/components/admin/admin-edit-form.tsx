@@ -1,5 +1,6 @@
 "use client";
 
+import "./admin-edit-form.css";
 import { adminUpdateListing } from "@/actions/admin-edit";
 import ImageUpload from "@/components/shared/image-upload";
 import { GalleryUpload } from "@/components/submit/gallery-upload";
@@ -154,8 +155,14 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
   const statusOptions = ["Live", "Pending", "Draft", "Archived"];
   const verificationOptions = ["pending", "verified", "rejected"];
 
+  console.log("AdminEditForm rendering with data:", {
+    listingId: listing?.id,
+    categoriesCount: categories?.length,
+    formDataKeys: Object.keys(formData)
+  });
+
   return (
-    <div className="text-gray-900">
+    <div className="admin-edit-form">
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Admin Status Card */}
         <Card className="border-yellow-200 bg-yellow-50">
@@ -315,7 +322,7 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
         {/* Basic Information */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-gray-900">Basic Information</CardTitle>
+            <CardTitle>Basic Information</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>

@@ -1,0 +1,44 @@
+.admin-edit-form {
+  color: #1e1f23 !important;
+}
+
+.admin-edit-form * {
+  color: #1e1f23 !important;
+}
+
+.admin-edit-form label {
+  color: #1e1f23 !important;
+  font-weight: 500;
+}
+
+.admin-edit-form .text-gray-900 {
+  color: #1e1f23 !important;
+}
+
+.admin-edit-form h1,
+.admin-edit-form h2, 
+.admin-edit-form h3,
+.admin-edit-form h4,
+.admin-edit-form h5,
+.admin-edit-form h6 {
+  color: #1e1f23 !important;
+}
+
+.admin-edit-form p,
+.admin-edit-form span,
+.admin-edit-form div {
+  color: #1e1f23 !important;
+}
+
+.admin-edit-form button {
+  color: white !important;
+}
+
+.admin-edit-form .bg-blue-100 {
+  background-color: #dbeafe !important;
+  color: #1e40af !important;
+}
+
+.admin-edit-form .text-blue-800 {
+  color: #1e40af !important;
+}

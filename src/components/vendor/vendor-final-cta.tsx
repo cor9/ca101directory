@@ -1,10 +1,10 @@
 export default function VendorFinalCta() {
   return (
     <div className="bg-paper border border-primary-orange/20 rounded-xl p-12 text-center shadow-lg">
-      <h2 className="bauhaus-heading text-3xl md:text-4xl text-surface mb-4">
+      <h2 className="bauhaus-heading text-3xl md:text-4xl mb-4" style={{ color: "#1e1f23" }}>
         Ready to grow your business?
       </h2>
-      <p className="bauhaus-body text-xl text-surface/80 mb-8 max-w-2xl mx-auto">
+      <p className="bauhaus-body text-xl mb-8 max-w-2xl mx-auto" style={{ color: "#1e1f23" }}>
         Join thousands of professionals who trust Child Actor 101 to connect
         them with families
       </p>

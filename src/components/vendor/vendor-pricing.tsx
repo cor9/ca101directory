@@ -7,7 +7,7 @@ export default function VendorPricing() {
         <h2 className="bauhaus-heading text-3xl mb-4 text-bauhaus-charcoal">
           Pricing Plans
         </h2>
-        <p className="bauhaus-body text-lg text-bauhaus-charcoal/90 max-w-2xl mx-auto">
+        <p className="bauhaus-body text-lg max-w-2xl mx-auto" style={{ color: "#1e1f23" }}>
           Choose the plan that works best for your business
         </p>
       </div>
@@ -24,7 +24,7 @@ export default function VendorPricing() {
           <h3 className="bauhaus-heading text-2xl text-bauhaus-charcoal mb-2">
             Free Plan
           </h3>
-          <p className="bauhaus-body text-bauhaus-charcoal/90">
+          <p className="bauhaus-body" style={{ color: "#1e1f23" }}>
             Get started with our basic listing
           </p>
         </div>
@@ -40,7 +40,7 @@ export default function VendorPricing() {
           <h3 className="bauhaus-heading text-2xl text-bauhaus-charcoal mb-2">
             Paid Plans
           </h3>
-          <p className="bauhaus-body text-bauhaus-charcoal/90">
+          <p className="bauhaus-body" style={{ color: "#1e1f23" }}>
             Upgrade for enhanced visibility and features
           </p>
         </div>
@@ -55,7 +55,7 @@ export default function VendorPricing() {
         <h3 className="bauhaus-heading text-2xl text-bauhaus-charcoal mb-2">
           Founding Vendor Deals
         </h3>
-        <p className="bauhaus-body text-bauhaus-charcoal/90 mb-8">
+        <p className="bauhaus-body mb-8" style={{ color: "#1e1f23" }}>
           Limited time offers for early adopters
         </p>
         <stripe-pricing-table

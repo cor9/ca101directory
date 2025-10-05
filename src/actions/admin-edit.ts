@@ -30,6 +30,9 @@ export type AdminEditFormData = {
   comped: boolean;
   status: string;
   featured: boolean;
+  approved_101: boolean;
+  claimed: boolean;
+  verification_status: string;
   gallery: string[];
   isEdit?: boolean;
 };
@@ -92,6 +95,9 @@ export async function adminUpdateListing(
       comped: formData.comped,
       status: formData.status,
       featured: formData.featured,
+      is_approved_101: formData.approved_101,
+      is_claimed: formData.claimed,
+      verification_status: formData.verification_status,
       gallery: JSON.stringify(formData.gallery),
       has_gallery: formData.gallery.length > 0,
       updated_at: new Date().toISOString(),

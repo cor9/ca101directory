@@ -72,6 +72,9 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
     comped: listing.comped || false,
     status: listing.status || "Live",
     featured: listing.featured || false,
+    approved_101: listing.is_approved_101 || false,
+    claimed: listing.is_claimed || false,
+    verification_status: listing.verification_status || "pending",
   });
 
   const [galleryImages, setGalleryImages] = useState<string[]>(() => {
@@ -149,6 +152,7 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
   const formatOptions = ["In-person", "Online", "Hybrid"];
   const planOptions = ["Free", "Standard", "Pro", "Premium"];
   const statusOptions = ["Live", "Pending", "Draft", "Archived"];
+  const verificationOptions = ["pending", "verified", "rejected"];
 
   return (
     <div className="text-gray-900">
@@ -163,86 +167,147 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
               <span className="text-lg text-gray-900">Listing Status</span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div>
-              <Label htmlFor="status" className="text-gray-900 font-medium">
-                Status
-              </Label>
-              <Select
-                value={formData.status}
-                onValueChange={(value) => handleInputChange("status", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select status" />
-                </SelectTrigger>
-                <SelectContent>
-                  {statusOptions.map((status) => (
-                    <SelectItem key={status} value={status}>
-                      {status}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+          <CardContent className="space-y-6">
+            {/* Row 1 - Dropdowns */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="status" className="text-gray-900 font-medium">
+                  Status
+                </Label>
+                <Select
+                  value={formData.status}
+                  onValueChange={(value) => handleInputChange("status", value)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {statusOptions.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        {status}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="plan" className="text-gray-900 font-medium">
+                  Plan
+                </Label>
+                <Select
+                  value={formData.plan}
+                  onValueChange={(value) => handleInputChange("plan", value)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select plan" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {planOptions.map((plan) => (
+                      <SelectItem key={plan} value={plan}>
+                        {plan}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label
+                  htmlFor="verification_status"
+                  className="text-gray-900 font-medium"
+                >
+                  Verification Status
+                </Label>
+                <Select
+                  value={formData.verification_status}
+                  onValueChange={(value) =>
+                    handleInputChange("verification_status", value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select verification" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {verificationOptions.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        {status.charAt(0).toUpperCase() + status.slice(1)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
-            <div>
-              <Label htmlFor="plan" className="text-gray-900 font-medium">
-                Plan
-              </Label>
-              <Select
-                value={formData.plan}
-                onValueChange={(value) => handleInputChange("plan", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select plan" />
-                </SelectTrigger>
-                <SelectContent>
-                  {planOptions.map((plan) => (
-                    <SelectItem key={plan} value={plan}>
-                      {plan}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            {/* Row 2 - Checkboxes */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="comped"
+                  checked={formData.comped}
+                  onCheckedChange={(checked) =>
+                    handleInputChange("comped", checked === true)
+                  }
+                />
+                <Label htmlFor="comped" className="text-gray-900 font-medium">
+                  Comped
+                </Label>
+              </div>
 
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="comped"
-                checked={formData.comped}
-                onCheckedChange={(checked) =>
-                  handleInputChange("comped", checked === true)
-                }
-              />
-              <Label htmlFor="comped" className="text-gray-900 font-medium">
-                Comped
-              </Label>
-            </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="featured"
+                  checked={formData.featured}
+                  onCheckedChange={(checked) =>
+                    handleInputChange("featured", checked === true)
+                  }
+                />
+                <Label htmlFor="featured" className="text-gray-900 font-medium">
+                  Featured
+                </Label>
+              </div>
 
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="featured"
-                checked={formData.featured}
-                onCheckedChange={(checked) =>
-                  handleInputChange("featured", checked === true)
-                }
-              />
-              <Label htmlFor="featured" className="text-gray-900 font-medium">
-                Featured
-              </Label>
-            </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="active"
+                  checked={formData.active}
+                  onCheckedChange={(checked) =>
+                    handleInputChange("active", checked === true)
+                  }
+                />
+                <Label htmlFor="active" className="text-gray-900 font-medium">
+                  Active
+                </Label>
+              </div>
 
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="active"
-                checked={formData.active}
-                onCheckedChange={(checked) =>
-                  handleInputChange("active", checked === true)
-                }
-              />
-              <Label htmlFor="active" className="text-gray-900 font-medium">
-                Active
-              </Label>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="approved_101"
+                  checked={formData.approved_101}
+                  onCheckedChange={(checked) =>
+                    handleInputChange("approved_101", checked === true)
+                  }
+                />
+                <Label
+                  htmlFor="approved_101"
+                  className="text-gray-900 font-medium"
+                >
+                  101 Approved
+                </Label>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="claimed"
+                  checked={formData.claimed}
+                  onCheckedChange={(checked) =>
+                    handleInputChange("claimed", checked === true)
+                  }
+                />
+                <Label htmlFor="claimed" className="text-gray-900 font-medium">
+                  Claimed
+                </Label>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -383,18 +448,22 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
               />
             </div>
 
-          <div>
-            <Label htmlFor="region" className="text-gray-900 font-medium">Region</Label>
-            <Input
-              id="region"
-              value={formData.region}
-              onChange={(e) => handleInputChange("region", e.target.value)}
-              placeholder="Greater LA Area"
-            />
-          </div>
+            <div>
+              <Label htmlFor="region" className="text-gray-900 font-medium">
+                Region
+              </Label>
+              <Input
+                id="region"
+                value={formData.region}
+                onChange={(e) => handleInputChange("region", e.target.value)}
+                placeholder="Greater LA Area"
+              />
+            </div>
 
             <div>
-              <Label htmlFor="format" className="text-gray-900 font-medium">Format</Label>
+              <Label htmlFor="format" className="text-gray-900 font-medium">
+                Format
+              </Label>
               <Select
                 value={formData.format}
                 onValueChange={(value) => handleInputChange("format", value)}
@@ -414,88 +483,97 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
           </CardContent>
         </Card>
 
-      {/* Categories */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-gray-900">Categories</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {categories.map((category) => (
-              <div key={category.id} className="flex items-center space-x-2">
-                <Checkbox
-                  id={category.id}
-                  checked={formData.categories.includes(category.id)}
-                  onCheckedChange={() => handleCategoryToggle(category.id)}
-                />
-                <Label htmlFor={category.id} className="text-sm text-gray-900">
-                  {category.name}
-                </Label>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+        {/* Categories */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-gray-900">Categories</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {categories.map((category) => (
+                <div key={category.id} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={category.id}
+                    checked={formData.categories.includes(category.id)}
+                    onCheckedChange={() => handleCategoryToggle(category.id)}
+                  />
+                  <Label
+                    htmlFor={category.id}
+                    className="text-sm text-gray-900"
+                  >
+                    {category.name}
+                  </Label>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
-      {/* Service Format Tags */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-gray-900">Service Format</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            {["online", "in-person", "hybrid"].map((tag) => (
-              <div key={tag} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`format-${tag}`}
-                  checked={formData.tags.includes(tag)}
-                  onCheckedChange={() => handleTagToggle(tag)}
-                />
-                <Label htmlFor={`format-${tag}`} className="text-sm text-gray-900 capitalize">
-                  {tag.replace("-", " ")}
-                </Label>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+        {/* Service Format Tags */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-gray-900">Service Format</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {["online", "in-person", "hybrid"].map((tag) => (
+                <div key={tag} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={`format-${tag}`}
+                    checked={formData.tags.includes(tag)}
+                    onCheckedChange={() => handleTagToggle(tag)}
+                  />
+                  <Label
+                    htmlFor={`format-${tag}`}
+                    className="text-sm text-gray-900 capitalize"
+                  >
+                    {tag.replace("-", " ")}
+                  </Label>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
-      {/* Location/Region Tags */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-gray-900">Location/Region</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              "los-angeles",
-              "northern-california", 
-              "pnw",
-              "new-mexico",
-              "arizona",
-              "texas",
-              "chicago",
-              "atlanta-southeast",
-              "new-orleans",
-              "florida",
-              "new-york",
-              "northeast-wilmington",
-              "global-online",
-            ].map((tag) => (
-              <div key={tag} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`location-${tag}`}
-                  checked={formData.tags.includes(tag)}
-                  onCheckedChange={() => handleTagToggle(tag)}
-                />
-                <Label htmlFor={`location-${tag}`} className="text-sm text-gray-900 capitalize">
-                  {tag.replace("-", " ")}
-                </Label>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+        {/* Location/Region Tags */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-gray-900">Location/Region</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                "los-angeles",
+                "northern-california",
+                "pnw",
+                "new-mexico",
+                "arizona",
+                "texas",
+                "chicago",
+                "atlanta-southeast",
+                "new-orleans",
+                "florida",
+                "new-york",
+                "northeast-wilmington",
+                "global-online",
+              ].map((tag) => (
+                <div key={tag} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={`location-${tag}`}
+                    checked={formData.tags.includes(tag)}
+                    onCheckedChange={() => handleTagToggle(tag)}
+                  />
+                  <Label
+                    htmlFor={`location-${tag}`}
+                    className="text-sm text-gray-900 capitalize"
+                  >
+                    {tag.replace("-", " ")}
+                  </Label>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Images */}
         <Card>

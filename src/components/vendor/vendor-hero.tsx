@@ -5,9 +5,7 @@ export default function VendorHero() {
     <div className="text-center max-w-4xl mx-auto">
       <h1 className="bauhaus-heading text-4xl md:text-6xl mb-6 text-paper">
         Get discovered by{" "}
-        <span className="text-bauhaus-orange">
-          thousands of families
-        </span>{" "}
+        <span className="text-bauhaus-orange">thousands of families</span>{" "}
         looking for acting professionals
       </h1>
       <p className="bauhaus-body text-xl text-paper/90 mb-8 max-w-2xl mx-auto">
@@ -33,10 +31,7 @@ export default function VendorHero() {
             </svg>
           </button>
         </LoginWrapper>
-        <a
-          href="/submit"
-          className="bauhaus-btn-secondary text-lg"
-        >
+        <a href="/submit" className="bauhaus-btn-secondary text-lg">
           SUBMIT YOUR LISTING
           <svg
             className="ml-2 h-5 w-5"

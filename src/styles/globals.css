@@ -468,21 +468,23 @@
   }
 
   /* Bauhaus Mid-Century Modern Hollywood Design System */
-  
+
   /* Geometric Typography - Bauhaus inspired */
   .bauhaus-heading {
-    font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
     font-weight: 700;
     letter-spacing: -0.025em;
     line-height: 1.1;
   }
-  
+
   .bauhaus-body {
-    font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
     font-weight: 400;
     line-height: 1.6;
   }
-  
+
   /* Bauhaus Cards - Strong grid alignment */
   .bauhaus-card {
     background: var(--cream);
@@ -492,13 +494,13 @@
     box-shadow: var(--shadow-bauhaus);
     transition: all 0.3s ease;
   }
-  
+
   .bauhaus-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-bauhaus-lg);
     border-color: var(--faded-red-orange);
   }
-  
+
   /* Bauhaus Buttons - Bold contrast */
   .bauhaus-btn-primary {
     background: var(--faded-red-orange);
@@ -518,13 +520,13 @@
     text-transform: uppercase;
     letter-spacing: 0.025em;
   }
-  
+
   .bauhaus-btn-primary:hover {
-    background: #B8493A;
+    background: #b8493a;
     box-shadow: var(--shadow-bauhaus-lg);
     transform: translateY(-1px);
   }
-  
+
   .bauhaus-btn-secondary {
     background: var(--mustard-yellow);
     color: var(--charcoal);
@@ -543,13 +545,13 @@
     text-transform: uppercase;
     letter-spacing: 0.025em;
   }
-  
+
   .bauhaus-btn-secondary:hover {
-    background: #C2945F;
+    background: #c2945f;
     box-shadow: var(--shadow-bauhaus-lg);
     transform: translateY(-1px);
   }
-  
+
   /* Bauhaus Chips - Clean geometric */
   .bauhaus-chip {
     background: var(--robin-egg-blue);
@@ -563,89 +565,90 @@
     text-transform: uppercase;
     letter-spacing: 0.025em;
   }
-  
+
   .bauhaus-chip-mustard {
     background: var(--mustard-yellow);
     color: var(--charcoal);
   }
-  
+
   .bauhaus-chip-orange {
     background: var(--faded-red-orange);
     color: var(--cream);
   }
-  
+
   /* Hollywood References - Subtle clapperboard motif */
   .hollywood-accent::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 4px;
-    background: linear-gradient(90deg, 
-      var(--charcoal) 0% 10%, 
-      var(--cream) 10% 20%, 
-      var(--charcoal) 20% 30%, 
-      var(--cream) 30% 40%, 
+    background: linear-gradient(
+      90deg,
+      var(--charcoal) 0% 10%,
+      var(--cream) 10% 20%,
+      var(--charcoal) 20% 30%,
+      var(--cream) 30% 40%,
       var(--charcoal) 40% 50%
     );
   }
-  
+
   /* Strong Grid Alignment */
   .bauhaus-grid {
     display: grid;
     gap: 1.5rem;
     align-items: start;
   }
-  
+
   .bauhaus-grid-2 {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .bauhaus-grid-3 {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   @media (max-width: 768px) {
     .bauhaus-grid-2,
     .bauhaus-grid-3 {
       grid-template-columns: 1fr;
     }
   }
-  
+
   /* Bauhaus Color Utilities */
   .text-bauhaus-mustard {
     color: var(--mustard-yellow);
   }
-  
+
   .text-bauhaus-orange {
     color: var(--faded-red-orange);
   }
-  
+
   .text-bauhaus-blue {
     color: var(--robin-egg-blue);
   }
-  
+
   .bg-bauhaus-mustard {
     background-color: var(--mustard-yellow);
   }
-  
+
   .bg-bauhaus-orange {
     background-color: var(--faded-red-orange);
   }
-  
+
   .bg-bauhaus-blue {
     background-color: var(--robin-egg-blue);
   }
-  
+
   .border-bauhaus-mustard {
     border-color: var(--mustard-yellow);
   }
-  
+
   .border-bauhaus-orange {
     border-color: var(--faded-red-orange);
   }
-  
+
   .border-bauhaus-blue {
     border-color: var(--robin-egg-blue);
   }

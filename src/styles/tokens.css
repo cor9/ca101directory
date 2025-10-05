@@ -1,38 +1,38 @@
-:root{
+:root {
   /* Bauhaus Mid-Century Modern Hollywood Palette */
-  
+
   /* Cinema Backdrop - Dark navy/deep charcoal */
-  --navy:#0C1A2B;
-  --navy-900:#0C1A2B;
-  --navy-800:#122338;
-  --navy-700:#19324B;
-  --charcoal:#1E1F23;
+  --navy: #0c1a2b;
+  --navy-900: #0c1a2b;
+  --navy-800: #122338;
+  --navy-700: #19324b;
+  --charcoal: #1e1f23;
 
   /* Screen/Card Canvas - Soft cream */
-  --cream:#FFFDD0;
-  --cream-ink:#1B1F29;
-  --ink:#E9EEF7;
+  --cream: #fffdd0;
+  --cream-ink: #1b1f29;
+  --ink: #e9eef7;
 
   /* Bauhaus Retro Primaries */
-  --mustard-yellow:#D4A574;  /* Muted mustard yellow */
-  --faded-red-orange:#CC5A47; /* Faded red-orange */
-  --robin-egg-blue:#7AB8CC;   /* Robin's egg blue */
-  
+  --mustard-yellow: #d4a574; /* Muted mustard yellow */
+  --faded-red-orange: #cc5a47; /* Faded red-orange */
+  --robin-egg-blue: #7ab8cc; /* Robin's egg blue */
+
   /* Legacy colors (maintain compatibility) */
-  --orange:#F25C05;
-  --logo-blue:#2E77B8;
-  --mustard:#E2B25B;
+  --orange: #f25c05;
+  --logo-blue: #2e77b8;
+  --mustard: #e2b25b;
 
   /* Card styling */
-  --card-border:#E6DFC3;
-  --chip-bg:#F7F1D8;
-  --success:#3EB489;
-  --muted:#93A3B5;
-  --ring:#7FB3FF;
-  
+  --card-border: #e6dfc3;
+  --chip-bg: #f7f1d8;
+  --success: #3eb489;
+  --muted: #93a3b5;
+  --ring: #7fb3ff;
+
   /* Bauhaus shadows - stronger, more geometric */
-  --shadow-cream: 0 8px 30px rgba(12,26,43,.22);
-  --shadow-cream-lg: 0 16px 44px rgba(12,26,43,.28);
-  --shadow-bauhaus: 0 4px 16px rgba(30,31,35,.35);
-  --shadow-bauhaus-lg: 0 8px 32px rgba(30,31,35,.45);
+  --shadow-cream: 0 8px 30px rgba(12, 26, 43, 0.22);
+  --shadow-cream-lg: 0 16px 44px rgba(12, 26, 43, 0.28);
+  --shadow-bauhaus: 0 4px 16px rgba(30, 31, 35, 0.35);
+  --shadow-bauhaus-lg: 0 8px 32px rgba(30, 31, 35, 0.45);
 }

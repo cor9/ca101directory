@@ -65,17 +65,19 @@ export default async function VendorDashboard() {
   } else {
     const plans = userListings.map((listing) => listing.plan).filter(Boolean);
     // Check for various capitalizations of plan names
-    const hasPro = plans.some(plan => 
-      plan?.toLowerCase() === "pro" || 
-      plan === "Pro" || 
-      plan === "Founding Pro"
+    const hasPro = plans.some(
+      (plan) =>
+        plan?.toLowerCase() === "pro" ||
+        plan === "Pro" ||
+        plan === "Founding Pro",
     );
-    const hasStandard = plans.some(plan => 
-      plan?.toLowerCase() === "standard" || 
-      plan === "Standard" || 
-      plan === "Founding Standard"
+    const hasStandard = plans.some(
+      (plan) =>
+        plan?.toLowerCase() === "standard" ||
+        plan === "Standard" ||
+        plan === "Founding Standard",
     );
-    
+
     if (hasPro) {
       currentPlan = "Pro";
     } else if (hasStandard) {
@@ -104,19 +106,25 @@ export default async function VendorDashboard() {
               <div className="text-2xl font-bold text-primary-orange">
                 {activeListings.length}
               </div>
-              <div className="text-sm" style={{ color: "#333" }}>Active Listings</div>
+              <div className="text-sm" style={{ color: "#333" }}>
+                Active Listings
+              </div>
             </div>
             <div className="bg-surface rounded-lg p-4 border border-surface/20">
               <div className="text-2xl font-bold text-primary-orange">
                 {totalViews}
               </div>
-              <div className="text-sm" style={{ color: "#333" }}>Total Views</div>
+              <div className="text-sm" style={{ color: "#333" }}>
+                Total Views
+              </div>
             </div>
             <div className="bg-surface rounded-lg p-4 border border-surface/20">
               <div className="text-2xl font-bold text-primary-orange">
                 {totalReviews}
               </div>
-              <div className="text-sm" style={{ color: "#333" }}>Reviews</div>
+              <div className="text-sm" style={{ color: "#333" }}>
+                Reviews
+              </div>
             </div>
             <div className="bg-surface rounded-lg p-4 border border-surface/20">
               <div className="text-2xl font-bold text-primary-orange">
@@ -155,7 +163,10 @@ export default async function VendorDashboard() {
                       <PlusIcon className="w-8 h-8 text-secondary-denim" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>
+                      <h3
+                        className="text-lg font-semibold"
+                        style={{ color: "#1F2327" }}
+                      >
                         No listings yet
                       </h3>
                       <p style={{ color: "#333" }}>
@@ -181,7 +192,10 @@ export default async function VendorDashboard() {
                     <CardHeader>
                       <div className="flex items-start justify-between">
                         <div className="space-y-1">
-                          <CardTitle className="text-lg" style={{ color: "#1F2327" }}>
+                          <CardTitle
+                            className="text-lg"
+                            style={{ color: "#1F2327" }}
+                          >
                             {listing.listing_name}
                           </CardTitle>
                           <CardDescription style={{ color: "#333" }}>
@@ -246,7 +260,10 @@ export default async function VendorDashboard() {
                     </CardHeader>
                     <CardContent>
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4 text-sm" style={{ color: "#666" }}>
+                        <div
+                          className="flex items-center gap-4 text-sm"
+                          style={{ color: "#666" }}
+                        >
                           {listing.city && listing.state && (
                             <span>
                               {listing.city}, {listing.state}
@@ -299,7 +316,9 @@ export default async function VendorDashboard() {
             </h2>
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <h3 className="font-medium" style={{ color: "#1F2327" }}>Listing Management</h3>
+                <h3 className="font-medium" style={{ color: "#1F2327" }}>
+                  Listing Management
+                </h3>
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
@@ -328,7 +347,9 @@ export default async function VendorDashboard() {
                 </div>
               </div>
               <div className="space-y-2">
-                <h3 className="font-medium" style={{ color: "#1F2327" }}>Business Growth</h3>
+                <h3 className="font-medium" style={{ color: "#1F2327" }}>
+                  Business Growth
+                </h3>
                 <div className="flex gap-2">
                   {isComped ? (
                     <div className="text-sm" style={{ color: "#666" }}>

@@ -1,5 +1,6 @@
 import { Icons } from "@/components/icons/icons";
 import { getPublicListings } from "@/data/listings";
+import { getListingImageUrl } from "@/lib/image-urls";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -66,9 +67,9 @@ export default async function HomeFeaturedListings() {
         id: listing.id,
         name: listing.listing_name || "Untitled Listing",
         description: listing.what_you_offer || "Professional acting services",
-        image:
-          listing.profile_image ||
-          "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop",
+        image: listing.profile_image
+          ? getListingImageUrl(listing.profile_image)
+          : "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop",
         website: listing.website || "#",
         category: listing.categories?.[0] || "Acting Professional", // categories is now an array
         tags: listing.age_range || [], // age_range is now an array
@@ -118,13 +119,22 @@ export default async function HomeFeaturedListings() {
 
             <div className="p-6">
               <div className="flex items-start justify-between mb-3">
-                <h3 className="font-semibold text-lg" style={{ color: "#1F2327" }}>
+                <h3
+                  className="font-semibold text-lg"
+                  style={{ color: "#1F2327" }}
+                >
                   {listing.name}
                 </h3>
-                <Icons.externalLink className="h-4 w-4" style={{ color: "#666" }} />
+                <Icons.externalLink
+                  className="h-4 w-4"
+                  style={{ color: "#666" }}
+                />
               </div>
 
-              <p className="text-sm mb-4 line-clamp-4" style={{ color: "#333" }}>
+              <p
+                className="text-sm mb-4 line-clamp-4"
+                style={{ color: "#333" }}
+              >
                 {listing.description}
               </p>
 

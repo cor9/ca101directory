@@ -88,7 +88,7 @@ const config = {
 
         // Bauhaus Mid-Century Modern Hollywood Colors
         "bauhaus-mustard": "var(--mustard-yellow)",
-        "bauhaus-orange": "var(--faded-red-orange)", 
+        "bauhaus-orange": "var(--faded-red-orange)",
         "bauhaus-blue": "var(--robin-egg-blue)",
         "bauhaus-charcoal": "var(--charcoal)",
       },

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
 import { ImageModal } from "@/components/shared/image-modal";
 import { getListingImageUrl, parseGalleryImages } from "@/lib/image-urls";
+import Image from "next/image";
+import { useState } from "react";
 
 interface GalleryProps {
   listing: {
@@ -29,11 +29,12 @@ export function Gallery({ listing }: GalleryProps) {
   };
 
   // Parse gallery images
-  const galleryImages = typeof listing.gallery === 'string' 
-    ? parseGalleryImages(listing.gallery)
-    : Array.isArray(listing.gallery) 
-      ? (listing.gallery as string[]).map(img => getListingImageUrl(img))
-      : [];
+  const galleryImages =
+    typeof listing.gallery === "string"
+      ? parseGalleryImages(listing.gallery)
+      : Array.isArray(listing.gallery)
+        ? (listing.gallery as string[]).map((img) => getListingImageUrl(img))
+        : [];
 
   if (!listing.gallery && listing.plan !== "pro" && !listing.comped) {
     return null;
@@ -42,10 +43,7 @@ export function Gallery({ listing }: GalleryProps) {
   return (
     <>
       <div className="listing-card">
-        <h2
-          className="text-lg font-semibold mb-4"
-          style={{ color: "#0C1A2B" }}
-        >
+        <h2 className="text-lg font-semibold mb-4" style={{ color: "#0C1A2B" }}>
           Gallery
         </h2>
         {galleryImages.length > 0 ? (
@@ -81,7 +79,9 @@ export function Gallery({ listing }: GalleryProps) {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white bg-opacity-90 px-3 py-1 rounded-full">
-                    <span className="text-sm font-medium text-gray-800">Click to enlarge</span>
+                    <span className="text-sm font-medium text-gray-800">
+                      Click to enlarge
+                    </span>
                   </div>
                 </div>
               </button>
@@ -89,9 +89,7 @@ export function Gallery({ listing }: GalleryProps) {
           </div>
         ) : (
           <div className="aspect-[4/3] bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-            <p className="text-gray-500 text-sm">
-              No gallery images yet
-            </p>
+            <p className="text-gray-500 text-sm">No gallery images yet</p>
           </div>
         )}
       </div>

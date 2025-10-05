@@ -241,7 +241,9 @@ export function BlogSection() {
     <div className="py-16">
       {/* Header */}
       <div className="text-center mb-12">
-        <h2 className="bauhaus-heading text-4xl mb-4 text-bauhaus-blue">BLOG</h2>
+        <h2 className="bauhaus-heading text-4xl mb-4 text-bauhaus-blue">
+          BLOG
+        </h2>
         <h3 className="bauhaus-body text-2xl text-foreground">
           Read our latest blog posts
         </h3>

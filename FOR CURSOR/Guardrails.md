@@ -24,6 +24,42 @@
 
 ## 🧠 Brand & UX Guidelines
 
+
+Theme Identity:
+
+All design choices must honor a mid-century modern, Bauhaus homage to classic Hollywood.
+
+1. Color Philosophy
+	•	Dark navy or deep charcoal = cinema backdrop
+	•	Soft cream = screen / card canvas
+	•	Accent palette = retro Bauhaus primaries: muted mustard yellow, faded red-orange, robin’s egg blue.
+	•	Rule: Never flood full sections with cream. Use cream only for content cards or highlights.
+
+2. Typography
+	•	Sans-serif geometric fonts (Futura, Avenir-like) to reflect Bauhaus.
+	•	Bold headers evoke movie posters; body text remains clean, airy.
+	•	Rule: Line height must keep readability (no cramped copy blocks).
+
+3. Iconography & Graphics
+	•	Flat, geometric illustrations (as you generated).
+	•	Limited palette, clear black outlines = Bauhaus poster homage.
+	•	Rule: Default fallback image = category icon. No empty cream tiles.
+
+4. Layout & UX
+	•	Strong grid alignment = Bauhaus discipline.
+	•	Cards: structured, modular, scannable.
+	•	Dropdowns, filters, and modals must float above cards with shadows (avoid “cards above menus” bug).
+
+5. Interaction
+	•	Hover = subtle shadow or slight accent border.
+	•	Buttons = orange or mustard with bold contrast.
+	•	Rule: No color combinations that evoke unintended themes (e.g., orange + black = Halloween).
+
+6. Hollywood References
+	•	Clapperboard / film reel / spotlight motifs used sparingly to tie back to classic Hollywood.
+	•	Rule: Only one Hollywood reference per page section (avoid kitsch overload).
+
+
 ### Design Principles
 - **Minimal & Clean**: Simple, uncluttered interface
 - **Mobile-First**: Optimize for mobile devices first
@@ -98,6 +134,12 @@
 - **Deployment Success**: Live on Vercel ✅ **ACHIEVED**
 
 ## 🎉 Current Status - PRODUCTION READY!
+
+### 2025-10-04 Directory & Listing Refresh Log
+- Normalized category names across directory cards and individual listing pages (no more "ActingClasses&Coaches").
+- Added Supabase-backed + local fallback icons for categories on both cards and detail pages.
+- Restyled filter dropdowns (cream background, dark text, z-index fix) and navy website buttons.
+- Configured Next.js image host allow-list for Supabase Storage; listings pull profile images + category icons reliably.
 
 - **Build Status**: ✅ **SUCCESSFUL** - All pages build without errors
 - **Deployment**: ✅ **FULLY WORKING** - Both domains accessible

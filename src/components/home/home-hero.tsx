@@ -33,9 +33,8 @@ export default function HomeHero() {
 
           <h1 className="bauhaus-heading max-w-5xl text-balance text-paper text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
             {heroConfig.title.first}{" "}
-            <span className="text-bauhaus-orange">
-              {heroConfig.title.second}
-            </span>
+            <span className="text-bauhaus-orange">Child Actor Vendors & </span>
+            <span className="text-bauhaus-blue">Industry Professionals</span>
           </h1>
 
           <p className="bauhaus-body max-w-4xl text-balance text-paper/90 sm:text-xl lg:text-left">
@@ -62,7 +61,10 @@ export default function HomeHero() {
             <LoginWrapper mode="redirect" defaultRole="parent">
               <button className="bauhaus-btn-primary">SIGN IN</button>
             </LoginWrapper>
-            <Link href="/auth/register?role=parent" className="bauhaus-btn-secondary">
+            <Link
+              href="/auth/register?role=parent"
+              className="bauhaus-btn-secondary"
+            >
               JOIN FREE
             </Link>
           </div>

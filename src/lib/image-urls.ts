@@ -67,7 +67,7 @@ export function parseGalleryImages(galleryString: string | null): string[] {
 export function getCategoryIconUrl(filename: string): string {
   if (!filename) return "";
   if (filename.startsWith("http")) return filename;
-  
+
   // Normalize stored path variants similar to listing images
   let normalizedPath = filename.replace(
     /^\/?storage\/v1\/object\/public\//,

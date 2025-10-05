@@ -37,12 +37,12 @@ export default function VendorTestimonials() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {testimonials.map((testimonial, index) => {
           const colors = [
-            "text-primary-orange", 
-            "text-primary-mustard", 
-            "text-primary-teal"
+            "text-primary-orange",
+            "text-primary-mustard",
+            "text-primary-teal",
           ];
           const colorClass = colors[index % colors.length];
-          
+
           return (
             <div
               key={`testimonial-${testimonial.author}`}
@@ -58,19 +58,21 @@ export default function VendorTestimonials() {
                   <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" />
                 </svg>
               </div>
-            <blockquote className="mb-6 italic" style={{ color: "#333" }}>
-              "{testimonial.quote}"
-            </blockquote>
-            <div className="border-t pt-4" style={{ borderColor: "#E0E0E0" }}>
-              <div className="font-semibold" style={{ color: "#1F2327" }}>
-                {testimonial.author}
-              </div>
-              <div className="text-sm" style={{ color: "#666" }}>{testimonial.role}</div>
-              <div className="text-sm" style={{ color: "#666" }}>
-                {testimonial.location}
+              <blockquote className="mb-6 italic" style={{ color: "#333" }}>
+                "{testimonial.quote}"
+              </blockquote>
+              <div className="border-t pt-4" style={{ borderColor: "#E0E0E0" }}>
+                <div className="font-semibold" style={{ color: "#1F2327" }}>
+                  {testimonial.author}
+                </div>
+                <div className="text-sm" style={{ color: "#666" }}>
+                  {testimonial.role}
+                </div>
+                <div className="text-sm" style={{ color: "#666" }}>
+                  {testimonial.location}
+                </div>
               </div>
             </div>
-          </div>
           );
         })}
       </div>

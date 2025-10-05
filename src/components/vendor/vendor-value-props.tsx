@@ -83,15 +83,17 @@ export default function VendorValueProps() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {valueProps.map((prop, index) => {
             const colors = [
-              "bg-primary-orange", 
-              "bg-primary-mustard", 
-              "bg-primary-teal"
+              "bg-primary-orange",
+              "bg-primary-mustard",
+              "bg-primary-teal",
             ];
             const colorClass = colors[index % colors.length];
-            
+
             return (
               <div key={`value-prop-${prop.title}`} className="text-center">
-                <div className={`inline-flex items-center justify-center w-16 h-16 ${colorClass} rounded-full mb-6 text-paper`}>
+                <div
+                  className={`inline-flex items-center justify-center w-16 h-16 ${colorClass} rounded-full mb-6 text-paper`}
+                >
                   {prop.icon}
                 </div>
                 <h3 className="bauhaus-heading text-xl mb-4 text-paper">

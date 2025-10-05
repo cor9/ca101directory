@@ -121,16 +121,17 @@ export default async function CategoryPage() {
             {
               bg: "bg-bauhaus-mustard",
               text: "text-bauhaus-charcoal",
-              border: "border-bauhaus-mustard/20 hover:border-bauhaus-mustard/40",
+              border:
+                "border-bauhaus-mustard/20 hover:border-bauhaus-mustard/40",
             },
             {
-              bg: "bg-bauhaus-orange", 
+              bg: "bg-bauhaus-orange",
               text: "text-white",
               border: "border-bauhaus-orange/20 hover:border-bauhaus-orange/40",
             },
             {
               bg: "bg-bauhaus-blue",
-              text: "text-white", 
+              text: "text-white",
               border: "border-bauhaus-blue/20 hover:border-bauhaus-blue/40",
             },
           ];
@@ -141,18 +142,27 @@ export default async function CategoryPage() {
               <div className="bauhaus-card h-full hover:shadow-xl transition-all duration-300">
                 <div className="text-center p-6">
                   <div className="flex justify-center mb-4">
-                    <div className={`p-4 ${colors.bg} rounded-lg shadow-bauhaus`}>
+                    <div
+                      className={`p-4 ${colors.bg} rounded-lg shadow-bauhaus`}
+                    >
                       {/* Placeholder icon - you can replace with category-specific icons */}
-                      <div className={`h-8 w-8 ${colors.text} flex items-center justify-center font-bold text-xl`}>
+                      <div
+                        className={`h-8 w-8 ${colors.text} flex items-center justify-center font-bold text-xl`}
+                      >
                         {category.name.charAt(0)}
                       </div>
                     </div>
                   </div>
-                  <h3 className={`bauhaus-heading text-xl mb-3 ${colors.text === 'text-white' ? 'text-bauhaus-charcoal' : colors.text}`}>
+                  <h3
+                    className={`bauhaus-heading text-xl mb-3 ${colors.text === "text-white" ? "text-bauhaus-charcoal" : colors.text}`}
+                  >
                     {category.name}
                   </h3>
-                  <div className={`bauhaus-chip ${colors.bg} ${colors.text} mb-4`}>
-                    {category.count} PROFESSIONAL{category.count !== 1 ? "S" : ""}
+                  <div
+                    className={`bauhaus-chip ${colors.bg} ${colors.text} mb-4`}
+                  >
+                    {category.count} PROFESSIONAL
+                    {category.count !== 1 ? "S" : ""}
                   </div>
                   <p className="bauhaus-body text-sm text-muted-foreground">
                     {category.description}

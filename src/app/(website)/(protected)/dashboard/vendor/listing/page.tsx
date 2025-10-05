@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { DashboardGuard } from "@/components/auth/dashboard-guard";
+import { DashboardGuard } from "@/components/auth/role-guard";
 import { VendorDashboardLayout } from "@/components/layouts/VendorDashboardLayout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -45,12 +45,11 @@ export default async function VendorListingPage() {
                 <div className="text-center space-y-4">
                   <h3 className="bauhaus-heading text-xl">No listings yet</h3>
                   <p className="bauhaus-body text-muted-foreground max-w-md">
-                    Create your first professional listing to start connecting with families
+                    Create your first professional listing to start connecting
+                    with families
                   </p>
                   <Button asChild className="bauhaus-btn-primary">
-                    <Link href="/submit">
-                      CREATE YOUR FIRST LISTING
-                    </Link>
+                    <Link href="/submit">CREATE YOUR FIRST LISTING</Link>
                   </Button>
                 </div>
               </CardContent>
@@ -79,24 +78,32 @@ export default async function VendorListingPage() {
                           </Badge>
                           {(() => {
                             let badgeText = "Free";
-                            let badgeClassName = "border-gray-300 text-gray-600";
+                            let badgeClassName =
+                              "border-gray-300 text-gray-600";
 
                             if (listing.comped) {
                               badgeText = "Pro";
-                              badgeClassName = "border-blue-500 text-blue-600 bg-blue-50";
+                              badgeClassName =
+                                "border-blue-500 text-blue-600 bg-blue-50";
                             } else if (listing.plan === "pro") {
                               badgeText = "Pro";
-                              badgeClassName = "border-blue-500 text-blue-600 bg-blue-50";
+                              badgeClassName =
+                                "border-blue-500 text-blue-600 bg-blue-50";
                             } else if (listing.plan === "standard") {
                               badgeText = "Standard";
-                              badgeClassName = "border-gray-500 text-gray-600 bg-gray-50";
+                              badgeClassName =
+                                "border-gray-500 text-gray-600 bg-gray-50";
                             } else if (listing.plan === "premium") {
                               badgeText = "Premium";
-                              badgeClassName = "border-orange-500 text-orange-600 bg-orange-50";
+                              badgeClassName =
+                                "border-orange-500 text-orange-600 bg-orange-50";
                             }
 
                             return (
-                              <Badge variant="outline" className={badgeClassName}>
+                              <Badge
+                                variant="outline"
+                                className={badgeClassName}
+                              >
                                 {badgeText}
                               </Badge>
                             );
@@ -109,7 +116,7 @@ export default async function VendorListingPage() {
                     <p className="bauhaus-body text-sm text-muted-foreground line-clamp-2">
                       {listing.what_you_offer}
                     </p>
-                    
+
                     <div className="flex items-center gap-2">
                       <Button asChild variant="outline" size="sm">
                         <Link href={`/listing/${listing.id}`}>
@@ -118,14 +125,20 @@ export default async function VendorListingPage() {
                         </Link>
                       </Button>
                       <Button asChild variant="outline" size="sm">
-                        <Link href={`/submit?claim=true&listingId=${listing.id}`}>
+                        <Link
+                          href={`/submit?claim=true&listingId=${listing.id}`}
+                        >
                           <Edit className="mr-2 h-4 w-4" />
                           EDIT
                         </Link>
                       </Button>
                       {listing.website && (
                         <Button asChild variant="outline" size="sm">
-                          <Link href={listing.website} target="_blank" rel="noopener noreferrer">
+                          <Link
+                            href={listing.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
                             <ExternalLink className="mr-2 h-4 w-4" />
                             WEBSITE
                           </Link>

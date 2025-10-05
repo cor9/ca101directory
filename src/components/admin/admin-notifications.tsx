@@ -46,14 +46,16 @@ export function AdminNotifications({ className }: AdminNotificationsProps) {
   };
 
   const dismissNotification = (listingId: string) => {
-    setDismissed(prev => {
+    setDismissed((prev) => {
       const newSet = new Set(prev);
       newSet.add(listingId);
       return newSet;
     });
   };
 
-  const visibleListings = pendingListings.filter(listing => !dismissed.has(listing.id));
+  const visibleListings = pendingListings.filter(
+    (listing) => !dismissed.has(listing.id),
+  );
 
   if (isLoading) {
     return (
@@ -65,7 +67,9 @@ export function AdminNotifications({ className }: AdminNotificationsProps) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="bauhaus-body text-sm text-muted-foreground">Loading...</p>
+          <p className="bauhaus-body text-sm text-muted-foreground">
+            Loading...
+          </p>
         </CardContent>
       </Card>
     );
@@ -126,7 +130,9 @@ export function AdminNotifications({ className }: AdminNotificationsProps) {
                 size="sm"
                 className="bauhaus-btn-secondary text-xs"
               >
-                <Link href={`/dashboard/admin/listings?highlight=${listing.id}`}>
+                <Link
+                  href={`/dashboard/admin/listings?highlight=${listing.id}`}
+                >
                   <Eye className="h-3 w-3 mr-1" />
                   REVIEW
                 </Link>

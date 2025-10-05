@@ -1897,3 +1897,29 @@ The blog section is now fully implemented with a professional dark theme, catego
 
 **Files:**
 - `src/lib/image-urls.ts`
+
+---
+
+## ✅ Invisible Text on List-Your-Business Page (January 2025)
+
+**Decision:** Fix invisible text issues on `/list-your-business` page by using explicit inline styles instead of Tailwind classes.
+
+**Why:** Multiple components on the `/list-your-business` page had light text colors (`text-paper`, `text-bauhaus-charcoal`) that were invisible when rendered on cream-colored sections. The issue was caused by CSS specificity problems or Tailwind compilation issues where the color classes weren't being applied properly.
+
+**What changed:**
+- Replaced all problematic Tailwind color classes with explicit inline styles using `style={{ color: "#1e1f23" }}`
+- Fixed VendorPricing component text: "Choose the plan", "Get started", "Upgrade for", "Limited time"
+- Fixed VendorFAQ component text: "Everything you need to know"
+- Fixed VendorFinalCta component text: "Ready to grow" and "Join thousands"
+- Used consistent dark color `#1e1f23` (charcoal) for maximum contrast on cream backgrounds
+
+**Impact:**
+- All text on `/list-your-business` page is now clearly visible with proper contrast
+- Eliminated invisible text issues that were confusing users
+- Maintained consistent dark text on light backgrounds across all cream sections
+- Used inline styles to ensure maximum CSS specificity and override any conflicting rules
+
+**Files:**
+- `src/components/vendor/vendor-pricing.tsx`
+- `src/components/vendor/vendor-faq.tsx` 
+- `src/components/vendor/vendor-final-cta.tsx`

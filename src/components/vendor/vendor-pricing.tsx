@@ -7,7 +7,10 @@ export default function VendorPricing() {
         <h2 className="bauhaus-heading text-3xl mb-4 text-bauhaus-charcoal">
           Pricing Plans
         </h2>
-        <p className="bauhaus-body text-lg max-w-2xl mx-auto" style={{ color: "#1e1f23" }}>
+        <p
+          className="bauhaus-body text-lg max-w-2xl mx-auto"
+          style={{ color: "#1e1f23" }}
+        >
           Choose the plan that works best for your business
         </p>
       </div>

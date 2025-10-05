@@ -9,7 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import {
   Select,
   SelectContent,
@@ -343,31 +342,42 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
 
             <div>
               <Label htmlFor="description">What You Offer *</Label>
-              <RichTextEditor
+              <Textarea
+                id="description"
                 value={formData.description}
-                onChange={(value) => handleInputChange("description", value)}
+                onChange={(e) =>
+                  handleInputChange("description", e.target.value)
+                }
                 placeholder="Describe your services..."
-                minHeight="120px"
+                rows={6}
+                required
+                className="min-h-[120px]"
               />
             </div>
 
             <div>
               <Label htmlFor="introduction">Who Is It For?</Label>
-              <RichTextEditor
+              <Textarea
+                id="introduction"
                 value={formData.introduction}
-                onChange={(value) => handleInputChange("introduction", value)}
+                onChange={(e) =>
+                  handleInputChange("introduction", e.target.value)
+                }
                 placeholder="Describe your target audience..."
-                minHeight="100px"
+                rows={4}
+                className="min-h-[100px]"
               />
             </div>
 
             <div>
               <Label htmlFor="unique">Why Is It Unique?</Label>
-              <RichTextEditor
+              <Textarea
+                id="unique"
                 value={formData.unique}
-                onChange={(value) => handleInputChange("unique", value)}
+                onChange={(e) => handleInputChange("unique", e.target.value)}
                 placeholder="What makes you stand out..."
-                minHeight="100px"
+                rows={4}
+                className="min-h-[100px]"
               />
             </div>
           </CardContent>
@@ -589,7 +599,9 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
             </div>
 
             <div>
-              <Label className="text-gray-900 font-medium">Gallery Images (Max 4)</Label>
+              <Label className="text-gray-900 font-medium">
+                Gallery Images (Max 4)
+              </Label>
               <GalleryUpload
                 maxImages={4}
                 currentImages={galleryImages}
@@ -646,11 +658,13 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
 
             <div>
               <Label htmlFor="notes">Additional Notes</Label>
-              <RichTextEditor
+              <Textarea
+                id="notes"
                 value={formData.notes}
-                onChange={(value) => handleInputChange("notes", value)}
+                onChange={(e) => handleInputChange("notes", e.target.value)}
                 placeholder="Any additional information..."
-                minHeight="100px"
+                rows={4}
+                className="min-h-[100px]"
               />
             </div>
           </CardContent>

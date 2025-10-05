@@ -7,6 +7,7 @@ import { ProfileImage } from "@/components/listing/listing-images";
 import { ReviewForm } from "@/components/reviews/ReviewForm";
 import { ReviewsDisplay } from "@/components/reviews/ReviewsDisplay";
 import { Button } from "@/components/ui/button";
+import { RichTextDisplay } from "@/components/ui/rich-text-display";
 import { StarRating } from "@/components/ui/star-rating";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import { siteConfig } from "@/config/site";
@@ -313,12 +314,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
               </div>
 
               {/* Description */}
-              <p
+              <RichTextDisplay
+                content={listing.what_you_offer}
                 className="text-lg leading-relaxed mb-6"
-                style={{ color: "#0C1A2B" }}
-              >
-                {listing.what_you_offer}
-              </p>
+              />
 
               {/* Action Buttons */}
               <div className="flex gap-4">
@@ -372,34 +371,28 @@ export default async function ListingPage({ params }: ListingPageProps) {
               >
                 About This Professional
               </h2>
-              <p
+              <RichTextDisplay
+                content={listing.what_you_offer}
                 className="text-base leading-relaxed mb-6"
-                style={{ color: "#0C1A2B" }}
-              >
-                {listing.what_you_offer}
-              </p>
+              />
 
               {listing.who_is_it_for && (
                 <div className="mb-6">
                   <h3>Who Is It For</h3>
-                  <p
+                  <RichTextDisplay
+                    content={listing.who_is_it_for}
                     className="text-base leading-relaxed"
-                    style={{ color: "#0C1A2B" }}
-                  >
-                    {listing.who_is_it_for}
-                  </p>
+                  />
                 </div>
               )}
 
               {listing.why_is_it_unique && (
                 <div className="mb-6">
                   <h3>What Makes This Unique</h3>
-                  <p
+                  <RichTextDisplay
+                    content={listing.why_is_it_unique}
                     className="text-base leading-relaxed"
-                    style={{ color: "#0C1A2B" }}
-                  >
-                    {listing.why_is_it_unique}
-                  </p>
+                  />
                 </div>
               )}
 
@@ -418,12 +411,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
               {listing.extras_notes && (
                 <div>
                   <h3>Additional Notes</h3>
-                  <p
+                  <RichTextDisplay
+                    content={listing.extras_notes}
                     className="text-base leading-relaxed"
-                    style={{ color: "#0C1A2B" }}
-                  >
-                    {listing.extras_notes}
-                  </p>
+                  />
                 </div>
               )}
             </div>

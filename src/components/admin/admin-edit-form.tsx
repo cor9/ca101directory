@@ -160,18 +160,19 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
   const statusOptions = ["Live", "Pending", "Draft", "Archived"];
 
   return (
+    <div className="text-gray-900">
     <form onSubmit={handleSubmit} className="space-y-8">
       {/* Admin Status Card */}
       <Card className="border-yellow-200 bg-yellow-50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Badge variant="secondary">Admin Edit Mode</Badge>
-            <span className="text-lg">Listing Status</span>
+          <CardTitle className="flex items-center gap-2 text-gray-900">
+            <Badge variant="secondary" className="bg-blue-100 text-blue-800">Admin Edit Mode</Badge>
+            <span className="text-lg text-gray-900">Listing Status</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
-            <Label htmlFor="status">Status</Label>
+            <Label htmlFor="status" className="text-gray-900 font-medium">Status</Label>
             <Select
               value={formData.status}
               onValueChange={(value) => handleInputChange("status", value)}
@@ -190,7 +191,7 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
           </div>
 
           <div>
-            <Label htmlFor="plan">Plan</Label>
+            <Label htmlFor="plan" className="text-gray-900 font-medium">Plan</Label>
             <Select
               value={formData.plan}
               onValueChange={(value) => handleInputChange("plan", value)}
@@ -216,7 +217,7 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
                 handleInputChange("comped", checked === true)
               }
             />
-            <Label htmlFor="comped">Comped</Label>
+            <Label htmlFor="comped" className="text-gray-900 font-medium">Comped</Label>
           </div>
 
           <div className="flex items-center space-x-2">
@@ -227,7 +228,7 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
                 handleInputChange("featured", checked === true)
               }
             />
-            <Label htmlFor="featured">Featured</Label>
+            <Label htmlFor="featured" className="text-gray-900 font-medium">Featured</Label>
           </div>
 
           <div className="flex items-center space-x-2">
@@ -238,7 +239,7 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
                 handleInputChange("active", checked === true)
               }
             />
-            <Label htmlFor="active">Active</Label>
+            <Label htmlFor="active" className="text-gray-900 font-medium">Active</Label>
           </div>
         </CardContent>
       </Card>
@@ -246,7 +247,7 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
       {/* Basic Information */}
       <Card>
         <CardHeader>
-          <CardTitle>Basic Information</CardTitle>
+          <CardTitle className="text-gray-900">Basic Information</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
@@ -312,11 +313,11 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
       {/* Contact Information */}
       <Card>
         <CardHeader>
-          <CardTitle>Contact Information</CardTitle>
+          <CardTitle className="text-gray-900">Contact Information</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="text-gray-900 font-medium">Email</Label>
             <Input
               id="email"
               type="email"
@@ -562,5 +563,6 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
         </CardContent>
       </Card>
     </form>
+    </div>
   );
 }

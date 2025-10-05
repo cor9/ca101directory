@@ -52,10 +52,10 @@ export default function VendorPricing() {
 
       {/* Founding Vendor Deals */}
       <div className="text-center">
-        <h3 className="bauhaus-heading text-2xl text-paper mb-2">
+        <h3 className="bauhaus-heading text-2xl text-bauhaus-charcoal mb-2">
           Founding Vendor Deals
         </h3>
-        <p className="bauhaus-body text-paper/90 mb-8">
+        <p className="bauhaus-body text-bauhaus-charcoal/90 mb-8">
           Limited time offers for early adopters
         </p>
         <stripe-pricing-table

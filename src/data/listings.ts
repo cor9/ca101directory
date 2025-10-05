@@ -71,7 +71,7 @@ function filterDuplicateListings(listings: Listing[]): Listing[] {
   const filteredListings: Listing[] = [];
   const planPriority = { 'Pro': 4, 'Founding Pro': 4, 'Standard': 3, 'Founding Standard': 3, 'Free': 1 };
   
-  for (const group of listingGroups.values()) {
+  for (const group of Array.from(listingGroups.values())) {
     if (group.length === 1) {
       filteredListings.push(group[0]);
     } else {

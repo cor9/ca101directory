@@ -75,6 +75,9 @@ export const publicRoutes = [
   "/loading(/.*)?",
   "/home2(/.*)?",
   "/home3(/.*)?",
+  
+  // debug authentication (temporary)
+  "/debug-auth",
 ];
 
 /**

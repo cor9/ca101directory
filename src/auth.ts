@@ -1,5 +1,6 @@
 import authConfig from "@/auth.config";
 import type { UserRole } from "@/types/user-role";
+import { createServerClient } from "@/lib/supabase";
 import NextAuth from "next-auth";
 
 /**
@@ -55,12 +56,33 @@ export const {
     jwt: async ({ token, user, account }) => {
       console.log("Auth JWT:", {
         user: user?.email,
+        role: (user as any)?.role,
         account: account?.provider,
+        tokenSub: token.sub,
       });
 
       if (user) {
-        token.role = (user as any).role || "parent";
+        // Use the actual role from database, don't default to parent
+        token.role = (user as any).role || "guest";
         token.id = user.id;
+        console.log("JWT token role set to:", token.role);
+      } else if (token.sub) {
+        // On token refresh, fetch fresh role from database
+        try {
+          const supabase = createServerClient();
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("role")
+            .eq("id", token.sub)
+            .single();
+          
+          if (profile?.role) {
+            token.role = profile.role;
+            console.log("JWT token role refreshed to:", token.role);
+          }
+        } catch (error) {
+          console.error("Error refreshing user role:", error);
+        }
       }
 
       return token;

@@ -66,12 +66,14 @@ export async function POST(request: NextRequest) {
           throw claimError;
         }
 
-        // 2. Update listing
+        // 2. Update listing with plan and claim status
         const { error: listingError } = await supabase
           .from("listings")
           .update({
             owner_id: vendorId,
             claimed: true,
+            plan: plan,
+            updated_at: new Date().toISOString(),
           })
           .eq("id", listingId);
 

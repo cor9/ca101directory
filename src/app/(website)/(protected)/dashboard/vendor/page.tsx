@@ -224,15 +224,15 @@ export default async function VendorDashboard() {
                               badgeText = "Pro";
                               badgeClassName =
                                 "border-blue-500 text-blue-600 bg-blue-50";
-                            } else if (listing.plan === "pro") {
+                            } else if (listing.plan === "Pro") {
                               badgeText = "Pro";
                               badgeClassName =
                                 "border-blue-500 text-blue-600 bg-blue-50";
-                            } else if (listing.plan === "standard") {
+                            } else if (listing.plan === "Standard") {
                               badgeText = "Standard";
                               badgeClassName =
                                 "border-gray-500 text-gray-600 bg-gray-50";
-                            } else if (listing.plan === "premium") {
+                            } else if (listing.plan === "Premium") {
                               badgeText = "Premium";
                               badgeClassName =
                                 "border-orange-500 text-orange-600 bg-orange-50";

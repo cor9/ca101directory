@@ -61,7 +61,7 @@ export default async function HomeFeaturedListings() {
   try {
     const supabaseListings = await getPublicListings();
     listings = supabaseListings
-      .filter((listing) => listing.plan === "pro" || listing.featured === true) // Show pro listings or featured ones
+      .filter((listing) => listing.plan === "Pro" || listing.comped === true || listing.featured === true) // Show Pro, comped, or featured listings
       .slice(0, 3) // Limit to 3
       .map((listing) => ({
         id: listing.id,
@@ -73,7 +73,7 @@ export default async function HomeFeaturedListings() {
         website: listing.website || "#",
         category: listing.categories?.[0] || "Acting Professional", // categories is now an array
         tags: listing.age_range || [], // age_range is now an array
-        featured: listing.featured || listing.plan === "pro",
+        featured: listing.featured || listing.plan === "Pro" || listing.comped === true,
       }));
   } catch (error) {
     console.error("Error fetching featured listings:", error);

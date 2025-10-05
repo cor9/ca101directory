@@ -171,15 +171,15 @@ export default async function AdminListingsPage() {
                               badgeText = "Pro";
                               badgeClassName =
                                 "text-xs bg-brand-blue text-white";
-                            } else if (listing.plan === "pro") {
+                            } else if (listing.plan === "Pro") {
                               badgeText = "Pro";
                               badgeClassName =
                                 "text-xs bg-brand-blue text-white";
-                            } else if (listing.plan === "standard") {
+                            } else if (listing.plan === "Standard") {
                               badgeText = "Standard";
                               badgeClassName =
                                 "text-xs bg-gray-100 text-gray-800";
-                            } else if (listing.plan === "premium") {
+                            } else if (listing.plan === "Premium") {
                               badgeText = "Featured";
                               badgeClassName =
                                 "text-xs bg-brand-orange text-white";

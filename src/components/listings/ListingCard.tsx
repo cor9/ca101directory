@@ -120,15 +120,15 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
                     badgeText = "Pro";
                     badgeVariant = "default";
                     badgeClassName = "text-xs bg-primary-orange text-paper";
-                  } else if (listing.plan === "pro") {
+                  } else if (listing.plan === "Pro") {
                     badgeText = "Pro";
                     badgeVariant = "default";
                     badgeClassName = "text-xs bg-primary-orange text-paper";
-                  } else if (listing.plan === "standard") {
+                  } else if (listing.plan === "Standard") {
                     badgeText = "Standard";
                     badgeVariant = "secondary";
                     badgeClassName = "text-xs bg-highlight text-ink";
-                  } else if (listing.plan === "premium") {
+                  } else if (listing.plan === "Premium") {
                     badgeText = "Featured";
                     badgeVariant = "default";
                     badgeClassName = "text-xs bg-primary-orange text-paper";

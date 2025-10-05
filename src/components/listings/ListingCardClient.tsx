@@ -115,14 +115,14 @@ export function ListingCardClient({
               if (listing.comped) {
                 badgeText = "Pro";
                 badgeClassName = "text-xs font-medium bg-retro-blue text-cream";
-              } else if (listing.plan === "pro") {
+              } else if (listing.plan === "Pro") {
                 badgeText = "Pro";
                 badgeClassName = "text-xs font-medium bg-retro-blue text-cream";
-              } else if (listing.plan === "standard") {
+              } else if (listing.plan === "Standard") {
                 badgeText = "Standard";
                 badgeClassName =
                   "text-xs font-medium bg-mustard-gold text-cream";
-              } else if (listing.plan === "premium") {
+              } else if (listing.plan === "Premium") {
                 badgeText = "Featured";
                 badgeClassName = "text-xs font-medium bg-tomato-red text-cream";
               }

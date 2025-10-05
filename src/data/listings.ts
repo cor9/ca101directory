@@ -50,6 +50,46 @@ export type Listing = {
   updated_at: string | null;
 };
 
+/**
+ * Filter out duplicate free listings when user has upgraded
+ */
+function filterDuplicateListings(listings: Listing[]): Listing[] {
+  // Group listings by owner_id and listing_name
+  const listingGroups = new Map<string, Listing[]>();
+  
+  for (const listing of listings) {
+    if (!listing.owner_id || !listing.listing_name) continue;
+    
+    const key = `${listing.owner_id}-${listing.listing_name.toLowerCase().trim()}`;
+    if (!listingGroups.has(key)) {
+      listingGroups.set(key, []);
+    }
+    listingGroups.get(key)!.push(listing);
+  }
+  
+  // For each group, keep only the highest plan listing
+  const filteredListings: Listing[] = [];
+  const planPriority = { 'Pro': 4, 'Founding Pro': 4, 'Standard': 3, 'Founding Standard': 3, 'Free': 1 };
+  
+  for (const group of listingGroups.values()) {
+    if (group.length === 1) {
+      filteredListings.push(group[0]);
+    } else {
+      // Sort by plan priority (highest first) and keep the best one
+      const sortedGroup = group.sort((a, b) => {
+        const aPriority = planPriority[a.plan as keyof typeof planPriority] || 1;
+        const bPriority = planPriority[b.plan as keyof typeof planPriority] || 1;
+        return bPriority - aPriority;
+      });
+      filteredListings.push(sortedGroup[0]);
+      
+      console.log(`Filtered duplicate listings for ${group[0].listing_name}: kept ${sortedGroup[0].plan}, hidden ${group.slice(1).map(l => l.plan).join(', ')}`);
+    }
+  }
+  
+  return filteredListings;
+}
+
 export async function getPublicListings(params?: {
   q?: string;
   state?: string;
@@ -108,8 +148,11 @@ export async function getPublicListings(params?: {
     throw error;
   }
 
-  console.log("getPublicListings: Returning", data?.length || 0, "listings");
-  return data as Listing[];
+  // Filter out duplicate free listings when user has upgraded
+  const filteredData = filterDuplicateListings(data as Listing[]);
+
+  console.log("getPublicListings: Returning", filteredData?.length || 0, "listings after duplicate filtering");
+  return filteredData;
 }
 
 export async function getListingById(id: string) {

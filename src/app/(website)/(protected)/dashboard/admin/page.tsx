@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { AdminNotifications } from "@/components/admin/admin-notifications";
 import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { siteConfig } from "@/config/site";
@@ -51,6 +52,9 @@ export default async function AdminDashboard() {
               for Child Actor 101 Directory.
             </p>
           </div>
+
+          {/* Admin Notifications */}
+          <AdminNotifications />
 
           {/* Platform Stats */}
           <div className="grid gap-4 md:grid-cols-4">

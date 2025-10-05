@@ -90,8 +90,8 @@ export const {
 
     // Session callback - add user data to session
     session: async ({ session, token }) => {
-      console.log("Auth session callback:", { 
-        user: session.user?.email, 
+      console.log("Auth session callback:", {
+        user: session.user?.email,
         tokenRole: token.role,
         tokenId: token.id,
       });

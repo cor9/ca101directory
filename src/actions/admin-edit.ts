@@ -85,7 +85,7 @@ export async function adminUpdateListing(
       phone: formData.phone || null,
       city: formData.city || null,
       state: formData.state || null,
-      zip: formData.zip ? parseInt(formData.zip) : null,
+      zip: formData.zip ? Number.parseInt(formData.zip) : null,
       region: formData.region || null,
       bond_number: formData.bondNumber || null,
       is_active: formData.active,

@@ -437,10 +437,14 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
           <div>
             <Label>Profile Image</Label>
             <ImageUpload
-              imageId={formData.imageId}
-              onImageChange={(imageId) => handleInputChange("imageId", imageId)}
-              onUploadStart={() => setIsImageUploading(true)}
-              onUploadEnd={() => setIsImageUploading(false)}
+              currentImageUrl={formData.imageId}
+              onUploadChange={(status) => {
+                setIsImageUploading(status.isUploading);
+                if (status.imageId) {
+                  handleInputChange("imageId", status.imageId);
+                }
+              }}
+              type="image"
             />
           </div>
 

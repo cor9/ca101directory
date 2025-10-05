@@ -17,32 +17,42 @@ export const metadata = constructMetadata({
 
 export default function VendorLandingPage() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-[color:var(--navy)] bg-[radial-gradient(1200px_600px_at_70%_-10%,#122338,transparent)]">
       {/* 1. Hero (Vendor-Facing) */}
       <Container className="mt-8 mb-20">
         <VendorHero />
       </Container>
 
       {/* 2. Why List With Us */}
-      <VendorValueProps />
+      <section className="bg-[color:var(--navy)] py-16">
+        <VendorValueProps />
+      </section>
 
       {/* 3. Pricing Plans */}
-      <Container className="py-16">
-        <VendorPricing />
-      </Container>
+      <section className="bg-[color:var(--cream)] py-16">
+        <Container>
+          <VendorPricing />
+        </Container>
+      </section>
 
       {/* 4. Social Proof */}
-      <Container className="py-16">
-        <VendorTestimonials />
-      </Container>
+      <section className="bg-[color:var(--navy)] py-16">
+        <Container>
+          <VendorTestimonials />
+        </Container>
+      </section>
 
       {/* 5. FAQ */}
-      <VendorFAQ />
+      <section className="bg-[color:var(--cream)]">
+        <VendorFAQ />
+      </section>
 
       {/* 6. Final CTA Banner */}
-      <Container className="py-16">
-        <VendorFinalCta />
-      </Container>
+      <section className="bg-[color:var(--navy)] py-16">
+        <Container>
+          <VendorFinalCta />
+        </Container>
+      </section>
     </div>
   );
 }

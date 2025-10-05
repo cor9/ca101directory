@@ -1,11 +1,9 @@
-import { auth } from "@/auth";
 import { AdminNotifications } from "@/components/admin/admin-notifications";
 import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { siteConfig } from "@/config/site";
 import { getPublicListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
-import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
   title: "Admin Dashboard - Child Actor 101 Directory",
@@ -23,12 +21,9 @@ export const metadata = constructMetadata({
  * - Platform analytics
  */
 export default async function AdminDashboard() {
-  const session = await auth();
-
-  if (!session?.user) {
-    redirect("/auth/login?next=/dashboard/admin");
-  }
-
+  // Remove server-side auth check - let DashboardGuard handle it
+  // This fixes server/client session mismatch issues
+  
   // Get platform data for stats
   const allListings = await getPublicListings();
   const pendingListings = allListings.filter(

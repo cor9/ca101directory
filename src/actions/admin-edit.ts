@@ -76,7 +76,7 @@ export async function adminUpdateListing(
       format: formData.format || null,
       extras_notes: formData.notes || null,
       profile_image: formData.imageId || null,
-      age_range: formData.tags,
+      tags: formData.tags, // Save to proper tags field
       categories: formData.categories,
       plan: formData.plan,
       ca_permit_required: formData.performerPermit,

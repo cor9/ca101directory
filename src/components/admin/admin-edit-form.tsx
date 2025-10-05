@@ -56,7 +56,7 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
     format: normalizeFormat(listing.format),
     notes: listing.extras_notes || "",
     imageId: listing.profile_image || "",
-    tags: listing.age_range || [],
+    tags: listing.tags || [], // Use proper tags field
     categories: listing.categories || [],
     plan: listing.plan || "Free",
     performerPermit: listing.ca_permit_required || false,
@@ -146,238 +146,245 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
     }
   };
 
-  const availableTags = [
-    "0-2 years",
-    "3-5 years",
-    "6-8 years",
-    "9-12 years",
-    "13-17 years",
-    "18+ years",
-  ];
-
   const formatOptions = ["In-person", "Online", "Hybrid"];
   const planOptions = ["Free", "Standard", "Pro", "Premium"];
   const statusOptions = ["Live", "Pending", "Draft", "Archived"];
 
   return (
     <div className="text-gray-900">
-    <form onSubmit={handleSubmit} className="space-y-8">
-      {/* Admin Status Card */}
-      <Card className="border-yellow-200 bg-yellow-50">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-gray-900">
-            <Badge variant="secondary" className="bg-blue-100 text-blue-800">Admin Edit Mode</Badge>
-            <span className="text-lg text-gray-900">Listing Status</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div>
-            <Label htmlFor="status" className="text-gray-900 font-medium">Status</Label>
-            <Select
-              value={formData.status}
-              onValueChange={(value) => handleInputChange("status", value)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select status" />
-              </SelectTrigger>
-              <SelectContent>
-                {statusOptions.map((status) => (
-                  <SelectItem key={status} value={status}>
-                    {status}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+      <form onSubmit={handleSubmit} className="space-y-8">
+        {/* Admin Status Card */}
+        <Card className="border-yellow-200 bg-yellow-50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-gray-900">
+              <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                Admin Edit Mode
+              </Badge>
+              <span className="text-lg text-gray-900">Listing Status</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div>
+              <Label htmlFor="status" className="text-gray-900 font-medium">
+                Status
+              </Label>
+              <Select
+                value={formData.status}
+                onValueChange={(value) => handleInputChange("status", value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  {statusOptions.map((status) => (
+                    <SelectItem key={status} value={status}>
+                      {status}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="plan" className="text-gray-900 font-medium">
+                Plan
+              </Label>
+              <Select
+                value={formData.plan}
+                onValueChange={(value) => handleInputChange("plan", value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select plan" />
+                </SelectTrigger>
+                <SelectContent>
+                  {planOptions.map((plan) => (
+                    <SelectItem key={plan} value={plan}>
+                      {plan}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="comped"
+                checked={formData.comped}
+                onCheckedChange={(checked) =>
+                  handleInputChange("comped", checked === true)
+                }
+              />
+              <Label htmlFor="comped" className="text-gray-900 font-medium">
+                Comped
+              </Label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="featured"
+                checked={formData.featured}
+                onCheckedChange={(checked) =>
+                  handleInputChange("featured", checked === true)
+                }
+              />
+              <Label htmlFor="featured" className="text-gray-900 font-medium">
+                Featured
+              </Label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="active"
+                checked={formData.active}
+                onCheckedChange={(checked) =>
+                  handleInputChange("active", checked === true)
+                }
+              />
+              <Label htmlFor="active" className="text-gray-900 font-medium">
+                Active
+              </Label>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Basic Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-gray-900">Basic Information</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="name">Business/Service Name *</Label>
+              <Input
+                id="name"
+                value={formData.name}
+                onChange={(e) => handleInputChange("name", e.target.value)}
+                placeholder="Enter business name"
+                required
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="link">Website URL</Label>
+              <Input
+                id="link"
+                type="url"
+                value={formData.link}
+                onChange={(e) => handleInputChange("link", e.target.value)}
+                placeholder="https://"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="description">What You Offer *</Label>
+              <Textarea
+                id="description"
+                value={formData.description}
+                onChange={(e) =>
+                  handleInputChange("description", e.target.value)
+                }
+                placeholder="Describe your services..."
+                rows={4}
+                required
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="introduction">Who Is It For?</Label>
+              <Textarea
+                id="introduction"
+                value={formData.introduction}
+                onChange={(e) =>
+                  handleInputChange("introduction", e.target.value)
+                }
+                placeholder="Describe your target audience..."
+                rows={3}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="unique">Why Is It Unique?</Label>
+              <Textarea
+                id="unique"
+                value={formData.unique}
+                onChange={(e) => handleInputChange("unique", e.target.value)}
+                placeholder="What makes you stand out..."
+                rows={3}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Contact Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-gray-900">Contact Information</CardTitle>
+          </CardHeader>
+          <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="email" className="text-gray-900 font-medium">
+                Email
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => handleInputChange("email", e.target.value)}
+                placeholder="contact@business.com"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="phone">Phone</Label>
+              <Input
+                id="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={(e) => handleInputChange("phone", e.target.value)}
+                placeholder="(555) 123-4567"
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Location */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Location</CardTitle>
+          </CardHeader>
+          <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <Label htmlFor="city">City</Label>
+              <Input
+                id="city"
+                value={formData.city}
+                onChange={(e) => handleInputChange("city", e.target.value)}
+                placeholder="Los Angeles"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="state">State</Label>
+              <Input
+                id="state"
+                value={formData.state}
+                onChange={(e) => handleInputChange("state", e.target.value)}
+                placeholder="CA"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="zip">ZIP Code</Label>
+              <Input
+                id="zip"
+                value={formData.zip}
+                onChange={(e) => handleInputChange("zip", e.target.value)}
+                placeholder="90210"
+              />
+            </div>
 
           <div>
-            <Label htmlFor="plan" className="text-gray-900 font-medium">Plan</Label>
-            <Select
-              value={formData.plan}
-              onValueChange={(value) => handleInputChange("plan", value)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select plan" />
-              </SelectTrigger>
-              <SelectContent>
-                {planOptions.map((plan) => (
-                  <SelectItem key={plan} value={plan}>
-                    {plan}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="comped"
-              checked={formData.comped}
-              onCheckedChange={(checked) =>
-                handleInputChange("comped", checked === true)
-              }
-            />
-            <Label htmlFor="comped" className="text-gray-900 font-medium">Comped</Label>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="featured"
-              checked={formData.featured}
-              onCheckedChange={(checked) =>
-                handleInputChange("featured", checked === true)
-              }
-            />
-            <Label htmlFor="featured" className="text-gray-900 font-medium">Featured</Label>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="active"
-              checked={formData.active}
-              onCheckedChange={(checked) =>
-                handleInputChange("active", checked === true)
-              }
-            />
-            <Label htmlFor="active" className="text-gray-900 font-medium">Active</Label>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Basic Information */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-gray-900">Basic Information</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <Label htmlFor="name">Business/Service Name *</Label>
-            <Input
-              id="name"
-              value={formData.name}
-              onChange={(e) => handleInputChange("name", e.target.value)}
-              placeholder="Enter business name"
-              required
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="link">Website URL</Label>
-            <Input
-              id="link"
-              type="url"
-              value={formData.link}
-              onChange={(e) => handleInputChange("link", e.target.value)}
-              placeholder="https://"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="description">What You Offer *</Label>
-            <Textarea
-              id="description"
-              value={formData.description}
-              onChange={(e) => handleInputChange("description", e.target.value)}
-              placeholder="Describe your services..."
-              rows={4}
-              required
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="introduction">Who Is It For?</Label>
-            <Textarea
-              id="introduction"
-              value={formData.introduction}
-              onChange={(e) =>
-                handleInputChange("introduction", e.target.value)
-              }
-              placeholder="Describe your target audience..."
-              rows={3}
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="unique">Why Is It Unique?</Label>
-            <Textarea
-              id="unique"
-              value={formData.unique}
-              onChange={(e) => handleInputChange("unique", e.target.value)}
-              placeholder="What makes you stand out..."
-              rows={3}
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Contact Information */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-gray-900">Contact Information</CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="email" className="text-gray-900 font-medium">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => handleInputChange("email", e.target.value)}
-              placeholder="contact@business.com"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="phone">Phone</Label>
-            <Input
-              id="phone"
-              type="tel"
-              value={formData.phone}
-              onChange={(e) => handleInputChange("phone", e.target.value)}
-              placeholder="(555) 123-4567"
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Location */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Location</CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <Label htmlFor="city">City</Label>
-            <Input
-              id="city"
-              value={formData.city}
-              onChange={(e) => handleInputChange("city", e.target.value)}
-              placeholder="Los Angeles"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="state">State</Label>
-            <Input
-              id="state"
-              value={formData.state}
-              onChange={(e) => handleInputChange("state", e.target.value)}
-              placeholder="CA"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="zip">ZIP Code</Label>
-            <Input
-              id="zip"
-              value={formData.zip}
-              onChange={(e) => handleInputChange("zip", e.target.value)}
-              placeholder="90210"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="region">Region</Label>
+            <Label htmlFor="region" className="text-gray-900 font-medium">Region</Label>
             <Input
               id="region"
               value={formData.region}
@@ -386,56 +393,34 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
             />
           </div>
 
-          <div>
-            <Label htmlFor="format">Format</Label>
-            <Select
-              value={formData.format}
-              onValueChange={(value) => handleInputChange("format", value)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select format" />
-              </SelectTrigger>
-              <SelectContent>
-                {formatOptions.map((format) => (
-                  <SelectItem key={format} value={format}>
-                    {format}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Age Groups */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Age Groups Served</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-2">
-            {availableTags.map((tag) => (
-              <Button
-                key={tag}
-                type="button"
-                variant={formData.tags.includes(tag) ? "default" : "outline"}
-                size="sm"
-                onClick={() => handleTagToggle(tag)}
+            <div>
+              <Label htmlFor="format" className="text-gray-900 font-medium">Format</Label>
+              <Select
+                value={formData.format}
+                onValueChange={(value) => handleInputChange("format", value)}
               >
-                {tag}
-              </Button>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select format" />
+                </SelectTrigger>
+                <SelectContent>
+                  {formatOptions.map((format) => (
+                    <SelectItem key={format} value={format}>
+                      {format}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
 
       {/* Categories */}
       <Card>
         <CardHeader>
-          <CardTitle>Categories</CardTitle>
+          <CardTitle className="text-gray-900">Categories</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {categories.map((category) => (
               <div key={category.id} className="flex items-center space-x-2">
                 <Checkbox
@@ -443,7 +428,7 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
                   checked={formData.categories.includes(category.id)}
                   onCheckedChange={() => handleCategoryToggle(category.id)}
                 />
-                <Label htmlFor={category.id} className="text-sm">
+                <Label htmlFor={category.id} className="text-sm text-gray-900">
                   {category.name}
                 </Label>
               </div>
@@ -452,117 +437,179 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
         </CardContent>
       </Card>
 
-      {/* Images */}
+      {/* Service Format Tags */}
       <Card>
         <CardHeader>
-          <CardTitle>Images</CardTitle>
+          <CardTitle className="text-gray-900">Service Format</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <Label>Profile Image</Label>
-            <ImageUpload
-              currentImageUrl={formData.imageId}
-              onUploadChange={(status) => {
-                setIsImageUploading(status.isUploading);
-                if (status.imageId) {
-                  handleInputChange("imageId", status.imageId);
-                }
-              }}
-              type="image"
-            />
-          </div>
-
-          <div>
-            <Label>Gallery Images</Label>
-            <GalleryUpload
-              maxImages={10}
-              currentImages={galleryImages}
-              onImagesChange={setGalleryImages}
-              onUploadingChange={setIsGalleryUploading}
-            />
+        <CardContent>
+          <div className="space-y-2">
+            {["online", "in-person", "hybrid"].map((tag) => (
+              <div key={tag} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`format-${tag}`}
+                  checked={formData.tags.includes(tag)}
+                  onCheckedChange={() => handleTagToggle(tag)}
+                />
+                <Label htmlFor={`format-${tag}`} className="text-sm text-gray-900 capitalize">
+                  {tag.replace("-", " ")}
+                </Label>
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>
 
-      {/* Additional Information */}
+      {/* Location/Region Tags */}
       <Card>
         <CardHeader>
-          <CardTitle>Additional Information</CardTitle>
+          <CardTitle className="text-gray-900">Location/Region</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="performerPermit"
-              checked={formData.performerPermit}
-              onCheckedChange={(checked) =>
-                handleInputChange("performerPermit", checked === true)
-              }
-            />
-            <Label htmlFor="performerPermit">
-              CA Performer Permit Required
-            </Label>
+        <CardContent>
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              "los-angeles",
+              "northern-california", 
+              "pnw",
+              "new-mexico",
+              "arizona",
+              "texas",
+              "chicago",
+              "atlanta-southeast",
+              "new-orleans",
+              "florida",
+              "new-york",
+              "northeast-wilmington",
+              "global-online",
+            ].map((tag) => (
+              <div key={tag} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`location-${tag}`}
+                  checked={formData.tags.includes(tag)}
+                  onCheckedChange={() => handleTagToggle(tag)}
+                />
+                <Label htmlFor={`location-${tag}`} className="text-sm text-gray-900 capitalize">
+                  {tag.replace("-", " ")}
+                </Label>
+              </div>
+            ))}
           </div>
+        </CardContent>
+      </Card>
 
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="bonded"
-              checked={formData.bonded}
-              onCheckedChange={(checked) =>
-                handleInputChange("bonded", checked === true)
-              }
-            />
-            <Label htmlFor="bonded">Bonded</Label>
-          </div>
-
-          {formData.bonded && (
+        {/* Images */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Images</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
             <div>
-              <Label htmlFor="bondNumber">Bond Number</Label>
-              <Input
-                id="bondNumber"
-                value={formData.bondNumber}
-                onChange={(e) =>
-                  handleInputChange("bondNumber", e.target.value)
-                }
-                placeholder="Enter bond number"
+              <Label>Profile Image</Label>
+              <ImageUpload
+                currentImageUrl={formData.imageId}
+                onUploadChange={(status) => {
+                  setIsImageUploading(status.isUploading);
+                  if (status.imageId) {
+                    handleInputChange("imageId", status.imageId);
+                  }
+                }}
+                type="image"
               />
             </div>
-          )}
 
-          <div>
-            <Label htmlFor="notes">Additional Notes</Label>
-            <Textarea
-              id="notes"
-              value={formData.notes}
-              onChange={(e) => handleInputChange("notes", e.target.value)}
-              placeholder="Any additional information..."
-              rows={3}
-            />
-          </div>
-        </CardContent>
-      </Card>
+            <div>
+              <Label>Gallery Images</Label>
+              <GalleryUpload
+                maxImages={10}
+                currentImages={galleryImages}
+                onImagesChange={setGalleryImages}
+                onUploadingChange={setIsGalleryUploading}
+              />
+            </div>
+          </CardContent>
+        </Card>
 
-      {/* Submit Buttons */}
-      <Card>
-        <CardContent className="pt-6">
-          <div className="flex gap-4">
-            <Button
-              type="submit"
-              disabled={isSubmitting || isImageUploading || isGalleryUploading}
-              className="flex-1"
-            >
-              {isSubmitting ? "Updating..." : "Update Listing"}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.push("/dashboard/admin/listings")}
-            >
-              Cancel
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    </form>
+        {/* Additional Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Additional Information</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="performerPermit"
+                checked={formData.performerPermit}
+                onCheckedChange={(checked) =>
+                  handleInputChange("performerPermit", checked === true)
+                }
+              />
+              <Label htmlFor="performerPermit">
+                CA Performer Permit Required
+              </Label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="bonded"
+                checked={formData.bonded}
+                onCheckedChange={(checked) =>
+                  handleInputChange("bonded", checked === true)
+                }
+              />
+              <Label htmlFor="bonded">Bonded</Label>
+            </div>
+
+            {formData.bonded && (
+              <div>
+                <Label htmlFor="bondNumber">Bond Number</Label>
+                <Input
+                  id="bondNumber"
+                  value={formData.bondNumber}
+                  onChange={(e) =>
+                    handleInputChange("bondNumber", e.target.value)
+                  }
+                  placeholder="Enter bond number"
+                />
+              </div>
+            )}
+
+            <div>
+              <Label htmlFor="notes">Additional Notes</Label>
+              <Textarea
+                id="notes"
+                value={formData.notes}
+                onChange={(e) => handleInputChange("notes", e.target.value)}
+                placeholder="Any additional information..."
+                rows={3}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Submit Buttons */}
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex gap-4">
+              <Button
+                type="submit"
+                disabled={
+                  isSubmitting || isImageUploading || isGalleryUploading
+                }
+                className="flex-1"
+              >
+                {isSubmitting ? "Updating..." : "Update Listing"}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => router.push("/dashboard/admin/listings")}
+              >
+                Cancel
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </form>
     </div>
   );
 }

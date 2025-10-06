@@ -77,6 +77,15 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
     approved_101: listing.is_approved_101 || false,
     claimed: listing.is_claimed || false,
     verification_status: listing.verification_status || "pending",
+    // Social media fields
+    facebook_url: listing.facebook_url || "",
+    instagram_url: listing.instagram_url || "",
+    tiktok_url: listing.tiktok_url || "",
+    youtube_url: listing.youtube_url || "",
+    linkedin_url: listing.linkedin_url || "",
+    blog_url: listing.blog_url || "",
+    custom_link_url: listing.custom_link_url || "",
+    custom_link_name: listing.custom_link_name || "",
   });
 
   const [galleryImages, setGalleryImages] = useState<string[]>(() => {
@@ -665,6 +674,127 @@ export function AdminEditForm({ listing, categories }: AdminEditFormProps) {
                 minHeight="100px"
                 className="mt-1"
               />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Social Media Links - Pro Users Only */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-gray-900">Social Media Links (Pro Users Only)</CardTitle>
+            <p className="text-sm text-gray-600">
+              Social media links are only displayed for Pro and Premium listings
+            </p>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="facebook_url" className="text-gray-900 font-medium flex items-center gap-2">
+                  <span className="text-blue-600">📘</span> Facebook URL
+                </Label>
+                <Input
+                  id="facebook_url"
+                  type="url"
+                  value={formData.facebook_url}
+                  onChange={(e) => handleInputChange("facebook_url", e.target.value)}
+                  placeholder="https://facebook.com/yourpage"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="instagram_url" className="text-gray-900 font-medium flex items-center gap-2">
+                  <span className="text-pink-500">📷</span> Instagram URL
+                </Label>
+                <Input
+                  id="instagram_url"
+                  type="url"
+                  value={formData.instagram_url}
+                  onChange={(e) => handleInputChange("instagram_url", e.target.value)}
+                  placeholder="https://instagram.com/yourusername"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="tiktok_url" className="text-gray-900 font-medium flex items-center gap-2">
+                  <span className="text-black">🎵</span> TikTok URL
+                </Label>
+                <Input
+                  id="tiktok_url"
+                  type="url"
+                  value={formData.tiktok_url}
+                  onChange={(e) => handleInputChange("tiktok_url", e.target.value)}
+                  placeholder="https://tiktok.com/@yourusername"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="youtube_url" className="text-gray-900 font-medium flex items-center gap-2">
+                  <span className="text-red-500">▶️</span> YouTube URL
+                </Label>
+                <Input
+                  id="youtube_url"
+                  type="url"
+                  value={formData.youtube_url}
+                  onChange={(e) => handleInputChange("youtube_url", e.target.value)}
+                  placeholder="https://youtube.com/@yourchannel"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="linkedin_url" className="text-gray-900 font-medium flex items-center gap-2">
+                  <span className="text-blue-700">💼</span> LinkedIn URL
+                </Label>
+                <Input
+                  id="linkedin_url"
+                  type="url"
+                  value={formData.linkedin_url}
+                  onChange={(e) => handleInputChange("linkedin_url", e.target.value)}
+                  placeholder="https://linkedin.com/in/yourprofile"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="blog_url" className="text-gray-900 font-medium flex items-center gap-2">
+                  <span className="text-gray-700">📝</span> Blog URL
+                </Label>
+                <Input
+                  id="blog_url"
+                  type="url"
+                  value={formData.blog_url}
+                  onChange={(e) => handleInputChange("blog_url", e.target.value)}
+                  placeholder="https://yourblog.com"
+                />
+              </div>
+            </div>
+
+            <div className="border-t pt-4">
+              <h4 className="text-gray-900 font-medium mb-3">Custom Link</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="custom_link_name" className="text-gray-900 font-medium">
+                    Link Name
+                  </Label>
+                  <Input
+                    id="custom_link_name"
+                    value={formData.custom_link_name}
+                    onChange={(e) => handleInputChange("custom_link_name", e.target.value)}
+                    placeholder="e.g., Portfolio, Website, IMDB"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="custom_link_url" className="text-gray-900 font-medium">
+                    Custom Link URL
+                  </Label>
+                  <Input
+                    id="custom_link_url"
+                    type="url"
+                    value={formData.custom_link_url}
+                    onChange={(e) => handleInputChange("custom_link_url", e.target.value)}
+                    placeholder="https://your-custom-link.com"
+                  />
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>

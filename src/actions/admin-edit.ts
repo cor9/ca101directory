@@ -34,6 +34,15 @@ export type AdminEditFormData = {
   claimed: boolean;
   verification_status: string;
   gallery: string[];
+  // Social media fields
+  facebook_url: string;
+  instagram_url: string;
+  tiktok_url: string;
+  youtube_url: string;
+  linkedin_url: string;
+  blog_url: string;
+  custom_link_url: string;
+  custom_link_name: string;
   isEdit?: boolean;
 };
 
@@ -100,6 +109,15 @@ export async function adminUpdateListing(
       verification_status: formData.verification_status,
       gallery: JSON.stringify(formData.gallery),
       has_gallery: formData.gallery.length > 0,
+      // Social media fields
+      facebook_url: formData.facebook_url || null,
+      instagram_url: formData.instagram_url || null,
+      tiktok_url: formData.tiktok_url || null,
+      youtube_url: formData.youtube_url || null,
+      linkedin_url: formData.linkedin_url || null,
+      blog_url: formData.blog_url || null,
+      custom_link_url: formData.custom_link_url || null,
+      custom_link_name: formData.custom_link_name || null,
       updated_at: new Date().toISOString(),
     };
 

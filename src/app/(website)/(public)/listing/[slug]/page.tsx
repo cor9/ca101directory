@@ -7,6 +7,7 @@ import { ProfileImage } from "@/components/listing/listing-images";
 import { ReviewForm } from "@/components/reviews/ReviewForm";
 import { ReviewsDisplay } from "@/components/reviews/ReviewsDisplay";
 import { Button } from "@/components/ui/button";
+import SocialMediaIcons from "@/components/ui/social-media-icons";
 import { StarRating } from "@/components/ui/star-rating";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import { siteConfig } from "@/config/site";
@@ -427,6 +428,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 </div>
               )}
             </div>
+
+            {/* Social Media Links - Pro Users Only */}
+            <SocialMediaIcons listing={listing} className="listing-card" />
 
             {/* Review Form */}
             {isReviewsEnabled() && (

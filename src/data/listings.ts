@@ -46,6 +46,16 @@ export type Listing = {
   featured: boolean | null;
   priority: number | null;
 
+  // Social media fields (Pro users only)
+  facebook_url: string | null;
+  instagram_url: string | null;
+  tiktok_url: string | null;
+  youtube_url: string | null;
+  linkedin_url: string | null;
+  blog_url: string | null;
+  custom_link_url: string | null;
+  custom_link_name: string | null;
+
   created_at: string | null;
   updated_at: string | null;
 };

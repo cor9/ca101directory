@@ -1958,3 +1958,78 @@ The blog section is now fully implemented with a professional dark theme, catego
 **Files:**
 - `FOR CURSOR/Guardrails.md` - Added comprehensive testing standards
 - `src/components/admin/admin-edit-form.css` - Fixed dropdown visibility with proper global selectors
+
+---
+
+## ✅ Blog URL Complete Integration (January 6, 2025)
+
+**Decision:** Implement complete end-to-end blog URL support across the entire application stack.
+
+**Why:** User requested adding blog to the list of social media links. Discovered that social media fields existed in admin interface but were missing from vendor submission forms, creating an incomplete feature.
+
+**What changed:**
+- **Database Level:** Added `blog_url` field to `listings` table via migration
+- **Schema & Validation:** Added all social media fields (including `blog_url`) to `SubmitSchema` with proper URL validation
+- **Vendor Submission:** Added complete "Social Media Links" section to `SupabaseSubmitForm` with all 6 platforms + custom link
+- **Backend Processing:** Updated `submitToSupabase` action to extract and save social media fields
+- **Frontend Display:** Added blog links to `SocialMediaIcons` component with green PenTool icon
+- **Admin Forms:** Blog URL already existed in admin edit interface
+
+**Complete social media feature now includes:**
+✅ Facebook, Instagram, TikTok, YouTube, LinkedIn, **Blog**, Custom Link
+✅ Available during vendor submission AND admin editing  
+✅ Proper database storage and retrieval
+✅ Public display with Pro/Premium plan restrictions
+
+**Impact:**
+- **No breaking changes** - purely additive feature
+- **Consistent UX** - follows existing social media patterns  
+- **Complete workflow** - end-to-end vendor submission to public display
+- **Future-proof** - extensible for additional social platforms
+
+**Files:**
+- `src/lib/schemas.ts` - Added social media fields to SubmitSchema
+- `src/actions/submit-supabase.ts` - Updated to handle social media fields
+- `src/components/submit/supabase-submit-form.tsx` - Added social media section
+- `src/components/ui/social-media-icons.tsx` - Added blog display with PenTool icon
+- `src/data/listings.ts` - Updated Listing interface
+
+---
+
+## ✅ Privacy Fix - Removed Internal Claiming Information (January 6, 2025)
+
+**Decision:** Completely remove all internal claiming information from public listing display.
+
+**Why:** **Critical Privacy Problem** - Public listing pages were inappropriately exposing sensitive internal business information including business owner email addresses, internal verification statuses, and administrative workflow details.
+
+**What was exposed publicly:**
+- ❌ "Listing Claimed" sections with business owner details
+- ❌ "Claimed by:" showing email addresses publicly  
+- ❌ "Verification Status:" exposing internal workflow states (pending/verified/denied)
+- ❌ "101 Badge:" showing internal verification details
+- ❌ Claim dates and business owner information
+
+**What changed:**
+- **Complete removal** of entire "Claim Status Section" from public listing pages
+- **Access control properly scoped:**
+  - ✅ **Admin interfaces:** Full claiming details for moderation
+  - ✅ **Owner dashboards:** Business owners can see their own listing status  
+  - ❌ **Public listings:** No internal workflow or business owner details
+
+**Privacy Impact:**
+- **Email addresses** no longer exposed to public
+- **Internal workflow states** hidden from users
+- **Business verification details** kept private  
+- **Administrative metadata** removed from public view
+- **Professional appearance** - public pages focus on service content only
+
+**Business Impact:**
+- **Improved privacy compliance** - sensitive data properly protected
+- **Cleaner public interface** - removes confusing administrative details
+- **Maintains functionality** - admin and owner views unchanged
+- **User trust** - demonstrates proper handling of business owner privacy
+
+**Files:**
+- `src/app/(website)/(public)/listing/[slug]/page.tsx` - Removed entire claiming section from public view
+
+**Critical Lesson:** Internal business operations and administrative metadata should never be exposed in public-facing interfaces. This fix addresses a significant data privacy concern where sensitive business information was inappropriately visible to all website visitors.

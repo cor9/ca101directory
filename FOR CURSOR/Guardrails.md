@@ -22,6 +22,48 @@
 - **NO Review/Rating Features**: Do not add review systems without explicit approval
 - **NO Blog Functionality**: Blog features are disabled during Sanity migration ✅ **COMPLETED**
 
+## 🚨 **CRITICAL: COMPREHENSIVE SOLUTION REQUIREMENTS**
+
+### ⚡ **NO PIECEMEAL FIXES - COMPLETE SOLUTIONS ONLY**
+
+**🎯 MANDATORY APPROACH:**
+- **Test ALL interactive states** when making CSS or UI changes
+- **Fix the WHOLE problem area** - not just the immediately visible symptom
+- **Anticipate common UI framework issues** before they're reported
+
+**🔧 COMPREHENSIVE UI TESTING CHECKLIST:**
+When fixing UI components, ALWAYS test:
+✅ **Dropdown menus** - Trigger visibility, content visibility, option text contrast, hover states, selection states  
+✅ **Button interactions** - Text visibility, background colors, hover states, active states, disabled states  
+✅ **Form elements** - Input visibility, placeholder text, validation states, error states  
+✅ **Modal/Portal content** - Z-index stacking, background overlays, content contrast  
+✅ **Mobile responsiveness** - All breakpoints and device orientations  
+✅ **Theme compatibility** - Light/dark mode, color scheme conflicts  
+
+**🚫 FORBIDDEN APPROACHES:**
+- ❌ **Reactive fixes** - Waiting for user to report each broken element individually
+- ❌ **Surface-level fixes** - Only fixing what's immediately obvious  
+- ❌ **Single-component focus** - Ignoring related components that use similar patterns
+- ❌ **CSS tunnel vision** - Not testing actual user interactions after CSS changes
+
+**🎯 FRAMEWORK-SPECIFIC CONSIDERATIONS:**
+- **Radix UI Components:** Portal rendering, data attributes, z-index conflicts, theme inheritance
+- **Tailwind CSS:** Color class precedence, responsive breakpoints, dark mode variants
+- **Next.js:** SSR/CSR rendering differences, hydration mismatches
+- **Supabase:** RLS policy effects on data visibility, real-time updates
+
+**⚡ IMPLEMENTATION STANDARD:**
+1. **Plan comprehensively** - List all related UI elements that could be affected
+2. **Test systematically** - Work through all interactive states and edge cases  
+3. **Deploy confidently** - Only push when ALL related functionality is verified working
+4. **Document thoroughly** - Update guardrails with lessons learned
+
+**🎯 SUCCESS CRITERIA:**
+- User never has to ask "why can't I see X?" for any interactive element
+- All UI components work completely on first try after fixes
+- CSS changes account for all rendering contexts and user interactions
+- Solutions are future-proof against similar issues
+
 ## 🧠 Brand & UX Guidelines
 
 

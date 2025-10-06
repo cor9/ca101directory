@@ -1923,3 +1923,38 @@ The blog section is now fully implemented with a professional dark theme, catego
 - `src/components/vendor/vendor-pricing.tsx`
 - `src/components/vendor/vendor-faq.tsx` 
 - `src/components/vendor/vendor-final-cta.tsx`
+
+---
+
+## ✅ Admin Edit Form Dropdown Visibility Crisis (January 2025)
+
+**Decision:** Implement comprehensive UI testing standards to prevent piecemeal fixes that frustrate users.
+
+**Why:** User reported admin edit form had invisible dropdown menus and buttons. Initial fix only addressed basic text visibility, not dropdown portal rendering. Required multiple iterations to fix:
+1. Fixed basic text visibility with CSS 
+2. User reported "I cannot see the dropdown menus at all. Nor can I see the buttons"
+3. Fixed dropdown triggers but not dropdown content
+4. User reported "you fixed it partially. I cannot see the option because it drops down to be transparent with with light text"
+5. Finally implemented comprehensive dropdown content styling with proper z-index and contrast
+
+**Root Cause:** Piecemeal approach - only fixing immediately visible symptoms without testing all interactive states. Did not anticipate Radix UI portal rendering issues with global CSS selectors.
+
+**What changed:**
+- **Added Comprehensive UI Testing Standards** to `Guardrails.md`
+- **Mandatory checklist** for testing all interactive states when making CSS changes
+- **Framework-specific considerations** for Radix UI portals, z-index, theme inheritance
+- **Success criteria** requiring complete functionality on first attempt
+- **Implementation standard** requiring systematic testing before deployment
+
+**Critical Lesson:** When fixing UI components, ALWAYS test:
+✅ Dropdown triggers AND dropdown content visibility  
+✅ Text contrast in all states (default, hover, selected)  
+✅ Portal rendering with proper z-index stacking  
+✅ Button text visibility and background colors  
+✅ All interactive states and edge cases  
+
+**Never Again:** No more reactive fixes where user has to report each broken element individually. Test comprehensively upfront.
+
+**Files:**
+- `FOR CURSOR/Guardrails.md` - Added comprehensive testing standards
+- `src/components/admin/admin-edit-form.css` - Fixed dropdown visibility with proper global selectors

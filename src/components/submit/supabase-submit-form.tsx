@@ -103,6 +103,15 @@ export function SupabaseSubmitForm({
     region: "",
     bondNumber: "",
     active: true,
+    // Social media fields
+    facebook_url: "",
+    instagram_url: "",
+    tiktok_url: "",
+    youtube_url: "",
+    linkedin_url: "",
+    blog_url: "",
+    custom_link_url: "",
+    custom_link_name: "",
   });
 
   const [isImageUploading, setIsImageUploading] = useState(false);

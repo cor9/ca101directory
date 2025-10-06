@@ -60,6 +60,15 @@ export const baseSubmitSchema = {
   gallery: z.array(z.string()).optional(), // Optional gallery images
   imageId: z.string().optional(), // Make optional for testing
   active: z.boolean().optional(), // Optional active status
+  // Social media fields (Pro users only)
+  facebook_url: z.string().url().optional().or(z.literal("")),
+  instagram_url: z.string().url().optional().or(z.literal("")),
+  tiktok_url: z.string().url().optional().or(z.literal("")),
+  youtube_url: z.string().url().optional().or(z.literal("")),
+  linkedin_url: z.string().url().optional().or(z.literal("")),
+  blog_url: z.string().url().optional().or(z.literal("")),
+  custom_link_url: z.string().url().optional().or(z.literal("")),
+  custom_link_name: z.string().optional(),
 };
 
 export const SubmitSchema = SUPPORT_ITEM_ICON

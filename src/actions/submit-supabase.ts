@@ -73,6 +73,14 @@ export async function submitToSupabase(
       bondNumber,
       gallery,
       active,
+      facebook_url,
+      instagram_url,
+      tiktok_url,
+      youtube_url,
+      linkedin_url,
+      blog_url,
+      custom_link_url,
+      custom_link_name,
     } = SubmitSchema.parse(formData);
 
     console.log(
@@ -114,6 +122,15 @@ export async function submitToSupabase(
       is_claimed: false,
       owner_id: user?.id || null, // Link to current user if authenticated
       is_approved_101: false,
+      // Social media fields
+      facebook_url: facebook_url || null,
+      instagram_url: instagram_url || null,
+      tiktok_url: tiktok_url || null,
+      youtube_url: youtube_url || null,
+      linkedin_url: linkedin_url || null,
+      blog_url: blog_url || null,
+      custom_link_url: custom_link_url || null,
+      custom_link_name: custom_link_name || null,
     };
 
     console.log("submitToSupabase, creating listing in Supabase:", listingData);

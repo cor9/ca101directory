@@ -645,6 +645,135 @@ export function SupabaseSubmitForm({
             </p>
           </div>
 
+          {/* Social Media Section */}
+          <div className="space-y-4 p-4 border rounded-lg" style={{ backgroundColor: "#f8f9fa" }}>
+            <div>
+              <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>
+                Social Media Links (Pro/Premium only)
+              </h3>
+              <p className="text-sm" style={{ color: "#666" }}>
+                These links will only be displayed for Pro and Premium listings.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="facebook_url" style={{ color: "#1F2327" }}>
+                  Facebook URL
+                </Label>
+                <Input
+                  id="facebook_url"
+                  type="url"
+                  value={formData.facebook_url}
+                  onChange={(e) => handleInputChange("facebook_url", e.target.value)}
+                  placeholder="https://facebook.com/yourpage"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="instagram_url" style={{ color: "#1F2327" }}>
+                  Instagram URL
+                </Label>
+                <Input
+                  id="instagram_url"
+                  type="url"
+                  value={formData.instagram_url}
+                  onChange={(e) => handleInputChange("instagram_url", e.target.value)}
+                  placeholder="https://instagram.com/youraccount"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="tiktok_url" style={{ color: "#1F2327" }}>
+                  TikTok URL
+                </Label>
+                <Input
+                  id="tiktok_url"
+                  type="url"
+                  value={formData.tiktok_url}
+                  onChange={(e) => handleInputChange("tiktok_url", e.target.value)}
+                  placeholder="https://tiktok.com/@youraccount"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="youtube_url" style={{ color: "#1F2327" }}>
+                  YouTube URL
+                </Label>
+                <Input
+                  id="youtube_url"
+                  type="url"
+                  value={formData.youtube_url}
+                  onChange={(e) => handleInputChange("youtube_url", e.target.value)}
+                  placeholder="https://youtube.com/@yourchannel"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="linkedin_url" style={{ color: "#1F2327" }}>
+                  LinkedIn URL
+                </Label>
+                <Input
+                  id="linkedin_url"
+                  type="url"
+                  value={formData.linkedin_url}
+                  onChange={(e) => handleInputChange("linkedin_url", e.target.value)}
+                  placeholder="https://linkedin.com/in/yourprofile"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="blog_url" style={{ color: "#1F2327" }}>
+                  📝 Blog URL
+                </Label>
+                <Input
+                  id="blog_url"
+                  type="url"
+                  value={formData.blog_url}
+                  onChange={(e) => handleInputChange("blog_url", e.target.value)}
+                  placeholder="https://yourblog.com"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                />
+              </div>
+            </div>
+
+            <div className="border-t pt-4">
+              <h4 className="font-medium mb-3" style={{ color: "#1F2327" }}>Custom Link</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="custom_link_name" style={{ color: "#1F2327" }}>
+                    Link Name
+                  </Label>
+                  <Input
+                    id="custom_link_name"
+                    value={formData.custom_link_name}
+                    onChange={(e) => handleInputChange("custom_link_name", e.target.value)}
+                    placeholder="e.g., 'Portfolio', 'Book Now'"
+                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="custom_link_url" style={{ color: "#1F2327" }}>
+                    Link URL
+                  </Label>
+                  <Input
+                    id="custom_link_url"
+                    type="url"
+                    value={formData.custom_link_url}
+                    onChange={(e) => handleInputChange("custom_link_url", e.target.value)}
+                    placeholder="https://your-custom-link.com"
+                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Submit Button */}
           <Button
             type="submit"

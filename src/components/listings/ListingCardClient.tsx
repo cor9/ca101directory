@@ -155,9 +155,9 @@ export function ListingCardClient({
           {listing.listing_name}
         </h3>
 
-        <p className="text-charcoal/70 text-sm line-clamp-2 mb-4">
-          {listing.what_you_offer || "Professional acting services"}
-        </p>
+        <div className="text-charcoal/70 text-sm line-clamp-2 mb-4">
+          {(listing.what_you_offer || "Professional acting services").replace(/<[^>]*>/g, '').substring(0, 120)}...
+        </div>
 
         {/* Location */}
         {(listing.city || listing.state || listing.region) && (

@@ -71,7 +71,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
   return (
     <Card
       className={cn(
-        "group hover:shadow-lg transition-all duration-300 surface border-surface/20 hover:shadow-hover",
+        "group hover:shadow-lg transition-all duration-300 surface border-surface/20",
         planPriority >= 3 && "ring-1 ring-primary-orange/20",
         className,
       )}
@@ -150,9 +150,9 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
       </CardHeader>
 
       <CardContent className="pb-3">
-        <p className="text-sm line-clamp-2 mb-4" style={{ color: "#333" }}>
-          {listing.what_you_offer || "Professional acting services"}
-        </p>
+        <div className="text-sm line-clamp-2 mb-4" style={{ color: "#333" }}>
+          {(listing.what_you_offer || "Professional acting services").replace(/<[^>]*>/g, '').substring(0, 120)}...
+        </div>
 
         {/* Location */}
         {(listing.city || listing.state || listing.region) && (

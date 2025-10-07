@@ -2,6 +2,7 @@
 
 import DOMPurify from "isomorphic-dompurify";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 interface RichTextDisplayProps {
   content: string;
@@ -9,21 +10,38 @@ interface RichTextDisplayProps {
 }
 
 export function RichTextDisplay({ content, className }: RichTextDisplayProps) {
-  // Sanitize HTML content to prevent XSS
-  const sanitizedContent = DOMPurify.sanitize(content, {
-    ALLOWED_TAGS: [
-      'p', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'strike',
-      'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-      'ul', 'ol', 'li',
-      'blockquote', 'code', 'pre',
-      'a'
-    ],
-    ALLOWED_ATTR: ['href', 'target', 'rel', 'style'],
-    ALLOW_DATA_ATTR: false
-  });
+  const [sanitizedContent, setSanitizedContent] = useState<string>('');
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    // Sanitize HTML content to prevent XSS
+    const sanitized = DOMPurify.sanitize(content, {
+      ALLOWED_TAGS: [
+        'p', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'strike',
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+        'ul', 'ol', 'li',
+        'blockquote', 'code', 'pre',
+        'a', 'span'
+      ],
+      ALLOWED_ATTR: ['href', 'target', 'rel', 'style', 'class'],
+      ALLOW_DATA_ATTR: false
+    });
+    setSanitizedContent(sanitized);
+  }, [content]);
 
   if (!content || content.trim() === '') {
     return null;
+  }
+
+  // During SSR or before client hydration, show plain text version
+  if (!isClient || !sanitizedContent) {
+    const plainText = content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    return (
+      <div className={cn("rich-text-content", className)}>
+        {plainText}
+      </div>
+    );
   }
 
   return (

@@ -7,6 +7,7 @@ import { ProfileImage } from "@/components/listing/listing-images";
 import { ReviewForm } from "@/components/reviews/ReviewForm";
 import { ReviewsDisplay } from "@/components/reviews/ReviewsDisplay";
 import { Button } from "@/components/ui/button";
+import { RichTextDisplay } from "@/components/ui/rich-text-display";
 import SocialMediaIcons from "@/components/ui/social-media-icons";
 import { StarRating } from "@/components/ui/star-rating";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
@@ -314,12 +315,12 @@ export default async function ListingPage({ params }: ListingPageProps) {
               </div>
 
               {/* Description */}
-              <p
-                className="text-lg leading-relaxed mb-6"
-                style={{ color: "#0C1A2B" }}
-              >
-                {listing.what_you_offer}
-              </p>
+              <div className="mb-6">
+                <RichTextDisplay 
+                  content={listing.what_you_offer || ""} 
+                  className="text-lg leading-relaxed" 
+                />
+              </div>
 
               {/* Action Buttons */}
               <div className="flex gap-4">
@@ -373,58 +374,50 @@ export default async function ListingPage({ params }: ListingPageProps) {
               >
                 About This Professional
               </h2>
-              <p
-                className="text-base leading-relaxed mb-6"
-                style={{ color: "#0C1A2B" }}
-              >
-                {listing.what_you_offer}
-              </p>
+              <div className="mb-6">
+                <RichTextDisplay 
+                  content={listing.what_you_offer || ""} 
+                  className="text-base leading-relaxed" 
+                />
+              </div>
 
               {listing.who_is_it_for && (
                 <div className="mb-6">
                   <h3>Who Is It For</h3>
-                  <p
-                    className="text-base leading-relaxed"
-                    style={{ color: "#0C1A2B" }}
-                  >
-                    {listing.who_is_it_for}
-                  </p>
+                  <RichTextDisplay 
+                    content={listing.who_is_it_for} 
+                    className="text-base leading-relaxed" 
+                  />
                 </div>
               )}
 
               {listing.why_is_it_unique && (
                 <div className="mb-6">
                   <h3>What Makes This Unique</h3>
-                  <p
-                    className="text-base leading-relaxed"
-                    style={{ color: "#0C1A2B" }}
-                  >
-                    {listing.why_is_it_unique}
-                  </p>
+                  <RichTextDisplay 
+                    content={listing.why_is_it_unique} 
+                    className="text-base leading-relaxed" 
+                  />
                 </div>
               )}
 
               {listing.format && (
                 <div className="mb-6">
                   <h3>Service Format</h3>
-                  <p
-                    className="text-base leading-relaxed"
-                    style={{ color: "#0C1A2B" }}
-                  >
-                    {listing.format}
-                  </p>
+                  <RichTextDisplay 
+                    content={listing.format} 
+                    className="text-base leading-relaxed" 
+                  />
                 </div>
               )}
 
               {listing.extras_notes && (
                 <div>
                   <h3>Additional Notes</h3>
-                  <p
-                    className="text-base leading-relaxed"
-                    style={{ color: "#0C1A2B" }}
-                  >
-                    {listing.extras_notes}
-                  </p>
+                  <RichTextDisplay 
+                    content={listing.extras_notes} 
+                    className="text-base leading-relaxed" 
+                  />
                 </div>
               )}
             </div>
@@ -552,7 +545,6 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 </div>
               </div>
             )}
-
 
             {/* Categories */}
             <div className="listing-card">

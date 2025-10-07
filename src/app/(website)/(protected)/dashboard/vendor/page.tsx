@@ -199,7 +199,7 @@ export default async function VendorDashboard() {
                             {listing.listing_name}
                           </CardTitle>
                           <CardDescription style={{ color: "#333" }}>
-                            {listing.what_you_offer}
+                            {(listing.what_you_offer || "").replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()}
                           </CardDescription>
                         </div>
                         <div className="flex items-center gap-2">

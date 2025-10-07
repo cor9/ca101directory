@@ -21,7 +21,7 @@ function listingToItem(listing: Listing): ItemInfo {
         .replace(/\s+/g, "-")
         .replace(/[^a-z0-9-]/g, ""),
     },
-    description: listing.what_you_offer || "",
+    description: (listing.what_you_offer || "").replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim(),
     link: listing.website || "",
     affiliateLink: null,
     sponsor: false,

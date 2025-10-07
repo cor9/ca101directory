@@ -113,9 +113,9 @@ export default async function VendorListingPage() {
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <p className="bauhaus-body text-sm text-muted-foreground line-clamp-2">
-                      {listing.what_you_offer}
-                    </p>
+                    <div className="bauhaus-body text-sm text-muted-foreground line-clamp-2">
+                      {(listing.what_you_offer || "").replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()}
+                    </div>
 
                     <div className="flex items-center gap-2">
                       <Button asChild variant="outline" size="sm">

@@ -81,7 +81,10 @@ function filterDuplicateListings(listings: Listing[]): Listing[] {
     if (!listingGroups.has(key)) {
       listingGroups.set(key, []);
     }
-    listingGroups.get(key)!.push(listing);
+    const group = listingGroups.get(key);
+    if (group) {
+      group.push(listing);
+    }
   }
 
   // For each group, keep only the highest plan listing
@@ -142,7 +145,7 @@ export async function getPublicListings(params?: {
     // Handle special cases for multi-word categories
     if (params.category === "Talent Managers") {
       // Look for listings that have both "Talent" and "Managers" in categories
-      query = query.or(`categories.cs.{Talent},categories.cs.{Managers}`);
+      query = query.or("categories.cs.{Talent},categories.cs.{Managers}");
     } else {
       // categories contains array of words that can be combined to match category names
       // Check if the category name is contained in any combination of the categories array
@@ -166,9 +169,7 @@ export async function getPublicListings(params?: {
 
   console.log("getPublicListings: Query built, executing...");
 
-  const { data, error } = await query.order("listing_name", {
-    ascending: true,
-  });
+  const { data, error } = await query;
 
   console.log("getPublicListings: Result:", {
     dataCount: data?.length || 0,

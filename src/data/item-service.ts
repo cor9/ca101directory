@@ -191,8 +191,34 @@ export async function getItems({
       );
     }
 
-    // Sort
-    if (sortKey) {
+    // Apply custom sorting for directory page when no explicit sort is requested
+    // or when it's the default sort (publishDate desc)
+    const isDefaultSort = !sortKey || (sortKey === "publishDate" && reverse);
+    
+    if (isDefaultSort) {
+      // Custom sorting for directory page: Featured first, then Pro (avoiding duplicates), then alphabetical
+      filteredListings.sort((a, b) => {
+        // 1. Featured listings first (featured = true)
+        const aFeatured = a.featured || false;
+        const bFeatured = b.featured || false;
+        
+        if (aFeatured && !bFeatured) return -1;
+        if (!aFeatured && bFeatured) return 1;
+        
+        // 2. Pro listings second (plan = 'Pro' or 'Premium'), but only if not already featured
+        const aIsPro = (a.plan === 'Pro' || a.plan === 'Premium') && !aFeatured;
+        const bIsPro = (b.plan === 'Pro' || b.plan === 'Premium') && !bFeatured;
+        
+        if (aIsPro && !bIsPro) return -1;
+        if (!aIsPro && bIsPro) return 1;
+        
+        // 3. Everything else alphabetically by name
+        const aName = a.listing_name || "";
+        const bName = b.listing_name || "";
+        return aName.localeCompare(bName);
+      });
+    } else {
+      // Apply requested sorting
       filteredListings.sort((a, b) => {
         let aVal: string | Date;
         let bVal: string | Date;
@@ -215,13 +241,6 @@ export async function getItems({
           return aVal > bVal ? -1 : aVal < bVal ? 1 : 0;
         }
         return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
-      });
-    } else {
-      // Default sort: by name
-      filteredListings.sort((a, b) => {
-        const aName = a.listing_name || "";
-        const bName = b.listing_name || "";
-        return aName.localeCompare(bName);
       });
     }
 

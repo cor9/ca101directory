@@ -23,25 +23,26 @@ export function RelatedLinks({ listing, relatedListings = [] }: RelatedLinksProp
 
   return (
     <div className="space-y-8 mt-12">
-      {/* Contextual Paragraph with Internal Links */}
+      {/* Contextual Paragraph with Internal Links - CREAM CARD WITH DARK TEXT */}
       {primaryCategory && (
         <div className="bg-paper rounded-lg p-6 border-2 border-surface/20">
-          <p className="text-surface/90 leading-relaxed">
-            <strong className="text-surface">{listing.listing_name}</strong> is a
+          <p className="text-lg leading-relaxed" style={{ color: "#0C1A2B" }}>
+            <strong style={{ color: "#0C1A2B" }}>{listing.listing_name}</strong> is a
             professional{" "}
             {categorySlug ? (
               <Link
                 href={`/category/${categorySlug}`}
-                className="text-primary-orange hover:text-primary-orange/80 font-medium underline"
+                className="font-medium underline"
+                style={{ color: "#FF6B35" }}
               >
                 {primaryCategory.toLowerCase()}
               </Link>
             ) : (
-              <span>{primaryCategory.toLowerCase()}</span>
+              <span style={{ color: "#0C1A2B" }}>{primaryCategory.toLowerCase()}</span>
             )}{" "}
             {location && (
               <>
-                serving <strong>{location}</strong>
+                serving <strong style={{ color: "#0C1A2B" }}>{location}</strong>
               </>
             )}
             . {categorySlug && (
@@ -49,7 +50,8 @@ export function RelatedLinks({ listing, relatedListings = [] }: RelatedLinksProp
                 View more{" "}
                 <Link
                   href={`/category/${categorySlug}`}
-                  className="text-primary-orange hover:text-primary-orange/80 font-medium underline"
+                  className="font-medium underline"
+                  style={{ color: "#FF6B35" }}
                 >
                   {primaryCategory.toLowerCase()} professionals
                 </Link>
@@ -58,7 +60,8 @@ export function RelatedLinks({ listing, relatedListings = [] }: RelatedLinksProp
             or{" "}
             <Link
               href="/directory"
-              className="text-primary-orange hover:text-primary-orange/80 font-medium underline"
+              className="font-medium underline"
+              style={{ color: "#FF6B35" }}
             >
               browse all categories
             </Link>
@@ -67,12 +70,12 @@ export function RelatedLinks({ listing, relatedListings = [] }: RelatedLinksProp
         </div>
       )}
 
-      {/* Related Listings - "You Might Also Like" */}
+      {/* Related Listings - "You Might Also Like" - NAVY BACKGROUND WITH LIGHT TEXT */}
       {relatedListings.length > 0 && (
         <div className="bg-surface rounded-lg p-6">
-          <h3 className="text-xl font-bold mb-4 text-paper">
+          <h2 className="text-2xl font-bold mb-6" style={{ color: "#F7F3E8" }}>
             You Might Also Like
-          </h3>
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {relatedListings.slice(0, 3).map((related) => {
               const relatedSlug = (related.listing_name || "")
@@ -86,15 +89,15 @@ export function RelatedLinks({ listing, relatedListings = [] }: RelatedLinksProp
                   href={`/listing/${relatedSlug}`}
                   className="block bg-paper rounded-lg p-4 border-2 border-surface/20 hover:border-primary-orange transition-colors"
                 >
-                  <h4 className="font-semibold text-surface mb-1 line-clamp-1">
+                  <h4 className="font-semibold mb-2 line-clamp-1" style={{ color: "#0C1A2B" }}>
                     {related.listing_name}
                   </h4>
-                  <p className="text-sm text-surface/70 line-clamp-2">
+                  <p className="text-sm line-clamp-3 mb-3" style={{ color: "#333333" }}>
                     {related.what_you_offer
                       ?.replace(/<[^>]*>/g, "")
-                      .slice(0, 100) || "Professional services for child actors"}
+                      .slice(0, 120) || "Professional services for child actors"}
                   </p>
-                  <span className="text-xs text-primary-orange mt-2 inline-block">
+                  <span className="text-sm font-medium inline-block" style={{ color: "#FF6B35" }}>
                     View Listing →
                   </span>
                 </Link>
@@ -104,10 +107,10 @@ export function RelatedLinks({ listing, relatedListings = [] }: RelatedLinksProp
         </div>
       )}
 
-      {/* Category Navigation */}
+      {/* Category Navigation - CREAM CARD WITH DARK TEXT */}
       {listing.categories && listing.categories.length > 1 && (
         <div className="bg-paper rounded-lg p-6 border-2 border-surface/20">
-          <h3 className="text-lg font-semibold mb-3 text-surface">
+          <h3 className="text-xl font-bold mb-4" style={{ color: "#0C1A2B" }}>
             Related Categories
           </h3>
           <div className="flex flex-wrap gap-2">
@@ -121,7 +124,19 @@ export function RelatedLinks({ listing, relatedListings = [] }: RelatedLinksProp
                 <Link
                   key={category}
                   href={`/category/${slug}`}
-                  className="inline-block px-4 py-2 bg-surface text-paper rounded-md hover:bg-primary-orange hover:text-white transition-colors text-sm font-medium"
+                  className="inline-block px-4 py-2 rounded-md transition-colors text-sm font-medium"
+                  style={{ 
+                    backgroundColor: "#0C1A2B",
+                    color: "#F7F3E8"
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "#FF6B35";
+                    e.currentTarget.style.color = "#FFFFFF";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "#0C1A2B";
+                    e.currentTarget.style.color = "#F7F3E8";
+                  }}
                 >
                   {category}
                 </Link>

@@ -78,8 +78,16 @@ export default async function AdminListingsPage() {
                 Manage all listings, toggle comped status, and moderate content
               </p>
             </div>
-            <div className="text-sm text-muted-foreground">
-              {sortedListings.length} total listings
+            <div className="flex items-center gap-4">
+              <div className="text-sm text-muted-foreground">
+                {sortedListings.length} total listings
+              </div>
+              <Button asChild className="bg-brand-blue hover:bg-brand-blue/90">
+                <Link href="/dashboard/admin/create">
+                  <EditIcon className="w-4 h-4 mr-2" />
+                  Create New Listing
+                </Link>
+              </Button>
             </div>
           </div>
 

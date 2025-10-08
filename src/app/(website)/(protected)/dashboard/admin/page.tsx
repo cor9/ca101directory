@@ -126,6 +126,15 @@ export default async function AdminDashboard() {
                   <li>
                     •{" "}
                     <a
+                      href="/dashboard/admin/create"
+                      className="text-primary hover:underline font-medium"
+                    >
+                      Create new listing
+                    </a>
+                  </li>
+                  <li>
+                    •{" "}
+                    <a
                       href="/dashboard/admin/listings"
                       className="text-primary hover:underline"
                     >

@@ -10,6 +10,7 @@ import {
   BreadcrumbSchema,
   ListingSchema,
 } from "@/components/seo/listing-schema";
+import { RelatedLinks } from "@/components/seo/related-links";
 import { Button } from "@/components/ui/button";
 import { RichTextDisplay } from "@/components/ui/rich-text-display";
 import SocialMediaIcons from "@/components/ui/social-media-icons";
@@ -17,7 +18,7 @@ import { StarRating } from "@/components/ui/star-rating";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import { siteConfig } from "@/config/site";
 import { getCategories, getCategoryIconsMap } from "@/data/categories";
-import { getListingBySlug } from "@/data/listings";
+import { getListingBySlug, getPublicListings } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import { constructMetadata } from "@/lib/metadata";
@@ -219,6 +220,19 @@ export default async function ListingPage({ params }: ListingPageProps) {
       }
     }
 
+    // Get related listings (same category, different listing)
+    const relatedListings = await getPublicListings();
+    const primaryCategory = listing.categories?.[0];
+    const related = relatedListings
+      .filter(
+        (l) =>
+          l.id !== listing.id &&
+          l.status === "Live" &&
+          l.is_active &&
+          l.categories?.includes(primaryCategory || "")
+      )
+      .slice(0, 3);
+
     // Debug listing data
     console.log("Listing data:", {
       id: listing.id,
@@ -227,6 +241,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
       claimed: listing.is_claimed === true,
       plan: listing.plan,
       approved_101_badge: listing.is_approved_101 === true,
+      relatedCount: related.length,
     });
 
     return (
@@ -646,6 +661,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 </ul>
               </div>
             )}
+
+            {/* Internal Linking for SEO */}
+            <RelatedLinks listing={listing} relatedListings={related} />
           </div>
         </div>
       </div>

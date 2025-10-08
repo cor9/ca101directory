@@ -24,12 +24,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "suggest-vendor",
   ];
 
+  // Location pages (high priority for local SEO)
+  const locationRoutes = [
+    "location/los-angeles",
+    "location/new-york",
+    "location/atlanta",
+  ];
+
   for (const route of staticRoutes) {
     sitemapList.push({
       url: `${site_url}/${route}`,
       lastModified: new Date().toISOString(),
       changeFrequency: route === "" ? "daily" : "weekly",
       priority: route === "" ? 1.0 : 0.8,
+    });
+  }
+
+  // Add location pages with high priority for local SEO
+  for (const route of locationRoutes) {
+    sitemapList.push({
+      url: `${site_url}/${route}`,
+      lastModified: new Date().toISOString(),
+      changeFrequency: "weekly",
+      priority: 0.9, // High priority for local SEO
     });
   }
 

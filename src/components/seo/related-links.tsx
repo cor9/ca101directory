@@ -1,5 +1,5 @@
-import Link from "next/link";
 import type { Listing } from "@/data/listings";
+import Link from "next/link";
 
 interface RelatedLinksProps {
   listing: Listing;
@@ -11,7 +11,10 @@ interface RelatedLinksProps {
  * Adds contextual links back to categories and related listings
  * Bauhaus theme with proper contrast
  */
-export function RelatedLinks({ listing, relatedListings = [] }: RelatedLinksProps) {
+export function RelatedLinks({
+  listing,
+  relatedListings = [],
+}: RelatedLinksProps) {
   const primaryCategory = listing.categories?.[0];
   const location = listing.city || listing.region || listing.state;
 
@@ -27,8 +30,8 @@ export function RelatedLinks({ listing, relatedListings = [] }: RelatedLinksProp
       {primaryCategory && (
         <div className="bg-paper rounded-lg p-6 border-2 border-surface/20">
           <p className="text-lg leading-relaxed" style={{ color: "#0C1A2B" }}>
-            <strong style={{ color: "#0C1A2B" }}>{listing.listing_name}</strong> is a
-            professional{" "}
+            <strong style={{ color: "#0C1A2B" }}>{listing.listing_name}</strong>{" "}
+            is a professional{" "}
             {categorySlug ? (
               <Link
                 href={`/category/${categorySlug}`}
@@ -38,14 +41,17 @@ export function RelatedLinks({ listing, relatedListings = [] }: RelatedLinksProp
                 {primaryCategory.toLowerCase()}
               </Link>
             ) : (
-              <span style={{ color: "#0C1A2B" }}>{primaryCategory.toLowerCase()}</span>
+              <span style={{ color: "#0C1A2B" }}>
+                {primaryCategory.toLowerCase()}
+              </span>
             )}{" "}
             {location && (
               <>
                 serving <strong style={{ color: "#0C1A2B" }}>{location}</strong>
               </>
             )}
-            . {categorySlug && (
+            .{" "}
+            {categorySlug && (
               <>
                 View more{" "}
                 <Link
@@ -70,10 +76,10 @@ export function RelatedLinks({ listing, relatedListings = [] }: RelatedLinksProp
         </div>
       )}
 
-      {/* Related Listings - "You Might Also Like" - NAVY BACKGROUND WITH LIGHT TEXT */}
+      {/* Related Listings - "You Might Also Like" - CREAM BACKGROUND WITH DARK TEXT */}
       {relatedListings.length > 0 && (
-        <div className="bg-surface rounded-lg p-6">
-          <h2 className="text-2xl font-bold mb-6" style={{ color: "#F7F3E8" }}>
+        <div className="rounded-lg p-8" style={{ backgroundColor: "#F7F3E8" }}>
+          <h2 className="text-3xl font-bold mb-6" style={{ color: "#0C1A2B" }}>
             You Might Also Like
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -89,15 +95,25 @@ export function RelatedLinks({ listing, relatedListings = [] }: RelatedLinksProp
                   href={`/listing/${relatedSlug}`}
                   className="block bg-paper rounded-lg p-4 border-2 border-surface/20 hover:border-primary-orange transition-colors"
                 >
-                  <h4 className="font-semibold mb-2 line-clamp-1" style={{ color: "#0C1A2B" }}>
+                  <h4
+                    className="font-semibold mb-2 line-clamp-1"
+                    style={{ color: "#0C1A2B" }}
+                  >
                     {related.listing_name}
                   </h4>
-                  <p className="text-sm line-clamp-3 mb-3" style={{ color: "#333333" }}>
+                  <p
+                    className="text-sm line-clamp-3 mb-3"
+                    style={{ color: "#333333" }}
+                  >
                     {related.what_you_offer
                       ?.replace(/<[^>]*>/g, "")
-                      .slice(0, 120) || "Professional services for child actors"}
+                      .slice(0, 120) ||
+                      "Professional services for child actors"}
                   </p>
-                  <span className="text-sm font-medium inline-block" style={{ color: "#FF6B35" }}>
+                  <span
+                    className="text-sm font-medium inline-block"
+                    style={{ color: "#FF6B35" }}
+                  >
                     View Listing →
                   </span>
                 </Link>
@@ -125,9 +141,9 @@ export function RelatedLinks({ listing, relatedListings = [] }: RelatedLinksProp
                   key={category}
                   href={`/category/${slug}`}
                   className="inline-block px-4 py-2 rounded-md transition-colors text-sm font-medium"
-                  style={{ 
+                  style={{
                     backgroundColor: "#0C1A2B",
-                    color: "#F7F3E8"
+                    color: "#F7F3E8",
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.backgroundColor = "#FF6B35";

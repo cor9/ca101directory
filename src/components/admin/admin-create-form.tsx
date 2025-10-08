@@ -136,7 +136,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="name" className="text-gray-900 font-medium">
+                <Label htmlFor="name" className="font-medium">
                   Listing Name *
                 </Label>
                 <Input
@@ -149,7 +149,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               </div>
 
               <div>
-                <Label htmlFor="link" className="text-gray-900 font-medium">
+                <Label htmlFor="link" className="font-medium">
                   Website
                 </Label>
                 <Input
@@ -162,13 +162,13 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               </div>
             </div>
 
-            <div>
-              <Label
-                htmlFor="description"
-                className="text-gray-900 font-medium"
-              >
-                What You Offer? *
-              </Label>
+              <div>
+                <Label
+                  htmlFor="description"
+                  className="font-medium"
+                >
+                  What You Offer? *
+                </Label>
               <RichTextEditor
                 value={formData.description}
                 onChange={(value) => handleInputChange("description", value)}
@@ -176,13 +176,13 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               />
             </div>
 
-            <div>
-              <Label
-                htmlFor="introduction"
-                className="text-gray-900 font-medium"
-              >
-                Who Is It For?
-              </Label>
+              <div>
+                <Label
+                  htmlFor="introduction"
+                  className="font-medium"
+                >
+                  Who Is It For?
+                </Label>
               <RichTextEditor
                 value={formData.introduction}
                 onChange={(value) => handleInputChange("introduction", value)}
@@ -190,10 +190,10 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               />
             </div>
 
-            <div>
-              <Label htmlFor="unique" className="text-gray-900 font-medium">
-                Why Is It Unique?
-              </Label>
+              <div>
+                <Label htmlFor="unique" className="font-medium">
+                  Why Is It Unique?
+                </Label>
               <RichTextEditor
                 value={formData.unique}
                 onChange={(value) => handleInputChange("unique", value)}
@@ -202,7 +202,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
             </div>
 
             <div>
-              <Label htmlFor="format" className="text-gray-900 font-medium">
+              <Label htmlFor="format" className=" font-medium">
                 Format
               </Label>
               <Select
@@ -223,7 +223,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
             </div>
 
             <div>
-              <Label htmlFor="notes" className="text-gray-900 font-medium">
+              <Label htmlFor="notes" className=" font-medium">
                 Extras/Notes
               </Label>
               <Textarea
@@ -244,7 +244,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label className="text-gray-900 font-medium">Categories *</Label>
+              <Label className=" font-medium">Categories *</Label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
                 {categories.map((category) => (
                   <div
@@ -270,7 +270,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
             </div>
 
             <div>
-              <Label className="text-gray-900 font-medium">
+              <Label className=" font-medium">
                 Age Range Tags
               </Label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-2">
@@ -304,7 +304,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="email" className="text-gray-900 font-medium">
+                <Label htmlFor="email" className=" font-medium">
                   Email *
                 </Label>
                 <Input
@@ -318,7 +318,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               </div>
 
               <div>
-                <Label htmlFor="phone" className="text-gray-900 font-medium">
+                <Label htmlFor="phone" className=" font-medium">
                   Phone
                 </Label>
                 <Input
@@ -333,7 +333,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <Label htmlFor="city" className="text-gray-900 font-medium">
+                <Label htmlFor="city" className=" font-medium">
                   City
                 </Label>
                 <Input
@@ -345,7 +345,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               </div>
 
               <div>
-                <Label htmlFor="state" className="text-gray-900 font-medium">
+                <Label htmlFor="state" className=" font-medium">
                   State
                 </Label>
                 <Input
@@ -357,7 +357,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               </div>
 
               <div>
-                <Label htmlFor="zip" className="text-gray-900 font-medium">
+                <Label htmlFor="zip" className=" font-medium">
                   ZIP Code
                 </Label>
                 <Input
@@ -370,7 +370,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
             </div>
 
             <div>
-              <Label htmlFor="region" className="text-gray-900 font-medium">
+              <Label htmlFor="region" className=" font-medium">
                 Region
               </Label>
               <Select
@@ -398,7 +398,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label className="text-gray-900 font-medium">Profile Image</Label>
+              <Label className=" font-medium">Profile Image</Label>
               <ImageUpload
                 currentImageUrl={formData.imageId}
                 onUploadChange={(status) => {
@@ -412,7 +412,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
             </div>
 
             <div>
-              <Label className="text-gray-900 font-medium">
+              <Label className=" font-medium">
                 Gallery Images (Max 4)
               </Label>
               <GalleryUpload
@@ -433,7 +433,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="plan" className="text-gray-900 font-medium">
+                <Label htmlFor="plan" className=" font-medium">
                   Plan
                 </Label>
                 <Select
@@ -453,7 +453,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               </div>
 
               <div>
-                <Label htmlFor="status" className="text-gray-900 font-medium">
+                <Label htmlFor="status" className=" font-medium">
                   Status
                 </Label>
                 <Select
@@ -477,7 +477,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               <div>
                 <Label
                   htmlFor="verification_status"
-                  className="text-gray-900 font-medium"
+                  className=" font-medium"
                 >
                   Verification Status
                 </Label>
@@ -501,7 +501,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               <div>
                 <Label
                   htmlFor="bondNumber"
-                  className="text-gray-900 font-medium"
+                  className=" font-medium"
                 >
                   Bond Number
                 </Label>
@@ -621,7 +621,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               <div>
                 <Label
                   htmlFor="facebook_url"
-                  className="text-gray-900 font-medium"
+                  className=" font-medium"
                 >
                   Facebook URL
                 </Label>
@@ -639,7 +639,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               <div>
                 <Label
                   htmlFor="instagram_url"
-                  className="text-gray-900 font-medium"
+                  className=" font-medium"
                 >
                   Instagram URL
                 </Label>
@@ -657,7 +657,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               <div>
                 <Label
                   htmlFor="tiktok_url"
-                  className="text-gray-900 font-medium"
+                  className=" font-medium"
                 >
                   TikTok URL
                 </Label>
@@ -675,7 +675,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               <div>
                 <Label
                   htmlFor="youtube_url"
-                  className="text-gray-900 font-medium"
+                  className=" font-medium"
                 >
                   YouTube URL
                 </Label>
@@ -693,7 +693,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               <div>
                 <Label
                   htmlFor="linkedin_url"
-                  className="text-gray-900 font-medium"
+                  className=" font-medium"
                 >
                   LinkedIn URL
                 </Label>
@@ -709,7 +709,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               </div>
 
               <div>
-                <Label htmlFor="blog_url" className="text-gray-900 font-medium">
+                <Label htmlFor="blog_url" className=" font-medium">
                   Blog URL
                 </Label>
                 <Input
@@ -728,7 +728,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               <div>
                 <Label
                   htmlFor="custom_link_name"
-                  className="text-gray-900 font-medium"
+                  className=" font-medium"
                 >
                   Custom Link Name
                 </Label>
@@ -745,7 +745,7 @@ export function AdminCreateForm({ categories }: AdminCreateFormProps) {
               <div>
                 <Label
                   htmlFor="custom_link_url"
-                  className="text-gray-900 font-medium"
+                  className=" font-medium"
                 >
                   Custom Link URL
                 </Label>

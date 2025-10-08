@@ -6,6 +6,10 @@ import { Gallery } from "@/components/listing/gallery";
 import { ProfileImage } from "@/components/listing/listing-images";
 import { ReviewForm } from "@/components/reviews/ReviewForm";
 import { ReviewsDisplay } from "@/components/reviews/ReviewsDisplay";
+import {
+  BreadcrumbSchema,
+  ListingSchema,
+} from "@/components/seo/listing-schema";
 import { Button } from "@/components/ui/button";
 import { RichTextDisplay } from "@/components/ui/rich-text-display";
 import SocialMediaIcons from "@/components/ui/social-media-icons";
@@ -227,6 +231,19 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
     return (
       <div className="listing-page">
+        {/* Schema.org Structured Data for SEO */}
+        <ListingSchema listing={listing} averageRating={averageRating} />
+        <BreadcrumbSchema
+          items={[
+            { name: "Home", url: siteConfig.url },
+            { name: "Directory", url: `${siteConfig.url}/directory` },
+            {
+              name: listing.listing_name || "Listing",
+              url: `${siteConfig.url}/listing/${params.slug}`,
+            },
+          ]}
+        />
+
         {/* Header Card */}
         <div className="listing-card">
           {/* Breadcrumb */}

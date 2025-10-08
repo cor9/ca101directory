@@ -1,4 +1,5 @@
 import ItemGrid from "@/components/item/item-grid";
+import { CategoryContent } from "@/components/seo/category-content";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
@@ -60,11 +61,19 @@ export async function generateMetadata({
       });
     }
 
+    // Get listing count for this category
+    const listings = await getPublicListings();
+    const categoryListings = listings.filter(
+      (listing) =>
+        listing.categories?.includes(category.category_name) &&
+        listing.status === "Live" &&
+        listing.is_active
+    );
+    const count = categoryListings.length;
+
     return constructMetadata({
-      title: `${category.category_name} - Child Actor 101 Directory`,
-      description:
-        category.description ||
-        `Find ${category.category_name.toLowerCase()} professionals for your child's acting career`,
+      title: `${category.category_name} for Child Actors - ${count}+ Professionals | Child Actor 101`,
+      description: `Compare ${count} professional ${category.category_name.toLowerCase()} specializing in child actors. Read reviews, compare services, and find the perfect match in Los Angeles, New York & nationwide.`,
       canonicalUrl: `${siteConfig.url}/category/${params.slug}`,
     });
   } catch (error) {
@@ -146,16 +155,19 @@ export default async function CategoryPage({
 
     return (
       <div>
-        {/* Category header */}
+        {/* Category header - Bauhaus theme with proper contrast */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-surface mb-2">
             {categoryName}
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-surface/80">
             Find {categoryName.toLowerCase()} professionals for your child's
             acting career
           </p>
         </div>
+
+        {/* SEO-rich category content */}
+        <CategoryContent categoryName={categoryName} listingCount={totalCount} />
 
         {/* when no items are found */}
         {items?.length === 0 && <EmptyGrid />}

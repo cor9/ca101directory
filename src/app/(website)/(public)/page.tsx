@@ -11,6 +11,7 @@ import HomeVendorCta from "@/components/home/home-vendor-cta";
 import ItemGrid from "@/components/item/item-grid";
 import { NewsletterCard } from "@/components/newsletter/newsletter-card";
 import SearchBox from "@/components/search/search-box";
+import { OrganizationSchema } from "@/components/seo/listing-schema";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
 import { getItems } from "@/data/item-service";
@@ -21,7 +22,7 @@ import Script from "next/script";
 export const metadata = constructMetadata({
   title: "Child Actor 101 Directory - Find Trusted Acting Professionals",
   description:
-    "Find trusted acting coaches, photographers, agents, and other professionals for your child's acting career",
+    "Find 250+ trusted acting coaches, headshot photographers, talent agents, and managers for child actors in Los Angeles, New York, Atlanta & nationwide. 101 Approved professionals.",
   canonicalUrl: `${siteConfig.url}/`,
 });
 
@@ -56,6 +57,9 @@ export default async function HomePage() {
 
   return (
     <>
+      {/* Schema.org Organization Data for SEO */}
+      <OrganizationSchema />
+
       <Script
         src="https://js.stripe.com/v3/pricing-table.js"
         strategy="afterInteractive"

@@ -1,46 +1,71 @@
-import { getPasswordResetTokenByEmail } from "@/data/password-reset-token";
-import { getVerificationTokenByEmail } from "@/data/verification-token";
-import { sanityClient } from "@/sanity/lib/client";
-import { uuid } from "@sanity/uuid";
+import { supabase } from "@/lib/supabase";
+import crypto from "crypto";
 
 export const generateVerificationToken = async (email: string) => {
-  const token = `token.${uuid()}`;
+  // Generate a secure random token
+  const token = crypto.randomBytes(32).toString("hex");
 
-  // expires in 1 hour
+  // Expires in 1 hour
   const expires = new Date(new Date().getTime() + 3600 * 1000).toISOString();
 
-  const existingToken = await getVerificationTokenByEmail(email);
-  if (existingToken) {
-    await sanityClient.delete(existingToken._id);
+  // Delete any existing tokens for this email
+  await supabase
+    .from("verification_tokens")
+    .delete()
+    .eq("email", email);
+
+  // Create new token
+  const { data, error } = await supabase
+    .from("verification_tokens")
+    .insert({
+      email,
+      token,
+      expires,
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error creating verification token:", error);
+    return null;
   }
 
-  const verificationToken = await sanityClient.create({
-    _type: "verificationToken",
-    identifier: email,
-    token,
-    expires,
-  });
-
-  return verificationToken;
+  return { identifier: email, token, expires };
 };
 
 export const generatePasswordResetToken = async (email: string) => {
-  const token = `token.${uuid()}`;
+  try {
+    // Generate a secure random token
+    const token = crypto.randomBytes(32).toString("hex");
 
-  // expires in 1 hour
-  const expires = new Date(new Date().getTime() + 3600 * 1000).toISOString();
+    // Expires in 1 hour
+    const expires = new Date(new Date().getTime() + 3600 * 1000).toISOString();
 
-  const existingToken = await getPasswordResetTokenByEmail(email);
-  if (existingToken) {
-    await sanityClient.delete(existingToken._id);
+    // Delete any existing tokens for this email
+    await supabase
+      .from("password_reset_tokens")
+      .delete()
+      .eq("email", email);
+
+    // Create new token
+    const { data, error } = await supabase
+      .from("password_reset_tokens")
+      .insert({
+        email,
+        token,
+        expires,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Error creating password reset token:", error);
+      return null;
+    }
+
+    return { identifier: email, token, expires };
+  } catch (error) {
+    console.error("generatePasswordResetToken error:", error);
+    return null;
   }
-
-  const passwordResetToken = await sanityClient.create({
-    _type: "passwordResetToken",
-    identifier: email,
-    token,
-    expires,
-  });
-
-  return passwordResetToken;
 };

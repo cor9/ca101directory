@@ -152,7 +152,6 @@ export function RoleGuard({
     </div>
   );
 }
-}
 
 /**
  * DashboardGuard component - Specifically for dashboard routes

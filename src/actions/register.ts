@@ -79,7 +79,7 @@ export async function register(
       return {
         status: "success",
         message:
-          "Account created successfully! Please check your email to confirm your account before signing in.",
+          "🎉 Account created! Please check your email (including spam folder) to confirm your account before signing in.",
         redirectUrl: "/auth/login",
       };
     }

@@ -68,8 +68,11 @@ export const RegisterForm = () => {
             setSuccess(data.message);
 
             // Redirect to dashboard if redirectUrl is provided
+            // But give user time to see the success message
             if (data.redirectUrl) {
-              window.location.href = data.redirectUrl;
+              setTimeout(() => {
+                window.location.href = data.redirectUrl as string;
+              }, 3000); // 3 seconds to read the message
             }
           }
         })

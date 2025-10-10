@@ -81,7 +81,14 @@ export function RoleGuard({
 
   // Show loading state
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin text-4xl">⏳</div>
+          <p className="mt-4 text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
   }
 
   // Show fallback if user doesn't have access and fallback is enabled
@@ -90,6 +97,12 @@ export function RoleGuard({
     !hasAnyRole(session.user as any, allowedRoles) &&
     showFallback
   ) {
+    const userRole = getRole(session.user as any);
+    console.error("Access denied (fallback):", {
+      userRole,
+      allowedRoles,
+      userEmail: session.user.email,
+    });
     return <>{fallbackComponent}</>;
   }
 
@@ -98,8 +111,47 @@ export function RoleGuard({
     return <>{children}</>;
   }
 
-  // Default fallback
-  return <div>Access Denied</div>;
+  // Default fallback - show helpful error with actual role info
+  const userRole = session?.user ? getRole(session.user as any) : "none";
+  console.error("ACCESS DENIED - Check browser console for details:", {
+    userRole,
+    allowedRoles,
+    hasSession: !!session,
+    userEmail: session?.user?.email,
+    fullUser: session?.user,
+  });
+  
+  return (
+    <div className="flex h-screen items-center justify-center bg-background px-4">
+      <div className="text-center max-w-md p-8 border rounded-lg shadow-lg">
+        <h1 className="text-3xl font-bold mb-4 text-destructive">Access Denied</h1>
+        <p className="text-lg mb-2">
+          Your role: <strong className="text-primary">{userRole}</strong>
+        </p>
+        <p className="text-sm text-muted-foreground mb-6">
+          Required: {allowedRoles.join(" or ")}
+        </p>
+        <p className="text-xs text-muted-foreground mb-6">
+          Check browser console (F12) for debugging details.
+        </p>
+        <div className="space-y-3">
+          <a 
+            href="/dashboard" 
+            className="block w-full bg-primary text-primary-foreground px-4 py-3 rounded-md hover:bg-primary/90 transition"
+          >
+            Go to Dashboard
+          </a>
+          <a 
+            href="/auth/login" 
+            className="block w-full bg-secondary text-secondary-foreground px-4 py-3 rounded-md hover:bg-secondary/90 transition"
+          >
+            Sign Out & Try Again
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
 }
 
 /**

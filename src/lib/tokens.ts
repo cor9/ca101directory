@@ -1,9 +1,20 @@
 import { supabase } from "@/lib/supabase";
-import crypto from "crypto";
+
+// Generate a secure random token (works in both Node and Edge Runtime)
+function generateSecureToken(): string {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
+    // Use Web Crypto API (works in Edge Runtime)
+    return crypto.randomUUID() + crypto.randomUUID().replace(/-/g, "");
+  } else {
+    // Fallback to Node crypto
+    const nodeCrypto = require("crypto");
+    return nodeCrypto.randomBytes(32).toString("hex");
+  }
+}
 
 export const generateVerificationToken = async (email: string) => {
   // Generate a secure random token
-  const token = crypto.randomBytes(32).toString("hex");
+  const token = generateSecureToken();
 
   // Expires in 1 hour
   const expires = new Date(new Date().getTime() + 3600 * 1000).toISOString();
@@ -36,7 +47,7 @@ export const generateVerificationToken = async (email: string) => {
 export const generatePasswordResetToken = async (email: string) => {
   try {
     // Generate a secure random token
-    const token = crypto.randomBytes(32).toString("hex");
+    const token = generateSecureToken();
 
     // Expires in 1 hour
     const expires = new Date(new Date().getTime() + 3600 * 1000).toISOString();

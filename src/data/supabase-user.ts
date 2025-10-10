@@ -3,7 +3,7 @@ import { supabase } from "@/lib/supabase";
 export interface User {
   id: string;
   email: string;
-  name: string;
+  full_name: string | null;
   role: "parent" | "vendor" | "admin";
   stripe_customer_id?: string;
   created_at: string;
@@ -57,13 +57,25 @@ export const createUser = async (userData: {
   role?: "parent" | "vendor" | "admin";
 }): Promise<User | null> => {
   try {
+    // Note: The database trigger 'handle_new_user' automatically creates profiles
+    // when auth.users records are created. This function checks if the profile exists
+    // and creates it only if missing (for edge cases where trigger didn't fire).
+    
+    // First, check if profile already exists
+    const existingProfile = await getUserById(userData.id);
+    if (existingProfile) {
+      console.log("Profile already exists for user:", userData.id);
+      return existingProfile;
+    }
+
+    // Profile doesn't exist, create it with correct column name
     const { data, error } = await supabase
       .from("profiles")
       .insert([
         {
           id: userData.id,
           email: userData.email,
-          name: userData.name,
+          full_name: userData.name, // Use full_name to match database schema
           role: userData.role || "parent",
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),

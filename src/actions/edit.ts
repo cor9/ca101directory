@@ -159,7 +159,7 @@ export async function edit(
       const statusLink = getItemStatusLinkInWebsite(id);
       const reviewLink = getItemLinkInStudio(id);
       sendNotifySubmissionEmail(
-        user.name,
+        user.name || user.email || "User",
         user.email,
         name,
         statusLink,

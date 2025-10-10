@@ -84,7 +84,7 @@ export default {
                 .insert({
                   id: authData.user.id,
                   email: authData.user.email,
-                  name:
+                  full_name:
                     authData.user.user_metadata?.name || authData.user.email,
                   role: authData.user.user_metadata?.role || "guest",
                   created_at: new Date().toISOString(),
@@ -107,7 +107,7 @@ export default {
             return {
               id: profile.id,
               email: profile.email,
-              name: profile.name,
+              name: profile.full_name || profile.email, // Map full_name to name for session
               role: profile.role,
             };
           } catch (error) {

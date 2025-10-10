@@ -2,7 +2,136 @@
 
 ## 🎉 **CURRENT STATUS - FULLY MIGRATED TO SUPABASE-ONLY!**
 
-## 🚀 **LATEST UPDATES - OCTOBER 8, 2025**
+## 🚀 **LATEST UPDATES - OCTOBER 10, 2025**
+
+### 🚨 **URGENT PRODUCTION FIXES - AUTH SYSTEM OVERHAUL**
+
+**📅 Date:** October 10, 2025  
+**🎯 Goal:** Fix critical authentication and profile creation issues in production  
+**✅ Status:** COMPLETED  
+
+**Critical Issues Identified**:
+1. ❌ "Failed to create user profile" error on vendor registration
+2. ❌ No email confirmation message shown to users
+3. ❌ "Access Denied" screen with no helpful information
+4. ❌ Password reset completely broken (500 errors)
+
+**Root Causes Found**:
+1. **Database Column Mismatch**: Code used `name`, database has `full_name`
+2. **RLS Policy Blocking Trigger**: `handle_new_user()` trigger couldn't insert profiles due to RLS
+3. **Sanity Dependencies**: Password reset still using deprecated Sanity CMS for tokens
+4. **Edge Runtime Incompatibility**: Node.js `crypto.randomBytes()` doesn't work in Vercel Edge Runtime
+
+**Solutions Implemented**:
+
+#### 1. Profile Creation Fix
+- ✅ Updated `User` interface to use `full_name` instead of `name`
+- ✅ Fixed `createUser()` to check for existing profiles first (avoid duplicates)
+- ✅ Updated `handle_new_user()` trigger to read both `name` and `full_name` from metadata
+- ✅ Added RLS bypass policy: "Allow trigger function to insert profiles"
+- ✅ Fixed all references throughout codebase (register, login, reset, settings, etc.)
+
+**Files Modified**:
+- `src/data/supabase-user.ts` - Interface updated, createUser fixed
+- `src/auth.config.ts` - Maps `full_name` to session `name`
+- `src/actions/reset.ts` - Uses `full_name`
+- `src/actions/settings.ts` - Uses `full_name`
+- `src/actions/update-name.ts` - Uses `full_name`
+- `src/actions/submit-to-review.ts` - Uses `full_name`
+- `src/actions/edit.ts` - Uses `full_name`
+
+**Database Changes**:
+```sql
+-- Updated trigger function with better name handling
+CREATE OR REPLACE FUNCTION public.handle_new_user() ...
+  user_full_name := COALESCE(
+    NEW.raw_user_meta_data->>'full_name',
+    NEW.raw_user_meta_data->>'name',
+    ''
+  );
+```
+
+#### 2. Email Confirmation UX
+- ✅ Added clear success message: "🎉 Account created! Please check your email (including spam folder)..."
+- ✅ Added 3-second delay before redirect so users can read the message
+- ✅ Updated `register-form.tsx` to show message prominently
+
+#### 3. Access Denied Screen Improvement
+- ✅ Now shows user's actual role (e.g., "vendor", "parent")
+- ✅ Shows required role for the page
+- ✅ Provides helpful navigation buttons
+- ✅ Console logging for debugging (F12 → Console)
+- ✅ Better loading state with spinner
+
+**Files Modified**:
+- `src/components/auth/role-guard.tsx` - Complete UX overhaul
+
+#### 4. Password Reset Migration (Sanity → Supabase)
+- ✅ Created `password_reset_tokens` table in Supabase
+- ✅ Created `verification_tokens` table in Supabase
+- ✅ Migrated `generatePasswordResetToken()` from Sanity to Supabase
+- ✅ Fixed Edge Runtime compatibility using Web Crypto API
+- ✅ Added proper error handling and user-friendly messages
+- ✅ Set up RLS policies for token management
+
+**Database Schema**:
+```sql
+CREATE TABLE public.password_reset_tokens (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email TEXT NOT NULL,
+  token TEXT NOT NULL UNIQUE,
+  expires TIMESTAMP WITH TIME ZONE NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  used_at TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE public.verification_tokens (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email TEXT NOT NULL,
+  token TEXT NOT NULL UNIQUE,
+  expires TIMESTAMP WITH TIME ZONE NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  used_at TIMESTAMP WITH TIME ZONE
+);
+```
+
+**Files Modified**:
+- `src/lib/tokens.ts` - Complete rewrite to use Supabase + Web Crypto API
+- `src/actions/reset.ts` - Better error handling
+
+**Security Improvements**:
+- ✅ Enabled RLS on `listings` table (was disabled!)
+- ✅ Updated `handle_new_user()` with `SET search_path = public`
+- ✅ Proper token generation using cryptographically secure methods
+
+**Deployment Timeline**:
+- Commit `d10ee79b`: Column name mismatch + RLS fixes
+- Commit `fdc37792`: Email confirmation message
+- Commit `fb74ae8f`: Syntax error fix
+- Commit `1b1e083e`: Password reset Supabase migration
+- Commit `f36761ae`: Edge Runtime crypto compatibility
+
+**Testing Verified**:
+- ✅ New vendor registrations work without errors
+- ✅ Email confirmation message displays properly
+- ✅ Access Denied screen shows helpful information
+- ✅ Password reset generates tokens successfully
+- ✅ All existing users can login normally
+
+**Lessons Learned**:
+1. **Database schema alignment is critical** - Always verify column names match between schema and code
+2. **RLS policies can block triggers** - Use `SECURITY DEFINER` and proper policies
+3. **Complete migration is essential** - Can't have half Sanity, half Supabase
+4. **Edge Runtime has limitations** - Use Web Crypto API instead of Node crypto
+5. **User feedback is crucial** - Clear error messages and confirmation messages prevent support tickets
+
+**User Impact**: 
+- 🔥 **Before**: Users couldn't register as vendors (production down)
+- ✅ **After**: Full auth system working, clear user feedback, proper error handling
+
+---
+
+## 🚀 **PREVIOUS UPDATES - OCTOBER 8, 2025**
 
 ### ✅ **ADMIN LISTING CREATION - COMPLETE!**
 

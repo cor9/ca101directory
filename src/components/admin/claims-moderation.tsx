@@ -92,7 +92,8 @@ export function ClaimsModeration() {
         .from("listings")
         .update({
           owner_id: vendorId,
-          claimed: true,
+          is_claimed: true,
+          date_claimed: new Date().toISOString(),
         })
         .eq("id", listingId);
 

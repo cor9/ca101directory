@@ -17,8 +17,8 @@
 - **NO Static JSON Files**: Do not generate or suggest static content files
 - **NO Hardcoded Keys**: Do not hardcode Stripe keys, API keys, or sensitive data ✅ **ENFORCED**
 - **NO Database Models**: Do not use Prisma, SQL, or other database ORMs
-- **NO Auto-Approval**: Do not automatically approve vendor submissions
-- **NO Login Required**: Do not add authentication barriers for vendors
+- **NO Login Required for Browsing**: Do not add authentication barriers for viewing listings
+- **NO Admin Approval for Claims**: Claims are auto-approved - users get instant ownership ✅ **UPDATED OCT 11, 2025**
 - **NO Review/Rating Features**: Do not add review systems without explicit approval
 - **NO Blog Functionality**: Blog features are disabled during Sanity migration ✅ **COMPLETED**
 
@@ -101,6 +101,22 @@ All design choices must honor a mid-century modern, Bauhaus homage to classic Ho
 	•	Clapperboard / film reel / spotlight motifs used sparingly to tie back to classic Hollywood.
 	•	Rule: Only one Hollywood reference per page section (avoid kitsch overload).
 
+## 📋 **CLAIM & EDIT WORKFLOW** ✅ Updated October 11, 2025
+
+### User Claim Flow (Auto-Approved)
+1. User clicks "Claim This Listing"
+2. ✅ **INSTANT OWNERSHIP** - No admin approval needed
+3. User can edit immediately
+4. Edits set status to "Pending"
+5. Admin reviews and approves to set "Live"
+
+### Admin Review (Content Only)
+- ✅ Review new submissions before Live
+- ✅ Review edits to Live listings before re-publishing
+- ❌ NO approval needed for claim ownership
+- ❌ NO approval needed to edit (just to go Live)
+
+**Key Principle:** Users own their listing immediately, admin only reviews content for quality before public display.
 
 ### Design Principles
 - **Minimal & Clean**: Simple, uncluttered interface

@@ -60,33 +60,50 @@ export async function claimListing(formData: ClaimListingFormData) {
       };
     }
 
-    // Insert the claim
+    // AUTO-APPROVE: Immediately claim the listing for the user
+    // Step 1: Update the listing with ownership
+    const { error: updateError } = await supabase
+      .from("listings")
+      .update({
+        owner_id: session.user.id,
+        is_claimed: true,
+        date_claimed: new Date().toISOString(),
+        claimed_by_email: session.user.email,
+      })
+      .eq("id", formData.listingId);
+
+    if (updateError) {
+      console.error("Error claiming listing:", updateError);
+      return {
+        success: false,
+        message: "Failed to claim listing. Please try again.",
+      };
+    }
+
+    // Step 2: Create a claim record for tracking (auto-approved)
     const { data, error } = await supabase
       .from("claims")
       .insert({
         listing_id: formData.listingId,
         vendor_id: session.user.id,
         message: formData.message,
-        approved: false,
+        approved: true, // Auto-approved
       })
       .select()
       .single();
 
     if (error) {
-      console.error("Error submitting claim:", error);
-      return {
-        success: false,
-        message: "Failed to submit claim. Please try again.",
-      };
+      console.error("Error recording claim:", error);
+      // Don't fail if claim record fails - listing is already claimed
     }
 
-    console.log("✅ Claim submitted successfully:", data.id);
+    console.log("✅ Listing claimed successfully (auto-approved)");
 
     return {
       success: true,
       message:
-        "Your claim has been submitted for review. We'll notify you when it's approved.",
-      claimId: data.id,
+        "Success! You now own this listing and can edit it immediately. Changes will be reviewed before going live.",
+      claimId: data?.id,
     };
   } catch (error) {
     console.error("❌ Error submitting claim:", error);

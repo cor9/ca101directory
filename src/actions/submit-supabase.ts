@@ -141,10 +141,19 @@ export async function submitToSupabase(
     if (formData.isEdit && formData.listingId) {
       // Update existing listing
       console.log("Updating existing listing:", formData.listingId);
+
+      // Get current listing status
+      const { data: currentListing } = await supabase
+        .from("listings")
+        .select("status")
+        .eq("id", formData.listingId)
+        .single();
+
       const updateData = {
         ...listingData,
-        // Keep existing status and ownership for edits
-        status: undefined, // Don't change status on edit
+        // Set status to Pending for review if it was Live
+        status:
+          currentListing?.status === "Live" ? "Pending" : listingData.status,
         owner_id: undefined, // Don't change ownership on edit
         is_claimed: undefined, // Don't change claimed status on edit
         updated_at: new Date().toISOString(),

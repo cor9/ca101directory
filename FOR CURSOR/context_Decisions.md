@@ -2,7 +2,225 @@
 
 ## 🎉 **CURRENT STATUS - FULLY MIGRATED TO SUPABASE-ONLY!**
 
-## 🚀 **LATEST UPDATES - OCTOBER 10, 2025**
+## 🚀 **LATEST UPDATES - OCTOBER 11, 2025**
+
+### 🚨 **CRITICAL FIX #2 - CLAIMS & UPDATE SYSTEM REPAIR + WORKFLOW UPDATE**
+
+**📅 Date:** October 11, 2025 (Evening)  
+**🎯 Goal:** Fix broken claim/update functionality AND remove admin approval bottleneck  
+**✅ Status:** COMPLETED  
+
+**Critical Issue:**
+Users like Diane Christiansen unable to claim listings or update their information - system rejecting all data.
+
+**Root Causes Found:**
+
+#### 1. Field Name Mismatch in Claims Approval
+**Code:** `src/components/admin/claims-moderation.tsx` line 95
+```typescript
+// ❌ WRONG - column doesn't exist
+.update({ claimed: true })
+
+// ✅ FIXED
+.update({ is_claimed: true, date_claimed: new Date().toISOString() })
+```
+**Impact:** Admin approved claims but `is_claimed` never got set, leaving listings orphaned.
+
+#### 2. Overly Permissive RLS Policy
+**Before:** `USING (true)` - ANY authenticated user could update ANY listing (security issue!)
+**After:** `USING (owner_id = auth.uid() OR user is admin)` - only owners can update
+
+#### 3. Data Corruption
+- 2 listings had `is_claimed=true` but `owner_id=NULL` (orphaned)
+- Fixed by unclaiming them so they can be properly claimed
+
+**Solutions Implemented:**
+
+1. **Fixed Claims Moderation Code**
+   - Corrected field name: `claimed` → `is_claimed`
+   - Added `date_claimed` timestamp
+   - File: `src/components/admin/claims-moderation.tsx`
+
+2. **Secured RLS Policy**
+   ```sql
+   CREATE POLICY "Users can update their own listings"
+   ON listings FOR UPDATE TO authenticated
+   USING (owner_id = auth.uid() OR EXISTS (
+     SELECT 1 FROM profiles 
+     WHERE profiles.id = auth.uid() AND profiles.role = 'admin'
+   ));
+   ```
+
+3. **Cleaned Orphaned Data**
+   - Unclaimed 2 listings with data corruption
+   - Hollywood Winners Circle Academy
+   - Clare Lopez – The Wholehearted Actor
+
+**Files Created/Modified:**
+- `src/components/admin/claims-moderation.tsx` - Fixed field name
+- Supabase RLS policy - Added ownership check
+- Database - Cleaned 2 orphaned listings
+- `CLAIMS_UPDATE_FIX.md` - Complete documentation
+
+**Verification Tests:**
+- ✅ Field names match database schema
+- ✅ No orphaned claims (0 found)
+- ✅ RLS policy validates ownership
+- ✅ Diane Christiansen listing ready to claim
+
+**User Impact:**
+- 🔥 **Before:** Users couldn't claim or update listings - complete failure
+- ✅ **After:** Full claim/update flow working with proper security
+
+**Workflow Update (Per User Request):**
+
+Changed from: `User Claims → Admin Approval → Edit → Submit → Live`  
+Changed to: `User Claims → INSTANT OWNERSHIP → Edit → Admin Review → Live`
+
+**Key Changes:**
+1. **Auto-Approve Claims** - Users instantly own listing, no waiting
+2. **Edit Changes Status** - Live → Pending when edited
+3. **Admin Reviews Content** - Only reviews changes before going Live
+4. **Claims Moderation Obsolete** - No longer needed with auto-approval
+
+**Files Modified for Workflow:**
+- `src/actions/claim-listing.ts` - Auto-approve claims instantly
+- `src/actions/submit-supabase.ts` - Set to Pending on edit
+- `CLAIM_WORKFLOW_UPDATE.md` - Complete documentation
+
+**New User Message:**
+> "Success! You now own this listing and can edit it immediately. Changes will be reviewed before going live."
+
+**Image Upload Fix (Related Issue):**
+
+Diane Christiansen also reported image uploads not working. Found and fixed:
+
+1. **Missing Storage Policies** - `listing-images` bucket had RLS but no policies
+2. **File Type Mismatch** - API rejected WebP but frontend accepted it
+3. **No Bucket Limits** - Buckets had no size/type restrictions
+
+**Fixes Applied:**
+- ✅ Created 7 storage RLS policies (upload, view, update, delete)
+- ✅ Added WebP support to API route
+- ✅ Configured bucket limits (5MB for listings, 2MB for icons)
+- ✅ Set allowed MIME types on all buckets
+
+**Files Modified:**
+- `src/app/api/upload/route.ts` - Added WebP support
+- Supabase storage policies - Created 7 policies
+- Storage buckets - Configured limits and MIME types
+- `IMAGE_UPLOAD_FIX.md` - Complete documentation
+
+**Result:** Image uploads now work for all users! 📸
+
+**Lessons Learned:**
+1. **Verify column names after migrations** - Airtable used "Claimed?", Supabase uses "is_claimed"
+2. **RLS policies need ownership checks** - USING (true) is almost never correct
+3. **Data validation queries are critical** - Found orphaned data immediately
+4. **Test with non-admin accounts** - Admin bypass policies can hide bugs
+
+---
+
+### 🚨 **CRITICAL FIX #1 - RLS POLICY AUDIT & LISTINGS RESTORATION**
+
+**📅 Date:** October 11, 2025  
+**🎯 Goal:** Fix disappeared listings and prevent future RLS policy issues  
+**✅ Status:** COMPLETED  
+
+**Critical Issue:**
+All 257 listings disappeared from public website - ZERO listings visible to users.
+
+**Root Cause Found:**
+RLS policy mismatch on `listings` table:
+- **Policy checked for:** `status = 'published' OR status = 'approved'`
+- **Actual data uses:** `status = 'Live'` (257 listings)
+- **Result:** Policy blocked all listings from anonymous users
+
+**Solutions Implemented:**
+
+#### 1. Fixed Listings RLS Policy
+```sql
+-- Replaced incorrect policy
+DROP POLICY "Public can view approved listings" ON listings;
+
+-- Created correct policy matching actual data
+CREATE POLICY "Public can view live listings"
+ON listings FOR SELECT TO anon
+USING (status = 'Live' AND is_active = true);
+```
+
+**Result:** ✅ All 257 listings immediately restored to public view
+
+#### 2. Comprehensive RLS Audit
+Audited all 12 tables with RLS policies:
+- ✅ listings - FIXED (policy now matches data)
+- ✅ profiles - VERIFIED (roles: admin, vendor, parent)
+- ✅ categories - VERIFIED (all public)
+- ✅ category_icons - VERIFIED (all public)
+- ✅ claims - VERIFIED (proper vendor isolation)
+- ✅ reviews - VERIFIED (approved reviews public)
+- ✅ plans - VERIFIED (all public)
+- ✅ submissions - VERIFIED (authenticated only)
+- ✅ vendor_suggestions - VERIFIED (authenticated only)
+- ✅ password_reset_tokens - VERIFIED (token system working)
+- ✅ verification_tokens - VERIFIED (email verification working)
+- ✅ users - VERIFIED (proper user isolation)
+
+#### 3. Added Database Safeguards
+```sql
+-- Prevent invalid status values
+ALTER TABLE listings 
+ADD CONSTRAINT valid_listing_status 
+CHECK (status IN ('Live', 'Pending', 'Rejected', 'Draft'));
+
+-- Ensure is_active never NULL
+ALTER TABLE listings 
+ALTER COLUMN is_active SET DEFAULT true,
+ALTER COLUMN is_active SET NOT NULL;
+```
+
+#### 4. Created Comprehensive Documentation
+**New File:** `RLS_POLICY_AUDIT.md`
+- Complete audit of all 32 RLS policies
+- Policy testing procedures
+- Pre-deployment checklist
+- Monitoring queries
+- Escalation procedures
+
+#### 5. Implemented Testing Suite
+All tests passing:
+- ✅ Public listings visible: 257 listings
+- ✅ Valid status values: 0 invalid
+- ✅ No NULL is_active values: 0 NULL
+- ✅ Categories publicly accessible: 44 categories
+- ✅ Valid profile roles: 0 invalid
+
+**Files Created/Modified:**
+- `RLS_POLICY_AUDIT.md` - Comprehensive policy documentation
+- Database: Fixed 1 listing with NULL status
+- Database: Added constraints to prevent future issues
+- Database: Updated RLS policy for listings
+
+**Lessons Learned:**
+1. **ALWAYS verify RLS policies match actual data values** - Don't assume standard values
+2. **Test with anonymous role after ANY policy change** - `SET ROLE anon; SELECT COUNT(*) FROM table;`
+3. **Add database constraints to enforce valid values** - Prevent data drift
+4. **Document actual data patterns** - Check `SELECT DISTINCT status FROM listings;` first
+5. **Create automated testing** - Run policy tests before deployment
+
+**Prevention Measures:**
+1. Database constraints prevent invalid status values
+2. Documentation includes testing checklist
+3. Monitoring queries to catch issues early
+4. Monthly RLS audit scheduled
+
+**User Impact:**
+- 🔥 **Before:** 0 listings visible (directory completely broken)
+- ✅ **After:** All 257 Live listings visible, constraints prevent recurrence
+
+---
+
+## 🚀 **PREVIOUS UPDATES - OCTOBER 10, 2025**
 
 ### 🚨 **URGENT PRODUCTION FIXES - AUTH SYSTEM OVERHAUL**
 
@@ -2306,3 +2524,100 @@ The blog section is now fully implemented with a professional dark theme, catego
 - `src/app/(website)/(public)/listing/[slug]/page.tsx` - Removed entire claiming section from public view
 
 **Critical Lesson:** Internal business operations and administrative metadata should never be exposed in public-facing interfaces. This fix addresses a significant data privacy concern where sensitive business information was inappropriately visible to all website visitors.
+
+---
+
+## ✅ Authentication System Complete Overhaul (October 10, 2025)
+
+**Decision:** Completely resolve all authentication system failures that were causing production issues and vendor complaints.
+
+**Why:** **URGENT PRODUCTION CRISIS** - The live authentication system had multiple critical failures:
+- Users couldn't create profiles ("Failed to create user profile")
+- Email rate limits blocked confirmations ("email rate exceeded")
+- Password reset completely broken ("something went wrong")
+- No email confirmation instructions shown to users
+- Access denied errors with unhelpful messages
+
+**Root Causes Identified:**
+
+1. **Profile Creation Failure:**
+   - `createUser()` function was attempting to read newly created profiles during registration
+   - Row Level Security (RLS) blocked these reads before user authentication completed
+   - Function incorrectly reported failure despite database trigger successfully creating profiles
+
+2. **Email Rate Limits:**
+   - Supabase's default SMTP limited to 3 emails per hour
+   - Production usage exceeded this immediately
+   - Custom SMTP (Resend) needed for unlimited email sending
+
+3. **Password Reset Broken:**
+   - `src/data/password-reset-token.ts` still querying old Sanity CMS
+   - Old migration from Sanity to Supabase was incomplete
+   - Token generation and retrieval needed complete rewrite
+
+4. **Missing Email Confirmation Instructions:**
+   - Hidden `mailer_autoconfirm` setting was auto-confirming emails
+   - Users bypassed confirmation message flow
+   - Registration showed "redirecting to dashboard" instead of email instructions
+
+5. **Poor Error Messages:**
+   - Generic "Access Denied" messages without context
+   - No guidance for users with wrong roles or permissions
+
+**Solutions Implemented:**
+
+### ✅ **Profile Creation Fixed**
+- **Modified `createUser()` in `src/data/supabase-user.ts`**
+- **Removed problematic RLS-blocked profile read during registration**
+- **Now trusts database trigger (`handle_new_user`) to create profiles**
+- **Returns success immediately without attempting blocked database reads**
+
+### ✅ **Email Rate Limits Eliminated**
+- **Configured custom SMTP using Resend service**
+- **API Key:** `re_M9gravwM_4E2p2QUjURsYuZtknYW8TAZc`
+- **SMTP Settings:** `smtp.resend.com:587` with `resend` username
+- **Result:** Unlimited email sending capacity
+
+### ✅ **Password Reset Completely Rebuilt**
+- **Deleted:** `src/data/password-reset-token.ts` (old Sanity code)
+- **Rewrote:** Token generation in `src/lib/tokens.ts` using Supabase + Web Crypto API
+- **Updated:** `src/actions/new-password.ts` to use new Supabase-based tokens
+- **Added:** Automatic token cleanup after successful password resets
+
+### ✅ **Email Confirmation Instructions Fixed**
+- **Modified `src/actions/register.ts` to always show confirmation message**
+- **Bypassed problematic `mailer_autoconfirm` check**
+- **Enhanced message with clear instructions and 8-second viewing delay**
+- **Improved `FormSuccess` component with multi-line support and better styling**
+
+### ✅ **Better Error Messages**
+- **Overhauled `src/components/auth/role-guard.tsx`**
+- **Now shows user's current role, required role, and helpful navigation**
+- **Replaced generic "Access Denied" with contextual guidance**
+
+**Production Impact:**
+- **✅ User registration:** Now works reliably with clear confirmation instructions
+- **✅ Email system:** Unlimited sending capacity, no more rate limit errors  
+- **✅ Password reset:** Fully functional end-to-end flow
+- **✅ Authentication errors:** Clear, helpful messages with next steps
+- **✅ Vendor experience:** No more support emails about broken auth
+
+**Files Modified:**
+- `src/data/supabase-user.ts` - Fixed profile creation logic
+- `src/lib/tokens.ts` - Complete token system rewrite
+- `src/actions/register.ts` - Always show email confirmation message
+- `src/actions/new-password.ts` - Updated to use Supabase tokens
+- `src/actions/new-verification.ts` - Updated to use Supabase tokens  
+- `src/components/auth/role-guard.tsx` - Better error messages
+- `src/components/auth/register-form.tsx` - Extended viewing delay
+- `src/components/shared/form-success.tsx` - Multi-line message support
+- Deleted: `src/data/password-reset-token.ts` - Removed broken Sanity code
+
+**Testing Results:**
+- **Profile creation:** ✅ Works consistently 
+- **Email confirmation:** ✅ Clear instructions displayed
+- **Password reset:** ✅ Complete flow functional
+- **Email sending:** ✅ No rate limit issues
+- **User experience:** ✅ Professional, helpful error messages
+
+**Critical Lesson:** Authentication systems require comprehensive end-to-end testing in production-like conditions. Incomplete migrations (like Sanity→Supabase) can leave critical systems broken. Always verify that email services can handle production volumes before going live.

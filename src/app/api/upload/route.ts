@@ -22,17 +22,22 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Validate file type
-    if (!file.type.match(/^image\/(jpeg|jpg|png)$/)) {
+    // Validate file type (allow JPEG, PNG, and WebP)
+    if (!file.type.match(/^image\/(jpeg|jpg|png|webp)$/)) {
       return Response.json(
-        { error: "Only JPEG and PNG images are allowed" },
+        { error: "Only JPEG, PNG, and WebP images are allowed" },
         { status: 400 },
       );
     }
 
     // Generate unique filename
     const timestamp = Date.now();
-    const fileExtension = file.type === "image/jpeg" ? "jpg" : "png";
+    const fileExtension =
+      file.type === "image/jpeg"
+        ? "jpg"
+        : file.type === "image/webp"
+          ? "webp"
+          : "png";
     const slug = businessSlug || "logo";
     const filename = `${slug}-${timestamp}.${fileExtension}`;
 

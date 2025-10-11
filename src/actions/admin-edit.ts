@@ -102,7 +102,7 @@ export async function adminUpdateListing(
       bond_number: formData.bondNumber || null,
       is_active: formData.active,
       comped: formData.comped,
-      status: formData.status,
+      status: formData.status, // Admin can approve by changing Pending → Live
       featured: formData.featured,
       is_approved_101: formData.approved_101,
       is_claimed: formData.claimed,

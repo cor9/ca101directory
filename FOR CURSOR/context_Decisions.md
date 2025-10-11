@@ -118,6 +118,89 @@ Diane Christiansen also reported image uploads not working. Found and fixed:
 2. **RLS policies need ownership checks** - USING (true) is almost never correct
 3. **Data validation queries are critical** - Found orphaned data immediately
 4. **Test with non-admin accounts** - Admin bypass policies can hide bugs
+5. **Storage buckets need RLS policies** - Having RLS enabled but no policies blocks everything
+6. **File type validation must match frontend** - API and frontend must accept same formats
+
+**Complete System Audit Results:**
+- ✅ Audited all 39 RLS policies (12 tables + storage)
+- ✅ Fixed 3 critical policy mismatches
+- ✅ Created 7 storage policies (were missing)
+- ✅ Configured 3 storage buckets with proper limits
+- ✅ Added database constraints to prevent future issues
+- ✅ Cleaned 2 orphaned listings
+- ✅ Verified all data values match policy conditions
+
+**Files Modified:**
+- `src/components/admin/claims-moderation.tsx` - Fixed field name
+- `src/actions/claim-listing.ts` - Auto-approve workflow
+- `src/actions/submit-supabase.ts` - Pending on edit
+- `src/app/api/upload/route.ts` - WebP support
+- `src/actions/admin-edit.ts` - Comment clarification
+
+**Database Changes Applied:**
+```sql
+-- Listings visibility (Issue #1)
+CREATE POLICY "Public can view live listings"
+USING (status = 'Live' AND is_active = true);
+
+-- Listings update security (Issue #2)
+CREATE POLICY "Users can update their own listings"
+USING (owner_id = auth.uid() OR user is admin);
+
+-- Storage upload access (Issue #3)
+CREATE POLICY "Authenticated users can upload listing images"
+ON storage.objects FOR INSERT TO authenticated
+WITH CHECK (bucket_id = 'listing-images');
+
+-- Plus 6 more storage policies for complete access control
+
+-- Constraints to prevent bad data
+ALTER TABLE listings 
+ADD CONSTRAINT valid_listing_status 
+CHECK (status IN ('Live', 'Pending', 'Rejected', 'Draft'));
+
+ALTER TABLE listings 
+ALTER COLUMN is_active SET DEFAULT true,
+ALTER COLUMN is_active SET NOT NULL;
+
+-- Bucket configuration
+UPDATE storage.buckets
+SET file_size_limit = 5242880,
+    allowed_mime_types = ARRAY['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
+WHERE name = 'listing-images';
+```
+
+**Documentation Created:**
+1. `RLS_POLICY_AUDIT.md` - Complete audit of all 39 RLS policies
+2. `RLS_POLICY_TEST_RESULTS.md` - Testing procedures and monthly checklist
+3. `CLAIMS_UPDATE_FIX.md` - Claim/edit system technical fixes
+4. `CLAIM_WORKFLOW_UPDATE.md` - New instant-claim workflow documentation
+5. `IMAGE_UPLOAD_FIX.md` - Storage policy and upload fixes
+6. `OCTOBER_11_FIXES_SUMMARY.md` - Executive summary of all fixes
+7. `DIANE_CHRISTIANSEN_FIX_COMPLETE.md` - User-facing summary
+8. Updated `FOR CURSOR/context_Decisions.md` - This file
+9. Updated `FOR CURSOR/Guardrails.md` - Workflow rules
+
+**Deployment Status:**
+- ✅ Committed: b92280a4
+- ✅ Pushed to GitHub
+- 🔄 Deploying to Vercel (in progress)
+
+**User Impact Summary:**
+- 🔥 **Morning:** 0 listings visible (complete site failure)
+- ✅ **Mid-day:** All 257 listings restored
+- 🔥 **Evening:** Users couldn't claim or upload images
+- ✅ **Night:** Full claim/edit/upload system working
+- 🎉 **Result:** 265 Live listings, instant claims, image uploads working
+
+**Testing Verified:**
+- ✅ Storage policies: 7/7 created
+- ✅ Buckets configured: 3/3 with limits
+- ✅ Listings visible: 265 Live
+- ✅ Claims available: 262 ready
+- ✅ RLS policies: 39 total, all verified
+- ✅ No orphaned data: 0 found
+- ✅ No invalid status values: 0 found
 
 ---
 

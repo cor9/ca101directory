@@ -22,7 +22,8 @@ const LOCATIONS = {
     state: "California",
     shortName: "LA",
     description: "The entertainment capital of the world",
-    intro: "Los Angeles is the heart of the entertainment industry, home to Hollywood, major studios, and countless opportunities for child actors. From acting classes in Studio City to headshot photographers in Burbank, LA offers the most comprehensive resources for young performers.",
+    intro:
+      "Los Angeles is the heart of the entertainment industry, home to Hollywood, major studios, and countless opportunities for child actors. From acting classes in Studio City to headshot photographers in Burbank, LA offers the most comprehensive resources for young performers.",
     whyChoose: [
       "Largest concentration of industry professionals",
       "Access to major studios and production companies",
@@ -45,7 +46,8 @@ const LOCATIONS = {
     state: "New York",
     shortName: "NYC",
     description: "The theater and commercial capital",
-    intro: "New York City is a powerhouse for theater, commercials, and television production. With Broadway, major ad agencies, and growing film production, NYC offers unique opportunities for child actors, especially in theater and commercial work.",
+    intro:
+      "New York City is a powerhouse for theater, commercials, and television production. With Broadway, major ad agencies, and growing film production, NYC offers unique opportunities for child actors, especially in theater and commercial work.",
     whyChoose: [
       "Broadway and Off-Broadway theater opportunities",
       "Major commercial and advertising market",
@@ -68,7 +70,8 @@ const LOCATIONS = {
     state: "Georgia",
     shortName: "ATL",
     description: "The Hollywood of the South",
-    intro: "Atlanta has become a major production hub, earning the nickname 'Hollywood of the South.' With major studios like Pinewood and Tyler Perry Studios, Atlanta offers growing opportunities for child actors at a lower cost of living than LA or NYC.",
+    intro:
+      "Atlanta has become a major production hub, earning the nickname 'Hollywood of the South.' With major studios like Pinewood and Tyler Perry Studios, Atlanta offers growing opportunities for child actors at a lower cost of living than LA or NYC.",
     whyChoose: [
       "Rapidly growing film and TV production",
       "Major studio presence (Pinewood, Tyler Perry)",
@@ -118,9 +121,11 @@ export async function generateMetadata({
     (listing) =>
       (listing.city?.toLowerCase().includes(location.name.toLowerCase()) ||
         listing.state?.toLowerCase().includes(location.state.toLowerCase()) ||
-        listing.region?.some((r) => r.toLowerCase().includes(location.name.toLowerCase()))) &&
+        listing.region?.some((r) =>
+          r.toLowerCase().includes(location.name.toLowerCase()),
+        )) &&
       listing.status === "Live" &&
-      listing.is_active
+      listing.is_active,
   );
   const count = locationListings.length;
 
@@ -150,9 +155,11 @@ export default async function LocationPage({
     (listing) =>
       (listing.city?.toLowerCase().includes(location.name.toLowerCase()) ||
         listing.state?.toLowerCase().includes(location.state.toLowerCase()) ||
-        listing.region?.some((r) => r.toLowerCase().includes(location.name.toLowerCase()))) &&
+        listing.region?.some((r) =>
+          r.toLowerCase().includes(location.name.toLowerCase()),
+        )) &&
       listing.status === "Live" &&
-      listing.is_active
+      listing.is_active,
   );
 
   // Get categories
@@ -250,7 +257,8 @@ export default async function LocationPage({
                   {categoryName}
                 </h3>
                 <p className="text-sm text-surface/70">
-                  {count} professional{count !== 1 ? "s" : ""} in {location.shortName}
+                  {count} professional{count !== 1 ? "s" : ""} in{" "}
+                  {location.shortName}
                 </p>
                 <span className="text-xs text-primary-orange mt-2 inline-block">
                   View All →

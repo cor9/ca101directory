@@ -1,9 +1,9 @@
 "use server";
 
-import { getPasswordResetTokenByToken } from "@/data/password-reset-token";
 import { getUserByEmail } from "@/data/supabase-user";
 import { NewPasswordSchema } from "@/lib/schemas";
 import { supabase } from "@/lib/supabase";
+import { getPasswordResetTokenByToken } from "@/lib/tokens";
 import type * as z from "zod";
 
 export type ServerActionResponse = {
@@ -52,7 +52,13 @@ export async function newPassword(
     return { status: "error", message: "Failed to update password!" };
   }
 
-  // TODO: Delete the password reset token from wherever it's stored
-  // For now, we'll assume the token expires naturally
+  // Delete the used password reset token
+  try {
+    await supabase.from("password_reset_tokens").delete().eq("token", token);
+  } catch (error) {
+    console.error("Error deleting used reset token:", error);
+    // Don't fail if we can't delete the token - it will expire anyway
+  }
+
   return { status: "success", message: "Password updated!" };
 }

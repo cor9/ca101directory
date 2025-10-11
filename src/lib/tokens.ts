@@ -20,10 +20,7 @@ export const generateVerificationToken = async (email: string) => {
   const expires = new Date(new Date().getTime() + 3600 * 1000).toISOString();
 
   // Delete any existing tokens for this email
-  await supabase
-    .from("verification_tokens")
-    .delete()
-    .eq("email", email);
+  await supabase.from("verification_tokens").delete().eq("email", email);
 
   // Create new token
   const { data, error } = await supabase
@@ -53,10 +50,7 @@ export const generatePasswordResetToken = async (email: string) => {
     const expires = new Date(new Date().getTime() + 3600 * 1000).toISOString();
 
     // Delete any existing tokens for this email
-    await supabase
-      .from("password_reset_tokens")
-      .delete()
-      .eq("email", email);
+    await supabase.from("password_reset_tokens").delete().eq("email", email);
 
     // Create new token
     const { data, error } = await supabase
@@ -77,6 +71,81 @@ export const generatePasswordResetToken = async (email: string) => {
     return { identifier: email, token, expires };
   } catch (error) {
     console.error("generatePasswordResetToken error:", error);
+    return null;
+  }
+};
+
+// Get password reset token by token (Supabase version)
+export const getPasswordResetTokenByToken = async (token: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("password_reset_tokens")
+      .select("*")
+      .eq("token", token)
+      .single();
+
+    if (error) {
+      console.error("Error fetching password reset token:", error);
+      return null;
+    }
+
+    return {
+      identifier: data.email,
+      token: data.token,
+      expires: data.expires,
+    };
+  } catch (error) {
+    console.error("getPasswordResetTokenByToken error:", error);
+    return null;
+  }
+};
+
+// Get password reset token by email (Supabase version)
+export const getPasswordResetTokenByEmail = async (email: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("password_reset_tokens")
+      .select("*")
+      .eq("email", email)
+      .single();
+
+    if (error) {
+      console.error("Error fetching password reset token by email:", error);
+      return null;
+    }
+
+    return {
+      identifier: data.email,
+      token: data.token,
+      expires: data.expires,
+    };
+  } catch (error) {
+    console.error("getPasswordResetTokenByEmail error:", error);
+    return null;
+  }
+};
+
+// Get verification token by token (Supabase version)
+export const getVerificationTokenByToken = async (token: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("verification_tokens")
+      .select("*")
+      .eq("token", token)
+      .single();
+
+    if (error) {
+      console.error("Error fetching verification token:", error);
+      return null;
+    }
+
+    return {
+      identifier: data.email,
+      token: data.token,
+      expires: data.expires,
+    };
+  } catch (error) {
+    console.error("getVerificationTokenByToken error:", error);
     return null;
   }
 };

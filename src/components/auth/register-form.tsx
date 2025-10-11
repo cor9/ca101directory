@@ -67,12 +67,12 @@ export const RegisterForm = () => {
             console.log("register, success:", data.message);
             setSuccess(data.message);
 
-            // Redirect to dashboard if redirectUrl is provided
-            // But give user time to see the success message
+            // Redirect to login page if redirectUrl is provided
+            // But give user time to read the important email confirmation message
             if (data.redirectUrl) {
               setTimeout(() => {
                 window.location.href = data.redirectUrl as string;
-              }, 3000); // 3 seconds to read the message
+              }, 8000); // 8 seconds to read the email confirmation message
             }
           }
         })

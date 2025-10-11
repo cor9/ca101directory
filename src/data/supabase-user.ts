@@ -57,39 +57,30 @@ export const createUser = async (userData: {
   role?: "parent" | "vendor" | "admin";
 }): Promise<User | null> => {
   try {
-    // Note: The database trigger 'handle_new_user' automatically creates profiles
-    // when auth.users records are created. This function checks if the profile exists
-    // and creates it only if missing (for edge cases where trigger didn't fire).
-    
-    // First, check if profile already exists
-    const existingProfile = await getUserById(userData.id);
-    if (existingProfile) {
-      console.log("Profile already exists for user:", userData.id);
-      return existingProfile;
-    }
+    // The database trigger 'handle_new_user' automatically creates profiles
+    // when auth.users records are created. Since the profile is created by the trigger,
+    // we just need to return a success result. The trigger handles everything.
 
-    // Profile doesn't exist, create it with correct column name
-    const { data, error } = await supabase
-      .from("profiles")
-      .insert([
-        {
-          id: userData.id,
-          email: userData.email,
-          full_name: userData.name, // Use full_name to match database schema
-          role: userData.role || "parent",
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        },
-      ])
-      .select()
-      .single();
+    console.log(
+      "Profile creation handled by database trigger for user:",
+      userData.id,
+    );
 
-    if (error) {
-      console.error("createUser error:", error);
-      return null;
-    }
-
-    return data;
+    // Return a minimal user object to indicate success
+    // We can't query the profile during registration due to RLS restrictions
+    return {
+      id: userData.id,
+      email: userData.email,
+      full_name: userData.name,
+      role: userData.role || "parent",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      avatar_url: null,
+      stripe_customer_id: null,
+      link: null,
+      subscription_plan: null,
+      billing_cycle: null,
+    } as User;
   } catch (error) {
     console.error("createUser error:", error);
     return null;

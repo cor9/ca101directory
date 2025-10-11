@@ -1,6 +1,7 @@
 "use client";
 
 import { login } from "@/actions/login";
+import { resendConfirmation } from "@/actions/resend-confirmation";
 import { AuthCard } from "@/components/auth/auth-card";
 import { Icons } from "@/components/icons/icons";
 import { FormError } from "@/components/shared/form-error";
@@ -38,6 +39,9 @@ export const LoginForm = ({
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
+  const [isResending, setIsResending] = useState(false);
+  const [showResendForm, setShowResendForm] = useState(false);
+  const [resendEmail, setResendEmail] = useState("");
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -77,6 +81,32 @@ export const LoginForm = ({
           setError("Something went wrong");
         });
     });
+  };
+
+  const handleResendConfirmation = async () => {
+    if (!resendEmail) {
+      setError("Please enter your email address");
+      return;
+    }
+
+    setError("");
+    setSuccess("");
+    setIsResending(true);
+
+    try {
+      const result = await resendConfirmation(resendEmail);
+      if (result.status === "success") {
+        setSuccess(result.message);
+        setShowResendForm(false);
+        setResendEmail("");
+      } else {
+        setError(result.message);
+      }
+    } catch (error) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setIsResending(false);
+    }
   };
 
   return (
@@ -155,6 +185,68 @@ export const LoginForm = ({
             )}
             <span>Login</span>
           </Button>
+
+          {/* Resend Confirmation Email Section */}
+          <div className="border-t pt-4 mt-4">
+            {!showResendForm ? (
+              <div className="text-center">
+                <p className="text-sm text-gray-600 mb-2">
+                  Didn't receive confirmation email?
+                </p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowResendForm(true)}
+                  className="text-secondary-denim hover:text-primary-orange"
+                >
+                  📧 Resend Confirmation Email
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <p className="text-sm font-semibold text-gray-700">
+                  Resend Confirmation Email
+                </p>
+                <Input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={resendEmail}
+                  onChange={(e) => setResendEmail(e.target.value)}
+                  className="bg-paper border-secondary-denim text-surface"
+                  disabled={isResending}
+                />
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    onClick={handleResendConfirmation}
+                    disabled={isResending}
+                    className="flex-1 btn-primary"
+                    size="sm"
+                  >
+                    {isResending ? (
+                      <Icons.spinner className="w-4 h-4 animate-spin" />
+                    ) : (
+                      "Send Email"
+                    )}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+                      setShowResendForm(false);
+                      setResendEmail("");
+                      setError("");
+                    }}
+                    disabled={isResending}
+                    size="sm"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
         </form>
       </Form>
     </AuthCard>

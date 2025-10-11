@@ -74,20 +74,13 @@ export async function register(
       return { status: "error", message: "Failed to create user profile" };
     }
 
-    // Check if email confirmation is required
-    if (authData.user.email_confirmed_at === null) {
-      return {
-        status: "success",
-        message:
-          "🎉 Account created! Please check your email (including spam folder) to confirm your account before signing in.",
-        redirectUrl: "/auth/login",
-      };
-    }
-
+    // ALWAYS show email confirmation message regardless of auto-confirmation setting
+    // This ensures users always know to check their email
     return {
       status: "success",
-      message: "Account created successfully! Redirecting to dashboard...",
-      redirectUrl: nextUrl || getRoleBasedRedirect(role as UserRole),
+      message:
+        "✅ SUCCESS! Account created successfully!\n\n📧 IMPORTANT: Please check your email (including spam/junk folder) for a confirmation link. You must click the link to activate your account before you can sign in.\n\n⏰ The confirmation email should arrive within a few minutes.",
+      redirectUrl: "/auth/login",
     };
   } catch (error) {
     console.error("Registration error:", error);

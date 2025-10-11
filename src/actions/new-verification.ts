@@ -1,8 +1,8 @@
 "use server";
 
 import { getUserByEmail } from "@/data/supabase-user";
-import { getVerificationTokenByToken } from "@/data/verification-token";
 import { supabase } from "@/lib/supabase";
+import { getVerificationTokenByToken } from "@/lib/tokens";
 
 export type ServerActionResponse = {
   status: "success" | "error";

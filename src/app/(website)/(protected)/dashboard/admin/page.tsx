@@ -1,4 +1,5 @@
 import { AdminNotifications } from "@/components/admin/admin-notifications";
+import { EmailVerificationTool } from "@/components/admin/email-verification-tool";
 import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { siteConfig } from "@/config/site";
@@ -50,6 +51,9 @@ export default async function AdminDashboard() {
 
           {/* Admin Notifications */}
           <AdminNotifications />
+
+          {/* Email Verification Tool */}
+          <EmailVerificationTool />
 
           {/* Platform Stats */}
           <div className="grid gap-4 md:grid-cols-4">

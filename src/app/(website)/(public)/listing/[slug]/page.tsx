@@ -176,9 +176,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
     // Categories are now stored properly as complete strings in the array
     // No need for complex reconstruction logic
     const validCategories = ((listing.categories || []) as string[])
-      .map(cat => cat.trim())
+      .map((cat) => cat.trim())
       .filter(Boolean)
-      .filter(cat => categoryNameLookup.has(normalizeCategory(cat)));
+      .filter((cat) => categoryNameLookup.has(normalizeCategory(cat)));
 
     const displayCategories = validCategories.map((name) => {
       const key = normalizeCategory(name);
@@ -229,7 +229,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
           l.id !== listing.id &&
           l.status === "Live" &&
           l.is_active &&
-          l.categories?.includes(primaryCategory || "")
+          l.categories?.includes(primaryCategory || ""),
       )
       .slice(0, 3);
 
@@ -312,9 +312,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
               {/* Description */}
               <div className="mb-6">
-                <RichTextDisplay 
-                  content={listing.what_you_offer || ""} 
-                  className="text-lg leading-relaxed" 
+                <RichTextDisplay
+                  content={listing.what_you_offer || ""}
+                  className="text-lg leading-relaxed"
                 />
               </div>
 
@@ -371,18 +371,18 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 About This Professional
               </h2>
               <div className="mb-6">
-                <RichTextDisplay 
-                  content={listing.what_you_offer || ""} 
-                  className="text-base leading-relaxed" 
+                <RichTextDisplay
+                  content={listing.what_you_offer || ""}
+                  className="text-base leading-relaxed"
                 />
               </div>
 
               {listing.who_is_it_for && (
                 <div className="mb-6">
                   <h3>Who Is It For</h3>
-                  <RichTextDisplay 
-                    content={listing.who_is_it_for} 
-                    className="text-base leading-relaxed" 
+                  <RichTextDisplay
+                    content={listing.who_is_it_for}
+                    className="text-base leading-relaxed"
                   />
                 </div>
               )}
@@ -390,9 +390,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
               {listing.why_is_it_unique && (
                 <div className="mb-6">
                   <h3>What Makes This Unique</h3>
-                  <RichTextDisplay 
-                    content={listing.why_is_it_unique} 
-                    className="text-base leading-relaxed" 
+                  <RichTextDisplay
+                    content={listing.why_is_it_unique}
+                    className="text-base leading-relaxed"
                   />
                 </div>
               )}
@@ -400,9 +400,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
               {listing.format && (
                 <div className="mb-6">
                   <h3>Service Format</h3>
-                  <RichTextDisplay 
-                    content={listing.format} 
-                    className="text-base leading-relaxed" 
+                  <RichTextDisplay
+                    content={listing.format}
+                    className="text-base leading-relaxed"
                   />
                 </div>
               )}
@@ -410,9 +410,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
               {listing.extras_notes && (
                 <div>
                   <h3>Additional Notes</h3>
-                  <RichTextDisplay 
-                    content={listing.extras_notes} 
-                    className="text-base leading-relaxed" 
+                  <RichTextDisplay
+                    content={listing.extras_notes}
+                    className="text-base leading-relaxed"
                   />
                 </div>
               )}

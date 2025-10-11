@@ -118,7 +118,7 @@ export async function generateMetadata({
     (listing) =>
       (listing.city?.toLowerCase().includes(location.name.toLowerCase()) ||
         listing.state?.toLowerCase().includes(location.state.toLowerCase()) ||
-        listing.region?.toLowerCase().includes(location.name.toLowerCase())) &&
+        listing.region?.some((r) => r.toLowerCase().includes(location.name.toLowerCase()))) &&
       listing.status === "Live" &&
       listing.is_active
   );
@@ -150,7 +150,7 @@ export default async function LocationPage({
     (listing) =>
       (listing.city?.toLowerCase().includes(location.name.toLowerCase()) ||
         listing.state?.toLowerCase().includes(location.state.toLowerCase()) ||
-        listing.region?.toLowerCase().includes(location.name.toLowerCase())) &&
+        listing.region?.some((r) => r.toLowerCase().includes(location.name.toLowerCase()))) &&
       listing.status === "Live" &&
       listing.is_active
   );

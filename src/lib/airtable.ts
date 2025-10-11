@@ -309,7 +309,7 @@ interface FormData {
   city: string;
   state: string;
   zip: string;
-  region: string;
+  region: string | string[]; // Now supports array for multi-select
   bondNumber: string;
   plan: string;
   performerPermit: boolean;

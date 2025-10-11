@@ -24,7 +24,7 @@ export type AdminEditFormData = {
   city: string;
   state: string;
   zip: string;
-  region: string;
+  region: string | string[]; // Multi-select regions
   bondNumber: string;
   active: boolean;
   comped: boolean;

@@ -25,7 +25,7 @@ type BaseSubmitFormData = {
   city: string;
   state: string;
   zip: string;
-  region: string;
+  region: string | string[]; // Multi-select regions
   bondNumber: string;
   active?: boolean;
 };

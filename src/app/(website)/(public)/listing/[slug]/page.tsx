@@ -463,9 +463,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     <MapPinIcon className="w-4 h-4 text-primary-orange mt-1 flex-shrink-0" />
                     <span style={{ color: "#0C1A2B" }}>
                       {[listing.city, listing.state].filter(Boolean).join(", ")}
-                      {listing.region && listing.region !== listing.city && (
+                      {listing.region && listing.region.length > 0 && (
                         <span className="text-sm text-gray-600 ml-1">
-                          ({listing.region})
+                          ({listing.region.join(", ")})
                         </span>
                       )}
                     </span>

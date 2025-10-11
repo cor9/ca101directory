@@ -100,7 +100,7 @@ export function SupabaseSubmitForm({
     city: existingListing?.city || "",
     state: existingListing?.state || "",
     zip: existingListing?.zip?.toString() || "",
-    region: existingListing?.region || [], // Array for multi-select
+    region: (existingListing as any)?.region || [], // Array for multi-select
     bondNumber: "",
     active: true,
     // Social media fields

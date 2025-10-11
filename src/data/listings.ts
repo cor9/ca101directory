@@ -13,7 +13,7 @@ export type Listing = {
   website: string | null; // VARCHAR(500) with URL constraint
   email: string | null; // VARCHAR(255) with email constraint
   phone: string | null; // VARCHAR(20) with length constraint
-  region: string | null;
+  region: string[] | null; // TEXT[] array - multi-select service areas
   city: string | null;
   state: string | null;
   zip: number | null; // INTEGER with ZIP constraint (10000-99999)
@@ -138,7 +138,10 @@ export async function getPublicListings(params?: {
   let query = supabase.from("listings").select("*");
 
   if (params?.state) query = query.eq("state", params.state);
-  if (params?.region) query = query.eq("region", params.region);
+  if (params?.region) {
+    // Region is now an array - check if it contains the requested region
+    query = query.contains("region", [params.region]);
+  }
   if (params?.city) query = query.eq("city", params.city);
   if (params?.category) {
     console.log("getPublicListings: Filtering by category:", params.category);

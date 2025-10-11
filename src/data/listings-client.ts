@@ -32,7 +32,8 @@ export async function getPublicListingsClient(params?: {
     }
 
     if (params?.region) {
-      query = query.eq("region", params.region);
+      // Region is now an array - check if it contains the requested region
+      query = query.contains("region", [params.region]);
     }
 
     if (params?.city) {

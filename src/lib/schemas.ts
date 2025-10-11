@@ -43,7 +43,7 @@ export const baseSubmitSchema = {
   city: z.string().optional(),
   state: z.string().optional(),
   zip: z.string().optional(),
-  region: z.string().optional(),
+  region: z.array(z.string()).optional(), // Multi-select regions
   bondNumber: z.string().optional(),
   plan: z.enum(
     ["Free", "Standard", "Pro", "Founding Standard", "Founding Pro"],

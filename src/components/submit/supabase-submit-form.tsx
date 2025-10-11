@@ -100,7 +100,7 @@ export function SupabaseSubmitForm({
     city: existingListing?.city || "",
     state: existingListing?.state || "",
     zip: existingListing?.zip?.toString() || "",
-    region: "",
+    region: existingListing?.region || [], // Array for multi-select
     bondNumber: "",
     active: true,
     // Social media fields
@@ -455,35 +455,50 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="region" style={{ color: "#1F2327" }}>
-                Region
+              <Label style={{ color: "#1F2327" }}>
+                Service Areas (Select all that apply)
               </Label>
-              <Select
-                value={formData.region}
-                onValueChange={(value) => handleInputChange("region", value)}
-              >
-                <SelectTrigger className="bg-paper border-secondary-denim text-surface">
-                  <SelectValue placeholder="Select region" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Los Angeles">Los Angeles</SelectItem>
-                  <SelectItem value="San Francisco Bay Area">
-                    San Francisco Bay Area
-                  </SelectItem>
-                  <SelectItem value="San Diego">San Diego</SelectItem>
-                  <SelectItem value="Sacramento">Sacramento</SelectItem>
-                  <SelectItem value="Central Valley">Central Valley</SelectItem>
-                  <SelectItem value="Orange County">Orange County</SelectItem>
-                  <SelectItem value="Ventura County">Ventura County</SelectItem>
-                  <SelectItem value="Riverside County">
-                    Riverside County
-                  </SelectItem>
-                  <SelectItem value="San Bernardino County">
-                    San Bernardino County
-                  </SelectItem>
-                  <SelectItem value="Other">Other</SelectItem>
-                </SelectContent>
-              </Select>
+              <p className="text-xs" style={{ color: "#666" }}>
+                Where do you serve clients? Select all regions that apply.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 border rounded-lg bg-paper/50">
+                {[
+                  "West Coast",
+                  "Southwest",
+                  "Southeast",
+                  "Midwest",
+                  "Northeast",
+                  "Mid-Atlantic",
+                  "Pacific Northwest",
+                  "Rocky Mountain",
+                  "Canada",
+                  "Global (Online Only)",
+                ].map((regionOption) => (
+                  <div
+                    key={regionOption}
+                    className="flex items-center space-x-2"
+                  >
+                    <Checkbox
+                      id={`region-${regionOption}`}
+                      checked={(formData.region || []).includes(regionOption)}
+                      onCheckedChange={(checked) => {
+                        const currentRegions = formData.region || [];
+                        const newRegions = checked
+                          ? [...currentRegions, regionOption]
+                          : currentRegions.filter((r) => r !== regionOption);
+                        handleInputChange("region", newRegions);
+                      }}
+                    />
+                    <Label
+                      htmlFor={`region-${regionOption}`}
+                      className="text-sm font-normal cursor-pointer"
+                      style={{ color: "#1F2327" }}
+                    >
+                      {regionOption}
+                    </Label>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 

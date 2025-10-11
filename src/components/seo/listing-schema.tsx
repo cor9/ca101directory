@@ -51,6 +51,15 @@ export function ListingSchema({ listing, averageRating }: ListingSchemaProps) {
       : listing.plan === "Pro"
         ? "$$"
         : "$",
+    // Social media profiles
+    sameAs: [
+      listing.facebook_url,
+      listing.instagram_url,
+      listing.tiktok_url,
+      listing.youtube_url,
+      listing.linkedin_url,
+      listing.blog_url,
+    ].filter(Boolean),
     ...(averageRating && averageRating.count > 0
       ? {
           aggregateRating: {

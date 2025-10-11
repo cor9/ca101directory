@@ -61,21 +61,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const listing of listings) {
       // Only include active, live listings
       if (listing.status === "Live" && listing.is_active) {
-        const slug = (listing.listing_name || "")
-          .toLowerCase()
-          .replace(/\s+/g, "-")
-          .replace(/[^a-z0-9-]/g, "");
-        
-        if (slug) {
-          sitemapList.push({
-            url: `${site_url}/listing/${slug}`,
-            lastModified: listing.updated_at
-              ? new Date(listing.updated_at).toISOString()
-              : new Date().toISOString(),
-            changeFrequency: "monthly",
-            priority: listing.featured ? 0.9 : 0.7,
-          });
-        }
+        sitemapList.push({
+          url: `${site_url}/listing/${listing.id}`,
+          lastModified: listing.updated_at
+            ? new Date(listing.updated_at).toISOString()
+            : new Date().toISOString(),
+          changeFrequency: "weekly", // More frequent for better crawl
+          priority: listing.featured ? 0.9 : 0.8, // Higher priority for all listings
+        });
       }
     }
 

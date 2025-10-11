@@ -5,6 +5,25 @@ import { SubmitSchema } from "@/lib/schemas";
 import { supabase } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 
+/**
+ * Generate SEO-friendly slug from listing name and city
+ * Format: listing-name-city (all lowercase, hyphens only)
+ * 
+ * IMPORTANT: Only called on creation, NEVER on updates!
+ * Slugs are immutable for SEO - changing URLs breaks:
+ * - Google rankings, backlinks, bookmarks, social shares
+ */
+function generateSlug(name: string, city?: string): string {
+  const parts = [name, city].filter(Boolean);
+  const slug = parts
+    .join('-')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric with hyphens
+    .replace(/-+/g, '-')          // Replace multiple hyphens with single
+    .replace(/^-|-$/g, '');       // Remove leading/trailing hyphens
+  return slug;
+}
+
 type BaseSubmitFormData = {
   name: string;
   link: string;

@@ -80,16 +80,41 @@ export async function generateMetadata({
       return;
     }
 
-    return constructMetadata({
-      title: `${listing.listing_name} - Child Actor 101 Directory`,
-      description:
-        listing.what_you_offer ||
-        "Professional acting services for young actors",
-      canonicalUrl: `${siteConfig.url}/listing/${params.slug}`,
-      image: listing.profile_image
-        ? getListingImageUrl(listing.profile_image)
-        : undefined,
-    });
+    // Build SEO-rich title and description
+    const category = listing.categories?.[0] || 'Acting Professional';
+    const cityState = [listing.city, listing.state].filter(Boolean).join(', ');
+    const location = cityState ? ` in ${cityState}` : '';
+    
+    const title = `${listing.listing_name} | ${category}${location}`;
+    const description = listing.what_you_offer || 
+      `Find ${listing.listing_name}${location} — a trusted ${category.toLowerCase()} for child actors on Child Actor 101 Directory.`;
+    
+    const url = `${siteConfig.url}/listing/${params.slug}`;
+    const image = listing.profile_image
+      ? getListingImageUrl(listing.profile_image)
+      : `${siteConfig.url}/og-default.jpg`;
+
+    return {
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        url,
+        images: [{ url: image, width: 1200, height: 630, alt: listing.listing_name }],
+        type: 'website',
+        siteName: 'Child Actor 101 Directory',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: [image],
+      },
+      alternates: {
+        canonical: url,
+      },
+    };
   } catch (error) {
     console.error("generateMetadata error:", error);
     return constructMetadata({
@@ -309,6 +334,17 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   </span>
                 )}
               </div>
+
+              {/* Last Updated - Freshness Signal for SEO */}
+              {listing.updated_at && (
+                <p className="text-xs text-gray-500 mb-3">
+                  Last updated: {new Date(listing.updated_at).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </p>
+              )}
 
               {/* Description */}
               <div className="mb-6">

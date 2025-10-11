@@ -209,68 +209,20 @@ export async function getListingById(id: string) {
 export async function getListingBySlug(slug: string) {
   console.log("getListingBySlug: Looking for slug:", slug);
 
-  // First try to find by UUID (if it looks like a UUID)
-  if (
-    slug.match(
-      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
-    )
-  ) {
-    console.log("getListingBySlug: Treating as UUID");
-    const { data, error } = await supabase
-      .from("listings")
-      .select("*")
-      .eq("id", slug)
-      .eq("status", "Live")
-      .eq("is_active", true)
-      .single();
-
-    if (data && !error) {
-      console.log("getListingBySlug: Found by UUID:", data.listing_name);
-      return data as Listing;
-    }
-    console.log("getListingBySlug: UUID not found, trying slug lookup");
-  }
-
-  // If not found by UUID, try to find by generated slug from listing_name
-  const { data: nameData, error: nameError } = await supabase
+  // Try to find by UUID/ID
+  const { data, error } = await supabase
     .from("listings")
     .select("*")
+    .eq("id", slug)
     .eq("status", "Live")
-    .eq("is_active", true);
+    .eq("is_active", true)
+    .single();
 
-  if (nameError) {
-    console.error("getListingBySlug: Error fetching listings:", nameError);
-    throw nameError;
+  if (data && !error) {
+    console.log("getListingBySlug: Found listing:", data.listing_name);
+    return data as Listing;
   }
 
-  console.log("getListingBySlug: Checking", nameData?.length || 0, "listings");
-
-  // Find listing where generated slug matches
-  const listing = nameData?.find((item) => {
-    const generatedSlug =
-      item.listing_name
-        ?.toLowerCase()
-        .replace(/\s+/g, "-")
-        .replace(/[^a-z0-9-]/g, "") || item.id;
-
-    console.log("getListingBySlug: Comparing", {
-      listingName: item.listing_name,
-      generatedSlug,
-      targetSlug: slug,
-      match: generatedSlug === slug,
-    });
-
-    return generatedSlug === slug;
-  });
-
-  if (listing) {
-    console.log(
-      "getListingBySlug: Found by generated slug:",
-      listing.listing_name,
-    );
-    return listing as Listing;
-  }
-
-  console.log("getListingBySlug: No listing found for slug:", slug);
+  console.log("getListingBySlug: No listing found for id:", slug);
   return null;
 }

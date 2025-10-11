@@ -83,15 +83,10 @@ export function RelatedLinks({
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {relatedListings.slice(0, 3).map((related) => {
-              const relatedSlug = (related.listing_name || "")
-                .toLowerCase()
-                .replace(/\s+/g, "-")
-                .replace(/[^a-z0-9-]/g, "");
-
               return (
                 <Link
                   key={related.id}
-                  href={`/listing/${relatedSlug}`}
+                  href={`/listing/${related.id}`}
                   className="block rounded-lg p-5 transition-all hover:shadow-lg"
                   style={{ 
                     backgroundColor: "#fafaf4",

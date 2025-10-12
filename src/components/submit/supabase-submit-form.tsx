@@ -605,7 +605,10 @@ export function SupabaseSubmitForm({
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg">Standard</CardTitle>
                   <div className="text-2xl font-bold text-[#FF6B35]">
-                    $25<span className="text-sm font-normal">/month</span>
+                    Starting at $25<span className="text-sm font-normal">/mo</span>
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    Multiple billing options available
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
@@ -630,7 +633,10 @@ export function SupabaseSubmitForm({
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg">Pro</CardTitle>
                   <div className="text-2xl font-bold text-[#FF6B35]">
-                    $50<span className="text-sm font-normal">/month</span>
+                    Starting at $50<span className="text-sm font-normal">/mo</span>
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    Multiple billing options available
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
@@ -658,8 +664,9 @@ export function SupabaseSubmitForm({
             {formData.plan !== "Free" && (
               <div className="bg-green-50 border border-green-200 rounded-lg p-3">
                 <p className="text-sm text-green-800">
-                  <strong>Paid Plan Selected:</strong> Great choice! Your
-                  listing will be featured and you'll get premium placement.
+                  <strong>Paid Plan Selected:</strong> Great choice! After submitting, 
+                  you'll be able to choose from monthly, yearly, or founding vendor pricing options. 
+                  Your listing will be featured and you'll get premium placement.
                 </p>
               </div>
             )}

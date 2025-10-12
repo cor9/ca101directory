@@ -209,8 +209,8 @@ export async function getListingById(id: string) {
 export async function getListingBySlug(slug: string) {
   console.log("getListingBySlug: Looking for slug:", slug);
 
-  // Try to find by UUID/ID
-  const { data, error } = await supabase
+  // First, try to find by UUID/ID (for backward compatibility)
+  const { data: idData, error: idError } = await supabase
     .from("listings")
     .select("*")
     .eq("id", slug)
@@ -218,11 +218,25 @@ export async function getListingBySlug(slug: string) {
     .eq("is_active", true)
     .single();
 
-  if (data && !error) {
-    console.log("getListingBySlug: Found listing:", data.listing_name);
-    return data as Listing;
+  if (idData && !idError) {
+    console.log("getListingBySlug: Found listing by ID:", idData.listing_name);
+    return idData as Listing;
   }
 
-  console.log("getListingBySlug: No listing found for id:", slug);
+  // If not found by ID, try to find by slug field
+  const { data: slugData, error: slugError } = await supabase
+    .from("listings")
+    .select("*")
+    .eq("slug", slug)
+    .eq("status", "Live")
+    .eq("is_active", true)
+    .single();
+
+  if (slugData && !slugError) {
+    console.log("getListingBySlug: Found listing by slug:", slugData.listing_name);
+    return slugData as Listing;
+  }
+
+  console.log("getListingBySlug: No listing found for slug or id:", slug);
   return null;
 }

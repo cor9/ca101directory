@@ -54,58 +54,88 @@ export const {
 
     // JWT callback - add user role and data
     jwt: async ({ token, user, account }) => {
-      console.log("Auth JWT:", {
+      console.log("=== JWT CALLBACK START ===");
+      console.log("Auth JWT raw data:", {
         user: user?.email,
-        role: (user as any)?.role,
+        userRole: (user as any)?.role,
         account: account?.provider,
         tokenSub: token.sub,
+        tokenRole: token.role,
+        fullUser: user,
       });
 
       if (user) {
-        // Use the actual role from database, don't default to parent
-        token.role = (user as any).role || "guest";
+        // Initial sign in - user object is available
+        const userRole = (user as any).role;
+        console.log("JWT: Initial sign in, user role from authorize:", userRole);
+        
+        if (!userRole || userRole === "guest") {
+          console.error("⚠️ WARNING: User has no role or is guest!", {
+            userId: user.id,
+            userEmail: user.email,
+            userObject: user,
+          });
+        }
+        
+        token.role = userRole || "guest";
         token.id = user.id;
-        console.log("JWT token role set to:", token.role);
-      } else if (token.sub) {
-        // On token refresh, fetch fresh role from database
+        console.log("JWT: Token role set to:", token.role, "Token ID:", token.id);
+      } else if (token.sub && !token.role) {
+        // Token refresh but no role in token - fetch from database
+        console.log("JWT: Token refresh, no role in token. Fetching from database...");
         try {
           const supabase = createServerClient();
-          const { data: profile } = await supabase
+          const { data: profile, error } = await supabase
             .from("profiles")
-            .select("role")
+            .select("role, id, email")
             .eq("id", token.sub)
             .single();
 
+          console.log("JWT: Database profile fetch result:", { profile, error });
+
           if (profile?.role) {
             token.role = profile.role;
-            console.log("JWT token role refreshed to:", token.role);
+            console.log("JWT: Token role refreshed from DB to:", token.role);
+          } else {
+            console.error("⚠️ JWT: No role found in database for user:", token.sub);
+            token.role = "guest"; // Fallback
           }
         } catch (error) {
-          console.error("Error refreshing user role:", error);
+          console.error("❌ JWT: Error refreshing user role:", error);
+          token.role = "guest"; // Fallback
         }
       }
 
+      console.log("=== JWT CALLBACK END ===", {
+        finalTokenRole: token.role,
+        finalTokenId: token.id,
+      });
       return token;
     },
 
     // Session callback - add user data to session
     session: async ({ session, token }) => {
-      console.log("Auth session callback:", {
-        user: session.user?.email,
+      console.log("=== SESSION CALLBACK START ===");
+      console.log("Auth session callback raw:", {
+        sessionUserEmail: session.user?.email,
         tokenRole: token.role,
         tokenId: token.id,
+        tokenSub: token.sub,
       });
 
       if (token) {
         session.user.id = token.id as string;
         session.user.role = token.role as UserRole;
-        console.log("Session user role set to:", session.user.role);
+        console.log("SESSION: User data set from token:", {
+          id: session.user.id,
+          role: session.user.role,
+        });
       }
 
-      console.log("Final session:", {
-        userId: session.user.id,
-        userRole: session.user.role,
-        userEmail: session.user.email,
+      console.log("=== SESSION CALLBACK END ===", {
+        finalUserId: session.user.id,
+        finalUserRole: session.user.role,
+        finalUserEmail: session.user.email,
       });
 
       return session;

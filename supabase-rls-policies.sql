@@ -14,14 +14,18 @@ create policy "Users can insert own profile" on profiles
 create policy "Admins can view all profiles" on profiles
   for select using (
     exists (
-      select 1 from profiles 
+      select 1 from profiles
       where id = auth.uid() and role = 'admin'
     )
   );
 
+-- Allow trigger function to insert profiles (for handle_new_user function)
+create policy "Allow trigger function to insert profiles" on profiles
+  for insert with check (auth.role() = 'service_role');
+
 -- 2. Listings policies
 create policy "Public can view live listings" on listings
-  for select using (status = 'Live' and active = true);
+  for select using (status = 'Live' and is_active = true);
 
 create policy "Users can view own listings" on listings
   for select using (auth.uid() = owner_id);
@@ -196,7 +200,7 @@ create policy "Service role can manage subscriptions" on stripe_subscriptions
 
 -- 12. Public views policies
 create policy "Public can view listings_public" on listings_public
-  for select using (status = 'Live' and active = true);
+  for select using (status = 'Live' and is_active = true);
 
 create policy "Public can view plans_public" on plans_public
   for select using (true);

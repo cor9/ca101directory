@@ -74,3 +74,47 @@ export const QUERY_FILTER_LIST: QueryFilterItem[] = [
     slug: "featured==true",
   },
 ];
+
+// Plan configurations with clear messaging
+export const PLAN_FEATURES = {
+  FREE: {
+    name: "Free Listing",
+    price: 0,
+    features: [
+      "Basic directory listing",
+      "Profile image",
+      "Contact information",
+      "Social media links",
+      "Searchable in directory",
+    ],
+    limitations: [
+      "No gallery images",
+      "Standard placement",
+      "Admin review required",
+    ],
+    upgradePrompt: "Upgrade to Pro for gallery images and featured placement",
+  },
+  PRO: {
+    name: "Pro Plan",
+    price: 50,
+    features: [
+      "Everything in Free",
+      "Up to 4 gallery images",
+      "Featured placement",
+      "Priority support",
+      "SEO boost",
+    ],
+    upgradePrompt: "Upgrade to Premium for the 101 Approved badge",
+  },
+  PREMIUM: {
+    name: "Premium Plan",
+    price: 90,
+    features: [
+      "Everything in Pro",
+      "101 Approved badge",
+      "Top priority placement",
+      "Premium support",
+    ],
+    upgradePrompt: "Best value for serious professionals",
+  },
+} as const;

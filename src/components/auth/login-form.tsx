@@ -1,7 +1,7 @@
 "use client";
 
 import { login } from "@/actions/login";
-import { resendConfirmation } from "@/actions/resend-confirmation";
+import { resendConfirmationEmail } from "@/actions/resend-confirmation";
 import { AuthCard } from "@/components/auth/auth-card";
 import { Icons } from "@/components/icons/icons";
 import { FormError } from "@/components/shared/form-error";
@@ -94,13 +94,13 @@ export const LoginForm = ({
     setIsResending(true);
 
     try {
-      const result = await resendConfirmation(resendEmail);
-      if (result.status === "success") {
-        setSuccess(result.message);
+      const result = await resendConfirmationEmail(resendEmail);
+      if (result.success) {
+        setSuccess(result.message || "Confirmation email sent!");
         setShowResendForm(false);
         setResendEmail("");
       } else {
-        setError(result.message);
+        setError(result.error || "Failed to resend confirmation email.");
       }
     } catch (error) {
       setError("Something went wrong. Please try again.");

@@ -2,10 +2,8 @@
 
 import { isRoleEnabled } from "@/config/feature-flags";
 import { createUser, getUserByEmail } from "@/data/supabase-user";
-import { getRoleBasedRedirect } from "@/lib/auth-redirects";
 import { RegisterSchema } from "@/lib/schemas";
-import { supabase } from "@/lib/supabase";
-import type { UserRole } from "@/types/user-role";
+import { createServerClient } from "@/lib/supabase";
 import type * as z from "zod";
 
 export type ServerActionResponse = {
@@ -37,24 +35,47 @@ export async function register(
   // Check if user already exists
   const existingUser = await getUserByEmail(email);
   if (existingUser) {
-    return { status: "error", message: "Email already being used" };
+    return { 
+      status: "error", 
+      message: "Email already being used. Try logging in instead." 
+    };
   }
 
   try {
+    const supabase = createServerClient();
+
     // Create user with Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: {
+          full_name: name,
           name: name,
           role: role,
         },
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
       },
     });
 
     if (authError) {
       console.error("Supabase auth error:", authError);
+      
+      // Provide helpful error messages
+      if (authError.message.includes("rate limit")) {
+        return {
+          status: "error",
+          message: "Too many registration attempts. Please try again in a few minutes."
+        };
+      }
+      
+      if (authError.message.includes("already registered")) {
+        return {
+          status: "error",
+          message: "This email is already registered. Try logging in instead."
+        };
+      }
+
       return { status: "error", message: authError.message };
     }
 
@@ -62,28 +83,44 @@ export async function register(
       return { status: "error", message: "Failed to create user" };
     }
 
-    // Create user record in our profiles table
-    const user = await createUser({
-      id: authData.user.id,
-      email: authData.user.email || "",
-      name,
-      role: role,
-    });
+    // Wait a moment for trigger to complete
+    await new Promise(resolve => setTimeout(resolve, 500));
 
-    if (!user) {
-      return { status: "error", message: "Failed to create user profile" };
+    // Verify profile was created
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", authData.user.id)
+      .single();
+
+    if (!profile) {
+      console.error("Profile not created by trigger, creating manually");
+      
+      // Fallback: Create user record in our profiles table
+      const user = await createUser({
+        id: authData.user.id,
+        email: authData.user.email || "",
+        name,
+        role: role,
+      });
+
+      if (!user) {
+        console.error("Manual profile creation failed, but continuing");
+        // Don't fail - admin can fix profile later
+      }
     }
 
-    // ALWAYS show email confirmation message regardless of auto-confirmation setting
-    // This ensures users always know to check their email
+    // Redirect to registration success page
     return {
       status: "success",
-      message:
-        "✅ SUCCESS! Account created successfully!\n\n📧 IMPORTANT: Please check your email (including spam/junk folder) for a confirmation link. You must click the link to activate your account before you can sign in.\n\n⏰ The confirmation email should arrive within a few minutes.",
-      redirectUrl: "/auth/login",
+      message: "Account created! Redirecting to confirmation page...",
+      redirectUrl: `/auth/registration-success?email=${encodeURIComponent(email)}`,
     };
   } catch (error) {
     console.error("Registration error:", error);
-    return { status: "error", message: "Something went wrong" };
+    return { 
+      status: "error", 
+      message: "Something went wrong. Please try again or contact support." 
+    };
   }
 }

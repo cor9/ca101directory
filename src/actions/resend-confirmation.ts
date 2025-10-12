@@ -2,36 +2,51 @@
 
 import { createServerClient } from "@/lib/supabase";
 
-export async function resendConfirmation(email: string) {
+export async function resendConfirmationEmail(email: string) {
   try {
     const supabase = createServerClient();
 
-    // Resend confirmation email using Supabase Auth
-    // Note: Supabase's resend method will check if the email is already verified
+    // Resend confirmation email
     const { error } = await supabase.auth.resend({
       type: "signup",
       email: email,
+      options: {
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+      },
     });
 
     if (error) {
       console.error("Resend confirmation error:", error);
+      
+      if (error.message.includes("rate limit")) {
+        return {
+          success: false,
+          error: "Too many requests. Please wait a few minutes and try again.",
+        };
+      }
+
+      if (error.message.includes("already confirmed")) {
+        return {
+          success: false,
+          error: "Email already confirmed. Try logging in instead.",
+        };
+      }
+
       return {
-        status: "error" as const,
-        message: "Failed to resend confirmation email. Please try again.",
+        success: false,
+        error: error.message || "Failed to resend confirmation email.",
       };
     }
 
     return {
-      status: "success" as const,
-      message:
-        "✅ Confirmation email sent!\n\n📧 Check your inbox (and spam folder) for the new confirmation link.",
+      success: true,
+      message: "Confirmation email sent! Check your inbox.",
     };
   } catch (error) {
-    console.error("Resend confirmation error:", error);
+    console.error("Unexpected resend error:", error);
     return {
-      status: "error" as const,
-      message: "Something went wrong. Please try again.",
+      success: false,
+      error: "Something went wrong. Please contact support.",
     };
   }
 }
-

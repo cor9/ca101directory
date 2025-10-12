@@ -505,49 +505,103 @@ export function SupabaseSubmitForm({
           {/* Plan Selection */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold" style={{ color: "#1F2327" }}>
-              Plan Selection
+              Choose Your Plan
             </h3>
-            <RadioGroup
-              value={formData.plan}
-              onValueChange={(value) => handleInputChange("plan", value)}
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Free" id="plan-free" />
-                <Label htmlFor="plan-free" style={{ color: "#333" }}>
-                  Free
-                </Label>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {/* Free Plan */}
+              <Card
+                className={`cursor-pointer transition-all hover:shadow-lg ${
+                  formData.plan === "Free"
+                    ? "ring-2 ring-[#FF6B35] bg-orange-50"
+                    : "border-gray-200"
+                }`}
+                onClick={() => handleInputChange("plan", "Free")}
+              >
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">Free</CardTitle>
+                  <div className="text-2xl font-bold text-[#FF6B35]">$0</div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <ul className="text-sm space-y-1">
+                    <li>• Basic listing</li>
+                    <li>• Profile image</li>
+                    <li>• Standard placement</li>
+                  </ul>
+                  <div className="mt-3 text-xs text-gray-500">
+                    Upgrade anytime for more features
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Pro Plan */}
+              <Card
+                className={`cursor-pointer transition-all hover:shadow-lg ${
+                  formData.plan === "Pro"
+                    ? "ring-2 ring-[#FF6B35] bg-blue-50"
+                    : "border-gray-200"
+                }`}
+                onClick={() => handleInputChange("plan", "Pro")}
+              >
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">Pro</CardTitle>
+                  <div className="text-2xl font-bold text-[#FF6B35]">
+                    $50<span className="text-sm font-normal">/month</span>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <ul className="text-sm space-y-1">
+                    <li>• Everything in Free</li>
+                    <li>• 4 gallery images</li>
+                    <li>• Featured placement</li>
+                    <li>• Priority support</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              {/* Premium Plan */}
+              <Card
+                className={`cursor-pointer transition-all hover:shadow-lg ${
+                  formData.plan === "Premium"
+                    ? "ring-2 ring-[#FF6B35] bg-purple-50"
+                    : "border-gray-200"
+                }`}
+                onClick={() => handleInputChange("plan", "Premium")}
+              >
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">Premium</CardTitle>
+                  <div className="text-2xl font-bold text-[#FF6B35]">
+                    $90<span className="text-sm font-normal">/month</span>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <ul className="text-sm space-y-1">
+                    <li>• Everything in Pro</li>
+                    <li>• 101 Approved badge</li>
+                    <li>• Top priority placement</li>
+                    <li>• Premium support</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+
+            {formData.plan === "Free" && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                <p className="text-sm text-blue-800">
+                  <strong>Free Plan:</strong> Perfect for getting started! You
+                  can upgrade anytime to unlock gallery images and featured
+                  placement.
+                </p>
               </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Standard" id="plan-standard" />
-                <Label htmlFor="plan-standard" style={{ color: "#333" }}>
-                  Standard
-                </Label>
+            )}
+
+            {formData.plan !== "Free" && (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                <p className="text-sm text-green-800">
+                  <strong>Paid Plan Selected:</strong> Great choice! Your
+                  listing will be featured and you'll get premium placement.
+                </p>
               </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Pro" id="plan-pro" />
-                <Label htmlFor="plan-pro" style={{ color: "#333" }}>
-                  Pro
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem
-                  value="Founding Standard"
-                  id="plan-founding-standard"
-                />
-                <Label
-                  htmlFor="plan-founding-standard"
-                  style={{ color: "#333" }}
-                >
-                  Founding Standard
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="Founding Pro" id="plan-founding-pro" />
-                <Label htmlFor="plan-founding-pro" style={{ color: "#333" }}>
-                  Founding Pro
-                </Label>
-              </div>
-            </RadioGroup>
+            )}
           </div>
 
           {/* Legal Compliance */}

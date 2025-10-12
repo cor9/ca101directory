@@ -51,7 +51,7 @@ export function ClaimForm({
   const onSubmit = form.handleSubmit((data) => {
     startTransition(async () => {
       try {
-        const result = await claimListing(data);
+        const result = await claimListing(data.listingId, data.message);
 
         if (result.success) {
           toast.success(result.message);

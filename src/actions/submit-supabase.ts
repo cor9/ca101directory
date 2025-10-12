@@ -5,25 +5,6 @@ import { SubmitSchema } from "@/lib/schemas";
 import { supabase } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 
-/**
- * Generate SEO-friendly slug from listing name and city
- * Format: listing-name-city (all lowercase, hyphens only)
- * 
- * IMPORTANT: Only called on creation, NEVER on updates!
- * Slugs are immutable for SEO - changing URLs breaks:
- * - Google rankings, backlinks, bookmarks, social shares
- */
-function generateSlug(name: string, city?: string): string {
-  const parts = [name, city].filter(Boolean);
-  const slug = parts
-    .join('-')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric with hyphens
-    .replace(/-+/g, '-')          // Replace multiple hyphens with single
-    .replace(/^-|-$/g, '');       // Remove leading/trailing hyphens
-  return slug;
-}
-
 type BaseSubmitFormData = {
   name: string;
   link: string;
@@ -136,7 +117,8 @@ export async function submitToSupabase(
       ca_permit_required: performerPermit,
       is_bonded: bonded,
       bond_number: bondNumber,
-      status: "Pending",
+      // NEW submissions: Auto-approve paid plans, review free plans
+      status: (formData.plan === "Free" || formData.plan === "free") ? "Pending" : "Live",
       is_active: active ?? true,
       is_claimed: false,
       owner_id: user?.id || null, // Link to current user if authenticated
@@ -154,27 +136,42 @@ export async function submitToSupabase(
 
     console.log("submitToSupabase, creating listing in Supabase:", listingData);
 
-    let data: any;
-    let error: any;
+    let data: { id: string } | null;
+    let error: { message: string } | null;
 
     if (formData.isEdit && formData.listingId) {
       // Update existing listing
       console.log("Updating existing listing:", formData.listingId);
 
-      // Get current listing status
-      const { data: currentListing } = await supabase
+      // Get current listing status and plan first
+      const { data: currentListingStatus } = await supabase
         .from("listings")
-        .select("status")
+        .select("status, plan")
         .eq("id", formData.listingId)
         .single();
 
+      // Get current listing to preserve ownership and claimed status
+      const { data: currentListing } = await supabase
+        .from("listings")
+        .select("owner_id, is_claimed, plan")
+        .eq("id", formData.listingId)
+        .single();
+
+      // Verify user owns this listing before allowing edit
+      if (currentListing?.owner_id !== user?.id) {
+        return {
+          status: "error",
+          message: "You don't have permission to edit this listing",
+        };
+      }
+
       const updateData = {
         ...listingData,
-        // Set status to Pending for review if it was Live
-        status:
-          currentListing?.status === "Live" ? "Pending" : listingData.status,
-        owner_id: undefined, // Don't change ownership on edit
-        is_claimed: undefined, // Don't change claimed status on edit
+        // ALL EDITS require review (free and paid)
+        status: currentListingStatus?.status === "Live" ? "Pending" : (currentListingStatus?.status || "Pending"),
+        // Preserve existing ownership - don't change on edit
+        owner_id: currentListing?.owner_id,
+        is_claimed: currentListing?.is_claimed,
         updated_at: new Date().toISOString(),
       };
 
@@ -182,7 +179,6 @@ export async function submitToSupabase(
         .from("listings")
         .update(updateData)
         .eq("id", formData.listingId)
-        .eq("owner_id", user?.id) // Ensure user owns this listing
         .select()
         .single());
     } else {
@@ -208,11 +204,22 @@ export async function submitToSupabase(
     revalidatePath("/submit");
     revalidatePath("/");
 
+    // Determine success message based on plan and action
+    let successMessage = "";
+    if (formData.isEdit) {
+      // ALL EDITS require review (free and paid)
+      successMessage = "Successfully updated listing. Changes will be reviewed before going live.";
+    } else if (formData.plan === "Free" || formData.plan === "free") {
+      // NEW FREE submissions require review
+      successMessage = "Successfully submitted listing. It will be reviewed before going live.";
+    } else {
+      // NEW PAID submissions go live immediately
+      successMessage = "Successfully submitted listing! Your listing is now live.";
+    }
+
     return {
       status: "success",
-      message: formData.isEdit
-        ? "Successfully updated listing"
-        : "Successfully submitted listing",
+      message: successMessage,
       id: data.id,
       listingId: data.id,
     };

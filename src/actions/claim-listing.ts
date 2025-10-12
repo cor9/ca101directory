@@ -1,67 +1,135 @@
 "use server";
 
 import { auth } from "@/auth";
-import type { ClaimListingFormData } from "@/lib/schemas";
 import { createServerClient } from "@/lib/supabase";
+import { revalidatePath } from "next/cache";
 
-export async function claimListing(formData: ClaimListingFormData) {
-  try {
-    const session = await auth();
+export async function claimListing(listingId: string, message?: string) {
+  // STEP 1: Verify authentication
+  const session = await auth();
+  
+  if (!session?.user?.id) {
+    return {
+      success: false,
+      error: "AUTH_REQUIRED",
+      title: "Login Required",
+      message: "You must be logged in to claim a listing.",
+      action: "Please register or login to continue.",
+      redirectTo: `/auth/register?callbackUrl=/listing/${listingId}`,
+      showLoginButton: true,
+    };
+  }
 
-    if (!session?.user?.id) {
-      return {
-        success: false,
-        message: "You must be logged in to claim a listing.",
-      };
-    }
+  const supabase = createServerClient();
 
-    const supabase = createServerClient();
+  // STEP 2: Verify email is confirmed
+  const { data: authUser } = await supabase.auth.getUser();
+  if (!authUser?.user?.email_confirmed_at) {
+    return {
+      success: false,
+      error: "EMAIL_NOT_CONFIRMED",
+      title: "Email Not Confirmed",
+      message: "You need to confirm your email address before claiming listings.",
+      action: "Check your email inbox for the confirmation link. Can't find it?",
+      showResendButton: true,
+      userEmail: session.user.email,
+    };
+  }
 
-    // Check if listing exists and is not already claimed
-    const { data: listing, error: listingError } = await supabase
-      .from("listings")
-      .select("id, is_claimed, owner_id")
-      .eq("id", formData.listingId)
-      .single();
+  // STEP 3: Get user profile and verify role
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("role, full_name")
+    .eq("id", session.user.id)
+    .single();
 
-    if (listingError || !listing) {
-      return {
-        success: false,
-        message: "Listing not found.",
-      };
-    }
+  if (profileError || !profile) {
+    return {
+      success: false,
+      error: "NO_PROFILE",
+      title: "Profile Not Found",
+      message: "Your user profile is missing. This shouldn't happen!",
+      action: "Please contact support at support@childactor101.com with your email address.",
+      details: profileError?.message,
+    };
+  }
 
-    if (listing.is_claimed === true) {
-      return {
-        success: false,
-        message: "This listing has already been claimed.",
-      };
-    }
+  if (profile.role === "parent") {
+    return {
+      success: false,
+      error: "WRONG_ROLE",
+      title: "Vendor Account Required",
+      message: "Your account is registered as a Parent. Only Vendor accounts can claim listings.",
+      action: "If you're a professional offering services, please contact support to change your account type.",
+      hint: "Parents can browse and review listings, but cannot claim or manage them.",
+    };
+  }
 
+  // STEP 4: Fetch and verify listing
+  const { data: listing, error: listingError } = await supabase
+    .from("listings")
+    .select("*")
+    .eq("id", listingId)
+    .single();
+
+  if (listingError || !listing) {
+    return {
+      success: false,
+      error: "LISTING_NOT_FOUND",
+      title: "Listing Not Found",
+      message: "We couldn't find this listing. It may have been removed.",
+      action: "Try searching for other listings in the directory.",
+      redirectTo: "/listings",
+    };
+  }
+
+  // STEP 5: Check if already claimed by someone
+  if (listing.is_claimed && listing.owner_id) {
+    // Check if claimed by THIS user
     if (listing.owner_id === session.user.id) {
       return {
         success: false,
-        message: "You already own this listing.",
+        error: "ALREADY_OWN",
+        title: "You Already Own This Listing",
+        message: "This listing is already claimed by you!",
+        action: "Go to your dashboard to edit your listing.",
+        redirectTo: "/dashboard/vendor/listing",
+        showDashboardButton: true,
       };
-    }
-
-    // Check if user has already submitted a claim for this listing
-    const { data: existingClaim } = await supabase
-      .from("claims")
-      .select("id")
-      .eq("listing_id", formData.listingId)
-      .eq("vendor_id", session.user.id)
-      .single();
-
-    if (existingClaim) {
+    } else {
       return {
         success: false,
-        message: "You have already submitted a claim for this listing.",
+        error: "ALREADY_CLAIMED",
+        title: "Already Claimed",
+        message: "This listing has already been claimed by another user.",
+        action: "If you believe this is your business, please contact support.",
+        hint: "Support email: support@childactor101.com",
       };
     }
+  }
 
-    // AUTO-APPROVE: Immediately claim the listing for the user
-    // Step 1: Update the listing with ownership
+  // STEP 6: Check for duplicate claim attempts
+  const { data: existingClaim } = await supabase
+    .from("claims")
+    .select("*")
+    .eq("listing_id", listingId)
+    .eq("vendor_id", session.user.id)
+    .single();
+
+  if (existingClaim) {
+    return {
+      success: false,
+      error: "DUPLICATE_CLAIM",
+      title: "Claim Already Submitted",
+      message: "You've already submitted a claim for this listing.",
+      action: "Your claim is being processed. Check your dashboard for updates.",
+      redirectTo: "/dashboard/vendor/listing",
+    };
+  }
+
+  // STEP 7: ALL CHECKS PASSED - Claim the listing!
+  try {
+    // Update listing with ownership
     const { error: updateError } = await supabase
       .from("listings")
       .update({
@@ -70,48 +138,88 @@ export async function claimListing(formData: ClaimListingFormData) {
         date_claimed: new Date().toISOString(),
         claimed_by_email: session.user.email,
       })
-      .eq("id", formData.listingId);
+      .eq("id", listingId);
 
     if (updateError) {
-      console.error("Error claiming listing:", updateError);
+      console.error("Claim update error:", updateError);
       return {
         success: false,
-        message: "Failed to claim listing. Please try again.",
+        error: "UPDATE_FAILED",
+        title: "Claim Failed",
+        message: "Failed to claim the listing. Please try again.",
+        action: "If the problem persists, contact support.",
+        details: updateError.message,
       };
     }
 
-    // Step 2: Create a claim record for tracking (auto-approved)
-    const { data, error } = await supabase
+    // Record the claim in claims table
+    const { error: claimError } = await supabase
       .from("claims")
       .insert({
-        listing_id: formData.listingId,
+        listing_id: listingId,
         vendor_id: session.user.id,
-        message: formData.message,
+        message: message || "Listing claimed via instant claim",
         approved: true, // Auto-approved
-      })
-      .select()
-      .single();
+        created_at: new Date().toISOString(),
+      });
 
-    if (error) {
-      console.error("Error recording claim:", error);
-      // Don't fail if claim record fails - listing is already claimed
+    if (claimError) {
+      console.error("Claim record error:", claimError);
+      // Don't fail - listing is already claimed, this is just record-keeping
     }
 
-    console.log("✅ Listing claimed successfully (auto-approved)");
+    // Revalidate relevant pages
+    revalidatePath(`/listing/${listingId}`);
+    revalidatePath("/dashboard/vendor/listing");
 
     return {
       success: true,
-      message:
-        "Success! You now own this listing and can edit it immediately. Changes will be reviewed before going live.",
-      claimId: data?.id,
+      title: "Success! 🎉",
+      message: "You now own this listing and can edit it immediately.",
+      details: "Changes will be reviewed before going live on the directory.",
+      redirectTo: "/dashboard/vendor/listing",
+      listingId: listingId,
     };
-  } catch (error) {
-    console.error("❌ Error submitting claim:", error);
 
+  } catch (error) {
+    console.error("Unexpected claim error:", error);
     return {
       success: false,
-      message: "An unexpected error occurred. Please try again.",
-      error: error instanceof Error ? error.message : "Unknown error",
+      error: "UNEXPECTED_ERROR",
+      title: "Something Went Wrong",
+      message: "An unexpected error occurred while claiming the listing.",
+      action: "Please try again or contact support if the problem persists.",
+      details: error instanceof Error ? error.message : "Unknown error",
     };
   }
+}
+
+// Helper function to check if user can claim
+export async function canUserClaim(listingId: string) {
+  const session = await auth();
+  
+  if (!session?.user?.id) {
+    return { canClaim: false, reason: "NOT_LOGGED_IN" };
+  }
+
+  const supabase = createServerClient();
+  const { data: listing } = await supabase
+    .from("listings")
+    .select("is_claimed, owner_id")
+    .eq("id", listingId)
+    .single();
+
+  if (!listing) {
+    return { canClaim: false, reason: "LISTING_NOT_FOUND" };
+  }
+
+  if (listing.is_claimed && listing.owner_id !== session.user.id) {
+    return { canClaim: false, reason: "ALREADY_CLAIMED" };
+  }
+
+  if (listing.owner_id === session.user.id) {
+    return { canClaim: false, reason: "ALREADY_OWN" };
+  }
+
+  return { canClaim: true };
 }

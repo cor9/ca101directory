@@ -1,6 +1,4 @@
 import { auth } from "@/auth";
-import { AirtableSubmitForm } from "@/components/submit/airtable-submit-form";
-import FreeSubmitForm from "@/components/submit/free-submit-form";
 import { SupabaseSubmitForm } from "@/components/submit/supabase-submit-form";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
@@ -189,13 +187,16 @@ export default async function SubmitPage({
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-8">
-        <h1 className="bauhaus-heading text-4xl mb-4">
-          {isClaimFlow ? "Claim Your Listing" : "Submit Your Listing"}
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          {isClaimFlow ? "Claim Your Listing" : "List Your Business"}
         </h1>
-        <p className="bauhaus-body text-xl text-muted-foreground mb-8">
+        <p className="text-xl text-gray-600 mb-2">
           {isClaimFlow
-            ? "Fill out your listing details and choose a plan"
-            : "Choose your submission type"}
+            ? "Choose a plan and complete your listing details"
+            : "Join the Child Actor 101 Directory and connect with parents"}
+        </p>
+        <p className="text-sm text-gray-500">
+          Choose your plan below and get started in minutes.
         </p>
         {existingListing && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 max-w-2xl mx-auto">
@@ -208,15 +209,14 @@ export default async function SubmitPage({
 
       <div className="max-w-6xl mx-auto">
         {isClaimFlow ? (
-          // Show only the paid form for claim flow
+          // Show plan selection for claim flow
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-6">
-              <h2 className="bauhaus-heading text-2xl text-bauhaus-orange mb-2">
-                Complete Your Listing
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+                Choose Your Plan
               </h2>
-              <p className="bauhaus-body text-muted-foreground">
-                Fill out your listing details and choose a plan to claim this
-                listing.
+              <p className="text-gray-600">
+                Select a plan to claim and enhance this listing.
               </p>
             </div>
             <SupabaseSubmitForm
@@ -226,35 +226,9 @@ export default async function SubmitPage({
             />
           </div>
         ) : (
-          // Show both forms for regular submission
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Free Listing Form */}
-            <div>
-              <div className="text-center mb-6">
-                <h2 className="bauhaus-heading text-2xl text-bauhaus-blue mb-2">
-                  Free Listing
-                </h2>
-                <p className="bauhaus-body text-muted-foreground">
-                  Get started with a basic listing. Upgrade later for more
-                  features.
-                </p>
-              </div>
-              <FreeSubmitForm categories={freeFormCategories} />
-            </div>
-
-            {/* Paid Listing Form */}
-            <div>
-              <div className="text-center mb-6">
-                <h2 className="bauhaus-heading text-2xl text-bauhaus-orange mb-2">
-                  Paid Listing
-                </h2>
-                <p className="bauhaus-body text-muted-foreground">
-                  Create a professional listing with advanced features and
-                  priority placement.
-                </p>
-              </div>
-              <SupabaseSubmitForm categories={freeFormCategories} />
-            </div>
+          // Show plan selection for new submissions
+          <div className="space-y-8">
+            <SupabaseSubmitForm categories={freeFormCategories} />
           </div>
         )}
       </div>

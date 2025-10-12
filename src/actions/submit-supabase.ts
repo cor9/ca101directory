@@ -215,22 +215,23 @@ export async function submitToSupabase(
     revalidatePath("/submit");
     revalidatePath("/");
 
-    // Send confirmation email
-    try {
-      if (user?.email && user?.name) {
-        await sendListingSubmittedEmail(
-          user.name,
-          user.email,
-          name,
-          data.id,
-          plan,
-          !!formData.isEdit,
-        );
-        console.log("Confirmation email sent to:", user.email);
-      }
-    } catch (emailError) {
-      console.error("Failed to send confirmation email:", emailError);
-      // Don't fail the whole operation if email fails
+    // Send confirmation email (non-blocking, don't fail if email fails)
+    if (user?.email && user?.name) {
+      sendListingSubmittedEmail(
+        user.name,
+        user.email,
+        name,
+        data.id,
+        plan,
+        !!formData.isEdit,
+      )
+        .then(() => {
+          console.log("Confirmation email sent to:", user.email);
+        })
+        .catch((emailError) => {
+          console.error("Failed to send confirmation email:", emailError);
+          // Don't fail the whole operation if email fails
+        });
     }
 
     // Determine success message based on plan and action

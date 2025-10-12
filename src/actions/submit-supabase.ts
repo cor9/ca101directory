@@ -217,7 +217,7 @@ export async function submitToSupabase(
 
     // Send confirmation email (non-blocking, don't fail if email fails)
     if (user?.email) {
-      const userName = user.name || user.email?.split('@')[0] || 'Vendor';
+      const userName = user.name || user.email?.split("@")[0] || "Vendor";
       sendListingSubmittedEmail(
         userName,
         user.email,

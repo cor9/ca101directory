@@ -21,11 +21,14 @@ function getResend(): Resend {
   return resendInstance;
 }
 
-export const resend = {
-  get emails() {
-    return getResend().emails;
-  },
-};
+// Export a proxy that lazy-loads all Resend properties
+export const resend = new Proxy({} as Resend, {
+  get(target, prop) {
+    const instance = getResend();
+    const value = instance[prop as keyof Resend];
+    return typeof value === 'function' ? value.bind(instance) : value;
+  }
+});
 
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL;
 
@@ -138,7 +141,7 @@ export const sendListingSubmittedEmail = async (
   listingName: string,
   listingId: string,
   plan: string,
-  isEdit: boolean = false,
+  isEdit = false,
 ) => {
   const subject = isEdit 
     ? `Listing Updated: ${listingName}`

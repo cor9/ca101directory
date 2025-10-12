@@ -21,7 +21,8 @@ export function useFormAutosave({
   const lastSavedRef = useRef<string>("");
 
   useEffect(() => {
-    if (!enabled) return;
+    // Only run on client side
+    if (typeof window === 'undefined' || !enabled) return;
 
     // Clear existing timeout
     if (timeoutRef.current) {
@@ -55,6 +56,9 @@ export function useFormAutosave({
    * Load saved form data from localStorage
    */
   const loadSavedData = (): Record<string, any> | null => {
+    // Only run on client side
+    if (typeof window === 'undefined') return null;
+    
     try {
       const saved = localStorage.getItem(storageKey);
       if (saved) {
@@ -70,6 +74,9 @@ export function useFormAutosave({
    * Clear saved form data from localStorage
    */
   const clearSavedData = () => {
+    // Only run on client side
+    if (typeof window === 'undefined') return;
+    
     try {
       localStorage.removeItem(storageKey);
       lastSavedRef.current = "";

@@ -47,7 +47,7 @@ export const defaultFeatureFlags: FeatureFlags = {
   enableAdminAuth: true,
 
   // User Features
-  enableReviews: true,
+  enableReviews: false, // Disabled until reviews table is created
   enableFavorites: true,
   enableBookmarks: true,
 
@@ -57,18 +57,18 @@ export const defaultFeatureFlags: FeatureFlags = {
   enableAdminDashboard: true,
 
   // UI Components
-  enableReviewButtons: true,
+  enableReviewButtons: false, // Disabled until reviews table is created
   enableFavoriteButtons: true,
   enableBookmarkButtons: true,
 
   // API Features
-  enableReviewAPI: true,
+  enableReviewAPI: false, // Disabled until reviews table is created
   enableFavoriteAPI: true,
   enableBookmarkAPI: true,
 
   // Navigation
   showParentNav: true,
-  showReviewNav: true,
+  showReviewNav: false, // Disabled until reviews table is created
   showFavoriteNav: true,
 };
 

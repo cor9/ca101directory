@@ -1,6 +1,7 @@
 "use server";
 
 import { currentUser } from "@/lib/auth";
+import { sendListingSubmittedEmail } from "@/lib/mail";
 import { SubmitSchema } from "@/lib/schemas";
 import { supabase } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
@@ -207,17 +208,35 @@ export async function submitToSupabase(
     revalidatePath("/submit");
     revalidatePath("/");
 
+    // Send confirmation email
+    try {
+      if (user?.email && user?.name) {
+        await sendListingSubmittedEmail(
+          user.name,
+          user.email,
+          name,
+          data.id,
+          plan,
+          !!formData.isEdit
+        );
+        console.log("Confirmation email sent to:", user.email);
+      }
+    } catch (emailError) {
+      console.error("Failed to send confirmation email:", emailError);
+      // Don't fail the whole operation if email fails
+    }
+
     // Determine success message based on plan and action
     let successMessage = "";
     if (formData.isEdit) {
       // ALL EDITS require review (free and paid)
-      successMessage = "Successfully updated listing. Changes will be reviewed before going live.";
+      successMessage = "Successfully updated listing! Your listing remains visible with the current information while changes are reviewed (typically within 24-48 hours). You'll receive an email when changes go live.";
     } else if (formData.plan === "Free" || formData.plan === "free") {
       // NEW FREE submissions require review
-      successMessage = "Successfully submitted listing. It will be reviewed before going live.";
+      successMessage = "Successfully submitted listing! Your listing will be reviewed within 24-48 hours. You'll receive an email confirmation when it goes live.";
     } else {
       // NEW PAID submissions go live immediately
-      successMessage = "Successfully submitted listing! Your listing is now live.";
+      successMessage = "Successfully submitted listing! Your listing is now live and visible in the directory.";
     }
 
     return {

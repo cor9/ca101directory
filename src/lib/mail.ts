@@ -1,4 +1,5 @@
 import { ApprovalEmail } from "@/emails/approval-email";
+import ListingSubmittedEmail from "@/emails/listing-submitted";
 import { NotifySubmissionEmail } from "@/emails/notify-submission-to-admin";
 import { NotifySubmissionToUserEmail } from "@/emails/notify-submission-to-user";
 import { PaymentSuccessEmail } from "@/emails/payment-success";
@@ -111,5 +112,31 @@ export const sendRejectionEmail = async (
     to: email,
     subject: "Please check your submission",
     react: RejectionEmail({ userName, dashboardLink }),
+  });
+};
+
+export const sendListingSubmittedEmail = async (
+  vendorName: string,
+  vendorEmail: string,
+  listingName: string,
+  listingId: string,
+  plan: string,
+  isEdit: boolean = false,
+) => {
+  const subject = isEdit 
+    ? `Listing Updated: ${listingName}`
+    : `Listing Submitted: ${listingName}`;
+  
+  await resend.emails.send({
+    from: process.env.RESEND_EMAIL_FROM,
+    to: vendorEmail,
+    subject,
+    react: ListingSubmittedEmail({ 
+      vendorName, 
+      listingName, 
+      listingId, 
+      plan,
+      isEdit,
+    }),
   });
 };

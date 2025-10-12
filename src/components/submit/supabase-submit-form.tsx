@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { FieldTooltip } from "@/components/ui/field-tooltip";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -23,8 +24,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useFormAutosave } from "@/hooks/use-form-autosave";
+import { checkmarkCelebration } from "@/lib/confetti";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 interface Category {
@@ -114,6 +117,33 @@ export function SupabaseSubmitForm({
     custom_link_name: "",
   });
 
+  // Autosave form data to localStorage
+  const { loadSavedData, clearSavedData } = useFormAutosave({
+    formData,
+    storageKey: `listing-draft-${existingListing?.id || "new"}`,
+    debounceMs: 2000,
+    enabled: !existingListing, // Only autosave for new submissions, not edits
+  });
+
+  // Load saved data on mount (only for new submissions)
+  useEffect(() => {
+    if (!existingListing) {
+      const savedData = loadSavedData();
+      if (savedData && Object.keys(savedData).length > 0) {
+        // Ask user if they want to restore
+        const shouldRestore = confirm(
+          "We found a saved draft. Would you like to restore it?"
+        );
+        if (shouldRestore) {
+          setFormData(savedData);
+          toast.success("Draft restored!");
+        } else {
+          clearSavedData();
+        }
+      }
+    }
+  }, []);
+
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [galleryImages, setGalleryImages] = useState<string[]>(() => {
     // Handle both string and array types for gallery
@@ -178,7 +208,12 @@ export function SupabaseSubmitForm({
       const result = await submitToSupabase(formDataWithGallery);
 
       if (result.status === "success") {
+        // Celebrate with confetti!
+        checkmarkCelebration();
         toast.success("Listing submitted successfully!");
+        
+        // Clear saved draft after successful submission
+        clearSavedData();
 
         if (isClaimFlow) {
           // For claim flow with Free plan, go directly to dashboard
@@ -258,29 +293,43 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="introduction" style={{ color: "#1F2327" }}>
-                Who Is It For
-              </Label>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="introduction" style={{ color: "#1F2327" }}>
+                  Who Is It For
+                </Label>
+                <FieldTooltip
+                  message="This field is optional for Free plans and won't display until you upgrade to Standard or Pro."
+                  plan={formData.plan as "Free" | "Standard" | "Pro"}
+                  showUpgradeIcon={true}
+                />
+              </div>
               <Textarea
                 id="introduction"
                 value={formData.introduction}
                 onChange={(e) =>
                   handleInputChange("introduction", e.target.value)
                 }
-                placeholder="Describe your target audience"
+                placeholder="Describe your target audience (optional - upgrade to display)"
                 className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="unique" style={{ color: "#1F2327" }}>
-                What Makes You Unique
-              </Label>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="unique" style={{ color: "#1F2327" }}>
+                  What Makes You Unique
+                </Label>
+                <FieldTooltip
+                  message="This field is optional for Free plans and won't display until you upgrade to Standard or Pro."
+                  plan={formData.plan as "Free" | "Standard" | "Pro"}
+                  showUpgradeIcon={true}
+                />
+              </div>
               <Textarea
                 id="unique"
                 value={formData.unique}
                 onChange={(e) => handleInputChange("unique", e.target.value)}
-                placeholder="What sets you apart from competitors"
+                placeholder="What sets you apart (optional - upgrade to display)"
                 className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
             </div>

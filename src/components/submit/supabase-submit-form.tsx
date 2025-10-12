@@ -135,13 +135,14 @@ export function SupabaseSubmitForm({
           "We found a saved draft. Would you like to restore it?"
         );
         if (shouldRestore) {
-          setFormData(savedData);
+          setFormData((prev) => ({ ...prev, ...savedData }));
           toast.success("Draft restored!");
         } else {
           clearSavedData();
         }
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [isImageUploading, setIsImageUploading] = useState(false);

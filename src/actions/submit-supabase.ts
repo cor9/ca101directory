@@ -119,7 +119,10 @@ export async function submitToSupabase(
       is_bonded: bonded,
       bond_number: bondNumber,
       // NEW submissions: Auto-approve paid plans, review free plans
-      status: (formData.plan === "Free" || formData.plan === "free") ? "Pending" : "Live",
+      status:
+        formData.plan === "Free" || formData.plan === "free"
+          ? "Pending"
+          : "Live",
       is_active: active ?? true,
       is_claimed: false,
       owner_id: user?.id || null, // Link to current user if authenticated
@@ -159,9 +162,10 @@ export async function submitToSupabase(
         .single();
 
       // Verify user owns this listing OR it's unclaimed (claiming flow)
-      const isClaimingListing = currentListing?.owner_id === null && !currentListing?.is_claimed;
+      const isClaimingListing =
+        currentListing?.owner_id === null && !currentListing?.is_claimed;
       const ownsListing = currentListing?.owner_id === user?.id;
-      
+
       if (!isClaimingListing && !ownsListing) {
         return {
           status: "error",
@@ -172,7 +176,10 @@ export async function submitToSupabase(
       const updateData = {
         ...listingData,
         // ALL EDITS require review (free and paid)
-        status: currentListingStatus?.status === "Live" ? "Pending" : (currentListingStatus?.status || "Pending"),
+        status:
+          currentListingStatus?.status === "Live"
+            ? "Pending"
+            : currentListingStatus?.status || "Pending",
         // Preserve existing ownership - don't change on edit
         owner_id: currentListing?.owner_id,
         is_claimed: currentListing?.is_claimed,
@@ -217,7 +224,7 @@ export async function submitToSupabase(
           name,
           data.id,
           plan,
-          !!formData.isEdit
+          !!formData.isEdit,
         );
         console.log("Confirmation email sent to:", user.email);
       }
@@ -230,13 +237,16 @@ export async function submitToSupabase(
     let successMessage = "";
     if (formData.isEdit) {
       // ALL EDITS require review (free and paid)
-      successMessage = "Successfully updated listing! Your listing remains visible with the current information while changes are reviewed (typically within 24-48 hours). You'll receive an email when changes go live.";
+      successMessage =
+        "Successfully updated listing! Your listing remains visible with the current information while changes are reviewed (typically within 24-48 hours). You'll receive an email when changes go live.";
     } else if (formData.plan === "Free" || formData.plan === "free") {
       // NEW FREE submissions require review
-      successMessage = "Successfully submitted listing! Your listing will be reviewed within 24-48 hours. You'll receive an email confirmation when it goes live.";
+      successMessage =
+        "Successfully submitted listing! Your listing will be reviewed within 24-48 hours. You'll receive an email confirmation when it goes live.";
     } else {
       // NEW PAID submissions go live immediately
-      successMessage = "Successfully submitted listing! Your listing is now live and visible in the directory.";
+      successMessage =
+        "Successfully submitted listing! Your listing is now live and visible in the directory.";
     }
 
     return {

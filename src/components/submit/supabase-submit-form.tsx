@@ -583,40 +583,13 @@ export function SupabaseSubmitForm({
                 </CardHeader>
                 <CardContent className="pt-0">
                   <ul className="text-sm space-y-1">
-                    <li>• Basic directory listing</li>
-                    <li>• Contact information</li>
-                    <li>• Social media links</li>
-                    <li>• Searchable in directory</li>
+                    <li>• Basic listing</li>
+                    <li>• Profile image</li>
+                    <li>• Standard placement</li>
                   </ul>
                   <div className="mt-3 text-xs text-gray-500">
-                    Upgrade for profile image, gallery & featured placement
+                    Upgrade anytime for more features
                   </div>
-                </CardContent>
-              </Card>
-
-              {/* Standard Plan */}
-              <Card
-                className={`cursor-pointer transition-all hover:shadow-lg ${
-                  formData.plan === "Standard"
-                    ? "ring-2 ring-[#FF6B35] bg-blue-50"
-                    : "border-gray-200"
-                }`}
-                onClick={() => handleInputChange("plan", "Standard")}
-              >
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg">Standard</CardTitle>
-                  <div className="text-2xl font-bold text-[#FF6B35]">
-                    $25<span className="text-sm font-normal">/month</span>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <ul className="text-sm space-y-1">
-                    <li>• Everything in Free</li>
-                    <li>• Profile image</li>
-                    <li>• Up to 4 gallery images</li>
-                    <li>• Featured placement</li>
-                    <li>• SEO boost</li>
-                  </ul>
                 </CardContent>
               </Card>
 
@@ -624,7 +597,7 @@ export function SupabaseSubmitForm({
               <Card
                 className={`cursor-pointer transition-all hover:shadow-lg ${
                   formData.plan === "Pro"
-                    ? "ring-2 ring-[#FF6B35] bg-purple-50"
+                    ? "ring-2 ring-[#FF6B35] bg-blue-50"
                     : "border-gray-200"
                 }`}
                 onClick={() => handleInputChange("plan", "Pro")}
@@ -637,7 +610,32 @@ export function SupabaseSubmitForm({
                 </CardHeader>
                 <CardContent className="pt-0">
                   <ul className="text-sm space-y-1">
-                    <li>• Everything in Standard</li>
+                    <li>• Everything in Free</li>
+                    <li>• 4 gallery images</li>
+                    <li>• Featured placement</li>
+                    <li>• Priority support</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              {/* Premium Plan */}
+              <Card
+                className={`cursor-pointer transition-all hover:shadow-lg ${
+                  formData.plan === "Premium"
+                    ? "ring-2 ring-[#FF6B35] bg-purple-50"
+                    : "border-gray-200"
+                }`}
+                onClick={() => handleInputChange("plan", "Premium")}
+              >
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">Premium</CardTitle>
+                  <div className="text-2xl font-bold text-[#FF6B35]">
+                    $90<span className="text-sm font-normal">/month</span>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <ul className="text-sm space-y-1">
+                    <li>• Everything in Pro</li>
                     <li>• 101 Approved badge</li>
                     <li>• Top priority placement</li>
                     <li>• Premium support</li>

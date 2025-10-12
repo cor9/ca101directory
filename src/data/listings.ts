@@ -223,17 +223,18 @@ export async function getListingBySlug(slug: string) {
     return idData as Listing;
   }
 
-  // If not found by ID, try to find by slug field
+  // If not found by ID, try to find by slug field (only for claimed listings)
   const { data: slugData, error: slugError } = await supabase
     .from("listings")
     .select("*")
     .eq("slug", slug)
     .eq("status", "Live")
     .eq("is_active", true)
+    .not("owner_id", "is", null) // Only claimed listings have slugs
     .single();
 
   if (slugData && !slugError) {
-    console.log("getListingBySlug: Found listing by slug:", slugData.listing_name);
+    console.log("getListingBySlug: Found claimed listing by slug:", slugData.listing_name);
     return slugData as Listing;
   }
 

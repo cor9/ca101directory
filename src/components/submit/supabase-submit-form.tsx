@@ -181,8 +181,13 @@ export function SupabaseSubmitForm({
         toast.success("Listing submitted successfully!");
 
         if (isClaimFlow) {
-          // For claim flow, redirect to plan selection
-          router.push(`/plan-selection?listingId=${result.listingId}`);
+          // For claim flow with Free plan, go directly to dashboard
+          // For paid plans, go to plan selection for payment
+          if (formData.plan === "Free") {
+            router.push("/dashboard/vendor/listing");
+          } else {
+            router.push(`/plan-selection?listingId=${result.listingId}`);
+          }
         } else {
           // For regular submission, go to success page
           router.push("/submit/success");

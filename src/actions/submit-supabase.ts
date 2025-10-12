@@ -157,8 +157,11 @@ export async function submitToSupabase(
         .eq("id", formData.listingId)
         .single();
 
-      // Verify user owns this listing before allowing edit
-      if (currentListing?.owner_id !== user?.id) {
+      // Verify user owns this listing OR it's unclaimed (claiming flow)
+      const isClaimingListing = currentListing?.owner_id === null && !currentListing?.is_claimed;
+      const ownsListing = currentListing?.owner_id === user?.id;
+      
+      if (!isClaimingListing && !ownsListing) {
         return {
           status: "error",
           message: "You don't have permission to edit this listing",

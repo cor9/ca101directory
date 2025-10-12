@@ -8,7 +8,24 @@ import { ResetPasswordEmail } from "@/emails/reset-password";
 import VerifyEmail from "@/emails/verify-email";
 import { Resend } from "resend";
 
-export const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy-load Resend to avoid errors if API key is missing
+let resendInstance: Resend | null = null;
+
+function getResend(): Resend {
+  if (!resendInstance) {
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error("RESEND_API_KEY is not configured. Email sending is disabled.");
+    }
+    resendInstance = new Resend(process.env.RESEND_API_KEY);
+  }
+  return resendInstance;
+}
+
+export const resend = {
+  get emails() {
+    return getResend().emails;
+  },
+};
 
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL;
 

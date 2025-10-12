@@ -216,9 +216,10 @@ export async function submitToSupabase(
     revalidatePath("/");
 
     // Send confirmation email (non-blocking, don't fail if email fails)
-    if (user?.email && user?.name) {
+    if (user?.email) {
+      const userName = user.name || user.email?.split('@')[0] || 'Vendor';
       sendListingSubmittedEmail(
-        user.name,
+        userName,
         user.email,
         name,
         data.id,

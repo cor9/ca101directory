@@ -96,7 +96,7 @@ export default async function AdminDashboard() {
                 </div>
                 <div className="flex gap-2">
                   <a
-                    href="/dashboard/admin/listings"
+                    href="/dashboard/admin/listings?status=Pending"
                     className="text-sm text-primary hover:underline"
                   >
                     Review Listings →

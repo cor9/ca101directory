@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { CompedToggle } from "@/components/admin/comped-toggle";
+import { ListingActions } from "@/components/admin/listing-actions";
 import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { Badge } from "@/components/ui/badge";
@@ -27,7 +28,11 @@ export const metadata = constructMetadata({
  * - Edit listing details
  * - Approve/reject listings
  */
-export default async function AdminListingsPage() {
+export default async function AdminListingsPage({
+  searchParams,
+}: {
+  searchParams?: { status?: string };
+}) {
   const session = await auth();
 
   if (!session?.user) {
@@ -36,9 +41,15 @@ export default async function AdminListingsPage() {
 
   // Get all listings for admin management
   const allListings = await getPublicListings();
+  
+  // Filter by status if provided
+  const statusFilter = searchParams?.status;
+  const filteredListings = statusFilter
+    ? allListings.filter((listing) => listing.status === statusFilter)
+    : allListings;
 
   // Sort listings by plan priority and name
-  const sortedListings = allListings.sort((a, b) => {
+  const sortedListings = filteredListings.sort((a, b) => {
     const planPriority = (plan: string | null, comped: boolean | null) => {
       if (comped) return 3; // Comped listings are treated as Pro
       switch (plan) {
@@ -240,7 +251,15 @@ export default async function AdminListingsPage() {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {/* Approve/Reject Actions for Pending Listings */}
+                      {listing.status === "Pending" && (
+                        <ListingActions
+                          listingId={listing.id}
+                          listingName={listing.listing_name || "Unnamed Listing"}
+                        />
+                      )}
+
                       {/* Comped Toggle */}
                       <CompedToggle
                         listingId={listing.id}

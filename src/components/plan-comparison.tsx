@@ -24,16 +24,16 @@ export function PlanComparison({
   showFreeOption = true,
 }: PlanComparisonProps) {
   const plans = showFreeOption
-    ? [PLAN_FEATURES.FREE, PLAN_FEATURES.PRO, PLAN_FEATURES.PREMIUM]
-    : [PLAN_FEATURES.PRO, PLAN_FEATURES.PREMIUM];
+    ? [PLAN_FEATURES.FREE, PLAN_FEATURES.STANDARD, PLAN_FEATURES.PRO]
+    : [PLAN_FEATURES.STANDARD, PLAN_FEATURES.PRO];
 
   const getPlanIcon = (planName: string) => {
     switch (planName) {
       case "Free Listing":
         return <Star className="h-5 w-5 text-yellow-500" />;
-      case "Pro Plan":
+      case "Standard Plan":
         return <Zap className="h-5 w-5 text-blue-500" />;
-      case "Premium Plan":
+      case "Pro Plan":
         return <Crown className="h-5 w-5 text-purple-500" />;
       default:
         return null;
@@ -44,9 +44,9 @@ export function PlanComparison({
     switch (planName) {
       case "Free Listing":
         return "border-gray-200 bg-gray-50";
-      case "Pro Plan":
+      case "Standard Plan":
         return "border-blue-200 bg-blue-50";
-      case "Premium Plan":
+      case "Pro Plan":
         return "border-purple-200 bg-purple-50";
       default:
         return "border-gray-200";
@@ -65,7 +65,7 @@ export function PlanComparison({
           }`}
           onClick={() => onPlanSelect(plan.name)}
         >
-          {plan.name === "Premium Plan" && (
+          {plan.name === "Pro Plan" && (
             <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-purple-600">
               Most Popular
             </Badge>

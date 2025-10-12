@@ -23,27 +23,25 @@ export const baseSubmitSchema = {
   link: z.string().url({ message: "Invalid url" }),
   description: z
     .string()
-    .min(1, { message: "Description is required" })
-    .max(256, { message: "Description must be 256 or fewer characters long" }),
+    .max(256, { message: "Description must be 256 or fewer characters long" })
+    .optional(), // Optional for free listings
   introduction: z
     .string()
-    .min(1, { message: "Introduction is required" })
     .max(4096, {
       message: "Introduction must be 4096 or fewer characters long",
-    }),
-  unique: z
-    .string()
-    .min(5, { message: "Why is it unique? (minimum 5 characters)" }),
+    })
+    .optional(), // Optional for free listings
+  unique: z.string().optional(), // Optional for free listings, validated in form based on plan
   format: z.enum(["In-person", "Online", "Hybrid"], {
     required_error: "Please select a format",
   }),
   notes: z.string().optional(),
   email: z.string().email({ message: "Valid email required" }),
   phone: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional(),
+  city: z.string().min(1, { message: "City is required" }), // Required for all listings
+  state: z.string().min(1, { message: "State is required" }), // Required for all listings
   zip: z.string().optional(),
-  region: z.array(z.string()).optional(), // Multi-select regions
+  region: z.array(z.string()).min(1, { message: "Region is required" }), // Required for all listings
   bondNumber: z.string().optional(),
   plan: z.enum(
     ["Free", "Standard", "Pro", "Founding Standard", "Founding Pro"],

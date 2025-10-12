@@ -51,10 +51,13 @@ export async function login(
         ? getRoleBasedRedirect(profile.role)
         : DEFAULT_LOGIN_REDIRECT);
 
+    console.log("Login action: User role is", profile?.role, "redirecting to", redirectUrl);
+
+    // Sign in with NextAuth (don't wait for redirect, let the action handle it)
     await signIn("credentials", {
       email,
       password,
-      redirectTo: redirectUrl,
+      redirect: false, // Prevent NextAuth from redirecting
     });
 
     return {

@@ -51,7 +51,7 @@ export const baseSubmitSchema = {
   ),
   performerPermit: z.boolean().optional(), // Make optional for testing
   bonded: z.boolean().optional(),
-  tags: z.array(z.string()).min(1, { message: "Must select at least one tag" }),
+  tags: z.array(z.string()).optional(), // Optional for free listings
   categories: z
     .array(z.string())
     .min(1, { message: "Must select at least one category" }),

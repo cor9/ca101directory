@@ -210,7 +210,12 @@ export function SupabaseSubmitForm({
 
       if (result.status === "success") {
         // Celebrate with confetti!
-        checkmarkCelebration();
+        try {
+          checkmarkCelebration();
+        } catch (confettiError) {
+          console.error("Confetti error:", confettiError);
+          // Don't let confetti break the success flow
+        }
         toast.success("Listing submitted successfully!");
         
         // Clear saved draft after successful submission

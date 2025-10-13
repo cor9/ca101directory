@@ -221,17 +221,13 @@ export function SupabaseSubmitForm({
         // Clear saved draft after successful submission
         clearSavedData();
 
-        if (isClaimFlow) {
-          // For claim flow with Free plan, go directly to dashboard
-          // For paid plans, go to plan selection for payment
-          if (formData.plan === "Free") {
-            router.push("/dashboard/vendor/listing");
-          } else {
-            router.push(`/plan-selection?listingId=${result.listingId}`);
-          }
+        // Route based on plan selection
+        if (formData.plan === "Free") {
+          // Free plan - go to success page
+          router.push(`/submit/success?id=${result.listingId}`);
         } else {
-          // For regular submission, go to success page
-          router.push("/submit/success");
+          // Paid plan (Standard/Pro/Premium) - go to payment
+          router.push(`/payment/${result.listingId}`);
         }
       } else {
         toast.error(result.message || "Failed to submit listing");

@@ -32,6 +32,7 @@ export type Listing = {
   is_active: boolean | null;
   is_claimed: boolean | null;
   is_approved_101: boolean | null;
+  badge_approved: boolean | null;
   ca_permit_required: boolean | null;
   is_bonded: boolean | null;
   has_gallery: boolean | null;

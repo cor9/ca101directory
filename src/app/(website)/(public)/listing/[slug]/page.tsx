@@ -265,7 +265,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
       owner_id: listing.owner_id,
       claimed: listing.is_claimed === true,
       plan: listing.plan,
-      approved_101_badge: listing.is_approved_101 === true,
+      badge_approved: listing.badge_approved === true,
       relatedCount: related.length,
     });
 
@@ -327,11 +327,19 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
               {/* Badges - Only show 101 Approved, remove plan highlighting */}
               <div className="flex items-center gap-2 mb-4">
-                {listing.is_approved_101 === true && (
-                  <span className="badge green">
-                    <CheckCircleIcon className="h-3 w-3 mr-1" />
-                    101 Approved
-                  </span>
+                {listing.badge_approved === true && (
+                  <div className="flex items-center gap-2 bg-gradient-to-r from-orange-50 to-yellow-50 border-2 border-brand-orange rounded-lg px-4 py-2">
+                    <Image
+                      src="/101approvedbadge.png"
+                      alt="101 Approved Badge"
+                      width={32}
+                      height={32}
+                      className="object-contain"
+                    />
+                    <span className="font-bold text-brand-orange">
+                      101 APPROVED
+                    </span>
+                  </div>
                 )}
               </div>
 

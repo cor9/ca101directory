@@ -104,16 +104,16 @@ export default async function AdminDashboard() {
                 </div>
               </div>
               <div className="space-y-2">
-                <h3 className="font-medium">Review Moderation</h3>
+                <h3 className="font-medium">Badge Applications</h3>
                 <div className="text-sm text-muted-foreground">
-                  0 reviews pending approval
+                  Review 101 Approved badge applications
                 </div>
                 <div className="flex gap-2">
                   <a
-                    href="/dashboard/admin/reviews"
+                    href="/dashboard/admin/badge-applications"
                     className="text-sm text-primary hover:underline"
                   >
-                    Review Queue →
+                    Review Applications →
                   </a>
                 </div>
               </div>
@@ -148,10 +148,10 @@ export default async function AdminDashboard() {
                   <li>
                     •{" "}
                     <a
-                      href="/dashboard/admin/reviews"
+                      href="/dashboard/admin/badge-applications"
                       className="text-primary hover:underline"
                     >
-                      Moderate reviews
+                      Review badge applications
                     </a>
                   </li>
                   <li>

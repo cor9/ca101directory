@@ -33,7 +33,7 @@ interface ApplicationData {
     location: string;
   };
   testimonials: string[];
-  references: string[];
+  industry_references: string[];
   credentials: string[];
   status: "draft" | "submitted" | "approved" | "rejected";
   admin_notes?: string;
@@ -48,7 +48,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
   const [application, setApplication] = useState<ApplicationData>({
     vendor_id: userId,
     testimonials: [],
-    references: [],
+    industry_references: [],
     credentials: [],
     status: "draft",
   });
@@ -138,7 +138,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
 
   const uploadFile = async (
     file: File,
-    type: "testimonials" | "references" | "credentials",
+    type: "testimonials" | "industry_references" | "credentials",
   ) => {
     try {
       const fileExt = file.name.split(".").pop();
@@ -169,7 +169,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
 
   const removeFile = (
     index: number,
-    type: "testimonials" | "references" | "credentials",
+    type: "testimonials" | "industry_references" | "credentials",
   ) => {
     setApplication((prev) => ({
       ...prev,
@@ -348,13 +348,13 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
                   type="file"
                   multiple
                   accept=".pdf,.jpg,.jpeg,.png"
-                  onChange={(e) => {
-                    if (e.target.files) {
-                      Array.from(e.target.files).forEach((file) =>
-                        uploadFile(file, "references"),
-                      );
-                    }
-                  }}
+                    onChange={(e) => {
+                      if (e.target.files) {
+                        Array.from(e.target.files).forEach((file) =>
+                          uploadFile(file, "industry_references"),
+                        );
+                      }
+                    }}
                   className="hidden"
                   id="references-upload"
                 />
@@ -366,12 +366,12 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
                 </label>
               </div>
 
-              {application.references.length > 0 && (
-                <div className="space-y-2">
-                  <h4 className="font-medium">
-                    Uploaded References ({application.references.length})
-                  </h4>
-                  {application.references.map((url, index) => (
+                {application.industry_references.length > 0 && (
+                  <div className="space-y-2">
+                    <h4 className="font-medium">
+                      Uploaded References ({application.industry_references.length})
+                    </h4>
+                    {application.industry_references.map((url, index) => (
                     <div
                       key={index}
                       className="flex items-center justify-between bg-gray-50 p-3 rounded"
@@ -379,13 +379,13 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
                       <span className="text-sm text-gray-700">
                         Reference {index + 1}
                       </span>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => removeFile(index, "references")}
-                      >
-                        Remove
-                      </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => removeFile(index, "industry_references")}
+                        >
+                          Remove
+                        </Button>
                     </div>
                   ))}
                 </div>
@@ -493,7 +493,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
                       • Testimonials: {application.testimonials.length} uploaded
                     </li>
                     <li>
-                      • References: {application.references.length} uploaded
+                      • References: {application.industry_references.length} uploaded
                     </li>
                     <li>
                       • Credentials: {application.credentials.length} uploaded
@@ -630,11 +630,11 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
         return application.references.length >= 2;
       case 4:
         return true; // Credentials are optional
-      case 5:
-        return (
-          application.testimonials.length >= 3 &&
-          application.references.length >= 2
-        );
+        case 5:
+          return (
+            application.testimonials.length >= 3 &&
+            application.industry_references.length >= 2
+          );
       default:
         return false;
     }
@@ -708,12 +708,12 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
       )}
 
       {currentStep === 3 && application.references.length < 2 && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-          <p className="text-sm text-yellow-800">
-            You need at least 2 industry references to proceed. You currently
-            have {application.references.length}.
-          </p>
-        </div>
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <p className="text-sm text-yellow-800">
+              You need at least 2 industry references to proceed. You currently
+              have {application.industry_references.length}.
+            </p>
+          </div>
       )}
     </div>
   );

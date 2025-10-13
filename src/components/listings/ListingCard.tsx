@@ -97,14 +97,19 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
                 {listing.listing_name || "Untitled Listing"}
               </h3>
               <div className="flex items-center gap-2 mt-1">
-                {listing.is_approved_101 === true && (
-                  <Badge
-                    variant="secondary"
-                    className="bg-green-100 text-green-800 text-xs"
-                  >
-                    <CheckCircleIcon className="w-3 h-3 mr-1" />
-                    101 Approved
-                  </Badge>
+                {listing.badge_approved === true && (
+                  <div className="flex items-center gap-1">
+                    <Image
+                      src="/101approvedbadge.png"
+                      alt="101 Approved Badge"
+                      width={24}
+                      height={24}
+                      className="object-contain"
+                    />
+                    <span className="text-xs font-semibold text-brand-orange">
+                      101 Approved
+                    </span>
+                  </div>
                 )}
                 {(() => {
                   // Determine badge text and styling

@@ -103,12 +103,11 @@ export default function Help101ApprovedPage() {
               </div>
               <div className="flex-1">
                 <h3 className="text-xl font-bold text-gray-900 mb-3">
-                  Active Pro or Premium Listing
+                  Active Pro Listing Required
                 </h3>
                 <p className="text-gray-700 mb-4">
-                  You must have an active Pro ($50/month) or Premium ($90/month)
-                  listing on the Child Actor 101 Directory. Free and Basic plans
-                  are not eligible.
+                  You must have an active Pro ($50/month) listing on the Child
+                  Actor 101 Directory. Free and Standard plans are not eligible.
                 </p>
                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                   <p className="text-sm text-gray-700">
@@ -548,8 +547,7 @@ export default function Help101ApprovedPage() {
               Pricing & Plans
             </h4>
             <p className="text-sm text-gray-600">
-              Upgrade to Pro or Premium to become eligible for the 101 Approved
-              badge
+              Upgrade to Pro to become eligible for the 101 Approved badge
             </p>
           </Link>
           <Link

@@ -30,7 +30,7 @@ export default function PricingPlansPage() {
       </div>
 
       {/* Plan Comparison Table */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
         {/* Free Plan */}
         <div className="bg-white border-2 border-gray-200 rounded-lg p-6 flex flex-col">
           <div className="text-center mb-6">
@@ -48,10 +48,8 @@ export default function PricingPlansPage() {
               <span className="text-sm text-gray-700">Basic listing</span>
             </div>
             <div className="flex items-start gap-2">
-              <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-700">
-                Profile image (1 image)
-              </span>
+              <X className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
+              <span className="text-sm text-gray-400">Profile image</span>
             </div>
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
@@ -92,10 +90,10 @@ export default function PricingPlansPage() {
           </Link>
         </div>
 
-        {/* Basic Plan */}
+        {/* Standard Plan */}
         <div className="bg-white border-2 border-gray-200 rounded-lg p-6 flex flex-col">
           <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Basic</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Standard</h2>
             <div className="mb-4">
               <span className="text-4xl font-bold text-gray-900">$25</span>
               <span className="text-gray-600">/month</span>
@@ -112,7 +110,9 @@ export default function PricingPlansPage() {
             </div>
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-700">Instant publishing</span>
+              <span className="text-sm text-gray-700">
+                <strong>1 profile image</strong>
+              </span>
             </div>
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
@@ -134,17 +134,11 @@ export default function PricingPlansPage() {
             </div>
           </div>
 
-          <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
-            <p className="text-xs text-gray-700">
-              <strong>✓</strong> Goes live immediately upon submission
-            </p>
-          </div>
-
           <Link
             href="/submit"
             className="block text-center bg-brand-blue hover:bg-brand-blue/90 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
           >
-            Choose Basic
+            Choose Standard
           </Link>
         </div>
 
@@ -216,71 +210,6 @@ export default function PricingPlansPage() {
           </Link>
         </div>
 
-        {/* Premium Plan */}
-        <div className="bg-gradient-to-br from-brand-navy to-brand-blue text-white rounded-lg p-6 flex flex-col relative">
-          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-            <span className="bg-orange-500 text-white text-xs font-bold px-4 py-1 rounded-full flex items-center gap-1">
-              <Zap className="w-3 h-3" />
-              BEST VALUE
-            </span>
-          </div>
-
-          <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold mb-2">Premium</h2>
-            <div className="mb-4">
-              <span className="text-4xl font-bold">$90</span>
-              <span className="opacity-90">/month</span>
-            </div>
-            <p className="text-sm opacity-90">Maximum visibility & features</p>
-          </div>
-
-          <div className="flex-1 space-y-3 mb-6">
-            <div className="flex items-start gap-2">
-              <Check className="w-5 h-5 text-green-300 flex-shrink-0 mt-0.5" />
-              <span className="text-sm">
-                <strong>Everything in Pro</strong>
-              </span>
-            </div>
-            <div className="flex items-start gap-2">
-              <Check className="w-5 h-5 text-green-300 flex-shrink-0 mt-0.5" />
-              <span className="text-sm">
-                <strong>Top priority placement</strong>
-              </span>
-            </div>
-            <div className="flex items-start gap-2">
-              <Check className="w-5 h-5 text-green-300 flex-shrink-0 mt-0.5" />
-              <span className="text-sm">
-                <strong>Featured badge</strong>
-              </span>
-            </div>
-            <div className="flex items-start gap-2">
-              <Check className="w-5 h-5 text-green-300 flex-shrink-0 mt-0.5" />
-              <span className="text-sm">Appear above all other listings</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <Check className="w-5 h-5 text-green-300 flex-shrink-0 mt-0.5" />
-              <span className="text-sm">Premium support</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <Check className="w-5 h-5 text-green-300 flex-shrink-0 mt-0.5" />
-              <span className="text-sm">Verified business badge</span>
-            </div>
-          </div>
-
-          <div className="bg-white/10 border border-white/30 rounded-lg p-3 mb-4">
-            <p className="text-xs">
-              <strong>Best for:</strong> Established businesses wanting maximum
-              exposure
-            </p>
-          </div>
-
-          <Link
-            href="/submit"
-            className="block text-center bg-white text-brand-navy hover:bg-gray-100 font-semibold px-6 py-3 rounded-lg transition-colors"
-          >
-            Choose Premium
-          </Link>
-        </div>
       </div>
 
       {/* Annual Plans */}
@@ -291,9 +220,9 @@ export default function PricingPlansPage() {
         <p className="text-lg text-gray-700 mb-4">
           Pay annually and save 2 months!
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
           <div className="bg-white rounded-lg p-4">
-            <p className="text-sm text-gray-600 mb-1">Basic Annual</p>
+            <p className="text-sm text-gray-600 mb-1">Standard Annual</p>
             <p className="text-2xl font-bold text-gray-900">
               $250<span className="text-sm text-gray-600">/year</span>
             </p>
@@ -305,13 +234,6 @@ export default function PricingPlansPage() {
               $500<span className="text-sm text-gray-600">/year</span>
             </p>
             <p className="text-xs text-green-600 font-semibold">Save $100</p>
-          </div>
-          <div className="bg-white rounded-lg p-4">
-            <p className="text-sm text-gray-600 mb-1">Premium Annual</p>
-            <p className="text-2xl font-bold text-gray-900">
-              $900<span className="text-sm text-gray-600">/year</span>
-            </p>
-            <p className="text-xs text-green-600 font-semibold">Save $180</p>
           </div>
         </div>
       </div>
@@ -358,9 +280,9 @@ export default function PricingPlansPage() {
               How does priority placement work?
             </h3>
             <p className="text-gray-700 text-sm">
-              Premium listings appear first in search results, followed by Pro,
-              then Basic, then Free. Within each tier, listings are shown by
-              relevance and recency.
+              Pro listings appear first in search results, followed by Standard,
+              then Free. Within each tier, listings are shown by relevance and
+              recency.
             </p>
           </div>
 

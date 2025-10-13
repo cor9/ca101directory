@@ -212,8 +212,8 @@ export default function TroubleshootingPage() {
                   Check 3: Plan level
                 </p>
                 <p className="text-gray-700">
-                  Free listings appear lower in search results. Premium and Pro
-                  listings get priority placement.
+                  Free listings appear lower in search results. Pro listings get
+                  priority placement, followed by Standard.
                 </p>
               </div>
               <div>

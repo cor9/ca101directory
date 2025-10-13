@@ -160,11 +160,9 @@ export default function FAQPage() {
               How long does it take for my listing to go live?
             </h3>
             <p className="text-gray-700">
-              <strong>Paid plans (Pro/Premium):</strong> Go live immediately
-              upon submission.
-              <br />
-              <strong>Free plan:</strong> Requires admin approval, typically
-              24-48 hours.
+              All listings require admin approval before going live, typically
+              within 24-48 hours. This ensures quality and accuracy across the
+              directory.
             </p>
           </div>
 
@@ -219,9 +217,8 @@ export default function FAQPage() {
               What plans are available?
             </h3>
             <p className="text-gray-700 mb-2">
-              We offer Free, Basic ($25/mo), Pro ($50/mo), and Premium ($90/mo)
-              plans. Each plan includes different features and visibility
-              levels.
+              We offer Free ($0), Standard ($25/mo), and Pro ($50/mo) plans.
+              Each plan includes different features and visibility levels.
             </p>
             <Link
               href="/help/pricing-plans"
@@ -315,10 +312,11 @@ export default function FAQPage() {
               How many images can I upload?
             </h3>
             <p className="text-gray-700">
-              <strong>All plans:</strong> 1 profile image
+              <strong>Free:</strong> No images
               <br />
-              <strong>Pro & Premium:</strong> 1 profile image + 4 gallery images
-              (5 total)
+              <strong>Standard:</strong> 1 profile image
+              <br />
+              <strong>Pro:</strong> 1 profile image + 4 gallery images (5 total)
             </p>
           </div>
         </div>

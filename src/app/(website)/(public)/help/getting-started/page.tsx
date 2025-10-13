@@ -226,8 +226,8 @@ export default function GettingStartedPage() {
                 </p>
                 <ul className="text-sm text-gray-600 space-y-1 list-disc list-inside">
                   <li>
-                    <strong>Paid Plans (Pro/Premium):</strong> Go live immediately
-                    upon submission
+                    <strong>All Plans:</strong> Require admin approval, typically
+                    24-48 hours
                   </li>
                   <li>
                     <strong>Free Plan:</strong> Requires admin approval (typically

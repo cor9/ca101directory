@@ -56,7 +56,7 @@ export default function ClaimListingPage() {
             <div>
               <p className="font-semibold text-gray-900">Premium Features</p>
               <p className="text-sm text-gray-600">
-                Upgrade to Pro or Premium for enhanced visibility
+                Upgrade to Pro for enhanced visibility and gallery images
               </p>
             </div>
           </div>

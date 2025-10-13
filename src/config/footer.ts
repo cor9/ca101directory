@@ -17,6 +17,7 @@ export const footerConfig: FooterConfig = {
         { title: "Blog", href: "/blog" },
         { title: "Pricing", href: "/pricing" },
         { title: "Submit", href: "/submit" },
+        { title: "Help Center", href: "/help" },
         {
           title: "Recommendations",
           href: "https://www.amazon.com/shop/influencer-be722a62?ref_=cm_sw_r_cp_ud_aipsfshop_ASWY2EF8HWY1E2JV2AVE",

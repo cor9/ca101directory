@@ -38,5 +38,10 @@ export const marketingConfig: MarketingConfig = {
       href: "/blog",
       icon: "blog",
     },
+    {
+      title: "Help",
+      href: "/help",
+      icon: "help",
+    },
   ],
 };

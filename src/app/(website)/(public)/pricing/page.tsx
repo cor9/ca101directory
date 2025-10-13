@@ -78,18 +78,34 @@ export default async function PricingPage() {
               </div>
             </div>
 
-            {/* Stripe Pricing Tables for Paid Plans */}
+            {/* First Stripe Pricing Table - Standard & Pro Plans */}
             <div className="w-full mx-auto">
               <div className="text-center mb-8">
                 <h2 className="bauhaus-heading text-2xl text-bauhaus-blue mb-2">
-                  Paid Plans
+                  Standard & Pro Plans
                 </h2>
                 <p className="text-muted-foreground">
-                  Select from our Standard or Pro plans
+                  Monthly and annual billing options
                 </p>
               </div>
               <stripe-pricing-table
-                pricing-table-id="prctbl_1SDbLwBqTvwy9ZuSXKTXVb7E"
+                pricing-table-id="prctbl_1SCpyNBqTvwy9ZuSNiSGY03P"
+                publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
+              />
+            </div>
+
+            {/* Second Stripe Pricing Table - 101 Approved Badge Add-on */}
+            <div className="w-full mx-auto mt-12">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-brand-orange mb-2">
+                  🏆 101 Approved Badge Add-on
+                </h2>
+                <p className="text-muted-foreground">
+                  Add our trusted badge to your listing
+                </p>
+              </div>
+              <stripe-pricing-table
+                pricing-table-id="prctbl_1SCqZVBqTvwy9ZuSqFvjgpqP"
                 publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
               />
             </div>

@@ -627,7 +627,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
       case 2:
         return application.testimonials.length >= 3;
       case 3:
-        return application.references.length >= 2;
+        return application.industry_references.length >= 2;
       case 4:
         return true; // Credentials are optional
         case 5:

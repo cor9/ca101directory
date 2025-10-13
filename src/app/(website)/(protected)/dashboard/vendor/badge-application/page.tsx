@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { BadgeApplicationForm } from "@/components/badge/badge-application-form";
-import { getCurrentUser } from "@/lib/auth";
+import { currentUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "101 Approved Badge Application | Dashboard",
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BadgeApplicationPage() {
-  const user = await getCurrentUser();
+  const user = await currentUser();
   
   if (!user) {
     redirect("/auth/login");

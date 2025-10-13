@@ -75,7 +75,7 @@ export default function GettingStartedPage() {
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div className="border border-gray-200 rounded-lg p-4">
-                  <h3 className="font-bold text-gray-900 mb-2">Free Plan</h3>
+                  <h3 className="font-bold text-gray-900 mb-2">Free</h3>
                   <p className="text-2xl font-bold text-gray-900 mb-2">$0</p>
                   <ul className="text-sm text-gray-600 space-y-1">
                     <li className="flex items-start gap-2">
@@ -84,50 +84,50 @@ export default function GettingStartedPage() {
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span>Limited visibility</span>
+                      <span>No images</span>
                     </li>
                   </ul>
                 </div>
-                <div className="border-2 border-brand-blue rounded-lg p-4 bg-blue-50">
-                  <div className="inline-block bg-brand-blue text-white text-xs font-bold px-2 py-1 rounded mb-2">
+                <div className="border border-gray-200 rounded-lg p-4">
+                  <h3 className="font-bold text-gray-900 mb-2">Standard</h3>
+                  <p className="text-2xl font-bold text-gray-900 mb-2">
+                    $25<span className="text-sm text-gray-600">/month</span>
+                  </p>
+                  <ul className="text-sm text-gray-600 space-y-1">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span>Profile image</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span>Contact details</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span>Edit anytime</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="border-2 border-brand-orange rounded-lg p-4 bg-orange-50">
+                  <div className="inline-block bg-brand-orange text-white text-xs font-bold px-2 py-1 rounded mb-2">
                     POPULAR
                   </div>
-                  <h3 className="font-bold text-gray-900 mb-2">Pro Plan</h3>
+                  <h3 className="font-bold text-gray-900 mb-2">Pro</h3>
                   <p className="text-2xl font-bold text-gray-900 mb-2">
                     $50<span className="text-sm text-gray-600">/month</span>
                   </p>
                   <ul className="text-sm text-gray-600 space-y-1">
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span>Profile + 4 gallery images</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                       <span>Priority placement</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span>Gallery (4 images)</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                       <span>Social media links</span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="border border-gray-200 rounded-lg p-4">
-                  <h3 className="font-bold text-gray-900 mb-2">Premium Plan</h3>
-                  <p className="text-2xl font-bold text-gray-900 mb-2">
-                    $90<span className="text-sm text-gray-600">/month</span>
-                  </p>
-                  <ul className="text-sm text-gray-600 space-y-1">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span>Top priority placement</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span>All Pro features</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span>Featured badge</span>
                     </li>
                   </ul>
                 </div>

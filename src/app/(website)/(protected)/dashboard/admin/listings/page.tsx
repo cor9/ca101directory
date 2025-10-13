@@ -102,6 +102,62 @@ export default async function AdminListingsPage({
             </div>
           </div>
 
+          {/* Status Filter Tabs */}
+          <div className="flex gap-2 border-b border-gray-200">
+            <Link
+              href="/dashboard/admin/listings"
+              className={`px-4 py-2 font-medium text-sm transition-colors ${
+                !statusFilter
+                  ? "text-brand-blue border-b-2 border-brand-blue"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+            >
+              All Listings
+              <span className="ml-2 text-xs bg-gray-100 px-2 py-0.5 rounded-full">
+                {allListings.length}
+              </span>
+            </Link>
+            <Link
+              href="/dashboard/admin/listings?status=Pending"
+              className={`px-4 py-2 font-medium text-sm transition-colors ${
+                statusFilter === "Pending"
+                  ? "text-brand-blue border-b-2 border-brand-blue"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+            >
+              Pending Review
+              <span className="ml-2 text-xs bg-yellow-100 px-2 py-0.5 rounded-full">
+                {allListings.filter((l) => l.status === "Pending").length}
+              </span>
+            </Link>
+            <Link
+              href="/dashboard/admin/listings?status=Live"
+              className={`px-4 py-2 font-medium text-sm transition-colors ${
+                statusFilter === "Live"
+                  ? "text-brand-blue border-b-2 border-brand-blue"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+            >
+              Live
+              <span className="ml-2 text-xs bg-green-100 px-2 py-0.5 rounded-full">
+                {allListings.filter((l) => l.status === "Live").length}
+              </span>
+            </Link>
+            <Link
+              href="/dashboard/admin/listings?status=Rejected"
+              className={`px-4 py-2 font-medium text-sm transition-colors ${
+                statusFilter === "Rejected"
+                  ? "text-brand-blue border-b-2 border-brand-blue"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+            >
+              Rejected
+              <span className="ml-2 text-xs bg-red-100 px-2 py-0.5 rounded-full">
+                {allListings.filter((l) => l.status === "Rejected").length}
+              </span>
+            </Link>
+          </div>
+
           {/* Stats Cards */}
           <div className="grid gap-4 md:grid-cols-4">
             <Card>

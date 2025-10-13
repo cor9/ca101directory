@@ -1,10 +1,13 @@
 "use server";
 
-import { supabase } from "@/lib/supabase/client";
+import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
 export async function approveListing(listingId: string) {
   try {
+    const supabase = createServerActionClient({ cookies });
+    
     const { error } = await supabase
       .from("listings")
       .update({ status: "Live" })
@@ -24,6 +27,8 @@ export async function approveListing(listingId: string) {
 
 export async function rejectListing(listingId: string) {
   try {
+    const supabase = createServerActionClient({ cookies });
+    
     const { error } = await supabase
       .from("listings")
       .update({ status: "Rejected" })

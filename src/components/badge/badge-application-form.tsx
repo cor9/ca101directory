@@ -707,7 +707,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
         </div>
       )}
 
-      {currentStep === 3 && application.references.length < 2 && (
+      {currentStep === 3 && application.industry_references.length < 2 && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
             <p className="text-sm text-yellow-800">
               You need at least 2 industry references to proceed. You currently

@@ -1176,8 +1176,7 @@ WHERE name = 'listing-images';
 **Critical Issue:**
 All 257 listings disappeared from public website - ZERO listings visible to users.
 
-**Root Cause Found:**
-RLS policy mismatch on `listings` table:
+**Root Cause Found:** RLS policy mismatch on `listings` table:
 - **Policy checked for:** `status = 'published' OR status = 'approved'`
 - **Actual data uses:** `status = 'Live'` (257 listings)
 - **Result:** Policy blocked all listings from anonymous users
@@ -3667,3 +3666,11 @@ The blog section is now fully implemented with a professional dark theme, catego
 - **User experience:** ✅ Professional, helpful error messages
 
 **Critical Lesson:** Authentication systems require comprehensive end-to-end testing in production-like conditions. Incomplete migrations (like Sanity→Supabase) can leave critical systems broken. Always verify that email services can handle production volumes before going live.
+
+---
+
+## 2025-10-14: Dashboard tri-role redirect logic
+- Verified `src/app/(website)/(protected)/dashboard/page.tsx` already enforces tri-role routing (admin/vendor/parent) using `auth()` and `getRole()` with feature flags.
+- No code change required; do not replace with `getCurrentUser` snippet since that helper does not exist in this codebase and authentication is centralized in `src/auth.ts`.
+- Verified Supabase `profiles` record for `admin@childactor101.com` has `role = 'admin'`.
+- If an "Access Denied" loop reappears, check feature flags in `src/config/feature-flags.ts` and route guards in `src/middleware.ts`.

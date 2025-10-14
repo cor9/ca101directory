@@ -3,39 +3,58 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import type * as z from "zod";
 
-// Fix: Separated imports to pull `Listing` type from data layer and action/schema from the actions layer.
 import { UpdateListingSchema, updateListing } from "@/actions/listings";
 import { Button } from "@/components/ui/button";
 import type { Listing } from "@/data/listings";
 
-interface AdminEditFormProps {
+interface VendorEditFormProps {
   listing: Listing;
-  onFinished: (result: Awaited<ReturnType<typeof updateListing>>) => void;
+  onFinished: () => void;
 }
 
-export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
+// A vendor might not be allowed to change all fields.
+// We create a specific schema by omitting fields vendors cannot change.
+const VendorUpdateSchema = UpdateListingSchema.omit({
+  status: true, // Vendors shouldn't change their own status
+  is_claimed: true, // This is an admin/system field
+});
+
+export function VendorEditForm({ listing, onFinished }: VendorEditFormProps) {
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof UpdateListingSchema>>({
-    resolver: zodResolver(UpdateListingSchema),
+  const form = useForm<z.infer<typeof VendorUpdateSchema>>({
+    resolver: zodResolver(VendorUpdateSchema),
     defaultValues: {
       listing_name: listing.listing_name || "",
-      status: listing.status || "Draft",
       website: listing.website || "",
       email: listing.email || "",
       phone: listing.phone || "",
       what_you_offer: listing.what_you_offer || "",
-      is_claimed: listing.is_claimed || false,
     },
   });
 
-  const onSubmit = (values: z.infer<typeof UpdateListingSchema>) => {
+  const onSubmit = (values: z.infer<typeof VendorUpdateSchema>) => {
     startTransition(() => {
-      updateListing(listing.id, values).then((res) => {
-        // Pass the entire response to the parent component to handle side-effects
-        onFinished(res);
+      // We need to merge back the original status and is_claimed values
+      // so the server action validation passes, as the vendor is not allowed to change them.
+      const fullValues = {
+        ...values,
+        // FIX: Set status to 'Pending' for admin re-approval on any vendor edit.
+        status: "Pending",
+        is_claimed: !!listing.is_claimed,
+      };
+
+      updateListing(listing.id, fullValues).then((res) => {
+        if (res.status === "error") {
+          toast.error(res.message);
+        } else {
+          // FIX: Updated toast message for better UX, informing user about review process.
+          toast.success("Listing has been submitted for review.");
+          onFinished();
+        }
       });
     });
   };
@@ -57,23 +76,6 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               {form.formState.errors.listing_name.message}
             </p>
           )}
-        </div>
-
-        {/* Status */}
-        <div className="space-y-1">
-          <label htmlFor="status">Status</label>
-          <select
-            id="status"
-            {...form.register("status")}
-            className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
-            disabled={isPending}
-          >
-            <option value="Live">Live</option>
-            <option value="Pending">Pending</option>
-            <option value="Draft">Draft</option>
-            <option value="Archived">Archived</option>
-            <option value="Rejected">Rejected</option>
-          </select>
         </div>
 
         {/* Website */}
@@ -118,18 +120,6 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             disabled={isPending}
           />
         </div>
-
-        {/* Is Claimed Checkbox */}
-        <div className="flex items-center gap-2 pt-4">
-          <input
-            type="checkbox"
-            id="is_claimed"
-            {...form.register("is_claimed")}
-            className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
-            disabled={isPending}
-          />
-          <label htmlFor="is_claimed">Listing is Claimed</label>
-        </div>
       </div>
 
       {/* What You Offer */}
@@ -148,9 +138,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
         <Button
           type="button"
           variant="ghost"
-          onClick={() =>
-            onFinished({ status: "error", message: "Update cancelled." })
-          }
+          onClick={onFinished}
           disabled={isPending}
         >
           Cancel

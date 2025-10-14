@@ -37,6 +37,12 @@ export async function POST(request: NextRequest) {
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
 
+      console.log("Processing checkout.session.completed:", {
+        sessionId: session.id,
+        metadata: session.metadata,
+        customer: session.customer,
+      });
+
       const vendorId = session.metadata?.vendor_id;
       const listingId = session.metadata?.listing_id;
       const plan = session.metadata?.plan;
@@ -47,6 +53,7 @@ export async function POST(request: NextRequest) {
           vendorId,
           listingId,
           plan,
+          allMetadata: session.metadata,
         });
         return NextResponse.json(
           { error: "Missing metadata" },
@@ -113,6 +120,46 @@ export async function POST(request: NextRequest) {
           { error: "Failed to process claim" },
           { status: 500 },
         );
+      }
+    } else if (event.type === "customer.subscription.created") {
+      const subscription = event.data.object as Stripe.Subscription;
+      
+      console.log("Processing subscription.created:", {
+        subscriptionId: subscription.id,
+        customerId: subscription.customer,
+        status: subscription.status,
+      });
+
+      // For subscription events, we need to get the customer details
+      // and potentially the checkout session to retrieve metadata
+      const customer = await stripe.customers.retrieve(subscription.customer as string);
+      
+      console.log("Customer details:", {
+        id: customer.id,
+        email: customer.email,
+        metadata: customer.metadata,
+      });
+
+      // If we have vendor info in customer metadata, update the profile
+      if (customer.metadata?.vendor_id) {
+        const supabase = createServerClient();
+        
+        try {
+          const { error: profileError } = await supabase
+            .from("profiles")
+            .update({
+              stripe_customer_id: customer.id,
+            })
+            .eq("id", customer.metadata.vendor_id);
+
+          if (profileError) {
+            console.error("Error updating profile from subscription:", profileError);
+          } else {
+            console.log("✅ Updated profile from subscription:", customer.metadata.vendor_id);
+          }
+        } catch (error) {
+          console.error("Error processing subscription:", error);
+        }
       }
     }
 

@@ -5,7 +5,8 @@ import { getRoleBasedRedirect } from "@/lib/auth-redirects";
 import { LoginSchema } from "@/lib/schemas";
 import { createServerClient } from "@/lib/supabase";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { AuthError } from "next-auth";
+// Fix: In next-auth v5+, AuthError is imported from @auth/core/errors
+import { AuthError } from "@auth/core/errors";
 import type * as z from "zod";
 
 export type ServerActionResponse = {
@@ -26,32 +27,54 @@ export async function login(
   const { email, password } = validatedFields.data;
 
   try {
-    // First, get user role for redirect
     const supabase = createServerClient();
-    const { data: authData } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const { data: authData, error: signInError } =
+      await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (!authData.user) {
-      return { status: "error", message: "Invalid credentials!" };
+    if (signInError || !authData.user) {
+      return { status: "error", message: "Invalid credentials provided." };
     }
 
     // Get user profile to determine role
-    const { data: profile } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from("profiles")
       .select("role")
       .eq("id", authData.user.id)
       .single();
 
+    if (profileError) {
+      console.error("Login Action - Profile Fetch Error:", profileError);
+      return {
+        status: "error",
+        message:
+          "Could not retrieve your user profile. Please contact support.",
+      };
+    }
+
+    if (!profile || !profile.role) {
+      console.warn(`Login Action: User ${email} is missing a profile or role.`);
+      return {
+        status: "error",
+        message:
+          "Your account is not fully configured with a user role. Please contact support.",
+      };
+    }
+
     // Determine redirect URL based on role
     const redirectUrl =
       callbackUrl ||
-      (profile?.role
-        ? getRoleBasedRedirect(profile.role)
-        : DEFAULT_LOGIN_REDIRECT);
+      getRoleBasedRedirect(profile.role) ||
+      DEFAULT_LOGIN_REDIRECT;
 
-    console.log("Login action: User role is", profile?.role, "redirecting to", redirectUrl);
+    console.log(
+      "Login action: User role is",
+      profile?.role,
+      "redirecting to",
+      redirectUrl,
+    );
 
     // Sign in with NextAuth (don't wait for redirect, let the action handle it)
     await signIn("credentials", {

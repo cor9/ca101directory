@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { createServerClient } from "@/lib/supabase";
 
 export type Listing = {
   id: string; // UUID
@@ -136,7 +136,7 @@ export async function getPublicListings(params?: {
 }) {
   console.log("getPublicListings: Starting fetch with params:", params);
 
-  let query = supabase.from("listings").select("*");
+  let query = createServerClient().from("listings").select("*");
 
   if (params?.state) query = query.eq("state", params.state);
   if (params?.region) {
@@ -197,8 +197,54 @@ export async function getPublicListings(params?: {
   return filteredData;
 }
 
-export async function getListingById(id: string) {
+/**
+ * Fetches all listings for the admin dashboard, regardless of status.
+ * Orders by creation date to show the newest listings first.
+ */
+export async function getAdminListings() {
+  console.log("getAdminListings: Starting fetch for all listings.");
+
+  const { data, error } = await createServerClient()
+    .from("listings")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("getAdminListings: Error:", error);
+    throw error;
+  }
+
+  return data as Listing[];
+}
+
+/**
+ * Fetches all listings for a specific vendor.
+ * @param vendorId The UUID of the vendor (owner).
+ */
+export async function getVendorListings(vendorId: string) {
+  if (!vendorId) {
+    console.warn("getVendorListings: No vendorId provided.");
+    return [];
+  }
+  console.log(`getVendorListings: Fetching listings for vendor ${vendorId}`);
+
+  const supabase = createServerClient();
   const { data, error } = await supabase
+    .from("listings")
+    .select("*")
+    .eq("owner_id", vendorId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("getVendorListings: Error:", error);
+    throw error;
+  }
+
+  return data as Listing[];
+}
+
+export async function getListingById(id: string) {
+  const { data, error } = await createServerClient()
     .from("listings")
     .select("*")
     .eq("id", id)
@@ -211,7 +257,7 @@ export async function getListingBySlug(slug: string) {
   console.log("getListingBySlug: Looking for slug:", slug);
 
   // First, try to find by UUID/ID (for backward compatibility)
-  const { data: idData, error: idError } = await supabase
+  const { data: idData, error: idError } = await createServerClient()
     .from("listings")
     .select("*")
     .eq("id", slug)
@@ -225,7 +271,7 @@ export async function getListingBySlug(slug: string) {
   }
 
   // If not found by ID, try to find by slug field (only for claimed listings)
-  const { data: slugData, error: slugError } = await supabase
+  const { data: slugData, error: slugError } = await createServerClient()
     .from("listings")
     .select("*")
     .eq("slug", slug)
@@ -235,10 +281,33 @@ export async function getListingBySlug(slug: string) {
     .single();
 
   if (slugData && !slugError) {
-    console.log("getListingBySlug: Found claimed listing by slug:", slugData.listing_name);
+    console.log(
+      "getListingBySlug: Found claimed listing by slug:",
+      slugData.listing_name,
+    );
     return slugData as Listing;
   }
 
   console.log("getListingBySlug: No listing found for slug or id:", slug);
   return null;
+}
+
+/**
+ * Fetches all unclaimed listings for the vendor claim page.
+ */
+export async function getUnclaimedListings() {
+  console.log("getUnclaimedListings: Fetching all unclaimed listings.");
+  const supabase = createServerClient();
+  const { data, error } = await supabase
+    .from("listings")
+    .select("id, listing_name, city, state")
+    .eq("is_claimed", false)
+    .order("listing_name", { ascending: true });
+
+  if (error) {
+    console.error("getUnclaimedListings Error:", error);
+    throw error;
+  }
+
+  return data;
 }

@@ -78,10 +78,44 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Create or retrieve Stripe customer
+    let customer;
+    try {
+      // Try to find existing customer by email
+      const existingCustomers = await stripe.customers.list({
+        email: session.user.email || "",
+        limit: 1,
+      });
+      
+      if (existingCustomers.data.length > 0) {
+        customer = existingCustomers.data[0];
+        console.log("Using existing customer:", customer.id);
+      } else {
+        // Create new customer with metadata
+        customer = await stripe.customers.create({
+          email: session.user.email || "",
+          metadata: {
+            vendor_id: session.user.id,
+            listing_id: listingId,
+            plan: planId,
+            billing_cycle: billingCycle,
+          },
+        });
+        console.log("Created new customer:", customer.id);
+      }
+    } catch (error) {
+      console.error("Error managing customer:", error);
+      return NextResponse.json(
+        { error: "Failed to manage customer" },
+        { status: 500 },
+      );
+    }
+
     // Create Stripe checkout session
     console.log("Creating Stripe checkout session...");
     const checkoutSession = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
+      customer: customer.id,
       line_items: [
         {
           price_data: {
@@ -112,7 +146,6 @@ export async function POST(request: NextRequest) {
         plan: planId,
         billing_cycle: billingCycle,
       },
-      customer_email: session.user.email || undefined,
     });
 
     console.log("Checkout session created successfully:", checkoutSession.id);

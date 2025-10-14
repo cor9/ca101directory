@@ -1,9 +1,10 @@
 import { AdminNotifications } from "@/components/admin/admin-notifications";
 import { EmailVerificationTool } from "@/components/admin/email-verification-tool";
+import { ListingsTable } from "@/components/admin/listings-table";
 import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { siteConfig } from "@/config/site";
-import { getPublicListings } from "@/data/listings";
+import { getAdminListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
@@ -26,7 +27,7 @@ export default async function AdminDashboard() {
   // This fixes server/client session mismatch issues
 
   // Get platform data for stats
-  const allListings = await getPublicListings();
+  const allListings = await getAdminListings();
   const pendingListings = allListings.filter(
     (listing) => listing.status === "Pending",
   );
@@ -199,6 +200,9 @@ export default async function AdminDashboard() {
               </div>
             </div>
           </div>
+
+          {/* All Listings Table */}
+          <ListingsTable listings={allListings} />
         </div>
       </AdminDashboardLayout>
     </DashboardGuard>

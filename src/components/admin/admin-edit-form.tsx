@@ -12,17 +12,18 @@ import type { Listing } from "@/data/listings";
 
 interface AdminEditFormProps {
   listing: Listing;
-  onFinished: (result: Awaited<ReturnType<typeof updateListing>>) => void;
+  categories?: Array<{ id: string; name: string }>;
+  onFinished?: (result: Awaited<ReturnType<typeof updateListing>>) => void;
 }
 
-export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
+export function AdminEditForm({ listing, categories, onFinished }: AdminEditFormProps) {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof UpdateListingSchema>>({
     resolver: zodResolver(UpdateListingSchema),
     defaultValues: {
       listing_name: listing.listing_name || "",
-      status: listing.status || "Draft",
+      status: (listing.status as "Live" | "Pending" | "Draft" | "Archived" | "Rejected") || "Draft",
       website: listing.website || "",
       email: listing.email || "",
       phone: listing.phone || "",
@@ -35,7 +36,9 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
     startTransition(() => {
       updateListing(listing.id, values).then((res) => {
         // Pass the entire response to the parent component to handle side-effects
-        onFinished(res);
+        if (onFinished) {
+          onFinished(res);
+        }
       });
     });
   };
@@ -57,7 +60,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               {form.formState.errors.listing_name.message}
             </p>
           )}
-        </div>
+              </div>
 
         {/* Status */}
         <div className="space-y-1">
@@ -74,7 +77,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             <option value="Archived">Archived</option>
             <option value="Rejected">Rejected</option>
           </select>
-        </div>
+              </div>
 
         {/* Website */}
         <div className="space-y-1">
@@ -90,13 +93,13 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               {form.formState.errors.website.message}
             </p>
           )}
-        </div>
+            </div>
 
         {/* Email */}
         <div className="space-y-1">
           <label htmlFor="email">Email</label>
           <input
-            id="email"
+                id="email"
             {...form.register("email")}
             className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
             disabled={isPending}
@@ -106,7 +109,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               {form.formState.errors.email.message}
             </p>
           )}
-        </div>
+              </div>
 
         {/* Phone */}
         <div className="space-y-1">
@@ -116,8 +119,8 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             {...form.register("phone")}
             className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
             disabled={isPending}
-          />
-        </div>
+                />
+              </div>
 
         {/* Is Claimed Checkbox */}
         <div className="flex items-center gap-2 pt-4">
@@ -129,8 +132,8 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             disabled={isPending}
           />
           <label htmlFor="is_claimed">Listing is Claimed</label>
-        </div>
-      </div>
+              </div>
+            </div>
 
       {/* What You Offer */}
       <div className="space-y-1">
@@ -141,15 +144,15 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           rows={4}
           className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
           disabled={isPending}
-        />
-      </div>
+                  />
+                </div>
 
       <div className="flex justify-end gap-2">
         <Button
           type="button"
           variant="ghost"
           onClick={() =>
-            onFinished({ status: "error", message: "Update cancelled." })
+            onFinished?.({ status: "error", message: "Update cancelled." })
           }
           disabled={isPending}
         >
@@ -157,8 +160,8 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
         </Button>
         <Button type="submit" disabled={isPending}>
           {isPending ? "Saving..." : "Save Changes"}
-        </Button>
-      </div>
-    </form>
+              </Button>
+            </div>
+      </form>
   );
 }

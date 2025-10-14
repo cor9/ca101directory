@@ -43,7 +43,7 @@ export function VendorEditForm({ listing, onFinished }: VendorEditFormProps) {
       const fullValues = {
         ...values,
         // FIX: Set status to 'Pending' for admin re-approval on any vendor edit.
-        status: "Pending",
+        status: "Pending" as const,
         is_claimed: !!listing.is_claimed,
       };
 

@@ -207,16 +207,25 @@ export default async function ListingPage({ params }: ListingPageProps) {
     if (listing.categories && listing.categories.length > 0) {
       try {
         const supabase = createServerClient();
-        const { data: categories } = await supabase
+        console.log('Fetching categories for:', listing.categories);
+        
+        const { data: categories, error } = await supabase
           .from('categories')
           .select('id, category_name')
           .in('id', listing.categories);
         
-        if (categories) {
+        console.log('Category fetch result:', { categories, error });
+        
+        if (error) {
+          console.error('Supabase error fetching categories:', error);
+        }
+        
+        if (categories && categories.length > 0) {
           categoryNames = categories.reduce((acc, cat) => {
             acc[cat.id] = cat.category_name;
             return acc;
           }, {} as { [key: string]: string });
+          console.log('Category names resolved:', categoryNames);
         }
       } catch (error) {
         console.error('Error fetching category names:', error);

@@ -89,10 +89,10 @@ export default async function HomeFeaturedListings() {
   return (
     <section className="py-16">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold mb-4 text-paper">
+        <h2 className="text-3xl font-bold mb-4" style={{ color: "#1B1F29" }}>
           Featured Professionals
         </h2>
-        <p className="text-lg text-paper/90 max-w-2xl mx-auto">
+        <p className="text-lg max-w-2xl mx-auto" style={{ color: "#1B1F29" }}>
           Hand-picked professionals trusted by families across the industry
         </p>
       </div>
@@ -123,17 +123,20 @@ export default async function HomeFeaturedListings() {
             <div className="p-6">
               <div className="flex items-start justify-between mb-3">
                 <h3
-                  className="font-semibold text-lg text-gray-900"
+                  className="font-semibold text-lg"
+                  style={{ color: "#1B1F29" }}
                 >
                   {listing.name}
                 </h3>
                 <Icons.externalLink
-                  className="h-4 w-4 text-gray-900"
+                  className="h-4 w-4"
+                  style={{ color: "#1B1F29" }}
                 />
               </div>
 
               <p
-                className="text-sm mb-4 line-clamp-4 text-gray-900"
+                className="text-sm mb-4 line-clamp-4"
+                style={{ color: "#1B1F29" }}
               >
                 {listing.description}
               </p>
@@ -147,7 +150,7 @@ export default async function HomeFeaturedListings() {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-gray-900">
+                <span style={{ color: "#1B1F29" }}>
                   {listing.category}
                 </span>
                 <Link

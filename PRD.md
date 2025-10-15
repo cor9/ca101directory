@@ -456,38 +456,44 @@ The Child Actor 101 Directory is a fully functional Next.js application deployed
 #### 6.1.1 Subscription Plans
 
 **Free Plan ($0/forever)**
-- Public listing in directory
-- Searchable by parents
-- Basic contact information
-- Reviewed and approved within 72 hours
-- Standard customer support
-- Limitations: No featured placement, no logo display, limited visibility
+- Basic listing information
+- Contact details displayed
+- Searchable in directory
+- Quality review process (24-48 hour admin approval)
+- Limitations: No profile image, no gallery images, no priority placement, no social media links
 
-**Basic Plan ($25/month, $250/year - save $50 annually)**
-- All Free features included
-- Logo display on listing
+**Standard Plan**
+- Monthly: $25/month
+- Annual: $250/year (save $50 - 2 months free)
+- Everything in Free
+- 1 profile image
+- Better search ranking
 - Enhanced visibility
-- Priority review process
+- Edit anytime
 - Email support
-- Limitations: No featured placement, no 101 Badge
+- Limitations: No gallery images, no social media links
 
-**Pro Plan ($50/month, $500/year - save $100 annually)**
-- All Basic features included
-- Featured placement at top of listings
-- SEO boosting features
-- Priority customer support
-- Social media promotion
-- Advanced analytics
-- Limitations: No 101 Badge
-
-**Premium Plan ($90/month, $900/year - save $180 annually)**
-- All Pro features included
-- 101 Approved Badge
+**Pro Plan (Most Popular)**
+- Monthly: $50/month
+- Annual: $500/year (save $100 - 2 months free)
+- Everything in Standard
+- Gallery images (4 photos)
+- Social media links
 - Priority placement
-- Dedicated support
-- Advanced analytics
-- Social media promotion
-- No limitations
+- Blog/website integration
+- Enhanced profile
+- 101 Approved Badge eligible
+- Priority support
+
+**Founding Vendor Plans (Limited Time)**
+- Founding Standard: $125/every 6 months (save $25 vs monthly billing)
+- Founding Pro: $250/every 6 months (save $50 vs monthly billing)
+
+**101 Approved Badge Add-on**
+- Separate add-on service
+- Available for Pro plan users
+- Trusted verification badge
+- Additional credibility and visibility
 
 #### 6.1.2 Additional Revenue (Future)
 - **Commission Fees** - Percentage of bookings made through platform
@@ -508,6 +514,24 @@ The Child Actor 101 Directory is a fully functional Next.js application deployed
 - Competitive pricing for market penetration
 - Flexible plans for different business needs
 - Transparent pricing with no hidden fees
+
+#### 6.2.3 Revenue Projections
+
+**Year 1 Targets:**
+- 500 free listings
+- 100 standard subscriptions ($25/month = $30,000 annually)
+- 50 pro subscriptions ($50/month = $30,000 annually)
+- 25 founding vendor subscriptions ($125-250/6 months = $9,375 annually)
+- 25 badge add-ons
+- **Total Annual Revenue: $69,375**
+
+**Year 2 Targets:**
+- 1,000 free listings
+- 300 standard subscriptions ($25/month = $90,000 annually)
+- 150 pro subscriptions ($50/month = $90,000 annually)
+- 100 founding vendor subscriptions ($125-250/6 months = $37,500 annually)
+- 100 badge add-ons
+- **Total Annual Revenue: $217,500**
 
 ---
 

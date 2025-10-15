@@ -51,8 +51,7 @@ export default function VendorFAQ() {
               className="surface border border-surface/20 rounded-xl p-6"
             >
               <h3
-                className="text-lg font-semibold mb-3"
-                className="text-gray-900"
+                className="text-lg font-semibold mb-3 text-gray-900"
               >
                 {faq.question}
               </h3>

@@ -398,8 +398,7 @@ export function SupabaseSubmitForm({
                   />
                   <Label
                     htmlFor={`category-${category.id}`}
-                    className="text-sm"
-                    className="text-gray-900"
+                    className="text-sm text-gray-900"
                   >
                     {category.name}
                   </Label>
@@ -546,8 +545,7 @@ export function SupabaseSubmitForm({
                     />
                     <Label
                       htmlFor={`region-${regionOption}`}
-                      className="text-sm font-normal cursor-pointer"
-                      className="text-gray-900"
+                      className="text-sm font-normal cursor-pointer text-gray-900"
                     >
                       {regionOption}
                     </Label>
@@ -687,8 +685,7 @@ export function SupabaseSubmitForm({
                 />
                 <Label
                   htmlFor="performerPermit"
-                  className="text-sm"
-                  className="text-gray-900"
+                  className="text-sm text-gray-900"
                 >
                   California Child Performer Services Permit
                 </Label>
@@ -704,8 +701,7 @@ export function SupabaseSubmitForm({
                 />
                 <Label
                   htmlFor="bonded"
-                  className="text-sm"
-                  className="text-gray-900"
+                  className="text-sm text-gray-900"
                 >
                   Bonded for Advanced Fees
                 </Label>
@@ -787,8 +783,7 @@ export function SupabaseSubmitForm({
           >
             <div>
               <h3
-                className="text-lg font-semibold"
-                className="text-gray-900"
+                className="text-lg font-semibold text-gray-900"
               >
                 Social Media Links (Pro only)
               </h3>

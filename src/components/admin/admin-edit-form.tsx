@@ -10,15 +10,22 @@ import { Button } from "@/components/ui/button";
 import { UpdateListingSchema, updateListing } from "@/actions/listings";
 import type { Listing } from "@/data/listings";
 
+// Form input type with strings for array fields (before transformation)
+type FormInputType = Omit<z.infer<typeof UpdateListingSchema>, 'categories' | 'age_range' | 'region'> & {
+  categories: string;
+  age_range: string;
+  region: string;
+};
+
 interface AdminEditFormProps {
   listing: Listing;
   onFinished: (result: Awaited<ReturnType<typeof updateListing>>) => void;
 }
 
 interface FormInputProps {
-  id: string;
+  id: keyof FormInputType;
   label: string;
-  register: UseFormRegister<z.infer<typeof UpdateListingSchema>>;
+  register: UseFormRegister<FormInputType>;
   error?: FieldError;
   disabled?: boolean;
   helpText?: string | null;
@@ -26,24 +33,24 @@ interface FormInputProps {
 }
 
 interface FormSelectProps {
-  id: string;
+  id: keyof FormInputType;
   label: string;
-  register: UseFormRegister<z.infer<typeof UpdateListingSchema>>;
+  register: UseFormRegister<FormInputType>;
   children: React.ReactNode;
   disabled?: boolean;
 }
 
 interface FormCheckboxProps {
-  id: string;
+  id: keyof FormInputType;
   label: string;
-  register: UseFormRegister<z.infer<typeof UpdateListingSchema>>;
+  register: UseFormRegister<FormInputType>;
   disabled?: boolean;
 }
 
 interface FormTextareaProps {
-  id: string;
+  id: keyof FormInputType;
   label: string;
-  register: UseFormRegister<z.infer<typeof UpdateListingSchema>>;
+  register: UseFormRegister<FormInputType>;
   disabled?: boolean;
   rows?: number;
 }
@@ -51,11 +58,11 @@ interface FormTextareaProps {
 export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof UpdateListingSchema>>({
+  const form = useForm<FormInputType>({
     resolver: zodResolver(UpdateListingSchema),
     defaultValues: {
       listing_name: listing.listing_name || "",
-      status: listing.status || "Draft",
+      status: (listing.status as "Live" | "Pending" | "Draft" | "Archived" | "Rejected") || "Draft",
       website: listing.website || "",
       email: listing.email || "",
       phone: listing.phone || "",
@@ -75,16 +82,16 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       why_is_it_unique: listing.why_is_it_unique || "",
       format: listing.format || "",
       extras_notes: listing.extras_notes || "",
-      // Array fields converted to comma-separated strings
+      // Array fields converted to comma-separated strings for form input
       categories: listing.categories?.join(", ") || "",
       age_range: listing.age_range?.join(", ") || "",
       region: listing.region?.join(", ") || "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof UpdateListingSchema>) => {
+  const onSubmit = (values: FormInputType) => {
     startTransition(() => {
-      updateListing(listing.id, values).then((res) => {
+      updateListing(listing.id, values as unknown as z.infer<typeof UpdateListingSchema>).then((res) => {
         // Pass the entire response to the parent component to handle side-effects
         onFinished(res);
       });

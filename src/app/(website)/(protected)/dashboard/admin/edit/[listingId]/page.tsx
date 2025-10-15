@@ -3,7 +3,6 @@ import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { AdminEditForm } from "@/components/admin/admin-edit-form";
 import { getListingById } from "@/data/listings";
-import { getCategories } from "@/data/categories";
 import { constructMetadata } from "@/lib/metadata";
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
@@ -27,7 +26,7 @@ export default async function AdminEditPage({ params }: AdminEditPageProps) {
   const session = await auth();
 
   if (!session?.user) {
-    redirect("/auth/login?next=/dashboard/admin/edit/" + params.listingId);
+    redirect(`/auth/login?next=/dashboard/admin/edit/${params.listingId}`);
   }
 
   // Get the listing
@@ -37,20 +36,6 @@ export default async function AdminEditPage({ params }: AdminEditPageProps) {
     notFound();
   }
 
-  // Get categories for the form
-  let categories: Array<{ id: string; name: string }> = [];
-  try {
-    const rawCategories = await getCategories();
-    categories = rawCategories
-      .filter((cat) => cat.category_name)
-      .map((cat) => ({
-        id: cat.id,
-        name: cat.category_name,
-      }));
-  } catch (error) {
-    console.error("Error fetching categories:", error);
-    // Continue with empty categories array
-  }
 
   return (
     <DashboardGuard allowedRoles={["admin"]}>
@@ -63,7 +48,15 @@ export default async function AdminEditPage({ params }: AdminEditPageProps) {
             </p>
           </div>
 
-          <AdminEditForm listing={listing} categories={categories} />
+          <AdminEditForm 
+            listing={listing} 
+            onFinished={(result) => {
+              if (result.status === "success") {
+                // Redirect back to admin dashboard after successful edit
+                redirect("/dashboard/admin");
+              }
+            }}
+          />
         </div>
       </AdminDashboardLayout>
     </DashboardGuard>

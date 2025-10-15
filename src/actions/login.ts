@@ -64,15 +64,16 @@ export async function login(
     }
 
     // Determine redirect URL based on role
+    const roleBasedRedirect = getRoleBasedRedirect(profile.role);
     const redirectUrl =
-      callbackUrl ||
-      getRoleBasedRedirect(profile.role) ||
-      DEFAULT_LOGIN_REDIRECT;
+      callbackUrl || roleBasedRedirect || DEFAULT_LOGIN_REDIRECT;
 
     console.log(
       "Login action: User role is",
       profile?.role,
-      "redirecting to",
+      "roleBasedRedirect:",
+      roleBasedRedirect,
+      "final redirectUrl:",
       redirectUrl,
     );
 

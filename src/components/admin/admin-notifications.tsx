@@ -1,168 +1,90 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bell, Eye, X } from "lucide-react";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-
-interface PendingListing {
-  id: string;
-  listing_name: string;
-  plan: string;
-  created_at: string;
-  owner_id: string;
-}
+import type { Listing } from "@/data/listings";
+import { Bell, X } from "lucide-react";
 
 interface AdminNotificationsProps {
-  className?: string;
+  listings: Listing[];
+  onReview: (listing: Listing) => void;
 }
 
-export function AdminNotifications({ className }: AdminNotificationsProps) {
-  const [pendingListings, setPendingListings] = useState<PendingListing[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [dismissed, setDismissed] = useState<Set<string>>(new Set());
+export const AdminNotifications = ({
+  listings,
+  onReview,
+}: AdminNotificationsProps) => {
+  const pendingListings = listings.filter((l) => l.status === "Pending");
 
-  useEffect(() => {
-    fetchPendingListings();
-    // Refresh every 5 minutes
-    const interval = setInterval(fetchPendingListings, 5 * 60 * 1000);
-    return () => clearInterval(interval);
-  }, []);
+  if (pendingListings.length === 0) {
+    return null;
+  }
 
-  const fetchPendingListings = async () => {
-    try {
-      const response = await fetch("/api/admin/pending-listings");
-      if (response.ok) {
-        const data = await response.json();
-        setPendingListings(data);
-      }
-    } catch (error) {
-      console.error("Error fetching pending listings:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const dismissNotification = (listingId: string) => {
-    setDismissed((prev) => {
-      const newSet = new Set(prev);
-      newSet.add(listingId);
-      return newSet;
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return "N/A";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
     });
   };
 
-  const visibleListings = pendingListings.filter(
-    (listing) => !dismissed.has(listing.id),
-  );
-
-  if (isLoading) {
-    return (
-      <Card className={className}>
-        <CardHeader className="pb-2">
-          <CardTitle className="bauhaus-heading text-lg flex items-center gap-2">
-            <Bell className="h-5 w-5" />
-            Admin Notifications
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="bauhaus-body text-sm text-muted-foreground">
-            Loading...
-          </p>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  if (visibleListings.length === 0) {
-    return (
-      <Card className={className}>
-        <CardHeader className="pb-2">
-          <CardTitle className="bauhaus-heading text-lg flex items-center gap-2">
-            <Bell className="h-5 w-5" />
-            Admin Notifications
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="bauhaus-body text-sm text-muted-foreground">
-            No pending listings to review
-          </p>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
-    <Card className={className}>
-      <CardHeader className="pb-2">
-        <CardTitle className="bauhaus-heading text-lg flex items-center gap-2">
-          <Bell className="h-5 w-5 text-bauhaus-orange" />
-          Admin Notifications
-          <Badge variant="destructive" className="ml-2">
-            {visibleListings.length}
-          </Badge>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        {visibleListings.slice(0, 5).map((listing) => (
+    <div className="bg-[#161b22] rounded-lg p-6 border border-gray-700">
+      <h2 className="flex items-center text-lg font-semibold mb-4 text-white">
+        <Bell className="mr-2 h-5 w-5 text-blue-400" />
+        Admin Notifications{" "}
+        <span className="ml-2 bg-blue-500/20 text-blue-300 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">
+          {pendingListings.length}
+        </span>
+      </h2>
+      <div className="space-y-3">
+        {pendingListings.slice(0, 5).map((listing) => (
           <div
             key={listing.id}
-            className="bauhaus-card p-4 flex items-center justify-between"
+            className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-paper/5 rounded-lg"
           >
-            <div className="flex-1">
-              <h4 className="bauhaus-heading text-sm font-medium">
-                {listing.listing_name}
-              </h4>
+            <div>
+              <p className="font-semibold text-white">{listing.listing_name}</p>
               <div className="flex items-center gap-2 mt-1">
-                <Badge variant="outline" className="text-xs">
-                  {listing.plan}
-                </Badge>
-                <span className="bauhaus-body text-xs text-muted-foreground">
-                  {new Date(listing.created_at).toLocaleDateString()}
+                <span className="px-2 py-0.5 text-xs font-medium text-gray-300 bg-gray-700 rounded-full">
+                  {listing.plan || "Free"}
                 </span>
+                <p className="text-sm text-gray-400">
+                  {formatDate(listing.created_at)}
+                </p>
               </div>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2 w-full sm:w-auto self-end sm:self-center">
               <Button
-                asChild
-                variant="outline"
-                size="sm"
-                className="bauhaus-btn-secondary text-xs"
+                onClick={() => onReview(listing)}
+                className="w-full sm:w-auto bg-highlight hover:bg-highlight/90 text-ink font-bold"
               >
-                <Link
-                  href={`/dashboard/admin/listings?highlight=${listing.id}`}
-                >
-                  <Eye className="h-3 w-3 mr-1" />
-                  REVIEW
-                </Link>
+                REVIEW
               </Button>
               <Button
+                aria-label="Dismiss notification"
                 variant="ghost"
-                size="sm"
-                onClick={() => dismissNotification(listing.id)}
-                className="h-8 w-8 p-0"
+                size="icon"
+                className="text-gray-400 hover:bg-gray-700 hover:text-white h-9 w-9 flex-shrink-0"
               >
-                <X className="h-3 w-3" />
+                <X className="h-4 w-4" />
               </Button>
             </div>
           </div>
         ))}
-        {visibleListings.length > 5 && (
-          <div className="text-center pt-2">
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="bauhaus-btn-secondary"
-            >
-              <Link href="/dashboard/admin/listings">
-                VIEW ALL {visibleListings.length} PENDING LISTINGS
-              </Link>
-            </Button>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+      </div>
+      {pendingListings.length > 0 && (
+        <div className="mt-6 text-center">
+          <Button
+            asChild
+            className="bg-highlight hover:bg-highlight/90 text-ink font-bold"
+          >
+            <a href="/dashboard/admin/listings?status=Pending">
+              View All {pendingListings.length} Pending Listings
+            </a>
+          </Button>
+        </div>
+      )}
+    </div>
   );
-}
+};

@@ -100,6 +100,7 @@ export const apiAuthPrefix = "/api/auth";
 
 /**
  * The default redirect path after logging in
+ * This should only be used as a fallback when role-based redirect fails
  * @type {string}
  */
 export const DEFAULT_LOGIN_REDIRECT = "/dashboard";

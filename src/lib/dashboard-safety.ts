@@ -5,31 +5,25 @@
 
 import { getRole } from "@/lib/auth/roles";
 import { redirect } from "next/navigation";
-
-export interface UserWithRole {
-  id?: string;
-  email?: string;
-  role?: string;
-  [key: string]: unknown;
-}
+import type { ExtendedUser } from "@/types/next-auth";
 
 /**
  * Verify user has correct role for dashboard access
  * Throws error if user tries to access wrong dashboard
  */
 export function verifyDashboardAccess(
-  user: UserWithRole,
+  user: ExtendedUser,
   requiredRole: "admin" | "vendor" | "parent",
-  dashboardPath: string
+  dashboardPath: string,
 ) {
   const userRole = getRole(user);
-  
+
   console.log("Dashboard Safety Check:", {
     userEmail: user.email,
     userRole,
     requiredRole,
     dashboardPath,
-    hasAccess: userRole === requiredRole
+    hasAccess: userRole === requiredRole,
   });
 
   if (userRole !== requiredRole) {
@@ -38,7 +32,7 @@ export function verifyDashboardAccess(
       userRole,
       requiredRole,
       dashboardPath,
-      message: `User with role '${userRole}' tried to access '${requiredRole}' dashboard`
+      message: `User with role '${userRole}' tried to access '${requiredRole}' dashboard`,
     });
 
     // Redirect to appropriate dashboard based on actual role
@@ -65,16 +59,16 @@ export function verifyDashboardAccess(
  * Get safe dashboard redirect based on user role
  * Never sends user to wrong dashboard
  */
-export function getSafeDashboardRedirect(user: UserWithRole | null): string {
+export function getSafeDashboardRedirect(user: ExtendedUser | null): string {
   if (!user) {
     return "/auth/login";
   }
 
   const userRole = getRole(user);
-  
+
   console.log("Safe Dashboard Redirect:", {
     userEmail: user.email,
-    userRole
+    userRole,
   });
 
   switch (userRole) {

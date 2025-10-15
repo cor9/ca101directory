@@ -100,12 +100,16 @@ export async function updateListing(
   values: z.infer<typeof UpdateListingSchema>,
 ) {
   try {
+    console.log("UpdateListing called with:", { id, values });
+    
     const validatedFields = UpdateListingSchema.safeParse(values);
     if (!validatedFields.success) {
       // Log detailed validation errors for debugging
       console.error("Update Listing Validation Error:", validatedFields.error.flatten());
       return { status: "error", message: "Invalid fields." };
     }
+    
+    console.log("Validation successful, validated fields:", validatedFields.data);
 
     const supabase = createServerClient();
     const { data, error } = await supabase

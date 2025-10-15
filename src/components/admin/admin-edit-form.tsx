@@ -193,17 +193,18 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           
           console.log("Final processed values:", processedValues);
           
-          // Convert string arrays back to actual arrays for the server schema
-          const serverValues: z.infer<typeof UpdateListingSchema> = {
+          // Convert string arrays to comma-separated strings for the server schema transformer
+          const serverValues = {
             ...processedValues,
-            categories: processedValues.categories ? processedValues.categories.split(",").map(s => s.trim()).filter(Boolean) : [],
-            age_range: processedValues.age_range ? processedValues.age_range.split(",").map(s => s.trim()).filter(Boolean) : [],
-            region: processedValues.region ? processedValues.region.split(",").map(s => s.trim()).filter(Boolean) : [],
+            // The server schema will handle the comma-separated string to array conversion
+            categories: processedValues.categories || "",
+            age_range: processedValues.age_range || "",
+            region: processedValues.region || "",
           };
           
           console.log("Server values:", serverValues);
           
-          updateListing(listing.id, serverValues).then((res) => {
+          updateListing(listing.id, serverValues as unknown as z.infer<typeof UpdateListingSchema>).then((res) => {
             console.log("UpdateListing response:", res);
             // Pass the entire response to the parent component to handle side-effects
             onFinished(res);
@@ -366,7 +367,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
         <Button type="button" variant="ghost" onClick={() => onFinished({ status: "error", message: "Update cancelled."})} disabled={isPending}>
                 Cancel
               </Button>
-        <Button 
+              <Button
           type="submit" 
           disabled={isPending}
           onClick={() => console.log("Save Changes button clicked!")}

@@ -583,7 +583,7 @@ export function SupabaseSubmitForm({
                     <li>• Contact information</li>
                     <li>• Social media links</li>
                   </ul>
-                  <div className="mt-3 text-xs text-gray-500">
+                  <div className="mt-3 text-xs text-foreground">
                     Upgrade for profile image & featured placement
                   </div>
                 </CardContent>
@@ -603,7 +603,7 @@ export function SupabaseSubmitForm({
                   <div className="text-2xl font-bold text-[#FF6B35]">
                     Starting at $25<span className="text-sm font-normal">/mo</span>
                   </div>
-                  <div className="text-xs text-gray-500 mt-1">
+                  <div className="text-xs text-foreground mt-1">
                     Multiple billing options available
                   </div>
                 </CardHeader>
@@ -631,7 +631,7 @@ export function SupabaseSubmitForm({
                   <div className="text-2xl font-bold text-[#FF6B35]">
                     Starting at $50<span className="text-sm font-normal">/mo</span>
                   </div>
-                  <div className="text-xs text-gray-500 mt-1">
+                  <div className="text-xs text-foreground mt-1">
                     Multiple billing options available
                   </div>
                 </CardHeader>

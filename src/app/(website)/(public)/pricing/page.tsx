@@ -45,7 +45,7 @@ export default async function PricingPage() {
               <h1 className="bauhaus-heading text-4xl mb-4">
                 Simple, Transparent Pricing
               </h1>
-              <p className="bauhaus-body text-xl text-muted-foreground max-w-3xl mx-auto">
+              <p className="bauhaus-body text-xl text-foreground max-w-3xl mx-auto">
                 Choose the perfect plan for your child actor services. All plans
                 include our quality review process and trusted directory listing.
               </p>

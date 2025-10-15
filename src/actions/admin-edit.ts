@@ -78,7 +78,7 @@ export async function adminUpdateListing(
 
     const supabase = createServerClient();
 
-    // Prepare the update data
+    // Prepare the update data with proper array handling
     const updateData = {
       listing_name: formData.name.trim(),
       website: formData.link || null,
@@ -88,8 +88,8 @@ export async function adminUpdateListing(
       format: formData.format || null,
       extras_notes: formData.notes || null,
       profile_image: formData.imageId || null,
-      tags: formData.tags, // Save to proper tags field
-      categories: formData.categories,
+      tags: Array.isArray(formData.tags) ? formData.tags : [], // Ensure array
+      categories: Array.isArray(formData.categories) ? formData.categories : [], // Ensure array
       plan: formData.plan,
       ca_permit_required: formData.performerPermit,
       is_bonded: formData.bonded,
@@ -98,7 +98,7 @@ export async function adminUpdateListing(
       city: formData.city || null,
       state: formData.state || null,
       zip: formData.zip ? Number.parseInt(formData.zip) : null,
-      region: formData.region || null,
+      region: Array.isArray(formData.region) ? formData.region : (formData.region ? [formData.region] : []), // Ensure array
       bond_number: formData.bondNumber || null,
       is_active: formData.active,
       comped: formData.comped,

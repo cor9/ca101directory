@@ -27,7 +27,7 @@ export const UpdateListingSchema = z.object({
   facebook_url: z.union([z.string().url({ message: "Invalid URL format." }), z.literal("")]).optional(),
   instagram_url: z.union([z.string().url({ message: "Invalid URL format." }), z.literal("")]).optional(),
   plan: z.string().optional(),
-  is_active: z.boolean().optional(),
+  is_active: z.boolean(),
   featured: z.boolean().optional(),
   // Detailed Profile Fields
   who_is_it_for: z.string().optional(),

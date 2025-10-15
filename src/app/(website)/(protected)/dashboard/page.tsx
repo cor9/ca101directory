@@ -7,6 +7,7 @@ import {
 import { siteConfig } from "@/config/site";
 import { getRole } from "@/lib/auth/roles";
 import { constructMetadata } from "@/lib/metadata";
+import { getSafeDashboardRedirect } from "@/lib/dashboard-safety";
 import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
@@ -52,6 +53,10 @@ export default async function DashboardPage() {
   const userRole = getRole(session.user as any);
   console.log("Dashboard: Detected user role:", userRole);
   console.log("Dashboard: User object:", JSON.stringify(session.user, null, 2));
+
+  // Use safe dashboard redirect to prevent wrong dashboard access
+  const safeRedirectUrl = getSafeDashboardRedirect(session.user as any);
+  console.log("Dashboard: Safe redirect URL:", safeRedirectUrl);
 
   // Strict role-based routing with feature flag checks
   switch (userRole) {

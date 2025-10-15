@@ -6,6 +6,7 @@ import { siteConfig } from "@/config/site";
 import { getVendorListings } from "@/data/listings";
 import { currentUser } from "@/lib/auth";
 import { constructMetadata } from "@/lib/metadata";
+import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
@@ -27,6 +28,9 @@ export default async function VendorDashboard() {
     // This should be caught by the role guard, but as a fallback
     redirect("/login");
   }
+
+  // Safety check: Verify user has vendor role
+  verifyDashboardAccess(user, "vendor", "/dashboard/vendor");
 
   const vendorListings = await getVendorListings(user.id);
 

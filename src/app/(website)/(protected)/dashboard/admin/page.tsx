@@ -4,6 +4,8 @@ import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout"
 import { siteConfig } from "@/config/site";
 import { getAdminListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
+import { currentUser } from "@/lib/auth";
+import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 
 export const metadata = constructMetadata({
   title: "Admin Dashboard - Child Actor 101 Directory",
@@ -18,6 +20,14 @@ export const metadata = constructMetadata({
  * and passes it to a Client Component wrapper that handles all state and interactivity.
  */
 export default async function AdminDashboard() {
+  const user = await currentUser();
+  if (!user?.id) {
+    redirect("/auth/login");
+  }
+
+  // Safety check: Verify user has admin role
+  verifyDashboardAccess(user, "admin", "/dashboard/admin");
+
   const allListings = await getAdminListings();
 
   return (

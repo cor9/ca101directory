@@ -596,7 +596,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
             </div>
 
             {/* Claim Listing Section */}
-            {!listing.is_claimed && !isOwner && (
+            {!listing.is_claimed && !isOwner && !listing.owner_id && (
               <div
                 className="listing-card"
                 style={{

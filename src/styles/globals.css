@@ -750,3 +750,28 @@ body [data-radix-select-item]:hover {
   background-color: #f3f4f6 !important;
   color: #111827 !important;
 }
+
+/* CRITICAL: Fix unreadable text-gray-900 across entire site */
+/* Override text-gray-900 with proper design system colors */
+.text-gray-900 {
+  color: var(--foreground) !important; /* Use proper foreground color from design system */
+}
+
+/* Navigation specific overrides */
+nav .text-gray-900,
+header .text-gray-900,
+.navigation .text-gray-900 {
+  color: var(--foreground) !important;
+}
+
+/* Admin dashboard overrides */
+.admin-dashboard .text-gray-900 {
+  color: #1B1F29 !important; /* cream-ink from Bauhaus design system */
+}
+
+/* Card content overrides */
+.bg-card .text-gray-900,
+.bg-surface .text-gray-900,
+.bg-cream .text-gray-900 {
+  color: #1B1F29 !important; /* cream-ink for text on cream backgrounds */
+}

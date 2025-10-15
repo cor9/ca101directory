@@ -126,23 +126,43 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
     }
   }, [categoryNames, form]);
 
+  // Debug form state
+  console.log("Form state:", {
+    isValid: form.formState.isValid,
+    errors: form.formState.errors,
+    isSubmitting: form.formState.isSubmitting,
+    isPending
+  });
+
   const onSubmit = (values: FormInputType) => {
+    console.log("Form submission started with values:", values);
+    console.log("Available categories:", categories);
+    
     startTransition(() => {
       // Convert category names back to UUIDs before submitting
       const processedValues = { ...values };
       
       if (values.categories) {
         const categoryNames = values.categories.split(",").map(name => name.trim()).filter(Boolean);
+        console.log("Category names to convert:", categoryNames);
         const categoryUuids = categoryNames.map(name => {
           const category = categories.find(cat => cat.category_name === name);
+          console.log(`Converting "${name}" to UUID:`, category ? category.id : name);
           return category ? category.id : name; // fallback to original if not found
         });
         processedValues.categories = categoryUuids.join(", ");
+        console.log("Final processed categories:", processedValues.categories);
       }
       
+      console.log("Final processed values:", processedValues);
+      
       updateListing(listing.id, processedValues as unknown as z.infer<typeof UpdateListingSchema>).then((res) => {
+        console.log("UpdateListing response:", res);
         // Pass the entire response to the parent component to handle side-effects
         onFinished(res);
+      }).catch((error) => {
+        console.error("UpdateListing error:", error);
+        onFinished({ status: "error", message: "An unexpected error occurred." });
       });
     });
   };
@@ -206,7 +226,9 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
   );
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-h-[70vh] overflow-y-auto pr-4">
+    <form onSubmit={form.handleSubmit(onSubmit, (errors) => {
+      console.error("Form validation errors:", errors);
+    })} className="space-y-6 max-h-[70vh] overflow-y-auto pr-4">
       
       {/* --- Basic Information --- */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

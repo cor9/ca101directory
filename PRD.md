@@ -252,10 +252,10 @@ The Child Actor 101 Directory is a fully functional Next.js application deployed
 
 #### 3.3.3 Subscription Management
 - **Plan Selection**
-  - Free listings (basic features)
-  - Premium listings (enhanced visibility)
-  - Featured listings (top placement)
-  - Custom enterprise packages
+  - Free listings (basic features, $0/forever)
+  - Basic plan (enhanced visibility, $25/month, $250/year)
+  - Pro plan (featured placement, $50/month, $500/year)
+  - Premium plan (101 Approved Badge, $90/month, $900/year)
 
 - **Payment Processing**
   - Stripe integration for secure payments
@@ -454,10 +454,40 @@ The Child Actor 101 Directory is a fully functional Next.js application deployed
 ### 6.1 Revenue Streams
 
 #### 6.1.1 Subscription Plans
-- **Free Listings** - Basic profile with limited features
-- **Premium Listings** - Enhanced visibility and features ($29/month)
-- **Featured Listings** - Top placement and priority ($49/month)
-- **Enterprise Plans** - Custom packages for large agencies ($99+/month)
+
+**Free Plan ($0/forever)**
+- Public listing in directory
+- Searchable by parents
+- Basic contact information
+- Reviewed and approved within 72 hours
+- Standard customer support
+- Limitations: No featured placement, no logo display, limited visibility
+
+**Basic Plan ($25/month, $250/year - save $50 annually)**
+- All Free features included
+- Logo display on listing
+- Enhanced visibility
+- Priority review process
+- Email support
+- Limitations: No featured placement, no 101 Badge
+
+**Pro Plan ($50/month, $500/year - save $100 annually)**
+- All Basic features included
+- Featured placement at top of listings
+- SEO boosting features
+- Priority customer support
+- Social media promotion
+- Advanced analytics
+- Limitations: No 101 Badge
+
+**Premium Plan ($90/month, $900/year - save $180 annually)**
+- All Pro features included
+- 101 Approved Badge
+- Priority placement
+- Dedicated support
+- Advanced analytics
+- Social media promotion
+- No limitations
 
 #### 6.1.2 Additional Revenue (Future)
 - **Commission Fees** - Percentage of bookings made through platform

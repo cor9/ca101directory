@@ -3,9 +3,10 @@ import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { siteConfig } from "@/config/site";
 import { getAdminListings } from "@/data/listings";
-import { constructMetadata } from "@/lib/metadata";
 import { currentUser } from "@/lib/auth";
 import { verifyDashboardAccess } from "@/lib/dashboard-safety";
+import { constructMetadata } from "@/lib/metadata";
+import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
   title: "Admin Dashboard - Child Actor 101 Directory",

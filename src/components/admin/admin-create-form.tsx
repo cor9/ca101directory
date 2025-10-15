@@ -1,6 +1,7 @@
 "use client";
 
-import { createListing, CreateListingSchema } from "@/actions/listings";
+import { createListing } from "@/actions/listings";
+import { CreateListingSchema } from "@/lib/validations/listings";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";

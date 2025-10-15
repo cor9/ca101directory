@@ -6,7 +6,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type * as z from "zod";
 
-import { UpdateListingSchema, updateListing } from "@/actions/listings";
+import { updateListing } from "@/actions/listings";
+import { UpdateListingSchema } from "@/lib/validations/listings";
 import { Button } from "@/components/ui/button";
 import type { Listing } from "@/data/listings";
 

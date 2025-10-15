@@ -7,7 +7,8 @@ import { useTransition, useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 // Fix: Separated imports to pull `Listing` type from data layer and action/schema from the actions layer.
-import { UpdateListingSchema, updateListing } from "@/actions/listings";
+import { updateListing } from "@/actions/listings";
+import { UpdateListingSchema } from "@/lib/validations/listings";
 import type { Listing } from "@/data/listings";
 import { getCategoriesClient } from "@/data/categories-client";
 

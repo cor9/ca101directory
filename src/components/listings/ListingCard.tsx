@@ -91,7 +91,8 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
             )}
             <div className="flex-1 min-w-0">
               <h3
-                className="font-semibold text-lg group-hover:text-primary-orange transition-colors line-clamp-1 text-gray-900"
+                className="font-semibold text-lg group-hover:text-primary-orange transition-colors line-clamp-1"
+                style={{ color: "#1B1F29" }}
               >
                 {listing.listing_name || "Untitled Listing"}
               </h3>

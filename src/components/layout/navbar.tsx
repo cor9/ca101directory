@@ -88,11 +88,12 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
                         className={cn(
                           navigationMenuTriggerStyle(),
                           "px-2 bg-transparent focus:bg-transparent text-base",
-                          isLinkActive(item.href)
-                            ? "text-gray-900 font-semibold"
-                            : "text-gray-900/60",
                           item.disabled && "cursor-not-allowed opacity-80",
                         )}
+                        style={{
+                          color: isLinkActive(item.href) ? "#1B1F29" : "#1B1F2999",
+                          fontWeight: isLinkActive(item.href) ? "600" : "400"
+                        }}
                       >
                         {item.title}
                       </NavigationMenuLink>
@@ -167,12 +168,12 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
                           }}
                           className={cn(
                             "flex items-center rounded-md gap-2 p-2 text-sm font-medium hover:bg-muted",
-                            isLinkActive(item.href)
-                              ? "bg-muted text-gray-900"
-                              : "text-gray-900 hover:text-gray-900",
-                            item.disabled &&
-                              "cursor-not-allowed opacity-80 hover:bg-transparent hover:text-gray-900",
+                            isLinkActive(item.href) && "bg-muted",
+                            item.disabled && "cursor-not-allowed opacity-80 hover:bg-transparent",
                           )}
+                          style={{
+                            color: "#1B1F29"
+                          }}
                         >
                           <Icon className="size-5" />
                           {item.title}

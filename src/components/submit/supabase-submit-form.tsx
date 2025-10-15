@@ -132,7 +132,7 @@ export function SupabaseSubmitForm({
       if (savedData && Object.keys(savedData).length > 0) {
         // Ask user if they want to restore
         const shouldRestore = confirm(
-          "We found a saved draft. Would you like to restore it?"
+          "We found a saved draft. Would you like to restore it?",
         );
         if (shouldRestore) {
           setFormData((prev) => ({ ...prev, ...savedData }));
@@ -217,7 +217,7 @@ export function SupabaseSubmitForm({
           // Don't let confetti break the success flow
         }
         toast.success("Listing submitted successfully!");
-        
+
         // Clear saved draft after successful submission
         clearSavedData();
 
@@ -226,7 +226,7 @@ export function SupabaseSubmitForm({
           // Free plan - go to success page
           router.push(`/submit/success?id=${result.listingId}`);
         } else {
-          // Paid plan (Standard/Pro/Premium) - go to payment
+          // Paid plan (Standard/Pro) - go to payment
           router.push(`/payment/${result.listingId}`);
         }
       } else {
@@ -601,7 +601,8 @@ export function SupabaseSubmitForm({
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg">Standard</CardTitle>
                   <div className="text-2xl font-bold text-[#FF6B35]">
-                    Starting at $25<span className="text-sm font-normal">/mo</span>
+                    Starting at $25
+                    <span className="text-sm font-normal">/mo</span>
                   </div>
                   <div className="text-xs text-foreground mt-1">
                     Multiple billing options available
@@ -629,7 +630,8 @@ export function SupabaseSubmitForm({
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg">Pro</CardTitle>
                   <div className="text-2xl font-bold text-[#FF6B35]">
-                    Starting at $50<span className="text-sm font-normal">/mo</span>
+                    Starting at $50
+                    <span className="text-sm font-normal">/mo</span>
                   </div>
                   <div className="text-xs text-foreground mt-1">
                     Multiple billing options available
@@ -641,7 +643,7 @@ export function SupabaseSubmitForm({
                     <li>• Up to 4 gallery images</li>
                     <li>• 101 Approved badge</li>
                     <li>• Top priority placement</li>
-                    <li>• Premium support</li>
+                    <li>• Priority support</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -660,9 +662,10 @@ export function SupabaseSubmitForm({
             {formData.plan !== "Free" && (
               <div className="bg-green-50 border border-green-200 rounded-lg p-3">
                 <p className="text-sm text-green-800">
-                  <strong>Paid Plan Selected:</strong> Great choice! After submitting, 
-                  you'll be able to choose from monthly, yearly, or founding vendor pricing options. 
-                  Your listing will be featured and you'll get premium placement.
+                  <strong>Paid Plan Selected:</strong> Great choice! After
+                  submitting, you'll be able to choose from monthly, yearly, or
+                  founding vendor pricing options. Your listing will be featured
+                  and you'll get premium placement.
                 </p>
               </div>
             )}
@@ -788,10 +791,10 @@ export function SupabaseSubmitForm({
                 className="text-lg font-semibold"
                 style={{ color: "#1F2327" }}
               >
-                Social Media Links (Pro/Premium only)
+                Social Media Links (Pro only)
               </h3>
               <p className="text-sm" style={{ color: "#666" }}>
-                These links will only be displayed for Pro and Premium listings.
+                These links will only be displayed for Pro listings.
               </p>
             </div>
 

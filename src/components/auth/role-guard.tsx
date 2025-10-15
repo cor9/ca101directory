@@ -113,12 +113,16 @@ export function RoleGuard({
 
   // Default fallback - show helpful error with actual role info
   const userRole = session?.user ? getRole(session.user as any) : "none";
-  console.error("ACCESS DENIED - Check browser console for details:", {
+  console.error("🚨 ACCESS DENIED - DETAILED DEBUG INFO:", {
     userRole,
     allowedRoles,
     hasSession: !!session,
     userEmail: session?.user?.email,
+    userId: session?.user?.id,
+    sessionStatus: status,
     fullUser: session?.user,
+    timestamp: new Date().toISOString(),
+    url: window.location.href,
   });
   
   return (
@@ -141,6 +145,12 @@ export function RoleGuard({
           >
             Go to Dashboard
           </a>
+          <button
+            onClick={() => window.location.reload()}
+            className="block w-full bg-orange-500 text-white px-4 py-3 rounded-md hover:bg-orange-600 transition"
+          >
+            🔄 Refresh Session
+          </button>
           <a 
             href="/auth/login" 
             className="block w-full bg-secondary text-secondary-foreground px-4 py-3 rounded-md hover:bg-secondary/90 transition"

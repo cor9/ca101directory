@@ -16,6 +16,58 @@ export const UpdateListingSchema = z.object({
   is_claimed: z.boolean(),
 });
 
+// Schema for creating a new listing
+export const CreateListingSchema = z.object({
+  listing_name: z.string().min(1, "Listing name is required."),
+  status: z.enum(["Live", "Pending", "Draft", "Archived", "Rejected"]),
+  website: z.string().optional(),
+  email: z.string().optional(),
+  phone: z.string().optional(),
+  what_you_offer: z.string().optional(),
+});
+
+/**
+ * Server action to create a new listing.
+ * @param values The form values.
+ */
+export async function createListing(
+  values: z.infer<typeof CreateListingSchema>,
+) {
+  console.log("createListing called with:", values);
+  try {
+    const validatedFields = CreateListingSchema.safeParse(values);
+    console.log("Validation result:", validatedFields);
+    if (!validatedFields.success) {
+      console.error("Validation failed:", validatedFields.error);
+      return { status: "error", message: "Invalid fields." };
+    }
+
+    const supabase = createServerClient();
+    const { error } = await supabase
+      .from("listings")
+      .insert([validatedFields.data]);
+
+    if (error) {
+      console.error("Create Listing Error:", error);
+      return {
+        status: "error",
+        message: "Database Error: Failed to create listing.",
+      };
+    }
+
+    // Revalidate the path to show the new listing in the table
+    revalidatePath("/dashboard/admin");
+    
+    return { status: "success", message: "Listing created successfully." };
+  } catch (e) {
+    console.error("Unexpected error in createListing:", e);
+    return {
+      status: "error",
+      message: "An unexpected server error occurred.",
+    };
+  }
+}
+
 /**
  * Server action to update a listing.
  * @param id The UUID of the listing to update.
@@ -25,12 +77,9 @@ export async function updateListing(
   id: string,
   values: z.infer<typeof UpdateListingSchema>,
 ) {
-  console.log("updateListing called with:", { id, values });
   try {
     const validatedFields = UpdateListingSchema.safeParse(values);
-    console.log("Validation result:", validatedFields);
     if (!validatedFields.success) {
-      console.error("Validation failed:", validatedFields.error);
       return { status: "error", message: "Invalid fields." };
     }
 

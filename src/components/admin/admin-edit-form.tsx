@@ -25,19 +25,16 @@ export function AdminEditForm({ listing, categories, onFinished }: AdminEditForm
       listing_name: listing.listing_name || "",
       status: (listing.status as "Live" | "Pending" | "Draft" | "Archived" | "Rejected") || "Draft",
       website: listing.website || "",
-      email: listing.email || "",
-      phone: listing.phone || "",
+    email: listing.email || "",
+    phone: listing.phone || "",
       what_you_offer: listing.what_you_offer || "",
       is_claimed: listing.is_claimed || false,
     },
   });
 
   const onSubmit = (values: z.infer<typeof UpdateListingSchema>) => {
-    console.log("Form submission started with values:", values);
     startTransition(() => {
-      console.log("Starting updateListing with ID:", listing.id);
       updateListing(listing.id, values).then((res) => {
-        console.log("UpdateListing response:", res);
         // Pass the entire response to the parent component to handle side-effects
         if (onFinished) {
           onFinished(res);
@@ -51,18 +48,8 @@ export function AdminEditForm({ listing, categories, onFinished }: AdminEditForm
     });
   };
 
-  // Debug form state
-  console.log("Form state:", {
-    isValid: form.formState.isValid,
-    errors: form.formState.errors,
-    isSubmitting: form.formState.isSubmitting,
-    isPending
-  });
-
   return (
-    <form onSubmit={form.handleSubmit(onSubmit, (errors) => {
-      console.error("Form validation errors:", errors);
-    })} className="space-y-6">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Listing Name */}
         <div className="space-y-1">
@@ -176,15 +163,15 @@ export function AdminEditForm({ listing, categories, onFinished }: AdminEditForm
                 </div>
 
       <div className="flex justify-end gap-2">
-        <Button
-          type="button"
+              <Button
+                type="button"
           variant="ghost"
           onClick={() =>
             onFinished?.({ status: "error", message: "Update cancelled." })
           }
           disabled={isPending}
-        >
-          Cancel
+              >
+                Cancel
         </Button>
         <Button type="submit" disabled={isPending}>
           {isPending ? "Saving..." : "Save Changes"}

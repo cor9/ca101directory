@@ -373,8 +373,7 @@ export function SupabaseSubmitForm({
                     />
                     <Label
                       htmlFor={`age-${age}`}
-                      className="text-sm"
-                      className="text-gray-900"
+                      className="text-sm text-gray-900"
                     >
                       {age}
                     </Label>

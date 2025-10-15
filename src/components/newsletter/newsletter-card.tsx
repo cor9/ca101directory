@@ -12,15 +12,13 @@ export function NewsletterCard() {
             Newsletter
           </h2>
           <h3
-            className="mt-4 px-4 text-2xl md:text-4xl font-bold"
-            className="text-gray-900"
+            className="mt-4 px-4 text-2xl md:text-4xl font-bold text-gray-900"
           >
             Join 12,000+ families for tips, insights, and trusted vendor
             spotlights
           </h3>
           <p
-            className="mt-6 px-4 text-balance text-lg"
-            className="text-gray-900"
+            className="mt-6 px-4 text-balance text-lg text-gray-900"
           >
             Get weekly updates on industry trends, featured professionals, and
             exclusive resources for your child's acting journey

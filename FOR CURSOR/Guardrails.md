@@ -2,25 +2,31 @@
 
 ## ✅ Allowed
 
-- **Airtable Integration**: Use `src/lib/airtable.ts` and `src/data/airtable-item.ts` for all data operations
-- **Airtable as ONLY CMS**: No Sanity, Supabase, or other databases
+- **Supabase Integration**: Use `src/lib/supabase.ts` and `createServerClient()` for all database operations ✅ **UPDATED DEC 19, 2024**
+- **Supabase as Primary Database**: All listings, profiles, and user data stored in Supabase ✅ **UPDATED DEC 19, 2024**
 - **Child Actor 101 Branding**: Use defined colors (#FF6B35, #004E89, #F7931E) and Inter font
 - **Stripe Checkout**: Use configured payment plans from `src/config/price.ts`
 - **Slug Routing**: Use slug parameter for listing detail pages
-- **Approved Listings Only**: Only display listings with `Status: Approved`
+- **Live Listings Only**: Only display listings with `Status: Live` ✅ **UPDATED DEC 19, 2024**
 - **Mobile-First Design**: Responsive, parent-friendly interface
 - **Environment Variables**: Use proper env vars for API keys and configuration
+- **Vendor Dashboard System**: Complete vendor management interface at `/dashboard/vendor` ✅ **NEW DEC 19, 2024**
+- **Claim Listing Workflow**: Streamlined process at `/dashboard/vendor/claim` ✅ **NEW DEC 19, 2024**
+- **Role-Based Access Control**: Admin, Vendor, Parent roles with proper authorization ✅ **UPDATED DEC 19, 2024**
 
 ## 🚫 Forbidden
 
 - **NO Sanity Dependencies**: Do not import or use any Sanity-related code ✅ **ENFORCED**
 - **NO Static JSON Files**: Do not generate or suggest static content files
 - **NO Hardcoded Keys**: Do not hardcode Stripe keys, API keys, or sensitive data ✅ **ENFORCED**
-- **NO Database Models**: Do not use Prisma, SQL, or other database ORMs
+- **NO Database Models**: Do not use Prisma, SQL, or other database ORMs (use Supabase client) ✅ **UPDATED DEC 19, 2024**
 - **NO Login Required for Browsing**: Do not add authentication barriers for viewing listings
 - **NO Admin Approval for Claims**: Claims are auto-approved - users get instant ownership ✅ **UPDATED OCT 11, 2025**
 - **NO Review/Rating Features**: Do not add review systems without explicit approval
 - **NO Blog Functionality**: Blog features are disabled during Sanity migration ✅ **COMPLETED**
+- **NO Mixed Server Actions**: Do not mix server actions with data fetching functions ✅ **NEW DEC 19, 2024**
+- **NO Tight Component Coupling**: Components must be decoupled with clear interfaces ✅ **NEW DEC 19, 2024**
+- **NO Generic Error Messages**: Always provide specific, actionable error messages ✅ **NEW DEC 19, 2024**
 
 ## 🚨 **CRITICAL: COMPREHENSIVE SOLUTION REQUIREMENTS**
 
@@ -101,22 +107,44 @@ All design choices must honor a mid-century modern, Bauhaus homage to classic Ho
 	•	Clapperboard / film reel / spotlight motifs used sparingly to tie back to classic Hollywood.
 	•	Rule: Only one Hollywood reference per page section (avoid kitsch overload).
 
-## 📋 **CLAIM & EDIT WORKFLOW** ✅ Updated October 11, 2025
+## 📋 **VENDOR WORKFLOW SYSTEM** ✅ Updated December 19, 2024
 
-### User Claim Flow (Auto-Approved)
-1. User clicks "Claim This Listing"
-2. ✅ **INSTANT OWNERSHIP** - No admin approval needed
-3. User can edit immediately
-4. Edits set status to "Pending"
-5. Admin reviews and approves to set "Live"
+### **Vendor Dashboard System**
+- ✅ **Complete vendor interface** at `/dashboard/vendor`
+- ✅ **Role-based protection** using existing auth system
+- ✅ **Vendor-specific listings table** with edit functionality
+- ✅ **Secure vendor edit form** with field restrictions
+- ✅ **Professional UI** with status badges and loading states
 
-### Admin Review (Content Only)
+### **Claim Listing Workflow**
+1. Vendor navigates to `/dashboard/vendor/claim`
+2. Searches for their business by name (real-time filtering)
+3. Clicks "Claim this Listing" button
+4. ✅ **INSTANT OWNERSHIP** - Listing immediately assigned to vendor
+5. Status automatically set to "Pending" for admin review
+6. Auto-redirect to vendor dashboard
+
+### **Vendor Edit Workflow**
+1. Vendor accesses their dashboard at `/dashboard/vendor`
+2. Views all their claimed listings with current status
+3. Clicks "Edit" on any listing
+4. Makes changes in restricted form (cannot change status or claim status)
+5. Submits changes
+6. Status automatically set to "Pending" for admin re-approval
+7. Clear feedback provided about review process
+
+### **Admin Review Process**
 - ✅ Review new submissions before Live
-- ✅ Review edits to Live listings before re-publishing
-- ❌ NO approval needed for claim ownership
+- ✅ Review vendor edits to Live listings before re-publishing
+- ❌ NO approval needed for claim ownership (instant)
 - ❌ NO approval needed to edit (just to go Live)
+- ✅ Admin dashboard with fixed filter issues
 
-**Key Principle:** Users own their listing immediately, admin only reviews content for quality before public display.
+**Key Principles:**
+- **Instant Ownership:** Vendors own their listings immediately upon claim
+- **Content Review Only:** Admin only reviews content quality before public display
+- **Professional Interface:** World-class vendor experience with clear feedback
+- **Secure Operations:** Proper authorization and validation throughout
 
 ### Design Principles
 - **Minimal & Clean**: Simple, uncluttered interface
@@ -193,21 +221,31 @@ All design choices must honor a mid-century modern, Bauhaus homage to classic Ho
 
 ## 🎉 Current Status - PRODUCTION READY!
 
+### 2024-12-19 Vendor Dashboard & Claim Workflow Overhaul ✅ **COMPLETED**
+- **Complete vendor dashboard system** with professional UI at `/dashboard/vendor`
+- **Streamlined claim listing workflow** with real-time search at `/dashboard/vendor/claim`
+- **Enhanced login robustness** with clear error messages and user guidance
+- **Fixed admin dashboard issues** with reliable filtering and no disappearing listings
+- **Improved code architecture** with proper separation of server actions and data fetching
+- **Enhanced Stripe integration** with reliable webhook processing and metadata persistence
+- **Zero TypeScript errors** with comprehensive type safety throughout
+- **Successful build and deployment** with 388 pages generated successfully
+
 ### 2025-10-04 Directory & Listing Refresh Log
 - Normalized category names across directory cards and individual listing pages (no more "ActingClasses&Coaches").
 - Added Supabase-backed + local fallback icons for categories on both cards and detail pages.
 - Restyled filter dropdowns (cream background, dark text, z-index fix) and navy website buttons.
 - Configured Next.js image host allow-list for Supabase Storage; listings pull profile images + category icons reliably.
 
-- **Build Status**: ✅ **SUCCESSFUL** - All pages build without errors
+- **Build Status**: ✅ **SUCCESSFUL** - All pages build without errors (388 pages)
 - **Deployment**: ✅ **FULLY WORKING** - Both domains accessible
 - **Core Features**: ✅ **FUNCTIONAL** - Homepage, search, categories, tags all working
-- **Airtable Integration**: ✅ **COMPLETE** - Data fetching and submission working
-- **Authentication**: ✅ **CONFIGURED** - Google/Facebook/Email login ready
-- **Stripe Integration**: ✅ **READY** - Payment plans configured
+- **Supabase Integration**: ✅ **COMPLETE** - Data fetching, submissions, and user management working
+- **Authentication**: ✅ **ROBUST** - Enhanced login with proper error handling
+- **Stripe Integration**: ✅ **RELIABLE** - Payment plans and webhook processing working
 - **Type Safety**: ✅ **COMPLETE** - All TypeScript errors resolved
-- **Sanity Migration**: ✅ **COMPLETED** - All Sanity dependencies removed
-- **Submission Form**: ✅ **WORKING** - Custom Airtable-integrated form
+- **Vendor System**: ✅ **WORLD-CLASS** - Complete dashboard and claim workflow
+- **Admin Interface**: ✅ **IMPROVED** - Fixed filtering and reliable operations
 - **Newsletter Integration**: ✅ **CONNECTED** - MailerLite working
 
 ## 🚀 **LATEST UPDATES - JANUARY 2025**

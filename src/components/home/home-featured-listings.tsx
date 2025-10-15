@@ -123,20 +123,17 @@ export default async function HomeFeaturedListings() {
             <div className="p-6">
               <div className="flex items-start justify-between mb-3">
                 <h3
-                  className="font-semibold text-lg"
-                  className="text-gray-900"
+                  className="font-semibold text-lg text-gray-900"
                 >
                   {listing.name}
                 </h3>
                 <Icons.externalLink
-                  className="h-4 w-4"
-                  className="text-gray-900"
+                  className="h-4 w-4 text-gray-900"
                 />
               </div>
 
               <p
-                className="text-sm mb-4 line-clamp-4"
-                className="text-gray-900"
+                className="text-sm mb-4 line-clamp-4 text-gray-900"
               >
                 {listing.description}
               </p>

@@ -110,8 +110,7 @@ export default async function ParentDashboard() {
                       {favorite.listing?.listing_name || "Unknown Listing"}
                     </h3>
                     <p
-                      className="text-xs line-clamp-2"
-                      className="text-gray-900"
+                      className="text-xs line-clamp-2 text-gray-900"
                     >
                       {favorite.listing?.what_you_offer ||
                         "No description available"}
@@ -149,8 +148,7 @@ export default async function ParentDashboard() {
                   >
                     <div className="flex items-center justify-between mb-2">
                       <h3
-                        className="font-medium text-sm"
-                        className="text-gray-900"
+                        className="font-medium text-sm text-gray-900"
                       >
                         {review.listing?.listing_name || "Unknown Listing"}
                       </h3>
@@ -170,8 +168,7 @@ export default async function ParentDashboard() {
                       </div>
                     </div>
                     <p
-                      className="text-xs line-clamp-2"
-                      className="text-gray-900"
+                      className="text-xs line-clamp-2 text-gray-900"
                     >
                       {review.text}
                     </p>

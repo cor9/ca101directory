@@ -308,8 +308,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
         <div className="listing-card">
           {/* Breadcrumb */}
           <div
-            className="flex items-center gap-2 text-sm mb-6"
-            className="text-gray-900"
+            className="flex items-center gap-2 text-sm mb-6 text-gray-900"
           >
             <Link href="/" className="hover:text-primary-orange">
               Directory
@@ -542,8 +541,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
             <div className="flex items-center justify-start">
               <Link
                 href="/"
-                className="text-sm hover:text-primary-orange"
-                className="text-gray-900"
+                className="text-sm hover:text-primary-orange text-gray-900"
               >
                 ← Back to Directory
               </Link>

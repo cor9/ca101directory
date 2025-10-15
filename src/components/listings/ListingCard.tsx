@@ -91,8 +91,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
             )}
             <div className="flex-1 min-w-0">
               <h3
-                className="font-semibold text-lg group-hover:text-primary-orange transition-colors line-clamp-1"
-                className="text-gray-900"
+                className="font-semibold text-lg group-hover:text-primary-orange transition-colors line-clamp-1 text-gray-900"
               >
                 {listing.listing_name || "Untitled Listing"}
               </h3>
@@ -162,8 +161,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
         {/* Location */}
         {(listing.city || listing.state || listing.region) && (
           <div
-            className="flex items-center gap-2 text-sm mb-3"
-            className="text-gray-900"
+            className="flex items-center gap-2 text-sm mb-3 text-gray-900"
           >
             <MapPinIcon className="w-4 h-4" />
             <span>

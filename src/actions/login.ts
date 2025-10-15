@@ -77,11 +77,11 @@ export async function login(
       redirectUrl,
     );
 
-    // Sign in with NextAuth (don't wait for redirect, let the action handle it)
+    // Sign in with NextAuth and let it handle the redirect
     await signIn("credentials", {
       email,
       password,
-      redirect: false, // Prevent NextAuth from redirecting
+      redirectTo: redirectUrl, // Let NextAuth handle the redirect
     });
 
     return {

@@ -70,10 +70,8 @@ export const LoginForm = ({
             form.reset();
             setSuccess(data.message);
 
-            // if success without redirect url, means sent confirmation email
-            if (data.redirectUrl) {
-              window.location.href = data.redirectUrl;
-            }
+            // NextAuth will handle the redirect automatically
+            // No need to manually redirect here
           }
         })
         .catch((error) => {

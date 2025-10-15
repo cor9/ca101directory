@@ -106,6 +106,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             })
             .join(", ");
           setCategoryNames(names);
+          console.log("Converted category UUIDs to names:", listing.categories, "->", names);
         }
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -167,6 +168,8 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
     console.log("Form submission started with values:", values);
     console.log("Available categories:", categories);
     
+    // Note: We can now handle both UUIDs and category names, so we don't need to wait for categories to load
+    
     try {
       startTransition(() => {
         try {
@@ -174,21 +177,29 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           const processedValues = { ...values };
           
           if (values.categories && values.categories.trim()) {
-            const categoryNames = values.categories.split(",").map(name => name.trim()).filter(Boolean);
-            console.log("Category names to convert:", categoryNames);
+            // Check if it's already a UUID (single category) or category names (comma-separated)
+            const isUuid = values.categories.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);
             
-            if (categories.length > 0) {
+            if (isUuid) {
+              // It's already a UUID, keep it as is
+              console.log("Categories field contains UUID, keeping as is:", values.categories);
+              processedValues.categories = values.categories;
+            } else {
+              // It's category names, convert to UUIDs
+              const categoryNames = values.categories.split(",").map(name => name.trim()).filter(Boolean);
+              console.log("Category names to convert:", categoryNames);
+              
               const categoryUuids = categoryNames.map(name => {
                 const category = categories.find(cat => cat.category_name === name);
                 console.log(`Converting "${name}" to UUID:`, category ? category.id : name);
                 return category ? category.id : name; // fallback to original if not found
               });
               processedValues.categories = categoryUuids.join(", ");
-      } else {
-              console.warn("No categories available for conversion, keeping original values");
-              processedValues.categories = values.categories;
+              console.log("Final processed categories:", processedValues.categories);
             }
-            console.log("Final processed categories:", processedValues.categories);
+          } else {
+            // If no categories specified, set to empty string
+            processedValues.categories = "";
           }
           
           console.log("Final processed values:", processedValues);

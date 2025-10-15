@@ -100,18 +100,31 @@ export async function updateListing(
   values: z.infer<typeof UpdateListingSchema>,
 ) {
   try {
-    console.log("UpdateListing called with:", { id, values });
+    console.log("=== UPDATE LISTING START ===");
+    console.log("ID:", id);
+    console.log("Raw values received:", JSON.stringify(values, null, 2));
     
     const validatedFields = UpdateListingSchema.safeParse(values);
     if (!validatedFields.success) {
       // Log detailed validation errors for debugging
-      console.error("Update Listing Validation Error:", validatedFields.error.flatten());
+      console.error("=== VALIDATION FAILED ===");
+      console.error("Validation errors:", JSON.stringify(validatedFields.error.flatten(), null, 2));
       return { status: "error", message: "Invalid fields." };
     }
     
-    console.log("Validation successful, validated fields:", validatedFields.data);
+    console.log("=== VALIDATION SUCCESS ===");
+    console.log("Validated fields:", JSON.stringify(validatedFields.data, null, 2));
 
+    console.log("=== CREATING SUPABASE CLIENT ===");
     const supabase = createServerClient();
+    
+    console.log("=== EXECUTING DATABASE UPDATE ===");
+    console.log("Update query:", { 
+      table: "listings", 
+      id, 
+      data: validatedFields.data 
+    });
+    
     const { data, error } = await supabase
       .from("listings")
       .update(validatedFields.data)
@@ -120,19 +133,27 @@ export async function updateListing(
       .single();
 
     if (error) {
-      console.error("Update Listing Error:", error);
+      console.error("=== DATABASE ERROR ===");
+      console.error("Database error:", JSON.stringify(error, null, 2));
       return {
         status: "error",
         message: "Database Error: Failed to update listing.",
       };
     }
 
+    console.log("=== UPDATE SUCCESS ===");
+    console.log("Updated data:", JSON.stringify(data, null, 2));
+
     // Revalidate the path to show the updated data in the table
     revalidatePath("/dashboard/admin");
 
     return { status: "success", message: "Listing updated successfully.", data };
   } catch (e) {
-    console.error("Unexpected error in updateListing:", e);
+    console.error("=== UNEXPECTED ERROR ===");
+    console.error("Error type:", typeof e);
+    console.error("Error message:", e instanceof Error ? e.message : String(e));
+    console.error("Error stack:", e instanceof Error ? e.stack : "No stack trace");
+    console.error("Full error object:", JSON.stringify(e, null, 2));
     return { status: "error", message: "An unexpected server error occurred." };
   }
 }

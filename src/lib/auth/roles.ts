@@ -4,6 +4,7 @@
  */
 
 import { getEnabledRoles, isRoleEnabled } from "@/config/feature-flags";
+import type { ExtendedUser } from "@/types/next-auth";
 
 export type UserRole = "guest" | "parent" | "vendor" | "admin";
 
@@ -29,7 +30,7 @@ export interface UserWithRole {
 /**
  * Get user role with fallback to 'guest'
  */
-export function getRole(user: UserWithRole | null | undefined): UserRole {
+export function getRole(user: UserWithRole | ExtendedUser | null | undefined): UserRole {
   console.log("getRole called with user:", user);
 
   // If user exists but no role is set, default to 'guest'

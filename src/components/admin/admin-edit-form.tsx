@@ -33,18 +33,36 @@ export function AdminEditForm({ listing, categories, onFinished }: AdminEditForm
   });
 
   const onSubmit = (values: z.infer<typeof UpdateListingSchema>) => {
+    console.log("Form submission started with values:", values);
     startTransition(() => {
+      console.log("Starting updateListing with ID:", listing.id);
       updateListing(listing.id, values).then((res) => {
+        console.log("UpdateListing response:", res);
         // Pass the entire response to the parent component to handle side-effects
         if (onFinished) {
           onFinished(res);
+        }
+      }).catch((error) => {
+        console.error("UpdateListing error:", error);
+        if (onFinished) {
+          onFinished({ status: "error", message: "An unexpected error occurred." });
         }
       });
     });
   };
 
+  // Debug form state
+  console.log("Form state:", {
+    isValid: form.formState.isValid,
+    errors: form.formState.errors,
+    isSubmitting: form.formState.isSubmitting,
+    isPending
+  });
+
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={form.handleSubmit(onSubmit, (errors) => {
+      console.error("Form validation errors:", errors);
+    })} className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Listing Name */}
         <div className="space-y-1">

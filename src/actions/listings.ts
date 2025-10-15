@@ -25,9 +25,12 @@ export async function updateListing(
   id: string,
   values: z.infer<typeof UpdateListingSchema>,
 ) {
+  console.log("updateListing called with:", { id, values });
   try {
     const validatedFields = UpdateListingSchema.safeParse(values);
+    console.log("Validation result:", validatedFields);
     if (!validatedFields.success) {
+      console.error("Validation failed:", validatedFields.error);
       return { status: "error", message: "Invalid fields." };
     }
 

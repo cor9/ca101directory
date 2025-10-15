@@ -775,3 +775,47 @@ header .text-gray-900,
 .bg-cream .text-gray-900 {
   color: #1B1F29 !important; /* cream-ink for text on cream backgrounds */
 }
+
+/* CRITICAL: Prevent light-on-light combinations */
+/* Light backgrounds should ALWAYS have dark text */
+.bg-background .text-foreground,
+.bg-muted .text-muted-foreground,
+.bg-card .text-card-foreground,
+.bg-cream .text-gray-900,
+.bg-surface .text-gray-900,
+.bg-white .text-gray-900,
+.bg-gray-50 .text-gray-900,
+.bg-gray-100 .text-gray-900 {
+  color: #1B1F29 !important; /* Always use dark text on light backgrounds */
+}
+
+/* Dark backgrounds should ALWAYS have light text */
+.bg-navy .text-gray-900,
+.bg-charcoal .text-gray-900,
+.bg-background .text-gray-900,
+.bg-muted .text-gray-900 {
+  color: var(--foreground) !important; /* Always use light text on dark backgrounds */
+}
+
+/* Specific overrides for common problematic combinations */
+.text-muted-foreground {
+  color: var(--muted-foreground) !important;
+}
+
+.text-foreground {
+  color: var(--foreground) !important;
+}
+
+/* Ensure navigation text is always readable */
+nav a,
+nav button,
+header a,
+header button {
+  color: var(--foreground) !important;
+}
+
+/* Ensure form labels are always readable */
+label,
+.form-label {
+  color: #1B1F29 !important;
+}

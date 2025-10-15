@@ -32,19 +32,37 @@ export const metadata = constructMetadata({
 export default async function DashboardPage() {
   const session = await auth();
 
+  // Debug logging
+  console.log("=== DASHBOARD PAGE DEBUG ===");
+  console.log("Session:", {
+    hasSession: !!session,
+    hasUser: !!session?.user,
+    userId: session?.user?.id,
+    userEmail: session?.user?.email,
+    userRole: (session?.user as any)?.role,
+  });
+
   // Guests are never allowed to access dashboard
   if (!session?.user) {
+    console.log("Dashboard: No session, redirecting to login");
     redirect("/auth/login?next=/dashboard");
   }
 
   const userRole = getRole(session.user as any);
+  console.log("Dashboard: Detected user role:", userRole);
 
   // Strict role-based routing with feature flag checks
   switch (userRole) {
     case "admin": {
-      if (isAdminDashboardEnabled()) {
+      console.log("Dashboard: Admin role detected, checking admin dashboard enabled");
+      const adminEnabled = isAdminDashboardEnabled();
+      console.log("Dashboard: Admin dashboard enabled:", adminEnabled);
+      
+      if (adminEnabled) {
+        console.log("Dashboard: Redirecting admin to /dashboard/admin");
         redirect("/dashboard/admin");
       } else {
+        console.log("Dashboard: Admin dashboard disabled, redirecting to login");
         // Admin features disabled, redirect to login
         redirect("/auth/login");
       }
@@ -73,6 +91,8 @@ export default async function DashboardPage() {
     }
 
     default: {
+      console.log("Dashboard: Unknown role detected:", userRole);
+      console.log("Dashboard: Redirecting to login");
       // Guests and unknown roles are never allowed to access dashboard
       redirect("/auth/login?next=/dashboard");
       break;

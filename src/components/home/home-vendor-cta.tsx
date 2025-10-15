@@ -14,10 +14,10 @@ export default function HomeVendorCta() {
     <section className="py-16 bg-gradient-to-r from-retro-blue/5 via-tomato-red/5 to-mustard-gold/5">
       <Container>
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-foreground mb-4">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
             Ready to List Your Business?
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-gray-900 max-w-2xl mx-auto">
             Join our trusted directory of child actor professionals. Get
             discovered by families looking for quality services.
           </p>
@@ -30,7 +30,7 @@ export default function HomeVendorCta() {
               <CardTitle className="text-lg">Get Discovered</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
+              <p className="text-gray-900">
                 Reach thousands of families actively searching for quality
                 professionals.
               </p>
@@ -43,7 +43,7 @@ export default function HomeVendorCta() {
               <CardTitle className="text-lg">Build Trust</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
+              <p className="text-gray-900">
                 Showcase your credentials and get verified by our team.
               </p>
             </CardContent>
@@ -55,7 +55,7 @@ export default function HomeVendorCta() {
               <CardTitle className="text-lg">Grow Your Business</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
+              <p className="text-gray-900">
                 Access premium features and analytics to expand your reach.
               </p>
             </CardContent>

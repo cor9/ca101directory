@@ -20,12 +20,12 @@ export default function SuccessPage({ searchParams }: SuccessPageProps) {
         <h1 className="text-3xl font-bold text-gray-900">
           Listing Submitted Successfully!
         </h1>
-        <p className="text-lg text-gray-600 max-w-md">
+        <p className="text-lg text-gray-900 max-w-md">
           Thank you for submitting your listing. We'll review it and get back to
           you soon.
         </p>
         {listingId && (
-          <p className="text-sm text-gray-500">Reference ID: {listingId}</p>
+          <p className="text-sm text-gray-900">Reference ID: {listingId}</p>
         )}
       </div>
 

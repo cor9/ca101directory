@@ -238,7 +238,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
   // FIX: Make the `helpText` prop optional by providing a default value.
   const FormInput = ({ id, label, register, error, disabled, helpText = null, ...props }: FormInputProps) => (
     <div className="space-y-1">
-      <label htmlFor={id} className="block text-sm font-medium text-foreground">
+      <label htmlFor={id} className="block text-sm font-medium text-gray-900">
         {label}
       </label>
       <input
@@ -248,7 +248,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
         disabled={disabled}
         {...props}
       />
-      {helpText && <p className="text-xs text-muted-foreground mt-1">{helpText}</p>}
+      {helpText && <p className="text-xs text-gray-900 mt-1">{helpText}</p>}
       {error && <p className="text-sm text-red-500 mt-1">{error?.message}</p>}
               </div>
   );
@@ -318,7 +318,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
 
       {/* --- Location Details --- */}
             <div>
-        <h3 className="text-md font-semibold mb-2 text-foreground">Location Details</h3>
+        <h3 className="text-md font-semibold mb-2 text-gray-900">Location Details</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <FormInput id="city" label="City" register={form.register} error={form.formState.errors.city} disabled={isPending} />
           <FormInput id="state" label="State" register={form.register} error={form.formState.errors.state} disabled={isPending} />
@@ -330,7 +330,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
 
       {/* --- Categorization --- */}
             <div>
-        <h3 className="text-md font-semibold mb-2 text-foreground">Categorization</h3>
+        <h3 className="text-md font-semibold mb-2 text-gray-900">Categorization</h3>
         <div className="space-y-4">
           <FormInput id="categories" label="Categories" register={form.register} error={form.formState.errors.categories} disabled={isPending} helpText="Enter values separated by a comma. E.g., Acting Coaches, Headshot Photographers" />
           <FormInput id="age_range" label="Age Range" register={form.register} error={form.formState.errors.age_range} disabled={isPending} helpText="Enter values separated by a comma. E.g., 5-8, 9-12, 13-17, 18+" />
@@ -342,7 +342,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
 
       {/* --- Social Media --- */}
             <div>
-        <h3 className="text-md font-semibold mb-2 text-foreground">Social Media</h3>
+        <h3 className="text-md font-semibold mb-2 text-gray-900">Social Media</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
            <FormInput id="facebook_url" label="Facebook URL" register={form.register} error={form.formState.errors.facebook_url} disabled={isPending} />
            <FormInput id="instagram_url" label="Instagram URL" register={form.register} error={form.formState.errors.instagram_url} disabled={isPending} />
@@ -353,7 +353,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       
       {/* --- Profile Content --- */}
               <div>
-        <h3 className="text-md font-semibold mb-2 text-foreground">Profile Content</h3>
+        <h3 className="text-md font-semibold mb-2 text-gray-900">Profile Content</h3>
         <div className="space-y-4">
             <FormTextarea id="what_you_offer" label="What You Offer (Short Bio)" register={form.register} disabled={isPending} />
             <FormTextarea id="who_is_it_for" label="Who Is It For" register={form.register} disabled={isPending} />
@@ -367,7 +367,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       
       {/* --- Platform Status --- */}
                 <div>
-        <h3 className="text-md font-semibold mb-2 text-foreground">Platform Status</h3>
+        <h3 className="text-md font-semibold mb-2 text-gray-900">Platform Status</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <FormCheckbox id="is_claimed" label="Listing is Claimed" register={form.register} disabled={isPending} />
             <FormCheckbox id="is_active" label="Listing is Active" register={form.register} disabled={isPending} />

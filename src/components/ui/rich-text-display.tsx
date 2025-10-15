@@ -49,9 +49,9 @@ export function RichTextDisplay({ content, className }: RichTextDisplayProps) {
       className={cn(
         "rich-text-content prose prose-sm max-w-none",
         "prose-headings:font-semibold prose-headings:text-gray-900",
-        "prose-p:text-gray-700 prose-p:leading-relaxed",
-        "prose-strong:text-gray-900 prose-em:text-gray-700",
-        "prose-ul:text-gray-700 prose-ol:text-gray-700",
+        "prose-p:text-gray-900 prose-p:leading-relaxed",
+        "prose-strong:text-gray-900 prose-em:text-gray-900",
+        "prose-ul:text-gray-900 prose-ol:text-gray-900",
         "prose-blockquote:border-l-4 prose-blockquote:border-gray-300 prose-blockquote:pl-4 prose-blockquote:italic",
         "prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm",
         "prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline",

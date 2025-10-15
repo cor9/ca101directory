@@ -52,7 +52,7 @@ export function ReviewsDisplay({ listingId, className }: ReviewsDisplayProps) {
   if (reviews.length === 0) {
     return (
       <div className={cn("text-center py-8", className)}>
-        <p className="text-muted-foreground">
+        <p className="text-gray-900">
           No reviews yet. Be the first to review!
         </p>
       </div>
@@ -72,12 +72,12 @@ export function ReviewsDisplay({ listingId, className }: ReviewsDisplayProps) {
                   "h-5 w-5",
                   star <= Math.round(averageRating.average)
                     ? "text-yellow-400 fill-current"
-                    : "text-gray-300",
+                    : "text-gray-900",
                 )}
               />
             ))}
           </div>
-          <div className="text-sm text-muted-foreground">
+          <div className="text-sm text-gray-900">
             <span className="font-medium">{averageRating.average}</span> out of
             5
             <span className="ml-1">
@@ -103,7 +103,7 @@ export function ReviewsDisplay({ listingId, className }: ReviewsDisplayProps) {
                           "h-4 w-4",
                           star <= review.stars
                             ? "text-yellow-400 fill-current"
-                            : "text-gray-300",
+                            : "text-gray-900",
                         )}
                       />
                     ))}
@@ -112,7 +112,7 @@ export function ReviewsDisplay({ listingId, className }: ReviewsDisplayProps) {
                     {review.user?.name || review.user?.email || "Anonymous"}
                   </span>
                 </div>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs text-gray-900">
                   {new Date(review.created_at).toLocaleDateString()}
                 </span>
               </div>

@@ -26,7 +26,7 @@ export default async function BadgeApplicationPage() {
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
           101 Approved Badge Application
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-900">
           Apply for our highest mark of trust for verified child acting professionals
         </p>
       </div>

@@ -43,7 +43,7 @@ export default function Help101ApprovedPage() {
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
           🎖️ 101 Approved Badge
         </h1>
-        <p className="text-xl text-gray-600">
+        <p className="text-xl text-gray-900">
           The highest mark of trust for verified professionals serving child and
           teen actors
         </p>
@@ -55,7 +55,7 @@ export default function Help101ApprovedPage() {
           <Award className="w-6 h-6 text-brand-blue" />
           What is the 101 Approved Badge?
         </h2>
-        <p className="text-gray-700 mb-4">
+        <p className="text-gray-900 mb-4">
           The 101 Approved Badge is our official verification mark for
           professionals who have demonstrated exceptional standards in serving
           child and teen actors. It represents our highest level of trust and
@@ -65,14 +65,14 @@ export default function Help101ApprovedPage() {
           <div className="bg-white rounded-lg p-4 text-center">
             <Shield className="w-8 h-8 text-green-600 mx-auto mb-2" />
             <h3 className="font-bold text-gray-900 mb-1">Verified Quality</h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               Thoroughly vetted professionals with proven track records
             </p>
           </div>
           <div className="bg-white rounded-lg p-4 text-center">
             <Users className="w-8 h-8 text-blue-600 mx-auto mb-2" />
             <h3 className="font-bold text-gray-900 mb-1">Parent Trust</h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               Testimonials from families who have worked with you
             </p>
           </div>
@@ -81,7 +81,7 @@ export default function Help101ApprovedPage() {
             <h3 className="font-bold text-gray-900 mb-1">
               Industry Recognition
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               References from peers and industry professionals
             </p>
           </div>
@@ -105,12 +105,12 @@ export default function Help101ApprovedPage() {
                 <h3 className="text-xl font-bold text-gray-900 mb-3">
                   Active Pro Listing Required
                 </h3>
-                <p className="text-gray-700 mb-4">
+                <p className="text-gray-900 mb-4">
                   You must have an active Pro ($50/month) listing on the Child
                   Actor 101 Directory. Free and Standard plans are not eligible.
                 </p>
                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                  <p className="text-sm text-gray-700">
+                  <p className="text-sm text-gray-900">
                     <strong>Note:</strong> Your listing must be live and in good
                     standing for at least 30 days before applying.
                   </p>
@@ -129,13 +129,13 @@ export default function Help101ApprovedPage() {
                 <h3 className="text-xl font-bold text-gray-900 mb-3">
                   Parent Testimonials
                 </h3>
-                <p className="text-gray-700 mb-4">
+                <p className="text-gray-900 mb-4">
                   Provide at least 3 testimonials from families who have worked
                   with you or your business. These should demonstrate your
                   professionalism, expertise, and positive impact on young
                   performers.
                 </p>
-                <ul className="space-y-2 text-sm text-gray-600">
+                <ul className="space-y-2 text-sm text-gray-900">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                     <span>
@@ -171,13 +171,13 @@ export default function Help101ApprovedPage() {
                 <h3 className="text-xl font-bold text-gray-900 mb-3">
                   Industry References
                 </h3>
-                <p className="text-gray-700 mb-4">
+                <p className="text-gray-900 mb-4">
                   Submit references from at least 2 industry professionals who
                   can vouch for your work and character. These should be peers,
                   colleagues, or industry contacts who have direct knowledge of
                   your professional capabilities.
                 </p>
-                <ul className="space-y-2 text-sm text-gray-600">
+                <ul className="space-y-2 text-sm text-gray-900">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                     <span>
@@ -213,13 +213,13 @@ export default function Help101ApprovedPage() {
                 <h3 className="text-xl font-bold text-gray-900 mb-3">
                   Optional Credentials
                 </h3>
-                <p className="text-gray-700 mb-4">
+                <p className="text-gray-900 mb-4">
                   While not required, relevant certifications, degrees, or
                   professional credentials can strengthen your application and
                   demonstrate your commitment to ongoing education and
                   professional development.
                 </p>
-                <ul className="space-y-2 text-sm text-gray-600">
+                <ul className="space-y-2 text-sm text-gray-900">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                     <span>Acting coaching certifications</span>
@@ -255,7 +255,7 @@ export default function Help101ApprovedPage() {
               <p className="font-semibold text-gray-900">
                 Complete Application Form
               </p>
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-gray-900">
                 Fill out the detailed application with all required information
                 and uploads
               </p>
@@ -265,7 +265,7 @@ export default function Help101ApprovedPage() {
             <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
             <div>
               <p className="font-semibold text-gray-900">Save as Draft</p>
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-gray-900">
                 You can save your progress and return to complete the
                 application later
               </p>
@@ -275,7 +275,7 @@ export default function Help101ApprovedPage() {
             <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
             <div>
               <p className="font-semibold text-gray-900">Submit for Review</p>
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-gray-900">
                 Our team will review your application within 5-7 business days
               </p>
             </div>
@@ -284,7 +284,7 @@ export default function Help101ApprovedPage() {
             <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
             <div>
               <p className="font-semibold text-gray-900">Receive Decision</p>
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-gray-900">
                 You'll be notified of approval, rejection, or if additional
                 information is needed
               </p>
@@ -299,7 +299,7 @@ export default function Help101ApprovedPage() {
           🧡 Child Actor 101 Code of Ethics
         </h2>
         <div className="bg-white border-2 border-gray-200 rounded-lg p-8">
-          <p className="text-gray-700 mb-6">
+          <p className="text-gray-900 mb-6">
             All vendors listed on Child Actor 101 — and especially those
             carrying the 101 Approved badge — agree to uphold the following
             principles in their work with minors and families:
@@ -310,7 +310,7 @@ export default function Help101ApprovedPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-3">
                 1. Safety First
               </h3>
-              <ul className="space-y-2 text-gray-700">
+              <ul className="space-y-2 text-gray-900">
                 <li className="flex items-start gap-2">
                   <span className="text-brand-blue mt-1">•</span>
                   <span>
@@ -339,7 +339,7 @@ export default function Help101ApprovedPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-3">
                 2. Professional Integrity
               </h3>
-              <ul className="space-y-2 text-gray-700">
+              <ul className="space-y-2 text-gray-900">
                 <li className="flex items-start gap-2">
                   <span className="text-brand-blue mt-1">•</span>
                   <span>
@@ -367,7 +367,7 @@ export default function Help101ApprovedPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-3">
                 3. Respect for Minors and Families
               </h3>
-              <ul className="space-y-2 text-gray-700">
+              <ul className="space-y-2 text-gray-900">
                 <li className="flex items-start gap-2">
                   <span className="text-brand-blue mt-1">•</span>
                   <span>
@@ -396,7 +396,7 @@ export default function Help101ApprovedPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-3">
                 4. Inclusivity & Representation
               </h3>
-              <ul className="space-y-2 text-gray-700">
+              <ul className="space-y-2 text-gray-900">
                 <li className="flex items-start gap-2">
                   <span className="text-brand-blue mt-1">•</span>
                   <span>
@@ -424,7 +424,7 @@ export default function Help101ApprovedPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-3">
                 5. Accountability & Compliance
               </h3>
-              <ul className="space-y-2 text-gray-700">
+              <ul className="space-y-2 text-gray-900">
                 <li className="flex items-start gap-2">
                   <span className="text-brand-blue mt-1">•</span>
                   <span>
@@ -452,7 +452,7 @@ export default function Help101ApprovedPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-3">
                 6. Continuous Growth
               </h3>
-              <ul className="space-y-2 text-gray-700">
+              <ul className="space-y-2 text-gray-900">
                 <li className="flex items-start gap-2">
                   <span className="text-brand-blue mt-1">•</span>
                   <span>
@@ -483,7 +483,7 @@ export default function Help101ApprovedPage() {
             <h3 className="text-xl font-bold text-gray-900 mb-3">
               Enhanced Trust
             </h3>
-            <p className="text-gray-700">
+            <p className="text-gray-900">
               The badge signals to families that you've been thoroughly vetted
               and meet our highest standards for working with young performers.
             </p>
@@ -492,7 +492,7 @@ export default function Help101ApprovedPage() {
             <h3 className="text-xl font-bold text-gray-900 mb-3">
               Priority Placement
             </h3>
-            <p className="text-gray-700">
+            <p className="text-gray-900">
               101 Approved listings appear first in search results and are
               highlighted throughout the directory.
             </p>
@@ -501,7 +501,7 @@ export default function Help101ApprovedPage() {
             <h3 className="text-xl font-bold text-gray-900 mb-3">
               Marketing Support
             </h3>
-            <p className="text-gray-700">
+            <p className="text-gray-900">
               Use the badge in your marketing materials to demonstrate your
               verified status and commitment to excellence.
             </p>
@@ -510,7 +510,7 @@ export default function Help101ApprovedPage() {
             <h3 className="text-xl font-bold text-gray-900 mb-3">
               Community Access
             </h3>
-            <p className="text-gray-700">
+            <p className="text-gray-900">
               Join our exclusive network of verified professionals and access
               special events, resources, and networking opportunities.
             </p>
@@ -546,7 +546,7 @@ export default function Help101ApprovedPage() {
             <h4 className="font-semibold text-gray-900 mb-2">
               Pricing & Plans
             </h4>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               Upgrade to Pro to become eligible for the 101 Approved badge
             </p>
           </Link>
@@ -557,7 +557,7 @@ export default function Help101ApprovedPage() {
             <h4 className="font-semibold text-gray-900 mb-2">
               Getting Started
             </h4>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               Learn how to create your first listing and begin your journey
             </p>
           </Link>

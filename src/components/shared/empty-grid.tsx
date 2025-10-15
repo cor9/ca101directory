@@ -3,7 +3,7 @@ export default function EmptyGrid() {
     <div className="text-center py-16">
       <div className="max-w-md mx-auto">
         <h3 className="text-xl font-semibold mb-4">No professionals found</h3>
-        <p className="text-muted-foreground mb-6">
+        <p className="text-gray-900 mb-6">
           We're still building our directory. Check back soon for more
           professionals, or submit your own listing to be featured.
         </p>

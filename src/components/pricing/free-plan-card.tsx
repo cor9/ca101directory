@@ -36,9 +36,9 @@ export function FreePlanCard() {
           <div className="text-3xl font-bold text-gray-900">
             ${freePlan.price}
           </div>
-          <div className="text-sm text-gray-500">{freePlan.priceSuffix}</div>
+          <div className="text-sm text-gray-900">{freePlan.priceSuffix}</div>
         </div>
-        <p className="text-sm text-gray-600 mt-2">{freePlan.description}</p>
+        <p className="text-sm text-gray-900 mt-2">{freePlan.description}</p>
       </div>
 
       {/* Features and limitations */}
@@ -48,14 +48,14 @@ export function FreePlanCard() {
             {freePlan.benefits.map((feature) => (
               <div key={feature} className="flex items-start gap-x-3">
                 <CheckIcon className="text-green-600 size-4 shrink-0 mt-0.5" />
-                <p className="text-gray-700">{feature}</p>
+                <p className="text-gray-900">{feature}</p>
               </div>
             ))}
 
             {freePlan.limitations.map((feature) => (
               <div key={feature} className="flex items-start gap-x-3">
-                <XIcon className="size-4 shrink-0 mt-0.5 text-gray-400" />
-                <p className="text-gray-500">{feature}</p>
+                <XIcon className="size-4 shrink-0 mt-0.5 text-gray-900" />
+                <p className="text-gray-900">{feature}</p>
               </div>
             ))}
           </div>

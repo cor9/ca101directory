@@ -235,7 +235,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                   <FormLabel>
                     <div className="flex items-center justify-between gap-4">
                       <span>Introduction</span>
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-sm text-gray-900">
                         (Markdown supported)
                       </span>
                     </div>
@@ -258,7 +258,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                       <FormLabel>
                         <div className="flex items-center justify-between gap-4">
                           <span>Icon</span>
-                          <span className="text-sm text-muted-foreground">
+                          <span className="text-sm text-gray-900">
                             (1:1, PNG or JPEG, max 1MB)
                           </span>
                         </div>
@@ -287,7 +287,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
                     <FormLabel>
                       <div className="flex items-center justify-between gap-4">
                         <span>Image</span>
-                        <span className="text-sm text-muted-foreground">
+                        <span className="text-sm text-gray-900">
                           (16:9,PNG or JPEG, max 1MB)
                         </span>
                       </div>
@@ -333,7 +333,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
 
             {/* NOTICE: if this item is in free plan, any update will cause this item to be reviewed again */}
             {item.pricePlan === PricePlans.FREE && (
-              <div className="text-muted-foreground flex items-center justify-center sm:justify-start gap-4">
+              <div className="text-gray-900 flex items-center justify-center sm:justify-start gap-4">
                 <BellRingIcon className="h-5 w-5 sm:h-6 sm:w-4 flex-shrink-0" />
                 <span className="text-sm">
                   Your submission will be reviewed again and remain unpublished
@@ -344,7 +344,7 @@ export function EditForm({ item, tagList, categoryList }: EditFormProps) {
 
             {/* NOTICE: if this item is in pro plan, any update will cause this item to be reviewed again */}
             {item.pricePlan === PricePlans.PRO && (
-              <div className="text-muted-foreground flex items-center justify-center sm:justify-start gap-4">
+              <div className="text-gray-900 flex items-center justify-center sm:justify-start gap-4">
                 <BellRingIcon className="h-5 w-5 sm:h-6 sm:w-4 flex-shrink-0" />
                 <span className="text-sm">
                   Your changes will be visible on the site until the cache

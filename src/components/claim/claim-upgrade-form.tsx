@@ -107,8 +107,8 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
             className={cn(
               "px-4 py-2 rounded-md text-sm font-medium transition-colors",
               billingCycle === "monthly"
-                ? "bg-background text-foreground shadow-sm"
-                : "text-muted-foreground hover:text-foreground",
+                ? "bg-background text-gray-900 shadow-sm"
+                : "text-gray-900 hover:text-gray-900",
             )}
           >
             Monthly
@@ -119,8 +119,8 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
             className={cn(
               "px-4 py-2 rounded-md text-sm font-medium transition-colors",
               billingCycle === "yearly"
-                ? "bg-background text-foreground shadow-sm"
-                : "text-muted-foreground hover:text-foreground",
+                ? "bg-background text-gray-900 shadow-sm"
+                : "text-gray-900 hover:text-gray-900",
             )}
           >
             Yearly
@@ -162,7 +162,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
                     ? plan.yearlyPrice
                     : plan.monthlyPrice}
                 </div>
-                <div className="text-muted-foreground">
+                <div className="text-gray-900">
                   per {billingCycle === "yearly" ? "year" : "month"}
                 </div>
                 {billingCycle === "yearly" && (
@@ -200,7 +200,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
       </div>
 
       {/* Additional Info */}
-      <div className="mt-8 text-center text-sm text-muted-foreground">
+      <div className="mt-8 text-center text-sm text-gray-900">
         <p>
           After payment, your claim will be submitted for review. Once approved,
           you'll have full control over your listing.

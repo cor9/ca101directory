@@ -23,7 +23,7 @@ export default function PricingPlansPage() {
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
           Pricing & Plans
         </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        <p className="text-xl text-gray-900 max-w-2xl mx-auto">
           Choose the plan that best fits your business needs. All plans include
           core listing features.
         </p>
@@ -37,46 +37,46 @@ export default function PricingPlansPage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Free</h2>
             <div className="mb-4">
               <span className="text-4xl font-bold text-gray-900">$0</span>
-              <span className="text-gray-600">/forever</span>
+              <span className="text-gray-900">/forever</span>
             </div>
-            <p className="text-sm text-gray-600">Perfect for getting started</p>
+            <p className="text-sm text-gray-900">Perfect for getting started</p>
           </div>
 
           <div className="flex-1 space-y-3 mb-6">
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-700">Basic listing</span>
+              <span className="text-sm text-gray-900">Basic listing</span>
             </div>
             <div className="flex items-start gap-2">
-              <X className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-400">Profile image</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-700">Contact information</span>
+              <X className="w-5 h-5 text-gray-900 flex-shrink-0 mt-0.5" />
+              <span className="text-sm text-gray-900">Profile image</span>
             </div>
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-700">
+              <span className="text-sm text-gray-900">Contact information</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+              <span className="text-sm text-gray-900">
                 Business description
               </span>
             </div>
             <div className="flex items-start gap-2">
-              <X className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-400">Gallery images</span>
+              <X className="w-5 h-5 text-gray-900 flex-shrink-0 mt-0.5" />
+              <span className="text-sm text-gray-900">Gallery images</span>
             </div>
             <div className="flex items-start gap-2">
-              <X className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-400">Priority placement</span>
+              <X className="w-5 h-5 text-gray-900 flex-shrink-0 mt-0.5" />
+              <span className="text-sm text-gray-900">Priority placement</span>
             </div>
             <div className="flex items-start gap-2">
-              <X className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-400">Social media links</span>
+              <X className="w-5 h-5 text-gray-900 flex-shrink-0 mt-0.5" />
+              <span className="text-sm text-gray-900">Social media links</span>
             </div>
           </div>
 
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
-            <p className="text-xs text-gray-700">
+            <p className="text-xs text-gray-900">
               <strong>Note:</strong> Free listings require admin approval before
               going live (24-48 hours)
             </p>
@@ -96,41 +96,41 @@ export default function PricingPlansPage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Standard</h2>
             <div className="mb-4">
               <span className="text-4xl font-bold text-gray-900">$25</span>
-              <span className="text-gray-600">/month</span>
+              <span className="text-gray-900">/month</span>
             </div>
-            <p className="text-sm text-gray-600">Great for small businesses</p>
+            <p className="text-sm text-gray-900">Great for small businesses</p>
           </div>
 
           <div className="flex-1 space-y-3 mb-6">
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-700">
+              <span className="text-sm text-gray-900">
                 <strong>Everything in Free</strong>
               </span>
             </div>
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-700">
+              <span className="text-sm text-gray-900">
                 <strong>1 profile image</strong>
               </span>
             </div>
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-700">
+              <span className="text-sm text-gray-900">
                 Better search ranking
               </span>
             </div>
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-700">Enhanced visibility</span>
+              <span className="text-sm text-gray-900">Enhanced visibility</span>
             </div>
             <div className="flex items-start gap-2">
-              <X className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-400">Gallery images</span>
+              <X className="w-5 h-5 text-gray-900 flex-shrink-0 mt-0.5" />
+              <span className="text-sm text-gray-900">Gallery images</span>
             </div>
             <div className="flex items-start gap-2">
-              <X className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-400">Social media links</span>
+              <X className="w-5 h-5 text-gray-900 flex-shrink-0 mt-0.5" />
+              <span className="text-sm text-gray-900">Social media links</span>
             </div>
           </div>
 
@@ -155,48 +155,48 @@ export default function PricingPlansPage() {
             <h2 className="text-2xl font-bold text-brand-blue mb-2">Pro</h2>
             <div className="mb-4">
               <span className="text-4xl font-bold text-gray-900">$50</span>
-              <span className="text-gray-600">/month</span>
+              <span className="text-gray-900">/month</span>
             </div>
-            <p className="text-sm text-gray-600">Best for growing businesses</p>
+            <p className="text-sm text-gray-900">Best for growing businesses</p>
           </div>
 
           <div className="flex-1 space-y-3 mb-6">
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-700">
+              <span className="text-sm text-gray-900">
                 <strong>Everything in Basic</strong>
               </span>
             </div>
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-700">
+              <span className="text-sm text-gray-900">
                 <strong>Gallery images (4 photos)</strong>
               </span>
             </div>
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-700">
+              <span className="text-sm text-gray-900">
                 <strong>Social media links</strong>
               </span>
             </div>
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-700">Priority placement</span>
+              <span className="text-sm text-gray-900">Priority placement</span>
             </div>
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-700">
+              <span className="text-sm text-gray-900">
                 Blog/website integration
               </span>
             </div>
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-gray-700">Enhanced profile</span>
+              <span className="text-sm text-gray-900">Enhanced profile</span>
             </div>
           </div>
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
-            <p className="text-xs text-gray-700">
+            <p className="text-xs text-gray-900">
               <strong>Recommended:</strong> 5 total images showcase your
               business better
             </p>
@@ -217,21 +217,21 @@ export default function PricingPlansPage() {
         <h2 className="text-2xl font-bold text-gray-900 mb-3">
           Save with Annual Plans
         </h2>
-        <p className="text-lg text-gray-700 mb-4">
+        <p className="text-lg text-gray-900 mb-4">
           Pay annually and save 2 months!
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
           <div className="bg-white rounded-lg p-4">
-            <p className="text-sm text-gray-600 mb-1">Standard Annual</p>
+            <p className="text-sm text-gray-900 mb-1">Standard Annual</p>
             <p className="text-2xl font-bold text-gray-900">
-              $250<span className="text-sm text-gray-600">/year</span>
+              $250<span className="text-sm text-gray-900">/year</span>
             </p>
             <p className="text-xs text-green-600 font-semibold">Save $50</p>
           </div>
           <div className="bg-white rounded-lg p-4 border-2 border-brand-blue">
-            <p className="text-sm text-gray-600 mb-1">Pro Annual</p>
+            <p className="text-sm text-gray-900 mb-1">Pro Annual</p>
             <p className="text-2xl font-bold text-gray-900">
-              $500<span className="text-sm text-gray-600">/year</span>
+              $500<span className="text-sm text-gray-900">/year</span>
             </p>
             <p className="text-xs text-green-600 font-semibold">Save $100</p>
           </div>
@@ -248,7 +248,7 @@ export default function PricingPlansPage() {
             <h3 className="font-bold text-gray-900 mb-2">
               Can I upgrade or downgrade my plan?
             </h3>
-            <p className="text-gray-700 text-sm">
+            <p className="text-gray-900 text-sm">
               Yes! You can upgrade or downgrade anytime from your dashboard.
               Changes take effect immediately, and we'll prorate the difference.
             </p>
@@ -258,7 +258,7 @@ export default function PricingPlansPage() {
             <h3 className="font-bold text-gray-900 mb-2">
               What happens if I cancel?
             </h3>
-            <p className="text-gray-700 text-sm">
+            <p className="text-gray-900 text-sm">
               Your listing will remain active until the end of your billing
               period. After that, it will revert to a Free plan with limited
               features.
@@ -269,7 +269,7 @@ export default function PricingPlansPage() {
             <h3 className="font-bold text-gray-900 mb-2">
               Do you offer refunds?
             </h3>
-            <p className="text-gray-700 text-sm">
+            <p className="text-gray-900 text-sm">
               We offer a 30-day money-back guarantee on all paid plans. If
               you're not satisfied, contact us within 30 days for a full refund.
             </p>
@@ -279,7 +279,7 @@ export default function PricingPlansPage() {
             <h3 className="font-bold text-gray-900 mb-2">
               How does priority placement work?
             </h3>
-            <p className="text-gray-700 text-sm">
+            <p className="text-gray-900 text-sm">
               Pro listings appear first in search results, followed by Standard,
               then Free. Within each tier, listings are shown by relevance and
               recency.
@@ -290,7 +290,7 @@ export default function PricingPlansPage() {
             <h3 className="font-bold text-gray-900 mb-2">
               What payment methods do you accept?
             </h3>
-            <p className="text-gray-700 text-sm">
+            <p className="text-gray-900 text-sm">
               We accept all major credit cards (Visa, Mastercard, Amex,
               Discover) processed securely through Stripe.
             </p>

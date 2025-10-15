@@ -66,7 +66,7 @@ const CustomMde = React.forwardRef<HTMLDivElement, CustomMdeProps>(
           "prose-slate",
           "dark:prose-invert",
           "bg-background",
-          "text-foreground",
+          "text-gray-900",
         ],
       } as SimpleMDE.Options;
     }, []);

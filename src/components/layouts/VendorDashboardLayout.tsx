@@ -24,17 +24,17 @@ export const VendorDashboardLayout = ({
     <div className="min-h-screen bg-background">
       <header className="bg-card border-b sticky top-0 z-50">
         <div className="container mx-auto flex h-16 items-center justify-between">
-            <a href="/dashboard/vendor" className="font-bold text-lg text-foreground">
+            <a href="/dashboard/vendor" className="font-bold text-lg text-gray-900">
                 Vendor Dashboard
             </a>
             <nav className="flex items-center space-x-6 text-sm font-medium">
                {navItems.map((item) => (
-                   <a key={item.href} href={item.href} className="text-muted-foreground transition-colors hover:text-foreground">
+                   <a key={item.href} href={item.href} className="text-gray-900 transition-colors hover:text-gray-900">
                        {item.name}
                    </a>
                ))}
                  {/* This would be the standard sign-out link for next-auth */}
-                <a href="/api/auth/signout" className="text-muted-foreground transition-colors hover:text-foreground">Sign Out</a>
+                <a href="/api/auth/signout" className="text-gray-900 transition-colors hover:text-gray-900">Sign Out</a>
             </nav>
         </div>
       </header>

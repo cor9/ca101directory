@@ -27,12 +27,12 @@ export function FacebookAuthPlaceholder() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <div className="flex items-center gap-2 text-sm text-gray-900">
           <Clock className="h-4 w-4" />
           <span>Facebook business verification pending (2-3 days)</span>
         </div>
 
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm text-gray-900">
           <p className="mb-2">In the meantime, you can:</p>
           <ul className="list-disc list-inside space-y-1 ml-2">
             <li>Use Google login (if approved)</li>

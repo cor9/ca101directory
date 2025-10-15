@@ -28,7 +28,7 @@ export default function EditingListingPage() {
       <h1 className="text-4xl font-bold text-gray-900 mb-6">
         Editing Your Listing
       </h1>
-      <p className="text-xl text-gray-600 mb-8">
+      <p className="text-xl text-gray-900 mb-8">
         Keep your listing up-to-date with the latest information about your
         business. Here's everything you need to know about editing.
       </p>
@@ -47,7 +47,7 @@ export default function EditingListingPage() {
               <p className="font-semibold text-gray-900">
                 Log in to your account
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-900">
                 Use your vendor credentials to access the dashboard
               </p>
             </div>
@@ -60,7 +60,7 @@ export default function EditingListingPage() {
               <p className="font-semibold text-gray-900">
                 Go to your dashboard
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-900">
                 Click "Dashboard" in the main navigation
               </p>
             </div>
@@ -73,7 +73,7 @@ export default function EditingListingPage() {
               <p className="font-semibold text-gray-900">
                 Find your listing and click "Edit"
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-900">
                 Your listing will appear with an edit button
               </p>
             </div>
@@ -106,7 +106,7 @@ export default function EditingListingPage() {
                 <h3 className="text-xl font-bold text-gray-900 mb-3">
                   Business Information
                 </h3>
-                <ul className="space-y-2 text-gray-700">
+                <ul className="space-y-2 text-gray-900">
                   <li className="flex items-start gap-2">
                     <span className="text-brand-blue mt-1">•</span>
                     <span>
@@ -161,7 +161,7 @@ export default function EditingListingPage() {
                 <h3 className="text-xl font-bold text-gray-900 mb-3">
                   Images & Gallery
                 </h3>
-                <ul className="space-y-2 text-gray-700 mb-4">
+                <ul className="space-y-2 text-gray-900 mb-4">
                   <li className="flex items-start gap-2">
                     <span className="text-brand-blue mt-1">•</span>
                     <span>
@@ -197,7 +197,7 @@ export default function EditingListingPage() {
                 <h3 className="text-xl font-bold text-gray-900 mb-3">
                   Social Media & Links (Pro Plan)
                 </h3>
-                <ul className="space-y-2 text-gray-700">
+                <ul className="space-y-2 text-gray-900">
                   <li className="flex items-start gap-2">
                     <span className="text-brand-blue mt-1">•</span>
                     <span>
@@ -255,12 +255,12 @@ export default function EditingListingPage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-3">
               Important: Approval Required
             </h2>
-            <p className="text-gray-700 mb-4">
+            <p className="text-gray-900 mb-4">
               <strong>All edits require admin approval</strong> before going
               live, regardless of your plan. This ensures quality and accuracy
               across the directory.
             </p>
-            <div className="space-y-2 text-sm text-gray-700">
+            <div className="space-y-2 text-sm text-gray-900">
               <p>
                 <strong>What this means:</strong>
               </p>
@@ -285,7 +285,7 @@ export default function EditingListingPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-white border border-gray-200 rounded-lg p-4">
             <h3 className="font-bold text-gray-900 mb-2">Keep It Updated</h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               Review your listing monthly to ensure contact information,
               services, and pricing are current.
             </p>
@@ -294,7 +294,7 @@ export default function EditingListingPage() {
             <h3 className="font-bold text-gray-900 mb-2">
               Use High-Quality Images
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               Professional photos make your listing stand out. Follow our image
               guidelines for best results.
             </p>
@@ -303,14 +303,14 @@ export default function EditingListingPage() {
             <h3 className="font-bold text-gray-900 mb-2">
               Write Clear Descriptions
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               Be specific about your services, experience, and what makes your
               business unique.
             </p>
           </div>
           <div className="bg-white border border-gray-200 rounded-lg p-4">
             <h3 className="font-bold text-gray-900 mb-2">Add Social Proof</h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               Link to your social media profiles to show your active presence
               and credibility.
             </p>
@@ -319,14 +319,14 @@ export default function EditingListingPage() {
             <h3 className="font-bold text-gray-900 mb-2">
               Optimize for Search
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               Use relevant keywords naturally in your description to help
               families find you.
             </p>
           </div>
           <div className="bg-white border border-gray-200 rounded-lg p-4">
             <h3 className="font-bold text-gray-900 mb-2">Be Professional</h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               Maintain a professional tone. Remember, parents are looking for
               trustworthy services.
             </p>
@@ -344,7 +344,7 @@ export default function EditingListingPage() {
             <h3 className="font-bold text-gray-900 mb-2">
               How long does approval take?
             </h3>
-            <p className="text-gray-700 text-sm">
+            <p className="text-gray-900 text-sm">
               Most edits are reviewed and approved within 24-48 hours. You'll
               receive an email notification once your changes go live.
             </p>
@@ -354,7 +354,7 @@ export default function EditingListingPage() {
             <h3 className="font-bold text-gray-900 mb-2">
               Can I edit my listing multiple times?
             </h3>
-            <p className="text-gray-700 text-sm">
+            <p className="text-gray-900 text-sm">
               Yes! You can edit your listing as many times as needed. Each edit
               will go through the approval process.
             </p>
@@ -364,7 +364,7 @@ export default function EditingListingPage() {
             <h3 className="font-bold text-gray-900 mb-2">
               What if my edits are rejected?
             </h3>
-            <p className="text-gray-700 text-sm">
+            <p className="text-gray-900 text-sm">
               If edits are rejected, you'll receive an email explaining why and
               what needs to be changed. You can then make adjustments and
               resubmit.
@@ -375,7 +375,7 @@ export default function EditingListingPage() {
             <h3 className="font-bold text-gray-900 mb-2">
               Can I preview my changes before they go live?
             </h3>
-            <p className="text-gray-700 text-sm">
+            <p className="text-gray-900 text-sm">
               Currently, previews aren't available. Your current listing remains
               visible until edits are approved. We recommend double-checking all
               information before submitting.
@@ -386,7 +386,7 @@ export default function EditingListingPage() {
             <h3 className="font-bold text-gray-900 mb-2">
               How do I upgrade my plan to add more features?
             </h3>
-            <p className="text-gray-700 text-sm mb-2">
+            <p className="text-gray-900 text-sm mb-2">
               You can upgrade anytime from your dashboard. Changes take effect
               immediately, and you'll have access to all premium features.
             </p>
@@ -430,7 +430,7 @@ export default function EditingListingPage() {
             <h4 className="font-semibold text-gray-900 mb-2">
               Image Guidelines
             </h4>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               Learn the best practices for profile and gallery images
             </p>
           </Link>
@@ -441,7 +441,7 @@ export default function EditingListingPage() {
             <h4 className="font-semibold text-gray-900 mb-2">
               Pricing & Plans
             </h4>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               Compare plans and unlock premium features
             </p>
           </Link>

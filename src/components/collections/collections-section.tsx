@@ -87,7 +87,7 @@ export function CollectionsSection() {
     <div className="py-16">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold mb-4">Featured Collections</h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-gray-900 max-w-2xl mx-auto">
           Discover curated groups of professionals, each carefully selected for
           their expertise and proven track record.
         </p>
@@ -112,7 +112,7 @@ export function CollectionsSection() {
                       >
                         {collection.badge}
                       </Badge>
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-sm text-gray-900">
                         {collection.count} professionals
                       </span>
                     </div>
@@ -121,7 +121,7 @@ export function CollectionsSection() {
               </div>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col">
-              <p className="text-muted-foreground mb-4 flex-1">
+              <p className="text-gray-900 mb-4 flex-1">
                 {collection.description}
               </p>
               <Button asChild variant="outline" size="sm" className="w-full">

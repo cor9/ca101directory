@@ -52,11 +52,11 @@ export default function VendorFAQ() {
             >
               <h3
                 className="text-lg font-semibold mb-3"
-                style={{ color: "#1F2327" }}
+                className="text-gray-900"
               >
                 {faq.question}
               </h3>
-              <p style={{ color: "#333" }}>{faq.answer}</p>
+              <p className="text-gray-900">{faq.answer}</p>
             </div>
           ))}
         </div>

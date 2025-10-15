@@ -19,7 +19,7 @@ export default function GettingStartedPage() {
       </Link>
 
       <h1 className="text-4xl font-bold text-gray-900 mb-6">Getting Started</h1>
-      <p className="text-xl text-gray-600 mb-8">
+      <p className="text-xl text-gray-900 mb-8">
         Welcome to Child Actor 101 Directory! Follow this guide to create your
         professional listing and start connecting with families.
       </p>
@@ -36,16 +36,16 @@ export default function GettingStartedPage() {
               <h2 className="text-2xl font-bold text-gray-900 mb-3">
                 Create Your Account
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-gray-900 mb-4">
                 Start by creating a vendor account. This gives you access to submit
                 listings and manage your profile.
               </p>
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                <p className="text-sm text-gray-700 mb-2">
+                <p className="text-sm text-gray-900 mb-2">
                   <strong>Important:</strong> You'll receive a confirmation email
                   after signing up.
                 </p>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-900">
                   Check your email (including spam folder) and click the confirmation
                   link to activate your account.
                 </p>
@@ -70,14 +70,14 @@ export default function GettingStartedPage() {
               <h2 className="text-2xl font-bold text-gray-900 mb-3">
                 Choose Your Plan
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-gray-900 mb-4">
                 Select the subscription plan that works best for your business.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div className="border border-gray-200 rounded-lg p-4">
                   <h3 className="font-bold text-gray-900 mb-2">Free</h3>
                   <p className="text-2xl font-bold text-gray-900 mb-2">$0</p>
-                  <ul className="text-sm text-gray-600 space-y-1">
+                  <ul className="text-sm text-gray-900 space-y-1">
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                       <span>Basic listing</span>
@@ -91,9 +91,9 @@ export default function GettingStartedPage() {
                 <div className="border border-gray-200 rounded-lg p-4">
                   <h3 className="font-bold text-gray-900 mb-2">Standard</h3>
                   <p className="text-2xl font-bold text-gray-900 mb-2">
-                    $25<span className="text-sm text-gray-600">/month</span>
+                    $25<span className="text-sm text-gray-900">/month</span>
                   </p>
-                  <ul className="text-sm text-gray-600 space-y-1">
+                  <ul className="text-sm text-gray-900 space-y-1">
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                       <span>Profile image</span>
@@ -114,9 +114,9 @@ export default function GettingStartedPage() {
                   </div>
                   <h3 className="font-bold text-gray-900 mb-2">Pro</h3>
                   <p className="text-2xl font-bold text-gray-900 mb-2">
-                    $50<span className="text-sm text-gray-600">/month</span>
+                    $50<span className="text-sm text-gray-900">/month</span>
                   </p>
-                  <ul className="text-sm text-gray-600 space-y-1">
+                  <ul className="text-sm text-gray-900 space-y-1">
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                       <span>Profile + 4 gallery images</span>
@@ -152,7 +152,7 @@ export default function GettingStartedPage() {
               <h2 className="text-2xl font-bold text-gray-900 mb-3">
                 Complete Your Listing
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-gray-900 mb-4">
                 Fill out your business information to create a compelling listing.
               </p>
               <div className="space-y-3 mb-4">
@@ -162,7 +162,7 @@ export default function GettingStartedPage() {
                     <p className="font-semibold text-gray-900">
                       Business Information
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-900">
                       Name, tagline, description, and contact details
                     </p>
                   </div>
@@ -171,7 +171,7 @@ export default function GettingStartedPage() {
                   <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="font-semibold text-gray-900">Category & Location</p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-900">
                       Choose your category and service areas
                     </p>
                   </div>
@@ -180,7 +180,7 @@ export default function GettingStartedPage() {
                   <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="font-semibold text-gray-900">Profile Image</p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-900">
                       Upload your logo (400x400px recommended)
                     </p>
                   </div>
@@ -191,7 +191,7 @@ export default function GettingStartedPage() {
                     <p className="font-semibold text-gray-900">
                       Gallery Images (Pro+)
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-900">
                       Add up to 4 additional photos (1200x800px recommended)
                     </p>
                   </div>
@@ -217,14 +217,14 @@ export default function GettingStartedPage() {
               <h2 className="text-2xl font-bold text-gray-900 mb-3">
                 Wait for Approval
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-gray-900 mb-4">
                 Our team reviews all new listings to ensure quality and accuracy.
               </p>
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-                <p className="text-sm text-gray-700 mb-2">
+                <p className="text-sm text-gray-900 mb-2">
                   <strong>Approval Process:</strong>
                 </p>
-                <ul className="text-sm text-gray-600 space-y-1 list-disc list-inside">
+                <ul className="text-sm text-gray-900 space-y-1 list-disc list-inside">
                   <li>
                     <strong>All Plans:</strong> Require admin approval, typically
                     24-48 hours
@@ -239,7 +239,7 @@ export default function GettingStartedPage() {
                   </li>
                 </ul>
               </div>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-900">
                 You'll receive an email notification once your listing is approved
                 and live.
               </p>
@@ -257,7 +257,7 @@ export default function GettingStartedPage() {
               <h2 className="text-2xl font-bold text-gray-900 mb-3">
                 Manage Your Listing
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-gray-900 mb-4">
                 Access your dashboard to update information, track performance, and
                 manage your subscription.
               </p>
@@ -312,7 +312,7 @@ export default function GettingStartedPage() {
             className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
           >
             <h4 className="font-semibold text-gray-900 mb-2">Image Guidelines</h4>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               Learn the best practices for profile and gallery images
             </p>
           </Link>
@@ -323,7 +323,7 @@ export default function GettingStartedPage() {
             <h4 className="font-semibold text-gray-900 mb-2">
               Pricing & Plans
             </h4>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               Compare plans and choose the right one for your business
             </p>
           </Link>

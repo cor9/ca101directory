@@ -28,16 +28,16 @@ export default function ImageGuidelinesPage() {
           <h2 className="text-2xl font-bold text-brand-navy mt-0">
             Profile Image (Your Logo/Main Photo)
           </h2>
-          <p className="text-gray-700">
+          <p className="text-gray-900">
             <strong>What it is:</strong> The primary image that represents your
             business - typically your logo or main branded photo.
           </p>
 
           <div className="bg-white rounded-lg p-6 my-6 shadow-sm">
-            <h3 className="text-xl font-semibold text-gray-800 mt-0">
+            <h3 className="text-xl font-semibold text-gray-900 mt-0">
               Specifications:
             </h3>
-            <ul className="space-y-2 text-gray-700 leading-relaxed">
+            <ul className="space-y-2 text-gray-900 leading-relaxed">
               <li>
                 <strong>Recommended size:</strong> 400px × 400px (square)
               </li>
@@ -74,16 +74,16 @@ export default function ImageGuidelinesPage() {
           <h2 className="text-2xl font-bold text-brand-navy mt-0">
             Gallery Images (Your Photo Gallery)
           </h2>
-          <p className="text-gray-700">
+          <p className="text-gray-900">
             <strong>What it is:</strong> Up to 4 additional images showcasing
             your business, facility, team, or work samples.
           </p>
 
           <div className="bg-white rounded-lg p-6 my-6 shadow-sm">
-            <h3 className="text-xl font-semibold text-gray-800 mt-0">
+            <h3 className="text-xl font-semibold text-gray-900 mt-0">
               Specifications:
             </h3>
-            <ul className="space-y-2 text-gray-700 leading-relaxed">
+            <ul className="space-y-2 text-gray-900 leading-relaxed">
               <li>
                 <strong>Recommended size:</strong> 1200px wide × 800px tall
                 (landscape orientation works best)
@@ -152,7 +152,7 @@ export default function ImageGuidelinesPage() {
 
         {/* Help Section */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 my-8">
-          <p className="text-gray-800 m-0">
+          <p className="text-gray-900 m-0">
             <strong>Need help?</strong> If your images are too large, use a free
             compression tool like{" "}
             <a

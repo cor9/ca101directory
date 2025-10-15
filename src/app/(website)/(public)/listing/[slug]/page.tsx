@@ -81,14 +81,15 @@ export async function generateMetadata({
     }
 
     // Build SEO-rich title and description
-    const category = listing.categories?.[0] || 'Acting Professional';
-    const cityState = [listing.city, listing.state].filter(Boolean).join(', ');
-    const location = cityState ? ` in ${cityState}` : '';
-    
+    const category = listing.categories?.[0] || "Acting Professional";
+    const cityState = [listing.city, listing.state].filter(Boolean).join(", ");
+    const location = cityState ? ` in ${cityState}` : "";
+
     const title = `${listing.listing_name} | ${category}${location}`;
-    const description = listing.what_you_offer || 
+    const description =
+      listing.what_you_offer ||
       `Find ${listing.listing_name}${location} — a trusted ${category.toLowerCase()} for child actors on Child Actor 101 Directory.`;
-    
+
     const url = `${siteConfig.url}/listing/${params.slug}`;
     const image = listing.profile_image
       ? getListingImageUrl(listing.profile_image)
@@ -101,12 +102,14 @@ export async function generateMetadata({
         title,
         description,
         url,
-        images: [{ url: image, width: 1200, height: 630, alt: listing.listing_name }],
-        type: 'website',
-        siteName: 'Child Actor 101 Directory',
+        images: [
+          { url: image, width: 1200, height: 630, alt: listing.listing_name },
+        ],
+        type: "website",
+        siteName: "Child Actor 101 Directory",
       },
       twitter: {
-        card: 'summary_large_image',
+        card: "summary_large_image",
         title,
         description,
         images: [image],
@@ -289,7 +292,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
           {/* Breadcrumb */}
           <div
             className="flex items-center gap-2 text-sm mb-6"
-            style={{ color: "#666" }}
+            className="text-gray-900"
           >
             <Link href="/" className="hover:text-primary-orange">
               Directory
@@ -317,7 +320,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     readonly
                     size="md"
                   />
-                  <span className="text-sm" style={{ color: "#666" }}>
+                  <span className="text-sm" className="text-gray-900">
                     {averageRating.average.toFixed(1)} ({averageRating.count}{" "}
                     review
                     {averageRating.count !== 1 ? "s" : ""})
@@ -345,11 +348,12 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
               {/* Last Updated - Freshness Signal for SEO */}
               {listing.updated_at && (
-                <p className="text-xs text-gray-500 mb-3">
-                  Last updated: {new Date(listing.updated_at).toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
+                <p className="text-xs text-gray-900 mb-3">
+                  Last updated:{" "}
+                  {new Date(listing.updated_at).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
                   })}
                 </p>
               )}
@@ -422,66 +426,78 @@ export default async function ListingPage({ params }: ListingPageProps) {
               </div>
 
               {/* Premium content - only show for paid plans */}
-              {listing.who_is_it_for && (listing.plan !== "Free" && listing.plan !== "free") && (
-                <div className="mb-6">
-                  <h3>Who Is It For</h3>
-                  <RichTextDisplay
-                    content={listing.who_is_it_for}
-                    className="text-base leading-relaxed"
-                  />
-                </div>
-              )}
+              {listing.who_is_it_for &&
+                listing.plan !== "Free" &&
+                listing.plan !== "free" && (
+                  <div className="mb-6">
+                    <h3>Who Is It For</h3>
+                    <RichTextDisplay
+                      content={listing.who_is_it_for}
+                      className="text-base leading-relaxed"
+                    />
+                  </div>
+                )}
 
-              {listing.why_is_it_unique && (listing.plan !== "Free" && listing.plan !== "free") && (
-                <div className="mb-6">
-                  <h3>What Makes This Unique</h3>
-                  <RichTextDisplay
-                    content={listing.why_is_it_unique}
-                    className="text-base leading-relaxed"
-                  />
-                </div>
-              )}
+              {listing.why_is_it_unique &&
+                listing.plan !== "Free" &&
+                listing.plan !== "free" && (
+                  <div className="mb-6">
+                    <h3>What Makes This Unique</h3>
+                    <RichTextDisplay
+                      content={listing.why_is_it_unique}
+                      className="text-base leading-relaxed"
+                    />
+                  </div>
+                )}
 
               {/* Premium content - only show for paid plans */}
-              {listing.format && (listing.plan !== "Free" && listing.plan !== "free") && (
-                <div className="mb-6">
-                  <h3>Service Format</h3>
-                  <RichTextDisplay
-                    content={listing.format}
-                    className="text-base leading-relaxed"
-                  />
-                </div>
-              )}
+              {listing.format &&
+                listing.plan !== "Free" &&
+                listing.plan !== "free" && (
+                  <div className="mb-6">
+                    <h3>Service Format</h3>
+                    <RichTextDisplay
+                      content={listing.format}
+                      className="text-base leading-relaxed"
+                    />
+                  </div>
+                )}
 
-              {listing.extras_notes && (listing.plan !== "Free" && listing.plan !== "free") && (
-                <div>
-                  <h3>Additional Notes</h3>
-                  <RichTextDisplay
-                    content={listing.extras_notes}
-                    className="text-base leading-relaxed"
-                  />
-                </div>
-              )}
+              {listing.extras_notes &&
+                listing.plan !== "Free" &&
+                listing.plan !== "free" && (
+                  <div>
+                    <h3>Additional Notes</h3>
+                    <RichTextDisplay
+                      content={listing.extras_notes}
+                      className="text-base leading-relaxed"
+                    />
+                  </div>
+                )}
 
               {/* Free plan upgrade prompt */}
               {(listing.plan === "Free" || listing.plan === "free") && (
                 <div className="mt-6 p-4 bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-200 rounded-lg">
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-2xl">📈</span>
-                    <h3 className="font-semibold text-orange-800">More Details Available</h3>
+                    <h3 className="font-semibold text-orange-800">
+                      More Details Available
+                    </h3>
                   </div>
                   <p className="text-sm text-orange-700 mb-3">
-                    This professional has additional details about their services, target audience, and unique approach available with a premium listing.
+                    This professional has additional details about their
+                    services, target audience, and unique approach available
+                    with a premium listing.
                   </p>
                   <div className="flex gap-2">
-                    <a 
-                      href="/pricing" 
+                    <a
+                      href="/pricing"
                       className="inline-flex items-center px-3 py-2 bg-orange-600 text-white text-sm rounded-md hover:bg-orange-700 transition-colors"
                     >
                       View Pricing Plans
                     </a>
-                    <a 
-                      href="/plan-selection" 
+                    <a
+                      href="/plan-selection"
                       className="inline-flex items-center px-3 py-2 bg-white text-orange-600 text-sm border border-orange-300 rounded-md hover:bg-orange-50 transition-colors"
                     >
                       Upgrade Listing
@@ -510,7 +526,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
               <Link
                 href="/"
                 className="text-sm hover:text-primary-orange"
-                style={{ color: "#666" }}
+                className="text-gray-900"
               >
                 ← Back to Directory
               </Link>
@@ -537,7 +553,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     <span style={{ color: "#0C1A2B" }}>
                       {[listing.city, listing.state].filter(Boolean).join(", ")}
                       {listing.region && listing.region.length > 0 && (
-                        <span className="text-sm text-gray-600 ml-1">
+                        <span className="text-sm text-gray-900 ml-1">
                           ({listing.region.join(", ")})
                         </span>
                       )}
@@ -599,7 +615,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     >
                       Own This Business?
                     </h2>
-                    <p className="mb-4" style={{ color: "#666" }}>
+                    <p className="mb-4" className="text-gray-900">
                       Claim your listing to gain full control, edit details, and
                       upgrade to premium plans.
                     </p>
@@ -649,7 +665,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     },
                   )
                 ) : (
-                  <span className="text-sm" style={{ color: "#666" }}>
+                  <span className="text-sm" className="text-gray-900">
                     No categories listed
                   </span>
                 )}
@@ -685,7 +701,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                       </span>
                     ))
                 ) : (
-                  <span className="text-sm" style={{ color: "#666" }}>
+                  <span className="text-sm" className="text-gray-900">
                     No age range specified
                   </span>
                 )}
@@ -725,7 +741,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                         Bonded for Advanced Fees
                       </span>
                       {listing.bond_number && (
-                        <span style={{ color: "#666" }}>
+                        <span className="text-gray-900">
                           (Bond #{listing.bond_number})
                         </span>
                       )}

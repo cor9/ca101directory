@@ -25,7 +25,7 @@ export default function TroubleshootingPage() {
       </Link>
 
       <h1 className="text-4xl font-bold text-gray-900 mb-6">Troubleshooting</h1>
-      <p className="text-xl text-gray-600 mb-12">
+      <p className="text-xl text-gray-900 mb-12">
         Quick solutions to common issues. Can't find your issue? Contact
         support!
       </p>
@@ -46,7 +46,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Solution 1: Check your email
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   Make sure you're using the email address you registered with.
                   Try typing it carefully or copy/paste from your registration
                   email.
@@ -56,7 +56,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Solution 2: Reset your password
                 </p>
-                <p className="text-gray-700 mb-2">
+                <p className="text-gray-900 mb-2">
                   Click "Forgot Password" on the login page to receive a reset
                   link via email.
                 </p>
@@ -71,7 +71,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Solution 3: Clear browser cache
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   Try clearing your browser cookies and cache, then attempt to
                   log in again.
                 </p>
@@ -88,7 +88,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Step 1: Check spam folder
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   Confirmation emails sometimes end up in spam/junk. Check there
                   first and mark it as "Not Spam."
                 </p>
@@ -97,7 +97,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Step 2: Wait 5-10 minutes
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   Email delivery can sometimes be delayed. Give it a few
                   minutes.
                 </p>
@@ -106,7 +106,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Step 3: Resend confirmation
                 </p>
-                <p className="text-gray-700 mb-2">
+                <p className="text-gray-900 mb-2">
                   Go to the login page and click "Resend confirmation email."
                 </p>
                 <Link
@@ -123,18 +123,18 @@ export default function TroubleshootingPage() {
             <h3 className="font-bold text-gray-900 mb-3 text-lg">
               ⚠️ Error: "Email not confirmed"
             </h3>
-            <p className="text-gray-700 text-sm mb-3">
+            <p className="text-gray-900 text-sm mb-3">
               You need to confirm your email address before claiming listings or
               accessing certain features.
             </p>
             <div className="bg-blue-50 border border-blue-200 rounded p-3 mb-3">
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-gray-900">
                 <strong>Quick fix:</strong> Check your email inbox (and spam)
                 for the confirmation email and click the link. The link is valid
                 for 7 days.
               </p>
             </div>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               If you can't find the email, use the "Resend confirmation" option
               on the login page.
             </p>
@@ -158,7 +158,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Reason 1: Email not confirmed
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   You must confirm your email before claiming listings. Check
                   your inbox for the confirmation email.
                 </p>
@@ -167,7 +167,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Reason 2: Wrong account type
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   You need a <strong>Vendor</strong> account to claim listings.
                   Parent accounts cannot claim business listings.
                 </p>
@@ -176,7 +176,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Reason 3: Already claimed
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   If the listing shows as claimed by someone else, contact
                   support with proof of ownership.
                 </p>
@@ -193,7 +193,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Check 1: Listing status
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   Go to your dashboard and verify your listing status is "Live"
                   (not "Pending" or "Draft").
                 </p>
@@ -202,7 +202,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Check 2: Search filters
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   Make sure you're searching in the correct category and
                   location where your listing is categorized.
                 </p>
@@ -211,7 +211,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Check 3: Plan level
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   Free listings appear lower in search results. Pro listings get
                   priority placement, followed by Standard.
                 </p>
@@ -220,7 +220,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Check 4: Wait for indexing
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   New listings may take up to 1 hour to appear in all search
                   results. Try refreshing the page.
                 </p>
@@ -232,12 +232,12 @@ export default function TroubleshootingPage() {
             <h3 className="font-bold text-gray-900 mb-3 text-lg">
               ⚠️ My edits aren't showing on my listing
             </h3>
-            <p className="text-gray-700 text-sm mb-3">
+            <p className="text-gray-900 text-sm mb-3">
               <strong>This is normal behavior.</strong> All edits require admin
               approval before going live.
             </p>
             <div className="bg-blue-50 border border-blue-200 rounded p-3">
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-gray-900">
                 Your edits are saved as "Pending" and will go live after review
                 (typically 24-48 hours). You'll receive an email when approved.
               </p>
@@ -262,7 +262,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Solution 1: Check file size
                 </p>
-                <p className="text-gray-700 mb-2">
+                <p className="text-gray-900 mb-2">
                   Images must be under 5MB. Use a compression tool to reduce
                   file size:
                 </p>
@@ -289,7 +289,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Solution 2: Check file format
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   Only JPEG, PNG, and WebP formats are supported. Convert other
                   formats (GIF, BMP, TIFF) first.
                 </p>
@@ -298,7 +298,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Solution 3: Try a different browser
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   If uploads still fail, try Chrome, Firefox, or Safari. Clear
                   your cache first.
                 </p>
@@ -307,7 +307,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Solution 4: Check internet connection
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   Large files require a stable connection. Try uploading on a
                   faster/more stable network.
                 </p>
@@ -320,15 +320,15 @@ export default function TroubleshootingPage() {
               ⚠️ My images look pixelated or blurry
             </h3>
             <div className="space-y-2 text-sm">
-              <p className="text-gray-700">
+              <p className="text-gray-900">
                 <strong>Cause:</strong> Image resolution is too low or was
                 compressed too much.
               </p>
-              <p className="text-gray-700">
+              <p className="text-gray-900">
                 <strong>Solution:</strong> Re-upload using our recommended
                 sizes:
               </p>
-              <ul className="list-disc list-inside ml-4 text-gray-700 space-y-1">
+              <ul className="list-disc list-inside ml-4 text-gray-900 space-y-1">
                 <li>Profile image: 400x400px minimum</li>
                 <li>Gallery images: 1200x800px minimum</li>
               </ul>
@@ -359,7 +359,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Step 1: Verify card details
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   Double-check card number, expiration date, CVV, and billing
                   zip code.
                 </p>
@@ -368,7 +368,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Step 2: Check with your bank
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   Your bank may have flagged the transaction as suspicious.
                   Contact them to authorize the charge.
                 </p>
@@ -377,7 +377,7 @@ export default function TroubleshootingPage() {
                 <p className="font-semibold text-gray-900 mb-1">
                   Step 3: Try a different card
                 </p>
-                <p className="text-gray-700">
+                <p className="text-gray-900">
                   If the issue persists, try using a different payment method.
                 </p>
               </div>
@@ -388,18 +388,18 @@ export default function TroubleshootingPage() {
             <h3 className="font-bold text-gray-900 mb-3 text-lg">
               ⚠️ I was charged but didn't receive access
             </h3>
-            <p className="text-gray-700 text-sm mb-3">
+            <p className="text-gray-900 text-sm mb-3">
               This is rare but can happen due to payment processing delays.
             </p>
             <div className="space-y-2 text-sm">
-              <p className="text-gray-700">
+              <p className="text-gray-900">
                 <strong>Step 1:</strong> Wait 10-15 minutes and refresh your
                 dashboard.
               </p>
-              <p className="text-gray-700">
+              <p className="text-gray-900">
                 <strong>Step 2:</strong> Log out completely and log back in.
               </p>
-              <p className="text-gray-700">
+              <p className="text-gray-900">
                 <strong>Step 3:</strong> If still not resolved after 1 hour,
                 contact support with your payment receipt.
               </p>
@@ -410,10 +410,10 @@ export default function TroubleshootingPage() {
             <h3 className="font-bold text-gray-900 mb-3 text-lg">
               ⚠️ How do I cancel my subscription?
             </h3>
-            <p className="text-gray-700 text-sm mb-2">
+            <p className="text-gray-900 text-sm mb-2">
               Go to your dashboard → Settings → Subscription → Cancel Plan
             </p>
-            <p className="text-gray-700 text-sm">
+            <p className="text-gray-900 text-sm">
               Your listing will remain active until the end of your billing
               period, then convert to a Free plan.
             </p>
@@ -462,7 +462,7 @@ export default function TroubleshootingPage() {
               <p className="font-semibold text-gray-900 text-sm">
                 Refresh the page
               </p>
-              <p className="text-xs text-gray-600">
+              <p className="text-xs text-gray-900">
                 Press Ctrl+R (or Cmd+R on Mac)
               </p>
             </div>
@@ -473,7 +473,7 @@ export default function TroubleshootingPage() {
               <p className="font-semibold text-gray-900 text-sm">
                 Clear browser cache
               </p>
-              <p className="text-xs text-gray-600">
+              <p className="text-xs text-gray-900">
                 Settings → Privacy → Clear browsing data
               </p>
             </div>
@@ -484,7 +484,7 @@ export default function TroubleshootingPage() {
               <p className="font-semibold text-gray-900 text-sm">
                 Try a different browser
               </p>
-              <p className="text-xs text-gray-600">
+              <p className="text-xs text-gray-900">
                 Chrome, Firefox, or Safari
               </p>
             </div>
@@ -495,7 +495,7 @@ export default function TroubleshootingPage() {
               <p className="font-semibold text-gray-900 text-sm">
                 Log out and back in
               </p>
-              <p className="text-xs text-gray-600">
+              <p className="text-xs text-gray-900">
                 Sometimes fixes authentication issues
               </p>
             </div>

@@ -93,7 +93,7 @@ export function UserNameForm() {
             </p>
           )}
 
-          <p className="text-[13px] text-muted-foreground">Max 32 characters</p>
+          <p className="text-[13px] text-gray-900">Max 32 characters</p>
         </div>
       </SectionColumns>
     </form>

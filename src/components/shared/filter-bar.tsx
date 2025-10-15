@@ -79,7 +79,7 @@ export default function FilterBar({ className = "" }: FilterBarProps) {
     <div className={`flex flex-wrap items-center gap-4 ${className}`}>
       {/* Category Filter */}
       <div className="flex items-center gap-2">
-        <label className="text-sm font-medium text-muted-foreground">
+        <label className="text-sm font-medium text-gray-900">
           Select category:
         </label>
         <Select
@@ -105,7 +105,7 @@ export default function FilterBar({ className = "" }: FilterBarProps) {
 
       {/* Region Filter */}
       <div className="flex items-center gap-2">
-        <label className="text-sm font-medium text-muted-foreground">
+        <label className="text-sm font-medium text-gray-900">
           Select region:
         </label>
         <Select
@@ -137,7 +137,7 @@ export default function FilterBar({ className = "" }: FilterBarProps) {
 
       {/* Filter */}
       <div className="flex items-center gap-2">
-        <label className="text-sm font-medium text-muted-foreground">
+        <label className="text-sm font-medium text-gray-900">
           Filter:
         </label>
         <Select
@@ -162,7 +162,7 @@ export default function FilterBar({ className = "" }: FilterBarProps) {
 
       {/* Sort */}
       <div className="flex items-center gap-2">
-        <label className="text-sm font-medium text-muted-foreground">
+        <label className="text-sm font-medium text-gray-900">
           Sort by:
         </label>
         <Select value={currentSort || "null"} onValueChange={handleSortChange}>

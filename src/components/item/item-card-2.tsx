@@ -50,7 +50,7 @@ export default function ItemCard2({ item }: ItemCard2Props) {
           <Link href={`/listing/${item._id}`} className="min-w-0 flex-1">
             <h3
               className={cn(
-                "text-xl font-medium truncate overflow-hidden text-ellipsis text-foreground",
+                "text-xl font-medium truncate overflow-hidden text-ellipsis text-gray-900",
                 item.featured && "text-gradient_blue-orange font-semibold",
               )}
             >
@@ -72,7 +72,7 @@ export default function ItemCard2({ item }: ItemCard2Props) {
                     "px-2 py-1 h-6 rounded-md",
                   )}
                 >
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-sm text-gray-900">
                     {category.name}
                   </span>
                 </a>
@@ -83,7 +83,7 @@ export default function ItemCard2({ item }: ItemCard2Props) {
 
         {/* min-h-[4.5rem] is used for making sure height of the card is the same */}
         <Link href={`/listing/${item._id}`} className="block cursor-pointer">
-          <p className="text-sm line-clamp-3 leading-relaxed min-h-[4.5rem] text-foreground">
+          <p className="text-sm line-clamp-3 leading-relaxed min-h-[4.5rem] text-gray-900">
             {item.description}
           </p>
         </Link>
@@ -99,14 +99,14 @@ export default function ItemCard2({ item }: ItemCard2Props) {
                 href={`/tag/${tag.slug.current}`}
                 className="flex items-center justify-center space-x-0.5 group"
               >
-                <HashIcon className="w-3 h-3 text-muted-foreground icon-scale" />
-                <span className="text-sm text-muted-foreground link-underline">
+                <HashIcon className="w-3 h-3 text-gray-900 icon-scale" />
+                <span className="text-sm text-gray-900 link-underline">
                   {tag.name}
                 </span>
               </Link>
             ))}
             {item.tags.length > 5 && (
-              <span className="text-sm text-muted-foreground px-1">
+              <span className="text-sm text-gray-900 px-1">
                 +{item.tags.length - 5}
               </span>
             )}

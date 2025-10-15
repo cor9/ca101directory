@@ -6,8 +6,8 @@ import {
 } from "@/config/feature-flags";
 import { siteConfig } from "@/config/site";
 import { getRole } from "@/lib/auth/roles";
-import { constructMetadata } from "@/lib/metadata";
 import { getSafeDashboardRedirect } from "@/lib/dashboard-safety";
+import { constructMetadata } from "@/lib/metadata";
 import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
@@ -103,7 +103,10 @@ export default async function DashboardPage() {
 
     default: {
       console.log("Dashboard: Unknown role detected:", userRole);
-      console.log("Dashboard: Full user object for debugging:", JSON.stringify(session.user, null, 2));
+      console.log(
+        "Dashboard: Full user object for debugging:",
+        JSON.stringify(session.user, null, 2),
+      );
       console.log("Dashboard: Redirecting to login");
       // Guests and unknown roles are never allowed to access dashboard
       redirect("/auth/login?next=/dashboard");

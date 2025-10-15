@@ -82,7 +82,7 @@ export default function HelpCenterPage() {
       {/* Header */}
       <div className="text-center mb-12">
         <h1 className="text-5xl font-bold text-gray-900 mb-4">Help Center</h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        <p className="text-xl text-gray-900 max-w-2xl mx-auto">
           Everything you need to know about creating and managing your listing
           on Child Actor 101 Directory
         </p>
@@ -104,7 +104,7 @@ export default function HelpCenterPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand-blue transition-colors">
               {topic.title}
             </h2>
-            <p className="text-gray-600 text-sm">{topic.description}</p>
+            <p className="text-gray-900 text-sm">{topic.description}</p>
           </Link>
         ))}
       </div>
@@ -138,21 +138,21 @@ export default function HelpCenterPage() {
           >
             Submit New Listing
           </Link>
-          <span className="text-gray-300">•</span>
+          <span className="text-gray-900">•</span>
           <Link
             href="/claim-listing"
             className="text-brand-blue hover:text-brand-blue/80 underline"
           >
             Claim Existing Listing
           </Link>
-          <span className="text-gray-300">•</span>
+          <span className="text-gray-900">•</span>
           <Link
             href="/pricing"
             className="text-brand-blue hover:text-brand-blue/80 underline"
           >
             View Pricing
           </Link>
-          <span className="text-gray-300">•</span>
+          <span className="text-gray-900">•</span>
           <Link
             href="/dashboard"
             className="text-brand-blue hover:text-brand-blue/80 underline"

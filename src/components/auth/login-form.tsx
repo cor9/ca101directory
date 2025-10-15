@@ -188,7 +188,7 @@ export const LoginForm = ({
           <div className="border-t pt-4 mt-4">
             {!showResendForm ? (
               <div className="text-center">
-                <p className="text-sm text-gray-600 mb-2">
+                <p className="text-sm text-gray-900 mb-2">
                   Didn't receive confirmation email?
                 </p>
                 <Button
@@ -203,7 +203,7 @@ export const LoginForm = ({
               </div>
             ) : (
               <div className="space-y-3">
-                <p className="text-sm font-semibold text-gray-700">
+                <p className="text-sm font-semibold text-gray-900">
                   Resend Confirmation Email
                 </p>
                 <Input

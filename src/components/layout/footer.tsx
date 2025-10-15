@@ -19,11 +19,11 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
               <Logo showText={false} />
             </div>
 
-            <p className="text-muted-foreground text-lg p4-4 md:pr-12">
+            <p className="text-gray-900 text-lg p4-4 md:pr-12">
               {siteConfig.tagline}
             </p>
 
-            <p className="text-muted-foreground text-base">
+            <p className="text-gray-900 text-base">
               A service of{" "}
               <Link
                 href="https://childactor101.com"
@@ -102,7 +102,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                       <Link
                         href={link.href}
                         target={link.external ? "_blank" : undefined}
-                        className="text-base text-muted-foreground hover:text-primary"
+                        className="text-base text-gray-900 hover:text-primary"
                       >
                         {link.title}
                       </Link>
@@ -116,7 +116,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
 
       <div className="border-t py-4">
         <Container className="flex items-center justify-between">
-          <span className="text-muted-foreground text-base">
+          <span className="text-gray-900 text-base">
             Copyright &copy; {new Date().getFullYear()} All Rights Reserved.
           </span>
 

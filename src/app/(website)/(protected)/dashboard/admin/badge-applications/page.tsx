@@ -46,7 +46,7 @@ export default async function BadgeApplicationsPage() {
         <h1 className="text-4xl font-bold text-gray-900 mb-2">
           101 Approved Badge Applications
         </h1>
-        <p className="text-lg text-gray-600">
+        <p className="text-lg text-gray-900">
           Review and manage vendor applications for the 101 Approved badge
         </p>
       </div>
@@ -54,7 +54,7 @@ export default async function BadgeApplicationsPage() {
       {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <div className="text-sm font-medium text-gray-600 mb-1">
+          <div className="text-sm font-medium text-gray-900 mb-1">
             Total Applications
           </div>
           <div className="text-3xl font-bold text-gray-900">
@@ -80,7 +80,7 @@ export default async function BadgeApplicationsPage() {
           </div>
         </div>
         <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-          <div className="text-sm font-medium text-gray-600 mb-1">Drafts</div>
+          <div className="text-sm font-medium text-gray-900 mb-1">Drafts</div>
           <div className="text-3xl font-bold text-gray-900">
             {applications?.filter((app) => app.status === "draft").length || 0}
           </div>

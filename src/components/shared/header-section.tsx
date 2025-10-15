@@ -43,7 +43,7 @@ export function HeaderSection({
         </TitleComponent>
       ) : null}
       {subtitle ? (
-        <SubtitleComponent className="mt-6 px-4 text-balance text-lg text-foreground/80">
+        <SubtitleComponent className="mt-6 px-4 text-balance text-lg text-gray-900/80">
           {subtitle}
         </SubtitleComponent>
       ) : null}

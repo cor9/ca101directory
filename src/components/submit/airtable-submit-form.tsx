@@ -161,7 +161,7 @@ export function AirtableSubmitForm({
         <h1 className="text-3xl font-bold mb-2">
           The 101 Directory Vendor Intake Submission Form
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-gray-900">
           To be included as a listing in the Child Actor 101 Resource Directory
         </p>
       </div>
@@ -226,7 +226,7 @@ export function AirtableSubmitForm({
                         className="resize-none min-h-[100px]"
                       />
                     </FormControl>
-                    <div className="text-sm text-muted-foreground mt-2">
+                    <div className="text-sm text-gray-900 mt-2">
                       <p className="font-medium mb-2">Examples:</p>
                       <ul className="list-disc list-inside space-y-1 ml-4">
                         <li>"Weekly improv acting class for kids 8–12."</li>
@@ -255,7 +255,7 @@ export function AirtableSubmitForm({
                         {...field}
                       />
                     </FormControl>
-                    <div className="text-sm text-muted-foreground mt-2">
+                    <div className="text-sm text-gray-900 mt-2">
                       <p className="font-medium mb-2">Examples:</p>
                       <ul className="list-disc list-inside space-y-1 ml-4">
                         <li>
@@ -288,7 +288,7 @@ export function AirtableSubmitForm({
                         className="resize-none min-h-[100px]"
                       />
                     </FormControl>
-                    <div className="text-sm text-muted-foreground mt-2">
+                    <div className="text-sm text-gray-900 mt-2">
                       <p className="font-medium mb-2">Examples:</p>
                       <ul className="list-disc list-inside space-y-1 ml-4">
                         <li>
@@ -350,7 +350,7 @@ export function AirtableSubmitForm({
                         className="resize-none min-h-[80px]"
                       />
                     </FormControl>
-                    <div className="text-sm text-muted-foreground mt-2">
+                    <div className="text-sm text-gray-900 mt-2">
                       <p className="font-medium mb-2">Examples:</p>
                       <ul className="list-disc list-inside space-y-1 ml-4">
                         <li>"Discounted bundles available for 3+ sessions."</li>
@@ -621,7 +621,7 @@ export function AirtableSubmitForm({
                           />
                         </div>
                       </FormControl>
-                      <div className="text-sm text-muted-foreground mt-2">
+                      <div className="text-sm text-gray-900 mt-2">
                         <p>Upload your business logo (PNG/JPEG, max 200KB)</p>
                         <p className="italic">
                           Recommended: 400x200px for optimal display
@@ -678,7 +678,7 @@ export function AirtableSubmitForm({
                           </div>
                         </div>
                       </FormControl>
-                      <div className="text-sm text-muted-foreground mt-2">
+                      <div className="text-sm text-gray-900 mt-2">
                         <p>
                           Upload up to 3 additional images to showcase your
                           business (PNG/JPEG, max 200KB each)
@@ -704,7 +704,7 @@ export function AirtableSubmitForm({
                     <h4 className="font-medium mb-2">
                       California Child Performer Services Permit
                     </h4>
-                    <p className="text-sm text-muted-foreground mb-2">
+                    <p className="text-sm text-gray-900 mb-2">
                       Required by California law for anyone providing services
                       to minors in entertainment.
                     </p>
@@ -723,7 +723,7 @@ export function AirtableSubmitForm({
                     <h4 className="font-medium mb-2">
                       Bonded For Advanced Fees
                     </h4>
-                    <p className="text-sm text-muted-foreground mb-2">
+                    <p className="text-sm text-gray-900 mb-2">
                       If you charge fees upfront for future services, California
                       law requires a $50,000 bond on file.
                     </p>
@@ -758,7 +758,7 @@ export function AirtableSubmitForm({
                             I confirm I hold a California Child Performer
                             Services Permit
                           </FormLabel>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-xs text-gray-900">
                             Required by California law for anyone providing
                             services to minors in entertainment.
                           </p>
@@ -785,7 +785,7 @@ export function AirtableSubmitForm({
                           <FormLabel className="text-sm font-medium">
                             I am bonded for advanced fees (if applicable)
                           </FormLabel>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-xs text-gray-900">
                             Only check if you charge fees upfront for future
                             services.
                           </p>
@@ -842,7 +842,7 @@ export function AirtableSubmitForm({
                             />
                             <div className="text-center">
                               <div className="font-semibold">{plan}</div>
-                              <div className="text-sm text-muted-foreground">
+                              <div className="text-sm text-gray-900">
                                 {plan === "Standard" && "$25/month"}
                                 {plan === "Pro" && "$50/month"}
                               </div>
@@ -874,7 +874,7 @@ export function AirtableSubmitForm({
                 )}
               </Button>
               {isUploading && (
-                <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                <div className="flex items-center space-x-2 text-sm text-gray-900">
                   <Icons.spinner className="h-4 w-4 animate-spin" />
                   <span>Uploading image...</span>
                 </div>

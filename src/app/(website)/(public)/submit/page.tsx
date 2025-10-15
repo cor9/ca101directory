@@ -190,12 +190,12 @@ export default async function SubmitPage({
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
           {isClaimFlow ? "Claim Your Listing" : "List Your Business"}
         </h1>
-        <p className="text-xl text-gray-600 mb-2">
+        <p className="text-xl text-gray-900 mb-2">
           {isClaimFlow
             ? "Choose a plan and complete your listing details"
             : "Join the Child Actor 101 Directory and connect with parents"}
         </p>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-900">
           Choose your plan below and get started in minutes.
         </p>
         {existingListing && (
@@ -215,7 +215,7 @@ export default async function SubmitPage({
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">
                 Choose Your Plan
               </h2>
-              <p className="text-gray-600">
+              <p className="text-gray-900">
                 Select a plan to claim and enhance this listing.
               </p>
             </div>

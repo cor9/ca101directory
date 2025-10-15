@@ -151,7 +151,7 @@ export default function SettingsForm() {
             </Button>
 
             {user?.isOAuth === false && (
-              <div className="text-muted-foreground flex items-center justify-center sm:justify-start gap-4">
+              <div className="text-gray-900 flex items-center justify-center sm:justify-start gap-4">
                 <BellRingIcon className="h-5 w-5 sm:h-6 sm:w-4 flex-shrink-0" />
                 <span className="text-sm">
                   Password is optional when changing name or link.

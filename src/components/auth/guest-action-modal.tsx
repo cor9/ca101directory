@@ -66,7 +66,7 @@ export function GuestActionModal({
           </Button>
         </div>
 
-        <p className="text-sm text-muted-foreground text-center pt-2">
+        <p className="text-sm text-gray-900 text-center pt-2">
           Free to join • No credit card required
         </p>
       </DialogContent>

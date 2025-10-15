@@ -46,10 +46,10 @@ export const AdminNotifications = ({
             <div>
               <p className="font-semibold text-white">{listing.listing_name}</p>
               <div className="flex items-center gap-2 mt-1">
-                <span className="px-2 py-0.5 text-xs font-medium text-gray-300 bg-gray-700 rounded-full">
+                <span className="px-2 py-0.5 text-xs font-medium text-gray-900 bg-gray-700 rounded-full">
                   {listing.plan || "Free"}
                 </span>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-gray-900">
                   {formatDate(listing.created_at)}
                 </p>
               </div>
@@ -65,7 +65,7 @@ export const AdminNotifications = ({
                 aria-label="Dismiss notification"
                 variant="ghost"
                 size="icon"
-                className="text-gray-400 hover:bg-gray-700 hover:text-white h-9 w-9 flex-shrink-0"
+                className="text-gray-900 hover:bg-gray-700 hover:text-white h-9 w-9 flex-shrink-0"
               >
                 <X className="h-4 w-4" />
               </Button>

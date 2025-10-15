@@ -72,7 +72,7 @@ export default async function UserSubmissionsPage() {
       case "Rejected":
         return "bg-red-100 text-red-800";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-gray-100 text-gray-900";
     }
   };
 
@@ -85,9 +85,9 @@ export default async function UserSubmissionsPage() {
       case "Basic":
         return "bg-orange-100 text-orange-800";
       case "Free":
-        return "bg-gray-100 text-gray-800";
+        return "bg-gray-100 text-gray-900";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-gray-100 text-gray-900";
     }
   };
 
@@ -104,10 +104,10 @@ export default async function UserSubmissionsPage() {
               </Button>
             </Link>
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
             My Submissions
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-gray-900">
             View and manage all your submitted listings
           </p>
         </div>
@@ -127,10 +127,10 @@ export default async function UserSubmissionsPage() {
           <Card>
             <CardContent className="text-center py-12">
               <div className="mb-4">
-                <Calendar className="h-12 w-12 text-muted-foreground mx-auto" />
+                <Calendar className="h-12 w-12 text-gray-900 mx-auto" />
               </div>
               <h3 className="text-lg font-semibold mb-2">No submissions yet</h3>
-              <p className="text-muted-foreground mb-4">
+              <p className="text-gray-900 mb-4">
                 You haven't submitted any listings yet. Get started by
                 submitting your first listing.
               </p>
@@ -169,16 +169,16 @@ export default async function UserSubmissionsPage() {
                 <CardContent>
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm text-gray-900">
                         <Calendar className="h-4 w-4" />
                         Submitted:{" "}
                         {new Date(submission.submittedAt).toLocaleDateString()}
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm text-gray-900">
                         <MapPin className="h-4 w-4" />
                         {submission.location}
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm text-gray-900">
                         <Globe className="h-4 w-4" />
                         <a
                           href={submission.website}

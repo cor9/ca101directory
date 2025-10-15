@@ -18,7 +18,7 @@ export default function AdminRedirect() {
     }
 
     const userRole = (session.user as any)?.role;
-    
+
     if (userRole === "admin") {
       // Admin user, redirect to admin dashboard
       router.push("/dashboard/admin");

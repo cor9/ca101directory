@@ -54,7 +54,7 @@ export default function ClaimListingPage() {
                 </Badge>
                 <div>
                   <h4 className="font-medium">Find Your Listing</h4>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-gray-900">
                     Search our directory to find your business listing
                   </p>
                 </div>
@@ -68,7 +68,7 @@ export default function ClaimListingPage() {
                 </Badge>
                 <div>
                   <h4 className="font-medium">Click "Claim This Listing"</h4>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-gray-900">
                     On your listing page, click the claim button
                   </p>
                 </div>
@@ -82,7 +82,7 @@ export default function ClaimListingPage() {
                 </Badge>
                 <div>
                   <h4 className="font-medium">Submit Your Claim</h4>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-gray-900">
                     Provide proof of ownership and business details
                   </p>
                 </div>
@@ -96,7 +96,7 @@ export default function ClaimListingPage() {
                 </Badge>
                 <div>
                   <h4 className="font-medium">Get Approved</h4>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-gray-900">
                     Our team reviews and approves your claim
                   </p>
                 </div>
@@ -120,7 +120,7 @@ export default function ClaimListingPage() {
                 <Shield className="h-5 w-5 text-green-600 mt-0.5" />
                 <div>
                   <h4 className="font-medium">Full Control</h4>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-gray-900">
                     Update your business information, photos, and services
                   </p>
                 </div>
@@ -129,7 +129,7 @@ export default function ClaimListingPage() {
                 <Users className="h-5 w-5 text-blue-600 mt-0.5" />
                 <div>
                   <h4 className="font-medium">Respond to Reviews</h4>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-gray-900">
                     Engage with families and build your reputation
                   </p>
                 </div>
@@ -138,7 +138,7 @@ export default function ClaimListingPage() {
                 <CheckCircle className="h-5 w-5 text-brand-blue mt-0.5" />
                 <div>
                   <h4 className="font-medium">Verified Badge</h4>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-gray-900">
                     Show families that you're a verified business owner
                   </p>
                 </div>
@@ -159,7 +159,7 @@ export default function ClaimListingPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <h4 className="font-medium mb-2">Business Information</h4>
-                <ul className="text-sm text-muted-foreground space-y-1">
+                <ul className="text-sm text-gray-900 space-y-1">
                   <li>• Valid business license or permit</li>
                   <li>• Proof of business ownership</li>
                   <li>• Current contact information</li>
@@ -167,7 +167,7 @@ export default function ClaimListingPage() {
               </div>
               <div>
                 <h4 className="font-medium mb-2">Account Requirements</h4>
-                <ul className="text-sm text-muted-foreground space-y-1">
+                <ul className="text-sm text-gray-900 space-y-1">
                   <li>• Free account registration</li>
                   <li>• Email verification</li>
                   <li>• Business email address</li>
@@ -182,7 +182,7 @@ export default function ClaimListingPage() {
           <h3 className="text-2xl font-bold mb-4">
             Ready to Claim Your Listing?
           </h3>
-          <p className="text-muted-foreground mb-6">
+          <p className="text-gray-900 mb-6">
             Search our directory to find your business and start the claim
             process
           </p>

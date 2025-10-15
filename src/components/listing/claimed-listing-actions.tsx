@@ -92,7 +92,7 @@ export function ClaimedListingActions({
               >
                 {currentPlan.charAt(0).toUpperCase() + currentPlan.slice(1)}
               </Badge>
-              <span className="text-muted-foreground">
+              <span className="text-gray-900">
                 {isFree ? "Free listing" : `${currentPlan} plan`}
               </span>
             </div>
@@ -134,7 +134,7 @@ export function ClaimedListingActions({
                     Standard Plan
                   </h4>
                 </div>
-                <p className="text-sm text-muted-foreground mb-3">
+                <p className="text-sm text-gray-900 mb-3">
                   Enhanced visibility and professional features
                 </p>
                 <div className="space-y-1 text-sm">
@@ -165,7 +165,7 @@ export function ClaimedListingActions({
                   <CrownIcon className="w-4 h-4 text-brand-orange" />
                   <h4 className="font-semibold text-brand-orange">Pro Plan</h4>
                 </div>
-                <p className="text-sm text-muted-foreground mb-3">
+                <p className="text-sm text-gray-900 mb-3">
                   All Standard features plus premium placement and 101 Badge
                 </p>
                 <div className="space-y-1 text-sm">

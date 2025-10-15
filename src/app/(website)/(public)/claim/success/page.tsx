@@ -146,15 +146,15 @@ export default async function ClaimSuccessPage({
                 </h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Chosen Plan:</span>
+                    <span className="text-gray-900">Chosen Plan:</span>
                     <Badge variant="secondary">{planName}</Badge>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Billing:</span>
+                    <span className="text-gray-900">Billing:</span>
                     <span>{billingCycle}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Listing:</span>
+                    <span className="text-gray-900">Listing:</span>
                     <span className="font-medium">{listingName}</span>
                   </div>
                 </div>

@@ -25,7 +25,7 @@ export function DashboardHeader({
 
         {/* subtitle */}
         {subtitle && (
-          <h2 className="text-base text-muted-foreground">{subtitle}</h2>
+          <h2 className="text-base text-gray-900">{subtitle}</h2>
         )}
       </div>
 

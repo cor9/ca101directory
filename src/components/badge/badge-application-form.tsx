@@ -201,14 +201,14 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-gray-600">
+              <p className="text-gray-900">
                 We'll automatically pull your business information from your
                 active listing. Please verify the details below are correct.
               </p>
 
               <div className="bg-gray-50 rounded-lg p-4 space-y-3">
                 <div>
-                  <label className="text-sm font-medium text-gray-700">
+                  <label className="text-sm font-medium text-gray-900">
                     Business Name
                   </label>
                   <p className="text-gray-900">
@@ -216,7 +216,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
                   </p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700">
+                  <label className="text-sm font-medium text-gray-900">
                     Description
                   </label>
                   <p className="text-gray-900">
@@ -224,7 +224,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
                   </p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700">
+                  <label className="text-sm font-medium text-gray-900">
                     Category
                   </label>
                   <p className="text-gray-900">
@@ -232,7 +232,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
                   </p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700">
+                  <label className="text-sm font-medium text-gray-900">
                     Location
                   </label>
                   <p className="text-gray-900">
@@ -254,15 +254,15 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-gray-600">
+              <p className="text-gray-900">
                 Upload at least 3 testimonials from families who have worked
                 with you. These should demonstrate your professionalism and
                 positive impact on young performers.
               </p>
 
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                <p className="text-sm text-gray-600 mb-2">
+                <Upload className="w-8 h-8 text-gray-900 mx-auto mb-2" />
+                <p className="text-sm text-gray-900 mb-2">
                   Upload testimonial files
                 </p>
                 <input
@@ -297,7 +297,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
                       key={index}
                       className="flex items-center justify-between bg-gray-50 p-3 rounded"
                     >
-                      <span className="text-sm text-gray-700">
+                      <span className="text-sm text-gray-900">
                         Testimonial {index + 1}
                       </span>
                       <Button
@@ -313,7 +313,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
               )}
 
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                <p className="text-sm text-gray-700">
+                <p className="text-sm text-gray-900">
                   <strong>Note:</strong> Testimonials should include
                   parent/guardian name and contact info. Screenshots of emails
                   or text messages are acceptable.
@@ -333,15 +333,15 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-gray-600">
+              <p className="text-gray-900">
                 Provide references from at least 2 industry professionals who
                 can vouch for your work. These should be peers, colleagues, or
                 industry contacts with direct knowledge of your capabilities.
               </p>
 
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                <p className="text-sm text-gray-600 mb-2">
+                <Upload className="w-8 h-8 text-gray-900 mx-auto mb-2" />
+                <p className="text-sm text-gray-900 mb-2">
                   Upload reference files
                 </p>
                 <input
@@ -376,7 +376,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
                       key={index}
                       className="flex items-center justify-between bg-gray-50 p-3 rounded"
                     >
-                      <span className="text-sm text-gray-700">
+                      <span className="text-sm text-gray-900">
                         Reference {index + 1}
                       </span>
                         <Button
@@ -392,7 +392,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
               )}
 
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <p className="text-sm text-gray-700">
+                <p className="text-sm text-gray-900">
                   <strong>Tip:</strong> References from casting directors,
                   agents, managers, or other coaches carry the most weight in
                   the review process.
@@ -412,15 +412,15 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-gray-600">
+              <p className="text-gray-900">
                 While not required, relevant certifications, degrees, or
                 professional credentials can strengthen your application and
                 demonstrate your commitment to ongoing education.
               </p>
 
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                <p className="text-sm text-gray-600 mb-2">
+                <Upload className="w-8 h-8 text-gray-900 mx-auto mb-2" />
+                <p className="text-sm text-gray-900 mb-2">
                   Upload credential files (optional)
                 </p>
                 <input
@@ -455,7 +455,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
                       key={index}
                       className="flex items-center justify-between bg-gray-50 p-3 rounded"
                     >
-                      <span className="text-sm text-gray-700">
+                      <span className="text-sm text-gray-900">
                         Credential {index + 1}
                       </span>
                       <Button
@@ -480,7 +480,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
               <CardTitle>Review & Submit</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <p className="text-gray-600">
+              <p className="text-gray-900">
                 Please review your application before submitting. You can still
                 make changes by going back to previous steps.
               </p>
@@ -488,7 +488,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
               <div className="space-y-4">
                 <div className="bg-gray-50 rounded-lg p-4">
                   <h4 className="font-medium mb-2">Application Summary</h4>
-                  <ul className="space-y-1 text-sm text-gray-700">
+                  <ul className="space-y-1 text-sm text-gray-900">
                     <li>
                       • Testimonials: {application.testimonials.length} uploaded
                     </li>
@@ -539,10 +539,10 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
               </CardTitle>
             </CardHeader>
             <CardContent className="text-center space-y-4">
-              <p className="text-gray-600">
+              <p className="text-gray-900">
                 Thank you for submitting your 101 Approved Badge application!
               </p>
-              <p className="text-gray-600">
+              <p className="text-gray-900">
                 Our team will review your application within 5-7 business days.
                 You'll receive an email notification with the decision.
               </p>
@@ -572,7 +572,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
                   professional.
                 </p>
               </div>
-              <p className="text-gray-600">
+              <p className="text-gray-900">
                 Your badge will appear on your listing within 24 hours. You can
                 now use the 101 Approved badge in your marketing materials.
               </p>
@@ -593,7 +593,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-gray-600">
+              <p className="text-gray-900">
                 Unfortunately, your application was not approved at this time.
               </p>
               {application.admin_notes && (
@@ -604,7 +604,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
                   </p>
                 </div>
               )}
-              <p className="text-gray-600">
+              <p className="text-gray-900">
                 You may reapply after addressing the feedback provided. Please
                 contact support if you have questions about the decision.
               </p>
@@ -647,7 +647,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
       {/* Progress Bar */}
       {showNavigation && (
         <div className="space-y-2">
-          <div className="flex justify-between text-sm text-gray-600">
+          <div className="flex justify-between text-sm text-gray-900">
             <span>
               Step {currentStep} of {totalSteps}
             </span>

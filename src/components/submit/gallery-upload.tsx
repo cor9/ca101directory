@@ -128,22 +128,22 @@ export function GalleryUpload({
           <ImageUpIcon
             className={cn(
               "w-8 h-8 mx-auto",
-              isDragActive ? "text-brand-blue" : "text-gray-400",
+              isDragActive ? "text-brand-blue" : "text-gray-900",
             )}
           />
           <div className="space-y-1">
             {maxImages === 0 ? (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-900">
                 Gallery images not included with Free plan
               </p>
             ) : (
               <>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-900">
                   {isDragActive
                     ? "Drop images here"
                     : "Drag & drop images here, or click to select"}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-900">
                   Up to {maxImages} images • JPG, PNG, WebP up to 5MB each
                 </p>
               </>
@@ -185,7 +185,7 @@ export function GalleryUpload({
                     </button>
                   </>
                 ) : (
-                  <div className="flex items-center justify-center h-full text-gray-400">
+                  <div className="flex items-center justify-center h-full text-gray-900">
                     <span className="text-sm">Slot {index + 1}</span>
                   </div>
                 )}

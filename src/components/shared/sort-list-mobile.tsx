@@ -47,7 +47,7 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
       <Drawer.Root open={open} onClose={closeDrawer}>
         <Drawer.Trigger
           onClick={() => setOpen(true)}
-          className="flex items-center w-full p-3 gap-x-2 border-y text-foreground/90"
+          className="flex items-center w-full p-3 gap-x-2 border-y text-gray-900/90"
         >
           <div className="flex items-center justify-between w-full gap-4">
             <div className="flex items-center gap-2">
@@ -71,7 +71,7 @@ export function SortListMobile({ sortList }: SortListMobileProps) {
               <div className="my-3 h-1.5 w-16 rounded-full bg-muted-foreground/20" />
             </div>
 
-            <ul className="w-full mb-14 p-3 text-muted-foreground">
+            <ul className="w-full mb-14 p-3 text-gray-900">
               {sortList.map((item) => (
                 <FilterItemMobile
                   key={item.slug}

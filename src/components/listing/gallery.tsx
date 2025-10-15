@@ -79,7 +79,7 @@ export function Gallery({ listing }: GalleryProps) {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white bg-opacity-90 px-3 py-1 rounded-full">
-                    <span className="text-sm font-medium text-gray-800">
+                    <span className="text-sm font-medium text-gray-900">
                       Click to enlarge
                     </span>
                   </div>
@@ -89,7 +89,7 @@ export function Gallery({ listing }: GalleryProps) {
           </div>
         ) : (
           <div className="aspect-[4/3] bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-            <p className="text-gray-500 text-sm">No gallery images yet</p>
+            <p className="text-gray-900 text-sm">No gallery images yet</p>
           </div>
         )}
       </div>

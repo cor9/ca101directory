@@ -84,7 +84,7 @@ export function ParentDashboardLayout({
             </div>
             <div className="flex items-center gap-4">
               <RoleBadge showIcon />
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm text-gray-900">
                 {session?.user?.email}
               </span>
             </div>
@@ -114,7 +114,7 @@ export function ParentDashboardLayout({
                     <Icon className="h-4 w-4" />
                     <div className="flex-1">
                       <div className="font-medium">{item.label}</div>
-                      <div className="text-xs text-muted-foreground">
+                      <div className="text-xs text-gray-900">
                         {item.description}
                       </div>
                     </div>
@@ -126,10 +126,10 @@ export function ParentDashboardLayout({
             {/* Help Section */}
             <div className="mt-8 p-4 bg-muted/50 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                <HelpCircle className="h-4 w-4 text-gray-900" />
                 <h3 className="text-sm font-medium">Need Help?</h3>
               </div>
-              <p className="text-xs text-muted-foreground mb-3">
+              <p className="text-xs text-gray-900 mb-3">
                 Find the right professionals for your child's acting journey.
               </p>
               <Link

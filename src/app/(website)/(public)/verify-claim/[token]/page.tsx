@@ -42,12 +42,12 @@ export default async function VerifyClaimPage({
             <XCircleIcon className="w-8 h-8 text-red-600" />
           )}
         </div>
-        <h1 className="text-3xl font-bold text-foreground mb-2">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
           {result.status === "success"
             ? "Listing Claimed Successfully!"
             : "Verification Failed"}
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-gray-900">
           {result.status === "success"
             ? "You now have full control of your listing"
             : "There was an issue verifying your claim"}
@@ -80,10 +80,10 @@ export default async function VerifyClaimPage({
               </Alert>
 
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-foreground">
+                <h3 className="text-lg font-semibold text-gray-900">
                   What you can do now:
                 </h3>
-                <ul className="space-y-2 text-muted-foreground">
+                <ul className="space-y-2 text-gray-900">
                   <li className="flex items-center gap-2">
                     <CheckCircleIcon className="w-4 h-4 text-green-600" />
                     Edit your listing details and contact information
@@ -125,10 +125,10 @@ export default async function VerifyClaimPage({
               </Alert>
 
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-foreground">
+                <h3 className="text-lg font-semibold text-gray-900">
                   Possible reasons:
                 </h3>
-                <ul className="space-y-2 text-muted-foreground">
+                <ul className="space-y-2 text-gray-900">
                   <li className="flex items-center gap-2">
                     <XCircleIcon className="w-4 h-4 text-red-600" />
                     Verification link has expired (24 hours)

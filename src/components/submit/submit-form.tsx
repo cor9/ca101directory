@@ -403,7 +403,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                     <FormLabel>
                       <div className="flex items-center justify-between gap-4">
                         <span>Who Is It For? *</span>
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-xs text-gray-900">
                           (Markdown supported)
                         </span>
                       </div>
@@ -448,7 +448,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                       <FormControl>
                         <select
                           {...field}
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                           <option value="In-person">In-person</option>
                           <option value="Online">Online</option>
@@ -468,7 +468,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                       <FormControl>
                         <select
                           {...field}
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                           <option value="Free">Free</option>
                           <option value="Basic">Basic</option>
@@ -602,7 +602,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                         <FormLabel>
                           California Child Performer Services Permit
                         </FormLabel>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-gray-900">
                           I have a valid California Child Performer Services
                           Permit
                         </p>
@@ -625,7 +625,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel>Bonded For Advanced Fees</FormLabel>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-gray-900">
                           I am bonded for advanced fees as required by
                           California law
                         </p>
@@ -665,7 +665,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                         <FormLabel>
                           <div className="flex items-center justify-between gap-4">
                             <span>Business Logo</span>
-                            <span className="text-xs text-muted-foreground">
+                            <span className="text-xs text-gray-900">
                               (1:1, PNG or JPEG, max 1MB)
                             </span>
                           </div>
@@ -692,7 +692,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                       <FormLabel>
                         <div className="flex items-center justify-between gap-4">
                           <span>Gallery Images</span>
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-xs text-gray-900">
                             (16:9, PNG or JPEG, max 1MB)
                           </span>
                         </div>
@@ -736,7 +736,7 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
                     : "Submit"}
               </span>
             </Button>
-            <div className="text-sm text-muted-foreground flex items-center justify-center sm:justify-start gap-2">
+            <div className="text-sm text-gray-900 flex items-center justify-center sm:justify-start gap-2">
               <SmileIcon className="h-6 w-4" />
               <span>No worries, you can change these information later.</span>
             </div>

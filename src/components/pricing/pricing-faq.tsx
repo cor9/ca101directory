@@ -14,7 +14,7 @@ export function PricingFaq() {
           <AccordionTrigger className="text-base">
             <div className="text-left w-full">{faqItem.question}</div>
           </AccordionTrigger>
-          <AccordionContent className="text-base text-muted-foreground whitespace-pre-wrap">
+          <AccordionContent className="text-base text-gray-900 whitespace-pre-wrap">
             {/* {faqItem.answer} */}
             {/* biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation> */}
             <div dangerouslySetInnerHTML={{ __html: faqItem.answer }} />

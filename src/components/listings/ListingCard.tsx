@@ -92,7 +92,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
             <div className="flex-1 min-w-0">
               <h3
                 className="font-semibold text-lg group-hover:text-primary-orange transition-colors line-clamp-1"
-                style={{ color: "#1F2327" }}
+                className="text-gray-900"
               >
                 {listing.listing_name || "Untitled Listing"}
               </h3>
@@ -119,7 +119,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
                     | "secondary"
                     | "destructive"
                     | "outline" = "outline";
-                  let badgeClassName = "text-xs bg-gray-100 text-gray-600";
+                  let badgeClassName = "text-xs bg-gray-100 text-gray-900";
 
                   if (listing.comped) {
                     badgeText = "Pro";
@@ -155,7 +155,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
       </CardHeader>
 
       <CardContent className="pb-3">
-        <div className="text-sm line-clamp-2 mb-4" style={{ color: "#333" }}>
+        <div className="text-sm line-clamp-2 mb-4" className="text-gray-900">
           {(listing.what_you_offer || "Professional acting services").replace(/<[^>]*>/g, '').substring(0, 120)}...
         </div>
 
@@ -163,7 +163,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
         {(listing.city || listing.state || listing.region) && (
           <div
             className="flex items-center gap-2 text-sm mb-3"
-            style={{ color: "#666" }}
+            className="text-gray-900"
           >
             <MapPinIcon className="w-4 h-4" />
             <span>
@@ -182,7 +182,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
               readonly
               size="sm"
             />
-            <span style={{ color: "#666" }}>
+            <span className="text-gray-900">
               {averageRating.average.toFixed(1)} ({averageRating.count} review
               {averageRating.count !== 1 ? "s" : ""})
             </span>

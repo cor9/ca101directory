@@ -124,19 +124,19 @@ export default async function HomeFeaturedListings() {
               <div className="flex items-start justify-between mb-3">
                 <h3
                   className="font-semibold text-lg"
-                  style={{ color: "#1F2327" }}
+                  className="text-gray-900"
                 >
                   {listing.name}
                 </h3>
                 <Icons.externalLink
                   className="h-4 w-4"
-                  style={{ color: "#666" }}
+                  className="text-gray-900"
                 />
               </div>
 
               <p
                 className="text-sm mb-4 line-clamp-4"
-                style={{ color: "#333" }}
+                className="text-gray-900"
               >
                 {listing.description}
               </p>
@@ -150,7 +150,7 @@ export default async function HomeFeaturedListings() {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-sm" style={{ color: "#666" }}>
+                <span className="text-sm" className="text-gray-900">
                   {listing.category}
                 </span>
                 <Link

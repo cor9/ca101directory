@@ -132,8 +132,8 @@ export default function ImageUpload({
         {/* initial state */}
         {!uploading && !imageUrl && (
           <div className="flex flex-col items-center justify-center gap-4">
-            <ImageUpIcon className="h-8 w-8 text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">
+            <ImageUpIcon className="h-8 w-8 text-gray-900" />
+            <p className="text-sm text-gray-900">
               Drag & drop or select image to upload
             </p>
           </div>
@@ -142,8 +142,8 @@ export default function ImageUpload({
         {/* uploading state */}
         {uploading && (
           <div className="flex flex-col items-center justify-center gap-4">
-            <Loader2Icon className="h-8 w-8 text-muted-foreground animate-spin mx-auto" />
-            <p className="text-sm text-muted-foreground">
+            <Loader2Icon className="h-8 w-8 text-gray-900 animate-spin mx-auto" />
+            <p className="text-sm text-gray-900">
               Image is uploading...
             </p>
           </div>

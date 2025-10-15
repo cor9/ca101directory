@@ -22,7 +22,7 @@ export default function ClaimListingPage() {
       <h1 className="text-4xl font-bold text-gray-900 mb-6">
         How to Claim Your Listing
       </h1>
-      <p className="text-xl text-gray-600 mb-8">
+      <p className="text-xl text-gray-900 mb-8">
         Already listed in our directory? Claim your listing to gain full control
         and unlock premium features.
       </p>
@@ -37,7 +37,7 @@ export default function ClaimListingPage() {
             <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
             <div>
               <p className="font-semibold text-gray-900">Full Control</p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-900">
                 Edit your information, images, and contact details anytime
               </p>
             </div>
@@ -46,7 +46,7 @@ export default function ClaimListingPage() {
             <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
             <div>
               <p className="font-semibold text-gray-900">Instant Ownership</p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-900">
                 Claims are auto-approved - take control immediately
               </p>
             </div>
@@ -55,7 +55,7 @@ export default function ClaimListingPage() {
             <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
             <div>
               <p className="font-semibold text-gray-900">Premium Features</p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-900">
                 Upgrade to Pro for enhanced visibility and gallery images
               </p>
             </div>
@@ -64,7 +64,7 @@ export default function ClaimListingPage() {
             <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
             <div>
               <p className="font-semibold text-gray-900">Verified Badge</p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-900">
                 Show customers you're the official business owner
               </p>
             </div>
@@ -88,7 +88,7 @@ export default function ClaimListingPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-3">
                 Find Your Listing
               </h3>
-              <p className="text-gray-700 mb-4">
+              <p className="text-gray-900 mb-4">
                 Search for your business in our directory using the search bar
                 or browse by category.
               </p>
@@ -112,7 +112,7 @@ export default function ClaimListingPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-3">
                 Create a Vendor Account
               </h3>
-              <p className="text-gray-700 mb-4">
+              <p className="text-gray-900 mb-4">
                 If you don't have an account yet, create one with your business
                 email. Make sure to select <strong>"Vendor"</strong> as your
                 role.
@@ -124,7 +124,7 @@ export default function ClaimListingPage() {
                     <p className="text-sm font-semibold text-gray-900 mb-1">
                       Important: Email Confirmation Required
                     </p>
-                    <p className="text-sm text-gray-700">
+                    <p className="text-sm text-gray-900">
                       After registering, check your email (including spam
                       folder) for a confirmation link. You must confirm your
                       email before claiming listings.
@@ -152,12 +152,12 @@ export default function ClaimListingPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-3">
                 Click "Claim This Listing"
               </h3>
-              <p className="text-gray-700 mb-4">
+              <p className="text-gray-900 mb-4">
                 On your listing page, you'll see a "Claim This Listing" button.
                 Click it to start the claim process.
               </p>
               <div className="bg-gray-100 border border-gray-300 rounded-lg p-4">
-                <p className="text-sm text-gray-600 italic">
+                <p className="text-sm text-gray-900 italic">
                   💡 Tip: The claim button appears on unclaimed listings when
                   you're logged in with a vendor account.
                 </p>
@@ -176,7 +176,7 @@ export default function ClaimListingPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-3">
                 Verify Ownership (Optional)
               </h3>
-              <p className="text-gray-700 mb-4">
+              <p className="text-gray-900 mb-4">
                 You may be asked to provide a brief message or verification that
                 you own this business. This helps us ensure listings are claimed
                 by their rightful owners.
@@ -188,7 +188,7 @@ export default function ClaimListingPage() {
                     <p className="text-sm font-semibold text-gray-900 mb-1">
                       Instant Approval!
                     </p>
-                    <p className="text-sm text-gray-700">
+                    <p className="text-sm text-gray-900">
                       Claims are automatically approved. You get instant
                       ownership and can start editing immediately.
                     </p>
@@ -209,13 +209,13 @@ export default function ClaimListingPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-3">
                 Manage Your Listing
               </h3>
-              <p className="text-gray-700 mb-4">
+              <p className="text-gray-900 mb-4">
                 After claiming, you'll be redirected to your dashboard where you
                 can edit your listing, upgrade your plan, and manage your
                 profile.
               </p>
               <div className="space-y-2">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-900">
                   <strong>Note:</strong> Edits to your listing will need admin
                   approval before going live. This ensures quality across the
                   directory.
@@ -236,7 +236,7 @@ export default function ClaimListingPage() {
             <h3 className="font-semibold text-gray-900 mb-2">
               Error: "Email not confirmed"
             </h3>
-            <p className="text-sm text-gray-700 mb-2">
+            <p className="text-sm text-gray-900 mb-2">
               Check your email inbox (and spam folder) for the confirmation
               email. Click the link to verify your account.
             </p>
@@ -252,7 +252,7 @@ export default function ClaimListingPage() {
             <h3 className="font-semibold text-gray-900 mb-2">
               Error: "Wrong role selected"
             </h3>
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-gray-900">
               You need a vendor account to claim listings. Create a new account
               and select "Vendor" as your role, or contact support to update
               your existing account.
@@ -263,7 +263,7 @@ export default function ClaimListingPage() {
             <h3 className="font-semibold text-gray-900 mb-2">
               Error: "Listing already claimed"
             </h3>
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-gray-900">
               This listing has already been claimed by another user. If you
               believe this is your business, contact our support team for
               assistance.
@@ -274,7 +274,7 @@ export default function ClaimListingPage() {
             <h3 className="font-semibold text-gray-900 mb-2">
               My listing isn't in the directory
             </h3>
-            <p className="text-sm text-gray-700 mb-2">
+            <p className="text-sm text-gray-900 mb-2">
               If your business isn't listed yet, you can submit a new listing
               instead of claiming one.
             </p>
@@ -318,7 +318,7 @@ export default function ClaimListingPage() {
             <h4 className="font-semibold text-gray-900 mb-2">
               Getting Started
             </h4>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               New to the directory? Learn how to create your first listing
             </p>
           </Link>
@@ -329,7 +329,7 @@ export default function ClaimListingPage() {
             <h4 className="font-semibold text-gray-900 mb-2">
               Editing Your Listing
             </h4>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-900">
               Learn how to update and optimize your claimed listing
             </p>
           </Link>

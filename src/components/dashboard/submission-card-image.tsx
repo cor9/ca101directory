@@ -56,14 +56,14 @@ export default function SubmissionCardImage({
                       href={`/tag/${tag.slug.current}`}
                       className="flex items-center justify-center space-x-0.5 group"
                     >
-                      <HashIcon className="w-3 h-3 text-muted-foreground icon-scale" />
-                      <span className="text-sm text-muted-foreground link-underline">
+                      <HashIcon className="w-3 h-3 text-gray-900 icon-scale" />
+                      <span className="text-sm text-gray-900 link-underline">
                         {tag.name}
                       </span>
                     </Link>
                   ))}
                   {item.tags.length > 5 && (
-                    <span className="text-sm text-muted-foreground px-1">
+                    <span className="text-sm text-gray-900 px-1">
                       +{item.tags.length - 5}
                     </span>
                   )}

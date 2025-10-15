@@ -33,7 +33,7 @@ export const VendorListingsTable = ({ listings }: { listings: Listing[] }) => {
         );
       case "Draft":
         return (
-          <span className="px-2 py-1 text-xs font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+          <span className="px-2 py-1 text-xs font-medium text-gray-900 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-900">
             Draft
           </span>
         );
@@ -45,7 +45,7 @@ export const VendorListingsTable = ({ listings }: { listings: Listing[] }) => {
         );
       default:
         return (
-          <span className="px-2 py-1 text-xs font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+          <span className="px-2 py-1 text-xs font-medium text-gray-900 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-900">
             {status || "N/A"}
           </span>
         );
@@ -62,25 +62,25 @@ export const VendorListingsTable = ({ listings }: { listings: Listing[] }) => {
               <tr>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
                 >
                   Listing Name
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
                 >
                   Status
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
                 >
                   Date Created
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
                 >
                   Actions
                 </th>
@@ -89,13 +89,13 @@ export const VendorListingsTable = ({ listings }: { listings: Listing[] }) => {
             <tbody className="bg-card divide-y divide-border">
               {listings.map((listing) => (
                 <tr key={listing.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {listing.listing_name}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {getStatusBadge(listing.status)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {listing.created_at
                       ? new Date(listing.created_at).toLocaleDateString()
                       : "N/A"}
@@ -117,7 +117,7 @@ export const VendorListingsTable = ({ listings }: { listings: Listing[] }) => {
           </table>
         </div>
         {listings.length === 0 && (
-          <div className="text-center py-8 text-muted-foreground">
+          <div className="text-center py-8 text-gray-900">
             You don't have any listings yet.
           </div>
         )}

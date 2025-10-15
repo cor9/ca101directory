@@ -79,7 +79,7 @@ export function PlanComparison({
             <div className="text-3xl font-bold text-[#FF6B35]">
               ${plan.price}
               {plan.price > 0 && (
-                <span className="text-sm font-normal text-gray-600">
+                <span className="text-sm font-normal text-gray-900">
                   /month
                 </span>
               )}
@@ -100,13 +100,13 @@ export function PlanComparison({
               plan.limitations &&
               plan.limitations.length > 0 && (
                 <div className="space-y-2 pt-2 border-t">
-                  <p className="text-sm font-medium text-gray-700">
+                  <p className="text-sm font-medium text-gray-900">
                     Limitations:
                   </p>
                   {plan.limitations.map((limitation, index) => (
                     <div key={index} className="flex items-center gap-2">
-                      <span className="text-gray-400 text-sm">•</span>
-                      <span className="text-sm text-gray-600">
+                      <span className="text-gray-900 text-sm">•</span>
+                      <span className="text-sm text-gray-900">
                         {limitation}
                       </span>
                     </div>
@@ -116,7 +116,7 @@ export function PlanComparison({
 
             <div className="pt-4">
               {plan.upgradePrompt && (
-                <p className="text-xs text-gray-500 italic text-center">
+                <p className="text-xs text-gray-900 italic text-center">
                   {plan.upgradePrompt}
                 </p>
               )}

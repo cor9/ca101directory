@@ -100,7 +100,7 @@ export function ListingCardClient({
             />
           ) : (
             <div className="w-full h-full bg-muted flex items-center justify-center">
-              <Icons.studio className="h-12 w-12 text-muted-foreground" />
+              <Icons.studio className="h-12 w-12 text-gray-900" />
             </div>
           )}
 
@@ -110,7 +110,7 @@ export function ListingCardClient({
               // Determine badge text and styling
               let badgeText = "Free";
               let badgeClassName =
-                "text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
+                "text-xs font-medium bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-900";
 
               if (listing.comped) {
                 badgeText = "Pro";

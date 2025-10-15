@@ -54,7 +54,7 @@ export function ClaimListingClient({ listings }: ClaimListingClientProps) {
     <div className="bg-card rounded-lg p-6 border">
       <div className="relative mb-6">
         <Search
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-900"
           size={20}
         />
         <input
@@ -75,12 +75,12 @@ export function ClaimListingClient({ listings }: ClaimListingClientProps) {
               className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 border rounded-md bg-muted/50"
             >
               <div className="flex items-center gap-4">
-                <Building className="h-8 w-8 text-muted-foreground flex-shrink-0" />
+                <Building className="h-8 w-8 text-gray-900 flex-shrink-0" />
                 <div>
-                  <p className="font-semibold text-foreground">
+                  <p className="font-semibold text-gray-900">
                     {listing.listing_name}
                   </p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-gray-900">
                     {listing.city}, {listing.state}
                   </p>
                 </div>
@@ -98,7 +98,7 @@ export function ClaimListingClient({ listings }: ClaimListingClientProps) {
             </div>
           ))
         ) : (
-          <div className="text-center py-12 text-muted-foreground">
+          <div className="text-center py-12 text-gray-900">
             <p className="font-semibold text-lg">
               No matching businesses found.
             </p>

@@ -87,7 +87,7 @@ export default async function SearchPage({
         <h1 className="bauhaus-heading text-3xl mb-4">
           {query ? `Search Results for "${query}"` : "Search Professionals"}
         </h1>
-        <p className="bauhaus-body text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+        <p className="bauhaus-body text-lg text-gray-900 max-w-2xl mx-auto mb-8">
           {query
             ? `Found ${totalCount} professional${totalCount !== 1 ? "s" : ""} matching your search`
             : "Search our directory of vetted child actor professionals"}

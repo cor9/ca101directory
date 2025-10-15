@@ -82,15 +82,15 @@ export default async function AdminListingsPage({
           {/* Header */}
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-foreground">
+              <h1 className="text-2xl font-bold text-gray-900">
                 Listings Management
               </h1>
-              <p className="text-muted-foreground">
+              <p className="text-gray-900">
                 Manage all listings, toggle comped status, and moderate content
               </p>
             </div>
             <div className="flex items-center gap-4">
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-gray-900">
                 {sortedListings.length} total listings
               </div>
               <Button asChild className="bg-brand-blue hover:bg-brand-blue/90">
@@ -109,7 +109,7 @@ export default async function AdminListingsPage({
               className={`px-4 py-2 font-medium text-sm transition-colors ${
                 !statusFilter
                   ? "text-brand-blue border-b-2 border-brand-blue"
-                  : "text-gray-600 hover:text-gray-900"
+                  : "text-gray-900 hover:text-gray-900"
               }`}
             >
               All Listings
@@ -122,7 +122,7 @@ export default async function AdminListingsPage({
               className={`px-4 py-2 font-medium text-sm transition-colors ${
                 statusFilter === "Pending"
                   ? "text-brand-blue border-b-2 border-brand-blue"
-                  : "text-gray-600 hover:text-gray-900"
+                  : "text-gray-900 hover:text-gray-900"
               }`}
             >
               Pending Review
@@ -135,7 +135,7 @@ export default async function AdminListingsPage({
               className={`px-4 py-2 font-medium text-sm transition-colors ${
                 statusFilter === "Live"
                   ? "text-brand-blue border-b-2 border-brand-blue"
-                  : "text-gray-600 hover:text-gray-900"
+                  : "text-gray-900 hover:text-gray-900"
               }`}
             >
               Live
@@ -148,7 +148,7 @@ export default async function AdminListingsPage({
               className={`px-4 py-2 font-medium text-sm transition-colors ${
                 statusFilter === "Rejected"
                   ? "text-brand-blue border-b-2 border-brand-blue"
-                  : "text-gray-600 hover:text-gray-900"
+                  : "text-gray-900 hover:text-gray-900"
               }`}
             >
               Rejected
@@ -231,7 +231,7 @@ export default async function AdminListingsPage({
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-2">
-                        <h3 className="font-semibold text-foreground truncate">
+                        <h3 className="font-semibold text-gray-900 truncate">
                           {listing.listing_name || "Untitled Listing"}
                         </h3>
                         <div className="flex items-center gap-2">
@@ -240,7 +240,7 @@ export default async function AdminListingsPage({
                             // Determine badge text and styling
                             let badgeText = "Free";
                             let badgeClassName =
-                              "text-xs bg-gray-100 text-gray-600";
+                              "text-xs bg-gray-100 text-gray-900";
 
                             if (listing.comped) {
                               badgeText = "Pro";
@@ -253,7 +253,7 @@ export default async function AdminListingsPage({
                             } else if (listing.plan === "Standard") {
                               badgeText = "Standard";
                               badgeClassName =
-                                "text-xs bg-gray-100 text-gray-800";
+                                "text-xs bg-gray-100 text-gray-900";
                             } else if (listing.plan === "Premium") {
                               badgeText = "Featured";
                               badgeClassName =
@@ -293,7 +293,7 @@ export default async function AdminListingsPage({
                         </div>
                       </div>
 
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-sm text-gray-900">
                         <div className="flex items-center gap-4">
                           <span>Email: {listing.email || "N/A"}</span>
                           <span>
@@ -350,7 +350,7 @@ export default async function AdminListingsPage({
                 ))}
 
                 {sortedListings.length === 0 && (
-                  <div className="text-center py-8 text-muted-foreground">
+                  <div className="text-center py-8 text-gray-900">
                     No listings found.
                   </div>
                 )}

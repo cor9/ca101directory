@@ -47,7 +47,7 @@ export function ReviewForm({
     return (
       <Card className={className}>
         <CardContent className="p-6">
-          <div className="text-center text-muted-foreground">Loading...</div>
+          <div className="text-center text-gray-900">Loading...</div>
         </CardContent>
       </Card>
     );
@@ -64,7 +64,7 @@ export function ReviewForm({
         </CardHeader>
         <CardContent>
           <div className="text-center space-y-4">
-            <p className="text-muted-foreground">
+            <p className="text-gray-900">
               You must be logged in as a parent to write a review.
             </p>
             <div className="flex gap-2 justify-center">
@@ -93,10 +93,10 @@ export function ReviewForm({
         </CardHeader>
         <CardContent>
           <div className="text-center space-y-4">
-            <p className="text-muted-foreground">
+            <p className="text-gray-900">
               Only parents can submit reviews for vendors.
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-gray-900">
               If you're a parent, please make sure you're logged in with the
               correct account.
             </p>

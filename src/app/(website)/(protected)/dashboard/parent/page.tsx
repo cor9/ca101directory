@@ -69,7 +69,7 @@ export default async function ParentDashboard() {
                 <div className="text-2xl font-bold text-primary-orange">
                   {favorites.length}
                 </div>
-                <div className="text-sm" style={{ color: "#333" }}>
+                <div className="text-sm" className="text-gray-900">
                   Saved Listings
                 </div>
               </div>
@@ -79,7 +79,7 @@ export default async function ParentDashboard() {
                 <div className="text-2xl font-bold text-primary-orange">
                   {reviews.length}
                 </div>
-                <div className="text-sm" style={{ color: "#333" }}>
+                <div className="text-sm" className="text-gray-900">
                   Reviews Written
                 </div>
               </div>
@@ -88,7 +88,7 @@ export default async function ParentDashboard() {
               <div className="text-2xl font-bold text-primary-orange">
                 {favorites.length + reviews.length}
               </div>
-              <div className="text-sm" style={{ color: "#333" }}>
+              <div className="text-sm" className="text-gray-900">
                 Total Activity
               </div>
             </div>
@@ -108,18 +108,18 @@ export default async function ParentDashboard() {
                   >
                     <h3
                       className="font-medium text-sm mb-2"
-                      style={{ color: "#1F2327" }}
+                      className="text-gray-900"
                     >
                       {favorite.listing?.listing_name || "Unknown Listing"}
                     </h3>
                     <p
                       className="text-xs line-clamp-2"
-                      style={{ color: "#333" }}
+                      className="text-gray-900"
                     >
                       {favorite.listing?.what_you_offer ||
                         "No description available"}
                     </p>
-                    <div className="mt-2 text-xs" style={{ color: "#666" }}>
+                    <div className="mt-2 text-xs" className="text-gray-900">
                       Saved {new Date(favorite.created_at).toLocaleDateString()}
                     </div>
                   </div>
@@ -153,7 +153,7 @@ export default async function ParentDashboard() {
                     <div className="flex items-center justify-between mb-2">
                       <h3
                         className="font-medium text-sm"
-                        style={{ color: "#1F2327" }}
+                        className="text-gray-900"
                       >
                         {review.listing?.listing_name || "Unknown Listing"}
                       </h3>
@@ -164,7 +164,7 @@ export default async function ParentDashboard() {
                             className={`text-xs ${
                               star <= review.stars
                                 ? "text-highlight"
-                                : "text-gray-300"
+                                : "text-gray-900"
                             }`}
                           >
                             ★
@@ -174,11 +174,11 @@ export default async function ParentDashboard() {
                     </div>
                     <p
                       className="text-xs line-clamp-2"
-                      style={{ color: "#333" }}
+                      className="text-gray-900"
                     >
                       {review.text}
                     </p>
-                    <div className="mt-2 text-xs" style={{ color: "#666" }}>
+                    <div className="mt-2 text-xs" className="text-gray-900">
                       {review.status === "approved"
                         ? "Published"
                         : "Pending approval"}{" "}
@@ -235,7 +235,7 @@ export default async function ParentDashboard() {
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <h3 className="font-medium text-paper">Discover Vendors</h3>
-                <ul className="text-sm space-y-1" style={{ color: "#333" }}>
+                <ul className="text-sm space-y-1" className="text-gray-900">
                   <li>
                     •{" "}
                     <a href="/" className="text-primary-orange hover:underline">
@@ -264,7 +264,7 @@ export default async function ParentDashboard() {
               </div>
               <div className="space-y-2">
                 <h3 className="font-medium text-paper">Your Activity</h3>
-                <ul className="text-sm space-y-1" style={{ color: "#333" }}>
+                <ul className="text-sm space-y-1" className="text-gray-900">
                   {isFavoritesEnabled() && (
                     <li>
                       •{" "}

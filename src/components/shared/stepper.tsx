@@ -31,8 +31,8 @@ const StepperTrigger = React.forwardRef<
     className={cn(
       "flex flex-col items-center gap-4 py-4 px-4 rounded-md transition-colors",
       active
-        ? "text-foreground"
-        : "text-muted-foreground hover:text-foreground",
+        ? "text-gray-900"
+        : "text-gray-900 hover:text-gray-900",
       className,
     )}
     {...props}
@@ -52,10 +52,10 @@ const StepperIndicator = React.forwardRef<
     className={cn(
       "flex items-center justify-center w-8 h-8 rounded-full transition-colors",
       completed
-        ? "text-muted-foreground bg-muted"
+        ? "text-gray-900 bg-muted"
         : active
           ? "text-primary-foreground bg-primary"
-          : "text-muted-foreground bg-muted",
+          : "text-gray-900 bg-muted",
       className,
     )}
     {...props}
@@ -83,7 +83,7 @@ const StepperDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("mt-1 text-sm text-muted-foreground", className)}
+    className={cn("mt-1 text-sm text-gray-900", className)}
     {...props}
   />
 ));

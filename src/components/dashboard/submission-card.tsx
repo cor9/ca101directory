@@ -41,24 +41,24 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
               <h3 className="text-2xl inline-block">{item.name}</h3>
             )}
 
-            <p className="text-muted-foreground line-clamp-2 text-balance leading-relaxed">
+            <p className="text-gray-900 line-clamp-2 text-balance leading-relaxed">
               {item.description}
             </p>
 
             <div className="grid grid-cols-2 gap-4 text-sm pt-2">
               <div className="flex items-center gap-2">
-                <span className="text-muted-foreground">Plan:</span>
+                <span className="text-gray-900">Plan:</span>
                 <span className="capitalize">{item.pricePlan}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-muted-foreground">Status:</span>
+                <span className="text-gray-900">Status:</span>
                 <SubmissionStatus item={item} />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm pt-2">
               <div className="flex items-center gap-2">
-                <span className="text-muted-foreground">Publish Date:</span>
+                <span className="text-gray-900">Publish Date:</span>
                 {item.publishDate ? (
                   <span className="font-medium">
                     {getLocaleDate(item.publishDate)}
@@ -68,7 +68,7 @@ export default function SubmissionCard({ item }: SubmissionCardProps) {
                 )}
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-muted-foreground">Created Date:</span>
+                <span className="text-gray-900">Created Date:</span>
                 <span className="">{getLocaleDate(item._createdAt)}</span>
               </div>
             </div>

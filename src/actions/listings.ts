@@ -5,6 +5,13 @@ import { createServerClient } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+const commaSeparatedStringToArray = z
+  .string()
+  .optional()
+  .transform((val) =>
+    val ? val.split(",").map((s) => s.trim()).filter(Boolean) : [],
+  );
+
 // Schema for updating a listing
 export const UpdateListingSchema = z.object({
   listing_name: z.string().min(1, "Listing name is required."),
@@ -14,6 +21,24 @@ export const UpdateListingSchema = z.object({
   phone: z.string().optional(),
   what_you_offer: z.string().optional(),
   is_claimed: z.boolean(),
+  // Extended fields for comprehensive admin editing
+  city: z.string().optional(),
+  state: z.string().optional(),
+  zip: z.string().optional(),
+  facebook_url: z.union([z.string().url({ message: "Invalid URL format." }), z.literal("")]).optional(),
+  instagram_url: z.union([z.string().url({ message: "Invalid URL format." }), z.literal("")]).optional(),
+  plan: z.string().optional(),
+  is_active: z.boolean(),
+  featured: z.boolean(),
+  // Detailed Profile Fields
+  who_is_it_for: z.string().optional(),
+  why_is_it_unique: z.string().optional(),
+  format: z.string().optional(),
+  extras_notes: z.string().optional(),
+  // Array fields handled with transform
+  categories: commaSeparatedStringToArray,
+  age_range: commaSeparatedStringToArray,
+  region: commaSeparatedStringToArray,
 });
 
 // Schema for creating a new listing
@@ -77,6 +102,8 @@ export async function updateListing(
   try {
     const validatedFields = UpdateListingSchema.safeParse(values);
     if (!validatedFields.success) {
+      // Log detailed validation errors for debugging
+      console.error("Update Listing Validation Error:", validatedFields.error.flatten());
       return { status: "error", message: "Invalid fields." };
     }
 

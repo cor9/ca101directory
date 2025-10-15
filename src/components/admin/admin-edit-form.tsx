@@ -138,33 +138,49 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
     console.log("Form submission started with values:", values);
     console.log("Available categories:", categories);
     
-    startTransition(() => {
-      // Convert category names back to UUIDs before submitting
-      const processedValues = { ...values };
-      
-      if (values.categories) {
-        const categoryNames = values.categories.split(",").map(name => name.trim()).filter(Boolean);
-        console.log("Category names to convert:", categoryNames);
-        const categoryUuids = categoryNames.map(name => {
-          const category = categories.find(cat => cat.category_name === name);
-          console.log(`Converting "${name}" to UUID:`, category ? category.id : name);
-          return category ? category.id : name; // fallback to original if not found
-        });
-        processedValues.categories = categoryUuids.join(", ");
-        console.log("Final processed categories:", processedValues.categories);
-      }
-      
-      console.log("Final processed values:", processedValues);
-      
-      updateListing(listing.id, processedValues as unknown as z.infer<typeof UpdateListingSchema>).then((res) => {
-        console.log("UpdateListing response:", res);
-        // Pass the entire response to the parent component to handle side-effects
-        onFinished(res);
-      }).catch((error) => {
-        console.error("UpdateListing error:", error);
-        onFinished({ status: "error", message: "An unexpected error occurred." });
+    try {
+      startTransition(() => {
+        try {
+          // Convert category names back to UUIDs before submitting
+          const processedValues = { ...values };
+          
+          if (values.categories && values.categories.trim()) {
+            const categoryNames = values.categories.split(",").map(name => name.trim()).filter(Boolean);
+            console.log("Category names to convert:", categoryNames);
+            
+            if (categories.length > 0) {
+              const categoryUuids = categoryNames.map(name => {
+                const category = categories.find(cat => cat.category_name === name);
+                console.log(`Converting "${name}" to UUID:`, category ? category.id : name);
+                return category ? category.id : name; // fallback to original if not found
+              });
+              processedValues.categories = categoryUuids.join(", ");
+            } else {
+              console.warn("No categories available for conversion, keeping original values");
+              processedValues.categories = values.categories;
+            }
+            console.log("Final processed categories:", processedValues.categories);
+          }
+          
+          console.log("Final processed values:", processedValues);
+          
+          updateListing(listing.id, processedValues as unknown as z.infer<typeof UpdateListingSchema>).then((res) => {
+            console.log("UpdateListing response:", res);
+            // Pass the entire response to the parent component to handle side-effects
+            onFinished(res);
+          }).catch((error) => {
+            console.error("UpdateListing error:", error);
+            onFinished({ status: "error", message: "An unexpected error occurred." });
+          });
+        } catch (innerError) {
+          console.error("Error in startTransition:", innerError);
+          onFinished({ status: "error", message: "Form processing error occurred." });
+        }
       });
-    });
+    } catch (outerError) {
+      console.error("Error in onSubmit:", outerError);
+      onFinished({ status: "error", message: "Form submission error occurred." });
+    }
   };
 
   // FIX: Make the `helpText` prop optional by providing a default value.
@@ -311,9 +327,13 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
         <Button type="button" variant="ghost" onClick={() => onFinished({ status: "error", message: "Update cancelled."})} disabled={isPending}>
                 Cancel
               </Button>
-        <Button type="submit" disabled={isPending}>
+        <Button 
+          type="submit" 
+          disabled={isPending}
+          onClick={() => console.log("Save Changes button clicked!")}
+        >
           {isPending ? "Saving..." : "Save Changes"}
-              </Button>
+        </Button>
             </div>
       </form>
   );

@@ -225,21 +225,33 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
     // Display categories - handle both UUIDs and names
     const displayCategories = (listing.categories || []).map((catId) => {
-      const categoryName = categoryNames[catId] || catId;
-      const key = normalizeCategory(categoryName);
-      const displayName = categoryNameLookup.get(key) || categoryName;
-      const iconFilename = iconLookup.get(key);
-      const localIconEntry = Object.entries(localIconMap).find(
-        ([n]) => normalizeCategory(n) === key,
-      );
-      const localIcon = localIconEntry?.[1];
+      // If we have a category name from database, use it
+      if (categoryNames[catId]) {
+        const categoryName = categoryNames[catId];
+        const key = normalizeCategory(categoryName);
+        const displayName = categoryNameLookup.get(key) || categoryName;
+        const iconFilename = iconLookup.get(key);
+        const localIconEntry = Object.entries(localIconMap).find(
+          ([n]) => normalizeCategory(n) === key,
+        );
+        const localIcon = localIconEntry?.[1];
+        return {
+          original: categoryName,
+          displayName,
+          iconUrl: iconFilename
+            ? getCategoryIconUrl(iconFilename)
+            : localIcon || null,
+          key: `${categoryName}-${iconFilename || localIcon || ""}`,
+        };
+      }
+      
+      // If no database match, try to use the UUID as a fallback category name
+      // This handles cases where the category lookup fails
       return {
-        original: categoryName,
-        displayName,
-        iconUrl: iconFilename
-          ? getCategoryIconUrl(iconFilename)
-          : localIcon || null,
-        key: `${categoryName}-${iconFilename || localIcon || ""}`,
+        original: catId,
+        displayName: "Acting Classes & Coaches", // Default fallback
+        iconUrl: null,
+        key: `fallback-${catId}`,
       };
     }).filter(cat => cat.displayName && cat.displayName !== cat.original);
 

@@ -754,14 +754,25 @@ body [data-radix-select-item]:hover {
 /* CRITICAL: Fix unreadable text-gray-900 across entire site */
 /* Override text-gray-900 with proper design system colors */
 .text-gray-900 {
-  color: var(--foreground) !important; /* Use proper foreground color from design system */
+  color: #1B1F29 !important; /* Always use dark text for readability */
 }
 
-/* Navigation specific overrides */
+/* Navigation specific overrides - FORCE dark text */
 nav .text-gray-900,
+nav .text-gray-900\/60,
 header .text-gray-900,
-.navigation .text-gray-900 {
-  color: var(--foreground) !important;
+header .text-gray-900\/60,
+.navigation .text-gray-900,
+.navigation .text-gray-900\/60 {
+  color: #1B1F29 !important; /* Force dark text on navigation */
+}
+
+/* Force all navigation links to be dark */
+nav a,
+header a,
+nav button,
+header button {
+  color: #1B1F29 !important;
 }
 
 /* Admin dashboard overrides */

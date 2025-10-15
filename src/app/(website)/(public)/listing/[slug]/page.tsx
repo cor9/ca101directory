@@ -18,12 +18,12 @@ import { StarRating } from "@/components/ui/star-rating";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import { siteConfig } from "@/config/site";
 import { getCategories, getCategoryIconsMap } from "@/data/categories";
-import { createServerClient } from "@/lib/supabase";
 import { getListingBySlug, getPublicListings } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import { constructMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
+import { getCategoriesByIds } from "@/actions/categories";
 import {
   CheckCircleIcon,
   EditIcon,
@@ -202,35 +202,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
       "Scene Writing": "/categories/script.png",
     };
 
-    // Fetch category names from database for UUIDs
-    let categoryNames: { [key: string]: string } = {};
-    if (listing.categories && listing.categories.length > 0) {
-      try {
-        const supabase = createServerClient();
-        console.log('Fetching categories for:', listing.categories);
-        
-        const { data: categories, error } = await supabase
-          .from('categories')
-          .select('id, category_name')
-          .in('id', listing.categories);
-        
-        console.log('Category fetch result:', { categories, error });
-        
-        if (error) {
-          console.error('Supabase error fetching categories:', error);
-        }
-        
-        if (categories && categories.length > 0) {
-          categoryNames = categories.reduce((acc, cat) => {
-            acc[cat.id] = cat.category_name;
-            return acc;
-          }, {} as { [key: string]: string });
-          console.log('Category names resolved:', categoryNames);
-        }
-      } catch (error) {
-        console.error('Error fetching category names:', error);
-      }
-    }
+    // Fetch category names from database for UUIDs using server action
+    const categoryNames = await getCategoriesByIds(listing.categories || []);
 
     // Display categories - handle both UUIDs and names
     const displayCategories = (listing.categories || []).map((catId) => {

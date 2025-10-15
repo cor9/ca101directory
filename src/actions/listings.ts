@@ -9,12 +9,8 @@ import { z } from "zod";
 export const UpdateListingSchema = z.object({
   listing_name: z.string().min(1, "Listing name is required."),
   status: z.enum(["Live", "Pending", "Draft", "Archived", "Rejected"]),
-  website: z.string().url("Must be a valid URL.").optional().or(z.literal("")),
-  email: z
-    .string()
-    .email("Must be a valid email.")
-    .optional()
-    .or(z.literal("")),
+  website: z.string().optional(),
+  email: z.string().optional(),
   phone: z.string().optional(),
   what_you_offer: z.string().optional(),
   is_claimed: z.boolean(),

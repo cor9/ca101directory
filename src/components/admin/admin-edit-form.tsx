@@ -93,6 +93,11 @@ export function AdminEditForm({ listing, categories, onFinished }: AdminEditForm
               {form.formState.errors.website.message}
             </p>
           )}
+          {form.watch("website") && form.watch("website").length > 0 && !form.watch("website").match(/^https?:\/\/.+\..+/) && (
+            <p className="text-sm text-yellow-600">
+              Warning: This doesn't look like a valid URL. Please check the format.
+            </p>
+          )}
             </div>
 
         {/* Email */}
@@ -107,6 +112,11 @@ export function AdminEditForm({ listing, categories, onFinished }: AdminEditForm
           {form.formState.errors.email && (
             <p className="text-sm text-red-500">
               {form.formState.errors.email.message}
+            </p>
+          )}
+          {form.watch("email") && form.watch("email").length > 0 && !form.watch("email").match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && (
+            <p className="text-sm text-yellow-600">
+              Warning: This doesn't look like a valid email address. Please check the format.
             </p>
           )}
               </div>

@@ -69,7 +69,7 @@ export default async function ParentDashboard() {
                 <div className="text-2xl font-bold text-primary-orange">
                   {favorites.length}
                 </div>
-                <div className="text-sm" className="text-gray-900">
+                <div className="text-gray-900">
                   Saved Listings
                 </div>
               </div>
@@ -79,7 +79,7 @@ export default async function ParentDashboard() {
                 <div className="text-2xl font-bold text-primary-orange">
                   {reviews.length}
                 </div>
-                <div className="text-sm" className="text-gray-900">
+                <div className="text-gray-900">
                   Reviews Written
                 </div>
               </div>
@@ -88,7 +88,7 @@ export default async function ParentDashboard() {
               <div className="text-2xl font-bold text-primary-orange">
                 {favorites.length + reviews.length}
               </div>
-              <div className="text-sm" className="text-gray-900">
+              <div className="text-gray-900">
                 Total Activity
               </div>
             </div>
@@ -106,10 +106,7 @@ export default async function ParentDashboard() {
                     key={favorite.id}
                     className="surface rounded-lg p-4 border border-surface/20"
                   >
-                    <h3
-                      className="font-medium text-sm mb-2"
-                      className="text-gray-900"
-                    >
+                    <h3 className="font-medium text-sm mb-2 text-gray-900">
                       {favorite.listing?.listing_name || "Unknown Listing"}
                     </h3>
                     <p
@@ -119,7 +116,7 @@ export default async function ParentDashboard() {
                       {favorite.listing?.what_you_offer ||
                         "No description available"}
                     </p>
-                    <div className="mt-2 text-xs" className="text-gray-900">
+                    <div className="text-gray-900">
                       Saved {new Date(favorite.created_at).toLocaleDateString()}
                     </div>
                   </div>
@@ -178,7 +175,7 @@ export default async function ParentDashboard() {
                     >
                       {review.text}
                     </p>
-                    <div className="mt-2 text-xs" className="text-gray-900">
+                    <div className="text-gray-900">
                       {review.status === "approved"
                         ? "Published"
                         : "Pending approval"}{" "}
@@ -235,7 +232,7 @@ export default async function ParentDashboard() {
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <h3 className="font-medium text-paper">Discover Vendors</h3>
-                <ul className="text-sm space-y-1" className="text-gray-900">
+                <ul className="text-gray-900">
                   <li>
                     •{" "}
                     <a href="/" className="text-primary-orange hover:underline">
@@ -264,7 +261,7 @@ export default async function ParentDashboard() {
               </div>
               <div className="space-y-2">
                 <h3 className="font-medium text-paper">Your Activity</h3>
-                <ul className="text-sm space-y-1" className="text-gray-900">
+                <ul className="text-gray-900">
                   {isFavoritesEnabled() && (
                     <li>
                       •{" "}

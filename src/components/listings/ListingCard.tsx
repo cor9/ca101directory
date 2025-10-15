@@ -155,7 +155,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
       </CardHeader>
 
       <CardContent className="pb-3">
-        <div className="text-sm line-clamp-2 mb-4" className="text-gray-900">
+        <div className="text-gray-900">
           {(listing.what_you_offer || "Professional acting services").replace(/<[^>]*>/g, '').substring(0, 120)}...
         </div>
 

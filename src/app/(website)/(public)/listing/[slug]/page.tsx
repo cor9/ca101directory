@@ -320,7 +320,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     readonly
                     size="md"
                   />
-                  <span className="text-sm" className="text-gray-900">
+                  <span className="text-gray-900">
                     {averageRating.average.toFixed(1)} ({averageRating.count}{" "}
                     review
                     {averageRating.count !== 1 ? "s" : ""})
@@ -615,7 +615,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     >
                       Own This Business?
                     </h2>
-                    <p className="mb-4" className="text-gray-900">
+                    <p className="text-gray-900">
                       Claim your listing to gain full control, edit details, and
                       upgrade to premium plans.
                     </p>
@@ -665,7 +665,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     },
                   )
                 ) : (
-                  <span className="text-sm" className="text-gray-900">
+                  <span className="text-gray-900">
                     No categories listed
                   </span>
                 )}
@@ -701,7 +701,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                       </span>
                     ))
                 ) : (
-                  <span className="text-sm" className="text-gray-900">
+                  <span className="text-gray-900">
                     No age range specified
                   </span>
                 )}

@@ -150,7 +150,7 @@ export default async function HomeFeaturedListings() {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-sm" className="text-gray-900">
+                <span className="text-gray-900">
                   {listing.category}
                 </span>
                 <Link

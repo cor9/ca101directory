@@ -252,7 +252,7 @@ export function SupabaseSubmitForm({
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Information */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold" className="text-gray-900">
+            <h3 className="text-gray-900">
               Basic Information
             </h3>
 
@@ -269,7 +269,7 @@ export function SupabaseSubmitForm({
                 required
                 className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
-              <p className="text-xs" className="text-gray-900">
+              <p className="text-gray-900">
                 {formData.name.length}/32 characters
               </p>
             </div>
@@ -289,7 +289,7 @@ export function SupabaseSubmitForm({
                 required
                 className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
-              <p className="text-xs" className="text-gray-900">
+              <p className="text-gray-900">
                 {formData.description.length}/256 characters
               </p>
             </div>
@@ -339,7 +339,7 @@ export function SupabaseSubmitForm({
 
           {/* Service Format */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold" className="text-gray-900">
+            <h3 className="text-gray-900">
               Service Format
             </h3>
 
@@ -386,7 +386,7 @@ export function SupabaseSubmitForm({
 
           {/* Categories */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold" className="text-gray-900">
+            <h3 className="text-gray-900">
               Categories
             </h3>
             <div className="grid grid-cols-2 gap-2">
@@ -411,7 +411,7 @@ export function SupabaseSubmitForm({
 
           {/* Contact Information */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold" className="text-gray-900">
+            <h3 className="text-gray-900">
               Contact Information
             </h3>
 
@@ -514,7 +514,7 @@ export function SupabaseSubmitForm({
               <Label className="text-gray-900">
                 Service Areas (Select all that apply)
               </Label>
-              <p className="text-xs" className="text-gray-900">
+              <p className="text-gray-900">
                 Where do you serve clients? Select all regions that apply.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 border rounded-lg bg-paper/50">
@@ -560,7 +560,7 @@ export function SupabaseSubmitForm({
 
           {/* Plan Selection */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold" className="text-gray-900">
+            <h3 className="text-gray-900">
               Choose Your Plan
             </h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -673,7 +673,7 @@ export function SupabaseSubmitForm({
 
           {/* Legal Compliance */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold" className="text-gray-900">
+            <h3 className="text-gray-900">
               Legal Compliance
             </h3>
 
@@ -760,7 +760,7 @@ export function SupabaseSubmitForm({
                 type="image"
               />
             </div>
-            <p className="text-xs" className="text-gray-900">
+            <p className="text-gray-900">
               Upload a professional photo or logo for your listing
             </p>
           </div>
@@ -774,7 +774,7 @@ export function SupabaseSubmitForm({
               onImagesChange={setGalleryImages}
               onUploadingChange={setIsGalleryUploading}
             />
-            <p className="text-xs" className="text-gray-900">
+            <p className="text-gray-900">
               {getMaxGalleryImages() === 0
                 ? "Gallery images are only available with Pro plan"
                 : "Pro plan includes 4 gallery images (5 total with profile)"}
@@ -793,7 +793,7 @@ export function SupabaseSubmitForm({
               >
                 Social Media Links (Pro only)
               </h3>
-              <p className="text-sm" className="text-gray-900">
+              <p className="text-gray-900">
                 These links will only be displayed for Pro listings.
               </p>
             </div>
@@ -897,7 +897,7 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="border-t pt-4">
-              <h4 className="font-medium mb-3" className="text-gray-900">
+              <h4 className="text-gray-900">
                 Custom Link
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

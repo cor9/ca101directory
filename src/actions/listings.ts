@@ -9,8 +9,8 @@ import { z } from "zod";
 export const UpdateListingSchema = z.object({
   listing_name: z.string().min(1, "Listing name is required."),
   status: z.enum(["Live", "Pending", "Draft", "Archived", "Rejected"]),
-  website: z.string().optional(),
-  email: z.string().optional(),
+  website: z.union([z.string().url({ message: "Invalid URL format." }), z.literal("")]).optional(),
+  email: z.union([z.string().email({ message: "Invalid email format." }), z.literal("")]).optional(),
   phone: z.string().optional(),
   what_you_offer: z.string().optional(),
   is_claimed: z.boolean(),
@@ -20,8 +20,8 @@ export const UpdateListingSchema = z.object({
 export const CreateListingSchema = z.object({
   listing_name: z.string().min(1, "Listing name is required."),
   status: z.enum(["Live", "Pending", "Draft", "Archived", "Rejected"]),
-  website: z.string().optional(),
-  email: z.string().optional(),
+  website: z.union([z.string().url({ message: "Invalid URL format." }), z.literal("")]).optional(),
+  email: z.union([z.string().email({ message: "Invalid email format." }), z.literal("")]).optional(),
   phone: z.string().optional(),
   what_you_offer: z.string().optional(),
 });
@@ -33,12 +33,9 @@ export const CreateListingSchema = z.object({
 export async function createListing(
   values: z.infer<typeof CreateListingSchema>,
 ) {
-  console.log("createListing called with:", values);
   try {
     const validatedFields = CreateListingSchema.safeParse(values);
-    console.log("Validation result:", validatedFields);
     if (!validatedFields.success) {
-      console.error("Validation failed:", validatedFields.error);
       return { status: "error", message: "Invalid fields." };
     }
 

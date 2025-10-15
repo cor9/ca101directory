@@ -26,11 +26,8 @@ export function AdminCreateForm() {
   });
 
   const onSubmit = (values: z.infer<typeof CreateListingSchema>) => {
-    console.log("Create form submission started with values:", values);
     startTransition(() => {
-      console.log("Starting createListing...");
       createListing(values).then((res) => {
-        console.log("CreateListing response:", res);
         if (res?.status === "error") {
           toast.error(res.message);
         } else {
@@ -158,7 +155,7 @@ export function AdminCreateForm() {
               </Button>
         <Button type="submit" disabled={isPending}>
           {isPending ? "Creating..." : "Create Listing"}
-        </Button>
+              </Button>
             </div>
       </form>
   );

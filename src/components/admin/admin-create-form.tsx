@@ -56,7 +56,7 @@ export function AdminCreateForm() {
           />
           {form.formState.errors.listing_name && (
             <p className="text-sm text-red-500">
-              {form.formState.errors.listing_name.message}
+              {form.formState.errors.listing_name?.message}
             </p>
           )}
               </div>
@@ -89,7 +89,7 @@ export function AdminCreateForm() {
           />
           {form.formState.errors.website && (
             <p className="text-sm text-red-500">
-              {form.formState.errors.website.message}
+              {form.formState.errors.website?.message}
             </p>
           )}
           {form.watch("website") && form.watch("website").length > 0 && !form.watch("website").match(/^https?:\/\/.+\..+/) && (
@@ -110,7 +110,7 @@ export function AdminCreateForm() {
           />
           {form.formState.errors.email && (
             <p className="text-sm text-red-500">
-              {form.formState.errors.email.message}
+              {form.formState.errors.email?.message}
             </p>
           )}
           {form.watch("email") && form.watch("email").length > 0 && !form.watch("email").match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && (

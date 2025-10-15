@@ -236,7 +236,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
         {...props}
       />
       {helpText && <p className="text-xs text-muted-foreground mt-1">{helpText}</p>}
-      {error && <p className="text-sm text-red-500 mt-1">{error.message}</p>}
+      {error && <p className="text-sm text-red-500 mt-1">{error?.message}</p>}
               </div>
   );
 

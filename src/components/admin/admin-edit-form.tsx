@@ -3,12 +3,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type UseFormRegister, type FieldError } from "react-hook-form";
 import type * as z from "zod";
-import { useTransition } from "react";
+import { useTransition, useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 // Fix: Separated imports to pull `Listing` type from data layer and action/schema from the actions layer.
 import { UpdateListingSchema, updateListing } from "@/actions/listings";
 import type { Listing } from "@/data/listings";
+import { getCategoriesClient } from "@/data/categories-client";
 
 // Form input type with strings for array fields (before transformation)
 type FormInputType = Omit<z.infer<typeof UpdateListingSchema>, 'categories' | 'age_range' | 'region'> & {
@@ -57,6 +58,35 @@ interface FormTextareaProps {
 
 export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
   const [isPending, startTransition] = useTransition();
+  const [categories, setCategories] = useState<Array<{ id: string; category_name: string }>>([]);
+  const [categoryNames, setCategoryNames] = useState<string>("");
+
+  // Fetch categories and convert UUIDs to names
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const fetchedCategories = await getCategoriesClient();
+        setCategories(fetchedCategories);
+        
+        // Convert category UUIDs to names
+        if (listing.categories && listing.categories.length > 0) {
+          const names = listing.categories
+            .map(uuid => {
+              const category = fetchedCategories.find(cat => cat.id === uuid);
+              return category ? category.category_name : uuid; // fallback to UUID if not found
+            })
+            .join(", ");
+          setCategoryNames(names);
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        // Fallback to showing UUIDs if fetch fails
+        setCategoryNames(listing.categories?.join(", ") || "");
+      }
+    };
+
+    fetchCategories();
+  }, [listing.categories]);
 
   const form = useForm<FormInputType>({
     resolver: zodResolver(UpdateListingSchema),
@@ -83,15 +113,34 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       format: listing.format || "",
       extras_notes: listing.extras_notes || "",
       // Array fields converted to comma-separated strings for form input
-      categories: listing.categories?.join(", ") || "",
+      categories: listing.categories?.join(", ") || "", // Start with UUIDs, will be updated
       age_range: listing.age_range?.join(", ") || "",
       region: listing.region?.join(", ") || "",
     },
   });
 
+  // Update form when category names are ready
+  useEffect(() => {
+    if (categoryNames) {
+      form.setValue("categories", categoryNames);
+    }
+  }, [categoryNames, form]);
+
   const onSubmit = (values: FormInputType) => {
     startTransition(() => {
-      updateListing(listing.id, values as unknown as z.infer<typeof UpdateListingSchema>).then((res) => {
+      // Convert category names back to UUIDs before submitting
+      const processedValues = { ...values };
+      
+      if (values.categories) {
+        const categoryNames = values.categories.split(",").map(name => name.trim()).filter(Boolean);
+        const categoryUuids = categoryNames.map(name => {
+          const category = categories.find(cat => cat.category_name === name);
+          return category ? category.id : name; // fallback to original if not found
+        });
+        processedValues.categories = categoryUuids.join(", ");
+      }
+      
+      updateListing(listing.id, processedValues as unknown as z.infer<typeof UpdateListingSchema>).then((res) => {
         // Pass the entire response to the parent component to handle side-effects
         onFinished(res);
       });
@@ -113,7 +162,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       />
       {helpText && <p className="text-xs text-muted-foreground mt-1">{helpText}</p>}
       {error && <p className="text-sm text-red-500 mt-1">{error.message}</p>}
-    </div>
+              </div>
   );
 
   const FormSelect = ({ id, label, register, children, disabled }: FormSelectProps) => (
@@ -127,7 +176,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
         >
           {children}
         </select>
-      </div>
+              </div>
   );
   
   const FormCheckbox = ({ id, label, register, disabled }: FormCheckboxProps) => (
@@ -140,7 +189,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
            disabled={disabled}
         />
         <label htmlFor={id}>{label}</label>
-      </div>
+              </div>
   );
 
   const FormTextarea = ({ id, label, register, disabled, rows = 3 }: FormTextareaProps) => (
@@ -152,8 +201,8 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
         rows={rows}
         className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
         disabled={disabled}
-      />
-    </div>
+              />
+            </div>
   );
 
   return (
@@ -173,47 +222,47 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
         <FormInput id="email" label="Email" register={form.register} error={form.formState.errors.email} disabled={isPending} type="email" />
         <FormInput id="phone" label="Phone" register={form.register} error={form.formState.errors.phone} disabled={isPending} />
         <FormInput id="plan" label="Plan" register={form.register} error={form.formState.errors.plan} disabled={isPending} />
-      </div>
+            </div>
 
       <hr className="my-6 border-border" />
 
       {/* --- Location Details --- */}
-      <div>
+            <div>
         <h3 className="text-md font-semibold mb-2 text-foreground">Location Details</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <FormInput id="city" label="City" register={form.register} error={form.formState.errors.city} disabled={isPending} />
           <FormInput id="state" label="State" register={form.register} error={form.formState.errors.state} disabled={isPending} />
           <FormInput id="zip" label="Zip Code" register={form.register} error={form.formState.errors.zip} disabled={isPending} />
-        </div>
-      </div>
-      
+            </div>
+            </div>
+
       <hr className="my-6 border-border" />
 
       {/* --- Categorization --- */}
-      <div>
+            <div>
         <h3 className="text-md font-semibold mb-2 text-foreground">Categorization</h3>
         <div className="space-y-4">
           <FormInput id="categories" label="Categories" register={form.register} error={form.formState.errors.categories} disabled={isPending} helpText="Enter values separated by a comma. E.g., Acting Coaches, Headshot Photographers" />
           <FormInput id="age_range" label="Age Range" register={form.register} error={form.formState.errors.age_range} disabled={isPending} helpText="Enter values separated by a comma. E.g., 5-8, 9-12, 13-17, 18+" />
           <FormInput id="region" label="Region" register={form.register} error={form.formState.errors.region} disabled={isPending} helpText="Enter values separated by a comma. E.g., West Coast, Southeast" />
-        </div>
-      </div>
+            </div>
+            </div>
 
       <hr className="my-6 border-border" />
 
       {/* --- Social Media --- */}
-      <div>
+            <div>
         <h3 className="text-md font-semibold mb-2 text-foreground">Social Media</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
            <FormInput id="facebook_url" label="Facebook URL" register={form.register} error={form.formState.errors.facebook_url} disabled={isPending} />
            <FormInput id="instagram_url" label="Instagram URL" register={form.register} error={form.formState.errors.instagram_url} disabled={isPending} />
-        </div>
-      </div>
+              </div>
+              </div>
 
       <hr className="my-6 border-border" />
       
       {/* --- Profile Content --- */}
-      <div>
+              <div>
         <h3 className="text-md font-semibold mb-2 text-foreground">Profile Content</h3>
         <div className="space-y-4">
             <FormTextarea id="what_you_offer" label="What You Offer (Short Bio)" register={form.register} disabled={isPending} />
@@ -221,29 +270,29 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             <FormTextarea id="why_is_it_unique" label="What Makes This Unique" register={form.register} disabled={isPending} />
             <FormTextarea id="format" label="Service Format" register={form.register} disabled={isPending} rows={2} />
             <FormTextarea id="extras_notes" label="Additional Notes" register={form.register} disabled={isPending} rows={2} />
-        </div>
-      </div>
+              </div>
+            </div>
 
       <hr className="my-6 border-border" />
       
       {/* --- Platform Status --- */}
-      <div>
+                <div>
         <h3 className="text-md font-semibold mb-2 text-foreground">Platform Status</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <FormCheckbox id="is_claimed" label="Listing is Claimed" register={form.register} disabled={isPending} />
             <FormCheckbox id="is_active" label="Listing is Active" register={form.register} disabled={isPending} />
             <FormCheckbox id="featured" label="Is Featured" register={form.register} disabled={isPending} />
-        </div>
-      </div>
+              </div>
+            </div>
 
       <div className="flex justify-end gap-2 pt-6 sticky bottom-0 bg-card py-4">
         <Button type="button" variant="ghost" onClick={() => onFinished({ status: "error", message: "Update cancelled."})} disabled={isPending}>
-          Cancel
-        </Button>
+                Cancel
+              </Button>
         <Button type="submit" disabled={isPending}>
           {isPending ? "Saving..." : "Save Changes"}
-        </Button>
-      </div>
-    </form>
+              </Button>
+            </div>
+      </form>
   );
 }

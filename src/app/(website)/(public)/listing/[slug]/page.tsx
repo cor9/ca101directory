@@ -18,6 +18,7 @@ import { StarRating } from "@/components/ui/star-rating";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import { siteConfig } from "@/config/site";
 import { getCategories, getCategoryIconsMap } from "@/data/categories";
+import { createServerClient } from "@/lib/supabase";
 import { getListingBySlug, getPublicListings } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
@@ -201,30 +202,46 @@ export default async function ListingPage({ params }: ListingPageProps) {
       "Scene Writing": "/categories/script.png",
     };
 
-    // Categories are now stored properly as complete strings in the array
-    // No need for complex reconstruction logic
-    const validCategories = ((listing.categories || []) as string[])
-      .map((cat) => cat.trim())
-      .filter(Boolean)
-      .filter((cat) => categoryNameLookup.has(normalizeCategory(cat)));
+    // Fetch category names from database for UUIDs
+    let categoryNames: { [key: string]: string } = {};
+    if (listing.categories && listing.categories.length > 0) {
+      try {
+        const supabase = createServerClient();
+        const { data: categories } = await supabase
+          .from('categories')
+          .select('id, category_name')
+          .in('id', listing.categories);
+        
+        if (categories) {
+          categoryNames = categories.reduce((acc, cat) => {
+            acc[cat.id] = cat.category_name;
+            return acc;
+          }, {} as { [key: string]: string });
+        }
+      } catch (error) {
+        console.error('Error fetching category names:', error);
+      }
+    }
 
-    const displayCategories = validCategories.map((name) => {
-      const key = normalizeCategory(name);
-      const displayName = categoryNameLookup.get(key) || name;
+    // Display categories - handle both UUIDs and names
+    const displayCategories = (listing.categories || []).map((catId) => {
+      const categoryName = categoryNames[catId] || catId;
+      const key = normalizeCategory(categoryName);
+      const displayName = categoryNameLookup.get(key) || categoryName;
       const iconFilename = iconLookup.get(key);
       const localIconEntry = Object.entries(localIconMap).find(
         ([n]) => normalizeCategory(n) === key,
       );
       const localIcon = localIconEntry?.[1];
       return {
-        original: name,
+        original: categoryName,
         displayName,
         iconUrl: iconFilename
           ? getCategoryIconUrl(iconFilename)
           : localIcon || null,
-        key: `${name}-${iconFilename || localIcon || ""}`,
+        key: `${categoryName}-${iconFilename || localIcon || ""}`,
       };
-    });
+    }).filter(cat => cat.displayName && cat.displayName !== cat.original);
 
     console.log("ListingPage: Successfully found listing:", {
       id: listing.id,

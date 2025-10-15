@@ -1,6 +1,6 @@
 /**
  * Session refresh utilities
- * 
+ *
  * Helps with session refresh after login flow changes
  */
 
@@ -13,7 +13,7 @@ import { unstable_update } from "@/auth";
 export async function refreshSession() {
   try {
     console.log("Refreshing session...");
-    await unstable_update();
+    await unstable_update({});
     console.log("Session refreshed successfully");
   } catch (error) {
     console.error("Failed to refresh session:", error);
@@ -26,12 +26,12 @@ export async function refreshSession() {
  */
 export function needsSessionRefresh(session: any): boolean {
   if (!session?.user) return false;
-  
+
   // If user exists but no role is set, needs refresh
   if (!session.user.role) return true;
-  
+
   // If role is "guest" for authenticated user, needs refresh
   if (session.user.role === "guest" && session.user.id) return true;
-  
+
   return false;
 }

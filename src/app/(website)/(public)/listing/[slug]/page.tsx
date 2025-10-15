@@ -421,7 +421,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 />
               </div>
 
-              {listing.who_is_it_for && (
+              {/* Premium content - only show for paid plans */}
+              {listing.who_is_it_for && (listing.plan !== "Free" && listing.plan !== "free") && (
                 <div className="mb-6">
                   <h3>Who Is It For</h3>
                   <RichTextDisplay
@@ -431,7 +432,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 </div>
               )}
 
-              {listing.why_is_it_unique && (
+              {listing.why_is_it_unique && (listing.plan !== "Free" && listing.plan !== "free") && (
                 <div className="mb-6">
                   <h3>What Makes This Unique</h3>
                   <RichTextDisplay
@@ -441,7 +442,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 </div>
               )}
 
-              {listing.format && (
+              {/* Premium content - only show for paid plans */}
+              {listing.format && (listing.plan !== "Free" && listing.plan !== "free") && (
                 <div className="mb-6">
                   <h3>Service Format</h3>
                   <RichTextDisplay
@@ -451,13 +453,40 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 </div>
               )}
 
-              {listing.extras_notes && (
+              {listing.extras_notes && (listing.plan !== "Free" && listing.plan !== "free") && (
                 <div>
                   <h3>Additional Notes</h3>
                   <RichTextDisplay
                     content={listing.extras_notes}
                     className="text-base leading-relaxed"
                   />
+                </div>
+              )}
+
+              {/* Free plan upgrade prompt */}
+              {(listing.plan === "Free" || listing.plan === "free") && (
+                <div className="mt-6 p-4 bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-200 rounded-lg">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-2xl">📈</span>
+                    <h3 className="font-semibold text-orange-800">More Details Available</h3>
+                  </div>
+                  <p className="text-sm text-orange-700 mb-3">
+                    This professional has additional details about their services, target audience, and unique approach available with a premium listing.
+                  </p>
+                  <div className="flex gap-2">
+                    <a 
+                      href="/pricing" 
+                      className="inline-flex items-center px-3 py-2 bg-orange-600 text-white text-sm rounded-md hover:bg-orange-700 transition-colors"
+                    >
+                      View Pricing Plans
+                    </a>
+                    <a 
+                      href="/plan-selection" 
+                      className="inline-flex items-center px-3 py-2 bg-white text-orange-600 text-sm border border-orange-300 rounded-md hover:bg-orange-50 transition-colors"
+                    >
+                      Upgrade Listing
+                    </a>
+                  </div>
                 </div>
               )}
             </div>

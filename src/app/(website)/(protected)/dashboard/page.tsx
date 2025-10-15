@@ -40,6 +40,7 @@ export default async function DashboardPage() {
     userId: session?.user?.id,
     userEmail: session?.user?.email,
     userRole: (session?.user as any)?.role,
+    fullUser: session?.user,
   });
 
   // Guests are never allowed to access dashboard
@@ -50,6 +51,7 @@ export default async function DashboardPage() {
 
   const userRole = getRole(session.user as any);
   console.log("Dashboard: Detected user role:", userRole);
+  console.log("Dashboard: User object:", JSON.stringify(session.user, null, 2));
 
   // Strict role-based routing with feature flag checks
   switch (userRole) {
@@ -96,6 +98,7 @@ export default async function DashboardPage() {
 
     default: {
       console.log("Dashboard: Unknown role detected:", userRole);
+      console.log("Dashboard: Full user object for debugging:", JSON.stringify(session.user, null, 2));
       console.log("Dashboard: Redirecting to login");
       // Guests and unknown roles are never allowed to access dashboard
       redirect("/auth/login?next=/dashboard");

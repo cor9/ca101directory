@@ -70,6 +70,7 @@ export default async function middleware(req: NextRequest) {
   if (isAuthRoute) {
     if (isLoggedIn) {
       console.log("middleware, redirecting to dashboard");
+      // Let the dashboard page handle role-based routing
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
     return null;

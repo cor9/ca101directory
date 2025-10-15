@@ -59,7 +59,7 @@ export function AdminDashboardLayout({ children }: AdminDashboardLayoutProps) {
   const pathname = usePathname();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="admin-dashboard min-h-screen bg-background">
       {/* Header */}
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 py-4">

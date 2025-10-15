@@ -15,6 +15,21 @@
   color: #1e1f23 !important;
 }
 
+/* Admin dashboard table styles - using Bauhaus color system */
+.admin-dashboard .text-gray-900,
+.admin-dashboard table td,
+.admin-dashboard table th,
+.admin-dashboard h1,
+.admin-dashboard h2,
+.admin-dashboard h3,
+.admin-dashboard h4,
+.admin-dashboard h5,
+.admin-dashboard h6,
+.admin-dashboard p,
+.admin-dashboard label {
+  color: #1B1F29 !important; /* cream-ink from Bauhaus design system */
+}
+
 .admin-edit-form h1,
 .admin-edit-form h2,
 .admin-edit-form h3,

@@ -1,7 +1,7 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { getRole } from "@/lib/auth/roles";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 export default function DebugRolePage() {
@@ -11,10 +11,12 @@ export default function DebugRolePage() {
 
   const fetchRoleFromDB = async () => {
     if (!session?.user?.id) return;
-    
+
     setLoading(true);
     try {
-      const response = await fetch(`/api/debug-user-role?userId=${session.user.id}`);
+      const response = await fetch(
+        `/api/debug-user-role?userId=${session.user.id}`,
+      );
       const data = await response.json();
       setDbRole(data.role || "not found");
     } catch (error) {
@@ -37,7 +39,7 @@ export default function DebugRolePage() {
     <div className="min-h-screen p-8 bg-gray-50">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Role Debug Information</h1>
-        
+
         <div className="grid gap-6">
           {/* Session Role vs DB Role */}
           <div className="bg-white p-6 rounded-lg shadow">
@@ -49,17 +51,25 @@ export default function DebugRolePage() {
                   <p className="text-2xl font-mono text-blue-600">{userRole}</p>
                 </div>
                 <div className="p-4 bg-green-50 rounded">
-                  <h3 className="font-semibold text-green-800">Database Role</h3>
+                  <h3 className="font-semibold text-green-800">
+                    Database Role
+                  </h3>
                   <p className="text-2xl font-mono text-green-600">
                     {loading ? "Loading..." : dbRole || "Not fetched"}
                   </p>
                 </div>
               </div>
-              
+
               <div className="p-4 bg-yellow-50 rounded">
                 <h3 className="font-semibold text-yellow-800">Match Status</h3>
-                <p className={`text-lg ${userRole === dbRole ? "text-green-600" : "text-red-600"}`}>
-                  {loading ? "Checking..." : userRole === dbRole ? "✅ Match" : "❌ Mismatch"}
+                <p
+                  className={`text-lg ${userRole === dbRole ? "text-green-600" : "text-red-600"}`}
+                >
+                  {loading
+                    ? "Checking..."
+                    : userRole === dbRole
+                      ? "✅ Match"
+                      : "❌ Mismatch"}
                 </p>
               </div>
             </div>
@@ -69,9 +79,22 @@ export default function DebugRolePage() {
           <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4">User Information</h2>
             <div className="space-y-2">
-              <p><strong>User ID:</strong> <code className="bg-gray-100 px-2 py-1 rounded">{session?.user?.id || "None"}</code></p>
-              <p><strong>Email:</strong> <code className="bg-gray-100 px-2 py-1 rounded">{session?.user?.email || "None"}</code></p>
-              <p><strong>Session Status:</strong> <code className="bg-gray-100 px-2 py-1 rounded">{status}</code></p>
+              <p>
+                <strong>User ID:</strong>{" "}
+                <code className="bg-gray-100 px-2 py-1 rounded">
+                  {session?.user?.id || "None"}
+                </code>
+              </p>
+              <p>
+                <strong>Email:</strong>{" "}
+                <code className="bg-gray-100 px-2 py-1 rounded">
+                  {session?.user?.email || "None"}
+                </code>
+              </p>
+              <p>
+                <strong>Session Status:</strong>{" "}
+                <code className="bg-gray-100 px-2 py-1 rounded">{status}</code>
+              </p>
             </div>
           </div>
 

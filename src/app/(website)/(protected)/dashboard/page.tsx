@@ -54,15 +54,19 @@ export default async function DashboardPage() {
   // Strict role-based routing with feature flag checks
   switch (userRole) {
     case "admin": {
-      console.log("Dashboard: Admin role detected, checking admin dashboard enabled");
+      console.log(
+        "Dashboard: Admin role detected, checking admin dashboard enabled",
+      );
       const adminEnabled = isAdminDashboardEnabled();
       console.log("Dashboard: Admin dashboard enabled:", adminEnabled);
-      
+
       if (adminEnabled) {
         console.log("Dashboard: Redirecting admin to /dashboard/admin");
         redirect("/dashboard/admin");
       } else {
-        console.log("Dashboard: Admin dashboard disabled, redirecting to login");
+        console.log(
+          "Dashboard: Admin dashboard disabled, redirecting to login",
+        );
         // Admin features disabled, redirect to login
         redirect("/auth/login");
       }

@@ -1,5 +1,5 @@
 import { createServerClient } from "@/lib/supabase";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     }
 
     const supabase = createServerClient();
-    
+
     const { data: profile, error } = await supabase
       .from("profiles")
       .select("id, email, role")
@@ -32,9 +32,11 @@ export async function GET(request: NextRequest) {
       email: profile.email,
       role: profile.role,
     });
-
   } catch (error) {
     console.error("Error in debug-user-role API:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }

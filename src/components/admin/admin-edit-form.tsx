@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type UseFormRegister, type FieldError } from "react-hook-form";
-import type * as z from "zod";
+import { z } from "zod";
 import { useTransition, useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,35 @@ type FormInputType = Omit<z.infer<typeof UpdateListingSchema>, 'categories' | 'a
   age_range: string;
   region: string;
 };
+
+// Form schema that matches FormInputType (strings for array fields)
+const FormInputSchema = z.object({
+  listing_name: z.string().min(1, "Listing name is required."),
+  status: z.enum(["Live", "Pending", "Draft", "Archived", "Rejected"]),
+  website: z.union([z.string().url({ message: "Invalid URL format." }), z.literal("")]).optional(),
+  email: z.union([z.string().email({ message: "Invalid email format." }), z.literal("")]).optional(),
+  phone: z.string().optional(),
+  what_you_offer: z.string().optional(),
+  is_claimed: z.boolean(),
+  // Extended fields for comprehensive admin editing
+  city: z.string().optional(),
+  state: z.string().optional(),
+  zip: z.string().optional(),
+  facebook_url: z.union([z.string().url({ message: "Invalid URL format." }), z.literal("")]).optional(),
+  instagram_url: z.union([z.string().url({ message: "Invalid URL format." }), z.literal("")]).optional(),
+  plan: z.string().optional(),
+  is_active: z.boolean(),
+  featured: z.boolean(),
+  // Detailed Profile Fields
+  who_is_it_for: z.string().optional(),
+  why_is_it_unique: z.string().optional(),
+  format: z.string().optional(),
+  extras_notes: z.string().optional(),
+  // Array fields as strings (will be converted to arrays before submission)
+  categories: z.string().optional(),
+  age_range: z.string().optional(),
+  region: z.string().optional(),
+});
 
 interface AdminEditFormProps {
   listing: Listing;
@@ -89,21 +118,21 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
   }, [listing.categories]);
 
   const form = useForm<FormInputType>({
-    resolver: zodResolver(UpdateListingSchema),
+    resolver: zodResolver(FormInputSchema),
     defaultValues: {
       listing_name: listing.listing_name || "",
       status: (listing.status as "Live" | "Pending" | "Draft" | "Archived" | "Rejected") || "Draft",
       website: listing.website || "",
-      email: listing.email || "",
-      phone: listing.phone || "",
+    email: listing.email || "",
+    phone: listing.phone || "",
       what_you_offer: listing.what_you_offer || "",
       is_claimed: listing.is_claimed || false,
       // Extended fields
-      city: listing.city || "",
-      state: listing.state || "",
+    city: listing.city || "",
+    state: listing.state || "",
       zip: String(listing.zip || ""),
-      facebook_url: listing.facebook_url || "",
-      instagram_url: listing.instagram_url || "",
+    facebook_url: listing.facebook_url || "",
+    instagram_url: listing.instagram_url || "",
       plan: listing.plan || "Free",
       is_active: listing.is_active ?? false,
       featured: listing.featured ?? false,
@@ -155,7 +184,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
                 return category ? category.id : name; // fallback to original if not found
               });
               processedValues.categories = categoryUuids.join(", ");
-            } else {
+      } else {
               console.warn("No categories available for conversion, keeping original values");
               processedValues.categories = values.categories;
             }
@@ -164,7 +193,17 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           
           console.log("Final processed values:", processedValues);
           
-          updateListing(listing.id, processedValues as unknown as z.infer<typeof UpdateListingSchema>).then((res) => {
+          // Convert string arrays back to actual arrays for the server schema
+          const serverValues: z.infer<typeof UpdateListingSchema> = {
+            ...processedValues,
+            categories: processedValues.categories ? processedValues.categories.split(",").map(s => s.trim()).filter(Boolean) : [],
+            age_range: processedValues.age_range ? processedValues.age_range.split(",").map(s => s.trim()).filter(Boolean) : [],
+            region: processedValues.region ? processedValues.region.split(",").map(s => s.trim()).filter(Boolean) : [],
+          };
+          
+          console.log("Server values:", serverValues);
+          
+          updateListing(listing.id, serverValues).then((res) => {
             console.log("UpdateListing response:", res);
             // Pass the entire response to the parent component to handle side-effects
             onFinished(res);
@@ -333,7 +372,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           onClick={() => console.log("Save Changes button clicked!")}
         >
           {isPending ? "Saving..." : "Save Changes"}
-        </Button>
+              </Button>
             </div>
       </form>
   );

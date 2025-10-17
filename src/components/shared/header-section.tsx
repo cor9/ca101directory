@@ -38,12 +38,12 @@ export function HeaderSection({
         </LabelComponent>
       ) : null}
       {title ? (
-        <TitleComponent className="mt-4 px-4 text-2xl md:text-4xl text-surface font-bold">
+        <TitleComponent className="mt-4 px-4 text-2xl md:text-4xl">
           {title}
         </TitleComponent>
       ) : null}
       {subtitle ? (
-        <SubtitleComponent className="mt-6 px-4 text-balance text-lg text-surface/80">
+        <SubtitleComponent className="mt-6 px-4 text-balance text-lg text-gray-900/80">
           {subtitle}
         </SubtitleComponent>
       ) : null}

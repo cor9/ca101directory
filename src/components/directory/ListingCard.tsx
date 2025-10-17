@@ -19,9 +19,43 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
       ? (item as unknown as { icon?: { asset?: { _ref?: string } } }).icon?.asset
           ?._ref
       : null);
+
+  // Local PNG fallback by category name (public/categories/*.png)
+  const firstCategory = item.categories?.[0]?.name || "";
+  const localMap: Record<string, string> = {
+    "Acting Classes & Coaches": "/categories/masks.png",
+    "Headshot Photographers": "/categories/camera.png",
+    "Self-Tape Studios": "/categories/selftape.png",
+    "Demo Reel Creators": "/categories/reelcreator.png",
+    "Vocal Coaches": "/categories/singer.png",
+    "Talent Managers": "/categories/rep.png",
+    "Casting Workshops": "/categories/handwriting.png",
+    "Reels Editors": "/categories/reel_editor.png",
+    "Social Media Consultants": "/categories/socialmedia.png",
+    "Acting Camps": "/categories/theatre.png",
+    "Acting Schools": "/categories/masks.png",
+    "Audition Prep": "/categories/audprep.png",
+    "Voiceover Studios": "/categories/mic.png",
+    "Theatre Training": "/categories/kidstheatre.png",
+    "Entertainment Lawyers": "/categories/legalfile.png",
+    "Financial Advisors": "/categories/moneybag.png",
+    Publicists: "/categories/publicist.png",
+    "Hair/Makeup Artists": "/categories/makeup.png",
+    "Wardrobe Stylists": "/categories/wardrobe.png",
+    "Branding Coaches": "/categories/colowheel.png",
+    "Mental Health for Performers": "/categories/mentalhealth.png",
+    "On-Set Tutors": "/categories/tutor.png",
+    "Reel Creator": "/categories/reelcreator.png",
+    Feedback: "/categories/play1.png",
+    "Career Consultation": "/categories/consult.png",
+    "Dance Classes": "/categories/danceclass.png",
+    Reel: "/categories/filmreel.png",
+    "Scene Writing": "/categories/script.png",
+  };
+  const localCategoryPng = localMap[firstCategory] || "/categories/clapperboard.png";
   const resolvedSrc = profileRef
     ? getListingImageUrl(profileRef)
-    : imageProps?.src || "";
+    : imageProps?.src || localCategoryPng;
   const planLabel =
     item.pricePlan ||
     (item.proPlanStatus

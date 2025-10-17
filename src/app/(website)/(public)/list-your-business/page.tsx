@@ -3,7 +3,6 @@ import VendorFAQ from "@/components/vendor/vendor-faq";
 import VendorFinalCta from "@/components/vendor/vendor-final-cta";
 import VendorHero from "@/components/vendor/vendor-hero";
 import VendorPricing from "@/components/vendor/vendor-pricing";
-import VendorTestimonials from "@/components/vendor/vendor-testimonials";
 import VendorValueProps from "@/components/vendor/vendor-value-props";
 import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
@@ -35,19 +34,12 @@ export default function VendorLandingPage() {
         </Container>
       </section>
 
-      {/* 4. Social Proof */}
-      <section className="bg-[color:var(--navy)] py-16">
-        <Container>
-          <VendorTestimonials />
-        </Container>
-      </section>
-
-      {/* 5. FAQ */}
+      {/* 4. FAQ */}
       <section className="bg-[color:var(--cream)]">
         <VendorFAQ />
       </section>
 
-      {/* 6. Final CTA Banner */}
+      {/* 5. Final CTA Banner */}
       <section className="bg-[color:var(--navy)] py-16">
         <Container>
           <VendorFinalCta />

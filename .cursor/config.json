@@ -6,9 +6,8 @@
       "for cursor/context/*.md"
     ],
     "exclude": [
-      "**/*.csv",
-      "**/cookies.txt",
       "**/tmp*/**",
+      "**/*.csv",
       "**/*_BACKUP.md",
       "**/*_ARCHIVE.md"
     ]
@@ -21,14 +20,13 @@
       "noDarkTextOnDark": true
     },
     "deployment": {
-      "backend": "Supabase",
-      "hosting": "Vercel",
+      "stack": ["Supabase", "Vercel"],
       "disallowed": ["Sanity", "Airtable"],
       "useMCPTools": ["git", "stripe", "vercel"],
       "postDeployCheck": {
         "enabled": true,
-        "checkType": "deployment_status",
-        "delaySeconds": 120
+        "delaySeconds": 120,
+        "action": "check_vercel_deploy_status"
       }
     },
     "commitPolicy": {
@@ -41,11 +39,24 @@
       "changeLogFile": "for cursor/context/context_decisions.md"
     }
   },
+  "mcp": {
+    "vercel": {
+      "check_vercel_deploy_status": {
+        "command": "vercel deployments ls --limit 1 --token $VERCEL_TOKEN | grep READY || echo 'Deployment not ready'",
+        "postDelaySeconds": 120,
+        "onFail": "echo '❌ Vercel deploy not ready' >> for cursor/context/context_decisions.md",
+        "onSuccess": "echo '✅ Deployment ready at $(date)' >> for cursor/context/context_decisions.md"
+      }
+    },
+    "git": {
+      "afterCommit": "git log -1 --pretty=format:'%h %s (%cd)' >> for cursor/context/context_decisions.md"
+    }
+  },
   "metadata": {
     "notes": [
-      "This configuration automatically loads all project documentation from `.cursor/rules/` and `.cursor/for cursor/context/`.",
-      "Cursor and MCP will use Git, Stripe, and Vercel integrations when available.",
-      "After each successful push to Vercel, deployment status will be checked after a 120-second delay."
+      "Cursor uses MCP tools to run git, stripe, and vercel tasks directly.",
+      "After each successful push, waits 120 seconds and queries Vercel for deployment status.",
+      "Results (success or fail) are logged into for cursor/context/context_decisions.md automatically."
     ]
   }
 }

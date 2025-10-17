@@ -78,17 +78,11 @@ export default async function HomePage() {
         <Container className="py-12">
           <div className="relative overflow-hidden bg-gradient-to-r from-secondary-denim/20 via-primary-orange/15 to-secondary-denim/20 border-2 border-primary-orange/30 rounded-2xl p-10 text-center shadow-2xl hover:shadow-primary-orange/20 transition-all duration-300 hover:scale-[1.02] group">
             {/* Animated background elements */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary-orange/5 via-transparent to-secondary-denim/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary-orange/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500"></div>
-            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-secondary-denim/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-primary-orange/5 via-transparent to-secondary-denim/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary-orange/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500" />
+            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-secondary-denim/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500" />
 
             <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-primary-orange/20 rounded-full border border-primary-orange/30">
-                <span className="text-primary-orange font-bold text-sm uppercase tracking-wider">
-                  ✨ Limited Time
-                </span>
-              </div>
-
               <p className="bauhaus-heading text-3xl text-paper mb-4 leading-tight">
                 Are you a coach, photographer, or rep?{" "}
                 <a

@@ -31,10 +31,33 @@ export default function VendorPricing() {
             Get started with our basic listing
           </p>
         </div>
-        <stripe-pricing-table
-          pricing-table-id="prctbl_1SDbLwBqTvwy9ZuSXKTXVb7E"
-          publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
-        />
+        
+        {/* Custom Free Plan Card */}
+        <div className="max-w-md mx-auto">
+          <div className="bg-white border-2 border-gray-300 rounded-lg p-8 text-center shadow-lg">
+            <h4 className="text-2xl font-bold text-gray-900 mb-2">Free Plan</h4>
+            <div className="mb-4">
+              <span className="text-4xl font-bold text-gray-900">$0</span>
+              <span className="text-gray-900">/forever</span>
+            </div>
+            <p className="text-sm text-gray-900 mb-6">
+              Get started with a basic listing - no credit card required!
+            </p>
+            <ul className="text-left mb-6 space-y-2 text-sm text-gray-900">
+              <li>✓ Basic listing information</li>
+              <li>✓ Contact details displayed</li>
+              <li>✓ Searchable in directory</li>
+              <li>✓ Quality review process</li>
+              <li>✗ No images</li>
+            </ul>
+            <a
+              href="/submit"
+              className="inline-block w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+            >
+              Start Free Listing →
+            </a>
+          </div>
+        </div>
       </div>
 
       {/* Paid Plans */}

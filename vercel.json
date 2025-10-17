@@ -2,7 +2,7 @@
   "framework": "nextjs",
   "buildCommand": "pnpm run build",
   "devCommand": "pnpm run dev",
-  "installCommand": "pnpm install",
+  "installCommand": "npm install --legacy-peer-deps",
   "outputDirectory": ".next",
   "functions": {
     "src/app/api/**/*.ts": {

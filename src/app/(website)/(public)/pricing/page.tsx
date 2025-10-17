@@ -47,7 +47,8 @@ export default async function PricingPage() {
               </h1>
               <p className="bauhaus-body text-xl text-foreground max-w-3xl mx-auto">
                 Choose the perfect plan for your child actor services. All plans
-                include our quality review process and trusted directory listing.
+                include our quality review process and trusted directory
+                listing.
               </p>
             </div>
 

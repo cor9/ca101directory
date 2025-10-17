@@ -24,12 +24,12 @@ export function CategoryContent({ categoryName, listingCount }: CategoryContentP
 
       {/* Why You Need This Section */}
       <div className="bg-surface rounded-lg p-8">
-        <h2 className="text-2xl font-bold mb-4 text-paper">
+        <h2 className="text-2xl font-bold mb-4 text-surface">
           Why You Need {categoryName}
         </h2>
         <ul className="space-y-3">
-          {content.whyYouNeed.map((item, index) => (
-            <li key={index} className="flex items-start gap-3 text-paper/90">
+          {content.whyYouNeed.map((item) => (
+            <li key={item} className="flex items-start gap-3 text-surface/90">
               <span className="text-primary-orange text-xl mt-1">✓</span>
               <span className="flex-1">{item}</span>
             </li>
@@ -43,8 +43,8 @@ export function CategoryContent({ categoryName, listingCount }: CategoryContentP
           What to Look For
         </h2>
         <ul className="space-y-3">
-          {content.whatToLookFor.map((item, index) => (
-            <li key={index} className="flex items-start gap-3 text-surface/90">
+          {content.whatToLookFor.map((item) => (
+            <li key={item} className="flex items-start gap-3 text-surface/90">
               <span className="text-primary-orange text-xl mt-1">•</span>
               <span className="flex-1">{item}</span>
             </li>

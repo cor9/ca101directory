@@ -160,27 +160,30 @@ export default async function CategoryPage({
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
     return (
-      <div>
+      <div className="container max-w-7xl mx-auto px-4 text-surface">
         {/* Category header - Bauhaus theme with proper contrast */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-surface mb-2">
-            {categoryName}
-          </h1>
-          <p className="text-lg text-surface/80">
+          <h1 className="text-3xl font-bold mb-2">{categoryName}</h1>
+          <p className="text-lg opacity-80">
             Find {categoryName.toLowerCase()} professionals for your child's
             acting career
           </p>
         </div>
 
         {/* SEO-rich category content */}
-        <CategoryContent categoryName={categoryName} listingCount={totalCount} />
+        <div className="mb-8">
+          <CategoryContent
+            categoryName={categoryName}
+            listingCount={totalCount}
+          />
+        </div>
 
         {/* when no items are found */}
         {items?.length === 0 && <EmptyGrid />}
 
         {/* when items are found */}
         {items && items.length > 0 && (
-          <section className="">
+          <section className="pt-2">
             <ItemGrid
               items={items}
               sponsorItems={sponsorItems}

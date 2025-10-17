@@ -35,21 +35,12 @@
     --radius: 0.5rem;
 
     /* Legacy colors (to be phased out) */
-    --cream: 60 100% 94%; /* HSL for #FFFDD0 - Base Light */
+    --cream: 60 100% 94%; /* #FFFDD0 - Base Light */
     --charcoal: 220 15% 11%; /* #1E1F23 - Primary Dark */
     --retro-blue: 210 50% 40%; /* #336699 - Accent 1 */
     --tomato-red: 0 60% 50%; /* #CC3D3D - Accent 2 */
     --mustard-gold: 45 100% 45%; /* #E5A400 - Accent 3 */
     --muted-teal: 180 50% 35%; /* #2D888D - Accent 4 */
-
-    /* Bauhaus named tokens (used by design.md examples) */
-    --cream-ink: #1B1F29; /* Text on cream */
-    --mustard-yellow: #D4A574;
-    --faded-red-orange: #CC5A47;
-    --robin-egg-blue: #7AB8CC;
-    --card-border: rgba(27, 31, 41, 0.18);
-    --shadow-bauhaus: 0 4px 12px rgba(13, 27, 42, 0.18);
-    --shadow-bauhaus-lg: 0 8px 20px rgba(13, 27, 42, 0.25);
 
     /* Category-specific colors */
     --coaches-color: 210 50% 40%; /* Retro Blue */

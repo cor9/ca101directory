@@ -92,8 +92,7 @@ export const PLAN_FEATURES = {
       "Standard placement",
       "Admin review required",
     ],
-    upgradePrompt:
-      "Upgrade to Standard for profile image and featured placement",
+    upgradePrompt: "Upgrade to Standard for profile image and featured placement",
   },
   STANDARD: {
     name: "Standard Plan",

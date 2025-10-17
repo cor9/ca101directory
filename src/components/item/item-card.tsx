@@ -25,7 +25,7 @@ export default function ItemCard({ item }: ItemCardProps) {
   return (
     <div
       className={cn(
-        "cursor-pointer bg-surface border border-surface rounded-lg flex flex-col justify-between gap-4 shadow-sm hover:shadow-md transition-all duration-300",
+        "cursor-pointer bg-paper border border-surface/20 rounded-lg flex flex-col justify-between gap-4 shadow-sm hover:shadow-md transition-all duration-300",
         "hover:scale-[1.02] hover:border-primary-orange/30",
       )}
     >
@@ -54,7 +54,7 @@ export default function ItemCard({ item }: ItemCardProps) {
                       {item.categories.map((category, index) => (
                         <span
                           key={category._id}
-                          className="text-xs font-semibold bg-highlight text-ink px-2 py-1 rounded-md"
+                          className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md"
                         >
                           {category.name}
                         </span>
@@ -87,7 +87,7 @@ export default function ItemCard({ item }: ItemCardProps) {
         {/* center */}
         <Link
           href={`/listing/${item._id}`}
-          className="flex flex-col gap-4 group hover:bg-paper/60 transition-colors duration-200 rounded-lg"
+          className="flex flex-col gap-4 group hover:bg-paper/50 transition-colors duration-200 rounded-lg"
         >
           <div className="px-4 flex flex-col gap-4">
             <div className="flex items-center justify-between gap-4">
@@ -105,7 +105,7 @@ export default function ItemCard({ item }: ItemCardProps) {
                 </span>
               </h3>
               <div className="flex items-center justify-center gap-2 opacity-100 shrink-0">
-                <span className="text-primary-orange font-semibold text-sm bg-primary-orange/10 px-3 py-1 rounded-full">View Listing</span>
+                <span className="text-primary-orange font-semibold text-sm bg-primary-orange/10 px-3 py-1 rounded-full">View Details</span>
                 <ArrowRightIcon className={cn("size-4 icon-scale text-primary-orange", "")} />
               </div>
             </div>

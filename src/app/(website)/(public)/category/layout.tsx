@@ -6,24 +6,23 @@ export default function CategoryLayout({
   children,
 }: { children: React.ReactNode }) {
   return (
-    <div className="mb-16">
-      <div className="mt-8">
-        <div className="w-full flex flex-col items-center justify-center gap-8">
-          <HeaderSection
-            labelAs="h1"
-            label="Category"
-            titleAs="h2"
-            title="Explore by categories"
-          />
-        </div>
+    <div className="bauhaus">
+      <div className="hero hollywood-accent">
+        <HeaderSection labelAs="h1" label="Category" titleAs="h2" title="Explore by categories" />
       </div>
 
-      <Container className="mt-4">
-        <div className="flex gap-8">
+      <main className="layout">
+        <aside className="sidebar" style={{ borderRadius: 4 }}>
           <CategoryFilter />
-          <div className="flex-1 min-w-0">{children}</div>
-        </div>
-      </Container>
+        </aside>
+        <section className="min-w-0">
+          <div className="grid">
+            <div className="card">
+              {children}
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

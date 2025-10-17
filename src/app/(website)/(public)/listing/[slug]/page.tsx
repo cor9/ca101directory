@@ -160,7 +160,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
     const listing = await getListingBySlug(params.slug);
     console.log("ListingPage: getListingBySlug completed");
-    
+
     const session = await auth();
     console.log("ListingPage: auth completed");
 

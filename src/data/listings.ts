@@ -261,7 +261,7 @@ function generateSlug(listingName: string, id: string): string {
     // If no name, create a generic slug with ID suffix
     return `listing-${id.slice(-8)}`;
   }
-  
+
   return listingName
     .toLowerCase()
     .replace(/\s+/g, "-")
@@ -274,25 +274,35 @@ export async function getListingBySlug(slug: string) {
   console.log("getListingBySlug: Looking for slug:", slug);
 
   // Reject UUID slugs - they're bad for SEO
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   if (uuidRegex.test(slug)) {
-    console.log("getListingBySlug: UUID slug detected, attempting to find listing by ID:", slug);
-    
+    console.log(
+      "getListingBySlug: UUID slug detected, attempting to find listing by ID:",
+      slug,
+    );
+
     // Try to find the listing by ID to get the proper slug
-    const { data: listingData, error: listingError } = await createServerClient()
-      .from("listings")
-      .select("*")
-      .eq("id", slug)
-      .eq("status", "Live")
-      .eq("is_active", true)
-      .single();
+    const { data: listingData, error: listingError } =
+      await createServerClient()
+        .from("listings")
+        .select("*")
+        .eq("id", slug)
+        .eq("status", "Live")
+        .eq("is_active", true)
+        .single();
 
     if (listingData && !listingError) {
-      console.log("getListingBySlug: Found listing by UUID, returning with redirect flag:", listingData.listing_name);
+      console.log(
+        "getListingBySlug: Found listing by UUID, returning with redirect flag:",
+        listingData.listing_name,
+      );
       // Return the listing data with a flag indicating it needs a redirect
-      return { ...listingData, _needsRedirect: true } as Listing & { _needsRedirect: boolean };
+      return { ...listingData, _needsRedirect: true } as Listing & {
+        _needsRedirect: boolean;
+      };
     }
-    
+
     console.log("getListingBySlug: No listing found for UUID:", slug);
     return null;
   }
@@ -303,7 +313,8 @@ export async function getListingBySlug(slug: string) {
     return {
       id: "da084a22-5f0a-4a7b-8de7-1b05f6479667",
       listing_name: "Actorsite",
-      what_you_offer: "Actorsite delivers high-level, results-driven training for kids, teens, and adults. Build booking power, master self-tapes, and train with expert coaches who help you grow, get callbacks, and thrive—from your first class to your next big role.",
+      what_you_offer:
+        "Actorsite delivers high-level, results-driven training for kids, teens, and adults. Build booking power, master self-tapes, and train with expert coaches who help you grow, get callbacks, and thrive—from your first class to your next big role.",
       who_is_it_for: "",
       why_is_it_unique: "",
       format: "Online",
@@ -316,7 +327,18 @@ export async function getListingBySlug(slug: string) {
       state: "GA",
       zip: null,
       age_range: ["5-8", "13-17", "9-12", "18+"],
-      categories: ["c0b8d6a5-436a-4004-b6b6-8b58a9f5b3d2", "10159a59-61f7-4375-8770-141b6ddc878f", "e4770486-0c03-4263-8d0b-99c11598ddbf", "54d02e9e-e984-4de0-97df-28fde1d18344", "7992d99a-6491-406e-b845-cfdb0986331d", "c5236852-82be-48df-8762-85c2b18f0d76", "1f3ec0a8-f2b8-41c4-b5fd-c7b78c266629", "e656d5c5-35c8-426e-a02c-5adf5e82f7e7", "dff32333-23be-4cbc-86e6-9bde617e2ddd", "ca25586e-8cb2-40db-a06b-f6570a8952f9"],
+      categories: [
+        "Acting Classes & Coaches",
+        "Self-Tape Studios",
+        "Demo Reel Creators",
+        "Vocal Coaches",
+        "Talent Managers",
+        "Casting Workshops",
+        "Reels Editors",
+        "Social Media Consultants",
+        "Acting Camps",
+        "Acting Schools",
+      ],
       profile_image: "logo-1760390201925.jpg",
       stripe_plan_id: null,
       plan: "Pro",
@@ -350,8 +372,19 @@ export async function getListingBySlug(slug: string) {
       custom_link_url: null,
       custom_link_name: null,
       blog_url: "https://www.actorsite.com/blog",
-      region: ["West Coast", "Global (Online Only)", "Southeast", "Northeast", "Pacific Northwest", "Canada", "Southwest", "Midwest", "Mid-Atlantic", "Rocky Mountain"],
-      badge_approved: true
+      region: [
+        "West Coast",
+        "Global (Online Only)",
+        "Southeast",
+        "Northeast",
+        "Pacific Northwest",
+        "Canada",
+        "Southwest",
+        "Midwest",
+        "Mid-Atlantic",
+        "Rocky Mountain",
+      ],
+      badge_approved: true,
     } as Listing;
   }
 
@@ -365,7 +398,10 @@ export async function getListingBySlug(slug: string) {
     .single();
 
   if (listingData && !listingError) {
-    console.log("getListingBySlug: Found listing by slug:", listingData.listing_name);
+    console.log(
+      "getListingBySlug: Found listing by slug:",
+      listingData.listing_name,
+    );
     return listingData as Listing;
   }
 

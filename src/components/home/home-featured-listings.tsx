@@ -18,6 +18,7 @@ interface FeaturedListing {
   tags: string[];
   featured?: boolean;
   isFallback?: boolean;
+  slug: string;
 }
 
 // Fallback featured listings if no Airtable data
@@ -35,6 +36,7 @@ const fallbackListings: FeaturedListing[] = [
     tags: ["On-Camera", "Audition Prep", "Teens"],
     featured: true,
     isFallback: true,
+    slug: "young-actors-studio",
   },
   {
     id: "2",
@@ -48,6 +50,7 @@ const fallbackListings: FeaturedListing[] = [
     categorySlug: "headshot-photographers",
     tags: ["Portfolio", "Professional", "Child-Friendly"],
     isFallback: true,
+    slug: "spotlight-headshots",
   },
   {
     id: "3",
@@ -61,6 +64,7 @@ const fallbackListings: FeaturedListing[] = [
     tags: ["Private Coaching", "Self-Tape", "Career Guidance"],
     featured: true,
     isFallback: true,
+    slug: "coaching-with-corey",
   },
 ];
 
@@ -134,6 +138,7 @@ export default async function HomeFeaturedListings() {
           categorySlug: generateCategorySlug(primaryCategory),
           tags: listing.age_range || [], // age_range is now an array
           featured: listing.featured || false,
+          slug: listing.slug || generateSlug(listing.listing_name || "", listing.id), // Use database slug or generate fallback
         };
       });
   } catch (error) {
@@ -210,7 +215,7 @@ export default async function HomeFeaturedListings() {
                   href={
                     listing.isFallback
                       ? listing.website
-                      : `/listing/${generateSlug(listing.name, listing.id)}`
+                      : `/listing/${listing.slug}`
                   }
                   className="text-secondary-denim hover:text-primary-orange text-sm font-semibold transition-colors"
                   target={listing.isFallback ? "_blank" : undefined}

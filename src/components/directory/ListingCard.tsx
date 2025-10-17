@@ -1,5 +1,5 @@
-import { urlForImage, urlForIcon } from "@/lib/image";
-import { getListingImageUrl } from "@/lib/image-urls";
+import { urlForIcon, urlForImage } from "@/lib/image";
+import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import type { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,8 +16,8 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
     (item as unknown as { icon?: unknown })?.icon &&
     typeof (item as unknown as { icon?: unknown }).icon === "object" &&
     ((item as unknown as { icon?: { asset?: { _ref?: string } } }).icon?.asset
-      ? (item as unknown as { icon?: { asset?: { _ref?: string } } }).icon?.asset
-          ?._ref
+      ? (item as unknown as { icon?: { asset?: { _ref?: string } } }).icon
+          ?.asset?._ref
       : null);
 
   // Local PNG fallback by category name (public/categories/*.png)
@@ -30,7 +30,7 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
     "Vocal Coaches": "/categories/singer.png",
     "Talent Managers": "/categories/rep.png",
     "Casting Workshops": "/categories/handwriting.png",
-    "Reels Editors": "/categories/reel%20editor.png",
+    "Reels Editors": "/categories/reel_editor.png",
     "Social Media Consultants": "/categories/socialmedia.png",
     "Acting Camps": "/categories/theatre.png",
     "Acting Schools": "/categories/masks.png",
@@ -52,10 +52,15 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
     Reel: "/categories/filmreel.png",
     "Scene Writing": "/categories/script.png",
   };
-  const localCategoryPng = localMap[firstCategory] || "/categories/clapperboard.png";
+  const localCategoryPng =
+    localMap[firstCategory] || "/categories/clapperboard.png";
+  const categoryFilename = (localCategoryPng.split("/").pop() || "").trim();
+  const supabaseCategoryIconUrl = categoryFilename
+    ? getCategoryIconUrl(categoryFilename)
+    : "";
   const resolvedSrc = profileRef
     ? getListingImageUrl(profileRef)
-    : imageProps?.src || localCategoryPng;
+    : imageProps?.src || supabaseCategoryIconUrl || localCategoryPng;
   const planLabel =
     item.pricePlan ||
     (item.proPlanStatus

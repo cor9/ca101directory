@@ -1,3 +1,5 @@
+"use client";
+
 import { Icons } from "@/components/icons/icons";
 import { getCategories } from "@/data/categories";
 import { getPublicListings } from "@/data/listings";

@@ -8,12 +8,7 @@ export default function CategoryLayout({
   return (
     <div className="bauhaus">
       <div className="hero hollywood-accent">
-        <HeaderSection
-          labelAs="h1"
-          label="Category"
-          titleAs="h2"
-          title="Explore by categories"
-        />
+        <HeaderSection labelAs="h1" label="Category" titleAs="h2" title="Explore by categories" />
       </div>
 
       <main className="layout">
@@ -22,7 +17,9 @@ export default function CategoryLayout({
         </aside>
         <section className="min-w-0">
           <div className="grid">
-            <div className="card">{children}</div>
+            <div className="card">
+              {children}
+            </div>
           </div>
         </section>
       </main>

@@ -1,43 +1,25 @@
 # Tech Stack and Architecture
 
-This document outlines the key technologies used in the Mkdirs template and how they work together.
+The CA101 Directory is built with modern, serverless-first architecture designed for scalability and maintainability.
 
 ## Core Technologies
+- **Next.js (App Router)** — Framework for SSR, API routes, and dynamic rendering  
+- **TypeScript** — Type safety across all components  
+- **Supabase** — Database, authentication, and file storage  
+- **Vercel** — Continuous deployment and hosting  
+- **Stripe** — Payment processing and subscriptions  
+- **Tailwind CSS** — Utility-first styling  
+- **Shadcn/UI** — Accessible React component library  
+- **Lucide Icons** — Consistent, minimalist icons  
+- **OpenAI API** — Optional AI content generation for listings  
 
-- **Next.js**: The React framework used for building the application with server-side rendering, API routes, and server components
-- **TypeScript**: Used for type-safe code across the entire codebase
-- **Sanity CMS**: Headless CMS for managing content
-- **Tailwind CSS**: Utility-first CSS framework for styling
-- **Radix UI**: Unstyled, accessible UI components
-- **NextAuth**: Authentication solution for Next.js applications
-- **Stripe**: Payment processing
-- **React Email**: For creating and sending emails
-- **React Hook Form**: Form handling
-- **Zod**: Data validation
+## Supporting Libraries
+- `zod` for validation  
+- `react-hook-form` for form handling  
+- `@supabase/auth-helpers-nextjs` for secure user sessions  
 
-## File Structure
-
-- **package.json**: Contains all dependencies and scripts
-- **next.config.mjs**: Next.js configuration
-- **tailwind.config.ts**: Tailwind CSS configuration
-- **sanity.config.ts**: Sanity CMS configuration
-- **src/app**: Next.js app router pages and layouts
-- **src/components**: Reusable UI components
-- **src/lib**: Utility functions and shared code
-- **src/sanity**: Sanity schema definitions and utilities
-
-## Key Architectural Patterns
-
-- **App Router**: Uses Next.js App Router for routing
-- **Server Components**: Leverages React Server Components for better performance
-- **Server Actions**: Uses Next.js Server Actions for server-side data mutations
-- **Content Management**: Sanity CMS for structured content
-- **Authentication**: Secure authentication with NextAuth
-- **API Routes**: Backend functionality exposed through API routes
-- **Responsive Design**: Mobile-first approach with Tailwind CSS
-
-## Build and Deployment
-
-- **Development**: `pnpm dev` for local development
-- **Build**: `pnpm build` for production builds
-- **Docker Support**: Includes Dockerfile for containerization
+## Key Architectural Principles
+- Stateless server functions  
+- API-first modular design  
+- Minimal dependencies — no external CMS or third-party database  
+- Environment-based configuration via `.env.local`

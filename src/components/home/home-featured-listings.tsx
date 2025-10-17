@@ -2,7 +2,7 @@ import { Icons } from "@/components/icons/icons";
 import { getPublicListings } from "@/data/listings";
 import { getListingImageUrl } from "@/lib/image-urls";
 import { cn } from "@/lib/utils";
-import { generateSlugFromListing } from "@/lib/slug-utils";
+import { generateSlug } from "@/lib/slug-utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -155,7 +155,7 @@ export default async function HomeFeaturedListings() {
                   {listing.category}
                 </span>
                 <Link
-                  href={`/listing/${generateSlugFromListing(listing)}`}
+                  href={`/listing/${generateSlug(listing.name, listing.id)}`}
                   className="text-secondary-denim hover:text-primary-orange text-sm font-semibold transition-colors"
                 >
                   View Listing →

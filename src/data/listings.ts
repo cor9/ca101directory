@@ -276,7 +276,24 @@ export async function getListingBySlug(slug: string) {
   // Reject UUID slugs - they're bad for SEO
   const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   if (uuidRegex.test(slug)) {
-    console.log("getListingBySlug: Rejecting UUID slug:", slug);
+    console.log("getListingBySlug: UUID slug detected, attempting to find listing by ID:", slug);
+    
+    // Try to find the listing by ID to get the proper slug
+    const { data: listingData, error: listingError } = await createServerClient()
+      .from("listings")
+      .select("*")
+      .eq("id", slug)
+      .eq("status", "Live")
+      .eq("is_active", true)
+      .single();
+
+    if (listingData && !listingError) {
+      console.log("getListingBySlug: Found listing by UUID, returning with redirect flag:", listingData.listing_name);
+      // Return the listing data with a flag indicating it needs a redirect
+      return { ...listingData, _needsRedirect: true } as Listing & { _needsRedirect: boolean };
+    }
+    
+    console.log("getListingBySlug: No listing found for UUID:", slug);
     return null;
   }
 

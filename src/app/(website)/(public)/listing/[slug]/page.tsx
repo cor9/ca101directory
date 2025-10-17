@@ -23,6 +23,8 @@ import { getListingAverageRating } from "@/data/reviews";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import { constructMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
+import { generateSlugFromListing } from "@/lib/slug-utils";
+import { redirect, notFound } from "next/navigation";
 import { getCategoriesByIds } from "@/actions/categories";
 import {
   CheckCircleIcon,
@@ -37,7 +39,6 @@ import {
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 
 // Force dynamic rendering to avoid static/dynamic conflicts
 export const dynamic = "force-dynamic";
@@ -160,6 +161,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
     if (!listing) {
       console.error("ListingPage: Listing not found for slug:", params.slug);
       return notFound();
+    }
+
+    // Handle UUID redirect - redirect to proper SEO-friendly URL
+    if ('_needsRedirect' in listing && listing._needsRedirect) {
+      const properSlug = generateSlugFromListing(listing);
+      console.log("ListingPage: Redirecting UUID to proper slug:", properSlug);
+      redirect(`/listing/${properSlug}`);
     }
 
     const [categoryRecords, categoryIconMap] = await Promise.all([

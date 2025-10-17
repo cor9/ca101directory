@@ -71,11 +71,11 @@ export default function FeaturedListingsClient({ listings }: FeaturedListingsCli
                 </Link>
               </div>
 
-              <h3 className="bauhaus-heading text-xl mb-3 text-paper">
+              <h3 className="bauhaus-heading text-xl mb-3 text-surface">
                 {listing.name}
               </h3>
 
-              <p className="bauhaus-body text-muted mb-4 line-clamp-3">
+              <p className="bauhaus-body text-surface mb-4 line-clamp-3">
                 {listing.description}
               </p>
 
@@ -104,6 +104,16 @@ export default function FeaturedListingsClient({ listings }: FeaturedListingsCli
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="text-center mt-12">
+        <Link
+          href="/directory"
+          className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-secondary-denim to-primary-orange text-paper rounded-xl hover:from-secondary-denim-600 hover:to-primary-orange-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-semibold"
+        >
+          View All Listings
+          <Icons.arrowRight className="ml-2 h-5 w-5" />
+        </Link>
       </div>
     </section>
   );

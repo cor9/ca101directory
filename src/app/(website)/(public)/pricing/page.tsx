@@ -45,7 +45,7 @@ export default async function PricingPage() {
               <h1 className="bauhaus-heading text-4xl mb-4">
                 Simple, Transparent Pricing
               </h1>
-              <p className="bauhaus-body text-xl text-foreground max-w-3xl mx-auto">
+              <p className="bauhaus-body text-xl text-gray-900 max-w-3xl mx-auto">
                 Choose the perfect plan for your child actor services. All plans
                 include our quality review process and trusted directory listing.
               </p>
@@ -53,16 +53,16 @@ export default async function PricingPage() {
 
             {/* Free Plan Card - Custom (not Stripe) */}
             <div className="max-w-md mx-auto mb-8">
-              <div className="bg-surface border border-surface rounded-lg p-8 text-center shadow-lg text-surface">
-                <h2 className="text-2xl font-bold mb-2">Free Plan</h2>
+              <div className="bg-white border-2 border-gray-300 rounded-lg p-8 text-center shadow-lg">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Free Plan</h2>
                 <div className="mb-4">
-                  <span className="text-4xl font-bold">$0</span>
-                  <span className="">/forever</span>
+                  <span className="text-4xl font-bold text-gray-900">$0</span>
+                  <span className="text-gray-900">/forever</span>
                 </div>
-                <p className="text-sm mb-6">
+                <p className="text-sm text-gray-900 mb-6">
                   Get started with a basic listing - no credit card required!
                 </p>
-                <ul className="text-left mb-6 space-y-2 text-sm">
+                <ul className="text-left mb-6 space-y-2 text-sm text-gray-900">
                   <li>✓ Basic listing information</li>
                   <li>✓ Contact details displayed</li>
                   <li>✓ Searchable in directory</li>

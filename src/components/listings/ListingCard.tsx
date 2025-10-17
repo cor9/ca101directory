@@ -126,7 +126,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
                     | "secondary"
                     | "destructive"
                     | "outline" = "outline";
-                  let badgeClassName = "text-xs bg-gray-100 text-gray-900";
+                  let badgeClassName = "text-xs bg-gray-100 text-surface";
 
                   if (listing.comped) {
                     badgeText = "Pro";
@@ -162,7 +162,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
       </CardHeader>
 
       <CardContent className="pb-3">
-        <div className="text-gray-900">
+        <div className="text-surface">
           {(listing.what_you_offer || "Professional acting services")
             .replace(/<[^>]*>/g, "")
             .substring(0, 120)}
@@ -171,7 +171,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
 
         {/* Location */}
         {(listing.city || listing.state || listing.region) && (
-          <div className="flex items-center gap-2 text-sm mb-3 text-gray-900">
+          <div className="flex items-center gap-2 text-sm mb-3 text-surface">
             <MapPinIcon className="w-4 h-4" />
             <span>
               {[listing.city, listing.state, listing.region]
@@ -189,7 +189,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
               readonly
               size="sm"
             />
-            <span className="text-gray-900">
+            <span className="text-surface">
               {averageRating.average.toFixed(1)} ({averageRating.count} review
               {averageRating.count !== 1 ? "s" : ""})
             </span>

@@ -342,7 +342,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
         {/* Header Card */}
         <div className="listing-card">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm mb-6 text-gray-900">
+          <div className="flex items-center gap-2 text-sm mb-6 text-surface">
             <Link href="/" className="hover:text-primary-orange">
               Directory
             </Link>
@@ -369,7 +369,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     readonly
                     size="md"
                   />
-                  <span className="text-gray-900">
+                  <span className="text-surface">
                     {averageRating.average.toFixed(1)} ({averageRating.count}{" "}
                     review
                     {averageRating.count !== 1 ? "s" : ""})
@@ -397,7 +397,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
               {/* Last Updated - Freshness Signal for SEO */}
               {listing.updated_at && (
-                <p className="text-xs text-gray-900 mb-3">
+                <p className="text-xs text-surface mb-3">
                   Last updated:{" "}
                   {new Date(listing.updated_at).toLocaleDateString("en-US", {
                     year: "numeric",
@@ -574,7 +574,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
             <div className="flex items-center justify-start">
               <Link
                 href="/"
-                className="text-sm hover:text-primary-orange text-gray-900"
+                className="text-sm hover:text-primary-orange text-surface"
               >
                 ← Back to Directory
               </Link>
@@ -601,7 +601,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     <span style={{ color: "#0C1A2B" }}>
                       {[listing.city, listing.state].filter(Boolean).join(", ")}
                       {listing.region && listing.region.length > 0 && (
-                        <span className="text-sm text-gray-900 ml-1">
+                        <span className="text-sm text-surface ml-1">
                           ({listing.region.join(", ")})
                         </span>
                       )}
@@ -663,7 +663,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     >
                       Own This Business?
                     </h2>
-                    <p className="text-gray-900">
+                    <p className="text-surface">
                       Claim your listing to gain full control, edit details, and
                       upgrade to premium plans.
                     </p>
@@ -713,7 +713,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     },
                   )
                 ) : (
-                  <span className="text-gray-900">No categories listed</span>
+                  <span className="text-surface">No categories listed</span>
                 )}
               </div>
             </div>
@@ -747,7 +747,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                       </span>
                     ))
                 ) : (
-                  <span className="text-gray-900">No age range specified</span>
+                  <span className="text-surface">No age range specified</span>
                 )}
               </div>
             </div>
@@ -785,7 +785,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                         Bonded for Advanced Fees
                       </span>
                       {listing.bond_number && (
-                        <span className="text-gray-900">
+                        <span className="text-surface">
                           (Bond #{listing.bond_number})
                         </span>
                       )}

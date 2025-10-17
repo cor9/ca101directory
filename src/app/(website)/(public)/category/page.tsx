@@ -104,10 +104,10 @@ export default async function CategoryPage() {
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="bauhaus-heading text-4xl text-gray-900 mb-4">
+        <h1 className="bauhaus-heading text-4xl text-surface mb-4">
           Browse by Category
         </h1>
-        <p className="bauhaus-body text-xl text-gray-900 max-w-3xl mx-auto">
+        <p className="bauhaus-body text-xl text-surface max-w-3xl mx-auto">
           Find trusted acting professionals organized by specialty. Each
           category contains verified professionals ready to help your child
           succeed in the entertainment industry.
@@ -166,7 +166,7 @@ export default async function CategoryPage() {
                     {category.count} PROFESSIONAL
                     {category.count !== 1 ? "S" : ""}
                   </div>
-                  <p className="bauhaus-body text-sm text-gray-900">
+                  <p className="bauhaus-body text-sm text-surface">
                     {category.description}
                   </p>
                 </div>
@@ -178,10 +178,10 @@ export default async function CategoryPage() {
 
       {/* Call to Action */}
       <div className="bauhaus-card text-center p-8">
-        <h2 className="bauhaus-heading text-2xl text-gray-900 mb-4">
+        <h2 className="bauhaus-heading text-2xl text-surface mb-4">
           Don't See Your Category?
         </h2>
-        <p className="bauhaus-body text-gray-900 mb-6 max-w-2xl mx-auto">
+        <p className="bauhaus-body text-surface mb-6 max-w-2xl mx-auto">
           We're constantly adding new categories and professionals. If you don't
           see what you're looking for, try our search feature or submit a
           listing request.

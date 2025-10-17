@@ -1,53 +1,30 @@
 # Development Guide
 
-This document provides guidelines for developing and contributing to the Mkdirs template.
+### Setup
+1. Clone repository  
+2. Run `pnpm install`  
+3. Copy `.env.example` → `.env.local`  
+4. Fill in Supabase and Stripe credentials  
+5. Start dev server: `pnpm dev`
 
-## Development Setup
+### Required Environment Variables
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+STRIPE_SECRET_KEY=
+NEXT_PUBLIC_SITE_URL=
 
-1. Clone the repository
-2. Install dependencies with `pnpm install`
-3. Set up environment variables (copy `.env.example` to `.env`)
-4. Run the development server with `pnpm dev`
+### Local Testing
+- Use `pnpm run dev:local` to simulate local-only builds  
+- Only push to production after verifying lint (`pnpm lint`) and build (`pnpm build`) pass
 
-## Environment Variables
+### Deployment
+- All merges to `main` auto-deploy to **Vercel Production**  
+- Preview branches deploy automatically via Vercel  
+- Log each commit message clearly with format:  
+  `fix:`, `feat:`, `refactor:`, `style:`, `chore:`, `docs:`
 
-Key environment variables needed for development:
-
-- **NEXT_PUBLIC_SITE_URL**: Base URL of the site
-- **NEXT_PUBLIC_SANITY_PROJECT_ID**: Sanity project ID
-- **NEXT_PUBLIC_SANITY_DATASET**: Sanity dataset name
-- **SANITY_API_TOKEN**: Sanity API token
-- **NEXTAUTH_SECRET**: Secret for NextAuth
-- **STRIPE_SECRET_KEY**: Stripe API secret key
-
-## Code Style and Linting
-
-The project uses Biome for code formatting and linting:
-
-- **biome.json**: Biome configuration
-- Run `pnpm lint` to check for code style issues
-- Run `pnpm format` to format the codebase
-
-## Scripts
-
-Utility scripts for common tasks:
-
-- **scripts**: Directory containing utility scripts
-- **Batch Operations**: Scripts for batch operations on items
-- **Email Export**: Tools for exporting user emails
-- **Microlink Integration**: Scripts for working with microlink
-
-## Build and Deployment
-
-Steps for building and deploying the application:
-
-1. Run `pnpm build` to create a production build
-2. Verify the build with `pnpm start`
-3. Deploy to your hosting platform of choice
-
-### Docker Deployment
-
-For Docker-based deployment:
-
-- **Dockerfile**: Docker configuration
-- **next.config.docker.mjs**: Next.js configuration for Docker
+### Developer Rules
+- No new dependencies without review  
+- Commit early, push often  
+- Maintain `.cursor/context` up to date after major structural changes

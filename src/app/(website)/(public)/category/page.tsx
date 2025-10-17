@@ -104,10 +104,10 @@ export default async function CategoryPage() {
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="bauhaus-heading text-4xl mb-4 text-foreground">
+        <h1 className="bauhaus-heading text-4xl mb-4" style={{ color: "#0C1A2B" }}>
           Browse by Category
         </h1>
-        <p className="bauhaus-body text-xl max-w-3xl mx-auto text-foreground/90">
+        <p className="bauhaus-body text-xl max-w-3xl mx-auto" style={{ color: "#1B1F29" }}>
           Find trusted acting professionals organized by specialty. Each
           category contains verified professionals ready to help your child
           succeed in the entertainment industry.

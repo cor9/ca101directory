@@ -1,33 +1,24 @@
 # AI Integration
 
-This document outlines the AI capabilities integrated into the Mkdirs template.
+The CA101 ecosystem incorporates AI to enhance productivity and vendor credibility.
+
+## Current AI Applications
+- **Prep101** — Audition preparation guide generator  
+- **Resume101** — Conversational resume builder for parents  
+- **Listing Assistant** — Auto-suggests business category tags and SEO blurbs  
+- **RAG Chatbot** — Supports contextual Q&A for site visitors using embedded data  
 
 ## AI Providers
+- **OpenAI GPT-5** (primary)
+- **Anthropic Claude** (secondary)
+- Vector retrieval via **Supabase Edge Functions**
 
-The template supports multiple AI providers through AI SDK:
+## Configuration
+Environment variables:
+OPENAI_API_KEY=
+ANTHROPIC_API_KEY=
 
-- **OpenAI**: Via `@ai-sdk/openai`
-- **Google AI**: Via `@ai-sdk/google`
-- **DeepSeek**: Via `@ai-sdk/deepseek`
-
-## AI Features
-
-AI is integrated into various parts of the application:
-
-- **Content Generation**: Assist in creating listings information
-
-## AI Configuration
-
-AI providers can be configured in the application settings:
-
-- **API Keys**: Securely stored provider API keys
-- **Model Selection**: Choose which models to use
-
-## Privacy and Ethics
-
-The AI implementation follows best practices:
-
-- **User Consent**: Clear disclosure of AI usage
-- **Data Privacy**: No unnecessary data sharing with AI providers
-- **Human Review**: Critical AI-generated content requires human approval
-- **Transparency**: Clear indication of AI-generated content
+## Best Practice
+- All AI output reviewed manually before publishing  
+- Never expose API keys client-side  
+- Maintain human-first, ethical content tone

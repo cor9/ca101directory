@@ -1,5 +1,4 @@
 import * as z from "zod";
-import { SUPPORT_ITEM_ICON } from "./constants";
 
 /**
  * newsletter schema
@@ -57,6 +56,7 @@ export const baseSubmitSchema = {
     .min(1, { message: "Must select at least one category" }),
   gallery: z.array(z.string()).optional(), // Optional gallery images
   imageId: z.string().optional(), // Make optional for testing
+  iconId: z.string().optional(), // Optional logo/icon even if icons are disabled
   active: z.boolean().optional(), // Optional active status
   // Social media fields (Pro users only)
   facebook_url: z.string().url().optional().or(z.literal("")),
@@ -69,12 +69,7 @@ export const baseSubmitSchema = {
   custom_link_name: z.string().optional(),
 };
 
-export const SubmitSchema = SUPPORT_ITEM_ICON
-  ? z.object({
-      ...baseSubmitSchema,
-      iconId: z.string().optional(), // Make optional instead of required
-    })
-  : z.object(baseSubmitSchema);
+export const SubmitSchema = z.object(baseSubmitSchema);
 
 export type SubmitFormData = z.infer<typeof SubmitSchema>;
 

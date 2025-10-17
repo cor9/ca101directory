@@ -58,9 +58,29 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
   const supabaseCategoryIconUrl = categoryFilename
     ? getCategoryIconUrl(categoryFilename)
     : "";
+  // Additional attempts: exact name and derived filename in the bucket
+  const exactEncodedFilename = firstCategory
+    ? encodeURIComponent(`${firstCategory}.png`)
+    : "";
+  const supabaseExactByName = exactEncodedFilename
+    ? getCategoryIconUrl(exactEncodedFilename)
+    : "";
+  const derivedFilename = firstCategory
+    ? `${firstCategory
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "_")
+        .replace(/^_+|_+$/g, "")}.png`
+    : "";
+  const supabaseDerivedByName = derivedFilename
+    ? getCategoryIconUrl(derivedFilename)
+    : "";
   const resolvedSrc = profileRef
     ? getListingImageUrl(profileRef)
-    : imageProps?.src || supabaseCategoryIconUrl || localCategoryPng;
+    : imageProps?.src ||
+      supabaseExactByName ||
+      supabaseDerivedByName ||
+      supabaseCategoryIconUrl ||
+      localCategoryPng;
   const planLabel =
     item.pricePlan ||
     (item.proPlanStatus

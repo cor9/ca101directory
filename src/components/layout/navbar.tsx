@@ -91,8 +91,10 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
                           item.disabled && "cursor-not-allowed opacity-80",
                         )}
                         style={{
-                          color: isLinkActive(item.href) ? "#1B1F29" : "#1B1F2999",
-                          fontWeight: isLinkActive(item.href) ? "600" : "400"
+                          color: isLinkActive(item.href)
+                            ? "#1B1F29"
+                            : "#1B1F2999",
+                          fontWeight: isLinkActive(item.href) ? "600" : "400",
                         }}
                       >
                         {item.title}
@@ -169,10 +171,11 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
                           className={cn(
                             "flex items-center rounded-md gap-2 p-2 text-sm font-medium hover:bg-muted",
                             isLinkActive(item.href) && "bg-muted",
-                            item.disabled && "cursor-not-allowed opacity-80 hover:bg-transparent",
+                            item.disabled &&
+                              "cursor-not-allowed opacity-80 hover:bg-transparent",
                           )}
                           style={{
-                            color: "#1B1F29"
+                            color: "#1B1F29",
                           }}
                         >
                           <Icon className="size-5" />

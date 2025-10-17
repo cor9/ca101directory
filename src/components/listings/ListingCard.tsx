@@ -12,8 +12,8 @@ import { StarRating } from "@/components/ui/star-rating";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import type { Listing } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
-import { cn } from "@/lib/utils";
 import { generateSlugFromListing } from "@/lib/slug-utils";
+import { cn } from "@/lib/utils";
 import { CheckCircleIcon, GlobeIcon, MapPinIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -44,7 +44,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
     );
   };
 
-  const validCategories = categories.filter(cat => !isUuidLike(cat));
+  const validCategories = categories.filter((cat) => !isUuidLike(cat));
 
   // Get average rating if reviews are enabled
   let averageRating = { average: 0, count: 0 };
@@ -163,14 +163,15 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
 
       <CardContent className="pb-3">
         <div className="text-gray-900">
-          {(listing.what_you_offer || "Professional acting services").replace(/<[^>]*>/g, '').substring(0, 120)}...
+          {(listing.what_you_offer || "Professional acting services")
+            .replace(/<[^>]*>/g, "")
+            .substring(0, 120)}
+          ...
         </div>
 
         {/* Location */}
         {(listing.city || listing.state || listing.region) && (
-          <div
-            className="flex items-center gap-2 text-sm mb-3 text-gray-900"
-          >
+          <div className="flex items-center gap-2 text-sm mb-3 text-gray-900">
             <MapPinIcon className="w-4 h-4" />
             <span>
               {[listing.city, listing.state, listing.region]

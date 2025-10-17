@@ -147,13 +147,13 @@ export default async function HomeFeaturedListings() {
 
             <div className="p-6">
               <div className="flex items-start justify-between mb-3">
-                <h3 className="bauhaus-heading text-lg text-surface">
+                <h3 className="bauhaus-heading text-lg">
                   {listing.name}
                 </h3>
-                <Icons.externalLink className="h-4 w-4 text-surface" />
+                <Icons.externalLink className="h-4 w-4" />
               </div>
 
-              <p className="bauhaus-body text-sm mb-4 line-clamp-4 text-surface">
+              <p className="bauhaus-body text-sm mb-4 line-clamp-4">
                 {listing.description}
               </p>
 
@@ -166,7 +166,7 @@ export default async function HomeFeaturedListings() {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="bauhaus-body text-surface">
+                <span className="bauhaus-body">
                   {listing.category}
                 </span>
                 <Link

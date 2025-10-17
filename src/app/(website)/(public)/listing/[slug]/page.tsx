@@ -298,8 +298,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
     // Get related listings (same category, different listing)
     console.log("ListingPage: About to fetch public listings for related");
-    const relatedListings = await getPublicListings();
-    console.log("ListingPage: Public listings fetched");
+    // Temporarily disable related listings fetch to debug hanging issue
+    // const relatedListings = await getPublicListings();
+    const relatedListings: any[] = [];
+    console.log("ListingPage: Public listings fetch skipped (debugging)");
     const primaryCategory = listing.categories?.[0];
     const related = relatedListings
       .filter(

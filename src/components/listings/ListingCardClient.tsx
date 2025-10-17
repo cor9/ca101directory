@@ -14,8 +14,8 @@ import { StarRating } from "@/components/ui/star-rating";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import type { Listing } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
-import { cn } from "@/lib/utils";
 import { generateSlugFromListing } from "@/lib/slug-utils";
+import { cn } from "@/lib/utils";
 import { CheckCircleIcon, GlobeIcon, MapPinIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -46,7 +46,7 @@ export function ListingCardClient({
     );
   };
 
-  const validCategories = categories.filter(cat => !isUuidLike(cat));
+  const validCategories = categories.filter((cat) => !isUuidLike(cat));
 
   // Get average rating if reviews are enabled
   useEffect(() => {
@@ -163,7 +163,10 @@ export function ListingCardClient({
         </h3>
 
         <div className="text-charcoal/70 text-sm line-clamp-2 mb-4">
-          {(listing.what_you_offer || "Professional acting services").replace(/<[^>]*>/g, '').substring(0, 120)}...
+          {(listing.what_you_offer || "Professional acting services")
+            .replace(/<[^>]*>/g, "")
+            .substring(0, 120)}
+          ...
         </div>
 
         {/* Location */}

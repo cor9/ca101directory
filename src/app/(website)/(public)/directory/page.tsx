@@ -103,65 +103,55 @@ export default async function DirectoryPage({
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   return (
-    <div className="bauhaus">
-      <main>
-        <div className="card hollywood-accent">
-          <DirectoryHeader
-            total={totalCount}
-            categoriesCount={categories?.length}
-            regionsCount={regionsList.length}
-          />
+    <div className="flex flex-col bg-[color:var(--navy)] bg-[radial-gradient(1200px_600px_at_70%_-10%,#122338,transparent)]">
+      <DirectoryHeader
+        total={totalCount}
+        categoriesCount={categories?.length}
+        regionsCount={regionsList.length}
+      />
+
+      {/* Search */}
+      <Container className="pb-8">
+        <div className="mb-8">
+          <SearchBox urlPrefix="/directory" />
         </div>
+      </Container>
 
-        {/* Search */}
-        <Container className="pb-8">
-          <div className="card">
-            <SearchBox urlPrefix="/directory" />
-          </div>
-        </Container>
+      {/* Filters */}
+      <Container className="pb-8">
+        <DirectoryFilters className="mb-8" categories={categories} />
+      </Container>
 
-        {/* Filters */}
-        <Container className="pb-8">
-          <div className="card">
-            <DirectoryFilters className="mb-0" categories={categories} />
-          </div>
-        </Container>
+      {/* Listings */}
+      <section className="mx-auto max-w-7xl px-6 py-8">
+        {/* when no items are found */}
+        {items?.length === 0 && <EmptyGrid />}
 
-        {/* Listings */}
-        <section className="mx-auto max-w-7xl px-6 py-8">
-          {/* when no items are found */}
-          {items?.length === 0 && <EmptyGrid />}
+        {/* when items are found */}
+        {items && items.length > 0 && (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {items.map((it) => (
+                <ListingCard
+                  key={it._id}
+                  item={it}
+                  categoryIconMap={categoryIconMap}
+                  allCategories={categories?.map((c) => c.category_name) || []}
+                />
+              ))}
+            </div>
 
-          {/* when items are found */}
-          {items && items.length > 0 && (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {items.map((it) => (
-                  <div className="card" key={it._id}>
-                    <ListingCard
-                      key={it._id}
-                      item={it}
-                      categoryIconMap={categoryIconMap}
-                      allCategories={
-                        categories?.map((c) => c.category_name) || []
-                      }
-                    />
-                  </div>
-                ))}
+            <div className="mt-10 flex justify-center">
+              <div className="bg-[color:var(--cream)] border border-[color:var(--card-border)] rounded-full px-2 py-1">
+                <CustomPagination
+                  routePrefix="/directory"
+                  totalPages={totalPages}
+                />
               </div>
-
-              <div className="mt-10 flex justify-center">
-                <div className="card">
-                  <CustomPagination
-                    routePrefix="/directory"
-                    totalPages={totalPages}
-                  />
-                </div>
-              </div>
-            </>
-          )}
-        </section>
-      </main>
+            </div>
+          </>
+        )}
+      </section>
     </div>
   );
 }

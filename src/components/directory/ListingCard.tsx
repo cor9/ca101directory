@@ -1,4 +1,5 @@
 import { urlForImage, urlForIcon } from "@/lib/image";
+import { getListingImageUrl } from "@/lib/image-urls";
 import type { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,6 +10,18 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
     : item?.icon
       ? urlForIcon(item.icon)
       : null;
+
+  // Prefer Supabase profile image URL when available
+  const profileRef =
+    (item as unknown as { icon?: unknown })?.icon &&
+    typeof (item as unknown as { icon?: unknown }).icon === "object" &&
+    ((item as unknown as { icon?: { asset?: { _ref?: string } } }).icon?.asset
+      ? (item as unknown as { icon?: { asset?: { _ref?: string } } }).icon?.asset
+          ?._ref
+      : null);
+  const resolvedSrc = profileRef
+    ? getListingImageUrl(profileRef)
+    : imageProps?.src || "";
   const planLabel =
     item.pricePlan ||
     (item.proPlanStatus
@@ -30,9 +43,9 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
   return (
     <article className="bg-[color:var(--cream)] text-[color:var(--cream-ink)] rounded-2xl border border-[color:var(--card-border)] shadow-[var(--shadow-cream)] overflow-hidden transition-transform hover:-translate-y-0.5 hover:shadow-[var(--shadow-cream-lg)]">
       <div className="aspect-[16/9] bg-[#EDE6C8] relative">
-        {imageProps && (
+        {resolvedSrc && (
           <Image
-            src={imageProps.src}
+            src={resolvedSrc}
             alt={item.image?.alt || item.name}
             fill
             className="object-cover"

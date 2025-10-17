@@ -295,7 +295,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
           key: `fallback-${catId}`,
         };
       })
-      .filter((cat) => cat.displayName && cat.displayName !== cat.original);
+      .filter((cat) => cat.displayName && cat.key !== `fallback-${cat.original}`);
 
     console.log("ListingPage: Successfully found listing:", {
       id: listing.id,

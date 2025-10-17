@@ -102,7 +102,7 @@ export function ReviewsDisplay({ vendorId, className }: ReviewsDisplayProps) {
           <CardTitle>Reviews</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-gray-900">No reviews yet.</p>
+          <p className="text-surface">No reviews yet.</p>
         </CardContent>
       </Card>
     );
@@ -115,7 +115,7 @@ export function ReviewsDisplay({ vendorId, className }: ReviewsDisplayProps) {
           <CardTitle>Reviews</CardTitle>
           <div className="flex items-center gap-2">
             <StarRating value={Math.round(averageRating)} readonly size="sm" />
-            <span className="text-sm text-gray-900">
+            <span className="text-sm text-surface">
               {averageRating.toFixed(1)} ({totalReviews} review
               {totalReviews !== 1 ? "s" : ""})
             </span>
@@ -139,7 +139,7 @@ export function ReviewsDisplay({ vendorId, className }: ReviewsDisplayProps) {
                 {new Date(review.created_at).toLocaleDateString()}
               </Badge>
             </div>
-            <p className="text-sm text-gray-900">{review.comment}</p>
+            <p className="text-sm text-surface">{review.comment}</p>
           </div>
         ))}
       </CardContent>

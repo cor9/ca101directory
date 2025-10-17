@@ -43,6 +43,23 @@ import { notFound } from "next/navigation";
 export const dynamic = "force-dynamic";
 
 /**
+ * Generate a proper SEO-friendly slug from listing name
+ */
+function generateSlug(listingName: string, id: string): string {
+  if (!listingName || listingName.trim() === "") {
+    // If no name, create a generic slug with ID suffix
+    return `listing-${id.slice(-8)}`;
+  }
+  
+  return listingName
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+/**
  * Generate static params for all listing pages
  * This tells Next.js which listing pages to pre-build
  */
@@ -51,14 +68,12 @@ export async function generateStaticParams() {
     const { getPublicListings } = await import("@/data/listings");
     const listings = await getPublicListings();
 
-    // Convert listing names to slugs
-    return listings.map((listing) => ({
-      slug:
-        listing.listing_name
-          ?.toLowerCase()
-          .replace(/\s+/g, "-")
-          .replace(/[^a-z0-9-]/g, "") || listing.id,
-    }));
+    // Convert listing names to proper SEO-friendly slugs
+    return listings
+      .filter((listing) => listing.listing_name && listing.listing_name.trim() !== "")
+      .map((listing) => ({
+        slug: generateSlug(listing.listing_name || "", listing.id),
+      }));
   } catch (error) {
     console.error("generateStaticParams error:", error);
     // Return empty array if Supabase is not configured

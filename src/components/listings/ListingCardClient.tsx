@@ -15,6 +15,7 @@ import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import type { Listing } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
 import { cn } from "@/lib/utils";
+import { generateSlugFromListing } from "@/lib/slug-utils";
 import { CheckCircleIcon, GlobeIcon, MapPinIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -32,14 +33,20 @@ export function ListingCardClient({
   const [averageRating, setAverageRating] = useState({ average: 0, count: 0 });
   const [ratingLoading, setRatingLoading] = useState(true);
 
-  const slug =
-    listing.listing_name
-      ?.toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^a-z0-9-]/g, "") || listing.id;
+  const slug = generateSlugFromListing(listing);
 
   const categories = listing.categories || [];
   const ageRange = listing.age_range || [];
+
+  // Filter out UUIDs from categories
+  const isUuidLike = (value: string | undefined): boolean => {
+    if (!value) return false;
+    return /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
+      value.trim(),
+    );
+  };
+
+  const validCategories = categories.filter(cat => !isUuidLike(cat));
 
   // Get average rating if reviews are enabled
   useEffect(() => {
@@ -187,9 +194,9 @@ export function ListingCardClient({
         )}
 
         {/* Categories */}
-        {categories.length > 0 && (
+        {validCategories.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-3">
-            {categories.slice(0, 2).map((category) => (
+            {validCategories.slice(0, 2).map((category) => (
               <Badge
                 key={category}
                 variant="outline"
@@ -198,12 +205,12 @@ export function ListingCardClient({
                 {category}
               </Badge>
             ))}
-            {categories.length > 2 && (
+            {validCategories.length > 2 && (
               <Badge
                 variant="outline"
                 className="text-xs font-normal border-retro-blue text-retro-blue"
               >
-                +{categories.length - 2}
+                +{validCategories.length - 2}
               </Badge>
             )}
           </div>

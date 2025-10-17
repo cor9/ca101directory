@@ -253,24 +253,34 @@ export async function getListingById(id: string) {
   return data as Listing;
 }
 
+/**
+ * Generate a proper SEO-friendly slug from listing name
+ */
+function generateSlug(listingName: string, id: string): string {
+  if (!listingName || listingName.trim() === "") {
+    // If no name, create a generic slug with ID suffix
+    return `listing-${id.slice(-8)}`;
+  }
+  
+  return listingName
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
 export async function getListingBySlug(slug: string) {
   console.log("getListingBySlug: Looking for slug:", slug);
 
-  // First, try to find by UUID/ID (for backward compatibility)
-  const { data: idData, error: idError } = await createServerClient()
-    .from("listings")
-    .select("*")
-    .eq("id", slug)
-    .eq("status", "Live")
-    .eq("is_active", true)
-    .single();
-
-  if (idData && !idError) {
-    console.log("getListingBySlug: Found listing by ID:", idData.listing_name);
-    return idData as Listing;
+  // Reject UUID slugs - they're bad for SEO
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (uuidRegex.test(slug)) {
+    console.log("getListingBySlug: Rejecting UUID slug:", slug);
+    return null;
   }
 
-  // If not found by ID, try to find by slug field (only for claimed listings)
+  // Try to find by slug field (only for claimed listings)
   const { data: slugData, error: slugError } = await createServerClient()
     .from("listings")
     .select("*")
@@ -288,7 +298,33 @@ export async function getListingBySlug(slug: string) {
     return slugData as Listing;
   }
 
-  console.log("getListingBySlug: No listing found for slug or id:", slug);
+  // If not found by slug field, try to match by generated slug from listing name
+  const { data: allListings, error: allError } = await createServerClient()
+    .from("listings")
+    .select("*")
+    .eq("status", "Live")
+    .eq("is_active", true);
+
+  if (allError) {
+    console.error("getListingBySlug: Error fetching listings:", allError);
+    return null;
+  }
+
+  // Find listing by matching generated slug
+  const matchingListing = allListings?.find((listing) => {
+    const generatedSlug = generateSlug(listing.listing_name || "", listing.id);
+    return generatedSlug === slug;
+  });
+
+  if (matchingListing) {
+    console.log(
+      "getListingBySlug: Found listing by generated slug:",
+      matchingListing.listing_name,
+    );
+    return matchingListing as Listing;
+  }
+
+  console.log("getListingBySlug: No listing found for slug:", slug);
   return null;
 }
 

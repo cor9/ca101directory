@@ -1,5 +1,6 @@
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import type { ItemInfo } from "@/types";
+import { generateSlugFromItem } from "@/lib/slug-utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -142,7 +143,7 @@ export default function ListingCard({
 
         <div className="pt-2 flex items-center gap-3">
           <Link
-            href={`/listing/${item._id}`}
+            href={`/listing/${generateSlugFromItem(item)}`}
             className="bauhaus-btn-primary text-sm"
           >
             VIEW LISTING →

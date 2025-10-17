@@ -13,6 +13,7 @@ import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import type { Listing } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
 import { cn } from "@/lib/utils";
+import { generateSlugFromListing } from "@/lib/slug-utils";
 import { CheckCircleIcon, GlobeIcon, MapPinIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,11 +24,7 @@ interface ListingCardProps {
 }
 
 export async function ListingCard({ listing, className }: ListingCardProps) {
-  const slug =
-    listing.listing_name
-      ?.toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^a-z0-9-]/g, "") || listing.id;
+  const slug = generateSlugFromListing(listing);
 
   console.log("ListingCard: Generated slug:", {
     listingName: listing.listing_name,
@@ -38,6 +35,16 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
 
   const categories = listing.categories || [];
   const ageRange = listing.age_range || [];
+
+  // Filter out UUIDs from categories
+  const isUuidLike = (value: string | undefined): boolean => {
+    if (!value) return false;
+    return /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
+      value.trim(),
+    );
+  };
+
+  const validCategories = categories.filter(cat => !isUuidLike(cat));
 
   // Get average rating if reviews are enabled
   let averageRating = { average: 0, count: 0 };
@@ -189,9 +196,9 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
         )}
 
         {/* Categories */}
-        {categories.length > 0 && (
+        {validCategories.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-3">
-            {categories.slice(0, 2).map((category) => (
+            {validCategories.slice(0, 2).map((category) => (
               <Badge
                 key={category}
                 variant="outline"
@@ -200,12 +207,12 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
                 {category}
               </Badge>
             ))}
-            {categories.length > 2 && (
+            {validCategories.length > 2 && (
               <Badge
                 variant="outline"
                 className="text-xs border-secondary-denim text-secondary-denim"
               >
-                +{categories.length - 2} more
+                +{validCategories.length - 2} more
               </Badge>
             )}
           </div>

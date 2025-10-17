@@ -1,4 +1,5 @@
 import type { Listing } from "@/data/listings";
+import { generateSlugFromListing } from "@/lib/slug-utils";
 import Link from "next/link";
 
 interface RelatedLinksProps {

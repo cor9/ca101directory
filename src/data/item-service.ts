@@ -7,6 +7,23 @@ import { ITEMS_PER_PAGE } from "@/lib/constants";
 import type { ItemInfo } from "@/types";
 
 /**
+ * Generate a proper SEO-friendly slug from listing name
+ */
+function generateSlug(listingName: string, id: string): string {
+  if (!listingName || listingName.trim() === "") {
+    // If no name, create a generic slug with ID suffix
+    return `listing-${id.slice(-8)}`;
+  }
+  
+  return listingName
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+/**
  * Convert Airtable Listing to MkDirs Item format
  */
 function listingToItem(listing: Listing): ItemInfo {
@@ -16,10 +33,7 @@ function listingToItem(listing: Listing): ItemInfo {
     name: listing.listing_name || "Untitled Listing",
     slug: {
       _type: "slug" as const,
-      current: (listing.listing_name || "untitled")
-        .toLowerCase()
-        .replace(/\s+/g, "-")
-        .replace(/[^a-z0-9-]/g, ""),
+      current: generateSlug(listing.listing_name || "untitled", listing.id),
     },
     description: (listing.what_you_offer || "").replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim(),
     link: listing.website || "",

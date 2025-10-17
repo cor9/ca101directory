@@ -186,6 +186,14 @@ export default async function ListingPage({ params }: ListingPageProps) {
     const normalizeCategory = (value: string) =>
       value.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
 
+    // Helper function to check if a value looks like a UUID
+    const isUuidLike = (value: string | undefined): boolean => {
+      if (!value) return false;
+      return /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
+        value.trim(),
+      );
+    };
+
     const categoryNameLookup = new Map<string, string>();
     for (const cat of categoryRecords) {
       const key = normalizeCategory(cat.category_name || "");
@@ -261,8 +269,25 @@ export default async function ListingPage({ params }: ListingPageProps) {
           };
         }
 
-        // If no database match, try to use the UUID as a fallback category name
-        // This handles cases where the category lookup fails
+        // If catId is already a readable category name (not a UUID), use it directly
+        if (!isUuidLike(catId)) {
+          const key = normalizeCategory(catId);
+          const iconFilename = iconLookup.get(key);
+          const localIconEntry = Object.entries(localIconMap).find(
+            ([n]) => normalizeCategory(n) === key,
+          );
+          const localIcon = localIconEntry?.[1];
+          return {
+            original: catId,
+            displayName: catId,
+            iconUrl: iconFilename
+              ? getCategoryIconUrl(iconFilename)
+              : localIcon || null,
+            key: `${catId}-${iconFilename || localIcon || ""}`,
+          };
+        }
+
+        // If no database match and it's a UUID, use default fallback
         return {
           original: catId,
           displayName: "Acting Classes & Coaches", // Default fallback

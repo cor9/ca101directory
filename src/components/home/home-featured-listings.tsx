@@ -80,8 +80,10 @@ export default async function HomeFeaturedListings() {
   const generateCategorySlug = (categoryName: string): string => {
     return categoryName
       .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^a-z0-9-]/g, "");
+      .replace(/[^a-z0-9\s]/g, "") // Remove special characters first
+      .replace(/\s+/g, "-") // Then replace spaces with dashes
+      .replace(/-+/g, "-") // Replace multiple dashes with single dash
+      .replace(/^-|-$/g, ""); // Remove leading/trailing dashes
   };
 
   try {

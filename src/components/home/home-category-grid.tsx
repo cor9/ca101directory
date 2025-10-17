@@ -120,8 +120,10 @@ export default async function HomeCategoryGrid() {
         name: category.category_name,
         slug: category.category_name
           .toLowerCase()
-          .replace(/\s+/g, "-")
-          .replace(/[^a-z0-9-]/g, ""),
+          .replace(/[^a-z0-9\s]/g, "") // Remove special characters first
+          .replace(/\s+/g, "-") // Then replace spaces with dashes
+          .replace(/-+/g, "-") // Replace multiple dashes with single dash
+          .replace(/^-|-$/g, ""), // Remove leading/trailing dashes
         icon: categoryIconMap[category.category_name] || "star",
         description: `Professional ${category.category_name.toLowerCase()} services`,
         count: categoryCounts[category.category_name] || 0,

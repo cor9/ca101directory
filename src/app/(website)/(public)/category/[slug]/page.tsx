@@ -27,8 +27,10 @@ export async function generateStaticParams() {
     return categories.map((category) => ({
       slug: category.category_name
         .toLowerCase()
-        .replace(/\s+/g, "-")
-        .replace(/[^a-z0-9-]/g, ""),
+        .replace(/[^a-z0-9\s]/g, "") // Remove special characters first
+        .replace(/\s+/g, "-") // Then replace spaces with dashes
+        .replace(/-+/g, "-") // Replace multiple dashes with single dash
+        .replace(/^-|-$/g, ""), // Remove leading/trailing dashes
     }));
   } catch (error) {
     console.error("generateStaticParams error:", error);
@@ -45,13 +47,15 @@ export async function generateMetadata({
   try {
     const categories = await getCategories();
 
-    const category = categories.find(
-      (cat) =>
-        cat.category_name
-          .toLowerCase()
-          .replace(/\s+/g, "-")
-          .replace(/[^a-z0-9-]/g, "") === params.slug,
-    );
+    const category = categories.find((cat) => {
+      const generatedSlug = cat.category_name
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, "") // Remove special characters first
+        .replace(/\s+/g, "-") // Then replace spaces with dashes
+        .replace(/-+/g, "-") // Replace multiple dashes with single dash
+        .replace(/^-|-$/g, ""); // Remove leading/trailing dashes
+      return generatedSlug === params.slug;
+    });
 
     if (!category) {
       return constructMetadata({
@@ -97,13 +101,15 @@ export default async function CategoryPage({
     // Get categories to validate the slug and find category name
     const categories = await getCategories();
 
-    const category = categories.find(
-      (cat) =>
-        cat.category_name
-          .toLowerCase()
-          .replace(/\s+/g, "-")
-          .replace(/[^a-z0-9-]/g, "") === params.slug,
-    );
+    const category = categories.find((cat) => {
+      const generatedSlug = cat.category_name
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, "") // Remove special characters first
+        .replace(/\s+/g, "-") // Then replace spaces with dashes
+        .replace(/-+/g, "-") // Replace multiple dashes with single dash
+        .replace(/^-|-$/g, ""); // Remove leading/trailing dashes
+      return generatedSlug === params.slug;
+    });
 
     if (!category) {
       console.log("CategoryPage: No category found for slug:", params.slug);

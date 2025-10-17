@@ -23,7 +23,13 @@
     "deployment": {
       "backend": "Supabase",
       "hosting": "Vercel",
-      "disallowed": ["Sanity", "Airtable"]
+      "disallowed": ["Sanity", "Airtable"],
+      "useMCPTools": ["git", "stripe", "vercel"],
+      "postDeployCheck": {
+        "enabled": true,
+        "checkType": "deployment_status",
+        "delaySeconds": 120
+      }
     },
     "commitPolicy": {
       "requireDescription": true,
@@ -34,5 +40,12 @@
       "updateChangeLog": true,
       "changeLogFile": "for cursor/context/context_decisions.md"
     }
+  },
+  "metadata": {
+    "notes": [
+      "This configuration automatically loads all project documentation from `.cursor/rules/` and `.cursor/for cursor/context/`.",
+      "Cursor and MCP will use Git, Stripe, and Vercel integrations when available.",
+      "After each successful push to Vercel, deployment status will be checked after a 120-second delay."
+    ]
   }
 }

@@ -157,8 +157,12 @@ export default async function ListingPage({ params }: ListingPageProps) {
       "ListingPage: Attempting to load listing for slug:",
       params.slug,
     );
+
     const listing = await getListingBySlug(params.slug);
+    console.log("ListingPage: getListingBySlug completed");
+    
     const session = await auth();
+    console.log("ListingPage: auth completed");
 
     if (!listing) {
       console.error("ListingPage: Listing not found for slug:", params.slug);
@@ -172,10 +176,12 @@ export default async function ListingPage({ params }: ListingPageProps) {
       redirect(`/listing/${properSlug}`);
     }
 
+    console.log("ListingPage: About to fetch categories and icons");
     const [categoryRecords, categoryIconMap] = await Promise.all([
       getCategories(),
       getCategoryIconsMap(),
     ]);
+    console.log("ListingPage: Categories and icons fetched");
 
     const normalizeCategory = (value: string) =>
       value.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
@@ -228,7 +234,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
     };
 
     // Fetch category names from database for UUIDs using server action
+    console.log("ListingPage: About to fetch category names by IDs");
     const categoryNames = await getCategoriesByIds(listing.categories || []);
+    console.log("ListingPage: Category names by IDs fetched");
 
     // Display categories - handle both UUIDs and names
     const displayCategories = (listing.categories || [])
@@ -280,14 +288,18 @@ export default async function ListingPage({ params }: ListingPageProps) {
     let averageRating = { average: 0, count: 0 };
     if (isReviewsEnabled()) {
       try {
+        console.log("ListingPage: About to fetch average rating");
         averageRating = await getListingAverageRating(listing.id);
+        console.log("ListingPage: Average rating fetched");
       } catch (error) {
         console.error("Error fetching rating:", error);
       }
     }
 
     // Get related listings (same category, different listing)
+    console.log("ListingPage: About to fetch public listings for related");
     const relatedListings = await getPublicListings();
+    console.log("ListingPage: Public listings fetched");
     const primaryCategory = listing.categories?.[0];
     const related = relatedListings
       .filter(
@@ -788,7 +800,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
       </div>
     );
   } catch (error) {
-    console.error("ListingPage error:", error);
+    console.error("ListingPage: Error loading listing:", error);
     return notFound();
   }
 }

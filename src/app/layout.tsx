@@ -1,6 +1,5 @@
 import "@/styles/globals.css";
 import "@/styles/tokens.css";
-import "@/styles/bauhaus.css";
 
 import {
   fontBricolageGrotesque as fontBricolage,

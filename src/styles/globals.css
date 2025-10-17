@@ -43,10 +43,10 @@
     --muted-teal: 180 50% 35%; /* #2D888D - Accent 4 */
 
     /* Bauhaus named tokens (used by design.md examples) */
-    --cream-ink: #1b1f29; /* Text on cream */
-    --mustard-yellow: #d4a574;
-    --faded-red-orange: #cc5a47;
-    --robin-egg-blue: #7ab8cc;
+    --cream-ink: #1B1F29; /* Text on cream */
+    --mustard-yellow: #D4A574;
+    --faded-red-orange: #CC5A47;
+    --robin-egg-blue: #7AB8CC;
     --card-border: rgba(27, 31, 41, 0.18);
     --shadow-bauhaus: 0 4px 12px rgba(13, 27, 42, 0.18);
     --shadow-bauhaus-lg: 0 8px 20px rgba(13, 27, 42, 0.25);
@@ -763,7 +763,7 @@ body [data-radix-select-item]:hover {
 /* CRITICAL: Fix unreadable text-gray-900 across entire site */
 /* Override text-gray-900 with proper design system colors */
 .text-gray-900 {
-  color: #1b1f29 !important; /* Always use dark text for readability */
+  color: #1B1F29 !important; /* Always use dark text for readability */
 }
 
 /* Navigation specific overrides - FORCE dark text */
@@ -773,7 +773,7 @@ header .text-gray-900,
 header .text-gray-900\/60,
 .navigation .text-gray-900,
 .navigation .text-gray-900\/60 {
-  color: #1b1f29 !important; /* Force dark text on navigation */
+  color: #1B1F29 !important; /* Force dark text on navigation */
 }
 
 /* Force all navigation links to be dark */
@@ -781,19 +781,19 @@ nav a,
 header a,
 nav button,
 header button {
-  color: #1b1f29 !important;
+  color: #1B1F29 !important;
 }
 
 /* Admin dashboard overrides */
 .admin-dashboard .text-gray-900 {
-  color: #1b1f29 !important; /* cream-ink from Bauhaus design system */
+  color: #1B1F29 !important; /* cream-ink from Bauhaus design system */
 }
 
 /* Card content overrides */
 .bg-card .text-gray-900,
 .bg-surface .text-gray-900,
 .bg-cream .text-gray-900 {
-  color: #1b1f29 !important; /* cream-ink for text on cream backgrounds */
+  color: #1B1F29 !important; /* cream-ink for text on cream backgrounds */
 }
 
 /* CRITICAL: Prevent light-on-light combinations */
@@ -806,7 +806,7 @@ header button {
 .bg-white .text-gray-900,
 .bg-gray-50 .text-gray-900,
 .bg-gray-100 .text-gray-900 {
-  color: #1b1f29 !important; /* Always use dark text on light backgrounds */
+  color: #1B1F29 !important; /* Always use dark text on light backgrounds */
 }
 
 /* Dark backgrounds should ALWAYS have light text */
@@ -837,5 +837,5 @@ header button {
 /* Ensure form labels are always readable */
 label,
 .form-label {
-  color: #1b1f29 !important;
+  color: #1B1F29 !important;
 }

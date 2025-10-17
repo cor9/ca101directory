@@ -82,40 +82,34 @@ export default function ListingCard({
     );
   };
   return (
-    <article className="bauhaus-card overflow-hidden p-0">
-      <div className="aspect-[16/9] bg-[#EDE6C8] relative overflow-hidden">
-        {profileUrl ? (
-          <Image
-            src={profileUrl}
-            alt={item.name}
-            fill
-            className="object-cover"
-          />
-        ) : fallbackIcon ? (
-          <Image
-            src={fallbackIcon}
-            alt={primaryCategory || item.name}
-            fill
-            className="object-contain p-6"
-          />
-        ) : null}
-      </div>
+    <article className="card">
+      {profileUrl ? (
+        <Image src={profileUrl} alt={item.name} width={800} height={450} />
+      ) : fallbackIcon ? (
+        <Image
+          src={fallbackIcon}
+          alt={primaryCategory || item.name}
+          width={800}
+          height={450}
+          className="logo"
+        />
+      ) : null}
 
-      <div className="p-6 space-y-4">
+      <div className="card-body">
         <div className="flex items-center gap-2">
           {approved && (
-            <span className="bauhaus-chip bauhaus-chip-mustard text-xs font-semibold">
+            <span className="chip mustard text-xs font-semibold">
               101 APPROVED
             </span>
           )}
         </div>
 
-        <h3 className="bauhaus-heading text-lg md:text-xl line-clamp-2">
+        <h3 className="text-lg md:text-xl line-clamp-2">
           {item.name}
         </h3>
 
         {item.description && (
-          <p className="bauhaus-body text-sm opacity-85 line-clamp-2">{item.description}</p>
+          <p className="text-sm opacity-85 line-clamp-2">{item.description}</p>
         )}
 
         {item.categories && item.categories.length > 0 && (
@@ -129,33 +123,18 @@ export default function ListingCard({
                   allCategories.find((candidate) =>
                     candidate.toLowerCase().startsWith(name.toLowerCase()),
                   ) || name;
-                return (
-                  <span
-                    key={c._id}
-                    className="bauhaus-chip text-xs"
-                  >
-                    {full.toUpperCase()}
-                  </span>
-                );
+                return <span key={c._id} className="chip mustard text-xs">{full.toUpperCase()}</span>;
               })}
           </div>
         )}
 
-        <div className="pt-2 flex items-center gap-3">
-          <Link
-            href={`/listing/${generateSlugFromItem(item)}`}
-            className="bauhaus-btn-primary text-sm"
-          >
-            VIEW LISTING →
+        <div className="buttons">
+          <Link href={`/listing/${generateSlugFromItem(item)}`} className="btn btn-primary text-sm">
+            View Listing →
           </Link>
           {item.link && (
-            <a
-              href={item.link}
-              target="_blank"
-              rel="noreferrer"
-              className="bauhaus-btn-secondary text-sm"
-            >
-              WEBSITE
+            <a href={item.link} target="_blank" rel="noreferrer" className="btn text-sm">
+              Website
             </a>
           )}
         </div>

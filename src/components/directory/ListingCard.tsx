@@ -1,10 +1,14 @@
-import { urlForImage } from "@/lib/image";
+import { urlForImage, urlForIcon } from "@/lib/image";
 import type { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function ListingCard({ item }: { item: ItemInfo }) {
-  const imageProps = item?.image ? urlForImage(item.image) : null;
+  const imageProps = item?.image
+    ? urlForImage(item.image)
+    : item?.icon
+      ? urlForIcon(item.icon)
+      : null;
   const planLabel =
     item.pricePlan ||
     (item.proPlanStatus

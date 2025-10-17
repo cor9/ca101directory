@@ -11,7 +11,7 @@ export const SUPPORT_AI_SUBMIT = false;
 export const SUPPORT_CATEGORY_GROUP = true;
 // support item icon, default is true (aka, show item icon)
 // NOTE: if you set true, you should make sure the item icon is available
-export const SUPPORT_ITEM_ICON = true;
+export const SUPPORT_ITEM_ICON = false;
 // number of items per page
 export const ITEMS_PER_PAGE = 12;
 // number of collections per page

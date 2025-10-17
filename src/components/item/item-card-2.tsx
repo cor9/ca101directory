@@ -25,11 +25,9 @@ export default function ItemCard2({ item }: ItemCard2Props) {
   return (
     <div
       className={cn(
-        "border rounded-lg flex flex-col justify-between p-6",
-        "duration-300 shadow-sm hover:shadow-md transition-shadow",
-        item.featured
-          ? "border-brand-orange/30 border-spacing-1.5 bg-brand-orange/5 dark:bg-brand-orange/10 hover:bg-brand-orange/10 dark:hover:bg-accent/60"
-          : "hover:bg-accent/60 transition-colors duration-300",
+        "cursor-pointer bg-paper border border-surface/20 rounded-lg flex flex-col justify-between p-6",
+        "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] hover:border-primary-orange/30",
+        item.featured ? "border-primary-orange/40" : "",
       )}
     >
       {/* top */}
@@ -50,8 +48,8 @@ export default function ItemCard2({ item }: ItemCard2Props) {
           <Link href={`/listing/${item._id}`} className="min-w-0 flex-1">
             <h3
               className={cn(
-                "text-xl font-medium truncate overflow-hidden text-ellipsis text-gray-900",
-                item.featured && "text-gradient_blue-orange font-semibold",
+                "text-xl font-medium truncate overflow-hidden text-ellipsis text-surface",
+                item.featured && "text-primary-orange font-semibold",
               )}
             >
               {item.name}
@@ -67,12 +65,9 @@ export default function ItemCard2({ item }: ItemCard2Props) {
                 <a
                   key={category._id}
                   href={`/category/${category.slug.current}`}
-                  className={cn(
-                    buttonVariants({ variant: "outline", size: "sm" }),
-                    "px-2 py-1 h-6 rounded-md",
-                  )}
+                  className="px-2 py-1 h-6 rounded-md bg-highlight text-ink"
                 >
-                  <span className="text-sm text-gray-900">
+                  <span className="text-sm">
                     {category.name}
                   </span>
                 </a>
@@ -83,7 +78,7 @@ export default function ItemCard2({ item }: ItemCard2Props) {
 
         {/* min-h-[4.5rem] is used for making sure height of the card is the same */}
         <Link href={`/listing/${item._id}`} className="block cursor-pointer">
-          <p className="text-sm line-clamp-3 leading-relaxed min-h-[4.5rem] text-gray-900">
+          <p className="text-sm line-clamp-3 leading-relaxed min-h-[4.5rem] text-surface/80">
             {item.description}
           </p>
         </Link>
@@ -99,14 +94,14 @@ export default function ItemCard2({ item }: ItemCard2Props) {
                 href={`/tag/${tag.slug.current}`}
                 className="flex items-center justify-center space-x-0.5 group"
               >
-                <HashIcon className="w-3 h-3 text-gray-900 icon-scale" />
-                <span className="text-sm text-gray-900 link-underline">
+                <HashIcon className="w-3 h-3 text-surface/60 icon-scale" />
+                <span className="text-sm text-surface/60 link-underline">
                   {tag.name}
                 </span>
               </Link>
             ))}
             {item.tags.length > 5 && (
-              <span className="text-sm text-gray-900 px-1">
+              <span className="text-sm text-surface/60 px-1">
                 +{item.tags.length - 5}
               </span>
             )}

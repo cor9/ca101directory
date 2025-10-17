@@ -1,3 +1,4 @@
+import { getCategoriesByIds } from "@/actions/categories";
 import { auth } from "@/auth";
 import { ClaimButton } from "@/components/claim/claim-button";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
@@ -22,10 +23,8 @@ import { getListingBySlug, getPublicListings } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import { constructMetadata } from "@/lib/metadata";
-import { cn } from "@/lib/utils";
 import { generateSlugFromListing } from "@/lib/slug-utils";
-import { redirect, notFound } from "next/navigation";
-import { getCategoriesByIds } from "@/actions/categories";
+import { cn } from "@/lib/utils";
 import {
   CheckCircleIcon,
   EditIcon,
@@ -39,6 +38,7 @@ import {
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
 
 // Force dynamic rendering to avoid static/dynamic conflicts
 export const dynamic = "force-dynamic";
@@ -51,7 +51,7 @@ function generateSlug(listingName: string, id: string): string {
     // If no name, create a generic slug with ID suffix
     return `listing-${id.slice(-8)}`;
   }
-  
+
   return listingName
     .toLowerCase()
     .replace(/\s+/g, "-")
@@ -71,7 +71,9 @@ export async function generateStaticParams() {
 
     // Convert listing names to proper SEO-friendly slugs
     return listings
-      .filter((listing) => listing.listing_name && listing.listing_name.trim() !== "")
+      .filter(
+        (listing) => listing.listing_name && listing.listing_name.trim() !== "",
+      )
       .map((listing) => ({
         slug: generateSlug(listing.listing_name || "", listing.id),
       }));
@@ -164,7 +166,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
     }
 
     // Handle UUID redirect - redirect to proper SEO-friendly URL
-    if ('_needsRedirect' in listing && listing._needsRedirect) {
+    if ("_needsRedirect" in listing && listing._needsRedirect) {
       const properSlug = generateSlugFromListing(listing);
       console.log("ListingPage: Redirecting UUID to proper slug:", properSlug);
       redirect(`/listing/${properSlug}`);
@@ -229,36 +231,38 @@ export default async function ListingPage({ params }: ListingPageProps) {
     const categoryNames = await getCategoriesByIds(listing.categories || []);
 
     // Display categories - handle both UUIDs and names
-    const displayCategories = (listing.categories || []).map((catId) => {
-      // If we have a category name from database, use it
-      if (categoryNames[catId]) {
-        const categoryName = categoryNames[catId];
-        const key = normalizeCategory(categoryName);
-        const displayName = categoryNameLookup.get(key) || categoryName;
-        const iconFilename = iconLookup.get(key);
-        const localIconEntry = Object.entries(localIconMap).find(
-          ([n]) => normalizeCategory(n) === key,
-        );
-        const localIcon = localIconEntry?.[1];
+    const displayCategories = (listing.categories || [])
+      .map((catId) => {
+        // If we have a category name from database, use it
+        if (categoryNames[catId]) {
+          const categoryName = categoryNames[catId];
+          const key = normalizeCategory(categoryName);
+          const displayName = categoryNameLookup.get(key) || categoryName;
+          const iconFilename = iconLookup.get(key);
+          const localIconEntry = Object.entries(localIconMap).find(
+            ([n]) => normalizeCategory(n) === key,
+          );
+          const localIcon = localIconEntry?.[1];
+          return {
+            original: categoryName,
+            displayName,
+            iconUrl: iconFilename
+              ? getCategoryIconUrl(iconFilename)
+              : localIcon || null,
+            key: `${categoryName}-${iconFilename || localIcon || ""}`,
+          };
+        }
+
+        // If no database match, try to use the UUID as a fallback category name
+        // This handles cases where the category lookup fails
         return {
-          original: categoryName,
-          displayName,
-          iconUrl: iconFilename
-            ? getCategoryIconUrl(iconFilename)
-            : localIcon || null,
-          key: `${categoryName}-${iconFilename || localIcon || ""}`,
+          original: catId,
+          displayName: "Acting Classes & Coaches", // Default fallback
+          iconUrl: null,
+          key: `fallback-${catId}`,
         };
-      }
-      
-      // If no database match, try to use the UUID as a fallback category name
-      // This handles cases where the category lookup fails
-      return {
-        original: catId,
-        displayName: "Acting Classes & Coaches", // Default fallback
-        iconUrl: null,
-        key: `fallback-${catId}`,
-      };
-    }).filter(cat => cat.displayName && cat.displayName !== cat.original);
+      })
+      .filter((cat) => cat.displayName && cat.displayName !== cat.original);
 
     console.log("ListingPage: Successfully found listing:", {
       id: listing.id,
@@ -324,9 +328,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
         {/* Header Card */}
         <div className="listing-card">
           {/* Breadcrumb */}
-          <div
-            className="flex items-center gap-2 text-sm mb-6 text-gray-900"
-          >
+          <div className="flex items-center gap-2 text-sm mb-6 text-gray-900">
             <Link href="/" className="hover:text-primary-orange">
               Directory
             </Link>
@@ -697,9 +699,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     },
                   )
                 ) : (
-                  <span className="text-gray-900">
-                    No categories listed
-                  </span>
+                  <span className="text-gray-900">No categories listed</span>
                 )}
               </div>
             </div>
@@ -733,9 +733,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                       </span>
                     ))
                 ) : (
-                  <span className="text-gray-900">
-                    No age range specified
-                  </span>
+                  <span className="text-gray-900">No age range specified</span>
                 )}
               </div>
             </div>

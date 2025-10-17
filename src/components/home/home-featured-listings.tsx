@@ -1,8 +1,8 @@
 import { Icons } from "@/components/icons/icons";
 import { getPublicListings } from "@/data/listings";
 import { getListingImageUrl } from "@/lib/image-urls";
-import { cn } from "@/lib/utils";
 import { generateSlug } from "@/lib/slug-utils";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -70,7 +70,10 @@ export default async function HomeFeaturedListings() {
       .map((listing) => ({
         id: listing.id,
         name: listing.listing_name || "Untitled Listing",
-        description: (listing.what_you_offer || "Professional acting services").replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim(),
+        description: (listing.what_you_offer || "Professional acting services")
+          .replace(/<[^>]*>/g, " ")
+          .replace(/\s+/g, " ")
+          .trim(),
         image: listing.profile_image
           ? getListingImageUrl(listing.profile_image)
           : "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop",
@@ -151,9 +154,7 @@ export default async function HomeFeaturedListings() {
               </div>
 
               <div className="flex items-center justify-between">
-                <span style={{ color: "#1B1F29" }}>
-                  {listing.category}
-                </span>
+                <span style={{ color: "#1B1F29" }}>{listing.category}</span>
                 <Link
                   href={`/listing/${generateSlug(listing.name, listing.id)}`}
                   className="text-secondary-denim hover:text-primary-orange text-sm font-semibold transition-colors"

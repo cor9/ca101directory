@@ -33,7 +33,7 @@ export function ListingCardClient({
   const [averageRating, setAverageRating] = useState({ average: 0, count: 0 });
   const [ratingLoading, setRatingLoading] = useState(true);
 
-  const slug = generateSlugFromListing(listing);
+  const slug = listing.slug || generateSlugFromListing(listing);
 
   const categories = listing.categories || [];
   const ageRange = listing.age_range || [];

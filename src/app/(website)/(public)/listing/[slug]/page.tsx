@@ -19,7 +19,11 @@ import { StarRating } from "@/components/ui/star-rating";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import { siteConfig } from "@/config/site";
 import { getCategories, getCategoryIconsMap } from "@/data/categories";
-import { getListingBySlug, getPublicListings } from "@/data/listings";
+import {
+  type Listing,
+  getListingBySlug,
+  getPublicListings,
+} from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import { constructMetadata } from "@/lib/metadata";
@@ -69,13 +73,12 @@ export async function generateStaticParams() {
     const { getPublicListings } = await import("@/data/listings");
     const listings = await getPublicListings();
 
-    // Convert listing names to proper SEO-friendly slugs
+    // Prefer database slug; fall back to generated
     return listings
-      .filter(
-        (listing) => listing.listing_name && listing.listing_name.trim() !== "",
-      )
+      .filter((listing) => !!(listing.slug || listing.listing_name))
       .map((listing) => ({
-        slug: generateSlug(listing.listing_name || "", listing.id),
+        slug:
+          listing.slug || generateSlug(listing.listing_name || "", listing.id),
       }));
   } catch (error) {
     console.error("generateStaticParams error:", error);
@@ -295,7 +298,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
           key: `fallback-${catId}`,
         };
       })
-      .filter((cat) => cat.displayName && cat.key && !cat.key.startsWith('fallback-'));
+      .filter(
+        (cat) => cat.displayName && cat.key && !cat.key.startsWith("fallback-"),
+      );
 
     console.log("ListingPage: Successfully found listing:", {
       id: listing.id,
@@ -325,7 +330,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
     console.log("ListingPage: About to fetch public listings for related");
     // Temporarily disable related listings fetch to debug hanging issue
     // const relatedListings = await getPublicListings();
-    const relatedListings: any[] = [];
+    const relatedListings: Listing[] = [];
     console.log("ListingPage: Public listings fetch skipped (debugging)");
     const primaryCategory = listing.categories?.[0];
     const related = relatedListings

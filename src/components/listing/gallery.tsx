@@ -78,8 +78,8 @@ export function Gallery({ listing }: GalleryProps) {
                   className="border w-full shadow-lg object-cover"
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white bg-opacity-90 px-3 py-1 rounded-full">
-                    <span className="text-sm font-medium text-gray-900">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white px-4 py-2 rounded-full shadow-lg border border-gray-200">
+                    <span className="text-sm font-semibold text-black">
                       Click to enlarge
                     </span>
                   </div>

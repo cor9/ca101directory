@@ -15,6 +15,7 @@ interface FeaturedListing {
   category: string;
   tags: string[];
   featured?: boolean;
+  isFallback?: boolean;
 }
 
 // Fallback featured listings if no Airtable data
@@ -30,6 +31,7 @@ const fallbackListings: FeaturedListing[] = [
     category: "Acting Classes & Coaches",
     tags: ["On-Camera", "Audition Prep", "Teens"],
     featured: true,
+    isFallback: true,
   },
   {
     id: "2",
@@ -41,6 +43,7 @@ const fallbackListings: FeaturedListing[] = [
     website: "https://spotlightheadshots.com",
     category: "Headshot Photographers",
     tags: ["Portfolio", "Professional", "Child-Friendly"],
+    isFallback: true,
   },
   {
     id: "3",
@@ -52,12 +55,21 @@ const fallbackListings: FeaturedListing[] = [
     category: "Acting Classes & Coaches",
     tags: ["Private Coaching", "Self-Tape", "Career Guidance"],
     featured: true,
+    isFallback: true,
   },
 ];
 
 export default async function HomeFeaturedListings() {
   // Get real listings from Supabase
   let listings: FeaturedListing[] = [];
+
+  // Helper function to check if a value looks like a UUID
+  const isUuidLike = (value: string | undefined): boolean => {
+    if (!value) return false;
+    return /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
+      value.trim(),
+    );
+  };
 
   try {
     const supabaseListings = await getPublicListings();
@@ -67,21 +79,30 @@ export default async function HomeFeaturedListings() {
         (a.listing_name || "").localeCompare(b.listing_name || ""),
       ) // Alphabetical order
       .slice(0, 3) // Limit to 3
-      .map((listing) => ({
-        id: listing.id,
-        name: listing.listing_name || "Untitled Listing",
-        description: (listing.what_you_offer || "Professional acting services")
-          .replace(/<[^>]*>/g, " ")
-          .replace(/\s+/g, " ")
-          .trim(),
-        image: listing.profile_image
-          ? getListingImageUrl(listing.profile_image)
-          : "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop",
-        website: listing.website || "#",
-        category: listing.categories?.[0] || "Acting Professional", // categories is now an array
-        tags: listing.age_range || [], // age_range is now an array
-        featured: listing.featured || false,
-      }));
+      .map((listing) => {
+        // Filter out UUIDs from categories
+        const validCategories = (listing.categories || []).filter(
+          (cat) => !isUuidLike(cat),
+        );
+
+        return {
+          id: listing.id,
+          name: listing.listing_name || "Untitled Listing",
+          description: (
+            listing.what_you_offer || "Professional acting services"
+          )
+            .replace(/<[^>]*>/g, " ")
+            .replace(/\s+/g, " ")
+            .trim(),
+          image: listing.profile_image
+            ? getListingImageUrl(listing.profile_image)
+            : "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop",
+          website: listing.website || "#",
+          category: validCategories[0] || "Acting Professional", // Use first valid category
+          tags: listing.age_range || [], // age_range is now an array
+          featured: listing.featured || false,
+        };
+      });
   } catch (error) {
     console.error("Error fetching featured listings:", error);
   }
@@ -93,10 +114,10 @@ export default async function HomeFeaturedListings() {
   return (
     <section className="py-16">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold mb-4" style={{ color: "#1B1F29" }}>
+        <h2 className="bauhaus-heading text-3xl mb-4 text-paper">
           Featured Professionals
         </h2>
-        <p className="text-lg max-w-2xl mx-auto" style={{ color: "#1B1F29" }}>
+        <p className="bauhaus-body text-lg max-w-2xl mx-auto text-paper">
           Hand-picked professionals trusted by families across the industry
         </p>
       </div>
@@ -126,22 +147,13 @@ export default async function HomeFeaturedListings() {
 
             <div className="p-6">
               <div className="flex items-start justify-between mb-3">
-                <h3
-                  className="font-semibold text-lg"
-                  style={{ color: "#1B1F29" }}
-                >
+                <h3 className="bauhaus-heading text-lg text-surface">
                   {listing.name}
                 </h3>
-                <Icons.externalLink
-                  className="h-4 w-4"
-                  style={{ color: "#1B1F29" }}
-                />
+                <Icons.externalLink className="h-4 w-4 text-surface" />
               </div>
 
-              <p
-                className="text-sm mb-4 line-clamp-4"
-                style={{ color: "#1B1F29" }}
-              >
+              <p className="bauhaus-body text-sm mb-4 line-clamp-4 text-surface">
                 {listing.description}
               </p>
 
@@ -154,10 +166,17 @@ export default async function HomeFeaturedListings() {
               </div>
 
               <div className="flex items-center justify-between">
-                <span style={{ color: "#1B1F29" }}>{listing.category}</span>
+                <span className="bauhaus-body text-surface">
+                  {listing.category}
+                </span>
                 <Link
-                  href={`/listing/${generateSlug(listing.name, listing.id)}`}
+                  href={
+                    listing.isFallback
+                      ? listing.website
+                      : `/listing/${generateSlug(listing.name, listing.id)}`
+                  }
                   className="text-secondary-denim hover:text-primary-orange text-sm font-semibold transition-colors"
+                  target={listing.isFallback ? "_blank" : undefined}
                 >
                   View Listing →
                 </Link>

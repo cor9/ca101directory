@@ -8,7 +8,10 @@ interface CategoryContentProps {
   listingCount: number;
 }
 
-export function CategoryContent({ categoryName, listingCount }: CategoryContentProps) {
+export function CategoryContent({
+  categoryName,
+  listingCount,
+}: CategoryContentProps) {
   const content = getCategoryContent(categoryName, listingCount);
 
   if (!content) return null;
@@ -17,9 +20,7 @@ export function CategoryContent({ categoryName, listingCount }: CategoryContentP
     <div className="space-y-8 mb-12">
       {/* Intro Section - Bauhaus cream card with dark text */}
       <div className="bg-paper rounded-lg p-8 border-2 border-surface/20">
-        <p className="text-lg leading-relaxed text-surface">
-          {content.intro}
-        </p>
+        <p className="text-lg leading-relaxed text-surface">{content.intro}</p>
       </div>
 
       {/* Why You Need This Section */}
@@ -56,11 +57,14 @@ export function CategoryContent({ categoryName, listingCount }: CategoryContentP
 }
 
 function getCategoryContent(categoryName: string, listingCount: number) {
-  const contentMap: Record<string, {
-    intro: string;
-    whyYouNeed: string[];
-    whatToLookFor: string[];
-  }> = {
+  const contentMap: Record<
+    string,
+    {
+      intro: string;
+      whyYouNeed: string[];
+      whatToLookFor: string[];
+    }
+  > = {
     "Headshot Photographers": {
       intro: `Finding the right headshot photographer is crucial for your child's acting career. A great headshot captures your child's personality, range, and authenticity—helping them stand out in auditions and catch casting directors' attention. Browse ${listingCount} professional headshot photographers who specialize in child actors and understand the unique needs of young performers.`,
       whyYouNeed: [

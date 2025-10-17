@@ -138,22 +138,20 @@ export default async function DirectoryPage({
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {items.map((it) => (
                   <div className="card" key={it._id}>
-                    <div>
-                      <ListingCard
-                        key={it._id}
-                        item={it}
-                        categoryIconMap={categoryIconMap}
-                        allCategories={
-                          categories?.map((c) => c.category_name) || []
-                        }
-                      />
-                    </div>
+                    <ListingCard
+                      key={it._id}
+                      item={it}
+                      categoryIconMap={categoryIconMap}
+                      allCategories={
+                        categories?.map((c) => c.category_name) || []
+                      }
+                    />
                   </div>
                 ))}
               </div>
 
               <div className="mt-10 flex justify-center">
-                <div className="card" style={{ borderRadius: 9999 }}>
+                <div className="card">
                   <CustomPagination
                     routePrefix="/directory"
                     totalPages={totalPages}

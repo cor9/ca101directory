@@ -2,38 +2,15 @@
   "version": 1,
   "context": {
     "include": [
-      "context/README.md",
-      "context/PRD.md",
-      "context/CODEBASE.md",
-      "context/SETUP_GUIDE.md",
-      "context/SUPABASE_SETUP.md",
-      "context/SUPABASE_HEALTH_REPORT.md",
-      "context/RLS_POLICY_AUDIT.md",
-      "context/RLS_POLICY_TEST_RESULTS.md",
-      "context/VERCEL_DEPLOYMENT_GUIDE.md",
-      "context/DEPLOYMENT_CHECKLIST.md",
-      "context/BAUHAUS_DESIGN_SYSTEM.md",
-      "context/SEO_STRATEGY.md",
-      "context/SEO_MAINTENANCE.md",
-      "context/AUTH_SETUP.md",
-      "context/STRIPE_PRICING_TABLE_FIX.md",
-      "context/DEPLOYMENT_TRIGGER.md"
+      "rules/*.md",
+      "for cursor/context/*.md"
     ],
     "exclude": [
       "**/*.csv",
       "**/cookies.txt",
-      "**/*FIX_COMPLETE.md",
-      "**/*_ISSUE_*.md",
-      "**/REGION_FIX*.md",
-      "**/BULK_UPLOAD_TEMPLATE.md",
-      "**/FREE_LISTINGS_BULK_UPLOAD.md",
-      "**/FREE_LISTING_PREMIUM_CONTENT_FIX.md",
-      "**/OCTOBER_11_FIXES_SUMMARY.md",
-      "**/DIANE_CHRISTIANSEN_FIX_COMPLETE.md",
-      "**/PAYMENT_FLOW_ISSUE_*.md",
-      "**/REGION_MIGRATION_*.md",
-      "**/UUID-MIGRATION-SUMMARY.md",
-      "**/UX_IMPROVEMENTS_COMPLETE.md"
+      "**/tmp*/**",
+      "**/*_BACKUP.md",
+      "**/*_ARCHIVE.md"
     ]
   },
   "rules": {
@@ -55,7 +32,7 @@
     },
     "logging": {
       "updateChangeLog": true,
-      "changeLogFile": "context/context_decisions.md"
+      "changeLogFile": "for cursor/context/context_decisions.md"
     }
   }
 }

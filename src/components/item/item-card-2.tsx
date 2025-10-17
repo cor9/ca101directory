@@ -67,9 +67,7 @@ export default function ItemCard2({ item }: ItemCard2Props) {
                   href={`/category/${category.slug.current}`}
                   className="px-2 py-1 h-6 rounded-md bg-highlight text-ink"
                 >
-                  <span className="text-sm">
-                    {category.name}
-                  </span>
+                  <span className="text-sm">{category.name}</span>
                 </a>
               ))}
             </div>

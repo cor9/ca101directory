@@ -30,7 +30,7 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
     "Vocal Coaches": "/categories/singer.png",
     "Talent Managers": "/categories/rep.png",
     "Casting Workshops": "/categories/handwriting.png",
-    "Reels Editors": "/categories/reel_editor.png",
+    "Reels Editors": "/categories/reel%20editor.png",
     "Social Media Consultants": "/categories/socialmedia.png",
     "Acting Camps": "/categories/theatre.png",
     "Acting Schools": "/categories/masks.png",

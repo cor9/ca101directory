@@ -33,7 +33,7 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
         {imageProps && (
           <Image
             src={imageProps.src}
-            alt={item.image.alt || item.name}
+            alt={item.image?.alt || item.name}
             fill
             className="object-cover"
           />

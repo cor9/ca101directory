@@ -151,7 +151,9 @@ export function AirtableSubmitForm({
   }) => {
     setIsUploading(status.isUploading);
     if (status.imageId) {
-      form.setValue("iconId", status.imageId);
+      if (SUPPORT_ITEM_ICON) {
+        form.setValue("iconId" as keyof SubmitFormData, status.imageId);
+      }
     }
   };
 

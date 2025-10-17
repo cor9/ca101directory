@@ -146,16 +146,21 @@ export async function getPublicListings(params?: {
   if (params?.city) query = query.eq("city", params.city);
   if (params?.category) {
     console.log("getPublicListings: Filtering by category:", params.category);
-    // Handle special cases for multi-word categories
-    if (params.category === "Talent Managers") {
-      // Look for listings that have both "Talent" and "Managers" in categories
+    // Support either category name or category UUID in the categories array
+    const isUuidLike = (value: string): boolean =>
+      /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
+        value.trim(),
+      );
+
+    if (isUuidLike(params.category)) {
+      // Category is an ID stored in categories[]
+      query = query.contains("categories", [params.category]);
+    } else if (params.category === "Talent Managers") {
+      // Historical special-case
       query = query.or("categories.cs.{Talent},categories.cs.{Managers}");
     } else {
-      // categories contains array of words that can be combined to match category names
-      // Check if the category name is contained in any combination of the categories array
-      query = query.or(
-        `categories.cs.{${params.category}},categories.cd.{${params.category}}`,
-      );
+      // Match by exact category name present in categories[]
+      query = query.contains("categories", [params.category]);
     }
   }
   if (params?.q)
@@ -388,11 +393,13 @@ export async function getListingBySlug(slug: string) {
     } as Listing;
   }
 
-  // Simplified query - just look for the slug directly without complex conditions
+  // Primary: look up by exact slug
   const { data: listingData, error: listingError } = await createServerClient()
     .from("listings")
     .select("*")
     .eq("slug", slug)
+    .eq("status", "Live")
+    .eq("is_active", true)
     .single();
 
   if (listingData && !listingError) {
@@ -401,6 +408,37 @@ export async function getListingBySlug(slug: string) {
       listingData.listing_name,
     );
     return listingData as Listing;
+  }
+
+  // Fallback: generate slug from name and match
+  const { data: candidates, error: candidatesError } =
+    await createServerClient()
+      .from("listings")
+      .select("id, listing_name, slug, status, is_active")
+      .eq("status", "Live")
+      .eq("is_active", true);
+
+  if (!candidatesError && candidates) {
+    const match = (
+      candidates as Pick<
+        Listing,
+        "id" | "listing_name" | "slug" | "status" | "is_active"
+      >[]
+    ).find((l) => {
+      const generated = generateSlug(l.listing_name || "", l.id);
+      return l.slug === slug || generated === slug;
+    });
+    if (match) {
+      const { data: resolved, error: resolvedError } =
+        await createServerClient()
+          .from("listings")
+          .select("*")
+          .eq("id", match.id)
+          .single();
+      if (resolved && !resolvedError) {
+        return resolved as Listing;
+      }
+    }
   }
 
   console.log("getListingBySlug: No listing found for slug:", slug);

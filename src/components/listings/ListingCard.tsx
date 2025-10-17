@@ -24,7 +24,7 @@ interface ListingCardProps {
 }
 
 export async function ListingCard({ listing, className }: ListingCardProps) {
-  const slug = generateSlugFromListing(listing);
+  const slug = listing.slug || generateSlugFromListing(listing);
 
   console.log("ListingCard: Generated slug:", {
     listingName: listing.listing_name,

@@ -14,7 +14,7 @@ function generateSlug(listingName: string, id: string): string {
     // If no name, create a generic slug with ID suffix
     return `listing-${id.slice(-8)}`;
   }
-  
+
   return listingName
     .toLowerCase()
     .replace(/\s+/g, "-")
@@ -33,9 +33,14 @@ function listingToItem(listing: Listing): ItemInfo {
     name: listing.listing_name || "Untitled Listing",
     slug: {
       _type: "slug" as const,
-      current: generateSlug(listing.listing_name || "untitled", listing.id),
+      current:
+        listing.slug ||
+        generateSlug(listing.listing_name || "untitled", listing.id),
     },
-    description: (listing.what_you_offer || "").replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim(),
+    description: (listing.what_you_offer || "")
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim(),
     link: listing.website || "",
     affiliateLink: null,
     sponsor: false,
@@ -208,24 +213,24 @@ export async function getItems({
     // Apply custom sorting for directory page when no explicit sort is requested
     // or when it's the default sort (publishDate desc)
     const isDefaultSort = !sortKey || (sortKey === "publishDate" && reverse);
-    
+
     if (isDefaultSort) {
       // Custom sorting for directory page: Featured first, then Pro (avoiding duplicates), then alphabetical
       filteredListings.sort((a, b) => {
         // 1. Featured listings first (featured = true)
         const aFeatured = a.featured || false;
         const bFeatured = b.featured || false;
-        
+
         if (aFeatured && !bFeatured) return -1;
         if (!aFeatured && bFeatured) return 1;
-        
+
         // 2. Pro listings second (plan = 'Pro' or 'Premium'), but only if not already featured
-        const aIsPro = (a.plan === 'Pro' || a.plan === 'Premium') && !aFeatured;
-        const bIsPro = (b.plan === 'Pro' || b.plan === 'Premium') && !bFeatured;
-        
+        const aIsPro = (a.plan === "Pro" || a.plan === "Premium") && !aFeatured;
+        const bIsPro = (b.plan === "Pro" || b.plan === "Premium") && !bFeatured;
+
         if (aIsPro && !bIsPro) return -1;
         if (!aIsPro && bIsPro) return 1;
-        
+
         // 3. Everything else alphabetically by name
         const aName = a.listing_name || "";
         const bName = b.listing_name || "";

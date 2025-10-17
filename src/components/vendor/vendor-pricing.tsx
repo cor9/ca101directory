@@ -31,19 +31,19 @@ export default function VendorPricing() {
             Get started with our basic listing
           </p>
         </div>
-        
+
         {/* Custom Free Plan Card */}
         <div className="max-w-md mx-auto">
-          <div className="bg-white border-2 border-gray-300 rounded-lg p-8 text-center shadow-lg">
-            <h4 className="text-2xl font-bold text-gray-900 mb-2">Free Plan</h4>
+          <div className="bg-white border-2 border-gray-800 rounded-lg p-8 text-center shadow-lg">
+            <h4 className="text-2xl font-bold text-black mb-2">Free Plan</h4>
             <div className="mb-4">
-              <span className="text-4xl font-bold text-gray-900">$0</span>
-              <span className="text-gray-900">/forever</span>
+              <span className="text-4xl font-bold text-black">$0</span>
+              <span className="text-black">/forever</span>
             </div>
-            <p className="text-sm text-gray-900 mb-6">
+            <p className="text-sm text-black mb-6">
               Get started with a basic listing - no credit card required!
             </p>
-            <ul className="text-left mb-6 space-y-2 text-sm text-gray-900">
+            <ul className="text-left mb-6 space-y-2 text-sm text-black">
               <li>✓ Basic listing information</li>
               <li>✓ Contact details displayed</li>
               <li>✓ Searchable in directory</li>
@@ -52,7 +52,7 @@ export default function VendorPricing() {
             </ul>
             <a
               href="/submit"
-              className="inline-block w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+              className="inline-block w-full bg-gray-800 hover:bg-black text-white font-bold py-3 px-6 rounded-lg transition-colors"
             >
               Start Free Listing →
             </a>

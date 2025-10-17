@@ -262,12 +262,23 @@ export default async function ListingPage({ params }: ListingPageProps) {
             ([n]) => normalizeCategory(n) === key,
           );
           const localIcon = localIconEntry?.[1];
+          // New resolution order: exact bucket name, derived, mapped, local
+          const exactNameUrl = getCategoryIconUrl(`${categoryName}.png`);
+          const derivedNameUrl = getCategoryIconUrl(
+            `${categoryName
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, "_")
+              .replace(/^_+|_+$/g, "")}.png`,
+          );
           return {
             original: categoryName,
             displayName,
-            iconUrl: iconFilename
-              ? getCategoryIconUrl(iconFilename)
-              : localIcon || null,
+            iconUrl:
+              exactNameUrl ||
+              derivedNameUrl ||
+              (iconFilename ? getCategoryIconUrl(iconFilename) : null) ||
+              localIcon ||
+              null,
             key: `${categoryName}-${iconFilename || localIcon || ""}`,
           };
         }
@@ -280,12 +291,22 @@ export default async function ListingPage({ params }: ListingPageProps) {
             ([n]) => normalizeCategory(n) === key,
           );
           const localIcon = localIconEntry?.[1];
+          const exactNameUrl = getCategoryIconUrl(`${catId}.png`);
+          const derivedNameUrl = getCategoryIconUrl(
+            `${String(catId)
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, "_")
+              .replace(/^_+|_+$/g, "")}.png`,
+          );
           return {
             original: catId,
             displayName: catId,
-            iconUrl: iconFilename
-              ? getCategoryIconUrl(iconFilename)
-              : localIcon || null,
+            iconUrl:
+              exactNameUrl ||
+              derivedNameUrl ||
+              (iconFilename ? getCategoryIconUrl(iconFilename) : null) ||
+              localIcon ||
+              null,
             key: `${catId}-${iconFilename || localIcon || ""}`,
           };
         }

@@ -101,13 +101,13 @@ export default async function CategoryPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 text-surface">
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="bauhaus-heading text-4xl text-surface mb-4">
+        <h1 className="bauhaus-heading text-4xl mb-4">
           Browse by Category
         </h1>
-        <p className="bauhaus-body text-xl text-surface max-w-3xl mx-auto">
+        <p className="bauhaus-body text-xl opacity-80 max-w-3xl mx-auto">
           Find trusted acting professionals organized by specialty. Each
           category contains verified professionals ready to help your child
           succeed in the entertainment industry.
@@ -155,9 +155,7 @@ export default async function CategoryPage() {
                       </div>
                     </div>
                   </div>
-                  <h3
-                    className={`bauhaus-heading text-xl mb-3 ${colors.text === "text-white" ? "text-bauhaus-charcoal" : colors.text}`}
-                  >
+                  <h3 className="bauhaus-heading text-xl mb-3">
                     {category.name}
                   </h3>
                   <div
@@ -166,7 +164,7 @@ export default async function CategoryPage() {
                     {category.count} PROFESSIONAL
                     {category.count !== 1 ? "S" : ""}
                   </div>
-                  <p className="bauhaus-body text-sm text-surface">
+                  <p className="bauhaus-body text-sm opacity-80">
                     {category.description}
                   </p>
                 </div>

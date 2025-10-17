@@ -103,23 +103,28 @@ export default async function DirectoryPage({
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   return (
-    <div className="flex flex-col bg-[color:var(--navy)] bg-[radial-gradient(1200px_600px_at_70%_-10%,#122338,transparent)]">
-      <DirectoryHeader
-        total={totalCount}
-        categoriesCount={categories?.length}
-        regionsCount={regionsList.length}
-      />
+    <div className="bauhaus">
+      <main>
+        <div className="card hollywood-accent">
+          <DirectoryHeader
+            total={totalCount}
+            categoriesCount={categories?.length}
+            regionsCount={regionsList.length}
+          />
+        </div>
 
       {/* Search */}
       <Container className="pb-8">
-        <div className="mb-8">
+        <div className="card">
           <SearchBox urlPrefix="/directory" />
         </div>
       </Container>
 
       {/* Filters */}
       <Container className="pb-8">
-        <DirectoryFilters className="mb-8" categories={categories} />
+        <div className="card">
+          <DirectoryFilters className="mb-0" categories={categories} />
+        </div>
       </Container>
 
       {/* Listings */}
@@ -130,19 +135,21 @@ export default async function DirectoryPage({
         {/* when items are found */}
         {items && items.length > 0 && (
           <>
-            <div className="bauhaus-grid bauhaus-grid-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {items.map((it) => (
-                <ListingCard
+                <div className="card" key={it._id}>
+                  <ListingCard
                   key={it._id}
                   item={it}
                   categoryIconMap={categoryIconMap}
                   allCategories={categories?.map((c) => c.category_name) || []}
-                />
+                  />
+                </div>
               ))}
             </div>
 
             <div className="mt-10 flex justify-center">
-              <div className="bg-[color:var(--cream)] border border-[color:var(--card-border)] rounded-full shadow-[var(--shadow-cream)] px-2 py-1">
+              <div className="card">
                 <CustomPagination
                   routePrefix="/directory"
                   totalPages={totalPages}
@@ -152,6 +159,7 @@ export default async function DirectoryPage({
           </>
         )}
       </section>
+      </main>
     </div>
   );
 }

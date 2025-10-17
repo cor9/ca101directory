@@ -393,8 +393,6 @@ export async function getListingBySlug(slug: string) {
     .from("listings")
     .select("*")
     .eq("slug", slug)
-    .eq("status", "Live")
-    .eq("is_active", true)
     .single();
 
   if (listingData && !listingError) {

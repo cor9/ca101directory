@@ -113,54 +113,56 @@ export default async function DirectoryPage({
           />
         </div>
 
-      {/* Search */}
-      <Container className="pb-8">
-        <div className="card">
-          <SearchBox urlPrefix="/directory" />
-        </div>
-      </Container>
+        {/* Search */}
+        <Container className="pb-8">
+          <div className="card">
+            <SearchBox urlPrefix="/directory" />
+          </div>
+        </Container>
 
-      {/* Filters */}
-      <Container className="pb-8">
-        <div className="card">
-          <DirectoryFilters className="mb-0" categories={categories} />
-        </div>
-      </Container>
+        {/* Filters */}
+        <Container className="pb-8">
+          <div className="card">
+            <DirectoryFilters className="mb-0" categories={categories} />
+          </div>
+        </Container>
 
-      {/* Listings */}
-      <section className="mx-auto max-w-7xl px-6 py-8">
-        {/* when no items are found */}
-        {items?.length === 0 && <EmptyGrid />}
+        {/* Listings */}
+        <section className="mx-auto max-w-7xl px-6 py-8">
+          {/* when no items are found */}
+          {items?.length === 0 && <EmptyGrid />}
 
-        {/* when items are found */}
-        {items && items.length > 0 && (
-          <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {items.map((it) => (
-                <div className="card" key={it._id}>
-                  <div>
-                    <ListingCard
-                      key={it._id}
-                      item={it}
-                      categoryIconMap={categoryIconMap}
-                      allCategories={categories?.map((c) => c.category_name) || []}
-                    />
+          {/* when items are found */}
+          {items && items.length > 0 && (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {items.map((it) => (
+                  <div className="card" key={it._id}>
+                    <div>
+                      <ListingCard
+                        key={it._id}
+                        item={it}
+                        categoryIconMap={categoryIconMap}
+                        allCategories={
+                          categories?.map((c) => c.category_name) || []
+                        }
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-10 flex justify-center">
-              <div className="card" style={{ borderRadius: 9999 }}>
-                <CustomPagination
-                  routePrefix="/directory"
-                  totalPages={totalPages}
-                />
+                ))}
               </div>
-            </div>
-          </>
-        )}
-      </section>
+
+              <div className="mt-10 flex justify-center">
+                <div className="card" style={{ borderRadius: 9999 }}>
+                  <CustomPagination
+                    routePrefix="/directory"
+                    totalPages={totalPages}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+        </section>
       </main>
     </div>
   );

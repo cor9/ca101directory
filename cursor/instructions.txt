@@ -1,0 +1,195 @@
+Cursor Directive: Category & Directory Page CSS Stabilization
+
+Goal
+
+Rebuild all /directory and /category page layouts to comply with the Bauhaus Mid-Century Modern Hollywood Design System, fixing broken hierarchy, contrast, spacing, and structure.
+Preserve functionality and responsiveness. No global bleed.
+
+1. File Architecture
+
+/styles/bauhaus/
+    tokens.css           # Color variables + font imports
+    base.css             # Typography + layout grid
+    components.css       # Cards, buttons, chips, filters, accent
+
+Import order in _app.tsx or layout.tsx
+
+import "@/styles/bauhaus/tokens.css";
+import "@/styles/bauhaus/base.css";
+import "@/styles/bauhaus/components.css";
+
+2. Scoped Namespace
+
+All styling must be scoped to .bauhaus — no global selectors.
+
+.bauhaus { background: var(--navy); color: var(--cream); }
+.bauhaus * { box-sizing: border-box; }
+
+This prevents future global overrides.
+
+3. Layout Rules
+
+Grid Container
+
+.bauhaus .layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: grid;
+  gap: 2rem;
+}
+
+Sidebar + Main
+
+@media (min-width: 1024px) {
+  .bauhaus .layout {
+    grid-template-columns: 280px 1fr;
+  }
+}
+
+4. Color Tokens (tokens.css)
+
+:root {
+  --navy: #0C1A2B;
+  --charcoal: #1E1F23;
+  --cream: #FFFDD0;
+  --cream-ink: #1B1F29;
+  --mustard-yellow: #D4A574;
+  --faded-red-orange: #CC5A47;
+  --robin-egg-blue: #7AB8CC;
+}
+
+Contrast rule enforcement:
+• Cream background → Charcoal text
+• Navy background → Cream text
+• No light text on Cream.
+
+5. Hero Block
+
+.bauhaus .hero {
+  background: var(--navy);
+  color: var(--cream);
+  text-align: center;
+  padding: 3rem 1rem;
+}
+.bauhaus .hero .hollywood-accent::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 6px;
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--charcoal) 0 12px,
+    var(--cream) 12px 24px
+  );
+}
+
+6. Filter Bar
+
+.bauhaus .filters {
+  background: var(--charcoal);
+  padding: 1rem;
+  border-radius: 4px;
+  color: var(--cream);
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.bauhaus .filters input,
+.bauhaus .filters select {
+  background: var(--cream);
+  color: var(--cream-ink);
+  border: none;
+  border-radius: 2px;
+  padding: 0.5rem 0.75rem;
+}
+
+7. Cards
+
+.bauhaus .card {
+  background: var(--cream);
+  color: var(--cream-ink);
+  border-radius: 4px;
+  box-shadow: 4px 4px 0 var(--charcoal);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease;
+}
+.bauhaus .card:hover { transform: translateY(-4px); }
+.bauhaus .card img {
+  max-height: 180px;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+8. Buttons
+
+.bauhaus .btn {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: background 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+.bauhaus .btn-primary {
+  background: var(--faded-red-orange);
+  color: var(--cream);
+}
+.bauhaus .btn-primary:hover {
+  background: var(--mustard-yellow);
+  color: var(--charcoal);
+}
+
+9. Grid Alignment
+
+All cards, filters, and hero must share the same horizontal grid width:
+
+.bauhaus .grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+10. Accessibility Fixes
+• Increase all text contrast ratios to 4.5:1.
+• h1 min font-size 2.25rem.
+• Buttons and links must have :focus-visible outlines.
+
+11. Responsive Rules
+
+@media (max-width: 768px) {
+  .bauhaus .grid { grid-template-columns: 1fr; }
+  .bauhaus .hero { padding: 2rem 1rem; }
+  .bauhaus .filters { flex-direction: column; align-items: stretch; }
+}
+
+12. Cursor Tasks
+1. Delete or comment out all existing /styles/*.css related to directory/category layouts.
+2. Create new /styles/bauhaus/ folder and populate with the files above.
+3. Update imports to match new structure.
+4. Wrap DirectoryPage and CategoryPage in <div className="bauhaus">.
+5. Run npm run dev and verify:
+   • Navy background visible outside all cards
+   • Cream used only for cards
+   • Orange buttons contrast properly
+   • Grid alignment consistent
+   • Typography readable
+
+Commit with:
+
+git add .
+git commit -m "Rebuilt Directory and Category pages using Bauhaus scoped design system"
+
+Deliverable
+
+When Cursor completes:
+• /directory and /category visually match Bauhaus guidelines.
+• No style leaks into other pages.
+• Hero, filters, and cards maintain consistent grid alignment and spacing.
+• Text and buttons readable, accessible, and contrast-correct.

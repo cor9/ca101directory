@@ -5,7 +5,7 @@ export default function CategoryLayout({
   children,
 }: { children: React.ReactNode }) {
   return (
-    <div className="bauhaus mb-16">
+    <div className="mb-16">
       <div className="mt-8">
         <div className="w-full flex flex-col items-center justify-center gap-2 text-foreground text-center">
           <p className="uppercase tracking-wider font-semibold text-gradient_blue-orange">

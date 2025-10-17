@@ -16,7 +16,7 @@ export const metadata = constructMetadata({
 
 export default async function PricingPage() {
   return (
-    <div className="bauhaus">
+    <>
       <Script
         src="https://js.stripe.com/v3/pricing-table.js"
         strategy="afterInteractive"
@@ -142,6 +142,6 @@ export default async function PricingPage() {
           </section>
         </div>
       </Container>
-    </div>
+    </>
   );
 }

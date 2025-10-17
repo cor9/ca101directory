@@ -77,9 +77,9 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
   const resolvedSrc = profileRef
     ? getListingImageUrl(profileRef)
     : imageProps?.src ||
+      supabaseCategoryIconUrl ||
       supabaseExactByName ||
       supabaseDerivedByName ||
-      supabaseCategoryIconUrl ||
       localCategoryPng;
   const planLabel =
     item.pricePlan ||

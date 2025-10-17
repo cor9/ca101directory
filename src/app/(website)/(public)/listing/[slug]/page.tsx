@@ -274,9 +274,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
             original: categoryName,
             displayName,
             iconUrl:
+              (iconFilename ? getCategoryIconUrl(iconFilename) : null) ||
               exactNameUrl ||
               derivedNameUrl ||
-              (iconFilename ? getCategoryIconUrl(iconFilename) : null) ||
               localIcon ||
               null,
             key: `${categoryName}-${iconFilename || localIcon || ""}`,
@@ -302,9 +302,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
             original: catId,
             displayName: catId,
             iconUrl:
+              (iconFilename ? getCategoryIconUrl(iconFilename) : null) ||
               exactNameUrl ||
               derivedNameUrl ||
-              (iconFilename ? getCategoryIconUrl(iconFilename) : null) ||
               localIcon ||
               null,
             key: `${catId}-${iconFilename || localIcon || ""}`,

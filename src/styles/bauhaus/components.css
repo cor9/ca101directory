@@ -4,6 +4,30 @@
   border-radius: 4px;
   padding: 1.5rem;
 }
+.bauhaus .card h1,
+.bauhaus .card h2,
+.bauhaus .card h3,
+.bauhaus .card h4,
+.bauhaus .card h5,
+.bauhaus .card h6 {
+  color: var(--charcoal) !important;
+  margin: 0 0 0.5rem;
+}
+.bauhaus .card p,
+.bauhaus .card li,
+.bauhaus .card span,
+.bauhaus .card small,
+.bauhaus .card div {
+  color: var(--charcoal) !important;
+}
+.bauhaus .card a {
+  color: var(--orange) !important;
+  text-decoration: none;
+}
+.bauhaus .card a:hover {
+  color: var(--charcoal) !important;
+  text-decoration: underline;
+}
 .bauhaus .btn {
   background: var(--orange);
   color: var(--cream);

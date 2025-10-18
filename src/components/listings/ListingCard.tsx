@@ -112,7 +112,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
             {(listing.profile_image || fallbackCategoryUrl) && (
-              <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-muted">
+              <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-muted">
                 <Image
                   src={
                     listing.profile_image
@@ -121,7 +121,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
                   }
                   alt={listing.listing_name || "Listing"}
                   fill
-                  className="object-cover"
+                  className="object-contain p-1"
                 />
               </div>
             )}

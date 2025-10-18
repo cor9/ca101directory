@@ -161,19 +161,19 @@ export default async function CategoryPage() {
                 <div className="text-center p-6">
                   <div className="flex justify-center mb-4">
                     <div
-                      className={`p-4 ${colors.bg} rounded-lg shadow-bauhaus`}
+                      className={`p-6 ${colors.bg} rounded-lg shadow-bauhaus`}
                     >
                       {category.iconPngUrl ? (
                         <Image
                           src={category.iconPngUrl}
                           alt={category.name}
-                          width={32}
-                          height={32}
-                          className="h-8 w-8 object-contain"
+                          width={64}
+                          height={64}
+                          className="h-16 w-16 object-contain"
                         />
                       ) : (
                         <div
-                          className={`h-8 w-8 ${colors.text} flex items-center justify-center font-bold text-xl`}
+                          className={`h-16 w-16 ${colors.text} flex items-center justify-center font-bold text-2xl`}
                         >
                           {category.name.charAt(0)}
                         </div>

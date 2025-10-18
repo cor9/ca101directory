@@ -185,3 +185,12 @@ if (formData.plan === "Free") {
 **Build errors fixed:** 6  
 **Major features delivered:** 2 (Badge System + Help Center)
 
+## 2025-10-17 19:16:24 PDT
+- Commit 9587a297: categories icon mapping and fallbacks
+  - Category grid uses PNG icons from bucket `category_pngs` via `getCategoryIconsMap()` and `getCategoryIconUrl()`
+  - Default bucket configurable with `NEXT_PUBLIC_CATEGORY_ICON_BUCKET` (defaults to `category_pngs`)
+  - Listing detail header and listing cards fall back to category icon when free/unclaimed and missing `profile_image`
+  - Broadened listing status filters to avoid false 404s (`Live`/`Published` + null `is_active` treated as public)
+- Files: `src/app/(website)/(public)/category/page.tsx`, `src/components/listing/listing-images.tsx`, `src/components/listings/ListingCard.tsx`, `src/data/categories.ts`, `src/data/listings.ts`, `src/lib/image-urls.ts`
+- Next: Verify icons appear on category page and as listing fallbacks; deploy when ready
+

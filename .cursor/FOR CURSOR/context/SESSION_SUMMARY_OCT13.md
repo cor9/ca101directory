@@ -194,3 +194,10 @@ if (formData.plan === "Free") {
 - Files: `src/app/(website)/(public)/category/page.tsx`, `src/components/listing/listing-images.tsx`, `src/components/listings/ListingCard.tsx`, `src/data/categories.ts`, `src/data/listings.ts`, `src/lib/image-urls.ts`
 - Next: Verify icons appear on category page and as listing fallbacks; deploy when ready
 
+## 2025-10-17 19:22:00 PDT
+- Built locally: next build succeeded (no errors)
+- Commit: style(ui) enlarge category/listing images; object-contain
+- Category page: icon 64px, larger container; listing cards: 64px thumb; listing header: 160px
+- Pushed to main; deployment will be picked up by Vercel git integration
+- Next: verify icons render (category_pngs) and no layout overflow/right-gap
+

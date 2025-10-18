@@ -291,13 +291,12 @@ export async function getListingBySlug(slug: string) {
     );
 
     // Try to find the listing by ID to get the proper slug
+    // Fetch by ID regardless of public status so we can 301 redirect old UUID URLs
     const { data: listingData, error: listingError } =
       await createServerClient()
         .from("listings")
         .select("*")
         .eq("id", slug)
-        .in("status", ["Live", "Published", "published", "live"]) // accept legacy/new statuses
-        .or("is_active.eq.true,is_active.is.null") // treat null as public
         .single();
 
     if (listingData && !listingError) {

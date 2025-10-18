@@ -87,8 +87,18 @@ export default async function CategoryPage() {
     const normalize = (v: string) =>
       v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
     const pngByName: Record<string, string | undefined> = {};
-    for (const [name, filename] of Object.entries(iconMap || {})) {
-      pngByName[normalize(name)] = filename;
+    const pngById: Record<string, string | undefined> = {};
+    const uuidLike = (v: string) =>
+      /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
+        v.trim(),
+      );
+    for (const [key, value] of Object.entries(iconMap || {})) {
+      if (!value) continue;
+      if (uuidLike(key)) {
+        pngById[key] = value;
+      } else {
+        pngByName[normalize(key)] = value;
+      }
     }
 
     categories = supabaseCategories.map((category) => ({
@@ -105,9 +115,11 @@ export default async function CategoryPage() {
         `Professional ${category.category_name.toLowerCase()} services`,
       count: categoryCounts[category.category_name] || 0,
       iconPngUrl: (() => {
+        const byId = pngById[category.id];
+        if (byId) return getCategoryIconUrl(byId);
         const key = normalize(category.category_name);
-        const filename = pngByName[key];
-        return filename ? getCategoryIconUrl(filename) : null;
+        const byName = pngByName[key];
+        return byName ? getCategoryIconUrl(byName) : null;
       })(),
     }));
 

@@ -112,7 +112,15 @@ export async function generateMetadata({
       listing.what_you_offer ||
       `Find ${listing.listing_name}${location} — a trusted ${category.toLowerCase()} for child actors on Child Actor 101 Directory.`;
 
-    const url = `${siteConfig.url}/listing/${params.slug}`;
+    // Prefer canonical SEO slug if this is a UUID-based visit
+    const needsRedirect = (listing as unknown as { _needsRedirect?: boolean })
+      ? (listing as unknown as { _needsRedirect?: boolean })._needsRedirect ===
+        true
+      : false;
+    const canonicalSlug = needsRedirect
+      ? generateSlugFromListing(listing)
+      : params.slug;
+    const url = `${siteConfig.url}/listing/${canonicalSlug}`;
     const image = listing.profile_image
       ? getListingImageUrl(listing.profile_image)
       : `${siteConfig.url}/og-default.jpg`;
@@ -853,6 +861,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
       </div>
     );
   } catch (error) {
+    const err = error as { digest?: string };
+    // Allow Next.js redirects to bubble up instead of being converted to 404
+    if (err?.digest === "NEXT_REDIRECT") throw error;
     console.error("ListingPage: Error loading listing:", error);
     return notFound();
   }

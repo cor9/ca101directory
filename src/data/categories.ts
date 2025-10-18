@@ -2,12 +2,27 @@ import { supabase } from "@/lib/supabase";
 
 export async function getCategoryIconsMap(): Promise<Record<string, string>> {
   try {
-    // Primary: dedicated mapping table
+    // 1) Prefer new category_pngs mapping table (with UUIDs/timestamptz/RLS)
+    const pngs = await supabase
+      .from("category_pngs")
+      .select("category_name, filename, url");
+
+    const map: Record<string, string> = {};
+    if (!pngs.error && Array.isArray(pngs.data) && pngs.data.length) {
+      for (const row of pngs.data) {
+        const name = row?.category_name;
+        const src = row?.url || row?.filename;
+        if (name && src) {
+          map[name] = src;
+        }
+      }
+      return map;
+    }
+
+    // 2) Dedicated mapping table in Supabase (legacy)
     const primary = await supabase
       .from("category_icons")
       .select("category_name, filename");
-
-    const map: Record<string, string> = {};
 
     if (!primary.error && Array.isArray(primary.data) && primary.data.length) {
       for (const row of primary.data) {

@@ -257,7 +257,7 @@ export function SupabaseSubmitForm({
                 placeholder="Your business name"
                 maxLength={32}
                 required
-                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
               />
               <p className="text-gray-900">{formData.name.length}/32 characters</p>
             </div>
@@ -275,7 +275,7 @@ export function SupabaseSubmitForm({
                 placeholder="Describe your services"
                 maxLength={256}
                 required
-                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
               />
               <p className="text-gray-900">
                 {formData.description.length}/256 characters
@@ -300,7 +300,7 @@ export function SupabaseSubmitForm({
                   handleInputChange("introduction", e.target.value)
                 }
                 placeholder="Describe your target audience (optional - upgrade to display)"
-                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
               />
             </div>
 
@@ -320,7 +320,7 @@ export function SupabaseSubmitForm({
                 value={formData.unique}
                 onChange={(e) => handleInputChange("unique", e.target.value)}
                 placeholder="What sets you apart (optional - upgrade to display)"
-                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
               />
             </div>
           </div>
@@ -336,7 +336,7 @@ export function SupabaseSubmitForm({
                 onValueChange={(value) => handleInputChange("format", value)}
                 required
               >
-                <SelectTrigger className="bg-paper border-secondary-denim text-surface">
+                <SelectTrigger className="bg-paper border-secondary-denim text-gray-900">
                   <SelectValue placeholder="Select service format" />
                 </SelectTrigger>
                 <SelectContent>
@@ -407,7 +407,7 @@ export function SupabaseSubmitForm({
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   placeholder="your@email.com"
                   required
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
                 />
               </div>
 
@@ -421,7 +421,7 @@ export function SupabaseSubmitForm({
                   value={formData.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
                   placeholder="(555) 123-4567"
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
                 />
               </div>
             </div>
@@ -436,7 +436,7 @@ export function SupabaseSubmitForm({
                 value={formData.link}
                 onChange={(e) => handleInputChange("link", e.target.value)}
                 placeholder="https://yourwebsite.com"
-                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
               />
             </div>
 
@@ -450,7 +450,7 @@ export function SupabaseSubmitForm({
                   value={formData.city}
                   onChange={(e) => handleInputChange("city", e.target.value)}
                   placeholder="Los Angeles"
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
                 />
               </div>
 
@@ -462,7 +462,7 @@ export function SupabaseSubmitForm({
                   value={formData.state}
                   onValueChange={(value) => handleInputChange("state", value)}
                 >
-                  <SelectTrigger className="bg-paper border-secondary-denim text-surface">
+                  <SelectTrigger className="bg-paper border-secondary-denim text-gray-900">
                     <SelectValue placeholder="Select state" />
                   </SelectTrigger>
                   <SelectContent>
@@ -485,7 +485,7 @@ export function SupabaseSubmitForm({
                   value={formData.zip}
                   onChange={(e) => handleInputChange("zip", e.target.value)}
                   placeholder="90210"
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
                 />
               </div>
             </div>
@@ -691,7 +691,7 @@ export function SupabaseSubmitForm({
                       handleInputChange("bondNumber", e.target.value)
                     }
                     placeholder="Bond number"
-                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                    className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
                   />
                 </div>
               )}
@@ -708,7 +708,7 @@ export function SupabaseSubmitForm({
               value={formData.notes}
               onChange={(e) => handleInputChange("notes", e.target.value)}
               placeholder="Any additional information"
-              className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+              className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
             />
           </div>
 
@@ -775,7 +775,7 @@ export function SupabaseSubmitForm({
                     handleInputChange("facebook_url", e.target.value)
                   }
                   placeholder="https://facebook.com/yourpage"
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
                 />
               </div>
 
@@ -791,7 +791,7 @@ export function SupabaseSubmitForm({
                     handleInputChange("instagram_url", e.target.value)
                   }
                   placeholder="https://instagram.com/youraccount"
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
                 />
               </div>
 
@@ -807,7 +807,7 @@ export function SupabaseSubmitForm({
                     handleInputChange("tiktok_url", e.target.value)
                   }
                   placeholder="https://tiktok.com/@youraccount"
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
                 />
               </div>
 
@@ -823,7 +823,7 @@ export function SupabaseSubmitForm({
                     handleInputChange("youtube_url", e.target.value)
                   }
                   placeholder="https://youtube.com/@yourchannel"
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
                 />
               </div>
 
@@ -839,7 +839,7 @@ export function SupabaseSubmitForm({
                     handleInputChange("linkedin_url", e.target.value)
                   }
                   placeholder="https://linkedin.com/in/yourprofile"
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
                 />
               </div>
 
@@ -855,7 +855,7 @@ export function SupabaseSubmitForm({
                     handleInputChange("blog_url", e.target.value)
                   }
                   placeholder="https://yourblog.com"
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
                 />
               </div>
             </div>
@@ -874,7 +874,7 @@ export function SupabaseSubmitForm({
                       handleInputChange("custom_link_name", e.target.value)
                     }
                     placeholder="e.g., 'Portfolio', 'Book Now'"
-                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                    className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
                   />
                 </div>
                 <div>
@@ -889,7 +889,7 @@ export function SupabaseSubmitForm({
                       handleInputChange("custom_link_url", e.target.value)
                     }
                     placeholder="https://your-custom-link.com"
-                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                    className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
                   />
                 </div>
               </div>

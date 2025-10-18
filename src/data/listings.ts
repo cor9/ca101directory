@@ -395,13 +395,11 @@ export async function getListingBySlug(slug: string) {
     } as Listing;
   }
 
-  // Primary: look up by exact slug
+  // Primary: look up by exact slug (do not apply status/is_active filters here)
   const { data: listingData, error: listingError } = await createServerClient()
     .from("listings")
     .select("*")
     .eq("slug", slug)
-    .in("status", ["Live", "Published", "published", "live"]) // accept legacy/new statuses
-    .or("is_active.eq.true,is_active.is.null") // treat null as public
     .single();
 
   if (listingData && !listingError) {
@@ -412,13 +410,11 @@ export async function getListingBySlug(slug: string) {
     return listingData as Listing;
   }
 
-  // Fallback: generate slug from name and match
+  // Fallback: generate slug from name and match (no status/is_active filters)
   const { data: candidates, error: candidatesError } =
     await createServerClient()
       .from("listings")
-      .select("id, listing_name, slug, status, is_active")
-      .in("status", ["Live", "Published", "published", "live"]) // accept legacy/new statuses
-      .or("is_active.eq.true,is_active.is.null"); // treat null as public
+      .select("id, listing_name, slug, status, is_active");
 
   if (!candidatesError && candidates) {
     const match = (

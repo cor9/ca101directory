@@ -36,10 +36,10 @@ export default function VendorFAQ() {
     <section className="py-16">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="bauhaus-heading text-3xl mb-4 text-black">
+          <h2 className="bauhaus-heading text-3xl mb-4 text-paper">
             Frequently Asked Questions
           </h2>
-          <p className="bauhaus-body text-lg text-black">
+          <p className="bauhaus-body text-lg text-paper">
             Everything you need to know about listing your business
           </p>
         </div>
@@ -50,10 +50,10 @@ export default function VendorFAQ() {
               key={`faq-${faq.question}`}
               className="surface border border-surface/20 rounded-xl p-6"
             >
-              <h3 className="text-lg font-semibold mb-3 text-black">
+              <h3 className="text-lg font-semibold mb-3 text-paper">
                 {faq.question}
               </h3>
-              <p className="text-black">{faq.answer}</p>
+              <p className="text-paper">{faq.answer}</p>
             </div>
           ))}
         </div>

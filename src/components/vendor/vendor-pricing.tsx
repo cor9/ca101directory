@@ -4,12 +4,11 @@ export default function VendorPricing() {
   return (
     <div>
       <div className="text-center mb-12">
-        <h2 className="bauhaus-heading text-3xl mb-4 text-bauhaus-charcoal">
+        <h2 className="bauhaus-heading text-3xl mb-4 text-paper">
           Pricing Plans
         </h2>
         <p
-          className="bauhaus-body text-lg max-w-2xl mx-auto"
-          style={{ color: "#1e1f23" }}
+          className="bauhaus-body text-lg max-w-2xl mx-auto text-paper"
         >
           Choose the plan that works best for your business
         </p>
@@ -24,10 +23,10 @@ export default function VendorPricing() {
       {/* Free Plan */}
       <div className="mb-12">
         <div className="text-center mb-8">
-          <h3 className="bauhaus-heading text-2xl text-bauhaus-charcoal mb-2">
+          <h3 className="bauhaus-heading text-2xl text-paper mb-2">
             Free Plan
           </h3>
-          <p className="bauhaus-body" style={{ color: "#1e1f23" }}>
+          <p className="bauhaus-body text-paper">
             Get started with our basic listing
           </p>
         </div>
@@ -63,10 +62,10 @@ export default function VendorPricing() {
       {/* Paid Plans */}
       <div className="mb-12">
         <div className="text-center mb-8">
-          <h3 className="bauhaus-heading text-2xl text-bauhaus-charcoal mb-2">
+          <h3 className="bauhaus-heading text-2xl text-paper mb-2">
             Paid Plans
           </h3>
-          <p className="bauhaus-body" style={{ color: "#1e1f23" }}>
+          <p className="bauhaus-body text-paper">
             Upgrade for enhanced visibility and features
           </p>
         </div>

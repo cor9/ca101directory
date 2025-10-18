@@ -3,62 +3,7 @@ import { supabase } from "@/lib/supabase";
 export async function getCategoryIconsMap(): Promise<Record<string, string>> {
   try {
     const normalize = (v: string) => (v || "").replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
-
-    // 1) Prefer new category_pngs mapping table (with UUIDs/timestamptz/RLS)
-    const pngs = await supabase
-      .from("category_pngs")
-      .select("category_id, category_name, filename, url");
-
-    const map: Record<string, string> = {};
-    if (!pngs.error && Array.isArray(pngs.data) && pngs.data.length) {
-      type PngRow = {
-        category_id?: string | null;
-        category_name?: string | null;
-        filename?: string | null;
-        url?: string | null;
-      };
-      for (const row of pngs.data as unknown as PngRow[]) {
-        const src = row.url || row.filename || undefined;
-        if (!src) continue;
-        const id = row.category_id || undefined;
-        const name = row.category_name || undefined;
-        if (id) map[id] = src; // direct ID lookup
-        if (name) map[normalize(name)] = src; // normalized name lookup
-      }
-      return map;
-    }
-
-    // 2) Dedicated mapping table in Supabase (legacy)
-    const primary = await supabase
-      .from("category_icons")
-      .select("category_name, filename");
-
-    if (!primary.error && Array.isArray(primary.data) && primary.data.length) {
-      for (const row of primary.data) {
-        if (row?.category_name && row?.filename) {
-          map[row.category_name] = row.filename;
-        }
-      }
-      return map;
-    }
-
-    // Fallback: infer from categories table (supports icon or category_icon columns)
-    const fallback = await supabase
-      .from("categories")
-      .select('category_name, icon, category_icon, "Category Name"');
-
-    if (!fallback.error && Array.isArray(fallback.data)) {
-      for (const row of fallback.data) {
-        const name = row?.category_name || row?.["Category Name"]; // support Airtable import
-        const filename = row?.icon || row?.category_icon;
-        if (name && filename) {
-          map[name] = filename;
-          map[normalize(name)] = filename;
-        }
-      }
-    }
-
-    // 4) Last-resort static fallback map from provided CSV
+    // Static CSV-based overrides by normalized name
     const staticFallbackByName: Record<string, string> = {
       [normalize("Content Creators")]: "content_creators.png",
       [normalize("Vocal Coaches")]: "singer.png",
@@ -106,9 +51,70 @@ export async function getCategoryIconsMap(): Promise<Record<string, string>> {
       [normalize("Wardrobe Consultant")]: "wardrobe.png",
     };
 
-    // Merge static fallback values only where missing
+    // 1) Prefer new category_pngs mapping table (with UUIDs/timestamptz/RLS)
+    const pngs = await supabase
+      .from("category_pngs")
+      .select("category_id, category_name, filename, url");
+
+    const map: Record<string, string> = {};
+    if (!pngs.error && Array.isArray(pngs.data) && pngs.data.length) {
+      type PngRow = {
+        category_id?: string | null;
+        category_name?: string | null;
+        filename?: string | null;
+        url?: string | null;
+      };
+      for (const row of pngs.data as unknown as PngRow[]) {
+        const src = row.url || row.filename || undefined;
+        if (!src) continue;
+        const id = row.category_id || undefined;
+        const name = row.category_name || undefined;
+        if (id) map[id] = src; // direct ID lookup
+        if (name) map[normalize(name)] = src; // normalized name lookup
+      }
+      // Override name-based entries with CSV mapping
+      for (const [nKey, filename] of Object.entries(staticFallbackByName)) {
+        map[nKey] = filename;
+      }
+      return map;
+    }
+
+    // 2) Dedicated mapping table in Supabase (legacy)
+    const primary = await supabase
+      .from("category_icons")
+      .select("category_name, filename");
+
+    if (!primary.error && Array.isArray(primary.data) && primary.data.length) {
+      for (const row of primary.data) {
+        if (row?.category_name && row?.filename) {
+          map[row.category_name] = row.filename;
+        }
+      }
+      // Override name-based entries with CSV mapping
+      for (const [nKey, filename] of Object.entries(staticFallbackByName)) {
+        map[nKey] = filename;
+      }
+      return map;
+    }
+
+    // Fallback: infer from categories table (supports icon or category_icon columns)
+    const fallback = await supabase
+      .from("categories")
+      .select('category_name, icon, category_icon, "Category Name"');
+
+    if (!fallback.error && Array.isArray(fallback.data)) {
+      for (const row of fallback.data) {
+        const name = row?.category_name || row?.["Category Name"]; // support Airtable import
+        const filename = row?.icon || row?.category_icon;
+        if (name && filename) {
+          map[name] = filename;
+          map[normalize(name)] = filename;
+        }
+      }
+    }
+    // Merge/override with static mapping
     for (const [nKey, filename] of Object.entries(staticFallbackByName)) {
-      if (!map[nKey]) map[nKey] = filename;
+      map[nKey] = filename;
     }
 
     return map;

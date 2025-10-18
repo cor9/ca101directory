@@ -243,8 +243,8 @@ export function SupabaseSubmitForm({
   return (
     <Card className="surface border-surface/20">
       <CardHeader>
-        <CardTitle className="text-gray-900">Submit Your Listing</CardTitle>
-        <CardDescription className="text-gray-900">
+        <CardTitle className="text-paper">Submit Your Listing</CardTitle>
+        <CardDescription className="text-paper">
           Create a professional listing for your child actor business
         </CardDescription>
       </CardHeader>
@@ -252,12 +252,12 @@ export function SupabaseSubmitForm({
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Information */}
           <div className="space-y-4">
-            <h3 className="text-gray-900">
+            <h3 className="text-paper">
               Basic Information
             </h3>
 
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-gray-900">
+              <Label htmlFor="name" className="text-paper">
                 Business Name *
               </Label>
               <Input
@@ -269,13 +269,13 @@ export function SupabaseSubmitForm({
                 required
                 className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
-              <p className="text-gray-900">
+              <p className="text-paper">
                 {formData.name.length}/32 characters
               </p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description" className="text-gray-900">
+              <Label htmlFor="description" className="text-paper">
                 What You Offer *
               </Label>
               <Textarea
@@ -289,14 +289,14 @@ export function SupabaseSubmitForm({
                 required
                 className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
-              <p className="text-gray-900">
+              <p className="text-paper">
                 {formData.description.length}/256 characters
               </p>
             </div>
 
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <Label htmlFor="introduction" className="text-gray-900">
+                <Label htmlFor="introduction" className="text-paper">
                   Who Is It For
                 </Label>
                 <FieldTooltip
@@ -318,7 +318,7 @@ export function SupabaseSubmitForm({
 
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <Label htmlFor="unique" className="text-gray-900">
+                <Label htmlFor="unique" className="text-paper">
                   What Makes You Unique
                 </Label>
                 <FieldTooltip
@@ -339,12 +339,12 @@ export function SupabaseSubmitForm({
 
           {/* Service Format */}
           <div className="space-y-4">
-            <h3 className="text-gray-900">
+            <h3 className="text-paper">
               Service Format
             </h3>
 
             <div className="space-y-2">
-              <Label className="text-gray-900">Format *</Label>
+              <Label className="text-paper">Format *</Label>
               <Select
                 value={formData.format}
                 onValueChange={(value) => handleInputChange("format", value)}
@@ -362,7 +362,7 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="space-y-2">
-              <Label className="text-gray-900">Age Ranges</Label>
+              <Label className="text-paper">Age Ranges</Label>
               <div className="grid grid-cols-2 gap-2">
                 {["5-8", "9-12", "13-17", "18+"].map((age) => (
                   <div key={age} className="flex items-center space-x-2">
@@ -373,7 +373,7 @@ export function SupabaseSubmitForm({
                     />
                     <Label
                       htmlFor={`age-${age}`}
-                      className="text-sm text-gray-900"
+                      className="text-sm text-paper"
                     >
                       {age}
                     </Label>
@@ -385,7 +385,7 @@ export function SupabaseSubmitForm({
 
           {/* Categories */}
           <div className="space-y-4">
-            <h3 className="text-gray-900">
+            <h3 className="text-paper">
               Categories
             </h3>
             <div className="grid grid-cols-2 gap-2">
@@ -398,7 +398,7 @@ export function SupabaseSubmitForm({
                   />
                   <Label
                     htmlFor={`category-${category.id}`}
-                    className="text-sm text-gray-900"
+                    className="text-sm text-paper"
                   >
                     {category.name}
                   </Label>
@@ -409,13 +409,13 @@ export function SupabaseSubmitForm({
 
           {/* Contact Information */}
           <div className="space-y-4">
-            <h3 className="text-gray-900">
+            <h3 className="text-paper">
               Contact Information
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-gray-900">
+                <Label htmlFor="email" className="text-paper">
                   Email *
                 </Label>
                 <Input
@@ -430,7 +430,7 @@ export function SupabaseSubmitForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone" className="text-gray-900">
+                <Label htmlFor="phone" className="text-paper">
                   Phone
                 </Label>
                 <Input
@@ -445,7 +445,7 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="link" className="text-gray-900">
+              <Label htmlFor="link" className="text-paper">
                 Website
               </Label>
               <Input
@@ -460,7 +460,7 @@ export function SupabaseSubmitForm({
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="city" className="text-gray-900">
+                <Label htmlFor="city" className="text-paper">
                   City
                 </Label>
                 <Input
@@ -473,7 +473,7 @@ export function SupabaseSubmitForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="state" className="text-gray-900">
+                <Label htmlFor="state" className="text-paper">
                   State
                 </Label>
                 <Select
@@ -495,7 +495,7 @@ export function SupabaseSubmitForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="zip" className="text-gray-900">
+                <Label htmlFor="zip" className="text-paper">
                   ZIP Code
                 </Label>
                 <Input
@@ -509,10 +509,10 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="space-y-2">
-              <Label className="text-gray-900">
+              <Label className="text-paper">
                 Service Areas (Select all that apply)
               </Label>
-              <p className="text-gray-900">
+              <p className="text-paper">
                 Where do you serve clients? Select all regions that apply.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 border rounded-lg bg-paper/50">
@@ -545,7 +545,7 @@ export function SupabaseSubmitForm({
                     />
                     <Label
                       htmlFor={`region-${regionOption}`}
-                      className="text-sm font-normal cursor-pointer text-gray-900"
+                      className="text-sm font-normal cursor-pointer text-paper"
                     >
                       {regionOption}
                     </Label>
@@ -557,7 +557,7 @@ export function SupabaseSubmitForm({
 
           {/* Plan Selection */}
           <div className="space-y-4">
-            <h3 className="text-gray-900">
+            <h3 className="text-paper">
               Choose Your Plan
             </h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -580,7 +580,7 @@ export function SupabaseSubmitForm({
                     <li>• Contact information</li>
                     <li>• Social media links</li>
                   </ul>
-                  <div className="mt-3 text-xs text-gray-900">
+                  <div className="mt-3 text-xs text-paper">
                     Upgrade for profile image & featured placement
                   </div>
                 </CardContent>
@@ -601,7 +601,7 @@ export function SupabaseSubmitForm({
                     Starting at $25
                     <span className="text-sm font-normal">/mo</span>
                   </div>
-                  <div className="text-xs text-gray-900 mt-1">
+                  <div className="text-xs text-paper mt-1">
                     Multiple billing options available
                   </div>
                 </CardHeader>
@@ -630,7 +630,7 @@ export function SupabaseSubmitForm({
                     Starting at $50
                     <span className="text-sm font-normal">/mo</span>
                   </div>
-                  <div className="text-xs text-gray-900 mt-1">
+                  <div className="text-xs text-paper mt-1">
                     Multiple billing options available
                   </div>
                 </CardHeader>
@@ -670,7 +670,7 @@ export function SupabaseSubmitForm({
 
           {/* Legal Compliance */}
           <div className="space-y-4">
-            <h3 className="text-gray-900">
+            <h3 className="text-paper">
               Legal Compliance
             </h3>
 
@@ -685,7 +685,7 @@ export function SupabaseSubmitForm({
                 />
                 <Label
                   htmlFor="performerPermit"
-                  className="text-sm text-gray-900"
+                  className="text-sm text-paper"
                 >
                   California Child Performer Services Permit
                 </Label>
@@ -701,7 +701,7 @@ export function SupabaseSubmitForm({
                 />
                 <Label
                   htmlFor="bonded"
-                  className="text-sm text-gray-900"
+                  className="text-sm text-paper"
                 >
                   Bonded for Advanced Fees
                 </Label>
@@ -709,7 +709,7 @@ export function SupabaseSubmitForm({
 
               {formData.bonded && (
                 <div className="space-y-2">
-                  <Label htmlFor="bondNumber" className="text-gray-900">
+                  <Label htmlFor="bondNumber" className="text-paper">
                     Bond Number
                   </Label>
                   <Input
@@ -728,7 +728,7 @@ export function SupabaseSubmitForm({
 
           {/* Additional Notes */}
           <div className="space-y-2">
-            <Label htmlFor="notes" className="text-gray-900">
+            <Label htmlFor="notes" className="text-paper">
               Additional Notes
             </Label>
             <Textarea
@@ -742,7 +742,7 @@ export function SupabaseSubmitForm({
 
           {/* Image Upload */}
           <div className="space-y-2">
-            <Label className="text-gray-900">Profile Image</Label>
+            <Label className="text-paper">Profile Image</Label>
             <div className="h-48 border-2 border-dashed border-secondary-denim rounded-lg">
               <ImageUpload
                 currentImageUrl={formData.imageId}
@@ -755,21 +755,21 @@ export function SupabaseSubmitForm({
                 type="image"
               />
             </div>
-            <p className="text-gray-900">
+            <p className="text-paper">
               Upload a professional photo or logo for your listing
             </p>
           </div>
 
           {/* Gallery Upload */}
           <div className="space-y-2">
-            <Label className="text-gray-900">Gallery Images</Label>
+            <Label className="text-paper">Gallery Images</Label>
             <GalleryUpload
               maxImages={getMaxGalleryImages()}
               currentImages={galleryImages}
               onImagesChange={setGalleryImages}
               onUploadingChange={setIsGalleryUploading}
             />
-            <p className="text-gray-900">
+            <p className="text-paper">
               {getMaxGalleryImages() === 0
                 ? "Gallery images are only available with Pro plan"
                 : "Pro plan includes 4 gallery images (5 total with profile)"}
@@ -783,18 +783,18 @@ export function SupabaseSubmitForm({
           >
             <div>
               <h3
-                className="text-lg font-semibold text-gray-900"
+                className="text-lg font-semibold text-paper"
               >
                 Social Media Links (Pro only)
               </h3>
-              <p className="text-gray-900">
+              <p className="text-paper">
                 These links will only be displayed for Pro listings.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="facebook_url" className="text-gray-900">
+                <Label htmlFor="facebook_url" className="text-paper">
                   Facebook URL
                 </Label>
                 <Input
@@ -810,7 +810,7 @@ export function SupabaseSubmitForm({
               </div>
 
               <div>
-                <Label htmlFor="instagram_url" className="text-gray-900">
+                <Label htmlFor="instagram_url" className="text-paper">
                   Instagram URL
                 </Label>
                 <Input
@@ -826,7 +826,7 @@ export function SupabaseSubmitForm({
               </div>
 
               <div>
-                <Label htmlFor="tiktok_url" className="text-gray-900">
+                <Label htmlFor="tiktok_url" className="text-paper">
                   TikTok URL
                 </Label>
                 <Input
@@ -842,7 +842,7 @@ export function SupabaseSubmitForm({
               </div>
 
               <div>
-                <Label htmlFor="youtube_url" className="text-gray-900">
+                <Label htmlFor="youtube_url" className="text-paper">
                   YouTube URL
                 </Label>
                 <Input
@@ -858,7 +858,7 @@ export function SupabaseSubmitForm({
               </div>
 
               <div>
-                <Label htmlFor="linkedin_url" className="text-gray-900">
+                <Label htmlFor="linkedin_url" className="text-paper">
                   LinkedIn URL
                 </Label>
                 <Input
@@ -874,7 +874,7 @@ export function SupabaseSubmitForm({
               </div>
 
               <div>
-                <Label htmlFor="blog_url" className="text-gray-900">
+                <Label htmlFor="blog_url" className="text-paper">
                   📝 Blog URL
                 </Label>
                 <Input
@@ -891,14 +891,14 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="border-t pt-4">
-              <h4 className="text-gray-900">
+              <h4 className="text-paper">
                 Custom Link
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label
                     htmlFor="custom_link_name"
-                    className="text-gray-900"
+                    className="text-paper"
                   >
                     Link Name
                   </Label>
@@ -913,7 +913,7 @@ export function SupabaseSubmitForm({
                   />
                 </div>
                 <div>
-                  <Label htmlFor="custom_link_url" className="text-gray-900">
+                  <Label htmlFor="custom_link_url" className="text-paper">
                     Link URL
                   </Label>
                   <Input

@@ -218,16 +218,16 @@ export default async function LocationPage({
 
       {/* Intro Content */}
       <div className="bg-paper rounded-lg p-8 border-2 border-surface/20 mb-8">
-        <p className="text-lg leading-relaxed text-surface mb-6">
+        <p className="text-lg leading-relaxed text-gray-900 mb-6">
           {location.intro}
         </p>
 
-        <h2 className="text-2xl font-bold mb-4 text-surface">
+        <h2 className="text-2xl font-bold mb-4 text-gray-900">
           Why Choose {location.name} for Your Child's Acting Career?
         </h2>
         <ul className="space-y-3">
           {location.whyChoose.map((reason, index) => (
-            <li key={index} className="flex items-start gap-3 text-surface/90">
+            <li key={index} className="flex items-start gap-3 text-gray-900/90">
               <span className="text-primary-orange text-xl mt-1">✓</span>
               <span className="flex-1">{reason}</span>
             </li>
@@ -253,10 +253,10 @@ export default async function LocationPage({
                 href={`/category/${slug}`}
                 className="block bg-paper rounded-lg p-4 border-2 border-surface/20 hover:border-primary-orange transition-colors"
               >
-                <h3 className="font-semibold text-surface mb-1">
+                <h3 className="font-semibold text-gray-900 mb-1">
                   {categoryName}
                 </h3>
-                <p className="text-sm text-surface/70">
+                <p className="text-sm text-gray-900/70">
                   {count} professional{count !== 1 ? "s" : ""} in{" "}
                   {location.shortName}
                 </p>
@@ -271,7 +271,7 @@ export default async function LocationPage({
 
       {/* Neighborhoods */}
       <div className="bg-paper rounded-lg p-8 border-2 border-surface/20 mb-8">
-        <h2 className="text-2xl font-bold mb-4 text-surface">
+        <h2 className="text-2xl font-bold mb-4 text-gray-900">
           Areas We Serve in {location.name}
         </h2>
         <div className="flex flex-wrap gap-2">
@@ -288,7 +288,7 @@ export default async function LocationPage({
 
       {/* Listings Grid */}
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-surface mb-6">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">
           All Professionals in {location.name}
         </h2>
 

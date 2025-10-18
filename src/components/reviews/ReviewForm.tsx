@@ -120,7 +120,7 @@ export function ReviewForm({
     return (
       <div className={cn("p-4 border rounded-lg bg-muted/50", className)}>
         <div className="text-center space-y-3">
-          <p className="text-sm text-surface">
+          <p className="text-sm text-gray-900">
             Create a free parent account to write reviews
             {listingName ? ` for ${listingName}` : ""}.
           </p>
@@ -140,7 +140,7 @@ export function ReviewForm({
   if (isChecking) {
     return (
       <div className={cn("p-4 border rounded-lg", className)}>
-        <p className="text-sm text-surface">Loading...</p>
+        <p className="text-sm text-gray-900">Loading...</p>
       </div>
     );
   }
@@ -188,12 +188,12 @@ export function ReviewForm({
                             "h-6 w-6 transition-colors",
                             star <= field.value
                               ? "text-yellow-400 fill-current"
-                              : "text-surface hover:text-yellow-200",
+                              : "text-gray-900 hover:text-yellow-200",
                           )}
                         />
                       </button>
                     ))}
-                    <span className="ml-2 text-sm text-surface">
+                    <span className="ml-2 text-sm text-gray-900">
                       {field.value > 0 &&
                         `${field.value} star${field.value !== 1 ? "s" : ""}`}
                     </span>

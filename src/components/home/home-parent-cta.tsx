@@ -9,10 +9,10 @@ export default function HomeParentCta() {
     <section className="py-16 bg-gradient-to-r from-brand-orange/5 via-brand-yellow/5 to-brand-blue/5">
       <Container>
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-surface mb-4">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
             Ready to Find the Perfect Professionals?
           </h2>
-          <p className="text-lg text-surface max-w-2xl mx-auto">
+          <p className="text-lg text-gray-900 max-w-2xl mx-auto">
             Create a free parent account to save favorites, write reviews, and
             get personalized recommendations.
           </p>
@@ -25,7 +25,7 @@ export default function HomeParentCta() {
               <CardTitle className="text-lg">Save Favorites</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-surface">
+              <p className="text-gray-900">
                 Bookmark professionals you love and build your trusted network.
               </p>
             </CardContent>
@@ -37,7 +37,7 @@ export default function HomeParentCta() {
               <CardTitle className="text-lg">Write Reviews</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-surface">
+              <p className="text-gray-900">
                 Share your experiences to help other families make informed
                 decisions.
               </p>
@@ -50,7 +50,7 @@ export default function HomeParentCta() {
               <CardTitle className="text-lg">Join Community</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-surface">
+              <p className="text-gray-900">
                 Connect with other parents and get insider tips from industry
                 experts.
               </p>

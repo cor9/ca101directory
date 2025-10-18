@@ -122,14 +122,14 @@ export const LoginForm = ({
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-surface">Email</FormLabel>
+                  <FormLabel className="text-gray-900">Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
                       placeholder="name@example.com"
                       type="email"
-                      className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                      className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
                     />
                   </FormControl>
                   <FormMessage />
@@ -142,7 +142,7 @@ export const LoginForm = ({
               render={({ field }) => (
                 <FormItem>
                   <div className="flex justify-between items-center">
-                    <FormLabel className="text-surface">Password</FormLabel>
+                    <FormLabel className="text-gray-900">Password</FormLabel>
                     <Button
                       size="sm"
                       variant="link"
@@ -160,7 +160,7 @@ export const LoginForm = ({
                       disabled={isPending}
                       placeholder="******"
                       type="password"
-                      className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                      className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
                     />
                   </FormControl>
                   <FormMessage />
@@ -211,7 +211,7 @@ export const LoginForm = ({
                   placeholder="Enter your email"
                   value={resendEmail}
                   onChange={(e) => setResendEmail(e.target.value)}
-                  className="bg-paper border-secondary-denim text-surface"
+                  className="bg-paper border-secondary-denim text-gray-900"
                   disabled={isResending}
                 />
                 <div className="flex gap-2">

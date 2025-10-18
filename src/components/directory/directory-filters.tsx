@@ -93,13 +93,13 @@ export function DirectoryFilters({
     >
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg text-surface">Filters</CardTitle>
+          <CardTitle className="text-lg text-gray-900">Filters</CardTitle>
           {hasActiveFilters && (
             <Button
               variant="ghost"
               size="sm"
               onClick={clearAllFilters}
-              className="text-surface/60 hover:text-surface rounded-full"
+              className="text-gray-900/60 hover:text-gray-900 rounded-full"
             >
               <X className="h-4 w-4 mr-1" />
               Clear All
@@ -146,7 +146,7 @@ export function DirectoryFilters({
           <div>
             <label
               htmlFor="category-select"
-              className="text-sm font-medium mb-2 block text-surface"
+              className="text-sm font-medium mb-2 block text-gray-900"
             >
               Category
             </label>
@@ -156,7 +156,7 @@ export function DirectoryFilters({
             >
               <SelectTrigger
                 id="category-select"
-                className="bg-white/80 text-surface border-[color:var(--card-border)] rounded-full focus:ring-4 focus:ring-[color:var(--ring)] focus:outline-none"
+                className="bg-white/80 text-gray-900 border-[color:var(--card-border)] rounded-full focus:ring-4 focus:ring-[color:var(--ring)] focus:outline-none"
               >
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
@@ -184,7 +184,7 @@ export function DirectoryFilters({
           <div>
             <label
               htmlFor="region-select"
-              className="text-sm font-medium mb-2 block text-surface"
+              className="text-sm font-medium mb-2 block text-gray-900"
             >
               Region
             </label>
@@ -194,7 +194,7 @@ export function DirectoryFilters({
             >
               <SelectTrigger
                 id="region-select"
-                className="bg-white/80 text-surface border-[color:var(--card-border)] rounded-full focus:ring-4 focus:ring-[color:var(--ring)] focus:outline-none"
+                className="bg-white/80 text-gray-900 border-[color:var(--card-border)] rounded-full focus:ring-4 focus:ring-[color:var(--ring)] focus:outline-none"
               >
                 <SelectValue placeholder="All Regions" />
               </SelectTrigger>

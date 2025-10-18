@@ -409,75 +409,67 @@ export default async function ListingPage({ params }: ListingPageProps) {
             <span>{listing.listing_name}</span>
           </div>
 
-          {/* Vendor Header */}
-          <div className="flex items-start gap-8 mb-6">
+          {/* Vendor Header - Compact Layout */}
+          <div className="flex items-start gap-6">
             <ProfileImage listing={listing} />
-            <div className="flex-1 max-w-2xl">
+            <div className="flex-1">
               <h1
-                className="text-3xl font-bold mb-3 line-clamp-2"
+                className="bauhaus-heading text-3xl font-bold mb-3"
                 style={{ color: "#0C1A2B" }}
               >
                 {listing.listing_name}
               </h1>
 
-              {/* Rating */}
-              {isReviewsEnabled() && averageRating.count > 0 && (
-                <div className="flex items-center gap-2 mb-4">
-                  <StarRating
-                    value={Math.round(averageRating.average)}
-                    readonly
-                    size="md"
-                  />
-                  <span className="text-gray-900">
-                    {averageRating.average.toFixed(1)} ({averageRating.count}{" "}
-                    review
-                    {averageRating.count !== 1 ? "s" : ""})
-                  </span>
-                </div>
-              )}
+              <div className="flex flex-wrap items-center gap-4 mb-4">
+                {/* Rating */}
+                {isReviewsEnabled() && averageRating.count > 0 && (
+                  <div className="flex items-center gap-2">
+                    <StarRating
+                      value={Math.round(averageRating.average)}
+                      readonly
+                      size="md"
+                    />
+                    <span className="text-gray-900 text-sm">
+                      {averageRating.average.toFixed(1)} ({averageRating.count}{" "}
+                      review
+                      {averageRating.count !== 1 ? "s" : ""})
+                    </span>
+                  </div>
+                )}
 
-              {/* Badges - Only show 101 Approved, remove plan highlighting */}
-              <div className="flex items-center gap-2 mb-4">
+                {/* 101 Approved Badge */}
                 {listing.badge_approved === true && (
-                  <div className="flex items-center gap-2 bg-gradient-to-r from-orange-50 to-yellow-50 border-2 border-brand-orange rounded-lg px-4 py-2">
+                  <div className="flex items-center gap-2 bg-gradient-to-r from-orange-50 to-yellow-50 border-2 border-brand-orange rounded-lg px-3 py-1.5">
                     <Image
                       src="/101approvedbadge.png"
                       alt="101 Approved Badge"
-                      width={32}
-                      height={32}
+                      width={24}
+                      height={24}
                       className="object-contain"
                     />
-                    <span className="font-bold text-brand-orange">
+                    <span className="font-bold text-brand-orange text-sm">
                       101 APPROVED
                     </span>
                   </div>
                 )}
-              </div>
 
-              {/* Last Updated - Freshness Signal for SEO */}
-              {listing.updated_at && (
-                <p className="text-xs text-gray-900 mb-3">
-                  Last updated:{" "}
-                  {new Date(listing.updated_at).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </p>
-              )}
-
-              {/* Description */}
-              <div className="mb-6">
-                <RichTextDisplay
-                  content={listing.what_you_offer || ""}
-                  className="text-lg leading-relaxed"
-                />
+                {/* Last Updated */}
+                {listing.updated_at && (
+                  <p className="text-xs text-gray-600">
+                    Last updated:{" "}
+                    {new Date(listing.updated_at).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </p>
+                )}
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-3">
                 {listing.website && (
-                  <Button size="lg" asChild className="btn-primary">
+                  <Button size="default" asChild className="btn-primary">
                     <Link
                       href={listing.website}
                       target="_blank"
@@ -490,7 +482,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   </Button>
                 )}
                 {isOwner && (
-                  <Button size="lg" asChild className="btn-secondary">
+                  <Button size="default" asChild className="btn-secondary">
                     <Link
                       href="/dashboard/vendor"
                       className="flex items-center justify-center space-x-2"
@@ -505,7 +497,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     listingId={listing.id}
                     listingName={listing.listing_name}
                     listingOwnerId={listing.owner_id}
-                    size="lg"
+                    size="default"
                     variant="outline"
                   />
                 )}

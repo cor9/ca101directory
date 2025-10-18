@@ -8,7 +8,10 @@ interface CategoryContentProps {
   listingCount: number;
 }
 
-export function CategoryContent({ categoryName, listingCount }: CategoryContentProps) {
+export function CategoryContent({
+  categoryName,
+  listingCount,
+}: CategoryContentProps) {
   const content = getCategoryContent(categoryName, listingCount);
 
   if (!content) return null;
@@ -31,8 +34,13 @@ export function CategoryContent({ categoryName, listingCount }: CategoryContentP
           </h2>
           <ul className="space-y-2">
             {content.whyYouNeed.map((item, index) => (
-              <li key={index} className="flex items-start gap-2 text-ink text-sm">
-                <span className="text-primary-orange text-lg mt-0.5 flex-shrink-0">✓</span>
+              <li
+                key={index}
+                className="flex items-start gap-2 text-ink text-sm"
+              >
+                <span className="text-primary-orange text-lg mt-0.5 flex-shrink-0">
+                  ✓
+                </span>
                 <span className="flex-1 bauhaus-body">{item}</span>
               </li>
             ))}
@@ -46,8 +54,13 @@ export function CategoryContent({ categoryName, listingCount }: CategoryContentP
           </h2>
           <ul className="space-y-2">
             {content.whatToLookFor.map((item, index) => (
-              <li key={index} className="flex items-start gap-2 text-charcoal text-sm">
-                <span className="text-primary-orange text-lg mt-0.5 flex-shrink-0">•</span>
+              <li
+                key={index}
+                className="flex items-start gap-2 text-charcoal text-sm"
+              >
+                <span className="text-primary-orange text-lg mt-0.5 flex-shrink-0">
+                  •
+                </span>
                 <span className="flex-1 bauhaus-body">{item}</span>
               </li>
             ))}
@@ -59,11 +72,14 @@ export function CategoryContent({ categoryName, listingCount }: CategoryContentP
 }
 
 function getCategoryContent(categoryName: string, listingCount: number) {
-  const contentMap: Record<string, {
-    intro: string;
-    whyYouNeed: string[];
-    whatToLookFor: string[];
-  }> = {
+  const contentMap: Record<
+    string,
+    {
+      intro: string;
+      whyYouNeed: string[];
+      whatToLookFor: string[];
+    }
+  > = {
     "Headshot Photographers": {
       intro: `Finding the right headshot photographer is crucial for your child's acting career. A great headshot captures your child's personality, range, and authenticity—helping them stand out in auditions and catch casting directors' attention. Browse ${listingCount} professional headshot photographers who specialize in child actors and understand the unique needs of young performers.`,
       whyYouNeed: [

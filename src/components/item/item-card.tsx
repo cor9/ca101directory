@@ -1,8 +1,8 @@
 "use client";
 
 import { generateSlugFromItem } from "@/lib/slug-utils";
-import { cn, getItemTargetLinkInWebsite } from "@/lib/utils";
 import { getUniversalItemImage } from "@/lib/universal-image";
+import { cn, getItemTargetLinkInWebsite } from "@/lib/utils";
 import type { ItemInfo } from "@/types";
 import { ArrowRightIcon, AwardIcon, HashIcon } from "lucide-react";
 import Image from "next/image";
@@ -18,8 +18,12 @@ type ItemCardProps = {
  * ItemCard shows item cover image with universal fallback handling
  */
 export default function ItemCard({ item }: ItemCardProps) {
-  const [imageResult, setImageResult] = useState<{ src: string; alt: string; isFallback: boolean } | null>(null);
-  
+  const [imageResult, setImageResult] = useState<{
+    src: string;
+    alt: string;
+    isFallback: boolean;
+  } | null>(null);
+
   // Get universal image with proper fallbacks
   useEffect(() => {
     const fetchImage = async () => {
@@ -36,10 +40,10 @@ export default function ItemCard({ item }: ItemCardProps) {
         });
       }
     };
-    
+
     fetchImage();
   }, [item]);
-  
+
   const itemUrlPrefix = "/item";
   const itemLink = getItemTargetLinkInWebsite(item);
 

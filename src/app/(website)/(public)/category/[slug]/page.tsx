@@ -164,8 +164,8 @@ export default async function CategoryPage({
       <div className="container max-w-7xl mx-auto px-4">
         {/* Category header - Bauhaus theme with proper contrast */}
         <div className="mb-8">
-          <h1 className="bauhaus-heading text-4xl text-paper mb-4">{categoryName}</h1>
-          <p className="bauhaus-body text-xl text-paper/80">
+          <h1 className="bauhaus-heading text-4xl text-gray-900 mb-4">{categoryName}</h1>
+          <p className="bauhaus-body text-xl text-gray-900/80">
             Find {categoryName.toLowerCase()} professionals for your child's
             acting career
           </p>
@@ -185,11 +185,9 @@ export default async function CategoryPage({
         {/* when items are found */}
         {items && items.length > 0 && (
           <section className="pt-2">
-            <div className="bauhaus-grid-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {items.map((item) => (
-                <div key={item._id} className="bauhaus-card">
-                  <ItemCard item={item} />
-                </div>
+                <ItemCard key={item._id} item={item} />
               ))}
             </div>
 

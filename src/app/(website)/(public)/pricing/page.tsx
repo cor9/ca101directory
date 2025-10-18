@@ -54,15 +54,15 @@ export default async function PricingPage() {
             {/* Free Plan Card - Custom (not Stripe) */}
             <div className="max-w-md mx-auto mb-8">
               <div className="bg-white border-2 border-gray-300 rounded-lg p-8 text-center shadow-lg">
-                <h2 className="text-2xl font-bold text-paper mb-2">Free Plan</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Free Plan</h2>
                 <div className="mb-4">
-                  <span className="text-4xl font-bold text-paper">$0</span>
-                  <span className="text-paper">/forever</span>
+                  <span className="text-4xl font-bold text-gray-900">$0</span>
+                  <span className="text-gray-900">/forever</span>
                 </div>
-                <p className="text-sm text-paper mb-6">
+                <p className="text-sm text-gray-900 mb-6">
                   Get started with a basic listing - no credit card required!
                 </p>
-                <ul className="text-left mb-6 space-y-2 text-sm text-paper">
+                <ul className="text-left mb-6 space-y-2 text-sm text-gray-900">
                   <li>✓ Basic listing information</li>
                   <li>✓ Contact details displayed</li>
                   <li>✓ Searchable in directory</li>
@@ -111,7 +111,7 @@ export default async function PricingPage() {
             </div>
 
             <div className="text-center mt-8">
-              <p className="text-sm text-paper leading-normal">
+              <p className="text-sm text-gray-900 leading-normal">
                 All plans include our{" "}
                 <span className="font-semibold">quality review process</span>{" "}
                 and trusted directory listing.

@@ -1,11 +1,12 @@
 import { urlForIcon, urlForImage } from "@/lib/image";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
+import { getCategoryIconsMap } from "@/data/categories";
 import type { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { generateSlugFromItem } from "@/lib/slug-utils";
 
-export default function ListingCard({ item }: { item: ItemInfo }) {
+export default async function ListingCard({ item }: { item: ItemInfo }) {
   const imageProps = item?.image
     ? urlForImage(item.image)
     : item?.icon
@@ -21,67 +22,44 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
           ?.asset?._ref
       : null);
 
-  // Local PNG fallback by category name (public/categories/*.png)
+  // Category icon fallback using Supabase-backed map, with filename fallbacks
   const firstCategory = item.categories?.[0]?.name || "";
-  const localMap: Record<string, string> = {
-    "Acting Classes & Coaches": "/categories/masks.png",
-    "Headshot Photographers": "/categories/camera.png",
-    "Self-Tape Studios": "/categories/selftape.png",
-    "Demo Reel Creators": "/categories/reelcreator.png",
-    "Vocal Coaches": "/categories/singer.png",
-    "Talent Managers": "/categories/rep.png",
-    "Casting Workshops": "/categories/handwriting.png",
-    "Reels Editors": "/categories/reel_editor.png",
-    "Social Media Consultants": "/categories/socialmedia.png",
-    "Acting Camps": "/categories/theatre.png",
-    "Acting Schools": "/categories/masks.png",
-    "Audition Prep": "/categories/audprep.png",
-    "Voiceover Studios": "/categories/mic.png",
-    "Theatre Training": "/categories/kidstheatre.png",
-    "Entertainment Lawyers": "/categories/legalfile.png",
-    "Financial Advisors": "/categories/moneybag.png",
-    Publicists: "/categories/publicist.png",
-    "Hair/Makeup Artists": "/categories/makeup.png",
-    "Wardrobe Stylists": "/categories/wardrobe.png",
-    "Branding Coaches": "/categories/colowheel.png",
-    "Mental Health for Performers": "/categories/mentalhealth.png",
-    "On-Set Tutors": "/categories/tutor.png",
-    "Reel Creator": "/categories/reelcreator.png",
-    Feedback: "/categories/play1.png",
-    "Career Consultation": "/categories/consult.png",
-    "Dance Classes": "/categories/danceclass.png",
-    Reel: "/categories/filmreel.png",
-    "Scene Writing": "/categories/script.png",
-  };
-  const localCategoryPng =
-    localMap[firstCategory] || "/categories/clapperboard.png";
-  const categoryFilename = (localCategoryPng.split("/").pop() || "").trim();
-  const supabaseCategoryIconUrl = categoryFilename
-    ? getCategoryIconUrl(categoryFilename)
-    : "";
-  // Additional attempts: exact name and derived filename in the bucket
-  const exactEncodedFilename = firstCategory
-    ? encodeURIComponent(`${firstCategory}.png`)
-    : "";
-  const supabaseExactByName = exactEncodedFilename
-    ? getCategoryIconUrl(exactEncodedFilename)
-    : "";
-  const derivedFilename = firstCategory
-    ? `${firstCategory
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "_")
-        .replace(/^_+|_+$/g, "")}.png`
-    : "";
-  const supabaseDerivedByName = derivedFilename
-    ? getCategoryIconUrl(derivedFilename)
-    : "";
+  const normalize = (v: string) => (v || "").replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+  const iconMap = await getCategoryIconsMap();
+
+  let categoryIconUrl = "";
+  if (firstCategory) {
+    categoryIconUrl = iconMap[firstCategory] || "";
+    if (!categoryIconUrl) {
+      const match = Object.entries(iconMap).find(
+        ([name]) => normalize(name) === normalize(firstCategory),
+      );
+      if (match?.[1]) categoryIconUrl = match[1];
+    }
+    // If the map value is just a filename, build the full URL
+    if (categoryIconUrl && !categoryIconUrl.startsWith("http")) {
+      categoryIconUrl = getCategoryIconUrl(categoryIconUrl);
+    }
+    // Derive common filename patterns as fallback
+    if (!categoryIconUrl) {
+      const exactEncodedFilename = encodeURIComponent(`${firstCategory}.png`);
+      categoryIconUrl = getCategoryIconUrl(exactEncodedFilename);
+      if (!categoryIconUrl) {
+        const derivedFilename = `${firstCategory
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "_")
+          .replace(/^_+|_+$/g, "")}.png`;
+        categoryIconUrl = getCategoryIconUrl(derivedFilename);
+      }
+    }
+  }
+  if (!categoryIconUrl) {
+    categoryIconUrl = getCategoryIconUrl("clapperboard.png");
+  }
+
   const resolvedSrc = profileRef
     ? getListingImageUrl(profileRef)
-    : imageProps?.src ||
-      supabaseCategoryIconUrl ||
-      supabaseExactByName ||
-      supabaseDerivedByName ||
-      localCategoryPng;
+    : imageProps?.src || categoryIconUrl;
   const planLabel =
     item.pricePlan ||
     (item.proPlanStatus

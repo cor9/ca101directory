@@ -22,14 +22,14 @@ export function CategoryContent({ categoryName, listingCount }: CategoryContentP
         </p>
       </div>
 
-      {/* Why You Need This Section */}
-      <div className="bauhaus-card p-8">
-        <h2 className="bauhaus-heading text-2xl mb-4 text-gray-900">
+      {/* Why You Need This Section - Robin Egg Blue */}
+      <div className="listing-card-blue p-8">
+        <h2 className="bauhaus-heading text-2xl mb-4 text-ink">
           Why You Need {categoryName}
         </h2>
         <ul className="space-y-3">
           {content.whyYouNeed.map((item, index) => (
-            <li key={index} className="flex items-start gap-3 text-gray-900/90">
+            <li key={index} className="flex items-start gap-3 text-ink">
               <span className="text-primary-orange text-xl mt-1">✓</span>
               <span className="flex-1 bauhaus-body">{item}</span>
             </li>
@@ -37,14 +37,14 @@ export function CategoryContent({ categoryName, listingCount }: CategoryContentP
         </ul>
       </div>
 
-      {/* What to Look For Section */}
-      <div className="bauhaus-card p-8">
-        <h2 className="bauhaus-heading text-2xl mb-4 text-gray-900">
+      {/* What to Look For Section - Mustard Yellow */}
+      <div className="listing-card-mustard p-8">
+        <h2 className="bauhaus-heading text-2xl mb-4 text-charcoal">
           What to Look For
         </h2>
         <ul className="space-y-3">
           {content.whatToLookFor.map((item, index) => (
-            <li key={index} className="flex items-start gap-3 text-gray-900/90">
+            <li key={index} className="flex items-start gap-3 text-charcoal">
               <span className="text-primary-orange text-xl mt-1">•</span>
               <span className="flex-1 bauhaus-body">{item}</span>
             </li>

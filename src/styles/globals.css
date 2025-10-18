@@ -35,7 +35,9 @@
     --radius: 0.5rem;
 
     /* Legacy colors (to be phased out) */
-    --cream: 60 100% 94%; /* #FFFDD0 - Base Light */
+    --cream: 60 100% 94%;
+    --cream-ink: 220 15% 15%; /* #1B1F29 - Dark text on cream */ /* #FFFDD0 - Base Light */
+    --cream-ink: 220 15% 15%; /* #1B1F29 - Dark text on cream */
     --charcoal: 220 15% 11%; /* #1E1F23 - Primary Dark */
     --retro-blue: 210 50% 40%; /* #336699 - Accent 1 */
     --tomato-red: 0 60% 50%; /* #CC3D3D - Accent 2 */
@@ -73,6 +75,7 @@
 
     /* Legacy colors */
     --cream: 60 100% 94%;
+    --cream-ink: 220 15% 15%; /* #1B1F29 - Dark text on cream */
     --charcoal: 220 15% 11%;
     --retro-blue: 210 50% 40%;
     --tomato-red: 0 60% 50%;

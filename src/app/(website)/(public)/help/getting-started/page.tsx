@@ -1,10 +1,11 @@
+import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Getting Started | Help Center",
-  description: "Learn how to create your first listing on Child Actor 101 Directory",
+  description:
+    "Learn how to create your first listing on Child Actor 101 Directory",
 };
 
 export default function GettingStartedPage() {
@@ -12,14 +13,16 @@ export default function GettingStartedPage() {
     <div className="container max-w-4xl mx-auto px-4 py-12">
       <Link
         href="/help"
-        className="inline-flex items-center gap-2 text-brand-blue hover:text-brand-blue/80 mb-8 transition-colors"
+        className="inline-flex items-center gap-2 text-secondary-denim hover:text-bauhaus-blue mb-8 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Help Center
       </Link>
 
-      <h1 className="text-4xl font-bold text-gray-900 mb-6">Getting Started</h1>
-      <p className="text-xl text-gray-900 mb-8">
+      <h1 className="bauhaus-heading text-4xl font-bold text-paper mb-6">
+        Getting Started
+      </h1>
+      <p className="bauhaus-body text-xl text-paper mb-8">
         Welcome to Child Actor 101 Directory! Follow this guide to create your
         professional listing and start connecting with families.
       </p>
@@ -37,17 +40,17 @@ export default function GettingStartedPage() {
                 Create Your Account
               </h2>
               <p className="text-gray-900 mb-4">
-                Start by creating a vendor account. This gives you access to submit
-                listings and manage your profile.
+                Start by creating a vendor account. This gives you access to
+                submit listings and manage your profile.
               </p>
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
                 <p className="text-sm text-gray-900 mb-2">
-                  <strong>Important:</strong> You'll receive a confirmation email
-                  after signing up.
+                  <strong>Important:</strong> You'll receive a confirmation
+                  email after signing up.
                 </p>
                 <p className="text-sm text-gray-900">
-                  Check your email (including spam folder) and click the confirmation
-                  link to activate your account.
+                  Check your email (including spam folder) and click the
+                  confirmation link to activate your account.
                 </p>
               </div>
               <Link
@@ -153,7 +156,8 @@ export default function GettingStartedPage() {
                 Complete Your Listing
               </h2>
               <p className="text-gray-900 mb-4">
-                Fill out your business information to create a compelling listing.
+                Fill out your business information to create a compelling
+                listing.
               </p>
               <div className="space-y-3 mb-4">
                 <div className="flex items-start gap-3">
@@ -170,7 +174,9 @@ export default function GettingStartedPage() {
                 <div className="flex items-start gap-3">
                   <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-semibold text-gray-900">Category & Location</p>
+                    <p className="font-semibold text-gray-900">
+                      Category & Location
+                    </p>
                     <p className="text-sm text-gray-900">
                       Choose your category and service areas
                     </p>
@@ -218,7 +224,8 @@ export default function GettingStartedPage() {
                 Wait for Approval
               </h2>
               <p className="text-gray-900 mb-4">
-                Our team reviews all new listings to ensure quality and accuracy.
+                Our team reviews all new listings to ensure quality and
+                accuracy.
               </p>
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
                 <p className="text-sm text-gray-900 mb-2">
@@ -226,12 +233,12 @@ export default function GettingStartedPage() {
                 </p>
                 <ul className="text-sm text-gray-900 space-y-1 list-disc list-inside">
                   <li>
-                    <strong>All Plans:</strong> Require admin approval, typically
-                    24-48 hours
+                    <strong>All Plans:</strong> Require admin approval,
+                    typically 24-48 hours
                   </li>
                   <li>
-                    <strong>Free Plan:</strong> Requires admin approval (typically
-                    24-48 hours)
+                    <strong>Free Plan:</strong> Requires admin approval
+                    (typically 24-48 hours)
                   </li>
                   <li>
                     All edits to existing listings require approval before going
@@ -240,8 +247,8 @@ export default function GettingStartedPage() {
                 </ul>
               </div>
               <p className="text-sm text-gray-900">
-                You'll receive an email notification once your listing is approved
-                and live.
+                You'll receive an email notification once your listing is
+                approved and live.
               </p>
             </div>
           </div>
@@ -258,8 +265,8 @@ export default function GettingStartedPage() {
                 Manage Your Listing
               </h2>
               <p className="text-gray-900 mb-4">
-                Access your dashboard to update information, track performance, and
-                manage your subscription.
+                Access your dashboard to update information, track performance,
+                and manage your subscription.
               </p>
               <div className="space-y-2 mb-4">
                 <Link
@@ -284,8 +291,8 @@ export default function GettingStartedPage() {
       <div className="mt-12 bg-gradient-to-r from-brand-blue to-brand-navy text-white rounded-lg p-8">
         <h2 className="text-2xl font-bold mb-4">Ready to Get Started?</h2>
         <p className="mb-6 opacity-90">
-          Create your professional listing today and start connecting with families
-          in the entertainment industry.
+          Create your professional listing today and start connecting with
+          families in the entertainment industry.
         </p>
         <div className="flex flex-wrap gap-4">
           <Link
@@ -305,13 +312,17 @@ export default function GettingStartedPage() {
 
       {/* Related Articles */}
       <div className="mt-12">
-        <h3 className="text-xl font-bold text-gray-900 mb-4">Related Articles</h3>
+        <h3 className="text-xl font-bold text-gray-900 mb-4">
+          Related Articles
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Link
             href="/help/image-guidelines"
             className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
           >
-            <h4 className="font-semibold text-gray-900 mb-2">Image Guidelines</h4>
+            <h4 className="font-semibold text-gray-900 mb-2">
+              Image Guidelines
+            </h4>
             <p className="text-sm text-gray-900">
               Learn the best practices for profile and gallery images
             </p>
@@ -332,4 +343,3 @@ export default function GettingStartedPage() {
     </div>
   );
 }
-

@@ -187,20 +187,20 @@ export default async function SubmitPage({
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+        <h1 className="bauhaus-heading text-4xl font-bold text-paper mb-4">
           {isClaimFlow ? "Claim Your Listing" : "List Your Business"}
         </h1>
-        <p className="text-xl text-gray-900 mb-2">
+        <p className="bauhaus-body text-xl text-paper mb-2">
           {isClaimFlow
             ? "Choose a plan and complete your listing details"
             : "Join the Child Actor 101 Directory and connect with parents"}
         </p>
-        <p className="text-sm text-gray-900">
+        <p className="bauhaus-body text-sm text-paper">
           Choose your plan below and get started in minutes.
         </p>
         {existingListing && (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 max-w-2xl mx-auto">
-            <p className="text-sm text-blue-800">
+          <div className="bg-surface border border-secondary-denim rounded-lg p-4 mb-6 max-w-2xl mx-auto">
+            <p className="text-sm text-ink">
               <strong>Claiming:</strong> {existingListing.listing_name}
             </p>
           </div>
@@ -212,10 +212,10 @@ export default async function SubmitPage({
           // Show plan selection for claim flow
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+              <h2 className="bauhaus-heading text-2xl font-semibold text-paper mb-2">
                 Choose Your Plan
               </h2>
-              <p className="text-gray-900">
+              <p className="bauhaus-body text-paper">
                 Select a plan to claim and enhance this listing.
               </p>
             </div>

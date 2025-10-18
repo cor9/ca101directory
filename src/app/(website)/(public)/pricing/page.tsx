@@ -28,7 +28,7 @@ export default async function PricingPage() {
               {/* Prominent Logo */}
               <div className="flex justify-center mb-8">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-brand-orange/20 via-brand-blue/20 to-brand-yellow/20 rounded-full blur-2xl scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary-orange/20 via-secondary-denim/20 to-highlight/20 rounded-full blur-2xl scale-110" />
                   <div className="relative backdrop-blur-sm rounded-xl p-6 shadow-xl border border-white/20">
                     <Image
                       src="/logo.png"
@@ -42,7 +42,7 @@ export default async function PricingPage() {
                 </div>
               </div>
 
-              <h1 className="bauhaus-heading text-4xl mb-4">
+              <h1 className="bauhaus-heading text-4xl text-paper mb-4">
                 Simple, Transparent Pricing
               </h1>
               <p className="bauhaus-body text-xl text-paper max-w-3xl mx-auto">
@@ -53,16 +53,16 @@ export default async function PricingPage() {
 
             {/* Free Plan Card - Custom (not Stripe) */}
             <div className="max-w-md mx-auto mb-8">
-              <div className="bg-white border-2 border-gray-300 rounded-lg p-8 text-center shadow-lg">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Free Plan</h2>
+              <div className="bauhaus-card bg-surface border-2 border-secondary-denim rounded-lg p-8 text-center shadow-lg">
+                <h2 className="bauhaus-heading text-2xl font-bold text-ink mb-2">Free Plan</h2>
                 <div className="mb-4">
-                  <span className="text-4xl font-bold text-gray-900">$0</span>
-                  <span className="text-gray-900">/forever</span>
+                  <span className="text-4xl font-bold text-ink">$0</span>
+                  <span className="bauhaus-body text-surface">/forever</span>
                 </div>
-                <p className="text-sm text-gray-900 mb-6">
+                <p className="bauhaus-body text-sm text-surface mb-6">
                   Get started with a basic listing - no credit card required!
                 </p>
-                <ul className="text-left mb-6 space-y-2 text-sm text-gray-900">
+                <ul className="text-left mb-6 space-y-2 text-sm text-surface">
                   <li>✓ Basic listing information</li>
                   <li>✓ Contact details displayed</li>
                   <li>✓ Searchable in directory</li>
@@ -71,7 +71,7 @@ export default async function PricingPage() {
                 </ul>
                 <Link
                   href="/submit"
-                  className="inline-block w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+                  className="bauhaus-btn-secondary inline-block w-full font-bold py-3 px-6 rounded-lg transition-colors"
                 >
                   Start Free Listing →
                 </Link>
@@ -84,7 +84,7 @@ export default async function PricingPage() {
                 <h2 className="bauhaus-heading text-2xl text-bauhaus-blue mb-2">
                   Standard & Pro Plans
                 </h2>
-                <p className="text-paper">
+                <p className="bauhaus-body text-paper">
                   Monthly and annual billing options
                 </p>
               </div>
@@ -97,10 +97,10 @@ export default async function PricingPage() {
             {/* Second Stripe Pricing Table - 101 Approved Badge Add-on */}
             <div className="w-full mx-auto mt-12">
               <div className="text-center mb-8">
-                <h2 className="text-2xl font-bold text-brand-orange mb-2">
+                <h2 className="bauhaus-heading text-2xl font-bold text-primary-orange mb-2">
                   🏆 101 Approved Badge Add-on
                 </h2>
-                <p className="text-paper">
+                <p className="bauhaus-body text-paper">
                   Add our trusted badge to your listing
                 </p>
               </div>
@@ -111,7 +111,7 @@ export default async function PricingPage() {
             </div>
 
             <div className="text-center mt-8">
-              <p className="text-sm text-gray-900 leading-normal">
+              <p className="bauhaus-body text-sm text-paper leading-normal">
                 All plans include our{" "}
                 <span className="font-semibold">quality review process</span>{" "}
                 and trusted directory listing.
@@ -119,7 +119,7 @@ export default async function PricingPage() {
                 Need help choosing?{" "}
                 <a
                   href="mailto:hello@childactor101.com"
-                  className="text-brand-blue hover:text-brand-blue-dark font-semibold"
+                  className="text-secondary-denim hover:text-bauhaus-blue font-semibold link-underline"
                 >
                   Contact us
                 </a>{" "}

@@ -212,10 +212,10 @@ export default async function CategoryPage() {
 
       {/* Call to Action */}
       <div className="bauhaus-card text-center p-8">
-        <h2 className="bauhaus-heading text-2xl text-gray-900 mb-4">
+        <h2 className="bauhaus-heading text-2xl text-ink mb-4">
           Don't See Your Category?
         </h2>
-        <p className="bauhaus-body text-gray-900 mb-6 max-w-2xl mx-auto">
+        <p className="bauhaus-body text-surface mb-6 max-w-2xl mx-auto">
           We're constantly adding new categories and professionals. If you don't
           see what you're looking for, try our search feature or submit a
           listing request.

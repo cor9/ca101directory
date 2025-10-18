@@ -40,10 +40,10 @@ export default function Help101ApprovedPage() {
             />
           </div>
         </div>
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+        <h1 className="bauhaus-heading text-4xl font-bold text-paper mb-4">
           🎖️ 101 Approved Badge
         </h1>
-        <p className="text-xl text-gray-900">
+        <p className="bauhaus-body text-xl text-paper">
           The highest mark of trust for verified professionals serving child and
           teen actors
         </p>
@@ -90,7 +90,7 @@ export default function Help101ApprovedPage() {
 
       {/* Qualification Requirements */}
       <div className="mb-12">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">
+        <h2 className="bauhaus-heading text-3xl font-bold text-paper mb-6">
           How to Qualify for the 101 Approved Badge
         </h2>
 
@@ -295,7 +295,7 @@ export default function Help101ApprovedPage() {
 
       {/* Child Actor 101 Code of Ethics */}
       <div className="mb-12">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">
+        <h2 className="bauhaus-heading text-3xl font-bold text-paper mb-6">
           🧡 Child Actor 101 Code of Ethics
         </h2>
         <div className="bg-white border-2 border-gray-200 rounded-lg p-8">
@@ -475,7 +475,7 @@ export default function Help101ApprovedPage() {
 
       {/* Benefits */}
       <div className="mb-12">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6">
+        <h2 className="bauhaus-heading text-3xl font-bold text-paper mb-6">
           Benefits of the 101 Approved Badge
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

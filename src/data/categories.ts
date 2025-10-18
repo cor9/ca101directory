@@ -51,26 +51,18 @@ export async function getCategoryIconsMap(): Promise<Record<string, string>> {
       [normalize("Wardrobe Consultant")]: "wardrobe.png",
     };
 
-    // 1) Prefer new category_pngs mapping table (with UUIDs/timestamptz/RLS)
+    // 1) Use category_pngs table (current mapping table)
     const pngs = await supabase
       .from("category_pngs")
-      .select("category_id, category_name, filename, url");
+      .select("category_name, category_pngs");
 
     const map: Record<string, string> = {};
     if (!pngs.error && Array.isArray(pngs.data) && pngs.data.length) {
-      type PngRow = {
-        category_id?: string | null;
-        category_name?: string | null;
-        filename?: string | null;
-        url?: string | null;
-      };
-      for (const row of pngs.data as unknown as PngRow[]) {
-        const src = row.url || row.filename || undefined;
-        if (!src) continue;
-        const id = row.category_id || undefined;
-        const name = row.category_name || undefined;
-        if (id) map[id] = src; // direct ID lookup
-        if (name) map[normalize(name)] = src; // normalized name lookup
+      for (const row of pngs.data) {
+        if (row?.category_name && row?.category_pngs) {
+          map[row.category_name] = row.category_pngs;
+          map[normalize(row.category_name)] = row.category_pngs; // normalized name lookup
+        }
       }
       // Override name-based entries with CSV mapping
       for (const [nKey, filename] of Object.entries(staticFallbackByName)) {
@@ -79,7 +71,7 @@ export async function getCategoryIconsMap(): Promise<Record<string, string>> {
       return map;
     }
 
-    // 2) Dedicated mapping table in Supabase (legacy)
+    // 2) Fallback to category_icons table (legacy)
     const primary = await supabase
       .from("category_icons")
       .select("category_name, filename");
@@ -88,6 +80,7 @@ export async function getCategoryIconsMap(): Promise<Record<string, string>> {
       for (const row of primary.data) {
         if (row?.category_name && row?.filename) {
           map[row.category_name] = row.filename;
+          map[normalize(row.category_name)] = row.filename; // normalized name lookup
         }
       }
       // Override name-based entries with CSV mapping

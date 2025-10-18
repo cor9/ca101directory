@@ -27,13 +27,6 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
   const normalize = (v: string) => (v || "").replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
   const iconMap = await getCategoryIconsMap();
 
-  console.log("ListingCard Debug:", {
-    itemName: item.name,
-    firstCategory,
-    iconMapKeys: Object.keys(iconMap),
-    iconMapSample: Object.entries(iconMap).slice(0, 3)
-  });
-
   let categoryIconUrl = "";
   if (firstCategory) {
     // Try direct lookup first
@@ -46,13 +39,6 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
       );
       if (match?.[1]) categoryIconUrl = match[1];
     }
-    
-    console.log("Category icon lookup:", {
-      firstCategory,
-      directLookup: iconMap[firstCategory],
-      normalizedLookup: categoryIconUrl,
-      foundMatch: !!categoryIconUrl
-    });
     
     // If the map value is just a filename, build the full URL
     if (categoryIconUrl && !categoryIconUrl.startsWith("http")) {
@@ -75,8 +61,6 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
   if (!categoryIconUrl) {
     categoryIconUrl = getCategoryIconUrl("clapperboard.png");
   }
-  
-  console.log("Final categoryIconUrl:", categoryIconUrl);
 
   const resolvedSrc = profileRef
     ? getListingImageUrl(profileRef)

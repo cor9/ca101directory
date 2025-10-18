@@ -14,42 +14,45 @@ export function CategoryContent({ categoryName, listingCount }: CategoryContentP
   if (!content) return null;
 
   return (
-    <div className="space-y-4 mb-8">
-      {/* Intro Section - Bauhaus cream card with dark text */}
-      <div className="bauhaus-card p-6">
+    <div className="mb-8">
+      {/* Intro Section - Full width */}
+      <div className="bauhaus-card p-6 mb-4">
         <p className="bauhaus-body text-base leading-relaxed text-gray-900">
           {content.intro}
         </p>
       </div>
 
-      {/* Why You Need This Section - Robin Egg Blue */}
-      <div className="listing-card-blue p-6">
-        <h2 className="bauhaus-heading text-xl mb-3 text-ink">
-          Why You Need {categoryName}
-        </h2>
-        <ul className="space-y-2">
-          {content.whyYouNeed.map((item, index) => (
-            <li key={index} className="flex items-start gap-2 text-ink text-sm">
-              <span className="text-primary-orange text-lg mt-0.5">✓</span>
-              <span className="flex-1 bauhaus-body">{item}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {/* Two Column Grid for Why/What sections */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Why You Need This Section - Robin Egg Blue */}
+        <div className="listing-card-blue p-6">
+          <h2 className="bauhaus-heading text-xl mb-3 text-ink">
+            Why You Need {categoryName}
+          </h2>
+          <ul className="space-y-2">
+            {content.whyYouNeed.map((item, index) => (
+              <li key={index} className="flex items-start gap-2 text-ink text-sm">
+                <span className="text-primary-orange text-lg mt-0.5 flex-shrink-0">✓</span>
+                <span className="flex-1 bauhaus-body">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      {/* What to Look For Section - Mustard Yellow */}
-      <div className="listing-card-mustard p-6">
-        <h2 className="bauhaus-heading text-xl mb-3 text-charcoal">
-          What to Look For
-        </h2>
-        <ul className="space-y-2">
-          {content.whatToLookFor.map((item, index) => (
-            <li key={index} className="flex items-start gap-2 text-charcoal text-sm">
-              <span className="text-primary-orange text-lg mt-0.5">•</span>
-              <span className="flex-1 bauhaus-body">{item}</span>
-            </li>
-          ))}
-        </ul>
+        {/* What to Look For Section - Mustard Yellow */}
+        <div className="listing-card-mustard p-6">
+          <h2 className="bauhaus-heading text-xl mb-3 text-charcoal">
+            What to Look For
+          </h2>
+          <ul className="space-y-2">
+            {content.whatToLookFor.map((item, index) => (
+              <li key={index} className="flex items-start gap-2 text-charcoal text-sm">
+                <span className="text-primary-orange text-lg mt-0.5 flex-shrink-0">•</span>
+                <span className="flex-1 bauhaus-body">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

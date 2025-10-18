@@ -1,10 +1,10 @@
+import { getCategoryIconsMap } from "@/data/categories";
 import { urlForIcon, urlForImage } from "@/lib/image";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
-import { getCategoryIconsMap } from "@/data/categories";
+import { generateSlugFromItem } from "@/lib/slug-utils";
 import type { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import { generateSlugFromItem } from "@/lib/slug-utils";
 
 export default async function ListingCard({ item }: { item: ItemInfo }) {
   const imageProps = item?.image
@@ -24,14 +24,15 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
 
   // Category icon fallback using Supabase-backed map, with filename fallbacks
   const firstCategory = item.categories?.[0]?.name || "";
-  const normalize = (v: string) => (v || "").replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+  const normalize = (v: string) =>
+    (v || "").replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
   const iconMap = await getCategoryIconsMap();
 
   let categoryIconUrl = "";
   if (firstCategory) {
     // Try direct lookup first
     categoryIconUrl = iconMap[firstCategory] || "";
-    
+
     // Try normalized lookup
     if (!categoryIconUrl) {
       const match = Object.entries(iconMap).find(
@@ -39,12 +40,12 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
       );
       if (match?.[1]) categoryIconUrl = match[1];
     }
-    
+
     // If the map value is just a filename, build the full URL
     if (categoryIconUrl && !categoryIconUrl.startsWith("http")) {
       categoryIconUrl = getCategoryIconUrl(categoryIconUrl);
     }
-    
+
     // Derive common filename patterns as fallback
     if (!categoryIconUrl) {
       const exactEncodedFilename = encodeURIComponent(`${firstCategory}.png`);

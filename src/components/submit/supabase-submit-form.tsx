@@ -122,7 +122,7 @@ export function SupabaseSubmitForm({
     formData,
     storageKey: `listing-draft-${existingListing?.id || "new"}`,
     debounceMs: 2000,
-    enabled: !existingListing, // Only autosave for new submissions, not edits
+    enabled: false, // Disabled autosave to prevent draft popup
   });
 
   // Load saved data on mount (only for new submissions)
@@ -130,16 +130,8 @@ export function SupabaseSubmitForm({
     if (!existingListing) {
       const savedData = loadSavedData();
       if (savedData && Object.keys(savedData).length > 0) {
-        // Ask user if they want to restore
-        const shouldRestore = confirm(
-          "We found a saved draft. Would you like to restore it?",
-        );
-        if (shouldRestore) {
-          setFormData((prev) => ({ ...prev, ...savedData }));
-          toast.success("Draft restored!");
-        } else {
-          clearSavedData();
-        }
+        // Auto-clear saved data without asking
+        clearSavedData();
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

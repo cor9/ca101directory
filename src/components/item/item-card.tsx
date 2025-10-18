@@ -1,12 +1,12 @@
 "use client";
 
 import { urlForImage } from "@/lib/image";
+import { generateSlugFromItem } from "@/lib/slug-utils";
 import { cn, getItemTargetLinkInWebsite } from "@/lib/utils";
 import type { ItemInfo } from "@/types";
 import { ArrowRightIcon, AwardIcon, HashIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { generateSlugFromItem } from "@/lib/slug-utils";
 import { Skeleton } from "../ui/skeleton";
 
 type ItemCardProps = {
@@ -72,11 +72,11 @@ export default function ItemCard({ item }: ItemCardProps) {
               href={itemLink}
               prefetch={false}
               target="_blank"
-              className="absolute inset-0 flex items-center justify-center bg-black 
+              className="absolute inset-0 flex items-center justify-center bg-black
                     bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300"
             >
               <span
-                className="text-white text-lg font-semibold 
+                className="text-white text-lg font-semibold
                       opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               >
                 Visit Website
@@ -106,8 +106,12 @@ export default function ItemCard({ item }: ItemCardProps) {
                 </span>
               </h3>
               <div className="flex items-center justify-center gap-2 opacity-100 shrink-0">
-                <span className="text-primary-orange font-semibold text-sm bg-primary-orange/10 px-3 py-1 rounded-full">View Details</span>
-                <ArrowRightIcon className={cn("size-4 icon-scale text-primary-orange", "")} />
+                <span className="text-primary-orange font-semibold text-sm bg-primary-orange/10 px-3 py-1 rounded-full">
+                  View Details
+                </span>
+                <ArrowRightIcon
+                  className={cn("size-4 icon-scale text-primary-orange", "")}
+                />
               </div>
             </div>
 

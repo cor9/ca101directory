@@ -1,8 +1,8 @@
 "use client";
 
-import { urlForImage } from "@/lib/image";
 import { generateSlugFromItem } from "@/lib/slug-utils";
 import { cn, getItemTargetLinkInWebsite } from "@/lib/utils";
+import { getUniversalItemImage } from "@/lib/universal-image";
 import type { ItemInfo } from "@/types";
 import { ArrowRightIcon, AwardIcon, HashIcon } from "lucide-react";
 import Image from "next/image";
@@ -15,170 +15,89 @@ type ItemCardProps = {
 };
 
 /**
- * ItemCard shows item cover image
+ * ItemCard shows item cover image with universal fallback handling
  */
 export default function ItemCard({ item }: ItemCardProps) {
-  const [fallbackImageUrl, setFallbackImageUrl] = useState<string | null>(null);
+  const [imageResult, setImageResult] = useState<{ src: string; alt: string; isFallback: boolean } | null>(null);
   
-  // Get image props - prioritize item.image, fallback to item.icon, then category icon
-  const imageProps = item?.image ? urlForImage(item.image) : 
-                    item?.icon ? urlForImage(item.icon) : 
-                    fallbackImageUrl ? urlForImage(fallbackImageUrl) : null;
-  const imageBlurDataURL = item?.image?.blurDataURL || null;
-  
-  // Fetch category icon fallback if no image/icon
+  // Get universal image with proper fallbacks
   useEffect(() => {
-    if (!item?.image && !item?.icon && item?.categories?.[0]) {
-      const fetchCategoryIcon = async () => {
-        try {
-          const { getCategoryIconsMap } = await import("@/data/categories");
-          const categoryMap = await getCategoryIconsMap();
-          const categoryName = item.categories[0].name;
-          const iconFilename = categoryMap[categoryName] || categoryMap[categoryName.toLowerCase()];
-          
-          if (iconFilename) {
-            const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-            const bucketName = "category_pngs";
-            const fallbackUrl = `${supabaseUrl}/storage/v1/object/public/${bucketName}/${iconFilename}`;
-            setFallbackImageUrl(fallbackUrl);
-          }
-        } catch (error) {
-          console.error("Error fetching category icon:", error);
-        }
-      };
-      
-      fetchCategoryIcon();
-    }
-  }, [item?.image, item?.icon, item?.categories]);
+    const fetchImage = async () => {
+      try {
+        const result = await getUniversalItemImage(item);
+        setImageResult(result);
+      } catch (error) {
+        console.error("Error fetching universal image:", error);
+        // Fallback to generic icon
+        setImageResult({
+          src: "/api/placeholder/400/300",
+          alt: `Generic icon for ${item.name}`,
+          isFallback: true,
+        });
+      }
+    };
+    
+    fetchImage();
+  }, [item]);
   
   const itemUrlPrefix = "/item";
   const itemLink = getItemTargetLinkInWebsite(item);
 
   return (
-    <div
-      className={cn(
-        "cursor-pointer bg-paper border border-surface/20 rounded-lg flex flex-col justify-between gap-4 shadow-sm hover:shadow-md transition-all duration-300",
-        "hover:scale-[1.02] hover:border-primary-orange/30",
-      )}
-    >
-      {/* top */}
-      <div className="flex flex-col gap-4">
-        {/* Image container */}
-        <div className="group overflow-hidden relative aspect-[16/9] rounded-t-lg transition-all">
-          {imageProps && (
-            <div className="relative w-full h-full">
-              <Image
-                src={imageProps?.src}
-                alt={item.image.alt || `image of ${item.name}`}
-                title={item.image.alt || `image of ${item.name}`}
-                fill
-                className="object-cover image-scale"
-                {...(imageBlurDataURL && {
-                  placeholder: "blur",
-                  blurDataURL: imageBlurDataURL,
-                })}
-              />
-
-              <div className="absolute left-2 bottom-2 opacity-100 transition-opacity duration-300">
-                <div className="flex flex-col gap-2">
-                  {item.categories && item.categories.length > 0 && (
-                    <div className="flex flex-wrap gap-1">
-                      {item.categories.map((category, index) => (
-                        <span
-                          key={category._id}
-                          className="text-xs font-medium text-white bg-black bg-opacity-50 px-2 py-1 rounded-md"
-                        >
-                          {category.name}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {item.link ? (
-            <Link
-              href={itemLink}
-              prefetch={false}
-              target="_blank"
-              className="absolute inset-0 flex items-center justify-center bg-black
-                    bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300"
-            >
-              <span
-                className="text-white text-lg font-semibold
-                      opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              >
-                Visit Website
-              </span>
-            </Link>
-          ) : null}
-        </div>
-
-        {/* center */}
-        <Link
-          href={`/listing/${generateSlugFromItem({ name: item.name, _id: item._id })}`}
-          className="flex flex-col gap-4 group hover:bg-paper/50 transition-colors duration-200 rounded-lg"
-        >
-          <div className="px-4 flex flex-col gap-4">
-            <div className="flex items-center justify-between gap-4">
-              <h3
-                className={cn(
-                  "min-w-0 flex-1 text-xl font-medium truncate overflow-hidden text-ellipsis text-paper",
-                  item.featured && "text-primary-orange font-semibold",
-                )}
-              >
-                <span className="flex items-center gap-2">
-                  {item.featured && (
-                    <AwardIcon className="w-5 h-5 flex-shrink-0 text-primary-orange" />
-                  )}
-                  <span className="truncate">{item.name}</span>
-                </span>
-              </h3>
-              <div className="flex items-center justify-center gap-2 opacity-100 shrink-0">
-                <span className="text-primary-orange font-semibold text-sm bg-primary-orange/10 px-3 py-1 rounded-full">
-                  View Details
-                </span>
-                <ArrowRightIcon
-                  className={cn("size-4 icon-scale text-primary-orange", "")}
-                />
-              </div>
-            </div>
-
-            {/* min-h-[3rem] is used for making sure height of the card is the same */}
-            <p className="text-sm line-clamp-2 leading-relaxed min-h-[3rem] text-paper/80">
-              {item.description}
-            </p>
-          </div>
-        </Link>
-      </div>
-
-      {/* bottom */}
-      <div className="px-4 pb-4 flex justify-end items-center">
-        {item.tags && item.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 items-center">
-            {item.tags.slice(0, 5).map((tag, index) => (
-              <Link
-                key={tag._id}
-                href={`/tag/${tag.slug.current}`}
-                className="flex items-center justify-center space-x-0.5 group"
-              >
-                <HashIcon className="w-3 h-3 text-paper/60 icon-scale" />
-                <span className="text-sm text-paper/60 link-underline">
-                  {tag.name}
-                </span>
-              </Link>
-            ))}
-            {item.tags.length > 5 && (
-              <span className="text-sm text-paper/60 px-1">
-                +{item.tags.length - 5}
-              </span>
-            )}
-          </div>
+    <article className="bg-[color:var(--cream)] text-[color:var(--cream-ink)] rounded-2xl border border-[color:var(--card-border)] shadow-[var(--shadow-cream)] overflow-hidden transition-transform hover:-translate-y-0.5 hover:shadow-[var(--shadow-cream-lg)]">
+      <div className="aspect-[16/9] bg-[#EDE6C8] relative">
+        {imageResult && (
+          <Image
+            src={imageResult.src}
+            alt={imageResult.alt}
+            fill
+            className="object-cover"
+          />
         )}
       </div>
-    </div>
+
+      <div className="p-5 space-y-3">
+        <h3 className="text-lg md:text-xl font-bold line-clamp-2">
+          {item.name}
+        </h3>
+
+        {item.description && (
+          <p className="text-sm opacity-85 line-clamp-2">{item.description}</p>
+        )}
+
+        {item.categories && item.categories.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {item.categories.slice(0, 3).map((c) => (
+              <span
+                key={c._id}
+                className="rounded-full bg-[color:var(--chip-bg)] border border-[color:var(--card-border)] px-2 py-1 text-xs"
+              >
+                {c.name}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div className="pt-2 flex items-center gap-3">
+          <Link
+            href={`/listing/${generateSlugFromItem({ name: item.name, _id: item._id })}`}
+            className="rounded-full bg-[color:var(--orange)] text-white px-4 py-2 text-sm hover:bg-[#e25403]"
+          >
+            View Listing →
+          </Link>
+          {item.link && (
+            <a
+              href={item.link}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 rounded-full border border-[color:var(--card-border)] px-3 py-2 text-sm hover:text-[color:var(--orange)]"
+            >
+              Website
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
   );
 }
 

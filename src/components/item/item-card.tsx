@@ -7,6 +7,7 @@ import type { ItemInfo } from "@/types";
 import { ArrowRightIcon, AwardIcon, HashIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 
 type ItemCardProps = {
@@ -17,9 +18,39 @@ type ItemCardProps = {
  * ItemCard shows item cover image
  */
 export default function ItemCard({ item }: ItemCardProps) {
-  const imageProps = item?.image ? urlForImage(item.image) : null;
+  const [fallbackImageUrl, setFallbackImageUrl] = useState<string | null>(null);
+  
+  // Get image props - prioritize item.image, fallback to item.icon, then category icon
+  const imageProps = item?.image ? urlForImage(item.image) : 
+                    item?.icon ? urlForImage(item.icon) : 
+                    fallbackImageUrl ? urlForImage(fallbackImageUrl) : null;
   const imageBlurDataURL = item?.image?.blurDataURL || null;
-  // console.log(`ItemCard, imageBlurDataURL:${imageBlurDataURL}`);
+  
+  // Fetch category icon fallback if no image/icon
+  useEffect(() => {
+    if (!item?.image && !item?.icon && item?.categories?.[0]) {
+      const fetchCategoryIcon = async () => {
+        try {
+          const { getCategoryIconsMap } = await import("@/data/categories");
+          const categoryMap = await getCategoryIconsMap();
+          const categoryName = item.categories[0].name;
+          const iconFilename = categoryMap[categoryName] || categoryMap[categoryName.toLowerCase()];
+          
+          if (iconFilename) {
+            const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+            const bucketName = "category_pngs";
+            const fallbackUrl = `${supabaseUrl}/storage/v1/object/public/${bucketName}/${iconFilename}`;
+            setFallbackImageUrl(fallbackUrl);
+          }
+        } catch (error) {
+          console.error("Error fetching category icon:", error);
+        }
+      };
+      
+      fetchCategoryIcon();
+    }
+  }, [item?.image, item?.icon, item?.categories]);
+  
   const itemUrlPrefix = "/item";
   const itemLink = getItemTargetLinkInWebsite(item);
 

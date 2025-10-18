@@ -1,4 +1,4 @@
-import { getCategories } from "@/data/categories";
+import { getCategories, getCategoryIconsMap } from "@/data/categories";
 import {
   type Listing,
   getListingById,

@@ -73,8 +73,10 @@ export function getCategoryIconUrl(filename: string): string {
     /^\/?storage\/v1\/object\/public\//,
     "",
   );
-  if (!normalizedPath.startsWith("category_icons/")) {
-    normalizedPath = `category_icons/${normalizedPath}`;
+  const bucketName =
+    process.env.NEXT_PUBLIC_CATEGORY_ICON_BUCKET || "category_pngs"; // supports category_pngs (default) or category_icons
+  if (!normalizedPath.startsWith(`${bucketName}/`)) {
+    normalizedPath = `${bucketName}/${normalizedPath}`;
   }
   const supabaseUrl =
     process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;

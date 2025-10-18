@@ -2,14 +2,37 @@ import { supabase } from "@/lib/supabase";
 
 export async function getCategoryIconsMap(): Promise<Record<string, string>> {
   try {
-    const { data, error } = await supabase
+    // Primary: dedicated mapping table
+    const primary = await supabase
       .from("category_icons")
       .select("category_name, filename");
-    if (error) throw error;
+
     const map: Record<string, string> = {};
-    for (const row of data || []) {
-      map[row.category_name] = row.filename;
+
+    if (!primary.error && Array.isArray(primary.data) && primary.data.length) {
+      for (const row of primary.data) {
+        if (row?.category_name && row?.filename) {
+          map[row.category_name] = row.filename;
+        }
+      }
+      return map;
     }
+
+    // Fallback: infer from categories table (supports icon or category_icon columns)
+    const fallback = await supabase
+      .from("categories")
+      .select('category_name, icon, category_icon, "Category Name"');
+
+    if (!fallback.error && Array.isArray(fallback.data)) {
+      for (const row of fallback.data) {
+        const name = row?.category_name || row?.["Category Name"]; // support Airtable import
+        const filename = row?.icon || row?.category_icon;
+        if (name && filename) {
+          map[name] = filename;
+        }
+      }
+    }
+
     return map;
   } catch (e) {
     console.error("getCategoryIconsMap error", e);

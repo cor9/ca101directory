@@ -8,9 +8,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
-import { getCategories } from "@/data/categories";
+import { getCategories, getCategoryIconsMap } from "@/data/categories";
 import { getPublicListings } from "@/data/listings";
+import { getCategoryIconUrl } from "@/lib/image-urls";
 import { constructMetadata } from "@/lib/metadata";
+import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = constructMetadata({
@@ -48,14 +50,16 @@ export default async function CategoryPage() {
     name: string;
     slug: string;
     description: string;
-    icon: keyof typeof Icons;
+    icon?: keyof typeof Icons;
+    iconPngUrl?: string | null;
     count: number;
   }> = [];
 
   try {
-    const [supabaseCategories, listings] = await Promise.all([
+    const [supabaseCategories, listings, iconMap] = await Promise.all([
       getCategories(),
       getPublicListings(),
+      getCategoryIconsMap(),
     ]);
 
     console.log("CategoryPage Debug:", {
@@ -80,6 +84,13 @@ export default async function CategoryPage() {
 
     console.log("Category counts:", categoryCounts);
 
+    const normalize = (v: string) =>
+      v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+    const pngByName: Record<string, string | undefined> = {};
+    for (const [name, filename] of Object.entries(iconMap || {})) {
+      pngByName[normalize(name)] = filename;
+    }
+
     categories = supabaseCategories.map((category) => ({
       name: category.category_name,
       slug: category.category_name
@@ -93,6 +104,11 @@ export default async function CategoryPage() {
         category.description ||
         `Professional ${category.category_name.toLowerCase()} services`,
       count: categoryCounts[category.category_name] || 0,
+      iconPngUrl: (() => {
+        const key = normalize(category.category_name);
+        const filename = pngByName[key];
+        return filename ? getCategoryIconUrl(filename) : null;
+      })(),
     }));
 
     console.log("Final categories:", categories);
@@ -104,9 +120,7 @@ export default async function CategoryPage() {
     <div className="container mx-auto px-4 py-8 text-surface">
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="bauhaus-heading text-4xl mb-4">
-          Browse by Category
-        </h1>
+        <h1 className="bauhaus-heading text-4xl mb-4">Browse by Category</h1>
         <p className="bauhaus-body text-xl opacity-80 max-w-3xl mx-auto">
           Find trusted acting professionals organized by specialty. Each
           category contains verified professionals ready to help your child
@@ -117,7 +131,9 @@ export default async function CategoryPage() {
       {/* Categories Grid */}
       <div className="bauhaus-grid bauhaus-grid-3 xl:grid-cols-4 gap-6 mb-12">
         {categories.map((category, index) => {
-          const IconComponent = Icons[category.icon];
+          const IconComponent = category.icon
+            ? Icons[category.icon]
+            : Icons.star;
           // Use consistent Bauhaus colors instead of rainbow
           const bauhausColors = [
             {
@@ -147,12 +163,21 @@ export default async function CategoryPage() {
                     <div
                       className={`p-4 ${colors.bg} rounded-lg shadow-bauhaus`}
                     >
-                      {/* Placeholder icon - you can replace with category-specific icons */}
-                      <div
-                        className={`h-8 w-8 ${colors.text} flex items-center justify-center font-bold text-xl`}
-                      >
-                        {category.name.charAt(0)}
-                      </div>
+                      {category.iconPngUrl ? (
+                        <Image
+                          src={category.iconPngUrl}
+                          alt={category.name}
+                          width={32}
+                          height={32}
+                          className="h-8 w-8 object-contain"
+                        />
+                      ) : (
+                        <div
+                          className={`h-8 w-8 ${colors.text} flex items-center justify-center font-bold text-xl`}
+                        >
+                          {category.name.charAt(0)}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <h3 className="bauhaus-heading text-xl mb-3">

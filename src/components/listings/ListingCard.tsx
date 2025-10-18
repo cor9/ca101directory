@@ -10,8 +10,10 @@ import {
 } from "@/components/ui/card";
 import { StarRating } from "@/components/ui/star-rating";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
+import { getCategoryIconsMap } from "@/data/categories";
 import type { Listing } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
+import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import { generateSlugFromListing } from "@/lib/slug-utils";
 import { cn } from "@/lib/utils";
 import { CheckCircleIcon, GlobeIcon, MapPinIcon, StarIcon } from "lucide-react";
@@ -75,6 +77,29 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
 
   const planPriority = getPlanPriority(listing.plan, listing.comped);
 
+  // Determine primary image or fallback to category icon for free/unclaimed without profile image
+  const needsCategoryFallback =
+    !listing.profile_image && (!listing.is_claimed || listing.plan === "Free");
+  let fallbackCategoryUrl: string | null = null;
+  if (needsCategoryFallback) {
+    try {
+      const iconMap = await getCategoryIconsMap();
+      const normalize = (v: string) =>
+        v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+      for (const cat of validCategories) {
+        const entry = Object.entries(iconMap || {}).find(
+          ([name]) => normalize(name) === normalize(cat),
+        );
+        if (entry?.[1]) {
+          fallbackCategoryUrl = getCategoryIconUrl(entry[1]);
+          break;
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
   return (
     <Card
       className={cn(
@@ -86,10 +111,14 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
-            {listing.profile_image && (
+            {(listing.profile_image || fallbackCategoryUrl) && (
               <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-muted">
                 <Image
-                  src={listing.profile_image}
+                  src={
+                    listing.profile_image
+                      ? getListingImageUrl(listing.profile_image)
+                      : fallbackCategoryUrl || ""
+                  }
                   alt={listing.listing_name || "Listing"}
                   fill
                   className="object-cover"

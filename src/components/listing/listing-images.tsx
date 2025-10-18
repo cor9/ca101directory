@@ -1,14 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
 import { ImageModal } from "@/components/shared/image-modal";
-import { getListingImageUrl } from "@/lib/image-urls";
+import { getCategoryIconsMap } from "@/data/categories";
+import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
+import Image from "next/image";
+import { useState } from "react";
 
 interface ProfileImageProps {
   listing: {
     listing_name: string;
     profile_image?: string | null;
+    categories?: string[] | null;
+    is_claimed?: boolean | null;
+    plan?: string | null;
   };
 }
 
@@ -26,37 +30,66 @@ export function ProfileImage({ listing }: ProfileImageProps) {
     setModalImage(null);
   };
 
+  // Fallback: derive category icon when no profile image and listing is free/unclaimed
+  const needsCategoryFallback =
+    !listing.profile_image && (!listing.is_claimed || listing.plan === "Free");
+
+  const [fallbackUrl, setFallbackUrl] = useState<string | null>(null);
+
+  // Resolve category icon if needed
+  useState(() => {
+    if (!needsCategoryFallback) return;
+    (async () => {
+      try {
+        const iconMap = await getCategoryIconsMap();
+        const categories = listing.categories || [];
+        const normalize = (v: string) =>
+          v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+        for (const cat of categories) {
+          if (!cat) continue;
+          const key = normalize(cat);
+          for (const [name, filename] of Object.entries(iconMap || {})) {
+            if (normalize(name) === key && filename) {
+              setFallbackUrl(getCategoryIconUrl(filename));
+              return;
+            }
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+    })();
+  });
+
   return (
     <>
       {/* Profile Image */}
-      {listing.profile_image && (
-        <div 
+      {(listing.profile_image || fallbackUrl) && (
+        <button
+          type="button"
           className="cursor-pointer hover:opacity-90 transition-opacity"
-          onClick={() => openModal(
-            getListingImageUrl(listing.profile_image || ""), 
-            `Logo of ${listing.listing_name}`
-          )}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              openModal(
-                getListingImageUrl(listing.profile_image || ""), 
-                `Logo of ${listing.listing_name}`
-              );
-            }
-          }}
-          tabIndex={0}
-          role="button"
-          // biome-ignore lint/a11y/preferButtonElement: Need div for image layout
+          onClick={() =>
+            openModal(
+              listing.profile_image
+                ? getListingImageUrl(listing.profile_image || "")
+                : fallbackUrl || "",
+              `Logo of ${listing.listing_name}`,
+            )
+          }
         >
           <Image
-            src={getListingImageUrl(listing.profile_image)}
+            src={
+              listing.profile_image
+                ? getListingImageUrl(listing.profile_image)
+                : fallbackUrl || ""
+            }
             alt={`Logo of ${listing.listing_name}`}
             title="Click to view larger image"
             width={120}
             height={120}
             className="object-cover rounded-lg flex-shrink-0"
           />
-        </div>
+        </button>
       )}
 
       {/* Image Modal */}

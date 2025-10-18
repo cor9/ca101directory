@@ -174,7 +174,10 @@ export async function getPublicListings(params?: {
     );
 
   // Only show approved/active listings (using new boolean fields)
-  query = query.eq("status", "Live").eq("is_active", true);
+  // Accept legacy/new statuses and treat null is_active as public
+  query = query
+    .in("status", ["Live", "Published", "published", "live"]) // accept variants
+    .or("is_active.eq.true,is_active.is.null");
 
   console.log("getPublicListings: Query built, executing...");
 
@@ -293,8 +296,8 @@ export async function getListingBySlug(slug: string) {
         .from("listings")
         .select("*")
         .eq("id", slug)
-        .eq("status", "Live")
-        .eq("is_active", true)
+        .in("status", ["Live", "Published", "published", "live"]) // accept legacy/new statuses
+        .or("is_active.eq.true,is_active.is.null") // treat null as public
         .single();
 
     if (listingData && !listingError) {
@@ -398,8 +401,8 @@ export async function getListingBySlug(slug: string) {
     .from("listings")
     .select("*")
     .eq("slug", slug)
-    .eq("status", "Live")
-    .eq("is_active", true)
+    .in("status", ["Live", "Published", "published", "live"]) // accept legacy/new statuses
+    .or("is_active.eq.true,is_active.is.null") // treat null as public
     .single();
 
   if (listingData && !listingError) {
@@ -415,8 +418,8 @@ export async function getListingBySlug(slug: string) {
     await createServerClient()
       .from("listings")
       .select("id, listing_name, slug, status, is_active")
-      .eq("status", "Live")
-      .eq("is_active", true);
+      .in("status", ["Live", "Published", "published", "live"]) // accept legacy/new statuses
+      .or("is_active.eq.true,is_active.is.null"); // treat null as public
 
   if (!candidatesError && candidates) {
     const match = (

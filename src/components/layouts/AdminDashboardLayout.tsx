@@ -72,7 +72,7 @@ export function AdminDashboardLayout({ children }: AdminDashboardLayoutProps) {
             </div>
             <div className="flex items-center gap-4">
               <RoleBadge showIcon />
-              <span className="text-sm text-gray-900">
+              <span className="text-sm text-foreground">
                 {session?.user?.email}
               </span>
             </div>
@@ -102,7 +102,7 @@ export function AdminDashboardLayout({ children }: AdminDashboardLayoutProps) {
                     <Icon className="h-4 w-4" />
                     <div className="flex-1">
                       <div className="font-medium">{item.label}</div>
-                      <div className="text-xs text-gray-900">
+                      <div className="text-xs text-muted-foreground">
                         {item.description}
                       </div>
                     </div>
@@ -119,10 +119,10 @@ export function AdminDashboardLayout({ children }: AdminDashboardLayoutProps) {
                   Admin Access
                 </h3>
               </div>
-              <p className="text-xs text-gray-900 mb-3">
+              <p className="text-xs text-foreground mb-3">
                 You have administrative privileges. Use responsibly.
               </p>
-              <div className="text-xs text-gray-900">
+              <div className="text-xs text-foreground">
                 <div>• Moderate content</div>
                 <div>• Manage users</div>
                 <div>• System configuration</div>
@@ -132,10 +132,10 @@ export function AdminDashboardLayout({ children }: AdminDashboardLayoutProps) {
             {/* Help Section */}
             <div className="mt-4 p-4 bg-muted/50 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <HelpCircle className="h-4 w-4 text-gray-900" />
+                <HelpCircle className="h-4 w-4 text-foreground" />
                 <h3 className="text-sm font-medium">Admin Resources</h3>
               </div>
-              <p className="text-xs text-gray-900 mb-3">
+              <p className="text-xs text-muted-foreground mb-3">
                 Platform management and moderation tools.
               </p>
               <Link

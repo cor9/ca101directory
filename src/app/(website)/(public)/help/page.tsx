@@ -104,7 +104,9 @@ export default function HelpCenterPage() {
             <h2 className="bauhaus-heading text-xl font-bold text-ink mb-2 group-hover:text-bauhaus-blue transition-colors">
               {topic.title}
             </h2>
-            <p className="bauhaus-body text-surface text-sm">{topic.description}</p>
+            <p className="bauhaus-body text-surface text-sm">
+              {topic.description}
+            </p>
           </Link>
         ))}
       </div>

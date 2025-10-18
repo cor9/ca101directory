@@ -64,10 +64,10 @@ export const AdminDashboardClient = ({
       <div className="space-y-6">
         {/* Welcome Section */}
         <div className="bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950/20 dark:to-orange-950/20 rounded-lg p-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          <h1 className="text-2xl font-bold text-ink dark:text-foreground mb-2">
             Welcome, Administrator!
           </h1>
-          <p className="text-gray-900">
+          <p className="text-ink dark:text-foreground">
             Manage the platform, moderate content, and oversee all operations
             for Child Actor 101 Directory.
           </p>
@@ -86,25 +86,25 @@ export const AdminDashboardClient = ({
         <div className="grid gap-4 md:grid-cols-4">
           <div className="bg-card rounded-lg p-4 border">
             <div className="text-2xl font-bold text-primary">0</div>
-            <div className="text-sm text-gray-900">Total Users</div>
+            <div className="text-sm text-card-foreground">Total Users</div>
           </div>
           <div className="bg-card rounded-lg p-4 border">
             <div className="text-2xl font-bold text-primary">
               {liveListings.length}
             </div>
-            <div className="text-sm text-gray-900">Active Listings</div>
+            <div className="text-sm text-card-foreground">Active Listings</div>
           </div>
           <div className="bg-card rounded-lg p-4 border">
             <div className="text-2xl font-bold text-primary">
               {pendingListings.length}
             </div>
-            <div className="text-sm text-gray-900">
+            <div className="text-sm text-card-foreground">
               Pending Listings
             </div>
           </div>
           <div className="bg-card rounded-lg p-4 border">
             <div className="text-2xl font-bold text-primary">0</div>
-            <div className="text-sm text-gray-900">Pending Reviews</div>
+            <div className="text-sm text-card-foreground">Pending Reviews</div>
           </div>
         </div>
 
@@ -114,7 +114,7 @@ export const AdminDashboardClient = ({
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <h3 className="font-medium">Listing Moderation</h3>
-              <div className="text-sm text-gray-900">
+              <div className="text-sm text-muted-foreground">
                 {pendingListings.length} listings pending approval
               </div>
               <div className="flex gap-2">
@@ -128,7 +128,7 @@ export const AdminDashboardClient = ({
             </div>
             <div className="space-y-2">
               <h3 className="font-medium">Badge Applications</h3>
-              <div className="text-sm text-gray-900">
+              <div className="text-sm text-muted-foreground">
                 Review 101 Approved badge applications
               </div>
               <div className="flex gap-2">
@@ -149,7 +149,7 @@ export const AdminDashboardClient = ({
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <h3 className="font-medium">Content Management</h3>
-              <ul className="text-sm text-gray-900 space-y-1">
+              <ul className="text-sm text-muted-foreground space-y-1">
                 <li>
                   •{" "}
                   <a
@@ -190,7 +190,7 @@ export const AdminDashboardClient = ({
             </div>
             <div className="space-y-2">
               <h3 className="font-medium">Platform Management</h3>
-              <ul className="text-sm text-gray-900 space-y-1">
+              <ul className="text-sm text-muted-foreground space-y-1">
                 <li>
                   •{" "}
                   <a

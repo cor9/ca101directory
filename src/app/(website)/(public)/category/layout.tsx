@@ -1,4 +1,3 @@
-import { CategoryFilter } from "@/components/category/category-filter";
 import Container from "@/components/container";
 import { HeaderSection } from "@/components/shared/header-section";
 
@@ -12,14 +11,9 @@ export default function CategoryLayout({
         <HeaderSection labelAs="p" label="Category" />
       </div>
 
-      {/* Explicit grid so sidebar and content align without extra vertical gap */}
-      <main className="max-w-7xl mx-auto px-6 grid gap-8 lg:grid-cols-[280px_1fr]">
-        <aside className="hidden md:block" style={{ borderRadius: 4 }}>
-          <CategoryFilter />
-        </aside>
-        <section className="min-w-0">
-          {children}
-        </section>
+      {/* Full-width content without sidebar */}
+      <main className="max-w-7xl mx-auto px-6">
+        {children}
       </main>
     </div>
   );

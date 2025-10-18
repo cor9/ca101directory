@@ -783,7 +783,8 @@ header button {
 /* Card content overrides */
 .bg-card .text-gray-900,
 .bg-surface .text-gray-900,
-.bg-cream .text-gray-900 {
+.bg-cream .text-gray-900,
+.bauhaus-card .text-gray-900 {
   color: #1B1F29 !important; /* cream-ink for text on cream backgrounds */
 }
 
@@ -794,6 +795,7 @@ header button {
 .bg-card .text-card-foreground,
 .bg-cream .text-gray-900,
 .bg-surface .text-gray-900,
+.bauhaus-card .text-gray-900,
 .bg-white .text-gray-900,
 .bg-gray-50 .text-gray-900,
 .bg-gray-100 .text-gray-900 {

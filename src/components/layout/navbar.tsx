@@ -92,8 +92,8 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
                         )}
                         style={{
                           color: isLinkActive(item.href)
-                            ? "#1B1F29"
-                            : "#1B1F2999",
+                            ? "#fafaf4"
+                            : "#fafaf499",
                           fontWeight: isLinkActive(item.href) ? "600" : "400",
                         }}
                       >
@@ -175,7 +175,7 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
                               "cursor-not-allowed opacity-80 hover:bg-transparent",
                           )}
                           style={{
-                            color: "#1B1F29",
+                            color: "#1f2327",
                           }}
                         >
                           <Icon className="size-5" />

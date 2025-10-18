@@ -12,7 +12,7 @@ Previous agent added harmful global CSS overrides (lines 757-841 in globals.css)
    - Deleted all `text-gray-900` forced overrides
    - Deleted all navigation forced color overrides
    - Deleted all card content forced overrides
-   
+
 2. **Fixed Core Pages with Proper Bauhaus Design System:**
    - `/submit` page - Navy bg with `text-paper` (light text)
    - `/pricing` page - Navy bg with `text-paper`, cream cards with `text-ink`

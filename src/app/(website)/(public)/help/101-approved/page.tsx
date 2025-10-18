@@ -535,29 +535,29 @@ export default function Help101ApprovedPage() {
 
       {/* Related Articles */}
       <div className="mt-12">
-        <h3 className="text-xl font-bold text-gray-900 mb-4">
+        <h3 className="bauhaus-heading text-xl font-bold text-paper mb-4">
           Related Articles
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Link
             href="/help/pricing-plans"
-            className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
+            className="bauhaus-card bg-surface border border-secondary-denim/20 rounded-lg p-4 hover:border-bauhaus-blue transition-colors"
           >
-            <h4 className="font-semibold text-gray-900 mb-2">
+            <h4 className="font-semibold text-ink mb-2">
               Pricing & Plans
             </h4>
-            <p className="text-sm text-gray-900">
+            <p className="bauhaus-body text-sm text-surface">
               Upgrade to Pro to become eligible for the 101 Approved badge
             </p>
           </Link>
           <Link
             href="/help/getting-started"
-            className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
+            className="bauhaus-card bg-surface border border-secondary-denim/20 rounded-lg p-4 hover:border-bauhaus-blue transition-colors"
           >
-            <h4 className="font-semibold text-gray-900 mb-2">
+            <h4 className="font-semibold text-ink mb-2">
               Getting Started
             </h4>
-            <p className="text-sm text-gray-900">
+            <p className="bauhaus-body text-sm text-surface">
               Learn how to create your first listing and begin your journey
             </p>
           </Link>

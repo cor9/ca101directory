@@ -19,7 +19,7 @@ export default function ImageGuidelinesPage() {
       </Link>
 
       <div className="prose prose-lg max-w-none">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2 border-b-4 border-brand-blue pb-4">
+        <h1 className="bauhaus-heading text-4xl font-bold text-paper mb-2 border-b-4 border-brand-blue pb-4">
           Image Guidelines for Your Pro Listing
         </h1>
 

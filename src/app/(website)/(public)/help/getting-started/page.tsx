@@ -36,7 +36,7 @@ export default function GettingStartedPage() {
               1
             </div>
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">
+              <h2 className="bauhaus-heading text-2xl font-bold text-paper mb-3">
                 Create Your Account
               </h2>
               <p className="text-gray-900 mb-4">
@@ -70,7 +70,7 @@ export default function GettingStartedPage() {
               2
             </div>
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">
+              <h2 className="bauhaus-heading text-2xl font-bold text-paper mb-3">
                 Choose Your Plan
               </h2>
               <p className="text-gray-900 mb-4">
@@ -152,7 +152,7 @@ export default function GettingStartedPage() {
               3
             </div>
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">
+              <h2 className="bauhaus-heading text-2xl font-bold text-paper mb-3">
                 Complete Your Listing
               </h2>
               <p className="text-gray-900 mb-4">
@@ -220,7 +220,7 @@ export default function GettingStartedPage() {
               4
             </div>
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">
+              <h2 className="bauhaus-heading text-2xl font-bold text-paper mb-3">
                 Wait for Approval
               </h2>
               <p className="text-gray-900 mb-4">
@@ -261,7 +261,7 @@ export default function GettingStartedPage() {
               5
             </div>
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">
+              <h2 className="bauhaus-heading text-2xl font-bold text-paper mb-3">
                 Manage Your Listing
               </h2>
               <p className="text-gray-900 mb-4">
@@ -312,7 +312,7 @@ export default function GettingStartedPage() {
 
       {/* Related Articles */}
       <div className="mt-12">
-        <h3 className="text-xl font-bold text-gray-900 mb-4">
+        <h3 className="bauhaus-heading text-xl font-bold text-paper mb-4">
           Related Articles
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

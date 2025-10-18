@@ -19,7 +19,7 @@ export default function ClaimListingPage() {
         Back to Help Center
       </Link>
 
-      <h1 className="text-4xl font-bold text-gray-900 mb-6">
+      <h1 className="bauhaus-heading text-4xl font-bold text-paper mb-6">
         How to Claim Your Listing
       </h1>
       <p className="text-xl text-gray-900 mb-8">
@@ -29,7 +29,7 @@ export default function ClaimListingPage() {
 
       {/* Why Claim Your Listing */}
       <div className="bg-blue-50 border-l-4 border-brand-blue rounded-lg p-6 mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">
+        <h2 className="bauhaus-heading text-2xl font-bold text-paper mb-4">
           Why Claim Your Listing?
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -74,7 +74,7 @@ export default function ClaimListingPage() {
 
       {/* Step-by-Step Process */}
       <div className="space-y-8 mb-12">
-        <h2 className="text-2xl font-bold text-gray-900">
+        <h2 className="bauhaus-heading text-2xl font-bold text-paper">
           Claiming Process (5 Easy Steps)
         </h2>
 
@@ -85,7 +85,7 @@ export default function ClaimListingPage() {
               1
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
+              <h3 className="bauhaus-heading text-xl font-bold text-paper mb-3">
                 Find Your Listing
               </h3>
               <p className="text-gray-900 mb-4">
@@ -109,7 +109,7 @@ export default function ClaimListingPage() {
               2
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
+              <h3 className="bauhaus-heading text-xl font-bold text-paper mb-3">
                 Create a Vendor Account
               </h3>
               <p className="text-gray-900 mb-4">
@@ -149,7 +149,7 @@ export default function ClaimListingPage() {
               3
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
+              <h3 className="bauhaus-heading text-xl font-bold text-paper mb-3">
                 Click "Claim This Listing"
               </h3>
               <p className="text-gray-900 mb-4">
@@ -173,7 +173,7 @@ export default function ClaimListingPage() {
               4
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
+              <h3 className="bauhaus-heading text-xl font-bold text-paper mb-3">
                 Verify Ownership (Optional)
               </h3>
               <p className="text-gray-900 mb-4">
@@ -206,7 +206,7 @@ export default function ClaimListingPage() {
               5
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
+              <h3 className="bauhaus-heading text-xl font-bold text-paper mb-3">
                 Manage Your Listing
               </h3>
               <p className="text-gray-900 mb-4">
@@ -228,7 +228,7 @@ export default function ClaimListingPage() {
 
       {/* Troubleshooting Section */}
       <div className="bg-red-50 border-l-4 border-red-500 rounded-lg p-6 mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">
+        <h2 className="bauhaus-heading text-2xl font-bold text-paper mb-4">
           Having Trouble Claiming?
         </h2>
         <div className="space-y-4">
@@ -307,7 +307,7 @@ export default function ClaimListingPage() {
 
       {/* Related Articles */}
       <div className="mt-12">
-        <h3 className="text-xl font-bold text-gray-900 mb-4">
+        <h3 className="bauhaus-heading text-xl font-bold text-paper mb-4">
           Related Articles
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

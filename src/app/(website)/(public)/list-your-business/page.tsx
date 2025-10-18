@@ -28,14 +28,14 @@ export default function VendorLandingPage() {
       </section>
 
       {/* 3. Pricing Plans */}
-      <section className="bg-[color:var(--cream)] py-16">
+      <section className="bg-[color:var(--navy)] py-16">
         <Container>
           <VendorPricing />
         </Container>
       </section>
 
       {/* 4. FAQ */}
-      <section className="bg-[color:var(--cream)]">
+      <section className="bg-[color:var(--navy)]">
         <VendorFAQ />
       </section>
 

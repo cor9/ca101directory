@@ -160,7 +160,7 @@ export default async function CategoryPage({
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
     return (
-      <div className="container max-w-7xl mx-auto px-4 text-surface">
+      <div className="container max-w-7xl mx-auto px-4 text-paper">
         {/* Category header - Bauhaus theme with proper contrast */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">{categoryName}</h1>

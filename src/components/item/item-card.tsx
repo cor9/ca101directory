@@ -94,7 +94,7 @@ export default function ItemCard({ item }: ItemCardProps) {
             <div className="flex items-center justify-between gap-4">
               <h3
                 className={cn(
-                  "min-w-0 flex-1 text-xl font-medium truncate overflow-hidden text-ellipsis text-surface",
+                  "min-w-0 flex-1 text-xl font-medium truncate overflow-hidden text-ellipsis text-paper",
                   item.featured && "text-primary-orange font-semibold",
                 )}
               >
@@ -112,7 +112,7 @@ export default function ItemCard({ item }: ItemCardProps) {
             </div>
 
             {/* min-h-[3rem] is used for making sure height of the card is the same */}
-            <p className="text-sm line-clamp-2 leading-relaxed min-h-[3rem] text-surface/80">
+            <p className="text-sm line-clamp-2 leading-relaxed min-h-[3rem] text-paper/80">
               {item.description}
             </p>
           </div>
@@ -129,14 +129,14 @@ export default function ItemCard({ item }: ItemCardProps) {
                 href={`/tag/${tag.slug.current}`}
                 className="flex items-center justify-center space-x-0.5 group"
               >
-                <HashIcon className="w-3 h-3 text-surface/60 icon-scale" />
-                <span className="text-sm text-surface/60 link-underline">
+                <HashIcon className="w-3 h-3 text-paper/60 icon-scale" />
+                <span className="text-sm text-paper/60 link-underline">
                   {tag.name}
                 </span>
               </Link>
             ))}
             {item.tags.length > 5 && (
-              <span className="text-sm text-surface/60 px-1">
+              <span className="text-sm text-paper/60 px-1">
                 +{item.tags.length - 5}
               </span>
             )}

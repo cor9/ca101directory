@@ -17,7 +17,7 @@ export function CategoryContent({ categoryName, listingCount }: CategoryContentP
     <div className="space-y-8 mb-12">
       {/* Intro Section - Bauhaus cream card with dark text */}
       <div className="bg-paper rounded-lg p-8 border-2 border-surface/20">
-        <p className="text-lg leading-relaxed text-surface">
+        <p className="text-lg leading-relaxed text-paper">
           {content.intro}
         </p>
       </div>
@@ -39,12 +39,12 @@ export function CategoryContent({ categoryName, listingCount }: CategoryContentP
 
       {/* What to Look For Section */}
       <div className="bg-paper rounded-lg p-8 border-2 border-surface/20">
-        <h2 className="text-2xl font-bold mb-4 text-surface">
+        <h2 className="text-2xl font-bold mb-4 text-paper">
           What to Look For
         </h2>
         <ul className="space-y-3">
           {content.whatToLookFor.map((item, index) => (
-            <li key={index} className="flex items-start gap-3 text-surface/90">
+            <li key={index} className="flex items-start gap-3 text-paper/90">
               <span className="text-primary-orange text-xl mt-1">•</span>
               <span className="flex-1">{item}</span>
             </li>

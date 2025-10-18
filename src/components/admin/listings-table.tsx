@@ -65,7 +65,7 @@ export const ListingsTable = ({
 
   const getSortIcon = (key: SortableKeys) => {
     if (sortConfig.key !== key)
-      return <ArrowUpDown className="ml-2 h-4 w-4 text-gray-900" />;
+      return <ArrowUpDown className="ml-2 h-4 w-4 text-muted-foreground" />;
     return sortConfig.direction === "ascending" ? (
       <ArrowUp className="ml-2 h-4 w-4" />
     ) : (
@@ -89,13 +89,13 @@ export const ListingsTable = ({
         );
       case "Draft":
         return (
-          <span className="px-2 py-1 text-xs font-medium text-gray-900 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-900">
+          <span className="px-2 py-1 text-xs font-medium text-foreground bg-muted rounded-full">
             Draft
           </span>
         );
       default:
         return (
-          <span className="px-2 py-1 text-xs font-medium text-gray-900 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-900">
+          <span className="px-2 py-1 text-xs font-medium text-foreground bg-muted rounded-full">
             {status || "N/A"}
           </span>
         );
@@ -109,7 +109,7 @@ export const ListingsTable = ({
         <div>
           <label
             htmlFor="status"
-            className="block text-sm font-medium text-gray-900 mb-1"
+            className="block text-sm font-medium text-foreground mb-1"
           >
             Status
           </label>
@@ -118,7 +118,7 @@ export const ListingsTable = ({
             name="status"
             value={filters.status}
             onChange={handleFilterChange}
-            className="block w-full pl-3 pr-10 py-2 text-base border-input focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md bg-background border"
+            className="block w-full pl-3 pr-10 py-2 text-base border-input focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md bg-background border text-foreground"
           >
             <option value="all">All Statuses</option>
             <option value="Live">Live</option>
@@ -129,7 +129,7 @@ export const ListingsTable = ({
         <div>
           <label
             htmlFor="claimed"
-            className="block text-sm font-medium text-gray-900 mb-1"
+            className="block text-sm font-medium text-foreground mb-1"
           >
             Claimed Status
           </label>
@@ -138,7 +138,7 @@ export const ListingsTable = ({
             name="claimed"
             value={filters.claimed}
             onChange={handleFilterChange}
-            className="block w-full pl-3 pr-10 py-2 text-base border-input focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md bg-background border"
+            className="block w-full pl-3 pr-10 py-2 text-base border-input focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md bg-background border text-foreground"
           >
             <option value="all">All</option>
             <option value="claimed">Claimed</option>
@@ -152,7 +152,7 @@ export const ListingsTable = ({
             <tr>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
               >
                 <button
                   onClick={() => requestSort("listing_name")}
@@ -164,7 +164,7 @@ export const ListingsTable = ({
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
               >
                 <button
                   onClick={() => requestSort("status")}
@@ -176,7 +176,7 @@ export const ListingsTable = ({
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
               >
                 <button
                   onClick={() => requestSort("is_claimed")}
@@ -188,7 +188,7 @@ export const ListingsTable = ({
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
               >
                 <button
                   onClick={() => requestSort("created_at")}
@@ -200,7 +200,7 @@ export const ListingsTable = ({
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
               >
                 Actions
               </th>
@@ -209,16 +209,16 @@ export const ListingsTable = ({
           <tbody className="bg-card divide-y divide-border">
             {sortedAndFilteredListings.map((listing) => (
               <tr key={listing.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-card-foreground">
                   {listing.listing_name}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-card-foreground">
                   {getStatusBadge(listing.status)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-card-foreground">
                   {listing.is_claimed ? "Yes" : "No"}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-card-foreground">
                   {listing.created_at
                     ? new Date(listing.created_at).toLocaleDateString()
                     : "N/A"}
@@ -240,7 +240,7 @@ export const ListingsTable = ({
         </table>
       </div>
       {sortedAndFilteredListings.length === 0 && (
-        <div className="text-center py-8 text-gray-900">
+        <div className="text-center py-8 text-muted-foreground">
           No listings match the current filters.
         </div>
       )}

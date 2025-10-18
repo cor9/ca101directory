@@ -173,7 +173,7 @@ export default async function CategoryPage() {
                 <div className="text-center p-6">
                   <div className="flex justify-center mb-4">
                     <div
-                      className={`relative h-20 w-20 ${colors.bg} rounded-lg shadow-bauhaus overflow-hidden`}
+                      className={`relative h-24 w-24 ${colors.bg} rounded-lg shadow-bauhaus overflow-hidden`}
                     >
                       {category.iconPngUrl ? (
                         <Image

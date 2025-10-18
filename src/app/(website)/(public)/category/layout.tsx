@@ -7,14 +7,9 @@ export default function CategoryLayout({
 }: { children: React.ReactNode }) {
   return (
     <div className="bauhaus">
-      {/* Compact hero to avoid large empty band */}
-      <div className="py-6 text-center relative hollywood-accent">
-        <HeaderSection
-          labelAs="h1"
-          label="Category"
-          titleAs="h2"
-          title="Explore by categories"
-        />
+      {/* Eyebrow label only (H1 rendered on page.tsx) */}
+      <div className="py-4 text-center relative hollywood-accent">
+        <HeaderSection labelAs="p" label="Category" />
       </div>
 
       {/* Explicit grid so sidebar and content align without extra vertical gap */}

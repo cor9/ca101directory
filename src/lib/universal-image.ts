@@ -15,17 +15,15 @@ export interface UniversalImageResult {
 /**
  * Get the best available image for a listing with proper fallbacks
  */
-export async function getUniversalListingImage(
-  listing: {
-    listing_name?: string | null;
-    profile_image?: string | null;
-    categories?: string[] | null;
-    is_claimed?: boolean | null;
-    plan?: string | null;
-  }
-): Promise<UniversalImageResult> {
+export async function getUniversalListingImage(listing: {
+  listing_name?: string | null;
+  profile_image?: string | null;
+  categories?: string[] | null;
+  is_claimed?: boolean | null;
+  plan?: string | null;
+}): Promise<UniversalImageResult> {
   const listingName = listing.listing_name || "Listing";
-  
+
   // 1. Use profile image if available
   if (listing.profile_image) {
     return {
@@ -36,30 +34,30 @@ export async function getUniversalListingImage(
   }
 
   // 2. For free/unclaimed listings, use category icon fallback
-  const needsCategoryFallback = 
-    !listing.profile_image && 
-    (!listing.is_claimed || listing.plan === "Free");
+  const needsCategoryFallback =
+    !listing.profile_image && (!listing.is_claimed || listing.plan === "Free");
 
   if (needsCategoryFallback && listing.categories?.length) {
     try {
       const iconMap = await getCategoryIconsMap();
-      const normalize = (v: string) => v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
-      
+      const normalize = (v: string) =>
+        v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+
       // Try to find matching category icon
       for (const category of listing.categories) {
         if (!category) continue;
-        
+
         // Try direct lookup
         let iconFilename = iconMap[category];
-        
+
         // Try normalized lookup
         if (!iconFilename) {
           const match = Object.entries(iconMap).find(
-            ([name]) => normalize(name) === normalize(category)
+            ([name]) => normalize(name) === normalize(category),
           );
           iconFilename = match?.[1];
         }
-        
+
         if (iconFilename) {
           return {
             src: getCategoryIconUrl(iconFilename),
@@ -84,19 +82,20 @@ export async function getUniversalListingImage(
 /**
  * Get the best available image for an item with proper fallbacks
  */
-export async function getUniversalItemImage(
-  item: {
-    name?: string;
-    image?: any;
-    icon?: any;
-    categories?: Array<{ name: string }>;
-  }
-): Promise<UniversalImageResult> {
+export async function getUniversalItemImage(item: {
+  name?: string;
+  image?: any;
+  icon?: any;
+  categories?: Array<{ name: string }>;
+}): Promise<UniversalImageResult> {
   const itemName = item.name || "Item";
-  
+
   // 1. Use item.image if available
   if (item.image) {
-    const imageUrl = typeof item.image === "string" ? item.image : item.image.src || item.image.asset?._ref;
+    const imageUrl =
+      typeof item.image === "string"
+        ? item.image
+        : item.image.src || item.image.asset?._ref;
     if (imageUrl) {
       return {
         src: imageUrl,
@@ -108,7 +107,10 @@ export async function getUniversalItemImage(
 
   // 2. Use item.icon if available
   if (item.icon) {
-    const iconUrl = typeof item.icon === "string" ? item.icon : item.icon.src || item.icon.asset?._ref;
+    const iconUrl =
+      typeof item.icon === "string"
+        ? item.icon
+        : item.icon.src || item.icon.asset?._ref;
     if (iconUrl) {
       return {
         src: iconUrl,
@@ -122,22 +124,23 @@ export async function getUniversalItemImage(
   if (item.categories?.length) {
     try {
       const iconMap = await getCategoryIconsMap();
-      const normalize = (v: string) => v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
-      
+      const normalize = (v: string) =>
+        v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+
       for (const category of item.categories) {
         if (!category?.name) continue;
-        
+
         // Try direct lookup
         let iconFilename = iconMap[category.name];
-        
+
         // Try normalized lookup
         if (!iconFilename) {
           const match = Object.entries(iconMap).find(
-            ([name]) => normalize(name) === normalize(category.name)
+            ([name]) => normalize(name) === normalize(category.name),
           );
           iconFilename = match?.[1];
         }
-        
+
         if (iconFilename) {
           return {
             src: getCategoryIconUrl(iconFilename),
@@ -163,11 +166,15 @@ export async function getUniversalItemImage(
  * Client-side hook for universal image handling
  */
 export function useUniversalImage() {
-  const getListingImage = async (listing: Parameters<typeof getUniversalListingImage>[0]) => {
+  const getListingImage = async (
+    listing: Parameters<typeof getUniversalListingImage>[0],
+  ) => {
     return getUniversalListingImage(listing);
   };
 
-  const getItemImage = async (item: Parameters<typeof getUniversalItemImage>[0]) => {
+  const getItemImage = async (
+    item: Parameters<typeof getUniversalItemImage>[0],
+  ) => {
     return getUniversalItemImage(item);
   };
 

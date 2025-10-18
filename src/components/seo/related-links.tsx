@@ -7,6 +7,7 @@ import Link from "next/link";
 interface RelatedLinksProps {
   listing: Listing;
   relatedListings?: Listing[];
+  categoryNames?: string[];
 }
 
 /**
@@ -16,8 +17,10 @@ interface RelatedLinksProps {
 export function RelatedLinks({
   listing,
   relatedListings = [],
+  categoryNames = [],
 }: RelatedLinksProps) {
-  const primaryCategory = listing.categories?.[0];
+  // Use the first category name from the provided array, or fall back to raw category ID
+  const primaryCategory = categoryNames[0] || listing.categories?.[0];
   const location = listing.city || listing.region || listing.state;
 
   // Create category slug
@@ -125,14 +128,14 @@ export function RelatedLinks({
       )}
 
       {/* Category Navigation - NAVY BACKGROUND WITH VARIED ACCENT BUTTONS */}
-      {listing.categories && listing.categories.length > 1 && (
+      {categoryNames && categoryNames.length > 1 && (
         <div className="rounded-lg p-6" style={{ backgroundColor: "#0d1b2a" }}>
           <h3 className="text-xl font-bold mb-4" style={{ color: "#fafaf4" }}>
             Related Categories
           </h3>
           <div className="flex flex-wrap gap-3">
-            {listing.categories.map((category, index) => {
-              const slug = category
+            {categoryNames.map((categoryName, index) => {
+              const slug = categoryName
                 .toLowerCase()
                 .replace(/\s+/g, "-")
                 .replace(/[^a-z0-9-]/g, "");
@@ -147,7 +150,7 @@ export function RelatedLinks({
 
               return (
                 <Link
-                  key={category}
+                  key={`${categoryName}-${index}`}
                   href={`/category/${slug}`}
                   className="inline-block px-5 py-2 rounded-md transition-all text-sm font-bold"
                   style={{
@@ -163,7 +166,7 @@ export function RelatedLinks({
                     e.currentTarget.style.color = colorSet.text;
                   }}
                 >
-                  {category}
+                  {categoryName}
                 </Link>
               );
             })}

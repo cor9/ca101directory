@@ -45,7 +45,7 @@ export function RichTextDisplay({ content, className }: RichTextDisplayProps) {
   }
 
   return (
-    <div 
+    <div
       className={cn(
         "rich-text-content prose prose-sm max-w-none",
         "prose-headings:font-semibold",

@@ -847,7 +847,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
             )}
 
             {/* Internal Linking for SEO */}
-            <RelatedLinks listing={listing} relatedListings={related} />
+            <RelatedLinks 
+              listing={listing} 
+              relatedListings={related}
+              categoryNames={displayCategories.map(c => c.displayName)}
+            />
           </div>
         </div>
       </div>

@@ -160,10 +160,10 @@ export function DirectoryFilters({
               >
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
-              <SelectContent className="z-[9999] bg-[color:var(--cream)] text-[color:var(--cream-ink)] border border-[color:var(--card-border)] shadow-[var(--shadow-cream)]">
+              <SelectContent className="z-[9999] bg-white text-gray-900 border border-gray-200 shadow-lg">
                 <SelectItem
                   value="all"
-                  className="text-[color:var(--cream-ink)]"
+                  className="text-gray-900 focus:text-gray-900"
                 >
                   All Categories
                 </SelectItem>
@@ -171,7 +171,7 @@ export function DirectoryFilters({
                   <SelectItem
                     key={category.id}
                     value={category.id}
-                    className="text-[color:var(--cream-ink)] focus:text-[color:var(--cream-ink)]"
+                    className="text-gray-900 focus:text-gray-900"
                   >
                     {category.category_name}
                   </SelectItem>
@@ -198,10 +198,10 @@ export function DirectoryFilters({
               >
                 <SelectValue placeholder="All Regions" />
               </SelectTrigger>
-              <SelectContent className="z-[9999] bg-[color:var(--cream)] text-[color:var(--cream-ink)] border border-[color:var(--card-border)] shadow-[var(--shadow-cream)]">
+              <SelectContent className="z-[9999] bg-white text-gray-900 border border-gray-200 shadow-lg">
                 <SelectItem
                   value="all"
-                  className="text-[color:var(--cream-ink)]"
+                  className="text-gray-900 focus:text-gray-900"
                 >
                   All Regions
                 </SelectItem>
@@ -209,7 +209,7 @@ export function DirectoryFilters({
                   <SelectItem
                     key={region}
                     value={region}
-                    className="text-[color:var(--cream-ink)] focus:text-[color:var(--cream-ink)]"
+                    className="text-gray-900 focus:text-gray-900"
                   >
                     {region}
                   </SelectItem>

@@ -1,6 +1,7 @@
 "use client";
 
 import { urlForIcon } from "@/lib/image";
+import { generateSlugFromItem } from "@/lib/slug-utils";
 import { cn } from "@/lib/utils";
 import type { ItemInfo } from "@/types";
 import { HashIcon } from "lucide-react";
@@ -82,7 +83,7 @@ export default function ItemCard2({ item }: ItemCard2Props) {
         </div>
 
         {/* min-h-[4.5rem] is used for making sure height of the card is the same */}
-        <Link href={`/listing/${item._id}`} className="block cursor-pointer">
+        <Link href={`/listing/${generateSlugFromItem({ name: item.name, _id: item._id })}`} className="block cursor-pointer">
           <p className="text-sm line-clamp-3 leading-relaxed min-h-[4.5rem] text-gray-900">
             {item.description}
           </p>

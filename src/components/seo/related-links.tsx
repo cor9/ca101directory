@@ -89,7 +89,7 @@ export function RelatedLinks({
               return (
                 <Link
                   key={related.id}
-                  href={`/listing/${related.id}`}
+                  href={`/listing/${generateSlugFromListing(related)}`}
                   className="block rounded-lg p-5 transition-all hover:shadow-lg"
                   style={{ 
                     backgroundColor: "#fafaf4",

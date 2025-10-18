@@ -3,6 +3,7 @@ import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import type { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import { generateSlugFromItem } from "@/lib/slug-utils";
 
 export default function ListingCard({ item }: { item: ItemInfo }) {
   const imageProps = item?.image
@@ -147,7 +148,7 @@ export default function ListingCard({ item }: { item: ItemInfo }) {
 
         <div className="pt-2 flex items-center gap-3">
           <Link
-            href={`/listing/${item._id}`}
+            href={`/listing/${generateSlugFromItem({ name: item.name, _id: item._id })}`}
             className="rounded-full bg-[color:var(--orange)] text-white px-4 py-2 text-sm hover:bg-[#e25403]"
           >
             View Listing →

@@ -6,6 +6,7 @@ import type { ItemInfo } from "@/types";
 import { ArrowRightIcon, AwardIcon, HashIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { generateSlugFromItem } from "@/lib/slug-utils";
 import { Skeleton } from "../ui/skeleton";
 
 type ItemCardProps = {
@@ -86,7 +87,7 @@ export default function ItemCard({ item }: ItemCardProps) {
 
         {/* center */}
         <Link
-          href={`/listing/${item._id}`}
+          href={`/listing/${generateSlugFromItem({ name: item.name, _id: item._id })}`}
           className="flex flex-col gap-4 group hover:bg-paper/50 transition-colors duration-200 rounded-lg"
         >
           <div className="px-4 flex flex-col gap-4">

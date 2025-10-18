@@ -633,7 +633,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
             <div className="flex items-center justify-start">
               <Link
                 href="/"
-                className="text-sm hover:text-primary-orange text-gray-900"
+                className="text-sm hover:text-bauhaus-blue text-paper transition-colors"
               >
                 ← Back to Directory
               </Link>
@@ -646,9 +646,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
             <Gallery listing={listing} />
 
             {/* Contact Information */}
-            <div className="listing-card">
+            <div className="listing-card-blue">
               <h2
-                className="text-lg font-semibold mb-4"
+                className="bauhaus-heading text-lg font-semibold mb-4"
                 style={{ color: "#0C1A2B" }}
               >
                 Contact Information
@@ -739,10 +739,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
             )}
 
             {/* Categories */}
-            <div className="listing-card">
+            <div className="listing-card-mustard">
               <h2
-                className="text-lg font-semibold mb-4"
-                style={{ color: "#0C1A2B" }}
+                className="bauhaus-heading text-lg font-semibold mb-4"
+                style={{ color: "#1e1f23" }}
               >
                 Categories
               </h2>

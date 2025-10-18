@@ -383,6 +383,37 @@
     line-height: 1.7;
   }
 
+  /* Listing card variants for visual variety */
+  .listing-card-mustard {
+    background: #d4a574; /* mustard */
+    color: #1e1f23; /* charcoal text */
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    line-height: 1.7;
+  }
+
+  .listing-card-blue {
+    background: #7ab8cc; /* robin egg blue */
+    color: #0c1a2b; /* navy text */
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    line-height: 1.7;
+  }
+
+  .listing-card-transparent {
+    background: transparent;
+    border: 2px solid #7ab8cc;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    color: #fafaf4; /* paper white text */
+    line-height: 1.7;
+  }
+
   /* Section headings */
   .listing-card h3 {
     text-transform: uppercase;

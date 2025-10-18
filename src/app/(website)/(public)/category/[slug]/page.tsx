@@ -1,3 +1,4 @@
+import ItemCard from "@/components/item/item-card";
 import ItemGrid from "@/components/item/item-grid";
 import { CategoryContent } from "@/components/seo/category-content";
 import EmptyGrid from "@/components/shared/empty-grid";
@@ -160,11 +161,11 @@ export default async function CategoryPage({
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
     return (
-      <div className="container max-w-7xl mx-auto px-4 text-paper">
+      <div className="container max-w-7xl mx-auto px-4">
         {/* Category header - Bauhaus theme with proper contrast */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">{categoryName}</h1>
-          <p className="text-lg opacity-80">
+          <h1 className="bauhaus-heading text-4xl text-paper mb-4">{categoryName}</h1>
+          <p className="bauhaus-body text-xl text-paper/80">
             Find {categoryName.toLowerCase()} professionals for your child's
             acting career
           </p>
@@ -184,11 +185,13 @@ export default async function CategoryPage({
         {/* when items are found */}
         {items && items.length > 0 && (
           <section className="pt-2">
-            <ItemGrid
-              items={items}
-              sponsorItems={sponsorItems}
-              showSponsor={showSponsor}
-            />
+            <div className="bauhaus-grid-3">
+              {items.map((item) => (
+                <div key={item._id} className="bauhaus-card">
+                  <ItemCard item={item} />
+                </div>
+              ))}
+            </div>
 
             <div className="mt-8 flex items-center justify-center">
               <CustomPagination

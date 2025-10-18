@@ -832,6 +832,10 @@ header button {
 
 /* Ensure form labels are always readable */
 label,
-.form-label {
+.form-label,
+.card label,
+.bauhaus-card label,
+.card label.text-gray-900,
+.bauhaus-card label.text-gray-900 {
   color: #1b1f29 !important;
 }

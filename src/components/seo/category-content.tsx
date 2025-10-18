@@ -14,23 +14,23 @@ export function CategoryContent({ categoryName, listingCount }: CategoryContentP
   if (!content) return null;
 
   return (
-    <div className="space-y-8 mb-12">
+    <div className="space-y-4 mb-8">
       {/* Intro Section - Bauhaus cream card with dark text */}
-      <div className="bauhaus-card p-8">
-        <p className="bauhaus-body text-lg leading-relaxed text-gray-900">
+      <div className="bauhaus-card p-6">
+        <p className="bauhaus-body text-base leading-relaxed text-gray-900">
           {content.intro}
         </p>
       </div>
 
       {/* Why You Need This Section - Robin Egg Blue */}
-      <div className="listing-card-blue p-8">
-        <h2 className="bauhaus-heading text-2xl mb-4 text-ink">
+      <div className="listing-card-blue p-6">
+        <h2 className="bauhaus-heading text-xl mb-3 text-ink">
           Why You Need {categoryName}
         </h2>
-        <ul className="space-y-3">
+        <ul className="space-y-2">
           {content.whyYouNeed.map((item, index) => (
-            <li key={index} className="flex items-start gap-3 text-ink">
-              <span className="text-primary-orange text-xl mt-1">✓</span>
+            <li key={index} className="flex items-start gap-2 text-ink text-sm">
+              <span className="text-primary-orange text-lg mt-0.5">✓</span>
               <span className="flex-1 bauhaus-body">{item}</span>
             </li>
           ))}
@@ -38,14 +38,14 @@ export function CategoryContent({ categoryName, listingCount }: CategoryContentP
       </div>
 
       {/* What to Look For Section - Mustard Yellow */}
-      <div className="listing-card-mustard p-8">
-        <h2 className="bauhaus-heading text-2xl mb-4 text-charcoal">
+      <div className="listing-card-mustard p-6">
+        <h2 className="bauhaus-heading text-xl mb-3 text-charcoal">
           What to Look For
         </h2>
-        <ul className="space-y-3">
+        <ul className="space-y-2">
           {content.whatToLookFor.map((item, index) => (
-            <li key={index} className="flex items-start gap-3 text-charcoal">
-              <span className="text-primary-orange text-xl mt-1">•</span>
+            <li key={index} className="flex items-start gap-2 text-charcoal text-sm">
+              <span className="text-primary-orange text-lg mt-0.5">•</span>
               <span className="flex-1 bauhaus-body">{item}</span>
             </li>
           ))}

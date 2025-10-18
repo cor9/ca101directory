@@ -19,10 +19,10 @@ export default function FAQPage() {
         Back to Help Center
       </Link>
 
-      <h1 className="text-4xl font-bold text-gray-900 mb-6">
+      <h1 className="text-4xl font-bold text-paper mb-6">
         Frequently Asked Questions
       </h1>
-      <p className="text-xl text-gray-900 mb-12">
+      <p className="text-xl text-paper mb-12">
         Quick answers to common questions about the Child Actor 101 Directory.
       </p>
 
@@ -33,10 +33,10 @@ export default function FAQPage() {
         </h2>
         <div className="space-y-4">
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               What is Child Actor 101 Directory?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               Child Actor 101 Directory is a curated platform connecting
               families in the entertainment industry with trusted professionals
               like acting coaches, headshot photographers, agents, managers, and
@@ -45,10 +45,10 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               Who can list on the directory?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               We accept businesses and professionals who serve families in the
               entertainment industry, including: acting coaches, headshot
               photographers, casting directors, agents, managers, self-tape
@@ -57,10 +57,10 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               Is the directory only for child actors?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               While our focus is on services for young performers, we also
               include professionals who work with actors of all ages.
             </p>
@@ -75,10 +75,10 @@ export default function FAQPage() {
         </h2>
         <div className="space-y-4">
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               How do I create an account?
             </h3>
-            <p className="text-gray-900 mb-2">
+            <p className="text-paper mb-2">
               Click "Register" in the navigation menu and choose "Vendor" as
               your role. You'll receive a confirmation email - click the link to
               activate your account.
@@ -92,10 +92,10 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               I didn't receive my confirmation email. What should I do?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               Check your spam/junk folder first. If it's not there, you can
               request a new confirmation email from the login page. The
               confirmation link is valid for 7 days.
@@ -103,10 +103,10 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               What's the difference between Vendor and Parent accounts?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               <strong>Vendor accounts</strong> are for businesses listing their
               services. <strong>Parent accounts</strong> are for families
               browsing and saving their favorite professionals. You need a
@@ -115,10 +115,10 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               Can I change my password?
             </h3>
-            <p className="text-gray-900 mb-2">
+            <p className="text-paper mb-2">
               Yes! Go to your account settings from the dashboard to update your
               password or other account information.
             </p>
@@ -139,10 +139,10 @@ export default function FAQPage() {
         </h2>
         <div className="space-y-4">
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               How do I submit a new listing?
             </h3>
-            <p className="text-gray-900 mb-2">
+            <p className="text-paper mb-2">
               Create a vendor account, then go to "Submit Listing" from the
               navigation menu. Fill out your business information, select your
               plan, and submit for review.
@@ -156,10 +156,10 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               How long does it take for my listing to go live?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               All listings require admin approval before going live, typically
               within 24-48 hours. This ensures quality and accuracy across the
               directory.
@@ -167,10 +167,10 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               My business is already listed. How do I claim it?
             </h3>
-            <p className="text-gray-900 mb-2">
+            <p className="text-paper mb-2">
               Search for your business in the directory, then click "Claim This
               Listing" on your listing page. Claims are instantly approved!
             </p>
@@ -183,10 +183,10 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               Can I edit my listing after it's published?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               Yes! Go to your dashboard and click "Edit" on your listing. All
               edits require admin approval before going live to maintain
               quality.
@@ -194,10 +194,10 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               Can I have multiple listings?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               Yes, if you have multiple business locations or distinct brands,
               you can create separate listings for each. Each listing requires
               its own subscription.
@@ -213,10 +213,10 @@ export default function FAQPage() {
         </h2>
         <div className="space-y-4">
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               What plans are available?
             </h3>
-            <p className="text-gray-900 mb-2">
+            <p className="text-paper mb-2">
               We offer Free ($0), Standard ($25/mo), and Pro ($50/mo) plans.
               Each plan includes different features and visibility levels.
             </p>
@@ -229,10 +229,10 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               Can I upgrade or downgrade my plan?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               Yes! You can change your plan anytime from your dashboard.
               Upgrades take effect immediately. Downgrades take effect at the
               end of your current billing period.
@@ -240,30 +240,30 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               Do you offer refunds?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               Yes, we offer a 30-day money-back guarantee on all paid plans. If
               you're not satisfied, contact us within 30 days for a full refund.
             </p>
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               What payment methods do you accept?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               We accept all major credit cards (Visa, Mastercard, Amex,
               Discover) processed securely through Stripe.
             </p>
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               Can I cancel my subscription?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               Yes, you can cancel anytime from your dashboard. Your listing will
               remain active until the end of your billing period, then
               automatically convert to a Free plan.
@@ -279,10 +279,10 @@ export default function FAQPage() {
         </h2>
         <div className="space-y-4">
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               What image sizes do you recommend?
             </h3>
-            <p className="text-gray-900 mb-2">
+            <p className="text-paper mb-2">
               <strong>Profile image:</strong> 400x400px (square)
               <br />
               <strong>Gallery images:</strong> 1200x800px (landscape)
@@ -298,20 +298,20 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               What image formats are supported?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               We support JPEG, PNG, and WebP formats. We recommend JPEG for
               photos and PNG for logos with transparent backgrounds.
             </p>
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               How many images can I upload?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               <strong>Free:</strong> No images
               <br />
               <strong>Standard:</strong> 1 profile image
@@ -329,10 +329,10 @@ export default function FAQPage() {
         </h2>
         <div className="space-y-4">
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               I'm having trouble uploading images. What should I do?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               First, make sure your image is under 5MB and in JPEG, PNG, or WebP
               format. Try compressing the image using a tool like TinyPNG. If
               problems persist, contact support.
@@ -340,10 +340,10 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               My listing isn't appearing in search results. Why?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               Check that your listing status is "Live" (not "Pending"). Also,
               verify you're searching in the correct category and location. Free
               listings appear lower in search results than paid plans.
@@ -351,10 +351,10 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               How do I delete my listing?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               To remove your listing, cancel your subscription from your
               dashboard. Your listing will remain visible until the end of your
               billing period. For immediate removal, contact support.
@@ -362,10 +362,10 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <h3 className="font-bold text-paper mb-2 text-lg">
               I found incorrect information on my listing. How do I fix it?
             </h3>
-            <p className="text-gray-900">
+            <p className="text-paper">
               If someone else claimed your listing incorrectly, contact support
               immediately with proof of ownership. We'll transfer the listing to
               the rightful owner.
@@ -393,7 +393,7 @@ export default function FAQPage() {
 
       {/* Browse Help Articles */}
       <div className="mt-12">
-        <h3 className="text-xl font-bold text-gray-900 mb-4">
+        <h3 className="text-xl font-bold text-paper mb-4">
           Browse Help Articles
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -401,10 +401,10 @@ export default function FAQPage() {
             href="/help/getting-started"
             className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
           >
-            <h4 className="font-semibold text-gray-900 mb-2">
+            <h4 className="font-semibold text-paper mb-2">
               Getting Started
             </h4>
-            <p className="text-sm text-gray-900">
+            <p className="text-sm text-paper">
               Step-by-step guide for new vendors
             </p>
           </Link>
@@ -412,8 +412,8 @@ export default function FAQPage() {
             href="/help/claim-listing"
             className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
           >
-            <h4 className="font-semibold text-gray-900 mb-2">Claim Listing</h4>
-            <p className="text-sm text-gray-900">
+            <h4 className="font-semibold text-paper mb-2">Claim Listing</h4>
+            <p className="text-sm text-paper">
               Take control of your existing listing
             </p>
           </Link>
@@ -421,10 +421,10 @@ export default function FAQPage() {
             href="/help/pricing-plans"
             className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
           >
-            <h4 className="font-semibold text-gray-900 mb-2">
+            <h4 className="font-semibold text-paper mb-2">
               Pricing & Plans
             </h4>
-            <p className="text-sm text-gray-900">Compare all available plans</p>
+            <p className="text-sm text-paper">Compare all available plans</p>
           </Link>
         </div>
       </div>

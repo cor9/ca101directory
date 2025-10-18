@@ -1,9 +1,9 @@
+import { getCategories } from "@/data/categories";
 import {
   type Listing,
   getListingById,
   getPublicListings,
 } from "@/data/listings";
-import { getCategories } from "@/data/categories";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
 import type { ItemInfo } from "@/types";
 
@@ -84,25 +84,35 @@ async function listingToItem(listing: Listing): Promise<ItemInfo> {
       ? await Promise.all(
           listing.categories.map(async (categoryValue) => {
             // Check if it's a UUID (category ID) or a category name
-            const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(categoryValue);
-            
+            const isUuid =
+              /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+                categoryValue,
+              );
+
             let categoryName = categoryValue.trim();
-            
+
             if (isUuid) {
               // Resolve UUID to category name
               try {
                 const categories = await getCategories();
-                const category = categories.find(cat => cat.id === categoryValue);
+                const category = categories.find(
+                  (cat) => cat.id === categoryValue,
+                );
                 if (category) {
                   categoryName = category.category_name;
                 } else {
-                  console.warn(`Category UUID ${categoryValue} not found, using UUID as name`);
+                  console.warn(
+                    `Category UUID ${categoryValue} not found, using UUID as name`,
+                  );
                 }
               } catch (error) {
-                console.error(`Error resolving category UUID ${categoryValue}:`, error);
+                console.error(
+                  `Error resolving category UUID ${categoryValue}:`,
+                  error,
+                );
               }
             }
-            
+
             return {
               _id: categoryName.toLowerCase().replace(/\s+/g, "-"),
               _type: "category" as const,
@@ -118,7 +128,7 @@ async function listingToItem(listing: Listing): Promise<ItemInfo> {
               group: null,
               priority: null,
             };
-          })
+          }),
         )
       : [],
     tags: listing.age_range

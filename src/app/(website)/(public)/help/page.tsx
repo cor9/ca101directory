@@ -81,8 +81,8 @@ export default function HelpCenterPage() {
     <div className="container max-w-6xl mx-auto px-4 py-12">
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="text-5xl font-bold text-gray-900 mb-4">Help Center</h1>
-        <p className="text-xl text-gray-900 max-w-2xl mx-auto">
+        <h1 className="text-5xl font-bold text-paper mb-4">Help Center</h1>
+        <p className="text-xl text-paper max-w-2xl mx-auto">
           Everything you need to know about creating and managing your listing
           on Child Actor 101 Directory
         </p>
@@ -101,10 +101,10 @@ export default function HelpCenterPage() {
             >
               <topic.icon className="w-6 h-6" />
             </div>
-            <h2 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand-blue transition-colors">
+            <h2 className="text-xl font-bold text-paper mb-2 group-hover:text-brand-blue transition-colors">
               {topic.title}
             </h2>
-            <p className="text-gray-900 text-sm">{topic.description}</p>
+            <p className="text-paper text-sm">{topic.description}</p>
           </Link>
         ))}
       </div>
@@ -128,7 +128,7 @@ export default function HelpCenterPage() {
 
       {/* Quick Links */}
       <div className="mt-12 pt-8 border-t border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
+        <h3 className="text-lg font-semibold text-paper mb-4 text-center">
           Quick Links
         </h3>
         <div className="flex flex-wrap justify-center gap-4">
@@ -138,21 +138,21 @@ export default function HelpCenterPage() {
           >
             Submit New Listing
           </Link>
-          <span className="text-gray-900">•</span>
+          <span className="text-paper">•</span>
           <Link
             href="/claim-listing"
             className="text-brand-blue hover:text-brand-blue/80 underline"
           >
             Claim Existing Listing
           </Link>
-          <span className="text-gray-900">•</span>
+          <span className="text-paper">•</span>
           <Link
             href="/pricing"
             className="text-brand-blue hover:text-brand-blue/80 underline"
           >
             View Pricing
           </Link>
-          <span className="text-gray-900">•</span>
+          <span className="text-paper">•</span>
           <Link
             href="/dashboard"
             className="text-brand-blue hover:text-brand-blue/80 underline"

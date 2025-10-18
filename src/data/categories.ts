@@ -2,7 +2,8 @@ import { supabase } from "@/lib/supabase";
 
 export async function getCategoryIconsMap(): Promise<Record<string, string>> {
   try {
-    const normalize = (v: string) => (v || "").replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+    const normalize = (v: string) =>
+      (v || "").replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
     // Static CSV-based overrides by normalized name
     const staticFallbackByName: Record<string, string> = {
       [normalize("Content Creators")]: "content_creators.png",

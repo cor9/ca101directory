@@ -7,9 +7,7 @@ export default function VendorPricing() {
         <h2 className="bauhaus-heading text-3xl mb-4 text-paper">
           Pricing Plans
         </h2>
-        <p
-          className="bauhaus-body text-lg max-w-2xl mx-auto text-paper"
-        >
+        <p className="bauhaus-body text-lg max-w-2xl mx-auto text-paper">
           Choose the plan that works best for your business
         </p>
       </div>

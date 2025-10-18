@@ -45,7 +45,7 @@ export default async function PricingPage() {
               <h1 className="bauhaus-heading text-4xl mb-4">
                 Simple, Transparent Pricing
               </h1>
-              <p className="bauhaus-body text-xl text-gray-900 max-w-3xl mx-auto">
+              <p className="bauhaus-body text-xl text-paper max-w-3xl mx-auto">
                 Choose the perfect plan for your child actor services. All plans
                 include our quality review process and trusted directory listing.
               </p>
@@ -54,15 +54,15 @@ export default async function PricingPage() {
             {/* Free Plan Card - Custom (not Stripe) */}
             <div className="max-w-md mx-auto mb-8">
               <div className="bg-white border-2 border-gray-300 rounded-lg p-8 text-center shadow-lg">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Free Plan</h2>
+                <h2 className="text-2xl font-bold text-paper mb-2">Free Plan</h2>
                 <div className="mb-4">
-                  <span className="text-4xl font-bold text-gray-900">$0</span>
-                  <span className="text-gray-900">/forever</span>
+                  <span className="text-4xl font-bold text-paper">$0</span>
+                  <span className="text-paper">/forever</span>
                 </div>
-                <p className="text-sm text-gray-900 mb-6">
+                <p className="text-sm text-paper mb-6">
                   Get started with a basic listing - no credit card required!
                 </p>
-                <ul className="text-left mb-6 space-y-2 text-sm text-gray-900">
+                <ul className="text-left mb-6 space-y-2 text-sm text-paper">
                   <li>✓ Basic listing information</li>
                   <li>✓ Contact details displayed</li>
                   <li>✓ Searchable in directory</li>
@@ -84,7 +84,7 @@ export default async function PricingPage() {
                 <h2 className="bauhaus-heading text-2xl text-bauhaus-blue mb-2">
                   Standard & Pro Plans
                 </h2>
-                <p className="text-gray-900">
+                <p className="text-paper">
                   Monthly and annual billing options
                 </p>
               </div>
@@ -100,7 +100,7 @@ export default async function PricingPage() {
                 <h2 className="text-2xl font-bold text-brand-orange mb-2">
                   🏆 101 Approved Badge Add-on
                 </h2>
-                <p className="text-gray-900">
+                <p className="text-paper">
                   Add our trusted badge to your listing
                 </p>
               </div>
@@ -111,7 +111,7 @@ export default async function PricingPage() {
             </div>
 
             <div className="text-center mt-8">
-              <p className="text-sm text-gray-900 leading-normal">
+              <p className="text-sm text-paper leading-normal">
                 All plans include our{" "}
                 <span className="font-semibold">quality review process</span>{" "}
                 and trusted directory listing.

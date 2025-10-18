@@ -252,9 +252,7 @@ export function SupabaseSubmitForm({
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Information */}
           <div className="space-y-4">
-            <h3 className="text-paper">
-              Basic Information
-            </h3>
+            <h3 className="text-paper">Basic Information</h3>
 
             <div className="space-y-2">
               <Label htmlFor="name" className="text-paper">
@@ -269,9 +267,7 @@ export function SupabaseSubmitForm({
                 required
                 className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
-              <p className="text-paper">
-                {formData.name.length}/32 characters
-              </p>
+              <p className="text-paper">{formData.name.length}/32 characters</p>
             </div>
 
             <div className="space-y-2">
@@ -339,9 +335,7 @@ export function SupabaseSubmitForm({
 
           {/* Service Format */}
           <div className="space-y-4">
-            <h3 className="text-paper">
-              Service Format
-            </h3>
+            <h3 className="text-paper">Service Format</h3>
 
             <div className="space-y-2">
               <Label className="text-paper">Format *</Label>
@@ -385,9 +379,7 @@ export function SupabaseSubmitForm({
 
           {/* Categories */}
           <div className="space-y-4">
-            <h3 className="text-paper">
-              Categories
-            </h3>
+            <h3 className="text-paper">Categories</h3>
             <div className="grid grid-cols-2 gap-2">
               {categories.map((category) => (
                 <div key={category.id} className="flex items-center space-x-2">
@@ -409,9 +401,7 @@ export function SupabaseSubmitForm({
 
           {/* Contact Information */}
           <div className="space-y-4">
-            <h3 className="text-paper">
-              Contact Information
-            </h3>
+            <h3 className="text-paper">Contact Information</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -557,9 +547,7 @@ export function SupabaseSubmitForm({
 
           {/* Plan Selection */}
           <div className="space-y-4">
-            <h3 className="text-paper">
-              Choose Your Plan
-            </h3>
+            <h3 className="text-paper">Choose Your Plan</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {/* Free Plan */}
               <Card
@@ -670,9 +658,7 @@ export function SupabaseSubmitForm({
 
           {/* Legal Compliance */}
           <div className="space-y-4">
-            <h3 className="text-paper">
-              Legal Compliance
-            </h3>
+            <h3 className="text-paper">Legal Compliance</h3>
 
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
@@ -683,10 +669,7 @@ export function SupabaseSubmitForm({
                     handleInputChange("performerPermit", checked)
                   }
                 />
-                <Label
-                  htmlFor="performerPermit"
-                  className="text-sm text-paper"
-                >
+                <Label htmlFor="performerPermit" className="text-sm text-paper">
                   California Child Performer Services Permit
                 </Label>
               </div>
@@ -699,10 +682,7 @@ export function SupabaseSubmitForm({
                     handleInputChange("bonded", checked)
                   }
                 />
-                <Label
-                  htmlFor="bonded"
-                  className="text-sm text-paper"
-                >
+                <Label htmlFor="bonded" className="text-sm text-paper">
                   Bonded for Advanced Fees
                 </Label>
               </div>
@@ -782,9 +762,7 @@ export function SupabaseSubmitForm({
             style={{ backgroundColor: "#f8f9fa" }}
           >
             <div>
-              <h3
-                className="text-lg font-semibold text-paper"
-              >
+              <h3 className="text-lg font-semibold text-paper">
                 Social Media Links (Pro only)
               </h3>
               <p className="text-paper">
@@ -891,15 +869,10 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="border-t pt-4">
-              <h4 className="text-paper">
-                Custom Link
-              </h4>
+              <h4 className="text-paper">Custom Link</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label
-                    htmlFor="custom_link_name"
-                    className="text-paper"
-                  >
+                  <Label htmlFor="custom_link_name" className="text-paper">
                     Link Name
                   </Label>
                   <Input

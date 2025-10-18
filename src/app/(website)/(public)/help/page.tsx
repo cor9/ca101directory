@@ -94,17 +94,17 @@ export default function HelpCenterPage() {
           <Link
             key={topic.href}
             href={topic.href}
-            className="group bg-white border-2 border-gray-200 rounded-lg p-6 hover:border-brand-blue hover:shadow-lg transition-all duration-200"
+            className="group bauhaus-card bg-surface border-2 border-secondary-denim/20 rounded-lg p-6 hover:border-bauhaus-blue hover:shadow-lg transition-all duration-200"
           >
             <div
               className={`inline-flex p-3 rounded-lg ${topic.color} mb-4 group-hover:scale-110 transition-transform duration-200`}
             >
               <topic.icon className="w-6 h-6" />
             </div>
-            <h2 className="text-xl font-bold text-paper mb-2 group-hover:text-brand-blue transition-colors">
+            <h2 className="bauhaus-heading text-xl font-bold text-ink mb-2 group-hover:text-bauhaus-blue transition-colors">
               {topic.title}
             </h2>
-            <p className="text-paper text-sm">{topic.description}</p>
+            <p className="bauhaus-body text-surface text-sm">{topic.description}</p>
           </Link>
         ))}
       </div>
@@ -127,35 +127,35 @@ export default function HelpCenterPage() {
       </div>
 
       {/* Quick Links */}
-      <div className="mt-12 pt-8 border-t border-gray-200">
-        <h3 className="text-lg font-semibold text-paper mb-4 text-center">
+      <div className="mt-12 pt-8 border-t border-secondary-denim/20">
+        <h3 className="bauhaus-heading text-lg font-semibold text-paper mb-4 text-center">
           Quick Links
         </h3>
         <div className="flex flex-wrap justify-center gap-4">
           <Link
             href="/submit"
-            className="text-brand-blue hover:text-brand-blue/80 underline"
+            className="bauhaus-body text-bauhaus-blue hover:text-bauhaus-mustard underline transition-colors"
           >
             Submit New Listing
           </Link>
           <span className="text-paper">•</span>
           <Link
             href="/claim-listing"
-            className="text-brand-blue hover:text-brand-blue/80 underline"
+            className="bauhaus-body text-bauhaus-blue hover:text-bauhaus-mustard underline transition-colors"
           >
             Claim Existing Listing
           </Link>
           <span className="text-paper">•</span>
           <Link
             href="/pricing"
-            className="text-brand-blue hover:text-brand-blue/80 underline"
+            className="bauhaus-body text-bauhaus-blue hover:text-bauhaus-mustard underline transition-colors"
           >
             View Pricing
           </Link>
           <span className="text-paper">•</span>
           <Link
             href="/dashboard"
-            className="text-brand-blue hover:text-brand-blue/80 underline"
+            className="bauhaus-body text-bauhaus-blue hover:text-bauhaus-mustard underline transition-colors"
           >
             Go to Dashboard
           </Link>

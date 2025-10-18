@@ -94,9 +94,9 @@ export function RelatedLinks({
                   key={related.id}
                   href={`/listing/${generateSlugFromListing(related)}`}
                   className="block rounded-lg p-5 transition-all hover:shadow-lg"
-                  style={{ 
+                  style={{
                     backgroundColor: "#fafaf4",
-                    border: "2px solid #0d1b2a"
+                    border: "2px solid #0d1b2a",
                   }}
                 >
                   <h4

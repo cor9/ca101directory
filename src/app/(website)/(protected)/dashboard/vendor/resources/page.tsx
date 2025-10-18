@@ -16,10 +16,10 @@ export default function BacklinkKitPage() {
       <VendorDashboardLayout>
           <div className="space-y-6">
           <div className="bg-card rounded-lg p-6 border">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl font-bold text-foreground mb-2">
               Backlink Resource Kit
             </h1>
-            <p className="text-gray-900">
+            <p className="text-foreground">
               Link to your Child Actor 101 Directory profile from your website and social media to build trust and improve your SEO.
             </p>
           </div>

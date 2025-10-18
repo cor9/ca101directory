@@ -19,10 +19,10 @@ export default async function ClaimListingPage() {
       <VendorDashboardLayout>
         <div className="space-y-6">
           <div className="bg-card rounded-lg p-6 border">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl font-bold text-foreground mb-2">
               Claim Your Business Listing
             </h1>
-            <p className="text-gray-900">
+            <p className="text-foreground">
               Find your business in the list below to claim it and manage your
               profile. If you can't find your business, you may need to{" "}
               <a

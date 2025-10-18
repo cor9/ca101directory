@@ -26,7 +26,7 @@ export default async function VendorListingPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="bauhaus-heading text-3xl">My Listings</h1>
-              <p className="bauhaus-body text-gray-900">
+              <p className="bauhaus-body text-foreground">
                 Manage your professional listings and content
               </p>
             </div>
@@ -44,7 +44,7 @@ export default async function VendorListingPage() {
               <CardContent className="flex flex-col items-center justify-center py-12">
                 <div className="text-center space-y-4">
                   <h3 className="bauhaus-heading text-xl">No listings yet</h3>
-                  <p className="bauhaus-body text-gray-900 max-w-md">
+                  <p className="bauhaus-body text-foreground max-w-md">
                     Create your first professional listing to start connecting
                     with families
                   </p>
@@ -79,7 +79,7 @@ export default async function VendorListingPage() {
                           {(() => {
                             let badgeText = "Free";
                             let badgeClassName =
-                              "border-gray-300 text-gray-900";
+                              "border-gray-300 text-foreground";
 
                             if (listing.comped) {
                               badgeText = "Pro";
@@ -92,7 +92,7 @@ export default async function VendorListingPage() {
                             } else if (listing.plan === "Standard") {
                               badgeText = "Standard";
                               badgeClassName =
-                                "border-gray-500 text-gray-900 bg-gray-50";
+                                "border-gray-500 text-foreground bg-gray-50";
                             } else if (listing.plan === "Premium") {
                               badgeText = "Premium";
                               badgeClassName =
@@ -113,7 +113,7 @@ export default async function VendorListingPage() {
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="bauhaus-body text-sm text-gray-900 line-clamp-2">
+                    <div className="bauhaus-body text-sm text-foreground line-clamp-2">
                       {(listing.what_you_offer || "").replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()}
                     </div>
 
@@ -149,7 +149,7 @@ export default async function VendorListingPage() {
                     {/* Quick Stats */}
                     <div className="pt-3 border-t grid grid-cols-2 gap-4 text-sm">
                       <div>
-                        <span className="text-gray-900">Created:</span>
+                        <span className="text-foreground">Created:</span>
                         <div className="font-medium">
                           {listing.created_at
                             ? new Date(listing.created_at).toLocaleDateString()
@@ -157,7 +157,7 @@ export default async function VendorListingPage() {
                         </div>
                       </div>
                       <div>
-                        <span className="text-gray-900">Updated:</span>
+                        <span className="text-foreground">Updated:</span>
                         <div className="font-medium">
                           {listing.updated_at
                             ? new Date(listing.updated_at).toLocaleDateString()

@@ -23,10 +23,10 @@ export default async function BadgeApplicationPage() {
   return (
     <div className="container max-w-4xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-3xl font-bold text-foreground mb-2">
           101 Approved Badge Application
         </h1>
-        <p className="text-gray-900">
+        <p className="text-foreground">
           Apply for our highest mark of trust for verified child acting professionals
         </p>
       </div>

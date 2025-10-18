@@ -3,6 +3,7 @@ import {
   getListingById,
   getPublicListings,
 } from "@/data/listings";
+import { getCategories } from "@/data/categories";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
 import type { ItemInfo } from "@/types";
 
@@ -26,7 +27,7 @@ function generateSlug(listingName: string, id: string): string {
 /**
  * Convert Airtable Listing to MkDirs Item format
  */
-function listingToItem(listing: Listing): ItemInfo {
+async function listingToItem(listing: Listing): Promise<ItemInfo> {
   return {
     _id: listing.id,
     _createdAt: new Date().toISOString(),
@@ -80,21 +81,45 @@ function listingToItem(listing: Listing): ItemInfo {
     rejectionReason: null,
     collections: [],
     categories: listing.categories
-      ? listing.categories.map((categoryName) => ({
-          _id: categoryName.trim().toLowerCase().replace(/\s+/g, "-"),
-          _type: "category" as const,
-          _createdAt: new Date().toISOString(),
-          _updatedAt: new Date().toISOString(),
-          _rev: "",
-          name: categoryName.trim(),
-          slug: {
-            _type: "slug" as const,
-            current: categoryName.trim().toLowerCase().replace(/\s+/g, "-"),
-          },
-          description: null,
-          group: null,
-          priority: null,
-        }))
+      ? await Promise.all(
+          listing.categories.map(async (categoryValue) => {
+            // Check if it's a UUID (category ID) or a category name
+            const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(categoryValue);
+            
+            let categoryName = categoryValue.trim();
+            
+            if (isUuid) {
+              // Resolve UUID to category name
+              try {
+                const categories = await getCategories();
+                const category = categories.find(cat => cat.id === categoryValue);
+                if (category) {
+                  categoryName = category.category_name;
+                } else {
+                  console.warn(`Category UUID ${categoryValue} not found, using UUID as name`);
+                }
+              } catch (error) {
+                console.error(`Error resolving category UUID ${categoryValue}:`, error);
+              }
+            }
+            
+            return {
+              _id: categoryName.toLowerCase().replace(/\s+/g, "-"),
+              _type: "category" as const,
+              _createdAt: new Date().toISOString(),
+              _updatedAt: new Date().toISOString(),
+              _rev: "",
+              name: categoryName,
+              slug: {
+                _type: "slug" as const,
+                current: categoryName.toLowerCase().replace(/\s+/g, "-"),
+              },
+              description: null,
+              group: null,
+              priority: null,
+            };
+          })
+        )
       : [],
     tags: listing.age_range
       ? listing.age_range.map((tag) => ({
@@ -124,7 +149,7 @@ export async function getItemById(id: string): Promise<ItemInfo | null> {
   try {
     const listing = await getListingById(id);
     if (!listing) return null;
-    return listingToItem(listing);
+    return await listingToItem(listing);
   } catch (error) {
     console.error("getItemById, error:", error);
     return null;
@@ -272,7 +297,7 @@ export async function getItems({
     const paginatedListings = filteredListings.slice(offsetStart, offsetEnd);
 
     // Convert to ItemInfo format
-    const items = paginatedListings.map(listingToItem);
+    const items = await Promise.all(paginatedListings.map(listingToItem));
 
     return { items, totalCount };
   } catch (error) {

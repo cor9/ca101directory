@@ -22,7 +22,7 @@ interface CategoryCopy {
 
 // --- Load CSV data once ---
 function loadCategoryCopy(): CategoryCopy[] {
-  const filePath = path.join(process.cwd(), "categories", "category_page_copy.csv");
+  const filePath = path.join(process.cwd(), "public", "category_page_copy.csv");
   const file = fs.readFileSync(filePath, "utf8");
   const parsed = Papa.parse<CategoryCopy>(file, {
     header: true,

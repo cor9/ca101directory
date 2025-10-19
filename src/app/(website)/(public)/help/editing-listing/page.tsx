@@ -35,7 +35,7 @@ export default function EditingListingPage() {
 
       {/* How to Access Editor */}
       <div className="bg-blue-50 border-l-4 border-brand-blue rounded-lg p-6 mb-8">
-        <h2 className="bauhaus-heading text-2xl font-bold text-ink mb-4">
+        <h2 className="bauhaus-heading text-2xl font-bold text-charcoal mb-4">
           How to Edit Your Listing
         </h2>
         <ol className="space-y-3">
@@ -44,8 +44,8 @@ export default function EditingListingPage() {
               1
             </span>
             <div>
-              <p className="font-semibold text-ink">Log in to your account</p>
-              <p className="text-sm text-ink">
+              <p className="font-semibold text-charcoal">Log in to your account</p>
+              <p className="text-sm text-charcoal">
                 Use your vendor credentials to access the dashboard
               </p>
             </div>
@@ -55,8 +55,8 @@ export default function EditingListingPage() {
               2
             </span>
             <div>
-              <p className="font-semibold text-ink">Go to your dashboard</p>
-              <p className="text-sm text-ink">
+              <p className="font-semibold text-charcoal">Go to your dashboard</p>
+              <p className="text-sm text-charcoal">
                 Click "Dashboard" in the main navigation
               </p>
             </div>
@@ -66,10 +66,10 @@ export default function EditingListingPage() {
               3
             </span>
             <div>
-              <p className="font-semibold text-ink">
+              <p className="font-semibold text-charcoal">
                 Find your listing and click "Edit"
               </p>
-              <p className="text-sm text-ink">
+              <p className="text-sm text-charcoal">
                 Your listing will appear with an edit button
               </p>
             </div>
@@ -93,7 +93,7 @@ export default function EditingListingPage() {
 
         <div className="space-y-6">
           {/* Business Information */}
-          <div className="bg-white border-2 border-gray-200 rounded-lg p-6">
+          <div className="bauhaus-card p-6">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 p-3 bg-blue-100 text-brand-blue rounded-lg">
                 <Edit className="w-6 h-6" />
@@ -102,7 +102,7 @@ export default function EditingListingPage() {
                 <h3 className="bauhaus-heading text-xl font-bold text-paper mb-3">
                   Business Information
                 </h3>
-                <ul className="space-y-2 text-ink">
+                <ul className="space-y-2 text-charcoal">
                   <li className="flex items-start gap-2">
                     <span className="text-brand-blue mt-1">•</span>
                     <span>
@@ -148,7 +148,7 @@ export default function EditingListingPage() {
           </div>
 
           {/* Images */}
-          <div className="bg-white border-2 border-gray-200 rounded-lg p-6">
+          <div className="bauhaus-card p-6">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 p-3 bg-purple-100 text-purple-600 rounded-lg">
                 <ImageIcon className="w-6 h-6" />
@@ -157,7 +157,7 @@ export default function EditingListingPage() {
                 <h3 className="bauhaus-heading text-xl font-bold text-paper mb-3">
                   Images & Gallery
                 </h3>
-                <ul className="space-y-2 text-ink mb-4">
+                <ul className="space-y-2 text-charcoal mb-4">
                   <li className="flex items-start gap-2">
                     <span className="text-brand-blue mt-1">•</span>
                     <span>
@@ -184,7 +184,7 @@ export default function EditingListingPage() {
           </div>
 
           {/* Social Media & Links */}
-          <div className="bg-white border-2 border-gray-200 rounded-lg p-6">
+          <div className="bauhaus-card p-6">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 p-3 bg-green-100 text-green-600 rounded-lg">
                 <Globe className="w-6 h-6" />
@@ -193,7 +193,7 @@ export default function EditingListingPage() {
                 <h3 className="bauhaus-heading text-xl font-bold text-paper mb-3">
                   Social Media & Links (Pro Plan)
                 </h3>
-                <ul className="space-y-2 text-ink">
+                <ul className="space-y-2 text-charcoal">
                   <li className="flex items-start gap-2">
                     <span className="text-brand-blue mt-1">•</span>
                     <span>
@@ -248,15 +248,15 @@ export default function EditingListingPage() {
         <div className="flex items-start gap-3">
           <AlertCircle className="w-6 h-6 text-yellow-600 flex-shrink-0 mt-1" />
           <div>
-            <h2 className="bauhaus-heading text-2xl font-bold text-ink mb-3">
+            <h2 className="bauhaus-heading text-2xl font-bold text-charcoal mb-3">
               Important: Approval Required
             </h2>
-            <p className="text-ink mb-4">
+            <p className="text-charcoal mb-4">
               <strong>All edits require admin approval</strong> before going
               live, regardless of your plan. This ensures quality and accuracy
               across the directory.
             </p>
-            <div className="space-y-2 text-sm text-ink">
+            <div className="space-y-2 text-sm text-charcoal">
               <p>
                 <strong>What this means:</strong>
               </p>
@@ -280,45 +280,45 @@ export default function EditingListingPage() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-white border border-gray-200 rounded-lg p-4">
-            <h3 className="font-bold text-ink mb-2">Keep It Updated</h3>
-            <p className="text-sm text-ink">
+            <h3 className="font-bold text-charcoal mb-2">Keep It Updated</h3>
+            <p className="text-sm text-charcoal">
               Review your listing monthly to ensure contact information,
               services, and pricing are current.
             </p>
           </div>
           <div className="bg-white border border-gray-200 rounded-lg p-4">
-            <h3 className="font-bold text-ink mb-2">Use High-Quality Images</h3>
-            <p className="text-sm text-ink">
+            <h3 className="font-bold text-charcoal mb-2">Use High-Quality Images</h3>
+            <p className="text-sm text-charcoal">
               Professional photos make your listing stand out. Follow our image
               guidelines for best results.
             </p>
           </div>
           <div className="bg-white border border-gray-200 rounded-lg p-4">
-            <h3 className="font-bold text-ink mb-2">
+            <h3 className="font-bold text-charcoal mb-2">
               Write Clear Descriptions
             </h3>
-            <p className="text-sm text-ink">
+            <p className="text-sm text-charcoal">
               Be specific about your services, experience, and what makes your
               business unique.
             </p>
           </div>
           <div className="bg-white border border-gray-200 rounded-lg p-4">
-            <h3 className="font-bold text-ink mb-2">Add Social Proof</h3>
-            <p className="text-sm text-ink">
+            <h3 className="font-bold text-charcoal mb-2">Add Social Proof</h3>
+            <p className="text-sm text-charcoal">
               Link to your social media profiles to show your active presence
               and credibility.
             </p>
           </div>
           <div className="bg-white border border-gray-200 rounded-lg p-4">
-            <h3 className="font-bold text-ink mb-2">Optimize for Search</h3>
-            <p className="text-sm text-ink">
+            <h3 className="font-bold text-charcoal mb-2">Optimize for Search</h3>
+            <p className="text-sm text-charcoal">
               Use relevant keywords naturally in your description to help
               families find you.
             </p>
           </div>
           <div className="bg-white border border-gray-200 rounded-lg p-4">
-            <h3 className="font-bold text-ink mb-2">Be Professional</h3>
-            <p className="text-sm text-ink">
+            <h3 className="font-bold text-charcoal mb-2">Be Professional</h3>
+            <p className="text-sm text-charcoal">
               Maintain a professional tone. Remember, parents are looking for
               trustworthy services.
             </p>
@@ -333,30 +333,30 @@ export default function EditingListingPage() {
         </h2>
         <div className="space-y-4">
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-ink mb-2">
+            <h3 className="font-bold text-charcoal mb-2">
               How long does approval take?
             </h3>
-            <p className="text-ink text-sm">
+            <p className="text-charcoal text-sm">
               Most edits are reviewed and approved within 24-48 hours. You'll
               receive an email notification once your changes go live.
             </p>
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-ink mb-2">
+            <h3 className="font-bold text-charcoal mb-2">
               Can I edit my listing multiple times?
             </h3>
-            <p className="text-ink text-sm">
+            <p className="text-charcoal text-sm">
               Yes! You can edit your listing as many times as needed. Each edit
               will go through the approval process.
             </p>
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-ink mb-2">
+            <h3 className="font-bold text-charcoal mb-2">
               What if my edits are rejected?
             </h3>
-            <p className="text-ink text-sm">
+            <p className="text-charcoal text-sm">
               If edits are rejected, you'll receive an email explaining why and
               what needs to be changed. You can then make adjustments and
               resubmit.
@@ -364,10 +364,10 @@ export default function EditingListingPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-ink mb-2">
+            <h3 className="font-bold text-charcoal mb-2">
               Can I preview my changes before they go live?
             </h3>
-            <p className="text-ink text-sm">
+            <p className="text-charcoal text-sm">
               Currently, previews aren't available. Your current listing remains
               visible until edits are approved. We recommend double-checking all
               information before submitting.
@@ -375,10 +375,10 @@ export default function EditingListingPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="font-bold text-ink mb-2">
+            <h3 className="font-bold text-charcoal mb-2">
               How do I upgrade my plan to add more features?
             </h3>
-            <p className="text-ink text-sm mb-2">
+            <p className="text-charcoal text-sm mb-2">
               You can upgrade anytime from your dashboard. Changes take effect
               immediately, and you'll have access to all premium features.
             </p>
@@ -419,8 +419,8 @@ export default function EditingListingPage() {
             href="/help/image-guidelines"
             className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
           >
-            <h4 className="font-semibold text-ink mb-2">Image Guidelines</h4>
-            <p className="text-sm text-ink">
+            <h4 className="font-semibold text-charcoal mb-2">Image Guidelines</h4>
+            <p className="text-sm text-charcoal">
               Learn the best practices for profile and gallery images
             </p>
           </Link>
@@ -428,8 +428,8 @@ export default function EditingListingPage() {
             href="/help/pricing-plans"
             className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
           >
-            <h4 className="font-semibold text-ink mb-2">Pricing & Plans</h4>
-            <p className="text-sm text-ink">
+            <h4 className="font-semibold text-charcoal mb-2">Pricing & Plans</h4>
+            <p className="text-sm text-charcoal">
               Compare plans and unlock premium features
             </p>
           </Link>

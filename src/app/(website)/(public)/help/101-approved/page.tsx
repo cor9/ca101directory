@@ -51,11 +51,11 @@ export default function Help101ApprovedPage() {
 
       {/* What is the 101 Approved Badge */}
       <div className="bg-blue-50 border-l-4 border-brand-blue rounded-lg p-8 mb-8">
-        <h2 className="text-2xl font-bold text-ink mb-4 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-charcoal mb-4 flex items-center gap-2">
           <Award className="w-6 h-6 text-brand-blue" />
           What is the 101 Approved Badge?
         </h2>
-        <p className="text-ink mb-4">
+        <p className="text-charcoal mb-4">
           The 101 Approved Badge is our official verification mark for
           professionals who have demonstrated exceptional standards in serving
           child and teen actors. It represents our highest level of trust and
@@ -64,24 +64,24 @@ export default function Help101ApprovedPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-white rounded-lg p-4 text-center">
             <Shield className="w-8 h-8 text-green-600 mx-auto mb-2" />
-            <h3 className="font-bold text-ink mb-1">Verified Quality</h3>
-            <p className="text-sm text-ink">
+            <h3 className="font-bold text-charcoal mb-1">Verified Quality</h3>
+            <p className="text-sm text-charcoal">
               Thoroughly vetted professionals with proven track records
             </p>
           </div>
           <div className="bg-white rounded-lg p-4 text-center">
             <Users className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-            <h3 className="font-bold text-ink mb-1">Parent Trust</h3>
-            <p className="text-sm text-ink">
+            <h3 className="font-bold text-charcoal mb-1">Parent Trust</h3>
+            <p className="text-sm text-charcoal">
               Testimonials from families who have worked with you
             </p>
           </div>
           <div className="bg-white rounded-lg p-4 text-center">
             <Star className="w-8 h-8 text-yellow-600 mx-auto mb-2" />
-            <h3 className="font-bold text-ink mb-1">
+            <h3 className="font-bold text-charcoal mb-1">
               Industry Recognition
             </h3>
-            <p className="text-sm text-ink">
+            <p className="text-sm text-charcoal">
               References from peers and industry professionals
             </p>
           </div>
@@ -96,21 +96,21 @@ export default function Help101ApprovedPage() {
 
         <div className="space-y-6">
           {/* Step 1 */}
-          <div className="bg-white border-2 border-gray-200 rounded-lg p-6">
+          <div className="bauhaus-card p-6">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">
                 1
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-ink mb-3">
+                <h3 className="text-xl font-bold text-charcoal mb-3">
                   Active Pro Listing Required
                 </h3>
-                <p className="text-ink mb-4">
+                <p className="text-charcoal mb-4">
                   You must have an active Pro ($50/month) listing on the Child
                   Actor 101 Directory. Free and Standard plans are not eligible.
                 </p>
                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                  <p className="text-sm text-ink">
+                  <p className="text-sm text-charcoal">
                     <strong>Note:</strong> Your listing must be live and in good
                     standing for at least 30 days before applying.
                   </p>
@@ -120,22 +120,22 @@ export default function Help101ApprovedPage() {
           </div>
 
           {/* Step 2 */}
-          <div className="bg-white border-2 border-gray-200 rounded-lg p-6">
+          <div className="bauhaus-card p-6">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">
                 2
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-ink mb-3">
+                <h3 className="text-xl font-bold text-charcoal mb-3">
                   Parent Testimonials
                 </h3>
-                <p className="text-ink mb-4">
+                <p className="text-charcoal mb-4">
                   Provide at least 3 testimonials from families who have worked
                   with you or your business. These should demonstrate your
                   professionalism, expertise, and positive impact on young
                   performers.
                 </p>
-                <ul className="space-y-2 text-sm text-ink">
+                <ul className="space-y-2 text-sm text-charcoal">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                     <span>
@@ -162,22 +162,22 @@ export default function Help101ApprovedPage() {
           </div>
 
           {/* Step 3 */}
-          <div className="bg-white border-2 border-gray-200 rounded-lg p-6">
+          <div className="bauhaus-card p-6">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">
                 3
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-ink mb-3">
+                <h3 className="text-xl font-bold text-charcoal mb-3">
                   Industry References
                 </h3>
-                <p className="text-ink mb-4">
+                <p className="text-charcoal mb-4">
                   Submit references from at least 2 industry professionals who
                   can vouch for your work and character. These should be peers,
                   colleagues, or industry contacts who have direct knowledge of
                   your professional capabilities.
                 </p>
-                <ul className="space-y-2 text-sm text-ink">
+                <ul className="space-y-2 text-sm text-charcoal">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                     <span>
@@ -204,22 +204,22 @@ export default function Help101ApprovedPage() {
           </div>
 
           {/* Step 4 */}
-          <div className="bg-white border-2 border-gray-200 rounded-lg p-6">
+          <div className="bauhaus-card p-6">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">
                 4
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-ink mb-3">
+                <h3 className="text-xl font-bold text-charcoal mb-3">
                   Optional Credentials
                 </h3>
-                <p className="text-ink mb-4">
+                <p className="text-charcoal mb-4">
                   While not required, relevant certifications, degrees, or
                   professional credentials can strengthen your application and
                   demonstrate your commitment to ongoing education and
                   professional development.
                 </p>
-                <ul className="space-y-2 text-sm text-ink">
+                <ul className="space-y-2 text-sm text-charcoal">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                     <span>Acting coaching certifications</span>
@@ -245,17 +245,17 @@ export default function Help101ApprovedPage() {
 
       {/* Application Process */}
       <div className="bg-green-50 border-l-4 border-green-500 rounded-lg p-8 mb-8">
-        <h2 className="text-2xl font-bold text-ink mb-4">
+        <h2 className="text-2xl font-bold text-charcoal mb-4">
           Application Process
         </h2>
         <div className="space-y-4">
           <div className="flex items-start gap-3">
             <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
             <div>
-              <p className="font-semibold text-ink">
+              <p className="font-semibold text-charcoal">
                 Complete Application Form
               </p>
-              <p className="text-sm text-ink">
+              <p className="text-sm text-charcoal">
                 Fill out the detailed application with all required information
                 and uploads
               </p>
@@ -264,8 +264,8 @@ export default function Help101ApprovedPage() {
           <div className="flex items-start gap-3">
             <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
             <div>
-              <p className="font-semibold text-ink">Save as Draft</p>
-              <p className="text-sm text-ink">
+              <p className="font-semibold text-charcoal">Save as Draft</p>
+              <p className="text-sm text-charcoal">
                 You can save your progress and return to complete the
                 application later
               </p>
@@ -274,8 +274,8 @@ export default function Help101ApprovedPage() {
           <div className="flex items-start gap-3">
             <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
             <div>
-              <p className="font-semibold text-ink">Submit for Review</p>
-              <p className="text-sm text-ink">
+              <p className="font-semibold text-charcoal">Submit for Review</p>
+              <p className="text-sm text-charcoal">
                 Our team will review your application within 5-7 business days
               </p>
             </div>
@@ -283,8 +283,8 @@ export default function Help101ApprovedPage() {
           <div className="flex items-start gap-3">
             <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
             <div>
-              <p className="font-semibold text-ink">Receive Decision</p>
-              <p className="text-sm text-ink">
+              <p className="font-semibold text-charcoal">Receive Decision</p>
+              <p className="text-sm text-charcoal">
                 You'll be notified of approval, rejection, or if additional
                 information is needed
               </p>
@@ -298,8 +298,8 @@ export default function Help101ApprovedPage() {
         <h2 className="bauhaus-heading text-3xl font-bold text-paper mb-6">
           🧡 Child Actor 101 Code of Ethics
         </h2>
-        <div className="bg-white border-2 border-gray-200 rounded-lg p-8">
-          <p className="text-ink mb-6">
+        <div className="bauhaus-card p-8">
+          <p className="text-charcoal mb-6">
             All vendors listed on Child Actor 101 — and especially those
             carrying the 101 Approved badge — agree to uphold the following
             principles in their work with minors and families:
@@ -307,10 +307,10 @@ export default function Help101ApprovedPage() {
 
           <div className="space-y-6">
             <div>
-              <h3 className="text-xl font-bold text-ink mb-3">
+              <h3 className="text-xl font-bold text-charcoal mb-3">
                 1. Safety First
               </h3>
-              <ul className="space-y-2 text-ink">
+              <ul className="space-y-2 text-charcoal">
                 <li className="flex items-start gap-2">
                   <span className="text-brand-blue mt-1">•</span>
                   <span>
@@ -336,10 +336,10 @@ export default function Help101ApprovedPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-bold text-ink mb-3">
+              <h3 className="text-xl font-bold text-charcoal mb-3">
                 2. Professional Integrity
               </h3>
-              <ul className="space-y-2 text-ink">
+              <ul className="space-y-2 text-charcoal">
                 <li className="flex items-start gap-2">
                   <span className="text-brand-blue mt-1">•</span>
                   <span>
@@ -364,10 +364,10 @@ export default function Help101ApprovedPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-bold text-ink mb-3">
+              <h3 className="text-xl font-bold text-charcoal mb-3">
                 3. Respect for Minors and Families
               </h3>
-              <ul className="space-y-2 text-ink">
+              <ul className="space-y-2 text-charcoal">
                 <li className="flex items-start gap-2">
                   <span className="text-brand-blue mt-1">•</span>
                   <span>
@@ -393,10 +393,10 @@ export default function Help101ApprovedPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-bold text-ink mb-3">
+              <h3 className="text-xl font-bold text-charcoal mb-3">
                 4. Inclusivity & Representation
               </h3>
-              <ul className="space-y-2 text-ink">
+              <ul className="space-y-2 text-charcoal">
                 <li className="flex items-start gap-2">
                   <span className="text-brand-blue mt-1">•</span>
                   <span>
@@ -421,10 +421,10 @@ export default function Help101ApprovedPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-bold text-ink mb-3">
+              <h3 className="text-xl font-bold text-charcoal mb-3">
                 5. Accountability & Compliance
               </h3>
-              <ul className="space-y-2 text-ink">
+              <ul className="space-y-2 text-charcoal">
                 <li className="flex items-start gap-2">
                   <span className="text-brand-blue mt-1">•</span>
                   <span>
@@ -449,10 +449,10 @@ export default function Help101ApprovedPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-bold text-ink mb-3">
+              <h3 className="text-xl font-bold text-charcoal mb-3">
                 6. Continuous Growth
               </h3>
-              <ul className="space-y-2 text-ink">
+              <ul className="space-y-2 text-charcoal">
                 <li className="flex items-start gap-2">
                   <span className="text-brand-blue mt-1">•</span>
                   <span>
@@ -480,37 +480,37 @@ export default function Help101ApprovedPage() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="text-xl font-bold text-ink mb-3">
+            <h3 className="text-xl font-bold text-charcoal mb-3">
               Enhanced Trust
             </h3>
-            <p className="text-ink">
+            <p className="text-charcoal">
               The badge signals to families that you've been thoroughly vetted
               and meet our highest standards for working with young performers.
             </p>
           </div>
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="text-xl font-bold text-ink mb-3">
+            <h3 className="text-xl font-bold text-charcoal mb-3">
               Priority Placement
             </h3>
-            <p className="text-ink">
+            <p className="text-charcoal">
               101 Approved listings appear first in search results and are
               highlighted throughout the directory.
             </p>
           </div>
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="text-xl font-bold text-ink mb-3">
+            <h3 className="text-xl font-bold text-charcoal mb-3">
               Marketing Support
             </h3>
-            <p className="text-ink">
+            <p className="text-charcoal">
               Use the badge in your marketing materials to demonstrate your
               verified status and commitment to excellence.
             </p>
           </div>
           <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="text-xl font-bold text-ink mb-3">
+            <h3 className="text-xl font-bold text-charcoal mb-3">
               Community Access
             </h3>
-            <p className="text-ink">
+            <p className="text-charcoal">
               Join our exclusive network of verified professionals and access
               special events, resources, and networking opportunities.
             </p>
@@ -543,7 +543,7 @@ export default function Help101ApprovedPage() {
             href="/help/pricing-plans"
             className="bauhaus-card bg-surface border border-secondary-denim/20 rounded-lg p-4 hover:border-bauhaus-blue transition-colors"
           >
-            <h4 className="font-semibold text-ink mb-2">
+            <h4 className="font-semibold text-charcoal mb-2">
               Pricing & Plans
             </h4>
             <p className="bauhaus-body text-sm text-surface">
@@ -554,7 +554,7 @@ export default function Help101ApprovedPage() {
             href="/help/getting-started"
             className="bauhaus-card bg-surface border border-secondary-denim/20 rounded-lg p-4 hover:border-bauhaus-blue transition-colors"
           >
-            <h4 className="font-semibold text-ink mb-2">
+            <h4 className="font-semibold text-charcoal mb-2">
               Getting Started
             </h4>
             <p className="bauhaus-body text-sm text-surface">

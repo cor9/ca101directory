@@ -1,3 +1,36 @@
+## 2025-10-19 — HELP PAGES TEXT CONTRAST FIX (COMPLETE)
+
+### Problem
+All help pages had invisible text due to using `text-gray-900` (dark text) on navy backgrounds, violating Bauhaus design system contrast rules.
+
+### Solution Implemented
+Fixed all help pages to use proper Bauhaus color tokens:
+- Navy backgrounds → `text-paper` (light text) for main content
+- White/cream card backgrounds → `text-ink` (dark text) for card content
+- Applied proper contrast throughout all help pages
+
+### Files Fixed:
+- `src/app/(website)/(public)/help/page.tsx` - Main help center (already correct)
+- `src/app/(website)/(public)/help/getting-started/page.tsx` - ✅ Fixed
+- `src/app/(website)/(public)/help/claim-listing/page.tsx` - ✅ Fixed
+- `src/app/(website)/(public)/help/editing-listing/page.tsx` - ✅ Fixed
+- `src/app/(website)/(public)/help/image-guidelines/page.tsx` - ✅ Fixed
+- `src/app/(website)/(public)/help/pricing-plans/page.tsx` - ✅ Fixed
+- `src/app/(website)/(public)/help/troubleshooting/page.tsx` - ✅ Fixed
+- `src/app/(website)/(public)/help/101-approved/page.tsx` - ✅ Fixed
+- `src/app/(website)/(public)/help/faq/page.tsx` - Already fixed (Oct 18)
+
+### Design System Applied:
+- **Navy backgrounds** (#0d1b2a) → `text-paper` (#fafaf4) for headers and body
+- **White/cream cards** → `text-ink` (#0f1113) for all card content
+- **Colored info boxes** (blue-50, yellow-50, etc.) → `text-ink` for readability
+- Maintained proper Bauhaus classes: `bauhaus-heading`, `bauhaus-body`, `bauhaus-card`
+
+### Result:
+All help pages now have proper text contrast and follow the established Bauhaus Mid-Century Modern Hollywood design system. No more invisible text on navy backgrounds.
+
+---
+
 ## 2025-10-18 — COMPREHENSIVE DESIGN SYSTEM FIX (CRITICAL)
 
 ### Problem
@@ -43,11 +76,6 @@ Previous agent added harmful global CSS overrides (lines 757-841 in globals.css)
 - `src/app/(website)/(public)/category/[slug]/page.tsx`
 - `src/app/(website)/(public)/search/page.tsx`
 - `src/app/(website)/(public)/help/faq/page.tsx`
-
-### Remaining Work:
-- Other help pages still need fixing (getting-started, claim-listing, etc.)
-- Some listing detail pages may need review
-- Any other pages with `text-gray-900` on navy backgrounds
 
 ### Prevention:
 - Added explicit rules to Guardrails.md
@@ -99,5 +127,4 @@ Previous agent added harmful global CSS overrides (lines 757-841 in globals.css)
 5. Remove generic CSS overrides
 6. Follow "Never flood sections with cream" rule
 7. Use proper Bauhaus grid and component system
-
 

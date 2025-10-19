@@ -36,7 +36,7 @@ export default function GettingStartedPage() {
               1
             </div>
             <div className="flex-1">
-              <h2 className="bauhaus-heading text-2xl font-bold text-ink mb-3">
+              <h2 className="text-2xl font-bold text-ink mb-3">
                 Create Your Account
               </h2>
               <p className="text-ink mb-4">
@@ -70,14 +70,15 @@ export default function GettingStartedPage() {
               2
             </div>
             <div className="flex-1">
-              <h2 className="bauhaus-heading text-2xl font-bold text-ink mb-3">
+              <h2 className="text-2xl font-bold text-ink mb-3">
                 Choose Your Plan
               </h2>
               <p className="text-ink mb-4">
                 Select the subscription plan that works best for your business.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div className="border border-gray-200 rounded-lg p-4">
+                <div className="border border-gray-200 rounded-lg p-4 flex flex-col">
+                  <div className="h-6 mb-2"></div>
                   <h3 className="font-bold text-ink mb-2">Free</h3>
                   <p className="text-2xl font-bold text-ink mb-2">$0</p>
                   <ul className="text-sm text-ink space-y-1">
@@ -91,7 +92,8 @@ export default function GettingStartedPage() {
                     </li>
                   </ul>
                 </div>
-                <div className="border border-gray-200 rounded-lg p-4">
+                <div className="border border-gray-200 rounded-lg p-4 flex flex-col">
+                  <div className="h-6 mb-2"></div>
                   <h3 className="font-bold text-ink mb-2">Standard</h3>
                   <p className="text-2xl font-bold text-ink mb-2">
                     $25<span className="text-sm text-ink">/month</span>
@@ -111,9 +113,11 @@ export default function GettingStartedPage() {
                     </li>
                   </ul>
                 </div>
-                <div className="border-2 border-brand-orange rounded-lg p-4 bg-orange-50">
-                  <div className="inline-block bg-brand-orange text-white text-xs font-bold px-2 py-1 rounded mb-2">
-                    POPULAR
+                <div className="border-2 border-brand-orange rounded-lg p-4 bg-orange-50 flex flex-col">
+                  <div className="h-6 mb-2 flex items-center">
+                    <span className="inline-block bg-brand-orange text-white text-xs font-bold px-2 py-1 rounded">
+                      POPULAR
+                    </span>
                   </div>
                   <h3 className="font-bold text-ink mb-2">Pro</h3>
                   <p className="text-2xl font-bold text-ink mb-2">
@@ -152,7 +156,7 @@ export default function GettingStartedPage() {
               3
             </div>
             <div className="flex-1">
-              <h2 className="bauhaus-heading text-2xl font-bold text-ink mb-3">
+              <h2 className="text-2xl font-bold text-ink mb-3">
                 Complete Your Listing
               </h2>
               <p className="text-ink mb-4">
@@ -220,7 +224,7 @@ export default function GettingStartedPage() {
               4
             </div>
             <div className="flex-1">
-              <h2 className="bauhaus-heading text-2xl font-bold text-ink mb-3">
+              <h2 className="text-2xl font-bold text-ink mb-3">
                 Wait for Approval
               </h2>
               <p className="text-ink mb-4">
@@ -261,7 +265,7 @@ export default function GettingStartedPage() {
               5
             </div>
             <div className="flex-1">
-              <h2 className="bauhaus-heading text-2xl font-bold text-ink mb-3">
+              <h2 className="text-2xl font-bold text-ink mb-3">
                 Manage Your Listing
               </h2>
               <p className="text-ink mb-4">
@@ -320,9 +324,7 @@ export default function GettingStartedPage() {
             href="/help/image-guidelines"
             className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
           >
-            <h4 className="font-semibold text-ink mb-2">
-              Image Guidelines
-            </h4>
+            <h4 className="font-semibold text-ink mb-2">Image Guidelines</h4>
             <p className="text-sm text-ink">
               Learn the best practices for profile and gallery images
             </p>
@@ -331,9 +333,7 @@ export default function GettingStartedPage() {
             href="/help/pricing-plans"
             className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
           >
-            <h4 className="font-semibold text-ink mb-2">
-              Pricing & Plans
-            </h4>
+            <h4 className="font-semibold text-ink mb-2">Pricing & Plans</h4>
             <p className="text-sm text-ink">
               Compare plans and choose the right one for your business
             </p>

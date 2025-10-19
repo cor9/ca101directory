@@ -20,21 +20,37 @@ interface CategoryCopy {
   what_to_look_for: string;
 }
 
+// Cache the CSV data to avoid reading it multiple times
+let cachedCategoryData: CategoryCopy[] | null = null;
+
 // --- Load CSV data once ---
 function loadCategoryCopy(): CategoryCopy[] {
-  const filePath = path.join(process.cwd(), "public", "category_page_copy.csv");
-  const file = fs.readFileSync(filePath, "utf8");
-  const parsed = Papa.parse<CategoryCopy>(file, {
-    header: true,
-    skipEmptyLines: true,
-  });
-  return parsed.data;
+  // Return cached data if available
+  if (cachedCategoryData) {
+    return cachedCategoryData;
+  }
+
+  try {
+    const filePath = path.join(process.cwd(), "public", "category_page_copy.csv");
+    console.log("Loading category copy from:", filePath);
+    const file = fs.readFileSync(filePath, "utf8");
+    const parsed = Papa.parse<CategoryCopy>(file, {
+      header: true,
+      skipEmptyLines: true,
+    });
+    cachedCategoryData = parsed.data;
+    console.log("Loaded category copy data:", cachedCategoryData.length, "categories");
+    return cachedCategoryData;
+  } catch (error) {
+    console.error("Error loading category copy CSV:", error);
+    return [];
+  }
 }
 
 // --- Convert bullet strings into arrays ---
 function formatBullets(text: string): string[] {
   if (!text) return [];
-  
+
   return text
     .split("\n")
     .filter((line) => line.trim().length > 0)
@@ -114,7 +130,9 @@ export function CategoryContent({
 function getCategoryContent(categoryName: string, listingCount: number) {
   const categories = loadCategoryCopy();
   const match = categories.find(
-    (c) => c.category_name && c.category_name.toLowerCase() === categoryName.toLowerCase()
+    (c) =>
+      c.category_name &&
+      c.category_name.toLowerCase() === categoryName.toLowerCase(),
   );
 
   if (!match) return null;

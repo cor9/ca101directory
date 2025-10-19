@@ -4,9 +4,7 @@
  * Bauhaus theme with proper text contrast
  */
 
-import fs from "node:fs";
-import path from "node:path";
-import Papa from "papaparse";
+import { categoryCopyData } from "@/data/category-copy";
 
 interface CategoryContentProps {
   categoryName: string;
@@ -20,31 +18,9 @@ interface CategoryCopy {
   what_to_look_for: string;
 }
 
-// Cache the CSV data to avoid reading it multiple times
-let cachedCategoryData: CategoryCopy[] | null = null;
-
-// --- Load CSV data once ---
+// --- Load category copy data ---
 function loadCategoryCopy(): CategoryCopy[] {
-  // Return cached data if available
-  if (cachedCategoryData) {
-    return cachedCategoryData;
-  }
-
-  try {
-    const filePath = path.join(process.cwd(), "public", "category_page_copy.csv");
-    console.log("Loading category copy from:", filePath);
-    const file = fs.readFileSync(filePath, "utf8");
-    const parsed = Papa.parse<CategoryCopy>(file, {
-      header: true,
-      skipEmptyLines: true,
-    });
-    cachedCategoryData = parsed.data;
-    console.log("Loaded category copy data:", cachedCategoryData.length, "categories");
-    return cachedCategoryData;
-  } catch (error) {
-    console.error("Error loading category copy CSV:", error);
-    return [];
-  }
+  return categoryCopyData as CategoryCopy[];
 }
 
 // --- Convert bullet strings into arrays ---

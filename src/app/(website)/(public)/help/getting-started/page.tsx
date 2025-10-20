@@ -30,7 +30,7 @@ export default function GettingStartedPage() {
       {/* Step-by-Step Guide */}
       <div className="space-y-8">
         {/* Step 1 */}
-        <div className="bauhaus-card p-6 hover:border-brand-blue transition-colors">
+        <div className="bg-surface rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0 w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">
               1
@@ -43,7 +43,7 @@ export default function GettingStartedPage() {
                 Start by creating a vendor account. This gives you access to
                 submit listings and manage your profile.
               </p>
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+              <div className="bg-bauhaus-blue/20 rounded-lg p-4 mb-4">
                 <p className="text-sm text-charcoal mb-2">
                   <strong>Important:</strong> You'll receive a confirmation
                   email after signing up.
@@ -64,20 +64,20 @@ export default function GettingStartedPage() {
         </div>
 
         {/* Step 2 */}
-        <div className="bauhaus-card p-6 hover:border-brand-blue transition-colors">
+        <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0 w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">
               2
             </div>
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-charcoal mb-3">
+              <h2 className="text-2xl font-bold text-navy-900 mb-3">
                 Choose Your Plan
               </h2>
-              <p className="text-charcoal mb-4">
+              <p className="text-navy-900 mb-4">
                 Select the subscription plan that works best for your business.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div className="border border-gray-200 rounded-lg p-4 flex flex-col">
+                <div className="bg-surface/50 rounded-lg p-4 flex flex-col border-2 border-charcoal/10">
                   <div className="h-6 mb-2"></div>
                   <h3 className="font-bold text-charcoal mb-2">Free</h3>
                   <p className="text-2xl font-bold text-charcoal mb-2">$0</p>
@@ -92,7 +92,7 @@ export default function GettingStartedPage() {
                     </li>
                   </ul>
                 </div>
-                <div className="border border-gray-200 rounded-lg p-4 flex flex-col">
+                <div className="bg-surface/50 rounded-lg p-4 flex flex-col border-2 border-charcoal/10">
                   <div className="h-6 mb-2"></div>
                   <h3 className="font-bold text-charcoal mb-2">Standard</h3>
                   <p className="text-2xl font-bold text-charcoal mb-2">
@@ -113,17 +113,17 @@ export default function GettingStartedPage() {
                     </li>
                   </ul>
                 </div>
-                <div className="border-2 border-brand-orange rounded-lg p-4 bg-orange-50 flex flex-col">
+                <div className="bg-bauhaus-orange rounded-lg p-4 flex flex-col border-2 border-bauhaus-orange">
                   <div className="h-6 mb-2 flex items-center">
                     <span className="inline-block bg-brand-orange text-white text-xs font-bold px-2 py-1 rounded">
                       POPULAR
                     </span>
                   </div>
-                  <h3 className="font-bold text-charcoal mb-2">Pro</h3>
-                  <p className="text-2xl font-bold text-charcoal mb-2">
-                    $50<span className="text-sm text-charcoal">/month</span>
+                  <h3 className="font-bold text-cream mb-2">Pro</h3>
+                  <p className="text-2xl font-bold text-cream mb-2">
+                    $50<span className="text-sm text-cream">/month</span>
                   </p>
-                  <ul className="text-sm text-charcoal space-y-1">
+                  <ul className="text-sm text-cream space-y-1">
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                       <span>Profile + 4 gallery images</span>
@@ -150,7 +150,7 @@ export default function GettingStartedPage() {
         </div>
 
         {/* Step 3 */}
-        <div className="bauhaus-card p-6 hover:border-brand-blue transition-colors">
+        <div className="bg-bauhaus-mustard rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0 w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">
               3
@@ -218,7 +218,7 @@ export default function GettingStartedPage() {
         </div>
 
         {/* Step 4 */}
-        <div className="bauhaus-card p-6 hover:border-brand-blue transition-colors">
+        <div className="bg-surface rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0 w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">
               4
@@ -231,7 +231,7 @@ export default function GettingStartedPage() {
                 Our team reviews all new listings to ensure quality and
                 accuracy.
               </p>
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+              <div className="bg-bauhaus-mustard/20 rounded-lg p-4 mb-4">
                 <p className="text-sm text-charcoal mb-2">
                   <strong>Approval Process:</strong>
                 </p>
@@ -259,7 +259,7 @@ export default function GettingStartedPage() {
         </div>
 
         {/* Step 5 */}
-        <div className="bauhaus-card p-6 hover:border-brand-blue transition-colors">
+        <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0 w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">
               5
@@ -324,7 +324,9 @@ export default function GettingStartedPage() {
             href="/help/image-guidelines"
             className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
           >
-            <h4 className="font-semibold text-charcoal mb-2">Image Guidelines</h4>
+            <h4 className="font-semibold text-charcoal mb-2">
+              Image Guidelines
+            </h4>
             <p className="text-sm text-charcoal">
               Learn the best practices for profile and gallery images
             </p>
@@ -333,7 +335,9 @@ export default function GettingStartedPage() {
             href="/help/pricing-plans"
             className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
           >
-            <h4 className="font-semibold text-charcoal mb-2">Pricing & Plans</h4>
+            <h4 className="font-semibold text-charcoal mb-2">
+              Pricing & Plans
+            </h4>
             <p className="text-sm text-charcoal">
               Compare plans and choose the right one for your business
             </p>

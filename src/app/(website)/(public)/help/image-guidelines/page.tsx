@@ -79,7 +79,7 @@ export default function ImageGuidelinesPage() {
             your business, facility, team, or work samples.
           </p>
 
-          <div className="bg-surface rounded-lg p-6 shadow-lg my-6 shadow-sm">
+          <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg my-6 shadow-sm">
             <h3 className="text-xl font-semibold text-[#1E1F23] mt-0">
               Specifications:
             </h3>

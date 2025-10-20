@@ -273,14 +273,14 @@ export default function EditingListingPage() {
           Best Practices for Editing
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-surface border border-gray-200 rounded-lg p-4">
+          <div className="bg-bauhaus-blue border border-gray-200 rounded-lg p-4">
             <h3 className="font-bold text-[#1E1F23] mb-2">Keep It Updated</h3>
             <p className="text-sm text-[#1E1F23]">
               Review your listing monthly to ensure contact information,
               services, and pricing are current.
             </p>
           </div>
-          <div className="bg-surface border border-gray-200 rounded-lg p-4">
+          <div className="bg-bauhaus-orange border border-gray-200 rounded-lg p-4">
             <h3 className="font-bold text-[#1E1F23] mb-2">Use High-Quality Images</h3>
             <p className="text-sm text-[#1E1F23]">
               Professional photos make your listing stand out. Follow our image

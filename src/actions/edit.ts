@@ -1,6 +1,6 @@
 "use server";
 
-import { getItemById } from "@/data/item";
+import { createServerClient } from "@/lib/supabase";
 import { currentUser } from "@/lib/auth";
 import type { SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { sendNotifySubmissionEmail } from "@/lib/mail";
@@ -13,22 +13,6 @@ import {
 } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 
-// biome-ignore format: conditional type
-// biome-ignore lint/complexity/noBannedTypes: support item icon
-// type IconField = typeof SUPPORT_ITEM_ICON extends true ? { iconId: string } : {};
-
-// export type EditFormData = {
-//   id: string;
-//   name: string;
-//   link: string;
-//   description: string;
-//   introduction: string;
-//   tags: string[];
-//   categories: string[];
-//   imageId: string;
-//   pricePlan: string;
-//   planStatus: string;
-// } & IconField;
 
 type BaseEditFormData = {
   id: string;
@@ -65,7 +49,7 @@ export async function edit(
     }
     console.log("edit, user:", user);
 
-    // console.log("edit, data:", formData);
+    // Parse and validate the form data
     const {
       id,
       name,
@@ -82,78 +66,61 @@ export async function edit(
     const iconId = "iconId" in rest ? rest.iconId : undefined;
     console.log("edit, name:", name, "link:", link);
 
-    // check if the user is the submitter of the item
-    const item = await getItemById(id);
-    if (!item) {
+    const supabase = createServerClient();
+
+    // Check if the user owns this listing
+    const { data: listing, error: fetchError } = await supabase
+      .from("listings")
+      .select("owner_id, status")
+      .eq("id", id)
+      .single();
+
+    if (fetchError || !listing) {
       return { status: "error", message: "Item not found!" };
     }
-    if (item.submitter._ref !== user.id) {
+
+    if (listing.owner_id !== user.id) {
       return { status: "error", message: "You are not allowed to do this!" };
     }
 
-    const slug = slugify(name);
-    const data = {
-      _id: id,
-      _type: "item",
-      name,
-      slug: {
-        _type: "slug",
-        current: slug,
-      },
-      link,
-      description,
-      introduction,
-
+    // Prepare update data for Supabase
+    const updateData = {
+      listing_name: name,
+      website: link,
+      what_you_offer: description,
+      who_is_it_for: introduction,
+      profile_image: imageId,
+      tags: tags || [],
+      categories: categories || [],
+      plan: pricePlan,
       // Free plan: update item leads to be unpublished and reviewed again
       // remain submitted if the plan status is submitted, otherwise set to pending
       ...(pricePlan === PricePlans.FREE && {
-        publishDate: null,
-        freePlanStatus:
-          planStatus === FreePlanStatus.SUBMITTING
-            ? FreePlanStatus.SUBMITTING
-            : FreePlanStatus.PENDING,
+        status: planStatus === FreePlanStatus.SUBMITTING
+          ? "Pending"
+          : "Pending",
       }),
-
-      // The _key only needs to be unique within the array itself, use index as the _key
-      tags: tags.map((tag, index) => ({
-        _type: "reference",
-        _ref: tag,
-        _key: index.toString(),
-      })),
-      categories: categories.map((category, index) => ({
-        _type: "reference",
-        _ref: category,
-        _key: index.toString(),
-      })),
-      image: {
-        _type: "image",
-        alt: `image of ${name}`,
-        asset: {
-          _type: "reference",
-          _ref: imageId,
-        },
-      },
-      icon: iconId
-        ? {
-            _type: "image",
-            alt: `icon of ${name}`,
-            asset: {
-              _type: "reference",
-              _ref: iconId,
-            },
-          }
-        : undefined,
+      updated_at: new Date().toISOString(),
     };
 
-    // console.log("edit, data:", data);
-    const res = await sanityClient.patch(id).set(data).commit();
-    if (!res) {
-      console.log("edit, fail");
+    console.log("edit, updating data:", updateData);
+
+    // Update the listing in Supabase
+    const { data: res, error: updateError } = await supabase
+      .from("listings")
+      .update(updateData)
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (updateError || !res) {
+      console.log("edit, fail:", updateError);
       return { status: "error", message: "Failed to update item" };
     }
-    // console.log("edit, success, res:", res);
 
-    // send notify email to admin and user
+    console.log("edit, success, res:", res);
+
+    // Send notify email to admin and user for free plan updates
     if (pricePlan === PricePlans.FREE) {
       const statusLink = getItemStatusLinkInWebsite(id);
       const reviewLink = getItemLinkInStudio(id);
@@ -166,15 +133,9 @@ export async function edit(
       );
     }
 
-    // Next.js has a Client-side Router Cache that stores the route segments in the user's browser for a time.
-    // Along with prefetching, this cache ensures that users can quickly navigate between routes
-    // while reducing the number of requests made to the server.
-    // Since you're updating the data displayed in the invoices route, you want to clear this cache and trigger a new request to the server.
-    // You can do this with the revalidatePath function from Next.js.
-
-    // redirect to the updated item, but not working, still showing the old item
+    // Revalidate paths to show updated data
     revalidatePath(`/edit/${id}`);
-    revalidatePath(`/item/${slug}`);
+    revalidatePath(`/item/${slugify(name)}`);
     return { status: "success", message: "Successfully updated item" };
   } catch (error) {
     console.log("edit, error", error);

@@ -1,10 +1,11 @@
 "use server";
 
-import { getItemById } from "@/data/item";
+import { createServerClient } from "@/lib/supabase";
 import { currentUser } from "@/lib/auth";
 import { sendNotifySubmissionEmail } from "@/lib/mail";
 import { FreePlanStatus, PricePlans } from "@/lib/submission";
 import { getItemLinkInStudio, getItemStatusLinkInWebsite } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
 
 export type ServerActionResponse = {
   status: "success" | "error";
@@ -20,43 +21,57 @@ export const submitToReview = async (
     if (!user) {
       return { status: "error", message: "Unauthorized" };
     }
-    // console.log("submitToReview, user:", user);
 
-    const item = await getItemById(itemId);
-    if (!item) {
+    const supabase = createServerClient();
+
+    // Check if the user owns this listing
+    const { data: listing, error: fetchError } = await supabase
+      .from("listings")
+      .select("owner_id, status, plan")
+      .eq("id", itemId)
+      .single();
+
+    if (fetchError || !listing) {
       return { status: "error", message: "Item not found!" };
     }
-    if (item.submitter._ref !== user.id) {
+
+    if (listing.owner_id !== user.id) {
       return { status: "error", message: "You are not allowed to do this!" };
     }
-    if (
-      item.pricePlan !== PricePlans.FREE ||
-      item.freePlanStatus !== FreePlanStatus.SUBMITTING
-    ) {
+
+    if (listing.plan !== PricePlans.FREE || listing.status !== "Draft") {
       return { status: "error", message: "Item is not in right plan status!" };
     }
 
-    const result = await sanityClient
-      .patch(itemId)
-      .set({
-        pricePlan: PricePlans.FREE,
-        freePlanStatus: FreePlanStatus.PENDING,
+    // Update the listing status to Pending for review
+    const { data: result, error: updateError } = await supabase
+      .from("listings")
+      .update({
+        status: "Pending",
+        updated_at: new Date().toISOString(),
       })
-      .commit();
-    // console.log('submitToReview, result:', result);
-    if (!result) {
+      .eq("id", itemId)
+      .select()
+      .single();
+
+    if (updateError || !result) {
       return { status: "error", message: "Failed to submit item to review!" };
     }
 
+    // Send notification email
     const statusLink = getItemStatusLinkInWebsite(itemId);
     const reviewLink = getItemLinkInStudio(itemId);
     sendNotifySubmissionEmail(
       user.name || user.email || "User",
       user.email,
-      result.name,
+      result.listing_name,
       statusLink,
       reviewLink,
     );
+
+    // Revalidate paths to show updated data
+    revalidatePath("/dashboard");
+    revalidatePath(`/item/${itemId}`);
 
     return { status: "success", message: "Item submitted to review!" };
   } catch (error) {

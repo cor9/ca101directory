@@ -144,7 +144,7 @@ Project was built from a template that included Sanity CMS files, but the projec
 
 1. **Added Sanity files to `.gitignore`**:
    - `sanity.types.ts`
-   - `sanity.cli.ts` 
+   - `sanity.cli.ts`
    - `sanity.config.ts`
    - `sanity-typegen.json`
    - `src/sanity/` directory

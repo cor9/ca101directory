@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchWebsite } from "@/actions/fetch-website";
+// import { fetchWebsite } from "@/actions/fetch-website"; // Disabled - Sanity CMS removed
 import { type SubmitFormData, submit } from "@/actions/submit";
 import { Icons } from "@/components/icons/icons";
 import CustomMde from "@/components/shared/custom-mde";
@@ -153,70 +153,9 @@ export function SubmitForm({ tagList, categoryList }: SubmitFormProps) {
   };
 
   const handleAIFetch = async () => {
-    const link = form.getValues("link");
-    if (!link) {
-      toast.error("Please enter a valid website URL first");
-      setDialogOpen(false);
-      return;
-    }
-
-    setIsAIProcessing(true);
-    try {
-      const response = await fetchWebsite(link);
-      console.log("SubmitForm, handleAIFetch, response:", response);
-      if (response.status === "error") {
-        toast.error(response.message);
-        setDialogOpen(false);
-        return;
-      }
-
-      const data = response.data;
-      if (data.name) {
-        form.setValue("name", data.name);
-      }
-      if (data.description) {
-        form.setValue("description", data.description);
-      }
-      if (data.introduction) {
-        form.setValue("introduction", data.introduction);
-      }
-
-      // convert categories and tags to array of ids from categoryList and tagList
-      if (data.categories) {
-        form.setValue(
-          "categories",
-          data.categories.map(
-            (category) => categoryList.find((c) => c.name === category)?._id,
-          ),
-        );
-      }
-      if (data.tags) {
-        form.setValue(
-          "tags",
-          data.tags.map((tag) => tagList.find((t) => t.name === tag)?._id),
-        );
-      }
-
-      // notify ImageUpload component to show the image
-      if (data.imageId) {
-        form.setValue("imageId", data.imageId);
-        setImageUrl(data.image);
-      }
-
-      // notify ImageUpload component to show the icon
-      if (SUPPORT_ITEM_ICON && data.iconId) {
-        form.setValue("iconId" as keyof SubmitFormData, data.iconId);
-        setIconUrl(data.icon);
-      }
-
-      toast.success("AI fetch website info completed!");
-    } catch (error) {
-      console.error("SubmitForm, handleAIFetch, error:", error);
-      toast.error("Failed to fetch website info");
-    } finally {
-      setIsAIProcessing(false);
-      setDialogOpen(false);
-    }
+    // AI fetch functionality disabled - Sanity CMS removed
+    toast.error("AI fetch functionality is currently disabled");
+    setDialogOpen(false);
   };
 
   return (

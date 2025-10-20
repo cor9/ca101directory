@@ -47,16 +47,19 @@ export default async function PricingPage() {
               </h1>
               <p className="bauhaus-body text-xl text-paper max-w-3xl mx-auto">
                 Choose the perfect plan for your child actor services. All plans
-                include our quality review process and trusted directory listing.
+                include our quality review process and trusted directory
+                listing.
               </p>
             </div>
 
             {/* Free Plan Card - Custom (not Stripe) */}
             <div className="max-w-md mx-auto mb-8">
               <div className="bauhaus-card bg-surface border-2 border-secondary-denim rounded-lg p-8 text-center shadow-lg">
-                <h2 className="bauhaus-heading text-2xl font-bold text-ink mb-2">Free Plan</h2>
+                <h2 className="bauhaus-heading text-2xl font-bold mb-2">
+                  Free Plan
+                </h2>
                 <div className="mb-4">
-                  <span className="text-4xl font-bold text-ink">$0</span>
+                  <span className="text-4xl font-bold">$0</span>
                   <span className="bauhaus-body text-surface">/forever</span>
                 </div>
                 <p className="bauhaus-body text-sm text-surface mb-6">

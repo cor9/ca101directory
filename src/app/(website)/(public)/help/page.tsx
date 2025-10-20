@@ -101,7 +101,7 @@ export default function HelpCenterPage() {
             >
               <topic.icon className="w-6 h-6" />
             </div>
-            <h2 className="bauhaus-heading text-xl font-bold text-ink mb-2 group-hover:text-bauhaus-blue transition-colors">
+            <h2 className="bauhaus-heading text-xl font-bold mb-2 group-hover:text-bauhaus-blue transition-colors">
               {topic.title}
             </h2>
             <p className="bauhaus-body text-surface text-sm">

@@ -395,7 +395,7 @@
   }
 
   .listing-card-blue {
-    background: #7ab8cc; /* robin egg blue */
+    background: #2e77b8; /* logo blue */
     color: #0c1a2b; /* navy text */
     border-radius: 12px;
     padding: 2rem;
@@ -406,7 +406,7 @@
 
   .listing-card-transparent {
     background: transparent;
-    border: 2px solid #7ab8cc;
+    border: 2px solid #2e77b8;
     border-radius: 12px;
     padding: 2rem;
     margin-bottom: 1.5rem;

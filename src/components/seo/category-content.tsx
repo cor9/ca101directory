@@ -61,15 +61,12 @@ export function CategoryContent({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Why You Need This Section - Robin Egg Blue */}
         <div className="listing-card-blue p-6">
-          <h2 className="bauhaus-heading text-xl mb-3 text-ink">
+          <h2 className="bauhaus-heading text-xl mb-3">
             Why You Need {categoryName}
           </h2>
           <ul className="space-y-2">
             {content.whyYouNeed.map((item) => (
-              <li
-                key={item}
-                className="flex items-start gap-2 text-ink text-sm"
-              >
+              <li key={item} className="flex items-start gap-2 text-sm">
                 <span className="text-primary-orange text-lg mt-0.5 flex-shrink-0">
                   ✓
                 </span>

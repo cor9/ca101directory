@@ -231,7 +231,7 @@ export default async function AdminListingsPage({
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-2">
-                        <h3 className="font-semibold text-paper truncate">
+                        <h3 className="font-semibold text-ink truncate">
                           {listing.listing_name || "Untitled Listing"}
                         </h3>
                         <div className="flex items-center gap-2">
@@ -240,7 +240,7 @@ export default async function AdminListingsPage({
                             // Determine badge text and styling
                             let badgeText = "Free";
                             let badgeClassName =
-                              "text-xs bg-gray-100 text-paper";
+                              "text-xs bg-gray-100 text-ink";
 
                             if (listing.comped) {
                               badgeText = "Pro";
@@ -253,7 +253,7 @@ export default async function AdminListingsPage({
                             } else if (listing.plan === "Standard") {
                               badgeText = "Standard";
                               badgeClassName =
-                                "text-xs bg-gray-100 text-paper";
+                                "text-xs bg-gray-100 text-ink";
                             } else if (listing.plan === "Premium") {
                               badgeText = "Featured";
                               badgeClassName =

@@ -59,7 +59,7 @@ export default async function AdminReviewsPage() {
             <CardContent className="flex flex-col items-center justify-center py-12">
               <CheckCircle className="h-12 w-12 text-green-500 mb-4" />
               <h3 className="text-lg font-semibold mb-2">All caught up!</h3>
-              <p className="text-paper text-center">
+              <p className="text-ink text-center">
                 There are no pending reviews to moderate at this time.
               </p>
             </CardContent>

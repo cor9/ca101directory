@@ -127,10 +127,10 @@ export default async function UserSubmissionsPage() {
           <Card>
             <CardContent className="text-center py-12">
               <div className="mb-4">
-                <Calendar className="h-12 w-12 text-paper mx-auto" />
+                <Calendar className="h-12 w-12 text-ink mx-auto" />
               </div>
               <h3 className="text-lg font-semibold mb-2">No submissions yet</h3>
-              <p className="text-paper mb-4">
+              <p className="text-ink mb-4">
                 You haven't submitted any listings yet. Get started by
                 submitting your first listing.
               </p>
@@ -169,16 +169,16 @@ export default async function UserSubmissionsPage() {
                 <CardContent>
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-sm text-paper">
+                      <div className="flex items-center gap-2 text-sm text-ink">
                         <Calendar className="h-4 w-4" />
                         Submitted:{" "}
                         {new Date(submission.submittedAt).toLocaleDateString()}
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-paper">
+                      <div className="flex items-center gap-2 text-sm text-ink">
                         <MapPin className="h-4 w-4" />
                         {submission.location}
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-paper">
+                      <div className="flex items-center gap-2 text-sm text-ink">
                         <Globe className="h-4 w-4" />
                         <a
                           href={submission.website}

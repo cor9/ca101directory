@@ -105,7 +105,7 @@
 @layer utilities {
   /* Production-ready color system utilities */
   .text-paper {
-    color: #fafaf4;
+    color: #1f2327;
   }
   .text-ink {
     color: #f7fafc;

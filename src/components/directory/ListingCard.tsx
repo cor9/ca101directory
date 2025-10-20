@@ -66,15 +66,6 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
   const resolvedSrc = profileRef
     ? getListingImageUrl(profileRef)
     : imageProps?.src || categoryIconUrl;
-  const planLabel =
-    item.pricePlan ||
-    (item.proPlanStatus
-      ? "Pro"
-      : item.freePlanStatus
-        ? "Free"
-        : item.paid
-          ? "Pro"
-          : "Free");
   const approved = Array.isArray(item.tags)
     ? item.tags.some(
         (t) =>
@@ -98,16 +89,13 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
       </div>
 
       <div className="p-5 space-y-3">
-        <div className="flex items-center gap-2">
-          <span className="rounded-full bg-[color:var(--mustard)]/20 text-[color:var(--cream-ink)] text-xs font-semibold px-2 py-1">
-            {planLabel}
-          </span>
-          {approved && (
+        {approved && (
+          <div className="flex items-center gap-2">
             <span className="rounded-full bg-[color:var(--success)]/18 text-[color:var(--success)] text-xs font-semibold px-2 py-1">
               101 Approved
             </span>
-          )}
-        </div>
+          </div>
+        )}
 
         <h3 className="text-lg md:text-xl font-bold line-clamp-2">
           {item.name}

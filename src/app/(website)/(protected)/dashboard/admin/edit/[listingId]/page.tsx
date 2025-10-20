@@ -43,7 +43,7 @@ export default async function AdminEditPage({ params }: AdminEditPageProps) {
         <div className="space-y-6">
           <div>
             <h1 className="text-2xl font-bold">Edit Listing</h1>
-            <p className="text-gray-900">
+            <p className="text-paper">
               Edit details for: {listing.listing_name}
             </p>
           </div>

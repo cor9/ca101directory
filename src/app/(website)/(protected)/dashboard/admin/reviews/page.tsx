@@ -44,7 +44,7 @@ export default async function AdminReviewsPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Review Moderation</h1>
-            <p className="text-gray-900">
+            <p className="text-paper">
               Review and moderate user-submitted reviews
             </p>
           </div>
@@ -59,7 +59,7 @@ export default async function AdminReviewsPage() {
             <CardContent className="flex flex-col items-center justify-center py-12">
               <CheckCircle className="h-12 w-12 text-green-500 mb-4" />
               <h3 className="text-lg font-semibold mb-2">All caught up!</h3>
-              <p className="text-gray-900 text-center">
+              <p className="text-paper text-center">
                 There are no pending reviews to moderate at this time.
               </p>
             </CardContent>
@@ -82,12 +82,12 @@ export default async function AdminReviewsPage() {
                               className={`h-4 w-4 ${
                                 star <= review.stars
                                   ? "text-yellow-400 fill-current"
-                                  : "text-gray-900"
+                                  : "text-paper"
                               }`}
                             />
                           ))}
                         </div>
-                        <span className="text-sm text-gray-900">
+                        <span className="text-sm text-paper">
                           by{" "}
                           {review.user?.name ||
                             review.user?.email ||
@@ -110,13 +110,13 @@ export default async function AdminReviewsPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                       <div>
                         <span className="font-medium">Submitted:</span>
-                        <span className="ml-2 text-gray-900">
+                        <span className="ml-2 text-paper">
                           {new Date(review.created_at).toLocaleString()}
                         </span>
                       </div>
                       <div>
                         <span className="font-medium">Listing ID:</span>
-                        <span className="ml-2 text-gray-900 font-mono">
+                        <span className="ml-2 text-paper font-mono">
                           {review.listing_id}
                         </span>
                       </div>

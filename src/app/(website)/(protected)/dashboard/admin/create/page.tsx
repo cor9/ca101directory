@@ -16,10 +16,10 @@ export default function CreateListingPage() {
       <AdminDashboardLayout>
         <div className="space-y-6">
           <div className="bg-card rounded-lg p-6 border">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl font-bold text-paper mb-2">
               Create New Listing
             </h1>
-            <p className="text-gray-900">
+            <p className="text-paper">
               Fill out the form below to add a new business to the directory.
               You can set the initial status and core details.
             </p>

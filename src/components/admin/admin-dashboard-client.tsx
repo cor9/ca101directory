@@ -86,25 +86,25 @@ export const AdminDashboardClient = ({
         <div className="grid gap-4 md:grid-cols-4">
           <div className="bg-card rounded-lg p-4 border">
             <div className="text-2xl font-bold text-primary">0</div>
-            <div className="text-sm text-card-foreground">Total Users</div>
+            <div className="text-sm text-paper">Total Users</div>
           </div>
           <div className="bg-card rounded-lg p-4 border">
             <div className="text-2xl font-bold text-primary">
               {liveListings.length}
             </div>
-            <div className="text-sm text-card-foreground">Active Listings</div>
+            <div className="text-sm text-paper">Active Listings</div>
           </div>
           <div className="bg-card rounded-lg p-4 border">
             <div className="text-2xl font-bold text-primary">
               {pendingListings.length}
             </div>
-            <div className="text-sm text-card-foreground">
+            <div className="text-sm text-paper">
               Pending Listings
             </div>
           </div>
           <div className="bg-card rounded-lg p-4 border">
             <div className="text-2xl font-bold text-primary">0</div>
-            <div className="text-sm text-card-foreground">Pending Reviews</div>
+            <div className="text-sm text-paper">Pending Reviews</div>
           </div>
         </div>
 
@@ -114,7 +114,7 @@ export const AdminDashboardClient = ({
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <h3 className="font-medium">Listing Moderation</h3>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-paper">
                 {pendingListings.length} listings pending approval
               </div>
               <div className="flex gap-2">
@@ -128,7 +128,7 @@ export const AdminDashboardClient = ({
             </div>
             <div className="space-y-2">
               <h3 className="font-medium">Badge Applications</h3>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-paper">
                 Review 101 Approved badge applications
               </div>
               <div className="flex gap-2">
@@ -149,7 +149,7 @@ export const AdminDashboardClient = ({
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <h3 className="font-medium">Content Management</h3>
-              <ul className="text-sm text-muted-foreground space-y-1">
+              <ul className="text-sm text-paper space-y-1">
                 <li>
                   •{" "}
                   <a
@@ -190,7 +190,7 @@ export const AdminDashboardClient = ({
             </div>
             <div className="space-y-2">
               <h3 className="font-medium">Platform Management</h3>
-              <ul className="text-sm text-muted-foreground space-y-1">
+              <ul className="text-sm text-paper space-y-1">
                 <li>
                   •{" "}
                   <a

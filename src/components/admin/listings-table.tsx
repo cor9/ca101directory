@@ -65,7 +65,7 @@ export const ListingsTable = ({
 
   const getSortIcon = (key: SortableKeys) => {
     if (sortConfig.key !== key)
-      return <ArrowUpDown className="ml-2 h-4 w-4 text-muted-foreground" />;
+      return <ArrowUpDown className="ml-2 h-4 w-4 text-paper" />;
     return sortConfig.direction === "ascending" ? (
       <ArrowUp className="ml-2 h-4 w-4" />
     ) : (
@@ -152,7 +152,7 @@ export const ListingsTable = ({
             <tr>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-paper uppercase tracking-wider"
               >
                 <button
                   onClick={() => requestSort("listing_name")}
@@ -164,7 +164,7 @@ export const ListingsTable = ({
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-paper uppercase tracking-wider"
               >
                 <button
                   onClick={() => requestSort("status")}
@@ -176,7 +176,7 @@ export const ListingsTable = ({
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-paper uppercase tracking-wider"
               >
                 <button
                   onClick={() => requestSort("is_claimed")}
@@ -188,7 +188,7 @@ export const ListingsTable = ({
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-paper uppercase tracking-wider"
               >
                 <button
                   onClick={() => requestSort("created_at")}
@@ -200,7 +200,7 @@ export const ListingsTable = ({
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-paper uppercase tracking-wider"
               >
                 Actions
               </th>
@@ -209,16 +209,16 @@ export const ListingsTable = ({
           <tbody className="bg-card divide-y divide-border">
             {sortedAndFilteredListings.map((listing) => (
               <tr key={listing.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-card-foreground">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-paper">
                   {listing.listing_name}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-card-foreground">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-paper">
                   {getStatusBadge(listing.status)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-card-foreground">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-paper">
                   {listing.is_claimed ? "Yes" : "No"}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-card-foreground">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-paper">
                   {listing.created_at
                     ? new Date(listing.created_at).toLocaleDateString()
                     : "N/A"}
@@ -240,7 +240,7 @@ export const ListingsTable = ({
         </table>
       </div>
       {sortedAndFilteredListings.length === 0 && (
-        <div className="text-center py-8 text-muted-foreground">
+        <div className="text-center py-8 text-paper">
           No listings match the current filters.
         </div>
       )}

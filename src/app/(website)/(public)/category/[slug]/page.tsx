@@ -164,8 +164,8 @@ export default async function CategoryPage({
       <div className="container max-w-7xl mx-auto px-4 py-8">
         {/* Category header - Bauhaus theme with proper contrast */}
         <div className="mb-8">
-          <h1 className="bauhaus-heading text-4xl text-paper mb-4">{categoryName}</h1>
-          <p className="bauhaus-body text-xl text-paper">
+          <h1 className="bauhaus-heading text-4xl text-surface mb-4">{categoryName}</h1>
+          <p className="bauhaus-body text-xl text-surface">
             Find {categoryName.toLowerCase()} professionals for your child's
             acting career
           </p>

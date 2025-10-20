@@ -72,7 +72,7 @@ export async function generateMetadata({
       (listing) =>
         listing.categories?.includes(category.category_name) &&
         listing.status === "Live" &&
-        listing.is_active
+        listing.is_active,
     );
     const count = categoryListings.length;
 
@@ -163,9 +163,11 @@ export default async function CategoryPage({
     return (
       <div className="container max-w-7xl mx-auto px-4 py-8">
         {/* Category header - Bauhaus theme with proper contrast */}
-        <div className="mb-8">
-          <h1 className="bauhaus-heading text-4xl text-surface mb-4">{categoryName}</h1>
-          <p className="bauhaus-body text-xl text-surface">
+        <div className="bauhaus-card p-6 mb-4">
+          <h1 className="bauhaus-heading text-4xl mb-8 text-paper">
+            {categoryName}
+          </h1>
+          <p className="bauhaus-body text-xl text-paper">
             Find {categoryName.toLowerCase()} professionals for your child's
             acting career
           </p>

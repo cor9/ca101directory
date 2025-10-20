@@ -61,7 +61,7 @@ const config = {
         bg2: "#142B3B",
         surface: "#FFFDD0",
         paper: "#FAFAF4",
-        ink: "#0F1113",
+        ink: "#F7FAFC",
         text: "#1F2327",
         "primary-orange": "#E4572E",
         "primary-orange-600": "#CC4E2A",

@@ -24,7 +24,7 @@ export default function TroubleshootingPage() {
         Back to Help Center
       </Link>
 
-      <h1 className="bauhaus-heading text-4xl font-bold text-paper mb-6">
+      <h1 className="text-4xl font-bold text-paper mb-6">
         Troubleshooting
       </h1>
       <p className="text-xl text-paper mb-12">
@@ -452,8 +452,8 @@ export default function TroubleshootingPage() {
       </div>
 
       {/* Quick Fixes Section */}
-      <div className="mt-12 bg-green-50 border-2 border-green-500 rounded-lg p-6">
-        <h2 className="bauhaus-heading text-2xl font-bold text-[#1E1F23] mb-4 flex items-center gap-2">
+      <div className="mt-12 bg-bauhaus-mustard/20 border-2 border-green-500 rounded-lg p-6">
+        <h2 className="text-2xl font-bold text-[#1E1F23] mb-4 flex items-center gap-2">
           <RefreshCw className="w-6 h-6 text-[#1E1F23]" />
           Quick Fixes to Try First
         </h2>

@@ -19,7 +19,7 @@ export default function FAQPage() {
         Back to Help Center
       </Link>
 
-      <h1 className="bauhaus-heading text-4xl font-bold text-paper mb-6">
+      <h1 className="text-4xl font-bold text-paper mb-6">
         Frequently Asked Questions
       </h1>
       <p className="bauhaus-body text-xl text-paper mb-12">
@@ -28,12 +28,12 @@ export default function FAQPage() {
 
       {/* General Questions */}
       <div className="mb-12">
-        <h2 className="bauhaus-heading text-2xl font-bold text-bauhaus-blue mb-6">
+        <h2 className="text-2xl font-bold text-bauhaus-blue mb-6">
           General Questions
         </h2>
         <div className="space-y-4">
           <div className="bg-surface border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               What is Child Actor 101 Directory?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -45,7 +45,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-bauhaus-blue border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               Who can list on the directory?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -57,7 +57,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-bauhaus-orange border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               Is the directory only for child actors?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -70,12 +70,12 @@ export default function FAQPage() {
 
       {/* Account & Registration */}
       <div className="mb-12">
-        <h2 className="bauhaus-heading text-2xl font-bold text-bauhaus-blue mb-6">
+        <h2 className="text-2xl font-bold text-bauhaus-blue mb-6">
           Account & Registration
         </h2>
         <div className="space-y-4">
           <div className="bg-bauhaus-mustard border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               How do I create an account?
             </h3>
             <p className="bauhaus-body text-surface mb-2">
@@ -92,7 +92,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-surface border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               I didn't receive my confirmation email. What should I do?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -103,7 +103,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-bauhaus-blue border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               What's the difference between Vendor and Parent accounts?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -115,7 +115,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-bauhaus-orange border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               Can I change my password?
             </h3>
             <p className="bauhaus-body text-surface mb-2">
@@ -134,12 +134,12 @@ export default function FAQPage() {
 
       {/* Listings & Submission */}
       <div className="mb-12">
-        <h2 className="bauhaus-heading text-2xl font-bold text-bauhaus-blue mb-6">
+        <h2 className="text-2xl font-bold text-bauhaus-blue mb-6">
           Listings & Submission
         </h2>
         <div className="space-y-4">
           <div className="bg-bauhaus-mustard border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               How do I submit a new listing?
             </h3>
             <p className="bauhaus-body text-surface mb-2">
@@ -156,7 +156,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-surface border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               How long does it take for my listing to go live?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -167,7 +167,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-bauhaus-blue border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               My business is already listed. How do I claim it?
             </h3>
             <p className="bauhaus-body text-surface mb-2">
@@ -183,7 +183,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-bauhaus-orange border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               Can I edit my listing after it's published?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -194,7 +194,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-bauhaus-mustard border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               Can I have multiple listings?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -208,12 +208,12 @@ export default function FAQPage() {
 
       {/* Pricing & Plans */}
       <div className="mb-12">
-        <h2 className="bauhaus-heading text-2xl font-bold text-bauhaus-blue mb-6">
+        <h2 className="text-2xl font-bold text-bauhaus-blue mb-6">
           Pricing & Plans
         </h2>
         <div className="space-y-4">
           <div className="bg-surface border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               What plans are available?
             </h3>
             <p className="bauhaus-body text-surface mb-2">
@@ -229,7 +229,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-bauhaus-blue border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               Can I upgrade or downgrade my plan?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -240,7 +240,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-bauhaus-orange border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               Do you offer refunds?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -250,7 +250,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-bauhaus-mustard border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               What payment methods do you accept?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -260,7 +260,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-surface border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               Can I cancel my subscription?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -274,12 +274,12 @@ export default function FAQPage() {
 
       {/* Images & Media */}
       <div className="mb-12">
-        <h2 className="bauhaus-heading text-2xl font-bold text-bauhaus-blue mb-6">
+        <h2 className="text-2xl font-bold text-bauhaus-blue mb-6">
           Images & Media
         </h2>
         <div className="space-y-4">
           <div className="bg-bauhaus-blue border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               What image sizes do you recommend?
             </h3>
             <p className="bauhaus-body text-surface mb-2">
@@ -298,7 +298,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-bauhaus-orange border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               What image formats are supported?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -308,7 +308,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-bauhaus-mustard border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               How many images can I upload?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -324,12 +324,12 @@ export default function FAQPage() {
 
       {/* Technical Support */}
       <div className="mb-12">
-        <h2 className="bauhaus-heading text-2xl font-bold text-bauhaus-blue mb-6">
+        <h2 className="text-2xl font-bold text-bauhaus-blue mb-6">
           Technical Support
         </h2>
         <div className="space-y-4">
           <div className="bg-surface border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               I'm having trouble uploading images. What should I do?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -340,7 +340,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-bauhaus-blue border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               My listing isn't appearing in search results. Why?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -351,7 +351,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-bauhaus-orange border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               How do I delete my listing?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -362,7 +362,7 @@ export default function FAQPage() {
           </div>
 
           <div className="bg-bauhaus-mustard border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
-            <h3 className="bauhaus-heading font-bold text-[#1E1F23] mb-2 text-lg">
+            <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               I found incorrect information on my listing. How do I fix it?
             </h3>
             <p className="bauhaus-body text-surface">
@@ -379,7 +379,7 @@ export default function FAQPage() {
         <div className="inline-flex p-4 bg-bauhaus-blue/20 rounded-full mb-4">
           <Mail className="w-8 h-8" />
         </div>
-        <h2 className="bauhaus-heading text-2xl font-bold mb-3">Can't Find Your Answer?</h2>
+        <h2 className="text-2xl font-bold mb-3">Can't Find Your Answer?</h2>
         <p className="bauhaus-body text-lg mb-6 opacity-90">
           Our support team is here to help you with any questions.
         </p>
@@ -393,15 +393,15 @@ export default function FAQPage() {
 
       {/* Browse Help Articles */}
       <div className="mt-12">
-        <h3 className="text-xl font-bold text-[#1E1F23] mb-4">
+        <h3 className="text-xl font-bold text-paper mb-4">
           Browse Help Articles
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link
             href="/help/getting-started"
-            className="bauhaus-card bg-surface border border-secondary-denim/20 rounded-lg p-4 hover:border-bauhaus-blue transition-colors"
+            className="bg-surface border border-secondary-denim/20 rounded-lg p-4 hover:border-bauhaus-blue transition-colors"
           >
-            <h4 className="bauhaus-heading font-semibold text-[#1E1F23] mb-2">
+            <h4 className="font-semibold text-[#1E1F23] mb-2">
               Getting Started
             </h4>
             <p className="bauhaus-body text-sm text-surface">
@@ -410,18 +410,18 @@ export default function FAQPage() {
           </Link>
           <Link
             href="/help/claim-listing"
-            className="bauhaus-card bg-surface border border-secondary-denim/20 rounded-lg p-4 hover:border-bauhaus-blue transition-colors"
+            className="bg-surface border border-secondary-denim/20 rounded-lg p-4 hover:border-bauhaus-blue transition-colors"
           >
-            <h4 className="bauhaus-heading font-semibold text-[#1E1F23] mb-2">Claim Listing</h4>
+            <h4 className="font-semibold text-[#1E1F23] mb-2">Claim Listing</h4>
             <p className="bauhaus-body text-sm text-surface">
               Take control of your existing listing
             </p>
           </Link>
           <Link
             href="/help/pricing-plans"
-            className="bauhaus-card bg-surface border border-secondary-denim/20 rounded-lg p-4 hover:border-bauhaus-blue transition-colors"
+            className="bg-surface border border-secondary-denim/20 rounded-lg p-4 hover:border-bauhaus-blue transition-colors"
           >
-            <h4 className="bauhaus-heading font-semibold text-[#1E1F23] mb-2">
+            <h4 className="font-semibold text-[#1E1F23] mb-2">
               Pricing & Plans
             </h4>
             <p className="bauhaus-body text-sm text-surface">Compare all available plans</p>

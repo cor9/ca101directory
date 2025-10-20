@@ -25,7 +25,7 @@ export default function EditingListingPage() {
         Back to Help Center
       </Link>
 
-      <h1 className="bauhaus-heading text-4xl font-bold text-paper mb-6">
+      <h1 className="text-4xl font-bold text-paper mb-6">
         Editing Your Listing
       </h1>
       <p className="text-xl text-paper mb-8">
@@ -34,8 +34,8 @@ export default function EditingListingPage() {
       </p>
 
       {/* How to Access Editor */}
-      <div className="bg-blue-50 border-l-4 border-brand-blue rounded-lg p-6 mb-8">
-        <h2 className="bauhaus-heading text-2xl font-bold text-[#1E1F23] mb-4">
+      <div className="bg-bauhaus-blue/20 border-l-4 border-brand-blue rounded-lg p-6 mb-8">
+        <h2 className="text-2xl font-bold text-[#1E1F23] mb-4">
           How to Edit Your Listing
         </h2>
         <ol className="space-y-3">
@@ -238,11 +238,11 @@ export default function EditingListingPage() {
       </div>
 
       {/* Approval Process */}
-      <div className="bg-yellow-50 border-l-4 border-yellow-500 rounded-lg p-6 mb-8">
+      <div className="bg-bauhaus-mustard/20 border-l-4 border-yellow-500 rounded-lg p-6 mb-8">
         <div className="flex items-start gap-3">
           <AlertCircle className="w-6 h-6 text-[#1E1F23] flex-shrink-0 mt-1" />
           <div>
-            <h2 className="bauhaus-heading text-2xl font-bold text-[#1E1F23] mb-3">
+            <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
               Important: Approval Required
             </h2>
             <p className="text-[#1E1F23] mb-4">

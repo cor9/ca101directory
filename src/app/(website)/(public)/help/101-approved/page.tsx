@@ -40,7 +40,7 @@ export default function Help101ApprovedPage() {
             />
           </div>
         </div>
-        <h1 className="bauhaus-heading text-4xl font-bold text-paper mb-4">
+        <h1 className="text-4xl font-bold text-paper mb-4">
           🎖️ 101 Approved Badge
         </h1>
         <p className="bauhaus-body text-xl text-paper">
@@ -50,7 +50,7 @@ export default function Help101ApprovedPage() {
       </div>
 
       {/* What is the 101 Approved Badge */}
-      <div className="bg-blue-50 border-l-4 border-brand-blue rounded-lg p-8 mb-8">
+      <div className="bg-bauhaus-blue/20 border-l-4 border-brand-blue rounded-lg p-8 mb-8">
         <h2 className="text-2xl font-bold text-[#1E1F23] mb-4 flex items-center gap-2">
           <Award className="w-6 h-6 text-brand-blue" />
           What is the 101 Approved Badge?
@@ -69,14 +69,14 @@ export default function Help101ApprovedPage() {
               Thoroughly vetted professionals with proven track records
             </p>
           </div>
-          <div className="bg-surface rounded-lg p-4 text-center">
+          <div className="bg-bauhaus-blue rounded-lg p-4 text-center">
             <Users className="w-8 h-8 text-blue-600 mx-auto mb-2" />
             <h3 className="font-bold text-[#1E1F23] mb-1">Parent Trust</h3>
             <p className="text-sm text-[#1E1F23]">
               Testimonials from families who have worked with you
             </p>
           </div>
-          <div className="bg-surface rounded-lg p-4 text-center">
+          <div className="bg-bauhaus-orange rounded-lg p-4 text-center">
             <Star className="w-8 h-8 text-[#1E1F23] mx-auto mb-2" />
             <h3 className="font-bold text-[#1E1F23] mb-1">
               Industry Recognition
@@ -96,7 +96,7 @@ export default function Help101ApprovedPage() {
 
         <div className="space-y-6">
           {/* Step 1 */}
-          <div className="bg-surface rounded-lg p-6 shadow-lg">
+          <div className="bg-bauhaus-mustard rounded-lg p-6 shadow-lg">
             <div className="flex items-start gap-4">
               <div className="flex-1">
                 <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
@@ -232,7 +232,7 @@ export default function Help101ApprovedPage() {
       </div>
 
       {/* Application Process */}
-      <div className="bg-green-50 border-l-4 border-green-500 rounded-lg p-8 mb-8">
+      <div className="bg-bauhaus-mustard/20 border-l-4 border-green-500 rounded-lg p-8 mb-8">
         <h2 className="text-2xl font-bold text-[#1E1F23] mb-4">
           Application Process
         </h2>

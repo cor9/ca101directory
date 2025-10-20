@@ -59,3 +59,10 @@ CODEBASE.md
 
 *storybook.log
 storybook-static
+
+# Sanity CMS files (project uses Supabase)
+sanity.types.ts
+sanity.cli.ts
+sanity.config.ts
+sanity-typegen.json
+src/sanity/

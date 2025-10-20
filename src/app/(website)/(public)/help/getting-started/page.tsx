@@ -322,7 +322,7 @@ export default function GettingStartedPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Link
             href="/help/image-guidelines"
-            className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
+            className="bg-surface rounded-lg p-4 hover:shadow-lg transition-all"
           >
             <h4 className="font-semibold text-[#1E1F23] mb-2">
               Image Guidelines
@@ -333,7 +333,7 @@ export default function GettingStartedPage() {
           </Link>
           <Link
             href="/help/pricing-plans"
-            className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
+            className="bg-bauhaus-mustard rounded-lg p-4 hover:shadow-lg transition-all"
           >
             <h4 className="font-semibold text-[#1E1F23] mb-2">
               Pricing & Plans

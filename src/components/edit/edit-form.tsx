@@ -23,10 +23,7 @@ import { urlForImage } from "@/lib/image";
 import { EditSchema } from "@/lib/schemas";
 import { PricePlans } from "@/lib/submission";
 import { cn } from "@/lib/utils";
-import type {
-  CategoryListQueryResult,
-  TagListQueryResult,
-} from "@/sanity.types";
+import type { CategoryListQueryResult, TagListQueryResult } from "@/types";
 import type { ItemFullInfo } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BellRingIcon } from "lucide-react";

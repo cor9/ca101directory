@@ -1,5 +1,6 @@
 "use client";
 
+import type { CategoryListQueryResult } from "@/types";
 import { LayoutListIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useState } from "react";

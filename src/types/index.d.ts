@@ -242,3 +242,74 @@ export type FAQItem = {
   question: string;
   answer: string;
 };
+
+// Supabase Category types (replacing Sanity types)
+export type Category = {
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  slug: {
+    _type: "slug";
+    current: string;
+  };
+  description: string | null;
+  group: string | null;
+  priority: number | null;
+};
+
+export type CategoryListQueryResult = Category[];
+
+export type Tag = {
+  _id: string;
+  _type: "tag";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  slug: {
+    _type: "slug";
+    current: string;
+  };
+  description: string | null;
+  priority: number | null;
+};
+
+export type TagListQueryResult = Tag[];
+
+export type Group = {
+  _id: string;
+  _type: "group";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  slug: {
+    _type: "slug";
+    current: string;
+  };
+  description: string | null;
+  priority: number | null;
+  categories?: Category[];
+};
+
+export type GroupListQueryResult = Group[];
+
+export type Collection = {
+  _id: string;
+  _type: "collection";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  slug: {
+    _type: "slug";
+    current: string;
+  };
+  description: string | null;
+  priority: number | null;
+};
+
+export type CollectionListQueryResult = Collection[];

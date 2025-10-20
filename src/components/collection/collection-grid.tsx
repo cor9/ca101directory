@@ -1,4 +1,5 @@
 import { COLLECTIONS_PER_PAGE } from "@/lib/constants";
+import type { CollectionListQueryResult } from "@/types";
 import CollectionCard, { CollectionCardSkeleton } from "./collection-card";
 
 interface CollectionGridProps {

@@ -1,3 +1,4 @@
+import { getCategories } from "@/data/categories";
 import {
   QUERY_FILTER_LIST,
   SORT_FILTER_LIST,
@@ -7,12 +8,7 @@ import type {
   CategoryListQueryResult,
   GroupListQueryResult,
   TagListQueryResult,
-} from "@/sanity.types";
-import {
-  categoryListQuery,
-  groupListQuery,
-  tagListQuery,
-} from "@/sanity/lib/queries";
+} from "@/types";
 import {
   type CategoryFilterItem,
   HomeSearchFilterClient,
@@ -27,47 +23,41 @@ export async function HomeSearchFilter({ urlPrefix }: HomeSearchFilterProps) {
   let categories: CategoryFilterItem[] = [];
   let tags: TagFilterItem[] = [];
 
-  if (SUPPORT_CATEGORY_GROUP) {
-    const [groupList, tagList] = await Promise.all([
-      sanityFetch<GroupListQueryResult>({
-        query: groupListQuery,
-      }),
-      sanityFetch<TagListQueryResult>({
-        query: tagListQuery,
-      }),
-    ]);
+  // Get categories from Supabase
+  const supabaseCategories = await getCategories();
 
-    // in mobile view, we need to show the group name before the category name
-    categories = groupList.flatMap(
-      (group) =>
-        group.categories?.map((category) => ({
-          slug: category.slug.current,
-          name: `${group.name} / ${category.name}`,
-        })) || [],
-    );
-    tags = tagList.map((tag) => ({
-      slug: tag.slug.current,
-      name: tag.name,
-    }));
-  } else {
-    const [categoryList, tagList] = await Promise.all([
-      sanityFetch<CategoryListQueryResult>({
-        query: categoryListQuery,
-      }),
-      sanityFetch<TagListQueryResult>({
-        query: tagListQuery,
-      }),
-    ]);
+  // Transform Supabase categories to match expected format
+  const categoryList: CategoryListQueryResult = supabaseCategories.map(
+    (category) => ({
+      _id: category.id,
+      _type: "category" as const,
+      _createdAt: category.created_at || new Date().toISOString(),
+      _updatedAt: category.updated_at || new Date().toISOString(),
+      _rev: "",
+      name: category.category_name,
+      slug: {
+        _type: "slug" as const,
+        current:
+          category.category_name?.toLowerCase().replace(/\s+/g, "-") ||
+          "unknown",
+      },
+      description: category.description,
+      group: null,
+      priority: null,
+    }),
+  );
 
-    categories = categoryList.map((category) => ({
-      slug: category.slug.current,
-      name: category.name,
-    }));
-    tags = tagList.map((tag) => ({
-      slug: tag.slug.current,
-      name: tag.name,
-    }));
-  }
+  // For now, use categories as both categories and tags (simplified approach)
+  categories = categoryList.map((category) => ({
+    slug: category.slug.current,
+    name: category.name,
+  }));
+
+  // Use a subset of categories as tags for now
+  tags = categoryList.slice(0, 10).map((category) => ({
+    slug: category.slug.current,
+    name: category.name,
+  }));
 
   return (
     <div>

@@ -1,5 +1,6 @@
 "use client";
 
+import type { CategoryListQueryResult } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
 import { DEFAULT_FILTER_VALUE } from "../shared/combobox";
 import HomeCategoryListItem from "./home-category-list-item";

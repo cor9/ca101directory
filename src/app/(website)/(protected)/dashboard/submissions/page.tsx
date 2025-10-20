@@ -72,7 +72,7 @@ export default async function UserSubmissionsPage() {
       case "Rejected":
         return "bg-red-100 text-red-800";
       default:
-        return "bg-gray-100 text-paper";
+        return "bg-gray-100 text-ink";
     }
   };
 
@@ -85,9 +85,9 @@ export default async function UserSubmissionsPage() {
       case "Basic":
         return "bg-orange-100 text-orange-800";
       case "Free":
-        return "bg-gray-100 text-paper";
+        return "bg-gray-100 text-ink";
       default:
-        return "bg-gray-100 text-paper";
+        return "bg-gray-100 text-ink";
     }
   };
 

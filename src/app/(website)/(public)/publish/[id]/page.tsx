@@ -32,16 +32,16 @@ export default function PublishPage({
       </div>
 
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-gray-900">
+        <h1 className="text-3xl font-bold text-paper">
           {isSuccess ? "Payment Successful!" : "Publishing Your Listing"}
         </h1>
-        <p className="text-lg text-gray-900 max-w-md">
+        <p className="text-lg text-paper max-w-md">
           {isSuccess
             ? "Thank you for your payment! Your listing is now live and visible to families searching for acting professionals."
             : "Your listing is being processed and will be published shortly."}
         </p>
         {listingId && (
-          <p className="text-sm text-gray-900">
+          <p className="text-sm text-paper">
             Listing ID: {listingId}
           </p>
         )}
@@ -50,7 +50,7 @@ export default function PublishPage({
       {isSuccess && (
         <div className="bg-gradient-to-r from-brand-orange/5 via-brand-yellow/5 to-brand-blue/5 rounded-lg p-6 border border-brand-blue/20 max-w-md">
           <h3 className="font-semibold text-brand-blue mb-2">What's Next?</h3>
-          <ul className="text-sm text-gray-900 space-y-1 text-left">
+          <ul className="text-sm text-paper space-y-1 text-left">
             <li>• Your listing is now live on the directory</li>
             <li>• Families can find and contact you</li>
             <li>• You'll receive email notifications for inquiries</li>

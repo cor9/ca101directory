@@ -21,14 +21,14 @@ export default function PaymentPage({ params }: PaymentPageProps) {
       </div>
 
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-gray-900">
+        <h1 className="text-3xl font-bold text-paper">
           Complete Your Listing Payment
         </h1>
-        <p className="text-lg text-gray-900 max-w-md">
+        <p className="text-lg text-paper max-w-md">
           Your listing has been submitted successfully. Complete payment to
           activate your listing.
         </p>
-        <p className="text-sm text-gray-900">Listing ID: {listingId}</p>
+        <p className="text-sm text-paper">Listing ID: {listingId}</p>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4 pt-4">

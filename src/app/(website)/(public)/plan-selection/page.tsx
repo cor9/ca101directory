@@ -13,7 +13,7 @@ export default function PlanSelectionPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-red-600">Error</h1>
-          <p className="text-gray-900">No listing ID provided.</p>
+          <p className="text-paper">No listing ID provided.</p>
         </div>
       </div>
     );
@@ -23,10 +23,10 @@ export default function PlanSelectionPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-4">Choose Your Plan</h1>
-        <p className="text-xl text-gray-900 mb-8">
+        <p className="text-xl text-paper mb-8">
           Select the perfect plan to activate your listing.
         </p>
-        <p className="text-sm text-gray-900">
+        <p className="text-sm text-paper">
           For listing ID: <strong>{listingId}</strong>
         </p>
       </div>
@@ -39,12 +39,12 @@ export default function PlanSelectionPage() {
 
         {/* Free Plan - No Payment Required */}
         <div className="border-2 border-gray-300 rounded-lg p-8 bg-white shadow-lg">
-          <h3 className="text-2xl font-bold mb-4 text-gray-900">Free Listing</h3>
+          <h3 className="text-2xl font-bold mb-4 text-paper">Free Listing</h3>
           <p className="text-lg mb-2 font-semibold text-green-600">$0 / forever</p>
-          <p className="text-sm text-gray-900 mb-6">
+          <p className="text-sm text-paper mb-6">
             Get started with a basic listing - no credit card required!
           </p>
-          <ul className="text-left mb-6 space-y-2 text-sm text-gray-900">
+          <ul className="text-left mb-6 space-y-2 text-sm text-paper">
             <li>✓ Basic listing information</li>
             <li>✓ Contact details displayed</li>
             <li>✓ Searchable in directory</li>

@@ -277,7 +277,7 @@ export default function GettingStartedPage() {
         </div>
       </div>
       <div className="mt-12">
-        <h3 className="bauhaus-heading text-xl font-bold text-paper mb-4">
+        <h3 className="text-xl font-bold text-[#1E1F23] mb-4">
           Related Articles
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

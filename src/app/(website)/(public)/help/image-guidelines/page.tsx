@@ -12,7 +12,7 @@ export default function ImageGuidelinesPage() {
     <div className="container max-w-4xl mx-auto px-4 py-12">
       <Link
         href="/dashboard"
-        className="inline-flex items-center gap-2 text-brand-blue hover:text-brand-blue/80 mb-8 transition-colors"
+        className="inline-flex items-center gap-2 text-[#1E1F23] hover:text-[#1E1F23]/80 mb-8 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Dashboard
@@ -28,16 +28,16 @@ export default function ImageGuidelinesPage() {
           <h2 className="text-2xl font-bold text-brand-navy mt-0">
             Profile Image (Your Logo/Main Photo)
           </h2>
-          <p className="text-charcoal">
+          <p className="text-[#1E1F23]">
             <strong>What it is:</strong> The primary image that represents your
             business - typically your logo or main branded photo.
           </p>
 
-          <div className="bg-white rounded-lg p-6 my-6 shadow-sm">
-            <h3 className="text-xl font-semibold text-charcoal mt-0">
+          <div className="bg-surface rounded-lg p-6 my-6 shadow-sm">
+            <h3 className="text-xl font-semibold text-[#1E1F23] mt-0">
               Specifications:
             </h3>
-            <ul className="space-y-2 text-charcoal leading-relaxed">
+            <ul className="space-y-2 text-[#1E1F23] leading-relaxed">
               <li>
                 <strong>Recommended size:</strong> 400px × 400px (square)
               </li>
@@ -74,16 +74,16 @@ export default function ImageGuidelinesPage() {
           <h2 className="text-2xl font-bold text-brand-navy mt-0">
             Gallery Images (Your Photo Gallery)
           </h2>
-          <p className="text-charcoal">
+          <p className="text-[#1E1F23]">
             <strong>What it is:</strong> Up to 4 additional images showcasing
             your business, facility, team, or work samples.
           </p>
 
-          <div className="bg-white rounded-lg p-6 my-6 shadow-sm">
-            <h3 className="text-xl font-semibold text-charcoal mt-0">
+          <div className="bg-surface rounded-lg p-6 my-6 shadow-sm">
+            <h3 className="text-xl font-semibold text-[#1E1F23] mt-0">
               Specifications:
             </h3>
-            <ul className="space-y-2 text-charcoal leading-relaxed">
+            <ul className="space-y-2 text-[#1E1F23] leading-relaxed">
               <li>
                 <strong>Recommended size:</strong> 1200px wide × 800px tall
                 (landscape orientation works best)
@@ -151,15 +151,15 @@ export default function ImageGuidelinesPage() {
         </div>
 
         {/* Help Section */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 my-8">
-          <p className="text-charcoal m-0">
+        <div className="bg-bauhaus-blue/20 border-0 rounded-lg p-6 my-8">
+          <p className="text-[#1E1F23] m-0">
             <strong>Need help?</strong> If your images are too large, use a free
             compression tool like{" "}
             <a
               href="https://tinypng.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-brand-blue hover:text-brand-blue/80 underline"
+              className="text-[#1E1F23] hover:text-[#1E1F23]/80 underline"
             >
               TinyPNG
             </a>{" "}
@@ -168,7 +168,7 @@ export default function ImageGuidelinesPage() {
               href="https://squoosh.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-brand-blue hover:text-brand-blue/80 underline"
+              className="text-[#1E1F23] hover:text-[#1E1F23]/80 underline"
             >
               Squoosh
             </a>{" "}
@@ -180,7 +180,7 @@ export default function ImageGuidelinesPage() {
         <div className="mt-12 text-center">
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 bg-brand-blue hover:bg-brand-blue/90 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 bg-brand-blue hover:bg-brand-blue/90 text-[#1E1F23] font-semibold px-8 py-3 rounded-lg transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Dashboard

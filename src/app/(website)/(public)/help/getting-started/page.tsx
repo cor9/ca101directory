@@ -64,9 +64,9 @@ export default function GettingStartedPage() {
         </div>
 
         {/* Step 2 */}
-        <div className="bg-bauhaus-mustard rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
+        <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">
+            <div className="flex-shrink-0 w-8 h-8 bg-bauhaus-orange text-white rounded-full flex items-center justify-center font-bold">
               2
             </div>
             <div className="flex-1">
@@ -92,7 +92,7 @@ export default function GettingStartedPage() {
                     </li>
                   </ul>
                 </div>
-                <div className="bg-bauhaus-mustard rounded-lg p-4 flex flex-col border-2 border-[#1E1F23]/20">
+                <div className="bg-bauhaus-blue rounded-lg p-4 flex flex-col border-2 border-[#1E1F23]/20">
                   <div className="h-6 mb-2"></div>
                   <h3 className="font-bold text-[#1E1F23] mb-2">Standard</h3>
                   <p className="text-2xl font-bold text-[#1E1F23] mb-2">
@@ -150,9 +150,9 @@ export default function GettingStartedPage() {
         </div>
 
         {/* Step 3 */}
-        <div className="bg-bauhaus-mustard rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
+        <div className="bg-bauhaus-orange rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">
+            <div className="flex-shrink-0 w-8 h-8 bg-bauhaus-blue text-white rounded-full flex items-center justify-center font-bold">
               3
             </div>
             <div className="flex-1">
@@ -259,9 +259,9 @@ export default function GettingStartedPage() {
         </div>
 
         {/* Step 5 */}
-        <div className="bg-bauhaus-mustard rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
+        <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">
+            <div className="flex-shrink-0 w-8 h-8 bg-bauhaus-orange text-white rounded-full flex items-center justify-center font-bold">
               5
             </div>
             <div className="flex-1">

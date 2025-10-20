@@ -81,13 +81,13 @@ export default function EditingListingPage() {
 
       {/* What You Can Edit */}
       <div className="mb-12">
-        <h2 className="text-3xl font-bold text-[#1E1F23] mb-6">
+        <h2 className="text-3xl font-bold text-paper mb-6">
           What You Can Edit
         </h2>
 
         <div className="space-y-6">
           {/* Business Information */}
-          <div className="bauhaus-card p-6">
+          <div className="bg-surface rounded-lg p-6 shadow-lg">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 p-3 bg-bauhaus-blue text-[#1E1F23] rounded-lg">
                 <Edit className="w-6 h-6" />
@@ -142,7 +142,7 @@ export default function EditingListingPage() {
           </div>
 
           {/* Images */}
-          <div className="bauhaus-card p-6">
+          <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 p-3 bg-purple-100 text-purple-600 rounded-lg">
                 <ImageIcon className="w-6 h-6" />
@@ -178,7 +178,7 @@ export default function EditingListingPage() {
           </div>
 
           {/* Social Media & Links */}
-          <div className="bauhaus-card p-6">
+          <div className="bg-bauhaus-orange rounded-lg p-6 shadow-lg">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 p-3 bg-green-100 text-[#1E1F23] rounded-lg">
                 <Globe className="w-6 h-6" />
@@ -269,25 +269,25 @@ export default function EditingListingPage() {
 
       {/* Best Practices */}
       <div className="mb-12">
-        <h2 className="text-3xl font-bold text-[#1E1F23] mb-6">
+        <h2 className="text-3xl font-bold text-paper mb-6">
           Best Practices for Editing
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
+          <div className="bg-surface border border-gray-200 rounded-lg p-4">
             <h3 className="font-bold text-[#1E1F23] mb-2">Keep It Updated</h3>
             <p className="text-sm text-[#1E1F23]">
               Review your listing monthly to ensure contact information,
               services, and pricing are current.
             </p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
+          <div className="bg-surface border border-gray-200 rounded-lg p-4">
             <h3 className="font-bold text-[#1E1F23] mb-2">Use High-Quality Images</h3>
             <p className="text-sm text-[#1E1F23]">
               Professional photos make your listing stand out. Follow our image
               guidelines for best results.
             </p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
+          <div className="bg-surface border border-gray-200 rounded-lg p-4">
             <h3 className="font-bold text-[#1E1F23] mb-2">
               Write Clear Descriptions
             </h3>
@@ -296,21 +296,21 @@ export default function EditingListingPage() {
               business unique.
             </p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
+          <div className="bg-surface border border-gray-200 rounded-lg p-4">
             <h3 className="font-bold text-[#1E1F23] mb-2">Add Social Proof</h3>
             <p className="text-sm text-[#1E1F23]">
               Link to your social media profiles to show your active presence
               and credibility.
             </p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
+          <div className="bg-surface border border-gray-200 rounded-lg p-4">
             <h3 className="font-bold text-[#1E1F23] mb-2">Optimize for Search</h3>
             <p className="text-sm text-[#1E1F23]">
               Use relevant keywords naturally in your description to help
               families find you.
             </p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
+          <div className="bg-surface border border-gray-200 rounded-lg p-4">
             <h3 className="font-bold text-[#1E1F23] mb-2">Be Professional</h3>
             <p className="text-sm text-[#1E1F23]">
               Maintain a professional tone. Remember, parents are looking for
@@ -322,11 +322,11 @@ export default function EditingListingPage() {
 
       {/* Common Questions */}
       <div className="mb-12">
-        <h2 className="text-3xl font-bold text-[#1E1F23] mb-6">
+        <h2 className="text-3xl font-bold text-paper mb-6">
           Common Questions
         </h2>
         <div className="space-y-4">
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <div className="bg-surface border border-gray-200 rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-2">
               How long does approval take?
             </h3>
@@ -336,7 +336,7 @@ export default function EditingListingPage() {
             </p>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <div className="bg-surface border border-gray-200 rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-2">
               Can I edit my listing multiple times?
             </h3>
@@ -346,7 +346,7 @@ export default function EditingListingPage() {
             </p>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <div className="bg-surface border border-gray-200 rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-2">
               What if my edits are rejected?
             </h3>
@@ -357,7 +357,7 @@ export default function EditingListingPage() {
             </p>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <div className="bg-surface border border-gray-200 rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-2">
               Can I preview my changes before they go live?
             </h3>
@@ -368,7 +368,7 @@ export default function EditingListingPage() {
             </p>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <div className="bg-surface border border-gray-200 rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-2">
               How do I upgrade my plan to add more features?
             </h3>
@@ -405,7 +405,7 @@ export default function EditingListingPage() {
 
       {/* Related Articles */}
       <div className="mt-12">
-        <h3 className="text-xl font-bold text-[#1E1F23] mb-4">
+        <h3 className="text-xl font-bold text-paper mb-4">
           Related Articles
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

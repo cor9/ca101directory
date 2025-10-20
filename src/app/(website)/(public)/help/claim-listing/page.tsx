@@ -74,14 +74,13 @@ export default function ClaimListingPage() {
 
       {/* Step-by-Step Process */}
       <div className="space-y-8 mb-12">
-        <h2 className="text-2xl font-bold text-[#1E1F23]">
+        <h2 className="text-2xl font-bold text-paper">
           Claiming Process (5 Easy Steps)
         </h2>
 
         {/* Step 1 */}
         <div className="bg-surface rounded-lg p-6 shadow-lg">
           <div className="flex items-start gap-4">
-            
             <div className="flex-1">
               <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                 Find Your Listing
@@ -103,7 +102,6 @@ export default function ClaimListingPage() {
         {/* Step 2 */}
         <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg">
           <div className="flex items-start gap-4">
-            
             <div className="flex-1">
               <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                 Create a Vendor Account
@@ -141,7 +139,6 @@ export default function ClaimListingPage() {
         {/* Step 3 */}
         <div className="bg-bauhaus-orange rounded-lg p-6 shadow-lg">
           <div className="flex items-start gap-4">
-            
             <div className="flex-1">
               <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                 Click "Claim This Listing"
@@ -163,7 +160,6 @@ export default function ClaimListingPage() {
         {/* Step 4 */}
         <div className="bg-surface rounded-lg p-6 shadow-lg">
           <div className="flex items-start gap-4">
-            
             <div className="flex-1">
               <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                 Verify Ownership (Optional)
@@ -194,7 +190,6 @@ export default function ClaimListingPage() {
         {/* Step 5 */}
         <div className="bg-bauhaus-mustard rounded-lg p-6 shadow-lg">
           <div className="flex items-start gap-4">
-            
             <div className="flex-1">
               <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                 Manage Your Listing
@@ -280,7 +275,7 @@ export default function ClaimListingPage() {
 
       {/* Contact Support */}
       <div className="bg-gradient-to-r from-brand-blue to-brand-navy text-white rounded-lg p-8 text-center">
-        <div className="inline-flex p-4 bg-white/10 rounded-full mb-4">
+        <div className="inline-flex p-4 bg-bauhaus-blue/20 rounded-full mb-4">
           <Mail className="w-8 h-8" />
         </div>
         <h2 className="text-2xl font-bold mb-3">Still Need Help?</h2>
@@ -297,7 +292,7 @@ export default function ClaimListingPage() {
 
       {/* Related Articles */}
       <div className="mt-12">
-        <h3 className="text-xl font-bold text-[#1E1F23] mb-4">
+        <h3 className="text-xl font-bold text-paper mb-4">
           Related Articles
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -305,7 +300,9 @@ export default function ClaimListingPage() {
             href="/help/getting-started"
             className="border border-gray-200 rounded-lg p-4 hover:border-brand-blue transition-colors"
           >
-            <h4 className="font-semibold text-[#1E1F23] mb-2">Getting Started</h4>
+            <h4 className="font-semibold text-[#1E1F23] mb-2">
+              Getting Started
+            </h4>
             <p className="text-sm text-[#1E1F23]">
               New to the directory? Learn how to create your first listing
             </p>

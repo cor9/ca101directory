@@ -32,7 +32,7 @@ export default function PricingPlansPage() {
       {/* Plan Comparison Table */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
         {/* Free Plan */}
-        <div className="bauhaus-card p-6 flex flex-col">
+        <div className="bg-surface rounded-lg shadow-lg p-6 flex flex-col">
           <div className="text-center mb-6">
             <h2 className="text-2xl font-bold text-[#1E1F23] mb-2">Free</h2>
             <div className="mb-4">
@@ -91,7 +91,7 @@ export default function PricingPlansPage() {
         </div>
 
         {/* Standard Plan */}
-        <div className="bauhaus-card p-6 flex flex-col">
+        <div className="bg-surface rounded-lg shadow-lg p-6 flex flex-col">
           <div className="text-center mb-6">
             <h2 className="text-2xl font-bold text-[#1E1F23] mb-2">Standard</h2>
             <div className="mb-4">

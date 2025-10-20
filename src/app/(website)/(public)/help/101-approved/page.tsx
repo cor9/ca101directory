@@ -62,21 +62,21 @@ export default function Help101ApprovedPage() {
           quality assurance.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white rounded-lg p-4 text-center">
+          <div className="bg-surface rounded-lg p-4 text-center">
             <Shield className="w-8 h-8 text-[#1E1F23] mx-auto mb-2" />
             <h3 className="font-bold text-[#1E1F23] mb-1">Verified Quality</h3>
             <p className="text-sm text-[#1E1F23]">
               Thoroughly vetted professionals with proven track records
             </p>
           </div>
-          <div className="bg-white rounded-lg p-4 text-center">
+          <div className="bg-surface rounded-lg p-4 text-center">
             <Users className="w-8 h-8 text-blue-600 mx-auto mb-2" />
             <h3 className="font-bold text-[#1E1F23] mb-1">Parent Trust</h3>
             <p className="text-sm text-[#1E1F23]">
               Testimonials from families who have worked with you
             </p>
           </div>
-          <div className="bg-white rounded-lg p-4 text-center">
+          <div className="bg-surface rounded-lg p-4 text-center">
             <Star className="w-8 h-8 text-[#1E1F23] mx-auto mb-2" />
             <h3 className="font-bold text-[#1E1F23] mb-1">
               Industry Recognition
@@ -90,7 +90,7 @@ export default function Help101ApprovedPage() {
 
       {/* Qualification Requirements */}
       <div className="mb-12">
-        <h2 className="text-3xl font-bold text-[#1E1F23] mb-6">
+        <h2 className="text-3xl font-bold text-paper mb-6">
           How to Qualify for the 101 Approved Badge
         </h2>
 
@@ -98,7 +98,6 @@ export default function Help101ApprovedPage() {
           {/* Step 1 */}
           <div className="bg-surface rounded-lg p-6 shadow-lg">
             <div className="flex items-start gap-4">
-              
               <div className="flex-1">
                 <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                   Active Pro Listing Required
@@ -120,7 +119,6 @@ export default function Help101ApprovedPage() {
           {/* Step 2 */}
           <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg">
             <div className="flex items-start gap-4">
-              
               <div className="flex-1">
                 <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                   Parent Testimonials
@@ -160,7 +158,6 @@ export default function Help101ApprovedPage() {
           {/* Step 3 */}
           <div className="bg-bauhaus-orange rounded-lg p-6 shadow-lg">
             <div className="flex items-start gap-4">
-              
               <div className="flex-1">
                 <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                   Industry References
@@ -200,7 +197,6 @@ export default function Help101ApprovedPage() {
           {/* Step 4 */}
           <div className="bg-bauhaus-mustard rounded-lg p-6 shadow-lg">
             <div className="flex items-start gap-4">
-              
               <div className="flex-1">
                 <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                   Optional Credentials
@@ -287,10 +283,10 @@ export default function Help101ApprovedPage() {
 
       {/* Child Actor 101 Code of Ethics */}
       <div className="mb-12">
-        <h2 className="text-3xl font-bold text-[#1E1F23] mb-6">
+        <h2 className="text-3xl font-bold text-paper mb-6">
           🧡 Child Actor 101 Code of Ethics
         </h2>
-        <div className="bauhaus-card p-8">
+        <div className="bg-surface rounded-lg p-8 shadow-lg">
           <p className="text-[#1E1F23] mb-6">
             All vendors listed on Child Actor 101 — and especially those
             carrying the 101 Approved badge — agree to uphold the following
@@ -467,11 +463,11 @@ export default function Help101ApprovedPage() {
 
       {/* Benefits */}
       <div className="mb-12">
-        <h2 className="text-3xl font-bold text-[#1E1F23] mb-6">
+        <h2 className="text-3xl font-bold text-paper mb-6">
           Benefits of the 101 Approved Badge
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <div className="bg-surface border border-gray-200 rounded-lg p-6">
             <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
               Enhanced Trust
             </h3>
@@ -480,7 +476,7 @@ export default function Help101ApprovedPage() {
               and meet our highest standards for working with young performers.
             </p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <div className="bg-surface border border-gray-200 rounded-lg p-6">
             <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
               Priority Placement
             </h3>
@@ -489,7 +485,7 @@ export default function Help101ApprovedPage() {
               highlighted throughout the directory.
             </p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <div className="bg-surface border border-gray-200 rounded-lg p-6">
             <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
               Marketing Support
             </h3>
@@ -498,7 +494,7 @@ export default function Help101ApprovedPage() {
               verified status and commitment to excellence.
             </p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <div className="bg-surface border border-gray-200 rounded-lg p-6">
             <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
               Community Access
             </h3>
@@ -527,13 +523,13 @@ export default function Help101ApprovedPage() {
 
       {/* Related Articles */}
       <div className="mt-12">
-        <h3 className="text-xl font-bold text-[#1E1F23] mb-4">
+        <h3 className="text-xl font-bold text-paper mb-4">
           Related Articles
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Link
             href="/help/pricing-plans"
-            className="bauhaus-card bg-surface border border-secondary-denim/20 rounded-lg p-4 hover:border-bauhaus-blue transition-colors"
+            className="bg-surface border border-secondary-denim/20 rounded-lg p-4 hover:border-bauhaus-blue transition-colors"
           >
             <h4 className="font-semibold text-[#1E1F23] mb-2">
               Pricing & Plans
@@ -544,7 +540,7 @@ export default function Help101ApprovedPage() {
           </Link>
           <Link
             href="/help/getting-started"
-            className="bauhaus-card bg-surface border border-secondary-denim/20 rounded-lg p-4 hover:border-bauhaus-blue transition-colors"
+            className="bg-surface border border-secondary-denim/20 rounded-lg p-4 hover:border-bauhaus-blue transition-colors"
           >
             <h4 className="font-semibold text-[#1E1F23] mb-2">
               Getting Started

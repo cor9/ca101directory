@@ -34,7 +34,7 @@ export default function TroubleshootingPage() {
 
       {/* Account & Login Issues */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#1E1F23] mb-6 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-paper mb-6 flex items-center gap-2">
           <AlertTriangle className="w-6 h-6" />
           Account & Login Issues
         </h2>
@@ -146,7 +146,7 @@ export default function TroubleshootingPage() {
 
       {/* Listing & Submission Issues */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#1E1F23] mb-6 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-paper mb-6 flex items-center gap-2">
           <AlertTriangle className="w-6 h-6" />
           Listing & Submission Issues
         </h2>
@@ -250,7 +250,7 @@ export default function TroubleshootingPage() {
 
       {/* Image Upload Issues */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#1E1F23] mb-6 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-paper mb-6 flex items-center gap-2">
           <AlertTriangle className="w-6 h-6" />
           Image Upload Issues
         </h2>
@@ -347,7 +347,7 @@ export default function TroubleshootingPage() {
 
       {/* Payment & Subscription Issues */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-[#1E1F23] mb-6 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-paper mb-6 flex items-center gap-2">
           <AlertTriangle className="w-6 h-6" />
           Payment & Subscription Issues
         </h2>
@@ -426,7 +426,7 @@ export default function TroubleshootingPage() {
       {/* Still Having Issues? */}
       <div className="bg-gradient-to-r from-brand-blue to-brand-navy text-white rounded-lg p-8">
         <div className="text-center">
-          <div className="inline-flex p-4 bg-white/10 rounded-full mb-4">
+          <div className="inline-flex p-4 bg-bauhaus-blue/20 rounded-full mb-4">
             <Mail className="w-8 h-8" />
           </div>
           <h2 className="text-2xl font-bold mb-3">Still Having Issues?</h2>

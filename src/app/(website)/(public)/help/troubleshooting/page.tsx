@@ -452,7 +452,7 @@ export default function TroubleshootingPage() {
       </div>
 
       {/* Quick Fixes Section */}
-      <div className="mt-12 bg-bauhaus-mustard/20 border-2 border-green-500 rounded-lg p-6">
+      <div className="mt-12 bg-bauhaus-mustard/20 rounded-lg p-6">
         <h2 className="text-2xl font-bold text-[#1E1F23] mb-4 flex items-center gap-2">
           <RefreshCw className="w-6 h-6 text-[#1E1F23]" />
           Quick Fixes to Try First

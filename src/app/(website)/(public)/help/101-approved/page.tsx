@@ -50,9 +50,9 @@ export default function Help101ApprovedPage() {
       </div>
 
       {/* What is the 101 Approved Badge */}
-      <div className="bg-bauhaus-blue/20 border-l-4 border-brand-blue rounded-lg p-8 mb-8">
+      <div className="bg-bauhaus-blue rounded-lg p-8 shadow-lg mb-8 shadow-lg">
         <h2 className="text-2xl font-bold text-[#1E1F23] mb-4 flex items-center gap-2">
-          <Award className="w-6 h-6 text-brand-blue" />
+          <Award className="w-6 h-6 text-[#1E1F23]" />
           What is the 101 Approved Badge?
         </h2>
         <p className="text-[#1E1F23] mb-4">
@@ -232,7 +232,7 @@ export default function Help101ApprovedPage() {
       </div>
 
       {/* Application Process */}
-      <div className="bg-bauhaus-mustard rounded-lg p-8 mb-8 shadow-lg">
+      <div className="bg-bauhaus-mustard rounded-lg p-8 shadow-lg mb-8 shadow-lg">
         <h2 className="text-2xl font-bold text-[#1E1F23] mb-4">
           Application Process
         </h2>

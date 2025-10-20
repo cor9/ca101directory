@@ -24,7 +24,7 @@ export default function ImageGuidelinesPage() {
         </h1>
 
         {/* Profile Image Section */}
-        <div className="bg-gray-50 border-l-4 border-brand-blue rounded-lg p-8 my-8">
+        <div className="bg-surface border-l-4 border-brand-blue rounded-lg p-8 my-8">
           <h2 className="text-2xl font-bold text-brand-navy mt-0">
             Profile Image (Your Logo/Main Photo)
           </h2>
@@ -33,7 +33,7 @@ export default function ImageGuidelinesPage() {
             business - typically your logo or main branded photo.
           </p>
 
-          <div className="bg-surface rounded-lg p-6 my-6 shadow-sm">
+          <div className="bg-surface rounded-lg p-6 shadow-lg my-6 shadow-sm">
             <h3 className="text-xl font-semibold text-[#1E1F23] mt-0">
               Specifications:
             </h3>
@@ -70,7 +70,7 @@ export default function ImageGuidelinesPage() {
         <hr className="my-12 border-t-2 border-gray-200" />
 
         {/* Gallery Images Section */}
-        <div className="bg-gray-50 border-l-4 border-brand-blue rounded-lg p-8 my-8">
+        <div className="bg-surface border-l-4 border-brand-blue rounded-lg p-8 my-8">
           <h2 className="text-2xl font-bold text-brand-navy mt-0">
             Gallery Images (Your Photo Gallery)
           </h2>
@@ -79,7 +79,7 @@ export default function ImageGuidelinesPage() {
             your business, facility, team, or work samples.
           </p>
 
-          <div className="bg-surface rounded-lg p-6 my-6 shadow-sm">
+          <div className="bg-surface rounded-lg p-6 shadow-lg my-6 shadow-sm">
             <h3 className="text-xl font-semibold text-[#1E1F23] mt-0">
               Specifications:
             </h3>

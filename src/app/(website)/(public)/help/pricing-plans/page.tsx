@@ -213,7 +213,7 @@ export default function PricingPlansPage() {
       </div>
 
       {/* Annual Plans */}
-      <div className="bg-bauhaus-mustard/20 border-2 border-green-500 rounded-lg p-8 mb-12 text-center">
+      <div className="bg-bauhaus-mustard/20 rounded-lg p-8 mb-12 text-center">
         <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
           Save with Annual Plans
         </h2>

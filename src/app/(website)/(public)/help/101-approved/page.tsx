@@ -90,13 +90,13 @@ export default function Help101ApprovedPage() {
 
       {/* Qualification Requirements */}
       <div className="mb-12">
-        <h2 className="bauhaus-heading text-3xl font-bold text-paper mb-6">
+        <h2 className="text-3xl font-bold text-[#1E1F23] mb-6">
           How to Qualify for the 101 Approved Badge
         </h2>
 
         <div className="space-y-6">
           {/* Step 1 */}
-          <div className="bauhaus-card p-6">
+          <div className="bg-surface rounded-lg p-6 shadow-lg">
             <div className="flex items-start gap-4">
               
               <div className="flex-1">
@@ -118,7 +118,7 @@ export default function Help101ApprovedPage() {
           </div>
 
           {/* Step 2 */}
-          <div className="bauhaus-card p-6">
+          <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg">
             <div className="flex items-start gap-4">
               
               <div className="flex-1">
@@ -158,7 +158,7 @@ export default function Help101ApprovedPage() {
           </div>
 
           {/* Step 3 */}
-          <div className="bauhaus-card p-6">
+          <div className="bg-bauhaus-orange rounded-lg p-6 shadow-lg">
             <div className="flex items-start gap-4">
               
               <div className="flex-1">
@@ -198,7 +198,7 @@ export default function Help101ApprovedPage() {
           </div>
 
           {/* Step 4 */}
-          <div className="bauhaus-card p-6">
+          <div className="bg-bauhaus-mustard rounded-lg p-6 shadow-lg">
             <div className="flex items-start gap-4">
               
               <div className="flex-1">
@@ -287,7 +287,7 @@ export default function Help101ApprovedPage() {
 
       {/* Child Actor 101 Code of Ethics */}
       <div className="mb-12">
-        <h2 className="bauhaus-heading text-3xl font-bold text-paper mb-6">
+        <h2 className="text-3xl font-bold text-[#1E1F23] mb-6">
           🧡 Child Actor 101 Code of Ethics
         </h2>
         <div className="bauhaus-card p-8">
@@ -467,7 +467,7 @@ export default function Help101ApprovedPage() {
 
       {/* Benefits */}
       <div className="mb-12">
-        <h2 className="bauhaus-heading text-3xl font-bold text-paper mb-6">
+        <h2 className="text-3xl font-bold text-[#1E1F23] mb-6">
           Benefits of the 101 Approved Badge
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -527,7 +527,7 @@ export default function Help101ApprovedPage() {
 
       {/* Related Articles */}
       <div className="mt-12">
-        <h3 className="bauhaus-heading text-xl font-bold text-paper mb-4">
+        <h3 className="text-xl font-bold text-[#1E1F23] mb-4">
           Related Articles
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

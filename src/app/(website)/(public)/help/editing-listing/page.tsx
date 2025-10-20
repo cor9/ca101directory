@@ -81,7 +81,7 @@ export default function EditingListingPage() {
 
       {/* What You Can Edit */}
       <div className="mb-12">
-        <h2 className="bauhaus-heading text-3xl font-bold text-paper mb-6">
+        <h2 className="text-3xl font-bold text-[#1E1F23] mb-6">
           What You Can Edit
         </h2>
 
@@ -89,11 +89,11 @@ export default function EditingListingPage() {
           {/* Business Information */}
           <div className="bauhaus-card p-6">
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 p-3 bg-blue-100 text-brand-blue rounded-lg">
+              <div className="flex-shrink-0 p-3 bg-bauhaus-blue text-[#1E1F23] rounded-lg">
                 <Edit className="w-6 h-6" />
               </div>
               <div className="flex-1">
-                <h3 className="bauhaus-heading text-xl font-bold text-paper mb-3">
+                <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                   Business Information
                 </h3>
                 <ul className="space-y-2 text-[#1E1F23]">
@@ -148,7 +148,7 @@ export default function EditingListingPage() {
                 <ImageIcon className="w-6 h-6" />
               </div>
               <div className="flex-1">
-                <h3 className="bauhaus-heading text-xl font-bold text-paper mb-3">
+                <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                   Images & Gallery
                 </h3>
                 <ul className="space-y-2 text-[#1E1F23] mb-4">
@@ -184,7 +184,7 @@ export default function EditingListingPage() {
                 <Globe className="w-6 h-6" />
               </div>
               <div className="flex-1">
-                <h3 className="bauhaus-heading text-xl font-bold text-paper mb-3">
+                <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                   Social Media & Links (Pro Plan)
                 </h3>
                 <ul className="space-y-2 text-[#1E1F23]">
@@ -269,7 +269,7 @@ export default function EditingListingPage() {
 
       {/* Best Practices */}
       <div className="mb-12">
-        <h2 className="bauhaus-heading text-3xl font-bold text-paper mb-6">
+        <h2 className="text-3xl font-bold text-[#1E1F23] mb-6">
           Best Practices for Editing
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -322,7 +322,7 @@ export default function EditingListingPage() {
 
       {/* Common Questions */}
       <div className="mb-12">
-        <h2 className="bauhaus-heading text-3xl font-bold text-paper mb-6">
+        <h2 className="text-3xl font-bold text-[#1E1F23] mb-6">
           Common Questions
         </h2>
         <div className="space-y-4">
@@ -405,7 +405,7 @@ export default function EditingListingPage() {
 
       {/* Related Articles */}
       <div className="mt-12">
-        <h3 className="bauhaus-heading text-xl font-bold text-paper mb-4">
+        <h3 className="text-xl font-bold text-[#1E1F23] mb-4">
           Related Articles
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

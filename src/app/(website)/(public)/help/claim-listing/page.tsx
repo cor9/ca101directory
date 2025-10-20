@@ -1,13 +1,11 @@
 import { AlertCircle, ArrowLeft, CheckCircle2, Mail } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-
 export const metadata: Metadata = {
   title: "How to Claim Your Listing | Help Center",
   description:
     "Step-by-step guide to claiming your existing listing on Child Actor 101 Directory",
 };
-
 export default function ClaimListingPage() {
   return (
     <div className="container max-w-4xl mx-auto px-4 py-12">
@@ -18,7 +16,6 @@ export default function ClaimListingPage() {
         <ArrowLeft className="w-4 h-4" />
         Back to Help Center
       </Link>
-
       <h1 className="bauhaus-heading text-4xl font-bold text-paper mb-6">
         How to Claim Your Listing
       </h1>
@@ -26,7 +23,6 @@ export default function ClaimListingPage() {
         Already listed in our directory? Claim your listing to gain full control
         and unlock premium features.
       </p>
-
       {/* Why Claim Your Listing */}
       <div className="bg-blue-50 border-l-4 border-brand-blue rounded-lg p-6 mb-8">
         <h2 className="text-2xl font-bold text-[#1E1F23] mb-4">
@@ -66,13 +62,11 @@ export default function ClaimListingPage() {
               </p>
             </div>
         </div>
-
       {/* Step-by-Step Process */}
       <div className="space-y-8 mb-12">
         <h2 className="text-2xl font-bold text-[#1E1F23]">
           Claiming Process (5 Easy Steps)
         </h2>
-
         {/* Step 1 */}
         <div className="bg-surface rounded-lg p-6 shadow-lg">
           <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
@@ -89,7 +83,6 @@ export default function ClaimListingPage() {
                 Search Directory
           </Link>
         </div>
-
         {/* Step 2 */}
         <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg">
           <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
@@ -112,8 +105,6 @@ export default function ClaimListingPage() {
                       folder) for a confirmation link. You must confirm your
                       email before claiming listings.
                 </p>
-              </div>
-            </div>
           </div>
           <Link
                 href="/auth/register"
@@ -123,7 +114,6 @@ export default function ClaimListingPage() {
               </Link>
             </div>
         </div>
-
         {/* Step 3 */}
         <div className="bg-bauhaus-orange rounded-lg shadow-lg p-6">
             <div>
@@ -141,7 +131,6 @@ export default function ClaimListingPage() {
                 </p>
               </div>
           </div>
-
         {/* Step 4 */}
         <div className="bg-surface rounded-lg shadow-lg p-6">
             <div>
@@ -164,9 +153,6 @@ export default function ClaimListingPage() {
                       Claims are automatically approved. You get instant
                       ownership and can start editing immediately.
                     </p>
-                  </div>
-              </div>
-          </div>
 
         {/* Step 5 */}
         <div className="bg-bauhaus-mustard rounded-lg shadow-lg p-6">
@@ -185,9 +171,6 @@ export default function ClaimListingPage() {
                   approval before going live. This ensures quality across the
                   directory.
                 </p>
-              </div>
-          </div>
-      </div>
 
       {/* Troubleshooting Section */}
       <div className="bg-red-50 border-l-4 border-red-500 rounded-lg p-6 mb-8">
@@ -210,7 +193,6 @@ export default function ClaimListingPage() {
               Resend confirmation email →
             </button>
           </div>
-
           <div>
             <h3 className="font-semibold text-[#1E1F23] mb-2">
               Error: "Wrong role selected"
@@ -221,7 +203,6 @@ export default function ClaimListingPage() {
               your existing account.
             </p>
           </div>
-
           <div>
             <h3 className="font-semibold text-[#1E1F23] mb-2">
               Error: "Listing already claimed"
@@ -232,7 +213,6 @@ export default function ClaimListingPage() {
               assistance.
             </p>
           </div>
-
           <div>
             <h3 className="font-semibold text-[#1E1F23] mb-2">
               My listing isn't in the directory
@@ -249,7 +229,6 @@ export default function ClaimListingPage() {
             </Link>
           </div>
       </div>
-
       {/* Contact Support */}
       <div className="bg-gradient-to-r from-brand-blue to-brand-navy text-white rounded-lg p-8 text-center">
         <div className="inline-flex p-4 bg-white/10 rounded-full mb-4">
@@ -266,7 +245,6 @@ export default function ClaimListingPage() {
           Contact Support
         </a>
       </div>
-
       {/* Related Articles */}
       <div className="mt-12">
         <h3 className="text-xl font-bold text-[#1E1F23] mb-4">
@@ -294,6 +272,7 @@ export default function ClaimListingPage() {
             </p>
           </Link>
         </div>
+      </div>
     </div>
   );
 }

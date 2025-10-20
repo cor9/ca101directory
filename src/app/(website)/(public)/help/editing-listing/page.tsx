@@ -7,13 +7,11 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-
 export const metadata: Metadata = {
   title: "Editing Your Listing | Help Center",
   description:
     "Learn how to update and optimize your Child Actor 101 Directory listing",
 };
-
 export default function EditingListingPage() {
   return (
     <div className="container max-w-4xl mx-auto px-4 py-12">
@@ -24,7 +22,6 @@ export default function EditingListingPage() {
         <ArrowLeft className="w-4 h-4" />
         Back to Help Center
       </Link>
-
       <h1 className="bauhaus-heading text-4xl font-bold text-paper mb-6">
         Editing Your Listing
       </h1>
@@ -32,7 +29,6 @@ export default function EditingListingPage() {
         Keep your listing up-to-date with the latest information about your
         business. Here's everything you need to know about editing.
       </p>
-
       {/* How to Access Editor */}
       <div className="bg-blue-50 border-l-4 border-brand-blue rounded-lg p-6 mb-8">
         <h2 className="bauhaus-heading text-2xl font-bold text-[#1E1F23] mb-4">
@@ -75,21 +71,17 @@ export default function EditingListingPage() {
           </Link>
         </div>
       </div>
-
       {/* What You Can Edit */}
       <div className="mb-12">
         <h2 className="bauhaus-heading text-3xl font-bold text-paper mb-6">
           What You Can Edit
         </h2>
-
         <div className="space-y-6">
           {/* Business Information */}
           <div className="bauhaus-card p-6">
-            
               <div className="flex-shrink-0 p-3 bg-bauhaus-blue text-[#1E1F23] rounded-lg">
                 <Edit className="w-6 h-6" />
               </div>
-              
                 <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                   Business Information
                 </h3>
@@ -134,17 +126,12 @@ export default function EditingListingPage() {
                     </span>
                   </li>
                 </ul>
-              </div>
-            </div>
-          </div>
 
           {/* Images */}
           <div className="bauhaus-card p-6">
-            
               <div className="flex-shrink-0 p-3 bg-purple-100 text-purple-600 rounded-lg">
                 <ImageIcon className="w-6 h-6" />
               </div>
-              
                 <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                   Images & Gallery
                 </h3>
@@ -170,17 +157,12 @@ export default function EditingListingPage() {
                 >
                   View image guidelines →
                 </Link>
-              </div>
-            </div>
-          </div>
 
           {/* Social Media & Links */}
           <div className="bauhaus-card p-6">
-            
               <div className="flex-shrink-0 p-3 bg-green-100 text-[#1E1F23] rounded-lg">
                 <Globe className="w-6 h-6" />
               </div>
-              
                 <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                   Social Media & Links (Pro Plan)
                 </h3>
@@ -228,11 +210,6 @@ export default function EditingListingPage() {
                     </span>
                   </li>
                 </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Approval Process */}
       <div className="bg-yellow-50 border-l-4 border-yellow-500 rounded-lg p-6 mb-8">
@@ -259,10 +236,6 @@ export default function EditingListingPage() {
                 <li>Typical approval time: 24-48 hours</li>
                 <li>You'll receive an email once your edits are approved</li>
               </ul>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Best Practices */}
       <div className="mb-12">
@@ -313,9 +286,6 @@ export default function EditingListingPage() {
               Maintain a professional tone. Remember, parents are looking for
               trustworthy services.
             </p>
-          </div>
-        </div>
-      </div>
 
       {/* Common Questions */}
       <div className="mb-12">
@@ -332,7 +302,6 @@ export default function EditingListingPage() {
               receive an email notification once your changes go live.
             </p>
           </div>
-
           <div className="bg-surface border border-gray-200 rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-2">
               Can I edit my listing multiple times?
@@ -342,7 +311,6 @@ export default function EditingListingPage() {
               will go through the approval process.
             </p>
           </div>
-
           <div className="bg-surface border border-gray-200 rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-2">
               What if my edits are rejected?
@@ -353,7 +321,6 @@ export default function EditingListingPage() {
               resubmit.
             </p>
           </div>
-
           <div className="bg-surface border border-gray-200 rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-2">
               Can I preview my changes before they go live?
@@ -364,7 +331,6 @@ export default function EditingListingPage() {
               information before submitting.
             </p>
           </div>
-
           <div className="bg-surface border border-gray-200 rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-2">
               How do I upgrade my plan to add more features?
@@ -379,9 +345,6 @@ export default function EditingListingPage() {
             >
               Compare plans →
             </Link>
-          </div>
-        </div>
-      </div>
 
       {/* CTA */}
       <div className="bg-gradient-to-r from-brand-blue to-brand-navy text-white rounded-lg p-8 text-center">
@@ -399,7 +362,6 @@ export default function EditingListingPage() {
           Go to Dashboard
         </Link>
       </div>
-
       {/* Related Articles */}
       <div className="mt-12">
         <h3 className="text-xl font-bold text-[#1E1F23] mb-4">

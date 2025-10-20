@@ -9,13 +9,11 @@ import {
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-
 export const metadata: Metadata = {
   title: "101 Approved Badge | Child Actor 101 Directory Help",
   description:
     "Learn how to qualify for the 101 Approved badge—our official mark of trust for vetted child-acting professionals.",
 };
-
 export default function Help101ApprovedPage() {
   return (
     <div className="container max-w-4xl mx-auto px-4 py-12">
@@ -26,7 +24,6 @@ export default function Help101ApprovedPage() {
         <ArrowLeft className="w-4 h-4" />
         Back to Help Center
       </Link>
-
       {/* Badge Header */}
       <div className="text-center mb-12">
         <div className="flex justify-center mb-6">
@@ -48,7 +45,6 @@ export default function Help101ApprovedPage() {
           teen actors
         </p>
       </div>
-
       {/* What is the 101 Approved Badge */}
       <div className="bg-blue-50 border-l-4 border-brand-blue rounded-lg p-8 mb-8">
         <h2 className="text-2xl font-bold text-[#1E1F23] mb-4 flex items-center gap-2">
@@ -84,42 +80,31 @@ export default function Help101ApprovedPage() {
             <p className="text-sm text-[#1E1F23]">
               References from peers and industry professionals
             </p>
-          </div>
-        </div>
       </div>
-
       {/* Qualification Requirements */}
       <div className="mb-12">
         <h2 className="bauhaus-heading text-3xl font-bold text-paper mb-6">
           How to Qualify for the 101 Approved Badge
         </h2>
-
         <div className="space-y-6">
           {/* Step 1 */}
           <div className="bauhaus-card p-6">
-            
-              
-                <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
-                  Active Pro Listing Required
-                </h3>
-                <p className="text-[#1E1F23] mb-4">
-                  You must have an active Pro ($50/month) listing on the Child
-                  Actor 101 Directory. Free and Standard plans are not eligible.
-                </p>
-                <div className="bg-bauhaus-mustard/20 border-0 rounded-lg p-4">
-                  <p className="text-sm text-[#1E1F23]">
-                    <strong>Note:</strong> Your listing must be live and in good
-                    standing for at least 30 days before applying.
-                  </p>
-                </div>
-              </div>
+            <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
+              Active Pro Listing Required
+            </h3>
+            <p className="text-[#1E1F23] mb-4">
+              You must have an active Pro ($50/month) listing on the Child
+              Actor 101 Directory. Free and Standard plans are not eligible.
+            </p>
+            <div className="bg-bauhaus-mustard/20 border-0 rounded-lg p-4">
+              <p className="text-sm text-[#1E1F23]">
+                <strong>Note:</strong> Your listing must be live and in good
+                standing for at least 30 days before applying.
+              </p>
             </div>
           </div>
-
           {/* Step 2 */}
           <div className="bauhaus-card p-6">
-            
-              
                 <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                   Parent Testimonials
                 </h3>
@@ -151,14 +136,9 @@ export default function Help101ApprovedPage() {
                     </span>
                   </li>
                 </ul>
-              </div>
-            </div>
           </div>
-
           {/* Step 3 */}
           <div className="bauhaus-card p-6">
-            
-              
                 <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                   Industry References
                 </h3>
@@ -190,14 +170,9 @@ export default function Help101ApprovedPage() {
                     </span>
                   </li>
                 </ul>
-              </div>
-            </div>
           </div>
-
           {/* Step 4 */}
           <div className="bauhaus-card p-6">
-            
-              
                 <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                   Optional Credentials
                 </h3>
@@ -225,12 +200,7 @@ export default function Help101ApprovedPage() {
                     <span>Industry association memberships</span>
                   </li>
                 </ul>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-
       {/* Application Process */}
       <div className="bg-green-50 border-l-4 border-green-500 rounded-lg p-8 mb-8">
         <h2 className="text-2xl font-bold text-[#1E1F23] mb-4">
@@ -276,11 +246,7 @@ export default function Help101ApprovedPage() {
                 You'll be notified of approval, rejection, or if additional
                 information is needed
               </p>
-            </div>
-          </div>
-        </div>
       </div>
-
       {/* Child Actor 101 Code of Ethics */}
       <div className="mb-12">
         <h2 className="bauhaus-heading text-3xl font-bold text-paper mb-6">
@@ -292,7 +258,6 @@ export default function Help101ApprovedPage() {
             carrying the 101 Approved badge — agree to uphold the following
             principles in their work with minors and families:
           </p>
-
           <div className="space-y-6">
             <div>
               <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
@@ -322,7 +287,6 @@ export default function Help101ApprovedPage() {
                 </li>
               </ul>
             </div>
-
             <div>
               <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                 2. Professional Integrity
@@ -350,7 +314,6 @@ export default function Help101ApprovedPage() {
                 </li>
               </ul>
             </div>
-
             <div>
               <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                 3. Respect for Minors and Families
@@ -379,7 +342,6 @@ export default function Help101ApprovedPage() {
                 </li>
               </ul>
             </div>
-
             <div>
               <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                 4. Inclusivity & Representation
@@ -407,7 +369,6 @@ export default function Help101ApprovedPage() {
                 </li>
               </ul>
             </div>
-
             <div>
               <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                 5. Accountability & Compliance
@@ -435,7 +396,6 @@ export default function Help101ApprovedPage() {
                 </li>
               </ul>
             </div>
-
             <div>
               <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
                 6. Continuous Growth
@@ -456,11 +416,7 @@ export default function Help101ApprovedPage() {
                   </span>
                 </li>
               </ul>
-            </div>
-          </div>
-        </div>
       </div>
-
       {/* Benefits */}
       <div className="mb-12">
         <h2 className="bauhaus-heading text-3xl font-bold text-paper mb-6">
@@ -502,10 +458,7 @@ export default function Help101ApprovedPage() {
               Join our exclusive network of verified professionals and access
               special events, resources, and networking opportunities.
             </p>
-          </div>
-        </div>
       </div>
-
       {/* CTA */}
       <div className="bg-gradient-to-r from-brand-blue to-brand-navy text-white rounded-lg p-8 text-center">
         <h2 className="text-2xl font-bold mb-3">Ready to Apply?</h2>
@@ -520,7 +473,6 @@ export default function Help101ApprovedPage() {
           Start Your Application
         </Link>
       </div>
-
       {/* Related Articles */}
       <div className="mt-12">
         <h3 className="text-xl font-bold text-[#1E1F23] mb-4">

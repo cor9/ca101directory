@@ -209,16 +209,16 @@ export const ListingsTable = ({
           <tbody className="bg-card divide-y divide-border">
             {sortedAndFilteredListings.map((listing) => (
               <tr key={listing.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-paper">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-ink">
                   {listing.listing_name}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-paper">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-ink">
                   {getStatusBadge(listing.status)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-paper">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-ink">
                   {listing.is_claimed ? "Yes" : "No"}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-paper">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-ink">
                   {listing.created_at
                     ? new Date(listing.created_at).toLocaleDateString()
                     : "N/A"}
@@ -240,7 +240,7 @@ export const ListingsTable = ({
         </table>
       </div>
       {sortedAndFilteredListings.length === 0 && (
-        <div className="text-center py-8 text-paper">
+        <div className="text-center py-8 text-ink">
           No listings match the current filters.
         </div>
       )}

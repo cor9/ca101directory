@@ -31,237 +31,227 @@ export default function GettingStartedPage() {
       <div className="space-y-8">
         {/* Step 1 */}
         <div className="bg-surface rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
-                Create Your Account
-              </h2>
-              <p className="text-[#1E1F23] mb-4">
-                Start by creating a vendor account. This gives you access to
-                submit listings and manage your profile.
-              </p>
-              <div className="bg-bauhaus-blue/20 rounded-lg p-4 mb-4">
-                <p className="text-sm text-[#1E1F23] mb-2">
-                  <strong>Important:</strong> You'll receive a confirmation
-                  email after signing up.
-                </p>
-                <p className="text-sm text-[#1E1F23]">
-                  Check your email (including spam folder) and click the
-                  confirmation link to activate your account.
-                </p>
-              </div>
-              <Link
-                href="/auth/register"
-                className="inline-block bg-brand-blue hover:bg-brand-blue/90 text-[#1E1F23] font-semibold px-6 py-2 rounded-lg transition-colors"
-              >
-                Create Account
-              </Link>
-            </div>
+          <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
+            Create Your Account
+          </h2>
+          <p className="text-[#1E1F23] mb-4">
+            Start by creating a vendor account. This gives you access to
+            submit listings and manage your profile.
+          </p>
+          <div className="bg-bauhaus-blue/20 rounded-lg p-4 mb-4">
+            <p className="text-sm text-[#1E1F23] mb-2">
+              <strong>Important:</strong> You'll receive a confirmation
+              email after signing up.
+            </p>
+            <p className="text-sm text-[#1E1F23]">
+              Check your email (including spam folder) and click the
+              confirmation link to activate your account.
+            </p>
+          </div>
+          <Link
+            href="/auth/register"
+            className="inline-block bg-brand-blue hover:bg-brand-blue/90 text-[#1E1F23] font-semibold px-6 py-2 rounded-lg transition-colors"
+          >
+            Create Account
+          </Link>
         </div>
 
         {/* Step 2 */}
         <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
-                Choose Your Plan
-              </h2>
-              <p className="text-[#1E1F23] mb-4">
-                Select the subscription plan that works best for your business.
+          <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
+            Choose Your Plan
+          </h2>
+          <p className="text-[#1E1F23] mb-4">
+            Select the subscription plan that works best for your business.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div className="bg-surface rounded-lg p-4 flex flex-col border-2 border-[#1E1F23]/20">
+              <div className="h-6 mb-2" />
+              <h3 className="font-bold text-[#1E1F23] mb-2">Free</h3>
+              <p className="text-2xl font-bold text-[#1E1F23] mb-2">$0</p>
+              <ul className="text-sm text-[#1E1F23] space-y-1">
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span>Basic listing</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span>No images</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-bauhaus-blue rounded-lg p-4 flex flex-col border-2 border-[#1E1F23]/20">
+              <div className="h-6 mb-2" />
+              <h3 className="font-bold text-[#1E1F23] mb-2">Standard</h3>
+              <p className="text-2xl font-bold text-[#1E1F23] mb-2">
+                $25<span className="text-sm text-[#1E1F23]">/month</span>
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div className="bg-surface rounded-lg p-4 flex flex-col border-2 border-[#1E1F23]/20">
-                  <div className="h-6 mb-2"></div>
-                  <h3 className="font-bold text-[#1E1F23] mb-2">Free</h3>
-                  <p className="text-2xl font-bold text-[#1E1F23] mb-2">$0</p>
-                  <ul className="text-sm text-[#1E1F23] space-y-1">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span>Basic listing</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span>No images</span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="bg-bauhaus-blue rounded-lg p-4 flex flex-col border-2 border-[#1E1F23]/20">
-                  <div className="h-6 mb-2"></div>
-                  <h3 className="font-bold text-[#1E1F23] mb-2">Standard</h3>
-                  <p className="text-2xl font-bold text-[#1E1F23] mb-2">
-                    $25<span className="text-sm text-[#1E1F23]">/month</span>
-                  </p>
-                  <ul className="text-sm text-[#1E1F23] space-y-1">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span>Profile image</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span>Contact details</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span>Edit anytime</span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="bg-bauhaus-orange rounded-lg p-4 flex flex-col border-2 border-[#1E1F23]/20">
-                  <div className="h-6 mb-2 flex items-center">
-                    <span className="inline-block bg-[#1E1F23] text-white text-xs font-bold px-2 py-1 rounded">
-                      POPULAR
-                    </span>
-                  </div>
-                  <h3 className="font-bold text-[#1E1F23] mb-2">Pro</h3>
-                  <p className="text-2xl font-bold text-[#1E1F23] mb-2">
-                    $50<span className="text-sm text-[#1E1F23]">/month</span>
-                  </p>
-                  <ul className="text-sm text-[#1E1F23] space-y-1">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span>Profile + 4 gallery images</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span>Priority placement</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span>Social media links</span>
-                    </li>
-                  </ul>
-                </div>
+              <ul className="text-sm text-[#1E1F23] space-y-1">
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span>Profile image</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span>Contact details</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span>Edit anytime</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-bauhaus-orange rounded-lg p-4 flex flex-col border-2 border-[#1E1F23]/20">
+              <div className="h-6 mb-2 flex items-center">
+                <span className="inline-block bg-[#1E1F23] text-white text-xs font-bold px-2 py-1 rounded">
+                  POPULAR
+                </span>
               </div>
-              <Link
-                href="/help/pricing-plans"
-                className="text-brand-blue hover:text-brand-blue/80 underline text-sm"
-              >
-                View detailed plan comparison →
-              </Link>
+              <h3 className="font-bold text-[#1E1F23] mb-2">Pro</h3>
+              <p className="text-2xl font-bold text-[#1E1F23] mb-2">
+                $50<span className="text-sm text-[#1E1F23]">/month</span>
+              </p>
+              <ul className="text-sm text-[#1E1F23] space-y-1">
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span>Profile + 4 gallery images</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span>Priority placement</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span>Social media links</span>
+                </li>
+              </ul>
             </div>
           </div>
+          <Link
+            href="/help/pricing-plans"
+            className="text-[#1E1F23] hover:text-[#1E1F23]/80 underline text-sm font-semibold"
+          >
+            View detailed plan comparison →
+          </Link>
         </div>
 
         {/* Step 3 */}
         <div className="bg-bauhaus-orange rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
-                Complete Your Listing
-              </h2>
-              <p className="text-[#1E1F23] mb-4">
-                Fill out your business information to create a compelling
-                listing.
-              </p>
-              <div className="space-y-3 mb-4">
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-[#1E1F23]">
-                      Business Information
-                    </p>
-                    <p className="text-sm text-[#1E1F23]">
-                      Name, tagline, description, and contact details
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-[#1E1F23]">
-                      Category & Location
-                    </p>
-                    <p className="text-sm text-[#1E1F23]">
-                      Choose your category and service areas
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-[#1E1F23]">Profile Image</p>
-                    <p className="text-sm text-[#1E1F23]">
-                      Upload your logo (400x400px recommended)
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-[#1E1F23]">
-                      Gallery Images (Pro+)
-                    </p>
-                    <p className="text-sm text-[#1E1F23]">
-                      Add up to 4 additional photos (1200x800px recommended)
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <Link
-                href="/submit"
-                className="inline-block bg-brand-blue hover:bg-brand-blue/90 text-[#1E1F23] font-semibold px-6 py-2 rounded-lg transition-colors"
-              >
-                Start Your Listing
-              </Link>
-            </div>
-          </div>
-        </div>
-        <div className="bg-surface rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
-                Wait for Approval
-              </h2>
-              <p className="text-[#1E1F23] mb-4">
-                Our team reviews all new listings to ensure quality and
-                accuracy.
-              </p>
-              <div className="bg-bauhaus-mustard/20 rounded-lg p-4 mb-4">
-                <p className="text-sm text-[#1E1F23] mb-2">
-                  <strong>Approval Process:</strong>
+          <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
+            Complete Your Listing
+          </h2>
+          <p className="text-[#1E1F23] mb-4">
+            Fill out your business information to create a compelling
+            listing.
+          </p>
+          <div className="space-y-3 mb-4">
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-semibold text-[#1E1F23]">
+                  Business Information
                 </p>
-                <ul className="text-sm text-[#1E1F23] space-y-1 list-disc list-inside">
-                  <li>
-                    <strong>All Plans:</strong> Require admin approval,
-                    typically 24-48 hours
-                  </li>
-                  <li>
-                    <strong>Free Plan:</strong> Requires admin approval
-                    (typically 24-48 hours)
-                  </li>
-                  <li>
-                    All edits to existing listings require approval before going
-                    live
-                  </li>
-                </ul>
+                <p className="text-sm text-[#1E1F23]">
+                  Name, tagline, description, and contact details
+                </p>
               </div>
-              <p className="text-sm text-[#1E1F23]">
-                You'll receive an email notification once your listing is
-                approved and live.
-              </p>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-semibold text-[#1E1F23]">
+                  Category & Location
+                </p>
+                <p className="text-sm text-[#1E1F23]">
+                  Choose your category and service areas
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-semibold text-[#1E1F23]">Profile Image</p>
+                <p className="text-sm text-[#1E1F23]">
+                  Upload your logo (400x400px recommended)
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-semibold text-[#1E1F23]">
+                  Gallery Images (Pro+)
+                </p>
+                <p className="text-sm text-[#1E1F23]">
+                  Add up to 4 additional photos (1200x800px recommended)
+                </p>
+              </div>
             </div>
           </div>
+          <Link
+            href="/submit"
+            className="inline-block bg-brand-blue hover:bg-brand-blue/90 text-[#1E1F23] font-semibold px-6 py-2 rounded-lg transition-colors"
+          >
+            Start Your Listing
+          </Link>
         </div>
+
+        {/* Step 4 */}
+        <div className="bg-surface rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
+          <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
+            Wait for Approval
+          </h2>
+          <p className="text-[#1E1F23] mb-4">
+            Our team reviews all new listings to ensure quality and
+            accuracy.
+          </p>
+          <div className="bg-bauhaus-mustard/20 rounded-lg p-4 mb-4">
+            <p className="text-sm text-[#1E1F23] mb-2">
+              <strong>Approval Process:</strong>
+            </p>
+            <ul className="text-sm text-[#1E1F23] space-y-1 list-disc list-inside">
+              <li>
+                <strong>All Plans:</strong> Require admin approval,
+                typically 24-48 hours
+              </li>
+              <li>
+                <strong>Free Plan:</strong> Requires admin approval
+                (typically 24-48 hours)
+              </li>
+              <li>
+                All edits to existing listings require approval before going
+                live
+              </li>
+            </ul>
+          </div>
+          <p className="text-sm text-[#1E1F23]">
+            You'll receive an email notification once your listing is
+            approved and live.
+          </p>
+        </div>
+
+        {/* Step 5 */}
         <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
-                Manage Your Listing
-              </h2>
-              <p className="text-[#1E1F23] mb-4">
-                Access your dashboard to update information, track performance,
-                and manage your subscription.
-              </p>
-              <div className="space-y-2 mb-4">
-                <Link
-                  href="/dashboard"
-                  className="block text-[#1E1F23] hover:text-[#1E1F23]/80 underline font-semibold"
-                >
-                  Go to Dashboard →
-                </Link>
-                <Link
-                  href="/help/editing-listing"
-                  className="block text-[#1E1F23] hover:text-[#1E1F23]/80 underline font-semibold"
-                >
-                  Learn how to edit your listing →
-                </Link>
-              </div>
-            </div>
+          <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
+            Manage Your Listing
+          </h2>
+          <p className="text-[#1E1F23] mb-4">
+            Access your dashboard to update information, track performance,
+            and manage your subscription.
+          </p>
+          <div className="space-y-2 mb-4">
+            <Link
+              href="/dashboard"
+              className="block text-[#1E1F23] hover:text-[#1E1F23]/80 underline font-semibold"
+            >
+              Go to Dashboard →
+            </Link>
+            <Link
+              href="/help/editing-listing"
+              className="block text-[#1E1F23] hover:text-[#1E1F23]/80 underline font-semibold"
+            >
+              Learn how to edit your listing →
+            </Link>
           </div>
         </div>
       </div>

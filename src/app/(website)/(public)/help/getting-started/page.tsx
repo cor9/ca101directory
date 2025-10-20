@@ -301,7 +301,7 @@ export default function GettingStartedPage() {
         <div className="flex flex-wrap gap-4">
           <Link
             href="/submit"
-            className="inline-block bg-white text-brand-blue font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors"
+            className="inline-block bg-bauhaus-orange text-[#FFFDD0] font-semibold px-6 py-3 rounded-lg hover:bg-bauhaus-orange/90 transition-colors shadow-lg"
           >
             Create New Listing
           </Link>

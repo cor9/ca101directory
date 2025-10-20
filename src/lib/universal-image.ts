@@ -89,13 +89,21 @@ export async function getUniversalItemImage(item: {
   categories?: Array<{ name: string }>;
 }): Promise<UniversalImageResult> {
   const itemName = item.name || "Item";
+  // Helper: ensure Supabase storage paths become absolute public URLs
+  const normalizeImageUrl = (maybeUrl?: string | null) => {
+    if (!maybeUrl) return "";
+    return maybeUrl.startsWith("http")
+      ? maybeUrl
+      : getListingImageUrl(maybeUrl);
+  };
 
   // 1. Use item.image if available
   if (item.image) {
-    const imageUrl =
+    const rawImageUrl =
       typeof item.image === "string"
         ? item.image
         : item.image.src || item.image.asset?._ref;
+    const imageUrl = normalizeImageUrl(rawImageUrl);
     if (imageUrl) {
       return {
         src: imageUrl,
@@ -107,10 +115,11 @@ export async function getUniversalItemImage(item: {
 
   // 2. Use item.icon if available
   if (item.icon) {
-    const iconUrl =
+    const rawIconUrl =
       typeof item.icon === "string"
         ? item.icon
         : item.icon.src || item.icon.asset?._ref;
+    const iconUrl = normalizeImageUrl(rawIconUrl);
     if (iconUrl) {
       return {
         src: iconUrl,

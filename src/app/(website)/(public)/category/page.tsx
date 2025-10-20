@@ -202,7 +202,7 @@ export default async function CategoryPage() {
                     {category.count} PROFESSIONAL
                     {category.count !== 1 ? "S" : ""}
                   </div>
-                  <p className="bauhaus-body text-base leading-relaxed text-ink">
+                  <p className="bauhaus-body text-base leading-relaxed text-surface">
                     {category.description}
                   </p>
                 </div>

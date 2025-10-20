@@ -91,7 +91,7 @@ export default function PricingPlansPage() {
         </div>
 
         {/* Standard Plan */}
-        <div className="bg-surface rounded-lg shadow-lg p-6 flex flex-col">
+        <div className="bg-bauhaus-mustard rounded-lg shadow-lg p-6 flex flex-col">
           <div className="text-center mb-6">
             <h2 className="text-2xl font-bold text-[#1E1F23] mb-2">Standard</h2>
             <div className="mb-4">
@@ -143,7 +143,7 @@ export default function PricingPlansPage() {
         </div>
 
         {/* Pro Plan - POPULAR */}
-        <div className="bg-surface border-4 border-brand-blue rounded-lg p-6 flex flex-col relative shadow-xl">
+        <div className="bg-bauhaus-orange border-4 border-bauhaus-orange rounded-lg p-6 flex flex-col relative shadow-xl">
           <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
             <span className="bg-brand-blue text-white text-xs font-bold px-4 py-1 rounded-full flex items-center gap-1">
               <Star className="w-3 h-3" />

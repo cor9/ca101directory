@@ -129,7 +129,7 @@ export default async function CategoryPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 text-paper">
+    <div className="container mx-auto px-4 py-8 bg-navy-900 text-paper">
       {/* Header */}
       <div className="text-center mb-12">
         <h1 className="bauhaus-heading text-4xl mb-8 text-paper">

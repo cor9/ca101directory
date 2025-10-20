@@ -31,10 +31,6 @@ export default function GettingStartedPage() {
       <div className="space-y-8">
         {/* Step 1 */}
         <div className="bg-surface rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">
-              1
-            </div>
             <div className="flex-1">
               <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
                 Create Your Account
@@ -55,20 +51,15 @@ export default function GettingStartedPage() {
               </div>
               <Link
                 href="/auth/register"
-                className="inline-block bg-brand-blue hover:bg-brand-blue/90 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
+                className="inline-block bg-brand-blue hover:bg-brand-blue/90 text-[#1E1F23] font-semibold px-6 py-2 rounded-lg transition-colors"
               >
                 Create Account
               </Link>
             </div>
-          </div>
         </div>
 
         {/* Step 2 */}
         <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-8 h-8 bg-bauhaus-orange text-white rounded-full flex items-center justify-center font-bold">
-              2
-            </div>
             <div className="flex-1">
               <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
                 Choose Your Plan
@@ -151,10 +142,6 @@ export default function GettingStartedPage() {
 
         {/* Step 3 */}
         <div className="bg-bauhaus-orange rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-8 h-8 bg-bauhaus-blue text-white rounded-full flex items-center justify-center font-bold">
-              3
-            </div>
             <div className="flex-1">
               <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
                 Complete Your Listing
@@ -209,20 +196,14 @@ export default function GettingStartedPage() {
               </div>
               <Link
                 href="/submit"
-                className="inline-block bg-brand-blue hover:bg-brand-blue/90 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
+                className="inline-block bg-brand-blue hover:bg-brand-blue/90 text-[#1E1F23] font-semibold px-6 py-2 rounded-lg transition-colors"
               >
                 Start Your Listing
               </Link>
             </div>
           </div>
         </div>
-
-        {/* Step 4 */}
         <div className="bg-surface rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold">
-              4
-            </div>
             <div className="flex-1">
               <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
                 Wait for Approval
@@ -257,13 +238,7 @@ export default function GettingStartedPage() {
             </div>
           </div>
         </div>
-
-        {/* Step 5 */}
         <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg transition-all hover:shadow-xl">
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-8 h-8 bg-bauhaus-orange text-white rounded-full flex items-center justify-center font-bold">
-              5
-            </div>
             <div className="flex-1">
               <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
                 Manage Your Listing
@@ -275,13 +250,13 @@ export default function GettingStartedPage() {
               <div className="space-y-2 mb-4">
                 <Link
                   href="/dashboard"
-                  className="block text-brand-blue hover:text-brand-blue/80 underline"
+                  className="block text-[#1E1F23] hover:text-[#1E1F23]/80 underline font-semibold"
                 >
                   Go to Dashboard →
                 </Link>
                 <Link
                   href="/help/editing-listing"
-                  className="block text-brand-blue hover:text-brand-blue/80 underline"
+                  className="block text-[#1E1F23] hover:text-[#1E1F23]/80 underline font-semibold"
                 >
                   Learn how to edit your listing →
                 </Link>
@@ -290,8 +265,6 @@ export default function GettingStartedPage() {
           </div>
         </div>
       </div>
-
-      {/* Next Steps */}
       <div className="mt-12 bg-gradient-to-r from-brand-blue to-brand-navy text-white rounded-lg p-8">
         <h2 className="text-2xl font-bold mb-4">Ready to Get Started?</h2>
         <p className="mb-6 opacity-90">
@@ -307,14 +280,12 @@ export default function GettingStartedPage() {
           </Link>
           <Link
             href="/claim-listing"
-            className="inline-block bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-lg transition-colors border border-white/30"
+            className="inline-block bg-bauhaus-blue hover:bg-bauhaus-blue/90 text-[#1E1F23] font-semibold px-6 py-3 rounded-lg transition-colors"
           >
             Claim Existing Listing
           </Link>
         </div>
       </div>
-
-      {/* Related Articles */}
       <div className="mt-12">
         <h3 className="bauhaus-heading text-xl font-bold text-paper mb-4">
           Related Articles

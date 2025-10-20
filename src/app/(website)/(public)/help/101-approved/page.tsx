@@ -286,18 +286,17 @@ export default function Help101ApprovedPage() {
         <h2 className="text-3xl font-bold text-paper mb-6">
           🧡 Child Actor 101 Code of Ethics
         </h2>
-        <div className="bg-surface rounded-lg p-8 shadow-lg">
-          <p className="text-[#1E1F23] mb-6">
-            All vendors listed on Child Actor 101 — and especially those
-            carrying the 101 Approved badge — agree to uphold the following
-            principles in their work with minors and families:
-          </p>
+        <p className="text-paper mb-6">
+          All vendors listed on Child Actor 101 — and especially those
+          carrying the 101 Approved badge — agree to uphold the following
+          principles in their work with minors and families:
+        </p>
 
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
-                1. Safety First
-              </h3>
+        <div className="space-y-6">
+          <div className="bg-surface rounded-lg p-6 shadow-lg">
+            <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
+              1. Safety First
+            </h3>
               <ul className="space-y-2 text-[#1E1F23]">
                 <li className="flex items-start gap-2">
                   <span className="text-[#1E1F23] mt-1">•</span>
@@ -320,13 +319,13 @@ export default function Help101ApprovedPage() {
                     child-protection laws and regulations
                   </span>
                 </li>
-              </ul>
-            </div>
+            </ul>
+          </div>
 
-            <div>
-              <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
-                2. Professional Integrity
-              </h3>
+          <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg">
+            <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
+              2. Professional Integrity
+            </h3>
               <ul className="space-y-2 text-[#1E1F23]">
                 <li className="flex items-start gap-2">
                   <span className="text-[#1E1F23] mt-1">•</span>
@@ -348,13 +347,13 @@ export default function Help101ApprovedPage() {
                     industry access or guarantees
                   </span>
                 </li>
-              </ul>
-            </div>
+            </ul>
+          </div>
 
-            <div>
-              <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
-                3. Respect for Minors and Families
-              </h3>
+          <div className="bg-bauhaus-orange rounded-lg p-6 shadow-lg">
+            <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
+              3. Respect for Minors and Families
+            </h3>
               <ul className="space-y-2 text-[#1E1F23]">
                 <li className="flex items-start gap-2">
                   <span className="text-[#1E1F23] mt-1">•</span>
@@ -377,13 +376,13 @@ export default function Help101ApprovedPage() {
                     digital
                   </span>
                 </li>
-              </ul>
-            </div>
+            </ul>
+          </div>
 
-            <div>
-              <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
-                4. Inclusivity & Representation
-              </h3>
+          <div className="bg-bauhaus-mustard rounded-lg p-6 shadow-lg">
+            <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
+              4. Inclusivity & Representation
+            </h3>
               <ul className="space-y-2 text-[#1E1F23]">
                 <li className="flex items-start gap-2">
                   <span className="text-[#1E1F23] mt-1">•</span>
@@ -405,13 +404,13 @@ export default function Help101ApprovedPage() {
                     Encourage diverse representation in media and education
                   </span>
                 </li>
-              </ul>
-            </div>
+            </ul>
+          </div>
 
-            <div>
-              <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
-                5. Accountability & Compliance
-              </h3>
+          <div className="bg-surface rounded-lg p-6 shadow-lg">
+            <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
+              5. Accountability & Compliance
+            </h3>
               <ul className="space-y-2 text-[#1E1F23]">
                 <li className="flex items-start gap-2">
                   <span className="text-[#1E1F23] mt-1">•</span>
@@ -433,13 +432,13 @@ export default function Help101ApprovedPage() {
                     Cooperate fully with CA101 admin reviews or investigations
                   </span>
                 </li>
-              </ul>
-            </div>
+            </ul>
+          </div>
 
-            <div>
-              <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
-                6. Continuous Growth
-              </h3>
+          <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg">
+            <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
+              6. Continuous Growth
+            </h3>
               <ul className="space-y-2 text-[#1E1F23]">
                 <li className="flex items-start gap-2">
                   <span className="text-[#1E1F23] mt-1">•</span>
@@ -455,8 +454,7 @@ export default function Help101ApprovedPage() {
                     youth-acting community
                   </span>
                 </li>
-              </ul>
-            </div>
+            </ul>
           </div>
         </div>
       </div>

@@ -1,19 +1,26 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, type UseFormRegister, type FieldError } from "react-hook-form";
+import { useEffect, useState, useTransition } from "react";
+import {
+  type FieldError,
+  type UseFormRegister,
+  useForm,
+} from "react-hook-form";
 import { z } from "zod";
-import { useTransition, useState, useEffect } from "react";
 
-import { Button } from "@/components/ui/button";
 // Fix: Separated imports to pull `Listing` type from data layer and action/schema from the actions layer.
 import { updateListing } from "@/actions/listings";
-import { UpdateListingSchema } from "@/lib/validations/listings";
-import type { Listing } from "@/data/listings";
+import { Button } from "@/components/ui/button";
 import { getCategoriesClient } from "@/data/categories-client";
+import type { Listing } from "@/data/listings";
+import type { UpdateListingSchema } from "@/lib/validations/listings";
 
 // Form input type with strings for array fields (before transformation)
-type FormInputType = Omit<z.infer<typeof UpdateListingSchema>, 'categories' | 'age_range' | 'region'> & {
+type FormInputType = Omit<
+  z.infer<typeof UpdateListingSchema>,
+  "categories" | "age_range" | "region"
+> & {
   categories: string;
   age_range: string;
   region: string;
@@ -23,8 +30,15 @@ type FormInputType = Omit<z.infer<typeof UpdateListingSchema>, 'categories' | 'a
 const FormInputSchema = z.object({
   listing_name: z.string().min(1, "Listing name is required."),
   status: z.enum(["Live", "Pending", "Draft", "Archived", "Rejected"]),
-  website: z.union([z.string().url({ message: "Invalid URL format." }), z.literal("")]).optional(),
-  email: z.union([z.string().email({ message: "Invalid email format." }), z.literal("")]).optional(),
+  website: z
+    .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
+    .optional(),
+  email: z
+    .union([
+      z.string().email({ message: "Invalid email format." }),
+      z.literal(""),
+    ])
+    .optional(),
   phone: z.string().optional(),
   what_you_offer: z.string().optional(),
   is_claimed: z.boolean(),
@@ -32,8 +46,12 @@ const FormInputSchema = z.object({
   city: z.string().optional(),
   state: z.string().optional(),
   zip: z.string().optional(),
-  facebook_url: z.union([z.string().url({ message: "Invalid URL format." }), z.literal("")]).optional(),
-  instagram_url: z.union([z.string().url({ message: "Invalid URL format." }), z.literal("")]).optional(),
+  facebook_url: z
+    .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
+    .optional(),
+  instagram_url: z
+    .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
+    .optional(),
   plan: z.string().optional(),
   is_active: z.boolean(),
   featured: z.boolean(),
@@ -88,7 +106,9 @@ interface FormTextareaProps {
 
 export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
   const [isPending, startTransition] = useTransition();
-  const [categories, setCategories] = useState<Array<{ id: string; category_name: string }>>([]);
+  const [categories, setCategories] = useState<
+    Array<{ id: string; category_name: string }>
+  >([]);
   const [categoryNames, setCategoryNames] = useState<string>("");
 
   // Fetch categories and convert UUIDs to names
@@ -97,17 +117,22 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       try {
         const fetchedCategories = await getCategoriesClient();
         setCategories(fetchedCategories);
-        
+
         // Convert category UUIDs to names
         if (listing.categories && listing.categories.length > 0) {
           const names = listing.categories
-            .map(uuid => {
-              const category = fetchedCategories.find(cat => cat.id === uuid);
+            .map((uuid) => {
+              const category = fetchedCategories.find((cat) => cat.id === uuid);
               return category ? category.category_name : uuid; // fallback to UUID if not found
             })
             .join(", ");
           setCategoryNames(names);
-          console.log("Converted category UUIDs to names:", listing.categories, "->", names);
+          console.log(
+            "Converted category UUIDs to names:",
+            listing.categories,
+            "->",
+            names,
+          );
         }
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -123,18 +148,24 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
     resolver: zodResolver(FormInputSchema),
     defaultValues: {
       listing_name: listing.listing_name || "",
-      status: (listing.status as "Live" | "Pending" | "Draft" | "Archived" | "Rejected") || "Draft",
+      status:
+        (listing.status as
+          | "Live"
+          | "Pending"
+          | "Draft"
+          | "Archived"
+          | "Rejected") || "Draft",
       website: listing.website || "",
-    email: listing.email || "",
-    phone: listing.phone || "",
+      email: listing.email || "",
+      phone: listing.phone || "",
       what_you_offer: listing.what_you_offer || "",
       is_claimed: listing.is_claimed || false,
       // Extended fields
-    city: listing.city || "",
-    state: listing.state || "",
+      city: listing.city || "",
+      state: listing.state || "",
       zip: String(listing.zip || ""),
-    facebook_url: listing.facebook_url || "",
-    instagram_url: listing.instagram_url || "",
+      facebook_url: listing.facebook_url || "",
+      instagram_url: listing.instagram_url || "",
       plan: listing.plan || "Free",
       is_active: listing.is_active ?? false,
       featured: listing.featured ?? false,
@@ -162,49 +193,65 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
     isValid: form.formState.isValid,
     errors: form.formState.errors,
     isSubmitting: form.formState.isSubmitting,
-    isPending
+    isPending,
   });
 
   const onSubmit = (values: FormInputType) => {
     console.log("Form submission started with values:", values);
     console.log("Available categories:", categories);
-    
+
     // Note: We can now handle both UUIDs and category names, so we don't need to wait for categories to load
-    
+
     try {
       startTransition(() => {
         try {
           // Convert category names back to UUIDs before submitting
           const processedValues = { ...values };
-          
+
           if (values.categories && values.categories.trim()) {
             // Check if it's already a UUID (single category) or category names (comma-separated)
-            const isUuid = values.categories.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);
-            
+            const isUuid = values.categories.match(
+              /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
+            );
+
             if (isUuid) {
               // It's already a UUID, keep it as is
-              console.log("Categories field contains UUID, keeping as is:", values.categories);
+              console.log(
+                "Categories field contains UUID, keeping as is:",
+                values.categories,
+              );
               processedValues.categories = values.categories;
             } else {
               // It's category names, convert to UUIDs
-              const categoryNames = values.categories.split(",").map(name => name.trim()).filter(Boolean);
+              const categoryNames = values.categories
+                .split(",")
+                .map((name) => name.trim())
+                .filter(Boolean);
               console.log("Category names to convert:", categoryNames);
-              
-              const categoryUuids = categoryNames.map(name => {
-                const category = categories.find(cat => cat.category_name === name);
-                console.log(`Converting "${name}" to UUID:`, category ? category.id : name);
+
+              const categoryUuids = categoryNames.map((name) => {
+                const category = categories.find(
+                  (cat) => cat.category_name === name,
+                );
+                console.log(
+                  `Converting "${name}" to UUID:`,
+                  category ? category.id : name,
+                );
                 return category ? category.id : name; // fallback to original if not found
               });
               processedValues.categories = categoryUuids.join(", ");
-              console.log("Final processed categories:", processedValues.categories);
+              console.log(
+                "Final processed categories:",
+                processedValues.categories,
+              );
             }
           } else {
             // If no categories specified, set to empty string
             processedValues.categories = "";
           }
-          
+
           console.log("Final processed values:", processedValues);
-          
+
           // Convert string arrays to comma-separated strings for the server schema transformer
           const serverValues = {
             ...processedValues,
@@ -213,30 +260,52 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             age_range: processedValues.age_range || "",
             region: processedValues.region || "",
           };
-          
+
           console.log("Server values:", serverValues);
-          
-          updateListing(listing.id, serverValues as unknown as z.infer<typeof UpdateListingSchema>).then((res) => {
-            console.log("UpdateListing response:", res);
-            // Pass the entire response to the parent component to handle side-effects
-            onFinished(res);
-          }).catch((error) => {
-            console.error("UpdateListing error:", error);
-            onFinished({ status: "error", message: "An unexpected error occurred." });
-          });
+
+          updateListing(
+            listing.id,
+            serverValues as unknown as z.infer<typeof UpdateListingSchema>,
+          )
+            .then((res) => {
+              console.log("UpdateListing response:", res);
+              // Pass the entire response to the parent component to handle side-effects
+              onFinished(res);
+            })
+            .catch((error) => {
+              console.error("UpdateListing error:", error);
+              onFinished({
+                status: "error",
+                message: "An unexpected error occurred.",
+              });
+            });
         } catch (innerError) {
           console.error("Error in startTransition:", innerError);
-          onFinished({ status: "error", message: "Form processing error occurred." });
+          onFinished({
+            status: "error",
+            message: "Form processing error occurred.",
+          });
         }
       });
     } catch (outerError) {
       console.error("Error in onSubmit:", outerError);
-      onFinished({ status: "error", message: "Form submission error occurred." });
+      onFinished({
+        status: "error",
+        message: "Form submission error occurred.",
+      });
     }
   };
 
   // FIX: Make the `helpText` prop optional by providing a default value.
-  const FormInput = ({ id, label, register, error, disabled, helpText = null, ...props }: FormInputProps) => (
+  const FormInput = ({
+    id,
+    label,
+    register,
+    error,
+    disabled,
+    helpText = null,
+    ...props
+  }: FormInputProps) => (
     <div className="space-y-1">
       <label htmlFor={id} className="block text-sm font-medium text-ink">
         {label}
@@ -250,143 +319,308 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       />
       {helpText && <p className="text-xs text-ink mt-1">{helpText}</p>}
       {error && <p className="text-sm text-red-500 mt-1">{error?.message}</p>}
-              </div>
+    </div>
   );
 
-  const FormSelect = ({ id, label, register, children, disabled }: FormSelectProps) => (
-     <div className="space-y-1">
-        <label htmlFor={id} className="block text-sm font-medium text-ink">{label}</label>
-        <select
-          id={id}
-          {...register(id)}
-          className="w-full bg-surface border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none text-ink"
-          disabled={disabled}
-        >
-          {children}
-        </select>
-              </div>
-  );
-  
-  const FormCheckbox = ({ id, label, register, disabled }: FormCheckboxProps) => (
-     <div className="flex items-center gap-2 pt-4">
-        <input
-           type="checkbox"
-           id={id}
-           {...register(id)}
-           className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
-           disabled={disabled}
-        />
-        <label htmlFor={id} className="text-ink">{label}</label>
-              </div>
-  );
-
-  const FormTextarea = ({ id, label, register, disabled, rows = 3 }: FormTextareaProps) => (
+  const FormSelect = ({
+    id,
+    label,
+    register,
+    children,
+    disabled,
+  }: FormSelectProps) => (
     <div className="space-y-1">
-      <label htmlFor={id} className="block text-sm font-medium text-ink">{label}</label>
+      <label htmlFor={id} className="block text-sm font-medium text-ink">
+        {label}
+      </label>
+      <select
+        id={id}
+        {...register(id)}
+        className="w-full bg-surface border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none text-ink"
+        disabled={disabled}
+      >
+        {children}
+      </select>
+    </div>
+  );
+
+  const FormCheckbox = ({
+    id,
+    label,
+    register,
+    disabled,
+  }: FormCheckboxProps) => (
+    <div className="flex items-center gap-2 pt-4">
+      <input
+        type="checkbox"
+        id={id}
+        {...register(id)}
+        className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+        disabled={disabled}
+      />
+      <label htmlFor={id} className="text-ink">
+        {label}
+      </label>
+    </div>
+  );
+
+  const FormTextarea = ({
+    id,
+    label,
+    register,
+    disabled,
+    rows = 3,
+  }: FormTextareaProps) => (
+    <div className="space-y-1">
+      <label htmlFor={id} className="block text-sm font-medium text-ink">
+        {label}
+      </label>
       <textarea
         id={id}
         {...register(id)}
         rows={rows}
         className="w-full bg-surface border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none text-ink"
         disabled={disabled}
-              />
-            </div>
+      />
+    </div>
   );
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit, (errors) => {
-      console.error("Form validation errors:", errors);
-    })} className="space-y-6 max-h-[70vh] overflow-y-auto pr-4">
-      
+    <form
+      onSubmit={form.handleSubmit(onSubmit, (errors) => {
+        console.error("Form validation errors:", errors);
+      })}
+      className="space-y-6 max-h-[70vh] overflow-y-auto pr-4"
+    >
       {/* --- Basic Information --- */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <FormInput id="listing_name" label="Listing Name" register={form.register} error={form.formState.errors.listing_name} disabled={isPending} />
-        <FormSelect id="status" label="Status" register={form.register} disabled={isPending}>
-            <option value="Live">Live</option>
-            <option value="Pending">Pending</option>
-            <option value="Draft">Draft</option>
-            <option value="Archived">Archived</option>
-            <option value="Rejected">Rejected</option>
+        <FormInput
+          id="listing_name"
+          label="Listing Name"
+          register={form.register}
+          error={form.formState.errors.listing_name}
+          disabled={isPending}
+        />
+        <FormSelect
+          id="status"
+          label="Status"
+          register={form.register}
+          disabled={isPending}
+        >
+          <option value="Live">Live</option>
+          <option value="Pending">Pending</option>
+          <option value="Draft">Draft</option>
+          <option value="Archived">Archived</option>
+          <option value="Rejected">Rejected</option>
         </FormSelect>
-        <FormInput id="website" label="Website" register={form.register} error={form.formState.errors.website} disabled={isPending} />
-        <FormInput id="email" label="Email" register={form.register} error={form.formState.errors.email} disabled={isPending} type="email" />
-        <FormInput id="phone" label="Phone" register={form.register} error={form.formState.errors.phone} disabled={isPending} />
-        <FormInput id="plan" label="Plan" register={form.register} error={form.formState.errors.plan} disabled={isPending} />
-            </div>
+        <FormInput
+          id="website"
+          label="Website"
+          register={form.register}
+          error={form.formState.errors.website}
+          disabled={isPending}
+        />
+        <FormInput
+          id="email"
+          label="Email"
+          register={form.register}
+          error={form.formState.errors.email}
+          disabled={isPending}
+          type="email"
+        />
+        <FormInput
+          id="phone"
+          label="Phone"
+          register={form.register}
+          error={form.formState.errors.phone}
+          disabled={isPending}
+        />
+        <FormInput
+          id="plan"
+          label="Plan"
+          register={form.register}
+          error={form.formState.errors.plan}
+          disabled={isPending}
+        />
+      </div>
 
       <hr className="my-6 border-border" />
 
       {/* --- Location Details --- */}
-            <div>
-        <h3 className="text-md font-semibold mb-2 text-ink">Location Details</h3>
+      <div>
+        <h3 className="text-md font-semibold mb-2 text-ink">
+          Location Details
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <FormInput id="city" label="City" register={form.register} error={form.formState.errors.city} disabled={isPending} />
-          <FormInput id="state" label="State" register={form.register} error={form.formState.errors.state} disabled={isPending} />
-          <FormInput id="zip" label="Zip Code" register={form.register} error={form.formState.errors.zip} disabled={isPending} />
-            </div>
-            </div>
+          <FormInput
+            id="city"
+            label="City"
+            register={form.register}
+            error={form.formState.errors.city}
+            disabled={isPending}
+          />
+          <FormInput
+            id="state"
+            label="State"
+            register={form.register}
+            error={form.formState.errors.state}
+            disabled={isPending}
+          />
+          <FormInput
+            id="zip"
+            label="Zip Code"
+            register={form.register}
+            error={form.formState.errors.zip}
+            disabled={isPending}
+          />
+        </div>
+      </div>
 
       <hr className="my-6 border-border" />
 
       {/* --- Categorization --- */}
-            <div>
+      <div>
         <h3 className="text-md font-semibold mb-2 text-ink">Categorization</h3>
         <div className="space-y-4">
-          <FormInput id="categories" label="Categories" register={form.register} error={form.formState.errors.categories} disabled={isPending} helpText="Enter values separated by a comma. E.g., Acting Coaches, Headshot Photographers" />
-          <FormInput id="age_range" label="Age Range" register={form.register} error={form.formState.errors.age_range} disabled={isPending} helpText="Enter values separated by a comma. E.g., 5-8, 9-12, 13-17, 18+" />
-          <FormInput id="region" label="Region" register={form.register} error={form.formState.errors.region} disabled={isPending} helpText="Enter values separated by a comma. E.g., West Coast, Southeast" />
-            </div>
-            </div>
+          <FormInput
+            id="categories"
+            label="Categories"
+            register={form.register}
+            error={form.formState.errors.categories}
+            disabled={isPending}
+            helpText="Enter values separated by a comma. E.g., Acting Coaches, Headshot Photographers"
+          />
+          <FormInput
+            id="age_range"
+            label="Age Range"
+            register={form.register}
+            error={form.formState.errors.age_range}
+            disabled={isPending}
+            helpText="Enter values separated by a comma. E.g., 5-8, 9-12, 13-17, 18+"
+          />
+          <FormInput
+            id="region"
+            label="Region"
+            register={form.register}
+            error={form.formState.errors.region}
+            disabled={isPending}
+            helpText="Enter values separated by a comma. E.g., West Coast, Southeast"
+          />
+        </div>
+      </div>
 
       <hr className="my-6 border-border" />
 
       {/* --- Social Media --- */}
-            <div>
+      <div>
         <h3 className="text-md font-semibold mb-2 text-ink">Social Media</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-           <FormInput id="facebook_url" label="Facebook URL" register={form.register} error={form.formState.errors.facebook_url} disabled={isPending} />
-           <FormInput id="instagram_url" label="Instagram URL" register={form.register} error={form.formState.errors.instagram_url} disabled={isPending} />
-              </div>
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FormInput
+            id="facebook_url"
+            label="Facebook URL"
+            register={form.register}
+            error={form.formState.errors.facebook_url}
+            disabled={isPending}
+          />
+          <FormInput
+            id="instagram_url"
+            label="Instagram URL"
+            register={form.register}
+            error={form.formState.errors.instagram_url}
+            disabled={isPending}
+          />
+        </div>
+      </div>
 
       <hr className="my-6 border-border" />
-      
+
       {/* --- Profile Content --- */}
-              <div>
+      <div>
         <h3 className="text-md font-semibold mb-2 text-ink">Profile Content</h3>
         <div className="space-y-4">
-            <FormTextarea id="what_you_offer" label="What You Offer (Short Bio)" register={form.register} disabled={isPending} />
-            <FormTextarea id="who_is_it_for" label="Who Is It For" register={form.register} disabled={isPending} />
-            <FormTextarea id="why_is_it_unique" label="What Makes This Unique" register={form.register} disabled={isPending} />
-            <FormTextarea id="format" label="Service Format" register={form.register} disabled={isPending} rows={2} />
-            <FormTextarea id="extras_notes" label="Additional Notes" register={form.register} disabled={isPending} rows={2} />
-              </div>
-            </div>
+          <FormTextarea
+            id="what_you_offer"
+            label="What You Offer (Short Bio)"
+            register={form.register}
+            disabled={isPending}
+          />
+          <FormTextarea
+            id="who_is_it_for"
+            label="Who Is It For"
+            register={form.register}
+            disabled={isPending}
+          />
+          <FormTextarea
+            id="why_is_it_unique"
+            label="What Makes This Unique"
+            register={form.register}
+            disabled={isPending}
+          />
+          <FormTextarea
+            id="format"
+            label="Service Format"
+            register={form.register}
+            disabled={isPending}
+            rows={2}
+          />
+          <FormTextarea
+            id="extras_notes"
+            label="Additional Notes"
+            register={form.register}
+            disabled={isPending}
+            rows={2}
+          />
+        </div>
+      </div>
 
       <hr className="my-6 border-border" />
-      
+
       {/* --- Platform Status --- */}
-                <div>
-        <h3 className="text-md font-semibold mb-2 text-gray-900">Platform Status</h3>
+      <div>
+        <h3 className="text-md font-semibold mb-2 text-gray-900">
+          Platform Status
+        </h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <FormCheckbox id="is_claimed" label="Listing is Claimed" register={form.register} disabled={isPending} />
-            <FormCheckbox id="is_active" label="Listing is Active" register={form.register} disabled={isPending} />
-            <FormCheckbox id="featured" label="Is Featured" register={form.register} disabled={isPending} />
-              </div>
-            </div>
+          <FormCheckbox
+            id="is_claimed"
+            label="Listing is Claimed"
+            register={form.register}
+            disabled={isPending}
+          />
+          <FormCheckbox
+            id="is_active"
+            label="Listing is Active"
+            register={form.register}
+            disabled={isPending}
+          />
+          <FormCheckbox
+            id="featured"
+            label="Is Featured"
+            register={form.register}
+            disabled={isPending}
+          />
+        </div>
+      </div>
 
       <div className="flex justify-end gap-2 pt-6 sticky bottom-0 bg-card py-4">
-        <Button type="button" variant="ghost" onClick={() => onFinished({ status: "error", message: "Update cancelled."})} disabled={isPending}>
-                Cancel
-              </Button>
-              <Button
-          type="submit" 
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={() =>
+            onFinished({ status: "error", message: "Update cancelled." })
+          }
+          disabled={isPending}
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
           disabled={isPending}
           onClick={() => console.log("Save Changes button clicked!")}
         >
           {isPending ? "Saving..." : "Save Changes"}
-              </Button>
-            </div>
-      </form>
+        </Button>
+      </div>
+    </form>
   );
 }

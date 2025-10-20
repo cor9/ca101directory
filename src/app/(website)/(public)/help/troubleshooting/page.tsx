@@ -39,7 +39,7 @@ export default function TroubleshootingPage() {
           Account & Login Issues
         </h2>
         <div className="space-y-6">
-          <div className="bg-surface border-l-4 border-red-500 rounded-lg p-6">
+          <div className="bg-surface  rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-3 text-lg">
               ❌ I can't log in to my account
             </h3>
@@ -81,7 +81,7 @@ export default function TroubleshootingPage() {
             </div>
           </div>
 
-          <div className="bg-surface border-l-4 border-yellow-500 rounded-lg p-6">
+          <div className="bg-surface  rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-3 text-lg">
               ⚠️ I didn't receive my confirmation email
             </h3>
@@ -121,7 +121,7 @@ export default function TroubleshootingPage() {
             </div>
           </div>
 
-          <div className="bg-surface border-l-4 border-orange-500 rounded-lg p-6">
+          <div className="bg-surface  rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-3 text-lg">
               ⚠️ Error: "Email not confirmed"
             </h3>
@@ -151,7 +151,7 @@ export default function TroubleshootingPage() {
           Listing & Submission Issues
         </h2>
         <div className="space-y-6">
-          <div className="bg-surface border-l-4 border-red-500 rounded-lg p-6">
+          <div className="bg-surface  rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-3 text-lg">
               ❌ I can't claim my listing
             </h3>
@@ -186,7 +186,7 @@ export default function TroubleshootingPage() {
             </div>
           </div>
 
-          <div className="bg-surface border-l-4 border-yellow-500 rounded-lg p-6">
+          <div className="bg-surface  rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-3 text-lg">
               ⚠️ My listing isn't showing up in search
             </h3>
@@ -230,7 +230,7 @@ export default function TroubleshootingPage() {
             </div>
           </div>
 
-          <div className="bg-surface border-l-4 border-orange-500 rounded-lg p-6">
+          <div className="bg-surface  rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-3 text-lg">
               ⚠️ My edits aren't showing on my listing
             </h3>
@@ -255,7 +255,7 @@ export default function TroubleshootingPage() {
           Image Upload Issues
         </h2>
         <div className="space-y-6">
-          <div className="bg-surface border-l-4 border-red-500 rounded-lg p-6">
+          <div className="bg-surface  rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-3 text-lg">
               ❌ Image upload fails or shows an error
             </h3>
@@ -317,7 +317,7 @@ export default function TroubleshootingPage() {
             </div>
           </div>
 
-          <div className="bg-surface border-l-4 border-yellow-500 rounded-lg p-6">
+          <div className="bg-surface  rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-3 text-lg">
               ⚠️ My images look pixelated or blurry
             </h3>
@@ -352,7 +352,7 @@ export default function TroubleshootingPage() {
           Payment & Subscription Issues
         </h2>
         <div className="space-y-6">
-          <div className="bg-surface border-l-4 border-red-500 rounded-lg p-6">
+          <div className="bg-surface  rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-3 text-lg">
               ❌ Payment failed or card was declined
             </h3>
@@ -386,7 +386,7 @@ export default function TroubleshootingPage() {
             </div>
           </div>
 
-          <div className="bg-surface border-l-4 border-yellow-500 rounded-lg p-6">
+          <div className="bg-surface  rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-3 text-lg">
               ⚠️ I was charged but didn't receive access
             </h3>
@@ -408,7 +408,7 @@ export default function TroubleshootingPage() {
             </div>
           </div>
 
-          <div className="bg-surface border-l-4 border-orange-500 rounded-lg p-6">
+          <div className="bg-surface  rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-3 text-lg">
               ⚠️ How do I cancel my subscription?
             </h3>

@@ -238,7 +238,7 @@ export default function EditingListingPage() {
       </div>
 
       {/* Approval Process */}
-      <div className="bg-bauhaus-mustard/20 border-l-4 border-yellow-500 rounded-lg p-6 mb-8">
+      <div className="bg-bauhaus-mustard/20  rounded-lg p-6 mb-8">
         <div className="flex items-start gap-3">
           <AlertCircle className="w-6 h-6 text-[#1E1F23] flex-shrink-0 mt-1" />
           <div>

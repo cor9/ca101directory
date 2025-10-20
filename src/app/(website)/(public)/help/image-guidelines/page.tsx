@@ -57,7 +57,7 @@ export default function ImageGuidelinesPage() {
             </ul>
           </div>
 
-          <div className="bg-bauhaus-mustard/20 border-l-4 border-yellow-500 rounded-lg p-6 my-6">
+          <div className="bg-bauhaus-mustard/20  rounded-lg p-6 my-6">
             <p className="m-0">
               <strong className="text-yellow-700">Pro tip:</strong> Keep file
               sizes under 200KB for faster page loading - this helps with SEO
@@ -104,7 +104,7 @@ export default function ImageGuidelinesPage() {
             </ul>
           </div>
 
-          <div className="bg-bauhaus-mustard/20 border-l-4 border-yellow-500 rounded-lg p-6 my-6">
+          <div className="bg-bauhaus-mustard/20  rounded-lg p-6 my-6">
             <p className="m-0">
               <strong className="text-yellow-700">Pro tip:</strong> Use
               high-quality, professional photos that showcase what makes your
@@ -118,7 +118,7 @@ export default function ImageGuidelinesPage() {
         <hr className="my-12 border-t-2 border-gray-200" />
 
         {/* Quick Checklist */}
-        <div className="bg-bauhaus-mustard/20 border-l-4 border-green-500 rounded-lg p-8 my-8">
+        <div className="bg-bauhaus-mustard/20  rounded-lg p-8 my-8">
           <h2 className="text-2xl font-bold text-green-900 mt-0">
             Quick Checklist Before Uploading:
           </h2>

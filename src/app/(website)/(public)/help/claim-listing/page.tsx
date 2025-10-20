@@ -28,7 +28,7 @@ export default function ClaimListingPage() {
       </p>
 
       {/* Why Claim Your Listing */}
-      <div className="bg-blue-50 border-l-4 border-brand-blue rounded-lg p-6 mb-8">
+      <div className="bg-bauhaus-blue border-l-4 border-brand-blue rounded-lg p-6 mb-8">
         <h2 className="text-2xl font-bold text-[#1E1F23] mb-4">
           Why Claim Your Listing?
         </h2>
@@ -212,7 +212,7 @@ export default function ClaimListingPage() {
       </div>
 
       {/* Troubleshooting Section */}
-      <div className="bg-red-50 border-l-4 border-red-500 rounded-lg p-6 mb-8">
+      <div className="bg-bauhaus-orange  rounded-lg p-6 mb-8">
         <h2 className="text-2xl font-bold text-[#1E1F23] mb-4">
           Having Trouble Claiming?
         </h2>

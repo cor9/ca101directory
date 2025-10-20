@@ -43,12 +43,12 @@ export default async function AdminReviewsPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Review Moderation</h1>
+            <h1 className="text-2xl font-bold text-paper">Review Moderation</h1>
             <p className="text-paper">
               Review and moderate user-submitted reviews
             </p>
           </div>
-          <Badge variant="secondary">
+          <Badge variant="secondary" className="text-ink">
             {pendingReviews.length} pending review
             {pendingReviews.length !== 1 ? "s" : ""}
           </Badge>
@@ -58,7 +58,7 @@ export default async function AdminReviewsPage() {
           <Card>
             <CardContent className="flex flex-col items-center justify-center py-12">
               <CheckCircle className="h-12 w-12 text-green-500 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">All caught up!</h3>
+              <h3 className="text-lg font-semibold mb-2 text-ink">All caught up!</h3>
               <p className="text-ink text-center">
                 There are no pending reviews to moderate at this time.
               </p>
@@ -71,7 +71,7 @@ export default async function AdminReviewsPage() {
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="space-y-1">
-                      <CardTitle className="text-lg">
+                      <CardTitle className="text-lg text-ink">
                         {review.listing?.["Listing Name"] || "Unknown Listing"}
                       </CardTitle>
                       <div className="flex items-center gap-2">

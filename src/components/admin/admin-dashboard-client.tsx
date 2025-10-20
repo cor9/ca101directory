@@ -235,8 +235,8 @@ export const AdminDashboardClient = ({
           {editingListing && (
             <>
               <DialogHeader>
-                <DialogTitle>Review Listing</DialogTitle>
-                <DialogDescription>
+                <DialogTitle className="text-ink">Review Listing</DialogTitle>
+                <DialogDescription className="text-ink">
                   Make changes to{" "}
                   <span className="font-semibold">
                     {editingListing.listing_name}

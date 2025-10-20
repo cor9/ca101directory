@@ -56,3 +56,6 @@ airtable csvs/
 Thumbs.dbenv.local
 env.local
 CODEBASE.md
+
+*storybook.log
+storybook-static

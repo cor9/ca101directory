@@ -793,21 +793,26 @@ body [data-radix-select-item]:hover {
 }
 
 /* Tables, lists, cells */
-table, th, td {
+table,
+th,
+td {
   color: #f5f7fa !important;
   background-color: #0f1729 !important; /* dark navy for contrast */
 }
 
 /* Pills, badges, or buttons that show "Live", "No", etc. */
-.badge, .status-pill, .tag {
+.badge,
+.status-pill,
+.tag {
   color: #fff !important;
   background-color: #15803d !important; /* readable green for live */
 }
 
 /* Text in inputs or filters */
-input, select, textarea {
+input,
+select,
+textarea {
   color: #f5f7fa !important;
   background-color: #1e293b !important;
   border-color: #334155 !important;
 }
-

@@ -1,13 +1,6 @@
 import Container from "@/components/container";
 import { HeaderSection } from "@/components/shared/header-section";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { CheckCircle, Clock, Shield, Users } from "lucide-react";
 
 export const metadata = {
@@ -34,17 +27,17 @@ export default function ClaimListingPage() {
       <Container className="mt-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* How it works */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+          <div className="bg-surface rounded-lg p-6 shadow-lg">
+            <div className="mb-6">
+              <h3 className="text-xl font-bold text-[#1E1F23] flex items-center gap-2 mb-2">
                 <Clock className="h-5 w-5" />
                 How It Works
-              </CardTitle>
-              <CardDescription>
+              </h3>
+              <p className="text-[#1E1F23]/70">
                 Simple steps to claim your listing
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
+              </p>
+            </div>
+            <div className="space-y-4">
               <div className="flex gap-3">
                 <Badge
                   variant="outline"
@@ -53,8 +46,8 @@ export default function ClaimListingPage() {
                   1
                 </Badge>
                 <div>
-                  <h4 className="font-medium">Find Your Listing</h4>
-                  <p className="text-sm text-gray-900">
+                  <h4 className="font-medium text-[#1E1F23]">Find Your Listing</h4>
+                  <p className="text-sm text-[#1E1F23]">
                     Search our directory to find your business listing
                   </p>
                 </div>
@@ -67,8 +60,8 @@ export default function ClaimListingPage() {
                   2
                 </Badge>
                 <div>
-                  <h4 className="font-medium">Click "Claim This Listing"</h4>
-                  <p className="text-sm text-gray-900">
+                  <h4 className="font-medium text-[#1E1F23]">Click "Claim This Listing"</h4>
+                  <p className="text-sm text-[#1E1F23]">
                     On your listing page, click the claim button
                   </p>
                 </div>
@@ -81,8 +74,8 @@ export default function ClaimListingPage() {
                   3
                 </Badge>
                 <div>
-                  <h4 className="font-medium">Submit Your Claim</h4>
-                  <p className="text-sm text-gray-900">
+                  <h4 className="font-medium text-[#1E1F23]">Submit Your Claim</h4>
+                  <p className="text-sm text-[#1E1F23]">
                     Provide proof of ownership and business details
                   </p>
                 </div>
@@ -95,32 +88,32 @@ export default function ClaimListingPage() {
                   4
                 </Badge>
                 <div>
-                  <h4 className="font-medium">Get Approved</h4>
-                  <p className="text-sm text-gray-900">
+                  <h4 className="font-medium text-[#1E1F23]">Get Approved</h4>
+                  <p className="text-sm text-[#1E1F23]">
                     Our team reviews and approves your claim
                   </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
           {/* Benefits */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+          <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg">
+            <div className="mb-6">
+              <h3 className="text-xl font-bold text-[#1E1F23] flex items-center gap-2 mb-2">
                 <CheckCircle className="h-5 w-5" />
                 Benefits of Claiming
-              </CardTitle>
-              <CardDescription>
+              </h3>
+              <p className="text-[#1E1F23]/70">
                 What you get when you claim your listing
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
+              </p>
+            </div>
+            <div className="space-y-4">
               <div className="flex gap-3">
                 <Shield className="h-5 w-5 text-green-600 mt-0.5" />
                 <div>
-                  <h4 className="font-medium">Full Control</h4>
-                  <p className="text-sm text-gray-900">
+                  <h4 className="font-medium text-[#1E1F23]">Full Control</h4>
+                  <p className="text-sm text-[#1E1F23]">
                     Update your business information, photos, and services
                   </p>
                 </div>
@@ -128,8 +121,8 @@ export default function ClaimListingPage() {
               <div className="flex gap-3">
                 <Users className="h-5 w-5 text-blue-600 mt-0.5" />
                 <div>
-                  <h4 className="font-medium">Respond to Reviews</h4>
-                  <p className="text-sm text-gray-900">
+                  <h4 className="font-medium text-[#1E1F23]">Respond to Reviews</h4>
+                  <p className="text-sm text-[#1E1F23]">
                     Engage with families and build your reputation
                   </p>
                 </div>
@@ -137,58 +130,58 @@ export default function ClaimListingPage() {
               <div className="flex gap-3">
                 <CheckCircle className="h-5 w-5 text-brand-blue mt-0.5" />
                 <div>
-                  <h4 className="font-medium">Verified Badge</h4>
-                  <p className="text-sm text-gray-900">
+                  <h4 className="font-medium text-[#1E1F23]">Verified Badge</h4>
+                  <p className="text-sm text-[#1E1F23]">
                     Show families that you're a verified business owner
                   </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
         {/* Requirements */}
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle>Requirements</CardTitle>
-            <CardDescription>
+        <div className="bg-bauhaus-orange rounded-lg p-6 shadow-lg mt-8">
+          <div className="mb-6">
+            <h3 className="text-xl font-bold text-[#1E1F23] mb-2">Requirements</h3>
+            <p className="text-[#1E1F23]/70">
               What you need to claim your listing
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+            </p>
+          </div>
+          <div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <h4 className="font-medium mb-2">Business Information</h4>
-                <ul className="text-sm text-gray-900 space-y-1">
+                <h4 className="font-medium text-[#1E1F23] mb-2">Business Information</h4>
+                <ul className="text-sm text-[#1E1F23] space-y-1">
                   <li>• Valid business license or permit</li>
                   <li>• Proof of business ownership</li>
                   <li>• Current contact information</li>
                 </ul>
               </div>
               <div>
-                <h4 className="font-medium mb-2">Account Requirements</h4>
-                <ul className="text-sm text-gray-900 space-y-1">
+                <h4 className="font-medium text-[#1E1F23] mb-2">Account Requirements</h4>
+                <ul className="text-sm text-[#1E1F23] space-y-1">
                   <li>• Free account registration</li>
                   <li>• Email verification</li>
                   <li>• Business email address</li>
                 </ul>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* CTA */}
         <div className="text-center mt-8">
-          <h3 className="text-2xl font-bold mb-4">
+          <h3 className="text-2xl font-bold text-paper mb-4">
             Ready to Claim Your Listing?
           </h3>
-          <p className="text-gray-900 mb-6">
+          <p className="text-paper mb-6">
             Search our directory to find your business and start the claim
             process
           </p>
           <a
             href="/directory"
-            className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+            className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-bauhaus-mustard text-[#1E1F23] hover:bg-bauhaus-mustard/90 h-10 px-4 py-2"
           >
             Browse Directory
           </a>

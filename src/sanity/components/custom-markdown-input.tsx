@@ -32,7 +32,7 @@ const mdeOptions = {
     "prose-slate",
     "dark:prose-invert",
     "bg-background",
-    "text-gray-900",
+    "text-paper",
   ],
 };
 

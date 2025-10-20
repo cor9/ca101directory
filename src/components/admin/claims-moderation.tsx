@@ -167,7 +167,7 @@ export function ClaimsModeration() {
           <CardTitle>Pending Claims</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-gray-900">No pending claims to review.</p>
+          <p className="text-paper">No pending claims to review.</p>
         </CardContent>
       </Card>
     );
@@ -195,7 +195,7 @@ export function ClaimsModeration() {
 
             <div className="text-sm">
               <div className="font-medium mb-1">Claimed by:</div>
-              <div className="text-gray-900">
+              <div className="text-paper">
                 {claim.profiles?.full_name || "Unknown User"}
                 {claim.profiles?.email && (
                   <span className="ml-2">({claim.profiles.email})</span>
@@ -205,7 +205,7 @@ export function ClaimsModeration() {
 
             <div className="text-sm">
               <div className="font-medium mb-1">Message:</div>
-              <p className="text-gray-900">{claim.message}</p>
+              <p className="text-paper">{claim.message}</p>
             </div>
 
             <div className="flex gap-2">

@@ -150,7 +150,7 @@ export function VendorSuggestionsModeration() {
           <CardTitle>Pending Vendor Suggestions</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-gray-900">
+          <p className="text-paper">
             No pending vendor suggestions to review.
           </p>
         </CardContent>
@@ -205,7 +205,7 @@ export function VendorSuggestionsModeration() {
             </div>
 
             {suggestion.profiles?.full_name && (
-              <div className="text-sm text-gray-900">
+              <div className="text-sm text-paper">
                 Suggested by: {suggestion.profiles.full_name}
               </div>
             )}

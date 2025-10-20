@@ -180,7 +180,7 @@ export function BadgeApplicationsTable({
         );
       case "draft":
         return (
-          <Badge variant="outline" className="bg-gray-50 text-gray-900">
+          <Badge variant="outline" className="bg-gray-50 text-paper">
             <FileText className="w-3 h-3 mr-1" />
             Draft
           </Badge>
@@ -212,7 +212,7 @@ export function BadgeApplicationsTable({
             className={`px-4 py-2 font-medium text-sm transition-colors ${
               filterStatus === filter.value
                 ? "text-brand-blue border-b-2 border-brand-blue"
-                : "text-gray-900 hover:text-gray-900"
+                : "text-paper hover:text-paper"
             }`}
           >
             {filter.label}
@@ -234,22 +234,22 @@ export function BadgeApplicationsTable({
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-paper uppercase tracking-wider">
                   Vendor
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-paper uppercase tracking-wider">
                   Business
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-paper uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-paper uppercase tracking-wider">
                   Submitted
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-paper uppercase tracking-wider">
                   Documents
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-6 py-3 text-right text-xs font-medium text-paper uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
@@ -258,7 +258,7 @@ export function BadgeApplicationsTable({
               {filteredApplications.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center">
-                    <div className="text-gray-900">
+                    <div className="text-paper">
                       <Award className="w-12 h-12 mx-auto mb-3 opacity-30" />
                       <p className="text-lg font-medium mb-1">
                         No applications found
@@ -276,32 +276,32 @@ export function BadgeApplicationsTable({
                   <tr key={app.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <div>
-                        <div className="font-medium text-gray-900">
+                        <div className="font-medium text-paper">
                           {app.full_name || "N/A"}
                         </div>
-                        <div className="text-sm text-gray-900">{app.email}</div>
+                        <div className="text-sm text-paper">{app.email}</div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       <div>
-                        <div className="font-medium text-gray-900">
+                        <div className="font-medium text-paper">
                           {app.listing_name || "N/A"}
                         </div>
                         {app.categories && app.categories.length > 0 && (
-                          <div className="text-sm text-gray-900">
+                          <div className="text-sm text-paper">
                             {app.categories[0]}
                           </div>
                         )}
                       </div>
                     </td>
                     <td className="px-6 py-4">{getStatusBadge(app.status)}</td>
-                    <td className="px-6 py-4 text-sm text-gray-900">
+                    <td className="px-6 py-4 text-sm text-paper">
                       {formatDistanceToNow(new Date(app.created_at), {
                         addSuffix: true,
                       })}
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-sm text-gray-900">
+                      <div className="text-sm text-paper">
                         <div>{app.testimonials.length} testimonials</div>
                         <div>{app.industry_references.length} references</div>
                         {app.credentials.length > 0 && (
@@ -344,28 +344,28 @@ export function BadgeApplicationsTable({
             <div className="space-y-6">
               {/* Vendor Info */}
               <div className="bg-gray-50 rounded-lg p-4">
-                <h3 className="font-semibold text-gray-900 mb-3">
+                <h3 className="font-semibold text-paper mb-3">
                   Vendor Information
                 </h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <span className="text-gray-900">Name:</span>
+                    <span className="text-paper">Name:</span>
                     <span className="ml-2 font-medium">
                       {selectedApp.full_name}
                     </span>
                   </div>
                   <div>
-                    <span className="text-gray-900">Email:</span>
+                    <span className="text-paper">Email:</span>
                     <span className="ml-2 font-medium">{selectedApp.email}</span>
                   </div>
                   <div>
-                    <span className="text-gray-900">Business:</span>
+                    <span className="text-paper">Business:</span>
                     <span className="ml-2 font-medium">
                       {selectedApp.listing_name}
                     </span>
                   </div>
                   <div>
-                    <span className="text-gray-900">Status:</span>
+                    <span className="text-paper">Status:</span>
                     <span className="ml-2">{getStatusBadge(selectedApp.status)}</span>
                   </div>
                 </div>
@@ -373,14 +373,14 @@ export function BadgeApplicationsTable({
 
               {/* Documents */}
               <div>
-                <h3 className="font-semibold text-gray-900 mb-3">
+                <h3 className="font-semibold text-paper mb-3">
                   Submitted Documents
                 </h3>
                 <div className="space-y-4">
                   {/* Testimonials */}
                   <div className="border border-gray-200 rounded-lg p-4">
                     <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-medium text-gray-900">
+                      <h4 className="font-medium text-paper">
                         Parent Testimonials
                       </h4>
                       <Badge variant="outline">
@@ -388,7 +388,7 @@ export function BadgeApplicationsTable({
                       </Badge>
                     </div>
                     {selectedApp.testimonials.length === 0 ? (
-                      <p className="text-sm text-gray-900">
+                      <p className="text-sm text-paper">
                         No testimonials uploaded
                       </p>
                     ) : (
@@ -412,7 +412,7 @@ export function BadgeApplicationsTable({
                   {/* References */}
                   <div className="border border-gray-200 rounded-lg p-4">
                     <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-medium text-gray-900">
+                      <h4 className="font-medium text-paper">
                         Industry References
                       </h4>
                       <Badge variant="outline">
@@ -420,7 +420,7 @@ export function BadgeApplicationsTable({
                       </Badge>
                     </div>
                     {selectedApp.industry_references.length === 0 ? (
-                      <p className="text-sm text-gray-900">
+                      <p className="text-sm text-paper">
                         No references uploaded
                       </p>
                     ) : (
@@ -445,7 +445,7 @@ export function BadgeApplicationsTable({
                   {selectedApp.credentials.length > 0 && (
                     <div className="border border-gray-200 rounded-lg p-4">
                       <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-medium text-gray-900">
+                        <h4 className="font-medium text-paper">
                           Professional Credentials
                         </h4>
                         <Badge variant="outline">
@@ -476,7 +476,7 @@ export function BadgeApplicationsTable({
                 <Label htmlFor="admin-notes" className="mb-2">
                   Admin Notes
                   {selectedApp.status === "submitted" && (
-                    <span className="text-sm text-gray-900 ml-2">
+                    <span className="text-sm text-paper ml-2">
                       (Required for rejection)
                     </span>
                   )}

@@ -49,7 +49,7 @@ export function StarRating({
               sizeClasses[size],
               star <= value
                 ? "fill-yellow-400 text-yellow-400"
-                : "fill-gray-200 text-gray-900"
+                : "fill-gray-200 text-paper"
             )}
           />
         </button>

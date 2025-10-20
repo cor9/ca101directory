@@ -122,14 +122,14 @@ export const LoginForm = ({
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-900">Email</FormLabel>
+                  <FormLabel className="text-paper">Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
                       placeholder="name@example.com"
                       type="email"
-                      className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
+                      className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
                     />
                   </FormControl>
                   <FormMessage />
@@ -142,7 +142,7 @@ export const LoginForm = ({
               render={({ field }) => (
                 <FormItem>
                   <div className="flex justify-between items-center">
-                    <FormLabel className="text-gray-900">Password</FormLabel>
+                    <FormLabel className="text-paper">Password</FormLabel>
                     <Button
                       size="sm"
                       variant="link"
@@ -160,7 +160,7 @@ export const LoginForm = ({
                       disabled={isPending}
                       placeholder="******"
                       type="password"
-                      className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
+                      className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
                     />
                   </FormControl>
                   <FormMessage />
@@ -188,7 +188,7 @@ export const LoginForm = ({
           <div className="border-t pt-4 mt-4">
             {!showResendForm ? (
               <div className="text-center">
-                <p className="text-sm text-gray-900 mb-2">
+                <p className="text-sm text-paper mb-2">
                   Didn't receive confirmation email?
                 </p>
                 <Button
@@ -203,7 +203,7 @@ export const LoginForm = ({
               </div>
             ) : (
               <div className="space-y-3">
-                <p className="text-sm font-semibold text-gray-900">
+                <p className="text-sm font-semibold text-paper">
                   Resend Confirmation Email
                 </p>
                 <Input
@@ -211,7 +211,7 @@ export const LoginForm = ({
                   placeholder="Enter your email"
                   value={resendEmail}
                   onChange={(e) => setResendEmail(e.target.value)}
-                  className="bg-paper border-secondary-denim text-gray-900"
+                  className="bg-paper border-secondary-denim text-paper"
                   disabled={isResending}
                 />
                 <div className="flex gap-2">

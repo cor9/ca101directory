@@ -93,7 +93,7 @@ export default function FreeSubmitForm({ categories }: FreeSubmitFormProps) {
           <CardTitle className="text-2xl font-bold text-center">
             Submit Your Free Listing
           </CardTitle>
-          <p className="text-center text-gray-900">
+          <p className="text-center text-paper">
             Get started with a basic listing. Upgrade later for more features.
           </p>
         </CardHeader>

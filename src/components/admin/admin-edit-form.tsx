@@ -577,7 +577,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
 
       {/* --- Platform Status --- */}
       <div>
-        <h3 className="text-md font-semibold mb-2 text-gray-900">
+        <h3 className="text-md font-semibold mb-2 text-paper">
           Platform Status
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">

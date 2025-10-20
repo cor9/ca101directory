@@ -98,13 +98,13 @@ export const RegisterForm = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-900">Name</FormLabel>
+                  <FormLabel className="text-paper">Name</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
                       placeholder="name"
-                      className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
+                      className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
                     />
                   </FormControl>
                   <FormMessage />
@@ -116,14 +116,14 @@ export const RegisterForm = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-900">Email</FormLabel>
+                  <FormLabel className="text-paper">Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
                       placeholder="name@example.com"
                       type="email"
-                      className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
+                      className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
                     />
                   </FormControl>
                   <FormMessage />
@@ -135,14 +135,14 @@ export const RegisterForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-900">Password</FormLabel>
+                  <FormLabel className="text-paper">Password</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
                       placeholder="******"
                       type="password"
-                      className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60"
+                      className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
                     />
                   </FormControl>
                   <FormMessage />
@@ -154,7 +154,7 @@ export const RegisterForm = () => {
               name="role"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel className="text-gray-900">I am a...</FormLabel>
+                  <FormLabel className="text-paper">I am a...</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -166,7 +166,7 @@ export const RegisterForm = () => {
                           <RadioGroupItem value="parent" id="parent" />
                           <label
                             htmlFor="parent"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-paper"
                           >
                             Parent/Legal Guardian
                           </label>
@@ -177,7 +177,7 @@ export const RegisterForm = () => {
                           <RadioGroupItem value="vendor" id="vendor" />
                           <label
                             htmlFor="vendor"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-paper"
                           >
                             Professional/Vendor
                           </label>

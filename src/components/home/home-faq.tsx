@@ -22,10 +22,10 @@ export default function HomeFAQ() {
     <section className="py-16 bg-gray-50 dark:bg-gray-900">
       <Container>
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl font-bold text-paper mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-lg text-gray-900 max-w-2xl mx-auto">
+          <p className="text-lg text-paper max-w-2xl mx-auto">
             Get answers to common questions about our directory and services
           </p>
         </div>
@@ -44,18 +44,18 @@ export default function HomeFAQ() {
                     onClick={() => toggleItem(item.id)}
                     className="w-full px-6 py-4 text-left bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center justify-between"
                   >
-                    <span className="font-semibold text-gray-900">
+                    <span className="font-semibold text-paper">
                       {item.question}
                     </span>
                     {isOpen ? (
-                      <ChevronUpIcon className="h-5 w-5 text-gray-900" />
+                      <ChevronUpIcon className="h-5 w-5 text-paper" />
                     ) : (
-                      <ChevronDownIcon className="h-5 w-5 text-gray-900" />
+                      <ChevronDownIcon className="h-5 w-5 text-paper" />
                     )}
                   </button>
                   {isOpen && (
                     <div className="px-6 py-4 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-                      <p className="text-gray-900 leading-relaxed">
+                      <p className="text-paper leading-relaxed">
                         {item.answer}
                       </p>
                     </div>

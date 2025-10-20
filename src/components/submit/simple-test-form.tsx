@@ -9,7 +9,7 @@ export function SimpleTestForm() {
     <div className="max-w-4xl mx-auto p-6">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Simple Test Form</h1>
-        <p className="text-gray-900">Testing basic form rendering</p>
+        <p className="text-paper">Testing basic form rendering</p>
       </div>
 
       <form className="space-y-6">

@@ -21,7 +21,7 @@ export function FieldTooltip({ message, plan, showUpgradeIcon = false }: FieldTo
         <TooltipTrigger asChild>
           <button
             type="button"
-            className="inline-flex items-center justify-center w-4 h-4 text-gray-900 hover:text-gray-900 transition-colors"
+            className="inline-flex items-center justify-center w-4 h-4 text-paper hover:text-paper transition-colors"
             aria-label="More information"
           >
             {showUpgradeIcon && isFreePlan ? (

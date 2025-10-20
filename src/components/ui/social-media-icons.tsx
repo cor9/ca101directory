@@ -134,7 +134,7 @@ const SocialMediaIcons = ({
 
   return (
     <div className={cn("space-y-2", className)}>
-      <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">
+      <h4 className="text-sm font-semibold text-paper uppercase tracking-wider">
         Connect With Us
       </h4>
       <div className="flex flex-wrap gap-2">

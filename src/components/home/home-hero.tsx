@@ -44,9 +44,9 @@ export default function HomeHero() {
           <div className="w-full max-w-md">
             <Suspense
               fallback={
-                <div className="flex h-10 w-full rounded-md border border-secondary-denim bg-paper px-3 py-2 text-sm ring-offset-background placeholder:text-gray-900/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-orange focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                  <SearchIcon className="h-4 w-4 mr-2 text-gray-900/60" />
-                  <span className="text-gray-900/60">
+                <div className="flex h-10 w-full rounded-md border border-secondary-denim bg-paper px-3 py-2 text-sm ring-offset-background placeholder:text-paper/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-orange focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                  <SearchIcon className="h-4 w-4 mr-2 text-paper/60" />
+                  <span className="text-paper/60">
                     Search professionals...
                   </span>
                 </div>

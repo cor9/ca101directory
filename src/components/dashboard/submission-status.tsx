@@ -30,7 +30,7 @@ function StatusWrapper({
         badgeStyle === BadgeStyles.SUCCESS && "bg-green-100 text-green-800",
         badgeStyle === BadgeStyles.DANGER && "bg-red-100 text-red-800",
         badgeStyle === BadgeStyles.WARNING && "bg-yellow-100 text-yellow-800",
-        badgeStyle === BadgeStyles.NORMAL && "bg-gray-100 text-gray-900",
+        badgeStyle === BadgeStyles.NORMAL && "bg-gray-100 text-paper",
       )}
     >
       {children}

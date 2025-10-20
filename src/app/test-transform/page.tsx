@@ -14,12 +14,12 @@ export default function TestTransformPage() {
         <div className="space-y-8">
           {/* White Background */}
           <div className="bg-white p-6 rounded-lg border">
-            <h2 className="text-xl font-semibold mb-4 text-gray-900">
+            <h2 className="text-xl font-semibold mb-4 text-paper">
               White Background
             </h2>
             <div className="flex flex-wrap gap-6 items-center justify-center">
               <div className="text-center">
-                <p className="text-sm text-gray-900 mb-2">Small (100x50)</p>
+                <p className="text-sm text-paper mb-2">Small (100x50)</p>
                 <img
                   src="/ca101directory-logo.png"
                   alt="CA101 Directory Logo"
@@ -29,7 +29,7 @@ export default function TestTransformPage() {
                 />
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-900 mb-2">Medium (200x100)</p>
+                <p className="text-sm text-paper mb-2">Medium (200x100)</p>
                 <img
                   src="/ca101directory-logo.png"
                   alt="CA101 Directory Logo"
@@ -39,7 +39,7 @@ export default function TestTransformPage() {
                 />
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-900 mb-2">Large (400x200)</p>
+                <p className="text-sm text-paper mb-2">Large (400x200)</p>
                 <img
                   src="/ca101directory-logo.png"
                   alt="CA101 Directory Logo"
@@ -58,7 +58,7 @@ export default function TestTransformPage() {
             </h2>
             <div className="flex flex-wrap gap-6 items-center justify-center">
               <div className="text-center">
-                <p className="text-sm text-gray-900 mb-2">Small (100x50)</p>
+                <p className="text-sm text-paper mb-2">Small (100x50)</p>
                 <img
                   src="/ca101directory-logo.png"
                   alt="CA101 Directory Logo"
@@ -68,7 +68,7 @@ export default function TestTransformPage() {
                 />
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-900 mb-2">Medium (200x100)</p>
+                <p className="text-sm text-paper mb-2">Medium (200x100)</p>
                 <img
                   src="/ca101directory-logo.png"
                   alt="CA101 Directory Logo"
@@ -78,7 +78,7 @@ export default function TestTransformPage() {
                 />
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-900 mb-2">Large (400x200)</p>
+                <p className="text-sm text-paper mb-2">Large (400x200)</p>
                 <img
                   src="/ca101directory-logo.png"
                   alt="CA101 Directory Logo"
@@ -209,11 +209,11 @@ export default function TestTransformPage() {
         </div>
 
         <div className="mt-8 p-4 bg-gray-100 rounded">
-          <p className="text-sm text-gray-900">
+          <p className="text-sm text-paper">
             This shows how the logo looks with transparency on different
             backgrounds:
           </p>
-          <ul className="text-sm text-gray-900 mt-2 text-left max-w-md mx-auto">
+          <ul className="text-sm text-paper mt-2 text-left max-w-md mx-auto">
             <li>• White background - good for light themes</li>
             <li>• Dark background - good for dark themes</li>
             <li>• Brand blue - matches your color scheme</li>

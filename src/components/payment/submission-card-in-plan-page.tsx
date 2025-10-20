@@ -25,24 +25,24 @@ export default function SubmissionCardInPlanPage({
         <div className="space-y-4">
           <h1 className="text-2xl font-medium">{item.name}</h1>
 
-          <p className="text-gray-900 line-clamp-2 text-balance leading-relaxed">
+          <p className="text-paper line-clamp-2 text-balance leading-relaxed">
             {item.description}
           </p>
 
           <div className="grid grid-cols-2 gap-4 text-sm pt-2">
             <div className="flex items-center gap-2">
-              <span className="text-gray-900">Plan:</span>
+              <span className="text-paper">Plan:</span>
               <span className="capitalize">{item.pricePlan}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-gray-900">Status:</span>
+              <span className="text-paper">Status:</span>
               <SubmissionStatus item={item} />
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm pt-2">
             <div className="flex items-center gap-2">
-              <span className="text-gray-900">Publish Date:</span>
+              <span className="text-paper">Publish Date:</span>
               {item.publishDate ? (
                 <span className="font-medium">
                   {getLocaleDate(item.publishDate)}
@@ -52,7 +52,7 @@ export default function SubmissionCardInPlanPage({
               )}
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-gray-900">Created Date:</span>
+              <span className="text-paper">Created Date:</span>
               <span className="">{getLocaleDate(item._createdAt)}</span>
             </div>
           </div>

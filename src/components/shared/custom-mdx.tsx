@@ -52,7 +52,7 @@ const ErrorComponent = ({ error }: { error: Error }) => {
   return (
     <div className="flex flex-col items-start justify-start">
       <h3 className="text-xl font-bold">Oops! Something went wrong</h3>
-      <p className="mt-4 text-gray-900">{error.message}</p>
+      <p className="mt-4 text-paper">{error.message}</p>
     </div>
   );
 };
@@ -206,7 +206,7 @@ const markdownComponents = {
   blockquote: ({ className, ...props }) => (
     <blockquote
       className={cn(
-        "mt-6 border-l-2 pl-6 italic [&>*]:text-gray-900",
+        "mt-6 border-l-2 pl-6 italic [&>*]:text-paper",
         className,
       )}
       {...props}
@@ -282,7 +282,7 @@ const markdownComponents = {
   code: ({ className, ...props }) => (
     <code
       className={cn(
-        "relative rounded-md border bg-muted px-[0.4rem] py-1 font-mono text-sm text-gray-900",
+        "relative rounded-md border bg-muted px-[0.4rem] py-1 font-mono text-sm text-paper",
         className,
       )}
       {...props}

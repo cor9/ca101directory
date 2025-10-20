@@ -59,7 +59,7 @@ export default function RegistrationSuccessPage() {
               <h2 className="text-xl md:text-2xl font-bold text-orange-600 mb-2">
                 ⚡ CHECK YOUR EMAIL RIGHT NOW! ⚡
               </h2>
-              <p className="text-gray-900">
+              <p className="text-paper">
                 One more step to activate your account
               </p>
             </div>
@@ -68,7 +68,7 @@ export default function RegistrationSuccessPage() {
             <div className="bg-gradient-to-br from-yellow-50 to-orange-50 border-4 border-yellow-400 p-6 md:p-8 rounded-xl mb-6 shadow-lg">
               <div className="flex items-center justify-center mb-4">
                 <span className="text-4xl mr-3">📧</span>
-                <p className="text-lg md:text-xl font-semibold text-gray-900">
+                <p className="text-lg md:text-xl font-semibold text-paper">
                   Confirmation email sent to:
                 </p>
               </div>
@@ -78,10 +78,10 @@ export default function RegistrationSuccessPage() {
               </p>
               
               <div className="bg-white p-6 rounded-lg shadow-inner mb-4">
-                <p className="font-bold text-gray-900 mb-3 text-lg">
+                <p className="font-bold text-paper mb-3 text-lg">
                   📝 What to do next:
                 </p>
-                <ol className="list-decimal list-inside space-y-3 text-gray-900">
+                <ol className="list-decimal list-inside space-y-3 text-paper">
                   <li className="font-medium">Open your email inbox RIGHT NOW</li>
                   <li className="font-medium">Look for email from "Child Actor 101 Directory"</li>
                   <li className="font-medium">Click the big blue confirmation button</li>
@@ -99,11 +99,11 @@ export default function RegistrationSuccessPage() {
             {/* Troubleshooting section */}
             <div className="space-y-4 mb-6">
               <div className="bg-gray-50 border-2 border-gray-300 p-5 rounded-lg">
-                <p className="font-bold text-gray-900 mb-3 flex items-center">
+                <p className="font-bold text-paper mb-3 flex items-center">
                   <span className="text-2xl mr-2">🔍</span>
                   Can't find the email?
                 </p>
-                <ul className="space-y-2 text-gray-900 ml-8">
+                <ul className="space-y-2 text-paper ml-8">
                   <li className="flex items-start">
                     <span className="mr-2">•</span>
                     <span><strong>Check SPAM/JUNK folder</strong> - Sometimes it ends up there</span>
@@ -156,7 +156,7 @@ export default function RegistrationSuccessPage() {
               </button>
               
               <button 
-                className="flex-1 bg-gray-200 text-gray-900 px-6 py-4 rounded-lg font-bold text-lg hover:bg-gray-300 transition-all shadow-lg"
+                className="flex-1 bg-gray-200 text-paper px-6 py-4 rounded-lg font-bold text-lg hover:bg-gray-300 transition-all shadow-lg"
                 onClick={() => router.push("/auth/login")}
               >
                 Go to Login →
@@ -166,10 +166,10 @@ export default function RegistrationSuccessPage() {
             {/* Help section */}
             <div className="border-t-2 border-gray-200 pt-6">
               <div className="text-center">
-                <p className="text-gray-900 mb-2">
+                <p className="text-paper mb-2">
                   <strong>Still having trouble?</strong>
                 </p>
-                <p className="text-sm text-gray-900">
+                <p className="text-sm text-paper">
                   Email us at{" "}
                   <a 
                     href="mailto:support@childactor101.com" 
@@ -178,7 +178,7 @@ export default function RegistrationSuccessPage() {
                     support@childactor101.com
                   </a>
                 </p>
-                <p className="text-xs text-gray-900 mt-2">
+                <p className="text-xs text-paper mt-2">
                   Include your email address and we'll help you get set up
                 </p>
               </div>

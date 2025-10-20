@@ -29,7 +29,7 @@ export default function SubmissionCardInPublishPage({
           <div className="flex flex-col w-full space-y-8">
             {/* name and description */}
             <h1 className="text-4xl font-medium text-start">{item.name}</h1>
-            <p className="text-gray-900 line-clamp-2 text-balance leading-relaxed">
+            <p className="text-paper line-clamp-2 text-balance leading-relaxed">
               {item.description}
             </p>
 

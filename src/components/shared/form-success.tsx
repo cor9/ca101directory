@@ -29,10 +29,10 @@ export const FormSuccess = ({ message }: FormSuccessProps) => {
                 <strong>You MUST click the link to activate your account.</strong>
               </p>
             </div>
-            <p className="text-sm text-gray-900">
+            <p className="text-sm text-paper">
               ⚠️ Check your spam/junk folder if you don't see it within 2 minutes.
             </p>
-            <p className="text-xs text-gray-900">
+            <p className="text-xs text-paper">
               Redirecting to login page in 8 seconds...
             </p>
           </div>

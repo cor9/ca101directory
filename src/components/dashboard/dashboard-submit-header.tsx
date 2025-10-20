@@ -31,7 +31,7 @@ export function DashboardSubmitHeader({
           )}
 
           {/* subtitle */}
-          {/* text-gray-900 */}
+          {/* text-paper */}
           {subtitle && <h2 className="text-base">{subtitle}</h2>}
         </div>
       </div>

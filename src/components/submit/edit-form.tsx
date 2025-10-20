@@ -140,8 +140,8 @@ export function EditForm({ listing, categories }: EditFormProps) {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Edit Your Listing</h2>
-        <p className="text-gray-900">Make changes to your listing information below.</p>
+        <h2 className="text-2xl font-bold text-paper mb-2">Edit Your Listing</h2>
+        <p className="text-paper">Make changes to your listing information below.</p>
       </div>
       
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -348,7 +348,7 @@ export function EditForm({ listing, categories }: EditFormProps) {
             onImagesChange={setGalleryImages}
             onUploadingChange={setIsGalleryUploading}
           />
-          <p className="text-xs text-gray-900">
+          <p className="text-xs text-paper">
             Pro plan includes 4 gallery images (5 total with profile)
           </p>
         </div>
@@ -449,12 +449,12 @@ export function EditForm({ listing, categories }: EditFormProps) {
             type="button"
             variant="outline"
             onClick={() => router.push("/dashboard/vendor")}
-            className="px-6 py-3 text-gray-900 hover:text-gray-900 border-gray-300 hover:border-gray-400"
+            className="px-6 py-3 text-paper hover:text-paper border-gray-300 hover:border-gray-400"
           >
             Cancel
           </Button>
         </div>
-        <p className="text-sm text-gray-900 mt-3 text-center">
+        <p className="text-sm text-paper mt-3 text-center">
           Your changes will be saved immediately after clicking "Update Listing"
         </p>
       </div>

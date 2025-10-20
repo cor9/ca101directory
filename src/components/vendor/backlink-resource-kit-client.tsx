@@ -47,10 +47,10 @@ export const BacklinkResourceKitClient = () => {
     <div className="space-y-8">
       {/* 1. Badge Download */}
       <div className="bg-card rounded-lg p-6 border">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">
+        <h2 className="text-xl font-bold text-paper mb-4">
           Directory Badge
         </h2>
-        <p className="text-gray-900 mb-6">
+        <p className="text-paper mb-6">
           Add this badge to your website's homepage or footer to show families you're a trusted part of the Child Actor 101 community.
         </p>
         <div className="flex flex-col sm:flex-row items-center gap-6">
@@ -59,7 +59,7 @@ export const BacklinkResourceKitClient = () => {
                 <div className="text-center">
                     <div className="font-bold text-blue-900 text-lg">CHILD ACTOR 101</div>
                     <div className="text-sm text-orange-500 font-semibold tracking-wider">APPROVED</div>
-                    <div className="text-xs text-gray-900 mt-2">Find us on the Directory</div>
+                    <div className="text-xs text-paper mt-2">Find us on the Directory</div>
                 </div>
             </div>
             <div className="w-full">
@@ -67,17 +67,17 @@ export const BacklinkResourceKitClient = () => {
                     <Download className="mr-2" size={16} />
                     Download Badge (.png)
                 </Button>
-                <p className="text-xs text-gray-900 mt-2">A high-resolution transparent PNG will be provided.</p>
+                <p className="text-xs text-paper mt-2">A high-resolution transparent PNG will be provided.</p>
             </div>
         </div>
       </div>
 
       {/* 2. HTML Snippet */}
       <div className="bg-card rounded-lg p-6 border">
-        <h2 className="text-xl font-bold text-gray-900 mb-2">
+        <h2 className="text-xl font-bold text-paper mb-2">
           HTML Snippet
         </h2>
-         <p className="text-gray-900 mb-4">
+         <p className="text-paper mb-4">
             Copy and paste this code into your website where you want the badge to appear.
         </p>
         <div className="relative">
@@ -100,14 +100,14 @@ export const BacklinkResourceKitClient = () => {
 
       {/* 3. Social Media Caption */}
       <div className="bg-card rounded-lg p-6 border">
-        <h2 className="text-xl font-bold text-gray-900 mb-2">
+        <h2 className="text-xl font-bold text-paper mb-2">
           Social Media Bio (Linktree/Instagram)
         </h2>
-         <p className="text-gray-900 mb-4">
+         <p className="text-paper mb-4">
             A simple one-liner to add to your social media profiles.
         </p>
         <div className="relative">
-            <div className="bg-muted p-4 rounded-md text-sm text-gray-900">
+            <div className="bg-muted p-4 rounded-md text-sm text-paper">
               {socialCaption}
             </div>
             <Button
@@ -124,14 +124,14 @@ export const BacklinkResourceKitClient = () => {
 
        {/* 4. Press Blurb */}
       <div className="bg-card rounded-lg p-6 border">
-        <h2 className="text-xl font-bold text-gray-900 mb-2">
+        <h2 className="text-xl font-bold text-paper mb-2">
           Website "About Us" or "Press" Blurb
         </h2>
-         <p className="text-gray-900 mb-4">
+         <p className="text-paper mb-4">
             Use this pre-written text on your website to announce your inclusion in the directory.
         </p>
         <div className="relative">
-            <div className="bg-muted p-4 rounded-md text-sm text-gray-900 leading-relaxed">
+            <div className="bg-muted p-4 rounded-md text-sm text-paper leading-relaxed">
               {pressBlurb}
             </div>
              <Button

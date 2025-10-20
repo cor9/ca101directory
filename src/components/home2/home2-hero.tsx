@@ -32,7 +32,7 @@ export default function HomeHero() {
         </h1>
 
         <p
-          className="max-w-4xl text-balance leading-normal text-gray-900 sm:text-xl sm:leading-8"
+          className="max-w-4xl text-balance leading-normal text-paper sm:text-xl sm:leading-8"
           style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
         >
           {heroConfig.subtitle}

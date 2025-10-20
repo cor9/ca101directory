@@ -73,20 +73,20 @@ export function UserButton() {
                   {user.name || user.email || "User"}
                 </p>
                 {user?.email && (
-                  <p className="w-[200px] truncate text-gray-900">
+                  <p className="w-[200px] truncate text-paper">
                     {user.email}
                   </p>
                 )}
               </div>
             </div>
 
-            <ul className="mb-14 mt-1 w-full text-gray-900">
+            <ul className="mb-14 mt-1 w-full text-paper">
               {userButtonConfig.menus.map((item) => {
                 const Icon = Icons[item.icon || "arrowRight"];
                 return (
                   <li
                     key={item.href}
-                    className="rounded-lg text-gray-900 hover:bg-muted"
+                    className="rounded-lg text-paper hover:bg-muted"
                   >
                     <Link
                       href={item.href}
@@ -101,7 +101,7 @@ export function UserButton() {
               })}
               <li
                 key="logout"
-                className="rounded-lg text-gray-900 hover:bg-muted"
+                className="rounded-lg text-paper hover:bg-muted"
               >
                 <Link
                   href="#"
@@ -141,7 +141,7 @@ export function UserButton() {
           <div className="flex flex-col space-y-1 leading-none">
             <p className="font-medium">{user.name || user.email || "User"}</p>
             {user.email && (
-              <p className="w-[200px] truncate text-sm text-gray-900">
+              <p className="w-[200px] truncate text-sm text-paper">
                 {user.email}
               </p>
             )}

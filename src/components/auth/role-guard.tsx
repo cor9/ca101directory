@@ -85,7 +85,7 @@ export function RoleGuard({
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
           <div className="animate-spin text-4xl">⏳</div>
-          <p className="mt-4 text-gray-900">Loading...</p>
+          <p className="mt-4 text-paper">Loading...</p>
         </div>
       </div>
     );
@@ -134,10 +134,10 @@ export function RoleGuard({
         <p className="text-lg mb-2">
           Your role: <strong className="text-primary">{userRole}</strong>
         </p>
-        <p className="text-sm text-gray-900 mb-6">
+        <p className="text-sm text-paper mb-6">
           Required: {allowedRoles.join(" or ")}
         </p>
-        <p className="text-xs text-gray-900 mb-6">
+        <p className="text-xs text-paper mb-6">
           Check browser console (F12) for debugging details.
         </p>
         <div className="space-y-3">

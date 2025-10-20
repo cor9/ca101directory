@@ -59,7 +59,7 @@ export function ImageModal({ isOpen, onClose, imageUrl, alt }: ImageModalProps) 
           className="absolute -top-2 -right-2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
           aria-label="Close modal"
         >
-          <X className="w-6 h-6 text-gray-900" />
+          <X className="w-6 h-6 text-paper" />
         </button>
         
         {/* Image */}

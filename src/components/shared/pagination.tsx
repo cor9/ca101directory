@@ -45,7 +45,7 @@ export default function CustomPagination({
             aria-disabled={currentPage <= 1}
             className={
               currentPage <= 1
-                ? "pointer-events-none text-gray-900 dark:text-gray-900"
+                ? "pointer-events-none text-paper dark:text-paper"
                 : "cursor-pointer"
             }
           />
@@ -81,7 +81,7 @@ export default function CustomPagination({
             aria-disabled={currentPage >= totalPages}
             className={
               currentPage >= totalPages
-                ? "pointer-events-none text-gray-900 dark:text-gray-900"
+                ? "pointer-events-none text-paper dark:text-paper"
                 : "cursor-pointer"
             }
           />

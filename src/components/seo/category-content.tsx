@@ -52,7 +52,7 @@ export function CategoryContent({
     <div className="mb-8">
       {/* Intro Section - Full width */}
       <div className="bauhaus-card p-6 mb-4">
-        <p className="bauhaus-body text-base leading-relaxed text-gray-900">
+        <p className="bauhaus-body text-base leading-relaxed text-paper">
           {content.intro}
         </p>
       </div>

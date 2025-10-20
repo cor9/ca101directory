@@ -11,12 +11,12 @@
   font-weight: 500;
 }
 
-.admin-edit-form .text-gray-900 {
+.admin-edit-form .text-paper {
   color: #1e1f23 !important;
 }
 
 /* Admin dashboard table styles - using Bauhaus color system */
-.admin-dashboard .text-gray-900,
+.admin-dashboard .text-paper,
 .admin-dashboard table td,
 .admin-dashboard table th,
 .admin-dashboard h1,

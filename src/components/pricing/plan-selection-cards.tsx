@@ -85,8 +85,8 @@ export function PlanSelectionCards() {
             onClick={() => setBillingCycle("monthly")}
             className={`px-6 py-2 rounded-md font-medium transition-colors ${
               billingCycle === "monthly"
-                ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-900 hover:text-gray-900"
+                ? "bg-white text-paper shadow-sm"
+                : "text-paper hover:text-paper"
             }`}
           >
             Monthly
@@ -95,8 +95,8 @@ export function PlanSelectionCards() {
             onClick={() => setBillingCycle("yearly")}
             className={`px-6 py-2 rounded-md font-medium transition-colors ${
               billingCycle === "yearly"
-                ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-900 hover:text-gray-900"
+                ? "bg-white text-paper shadow-sm"
+                : "text-paper hover:text-paper"
             }`}
           >
             Annual
@@ -130,10 +130,10 @@ export function PlanSelectionCards() {
             <CardHeader className="text-center pb-4">
               <CardTitle className="text-2xl mb-2">{plan.name}</CardTitle>
               <div className="mb-2">
-                <span className="text-4xl font-bold text-gray-900">
+                <span className="text-4xl font-bold text-paper">
                   ${billingCycle === "monthly" ? plan.monthlyPrice : plan.yearlyPrice}
                 </span>
-                <span className="text-gray-900">
+                <span className="text-paper">
                   /{billingCycle === "monthly" ? "month" : "year"}
                 </span>
               </div>
@@ -142,7 +142,7 @@ export function PlanSelectionCards() {
                   Save ${plan.monthlyPrice * 12 - plan.yearlyPrice}
                 </p>
               )}
-              <p className="text-sm text-gray-900">{plan.description}</p>
+              <p className="text-sm text-paper">{plan.description}</p>
             </CardHeader>
 
             <CardContent className="flex-1 flex flex-col">
@@ -150,7 +150,7 @@ export function PlanSelectionCards() {
                 {plan.features.map((feature, index) => (
                   <div key={index} className="flex items-start gap-2">
                     <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm text-gray-900">{feature}</span>
+                    <span className="text-sm text-paper">{feature}</span>
                   </div>
                 ))}
               </div>
@@ -173,7 +173,7 @@ export function PlanSelectionCards() {
 
       {/* Additional Info */}
       <div className="mt-12 text-center">
-        <p className="text-sm text-gray-900">
+        <p className="text-sm text-paper">
           All plans include our quality review process and trusted directory listing.
           <br />
           Need help choosing?{" "}

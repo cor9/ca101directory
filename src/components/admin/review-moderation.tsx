@@ -146,7 +146,7 @@ export function ReviewModeration() {
           <CardTitle>Pending Reviews</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-gray-900">
+          <p className="text-paper">
             No pending reviews to moderate.
           </p>
         </CardContent>
@@ -168,7 +168,7 @@ export function ReviewModeration() {
                 <span className="font-medium">
                   {review.profiles?.full_name || "Anonymous"}
                 </span>
-                <span className="text-gray-900">for</span>
+                <span className="text-paper">for</span>
                 <span className="font-medium">
                   {review.listings?.businessName || "Unknown Vendor"}
                 </span>

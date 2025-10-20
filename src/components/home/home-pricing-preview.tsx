@@ -8,10 +8,10 @@ export default function HomePricingPreview() {
     <section className="py-16">
       <Container>
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl font-bold text-paper mb-4">
             Simple, Transparent Pricing
           </h2>
-          <p className="text-lg text-gray-900 max-w-2xl mx-auto">
+          <p className="text-lg text-paper max-w-2xl mx-auto">
             Choose the plan that fits where you are today and upgrade as your
             performer grows.
           </p>

@@ -89,7 +89,7 @@ export function Gallery({ listing }: GalleryProps) {
           </div>
         ) : (
           <div className="aspect-[4/3] bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-            <p className="text-gray-900 text-sm">No gallery images yet</p>
+            <p className="text-paper text-sm">No gallery images yet</p>
           </div>
         )}
       </div>

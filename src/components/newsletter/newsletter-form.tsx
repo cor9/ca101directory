@@ -67,7 +67,7 @@ export function NewsletterForm() {
                   type="email"
                   className={cn(
                     "w-[280px] sm:w-[320px] md:w-[400px] h-12 rounded-r-none",
-                    "bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-900/60",
+                    "bg-paper border-secondary-denim text-paper placeholder:text-paper/60",
                     "focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary-orange focus:border-2 focus:border-r-0",
                   )}
                   placeholder="Enter your email"

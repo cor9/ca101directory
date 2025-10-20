@@ -235,8 +235,8 @@ export function SupabaseSubmitForm({
   return (
     <Card className="surface border-surface/20">
       <CardHeader>
-        <CardTitle className="text-paper">Submit Your Listing</CardTitle>
-        <CardDescription className="text-paper">
+        <CardTitle className="text-surface">Submit Your Listing</CardTitle>
+        <CardDescription className="text-surface">
           Create a professional listing for your child actor business
         </CardDescription>
       </CardHeader>
@@ -244,10 +244,10 @@ export function SupabaseSubmitForm({
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Information */}
           <div className="space-y-4">
-            <h3 className="text-paper">Basic Information</h3>
+            <h3 className="text-surface">Basic Information</h3>
 
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-paper">
+              <Label htmlFor="name" className="text-surface">
                 Business Name *
               </Label>
               <Input
@@ -257,13 +257,13 @@ export function SupabaseSubmitForm({
                 placeholder="Your business name"
                 maxLength={32}
                 required
-                className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
-              <p className="text-paper">{formData.name.length}/32 characters</p>
+              <p className="text-surface">{formData.name.length}/32 characters</p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description" className="text-paper">
+              <Label htmlFor="description" className="text-surface">
                 What You Offer *
               </Label>
               <Textarea
@@ -275,16 +275,16 @@ export function SupabaseSubmitForm({
                 placeholder="Describe your services"
                 maxLength={256}
                 required
-                className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
-              <p className="text-paper">
+              <p className="text-surface">
                 {formData.description.length}/256 characters
               </p>
             </div>
 
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <Label htmlFor="introduction" className="text-paper">
+                <Label htmlFor="introduction" className="text-surface">
                   Who Is It For
                 </Label>
                 <FieldTooltip
@@ -300,13 +300,13 @@ export function SupabaseSubmitForm({
                   handleInputChange("introduction", e.target.value)
                 }
                 placeholder="Describe your target audience (optional - upgrade to display)"
-                className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
             </div>
 
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <Label htmlFor="unique" className="text-paper">
+                <Label htmlFor="unique" className="text-surface">
                   What Makes You Unique
                 </Label>
                 <FieldTooltip
@@ -320,23 +320,23 @@ export function SupabaseSubmitForm({
                 value={formData.unique}
                 onChange={(e) => handleInputChange("unique", e.target.value)}
                 placeholder="What sets you apart (optional - upgrade to display)"
-                className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
             </div>
           </div>
 
           {/* Service Format */}
           <div className="space-y-4">
-            <h3 className="text-paper">Service Format</h3>
+            <h3 className="text-surface">Service Format</h3>
 
             <div className="space-y-2">
-              <Label className="text-paper">Format *</Label>
+              <Label className="text-surface">Format *</Label>
               <Select
                 value={formData.format}
                 onValueChange={(value) => handleInputChange("format", value)}
                 required
               >
-                <SelectTrigger className="bg-paper border-secondary-denim text-paper">
+                <SelectTrigger className="bg-paper border-secondary-denim text-surface">
                   <SelectValue placeholder="Select service format" />
                 </SelectTrigger>
                 <SelectContent>
@@ -348,7 +348,7 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="space-y-2">
-              <Label className="text-paper">Age Ranges</Label>
+              <Label className="text-surface">Age Ranges</Label>
               <div className="grid grid-cols-2 gap-2">
                 {["5-8", "9-12", "13-17", "18+"].map((age) => (
                   <div key={age} className="flex items-center space-x-2">
@@ -359,7 +359,7 @@ export function SupabaseSubmitForm({
                     />
                     <Label
                       htmlFor={`age-${age}`}
-                      className="text-sm text-paper"
+                      className="text-sm text-surface"
                     >
                       {age}
                     </Label>
@@ -371,7 +371,7 @@ export function SupabaseSubmitForm({
 
           {/* Categories */}
           <div className="space-y-4">
-            <h3 className="text-paper">Categories</h3>
+            <h3 className="text-surface">Categories</h3>
             <div className="grid grid-cols-2 gap-2">
               {categories.map((category) => (
                 <div key={category.id} className="flex items-center space-x-2">
@@ -382,7 +382,7 @@ export function SupabaseSubmitForm({
                   />
                   <Label
                     htmlFor={`category-${category.id}`}
-                    className="text-sm text-paper"
+                    className="text-sm text-surface"
                   >
                     {category.name}
                   </Label>
@@ -393,11 +393,11 @@ export function SupabaseSubmitForm({
 
           {/* Contact Information */}
           <div className="space-y-4">
-            <h3 className="text-paper">Contact Information</h3>
+            <h3 className="text-surface">Contact Information</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-paper">
+                <Label htmlFor="email" className="text-surface">
                   Email *
                 </Label>
                 <Input
@@ -407,12 +407,12 @@ export function SupabaseSubmitForm({
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   placeholder="your@email.com"
                   required
-                  className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone" className="text-paper">
+                <Label htmlFor="phone" className="text-surface">
                   Phone
                 </Label>
                 <Input
@@ -421,13 +421,13 @@ export function SupabaseSubmitForm({
                   value={formData.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
                   placeholder="(555) 123-4567"
-                  className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="link" className="text-paper">
+              <Label htmlFor="link" className="text-surface">
                 Website
               </Label>
               <Input
@@ -436,13 +436,13 @@ export function SupabaseSubmitForm({
                 value={formData.link}
                 onChange={(e) => handleInputChange("link", e.target.value)}
                 placeholder="https://yourwebsite.com"
-                className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="city" className="text-paper">
+                <Label htmlFor="city" className="text-surface">
                   City
                 </Label>
                 <Input
@@ -450,19 +450,19 @@ export function SupabaseSubmitForm({
                   value={formData.city}
                   onChange={(e) => handleInputChange("city", e.target.value)}
                   placeholder="Los Angeles"
-                  className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="state" className="text-paper">
+                <Label htmlFor="state" className="text-surface">
                   State
                 </Label>
                 <Select
                   value={formData.state}
                   onValueChange={(value) => handleInputChange("state", value)}
                 >
-                  <SelectTrigger className="bg-paper border-secondary-denim text-paper">
+                  <SelectTrigger className="bg-paper border-secondary-denim text-surface">
                     <SelectValue placeholder="Select state" />
                   </SelectTrigger>
                   <SelectContent>
@@ -477,7 +477,7 @@ export function SupabaseSubmitForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="zip" className="text-paper">
+                <Label htmlFor="zip" className="text-surface">
                   ZIP Code
                 </Label>
                 <Input
@@ -485,16 +485,16 @@ export function SupabaseSubmitForm({
                   value={formData.zip}
                   onChange={(e) => handleInputChange("zip", e.target.value)}
                   placeholder="90210"
-                  className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label className="text-paper">
+              <Label className="text-surface">
                 Service Areas (Select all that apply)
               </Label>
-              <p className="text-paper">
+              <p className="text-surface">
                 Where do you serve clients? Select all regions that apply.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 border rounded-lg bg-paper/50">
@@ -527,7 +527,7 @@ export function SupabaseSubmitForm({
                     />
                     <Label
                       htmlFor={`region-${regionOption}`}
-                      className="text-sm font-normal cursor-pointer text-paper"
+                      className="text-sm font-normal cursor-pointer text-surface"
                     >
                       {regionOption}
                     </Label>
@@ -539,7 +539,7 @@ export function SupabaseSubmitForm({
 
           {/* Plan Selection */}
           <div className="space-y-4">
-            <h3 className="text-paper">Choose Your Plan</h3>
+            <h3 className="text-surface">Choose Your Plan</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {/* Free Plan */}
               <Card
@@ -560,7 +560,7 @@ export function SupabaseSubmitForm({
                     <li>• Contact information</li>
                     <li>• Social media links</li>
                   </ul>
-                  <div className="mt-3 text-xs text-paper">
+                  <div className="mt-3 text-xs text-surface">
                     Upgrade for profile image & featured placement
                   </div>
                 </CardContent>
@@ -581,7 +581,7 @@ export function SupabaseSubmitForm({
                     Starting at $25
                     <span className="text-sm font-normal">/mo</span>
                   </div>
-                  <div className="text-xs text-paper mt-1">
+                  <div className="text-xs text-surface mt-1">
                     Multiple billing options available
                   </div>
                 </CardHeader>
@@ -610,7 +610,7 @@ export function SupabaseSubmitForm({
                     Starting at $50
                     <span className="text-sm font-normal">/mo</span>
                   </div>
-                  <div className="text-xs text-paper mt-1">
+                  <div className="text-xs text-surface mt-1">
                     Multiple billing options available
                   </div>
                 </CardHeader>
@@ -650,7 +650,7 @@ export function SupabaseSubmitForm({
 
           {/* Legal Compliance */}
           <div className="space-y-4">
-            <h3 className="text-paper">Legal Compliance</h3>
+            <h3 className="text-surface">Legal Compliance</h3>
 
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
@@ -661,7 +661,7 @@ export function SupabaseSubmitForm({
                     handleInputChange("performerPermit", checked)
                   }
                 />
-                <Label htmlFor="performerPermit" className="text-sm text-paper">
+                <Label htmlFor="performerPermit" className="text-sm text-surface">
                   California Child Performer Services Permit
                 </Label>
               </div>
@@ -674,14 +674,14 @@ export function SupabaseSubmitForm({
                     handleInputChange("bonded", checked)
                   }
                 />
-                <Label htmlFor="bonded" className="text-sm text-paper">
+                <Label htmlFor="bonded" className="text-sm text-surface">
                   Bonded for Advanced Fees
                 </Label>
               </div>
 
               {formData.bonded && (
                 <div className="space-y-2">
-                  <Label htmlFor="bondNumber" className="text-paper">
+                  <Label htmlFor="bondNumber" className="text-surface">
                     Bond Number
                   </Label>
                   <Input
@@ -691,7 +691,7 @@ export function SupabaseSubmitForm({
                       handleInputChange("bondNumber", e.target.value)
                     }
                     placeholder="Bond number"
-                    className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                   />
                 </div>
               )}
@@ -700,7 +700,7 @@ export function SupabaseSubmitForm({
 
           {/* Additional Notes */}
           <div className="space-y-2">
-            <Label htmlFor="notes" className="text-paper">
+            <Label htmlFor="notes" className="text-surface">
               Additional Notes
             </Label>
             <Textarea
@@ -708,13 +708,13 @@ export function SupabaseSubmitForm({
               value={formData.notes}
               onChange={(e) => handleInputChange("notes", e.target.value)}
               placeholder="Any additional information"
-              className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+              className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
             />
           </div>
 
           {/* Image Upload */}
           <div className="space-y-2">
-            <Label className="text-paper">Profile Image</Label>
+            <Label className="text-surface">Profile Image</Label>
             <div className="h-48 border-2 border-dashed border-secondary-denim rounded-lg">
               <ImageUpload
                 currentImageUrl={formData.imageId}
@@ -727,21 +727,21 @@ export function SupabaseSubmitForm({
                 type="image"
               />
             </div>
-            <p className="text-paper">
+            <p className="text-surface">
               Upload a professional photo or logo for your listing
             </p>
           </div>
 
           {/* Gallery Upload */}
           <div className="space-y-2">
-            <Label className="text-paper">Gallery Images</Label>
+            <Label className="text-surface">Gallery Images</Label>
             <GalleryUpload
               maxImages={getMaxGalleryImages()}
               currentImages={galleryImages}
               onImagesChange={setGalleryImages}
               onUploadingChange={setIsGalleryUploading}
             />
-            <p className="text-paper">
+            <p className="text-surface">
               {getMaxGalleryImages() === 0
                 ? "Gallery images are only available with Pro plan"
                 : "Pro plan includes 4 gallery images (5 total with profile)"}
@@ -754,17 +754,17 @@ export function SupabaseSubmitForm({
             style={{ backgroundColor: "#f8f9fa" }}
           >
             <div>
-              <h3 className="text-lg font-semibold text-paper">
+              <h3 className="text-lg font-semibold text-surface">
                 Social Media Links (Pro only)
               </h3>
-              <p className="text-paper">
+              <p className="text-surface">
                 These links will only be displayed for Pro listings.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="facebook_url" className="text-paper">
+                <Label htmlFor="facebook_url" className="text-surface">
                   Facebook URL
                 </Label>
                 <Input
@@ -775,12 +775,12 @@ export function SupabaseSubmitForm({
                     handleInputChange("facebook_url", e.target.value)
                   }
                   placeholder="https://facebook.com/yourpage"
-                  className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
 
               <div>
-                <Label htmlFor="instagram_url" className="text-paper">
+                <Label htmlFor="instagram_url" className="text-surface">
                   Instagram URL
                 </Label>
                 <Input
@@ -791,12 +791,12 @@ export function SupabaseSubmitForm({
                     handleInputChange("instagram_url", e.target.value)
                   }
                   placeholder="https://instagram.com/youraccount"
-                  className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
 
               <div>
-                <Label htmlFor="tiktok_url" className="text-paper">
+                <Label htmlFor="tiktok_url" className="text-surface">
                   TikTok URL
                 </Label>
                 <Input
@@ -807,12 +807,12 @@ export function SupabaseSubmitForm({
                     handleInputChange("tiktok_url", e.target.value)
                   }
                   placeholder="https://tiktok.com/@youraccount"
-                  className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
 
               <div>
-                <Label htmlFor="youtube_url" className="text-paper">
+                <Label htmlFor="youtube_url" className="text-surface">
                   YouTube URL
                 </Label>
                 <Input
@@ -823,12 +823,12 @@ export function SupabaseSubmitForm({
                     handleInputChange("youtube_url", e.target.value)
                   }
                   placeholder="https://youtube.com/@yourchannel"
-                  className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
 
               <div>
-                <Label htmlFor="linkedin_url" className="text-paper">
+                <Label htmlFor="linkedin_url" className="text-surface">
                   LinkedIn URL
                 </Label>
                 <Input
@@ -839,12 +839,12 @@ export function SupabaseSubmitForm({
                     handleInputChange("linkedin_url", e.target.value)
                   }
                   placeholder="https://linkedin.com/in/yourprofile"
-                  className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
 
               <div>
-                <Label htmlFor="blog_url" className="text-paper">
+                <Label htmlFor="blog_url" className="text-surface">
                   📝 Blog URL
                 </Label>
                 <Input
@@ -855,16 +855,16 @@ export function SupabaseSubmitForm({
                     handleInputChange("blog_url", e.target.value)
                   }
                   placeholder="https://yourblog.com"
-                  className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
             </div>
 
             <div className="border-t pt-4">
-              <h4 className="text-paper">Custom Link</h4>
+              <h4 className="text-surface">Custom Link</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="custom_link_name" className="text-paper">
+                  <Label htmlFor="custom_link_name" className="text-surface">
                     Link Name
                   </Label>
                   <Input
@@ -874,11 +874,11 @@ export function SupabaseSubmitForm({
                       handleInputChange("custom_link_name", e.target.value)
                     }
                     placeholder="e.g., 'Portfolio', 'Book Now'"
-                    className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="custom_link_url" className="text-paper">
+                  <Label htmlFor="custom_link_url" className="text-surface">
                     Link URL
                   </Label>
                   <Input
@@ -889,7 +889,7 @@ export function SupabaseSubmitForm({
                       handleInputChange("custom_link_url", e.target.value)
                     }
                     placeholder="https://your-custom-link.com"
-                    className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                   />
                 </div>
               </div>

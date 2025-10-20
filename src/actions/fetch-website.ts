@@ -1,8 +1,6 @@
 "use server";
 
 import { slugify } from "@/lib/utils";
-import type { Category, Tag } from "@/sanity.types";
-import { sanityClient } from "@/sanity/lib/client";
 import { deepseek } from "@ai-sdk/deepseek";
 import { google } from "@ai-sdk/google";
 import { openai } from "@ai-sdk/openai";

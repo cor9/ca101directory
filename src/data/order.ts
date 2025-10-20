@@ -1,6 +1,4 @@
 import { SHOW_QUERY_LOGS } from "@/lib/constants";
-import { type Order, User } from "@/sanity.types";
-import { sanityFetch } from "@/sanity/lib/fetch";
 
 export const getOrderByUserIdAndItemId = async (
   userId: string,

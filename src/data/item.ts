@@ -1,7 +1,4 @@
 import { ITEMS_PER_PAGE, SHOW_QUERY_LOGS } from "@/lib/constants";
-import type { Item, ItemListQueryResult } from "@/sanity.types";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { itemSimpleFields } from "@/sanity/lib/queries";
 import type { ItemInfo } from "@/types";
 
 /**

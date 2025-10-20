@@ -1,7 +1,6 @@
 "use client";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import type { TagListQueryResult } from "@/sanity.types";
 import { useParams } from "next/navigation";
 import FilterItemDesktop from "../shared/filter-item-desktop";
 

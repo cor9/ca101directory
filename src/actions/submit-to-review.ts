@@ -5,7 +5,6 @@ import { currentUser } from "@/lib/auth";
 import { sendNotifySubmissionEmail } from "@/lib/mail";
 import { FreePlanStatus, PricePlans } from "@/lib/submission";
 import { getItemLinkInStudio, getItemStatusLinkInWebsite } from "@/lib/utils";
-import { sanityClient } from "@/sanity/lib/client";
 
 export type ServerActionResponse = {
   status: "success" | "error";

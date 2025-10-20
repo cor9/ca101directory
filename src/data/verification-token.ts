@@ -1,6 +1,4 @@
 import { SHOW_QUERY_LOGS } from "@/lib/constants";
-import type { VerificationToken } from "@/sanity.types";
-import { sanityFetch } from "@/sanity/lib/fetch";
 
 export const getVerificationTokenByEmail = async (email: string) => {
   try {

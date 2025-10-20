@@ -8,7 +8,6 @@ import type {
   GroupListQueryResult,
   TagListQueryResult,
 } from "@/sanity.types";
-import { sanityFetch } from "@/sanity/lib/fetch";
 import {
   categoryListQuery,
   groupListQuery,

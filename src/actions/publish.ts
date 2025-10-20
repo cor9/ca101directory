@@ -2,7 +2,6 @@
 
 import { getItemById } from "@/data/item";
 import { currentUser } from "@/lib/auth";
-import { sanityClient } from "@/sanity/lib/client";
 
 export type ServerActionResponse = {
   status: "success" | "error";

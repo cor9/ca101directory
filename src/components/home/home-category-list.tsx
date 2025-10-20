@@ -3,8 +3,6 @@ import type {
   CategoryListQueryResult,
   GroupListQueryResult,
 } from "@/sanity.types";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { categoryListQuery, groupListQuery } from "@/sanity/lib/queries";
 import { HomeCategoryListClient } from "./home-category-list-client";
 import { HomeGroupListClient } from "./home-group-list-client";
 

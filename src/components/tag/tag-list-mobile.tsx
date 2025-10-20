@@ -1,6 +1,5 @@
 "use client";
 
-import type { TagListQueryResult } from "@/sanity.types";
 import { LayoutListIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useState } from "react";

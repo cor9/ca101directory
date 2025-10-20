@@ -1,7 +1,4 @@
 import { SHOW_QUERY_LOGS } from "@/lib/constants";
-import type { User, UserWithAccountsQueryResult } from "@/sanity.types";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { userWithAccountsQuery } from "@/sanity/lib/queries";
 
 export const getUserByEmail = async (email: string) => {
   try {

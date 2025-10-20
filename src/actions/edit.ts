@@ -11,7 +11,6 @@ import {
   getItemStatusLinkInWebsite,
   slugify,
 } from "@/lib/utils";
-import { sanityClient } from "@/sanity/lib/client";
 import { revalidatePath } from "next/cache";
 
 // biome-ignore format: conditional type

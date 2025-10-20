@@ -1,7 +1,4 @@
 import { SUBMISSIONS_PER_PAGE } from "@/lib/constants";
-import type { SubmissionListQueryResult } from "@/sanity.types";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { itemSimpleFields } from "@/sanity/lib/queries";
 
 /**
  * get submissions from sanity

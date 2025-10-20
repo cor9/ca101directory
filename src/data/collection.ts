@@ -1,7 +1,4 @@
 import { COLLECTIONS_PER_PAGE } from "@/lib/constants";
-import type { CollectionListQueryResult } from "@/sanity.types";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { collectionFields } from "@/sanity/lib/queries";
 
 /**
  * get collections from sanity

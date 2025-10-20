@@ -149,23 +149,13 @@ export default function ClaimListingPage() {
             </p>
           </div>
           <div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <h4 className="font-medium text-[#1E1F23] mb-2">Business Information</h4>
-                <ul className="text-sm text-[#1E1F23] space-y-1">
-                  <li>• Valid business license or permit</li>
-                  <li>• Proof of business ownership</li>
-                  <li>• Current contact information</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-medium text-[#1E1F23] mb-2">Account Requirements</h4>
-                <ul className="text-sm text-[#1E1F23] space-y-1">
-                  <li>• Free account registration</li>
-                  <li>• Email verification</li>
-                  <li>• Business email address</li>
-                </ul>
-              </div>
+            <div className="max-w-md mx-auto">
+              <h4 className="font-medium text-[#1E1F23] mb-2">Account Requirements</h4>
+              <ul className="text-sm text-[#1E1F23] space-y-1">
+                <li>• Free account registration</li>
+                <li>• Email verification</li>
+                <li>• Business email address</li>
+              </ul>
             </div>
           </div>
         </div>

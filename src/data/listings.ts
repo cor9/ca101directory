@@ -257,7 +257,14 @@ export async function getListingById(id: string) {
     .select("*")
     .eq("id", id)
     .single();
-  if (error) throw error;
+  if (error) {
+    console.error("Error fetching listing by ID:", error);
+    throw error;
+  }
+  if (!data) {
+    console.error("No listing found with ID:", id);
+    return null;
+  }
   return data as Listing;
 }
 

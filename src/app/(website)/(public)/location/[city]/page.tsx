@@ -278,7 +278,7 @@ export default async function LocationPage({
           {location.neighborhoods.map((neighborhood) => (
             <span
               key={neighborhood}
-              className="px-4 py-2 bg-surface text-paper rounded-md text-sm font-medium"
+              className="px-4 py-2 bg-surface text-ink rounded-md text-sm font-medium"
             >
               {neighborhood}
             </span>

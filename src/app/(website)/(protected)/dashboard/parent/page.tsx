@@ -96,8 +96,8 @@ export default async function ParentDashboard() {
 
           {/* Recent Favorites */}
           {isFavoritesEnabled() && favorites.length > 0 && (
-            <div className="bg-surface/20 rounded-lg p-6 border border-surface/20">
-              <h2 className="text-lg font-semibold mb-4 text-paper">
+            <div className="bg-surface rounded-lg p-6 border border-surface/20">
+              <h2 className="text-lg font-semibold mb-4 text-ink">
                 Recent Favorites
               </h2>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -136,8 +136,8 @@ export default async function ParentDashboard() {
 
           {/* Recent Reviews */}
           {isReviewsEnabled() && reviews.length > 0 && (
-            <div className="bg-surface/20 rounded-lg p-6 border border-surface/20">
-              <h2 className="text-lg font-semibold mb-4 text-paper">
+            <div className="bg-surface rounded-lg p-6 border border-surface/20">
+              <h2 className="text-lg font-semibold mb-4 text-ink">
                 Recent Reviews
               </h2>
               <div className="space-y-4">
@@ -197,10 +197,10 @@ export default async function ParentDashboard() {
           {/* Empty State */}
           {favorites.length === 0 && reviews.length === 0 && (
             <div className="bg-surface/20 rounded-lg p-6 text-center border border-surface/20">
-              <h2 className="text-lg font-semibold mb-2 text-paper">
+              <h2 className="text-lg font-semibold mb-2 text-ink">
                 Get Started
               </h2>
-              <p className="text-paper/90 mb-4">
+              <p className="text-ink/90 mb-4">
                 Start exploring the directory to find professionals for your
                 child's acting journey.
               </p>
@@ -222,8 +222,8 @@ export default async function ParentDashboard() {
           )}
 
           {/* Quick Actions */}
-          <div className="bg-surface/20 rounded-lg p-6 border border-surface/20">
-            <h2 className="text-lg font-semibold mb-4 text-paper">
+          <div className="bg-surface rounded-lg p-6 border border-surface/20">
+            <h2 className="text-lg font-semibold mb-4 text-ink">
               Quick Actions
             </h2>
             <div className="grid gap-4 md:grid-cols-2">

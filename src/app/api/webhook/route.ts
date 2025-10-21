@@ -1,3 +1,4 @@
+import { sendAdminUpgradeNotification } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
@@ -114,6 +115,25 @@ export async function POST(request: NextRequest) {
           plan,
           billingCycle,
         });
+
+        // Notify admin non-blocking
+        try {
+          const { data: listingData } = await supabase
+            .from("listings")
+            .select("listing_name")
+            .eq("id", listingId)
+            .single();
+          const listingName = listingData?.listing_name || listingId;
+          await sendAdminUpgradeNotification(
+            listingName,
+            listingId,
+            plan,
+            billingCycle,
+            vendorId,
+          );
+        } catch (notifyError) {
+          console.error("Failed to notify admin of upgrade:", notifyError);
+        }
       } catch (error) {
         console.error("Error processing claim:", error);
         return NextResponse.json(
@@ -123,7 +143,7 @@ export async function POST(request: NextRequest) {
       }
     } else if (event.type === "customer.subscription.created") {
       const subscription = event.data.object as Stripe.Subscription;
-      
+
       console.log("Processing subscription.created:", {
         subscriptionId: subscription.id,
         customerId: subscription.customer,
@@ -132,17 +152,19 @@ export async function POST(request: NextRequest) {
 
       // For subscription events, we need to get the customer details
       // and potentially the checkout session to retrieve metadata
-      const customer = await stripe.customers.retrieve(subscription.customer as string);
-      
+      const customer = await stripe.customers.retrieve(
+        subscription.customer as string,
+      );
+
       // Check if customer is deleted
       if (customer.deleted) {
         console.log("Customer has been deleted:", customer.id);
         return NextResponse.json({ received: true });
       }
-      
+
       // Cast to Customer type after checking it's not deleted
       const activeCustomer = customer as Stripe.Customer;
-      
+
       console.log("Customer details:", {
         id: activeCustomer.id,
         email: activeCustomer.email,
@@ -152,20 +174,26 @@ export async function POST(request: NextRequest) {
       // If we have vendor info in customer metadata, update the profile
       if (activeCustomer.metadata?.vendor_id) {
         const supabase = createServerClient();
-        
+
         try {
           const { error: profileError } = await supabase
             .from("profiles")
             .update({
               stripe_customer_id: activeCustomer.id,
             })
-              .eq("id", activeCustomer.metadata.vendor_id);
+            .eq("id", activeCustomer.metadata.vendor_id);
 
-            if (profileError) {
-              console.error("Error updating profile from subscription:", profileError);
-            } else {
-              console.log("✅ Updated profile from subscription:", activeCustomer.metadata.vendor_id);
-            }
+          if (profileError) {
+            console.error(
+              "Error updating profile from subscription:",
+              profileError,
+            );
+          } else {
+            console.log(
+              "✅ Updated profile from subscription:",
+              activeCustomer.metadata.vendor_id,
+            );
+          }
         } catch (error) {
           console.error("Error processing subscription:", error);
         }

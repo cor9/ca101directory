@@ -1,13 +1,14 @@
 "use server";
 
 import { auth } from "@/auth";
+import { sendAdminClaimNotification } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 
 export async function claimListing(listingId: string, message?: string) {
   // STEP 1: Verify authentication
   const session = await auth();
-  
+
   if (!session?.user?.id) {
     return {
       success: false,
@@ -29,8 +30,10 @@ export async function claimListing(listingId: string, message?: string) {
       success: false,
       error: "EMAIL_NOT_CONFIRMED",
       title: "Email Not Confirmed",
-      message: "You need to confirm your email address before claiming listings.",
-      action: "Check your email inbox for the confirmation link. Can't find it?",
+      message:
+        "You need to confirm your email address before claiming listings.",
+      action:
+        "Check your email inbox for the confirmation link. Can't find it?",
       showResendButton: true,
       userEmail: session.user.email,
     };
@@ -49,7 +52,8 @@ export async function claimListing(listingId: string, message?: string) {
       error: "NO_PROFILE",
       title: "Profile Not Found",
       message: "Your user profile is missing. This shouldn't happen!",
-      action: "Please contact support at support@childactor101.com with your email address.",
+      action:
+        "Please contact support at support@childactor101.com with your email address.",
       details: profileError?.message,
     };
   }
@@ -59,8 +63,10 @@ export async function claimListing(listingId: string, message?: string) {
       success: false,
       error: "WRONG_ROLE",
       title: "Vendor Account Required",
-      message: "Your account is registered as a Parent. Only Vendor accounts can claim listings.",
-      action: "If you're a professional offering services, please contact support to change your account type.",
+      message:
+        "Your account is registered as a Parent. Only Vendor accounts can claim listings.",
+      action:
+        "If you're a professional offering services, please contact support to change your account type.",
       hint: "Parents can browse and review listings, but cannot claim or manage them.",
     };
   }
@@ -96,16 +102,15 @@ export async function claimListing(listingId: string, message?: string) {
         redirectTo: "/dashboard/vendor/listing",
         showDashboardButton: true,
       };
-    } else {
-      return {
-        success: false,
-        error: "ALREADY_CLAIMED",
-        title: "Already Claimed",
-        message: "This listing has already been claimed by another user.",
-        action: "If you believe this is your business, please contact support.",
-        hint: "Support email: support@childactor101.com",
-      };
     }
+    return {
+      success: false,
+      error: "ALREADY_CLAIMED",
+      title: "Already Claimed",
+      message: "This listing has already been claimed by another user.",
+      action: "If you believe this is your business, please contact support.",
+      hint: "Support email: support@childactor101.com",
+    };
   }
 
   // STEP 6: Check for duplicate claim attempts
@@ -122,7 +127,8 @@ export async function claimListing(listingId: string, message?: string) {
       error: "DUPLICATE_CLAIM",
       title: "Claim Already Submitted",
       message: "You've already submitted a claim for this listing.",
-      action: "Your claim is being processed. Check your dashboard for updates.",
+      action:
+        "Your claim is being processed. Check your dashboard for updates.",
       redirectTo: "/dashboard/vendor/listing",
     };
   }
@@ -153,15 +159,13 @@ export async function claimListing(listingId: string, message?: string) {
     }
 
     // Record the claim in claims table
-    const { error: claimError } = await supabase
-      .from("claims")
-      .insert({
-        listing_id: listingId,
-        vendor_id: session.user.id,
-        message: message || "Listing claimed via instant claim",
-        approved: true, // Auto-approved
-        created_at: new Date().toISOString(),
-      });
+    const { error: claimError } = await supabase.from("claims").insert({
+      listing_id: listingId,
+      vendor_id: session.user.id,
+      message: message || "Listing claimed via instant claim",
+      approved: true, // Auto-approved
+      created_at: new Date().toISOString(),
+    });
 
     if (claimError) {
       console.error("Claim record error:", claimError);
@@ -172,6 +176,18 @@ export async function claimListing(listingId: string, message?: string) {
     revalidatePath(`/listing/${listingId}`);
     revalidatePath("/dashboard/vendor/listing");
 
+    // Notify admin (non-blocking)
+    try {
+      const listingName = listing?.listing_name || listingId;
+      await sendAdminClaimNotification(
+        listingName,
+        listingId,
+        session.user.email,
+      );
+    } catch (notifyError) {
+      console.error("Failed to notify admin of claim:", notifyError);
+    }
+
     return {
       success: true,
       title: "Success! 🎉",
@@ -180,7 +196,6 @@ export async function claimListing(listingId: string, message?: string) {
       redirectTo: "/dashboard/vendor/listing",
       listingId: listingId,
     };
-
   } catch (error) {
     console.error("Unexpected claim error:", error);
     return {
@@ -197,7 +212,7 @@ export async function claimListing(listingId: string, message?: string) {
 // Helper function to check if user can claim
 export async function canUserClaim(listingId: string) {
   const session = await auth();
-  
+
   if (!session?.user?.id) {
     return { canClaim: false, reason: "NOT_LOGGED_IN" };
   }

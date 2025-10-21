@@ -114,12 +114,15 @@ export default async function VendorListingPage() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="bauhaus-body text-sm text-foreground line-clamp-2">
-                      {(listing.what_you_offer || "").replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()}
+                      {(listing.what_you_offer || "")
+                        .replace(/<[^>]*>/g, " ")
+                        .replace(/\s+/g, " ")
+                        .trim()}
                     </div>
 
                     <div className="flex items-center gap-2">
                       <Button asChild variant="outline" size="sm">
-                        <Link href={`/listing/${listing.id}`}>
+                        <Link href={`/listing/${listing.slug || listing.id}`}>
                           <Eye className="mr-2 h-4 w-4" />
                           VIEW
                         </Link>

@@ -1,7 +1,10 @@
 "use server";
 
 import { currentUser } from "@/lib/auth";
-import { sendListingSubmittedEmail } from "@/lib/mail";
+import {
+  sendAdminSubmissionNotification,
+  sendListingSubmittedEmail,
+} from "@/lib/mail";
 import { SubmitSchema } from "@/lib/schemas";
 import { supabase } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
@@ -234,6 +237,15 @@ export async function submitToSupabase(
           // Don't fail the whole operation if email fails
         });
     }
+
+    // Notify admin of submission/update (non-blocking)
+    sendAdminSubmissionNotification(name, data.id, !!formData.isEdit)
+      .then(() => {
+        console.log("Admin notified of submission/update for:", name);
+      })
+      .catch((notifyError) => {
+        console.error("Failed to notify admin of submission:", notifyError);
+      });
 
     // Determine success message based on plan and action
     let successMessage = "";

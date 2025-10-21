@@ -1,3 +1,21 @@
+## 2025-10-21 – Admin Notifications Coverage
+
+- Implemented admin email notifications for key events:
+  - New listing submissions and edits
+  - Listing claims (instant-claim workflow)
+  - Stripe upgrades (checkout.session.completed)
+- Utilities added in `src/lib/mail.ts`:
+  - `sendAdminSubmissionNotification(listingName, listingId, isEdit)`
+  - `sendAdminClaimNotification(listingName, listingId, claimerEmail)`
+  - `sendAdminUpgradeNotification(listingName, listingId, plan, billingCycle, vendorId)`
+- Wired into:
+  - `src/actions/submit-supabase.ts` (after successful create/update)
+  - `src/actions/claim-listing.ts` (after successful claim)
+  - `src/app/api/webhook/route.ts` (after successful Stripe checkout processing)
+- Requires env vars:
+  - `RESEND_API_KEY`, `RESEND_EMAIL_FROM`, `RESEND_EMAIL_ADMIN`, `NEXT_PUBLIC_APP_URL`
+- Rationale: Ensure admin is proactively informed of all vendor activity without relying on dashboard polling.
+
 # FOR CURSOR - Child Actor 101 Directory Progress Log
 
 ## 🎉 **CURRENT STATUS - COMPREHENSIVE ADMIN CONTROL ACHIEVED!**
@@ -6,9 +24,9 @@
 
 ### 🎨 **HOME PAGE & PRICING UX IMPROVEMENTS** *(January 2025)*
 
-**📅 Issue:** Remove limited time messaging and standardize free plan presentation  
-**🎯 Decision:** Clean up homepage vendor ad and replace Stripe free pricing with custom cards  
-**✅ Status:** COMPLETED & DEPLOYED  
+**📅 Issue:** Remove limited time messaging and standardize free plan presentation
+**🎯 Decision:** Clean up homepage vendor ad and replace Stripe free pricing with custom cards
+**✅ Status:** COMPLETED & DEPLOYED
 **🏥 Health Score:** A+ (100/100)
 
 ---
@@ -29,8 +47,8 @@
 
 #### **THE SOLUTION - UNIFIED FREE PLAN PRESENTATION**
 
-**Commit:** `[latest]` (2 files, 15 insertions, 11 deletions)  
-**Build Status:** ✅ Successful (391 pages generated)  
+**Commit:** `[latest]` (2 files, 15 insertions, 11 deletions)
+**Build Status:** ✅ Successful (391 pages generated)
 **Deployment:** ✅ Ready
 
 ---
@@ -165,8 +183,8 @@
 
 ---
 
-**Last Updated:** January 2025  
-**Status:** ✅ COMPLETED - Ready for Production  
+**Last Updated:** January 2025
+**Status:** ✅ COMPLETED - Ready for Production
 **Next Review:** Monitor user behavior and conversion metrics
 
 ---
@@ -175,9 +193,9 @@
 
 ### 🔧 **ADMIN FORM CATEGORY HANDLING FIX** *(December 19, 2024)*
 
-**📅 Issue:** 500 Internal Server Error when saving admin form submissions  
-**🎯 Decision:** Fix category handling for free vs paid listings  
-**✅ Status:** COMPLETED & DEPLOYED  
+**📅 Issue:** 500 Internal Server Error when saving admin form submissions
+**🎯 Decision:** Fix category handling for free vs paid listings
+**✅ Status:** COMPLETED & DEPLOYED
 **🏥 Health Score:** A+ (100/100)
 
 ---
@@ -207,8 +225,8 @@ categories: "e00fab44-e4ab-4834-966c-5058ac1af655" (single UUID)
 
 #### **THE SOLUTION - SMART CATEGORY DETECTION**
 
-**Commit:** `535030e6` (1 file, 18 insertions, 7 deletions)  
-**Build Status:** ✅ Successful  
+**Commit:** `535030e6` (1 file, 18 insertions, 7 deletions)
+**Build Status:** ✅ Successful
 **Deployment:** ✅ Live
 
 ---
@@ -357,9 +375,9 @@ if (listing.categories && listing.categories.length > 0) {
 
 ### 🎯 **COMPREHENSIVE ADMIN EDIT FORM OVERHAUL** *(December 19, 2024)*
 
-**📅 Issue:** Admin edit form was incomplete - missing critical listing fields  
-**🎯 Decision:** Implement comprehensive admin form with full listing control  
-**✅ Status:** COMPLETED & DEPLOYED  
+**📅 Issue:** Admin edit form was incomplete - missing critical listing fields
+**🎯 Decision:** Implement comprehensive admin form with full listing control
+**✅ Status:** COMPLETED & DEPLOYED
 **🏥 Health Score:** A+ (99/100)
 
 ---
@@ -387,8 +405,8 @@ if (listing.categories && listing.categories.length > 0) {
 
 #### **THE SOLUTION - COMPREHENSIVE FORM REDESIGN**
 
-**Commit:** `d4d94d3b` (2 files, 225 insertions, 138 deletions)  
-**Build Status:** ✅ Successful  
+**Commit:** `d4d94d3b` (2 files, 225 insertions, 138 deletions)
+**Build Status:** ✅ Successful
 **Deployment:** ✅ Live
 
 ---
@@ -435,7 +453,7 @@ const commaSeparatedStringToArray = z
 
 **Form Sections:**
 1. **Basic Information** - Core listing details
-2. **Location Details** - Geographic information  
+2. **Location Details** - Geographic information
 3. **Categorization** - Categories, age ranges, regions
 4. **Social Media** - Facebook, Instagram URLs
 5. **Profile Content** - Detailed descriptions and unique value props
@@ -528,9 +546,9 @@ categories: commaSeparatedStringToArray
 
 ### 🎯 **ADMIN DASHBOARD DIRECT REVIEW WORKFLOW** *(December 19, 2024)*
 
-**📅 Issue:** Admin notifications required multiple clicks to review specific listings  
-**🎯 Decision:** Implement direct review workflow with in-place editing  
-**✅ Status:** COMPLETED & DEPLOYED  
+**📅 Issue:** Admin notifications required multiple clicks to review specific listings
+**🎯 Decision:** Implement direct review workflow with in-place editing
+**✅ Status:** COMPLETED & DEPLOYED
 **🏥 Health Score:** A+ (98/100)
 
 ---
@@ -555,8 +573,8 @@ categories: commaSeparatedStringToArray
 
 #### **THE SOLUTION - COMPONENT ARCHITECTURE OVERHAUL**
 
-**Commit:** `dc9a13fa` (8 files, 485 insertions, 635 deletions)  
-**Build Status:** ✅ Successful  
+**Commit:** `dc9a13fa` (8 files, 485 insertions, 635 deletions)
+**Build Status:** ✅ Successful
 **Deployment:** ✅ Live
 
 ---
@@ -689,9 +707,9 @@ AdminDashboard (Server Component)
 
 ### 🔐 **COMPLETE VENDOR AUTH & CLAIM FLOW OVERHAUL** *(October 12, 2025)*
 
-**📅 Issue:** Vendor claim listing and auth system causing launch delays  
-**🎯 Decision:** Complete rebuild of registration, claim, and edit workflows  
-**✅ Status:** COMPLETED & DEPLOYED  
+**📅 Issue:** Vendor claim listing and auth system causing launch delays
+**🎯 Decision:** Complete rebuild of registration, claim, and edit workflows
+**✅ Status:** COMPLETED & DEPLOYED
 **🏥 Health Score:** A+ (97/100)
 
 ---
@@ -719,8 +737,8 @@ AdminDashboard (Server Component)
 
 #### **THE SOLUTION - 6-PHASE IMPLEMENTATION**
 
-**Commit:** `445b903d` (14 files, 1,093 insertions, 223 deletions)  
-**Build Status:** ✅ Successful (374 pages)  
+**Commit:** `445b903d` (14 files, 1,093 insertions, 223 deletions)
+**Build Status:** ✅ Successful (374 pages)
 **Deployment:** ✅ Live (https://ca101directory-eeoefb0lx-cor9s-projects.vercel.app)
 
 ---
@@ -842,7 +860,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 Register → GIANT success page → Check email → Confirm → Login
 ```
 
-**Before:** 70% confirmation rate  
+**Before:** 70% confirmation rate
 **After:** 100% confirmation rate (last 24h data)
 
 #### **2.2 Updated Register Action**
@@ -999,7 +1017,7 @@ export async function resendConfirmationEmail(email: string) {
 
 **Example:**
 ```typescript
-<ClaimErrorDisplay 
+<ClaimErrorDisplay
   error={{
     success: false,
     error: "EMAIL_NOT_CONFIRMED",
@@ -1007,7 +1025,7 @@ export async function resendConfirmationEmail(email: string) {
     message: "You need to confirm your email...",
     showResendButton: true,
     userEmail: "user@example.com"
-  }} 
+  }}
 />
 ```
 
@@ -1024,7 +1042,7 @@ export async function resendConfirmationEmail(email: string) {
 
 1. **NEW Paid Submissions → LIVE Immediately**
    ```typescript
-   status: (formData.plan === "Free" || formData.plan === "free") 
+   status: (formData.plan === "Free" || formData.plan === "free")
      ? "Pending"  // Free needs review
      : "Live"     // Paid goes live instantly
    ```
@@ -1040,7 +1058,7 @@ export async function resendConfirmationEmail(email: string) {
 3. **ALL EDITS → PENDING (Review Required)**
    ```typescript
    // ALL EDITS require review (free and paid)
-   status: currentListingStatus?.status === "Live" 
+   status: currentListingStatus?.status === "Live"
      ? "Pending"  // Was live, now pending for review
      : (currentListingStatus?.status || "Pending")  // Keep current status
    ```
@@ -1178,7 +1196,7 @@ WHERE created_at > NOW() - INTERVAL '24 hours';
 
 #### **6.2 Security Advisors**
 
-**Critical Issues:** 0 ✅  
+**Critical Issues:** 0 ✅
 **Warnings:** 4 ⚠️ (non-blocking)
 
 1. Security definer view (by design)
@@ -1272,11 +1290,11 @@ WHERE created_at > NOW() - INTERVAL '24 hours';
 
 ### **DEPLOYMENT STATUS**
 
-**Build:** ✅ Successful  
-**Commit:** `445b903d`  
-**Files Changed:** 14 (1,093 insertions, 223 deletions)  
-**Deployed:** October 12, 2025  
-**URL:** https://ca101directory-eeoefb0lx-cor9s-projects.vercel.app  
+**Build:** ✅ Successful
+**Commit:** `445b903d`
+**Files Changed:** 14 (1,093 insertions, 223 deletions)
+**Deployed:** October 12, 2025
+**URL:** https://ca101directory-eeoefb0lx-cor9s-projects.vercel.app
 **Health Score:** A+ (97/100)
 
 **Production Ready:** ✅ YES
@@ -1338,7 +1356,7 @@ LEFT JOIN profiles p ON u.id = p.id WHERE p.id IS NULL;
 SELECT * FROM verify_profile_integrity();
 
 -- 3. Confirmation rate (should be >85%)
-SELECT 
+SELECT
   COUNT(*) as total,
   SUM(CASE WHEN email_confirmed_at IS NOT NULL THEN 1 ELSE 0 END) as confirmed,
   ROUND(100.0 * SUM(CASE WHEN email_confirmed_at IS NOT NULL THEN 1 ELSE 0 END) / COUNT(*), 2) as rate
@@ -1361,9 +1379,9 @@ FROM auth.users WHERE created_at > NOW() - INTERVAL '24 hours';
 
 ### 🔍 **ON-PAGE SEO ENHANCEMENT (No URL Changes)** *(October 11, 2025 - Night)*
 
-**📅 Discussion:** User suggested converting UUID URLs to SEO-friendly slugs  
-**🎯 Decision:** Keep UUID URLs, enhance SEO through metadata instead  
-**✅ Status:** COMPLETED  
+**📅 Discussion:** User suggested converting UUID URLs to SEO-friendly slugs
+**🎯 Decision:** Keep UUID URLs, enhance SEO through metadata instead
+**✅ Status:** COMPLETED
 
 **Why Not Slugs?**
 
@@ -1404,7 +1422,7 @@ const cityState = [listing.city, listing.state].filter(Boolean).join(', ');
 const location = cityState ? ` in ${cityState}` : '';
 
 title: `${listing.listing_name} | ${category}${location}`
-description: listing.what_you_offer || 
+description: listing.what_you_offer ||
   `Find ${listing.listing_name}${location} — a trusted ${category.toLowerCase()} for child actors...`
 
 // Added Open Graph tags
@@ -1506,8 +1524,8 @@ priority: listing.featured ? 0.9 : 0.8  // Higher priority
 ```typescript
 {listing.updated_at && (
   <p className="text-xs text-gray-500 mb-3">
-    Last updated: {new Date(listing.updated_at).toLocaleDateString('en-US', { 
-      year: 'numeric', month: 'long', day: 'numeric' 
+    Last updated: {new Date(listing.updated_at).toLocaleDateString('en-US', {
+      year: 'numeric', month: 'long', day: 'numeric'
     })}
   </p>
 )}
@@ -1575,9 +1593,9 @@ Could add slug generation ONLY when listing is claimed (verified data), but UUID
 
 ### 📧 **EMAIL CONFIRMATION IMPROVEMENTS** *(October 11, 2025 - Late Evening)*
 
-**📅 Issue:** Morgan reported "issues" during registration  
-**🔍 Investigation:** Account created successfully but email never confirmed  
-**🎯 Status:** COMPLETED  
+**📅 Issue:** Morgan reported "issues" during registration
+**🔍 Investigation:** Account created successfully but email never confirmed
+**🎯 Status:** COMPLETED
 
 **What Happened:**
 - Morgan registered successfully (6:04 AM)
@@ -1652,9 +1670,9 @@ Users aren't being clearly notified about email confirmation requirement during 
 
 ### 🚨 **CRITICAL FIX #2 - CLAIMS & UPDATE SYSTEM REPAIR + WORKFLOW UPDATE**
 
-**📅 Date:** October 11, 2025 (Evening)  
-**🎯 Goal:** Fix broken claim/update functionality AND remove admin approval bottleneck  
-**✅ Status:** COMPLETED  
+**📅 Date:** October 11, 2025 (Evening)
+**🎯 Goal:** Fix broken claim/update functionality AND remove admin approval bottleneck
+**✅ Status:** COMPLETED
 
 **Critical Issue:**
 Users like Diane Christiansen unable to claim listings or update their information - system rejecting all data.
@@ -1692,7 +1710,7 @@ Users like Diane Christiansen unable to claim listings or update their informati
    CREATE POLICY "Users can update their own listings"
    ON listings FOR UPDATE TO authenticated
    USING (owner_id = auth.uid() OR EXISTS (
-     SELECT 1 FROM profiles 
+     SELECT 1 FROM profiles
      WHERE profiles.id = auth.uid() AND profiles.role = 'admin'
    ));
    ```
@@ -1720,7 +1738,7 @@ Users like Diane Christiansen unable to claim listings or update their informati
 
 **Workflow Update (Per User Request):**
 
-Changed from: `User Claims → Admin Approval → Edit → Submit → Live`  
+Changed from: `User Claims → Admin Approval → Edit → Submit → Live`
 Changed to: `User Claims → INSTANT OWNERSHIP → Edit → Admin Review → Live`
 
 **Key Changes:**
@@ -1801,11 +1819,11 @@ WITH CHECK (bucket_id = 'listing-images');
 -- Plus 6 more storage policies for complete access control
 
 -- Constraints to prevent bad data
-ALTER TABLE listings 
-ADD CONSTRAINT valid_listing_status 
+ALTER TABLE listings
+ADD CONSTRAINT valid_listing_status
 CHECK (status IN ('Live', 'Pending', 'Rejected', 'Draft'));
 
-ALTER TABLE listings 
+ALTER TABLE listings
 ALTER COLUMN is_active SET DEFAULT true,
 ALTER COLUMN is_active SET NOT NULL;
 
@@ -1852,9 +1870,9 @@ WHERE name = 'listing-images';
 
 ### 🚨 **CRITICAL FIX #1 - RLS POLICY AUDIT & LISTINGS RESTORATION**
 
-**📅 Date:** October 11, 2025  
-**🎯 Goal:** Fix disappeared listings and prevent future RLS policy issues  
-**✅ Status:** COMPLETED  
+**📅 Date:** October 11, 2025
+**🎯 Goal:** Fix disappeared listings and prevent future RLS policy issues
+**✅ Status:** COMPLETED
 
 **Critical Issue:**
 All 257 listings disappeared from public website - ZERO listings visible to users.
@@ -1897,12 +1915,12 @@ Audited all 12 tables with RLS policies:
 #### 3. Added Database Safeguards
 ```sql
 -- Prevent invalid status values
-ALTER TABLE listings 
-ADD CONSTRAINT valid_listing_status 
+ALTER TABLE listings
+ADD CONSTRAINT valid_listing_status
 CHECK (status IN ('Live', 'Pending', 'Rejected', 'Draft'));
 
 -- Ensure is_active never NULL
-ALTER TABLE listings 
+ALTER TABLE listings
 ALTER COLUMN is_active SET DEFAULT true,
 ALTER COLUMN is_active SET NOT NULL;
 ```
@@ -1952,9 +1970,9 @@ All tests passing:
 
 ### 🚨 **URGENT PRODUCTION FIXES - AUTH SYSTEM OVERHAUL**
 
-**📅 Date:** October 10, 2025  
-**🎯 Goal:** Fix critical authentication and profile creation issues in production  
-**✅ Status:** COMPLETED  
+**📅 Date:** October 10, 2025
+**🎯 Goal:** Fix critical authentication and profile creation issues in production
+**✅ Status:** COMPLETED
 
 **Critical Issues Identified**:
 1. ❌ "Failed to create user profile" error on vendor registration
@@ -2071,7 +2089,7 @@ CREATE TABLE public.verification_tokens (
 4. **Edge Runtime has limitations** - Use Web Crypto API instead of Node crypto
 5. **User feedback is crucial** - Clear error messages and confirmation messages prevent support tickets
 
-**User Impact**: 
+**User Impact**:
 - 🔥 **Before**: Users couldn't register as vendors (production down)
 - ✅ **After**: Full auth system working, clear user feedback, proper error handling
 
@@ -2081,9 +2099,9 @@ CREATE TABLE public.verification_tokens (
 
 ### ✅ **ADMIN LISTING CREATION - COMPLETE!**
 
-**📅 Date:** October 8, 2025  
-**🎯 Goal:** Enable admins to create listings from scratch  
-**✅ Status:** COMPLETED  
+**📅 Date:** October 8, 2025
+**🎯 Goal:** Enable admins to create listings from scratch
+**✅ Status:** COMPLETED
 
 **Problem**: Admins could only edit existing listings, not create new ones from scratch.
 
@@ -2116,9 +2134,9 @@ CREATE TABLE public.verification_tokens (
 
 ### ✅ **SEO PHASE 1 - COMPLETE!**
 
-**📅 Date:** October 8, 2025  
-**🎯 Goal:** Boost directory and category SEO  
-**✅ Status:** COMPLETED  
+**📅 Date:** October 8, 2025
+**🎯 Goal:** Boost directory and category SEO
+**✅ Status:** COMPLETED
 
 **Implemented**:
 
@@ -2206,9 +2224,9 @@ CREATE TABLE public.verification_tokens (
 
 ### ✅ **DATA CONSISTENCY FIXES**
 
-**📅 Date:** October 8, 2025  
-**🎯 Goal:** Fix category display issues  
-**✅ Status:** COMPLETED  
+**📅 Date:** October 8, 2025
+**🎯 Goal:** Fix category display issues
+**✅ Status:** COMPLETED
 
 **Issues Fixed**:
 1. **Jeremy Bustin Photography**: Had category UUID instead of name - updated to "Headshot Photographers"
@@ -2223,9 +2241,9 @@ CREATE TABLE public.verification_tokens (
 
 ### ✅ **COMPLETE ARRAY FIELD COMPATIBILITY ACHIEVED!**
 
-**📅 Date:** January 31, 2025  
-**🎯 Goal:** Fix all TypeScript compilation errors from database cleanup  
-**✅ Status:** COMPLETED  
+**📅 Date:** January 31, 2025
+**🎯 Goal:** Fix all TypeScript compilation errors from database cleanup
+**✅ Status:** COMPLETED
 
 **Problem**: Multiple TypeScript compilation errors during deployment due to remaining `.split()` calls on array fields after database cleanup.
 
@@ -2233,13 +2251,13 @@ CREATE TABLE public.verification_tokens (
 
 **Solution Applied**:
 1. **Fixed Category Page**: Updated `src/app/(website)/(public)/category/page.tsx` to handle `categories` as array
-2. **Fixed Tag Page**: Updated `src/app/(website)/(public)/tag/[slug]/page.tsx` to handle `age_range` as array  
+2. **Fixed Tag Page**: Updated `src/app/(website)/(public)/tag/[slug]/page.tsx` to handle `age_range` as array
 3. **Fixed Listing Cards**: Updated both `ListingCard.tsx` and `ListingCardClient.tsx` to use arrays directly
 4. **Fixed Home Category Grid**: Updated `src/components/home/home-category-grid.tsx` to handle categories array
 
 **Files Updated**:
 - `src/app/(website)/(public)/category/page.tsx`
-- `src/app/(website)/(public)/tag/[slug]/page.tsx` 
+- `src/app/(website)/(public)/tag/[slug]/page.tsx`
 - `src/components/listings/ListingCard.tsx`
 - `src/components/listings/ListingCardClient.tsx`
 - `src/components/home/home-category-grid.tsx`
@@ -2274,15 +2292,15 @@ CREATE TABLE public.verification_tokens (
 
 ## 🔒 **SECURITY IMPLEMENTATION COMPLETED!**
 
-**📅 Date:** January 31, 2025  
-**🎯 Goal:** Enable Row Level Security (RLS)  
-**✅ Status:** COMPLETED  
+**📅 Date:** January 31, 2025
+**🎯 Goal:** Enable Row Level Security (RLS)
+**✅ Status:** COMPLETED
 
 **Security Issues Resolved:**
 - ✅ Enabled RLS on all 8 public tables: `users`, `listings`, `categories`, `vendor_suggestions`, `submissions`, `plans`, `profiles`, `reviews`
 - ✅ Created appropriate security policies for each table
 - ✅ Public read access for directory listings and categories
-- ✅ Authenticated write access for submissions and vendor suggestions  
+- ✅ Authenticated write access for submissions and vendor suggestions
 - ✅ User-specific access controls for profiles and reviews
 - ✅ All 7 critical security advisories from Supabase now resolved
 
@@ -2475,7 +2493,7 @@ CREATE TABLE public.verification_tokens (
 
 **Authentication System:**
 - ✅ **Google OAuth** - Configured and working
-- ✅ **Facebook OAuth** - Configured and working  
+- ✅ **Facebook OAuth** - Configured and working
 - ✅ **Email/Password** - Basic implementation
 - ✅ **NextAuth.js** - Properly configured
 - ✅ **Security** - Environment variables protected
@@ -2557,7 +2575,7 @@ CREATE TABLE public.verification_tokens (
 
 **💰 ANNUAL PLANS (Save 2 Months):**
 - Basic: $250/year (save $50)
-- Pro: $450/year (save $90) 
+- Pro: $450/year (save $90)
 - Premium: $900/year (save $180)
 
 **📅 MONTHLY PLANS:**
@@ -3970,7 +3988,7 @@ The blog section is now fully implemented with a professional dark theme, catego
 
 **🎯 ALL FIXES IMPLEMENTED:**
 ✅ **Listing Type Definition** - Updated to match new schema with proper data types
-✅ **getPublicListings Function** - Fixed to use new boolean fields (is_active, is_claimed) 
+✅ **getPublicListings Function** - Fixed to use new boolean fields (is_active, is_claimed)
 ✅ **Category Filtering Logic** - Fixed to work with TEXT[] arrays instead of comma-separated strings
 ✅ **Array Handling** - Fixed components expecting string splits to handle arrays properly
 ✅ **Component Updates** - Fixed featured listings, item service, listing detail pages, and claim functionality
@@ -3983,13 +4001,13 @@ The blog section is now fully implemented with a professional dark theme, catego
 ✅ **Boolean Fields:** All boolean fields (is_active, is_claimed, etc.) properly typed
 
 **🚀 DEPLOYMENT STATUS:**
-✅ **Commit:** 5cbd701 "Fix category filtering and database field compatibility issues" 
+✅ **Commit:** 5cbd701 "Fix category filtering and database field compatibility issues"
 ✅ **Deployment:** BUILDING (current deployment includes all fixes)
 ✅ **Status:** All fixes applied and ready for testing
 
 **🎯 EXPECTED OUTCOME:**
 - Category dropdown should now show 31 Talent Managers
-- All filtering should work properly on directory and category pages  
+- All filtering should work properly on directory and category pages
 - Listing detail pages should display categories and age ranges correctly
 - No more 404 errors on listing cards
 - Complete compatibility with cleaned database schema
@@ -4004,7 +4022,7 @@ The blog section is now fully implemented with a professional dark theme, catego
 
 **Category Filtering:**
 - ✅ **Array Operations** - Fixed category filtering to work with TEXT[] arrays
-- ✅ **Search Queries** - Updated Supabase queries to handle array fields properly  
+- ✅ **Search Queries** - Updated Supabase queries to handle array fields properly
 - ✅ **Component Updates** - All components now handle arrays vs comma-separated strings
 - ✅ **Data Flow** - End-to-end category filtering now fully functional
 
@@ -4059,7 +4077,7 @@ The blog section is now fully implemented with a professional dark theme, catego
 ### ✅ **MAJOR AUTH/SUBMISSION ISSUES RESOLVED**
 
 **🎯 CORE PROBLEM IDENTIFIED:**
-- Dashboard listings showing 404 errors when clicking "View" 
+- Dashboard listings showing 404 errors when clicking "View"
 - Submit-supabase.ts had incorrect field mappings causing database constraint violations
 - Auth system bypassed to get forms working, causing orphaned listings not connected to users
 - Status value mismatches between code expectations and database reality
@@ -4140,7 +4158,7 @@ The blog section is now fully implemented with a professional dark theme, catego
 
 **Files:**
 - `src/components/vendor/vendor-pricing.tsx`
-- `src/components/vendor/vendor-faq.tsx` 
+- `src/components/vendor/vendor-faq.tsx`
 - `src/components/vendor/vendor-final-cta.tsx`
 
 ---
@@ -4150,7 +4168,7 @@ The blog section is now fully implemented with a professional dark theme, catego
 **Decision:** Implement comprehensive UI testing standards to prevent piecemeal fixes that frustrate users.
 
 **Why:** User reported admin edit form had invisible dropdown menus and buttons. Initial fix only addressed basic text visibility, not dropdown portal rendering. Required multiple iterations to fix:
-1. Fixed basic text visibility with CSS 
+1. Fixed basic text visibility with CSS
 2. User reported "I cannot see the dropdown menus at all. Nor can I see the buttons"
 3. Fixed dropdown triggers but not dropdown content
 4. User reported "you fixed it partially. I cannot see the option because it drops down to be transparent with with light text"
@@ -4166,11 +4184,11 @@ The blog section is now fully implemented with a professional dark theme, catego
 - **Implementation standard** requiring systematic testing before deployment
 
 **Critical Lesson:** When fixing UI components, ALWAYS test:
-✅ Dropdown triggers AND dropdown content visibility  
-✅ Text contrast in all states (default, hover, selected)  
-✅ Portal rendering with proper z-index stacking  
-✅ Button text visibility and background colors  
-✅ All interactive states and edge cases  
+✅ Dropdown triggers AND dropdown content visibility
+✅ Text contrast in all states (default, hover, selected)
+✅ Portal rendering with proper z-index stacking
+✅ Button text visibility and background colors
+✅ All interactive states and edge cases
 
 **Never Again:** No more reactive fixes where user has to report each broken element individually. Test comprehensively upfront.
 
@@ -4196,13 +4214,13 @@ The blog section is now fully implemented with a professional dark theme, catego
 
 **Complete social media feature now includes:**
 ✅ Facebook, Instagram, TikTok, YouTube, LinkedIn, **Blog**, Custom Link
-✅ Available during vendor submission AND admin editing  
+✅ Available during vendor submission AND admin editing
 ✅ Proper database storage and retrieval
 ✅ Public display with Pro/Premium plan restrictions
 
 **Impact:**
 - **No breaking changes** - purely additive feature
-- **Consistent UX** - follows existing social media patterns  
+- **Consistent UX** - follows existing social media patterns
 - **Complete workflow** - end-to-end vendor submission to public display
 - **Future-proof** - extensible for additional social platforms
 
@@ -4223,7 +4241,7 @@ The blog section is now fully implemented with a professional dark theme, catego
 
 **What was exposed publicly:**
 - ❌ "Listing Claimed" sections with business owner details
-- ❌ "Claimed by:" showing email addresses publicly  
+- ❌ "Claimed by:" showing email addresses publicly
 - ❌ "Verification Status:" exposing internal workflow states (pending/verified/denied)
 - ❌ "101 Badge:" showing internal verification details
 - ❌ Claim dates and business owner information
@@ -4232,13 +4250,13 @@ The blog section is now fully implemented with a professional dark theme, catego
 - **Complete removal** of entire "Claim Status Section" from public listing pages
 - **Access control properly scoped:**
   - ✅ **Admin interfaces:** Full claiming details for moderation
-  - ✅ **Owner dashboards:** Business owners can see their own listing status  
+  - ✅ **Owner dashboards:** Business owners can see their own listing status
   - ❌ **Public listings:** No internal workflow or business owner details
 
 **Privacy Impact:**
 - **Email addresses** no longer exposed to public
 - **Internal workflow states** hidden from users
-- **Business verification details** kept private  
+- **Business verification details** kept private
 - **Administrative metadata** removed from public view
 - **Professional appearance** - public pages focus on service content only
 
@@ -4325,7 +4343,7 @@ The blog section is now fully implemented with a professional dark theme, catego
 
 **Production Impact:**
 - **✅ User registration:** Now works reliably with clear confirmation instructions
-- **✅ Email system:** Unlimited sending capacity, no more rate limit errors  
+- **✅ Email system:** Unlimited sending capacity, no more rate limit errors
 - **✅ Password reset:** Fully functional end-to-end flow
 - **✅ Authentication errors:** Clear, helpful messages with next steps
 - **✅ Vendor experience:** No more support emails about broken auth
@@ -4335,14 +4353,14 @@ The blog section is now fully implemented with a professional dark theme, catego
 - `src/lib/tokens.ts` - Complete token system rewrite
 - `src/actions/register.ts` - Always show email confirmation message
 - `src/actions/new-password.ts` - Updated to use Supabase tokens
-- `src/actions/new-verification.ts` - Updated to use Supabase tokens  
+- `src/actions/new-verification.ts` - Updated to use Supabase tokens
 - `src/components/auth/role-guard.tsx` - Better error messages
 - `src/components/auth/register-form.tsx` - Extended viewing delay
 - `src/components/shared/form-success.tsx` - Multi-line message support
 - Deleted: `src/data/password-reset-token.ts` - Removed broken Sanity code
 
 **Testing Results:**
-- **Profile creation:** ✅ Works consistently 
+- **Profile creation:** ✅ Works consistently
 - **Email confirmation:** ✅ Clear instructions displayed
 - **Password reset:** ✅ Complete flow functional
 - **Email sending:** ✅ No rate limit issues
@@ -4362,9 +4380,9 @@ The blog section is now fully implemented with a professional dark theme, catego
 
 ## 🎉 **MAJOR VENDOR DASHBOARD & CLAIM WORKFLOW OVERHAUL** *(December 19, 2024)*
 
-**📅 Issue:** Vendor experience was broken and confusing - listings disappearing, login failures, unclear claim process  
-**🎯 Decision:** Complete rebuild of vendor authentication, dashboard, and claim listing workflow  
-**✅ Status:** COMPLETED & DEPLOYED  
+**📅 Issue:** Vendor experience was broken and confusing - listings disappearing, login failures, unclear claim process
+**🎯 Decision:** Complete rebuild of vendor authentication, dashboard, and claim listing workflow
+**✅ Status:** COMPLETED & DEPLOYED
 **🏥 Health Score:** A+ (98/100)
 
 ---
@@ -4393,8 +4411,8 @@ The blog section is now fully implemented with a professional dark theme, catego
 
 ### **🎯 THE COMPREHENSIVE SOLUTION - 6 MAJOR IMPROVEMENTS**
 
-**Commit:** `75e3592b` (17 files, 1,748 insertions, 1,384 deletions)  
-**Build Status:** ✅ Successful (388 pages)  
+**Commit:** `75e3592b` (17 files, 1,748 insertions, 1,384 deletions)
+**Build Status:** ✅ Successful (388 pages)
 **Deployment:** ✅ Live and fully functional
 
 ---

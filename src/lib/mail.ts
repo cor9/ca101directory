@@ -14,7 +14,9 @@ let resendInstance: Resend | null = null;
 function getResend(): Resend {
   if (!resendInstance) {
     if (!process.env.RESEND_API_KEY) {
-      throw new Error("RESEND_API_KEY is not configured. Email sending is disabled.");
+      throw new Error(
+        "RESEND_API_KEY is not configured. Email sending is disabled.",
+      );
     }
     resendInstance = new Resend(process.env.RESEND_API_KEY);
   }
@@ -26,8 +28,8 @@ export const resend = new Proxy({} as Resend, {
   get(target, prop) {
     const instance = getResend();
     const value = instance[prop as keyof Resend];
-    return typeof value === 'function' ? value.bind(instance) : value;
-  }
+    return typeof value === "function" ? value.bind(instance) : value;
+  },
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL;
@@ -143,20 +145,95 @@ export const sendListingSubmittedEmail = async (
   plan: string,
   isEdit = false,
 ) => {
-  const subject = isEdit 
+  const subject = isEdit
     ? `Listing Updated: ${listingName}`
     : `Listing Submitted: ${listingName}`;
-  
+
   await resend.emails.send({
     from: process.env.RESEND_EMAIL_FROM,
     to: vendorEmail,
     subject,
-    react: ListingSubmittedEmail({ 
-      vendorName, 
-      listingName, 
-      listingId, 
+    react: ListingSubmittedEmail({
+      vendorName,
+      listingName,
+      listingId,
       plan,
       isEdit,
     }),
+  });
+};
+
+/**
+ * Admin-only notifications for key listing activities
+ */
+export const sendAdminSubmissionNotification = async (
+  listingName: string,
+  listingId: string,
+  isEdit = false,
+) => {
+  const reviewLink = `${SITE_URL}/dashboard/admin/edit/${listingId}`;
+  const subject = isEdit
+    ? `Listing Updated (Review): ${listingName}`
+    : `New Listing Submission: ${listingName}`;
+
+  await resend.emails.send({
+    from: process.env.RESEND_EMAIL_FROM,
+    to: process.env.RESEND_EMAIL_ADMIN,
+    subject,
+    react: NotifySubmissionEmail({ itemName: listingName, reviewLink }),
+  });
+};
+
+export const sendAdminClaimNotification = async (
+  listingName: string,
+  listingId: string,
+  claimerEmail?: string | null,
+) => {
+  const reviewLink = `${SITE_URL}/dashboard/admin/edit/${listingId}`;
+  const subject = `Listing Claimed: ${listingName}`;
+
+  const html = `
+    <div style="font-family: Arial, sans-serif;">
+      <h2>Listing Claimed</h2>
+      <p><strong>${listingName}</strong> was just claimed${claimerEmail ? ` by ${claimerEmail}` : ""}.</p>
+      <p>
+        <a href="${reviewLink}" target="_blank" rel="noopener noreferrer">Review listing</a>
+      </p>
+    </div>
+  `;
+
+  await resend.emails.send({
+    from: process.env.RESEND_EMAIL_FROM,
+    to: process.env.RESEND_EMAIL_ADMIN,
+    subject,
+    html,
+  });
+};
+
+export const sendAdminUpgradeNotification = async (
+  listingName: string,
+  listingId: string,
+  plan: string | null,
+  billingCycle?: string | null,
+  vendorId?: string | null,
+) => {
+  const reviewLink = `${SITE_URL}/dashboard/admin/edit/${listingId}`;
+  const subject = `Listing Upgraded: ${listingName} → ${plan || "Unknown Plan"}`;
+  const html = `
+    <div style="font-family: Arial, sans-serif;">
+      <h2>Listing Upgraded</h2>
+      <p><strong>${listingName}</strong> upgraded to <strong>${plan || "Unknown"}</strong>${billingCycle ? ` (${billingCycle})` : ""}.</p>
+      ${vendorId ? `<p>Vendor ID: ${vendorId}</p>` : ""}
+      <p>
+        <a href="${reviewLink}" target="_blank" rel="noopener noreferrer">Review listing</a>
+      </p>
+    </div>
+  `;
+
+  await resend.emails.send({
+    from: process.env.RESEND_EMAIL_FROM,
+    to: process.env.RESEND_EMAIL_ADMIN,
+    subject,
+    html,
   });
 };

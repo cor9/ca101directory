@@ -41,7 +41,7 @@ export default async function AdminListingsPage({
 
   // Get all listings for admin management
   const allListings = await getPublicListings();
-  
+
   // Filter by status if provided
   const statusFilter = searchParams?.status;
   const filteredListings = statusFilter
@@ -239,8 +239,7 @@ export default async function AdminListingsPage({
                           {(() => {
                             // Determine badge text and styling
                             let badgeText = "Free";
-                            let badgeClassName =
-                              "text-xs bg-gray-100 text-ink";
+                            let badgeClassName = "text-xs bg-gray-100 text-ink";
 
                             if (listing.comped) {
                               badgeText = "Pro";
@@ -252,8 +251,7 @@ export default async function AdminListingsPage({
                                 "text-xs bg-brand-blue text-white";
                             } else if (listing.plan === "Standard") {
                               badgeText = "Standard";
-                              badgeClassName =
-                                "text-xs bg-gray-100 text-ink";
+                              badgeClassName = "text-xs bg-gray-100 text-ink";
                             } else if (listing.plan === "Premium") {
                               badgeText = "Featured";
                               badgeClassName =
@@ -312,7 +310,9 @@ export default async function AdminListingsPage({
                       {listing.status === "Pending" && (
                         <ListingActions
                           listingId={listing.id}
-                          listingName={listing.listing_name || "Unnamed Listing"}
+                          listingName={
+                            listing.listing_name || "Unnamed Listing"
+                          }
                         />
                       )}
 
@@ -335,10 +335,14 @@ export default async function AdminListingsPage({
                       <Button size="sm" variant="outline" asChild>
                         <Link
                           href={`/listing/${
-                            listing.listing_name
-                              ?.toLowerCase()
-                              .replace(/\s+/g, "-")
-                              .replace(/[^a-z0-9-]/g, "") || listing.id
+                            listing.slug ||
+                            (
+                              listing.listing_name
+                                ?.toLowerCase()
+                                .replace(/\s+/g, "-")
+                                .replace(/[^a-z0-9-]/g, "")
+                            ) ||
+                            listing.id
                           }`}
                         >
                           <EyeIcon className="w-4 h-4 mr-1" />

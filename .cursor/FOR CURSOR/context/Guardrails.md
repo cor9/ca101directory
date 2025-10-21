@@ -17,6 +17,7 @@
 - **Centralized State Management**: Dashboard components use centralized state orchestration ✅ **NEW DEC 19, 2024**
 - **Comprehensive Admin Control**: Complete listing field management with organized form sections ✅ **NEW DEC 19, 2024**
 - **Smart Array Field Handling**: Comma-separated input with automatic array transformation ✅ **NEW DEC 19, 2024**
+- **Admin Notifications**: Email the admin for submissions, edits, claims, and upgrades (Resend)
 
 ## 🚫 Forbidden
 
@@ -25,6 +26,7 @@
 - **NO Hardcoded Keys**: Do not hardcode Stripe keys, API keys, or sensitive data ✅ **ENFORCED**
 - **NO Database Models**: Do not use Prisma, SQL, or other database ORMs (use Supabase client) ✅ **UPDATED DEC 19, 2024**
 - **NO Login Required for Browsing**: Do not add authentication barriers for viewing listings
+- **NO Silent Activity**: Do not introduce flows where admin is uninformed of vendor actions
 - **NO Admin Approval for Claims**: Claims are auto-approved - users get instant ownership ✅ **UPDATED OCT 11, 2025**
 - **NO Review/Rating Features**: Do not add review systems without explicit approval
 - **NO Blog Functionality**: Blog features are disabled during Sanity migration ✅ **COMPLETED**
@@ -47,16 +49,16 @@
 
 **🔧 COMPREHENSIVE UI TESTING CHECKLIST:**
 When fixing UI components, ALWAYS test:
-✅ **Dropdown menus** - Trigger visibility, content visibility, option text contrast, hover states, selection states  
-✅ **Button interactions** - Text visibility, background colors, hover states, active states, disabled states  
-✅ **Form elements** - Input visibility, placeholder text, validation states, error states  
-✅ **Modal/Portal content** - Z-index stacking, background overlays, content contrast  
-✅ **Mobile responsiveness** - All breakpoints and device orientations  
-✅ **Theme compatibility** - Light/dark mode, color scheme conflicts  
+✅ **Dropdown menus** - Trigger visibility, content visibility, option text contrast, hover states, selection states
+✅ **Button interactions** - Text visibility, background colors, hover states, active states, disabled states
+✅ **Form elements** - Input visibility, placeholder text, validation states, error states
+✅ **Modal/Portal content** - Z-index stacking, background overlays, content contrast
+✅ **Mobile responsiveness** - All breakpoints and device orientations
+✅ **Theme compatibility** - Light/dark mode, color scheme conflicts
 
 **🚫 FORBIDDEN APPROACHES:**
 - ❌ **Reactive fixes** - Waiting for user to report each broken element individually
-- ❌ **Surface-level fixes** - Only fixing what's immediately obvious  
+- ❌ **Surface-level fixes** - Only fixing what's immediately obvious
 - ❌ **Single-component focus** - Ignoring related components that use similar patterns
 - ❌ **CSS tunnel vision** - Not testing actual user interactions after CSS changes
 
@@ -68,7 +70,7 @@ When fixing UI components, ALWAYS test:
 
 **⚡ IMPLEMENTATION STANDARD:**
 1. **Plan comprehensively** - List all related UI elements that could be affected
-2. **Test systematically** - Work through all interactive states and edge cases  
+2. **Test systematically** - Work through all interactive states and edge cases
 3. **Deploy confidently** - Only push when ALL related functionality is verified working
 4. **Document thoroughly** - Update guardrails with lessons learned
 
@@ -323,7 +325,7 @@ All design choices must honor a mid-century modern, Bauhaus homage to classic Ho
 **Current Status**: Both domains (`ca101-directory.vercel.app` and `directory.childactor101.com`) fully functional with recent enhancements:
 - ✅ Successful build and deployment
 - ✅ Complete social media integration (including Blog URLs)
-- ✅ Privacy-compliant public listing display  
+- ✅ Privacy-compliant public listing display
 - ✅ Fully functional admin interface with visible dropdowns
 - ✅ End-to-end vendor submission and editing workflow
 - ✅ Professional public-facing experience

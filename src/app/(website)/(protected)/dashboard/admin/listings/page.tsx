@@ -291,7 +291,7 @@ export default async function AdminListingsPage({
                         </div>
                       </div>
 
-                      <div className="text-sm text-paper">
+                      <div className="text-sm text-ink">
                         <div className="flex items-center gap-4">
                           <span>Email: {listing.email || "N/A"}</span>
                           <span>
@@ -354,7 +354,7 @@ export default async function AdminListingsPage({
                 ))}
 
                 {sortedListings.length === 0 && (
-                  <div className="text-center py-8 text-paper">
+                  <div className="text-center py-8 rounded-lg border border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50 text-ink">
                     No listings found.
                   </div>
                 )}

@@ -401,7 +401,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
         {/* Header Card */}
         <div className="listing-card">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm mb-6 text-paper">
+          <div className="flex items-center gap-2 text-sm mb-6 text-ink">
             <Link href="/" className="hover:text-primary-orange">
               Directory
             </Link>
@@ -738,7 +738,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
               >
                 Categories
               </h2>
-              <div className="flex flex-wrap gap-2">
+              <div
+                className="flex flex-wrap gap-2 p-2 rounded-md"
+                style={{ backgroundColor: "rgb(228, 167, 46)" }}
+              >
                 {displayCategories.length > 0 ? (
                   displayCategories.map(
                     ({ key, displayName, iconUrl }, index) => {

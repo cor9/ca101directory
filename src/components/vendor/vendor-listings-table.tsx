@@ -117,7 +117,7 @@ export const VendorListingsTable = ({ listings }: { listings: Listing[] }) => {
           </table>
         </div>
         {listings.length === 0 && (
-          <div className="text-center py-8 text-paper">
+          <div className="text-center py-8 rounded-lg border border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50 text-ink">
             You don't have any listings yet.
           </div>
         )}
@@ -151,4 +151,3 @@ export const VendorListingsTable = ({ listings }: { listings: Listing[] }) => {
     </>
   );
 };
-

@@ -399,7 +399,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
         />
 
         {/* Header Card */}
-        <div className="listing-card">
+        <div className="listing-card-transparent">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-sm mb-6 text-ink">
             <Link href="/" className="hover:text-primary-orange">
@@ -608,11 +608,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
             </div>
 
             {/* Social Media Links - Pro Users Only */}
-            <SocialMediaIcons listing={listing} className="listing-card" />
+            <SocialMediaIcons listing={listing} className="listing-card-blue" />
 
             {/* Review Form */}
             {isReviewsEnabled() && (
-              <div className="listing-card">
+              <div className="listing-card-transparent text-paper border" style={{ backgroundColor: "transparent", borderColor: "#f8f4e6" }}>
                 <ReviewForm
                   listingId={listing.id}
                   listingName={listing.listing_name || "Listing"}
@@ -638,7 +638,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
             <Gallery listing={listing} />
 
             {/* Contact Information */}
-            <div className="listing-card-blue">
+            <div className="listing-card-blue" style={{ backgroundColor: "rgb(63, 174, 214)" }}>
               <h2
                 className="bauhaus-heading text-lg font-semibold mb-4"
                 style={{ color: "#0C1A2B" }}
@@ -648,7 +648,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
               <ul className="space-y-4 text-base">
                 {(listing.city || listing.state || listing.region) && (
                   <li className="flex items-start gap-3">
-                    <MapPinIcon className="w-4 h-4 text-primary-orange mt-1 flex-shrink-0" />
+                    <MapPinIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#d2b48c]" />
                     <span style={{ color: "#0C1A2B" }}>
                       {[listing.city, listing.state].filter(Boolean).join(", ")}
                       {listing.region && listing.region.length > 0 && (
@@ -661,7 +661,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 )}
                 {listing.phone && (
                   <li className="flex items-start gap-3">
-                    <PhoneIcon className="w-4 h-4 text-primary-orange mt-1 flex-shrink-0" />
+                    <PhoneIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#d2b48c]" />
                     <a
                       href={`tel:${listing.phone}`}
                       className="hover:text-primary-orange"
@@ -673,7 +673,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 )}
                 {listing.email && (
                   <li className="flex items-start gap-3">
-                    <MailIcon className="w-4 h-4 text-primary-orange mt-1 flex-shrink-0" />
+                    <MailIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#d2b48c]" />
                     <a
                       href={`mailto:${listing.email}`}
                       className="hover:text-primary-orange"
@@ -685,7 +685,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 )}
                 {listing.format?.toLowerCase().includes("online") && (
                   <li className="flex items-start gap-3">
-                    <GlobeIcon className="w-4 h-4 text-primary-orange mt-1 flex-shrink-0" />
+                    <GlobeIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#d2b48c]" />
                     <span style={{ color: "#0C1A2B" }}>
                       Virtual services available
                     </span>
@@ -698,10 +698,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
             {!listing.is_claimed && !isOwner && !listing.owner_id && (
               <div
                 className="listing-card"
-                style={{
-                  background:
-                    "linear-gradient(135deg, #FFFDD0 0%, #F8F4E6 100%)",
-                }}
+                style={{ background: "rgb(228, 167, 46)" }}
               >
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0">
@@ -738,10 +735,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
               >
                 Categories
               </h2>
-              <div
-                className="flex flex-wrap gap-2 p-2 rounded-md"
-                style={{ backgroundColor: "rgb(228, 167, 46)" }}
-              >
+              <div className="flex flex-wrap gap-2">
                 {displayCategories.length > 0 ? (
                   displayCategories.map(
                     ({ key, displayName, iconUrl }, index) => {

@@ -415,12 +415,12 @@ export default async function ListingPage({ params }: ListingPageProps) {
             <div className="flex-1">
               <h1
                 className="bauhaus-heading text-3xl font-bold mb-3"
-                style={{ color: "#0C1A2B" }}
+                style={{ color: "#fafaf4" }}
               >
                 {listing.listing_name}
               </h1>
 
-              <div className="flex flex-wrap items-center gap-4 mb-4">
+              <div className="flex flex-wrap items-center gap-4 mb-4 text-paper">
                 {/* Rating */}
                 {isReviewsEnabled() && averageRating.count > 0 && (
                   <div className="flex items-center gap-2">
@@ -657,20 +657,23 @@ export default async function ListingPage({ params }: ListingPageProps) {
               <ul className="space-y-4 text-base">
                 {(listing.city || listing.state || listing.region) && (
                   <li className="flex items-start gap-3">
-                    <MapPinIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#d2b48c]" />
+                    <MapPinIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#e4572e]" />
                     <span style={{ color: "#0C1A2B" }}>
                       {[listing.city, listing.state].filter(Boolean).join(", ")}
-                      {listing.region && listing.region.length > 0 && (
-                        <span className="text-sm text-paper ml-1">
-                          ({listing.region.join(", ")})
-                        </span>
-                      )}
                     </span>
+                  </li>
+                )}
+                {listing.region && listing.region.length > 0 && (
+                  <li className="flex items-start gap-3">
+                    <span className="sr-only">Regions</span>
+                    <div className="text-sm text-paper ml-7 -mt-2">
+                      {listing.region.join(", ")}
+                    </div>
                   </li>
                 )}
                 {listing.phone && (
                   <li className="flex items-start gap-3">
-                    <PhoneIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#d2b48c]" />
+                    <PhoneIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#e4572e]" />
                     <a
                       href={`tel:${listing.phone}`}
                       className="hover:text-primary-orange"
@@ -682,7 +685,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 )}
                 {listing.email && (
                   <li className="flex items-start gap-3">
-                    <MailIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#d2b48c]" />
+                    <MailIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#e4572e]" />
                     <a
                       href={`mailto:${listing.email}`}
                       className="hover:text-primary-orange"
@@ -694,7 +697,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 )}
                 {listing.format?.toLowerCase().includes("online") && (
                   <li className="flex items-start gap-3">
-                    <GlobeIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#d2b48c]" />
+                    <GlobeIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#e4572e]" />
                     <span style={{ color: "#0C1A2B" }}>
                       Virtual services available
                     </span>
@@ -720,7 +723,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     >
                       Own This Business?
                     </h2>
-                    <p className="text-paper">
+                    <p style={{ color: "#1e1f23" }}>
                       Claim your listing to gain full control, edit details, and
                       upgrade to premium plans.
                     </p>

@@ -474,7 +474,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                       href={listing.website}
                       target="_blank"
                       prefetch={false}
-                      className="flex items-center justify-center space-x-2"
+                      className="flex items-center justify-center space-x-2 hover:!bg-[#F7931E] hover:!text-white hover:[&_svg]:!text-white hover:opacity-90"
                     >
                       <GlobeIcon className="w-4 h-4" />
                       <span>Visit Website</span>
@@ -485,7 +485,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   <Button size="default" asChild className="btn-secondary">
                     <Link
                       href="/dashboard/vendor"
-                      className="flex items-center justify-center space-x-2"
+                      className="flex items-center justify-center space-x-2 hover:!bg-[#2f95ba] hover:!text-white hover:[&_svg]:!text-white hover:opacity-90"
                     >
                       <EditIcon className="w-4 h-4" />
                       <span>Edit Listing</span>
@@ -612,7 +612,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
             {/* Review Form */}
             {isReviewsEnabled() && (
-              <div className="listing-card-transparent text-paper border" style={{ backgroundColor: "transparent", borderColor: "#f8f4e6" }}>
+              <div
+                className="listing-card-transparent text-paper border"
+                style={{
+                  backgroundColor: "transparent",
+                  borderColor: "#f8f4e6",
+                }}
+              >
                 <ReviewForm
                   listingId={listing.id}
                   listingName={listing.listing_name || "Listing"}
@@ -638,7 +644,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
             <Gallery listing={listing} />
 
             {/* Contact Information */}
-            <div className="listing-card-blue" style={{ backgroundColor: "rgb(63, 174, 214)" }}>
+            <div
+              className="listing-card-blue"
+              style={{ backgroundColor: "rgb(63, 174, 214)" }}
+            >
               <h2
                 className="bauhaus-heading text-lg font-semibold mb-4"
                 style={{ color: "#0C1A2B" }}

@@ -581,7 +581,6 @@ export function SupabaseSubmitForm({
                   <ul className="text-sm space-y-1">
                     <li>• Everything in Free</li>
                     <li>• 1 profile image</li>
-                    <li>• Social Media Links</li>
                     <li>• Robust, Enhanced Listing</li>
                   </ul>
                 </CardContent>
@@ -610,6 +609,7 @@ export function SupabaseSubmitForm({
                   <ul className="text-sm space-y-1">
                     <li>• Everything in Standard</li>
                     <li>• Up to 4 gallery images</li>
+                     <li>• Social Media Links</li>
                     <li>• 101 Approved badge</li>
                     <li>• Top priority placement</li>
                     <li>• Priority support</li>

@@ -549,7 +549,8 @@ export function SupabaseSubmitForm({
                   <ul className="text-sm space-y-1">
                     <li>• Basic directory listing</li>
                     <li>• Contact information</li>
-                    <li>• Social media links</li>
+                    <li>• Category</li>
+                    <li>• Services Offered</li>
                   </ul>
                   <div className="mt-3 text-xs text-surface">
                     Upgrade for profile image & featured placement
@@ -580,8 +581,8 @@ export function SupabaseSubmitForm({
                   <ul className="text-sm space-y-1">
                     <li>• Everything in Free</li>
                     <li>• 1 profile image</li>
-                    <li>• Featured placement</li>
-                    <li>• SEO boost</li>
+                    <li>• Social Media Links</li>
+                    <li>• Robust, Enhanced Listing</li>
                   </ul>
                 </CardContent>
               </Card>

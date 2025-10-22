@@ -35,7 +35,7 @@ export default function EditingListingPage() {
 
       {/* How to Access Editor */}
       <div className="bg-blue-50 border-l-4 border-brand-blue rounded-lg p-6 mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">
+        <h2 className="text-2xl font-bold text-paper mb-4">
           How to Edit Your Listing
         </h2>
         <ol className="space-y-3">
@@ -44,10 +44,10 @@ export default function EditingListingPage() {
               1
             </span>
             <div>
-              <p className="font-semibold text-gray-900">
+              <p className="font-semibold text-paper0">
                 Log in to your account
               </p>
-              <p className="text-sm text-gray-900">
+              <p className="text-sm text-paper">
                 Use your vendor credentials to access the dashboard
               </p>
             </div>
@@ -57,10 +57,10 @@ export default function EditingListingPage() {
               2
             </span>
             <div>
-              <p className="font-semibold text-gray-900">
+              <p className="font-semibold text-paper">
                 Go to your dashboard
               </p>
-              <p className="text-sm text-gray-900">
+              <p className="text-sm text-paper">
                 Click "Dashboard" in the main navigation
               </p>
             </div>
@@ -70,10 +70,10 @@ export default function EditingListingPage() {
               3
             </span>
             <div>
-              <p className="font-semibold text-gray-900">
+              <p className="font-semibold text-paper">
                 Find your listing and click "Edit"
               </p>
-              <p className="text-sm text-gray-900">
+              <p className="text-sm text-paper">
                 Your listing will appear with an edit button
               </p>
             </div>
@@ -82,7 +82,7 @@ export default function EditingListingPage() {
         <div className="mt-4">
           <Link
             href="/dashboard"
-            className="inline-block bg-brand-blue hover:bg-brand-blue/90 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
+            className="inline-block bg-brand-blue hover:bg-text-white/90 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
           >
             Go to Dashboard
           </Link>
@@ -252,15 +252,15 @@ export default function EditingListingPage() {
         <div className="flex items-start gap-3">
           <AlertCircle className="w-6 h-6 text-yellow-600 flex-shrink-0 mt-1" />
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">
+            <h2 className="text-2xl font-bold text-paper mb-3">
               Important: Approval Required
             </h2>
-            <p className="text-gray-900 mb-4">
+            <p className="text-paper mb-4">
               <strong>All edits require admin approval</strong> before going
               live, regardless of your plan. This ensures quality and accuracy
               across the directory.
             </p>
-            <div className="space-y-2 text-sm text-gray-900">
+            <div className="space-y-2 text-sm text-paper">
               <p>
                 <strong>What this means:</strong>
               </p>

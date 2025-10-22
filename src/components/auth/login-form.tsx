@@ -107,146 +107,144 @@ export const LoginForm = ({
     }
   };
 
-  return (
-    <AuthCard
-      headerLabel="Welcome back"
-      bottomButtonLabel="Don't have an account? Sign up"
-      bottomButtonHref="/auth/register"
-      className={cn("border-none", className)}
-    >
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-paper">Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="name@example.com"
-                      type="email"
-                      className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <div className="flex justify-between items-center">
-                    <FormLabel className="text-paper">Password</FormLabel>
-                    <Button
-                      size="sm"
-                      variant="link"
-                      asChild
-                      className="px-0 font-normal text-secondary-denim hover:text-primary-orange"
-                    >
-                      <Link href="/auth/reset" className="text-xs underline">
-                        Forgot password?
-                      </Link>
-                    </Button>
-                  </div>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="******"
-                      type="password"
-                      className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <FormError message={error || urlError} />
-          <FormSuccess message={success} />
-          <Button
-            disabled={isPending}
-            size="lg"
-            type="submit"
-            className="w-full btn-primary flex items-center justify-center gap-2"
-          >
-            {isPending ? (
-              <Icons.spinner className="w-4 h-4 animate-spin" />
-            ) : (
-              ""
+return (
+  <AuthCard
+    headerLabel="Welcome back"
+    bottomButtonLabel="Don't have an account? Sign up"
+    bottomButtonHref="/auth/register"
+    className={cn("border-none text-gray-900", className)}
+  >
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <div className="space-y-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-900">Email</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    disabled={isPending}
+                    placeholder="name@example.com"
+                    type="email"
+                    className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-700"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
             )}
-            <span>Login</span>
-          </Button>
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex justify-between items-center">
+                  <FormLabel className="text-gray-900">Password</FormLabel>
+                  <Button
+                    size="sm"
+                    variant="link"
+                    asChild
+                    className="px-0 font-normal text-secondary-denim hover:text-primary-orange"
+                  >
+                    <Link href="/auth/reset" className="text-xs underline">
+                      Forgot password?
+                    </Link>
+                  </Button>
+                </div>
+                <FormControl>
+                  <Input
+                    {...field}
+                    disabled={isPending}
+                    placeholder="******"
+                    type="password"
+                    className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-700"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-          {/* Resend Confirmation Email Section */}
-          <div className="border-t pt-4 mt-4">
-            {!showResendForm ? (
-              <div className="text-center">
-                <p className="text-sm text-paper mb-2">
-                  Didn't receive confirmation email?
-                </p>
+        <FormError message={error || urlError} />
+        <FormSuccess message={success} />
+
+        <Button
+          disabled={isPending}
+          size="lg"
+          type="submit"
+          className="w-full btn-primary flex items-center justify-center gap-2"
+        >
+          {isPending && <Icons.spinner className="w-4 h-4 animate-spin" />}
+          <span>Login</span>
+        </Button>
+
+        {/* Resend Confirmation Email Section */}
+        <div className="border-t pt-4 mt-4">
+          {!showResendForm ? (
+            <div className="text-center">
+              <p className="text-sm text-gray-900">
+                Didn't receive confirmation email?
+              </p>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setShowResendForm(true)}
+                className="text-secondary-denim hover:text-primary-orange"
+              >
+                📧 Resend Confirmation Email
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <p className="text-sm font-semibold text-gray-900">
+                Resend Confirmation Email
+              </p>
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                value={resendEmail}
+                onChange={(e) => setResendEmail(e.target.value)}
+                className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-700"
+                disabled={isResending}
+              />
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  onClick={handleResendConfirmation}
+                  disabled={isResending}
+                  className="flex-1 btn-primary"
+                  size="sm"
+                >
+                  {isResending ? (
+                    <Icons.spinner className="w-4 h-4 animate-spin" />
+                  ) : (
+                    "Send Email"
+                  )}
+                </Button>
                 <Button
                   type="button"
                   variant="outline"
+                  onClick={() => {
+                    setShowResendForm(false);
+                    setResendEmail("");
+                    setError("");
+                  }}
+                  disabled={isResending}
                   size="sm"
-                  onClick={() => setShowResendForm(true)}
-                  className="text-secondary-denim hover:text-primary-orange"
                 >
-                  📧 Resend Confirmation Email
+                  Cancel
                 </Button>
               </div>
-            ) : (
-              <div className="space-y-3">
-                <p className="text-sm font-semibold text-paper">
-                  Resend Confirmation Email
-                </p>
-                <Input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={resendEmail}
-                  onChange={(e) => setResendEmail(e.target.value)}
-                  className="bg-paper border-secondary-denim text-paper"
-                  disabled={isResending}
-                />
-                <div className="flex gap-2">
-                  <Button
-                    type="button"
-                    onClick={handleResendConfirmation}
-                    disabled={isResending}
-                    className="flex-1 btn-primary"
-                    size="sm"
-                  >
-                    {isResending ? (
-                      <Icons.spinner className="w-4 h-4 animate-spin" />
-                    ) : (
-                      "Send Email"
-                    )}
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => {
-                      setShowResendForm(false);
-                      setResendEmail("");
-                      setError("");
-                    }}
-                    disabled={isResending}
-                    size="sm"
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            )}
-          </div>
-        </form>
-      </Form>
-    </AuthCard>
-  );
+            </div>
+          )}
+        </div>
+      </form>
+    </Form>
+  </AuthCard>
+);
 };

@@ -456,25 +456,16 @@ export function SupabaseSubmitForm({
 
               <div className="space-y-2">
                 <Label htmlFor="state" className="text-surface">
-                  State
+                  State / Region
                 </Label>
-                <Select
+                <Input
+                  id="state"
                   value={formData.state}
-                  onValueChange={(value) => handleInputChange("state", value)}
-                >
-                  <SelectTrigger className="bg-paper border-secondary-denim text-surface">
-                    <SelectValue placeholder="Select state" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="CA">California</SelectItem>
-                    <SelectItem value="NY">New York</SelectItem>
-                    <SelectItem value="GA">Georgia</SelectItem>
-                    <SelectItem value="IL">Illinois</SelectItem>
-                    <SelectItem value="TX">Texas</SelectItem>
-                    <SelectItem value="FL">Florida</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                  onChange={(e) => handleInputChange("state", e.target.value)}
+                  placeholder="e.g., California, Ontario, or London"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60
+                  />
+                  </div>
 
               <div className="space-y-2">
                 <Label htmlFor="zip" className="text-surface">

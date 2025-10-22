@@ -71,11 +71,11 @@ export default function FeaturedListingsClient({ listings }: FeaturedListingsCli
                 </Link>
               </div>
 
-              <h3 className="bauhaus-heading text-xl mb-3 text-paper">
+              <h3 className="bauhaus-heading text-xl mb-3 text-gray-900">
                 {listing.name}
               </h3>
 
-              <p className="bauhaus-body text-paper mb-4 line-clamp-3">
+              <p className="bauhaus-body text-gray-900 mb-4 line-clamp-3">
                 {listing.description}
               </p>
 

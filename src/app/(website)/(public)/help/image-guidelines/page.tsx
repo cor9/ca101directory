@@ -134,14 +134,14 @@ export default function ImageGuidelinesPage() {
 
         {/* Help Section */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 my-8">
-          <p className="text-gray-900 m-0">
+          <p className="text-paper m-0">
             <strong>Need help?</strong> If your images are too large, use a free
             compression tool like{" "}
             <a
               href="https://tinypng.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-brand-blue hover:text-brand-blue/80 underline"
+              className="text-white hover:text-brand-blue/80 underline"
             >
               TinyPNG
             </a>{" "}
@@ -162,7 +162,7 @@ export default function ImageGuidelinesPage() {
         <div className="mt-12 text-center">
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 bg-brand-blue hover:bg-brand-blue/90 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 bg-brand-blue hover:text-white/90 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Dashboard

@@ -459,13 +459,13 @@ export function SupabaseSubmitForm({
                 <Label htmlFor="state" className="text-surface">
                   State / Region
                 </Label>
-                <Input
-                  id="state"
-                  value={formData.state}
-                  onChange={(e) => handleInputChange("state", e.target.value)}
-                  placeholder="e.g., California, Ontario, or London"
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60
-                  />
+               <Input
+  id="state"
+  value={formData.state}
+  onChange={(e) => handleInputChange("state", e.target.value)}
+  placeholder="e.g., California, Ontario, or London"
+  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+/>
                   </div>
 
               <div className="space-y-2">

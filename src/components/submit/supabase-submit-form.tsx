@@ -236,9 +236,10 @@ export function SupabaseSubmitForm({
     <Card className="surface border-surface/20">
       <CardHeader>
         <CardTitle className="text-surface">Submit Your Listing</CardTitle>
-        <CardDescription className="text-surface">
-          Create a professional listing for your child actor business
-        </CardDescription>
+       <CardDescription className="text-surface">
+         Create a professional listing for your child actor business.
+       </CardDescription>
+
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">

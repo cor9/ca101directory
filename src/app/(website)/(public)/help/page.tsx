@@ -120,7 +120,7 @@ export default function HelpCenterPage() {
         </p>
        <a
   href="mailto:hello@childactor101.com"
-  class="inline-block bg-white text-black font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors"
+  className="inline-block bg-white text-black font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors"
 >
   Contact Support
 </a>

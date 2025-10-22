@@ -118,37 +118,19 @@ export default function ImageGuidelinesPage() {
         <hr className="my-12 border-t-2 border-gray-200" />
 
         {/* Quick Checklist */}
-        <div className="bg-green-50 border-l-4 border-green-500 rounded-lg p-8 my-8">
-          <h2 className="text-2xl font-bold text-green-900 mt-0">
-            Quick Checklist Before Uploading:
-          </h2>
-          <ul className="space-y-3 list-none pl-0">
-            <li className="flex items-start gap-3">
-              <span className="text-2xl">✅</span>
-              <span>Images are clear and professional quality</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-2xl">✅</span>
-              <span>Profile image is square (or will be cropped to square)</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-2xl">✅</span>
-              <span>Gallery images are landscape orientation for best display</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-2xl">✅</span>
-              <span>Each file is under 5MB</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-2xl">✅</span>
-              <span>Files are JPEG, PNG, or WebP format</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="text-2xl">✅</span>
-              <span>Images represent your business accurately</span>
-            </li>
-          </ul>
-        </div>
+       <div className="rounded-xl bg-[#e6f3ff] border border-blue-200 p-6 shadow-sm">
+  <h3 className="text-lg font-semibold text-blue-900 mb-3">
+    Quick Checklist Before Uploading:
+  </h3>
+  <ul className="space-y-2 text-blue-900">
+    <li>✅ Images are clear and professional quality</li>
+    <li>✅ Profile image is square (or will be cropped to square)</li>
+    <li>✅ Gallery images are landscape orientation for best display</li>
+    <li>✅ Each file is under 5MB</li>
+    <li>✅ Files are JPEG, PNG, or WebP format</li>
+    <li>✅ Images represent your business accurately</li>
+  </ul>
+</div>
 
         {/* Help Section */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 my-8">

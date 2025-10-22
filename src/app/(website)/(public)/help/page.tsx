@@ -118,13 +118,11 @@ export default function HelpCenterPage() {
         <p className="text-lg mb-6 opacity-90">
           Can't find what you're looking for? Our support team is here to help.
         </p>
-       <a
-  href="mailto:hello@childactor101.com"
-  className="inline-block bg-white text-black font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors"
->
-  Contact Support
-</a>
-
+      <a
+        href="mailto:hello@childactor101.com"
+        className="inline-block bg-white text-brand-blue font-semibold px-8 py-3 rounded-lg hover:bg-blue-50 transition-colors">
+        Contact Support
+      </a>
       </div>
 
       {/* Quick Links */}

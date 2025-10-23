@@ -1,3 +1,12 @@
+## 2025-10-22 – Admin Dashboard Link Fixes & Notifications
+
+- Created stub pages to eliminate broken admin links:
+  - ` /dashboard/admin/users`, ` /dashboard/admin/analytics`, ` /dashboard/admin/settings`, ` /dashboard/admin/suggestions`
+- Added admin email on vendor suggestions (`sendAdminVendorSuggestionNotification`) and wired to `suggest-vendor` action.
+- Added vendor emails on admin approve/reject using `sendApprovalEmail` / `sendRejectionEmail` in `admin-listing-actions`.
+- Added Discord fallback in Stripe webhook when admin email fails (uses `DISCORD_WEBHOOK_URL`).
+- Rationale: Restore basic admin UX (no dead links) and ensure owners/admins are notified of key actions immediately.
+
 ## 2025-10-21 – Admin Notifications Coverage
 
 - Implemented admin email notifications for key events:
@@ -15,6 +24,16 @@
 - Requires env vars:
   - `RESEND_API_KEY`, `RESEND_EMAIL_FROM`, `RESEND_EMAIL_ADMIN`, `NEXT_PUBLIC_APP_URL`
 - Rationale: Ensure admin is proactively informed of all vendor activity without relying on dashboard polling.
+
+## 2025-10-22 – Discord Notifications for All Key Events
+
+- Added `sendDiscordNotification(title, fields)` in `src/lib/discord.ts`.
+- Wired Discord notifications for:
+  - Vendor suggestions (`src/actions/suggest-vendor.ts`)
+  - Listing approvals/rejections (`src/actions/admin-listing-actions.ts`)
+  - Submissions and edits (`src/actions/submit-supabase.ts`)
+  - Stripe checkout and claim webhooks (always) (`src/app/api/webhook/route.ts`, `src/app/api/webhook/stripe-claim/route.ts`)
+- Requires `DISCORD_WEBHOOK_URL`. Messages do not block core flows and fail silently with warnings.
 
 # FOR CURSOR - Child Actor 101 Directory Progress Log
 
@@ -4724,4 +4743,4 @@ export async function getUnclaimedListings() {
 
 **Ready for Business:** The platform now provides a **world-class vendor experience** that rivals industry-leading platforms while maintaining the unique Child Actor 101 brand identity and professional standards.
 
-**Next Steps:** Monitor user adoption, collect feedback, and iterate based on real-world usage patterns to continuously improve the vendor experience.re-flags.ts` and route guards in `src/middleware.ts`.
+**Next Steps:** Monitor user adoption, collect feedback, and iterate based on real-world usage patterns to continuously improve the vendor experience.

@@ -246,3 +246,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Webhook error" }, { status: 500 });
   }
 }
+
+// Health check: non-sensitive booleans to verify env/config in Production
+export async function GET() {
+  try {
+    const hasSecretKey = !!process.env.STRIPE_SECRET_KEY;
+    const hasWebhookSecret = !!process.env.STRIPE_WEBHOOK_SECRET;
+    return NextResponse.json({ ok: true, hasSecretKey, hasWebhookSecret });
+  } catch (e) {
+    return NextResponse.json({ ok: false }, { status: 500 });
+  }
+}

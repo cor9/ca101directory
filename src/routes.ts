@@ -76,6 +76,9 @@ export const publicRoutes = [
   "/loading(/.*)?",
   "/home2(/.*)?",
   "/home3(/.*)?",
+  // discord test + support logging
+  "/api/test/discord",
+  "/api/support/log",
 ];
 
 /**

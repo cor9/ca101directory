@@ -51,16 +51,14 @@ export async function POST(request: NextRequest) {
       const billingCycle = session.metadata?.billing_cycle;
 
       if (!vendorId || !listingId || !plan) {
-        console.error("Missing required metadata in checkout session:", {
+        console.warn("Missing required metadata in checkout session, acknowledging to Stripe and skipping processing:", {
           vendorId,
           listingId,
           plan,
           allMetadata: session.metadata,
         });
-        return NextResponse.json(
-          { error: "Missing metadata" },
-          { status: 400 },
-        );
+        // Acknowledge to Stripe to avoid retries/disablement, but skip our processing
+        return NextResponse.json({ received: true, skipped: true });
       }
 
       const supabase = createServerClient();

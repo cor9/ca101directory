@@ -1,17 +1,31 @@
 import { updateListingClaim } from "@/lib/airtable";
+import { sendDiscordNotification } from "@/lib/discord";
 import { headers } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2024-04-10",
 });
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
-  const signature = headers().get("stripe-signature")!;
+  const signature = headers().get("stripe-signature");
+
+  if (!signature) {
+    console.error("No Stripe signature found");
+    return NextResponse.json({ error: "No signature" }, { status: 400 });
+  }
+
+  if (!webhookSecret) {
+    console.error("STRIPE_WEBHOOK_SECRET is not configured");
+    return NextResponse.json(
+      { error: "Server misconfigured" },
+      { status: 500 },
+    );
+  }
 
   let event: Stripe.Event;
 
@@ -74,6 +88,17 @@ export async function POST(req: NextRequest) {
             { status: 500 },
           );
         }
+
+        // Discord notification (non-blocking)
+        sendDiscordNotification("🏷️ Listing Claimed", [
+          { name: "Listing", value: listing.businessName, inline: true },
+          { name: "Plan", value: plan || "Free", inline: true },
+          {
+            name: "Claimer",
+            value: session.customer_email || "Unknown",
+            inline: true,
+          },
+        ]).catch((e) => console.warn("Discord claim notification failed:", e));
 
         console.log(
           `Successfully processed claim for listing: ${listing.businessName}`,

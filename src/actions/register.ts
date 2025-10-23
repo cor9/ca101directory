@@ -2,6 +2,7 @@
 
 import { isRoleEnabled } from "@/config/feature-flags";
 import { createUser, getUserByEmail } from "@/data/supabase-user";
+import { sendDiscordNotification } from "@/lib/discord";
 import { RegisterSchema } from "@/lib/schemas";
 import { createServerClient } from "@/lib/supabase";
 import type * as z from "zod";
@@ -35,9 +36,9 @@ export async function register(
   // Check if user already exists
   const existingUser = await getUserByEmail(email);
   if (existingUser) {
-    return { 
-      status: "error", 
-      message: "Email already being used. Try logging in instead." 
+    return {
+      status: "error",
+      message: "Email already being used. Try logging in instead.",
     };
   }
 
@@ -60,19 +61,20 @@ export async function register(
 
     if (authError) {
       console.error("Supabase auth error:", authError);
-      
+
       // Provide helpful error messages
       if (authError.message.includes("rate limit")) {
         return {
           status: "error",
-          message: "Too many registration attempts. Please try again in a few minutes."
+          message:
+            "Too many registration attempts. Please try again in a few minutes.",
         };
       }
-      
+
       if (authError.message.includes("already registered")) {
         return {
           status: "error",
-          message: "This email is already registered. Try logging in instead."
+          message: "This email is already registered. Try logging in instead.",
         };
       }
 
@@ -84,7 +86,7 @@ export async function register(
     }
 
     // Wait a moment for trigger to complete
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     // Verify profile was created
     const { data: profile } = await supabase
@@ -95,7 +97,7 @@ export async function register(
 
     if (!profile) {
       console.error("Profile not created by trigger, creating manually");
-      
+
       // Fallback: Create user record in our profiles table
       const user = await createUser({
         id: authData.user.id,
@@ -111,6 +113,13 @@ export async function register(
     }
 
     // Redirect to registration success page
+    // Discord notification (non-blocking)
+    sendDiscordNotification("🆕 New Sign-up", [
+      { name: "Email", value: email, inline: true },
+      { name: "Role", value: role, inline: true },
+      { name: "User ID", value: `\`${authData.user.id}\``, inline: false },
+    ]).catch((e) => console.warn("Discord sign-up notification failed:", e));
+
     return {
       status: "success",
       message: "Account created! Redirecting to confirmation page...",
@@ -118,9 +127,9 @@ export async function register(
     };
   } catch (error) {
     console.error("Registration error:", error);
-    return { 
-      status: "error", 
-      message: "Something went wrong. Please try again or contact support." 
+    return {
+      status: "error",
+      message: "Something went wrong. Please try again or contact support.",
     };
   }
 }

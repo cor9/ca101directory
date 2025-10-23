@@ -1,3 +1,4 @@
+import { sendMessageToDiscord } from "@/lib/discord";
 import { sendAdminUpgradeNotification } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
 import type { NextRequest } from "next/server";
@@ -131,8 +132,47 @@ export async function POST(request: NextRequest) {
             billingCycle,
             vendorId,
           );
+
+          // Always send Discord notification
+          try {
+            const amount =
+              typeof session.amount_total === "number"
+                ? session.amount_total / 100
+                : 0;
+            const userName =
+              session.customer_details?.name ||
+              session.customer_details?.email ||
+              "Unknown";
+            await sendMessageToDiscord(
+              session.id,
+              String(session.customer ?? "unknown"),
+              userName,
+              amount,
+            );
+          } catch (discordErr) {
+            console.warn("Discord notification failed:", discordErr);
+          }
         } catch (notifyError) {
           console.error("Failed to notify admin of upgrade:", notifyError);
+          // Fallback to Discord notification if configured
+          try {
+            const amount =
+              typeof session.amount_total === "number"
+                ? session.amount_total / 100
+                : 0;
+            const userName =
+              session.customer_details?.name ||
+              session.customer_details?.email ||
+              "Unknown";
+            await sendMessageToDiscord(
+              session.id,
+              String(session.customer ?? "unknown"),
+              userName,
+              amount,
+            );
+          } catch (discordErr) {
+            console.warn("Discord fallback failed:", discordErr);
+          }
         }
       } catch (error) {
         console.error("Error processing claim:", error);

@@ -82,3 +82,36 @@ export async function sendMessageToDiscord(
     // Don't rethrow the error to avoid interrupting the payment flow
   }
 }
+
+/**
+ * Generic Discord notifier for arbitrary admin events.
+ */
+export async function sendDiscordNotification(
+  title: string,
+  fields: Array<{ name: string; value: string; inline?: boolean }>,
+): Promise<void> {
+  try {
+    const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+    if (!webhookUrl) return;
+
+    const message = {
+      username: "CA101 Bot",
+      embeds: [
+        {
+          title,
+          color: 0xff7a00, // orange
+          fields,
+          timestamp: new Date().toISOString(),
+        },
+      ],
+    };
+
+    await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(message),
+    });
+  } catch (error) {
+    console.error("<< Failed to send generic Discord notification:", error);
+  }
+}

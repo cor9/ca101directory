@@ -237,3 +237,34 @@ export const sendAdminUpgradeNotification = async (
     html,
   });
 };
+
+/**
+ * Notify admin when a new vendor suggestion is submitted
+ */
+export const sendAdminVendorSuggestionNotification = async (payload: {
+  vendorName: string;
+  website?: string;
+  category?: string;
+  city?: string;
+  state?: string;
+  suggestedBy?: string;
+}) => {
+  const subject = `New Vendor Suggestion: ${payload.vendorName}`;
+  const html = `
+    <div style="font-family: Arial, sans-serif;">
+      <h2>New Vendor Suggestion</h2>
+      <p><strong>${payload.vendorName}</strong></p>
+      ${payload.website ? `<p>Website: <a href="${payload.website}" target="_blank" rel="noopener noreferrer">${payload.website}</a></p>` : ""}
+      ${payload.category ? `<p>Category: ${payload.category}</p>` : ""}
+      ${payload.city || payload.state ? `<p>Location: ${payload.city ?? ""}${payload.city && payload.state ? ", " : ""}${payload.state ?? ""}</p>` : ""}
+      ${payload.suggestedBy ? `<p>Suggested by: ${payload.suggestedBy}</p>` : ""}
+    </div>
+  `;
+
+  await resend.emails.send({
+    from: process.env.RESEND_EMAIL_FROM,
+    to: process.env.RESEND_EMAIL_ADMIN,
+    subject,
+    html,
+  });
+};

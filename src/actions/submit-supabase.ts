@@ -1,6 +1,7 @@
 "use server";
 
 import { currentUser } from "@/lib/auth";
+import { sendDiscordNotification } from "@/lib/discord";
 import {
   sendAdminSubmissionNotification,
   sendListingSubmittedEmail,
@@ -196,6 +197,56 @@ export async function submitToSupabase(
         .select()
         .single());
     } else {
+      // Duplicate detection (website or name+city+state)
+      try {
+        const normalizedWebsite = (link || "").trim().toLowerCase();
+        let duplicateFound = false;
+
+        if (normalizedWebsite) {
+          const { data: dupBySite } = await supabase
+            .from("listings")
+            .select("id")
+            .ilike("website", normalizedWebsite)
+            .limit(1);
+          if (dupBySite && dupBySite.length > 0) duplicateFound = true;
+        }
+
+        if (!duplicateFound) {
+          const { data: dupByNameLoc } = await supabase
+            .from("listings")
+            .select("id")
+            .ilike("listing_name", name)
+            .ilike("city", city)
+            .ilike("state", state)
+            .limit(1);
+          if (dupByNameLoc && dupByNameLoc.length > 0) duplicateFound = true;
+        }
+
+        if (duplicateFound) {
+          // Notify Discord and return error
+          sendDiscordNotification("⚠️ Duplicate Listing Blocked", [
+            { name: "Listing", value: name, inline: true },
+            { name: "Website", value: link || "N/A", inline: true },
+            { name: "Location", value: `${city}, ${state}`, inline: true },
+            {
+              name: "Submitted By",
+              value: user?.email || "Unknown",
+              inline: false,
+            },
+          ]).catch((e) =>
+            console.warn("Discord duplicate notification failed:", e),
+          );
+
+          return {
+            status: "error",
+            message:
+              "It looks like this listing already exists. If you believe this is an error, please contact support.",
+          };
+        }
+      } catch (dupCheckErr) {
+        console.warn("Duplicate detection failed, continuing:", dupCheckErr);
+      }
+
       // Insert new listing
       ({ data, error } = await supabase
         .from("listings")
@@ -246,6 +297,21 @@ export async function submitToSupabase(
       .catch((notifyError) => {
         console.error("Failed to notify admin of submission:", notifyError);
       });
+
+    // Discord notification (non-blocking)
+    sendDiscordNotification(
+      formData.isEdit ? "✏️ Listing Edited" : "🆕 New Listing Submission",
+      [
+        { name: "Listing", value: name, inline: true },
+        { name: "Listing ID", value: `\`${data.id}\``, inline: true },
+        { name: "Plan", value: plan, inline: true },
+        {
+          name: "Submitted By",
+          value: user?.email || "Unknown",
+          inline: false,
+        },
+      ],
+    ).catch((e) => console.warn("Discord submission notification failed:", e));
 
     // Determine success message based on plan and action
     let successMessage = "";

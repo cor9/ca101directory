@@ -1,4 +1,4 @@
-import { sendMessageToDiscord } from "@/lib/discord";
+import { sendDiscordNotification } from "@/lib/discord";
 import { sendAdminUpgradeNotification } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
 import type { NextRequest } from "next/server";
@@ -133,20 +133,16 @@ export async function POST(request: NextRequest) {
 
           // Always send Discord notification
           try {
-            const amount =
-              typeof session.amount_total === "number"
-                ? session.amount_total / 100
-                : 0;
-            const userName =
-              session.customer_details?.name ||
-              session.customer_details?.email ||
-              "Unknown";
-            await sendMessageToDiscord(
-              session.id,
-              String(session.customer ?? "unknown"),
-              userName,
-              amount,
-            );
+            const amount = typeof session.amount_total === "number" ? session.amount_total / 100 : 0;
+            const userName = session.customer_details?.name || session.customer_details?.email || "Unknown";
+            await sendDiscordNotification("💳 Purchase Completed", [
+              { name: "User", value: userName, inline: true },
+              { name: "Amount", value: `$${amount.toFixed(2)}`, inline: true },
+              { name: "Listing", value: listingName, inline: false },
+              { name: "Plan", value: plan, inline: true },
+              { name: "Billing", value: billingCycle || "N/A", inline: true },
+              { name: "Session", value: `\`${session.id}\``, inline: false },
+            ]);
           } catch (discordErr) {
             console.warn("Discord notification failed:", discordErr);
           }
@@ -154,20 +150,16 @@ export async function POST(request: NextRequest) {
           console.error("Failed to notify admin of upgrade:", notifyError);
           // Fallback to Discord notification if configured
           try {
-            const amount =
-              typeof session.amount_total === "number"
-                ? session.amount_total / 100
-                : 0;
-            const userName =
-              session.customer_details?.name ||
-              session.customer_details?.email ||
-              "Unknown";
-            await sendMessageToDiscord(
-              session.id,
-              String(session.customer ?? "unknown"),
-              userName,
-              amount,
-            );
+            const amount = typeof session.amount_total === "number" ? session.amount_total / 100 : 0;
+            const userName = session.customer_details?.name || session.customer_details?.email || "Unknown";
+            await sendDiscordNotification("💳 Purchase Completed", [
+              { name: "User", value: userName, inline: true },
+              { name: "Amount", value: `$${amount.toFixed(2)}`, inline: true },
+              { name: "Listing", value: listingId, inline: false },
+              { name: "Plan", value: plan, inline: true },
+              { name: "Billing", value: billingCycle || "N/A", inline: true },
+              { name: "Session", value: `\`${session.id}\``, inline: false },
+            ]);
           } catch (discordErr) {
             console.warn("Discord fallback failed:", discordErr);
           }

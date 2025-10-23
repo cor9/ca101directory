@@ -79,6 +79,7 @@ export const publicRoutes = [
   // discord test + support logging
   "/api/test/discord",
   "/api/support/log",
+  "/api/test/signup",
 ];
 
 /**

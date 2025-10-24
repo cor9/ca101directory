@@ -253,7 +253,7 @@ export async function POST(request: NextRequest) {
       try {
         const pi = event.data.object as Stripe.PaymentIntent;
         const amount = typeof pi.amount === "number" ? pi.amount / 100 : 0;
-        const email = (pi.charges?.data?.[0]?.billing_details?.email as string) || "Unknown";
+        const email = "Unknown";
         await sendDiscordNotification("✅ PaymentIntent Succeeded", [
           { name: "Email", value: email, inline: true },
           { name: "Amount", value: `$${amount.toFixed(2)}`, inline: true },

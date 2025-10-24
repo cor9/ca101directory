@@ -51,12 +51,15 @@ export async function POST(request: NextRequest) {
       const billingCycle = session.metadata?.billing_cycle;
 
       if (!vendorId || !listingId || !plan) {
-        console.warn("Missing required metadata in checkout session, acknowledging to Stripe and skipping processing:", {
-          vendorId,
-          listingId,
-          plan,
-          allMetadata: session.metadata,
-        });
+        console.warn(
+          "Missing required metadata in checkout session, acknowledging to Stripe and skipping processing:",
+          {
+            vendorId,
+            listingId,
+            plan,
+            allMetadata: session.metadata,
+          },
+        );
         // Acknowledge to Stripe to avoid retries/disablement, but skip our processing
         return NextResponse.json({ received: true, skipped: true });
       }
@@ -133,8 +136,14 @@ export async function POST(request: NextRequest) {
 
           // Always send Discord notification
           try {
-            const amount = typeof session.amount_total === "number" ? session.amount_total / 100 : 0;
-            const userName = session.customer_details?.name || session.customer_details?.email || "Unknown";
+            const amount =
+              typeof session.amount_total === "number"
+                ? session.amount_total / 100
+                : 0;
+            const userName =
+              session.customer_details?.name ||
+              session.customer_details?.email ||
+              "Unknown";
             await sendDiscordNotification("💳 Purchase Completed", [
               { name: "User", value: userName, inline: true },
               { name: "Amount", value: `$${amount.toFixed(2)}`, inline: true },
@@ -150,8 +159,14 @@ export async function POST(request: NextRequest) {
           console.error("Failed to notify admin of upgrade:", notifyError);
           // Fallback to Discord notification if configured
           try {
-            const amount = typeof session.amount_total === "number" ? session.amount_total / 100 : 0;
-            const userName = session.customer_details?.name || session.customer_details?.email || "Unknown";
+            const amount =
+              typeof session.amount_total === "number"
+                ? session.amount_total / 100
+                : 0;
+            const userName =
+              session.customer_details?.name ||
+              session.customer_details?.email ||
+              "Unknown";
             await sendDiscordNotification("💳 Purchase Completed", [
               { name: "User", value: userName, inline: true },
               { name: "Amount", value: `$${amount.toFixed(2)}`, inline: true },
@@ -232,11 +247,12 @@ export async function POST(request: NextRequest) {
       // Send Discord for successful charges (fallback when checkout session isn't present)
       try {
         const charge = event.data.object as Stripe.Charge;
-        const amount = typeof charge.amount === "number" ? charge.amount / 100 : 0;
+        const amount =
+          typeof charge.amount === "number" ? charge.amount / 100 : 0;
         const email = charge.billing_details?.email || "Unknown";
         const method =
           charge.payment_method_details &&
-          ("type" in charge.payment_method_details)
+          "type" in charge.payment_method_details
             ? String((charge.payment_method_details as { type: string }).type)
             : "unknown";
         await sendDiscordNotification("💳 Charge Succeeded", [
@@ -260,7 +276,10 @@ export async function POST(request: NextRequest) {
           { name: "PaymentIntent", value: `\`${pi.id}\``, inline: false },
         ]);
       } catch (e) {
-        console.warn("Discord notification for payment_intent.succeeded failed:", e);
+        console.warn(
+          "Discord notification for payment_intent.succeeded failed:",
+          e,
+        );
       }
     }
 

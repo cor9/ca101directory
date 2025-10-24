@@ -2,9 +2,10 @@
 
 import { approveListing, rejectListing } from "@/actions/admin-listing-actions";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, XCircle, Mail } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { adminResendClaimEmail } from "@/actions/admin-resend-claim";
 
 interface ListingActionsProps {
   listingId: string;
@@ -42,6 +43,17 @@ export function ListingActions({ listingId, listingName }: ListingActionsProps) 
     }
   };
 
+  const handleResend = async () => {
+    setIsLoading(true);
+    const result = await adminResendClaimEmail(listingId);
+    setIsLoading(false);
+    if (result.success) {
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
+    }
+  };
+
   return (
     <div className="flex items-center gap-2">
       <Button
@@ -63,7 +75,15 @@ export function ListingActions({ listingId, listingName }: ListingActionsProps) 
         <XCircle className="w-4 h-4 mr-1" />
         Reject
       </Button>
+      <Button
+        size="sm"
+        variant="secondary"
+        onClick={handleResend}
+        disabled={isLoading}
+      >
+        <Mail className="w-4 h-4 mr-1" />
+        Resend Claim Email
+      </Button>
     </div>
   );
 }
-

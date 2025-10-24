@@ -7,6 +7,7 @@ import RejectionEmail from "@/emails/rejection-email";
 import { ResetPasswordEmail } from "@/emails/reset-password";
 import VerifyEmail from "@/emails/verify-email";
 import { Resend } from "resend";
+import ListingLiveEmail from "@/emails/listing-live";
 
 // Lazy-load Resend to avoid errors if API key is missing
 let resendInstance: Resend | null = null;
@@ -159,6 +160,35 @@ export const sendListingSubmittedEmail = async (
       listingId,
       plan,
       isEdit,
+    }),
+  });
+};
+
+export const sendListingLiveEmail = async (payload: {
+  vendorName: string;
+  vendorEmail: string;
+  listingName: string;
+  slug: string;
+  listingId: string;
+  claimUrl: string;
+  upgradeUrl: string;
+  manageUrl: string;
+  optOutUrl: string;
+}) => {
+  await resend.emails.send({
+    from: process.env.RESEND_EMAIL_FROM,
+    to: payload.vendorEmail,
+    subject: `Your listing is live: ${payload.listingName}`,
+    react: ListingLiveEmail({
+      vendorName: payload.vendorName,
+      listingName: payload.listingName,
+      slug: payload.slug,
+      listingId: payload.listingId,
+      claimUrl: payload.claimUrl,
+      upgradeUrl: payload.upgradeUrl,
+      manageUrl: payload.manageUrl,
+      siteUrl: process.env.NEXT_PUBLIC_APP_URL,
+      optOutUrl: payload.optOutUrl,
     }),
   });
 };

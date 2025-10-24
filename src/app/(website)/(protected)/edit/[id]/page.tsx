@@ -26,7 +26,9 @@ export default async function EditPage({ params }: { params: { id: string } }) {
   const session = await auth();
 
   if (!session?.user) {
-    redirect(`/auth/login?callbackUrl=${encodeURIComponent(`/edit/${params.id}`)}`);
+    redirect(
+      `/auth/login?callbackUrl=${encodeURIComponent(`/edit/${params.id}`)}`,
+    );
   }
 
   // Get the listing

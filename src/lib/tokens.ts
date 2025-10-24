@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import crypto from "crypto";
 
 // Generate a secure random token (works in both Node and Edge Runtime)
 function generateSecureToken(): string {
@@ -40,6 +41,69 @@ export const generateVerificationToken = async (email: string) => {
 
   return { identifier: email, token, expires };
 };
+
+// Lightweight signed claim token (no DB write). Format: base64url(payload).base64url(sig)
+// payload: { lid, exp } signed with NEXTAUTH_SECRET
+export function createClaimToken(listingId: string, ttlSeconds = 60 * 60 * 24 * 14) {
+  const secret = process.env.NEXTAUTH_SECRET;
+  if (!secret) throw new Error("NEXTAUTH_SECRET is required to sign claim tokens");
+  const exp = Math.floor(Date.now() / 1000) + ttlSeconds;
+  const payload = JSON.stringify({ lid: listingId, exp });
+  const payloadB64 = Buffer.from(payload).toString("base64url");
+  const sig = crypto.createHmac("sha256", secret).update(payloadB64).digest("base64url");
+  return `${payloadB64}.${sig}`;
+}
+
+export function verifyClaimToken(token: string): { lid: string; exp: number } | null {
+  try {
+    const secret = process.env.NEXTAUTH_SECRET;
+    if (!secret) throw new Error("NEXTAUTH_SECRET missing");
+    const [payloadB64, sig] = token.split(".");
+    if (!payloadB64 || !sig) return null;
+    const expected = crypto.createHmac("sha256", secret).update(payloadB64).digest("base64url");
+    if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected))) return null;
+    const payload = JSON.parse(Buffer.from(payloadB64, "base64url").toString("utf8"));
+    if (!payload?.lid || !payload?.exp) return null;
+    const now = Math.floor(Date.now() / 1000);
+    if (now > payload.exp) return null;
+    return { lid: payload.lid, exp: payload.exp };
+  } catch (e) {
+    console.error("verifyClaimToken error", e);
+    return null;
+  }
+}
+
+// Opt-out tokens (same scheme as claim tokens)
+export function createOptOutToken(listingId: string, ttlSeconds = 60 * 60 * 24 * 30) {
+  const secret = process.env.NEXTAUTH_SECRET;
+  if (!secret) throw new Error("NEXTAUTH_SECRET is required to sign opt-out tokens");
+  const exp = Math.floor(Date.now() / 1000) + ttlSeconds;
+  const payload = JSON.stringify({ lid: listingId, exp, t: "optout" });
+  const payloadB64 = Buffer.from(payload).toString("base64url");
+  const sig = crypto.createHmac("sha256", secret).update(payloadB64).digest("base64url");
+  return `${payloadB64}.${sig}`;
+}
+
+export function verifyOptOutToken(token: string): { lid: string; exp: number } | null {
+  try {
+    const secret = process.env.NEXTAUTH_SECRET;
+    if (!secret) throw new Error("NEXTAUTH_SECRET missing");
+    const [payloadB64, sig] = token.split(".");
+    if (!payloadB64 || !sig) return null;
+    const expected = crypto.createHmac("sha256", secret).update(payloadB64).digest("base64url");
+    if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected))) return null;
+    const payload = JSON.parse(Buffer.from(payloadB64, "base64url").toString("utf8"));
+    if (payload?.t !== "optout") return null;
+    if (!payload?.lid || !payload?.exp) return null;
+    const now = Math.floor(Date.now() / 1000);
+    if (now > payload.exp) return null;
+    return { lid: payload.lid, exp: payload.exp };
+  } catch (e) {
+    console.error("verifyOptOutToken error", e);
+    return null;
+  }
+}
+
 
 export const generatePasswordResetToken = async (email: string) => {
   try {

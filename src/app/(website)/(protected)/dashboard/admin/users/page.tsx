@@ -47,12 +47,18 @@ export default async function AdminUsersPage() {
                       <td className="px-3 py-2">{u.name || "—"}</td>
                       <td className="px-3 py-2">{u.role}</td>
                       <td className="px-3 py-2">
-                        {u.created_at ? new Date(u.created_at).toLocaleString() : "—"}
+                        {u.created_at
+                          ? new Date(u.created_at).toLocaleString()
+                          : "—"}
                       </td>
                       <td className="px-3 py-2">
-                        {u.updated_at ? new Date(u.updated_at).toLocaleString() : "—"}
+                        {u.updated_at
+                          ? new Date(u.updated_at).toLocaleString()
+                          : "—"}
                       </td>
-                      <td className="px-3 py-2 text-xs text-gray-500">{u.id}</td>
+                      <td className="px-3 py-2 text-xs text-gray-500">
+                        {u.id}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -67,4 +73,3 @@ export default async function AdminUsersPage() {
     </DashboardGuard>
   );
 }
-

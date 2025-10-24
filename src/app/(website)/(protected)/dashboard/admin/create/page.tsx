@@ -1,4 +1,5 @@
 import { AdminCreateForm } from "@/components/admin/admin-create-form";
+import { FreeListingCsvUploader } from "@/components/admin/free-listing-csv-uploader";
 import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { siteConfig } from "@/config/site";
@@ -25,8 +26,24 @@ export default function CreateListingPage() {
             </p>
           </div>
 
-          <div className="bg-card rounded-lg p-6 border">
-            <AdminCreateForm />
+          <div className="bg-card rounded-lg p-6 border space-y-8">
+            <div>
+              <h2 className="text-xl font-semibold text-paper mb-3">Single Free Listing</h2>
+              <p className="text-sm text-paper/80 mb-4">
+                Use this form to create one Free plan listing. You can upgrade or edit later.
+              </p>
+              <AdminCreateForm />
+            </div>
+
+            <hr className="border-muted" />
+
+            <div>
+              <h2 className="text-xl font-semibold text-paper mb-3">Bulk Upload via CSV</h2>
+              <p className="text-sm text-paper/80 mb-4">
+                Upload a CSV to create multiple Free plan listings. Accepted headers: name, description, website, email, phone, city, state, zip, region.
+              </p>
+              <FreeListingCsvUploader />
+            </div>
           </div>
         </div>
       </AdminDashboardLayout>

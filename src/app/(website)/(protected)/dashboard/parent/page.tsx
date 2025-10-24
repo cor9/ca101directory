@@ -69,9 +69,7 @@ export default async function ParentDashboard() {
                 <div className="text-2xl font-bold text-primary-orange">
                   {favorites.length}
                 </div>
-                <div className="text-paper">
-                  Saved Listings
-                </div>
+                <div className="text-paper">Saved Listings</div>
               </div>
             )}
             {isReviewsEnabled() && (
@@ -79,18 +77,14 @@ export default async function ParentDashboard() {
                 <div className="text-2xl font-bold text-primary-orange">
                   {reviews.length}
                 </div>
-                <div className="text-paper">
-                  Reviews Written
-                </div>
+                <div className="text-paper">Reviews Written</div>
               </div>
             )}
             <div className="surface rounded-lg p-4 border border-surface/20">
               <div className="text-2xl font-bold text-primary-orange">
                 {favorites.length + reviews.length}
               </div>
-              <div className="text-paper">
-                Total Activity
-              </div>
+              <div className="text-paper">Total Activity</div>
             </div>
           </div>
 
@@ -109,9 +103,7 @@ export default async function ParentDashboard() {
                     <h3 className="font-medium text-sm mb-2 text-paper">
                       {favorite.listing?.listing_name || "Unknown Listing"}
                     </h3>
-                    <p
-                      className="text-xs line-clamp-2 text-paper"
-                    >
+                    <p className="text-xs line-clamp-2 text-paper">
                       {favorite.listing?.what_you_offer ||
                         "No description available"}
                     </p>
@@ -147,9 +139,7 @@ export default async function ParentDashboard() {
                     className="surface rounded-lg p-4 border border-surface/20"
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <h3
-                        className="font-medium text-sm text-paper"
-                      >
+                      <h3 className="font-medium text-sm text-paper">
                         {review.listing?.listing_name || "Unknown Listing"}
                       </h3>
                       <div className="flex items-center gap-1">
@@ -167,9 +157,7 @@ export default async function ParentDashboard() {
                         ))}
                       </div>
                     </div>
-                    <p
-                      className="text-xs line-clamp-2 text-paper"
-                    >
+                    <p className="text-xs line-clamp-2 text-paper">
                       {review.text}
                     </p>
                     <div className="text-paper">

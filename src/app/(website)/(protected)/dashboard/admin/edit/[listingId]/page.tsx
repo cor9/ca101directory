@@ -1,11 +1,11 @@
 import { auth } from "@/auth";
+import { AdminEditForm } from "@/components/admin/admin-edit-form";
 import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
-import { AdminEditForm } from "@/components/admin/admin-edit-form";
 import { getListingById } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
-import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
+import { notFound, redirect } from "next/navigation";
 
 export const metadata: Metadata = constructMetadata({
   title: "Edit Listing - Admin Dashboard",
@@ -26,7 +26,9 @@ export default async function AdminEditPage({ params }: AdminEditPageProps) {
   const session = await auth();
 
   if (!session?.user) {
-    redirect(`/auth/login?callbackUrl=${encodeURIComponent(`/dashboard/admin/edit/${params.listingId}`)}`);
+    redirect(
+      `/auth/login?callbackUrl=${encodeURIComponent(`/dashboard/admin/edit/${params.listingId}`)}`,
+    );
   }
 
   // Get the listing
@@ -35,7 +37,6 @@ export default async function AdminEditPage({ params }: AdminEditPageProps) {
   if (!listing) {
     notFound();
   }
-
 
   return (
     <DashboardGuard allowedRoles={["admin"]}>
@@ -48,8 +49,8 @@ export default async function AdminEditPage({ params }: AdminEditPageProps) {
             </p>
           </div>
 
-          <AdminEditForm 
-            listing={listing} 
+          <AdminEditForm
+            listing={listing}
             onFinished={(result) => {
               if (result.status === "success") {
                 // Redirect back to admin dashboard after successful edit

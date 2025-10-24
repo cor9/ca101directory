@@ -18,7 +18,8 @@ export function AdminCreateForm() {
     resolver: zodResolver(CreateListingSchema),
     defaultValues: {
       listing_name: "",
-      status: "Draft",
+      status: "Pending",
+      plan: "Free",
       website: "",
     email: "",
     phone: "",

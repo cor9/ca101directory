@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { SupabaseSubmitForm } from "@/components/submit/supabase-submit-form";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
-import { getListingBySlug } from "@/data/listings";
+import { getListingById, getListingBySlug } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
 import { redirect } from "next/navigation";
 
@@ -38,7 +38,12 @@ export default async function SubmitPage({
   let existingListing = null;
   if (isClaimFlow && listingId) {
     try {
-      existingListing = await getListingBySlug(listingId);
+      const looksLikeUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+        listingId,
+      );
+      existingListing = looksLikeUuid
+        ? await getListingById(listingId)
+        : await getListingBySlug(listingId);
       console.log(
         "SubmitPage: Found existing listing for claim:",
         existingListing?.listing_name,

@@ -121,8 +121,9 @@ export function FreeListingCsvUploader() {
       if (!res.success) {
         toast.error(res.error || "Bulk create failed");
       } else {
-        const created = (res.data?.created || []).length ?? 0;
-        const report = res.data?.report ?? [];
+        const payload = (res.data as undefined | { created?: any[]; report?: any[] }) || undefined;
+        const created = (payload?.created ?? []).length;
+        const report = payload?.report ?? [];
         const skipped = report.filter((r: any) => r.status !== "created").length;
         toast.success(`Created ${created} listing(s). ${skipped} skipped.`);
         // Keep raw so user can review report below

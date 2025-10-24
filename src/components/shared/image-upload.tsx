@@ -107,7 +107,11 @@ export default function ImageUpload({
     ctx.drawImage(img, sx, sy, sw, sh, 0, 0, targetWidth, targetHeight);
 
     const blob: Blob = await new Promise((resolve, reject) => {
-      canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/jpeg", 0.9);
+      canvas.toBlob(
+        (b) => (b ? resolve(b) : reject(new Error("toBlob failed"))),
+        "image/jpeg",
+        0.9,
+      );
     });
 
     const nameNoExt = (file.name || "image").replace(/\.[^.]+$/, "");
@@ -206,9 +210,7 @@ export default function ImageUpload({
         {uploading && (
           <div className="flex flex-col items-center justify-center gap-4">
             <Loader2Icon className="h-8 w-8 text-paper animate-spin mx-auto" />
-            <p className="text-sm text-paper">
-              Image is uploading...
-            </p>
+            <p className="text-sm text-paper">Image is uploading...</p>
           </div>
         )}
 

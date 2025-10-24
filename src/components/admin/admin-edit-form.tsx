@@ -1,5 +1,7 @@
 "use client";
 
+import ImageUpload from "@/components/shared/image-upload";
+import { GalleryUpload } from "@/components/submit/gallery-upload";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState, useTransition } from "react";
 import {
@@ -8,8 +10,6 @@ import {
   useForm,
 } from "react-hook-form";
 import { z } from "zod";
-import ImageUpload from "@/components/shared/image-upload";
-import { GalleryUpload } from "@/components/submit/gallery-upload";
 
 // Fix: Separated imports to pull `Listing` type from data layer and action/schema from the actions layer.
 import { updateListing } from "@/actions/listings";
@@ -171,6 +171,9 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
 
   const form = useForm<FormInputType>({
     resolver: zodResolver(FormInputSchema),
+    mode: "onChange",
+    reValidateMode: "onChange",
+    criteriaMode: "all",
     defaultValues: {
       listing_name: listing.listing_name || "",
       status:
@@ -204,7 +207,9 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       gallery:
         typeof listing.gallery === "string"
           ? listing.gallery
-          : JSON.stringify(Array.isArray(listing.gallery) ? listing.gallery : []),
+          : JSON.stringify(
+              Array.isArray(listing.gallery) ? listing.gallery : [],
+            ),
       // Badges/Compliance
       is_approved_101: listing.is_approved_101 ?? false,
       ca_permit_required: listing.ca_permit_required ?? false,
@@ -733,7 +738,12 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
         </Button>
         <Button
           type="submit"
-          disabled={isPending || isImageUploading || isGalleryUploading}
+          disabled={
+            isPending ||
+            isImageUploading ||
+            isGalleryUploading ||
+            !form.formState.isValid
+          }
           onClick={() => console.log("Save Changes button clicked!")}
         >
           {isPending ? "Saving..." : "Save Changes"}

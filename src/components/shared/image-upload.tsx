@@ -223,7 +223,7 @@ export default function ImageUpload({
                   : "aspect-[16/9] h-[320px]", // image mode, fixed height
               )}
             >
-              <Image
+              <NextImage
                 src={imageUrl}
                 alt="uploaded image"
                 fill

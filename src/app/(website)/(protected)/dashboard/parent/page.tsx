@@ -33,7 +33,7 @@ export default async function ParentDashboard() {
   const session = await auth();
 
   if (!session?.user) {
-    redirect("/auth/login?next=/dashboard/parent");
+    redirect("/auth/login?callbackUrl=/dashboard/parent");
   }
 
   // Check if parent dashboard is enabled

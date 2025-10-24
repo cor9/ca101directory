@@ -38,9 +38,9 @@ export function RoleGuard({
     if (status === "loading") return; // Still loading
 
     if (!session?.user) {
-      // Not authenticated - redirect to login with next parameter
+      // Not authenticated - redirect to login with callbackUrl
       const currentPath = window.location.pathname;
-      router.push(`/auth/login?next=${encodeURIComponent(currentPath)}`);
+      router.push(`/auth/login?callbackUrl=${encodeURIComponent(currentPath)}`);
       return;
     }
 

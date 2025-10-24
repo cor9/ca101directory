@@ -36,7 +36,7 @@ export default async function AdminListingsPage({
   const session = await auth();
 
   if (!session?.user) {
-    redirect("/auth/login?next=/dashboard/admin/listings");
+    redirect("/auth/login?callbackUrl=/dashboard/admin/listings");
   }
 
   // Get all listings for admin management

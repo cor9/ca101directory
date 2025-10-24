@@ -26,7 +26,7 @@ export default async function AdminEditPage({ params }: AdminEditPageProps) {
   const session = await auth();
 
   if (!session?.user) {
-    redirect(`/auth/login?next=/dashboard/admin/edit/${params.listingId}`);
+    redirect(`/auth/login?callbackUrl=${encodeURIComponent(`/dashboard/admin/edit/${params.listingId}`)}`);
   }
 
   // Get the listing

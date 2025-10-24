@@ -47,7 +47,7 @@ export default async function DashboardPage() {
   // Guests are never allowed to access dashboard
   if (!session?.user) {
     console.log("Dashboard: No session, redirecting to login");
-    redirect("/auth/login?next=/dashboard");
+    redirect("/auth/login?callbackUrl=/dashboard");
   }
 
   const userRole = getRole(session.user as any);
@@ -109,7 +109,7 @@ export default async function DashboardPage() {
       );
       console.log("Dashboard: Redirecting to login");
       // Guests and unknown roles are never allowed to access dashboard
-      redirect("/auth/login?next=/dashboard");
+      redirect("/auth/login?callbackUrl=/dashboard");
       break;
     }
   }

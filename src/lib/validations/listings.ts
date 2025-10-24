@@ -34,6 +34,15 @@ export const UpdateListingSchema = z.object({
   why_is_it_unique: z.string().optional(),
   format: z.string().optional(),
   extras_notes: z.string().optional(),
+  // Images
+  profile_image: z.string().optional(),
+  // For gallery we accept either a JSON string or empty
+  gallery: z.union([z.string(), z.literal("")]).optional(),
+  // Badges/Compliance
+  is_approved_101: z.boolean().optional(),
+  ca_permit_required: z.boolean().optional(),
+  is_bonded: z.boolean().optional(),
+  bond_number: z.string().optional(),
   // Array fields handled with transform
   categories: commaSeparatedStringToArray,
   age_range: commaSeparatedStringToArray,
@@ -48,4 +57,6 @@ export const CreateListingSchema = z.object({
   email: z.union([z.string().email({ message: "Invalid email format." }), z.literal("")]).optional(),
   phone: z.string().optional(),
   what_you_offer: z.string().optional(),
+  // Allow optional plan for admin-created listings
+  plan: z.string().optional(),
 });

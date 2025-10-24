@@ -8,6 +8,8 @@ import {
   useForm,
 } from "react-hook-form";
 import { z } from "zod";
+import ImageUpload from "@/components/shared/image-upload";
+import { GalleryUpload } from "@/components/submit/gallery-upload";
 
 // Fix: Separated imports to pull `Listing` type from data layer and action/schema from the actions layer.
 import { updateListing } from "@/actions/listings";
@@ -60,6 +62,14 @@ const FormInputSchema = z.object({
   why_is_it_unique: z.string().optional(),
   format: z.string().optional(),
   extras_notes: z.string().optional(),
+  // Images
+  profile_image: z.string().optional(),
+  gallery: z.string().optional(),
+  // Badges/Compliance
+  is_approved_101: z.boolean().optional(),
+  ca_permit_required: z.boolean().optional(),
+  is_bonded: z.boolean().optional(),
+  bond_number: z.string().optional(),
   // Array fields as strings (will be converted to arrays before submission)
   categories: z.string().optional(),
   age_range: z.string().optional(),
@@ -110,6 +120,21 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
     Array<{ id: string; category_name: string }>
   >([]);
   const [categoryNames, setCategoryNames] = useState<string>("");
+  const [profileImageUrl, setProfileImageUrl] = useState<string>(
+    listing.profile_image || "",
+  );
+  const [galleryImages, setGalleryImages] = useState<string[]>(() => {
+    if (typeof listing.gallery === "string") {
+      try {
+        return JSON.parse(listing.gallery) || [];
+      } catch {
+        return [];
+      }
+    }
+    return Array.isArray(listing.gallery) ? listing.gallery : [];
+  });
+  const [isImageUploading, setIsImageUploading] = useState(false);
+  const [isGalleryUploading, setIsGalleryUploading] = useState(false);
 
   // Fetch categories and convert UUIDs to names
   useEffect(() => {
@@ -174,6 +199,17 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       why_is_it_unique: listing.why_is_it_unique || "",
       format: listing.format || "",
       extras_notes: listing.extras_notes || "",
+      // Images
+      profile_image: listing.profile_image || "",
+      gallery:
+        typeof listing.gallery === "string"
+          ? listing.gallery
+          : JSON.stringify(Array.isArray(listing.gallery) ? listing.gallery : []),
+      // Badges/Compliance
+      is_approved_101: listing.is_approved_101 ?? false,
+      ca_permit_required: listing.ca_permit_required ?? false,
+      is_bonded: listing.is_bonded ?? false,
+      bond_number: listing.bond_number || "",
       // Array fields converted to comma-separated strings for form input
       categories: listing.categories?.join(", ") || "", // Start with UUIDs, will be updated
       age_range: listing.age_range?.join(", ") || "",
@@ -208,9 +244,9 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           // Convert category names back to UUIDs before submitting
           const processedValues = { ...values };
 
-          if (values.categories && values.categories.trim()) {
+          if (values.categories?.trim()) {
             // Check if it's already a UUID (single category) or category names (comma-separated)
-            const isUuid = values.categories.match(
+            const isUuid = values.categories?.match(
               /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
             );
 
@@ -260,6 +296,12 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             age_range: processedValues.age_range || "",
             region: processedValues.region || "",
           };
+
+          // Attach images and compliance fields
+          serverValues.profile_image = profileImageUrl || "";
+          serverValues.gallery = JSON.stringify(
+            galleryImages.filter((g) => g && g.length > 0),
+          );
 
           console.log("Server values:", serverValues);
 
@@ -446,6 +488,48 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
 
       <hr className="my-6 border-border" />
 
+      {/* --- Images --- */}
+      <div>
+        <h3 className="text-md font-semibold mb-2 text-ink">Images</h3>
+        <div className="space-y-4">
+          {/* Profile Image */}
+          <div>
+            <p className="block text-sm font-medium text-ink mb-2">
+              Profile Image
+            </p>
+            <div className="h-48 border-2 border-dashed border-gray-300 rounded-lg">
+              <ImageUpload
+                currentImageUrl={profileImageUrl}
+                onUploadChange={(status) => {
+                  setIsImageUploading(status.isUploading);
+                  if (status.imageId) {
+                    setProfileImageUrl(status.imageId);
+                    form.setValue("profile_image", status.imageId);
+                  }
+                }}
+                type="image"
+              />
+            </div>
+          </div>
+
+          {/* Gallery Images */}
+          <div>
+            <p className="block text-sm font-medium text-ink mb-2">
+              Gallery Images
+            </p>
+            <GalleryUpload
+              maxImages={4}
+              currentImages={galleryImages}
+              onImagesChange={setGalleryImages}
+              onUploadingChange={setIsGalleryUploading}
+            />
+            <p className="text-xs text-ink mt-1">
+              Up to 4 gallery images (Pro listings typically use this feature).
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* --- Location Details --- */}
       <div>
         <h3 className="text-md font-semibold mb-2 text-ink">
@@ -543,18 +627,21 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             label="What You Offer (Short Bio)"
             register={form.register}
             disabled={isPending}
+            rows={6}
           />
           <FormTextarea
             id="who_is_it_for"
             label="Who Is It For"
             register={form.register}
             disabled={isPending}
+            rows={4}
           />
           <FormTextarea
             id="why_is_it_unique"
             label="What Makes This Unique"
             register={form.register}
             disabled={isPending}
+            rows={4}
           />
           <FormTextarea
             id="format"
@@ -570,6 +657,10 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             disabled={isPending}
             rows={2}
           />
+          <p className="text-xs text-ink/80">
+            Tip: You can paste basic HTML (p, strong, em, a, ul, li). It will be
+            stored as text. We sanitize on render to prevent XSS.
+          </p>
         </div>
       </div>
 
@@ -599,6 +690,33 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             register={form.register}
             disabled={isPending}
           />
+          <FormCheckbox
+            id="is_approved_101"
+            label="101 Approved Badge"
+            register={form.register}
+            disabled={isPending}
+          />
+          <FormCheckbox
+            id="ca_permit_required"
+            label="CA Performer Permit Required"
+            register={form.register}
+            disabled={isPending}
+          />
+          <FormCheckbox
+            id="is_bonded"
+            label="Bonded for Advanced Fees"
+            register={form.register}
+            disabled={isPending}
+          />
+        </div>
+        {/* Bond Number */}
+        <div className="max-w-sm pt-2">
+          <FormInput
+            id="bond_number"
+            label="Bond Number"
+            register={form.register}
+            disabled={isPending}
+          />
         </div>
       </div>
 
@@ -615,7 +733,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
         </Button>
         <Button
           type="submit"
-          disabled={isPending}
+          disabled={isPending || isImageUploading || isGalleryUploading}
           onClick={() => console.log("Save Changes button clicked!")}
         >
           {isPending ? "Saving..." : "Save Changes"}

@@ -16,12 +16,21 @@ interface VendorEditFormProps {
   onFinished: () => void;
 }
 
-// A vendor might not be allowed to change all fields.
-// We create a specific schema by omitting fields vendors cannot change.
-const VendorUpdateSchema = UpdateListingSchema.omit({
-  status: true, // Vendors shouldn't change their own status
-  is_claimed: true, // This is an admin/system field
-});
+// Vendor-edit schema: define explicitly to avoid Zod .omit issues with effects
+const VendorUpdateSchema = ((): z.ZodType<any> => {
+  const website = UpdateListingSchema.shape.website;
+  const email = UpdateListingSchema.shape.email;
+  return (
+    // Minimal subset vendors can edit
+    (require("zod") as typeof import("zod")).z.object({
+      listing_name: UpdateListingSchema.shape.listing_name,
+      website: website,
+      email: email,
+      phone: UpdateListingSchema.shape.phone,
+      what_you_offer: UpdateListingSchema.shape.what_you_offer,
+    })
+  );
+})();
 
 export function VendorEditForm({ listing, onFinished }: VendorEditFormProps) {
   const [isPending, startTransition] = useTransition();

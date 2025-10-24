@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type * as z from "zod";
+import { z } from "zod";
 
 import { updateListing } from "@/actions/listings";
 import { UpdateListingSchema } from "@/lib/validations/listings";
@@ -16,21 +16,18 @@ interface VendorEditFormProps {
   onFinished: () => void;
 }
 
-// Vendor-edit schema: define explicitly to avoid Zod .omit issues with effects
-const VendorUpdateSchema = ((): z.ZodType<any> => {
-  const website = UpdateListingSchema.shape.website;
-  const email = UpdateListingSchema.shape.email;
-  return (
-    // Minimal subset vendors can edit
-    (require("zod") as typeof import("zod")).z.object({
-      listing_name: UpdateListingSchema.shape.listing_name,
-      website: website,
-      email: email,
-      phone: UpdateListingSchema.shape.phone,
-      what_you_offer: UpdateListingSchema.shape.what_you_offer,
-    })
-  );
-})();
+// Vendor-edit schema: explicit subset schema; avoid relying on UpdateListingSchema internals
+const VendorUpdateSchema = z.object({
+  listing_name: z.string().min(1, "Listing name is required."),
+  website: z
+    .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
+    .optional(),
+  email: z
+    .union([z.string().email({ message: "Invalid email format." }), z.literal("")])
+    .optional(),
+  phone: z.string().optional(),
+  what_you_offer: z.string().optional(),
+});
 
 export function VendorEditForm({ listing, onFinished }: VendorEditFormProps) {
   const [isPending, startTransition] = useTransition();

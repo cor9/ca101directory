@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { ImageUpIcon, Loader2Icon, XIcon } from "lucide-react";
-import Image from "next/image";
+import NextImage from "next/image";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
@@ -138,7 +138,7 @@ export function GalleryUpload({
   async function fileToImage(file: File): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
       const url = URL.createObjectURL(file);
-      const img = new Image();
+      const img = new window.Image();
       img.onload = () => {
         URL.revokeObjectURL(url);
         resolve(img);
@@ -228,7 +228,7 @@ export function GalleryUpload({
                   </div>
                 ) : image ? (
                   <>
-                    <Image
+                    <NextImage
                       src={image}
                       alt={`Gallery image ${index + 1}`}
                       fill

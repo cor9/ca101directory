@@ -55,10 +55,11 @@ export function GalleryUpload({
         const index = availableIndexes[i];
         setUploadingFiles((prev) => new Set([...Array.from(prev), index]));
 
-        // Upload image inline
+        // Upload image inline (center-crop to 3:2, 1200x800)
         try {
+          const cropped = await cropToAspect(file, 1200, 800);
           const formData = new FormData();
-          formData.append("file", file);
+          formData.append("file", cropped);
           formData.append("businessSlug", "gallery");
 
           const response = await fetch("/api/upload", {
@@ -92,6 +93,63 @@ export function GalleryUpload({
     },
     [currentImages, maxImages, onImagesChange, onUploadingChange],
   );
+
+  // Helpers: center-crop an image file to target aspect and size
+  async function cropToAspect(
+    file: File,
+    targetWidth: number,
+    targetHeight: number,
+  ): Promise<File> {
+    const img = await fileToImage(file);
+    const sourceW = img.naturalWidth || img.width;
+    const sourceH = img.naturalHeight || img.height;
+
+    const targetAspect = targetWidth / targetHeight;
+    const sourceAspect = sourceW / sourceH;
+
+    let sx = 0;
+    let sy = 0;
+    let sw = sourceW;
+    let sh = sourceH;
+
+    if (sourceAspect > targetAspect) {
+      sw = Math.round(sourceH * targetAspect);
+      sx = Math.round((sourceW - sw) / 2);
+    } else if (sourceAspect < targetAspect) {
+      sh = Math.round(sourceW / targetAspect);
+      sy = Math.round((sourceH - sh) / 2);
+    }
+
+    const canvas = document.createElement("canvas");
+    canvas.width = targetWidth;
+    canvas.height = targetHeight;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return file;
+    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, targetWidth, targetHeight);
+
+    const blob: Blob = await new Promise((resolve, reject) => {
+      canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/jpeg", 0.9);
+    });
+
+    const nameNoExt = (file.name || "image").replace(/\.[^.]+$/, "");
+    return new File([blob], `${nameNoExt}-cropped.jpg`, { type: "image/jpeg" });
+  }
+
+  async function fileToImage(file: File): Promise<HTMLImageElement> {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        resolve(img);
+      };
+      img.onerror = (e) => {
+        URL.revokeObjectURL(url);
+        reject(e);
+      };
+      img.src = url;
+    });
+  }
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,

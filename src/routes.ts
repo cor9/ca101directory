@@ -81,6 +81,9 @@ export const publicRoutes = [
   "/api/test/discord",
   "/api/support/log",
   "/api/test/signup",
+
+  // image upload endpoint (used by authenticated forms)
+  "/api/upload",
 ];
 
 /**

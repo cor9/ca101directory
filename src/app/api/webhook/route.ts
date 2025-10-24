@@ -228,6 +228,40 @@ export async function POST(request: NextRequest) {
           console.error("Error processing subscription:", error);
         }
       }
+    } else if (event.type === "charge.succeeded") {
+      // Send Discord for successful charges (fallback when checkout session isn't present)
+      try {
+        const charge = event.data.object as Stripe.Charge;
+        const amount = typeof charge.amount === "number" ? charge.amount / 100 : 0;
+        const email = charge.billing_details?.email || "Unknown";
+        const method =
+          charge.payment_method_details &&
+          ("type" in charge.payment_method_details)
+            ? String((charge.payment_method_details as { type: string }).type)
+            : "unknown";
+        await sendDiscordNotification("💳 Charge Succeeded", [
+          { name: "Email", value: email, inline: true },
+          { name: "Amount", value: `$${amount.toFixed(2)}`, inline: true },
+          { name: "Method", value: String(method).toUpperCase(), inline: true },
+          { name: "Charge", value: `\`${charge.id}\``, inline: false },
+        ]);
+      } catch (e) {
+        console.warn("Discord notification for charge.succeeded failed:", e);
+      }
+    } else if (event.type === "payment_intent.succeeded") {
+      // Send Discord for successful payment intents (another safety net)
+      try {
+        const pi = event.data.object as Stripe.PaymentIntent;
+        const amount = typeof pi.amount === "number" ? pi.amount / 100 : 0;
+        const email = (pi.charges?.data?.[0]?.billing_details?.email as string) || "Unknown";
+        await sendDiscordNotification("✅ PaymentIntent Succeeded", [
+          { name: "Email", value: email, inline: true },
+          { name: "Amount", value: `$${amount.toFixed(2)}`, inline: true },
+          { name: "PaymentIntent", value: `\`${pi.id}\``, inline: false },
+        ]);
+      } catch (e) {
+        console.warn("Discord notification for payment_intent.succeeded failed:", e);
+      }
     }
 
     return NextResponse.json({ received: true });

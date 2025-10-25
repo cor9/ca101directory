@@ -101,12 +101,14 @@ export const UpdateListingSchema = z.object({
       });
     }
 
-    // profile image required
+    // profile image required ONLY for Standard/Pro plans (not Free)
+    const plan = typeof val.plan === "string" ? val.plan.toLowerCase() : "free";
+    const isFree = plan === "free";
     const profile = typeof val.profile_image === "string" ? val.profile_image : "";
-    if (!profile || profile.trim() === "") {
+    if (!isFree && (!profile || profile.trim() === "")) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Profile image is required for Live listings.",
+        message: "Profile image is required for Live listings on Standard/Pro plans.",
         path: ["profile_image"],
       });
     }

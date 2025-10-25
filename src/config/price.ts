@@ -1,15 +1,22 @@
 import { PricePlans } from "@/lib/submission";
 import type { PriceConfig } from "@/types";
 
-// Production Stripe Price IDs - Update these with your live Stripe price IDs
-export const STRIPE_PRICE_IDS = {
+// Production Stripe Payment Links - Direct links to Stripe checkout
+export const STRIPE_PAYMENT_LINKS = {
   FREE: null, // Free plan doesn't need Stripe
-  BASIC_MONTHLY: "price_basic_monthly_id", // Replace with actual price ID
-  PRO_MONTHLY: "price_pro_monthly_id", // Replace with actual price ID
-  PREMIUM_MONTHLY: "price_premium_monthly_id", // Replace with actual price ID
-  BASIC_ANNUAL: "price_basic_annual_id", // Replace with actual price ID
-  PRO_ANNUAL: "price_pro_annual_id", // Replace with actual price ID
-  PREMIUM_ANNUAL: "price_premium_annual_id", // Replace with actual price ID
+  STANDARD_MONTHLY: "https://pay.childactor101.com/b/4gM00i3V79jbb25fAg8Vi0e",
+  STANDARD_ANNUAL: "https://pay.childactor101.com/b/14A8wO0IVfHz3zDewc8Vi0f",
+  PRO_MONTHLY: "https://pay.childactor101.com/b/3cIcN4gHTcvneeh2Nu8Vi0h",
+  PRO_ANNUAL: "https://pay.childactor101.com/b/aFa6oG63f3YR2vz4VC8Vi0g",
+  
+  // Special offers
+  FOUNDING_STANDARD: "https://pay.childactor101.com/b/7sY4gy2R3eDv9Y12Nu8Vi0d",
+  FOUNDING_PRO: "https://pay.childactor101.com/b/4gMcN477jeDveeh4VC8Vi0i",
+  FOUNDING_STANDARD_101_BADGE: "https://pay.childactor101.com/b/14AbJ0crDdzrb254VC8Vi0j",
+  
+  // 101 Badge add-ons
+  BADGE_101_MONTHLY: "https://pay.childactor101.com/b/4gM7sK3V77b33zD1Jq8Vi0l",
+  BADGE_101_ANNUAL: "https://pay.childactor101.com/b/14A9AScrD66Z2vz2Nu8Vi0k",
 } as const;
 
 export const priceConfig: PriceConfig = {
@@ -31,7 +38,7 @@ export const priceConfig: PriceConfig = {
       ],
       price: 0,
       priceSuffix: "/forever",
-      stripePriceId: STRIPE_PRICE_IDS.FREE,
+      stripePriceId: STRIPE_PAYMENT_LINKS.FREE,
     },
     {
       title: "Basic",
@@ -46,7 +53,7 @@ export const priceConfig: PriceConfig = {
       limitations: ["No featured placement", "No 101 Badge"],
       price: 25,
       priceSuffix: "/month",
-      stripePriceId: STRIPE_PRICE_IDS.BASIC_MONTHLY,
+      stripePriceId: STRIPE_PAYMENT_LINKS.STANDARD_MONTHLY,
     },
     {
       title: "Pro",
@@ -62,23 +69,7 @@ export const priceConfig: PriceConfig = {
       limitations: ["No 101 Badge"],
       price: 50,
       priceSuffix: "/month",
-      stripePriceId: STRIPE_PRICE_IDS.PRO_MONTHLY,
-    },
-    {
-      title: "Premium",
-      description: "For top-tier professionals",
-      benefits: [
-        "All Pro features included",
-        "101 Approved Badge",
-        "Priority placement",
-        "Dedicated support",
-        "Advanced analytics",
-        "Social media promotion",
-      ],
-      limitations: [],
-      price: 90,
-      priceSuffix: "/month",
-      stripePriceId: STRIPE_PRICE_IDS.PREMIUM_MONTHLY,
+      stripePriceId: STRIPE_PAYMENT_LINKS.PRO_MONTHLY,
     },
   ],
   annualPlans: [
@@ -96,7 +87,7 @@ export const priceConfig: PriceConfig = {
       limitations: ["No featured placement", "No 101 Badge"],
       price: 250,
       priceSuffix: "/year",
-      stripePriceId: STRIPE_PRICE_IDS.BASIC_ANNUAL,
+      stripePriceId: STRIPE_PAYMENT_LINKS.STANDARD_ANNUAL,
     },
     {
       title: "Pro Annual",
@@ -113,24 +104,7 @@ export const priceConfig: PriceConfig = {
       limitations: ["No 101 Badge"],
       price: 500,
       priceSuffix: "/year",
-      stripePriceId: STRIPE_PRICE_IDS.PRO_ANNUAL,
-    },
-    {
-      title: "Premium Annual",
-      description: "For top-tier professionals",
-      benefits: [
-        "All Premium features included",
-        "101 Approved Badge",
-        "Priority placement",
-        "Dedicated support",
-        "Advanced analytics",
-        "Social media promotion",
-        "2 months free (save $180)",
-      ],
-      limitations: [],
-      price: 900,
-      priceSuffix: "/year",
-      stripePriceId: STRIPE_PRICE_IDS.PREMIUM_ANNUAL,
+      stripePriceId: STRIPE_PAYMENT_LINKS.PRO_ANNUAL,
     },
   ],
 };

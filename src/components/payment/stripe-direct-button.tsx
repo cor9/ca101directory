@@ -15,12 +15,12 @@ export function StripeDirectButton({
   pricePlan,
   className,
 }: StripeDirectButtonProps) {
-  const router = useRouter();
-
   const handleClick = () => {
-    // Redirect to pricing page where Stripe Pricing Table is embedded
-    // This ensures fresh checkout sessions are created each time
-    router.push("/pricing");
+    // Open the Stripe Payment Link directly in a new tab
+    // These are reusable links that create fresh checkout sessions automatically
+    if (pricePlan.stripePriceId) {
+      window.open(pricePlan.stripePriceId, "_blank");
+    }
   };
 
   const getButtonText = () => {

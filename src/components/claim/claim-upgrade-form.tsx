@@ -266,8 +266,11 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
       {(process.env.NEXT_PUBLIC_FOUNDING_STANDARD_URL || process.env.NEXT_PUBLIC_FOUNDING_PRO_URL) && (
         <div className="mb-6 text-center">
           <Badge className="bg-brand-orange text-white">Founding Vendor Special</Badge>
+          <div className="mt-2">
+            <Badge variant="secondary" className="text-xs">First 100 vendors only</Badge>
+          </div>
           <p className="mt-2 text-paper">
-            Limited to the first 100 vendors. Lock lifetime pricing and get special placement.
+            Lock lifetime pricing and get special placement.
           </p>
         </div>
       )}
@@ -283,44 +286,45 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
         {plans
           .filter((p) => p.id === "founding-pro" || p.id === "founding-standard")
           .map((plan) => (
-            <Card key={plan.id} className="bauhaus-card">
-              <CardHeader className="text-center">
-                <CardTitle className="bauhaus-heading text-2xl text-ink">{plan.name}</CardTitle>
-                <CardDescription className="bauhaus-body text-ink">
-                  {plan.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  {plan.features.slice(0, 4).map((f) => (
-                    <li key={f} className="flex items-center gap-3">
-                      <Check className="w-4 h-4 text-green-600" />
-                      <span className="bauhaus-body text-ink">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-6 flex items-center justify-center gap-3">
-                  <Button className="px-4" onClick={() => goDirect(plan.checkoutLink!)}>
-                    Upgrade to {plan.name}
-                  </Button>
-                  {plan.id === "founding-standard" && (
-                    (() => {
-                      const badge = plans.find((p) => p.id === "founding-standard-badge");
-                      return badge?.checkoutLink ? (
-                        <Button
-                          variant="outline"
-                          className="px-4"
-                          onClick={() => goDirect(badge.checkoutLink!)}
-                        >
-                          Add 101 Badge
-                        </Button>
-                      ) : null;
-                    })()
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+          <Card key={plan.id} className="bauhaus-card">
+            <CardHeader className="text-center">
+              <CardTitle className="bauhaus-heading text-2xl text-gray-900">{plan.name}</CardTitle>
+              <CardDescription className="bauhaus-body text-gray-900">
+                {plan.description}
+              </CardDescription>
+              {/* Price highlight for Founding specials */}
+              <div className="mt-2">
+                {plan.id === "founding-standard" && (
+                  <>
+                    <div className="bauhaus-heading text-xl text-gray-900">$101 <span className="bauhaus-body text-sm">for 6 months</span></div>
+                    <div className="text-green-600 text-sm mt-1">Save $49</div>
+                  </>
+                )}
+                {plan.id === "founding-pro" && (
+                  <>
+                    <div className="bauhaus-heading text-xl text-gray-900">$199 <span className="bauhaus-body text-sm">for 6 months</span></div>
+                    <div className="text-green-600 text-sm mt-1">Save $101</div>
+                  </>
+                )}
+              </div>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2">
+                {plan.features.slice(0, 4).map((f) => (
+                  <li key={f} className="flex items-center gap-3 text-gray-900">
+                    <Check className="w-4 h-4 text-green-600" />
+                    <span className="bauhaus-body">{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-6 flex items-center justify-center gap-3">
+                <Button className="px-4" onClick={() => goDirect(plan.checkoutLink!)}>
+                  Upgrade to {plan.name}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       {/* Plan Cards */}

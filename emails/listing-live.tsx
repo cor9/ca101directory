@@ -110,22 +110,43 @@ export default function ListingLiveEmail({
             </Button>
           </Section>
 
-          <Text style={{ lineHeight: 1.6 }}>
-            Already claimed? Manage your listing here:{" "}
-            <Link href={manageUrl} style={{ color: "#3A76A6" }}>
+          <Section style={{ textAlign: "center", margin: "14px 0 22px" }}>
+            <Button
+              href={manageUrl}
+              style={{
+                backgroundColor: "#2563eb",
+                color: "#FFFFFF",
+                fontWeight: 600,
+                textDecoration: "none",
+                padding: "10px 18px",
+                borderRadius: 8,
+                display: "inline-block",
+              }}
+            >
               Manage Listing
-            </Link>
-          </Text>
+            </Button>
+          </Section>
 
           <Text style={{ lineHeight: 1.6 }}>
             Prefer not to be listed? Reply to this email, or click below and we’ll remove your profile promptly:
           </Text>
 
-          <p style={{ textAlign: "center", margin: "20px 0" }}>
-            <Link href={removeUrl} style={{ color: "#3A76A6", textDecoration: "underline" }}>
+          <Section style={{ textAlign: "center", margin: "18px 0 8px" }}>
+            <Button
+              href={removeUrl}
+              style={{
+                backgroundColor: "#DC2626",
+                color: "#FFFFFF",
+                fontWeight: 600,
+                textDecoration: "none",
+                padding: "10px 18px",
+                borderRadius: 8,
+                display: "inline-block",
+              }}
+            >
               Remove me from the directory
-            </Link>
-          </p>
+            </Button>
+          </Section>
 
           <Text style={{ marginTop: 24, lineHeight: 1.6 }}>
             Thanks for being part of a community that helps parents discover trusted professionals.

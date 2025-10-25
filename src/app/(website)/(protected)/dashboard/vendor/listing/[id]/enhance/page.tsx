@@ -19,9 +19,11 @@ export default async function EnhanceListingPage({ params, searchParams }: { par
       <AdminDashboardLayout>
         <div className="max-w-3xl mx-auto space-y-6">
           <div className="text-center">
+            <p className="bauhaus-body text-paper text-sm opacity-80">Step 2 of 3</p>
             <h1 className="bauhaus-heading text-3xl text-paper">Enhance “{listing.listing_name}”</h1>
             <p className="bauhaus-body text-paper mt-2">
-              {searchParams.upgraded ? "Upgrade successful!" : ""} Add your logo, gallery images, and richer details unlocked by your plan. Submit when ready for a quick admin review.
+              {searchParams.upgraded ? "Upgrade successful! " : ""}
+              Add your logo, gallery images, and richer details unlocked by your plan. You can save and finish later, or submit for review when ready.
             </p>
           </div>
 
@@ -34,4 +36,3 @@ export default async function EnhanceListingPage({ params, searchParams }: { par
     </DashboardGuard>
   );
 }
-

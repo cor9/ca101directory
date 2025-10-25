@@ -22,7 +22,7 @@ export const metadata = constructMetadata({
  * - Their own listings
  * - Ability to edit their listings
  */
-export default async function VendorDashboard() {
+export default async function VendorDashboard({ searchParams }: { searchParams?: { lid?: string; claimed?: string; upgraded?: string; onboard?: string } }) {
   const user = await currentUser();
   if (!user?.id) {
     // This should be caught by the role guard, but as a fallback
@@ -33,12 +33,29 @@ export default async function VendorDashboard() {
   verifyDashboardAccess(user, "vendor", "/dashboard/vendor");
 
   const vendorListings = await getVendorListings(user.id);
+  const onboardingLid = searchParams?.lid || (vendorListings[0]?.id ?? "");
+  const showOnboarding = Boolean(searchParams?.claimed || searchParams?.upgraded || searchParams?.onboard);
 
   return (
     <DashboardGuard allowedRoles={["vendor"]}>
       <VendorDashboardLayout>
         <div className="space-y-6">
           {/* Welcome Section */}
+          {showOnboarding && onboardingLid && (
+            <div className="bg-card rounded-lg p-6 border">
+              <h2 className="bauhaus-heading text-2xl text-foreground mb-1">Welcome! Enhance your listing</h2>
+              <p className="bauhaus-body text-foreground mb-4">Add your logo, gallery, and detailed information to make a great first impression.</p>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild>
+                  <a href={`/dashboard/vendor/listing/${onboardingLid}/enhance?onboard=1`}>Enhance Now</a>
+                </Button>
+                <Button variant="outline" asChild>
+                  <a href="/dashboard/vendor">Finish Later</a>
+                </Button>
+              </div>
+            </div>
+          )}
+
           <div className="bg-card rounded-lg p-6 border">
             <h1 className="text-2xl font-bold text-foreground mb-2">
               Welcome to Your Dashboard

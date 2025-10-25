@@ -255,6 +255,9 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
       <div className="text-center mb-3">
         <h2 className="bauhaus-heading text-2xl text-paper">Boost your visibility (optional)</h2>
         <p className="bauhaus-body text-paper text-sm mt-1">Upgrade now or anytime from your dashboard</p>
+        <p className="bauhaus-body text-paper text-xs mt-1 opacity-90">
+          If you upgrade, you’ll go to Stripe to pay and then come right back here to finish your listing (logo, gallery, rich details).
+        </p>
       </div>
 
       {/* Founding specials as two primary cards */}

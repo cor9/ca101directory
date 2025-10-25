@@ -149,8 +149,9 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
       ? (process.env.NEXT_PUBLIC_FOUNDING_PRO_URL ? "founding-pro" : "founding-standard")
       : "standard",
   );
+  // Bauhaus-ish minimalist: default emphasis on monthly. Annual shown as a subtle alternate.
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
-    "yearly",
+    "monthly",
   );
   const [isLoading, setIsLoading] = useState(false);
   const plans = getPlans();
@@ -178,27 +179,28 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
     }
   };
 
-  const handleSelectPlan = async (planId: string) => {
+  const goDirect = (baseUrl: string | undefined) => {
+    if (!baseUrl) return false;
+    const url = new URL(baseUrl);
+    url.searchParams.set("listing_id", listing.id);
+    window.location.href = url.toString();
+    return true;
+  };
+
+  const handleSelectPlan = async (planId: string, cycle: "monthly" | "yearly" = billingCycle) => {
     setIsLoading(true);
 
     try {
       const plan = plans.find((p) => p.id === planId);
       // If a direct checkout link is configured, use it
       if (plan?.checkoutLink) {
-        const url = new URL(plan.checkoutLink);
-        url.searchParams.set("listing_id", listing.id);
-        window.location.href = url.toString();
+        goDirect(plan.checkoutLink);
         return;
       }
 
       // If monthly/yearly specific links are configured, route accordingly
-      const direct = billingCycle === "yearly" ? plan?.yearlyLink : plan?.monthlyLink;
-      if (direct) {
-        const url = new URL(direct);
-        url.searchParams.set("listing_id", listing.id);
-        window.location.href = url.toString();
-        return;
-      }
+      const direct = cycle === "yearly" ? plan?.yearlyLink : plan?.monthlyLink;
+      if (direct && goDirect(direct)) return;
 
       const response = await fetch("/api/create-checkout-session", {
         method: "POST",
@@ -208,7 +210,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
         body: JSON.stringify({
           listingId: listing.id,
           planId,
-          billingCycle,
+          billingCycle: cycle,
           successUrl: `${window.location.origin}/claim/success?listing_id=${listing.id}`,
           cancelUrl: window.location.href,
         }),
@@ -276,39 +278,6 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
         <p className="text-paper text-sm mt-1">Upgrade now or anytime from your dashboard</p>
       </div>
 
-      {/* Billing Toggle for Standard/Pro selection */}
-      <div className="flex justify-center mb-8">
-        <div className="bg-muted p-1 rounded-lg">
-          <button
-            type="button"
-            onClick={() => setBillingCycle("monthly")}
-            className={cn(
-              "px-4 py-2 rounded-md text-sm font-medium transition-colors",
-              billingCycle === "monthly"
-                ? "bg-background text-paper shadow-sm"
-                : "text-paper hover:text-paper",
-            )}
-          >
-            Monthly
-          </button>
-          <button
-            type="button"
-            onClick={() => setBillingCycle("yearly")}
-            className={cn(
-              "px-4 py-2 rounded-md text-sm font-medium transition-colors",
-              billingCycle === "yearly"
-                ? "bg-background text-paper shadow-sm"
-                : "text-paper hover:text-paper",
-            )}
-          >
-            Yearly
-            <Badge variant="secondary" className="ml-2 text-xs">
-              Save 17%
-            </Badge>
-          </button>
-        </div>
-      </div>
-
       {/* Plan Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {plans.map((plan) => (
@@ -333,22 +302,15 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
             <CardHeader className="text-center">
               <CardTitle className="text-2xl">{plan.name}</CardTitle>
               <CardDescription>{plan.description}</CardDescription>
+              {/* Minimal pricing emphasis: default monthly; show annual as subtle alternative */}
               {!plan.checkoutLink && (
-                <div className="mt-4">
-                  <div className="text-4xl font-bold">
-                    $
-                    {billingCycle === "yearly"
-                      ? plan.yearlyPrice
-                      : plan.monthlyPrice}
-                  </div>
-                  <div className="text-paper">
-                    per {billingCycle === "yearly" ? "year" : "month"}
-                  </div>
-                  {billingCycle === "yearly" && plan.monthlyPrice && plan.yearlyPrice && (
-                    <div className="text-sm text-green-600 mt-1">
-                      Save ${plan.monthlyPrice * 12 - plan.yearlyPrice}/year
-                    </div>
-                  )}
+                <div className="mt-4 text-center">
+                  {plan.monthlyPrice ? (
+                    <div className="text-2xl font-semibold">${plan.monthlyPrice}<span className="text-sm font-normal text-paper">/mo</span></div>
+                  ) : null}
+                  {plan.yearlyPrice ? (
+                    <div className="text-xs text-paper mt-1">or ${plan.yearlyPrice}/yr</div>
+                  ) : null}
                 </div>
               )}
             </CardHeader>
@@ -363,17 +325,32 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
                 ))}
               </ul>
 
-              <Button
-                className="w-full mt-6"
-                variant={selectedPlan === plan.id ? "default" : "outline"}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleSelectPlan(plan.id);
-                }}
-                disabled={isLoading}
-              >
-                {isLoading ? "Processing..." : plan.checkoutLink ? `Choose ${plan.name}` : `Choose ${plan.name}`}
-              </Button>
+              <div className="mt-6 flex items-center justify-center gap-3">
+                <Button
+                  className="px-4"
+                  variant={selectedPlan === plan.id ? "default" : "outline"}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelectPlan(plan.id, "monthly");
+                  }}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Processing..." : `${plan.name} Monthly`}
+                </Button>
+                {(plan.yearlyLink || plan.yearlyPrice) && (
+                  <Button
+                    className="px-4"
+                    variant="ghost"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSelectPlan(plan.id, "yearly");
+                    }}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "..." : `${plan.name} Annual`}
+                  </Button>
+                )}
+              </div>
             </CardContent>
           </Card>
         ))}

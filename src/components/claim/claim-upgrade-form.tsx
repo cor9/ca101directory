@@ -19,54 +19,127 @@ interface ClaimUpgradeFormProps {
   listing: Listing;
 }
 
-const plans = [
-  {
-    id: "standard",
-    name: "Standard",
-    monthlyPrice: 25,
-    yearlyPrice: 250,
-    description: "Perfect for established businesses",
-    features: [
-      "Full listing control",
-      "Edit business information",
-      "Upload photos & logo",
-      "Respond to reviews",
-      "Basic analytics",
-      "Email support",
-    ],
-    popular: false,
-  },
-  {
-    id: "pro",
-    name: "Pro",
-    monthlyPrice: 50,
-    yearlyPrice: 500,
-    description: "Best for growing businesses",
-    features: [
-      "Everything in Standard",
-      "Featured placement",
-      "Priority support",
-      "Advanced analytics",
-      "Multiple categories",
-      "101 Approved Badge",
-      "Social media integration",
-    ],
-    popular: true,
-  },
-];
+type PlanDef = {
+  id: string;
+  name: string;
+  description: string;
+  features: string[];
+  popular?: boolean;
+  monthlyPrice?: number;
+  yearlyPrice?: number;
+  checkoutLink?: string; // if present, use direct link instead of API checkout
+  badge?: string;
+};
+
+function getPlans(): PlanDef[] {
+  const env = process.env as Record<string, string | undefined>;
+  const foundingStandard = env.NEXT_PUBLIC_FOUNDING_STANDARD_URL;
+  const foundingPro = env.NEXT_PUBLIC_FOUNDING_PRO_URL;
+
+  const result: PlanDef[] = [];
+
+  // Founding Vendor specials (surface these first if links provided)
+  if (foundingStandard) {
+    result.push({
+      id: "founding-standard",
+      name: "Founding Standard",
+      description: "Limited-time founding vendor rate (6 months)",
+      features: [
+        "Logo/Image display",
+        "Enhanced placement above Free vendors",
+        "SEO boost for increased visibility",
+        "Advanced business description",
+        "Multi-category listing",
+      ],
+      popular: false,
+      checkoutLink: foundingStandard,
+      badge: "Founding Special",
+    });
+  }
+  if (foundingPro) {
+    result.push({
+      id: "founding-pro",
+      name: "Founding Pro",
+      description: "Top placement + badge (6 months)",
+      features: [
+        "Everything in Standard",
+        "Featured placement at top of categories",
+        "101 Approved badge eligibility",
+        "Gallery images (up to 4)",
+        "Social links & promo opportunities",
+      ],
+      popular: true,
+      checkoutLink: foundingPro,
+      badge: "Founding Special",
+    });
+  }
+
+  // Regular plans (fallback to Stripe checkout session if direct links not supplied)
+  result.push(
+    {
+      id: "standard",
+      name: "Standard",
+      monthlyPrice: 25,
+      yearlyPrice: 250,
+      description: "Perfect for established businesses",
+      features: [
+        "Full listing control",
+        "Edit business information",
+        "Upload photos & logo",
+        "Respond to reviews",
+        "Basic analytics",
+        "Email support",
+      ],
+      popular: false,
+    },
+    {
+      id: "pro",
+      name: "Pro",
+      monthlyPrice: 50,
+      yearlyPrice: 500,
+      description: "Best for growing businesses",
+      features: [
+        "Everything in Standard",
+        "Featured placement",
+        "Priority support",
+        "Advanced analytics",
+        "Multiple categories",
+        "101 Approved Badge",
+        "Social media integration",
+      ],
+      popular: true,
+    },
+  );
+
+  return result;
+}
 
 export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
   const router = useRouter();
-  const [selectedPlan, setSelectedPlan] = useState<string>("standard");
+  const [selectedPlan, setSelectedPlan] = useState<string>(
+    (process.env.NEXT_PUBLIC_FOUNDING_STANDARD_URL || process.env.NEXT_PUBLIC_FOUNDING_PRO_URL)
+      ? (process.env.NEXT_PUBLIC_FOUNDING_PRO_URL ? "founding-pro" : "founding-standard")
+      : "standard",
+  );
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
     "yearly",
   );
   const [isLoading, setIsLoading] = useState(false);
+  const plans = getPlans();
 
   const handleSelectPlan = async (planId: string) => {
     setIsLoading(true);
 
     try {
+      const plan = plans.find((p) => p.id === planId);
+      // If a direct checkout link is configured, use it
+      if (plan?.checkoutLink) {
+        const url = new URL(plan.checkoutLink);
+        url.searchParams.set("listing_id", listing.id);
+        window.location.href = url.toString();
+        return;
+      }
+
       const response = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: {
@@ -98,38 +171,50 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
 
   return (
     <div className="max-w-4xl mx-auto">
-      {/* Billing Toggle */}
-      <div className="flex justify-center mb-8">
-        <div className="bg-muted p-1 rounded-lg">
-          <button
-            type="button"
-            onClick={() => setBillingCycle("monthly")}
-            className={cn(
-              "px-4 py-2 rounded-md text-sm font-medium transition-colors",
-              billingCycle === "monthly"
-                ? "bg-background text-paper shadow-sm"
-                : "text-paper hover:text-paper",
-            )}
-          >
-            Monthly
-          </button>
-          <button
-            type="button"
-            onClick={() => setBillingCycle("yearly")}
-            className={cn(
-              "px-4 py-2 rounded-md text-sm font-medium transition-colors",
-              billingCycle === "yearly"
-                ? "bg-background text-paper shadow-sm"
-                : "text-paper hover:text-paper",
-            )}
-          >
-            Yearly
-            <Badge variant="secondary" className="ml-2 text-xs">
-              Save 17%
-            </Badge>
-          </button>
+      {/* Founding Vendor banner if enabled */}
+      {(process.env.NEXT_PUBLIC_FOUNDING_STANDARD_URL || process.env.NEXT_PUBLIC_FOUNDING_PRO_URL) && (
+        <div className="mb-6 text-center">
+          <Badge className="bg-brand-orange text-white">Founding Vendor Special</Badge>
+          <p className="mt-2 text-paper">
+            Limited to the first 100 vendors. Lock lifetime pricing and get special placement.
+          </p>
         </div>
-      </div>
+      )}
+
+      {/* Billing Toggle (only for regular plans) */}
+      {!(process.env.NEXT_PUBLIC_FOUNDING_STANDARD_URL || process.env.NEXT_PUBLIC_FOUNDING_PRO_URL) && (
+        <div className="flex justify-center mb-8">
+          <div className="bg-muted p-1 rounded-lg">
+            <button
+              type="button"
+              onClick={() => setBillingCycle("monthly")}
+              className={cn(
+                "px-4 py-2 rounded-md text-sm font-medium transition-colors",
+                billingCycle === "monthly"
+                  ? "bg-background text-paper shadow-sm"
+                  : "text-paper hover:text-paper",
+              )}
+            >
+              Monthly
+            </button>
+            <button
+              type="button"
+              onClick={() => setBillingCycle("yearly")}
+              className={cn(
+                "px-4 py-2 rounded-md text-sm font-medium transition-colors",
+                billingCycle === "yearly"
+                  ? "bg-background text-paper shadow-sm"
+                  : "text-paper hover:text-paper",
+              )}
+            >
+              Yearly
+              <Badge variant="secondary" className="ml-2 text-xs">
+                Save 17%
+              </Badge>
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Plan Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -143,11 +228,11 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
             )}
             onClick={() => setSelectedPlan(plan.id)}
           >
-            {plan.popular && (
+            {(plan.popular || plan.badge) && (
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                 <Badge className="bg-primary text-primary-foreground">
                   <Star className="w-3 h-3 mr-1" />
-                  Most Popular
+                  {plan.badge || "Most Popular"}
                 </Badge>
               </div>
             )}
@@ -155,22 +240,24 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
             <CardHeader className="text-center">
               <CardTitle className="text-2xl">{plan.name}</CardTitle>
               <CardDescription>{plan.description}</CardDescription>
-              <div className="mt-4">
-                <div className="text-4xl font-bold">
-                  $
-                  {billingCycle === "yearly"
-                    ? plan.yearlyPrice
-                    : plan.monthlyPrice}
-                </div>
-                <div className="text-paper">
-                  per {billingCycle === "yearly" ? "year" : "month"}
-                </div>
-                {billingCycle === "yearly" && (
-                  <div className="text-sm text-green-600 mt-1">
-                    Save ${plan.monthlyPrice * 12 - plan.yearlyPrice}/year
+              {!plan.checkoutLink && (
+                <div className="mt-4">
+                  <div className="text-4xl font-bold">
+                    $
+                    {billingCycle === "yearly"
+                      ? plan.yearlyPrice
+                      : plan.monthlyPrice}
                   </div>
-                )}
-              </div>
+                  <div className="text-paper">
+                    per {billingCycle === "yearly" ? "year" : "month"}
+                  </div>
+                  {billingCycle === "yearly" && plan.monthlyPrice && plan.yearlyPrice && (
+                    <div className="text-sm text-green-600 mt-1">
+                      Save ${plan.monthlyPrice * 12 - plan.yearlyPrice}/year
+                    </div>
+                  )}
+                </div>
+              )}
             </CardHeader>
 
             <CardContent>
@@ -192,7 +279,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
                 }}
                 disabled={isLoading}
               >
-                {isLoading ? "Processing..." : `Choose ${plan.name}`}
+                {isLoading ? "Processing..." : plan.checkoutLink ? `Choose ${plan.name}` : `Choose ${plan.name}`}
               </Button>
             </CardContent>
           </Card>

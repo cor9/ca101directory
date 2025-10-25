@@ -50,6 +50,14 @@
 
 # FOR CURSOR - Child Actor 101 Directory Progress Log
 
+## 2025-10-25 – Claim Flow (Email) UX & Routing Overhaul
+
+- **Flow separation**: Clarified that public submission flow stays untouched; email claim flow now uses dynamic Stripe Checkout with metadata, a unified success URL, and new enhanced listing form.
+- **Checkout robustness**: API-only checkout for founding/standard/pro plans; verifies claim token, allows promotion codes, falls back to inline pricing if STRIPE_PRICE_* IDs missing, and never fails on customer creation.
+- **Success routing**: `/payment-success` reads `flow` & `listing_id` metadata (or fallback query params) and redirects claim upgrades to `/dashboard/vendor/listing/[id]/enhance?upgraded=1`.
+- **Enhanced experience**: Claim page copy explains the upgrade loop; enhanced form shows “Step 2 of 3”; vendor dashboard shows onboarding banner (“Enhance Now / Finish Later”) when claimed/upgraded flags present.
+- **Reason**: Prevent vendor confusion once they pay or claim, and ensure we can finish the listing enhancement immediately after Stripe while keeping UX consistent with Bauhaus theme.
+
 ## 🎉 **CURRENT STATUS - COMPREHENSIVE ADMIN CONTROL ACHIEVED!**
 
 ## 🚀 **LATEST UPDATES - JANUARY 2025**

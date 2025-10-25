@@ -39,7 +39,10 @@ export async function createListing(
     // Email vendor with individualized claim/upgrade links
     try {
       const email = (validatedFields.data.email || "").trim();
+      console.log("createListing: Checking email send conditions", { email, hasDataId: !!data?.id, listingId: data?.id });
+      
       if (email && data?.id) {
+        console.log("createListing: Sending listing live email to:", email);
         const token = createClaimToken(data.id);
         const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
         const claimUrl = `${siteUrl}/claim/${encodeURIComponent(token)}?lid=${encodeURIComponent(data.id)}`;
@@ -60,6 +63,9 @@ export async function createListing(
           manageUrl,
           optOutUrl,
         });
+        console.log("createListing: Successfully sent listing live email to:", email);
+      } else {
+        console.log("createListing: Skipping email send - no email or listing ID");
       }
     } catch (notifyErr) {
       console.error("createListing: failed to send listing live email", notifyErr);

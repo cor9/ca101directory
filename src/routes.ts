@@ -84,6 +84,9 @@ export const publicRoutes = [
 
   // image upload endpoint (used by authenticated forms)
   "/api/upload",
+
+  // admin user diagnostics
+  "/api/admin/check-user",
 ];
 
 /**

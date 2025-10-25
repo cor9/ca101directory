@@ -247,8 +247,8 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
 
       {/* Friendly welcome + primary Free claim CTA */}
       <div className="text-center max-w-2xl mx-auto mb-8">
-        <h1 className="text-2xl font-bold text-ink">Claim Your Free Listing</h1>
-        <p className="text-paper mt-2">
+        <h1 className="bauhaus-heading text-3xl text-paper">Claim Your Free Listing</h1>
+        <p className="bauhaus-body text-paper mt-2">
           You're all set! Claim now to manage your info. Edits go live after a quick admin review.
         </p>
         <Button
@@ -259,7 +259,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
         >
           {isLoading ? "Claiming..." : "Claim Your Free Listing"}
         </Button>
-        <p className="text-xs text-paper mt-2">No credit card required. Free forever. Upgrade anytime.</p>
+        <p className="bauhaus-body text-xs text-paper mt-2">No credit card required. Free forever. Upgrade anytime.</p>
       </div>
 
       {/* Founding Vendor banner if enabled */}
@@ -274,8 +274,53 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
 
       {/* Optional upgrades */}
       <div className="text-center mb-3">
-        <h2 className="text-xl font-semibold text-ink">Boost your visibility (optional)</h2>
-        <p className="text-paper text-sm mt-1">Upgrade now or anytime from your dashboard</p>
+        <h2 className="bauhaus-heading text-2xl text-paper">Boost your visibility (optional)</h2>
+        <p className="bauhaus-body text-paper text-sm mt-1">Upgrade now or anytime from your dashboard</p>
+      </div>
+
+      {/* Founding specials as two primary cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        {plans
+          .filter((p) => p.id === "founding-pro" || p.id === "founding-standard")
+          .map((plan) => (
+            <Card key={plan.id} className="bauhaus-card">
+              <CardHeader className="text-center">
+                <CardTitle className="bauhaus-heading text-2xl text-ink">{plan.name}</CardTitle>
+                <CardDescription className="bauhaus-body text-ink">
+                  {plan.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2">
+                  {plan.features.slice(0, 4).map((f) => (
+                    <li key={f} className="flex items-center gap-3">
+                      <Check className="w-4 h-4 text-green-600" />
+                      <span className="bauhaus-body text-ink">{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-6 flex items-center justify-center gap-3">
+                  <Button className="px-4" onClick={() => goDirect(plan.checkoutLink!)}>
+                    Upgrade to {plan.name}
+                  </Button>
+                  {plan.id === "founding-standard" && (
+                    (() => {
+                      const badge = plans.find((p) => p.id === "founding-standard-badge");
+                      return badge?.checkoutLink ? (
+                        <Button
+                          variant="outline"
+                          className="px-4"
+                          onClick={() => goDirect(badge.checkoutLink!)}
+                        >
+                          Add 101 Badge
+                        </Button>
+                      ) : null;
+                    })()
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
       </div>
 
       {/* Plan Cards */}

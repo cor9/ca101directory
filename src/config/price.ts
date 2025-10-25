@@ -21,66 +21,68 @@ export const STRIPE_PAYMENT_LINKS = {
 } as const;
 
 export const priceConfig: PriceConfig = {
-  // 🚀 FOUNDING MEMBER PLANS - Limited Time Offers (Display First)
+  // 🚀 FOUNDING MEMBER PLANS - Limited Time 6-Month Launch Packages
   foundingPlans: [
     {
       title: "Founding Standard",
-      description: "🎉 Limited Founding Member Rate - Lock in forever!",
+      description: "🎉 Early-adopter launch special - 6 months locked pricing!",
       benefits: [
-        "🔒 Lifetime founding member rate",
-        "All Standard features included",
-        "Logo display on your listing",
-        "Enhanced visibility",
+        "🔒 6-month locked rate ($101 total)",
+        "All Standard Vendor features included",
+        "Professional logo display",
+        "Advanced business description",
+        "Enhanced visibility in directory",
         "Priority review process",
         "Email support",
-        "⭐ Founding Member badge",
-        "🎁 Special founding perks",
+        "⭐ Permanent Founding Vendor badge",
+        "💰 Locked pricing as long as subscription active",
       ],
-      limitations: ["No 101 Badge (available as add-on)"],
-      price: 15, // Estimate - UPDATE WITH ACTUAL PRICE
-      priceSuffix: "/month forever",
+      limitations: ["No 101 Badge (available as add-on for $55/6mo)"],
+      price: 101,
+      priceSuffix: " for 6 months",
       stripePriceId: STRIPE_PAYMENT_LINKS.FOUNDING_STANDARD,
       isFeatured: true,
       badge: "BEST VALUE",
     },
     {
       title: "Founding Pro",
-      description: "🎉 Limited Founding Member Rate - Lock in forever!",
+      description: "🎉 Premium 6-month launch package for top vendors!",
       benefits: [
-        "🔒 Lifetime founding member rate",
-        "All Pro features included",
+        "🔒 6-month locked rate ($199 total)",
+        "All Pro Vendor features included",
         "Featured placement at top of listings",
         "SEO boosting features",
+        "Analytics dashboard",
         "Priority customer support",
-        "Social media promotion",
-        "Advanced analytics",
-        "⭐ Founding Member badge",
-        "🎁 Special founding perks",
+        "Social media promotion opportunities",
+        "⭐ Special Founding Vendor badge",
+        "💰 Locked low pricing for early adopters",
       ],
-      limitations: ["No 101 Badge (available as add-on)"],
-      price: 35, // Estimate - UPDATE WITH ACTUAL PRICE
-      priceSuffix: "/month forever",
+      limitations: ["No 101 Badge (available as add-on for $55/6mo)"],
+      price: 199,
+      priceSuffix: " for 6 months",
       stripePriceId: STRIPE_PAYMENT_LINKS.FOUNDING_PRO,
       isFeatured: true,
       badge: "MOST POPULAR",
     },
     {
       title: "Founding Standard + 101 Badge",
-      description: "🏆 Complete Package - Founding Rate + Premium Badge!",
+      description: "🏆 Complete Package - Standard + Premium 101 Badge!",
       benefits: [
-        "🔒 Lifetime founding member rate",
-        "All Standard features included",
+        "🔒 6-month locked rate ($125 total)",
+        "All Standard Vendor features included",
         "✨ 101 Approved Badge included",
-        "Logo display on your listing",
-        "Enhanced visibility",
+        "Professional logo display",
+        "Advanced business description",
+        "Enhanced visibility & credibility",
         "Priority review process",
         "Premium support",
-        "⭐ Founding Member badge",
-        "🎁 Special founding perks",
+        "⭐ Founding Vendor badge",
+        "💰 Charter status, forever credibility",
       ],
       limitations: [],
-      price: 40, // Estimate - UPDATE WITH ACTUAL PRICE
-      priceSuffix: "/month forever",
+      price: 125,
+      priceSuffix: " for 6 months",
       stripePriceId: STRIPE_PAYMENT_LINKS.FOUNDING_STANDARD_101_BADGE,
       isFeatured: true,
       badge: "PREMIUM",
@@ -140,7 +142,7 @@ export const priceConfig: PriceConfig = {
       stripePriceId: STRIPE_PAYMENT_LINKS.PRO_MONTHLY,
     },
   ],
-  
+
   annualPlans: [
     {
       title: "Standard Annual",

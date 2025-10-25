@@ -2,6 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { BauhausButton } from "@/components/ui/bauhaus-card";
 import {
   Card,
   CardContent,
@@ -305,18 +306,18 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
                 ))}
               </ul>
               <div className="mt-6 flex items-center justify-center gap-3">
-                <Button className="px-4" onClick={() => goDirect(plan.checkoutLink!)}>
+                <BauhausButton onClick={() => goDirect(plan.checkoutLink!)}>
                   Upgrade to {plan.name}
-                </Button>
+                </BauhausButton>
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      {/* Plan Cards */}
+      {/* Standard/Pro Plans */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {plans.map((plan) => (
+        {plans.filter(p => p.id === "standard" || p.id === "pro").map((plan) => (
           <Card
             key={plan.id}
             className={cn(
@@ -362,29 +363,13 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
               </ul>
 
               <div className="mt-6 flex items-center justify-center gap-3">
-                <Button
-                  className="px-4"
-                  variant={selectedPlan === plan.id ? "default" : "outline"}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleSelectPlan(plan.id, "monthly");
-                  }}
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Processing..." : `${plan.name} Monthly`}
-                </Button>
+                <BauhausButton onClick={() => handleSelectPlan(plan.id, "monthly")}>
+                  {plan.name} Monthly
+                </BauhausButton>
                 {(plan.yearlyLink || plan.yearlyPrice) && (
-                  <Button
-                    className="px-4"
-                    variant="ghost"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleSelectPlan(plan.id, "yearly");
-                    }}
-                    disabled={isLoading}
-                  >
-                    {isLoading ? "..." : `${plan.name} Annual`}
-                  </Button>
+                  <BauhausButton variant="secondary" onClick={() => handleSelectPlan(plan.id, "yearly")}>
+                    {plan.name} Annual
+                  </BauhausButton>
                 )}
               </div>
             </CardContent>

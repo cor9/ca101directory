@@ -67,7 +67,7 @@ export default async function ClaimUpgradePage({
               label="Claim & Upgrade"
               titleAs="h2"
               title={`Claim "${listing.listing_name}"`}
-              subtitle="To claim your listing and gain full control, you must upgrade to a paid plan."
+              subtitle="Claim your free listing now. Upgrades are optional and boost visibility."
             />
           </div>
         </div>

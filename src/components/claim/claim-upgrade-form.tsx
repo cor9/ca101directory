@@ -29,12 +29,18 @@ type PlanDef = {
   yearlyPrice?: number;
   checkoutLink?: string; // if present, use direct link instead of API checkout
   badge?: string;
+  monthlyLink?: string;
+  yearlyLink?: string;
 };
 
 function getPlans(): PlanDef[] {
   const env = process.env as Record<string, string | undefined>;
   const foundingStandard = env.NEXT_PUBLIC_FOUNDING_STANDARD_URL;
   const foundingPro = env.NEXT_PUBLIC_FOUNDING_PRO_URL;
+  const stdMonthly = env.NEXT_PUBLIC_STANDARD_MONTHLY_URL;
+  const stdYearly = env.NEXT_PUBLIC_STANDARD_YEARLY_URL;
+  const proMonthly = env.NEXT_PUBLIC_PRO_MONTHLY_URL;
+  const proYearly = env.NEXT_PUBLIC_PRO_YEARLY_URL;
 
   const result: PlanDef[] = [];
 
@@ -91,6 +97,8 @@ function getPlans(): PlanDef[] {
         "Email support",
       ],
       popular: false,
+      monthlyLink: stdMonthly,
+      yearlyLink: stdYearly,
     },
     {
       id: "pro",
@@ -108,6 +116,8 @@ function getPlans(): PlanDef[] {
         "Social media integration",
       ],
       popular: true,
+      monthlyLink: proMonthly,
+      yearlyLink: proYearly,
     },
   );
 
@@ -135,6 +145,15 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
       // If a direct checkout link is configured, use it
       if (plan?.checkoutLink) {
         const url = new URL(plan.checkoutLink);
+        url.searchParams.set("listing_id", listing.id);
+        window.location.href = url.toString();
+        return;
+      }
+
+      // If monthly/yearly specific links are configured, route accordingly
+      const direct = billingCycle === "yearly" ? plan?.yearlyLink : plan?.monthlyLink;
+      if (direct) {
+        const url = new URL(direct);
         url.searchParams.set("listing_id", listing.id);
         window.location.href = url.toString();
         return;
@@ -181,40 +200,38 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
         </div>
       )}
 
-      {/* Billing Toggle (only for regular plans) */}
-      {!(process.env.NEXT_PUBLIC_FOUNDING_STANDARD_URL || process.env.NEXT_PUBLIC_FOUNDING_PRO_URL) && (
-        <div className="flex justify-center mb-8">
-          <div className="bg-muted p-1 rounded-lg">
-            <button
-              type="button"
-              onClick={() => setBillingCycle("monthly")}
-              className={cn(
-                "px-4 py-2 rounded-md text-sm font-medium transition-colors",
-                billingCycle === "monthly"
-                  ? "bg-background text-paper shadow-sm"
-                  : "text-paper hover:text-paper",
-              )}
-            >
-              Monthly
-            </button>
-            <button
-              type="button"
-              onClick={() => setBillingCycle("yearly")}
-              className={cn(
-                "px-4 py-2 rounded-md text-sm font-medium transition-colors",
-                billingCycle === "yearly"
-                  ? "bg-background text-paper shadow-sm"
-                  : "text-paper hover:text-paper",
-              )}
-            >
-              Yearly
-              <Badge variant="secondary" className="ml-2 text-xs">
-                Save 17%
-              </Badge>
-            </button>
-          </div>
+      {/* Billing Toggle for Standard/Pro selection */}
+      <div className="flex justify-center mb-8">
+        <div className="bg-muted p-1 rounded-lg">
+          <button
+            type="button"
+            onClick={() => setBillingCycle("monthly")}
+            className={cn(
+              "px-4 py-2 rounded-md text-sm font-medium transition-colors",
+              billingCycle === "monthly"
+                ? "bg-background text-paper shadow-sm"
+                : "text-paper hover:text-paper",
+            )}
+          >
+            Monthly
+          </button>
+          <button
+            type="button"
+            onClick={() => setBillingCycle("yearly")}
+            className={cn(
+              "px-4 py-2 rounded-md text-sm font-medium transition-colors",
+              billingCycle === "yearly"
+                ? "bg-background text-paper shadow-sm"
+                : "text-paper hover:text-paper",
+            )}
+          >
+            Yearly
+            <Badge variant="secondary" className="ml-2 text-xs">
+              Save 17%
+            </Badge>
+          </button>
         </div>
-      )}
+      </div>
 
       {/* Plan Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

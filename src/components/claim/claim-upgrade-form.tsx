@@ -41,6 +41,9 @@ function getPlans(): PlanDef[] {
   const stdYearly = env.NEXT_PUBLIC_STANDARD_YEARLY_URL;
   const proMonthly = env.NEXT_PUBLIC_PRO_MONTHLY_URL;
   const proYearly = env.NEXT_PUBLIC_PRO_YEARLY_URL;
+  const foundingStdBadge = env.NEXT_PUBLIC_FOUNDING_STANDARD_BADGE_URL;
+  const badgeMonthly = env.NEXT_PUBLIC_BADGE_MONTHLY_URL;
+  const badgeYearly = env.NEXT_PUBLIC_BADGE_YEARLY_URL;
 
   const result: PlanDef[] = [];
 
@@ -76,6 +79,19 @@ function getPlans(): PlanDef[] {
       ],
       popular: true,
       checkoutLink: foundingPro,
+      badge: "Founding Special",
+    });
+  }
+  if (foundingStdBadge) {
+    result.push({
+      id: "founding-standard-badge",
+      name: "Founding Standard + 101 Badge",
+      description: "Founding Standard plus 101 Badge (6 months)",
+      features: [
+        "Everything in Founding Standard",
+        "101 Approved badge included (if qualified)",
+      ],
+      checkoutLink: foundingStdBadge,
       badge: "Founding Special",
     });
   }
@@ -136,6 +152,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
   );
   const [isLoading, setIsLoading] = useState(false);
   const plans = getPlans();
+  const hasBadgeAddOns = Boolean(process.env.NEXT_PUBLIC_BADGE_MONTHLY_URL || process.env.NEXT_PUBLIC_BADGE_YEARLY_URL);
 
   const handleSelectPlan = async (planId: string) => {
     setIsLoading(true);
@@ -302,6 +319,66 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
           </Card>
         ))}
       </div>
+
+      {/* 101 Badge Add-ons (optional) */}
+      {hasBadgeAddOns && (
+        <div className="mt-10">
+          <div className="text-center mb-4">
+            <Badge variant="secondary">Add-ons</Badge>
+            <p className="text-sm text-paper mt-1">Boost credibility with a 101 Badge subscription.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {badgeMonthly && (
+              <Card className="relative">
+                <CardHeader className="text-center">
+                  <CardTitle className="text-2xl">101 Badge Monthly</CardTitle>
+                  <CardDescription>$10/month</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3">
+                    <li className="flex items-center gap-3"><Check className="w-4 h-4 text-green-600" /> Display 101 Badge on listing</li>
+                    <li className="flex items-center gap-3"><Check className="w-4 h-4 text-green-600" /> Cancel anytime</li>
+                  </ul>
+                  <Button
+                    className="w-full mt-6"
+                    onClick={() => {
+                      const url = new URL(badgeMonthly);
+                      url.searchParams.set("listing_id", listing.id);
+                      window.location.href = url.toString();
+                    }}
+                  >
+                    Choose 101 Badge Monthly
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+            {badgeYearly && (
+              <Card className="relative">
+                <CardHeader className="text-center">
+                  <CardTitle className="text-2xl">101 Badge Annual</CardTitle>
+                  <CardDescription>$100/year</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3">
+                    <li className="flex items-center gap-3"><Check className="w-4 h-4 text-green-600" /> Display 101 Badge on listing</li>
+                    <li className="flex items-center gap-3"><Check className="w-4 h-4 text-green-600" /> Save vs monthly</li>
+                  </ul>
+                  <Button
+                    className="w-full mt-6"
+                    onClick={() => {
+                      const url = new URL(badgeYearly);
+                      url.searchParams.set("listing_id", listing.id);
+                      window.location.href = url.toString();
+                    }}
+                  >
+                    Choose 101 Badge Annual
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Additional Info */}
       <div className="mt-8 text-center text-sm text-paper">

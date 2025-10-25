@@ -154,10 +154,9 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
   );
   const [isLoading, setIsLoading] = useState(false);
   const plans = getPlans();
-  const hasBadgeAddOns = Boolean(
-    process.env.NEXT_PUBLIC_BADGE_MONTHLY_URL ||
-      process.env.NEXT_PUBLIC_BADGE_YEARLY_URL,
-  );
+  const badgeMonthly = process.env.NEXT_PUBLIC_BADGE_MONTHLY_URL;
+  const badgeYearly = process.env.NEXT_PUBLIC_BADGE_YEARLY_URL;
+  const hasBadgeAddOns = Boolean(badgeMonthly || badgeYearly);
 
   const handleClaimFree = async () => {
     setIsLoading(true);

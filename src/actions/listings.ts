@@ -1,12 +1,15 @@
 "use server";
 
 import { auth } from "@/auth";
-import { createServerClient } from "@/lib/supabase";
-import { revalidatePath } from "next/cache";
 import { sendListingLiveEmail } from "@/lib/mail";
+import { createServerClient } from "@/lib/supabase";
 import { createClaimToken, createOptOutToken } from "@/lib/tokens";
-import { z } from "zod";
-import { UpdateListingSchema, CreateListingSchema } from "@/lib/validations/listings";
+import {
+  CreateListingSchema,
+  UpdateListingSchema,
+} from "@/lib/validations/listings";
+import { revalidatePath } from "next/cache";
+import type { z } from "zod";
 
 /**
  * Server action to create a new listing.
@@ -39,18 +42,42 @@ export async function createListing(
     // Email vendor with individualized claim/upgrade links
     try {
       const email = (validatedFields.data.email || "").trim();
-      console.log("createListing: Checking email send conditions", { email, hasDataId: !!data?.id, listingId: data?.id });
-      
+      console.log("createListing: Checking email send conditions", {
+        email,
+        hasDataId: !!data?.id,
+        listingId: data?.id,
+      });
+
       if (email && data?.id) {
         console.log("createListing: Sending listing live email to:", email);
-        const token = createClaimToken(data.id);
-        const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
-        const claimUrl = `${siteUrl}/claim/${encodeURIComponent(token)}?lid=${encodeURIComponent(data.id)}`;
-        const slug = (validatedFields.data.listing_name || "").toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+        let token: string | null = null;
+        try {
+          token = createClaimToken(data.id);
+        } catch (e) {
+          console.error(
+            "createListing: claim token unavailable (NEXTAUTH_SECRET missing?)",
+            e,
+          );
+        }
+        const siteUrl =
+          process.env.NEXT_PUBLIC_APP_URL ||
+          "https://directory.childactor101.com";
+        const slug = (validatedFields.data.listing_name || "")
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, "");
+        const claimUrl = token
+          ? `${siteUrl}/claim/${encodeURIComponent(token)}?lid=${encodeURIComponent(data.id)}`
+          : `${siteUrl}/claim-upgrade/${encodeURIComponent(slug)}?lid=${encodeURIComponent(data.id)}`;
         const upgradeUrl = `${siteUrl}/claim-upgrade/${encodeURIComponent(slug)}?lid=${encodeURIComponent(data.id)}&utm_source=email&utm_medium=listing_live`;
         const manageUrl = `${siteUrl}/dashboard/vendor?lid=${encodeURIComponent(data.id)}`;
-        const optOutToken = createOptOutToken(data.id);
-        const optOutUrl = `${siteUrl}/remove/${encodeURIComponent(optOutToken)}?lid=${encodeURIComponent(data.id)}`;
+        let optOutUrl = `${siteUrl}/support`;
+        try {
+          const optOutToken = createOptOutToken(data.id);
+          optOutUrl = `${siteUrl}/remove/${encodeURIComponent(optOutToken)}?lid=${encodeURIComponent(data.id)}`;
+        } catch (e) {
+          console.error("createListing: opt-out token unavailable", e);
+        }
 
         await sendListingLiveEmail({
           vendorName: validatedFields.data.listing_name,
@@ -63,17 +90,25 @@ export async function createListing(
           manageUrl,
           optOutUrl,
         });
-        console.log("createListing: Successfully sent listing live email to:", email);
+        console.log(
+          "createListing: Successfully sent listing live email to:",
+          email,
+        );
       } else {
-        console.log("createListing: Skipping email send - no email or listing ID");
+        console.log(
+          "createListing: Skipping email send - no email or listing ID",
+        );
       }
     } catch (notifyErr) {
-      console.error("createListing: failed to send listing live email", notifyErr);
+      console.error(
+        "createListing: failed to send listing live email",
+        notifyErr,
+      );
     }
 
     // Revalidate the path to show the new listing in the table
     revalidatePath("/dashboard/admin");
-    
+
     return { status: "success", message: "Listing created successfully." };
   } catch (e) {
     console.error("Unexpected error in createListing:", e);
@@ -97,28 +132,34 @@ export async function updateListing(
     console.log("=== UPDATE LISTING START ===");
     console.log("ID:", id);
     console.log("Raw values received:", JSON.stringify(values, null, 2));
-    
+
     const validatedFields = UpdateListingSchema.safeParse(values);
     if (!validatedFields.success) {
       // Log detailed validation errors for debugging
       console.error("=== VALIDATION FAILED ===");
-      console.error("Validation errors:", JSON.stringify(validatedFields.error.flatten(), null, 2));
+      console.error(
+        "Validation errors:",
+        JSON.stringify(validatedFields.error.flatten(), null, 2),
+      );
       return { status: "error", message: "Invalid fields." };
     }
-    
+
     console.log("=== VALIDATION SUCCESS ===");
-    console.log("Validated fields:", JSON.stringify(validatedFields.data, null, 2));
+    console.log(
+      "Validated fields:",
+      JSON.stringify(validatedFields.data, null, 2),
+    );
 
     console.log("=== CREATING SUPABASE CLIENT ===");
     const supabase = createServerClient();
-    
+
     console.log("=== EXECUTING DATABASE UPDATE ===");
-    console.log("Update query:", { 
-      table: "listings", 
-      id, 
-      data: validatedFields.data 
+    console.log("Update query:", {
+      table: "listings",
+      id,
+      data: validatedFields.data,
     });
-    
+
     const { data, error } = await supabase
       .from("listings")
       .update(validatedFields.data)
@@ -141,12 +182,19 @@ export async function updateListing(
     // Revalidate the path to show the updated data in the table
     revalidatePath("/dashboard/admin");
 
-    return { status: "success", message: "Listing updated successfully.", data };
+    return {
+      status: "success",
+      message: "Listing updated successfully.",
+      data,
+    };
   } catch (e) {
     console.error("=== UNEXPECTED ERROR ===");
     console.error("Error type:", typeof e);
     console.error("Error message:", e instanceof Error ? e.message : String(e));
-    console.error("Error stack:", e instanceof Error ? e.stack : "No stack trace");
+    console.error(
+      "Error stack:",
+      e instanceof Error ? e.stack : "No stack trace",
+    );
     console.error("Full error object:", JSON.stringify(e, null, 2));
     return { status: "error", message: "An unexpected server error occurred." };
   }

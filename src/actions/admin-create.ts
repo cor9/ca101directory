@@ -164,13 +164,28 @@ export async function adminCreateListing(
     try {
       const email = (data?.email || "").trim();
       if (email) {
-        const token = createClaimToken(data.id);
+        let token: string | null = null;
+        try {
+          token = createClaimToken(data.id);
+        } catch (e) {
+          console.error(
+            "adminCreateListing: claim token unavailable (NEXTAUTH_SECRET missing?)",
+            e,
+          );
+        }
         const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
-        const claimUrl = `${siteUrl}/claim/${encodeURIComponent(token)}?lid=${encodeURIComponent(data.id)}`;
         const slug = (data.listing_name || "").toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+        const claimUrl = token
+          ? `${siteUrl}/claim/${encodeURIComponent(token)}?lid=${encodeURIComponent(data.id)}`
+          : `${siteUrl}/claim-upgrade/${encodeURIComponent(slug)}?lid=${encodeURIComponent(data.id)}`;
         const upgradeUrl = `${siteUrl}/claim-upgrade/${encodeURIComponent(slug)}?lid=${encodeURIComponent(data.id)}&utm_source=email&utm_medium=listing_live`;
         const manageUrl = `${siteUrl}/dashboard/vendor?lid=${encodeURIComponent(data.id)}`;
-        const optOutUrl = `${siteUrl}/remove/${encodeURIComponent(createOptOutToken(data.id))}?lid=${encodeURIComponent(data.id)}`;
+        let optOutUrl = `${siteUrl}/support`;
+        try {
+          optOutUrl = `${siteUrl}/remove/${encodeURIComponent(createOptOutToken(data.id))}?lid=${encodeURIComponent(data.id)}`;
+        } catch (e) {
+          console.error("adminCreateListing: opt-out token unavailable", e);
+        }
         await sendListingLiveEmail({
           vendorName: data.listing_name || "",
           vendorEmail: email,
@@ -340,13 +355,28 @@ export async function adminBulkCreateListings(
         for (const row of data) {
           const email = (row.email || "").trim();
           if (email) {
-            const token = createClaimToken(row.id);
+            let token: string | null = null;
+            try {
+              token = createClaimToken(row.id);
+            } catch (e) {
+              console.error(
+                "adminBulkCreateListings: claim token unavailable",
+                e,
+              );
+            }
             const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
-            const claimUrl = `${siteUrl}/claim/${encodeURIComponent(token)}?lid=${encodeURIComponent(row.id)}`;
             const slug = (row.listing_name || "").toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+            const claimUrl = token
+              ? `${siteUrl}/claim/${encodeURIComponent(token)}?lid=${encodeURIComponent(row.id)}`
+              : `${siteUrl}/claim-upgrade/${encodeURIComponent(slug)}?lid=${encodeURIComponent(row.id)}`;
             const upgradeUrl = `${siteUrl}/claim-upgrade/${encodeURIComponent(slug)}?lid=${encodeURIComponent(row.id)}&utm_source=email&utm_medium=listing_live`;
             const manageUrl = `${siteUrl}/dashboard/vendor?lid=${encodeURIComponent(row.id)}`;
-            const optOutUrl = `${siteUrl}/remove/${encodeURIComponent(createOptOutToken(row.id))}?lid=${encodeURIComponent(row.id)}`;
+            let optOutUrl = `${siteUrl}/support`;
+            try {
+              optOutUrl = `${siteUrl}/remove/${encodeURIComponent(createOptOutToken(row.id))}?lid=${encodeURIComponent(row.id)}`;
+            } catch (e) {
+              console.error("adminBulkCreateListings: opt-out token unavailable", e);
+            }
             await sendListingLiveEmail({
               vendorName: row.listing_name || "",
               vendorEmail: email,

@@ -94,37 +94,22 @@ export async function POST(request: NextRequest) {
       console.log("Calculated price (cents):", price);
     }
 
-    // Create or retrieve Stripe customer
-    let customer;
-    try {
-      // Try to find existing customer by email
-      const existingCustomers = await stripe.customers.list({
-        email: session.user.email || "",
-        limit: 1,
-      });
-      
-      if (existingCustomers.data.length > 0) {
-        customer = existingCustomers.data[0];
-        console.log("Using existing customer:", customer.id);
-      } else {
-        // Create new customer with metadata
-        customer = await stripe.customers.create({
-          email: session.user.email || "",
-          metadata: {
-            vendor_id: session.user.id,
-            listing_id: listingId,
-            plan: planId,
-            billing_cycle: billingCycle,
-          },
+    // Optional: look up an existing customer by email, but do not fail if not found.
+    // Checkout can create a customer implicitly using customer_email.
+    let customerId: string | undefined = undefined;
+    if (session.user.email) {
+      try {
+        const existingCustomers = await stripe.customers.list({
+          email: session.user.email,
+          limit: 1,
         });
-        console.log("Created new customer:", customer.id);
+        if (existingCustomers.data.length > 0) {
+          customerId = existingCustomers.data[0].id;
+          console.log("Using existing customer:", customerId);
+        }
+      } catch (error) {
+        console.warn("Customer lookup failed; proceeding without explicit customer.", error);
       }
-    } catch (error) {
-      console.error("Error managing customer:", error);
-      return NextResponse.json(
-        { error: "Failed to manage customer" },
-        { status: 500 },
-      );
     }
 
     console.log("Creating Stripe checkout session...");
@@ -137,7 +122,8 @@ export async function POST(request: NextRequest) {
       // Prefer configured Stripe Price IDs; otherwise fall back to inline price_data
       checkoutSession = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
-        customer: customer.id,
+        ...(customerId ? { customer: customerId } : {}),
+        ...(session.user.email ? { customer_email: session.user.email } : {}),
         line_items: priceId
           ? [{ price: priceId, quantity: 1 }]
           : [{
@@ -163,7 +149,8 @@ export async function POST(request: NextRequest) {
     } else {
       checkoutSession = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
-        customer: customer.id,
+        ...(customerId ? { customer: customerId } : {}),
+        ...(session.user.email ? { customer_email: session.user.email } : {}),
         line_items: [
           {
             price_data: {

@@ -65,28 +65,6 @@ export const priceConfig: PriceConfig = {
       isFeatured: true,
       badge: "MOST POPULAR",
     },
-    {
-      title: "Founding Standard + 101 Badge",
-      description: "🏆 Complete Package - Standard + Premium 101 Badge!",
-      benefits: [
-        "🔒 6-month locked rate ($156 total)",
-        "All Standard Vendor features included",
-        "✨ 101 Approved Badge included",
-        "Professional logo display",
-        "Advanced business description",
-        "Enhanced visibility & credibility",
-        "Priority review process",
-        "Premium support",
-        "⭐ Founding Vendor badge",
-        "💰 Charter status, forever credibility",
-      ],
-      limitations: [],
-      price: 156,
-      priceSuffix: " for 6 months",
-      stripePriceId: STRIPE_PAYMENT_LINKS.FOUNDING_STANDARD_101_BADGE,
-      isFeatured: true,
-      badge: "PREMIUM",
-    },
   ],
 
   // Regular Plans (Show after Founding offers)

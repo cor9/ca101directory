@@ -154,6 +154,25 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
   const plans = getPlans();
   const hasBadgeAddOns = Boolean(process.env.NEXT_PUBLIC_BADGE_MONTHLY_URL || process.env.NEXT_PUBLIC_BADGE_YEARLY_URL);
 
+  const handleClaimFree = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch("/api/claim-free", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ listingId: listing.id }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Failed to claim free");
+      // Go to vendor dashboard with success cue
+      router.push(`/dashboard/vendor?lid=${listing.id}&claimed=1`);
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "Failed to claim free");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleSelectPlan = async (planId: string) => {
     setIsLoading(true);
 
@@ -248,6 +267,28 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
             </Badge>
           </button>
         </div>
+      </div>
+
+      {/* Free option */}
+      <div className="mb-8">
+        <Card>
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl">Keep Free Listing</CardTitle>
+            <CardDescription>
+              Claim your listing without upgrading. Edits require admin approval.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-3">
+              <li className="flex items-center gap-3"><Check className="w-4 h-4 text-green-600" /> Basic visibility in directory</li>
+              <li className="flex items-center gap-3"><Check className="w-4 h-4 text-green-600" /> Appears in search results</li>
+              <li className="flex items-center gap-3"><Check className="w-4 h-4 text-green-600" /> Admin review required for edits</li>
+            </ul>
+            <Button className="w-full mt-6" variant="outline" onClick={handleClaimFree} disabled={isLoading}>
+              {isLoading ? "Claiming..." : "Keep Free (Claim Only)"}
+            </Button>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Plan Cards */}

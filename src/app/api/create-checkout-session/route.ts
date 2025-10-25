@@ -142,6 +142,7 @@ export async function POST(request: NextRequest) {
               quantity: 1,
             }],
         mode: "payment",
+        allow_promotion_codes: true,
         success_url: successUrl,
         cancel_url: cancelUrl,
         metadata: {
@@ -176,6 +177,7 @@ export async function POST(request: NextRequest) {
           },
         ],
         mode: "subscription",
+        allow_promotion_codes: true,
         success_url: successUrl,
         cancel_url: cancelUrl,
         metadata: {

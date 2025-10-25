@@ -1,5 +1,6 @@
 import { createServerClient } from "@/lib/supabase";
 import { NextResponse } from "next/server";
+import type { User } from "@supabase/supabase-js";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -23,7 +24,7 @@ export async function GET(request: Request) {
       );
     }
 
-    const user = authData.users.find((u) => u.email === email);
+    const user = authData.users.find((u: User) => u.email === email);
 
     if (!user) {
       return NextResponse.json({

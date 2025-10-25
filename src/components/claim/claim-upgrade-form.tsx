@@ -43,7 +43,6 @@ function getPlans(): PlanDef[] {
   const stdYearly = env.NEXT_PUBLIC_STANDARD_YEARLY_URL;
   const proMonthly = env.NEXT_PUBLIC_PRO_MONTHLY_URL;
   const proYearly = env.NEXT_PUBLIC_PRO_YEARLY_URL;
-  const foundingStdBadge = env.NEXT_PUBLIC_FOUNDING_STANDARD_BADGE_URL;
   const badgeMonthly = env.NEXT_PUBLIC_BADGE_MONTHLY_URL;
   const badgeYearly = env.NEXT_PUBLIC_BADGE_YEARLY_URL;
 
@@ -84,19 +83,7 @@ function getPlans(): PlanDef[] {
       badge: "Founding Special",
     });
   }
-  if (foundingStdBadge) {
-    result.push({
-      id: "founding-standard-badge",
-      name: "Founding Standard + 101 Badge",
-      description: "Founding Standard plus 101 Badge (6 months)",
-      features: [
-        "Everything in Founding Standard",
-        "101 Approved badge included (if qualified)",
-      ],
-      checkoutLink: foundingStdBadge,
-      badge: "Founding Special",
-    });
-  }
+  // Removed combo card per request: no dedicated "Founding Standard + 101 Badge" plan card
 
   // Regular plans (fallback to Stripe checkout session if direct links not supplied)
   result.push(

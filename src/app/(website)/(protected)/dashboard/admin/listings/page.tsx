@@ -306,15 +306,12 @@ export default async function AdminListingsPage({
                     </div>
 
                     <div className="flex items-center gap-2 flex-wrap">
-                      {/* Approve/Reject Actions for Pending Listings */}
-                      {listing.status === "Pending" && (
-                        <ListingActions
-                          listingId={listing.id}
-                          listingName={
-                            listing.listing_name || "Unnamed Listing"
-                          }
-                        />
-                      )}
+                      {/* Resend Claim Email - Always Available */}
+                      <ListingActions
+                        listingId={listing.id}
+                        listingName={listing.listing_name || "Unnamed Listing"}
+                        showApproveReject={listing.status === "Pending"}
+                      />
 
                       {/* Comped Toggle */}
                       <CompedToggle

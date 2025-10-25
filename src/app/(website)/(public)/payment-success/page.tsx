@@ -1,14 +1,46 @@
 import { Button } from "@/components/ui/button";
-import {
-  CheckCircleIcon,
-  ClockIcon,
-  HomeIcon,
-  MailIcon,
-  SearchIcon,
-} from "lucide-react";
+import { createServerClient } from "@/lib/supabase";
+import { auth } from "@/auth";
+import Stripe from "stripe";
+import { redirect } from "next/navigation";
+import { CheckCircleIcon, ClockIcon, HomeIcon, MailIcon, SearchIcon } from "lucide-react";
 import Link from "next/link";
 
-export default function PaymentSuccessPage() {
+export default async function PaymentSuccessPage({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
+  // If Stripe session is present, route based on metadata
+  const sessionId = searchParams?.session_id;
+  if (sessionId && process.env.STRIPE_SECRET_KEY) {
+    try {
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2024-04-10" });
+      const checkout = await stripe.checkout.sessions.retrieve(sessionId);
+      const flow = checkout.metadata?.flow;
+      const listingId = checkout.metadata?.listing_id;
+      if (flow === "claim_upgrade" && listingId) {
+        redirect(`/dashboard/vendor/listing/${listingId}/enhance?upgraded=1`);
+      }
+    } catch (e) {
+      // Fall through to generic success below
+    }
+  }
+  const session = await auth();
+  const userId = session?.user?.id || null;
+  let hasListing = false;
+
+  if (userId) {
+    try {
+      const supabase = createServerClient();
+      const { data } = await supabase
+        .from("listings")
+        .select("id")
+        .eq("owner_id", userId)
+        .limit(1);
+      hasListing = !!(data && data.length > 0);
+    } catch (e) {
+      // Fallback to showing both options if check fails
+      hasListing = false;
+    }
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6">
       <div className="flex items-center justify-center w-16 h-16 bg-green-100 rounded-full">
@@ -54,16 +86,34 @@ export default function PaymentSuccessPage() {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4 pt-4">
-        <Button asChild>
+        {!userId && (
+          <Button asChild>
+            <Link href="/auth/login" className="flex items-center gap-2">
+              <CheckCircleIcon className="w-4 h-4" />
+              Sign in to finish your listing
+            </Link>
+          </Button>
+        )}
+        {userId && !hasListing && (
+          <Button asChild>
+            <Link href="/submit" className="flex items-center gap-2">
+              <CheckCircleIcon className="w-4 h-4" />
+              Create Your Listing Now
+            </Link>
+          </Button>
+        )}
+        {userId && hasListing && (
+          <Button asChild>
+            <Link href="/dashboard/vendor" className="flex items-center gap-2">
+              <CheckCircleIcon className="w-4 h-4" />
+              Go to Your Dashboard
+            </Link>
+          </Button>
+        )}
+        <Button variant="outline" asChild>
           <Link href="/directory" className="flex items-center gap-2">
             <SearchIcon className="w-4 h-4" />
             Browse Directory
-          </Link>
-        </Button>
-        <Button variant="outline" asChild>
-          <Link href="/dashboard/vendor" className="flex items-center gap-2">
-            <CheckCircleIcon className="w-4 h-4" />
-            View Dashboard
           </Link>
         </Button>
         <Button variant="outline" asChild>

@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     console.log("Request body:", body);
-    const { listingId, planId, billingCycle, successUrl, cancelUrl } = body;
+    const { listingId, planId, billingCycle, successUrl, cancelUrl, flow } = body;
 
     if (!listingId || !planId || !billingCycle || !successUrl || !cancelUrl) {
       console.log("Missing required parameters:", {
@@ -145,6 +145,7 @@ export async function POST(request: NextRequest) {
         listing_id: listingId,
         plan: planId,
         billing_cycle: billingCycle,
+        ...(flow ? { flow } : {}),
       },
     });
 

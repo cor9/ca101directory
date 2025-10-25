@@ -199,8 +199,11 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
           listingId: listing.id,
           planId,
           billingCycle: cycle,
-          successUrl: `${window.location.origin}/claim/success?listing_id=${listing.id}`,
+          // Use a single success URL with Stripe's session id placeholder
+          successUrl: `${window.location.origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
           cancelUrl: window.location.href,
+          // Flag this as a claim-upgrade flow
+          flow: "claim_upgrade",
         }),
       });
 

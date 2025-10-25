@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { AdminEditForm } from "@/components/admin/admin-edit-form";
+import { ListingActions } from "@/components/admin/listing-actions";
 import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { getListingById } from "@/data/listings";
@@ -42,11 +43,21 @@ export default async function AdminEditPage({ params }: AdminEditPageProps) {
     <DashboardGuard allowedRoles={["admin"]}>
       <AdminDashboardLayout>
         <div className="space-y-6">
-          <div>
-            <h1 className="text-2xl font-bold">Edit Listing</h1>
-            <p className="text-paper">
-              Edit details for: {listing.listing_name}
-            </p>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h1 className="text-2xl font-bold">Edit Listing</h1>
+              <p className="text-paper">
+                Edit details for: {listing.listing_name}
+              </p>
+            </div>
+            <div className="shrink-0">
+              {/* Quick actions: Approve/Reject (if pending) and Resend email */}
+              <ListingActions
+                listingId={listing.id}
+                listingName={listing.listing_name || "Unnamed Listing"}
+                showApproveReject={listing.status === "Pending"}
+              />
+            </div>
           </div>
 
           <AdminEditForm

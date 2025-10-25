@@ -104,6 +104,18 @@ export default {
 
             console.log("Login successful, profile:", profile);
 
+            // Check if the user's role is enabled via feature flags
+            const { isRoleEnabled } = await import("@/config/feature-flags");
+            if (!isRoleEnabled(profile.role)) {
+              console.error(
+                `Login blocked: Role '${profile.role}' is not enabled for user:`,
+                profile.id,
+              );
+              throw new AuthError(
+                `${profile.role.charAt(0).toUpperCase() + profile.role.slice(1)} accounts are not currently available. Please contact support if you need assistance.`,
+              );
+            }
+
             return {
               id: profile.id,
               email: profile.email,

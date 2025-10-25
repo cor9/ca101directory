@@ -42,34 +42,34 @@ export interface FeatureFlags {
  */
 export const defaultFeatureFlags: FeatureFlags = {
   // Authentication & Roles
-  enableParentAuth: true,
+  enableParentAuth: false, // Disabled - not ready for production yet
   enableVendorAuth: true,
   enableAdminAuth: true,
 
   // User Features
   enableReviews: false, // Disabled until reviews table is created
-  enableFavorites: true,
-  enableBookmarks: true,
+  enableFavorites: false, // Disabled - parent feature
+  enableBookmarks: false, // Disabled - parent feature
 
   // Dashboard Features
-  enableParentDashboard: true,
+  enableParentDashboard: false, // Disabled - not ready for production yet
   enableVendorDashboard: true,
   enableAdminDashboard: true,
 
   // UI Components
   enableReviewButtons: false, // Disabled until reviews table is created
-  enableFavoriteButtons: true,
-  enableBookmarkButtons: true,
+  enableFavoriteButtons: false, // Disabled - parent feature
+  enableBookmarkButtons: false, // Disabled - parent feature
 
   // API Features
   enableReviewAPI: false, // Disabled until reviews table is created
-  enableFavoriteAPI: true,
-  enableBookmarkAPI: true,
+  enableFavoriteAPI: false, // Disabled - parent feature
+  enableBookmarkAPI: false, // Disabled - parent feature
 
   // Navigation
-  showParentNav: true,
+  showParentNav: false, // Disabled - parent feature
   showReviewNav: false, // Disabled until reviews table is created
-  showFavoriteNav: true,
+  showFavoriteNav: false, // Disabled - parent feature
 };
 
 /**

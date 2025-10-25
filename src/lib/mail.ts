@@ -35,6 +35,18 @@ export const resend = new Proxy({} as Resend, {
 
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL;
 
+// Standardize From/Reply-To and allow forcing a single recipient during testing
+function getFrom() {
+  return process.env.RESEND_EMAIL_FROM || "Corey Ralston <corey@childactor101.com>";
+}
+function getReplyTo() {
+  return process.env.RESEND_REPLY_TO || "corey@childactor101.com";
+}
+function getToAddress(original: string) {
+  const override = process.env.RESEND_FORCE_TO;
+  return override && override.length > 0 ? override : original;
+}
+
 export const sendPasswordResetEmail = async (
   userName: string,
   email: string,
@@ -43,8 +55,9 @@ export const sendPasswordResetEmail = async (
   const resetLink = `${SITE_URL}/auth/new-password?token=${token}`;
 
   await resend.emails.send({
-    from: process.env.RESEND_EMAIL_FROM,
-    to: email,
+    from: getFrom(),
+    to: getToAddress(email),
+    reply_to: getReplyTo(),
     subject: "Reset your password",
     react: ResetPasswordEmail({ userName, resetLink: resetLink }),
   });
@@ -54,8 +67,9 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   const confirmLink = `${SITE_URL}/auth/new-verification?token=${token}`;
 
   await resend.emails.send({
-    from: process.env.RESEND_EMAIL_FROM,
-    to: email,
+    from: getFrom(),
+    to: getToAddress(email),
+    reply_to: getReplyTo(),
     subject: "Confirm your email",
     react: VerifyEmail({ confirmLink }),
   });
@@ -76,8 +90,9 @@ export const sendNotifySubmissionEmail = async (
   //   statusLink: ${statusLink}`);
 
   await resend.emails.send({
-    from: process.env.RESEND_EMAIL_FROM,
-    to: userEmail,
+    from: getFrom(),
+    to: getToAddress(userEmail),
+    reply_to: getReplyTo(),
     subject: "Thank you for your submission",
     react: NotifySubmissionToUserEmail({
       userName,
@@ -87,8 +102,9 @@ export const sendNotifySubmissionEmail = async (
   });
 
   await resend.emails.send({
-    from: process.env.RESEND_EMAIL_FROM,
-    to: process.env.RESEND_EMAIL_ADMIN,
+    from: getFrom(),
+    to: getToAddress(process.env.RESEND_EMAIL_ADMIN || getReplyTo()),
+    reply_to: getReplyTo(),
     subject: "New submission",
     react: NotifySubmissionEmail({ itemName, reviewLink }),
   });
@@ -105,8 +121,9 @@ export const sendPaymentSuccessEmail = async (
   //   itemLink: ${itemLink}`);
 
   await resend.emails.send({
-    from: process.env.RESEND_EMAIL_FROM,
-    to: email,
+    from: getFrom(),
+    to: getToAddress(email),
+    reply_to: getReplyTo(),
     subject: "Thank your for your submission",
     react: PaymentSuccessEmail({ userName, itemLink }),
   });
@@ -118,8 +135,9 @@ export const sendApprovalEmail = async (
   itemLink: string,
 ) => {
   await resend.emails.send({
-    from: process.env.RESEND_EMAIL_FROM,
-    to: email,
+    from: getFrom(),
+    to: getToAddress(email),
+    reply_to: getReplyTo(),
     subject: "Your submission has been approved",
     react: ApprovalEmail({ userName, itemLink }),
   });
@@ -131,8 +149,9 @@ export const sendRejectionEmail = async (
   dashboardLink: string,
 ) => {
   await resend.emails.send({
-    from: process.env.RESEND_EMAIL_FROM,
-    to: email,
+    from: getFrom(),
+    to: getToAddress(email),
+    reply_to: getReplyTo(),
     subject: "Please check your submission",
     react: RejectionEmail({ userName, dashboardLink }),
   });
@@ -151,8 +170,9 @@ export const sendListingSubmittedEmail = async (
     : `Listing Submitted: ${listingName}`;
 
   await resend.emails.send({
-    from: process.env.RESEND_EMAIL_FROM,
-    to: vendorEmail,
+    from: getFrom(),
+    to: getToAddress(vendorEmail),
+    reply_to: getReplyTo(),
     subject,
     react: ListingSubmittedEmail({
       vendorName,
@@ -176,8 +196,9 @@ export const sendListingLiveEmail = async (payload: {
   optOutUrl: string;
 }) => {
   await resend.emails.send({
-    from: process.env.RESEND_EMAIL_FROM,
-    to: payload.vendorEmail,
+    from: getFrom(),
+    to: getToAddress(payload.vendorEmail),
+    reply_to: getReplyTo(),
     subject: `Your listing is live: ${payload.listingName}`,
     react: ListingLiveEmail({
       vendorName: payload.vendorName,
@@ -207,8 +228,9 @@ export const sendAdminSubmissionNotification = async (
     : `New Listing Submission: ${listingName}`;
 
   await resend.emails.send({
-    from: process.env.RESEND_EMAIL_FROM,
-    to: process.env.RESEND_EMAIL_ADMIN,
+    from: getFrom(),
+    to: getToAddress(process.env.RESEND_EMAIL_ADMIN || getReplyTo()),
+    reply_to: getReplyTo(),
     subject,
     react: NotifySubmissionEmail({ itemName: listingName, reviewLink }),
   });
@@ -233,8 +255,9 @@ export const sendAdminClaimNotification = async (
   `;
 
   await resend.emails.send({
-    from: process.env.RESEND_EMAIL_FROM,
-    to: process.env.RESEND_EMAIL_ADMIN,
+    from: getFrom(),
+    to: getToAddress(process.env.RESEND_EMAIL_ADMIN || getReplyTo()),
+    reply_to: getReplyTo(),
     subject,
     html,
   });
@@ -261,8 +284,9 @@ export const sendAdminUpgradeNotification = async (
   `;
 
   await resend.emails.send({
-    from: process.env.RESEND_EMAIL_FROM,
-    to: process.env.RESEND_EMAIL_ADMIN,
+    from: getFrom(),
+    to: getToAddress(process.env.RESEND_EMAIL_ADMIN || getReplyTo()),
+    reply_to: getReplyTo(),
     subject,
     html,
   });

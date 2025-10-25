@@ -7,6 +7,10 @@ import { CheckCircleIcon, ClockIcon, HomeIcon, MailIcon, SearchIcon } from "luci
 import Link from "next/link";
 
 export default async function PaymentSuccessPage({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
+  // Fast-path fallback: if flow and lid are present in URL, route immediately
+  if (searchParams?.flow === "claim_upgrade" && searchParams?.lid) {
+    return redirect(`/dashboard/vendor/listing/${encodeURIComponent(searchParams.lid)}\n/enhance?upgraded=1`);
+  }
   // If Stripe session is present, route based on metadata
   const sessionId = searchParams?.session_id;
   if (sessionId && process.env.STRIPE_SECRET_KEY) {

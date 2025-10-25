@@ -182,8 +182,8 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
           listingId: listing.id,
           planId,
           billingCycle: cycle,
-          // Use a single success URL with Stripe's session id placeholder
-          successUrl: `${window.location.origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+          // Use unified success URL and include fallback context
+          successUrl: `${window.location.origin}/payment-success?session_id={CHECKOUT_SESSION_ID}&flow=claim_upgrade&lid=${encodeURIComponent(listing.id)}`,
           cancelUrl: window.location.href,
           // Flag this as a claim-upgrade flow
           flow: "claim_upgrade",

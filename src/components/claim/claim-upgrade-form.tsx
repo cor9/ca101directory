@@ -13,7 +13,9 @@ import type { Listing } from "@/data/listings";
 import { cn } from "@/lib/utils";
 import { Check, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface ClaimUpgradeFormProps {
   listing: Listing;
@@ -152,7 +154,10 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
   );
   const [isLoading, setIsLoading] = useState(false);
   const plans = getPlans();
-  const hasBadgeAddOns = Boolean(process.env.NEXT_PUBLIC_BADGE_MONTHLY_URL || process.env.NEXT_PUBLIC_BADGE_YEARLY_URL);
+  const hasBadgeAddOns = Boolean(
+    process.env.NEXT_PUBLIC_BADGE_MONTHLY_URL ||
+      process.env.NEXT_PUBLIC_BADGE_YEARLY_URL,
+  );
 
   const handleClaimFree = async () => {
     setIsLoading(true);
@@ -164,10 +169,11 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Failed to claim free");
+      toast.success("Listing claimed! You can now manage your info.");
       // Go to vendor dashboard with success cue
       router.push(`/dashboard/vendor?lid=${listing.id}&claimed=1`);
     } catch (e) {
-      alert(e instanceof Error ? e.message : "Failed to claim free");
+      toast.error(e instanceof Error ? e.message : "Failed to claim free");
     } finally {
       setIsLoading(false);
     }
@@ -226,6 +232,35 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
 
   return (
     <div className="max-w-4xl mx-auto">
+      {/* Brand Header */}
+      <div className="flex flex-col items-center mb-6 mt-2">
+        <Image
+          src="/logo.png"
+          alt="Child Actor 101 Directory"
+          width={220}
+          height={48}
+          priority
+          className="h-10 w-auto opacity-95"
+        />
+      </div>
+
+      {/* Friendly welcome + primary Free claim CTA */}
+      <div className="text-center max-w-2xl mx-auto mb-8">
+        <h1 className="text-2xl font-bold text-ink">Claim Your Free Listing</h1>
+        <p className="text-paper mt-2">
+          You're all set! Claim now to manage your info. Edits go live after a quick admin review.
+        </p>
+        <Button
+          size="lg"
+          className="mt-5 px-6"
+          onClick={handleClaimFree}
+          disabled={isLoading}
+        >
+          {isLoading ? "Claiming..." : "Claim Your Free Listing"}
+        </Button>
+        <p className="text-xs text-paper mt-2">No credit card required. Free forever. Upgrade anytime.</p>
+      </div>
+
       {/* Founding Vendor banner if enabled */}
       {(process.env.NEXT_PUBLIC_FOUNDING_STANDARD_URL || process.env.NEXT_PUBLIC_FOUNDING_PRO_URL) && (
         <div className="mb-6 text-center">
@@ -235,6 +270,12 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
           </p>
         </div>
       )}
+
+      {/* Optional upgrades */}
+      <div className="text-center mb-3">
+        <h2 className="text-xl font-semibold text-ink">Boost your visibility (optional)</h2>
+        <p className="text-paper text-sm mt-1">Upgrade now or anytime from your dashboard</p>
+      </div>
 
       {/* Billing Toggle for Standard/Pro selection */}
       <div className="flex justify-center mb-8">
@@ -267,28 +308,6 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
             </Badge>
           </button>
         </div>
-      </div>
-
-      {/* Free option */}
-      <div className="mb-8">
-        <Card>
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Keep Free Listing</CardTitle>
-            <CardDescription>
-              Claim your listing without upgrading. Edits require admin approval.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-3"><Check className="w-4 h-4 text-green-600" /> Basic visibility in directory</li>
-              <li className="flex items-center gap-3"><Check className="w-4 h-4 text-green-600" /> Appears in search results</li>
-              <li className="flex items-center gap-3"><Check className="w-4 h-4 text-green-600" /> Admin review required for edits</li>
-            </ul>
-            <Button className="w-full mt-6" variant="outline" onClick={handleClaimFree} disabled={isLoading}>
-              {isLoading ? "Claiming..." : "Keep Free (Claim Only)"}
-            </Button>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Plan Cards */}
@@ -336,8 +355,8 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
             </CardHeader>
 
             <CardContent>
-              <ul className="space-y-3">
-                {plan.features.map((feature) => (
+              <ul className="space-y-2">
+                {plan.features.slice(0, 5).map((feature) => (
                   <li key={feature} className="flex items-center gap-3">
                     <Check className="w-4 h-4 text-green-600 flex-shrink-0" />
                     <span className="text-sm">{feature}</span>

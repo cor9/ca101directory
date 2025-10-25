@@ -131,16 +131,23 @@ export async function POST(request: NextRequest) {
     let checkoutSession: Stripe.Checkout.Session;
     if (isFounding) {
       const priceId = isFoundingStandard ? FOUNDING_STANDARD : FOUNDING_PRO;
-      if (!priceId) {
-        return NextResponse.json(
-          { error: "Founding price ID not configured" },
-          { status: 500 },
-        );
-      }
+      const productName = isFoundingStandard ? "Founding Standard (6 months)" : "Founding Pro (6 months)";
+      const amountCents = isFoundingStandard ? 10100 : 19900;
+
+      // Prefer configured Stripe Price IDs; otherwise fall back to inline price_data
       checkoutSession = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         customer: customer.id,
-        line_items: [{ price: priceId, quantity: 1 }],
+        line_items: priceId
+          ? [{ price: priceId, quantity: 1 }]
+          : [{
+              price_data: {
+                currency: "usd",
+                product_data: { name: productName, description: "Founding vendor special (6 months)" },
+                unit_amount: amountCents,
+              },
+              quantity: 1,
+            }],
         mode: "payment",
         success_url: successUrl,
         cancel_url: cancelUrl,

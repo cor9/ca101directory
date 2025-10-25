@@ -191,16 +191,17 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
         }),
       });
 
-      const { url } = await response.json();
-
-      if (url) {
+      const json = await response.json();
+      if (response.ok && json?.url) {
+        const url = json.url as string;
         window.location.href = url;
       } else {
-        throw new Error("No checkout URL received");
+        const msg = (json && json.error) ? String(json.error) : "No checkout URL received";
+        throw new Error(msg);
       }
     } catch (error) {
       console.error("Error creating checkout session:", error);
-      alert("Failed to start checkout. Please try again.");
+      alert(`Failed to start checkout: ${error instanceof Error ? error.message : "Unknown error"}`);
     } finally {
       setIsLoading(false);
     }

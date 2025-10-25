@@ -13,10 +13,17 @@ export async function GET(request: Request) {
     const supabase = createServerClient();
 
     // Check auth.users
-    const { data: authUser, error: authError } = await supabase.auth.admin
+    const { data: authData, error: authError } = await supabase.auth.admin
       .listUsers();
 
-    const user = authUser?.users.find((u) => u.email === email);
+    if (authError || !authData) {
+      return NextResponse.json(
+        { error: "Failed to fetch users", details: authError?.message },
+        { status: 500 },
+      );
+    }
+
+    const user = authData.users.find((u) => u.email === email);
 
     if (!user) {
       return NextResponse.json({

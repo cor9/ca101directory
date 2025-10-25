@@ -8,18 +8,86 @@ export const STRIPE_PAYMENT_LINKS = {
   STANDARD_ANNUAL: "https://pay.childactor101.com/b/14A8wO0IVfHz3zDewc8Vi0f",
   PRO_MONTHLY: "https://pay.childactor101.com/b/3cIcN4gHTcvneeh2Nu8Vi0h",
   PRO_ANNUAL: "https://pay.childactor101.com/b/aFa6oG63f3YR2vz4VC8Vi0g",
-  
+
   // Special offers
   FOUNDING_STANDARD: "https://pay.childactor101.com/b/7sY4gy2R3eDv9Y12Nu8Vi0d",
   FOUNDING_PRO: "https://pay.childactor101.com/b/4gMcN477jeDveeh4VC8Vi0i",
-  FOUNDING_STANDARD_101_BADGE: "https://pay.childactor101.com/b/14AbJ0crDdzrb254VC8Vi0j",
-  
+  FOUNDING_STANDARD_101_BADGE:
+    "https://pay.childactor101.com/b/14AbJ0crDdzrb254VC8Vi0j",
+
   // 101 Badge add-ons
   BADGE_101_MONTHLY: "https://pay.childactor101.com/b/4gM7sK3V77b33zD1Jq8Vi0l",
   BADGE_101_ANNUAL: "https://pay.childactor101.com/b/14A9AScrD66Z2vz2Nu8Vi0k",
 } as const;
 
 export const priceConfig: PriceConfig = {
+  // 🚀 FOUNDING MEMBER PLANS - Limited Time Offers (Display First)
+  foundingPlans: [
+    {
+      title: "Founding Standard",
+      description: "🎉 Limited Founding Member Rate - Lock in forever!",
+      benefits: [
+        "🔒 Lifetime founding member rate",
+        "All Standard features included",
+        "Logo display on your listing",
+        "Enhanced visibility",
+        "Priority review process",
+        "Email support",
+        "⭐ Founding Member badge",
+        "🎁 Special founding perks",
+      ],
+      limitations: ["No 101 Badge (available as add-on)"],
+      price: 15, // Estimate - UPDATE WITH ACTUAL PRICE
+      priceSuffix: "/month forever",
+      stripePriceId: STRIPE_PAYMENT_LINKS.FOUNDING_STANDARD,
+      isFeatured: true,
+      badge: "BEST VALUE",
+    },
+    {
+      title: "Founding Pro",
+      description: "🎉 Limited Founding Member Rate - Lock in forever!",
+      benefits: [
+        "🔒 Lifetime founding member rate",
+        "All Pro features included",
+        "Featured placement at top of listings",
+        "SEO boosting features",
+        "Priority customer support",
+        "Social media promotion",
+        "Advanced analytics",
+        "⭐ Founding Member badge",
+        "🎁 Special founding perks",
+      ],
+      limitations: ["No 101 Badge (available as add-on)"],
+      price: 35, // Estimate - UPDATE WITH ACTUAL PRICE
+      priceSuffix: "/month forever",
+      stripePriceId: STRIPE_PAYMENT_LINKS.FOUNDING_PRO,
+      isFeatured: true,
+      badge: "MOST POPULAR",
+    },
+    {
+      title: "Founding Standard + 101 Badge",
+      description: "🏆 Complete Package - Founding Rate + Premium Badge!",
+      benefits: [
+        "🔒 Lifetime founding member rate",
+        "All Standard features included",
+        "✨ 101 Approved Badge included",
+        "Logo display on your listing",
+        "Enhanced visibility",
+        "Priority review process",
+        "Premium support",
+        "⭐ Founding Member badge",
+        "🎁 Special founding perks",
+      ],
+      limitations: [],
+      price: 40, // Estimate - UPDATE WITH ACTUAL PRICE
+      priceSuffix: "/month forever",
+      stripePriceId: STRIPE_PAYMENT_LINKS.FOUNDING_STANDARD_101_BADGE,
+      isFeatured: true,
+      badge: "PREMIUM",
+    },
+  ],
+
+  // Regular Plans (Show after Founding offers)
   plans: [
     {
       title: "Free",
@@ -41,7 +109,7 @@ export const priceConfig: PriceConfig = {
       stripePriceId: STRIPE_PAYMENT_LINKS.FREE,
     },
     {
-      title: "Basic",
+      title: "Standard",
       description: "Perfect for getting started",
       benefits: [
         "All Free features included",
@@ -59,7 +127,7 @@ export const priceConfig: PriceConfig = {
       title: "Pro",
       description: "For established professionals",
       benefits: [
-        "All Basic features included",
+        "All Standard features included",
         "Featured placement at top of listings",
         "SEO boosting features",
         "Priority customer support",
@@ -72,12 +140,13 @@ export const priceConfig: PriceConfig = {
       stripePriceId: STRIPE_PAYMENT_LINKS.PRO_MONTHLY,
     },
   ],
+  
   annualPlans: [
     {
-      title: "Basic Annual",
+      title: "Standard Annual",
       description: "Perfect for getting started",
       benefits: [
-        "All Basic features included",
+        "All Standard features included",
         "Logo display on your listing",
         "Enhanced visibility",
         "Priority review process",

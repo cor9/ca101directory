@@ -1,5 +1,7 @@
 import Container from "@/components/container";
 import { PricingFaq } from "@/components/pricing/pricing-faq";
+import { FoundingMemberBanner } from "@/components/pricing/founding-member-banner";
+import { FoundingPlansSection } from "@/components/pricing/founding-plans-section";
 import { HeaderSection } from "@/components/shared/header-section";
 import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";

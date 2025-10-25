@@ -179,7 +179,8 @@ export type NestedNavItem = {
 export type PriceConfig = {
   plans: PricePlan[];
   annualPlans?: PricePlan[];
-  foundingBundles?: PricePlan[];
+  foundingPlans?: PricePlan[]; // Limited time founding member offers
+  foundingBundles?: PricePlan[]; // Legacy support
 };
 
 export type PricePlan = {
@@ -190,6 +191,8 @@ export type PricePlan = {
   price: number;
   priceSuffix: string;
   stripePriceId: string | null;
+  isFeatured?: boolean; // Highlight this plan
+  badge?: string; // Badge text like "BEST VALUE", "MOST POPULAR", "LIMITED TIME"
 };
 
 export type HomeConfig = {

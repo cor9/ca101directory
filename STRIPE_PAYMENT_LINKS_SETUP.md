@@ -23,7 +23,7 @@ For each plan, create a payment link:
 - After creating, copy the Payment Link URL (looks like: `https://buy.stripe.com/xxxxx`)
 
 **Pro Monthly ($50/month)**
-- Product: Pro Plan  
+- Product: Pro Plan
 - Price: $50/month (recurring)
 - Copy the Payment Link URL
 

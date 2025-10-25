@@ -91,34 +91,35 @@ export async function login(
     };
   } catch (error) {
     console.error("Login error caught:", error);
-    
+
     if (error instanceof AuthError) {
       console.error("AuthError type:", error.type);
       console.error("AuthError message:", error.message);
-      
+
       switch (error.type) {
         case "CredentialsSignin":
           return { status: "error", message: "Invalid credentials!" };
         case "CallbackRouteError":
-          return { 
-            status: "error", 
-            message: "Login processing error. Please try again or contact support if this persists." 
+          return {
+            status: "error",
+            message:
+              "Login processing error. Please try again or contact support if this persists.",
           };
         default:
-          return { 
-            status: "error", 
-            message: `Authentication error: ${error.message || "Something went wrong!"}` 
+          return {
+            status: "error",
+            message: `Authentication error: ${error.message || "Something went wrong!"}`,
           };
       }
     }
-    
+
     // Log unexpected errors
     console.error("Unexpected login error:", {
       name: error instanceof Error ? error.name : "Unknown",
       message: error instanceof Error ? error.message : String(error),
       stack: error instanceof Error ? error.stack : undefined,
     });
-    
+
     throw error;
   }
 }

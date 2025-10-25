@@ -2,9 +2,8 @@ import { auth } from "@/auth";
 import { ClaimUpgradeForm } from "@/components/claim/claim-upgrade-form";
 import Container from "@/components/container";
 import { HeaderSection } from "@/components/shared/header-section";
-import { getPublicListings } from "@/data/listings";
-import { redirect } from "next/navigation";
-import { notFound } from "next/navigation";
+import { getPublicListings, getListingById } from "@/data/listings";
+import { redirect, notFound } from "next/navigation";
 
 export const metadata = {
   title: "Claim & Upgrade Your Listing - Child Actor 101 Directory",
@@ -14,26 +13,43 @@ export const metadata = {
 
 interface ClaimUpgradePageProps {
   params: { slug: string };
+  searchParams: { lid?: string; token?: string };
 }
 
-export default async function ClaimUpgradePage({
-  params,
-}: ClaimUpgradePageProps) {
+export default async function ClaimUpgradePage({ params, searchParams }: ClaimUpgradePageProps) {
   const session = await auth();
 
+  // Preserve existing query params in login callback so token/lid aren't lost
   if (!session?.user?.id) {
-    redirect(`/login?callbackUrl=/claim-upgrade/${params.slug}`);
+    const qs = new URLSearchParams();
+    if (searchParams?.lid) qs.set("lid", searchParams.lid);
+    if (searchParams?.token) qs.set("token", searchParams.token);
+    const cb = `/claim-upgrade/${params.slug}${qs.toString() ? `?${qs.toString()}` : ""}`;
+    redirect(`/login?callbackUrl=${encodeURIComponent(cb)}`);
   }
 
   try {
-    const listings = await getPublicListings();
-    const listing = listings.find(
-      (listing) =>
-        listing.listing_name
-          ?.toLowerCase()
-          .replace(/\s+/g, "-")
-          .replace(/[^a-z0-9-]/g, "") === params.slug,
-    );
+    // Prefer fetching by ID (works for Pending/Free listings that aren't public yet)
+    let listing = null as any;
+    if (searchParams?.lid) {
+      try {
+        listing = await getListingById(searchParams.lid);
+      } catch (e) {
+        listing = null;
+      }
+    }
+
+    // Fallback to public listings by slug if no lid or not found
+    if (!listing) {
+      const listings = await getPublicListings();
+      listing = listings.find(
+        (l) =>
+          l.listing_name
+            ?.toLowerCase()
+            .replace(/\s+/g, "-")
+            .replace(/[^a-z0-9-]/g, "") === params.slug,
+      );
+    }
 
     if (!listing) {
       return notFound();

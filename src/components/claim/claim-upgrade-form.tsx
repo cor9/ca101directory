@@ -196,7 +196,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
         const url = json.url as string;
         window.location.href = url;
       } else {
-        const msg = (json && json.error) ? String(json.error) : "No checkout URL received";
+        const msg = (json && (json.error || json.details)) ? String(json.error || json.details) : "No checkout URL received";
         throw new Error(msg);
       }
     } catch (error) {

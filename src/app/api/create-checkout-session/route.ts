@@ -22,6 +22,13 @@ const PLAN_PRICES = {
 
 export async function POST(request: NextRequest) {
   try {
+    if (!process.env.STRIPE_SECRET_KEY) {
+      console.error("STRIPE_SECRET_KEY is not configured");
+      return NextResponse.json(
+        { error: "Stripe is not configured (missing secret key)" },
+        { status: 500 },
+      );
+    }
     console.log("Starting checkout session creation...");
 
     const session = await auth();
@@ -185,17 +192,14 @@ export async function POST(request: NextRequest) {
     console.log("Checkout session created successfully:", checkoutSession.id);
     return NextResponse.json({ url: checkoutSession.url });
   } catch (error) {
-    console.error("Error creating checkout session:", error);
-    console.error("Error details:", {
+    const details = {
       message: error instanceof Error ? error.message : "Unknown error",
       stack: error instanceof Error ? error.stack : undefined,
       name: error instanceof Error ? error.name : undefined,
-    });
+    };
+    console.error("Error creating checkout session:", details);
     return NextResponse.json(
-      {
-        error: "Internal server error",
-        details: error instanceof Error ? error.message : "Unknown error",
-      },
+      { error: details.message || "Internal server error" },
       { status: 500 },
     );
   }

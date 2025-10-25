@@ -293,7 +293,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
                 ))}
               </ul>
               <div className="mt-6 flex items-center justify-center gap-3">
-                <BauhausButton onClick={() => goDirect(plan.checkoutLink!)}>
+                <BauhausButton onClick={() => handleSelectPlan(plan.id, "monthly")}>
                   Upgrade to {plan.name}
                 </BauhausButton>
               </div>

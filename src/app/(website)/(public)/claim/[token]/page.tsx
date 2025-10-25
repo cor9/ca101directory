@@ -51,7 +51,7 @@ export default async function ClaimRedirectPage({
 
   // If authenticated, proceed directly to claim-upgrade
   if (session?.user?.id) {
-    redirect(`/claim-upgrade/${encodeURIComponent(slug)}?lid=${encodeURIComponent(listingId)}`);
+    redirect(`/claim-upgrade/${encodeURIComponent(slug)}?lid=${encodeURIComponent(listingId)}&token=${encodeURIComponent(params.token)}`);
   }
 
   // Public landing with context before auth

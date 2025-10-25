@@ -13,7 +13,7 @@ import {
 import type { Listing } from "@/data/listings";
 import { cn } from "@/lib/utils";
 import { Check, Star } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -132,6 +132,8 @@ function getPlans(): PlanDef[] {
 
 export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const claimToken = searchParams.get("token") || undefined;
   const [selectedPlan, setSelectedPlan] = useState<string>(
     (process.env.NEXT_PUBLIC_FOUNDING_STANDARD_URL || process.env.NEXT_PUBLIC_FOUNDING_PRO_URL)
       ? (process.env.NEXT_PUBLIC_FOUNDING_PRO_URL ? "founding-pro" : "founding-standard")
@@ -167,29 +169,10 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
     }
   };
 
-  const goDirect = (baseUrl: string | undefined) => {
-    if (!baseUrl) return false;
-    const url = new URL(baseUrl);
-    url.searchParams.set("listing_id", listing.id);
-    window.location.href = url.toString();
-    return true;
-  };
-
   const handleSelectPlan = async (planId: string, cycle: "monthly" | "yearly" = billingCycle) => {
     setIsLoading(true);
 
     try {
-      const plan = plans.find((p) => p.id === planId);
-      // If a direct checkout link is configured, use it
-      if (plan?.checkoutLink) {
-        goDirect(plan.checkoutLink);
-        return;
-      }
-
-      // If monthly/yearly specific links are configured, route accordingly
-      const direct = cycle === "yearly" ? plan?.yearlyLink : plan?.monthlyLink;
-      if (direct && goDirect(direct)) return;
-
       const response = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: {
@@ -204,6 +187,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
           cancelUrl: window.location.href,
           // Flag this as a claim-upgrade flow
           flow: "claim_upgrade",
+          token: claimToken,
         }),
       });
 

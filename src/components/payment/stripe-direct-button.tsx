@@ -18,13 +18,9 @@ export function StripeDirectButton({
   const router = useRouter();
 
   const handleClick = () => {
-    // Use the Stripe URL directly from the pricePlan
-    if (pricePlan.stripePriceId) {
-      window.open(pricePlan.stripePriceId, "_blank");
-    } else {
-      // Fallback to submit page if no Stripe URL
-      router.push("/submit");
-    }
+    // Redirect to pricing page where Stripe Pricing Table is embedded
+    // This ensures fresh checkout sessions are created each time
+    router.push("/pricing");
   };
 
   const getButtonText = () => {

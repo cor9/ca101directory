@@ -1,3 +1,16 @@
+## 2025-10-25 – Parent Auth Disabled & Role Management
+
+- **Parent logins are NOT ready for production** - feature flag disabled
+- Updated `src/config/feature-flags.ts`: Set `enableParentAuth`, `enableParentDashboard`, and all parent-related features to `false` by default
+- Added role checking in `src/auth.config.ts` to block logins for disabled roles with helpful error message
+- Created utility scripts for role management:
+  - `check-user.mjs` - Diagnose user account issues
+  - `change-user-role.mjs` - Update user roles in database
+  - `list-users-by-role.mjs` - Find all users with specific role
+- Converted 5 users from `parent` to `vendor` role (they were service providers who registered incorrectly)
+- Users with disabled roles now see: "[Role] accounts are not currently available. Please contact support if you need assistance."
+- Rationale: Parent features are incomplete. Prevent confusion by blocking parent logins until feature is production-ready.
+
 ## 2025-10-22 – Admin Dashboard Link Fixes & Notifications
 
 - Created stub pages to eliminate broken admin links:

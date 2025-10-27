@@ -49,8 +49,8 @@ Added robust validation that strips premium content for Free tier:
 a) **Profile Image Section (Free tier)**
 ```
 📸 Stand Out with a Professional Image
-Free listings don't include images. Upgrade to Standard ($25/mo) or 
-Pro ($50/mo) to add a professional profile photo that makes your listing 
+Free listings don't include images. Upgrade to Standard ($25/mo) or
+Pro ($50/mo) to add a professional profile photo that makes your listing
 3x more likely to be clicked!
 [View Upgrade Options →]
 ```
@@ -58,7 +58,7 @@ Pro ($50/mo) to add a professional profile photo that makes your listing
 b) **Gallery Images Section (Free/Standard tier)**
 ```
 🖼️ Showcase Your Work with Gallery Images
-Upgrade to Pro ($50/mo) to showcase up to 4 additional photos of your 
+Upgrade to Pro ($50/mo) to showcase up to 4 additional photos of your
 work, studio, or team!
 [Upgrade to Pro →] [See Examples]
 ```
@@ -66,22 +66,22 @@ work, studio, or team!
 c) **Premium Content Fields**
 Each field shows orange warning box:
 ```
-Premium Field: This field is only available with Standard ($25/mo) 
+Premium Field: This field is only available with Standard ($25/mo)
 or Pro ($50/mo) plans. [View plans]
 ```
 
 d) **Social Media Section (Free/Standard tier)**
 ```
 🔒 Pro Plan Only
-Pro Feature: Social media links are exclusive to Pro plan members. 
-Upgrade to Pro to showcase your Facebook, Instagram, TikTok, YouTube, 
+Pro Feature: Social media links are exclusive to Pro plan members.
+Upgrade to Pro to showcase your Facebook, Instagram, TikTok, YouTube,
 LinkedIn, and custom links. [View Pro plan]
 ```
 
 e) **Categories Section (Free tier)**
 ```
 Categories (Select 1 - Free Plan)
-Free Plan: You can select 1 category. Upgrade to Standard or Pro 
+Free Plan: You can select 1 category. Upgrade to Standard or Pro
 to select multiple categories.
 ```
 

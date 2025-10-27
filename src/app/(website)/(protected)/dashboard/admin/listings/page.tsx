@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
-import { getPublicListings } from "@/data/listings";
+import { getAdminListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
 import { CheckCircleIcon, EditIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
@@ -39,8 +39,8 @@ export default async function AdminListingsPage({
     redirect("/auth/login?callbackUrl=/dashboard/admin/listings");
   }
 
-  // Get all listings for admin management
-  const allListings = await getPublicListings();
+  // Get all listings for admin management (including Pending, Rejected, etc.)
+  const allListings = await getAdminListings();
 
   // Filter by status if provided
   const statusFilter = searchParams?.status;

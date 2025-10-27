@@ -38,11 +38,14 @@ export default async function AdminEditPage({ params }: AdminEditPageProps) {
 
   // Get the listing
   console.log("[Admin Edit] Attempting to fetch listing:", params.listingId);
-  
+
   let listing;
   try {
     listing = await getListingById(params.listingId);
-    console.log("[Admin Edit] Listing fetched successfully:", listing?.listing_name);
+    console.log(
+      "[Admin Edit] Listing fetched successfully:",
+      listing?.listing_name,
+    );
   } catch (error) {
     console.error("[Admin Edit] Error fetching listing:", error);
     throw error;
@@ -74,15 +77,7 @@ export default async function AdminEditPage({ params }: AdminEditPageProps) {
             </div>
           </div>
 
-          <AdminEditForm
-            listing={listing}
-            onFinished={(result) => {
-              if (result.status === "success") {
-                // Redirect back to admin dashboard after successful edit
-                redirect("/dashboard/admin");
-              }
-            }}
-          />
+          <AdminEditForm listing={listing} />
         </div>
       </AdminDashboardLayout>
     </DashboardGuard>

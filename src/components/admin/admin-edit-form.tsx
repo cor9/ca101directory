@@ -3,6 +3,7 @@
 import ImageUpload from "@/components/shared/image-upload";
 import { GalleryUpload } from "@/components/submit/gallery-upload";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import {
   type FieldError,
@@ -78,7 +79,7 @@ const FormInputSchema = z.object({
 
 interface AdminEditFormProps {
   listing: Listing;
-  onFinished: (result: Awaited<ReturnType<typeof updateListing>>) => void;
+  onFinished?: (result: Awaited<ReturnType<typeof updateListing>>) => void;
 }
 
 interface FormInputProps {
@@ -116,6 +117,7 @@ interface FormTextareaProps {
 
 export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const [categories, setCategories] = useState<
     Array<{ id: string; category_name: string }>
   >([]);
@@ -317,29 +319,40 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             .then((res) => {
               console.log("UpdateListing response:", res);
               // Pass the entire response to the parent component to handle side-effects
-              onFinished(res);
+              if (onFinished) {
+                onFinished(res);
+              } else if (res.status === "success") {
+                // Default behavior: redirect to admin listings page
+                router.push("/dashboard/admin/listings");
+              }
             })
             .catch((error) => {
               console.error("UpdateListing error:", error);
-              onFinished({
-                status: "error",
-                message: "An unexpected error occurred.",
-              });
+              if (onFinished) {
+                onFinished({
+                  status: "error",
+                  message: "An unexpected error occurred.",
+                });
+              }
             });
         } catch (innerError) {
           console.error("Error in startTransition:", innerError);
-          onFinished({
-            status: "error",
-            message: "Form processing error occurred.",
-          });
+          if (onFinished) {
+            onFinished({
+              status: "error",
+              message: "Form processing error occurred.",
+            });
+          }
         }
       });
     } catch (outerError) {
       console.error("Error in onSubmit:", outerError);
-      onFinished({
-        status: "error",
-        message: "Form submission error occurred.",
-      });
+      if (onFinished) {
+        onFinished({
+          status: "error",
+          message: "Form submission error occurred.",
+        });
+      }
     }
   };
 
@@ -729,9 +742,13 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
         <Button
           type="button"
           variant="ghost"
-          onClick={() =>
-            onFinished({ status: "error", message: "Update cancelled." })
-          }
+          onClick={() => {
+            if (onFinished) {
+              onFinished({ status: "error", message: "Update cancelled." });
+            } else {
+              router.push("/dashboard/admin/listings");
+            }
+          }}
           disabled={isPending}
         >
           Cancel

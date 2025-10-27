@@ -12,8 +12,11 @@ export default function PlanSelectionPage() {
   useEffect(() => {
     // Log for debugging
     console.log("[Plan Selection] Listing ID:", listingId);
-    console.log("[Plan Selection] All search params:", Object.fromEntries(searchParams));
-    
+    console.log(
+      "[Plan Selection] All search params:",
+      Object.fromEntries(searchParams),
+    );
+
     // Check if there's an error parameter
     const errorParam = searchParams.get("error");
     if (errorParam) {
@@ -26,10 +29,14 @@ export default function PlanSelectionPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto bg-red-50 border-2 border-red-200 rounded-lg p-8 text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">⚠️ Missing Listing ID</h1>
-          <p className="text-red-800 mb-4">No listing ID was provided. Please try again or contact support.</p>
-          <a 
-            href="/submit" 
+          <h1 className="text-2xl font-bold text-red-600 mb-4">
+            ⚠️ Missing Listing ID
+          </h1>
+          <p className="text-red-800 mb-4">
+            No listing ID was provided. Please try again or contact support.
+          </p>
+          <a
+            href="/submit"
             className="inline-block bg-brand-orange hover:bg-brand-orange-dark text-white font-bold py-3 px-6 rounded-lg transition-colors"
           >
             ← Back to Submit Page
@@ -47,11 +54,16 @@ export default function PlanSelectionPage() {
           <div className="flex items-start gap-3">
             <span className="text-3xl">⚠️</span>
             <div>
-              <h3 className="text-lg font-bold text-red-900 mb-2">Payment Error</h3>
+              <h3 className="text-lg font-bold text-red-900 mb-2">
+                Payment Error
+              </h3>
               <p className="text-red-800 mb-4">{error}</p>
               <p className="text-sm text-red-700">
                 If this issue persists, please contact support at{" "}
-                <a href="mailto:support@childactor101.com" className="underline font-semibold">
+                <a
+                  href="mailto:support@childactor101.com"
+                  className="underline font-semibold"
+                >
                   support@childactor101.com
                 </a>
               </p>
@@ -79,7 +91,9 @@ export default function PlanSelectionPage() {
         {/* Free Plan - No Payment Required */}
         <div className="border-2 border-gray-300 rounded-lg p-8 bg-white shadow-lg">
           <h3 className="text-2xl font-bold mb-4 text-paper">Free Listing</h3>
-          <p className="text-lg mb-2 font-semibold text-green-600">$0 / forever</p>
+          <p className="text-lg mb-2 font-semibold text-green-600">
+            $0 / forever
+          </p>
           <p className="text-sm text-paper mb-6">
             Get started with a basic listing - no credit card required!
           </p>

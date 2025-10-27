@@ -1,3 +1,134 @@
+## 2025-10-27 — VENDOR TIER RESTRICTIONS ENFORCEMENT (COMPLETE)
+
+### Problem
+Vendors on Free tier could fill out premium fields (Who Is It For, What Makes You Unique, Social Media Links, Additional Notes) and upload images they weren't eligible for, causing confusion and potential abuse of the tier system.
+
+### Issues Identified:
+1. **No server-side validation** - Free tier users could submit premium content
+2. **Confusing UX** - Fields were shown but disabled, appearing broken rather than gated
+3. **No upgrade prompts** - Users didn't understand what they were missing
+4. **Gallery uploads** - Free users could attempt uploads that wouldn't be saved
+5. **Category limits** - Free tier should only allow 1 category, but multiple were possible
+
+### Solution Implemented:
+
+#### 1. SERVER-SIDE TIER ENFORCEMENT (`submit-supabase.ts`)
+Added robust validation that strips premium content for Free tier:
+
+**Free Tier Restrictions:**
+- `who_is_it_for`: Set to NULL (Premium field - Standard/Pro only)
+- `why_is_it_unique`: Set to NULL (Premium field - Standard/Pro only)
+- `extras_notes`: Set to NULL (Premium field - Standard/Pro only)
+- `categories`: Limited to 1 (Free gets 1, Paid gets multiple)
+- `gallery`: Set to NULL (Free gets 0 images)
+- Social media fields: All set to NULL (Pro only)
+- `profile_image`: Allowed but not enforced (Standard/Pro feature)
+
+**Standard Tier Gets:**
+- Premium content fields (who_is_it_for, why_is_it_unique, extras_notes)
+- Profile image (1)
+- Multiple categories
+- NO gallery images (Pro only)
+- NO social media links (Pro only)
+
+**Pro Tier Gets:**
+- Everything Standard has, PLUS:
+- Gallery images (up to 4)
+- Social media links (all platforms)
+- Custom link
+
+#### 2. FRONTEND RESTRICTIONS & UPGRADE NUDGES (`supabase-submit-form.tsx`)
+
+**Enhanced Field Disabling:**
+- Premium fields show lock icon 🔒 when disabled
+- Fields are visually dimmed with `opacity-50 cursor-not-allowed`
+- Clear placeholders: "🔒 Upgrade to Standard or Pro to use this field"
+
+**Upgrade Nudge Messages Added:**
+
+a) **Profile Image Section (Free tier)**
+```
+📸 Stand Out with a Professional Image
+Free listings don't include images. Upgrade to Standard ($25/mo) or 
+Pro ($50/mo) to add a professional profile photo that makes your listing 
+3x more likely to be clicked!
+[View Upgrade Options →]
+```
+
+b) **Gallery Images Section (Free/Standard tier)**
+```
+🖼️ Showcase Your Work with Gallery Images
+Upgrade to Pro ($50/mo) to showcase up to 4 additional photos of your 
+work, studio, or team!
+[Upgrade to Pro →] [See Examples]
+```
+
+c) **Premium Content Fields**
+Each field shows orange warning box:
+```
+Premium Field: This field is only available with Standard ($25/mo) 
+or Pro ($50/mo) plans. [View plans]
+```
+
+d) **Social Media Section (Free/Standard tier)**
+```
+🔒 Pro Plan Only
+Pro Feature: Social media links are exclusive to Pro plan members. 
+Upgrade to Pro to showcase your Facebook, Instagram, TikTok, YouTube, 
+LinkedIn, and custom links. [View Pro plan]
+```
+
+e) **Categories Section (Free tier)**
+```
+Categories (Select 1 - Free Plan)
+Free Plan: You can select 1 category. Upgrade to Standard or Pro 
+to select multiple categories.
+```
+
+**Plan Selection Feedback:**
+- **Free Plan**: Shows warning with list of locked features
+- **Standard Plan**: Shows what's included + nudge to Pro for gallery/social
+- **Pro Plan**: Celebrates choice and lists all premium features
+
+#### 3. VISUAL IMPROVEMENTS
+- Gradient backgrounds on upgrade prompts (blue, purple, orange themed)
+- Emoji icons for visual appeal (📸, 🖼️, 🔒, ⭐, ✅)
+- Clear CTAs with hover states
+- Inline links to pricing page and help docs
+
+### Files Modified:
+1. `src/actions/submit-supabase.ts` - Server-side tier enforcement
+2. `src/components/submit/supabase-submit-form.tsx` - Frontend restrictions + upgrade nudges
+3. `.cursor/context_Decisions.md` - This documentation
+
+### Tier Feature Matrix (Enforced):
+
+| Feature | Free | Standard | Pro |
+|---------|------|----------|-----|
+| Basic Info | ✅ | ✅ | ✅ |
+| Profile Image | ❌ | ✅ (1) | ✅ (1) |
+| Gallery Images | ❌ (0) | ❌ (0) | ✅ (4) |
+| Premium Content Fields | ❌ | ✅ | ✅ |
+| Categories | ✅ (1) | ✅ (Multiple) | ✅ (Multiple) |
+| Social Media Links | ❌ | ❌ | ✅ |
+| Additional Notes | ❌ | ✅ | ✅ |
+
+### Business Impact:
+- ✅ Revenue protection: Free tier can't access premium features
+- ✅ Clear upgrade path: Users see exactly what they're missing
+- ✅ Improved UX: Locked features feel intentional, not broken
+- ✅ Conversion optimization: Multiple upgrade prompts throughout form
+- ✅ Data integrity: Server-side enforcement prevents abuse
+
+### Prevention Rules:
+- **ALWAYS enforce tier restrictions server-side** - Never trust client data
+- **Make locked features aspirational** - Show what's possible with upgrade
+- **Use positive framing** - "Upgrade to unlock" vs "You can't do this"
+- **Multiple conversion points** - Upgrade prompts at every gated feature
+- **Visual clarity** - Lock icons, dimmed fields, gradient backgrounds
+
+---
+
 ## 2025-10-19 — HELP PAGES TEXT CONTRAST FIX (COMPLETE)
 
 ### Problem

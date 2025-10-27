@@ -95,7 +95,8 @@ export function SupabaseSubmitForm({
     imageId: existingListing?.image_url || "",
     tags: existingListing?.age_range || [],
     categories: existingListing?.categories || [],
-    plan: "Free",
+    // IMPORTANT: Pre-fill plan from existing listing if claiming
+    plan: (existingListing as any)?.plan || "Free",
     performerPermit: false,
     bonded: false,
     email: existingListing?.email || "",
@@ -235,11 +236,50 @@ export function SupabaseSubmitForm({
   return (
     <Card className="surface border-surface/20">
       <CardHeader>
-        <CardTitle className="text-surface">Submit Your Listing</CardTitle>
-       <CardDescription className="text-surface">
-         Create a professional listing for your child actor business.
-       </CardDescription>
+        <CardTitle className="text-surface">
+          {isClaimFlow ? "Edit Your Listing" : "Submit Your Listing"}
+        </CardTitle>
+        <CardDescription className="text-surface">
+          {isClaimFlow
+            ? "Update your listing information and choose your plan level."
+            : "Create a professional listing for your child actor business."}
+        </CardDescription>
 
+        {/* Special message when claiming a Free listing */}
+        {isClaimFlow &&
+          existingListing &&
+          ((existingListing as any)?.plan === "Free" ||
+            !(existingListing as any)?.plan) && (
+            <div className="mt-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-lg p-4">
+              <div className="flex items-start gap-3">
+                <span className="text-3xl">🎉</span>
+                <div>
+                  <h4 className="font-bold text-blue-900 mb-1">
+                    You're Claiming a Free Listing!
+                  </h4>
+                  <p className="text-sm text-blue-800 mb-2">
+                    This listing is currently on the <strong>Free plan</strong>,
+                    which includes basic information only. You can keep it free
+                    or upgrade now to unlock premium features:
+                  </p>
+                  <ul className="text-sm text-blue-800 space-y-1 ml-4 mb-3">
+                    <li>
+                      • <strong>Standard ($25/mo):</strong> Profile image +
+                      enhanced fields
+                    </li>
+                    <li>
+                      • <strong>Pro ($50/mo):</strong> Everything + gallery
+                      images + social links
+                    </li>
+                  </ul>
+                  <p className="text-xs text-blue-700 font-semibold">
+                    💡 Choose your plan below to unlock features as you fill out
+                    the form.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -260,7 +300,9 @@ export function SupabaseSubmitForm({
                 required
                 className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
               />
-              <p className="text-surface">{formData.name.length}/32 characters</p>
+              <p className="text-surface">
+                {formData.name.length}/32 characters
+              </p>
             </div>
 
             <div className="space-y-2">
@@ -286,10 +328,10 @@ export function SupabaseSubmitForm({
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Label htmlFor="introduction" className="text-surface">
-                  Who Is It For
+                  Who Is It For {formData.plan !== "Free" && "*"}
                 </Label>
                 <FieldTooltip
-                  message="This field is optional for Free plans and won't display until you upgrade to Standard or Pro."
+                  message="This field is only available for Standard and Pro plans. Upgrade to unlock."
                   plan={formData.plan as "Free" | "Standard" | "Pro"}
                   showUpgradeIcon={true}
                 />
@@ -300,18 +342,39 @@ export function SupabaseSubmitForm({
                 onChange={(e) =>
                   handleInputChange("introduction", e.target.value)
                 }
-                placeholder="Describe your target audience (optional - upgrade to display)"
-                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                placeholder={
+                  formData.plan === "Free"
+                    ? "🔒 Upgrade to Standard or Pro to use this field"
+                    : "Describe your target audience"
+                }
+                disabled={formData.plan === "Free"}
+                className={`bg-paper border-secondary-denim text-surface placeholder:text-surface/60 ${
+                  formData.plan === "Free"
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
               />
+              {formData.plan === "Free" && (
+                <div className="text-xs text-orange-600 bg-orange-50 border border-orange-200 rounded p-2 mt-1">
+                  <strong>Premium Field:</strong> This field is only available
+                  with Standard ($25/mo) or Pro ($50/mo) plans.{" "}
+                  <a
+                    href="/pricing"
+                    className="underline hover:text-orange-700"
+                  >
+                    View plans
+                  </a>
+                </div>
+              )}
             </div>
 
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Label htmlFor="unique" className="text-surface">
-                  What Makes You Unique
+                  What Makes You Unique {formData.plan !== "Free" && "*"}
                 </Label>
                 <FieldTooltip
-                  message="This field is optional for Free plans and won't display until you upgrade to Standard or Pro."
+                  message="This field is only available for Standard and Pro plans. Upgrade to unlock."
                   plan={formData.plan as "Free" | "Standard" | "Pro"}
                   showUpgradeIcon={true}
                 />
@@ -320,9 +383,30 @@ export function SupabaseSubmitForm({
                 id="unique"
                 value={formData.unique}
                 onChange={(e) => handleInputChange("unique", e.target.value)}
-                placeholder="What sets you apart (optional - upgrade to display)"
-                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                placeholder={
+                  formData.plan === "Free"
+                    ? "🔒 Upgrade to Standard or Pro to use this field"
+                    : "What sets you apart from others"
+                }
+                disabled={formData.plan === "Free"}
+                className={`bg-paper border-secondary-denim text-surface placeholder:text-surface/60 ${
+                  formData.plan === "Free"
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
               />
+              {formData.plan === "Free" && (
+                <div className="text-xs text-orange-600 bg-orange-50 border border-orange-200 rounded p-2 mt-1">
+                  <strong>Premium Field:</strong> This field is only available
+                  with Standard ($25/mo) or Pro ($50/mo) plans.{" "}
+                  <a
+                    href="/pricing"
+                    className="underline hover:text-orange-700"
+                  >
+                    View plans
+                  </a>
+                </div>
+              )}
             </div>
           </div>
 
@@ -372,23 +456,43 @@ export function SupabaseSubmitForm({
 
           {/* Categories */}
           <div className="space-y-4">
-            <h3 className="text-surface">Categories</h3>
+            <h3 className="text-surface">
+              Categories {formData.plan === "Free" && "(Select 1 - Free Plan)"}
+              {formData.plan !== "Free" && "(Select all that apply)"}
+            </h3>
+            {formData.plan === "Free" && (
+              <div className="text-xs text-blue-700 bg-blue-50 border border-blue-200 rounded p-2">
+                <strong>Free Plan:</strong> You can select 1 category. Upgrade
+                to Standard or Pro to select multiple categories.
+              </div>
+            )}
             <div className="grid grid-cols-2 gap-2">
-              {categories.map((category) => (
-                <div key={category.id} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={`category-${category.id}`}
-                    checked={formData.categories.includes(category.id)}
-                    onCheckedChange={() => handleCategoryToggle(category.id)}
-                  />
-                  <Label
-                    htmlFor={`category-${category.id}`}
-                    className="text-sm text-surface"
+              {categories.map((category) => {
+                const isDisabled =
+                  formData.plan === "Free" &&
+                  formData.categories.length >= 1 &&
+                  !formData.categories.includes(category.id);
+
+                return (
+                  <div
+                    key={category.id}
+                    className="flex items-center space-x-2"
                   >
-                    {category.name}
-                  </Label>
-                </div>
-              ))}
+                    <Checkbox
+                      id={`category-${category.id}`}
+                      checked={formData.categories.includes(category.id)}
+                      onCheckedChange={() => handleCategoryToggle(category.id)}
+                      disabled={isDisabled}
+                    />
+                    <Label
+                      htmlFor={`category-${category.id}`}
+                      className={`text-sm text-surface ${isDisabled ? "opacity-50" : ""}`}
+                    >
+                      {category.name}
+                    </Label>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -459,14 +563,14 @@ export function SupabaseSubmitForm({
                 <Label htmlFor="state" className="text-surface">
                   State / Region
                 </Label>
-               <Input
-  id="state"
-  value={formData.state}
-  onChange={(e) => handleInputChange("state", e.target.value)}
-  placeholder="e.g., California, Ontario, or London"
-  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
-/>
-                  </div>
+                <Input
+                  id="state"
+                  value={formData.state}
+                  onChange={(e) => handleInputChange("state", e.target.value)}
+                  placeholder="e.g., California, Ontario, or London"
+                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                />
+              </div>
 
               <div className="space-y-2">
                 <Label htmlFor="zip" className="text-surface">
@@ -610,7 +714,7 @@ export function SupabaseSubmitForm({
                   <ul className="text-sm space-y-1">
                     <li>• Everything in Standard</li>
                     <li>• Up to 4 gallery images</li>
-                     <li>• Social Media Links</li>
+                    <li>• Social Media Links</li>
                     <li>• 101 Approved badge</li>
                     <li>• Top priority placement</li>
                     <li>• Priority support</li>
@@ -620,23 +724,75 @@ export function SupabaseSubmitForm({
             </div>
 
             {formData.plan === "Free" && (
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                <p className="text-sm text-blue-800">
-                  <strong>Free Plan:</strong> Perfect for getting started! You
-                  can upgrade anytime to unlock gallery images and featured
-                  placement.
-                </p>
+              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-orange-300 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl">💡</span>
+                  <div>
+                    <p className="text-sm text-orange-900 mb-2">
+                      <strong>Free Plan Selected:</strong> Your listing will
+                      include basic information only. You won't be able to add:
+                    </p>
+                    <ul className="text-sm text-orange-800 space-y-1 mb-3 ml-4">
+                      <li>• Profile image or gallery photos</li>
+                      <li>
+                        • Enhanced listing fields (Who it's for, What makes you
+                        unique)
+                      </li>
+                      <li>• Social media links</li>
+                      <li>• Multiple categories</li>
+                    </ul>
+                    <p className="text-sm text-orange-900 font-semibold">
+                      ✨ Upgrade now to unlock all features and get 3x more
+                      engagement!
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
 
-            {formData.plan !== "Free" && (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-                <p className="text-sm text-green-800">
-                  <strong>Paid Plan Selected:</strong> Great choice! After
-                  submitting, you'll be able to choose from monthly, yearly, or
-                  founding vendor pricing options. Your listing will be featured
-                  and you'll get premium placement.
-                </p>
+            {formData.plan === "Standard" && (
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-300 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl">✅</span>
+                  <div>
+                    <p className="text-sm text-green-900 mb-2">
+                      <strong>Standard Plan Selected:</strong> Great choice!
+                      Your listing will include:
+                    </p>
+                    <ul className="text-sm text-green-800 space-y-1 mb-2 ml-4">
+                      <li>✓ Professional profile image</li>
+                      <li>✓ Enhanced listing fields</li>
+                      <li>✓ Multiple categories</li>
+                      <li>✓ Featured placement</li>
+                    </ul>
+                    <p className="text-xs text-green-700">
+                      Want gallery images and social links? Consider Pro plan
+                      ($50/mo)
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {formData.plan === "Pro" && (
+              <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-300 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl">⭐</span>
+                  <div>
+                    <p className="text-sm text-purple-900 mb-2">
+                      <strong>Pro Plan Selected:</strong> Excellent! You get all
+                      premium features:
+                    </p>
+                    <ul className="text-sm text-purple-800 space-y-1 ml-4">
+                      <li>✓ Profile image + 4 gallery images</li>
+                      <li>✓ All enhanced listing fields</li>
+                      <li>✓ Social media links</li>
+                      <li>✓ Multiple categories</li>
+                      <li>✓ Top priority placement</li>
+                      <li>✓ 101 Approved badge eligible</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -654,7 +810,10 @@ export function SupabaseSubmitForm({
                     handleInputChange("performerPermit", checked)
                   }
                 />
-                <Label htmlFor="performerPermit" className="text-sm text-surface">
+                <Label
+                  htmlFor="performerPermit"
+                  className="text-sm text-surface"
+                >
                   California Child Performer Services Permit
                 </Label>
               </div>
@@ -694,21 +853,67 @@ export function SupabaseSubmitForm({
           {/* Additional Notes */}
           <div className="space-y-2">
             <Label htmlFor="notes" className="text-surface">
-              Additional Notes
+              Additional Notes {formData.plan !== "Free" && "(Optional)"}
             </Label>
             <Textarea
               id="notes"
               value={formData.notes}
               onChange={(e) => handleInputChange("notes", e.target.value)}
-              placeholder="Any additional information"
-              className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+              placeholder={
+                formData.plan === "Free"
+                  ? "🔒 Upgrade to Standard or Pro to add additional notes"
+                  : "Any additional information"
+              }
+              disabled={formData.plan === "Free"}
+              className={`bg-paper border-secondary-denim text-surface placeholder:text-surface/60 ${
+                formData.plan === "Free" ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             />
+            {formData.plan === "Free" && (
+              <div className="text-xs text-orange-600 bg-orange-50 border border-orange-200 rounded p-2 mt-1">
+                <strong>Premium Field:</strong> Additional notes are only
+                available with Standard ($25/mo) or Pro ($50/mo) plans.{" "}
+                <a href="/pricing" className="underline hover:text-orange-700">
+                  View plans
+                </a>
+              </div>
+            )}
           </div>
 
           {/* Image Upload */}
           <div className="space-y-2">
-            <Label className="text-surface">Profile Image</Label>
-            <div className="h-48 border-2 border-dashed border-secondary-denim rounded-lg">
+            <Label className="text-surface">
+              Profile Image {formData.plan !== "Free" && "(Recommended)"}
+              {formData.plan === "Free" && " - Available with Standard or Pro"}
+            </Label>
+            {formData.plan === "Free" && (
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4 mb-3">
+                <div className="flex items-start gap-3">
+                  <span className="text-3xl">📸</span>
+                  <div>
+                    <h4 className="font-semibold text-blue-900 mb-1">
+                      Stand Out with a Professional Image
+                    </h4>
+                    <p className="text-sm text-blue-800 mb-2">
+                      Free listings don't include images. Upgrade to{" "}
+                      <strong>Standard ($25/mo)</strong> or{" "}
+                      <strong>Pro ($50/mo)</strong> to add a professional
+                      profile photo that makes your listing 3x more likely to be
+                      clicked!
+                    </p>
+                    <a
+                      href="/pricing"
+                      className="inline-block text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-medium transition-colors"
+                    >
+                      View Upgrade Options →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div
+              className={`h-48 border-2 border-dashed border-secondary-denim rounded-lg ${formData.plan === "Free" ? "opacity-40 pointer-events-none" : ""}`}
+            >
               <ImageUpload
                 currentImageUrl={formData.imageId}
                 onUploadChange={(status) => {
@@ -720,40 +925,104 @@ export function SupabaseSubmitForm({
                 type="image"
               />
             </div>
-            <p className="text-surface">
-              Upload a professional photo or logo for your listing
-            </p>
+            {formData.plan === "Free" ? (
+              <p className="text-surface text-sm">
+                🔒 Profile images are available starting with the Standard plan
+              </p>
+            ) : (
+              <p className="text-surface text-sm">
+                Upload a professional photo or logo for your listing
+              </p>
+            )}
           </div>
 
           {/* Gallery Upload */}
           <div className="space-y-2">
-            <Label className="text-surface">Gallery Images</Label>
+            <Label className="text-surface">
+              Gallery Images{" "}
+              {formData.plan === "Pro" ? "(Up to 4)" : "- Pro Plan Only"}
+            </Label>
+            {formData.plan !== "Pro" && (
+              <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-4 mb-3">
+                <div className="flex items-start gap-3">
+                  <span className="text-3xl">🖼️</span>
+                  <div>
+                    <h4 className="font-semibold text-purple-900 mb-1">
+                      Showcase Your Work with Gallery Images
+                    </h4>
+                    <p className="text-sm text-purple-800 mb-2">
+                      {formData.plan === "Free"
+                        ? "Free listings don't include gallery images. Upgrade to Pro ($50/mo) to showcase up to 4 additional photos of your work, studio, or team!"
+                        : "Standard plan includes your profile image. Upgrade to Pro ($50/mo) to add 4 gallery images and showcase your portfolio!"}
+                    </p>
+                    <div className="flex gap-2">
+                      <a
+                        href="/pricing"
+                        className="inline-block text-sm bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded font-medium transition-colors"
+                      >
+                        Upgrade to Pro →
+                      </a>
+                      <a
+                        href="/help/image-guidelines"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block text-sm bg-purple-100 hover:bg-purple-200 text-purple-800 px-4 py-2 rounded font-medium transition-colors"
+                      >
+                        See Examples
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             <GalleryUpload
               maxImages={getMaxGalleryImages()}
               currentImages={galleryImages}
               onImagesChange={setGalleryImages}
               onUploadingChange={setIsGalleryUploading}
             />
-            <p className="text-surface">
+            <p className="text-surface text-sm">
               {getMaxGalleryImages() === 0
-                ? "Gallery images are only available with Pro plan"
-                : "Pro plan includes 4 gallery images (5 total with profile)"}
+                ? "🔒 Gallery images are exclusive to Pro plan members"
+                : "✅ Pro plan includes 4 gallery images (5 total with profile)"}
             </p>
           </div>
 
           {/* Social Media Section */}
           <div
-            className="space-y-4 p-4 border rounded-lg"
+            className={`space-y-4 p-4 border rounded-lg ${
+              formData.plan !== "Pro" ? "opacity-60" : ""
+            }`}
             style={{ backgroundColor: "#f8f9fa" }}
           >
             <div>
-              <h3 className="text-lg font-semibold text-surface">
-                Social Media Links (Pro only)
+              <h3 className="text-lg font-semibold text-surface flex items-center gap-2">
+                Social Media Links
+                {formData.plan !== "Pro" && (
+                  <span className="text-sm">🔒 Pro Plan Only</span>
+                )}
               </h3>
               <p className="text-surface">
-                These links will only be displayed for Pro listings.
+                {formData.plan === "Pro"
+                  ? "Add your social media profiles to increase engagement."
+                  : "Upgrade to Pro ($50/mo) to display social media links on your listing."}
               </p>
             </div>
+            {formData.plan !== "Pro" && (
+              <div className="bg-purple-50 border border-purple-200 rounded p-3">
+                <p className="text-sm text-purple-800">
+                  <strong>Pro Feature:</strong> Social media links are exclusive
+                  to Pro plan members. Upgrade to Pro to showcase your Facebook,
+                  Instagram, TikTok, YouTube, LinkedIn, and custom links.{" "}
+                  <a
+                    href="/pricing"
+                    className="underline hover:text-purple-900"
+                  >
+                    View Pro plan
+                  </a>
+                </p>
+              </div>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -767,7 +1036,12 @@ export function SupabaseSubmitForm({
                   onChange={(e) =>
                     handleInputChange("facebook_url", e.target.value)
                   }
-                  placeholder="https://facebook.com/yourpage"
+                  placeholder={
+                    formData.plan === "Pro"
+                      ? "https://facebook.com/yourpage"
+                      : "🔒 Pro plan required"
+                  }
+                  disabled={formData.plan !== "Pro"}
                   className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
@@ -783,7 +1057,12 @@ export function SupabaseSubmitForm({
                   onChange={(e) =>
                     handleInputChange("instagram_url", e.target.value)
                   }
-                  placeholder="https://instagram.com/youraccount"
+                  placeholder={
+                    formData.plan === "Pro"
+                      ? "https://instagram.com/youraccount"
+                      : "🔒 Pro plan required"
+                  }
+                  disabled={formData.plan !== "Pro"}
                   className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
@@ -799,7 +1078,12 @@ export function SupabaseSubmitForm({
                   onChange={(e) =>
                     handleInputChange("tiktok_url", e.target.value)
                   }
-                  placeholder="https://tiktok.com/@youraccount"
+                  placeholder={
+                    formData.plan === "Pro"
+                      ? "https://tiktok.com/@youraccount"
+                      : "🔒 Pro plan required"
+                  }
+                  disabled={formData.plan !== "Pro"}
                   className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
@@ -815,7 +1099,12 @@ export function SupabaseSubmitForm({
                   onChange={(e) =>
                     handleInputChange("youtube_url", e.target.value)
                   }
-                  placeholder="https://youtube.com/@yourchannel"
+                  placeholder={
+                    formData.plan === "Pro"
+                      ? "https://youtube.com/@yourchannel"
+                      : "🔒 Pro plan required"
+                  }
+                  disabled={formData.plan !== "Pro"}
                   className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
@@ -831,7 +1120,12 @@ export function SupabaseSubmitForm({
                   onChange={(e) =>
                     handleInputChange("linkedin_url", e.target.value)
                   }
-                  placeholder="https://linkedin.com/in/yourprofile"
+                  placeholder={
+                    formData.plan === "Pro"
+                      ? "https://linkedin.com/in/yourprofile"
+                      : "🔒 Pro plan required"
+                  }
+                  disabled={formData.plan !== "Pro"}
                   className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
@@ -847,7 +1141,12 @@ export function SupabaseSubmitForm({
                   onChange={(e) =>
                     handleInputChange("blog_url", e.target.value)
                   }
-                  placeholder="https://yourblog.com"
+                  placeholder={
+                    formData.plan === "Pro"
+                      ? "https://yourblog.com"
+                      : "🔒 Pro plan required"
+                  }
+                  disabled={formData.plan !== "Pro"}
                   className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
@@ -866,7 +1165,12 @@ export function SupabaseSubmitForm({
                     onChange={(e) =>
                       handleInputChange("custom_link_name", e.target.value)
                     }
-                    placeholder="e.g., 'Portfolio', 'Book Now'"
+                    placeholder={
+                      formData.plan === "Pro"
+                        ? "e.g., 'Portfolio', 'Book Now'"
+                        : "🔒 Pro plan required"
+                    }
+                    disabled={formData.plan !== "Pro"}
                     className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                   />
                 </div>
@@ -881,7 +1185,12 @@ export function SupabaseSubmitForm({
                     onChange={(e) =>
                       handleInputChange("custom_link_url", e.target.value)
                     }
-                    placeholder="https://your-custom-link.com"
+                    placeholder={
+                      formData.plan === "Pro"
+                        ? "https://your-custom-link.com"
+                        : "🔒 Pro plan required"
+                    }
+                    disabled={formData.plan !== "Pro"}
                     className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                   />
                 </div>

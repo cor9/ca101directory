@@ -99,47 +99,63 @@ export async function submitToSupabase(
       region,
     );
 
+    // Determine if this is a Free tier listing
+    const isFree = plan === "Free";
+    const isPro = plan === "Pro" || plan === "Founding Pro";
+
+    // TIER RESTRICTIONS ENFORCEMENT (Server-side validation)
+    // Free tier: Strip premium content to prevent abuse
+    // Standard tier: Gets premium content fields but no gallery/social
+    // Pro tier: Gets everything
+
+    const enforcedCategories = isFree
+      ? categories.slice(0, 1) // Free: only 1 category
+      : categories; // Paid: multiple categories allowed
+
+    const enforcedGallery =
+      isPro && gallery && gallery.length > 0
+        ? JSON.stringify(gallery.slice(0, 4)) // Pro: max 4 gallery images
+        : null; // Free/Standard: no gallery
+
     // Create listing data for Supabase
     const listingData = {
       listing_name: name,
       website: link,
       what_you_offer: description,
-      who_is_it_for: introduction,
-      why_is_it_unique: unique,
+      // Premium content fields: only for paid plans (Standard/Pro)
+      who_is_it_for: isFree ? null : introduction || null,
+      why_is_it_unique: isFree ? null : unique || null,
       format: format,
-      extras_notes: notes,
+      extras_notes: isFree ? null : notes || null,
       email: email,
       phone: phone,
       city: city,
       state: state,
       zip: zip ? Number.parseInt(zip, 10) : null,
       region: region,
-      categories: categories,
+      categories: enforcedCategories,
       age_range: tags,
       profile_image: imageId,
-      gallery: gallery && gallery.length > 0 ? JSON.stringify(gallery) : null,
+      gallery: enforcedGallery,
       plan: plan, // Keep plan as-is since forms already send correct values
       ca_permit_required: performerPermit,
       is_bonded: bonded,
       bond_number: bondNumber,
       // NEW submissions: Auto-approve paid plans, review free plans
-      status:
-        formData.plan === "Free" || formData.plan === "free"
-          ? "Pending"
-          : "Live",
+      status: formData.plan === "Free" ? "Pending" : "Live",
       is_active: active ?? true,
       is_claimed: false,
       owner_id: user?.id || null, // Link to current user if authenticated
       is_approved_101: false,
-      // Social media fields
-      facebook_url: facebook_url || null,
-      instagram_url: instagram_url || null,
-      tiktok_url: tiktok_url || null,
-      youtube_url: youtube_url || null,
-      linkedin_url: linkedin_url || null,
-      blog_url: blog_url || null,
-      custom_link_url: custom_link_url || null,
-      custom_link_name: custom_link_name || null,
+      // Social media fields: Pro tier only
+      facebook_url: isPro ? facebook_url || null : null,
+      instagram_url: isPro ? instagram_url || null : null,
+      tiktok_url: isPro ? tiktok_url || null : null,
+      youtube_url: isPro ? youtube_url || null : null,
+      linkedin_url: isPro ? linkedin_url || null : null,
+      blog_url: isPro ? blog_url || null : null,
+      custom_link_url: isPro ? custom_link_url || null : null,
+      custom_link_name: isPro ? custom_link_name || null : null,
     };
 
     console.log("submitToSupabase, creating listing in Supabase:", listingData);
@@ -319,7 +335,7 @@ export async function submitToSupabase(
       // ALL EDITS require review (free and paid)
       successMessage =
         "Successfully updated listing! Your listing remains visible with the current information while changes are reviewed (typically within 24-48 hours). You'll receive an email when changes go live.";
-    } else if (formData.plan === "Free" || formData.plan === "free") {
+    } else if (formData.plan === "Free") {
       // NEW FREE submissions require review
       successMessage =
         "Successfully submitted listing! Your listing will be reviewed within 24-48 hours. You'll receive an email confirmation when it goes live.";

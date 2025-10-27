@@ -2,18 +2,38 @@
 
 import { useSearchParams } from "next/navigation";
 import Script from "next/script";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function PlanSelectionPage() {
   const searchParams = useSearchParams();
   const listingId = searchParams.get("listingId");
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Log for debugging
+    console.log("[Plan Selection] Listing ID:", listingId);
+    console.log("[Plan Selection] All search params:", Object.fromEntries(searchParams));
+    
+    // Check if there's an error parameter
+    const errorParam = searchParams.get("error");
+    if (errorParam) {
+      setError(decodeURIComponent(errorParam));
+      console.error("[Plan Selection] Error from URL:", errorParam);
+    }
+  }, [listingId, searchParams]);
 
   if (!listingId) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600">Error</h1>
-          <p className="text-paper">No listing ID provided.</p>
+        <div className="max-w-2xl mx-auto bg-red-50 border-2 border-red-200 rounded-lg p-8 text-center">
+          <h1 className="text-2xl font-bold text-red-600 mb-4">⚠️ Missing Listing ID</h1>
+          <p className="text-red-800 mb-4">No listing ID was provided. Please try again or contact support.</p>
+          <a 
+            href="/submit" 
+            className="inline-block bg-brand-orange hover:bg-brand-orange-dark text-white font-bold py-3 px-6 rounded-lg transition-colors"
+          >
+            ← Back to Submit Page
+          </a>
         </div>
       </div>
     );
@@ -21,6 +41,25 @@ export default function PlanSelectionPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      {/* Error Banner */}
+      {error && (
+        <div className="max-w-4xl mx-auto mb-8 bg-red-50 border-2 border-red-300 rounded-lg p-6">
+          <div className="flex items-start gap-3">
+            <span className="text-3xl">⚠️</span>
+            <div>
+              <h3 className="text-lg font-bold text-red-900 mb-2">Payment Error</h3>
+              <p className="text-red-800 mb-4">{error}</p>
+              <p className="text-sm text-red-700">
+                If this issue persists, please contact support at{" "}
+                <a href="mailto:support@childactor101.com" className="underline font-semibold">
+                  support@childactor101.com
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-4">Choose Your Plan</h1>
         <p className="text-xl text-paper mb-8">

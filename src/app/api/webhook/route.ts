@@ -59,22 +59,39 @@ export async function POST(request: NextRequest) {
       // For Stripe Pricing Table checkouts, listing_id comes from client_reference_id
       if (!listingId && session.client_reference_id) {
         listingId = session.client_reference_id;
-        console.log("[Pricing Table] Using client_reference_id as listing_id:", listingId);
+        console.log(
+          "[Pricing Table] Using client_reference_id as listing_id:",
+          listingId,
+        );
       }
 
       // If plan is not in metadata, detect it from line items (Pricing Table scenario)
       if (!plan && session.mode === "subscription") {
-        console.log("[Pricing Table] Plan not in metadata, retrieving line items...");
-        
+        console.log(
+          "[Pricing Table] Plan not in metadata, retrieving line items...",
+        );
+
         try {
-          const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 1 });
+          const lineItems = await stripe.checkout.sessions.listLineItems(
+            session.id,
+            { limit: 1 },
+          );
           const firstItem = lineItems.data[0];
-          
+
           if (firstItem?.price) {
-            const priceId = typeof firstItem.price === 'string' ? firstItem.price : firstItem.price.id;
-            const priceAmount = typeof firstItem.price === 'object' ? firstItem.price.unit_amount : 0;
-            const priceInterval = typeof firstItem.price === 'object' ? firstItem.price.recurring?.interval : null;
-            
+            const priceId =
+              typeof firstItem.price === "string"
+                ? firstItem.price
+                : firstItem.price.id;
+            const priceAmount =
+              typeof firstItem.price === "object"
+                ? firstItem.price.unit_amount
+                : 0;
+            const priceInterval =
+              typeof firstItem.price === "object"
+                ? firstItem.price.recurring?.interval
+                : null;
+
             console.log("[Pricing Table] Line item details:", {
               priceId,
               priceAmount,
@@ -92,7 +109,10 @@ export async function POST(request: NextRequest) {
               billingCycle = priceAmount === 5000 ? "monthly" : "yearly";
             }
 
-            console.log("[Pricing Table] Detected plan:", { plan, billingCycle });
+            console.log("[Pricing Table] Detected plan:", {
+              plan,
+              billingCycle,
+            });
           }
         } catch (err) {
           console.error("[Pricing Table] Error fetching line items:", err);
@@ -101,8 +121,10 @@ export async function POST(request: NextRequest) {
 
       // Try to find vendor_id from listing if not provided
       if (listingId && !vendorId) {
-        console.log("[Pricing Table] No vendor_id in metadata, looking up listing owner...");
-        
+        console.log(
+          "[Pricing Table] No vendor_id in metadata, looking up listing owner...",
+        );
+
         try {
           const { data: listingData, error: listingError } = await supabase
             .from("listings")
@@ -112,9 +134,14 @@ export async function POST(request: NextRequest) {
 
           if (!listingError && listingData?.owner_id) {
             vendorId = listingData.owner_id;
-            console.log("[Pricing Table] Found vendor_id from listing:", vendorId);
+            console.log(
+              "[Pricing Table] Found vendor_id from listing:",
+              vendorId,
+            );
           } else {
-            console.log("[Pricing Table] No owner_id found for listing, will use customer email");
+            console.log(
+              "[Pricing Table] No owner_id found for listing, will use customer email",
+            );
           }
         } catch (err) {
           console.error("[Pricing Table] Error looking up listing:", err);
@@ -123,8 +150,11 @@ export async function POST(request: NextRequest) {
 
       // If we still don't have vendor_id, try to find user by email
       if (!vendorId && session.customer_details?.email) {
-        console.log("[Pricing Table] Looking up user by email:", session.customer_details.email);
-        
+        console.log(
+          "[Pricing Table] Looking up user by email:",
+          session.customer_details.email,
+        );
+
         try {
           const { data: userData, error: userError } = await supabase
             .from("users")
@@ -167,10 +197,18 @@ export async function POST(request: NextRequest) {
             customerEmail: session.customer_details?.email,
           },
         );
-        return NextResponse.json({ received: true, error: "Could not determine vendor" });
+        return NextResponse.json({
+          received: true,
+          error: "Could not determine vendor",
+        });
       }
 
-      console.log("[Webhook] Processing with:", { vendorId, listingId, plan, billingCycle });
+      console.log("[Webhook] Processing with:", {
+        vendorId,
+        listingId,
+        plan,
+        billingCycle,
+      });
 
       try {
         // 1. Insert claim row

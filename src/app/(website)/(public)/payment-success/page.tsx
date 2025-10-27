@@ -7,22 +7,39 @@ import { CheckCircleIcon, ClockIcon, HomeIcon, MailIcon, SearchIcon } from "luci
 import Link from "next/link";
 
 export default async function PaymentSuccessPage({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
+  console.log("[Payment Success] Received search params:", searchParams);
+  
   // Fast-path fallback: if flow and lid are present in URL, route immediately
   if (searchParams?.flow === "claim_upgrade" && searchParams?.lid) {
+    console.log("[Payment Success] Redirecting to enhance page for claim_upgrade flow");
     return redirect(`/dashboard/vendor/listing/${encodeURIComponent(searchParams.lid)}/enhance?upgraded=1`);
   }
+  
   // If Stripe session is present, route based on metadata
   const sessionId = searchParams?.session_id;
+  console.log("[Payment Success] Session ID:", sessionId);
+  
   if (sessionId && process.env.STRIPE_SECRET_KEY) {
     try {
       const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2024-04-10" });
       const checkout = await stripe.checkout.sessions.retrieve(sessionId);
+      console.log("[Payment Success] Checkout session retrieved:", {
+        id: checkout.id,
+        status: checkout.status,
+        payment_status: checkout.payment_status,
+        metadata: checkout.metadata,
+        client_reference_id: checkout.client_reference_id,
+      });
+      
       const flow = checkout.metadata?.flow;
-      const listingId = checkout.metadata?.listing_id;
+      const listingId = checkout.metadata?.listing_id || checkout.client_reference_id;
+      
       if (flow === "claim_upgrade" && listingId) {
+        console.log("[Payment Success] Redirecting to enhance page");
         redirect(`/dashboard/vendor/listing/${listingId}/enhance?upgraded=1`);
       }
     } catch (e) {
+      console.error("[Payment Success] Error retrieving Stripe session:", e);
       // Fall through to generic success below
     }
   }

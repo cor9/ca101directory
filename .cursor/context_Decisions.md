@@ -1,3 +1,84 @@
+## 2025-10-27 — STRIPE PRICING TABLE WEBHOOK FIX (COMPLETE)
+
+### Problem
+Jennifer Boyce (and potentially other vendors) was getting "Oops something went wrong at checkout" when trying to purchase a plan through the Stripe Pricing Table on `/plan-selection`. The issue had two parts:
+1. **Missing Stripe Dashboard Configuration** - Success/Cancel URLs weren't configured
+2. **Webhook Can't Process Pricing Table Checkouts** - The webhook expected metadata that Stripe Pricing Tables don't automatically provide
+
+### Root Causes:
+1. **Stripe Pricing Table Configuration** - The embedded pricing table (`prctbl_1SCpyNBqTvwy9ZuSNiSGY03P`) didn't have success/cancel URLs configured in Stripe Dashboard
+2. **Webhook Metadata Requirements** - The webhook at `src/app/api/webhook/route.ts` expected `vendor_id`, `listing_id`, and `plan` in session metadata, but Stripe Pricing Tables only provide `client-reference-id` and custom metadata attributes
+3. **Plan Detection** - No logic to determine which plan (Standard/Pro, monthly/yearly) was purchased from the Stripe session
+
+### Solution Implemented:
+
+#### 1. STRIPE DASHBOARD CONFIGURATION (Manual)
+**Set in Stripe Dashboard → Pricing Tables:**
+- **Success URL:** `https://directory.childactor101.com/payment-success?session_id={CHECKOUT_SESSION_ID}`
+- **Cancel URL:** `https://directory.childactor101.com/plan-selection?listingId={CLIENT_REFERENCE_ID}&error=Payment%20was%20cancelled`
+
+#### 2. ENHANCED WEBHOOK HANDLING (`src/app/api/webhook/route.ts`)
+
+**Pricing Table Detection & Metadata Extraction:**
+```typescript
+// Extract listing_id from client_reference_id (Pricing Table standard)
+if (!listingId && session.client_reference_id) {
+  listingId = session.client_reference_id;
+}
+
+// Detect plan from Stripe line items
+const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 1 });
+const priceAmount = firstItem.price.unit_amount;
+
+// Determine plan based on price
+// Standard: $25/month ($2500) or $250/year ($25000)
+// Pro: $50/month ($5000) or $500/year ($50000)
+if (priceAmount === 2500 || priceAmount === 25000) {
+  plan = "Standard";
+  billingCycle = priceAmount === 2500 ? "monthly" : "yearly";
+} else if (priceAmount === 5000 || priceAmount === 50000) {
+  plan = "Pro";
+  billingCycle = priceAmount === 5000 ? "monthly" : "yearly";
+}
+```
+
+**Vendor ID Resolution (3 Fallback Methods):**
+1. Check `session.metadata.vendor_id` (from API checkouts)
+2. Look up `listings.owner_id` by listing_id
+3. Look up `users.id` by `session.customer_details.email`
+
+**Comprehensive Logging:**
+- Log all Pricing Table specific flows with `[Pricing Table]` prefix
+- Log detected plan, billing cycle, and vendor resolution steps
+- Clear error messages when vendor can't be determined
+
+#### 3. ERROR BANNER ON PLAN SELECTION PAGE (`src/app/(website)/(public)/plan-selection/page.tsx`)
+Added error state handling to display payment errors to users with support contact info.
+
+### Files Changed:
+- `src/app/api/webhook/route.ts` - Enhanced to handle Pricing Table checkouts
+- `src/app/(website)/(public)/plan-selection/page.tsx` - Added error banner and logging
+- Stripe Dashboard (manual) - Configured success/cancel URLs for pricing table
+
+### Testing Steps:
+1. ✅ User navigates to `/plan-selection?listingId=<uuid>`
+2. ✅ User selects Standard or Pro plan from Stripe Pricing Table
+3. ✅ User completes payment through Stripe checkout
+4. ✅ Stripe redirects to `/payment-success?session_id=<id>`
+5. ✅ Webhook receives `checkout.session.completed` event
+6. ✅ Webhook detects plan from line items
+7. ✅ Webhook resolves vendor_id from listing or email
+8. ✅ Listing updated with plan and owner_id
+9. ✅ Vendor sees success message
+
+### Business Impact:
+- **Immediate:** Jennifer Boyce and other vendors can now complete checkout successfully
+- **Revenue:** Unblocks all Stripe Pricing Table sales (primary payment flow)
+- **Support:** Reduces "payment not working" support tickets
+- **Reliability:** Robust fallback logic handles edge cases
+
+---
+
 ## 2025-10-27 — VENDOR TIER RESTRICTIONS ENFORCEMENT (COMPLETE)
 
 ### Problem

@@ -8,6 +8,10 @@ import { constructMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
+// Force dynamic rendering - don't cache this page
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata: Metadata = constructMetadata({
   title: "Edit Listing - Admin Dashboard",
   description: "Edit listing details as admin",
@@ -33,9 +37,19 @@ export default async function AdminEditPage({ params }: AdminEditPageProps) {
   }
 
   // Get the listing
-  const listing = await getListingById(params.listingId);
+  console.log("[Admin Edit] Attempting to fetch listing:", params.listingId);
+  
+  let listing;
+  try {
+    listing = await getListingById(params.listingId);
+    console.log("[Admin Edit] Listing fetched successfully:", listing?.listing_name);
+  } catch (error) {
+    console.error("[Admin Edit] Error fetching listing:", error);
+    throw error;
+  }
 
   if (!listing) {
+    console.error("[Admin Edit] Listing not found, returning 404");
     notFound();
   }
 

@@ -1,49 +1,131 @@
+import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import { createServerClient } from "@/lib/supabase";
-import { auth } from "@/auth";
-import Stripe from "stripe";
-import { redirect } from "next/navigation";
-import { CheckCircleIcon, ClockIcon, HomeIcon, MailIcon, SearchIcon } from "lucide-react";
+import {
+  CheckCircleIcon,
+  ClockIcon,
+  HomeIcon,
+  MailIcon,
+  SearchIcon,
+} from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import Stripe from "stripe";
 
-export default async function PaymentSuccessPage({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
+export default async function PaymentSuccessPage({
+  searchParams,
+}: { searchParams: { [key: string]: string | undefined } }) {
   console.log("[Payment Success] Received search params:", searchParams);
-  
-  // Fast-path fallback: if flow and lid are present in URL, route immediately
-  if (searchParams?.flow === "claim_upgrade" && searchParams?.lid) {
-    console.log("[Payment Success] Redirecting to enhance page for claim_upgrade flow");
-    return redirect(`/dashboard/vendor/listing/${encodeURIComponent(searchParams.lid)}/enhance?upgraded=1`);
-  }
-  
-  // If Stripe session is present, route based on metadata
+
+  const session = await auth();
+  console.log("[Payment Success] User session:", session?.user?.id ? "Logged in" : "Not logged in");
+
+  // If Stripe session is present, retrieve checkout details
   const sessionId = searchParams?.session_id;
-  console.log("[Payment Success] Session ID:", sessionId);
-  
+  let checkoutSession = null as any;
+  let listingId = null as string | null;
+
   if (sessionId && process.env.STRIPE_SECRET_KEY) {
     try {
-      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2024-04-10" });
-      const checkout = await stripe.checkout.sessions.retrieve(sessionId);
-      console.log("[Payment Success] Checkout session retrieved:", {
-        id: checkout.id,
-        status: checkout.status,
-        payment_status: checkout.payment_status,
-        metadata: checkout.metadata,
-        client_reference_id: checkout.client_reference_id,
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+        apiVersion: "2024-04-10",
       });
+      checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {
+        expand: ['line_items']
+      });
+      console.log("[Payment Success] Checkout session retrieved:", {
+        id: checkoutSession.id,
+        status: checkoutSession.status,
+        payment_status: checkoutSession.payment_status,
+        metadata: checkoutSession.metadata,
+        client_reference_id: checkoutSession.client_reference_id,
+        customer_email: checkoutSession.customer_details?.email,
+      });
+
+      listingId = checkoutSession.metadata?.listing_id || checkoutSession.client_reference_id;
       
-      const flow = checkout.metadata?.flow;
-      const listingId = checkout.metadata?.listing_id || checkout.client_reference_id;
-      
-      if (flow === "claim_upgrade" && listingId) {
-        console.log("[Payment Success] Redirecting to enhance page");
-        redirect(`/dashboard/vendor/listing/${listingId}/enhance?upgraded=1`);
+      // If user is NOT logged in and we have a listing ID, redirect to login with session preserved
+      if (!session?.user?.id && listingId) {
+        console.log("[Payment Success] User not logged in, redirecting to auth with session preserved");
+        const callbackUrl = `/payment-success?session_id=${sessionId}`;
+        return redirect(`/auth/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
+      }
+
+      // If user IS logged in and has a listing ID, complete the claim
+      if (session?.user?.id && listingId) {
+        console.log("[Payment Success] User logged in, completing claim for listing:", listingId);
+        
+        try {
+          const supabase = createServerClient();
+          const userId = session.user.id;
+          const userEmail = session.user.email;
+
+          // Check if this listing has a pending claim for this user's email
+          const { data: listing } = await supabase
+            .from("listings")
+            .select("id, pending_claim_email, plan, stripe_session_id")
+            .eq("id", listingId)
+            .single();
+
+          console.log("[Payment Success] Listing data:", listing);
+
+          // If pending claim matches this user's email, complete the claim
+          if (listing?.pending_claim_email === userEmail) {
+            console.log("[Payment Success] Matching pending claim found, completing claim...");
+
+            // Update listing to complete the claim
+            const { error: updateError } = await supabase
+              .from("listings")
+              .update({
+                owner_id: userId,
+                is_claimed: true,
+                pending_claim_email: null, // Clear pending
+                stripe_session_id: null, // Clear session
+                updated_at: new Date().toISOString(),
+              })
+              .eq("id", listingId);
+
+            if (updateError) {
+              console.error("[Payment Success] Error completing claim:", updateError);
+            } else {
+              console.log("[Payment Success] ✅ Claim completed successfully");
+
+              // Update user profile with plan from listing
+              if (listing.plan) {
+                await supabase
+                  .from("profiles")
+                  .update({
+                    subscription_plan: listing.plan,
+                    stripe_customer_id: checkoutSession.customer as string,
+                  })
+                  .eq("id", userId);
+              }
+            }
+          } else if (!listing?.owner_id) {
+            // Listing exists but has no owner - claim it anyway
+            console.log("[Payment Success] Unclaimed listing, claiming now...");
+            
+            await supabase
+              .from("listings")
+              .update({
+                owner_id: userId,
+                is_claimed: true,
+                updated_at: new Date().toISOString(),
+              })
+              .eq("id", listingId);
+          }
+        } catch (err) {
+          console.error("[Payment Success] Error during claim completion:", err);
+        }
+
+        console.log("[Payment Success] Redirecting to vendor dashboard");
+        return redirect(`/dashboard/vendor?upgraded=1`);
       }
     } catch (e) {
       console.error("[Payment Success] Error retrieving Stripe session:", e);
       // Fall through to generic success below
     }
   }
-  const session = await auth();
   const userId = session?.user?.id || null;
   let hasListing = false;
 

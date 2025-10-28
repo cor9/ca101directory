@@ -165,6 +165,9 @@ export async function POST(request: NextRequest) {
           if (!userError && userData?.id) {
             vendorId = userData.id;
             console.log("[Pricing Table] Found vendor_id by email:", vendorId);
+          } else {
+            // User doesn't exist yet - we need to create one
+            console.log("[Pricing Table] User doesn't exist, will be created after email verification");
           }
         } catch (err) {
           console.error("[Pricing Table] Error looking up user by email:", err);
@@ -188,13 +191,57 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ received: true, skipped: true });
       }
 
-      if (!vendorId) {
-        console.error(
-          "[Webhook] Could not determine vendor_id, cannot process checkout:",
+      // If no vendorId, store payment info on listing for later claim
+      if (!vendorId && session.customer_details?.email) {
+        console.log(
+          "[Webhook] No user account yet, storing payment info on listing for claim after signup:",
           {
             listingId,
             plan,
             customerEmail: session.customer_details?.email,
+          },
+        );
+
+        try {
+          // Update listing with pending payment info
+          const { error: listingError } = await supabase
+            .from("listings")
+            .update({
+              plan: plan,
+              // Store payment email so we can match it after signup
+              pending_claim_email: session.customer_details.email,
+              stripe_session_id: session.id,
+              updated_at: new Date().toISOString(),
+            })
+            .eq("id", listingId);
+
+          if (listingError) {
+            console.error("Error storing pending claim info:", listingError);
+          } else {
+            console.log("✅ Stored pending claim info, awaiting user signup");
+          }
+
+          // Acknowledge receipt
+          return NextResponse.json({ 
+            received: true, 
+            pending_signup: true,
+            message: "Payment received, awaiting user account creation" 
+          });
+        } catch (err) {
+          console.error("[Webhook] Error storing pending claim:", err);
+          return NextResponse.json({
+            received: true,
+            error: "Could not store pending claim",
+          });
+        }
+      }
+
+      if (!vendorId) {
+        console.error(
+          "[Webhook] Could not determine vendor_id and no email provided:",
+          {
+            listingId,
+            plan,
           },
         );
         return NextResponse.json({

@@ -276,7 +276,7 @@ export async function POST(request: NextRequest) {
               error: vendorCheckError,
             },
           );
-          
+
           // Check if they exist in auth.users
           const { data: authUser } = await supabase
             .from("auth.users")

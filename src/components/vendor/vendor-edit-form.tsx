@@ -1,16 +1,16 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
 
 import { updateListing } from "@/actions/listings";
-import { UpdateListingSchema } from "@/lib/validations/listings";
 import { Button } from "@/components/ui/button";
 import type { Listing } from "@/data/listings";
+import { UpdateListingSchema } from "@/lib/validations/listings";
 
 interface VendorEditFormProps {
   listing: Listing;
@@ -25,13 +25,20 @@ const VendorUpdateSchema = z.object({
     .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
     .optional(),
   email: z
-    .union([z.string().email({ message: "Invalid email format." }), z.literal("")])
+    .union([
+      z.string().email({ message: "Invalid email format." }),
+      z.literal(""),
+    ])
     .optional(),
   phone: z.string().optional(),
   what_you_offer: z.string().optional(),
 });
 
-export function VendorEditForm({ listing, onFinished, redirectUrl }: VendorEditFormProps) {
+export function VendorEditForm({
+  listing,
+  onFinished,
+  redirectUrl,
+}: VendorEditFormProps) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -63,7 +70,7 @@ export function VendorEditForm({ listing, onFinished, redirectUrl }: VendorEditF
         } else {
           // FIX: Updated toast message for better UX, informing user about review process.
           toast.success("Listing has been submitted for review.");
-          
+
           // Handle redirect - either via callback or router
           if (onFinished) {
             onFinished();

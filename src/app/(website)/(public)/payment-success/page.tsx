@@ -75,7 +75,7 @@ export default async function PaymentSuccessPage({
           // Check if this listing has a pending claim for this user's email
           const { data: listing } = await supabase
             .from("listings")
-            .select("id, pending_claim_email, plan, stripe_session_id")
+            .select("id, pending_claim_email, plan, stripe_session_id, owner_id")
             .eq("id", listingId)
             .single();
 

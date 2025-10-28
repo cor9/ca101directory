@@ -22,7 +22,7 @@
 // If no vendorId, store payment info on listing for later claim
 if (!vendorId && session.customer_details?.email) {
   console.log("[Webhook] No user account yet, storing payment info...");
-  
+
   await supabase
     .from("listings")
     .update({
@@ -33,10 +33,10 @@ if (!vendorId && session.customer_details?.email) {
     })
     .eq("id", listingId);
 
-  return NextResponse.json({ 
-    received: true, 
+  return NextResponse.json({
+    received: true,
     pending_signup: true,
-    message: "Payment received, awaiting user account creation" 
+    message: "Payment received, awaiting user account creation"
   });
 }
 ```
@@ -75,7 +75,7 @@ if (session?.user?.id && listingId) {
         stripe_session_id: null,
       })
       .eq("id", listingId);
-      
+
     // Update user profile with purchased plan
     await supabase
       .from("profiles")
@@ -85,7 +85,7 @@ if (session?.user?.id && listingId) {
       })
       .eq("id", session.user.id);
   }
-  
+
   return redirect(`/dashboard/vendor?upgraded=1`);
 }
 ```
@@ -101,11 +101,11 @@ if (session?.user?.id && listingId) {
 **Added error logging and development display:**
 
 ```typescript
-export default function ErrorPage({ 
+export default function ErrorPage({
   error,  // NEW: Accept error object
-  reset 
-}: { 
-  error: Error & { digest?: string }; 
+  reset
+}: {
+  error: Error & { digest?: string };
   reset: () => void;
 }) {
   // Log error for debugging

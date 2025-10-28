@@ -11,11 +11,11 @@ import { useTransition } from "react";
  *
  * https://x.com/asidorenko_/status/1841547623712407994
  */
-export default function ErrorPage({ 
-  error, 
-  reset 
-}: { 
-  error: Error & { digest?: string }; 
+export default function ErrorPage({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
   reset: () => void;
 }) {
   const router = useRouter();
@@ -33,7 +33,7 @@ export default function ErrorPage({
       <Logo className="size-12" />
 
       <h1 className="text-2xl text-center">Oops! Something went wrong!</h1>
-      
+
       {process.env.NODE_ENV === "development" && (
         <div className="max-w-2xl p-4 bg-red-50 border border-red-200 rounded-lg">
           <p className="text-sm font-mono text-red-800 whitespace-pre-wrap">

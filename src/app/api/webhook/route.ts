@@ -167,7 +167,9 @@ export async function POST(request: NextRequest) {
             console.log("[Pricing Table] Found vendor_id by email:", vendorId);
           } else {
             // User doesn't exist yet - we need to create one
-            console.log("[Pricing Table] User doesn't exist, will be created after email verification");
+            console.log(
+              "[Pricing Table] User doesn't exist, will be created after email verification",
+            );
           }
         } catch (err) {
           console.error("[Pricing Table] Error looking up user by email:", err);
@@ -222,10 +224,10 @@ export async function POST(request: NextRequest) {
           }
 
           // Acknowledge receipt
-          return NextResponse.json({ 
-            received: true, 
+          return NextResponse.json({
+            received: true,
             pending_signup: true,
-            message: "Payment received, awaiting user account creation" 
+            message: "Payment received, awaiting user account creation",
           });
         } catch (err) {
           console.error("[Webhook] Error storing pending claim:", err);
@@ -258,6 +260,44 @@ export async function POST(request: NextRequest) {
       });
 
       try {
+        // Verify vendor exists before proceeding
+        const { data: vendorExists, error: vendorCheckError } = await supabase
+          .from("users")
+          .select("id")
+          .eq("id", vendorId)
+          .single();
+
+        if (vendorCheckError || !vendorExists) {
+          console.error(
+            "[Webhook] ❌ CRITICAL: Vendor doesn't exist in users table!",
+            {
+              vendorId,
+              email: session.customer_details?.email,
+              error: vendorCheckError,
+            },
+          );
+          
+          // Check if they exist in auth.users
+          const { data: authUser } = await supabase
+            .from("auth.users")
+            .select("id, email")
+            .eq("id", vendorId)
+            .single();
+
+          if (authUser) {
+            console.error(
+              "[Webhook] User exists in auth.users but NOT in users table - sync trigger failed!",
+              authUser,
+            );
+          }
+
+          throw new Error(
+            `Vendor ${vendorId} doesn't exist in users table. Email: ${session.customer_details?.email}`,
+          );
+        }
+
+        console.log("[Webhook] ✅ Vendor verified:", vendorId);
+
         // 1. Insert claim row
         const { error: claimError } = await supabase.from("claims").insert({
           listing_id: listingId,
@@ -267,12 +307,14 @@ export async function POST(request: NextRequest) {
         });
 
         if (claimError) {
-          console.error("Error inserting claim:", claimError);
+          console.error("[Webhook] ❌ Error inserting claim:", claimError);
           throw claimError;
         }
 
+        console.log("[Webhook] ✅ Claim inserted");
+
         // 2. Update listing with plan and claim status
-        const { error: listingError } = await supabase
+        const { data: updatedListing, error: listingError } = await supabase
           .from("listings")
           .update({
             owner_id: vendorId,
@@ -280,27 +322,33 @@ export async function POST(request: NextRequest) {
             plan: plan,
             updated_at: new Date().toISOString(),
           })
-          .eq("id", listingId);
+          .eq("id", listingId)
+          .select();
 
         if (listingError) {
-          console.error("Error updating listing:", listingError);
+          console.error("[Webhook] ❌ Error updating listing:", listingError);
           throw listingError;
         }
 
+        console.log("[Webhook] ✅ Listing updated:", updatedListing);
+
         // 3. Update vendor profile with plan
-        const { error: profileError } = await supabase
+        const { data: updatedProfile, error: profileError } = await supabase
           .from("profiles")
           .update({
             subscription_plan: plan,
             billing_cycle: billingCycle,
             stripe_customer_id: session.customer as string,
           })
-          .eq("id", vendorId);
+          .eq("id", vendorId)
+          .select();
 
         if (profileError) {
-          console.error("Error updating profile:", profileError);
+          console.error("[Webhook] ❌ Error updating profile:", profileError);
           throw profileError;
         }
+
+        console.log("[Webhook] ✅ Profile updated:", updatedProfile);
 
         console.log("✅ Successfully processed claim for:", {
           vendorId,

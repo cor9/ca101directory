@@ -18,7 +18,10 @@ export default async function PaymentSuccessPage({
   console.log("[Payment Success] Received search params:", searchParams);
 
   const session = await auth();
-  console.log("[Payment Success] User session:", session?.user?.id ? "Logged in" : "Not logged in");
+  console.log(
+    "[Payment Success] User session:",
+    session?.user?.id ? "Logged in" : "Not logged in",
+  );
 
   // If Stripe session is present, retrieve checkout details
   const sessionId = searchParams?.session_id;
@@ -31,7 +34,7 @@ export default async function PaymentSuccessPage({
         apiVersion: "2024-04-10",
       });
       checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {
-        expand: ['line_items']
+        expand: ["line_items"],
       });
       console.log("[Payment Success] Checkout session retrieved:", {
         id: checkoutSession.id,
@@ -42,19 +45,28 @@ export default async function PaymentSuccessPage({
         customer_email: checkoutSession.customer_details?.email,
       });
 
-      listingId = checkoutSession.metadata?.listing_id || checkoutSession.client_reference_id;
-      
+      listingId =
+        checkoutSession.metadata?.listing_id ||
+        checkoutSession.client_reference_id;
+
       // If user is NOT logged in and we have a listing ID, redirect to login with session preserved
       if (!session?.user?.id && listingId) {
-        console.log("[Payment Success] User not logged in, redirecting to auth with session preserved");
+        console.log(
+          "[Payment Success] User not logged in, redirecting to auth with session preserved",
+        );
         const callbackUrl = `/payment-success?session_id=${sessionId}`;
-        return redirect(`/auth/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
+        return redirect(
+          `/auth/login?callbackUrl=${encodeURIComponent(callbackUrl)}`,
+        );
       }
 
       // If user IS logged in and has a listing ID, complete the claim
       if (session?.user?.id && listingId) {
-        console.log("[Payment Success] User logged in, completing claim for listing:", listingId);
-        
+        console.log(
+          "[Payment Success] User logged in, completing claim for listing:",
+          listingId,
+        );
+
         try {
           const supabase = createServerClient();
           const userId = session.user.id;
@@ -71,7 +83,9 @@ export default async function PaymentSuccessPage({
 
           // If pending claim matches this user's email, complete the claim
           if (listing?.pending_claim_email === userEmail) {
-            console.log("[Payment Success] Matching pending claim found, completing claim...");
+            console.log(
+              "[Payment Success] Matching pending claim found, completing claim...",
+            );
 
             // Update listing to complete the claim
             const { error: updateError } = await supabase
@@ -86,7 +100,10 @@ export default async function PaymentSuccessPage({
               .eq("id", listingId);
 
             if (updateError) {
-              console.error("[Payment Success] Error completing claim:", updateError);
+              console.error(
+                "[Payment Success] Error completing claim:",
+                updateError,
+              );
             } else {
               console.log("[Payment Success] ✅ Claim completed successfully");
 
@@ -104,7 +121,7 @@ export default async function PaymentSuccessPage({
           } else if (!listing?.owner_id) {
             // Listing exists but has no owner - claim it anyway
             console.log("[Payment Success] Unclaimed listing, claiming now...");
-            
+
             await supabase
               .from("listings")
               .update({
@@ -115,7 +132,10 @@ export default async function PaymentSuccessPage({
               .eq("id", listingId);
           }
         } catch (err) {
-          console.error("[Payment Success] Error during claim completion:", err);
+          console.error(
+            "[Payment Success] Error during claim completion:",
+            err,
+          );
         }
 
         console.log("[Payment Success] Redirecting to vendor dashboard");

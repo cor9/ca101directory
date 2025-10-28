@@ -5,6 +5,7 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 import { updateListing } from "@/actions/listings";
 import { UpdateListingSchema } from "@/lib/validations/listings";
@@ -13,7 +14,8 @@ import type { Listing } from "@/data/listings";
 
 interface VendorEditFormProps {
   listing: Listing;
-  onFinished: () => void;
+  onFinished?: () => void;
+  redirectUrl?: string;
 }
 
 // Vendor-edit schema: explicit subset schema; avoid relying on UpdateListingSchema internals
@@ -29,8 +31,9 @@ const VendorUpdateSchema = z.object({
   what_you_offer: z.string().optional(),
 });
 
-export function VendorEditForm({ listing, onFinished }: VendorEditFormProps) {
+export function VendorEditForm({ listing, onFinished, redirectUrl }: VendorEditFormProps) {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof VendorUpdateSchema>>({
     resolver: zodResolver(VendorUpdateSchema),
@@ -60,7 +63,13 @@ export function VendorEditForm({ listing, onFinished }: VendorEditFormProps) {
         } else {
           // FIX: Updated toast message for better UX, informing user about review process.
           toast.success("Listing has been submitted for review.");
-          onFinished();
+          
+          // Handle redirect - either via callback or router
+          if (onFinished) {
+            onFinished();
+          } else if (redirectUrl) {
+            router.push(redirectUrl);
+          }
         }
       });
     });

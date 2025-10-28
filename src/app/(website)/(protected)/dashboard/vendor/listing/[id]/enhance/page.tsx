@@ -29,7 +29,10 @@ export default async function EnhanceListingPage({ params, searchParams }: { par
 
           {/* Reuse vendor edit form for now; it respects fields and validation */}
           <div className="bg-card rounded-lg p-6 border">
-            <VendorEditForm listing={listing as any} onFinished={() => redirect(`/dashboard/vendor?lid=${listing.id}`)} />
+            <VendorEditForm 
+              listing={listing as any} 
+              redirectUrl={`/dashboard/vendor?lid=${listing.id}`}
+            />
           </div>
         </div>
       </AdminDashboardLayout>

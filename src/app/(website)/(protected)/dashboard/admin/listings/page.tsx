@@ -6,10 +6,11 @@ import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout"
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { siteConfig } from "@/config/site";
 import { getAdminListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
-import { CheckCircleIcon, EditIcon, EyeIcon } from "lucide-react";
+import { CheckCircleIcon, EditIcon, EyeIcon, SearchIcon, XIcon } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -31,7 +32,7 @@ export const metadata = constructMetadata({
 export default async function AdminListingsPage({
   searchParams,
 }: {
-  searchParams?: { status?: string };
+  searchParams?: { status?: string; query?: string };
 }) {
   const session = await auth();
 
@@ -48,8 +49,25 @@ export default async function AdminListingsPage({
     ? allListings.filter((listing) => listing.status === statusFilter)
     : allListings;
 
+  const normalizedSearchQuery = searchParams?.query?.trim().toLowerCase();
+  const searchFilteredListings = normalizedSearchQuery
+    ? filteredListings.filter((listing) => {
+        const valuesToMatch = [
+          listing.listing_name,
+          listing.email,
+          listing.slug,
+          listing.city,
+          listing.state,
+        ].filter((value): value is string => Boolean(value));
+
+        return valuesToMatch.some((value) =>
+          value.toLowerCase().includes(normalizedSearchQuery),
+        );
+      })
+    : filteredListings;
+
   // Sort listings by plan priority and name
-  const sortedListings = filteredListings.sort((a, b) => {
+  const sortedListings = [...searchFilteredListings].sort((a, b) => {
     const planPriority = (plan: string | null, comped: boolean | null) => {
       if (comped) return 3; // Comped listings are treated as Pro
       switch (plan) {
@@ -101,6 +119,46 @@ export default async function AdminListingsPage({
               </Button>
             </div>
           </div>
+
+          {/* Search */}
+          <form
+            action="/dashboard/admin/listings"
+            className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div className="flex items-center gap-2 w-full sm:max-w-md">
+              {statusFilter && (
+                <input type="hidden" name="status" value={statusFilter} />
+              )}
+              <div className="relative w-full">
+                <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  name="query"
+                  defaultValue={searchParams?.query ?? ""}
+                  placeholder="Search by name, email, or location"
+                  className="pl-9"
+                />
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button type="submit" variant="secondary">
+                Search
+              </Button>
+              {searchParams?.query && (
+                <Button type="button" variant="ghost" asChild>
+                  <Link
+                    href={
+                      statusFilter
+                        ? `/dashboard/admin/listings?status=${statusFilter}`
+                        : "/dashboard/admin/listings"
+                    }
+                  >
+                    <XIcon className="mr-2 h-4 w-4" />
+                    Clear
+                  </Link>
+                </Button>
+              )}
+            </div>
+          </form>
 
           {/* Status Filter Tabs */}
           <div className="flex gap-2 border-b border-gray-200">

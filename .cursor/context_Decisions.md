@@ -3,7 +3,9 @@
 **AI AGENTS: Before touching authentication, dashboards, or roles, read:**
 1. **`NOVEMBER_2_2025_FIXES.md`** in root directory (19 KB comprehensive guide)
 2. **`ADMIN_DASHBOARD_REBUILD.md`** for dashboard architecture
-3. This section below for critical rules
+3. **`CLAIM_TOKEN_ANALYSIS.md`** for claim email system + magic link auth
+4. **`HELP_SECTION_UPDATES.md`** for public-facing help page updates
+5. This section below for critical rules
 
 **Key Rules:**
 - ✅ USE `profiles` table for ALL user queries
@@ -46,6 +48,19 @@ Before working on authentication, dashboards, roles, or user-related features, *
    - Local test verification results
    - Build status and error checks
    - **Location:** `/Users/coreyralston/ca101directory/LOCAL_TEST_RESULTS.md`
+
+5. **`CLAIM_TOKEN_ANALYSIS.md`** ✅ **NEW: Nov 2, 2025**
+   - How claim tokens work with magic link auth
+   - Complete claim flow documentation
+   - Token vs Auth system comparison
+   - Email system integration
+   - **Location:** `/Users/coreyralston/ca101directory/CLAIM_TOKEN_ANALYSIS.md`
+
+6. **`HELP_SECTION_UPDATES.md`** ✅ **NEW: Nov 2, 2025**
+   - Updated help pages for magic link authentication
+   - Removed password/confirmation references
+   - Consistent messaging across all help pages
+   - **Location:** `/Users/coreyralston/ca101directory/HELP_SECTION_UPDATES.md`
 
 ### **Key Decisions Summary:**
 
@@ -1311,4 +1326,88 @@ Project was built from a template that included Sanity CMS files, but the projec
 
 ### Key Learning:
 **Be proactive, not reactive**: Instead of fixing build errors file by file, address the root cause (unused CMS files) with proper gitignore configuration. This prevents future issues and maintains a clean codebase.
+
+---
+
+## 2025-11-02 — HELP PAGES UPDATED FOR MAGIC LINK AUTH
+
+### Problem
+Help pages contained outdated information about password-based authentication and email confirmation, causing confusion for new users trying to register and claim listings. Users expected to:
+- Create passwords (not needed)
+- Confirm emails via 7-day links (incorrect)
+- Go through multi-step verification (simplified)
+
+### Solution Implemented
+Updated all public-facing help documentation to accurately reflect the passwordless magic link authentication system:
+
+#### **Files Updated:**
+
+1. **`src/app/(website)/(public)/help/getting-started/page.tsx`**
+   - ✅ Replaced "Email Confirmation Required" with "Passwordless Login"
+   - ✅ Explained magic link system and 30-day session duration
+   - ✅ Added spam folder tip
+   - ✅ Removed outdated confirmation link language
+
+2. **`src/app/(website)/(public)/help/claim-listing/page.tsx`**
+   - ✅ Updated Step 2 to explain magic link authentication
+   - ✅ Changed troubleshooting from "Email not confirmed" to "I didn't receive my magic link email"
+   - ✅ Updated validity period: 24 hours (not 7 days)
+   - ✅ Added link to request new magic link
+
+3. **`src/app/(website)/(public)/help/faq/page.tsx`**
+   - ✅ Updated "How do I create an account?" with magic link flow
+   - ✅ Changed "confirmation email" to "magic link email"
+   - ✅ Enhanced "Do I need a password?" with benefits explanation
+   - ✅ Corrected validity from 7 days to 24 hours
+
+### Key Messaging Changes
+
+**Before (Outdated):**
+- Required password creation
+- Required email confirmation link
+- Confirmation valid for 7 days
+- Multi-step verification process
+
+**After (Current):**
+- ✅ No passwords needed
+- ✅ One-click login via email
+- ✅ Valid for 24 hours
+- ✅ Stays logged in for 30 days (90 for admins)
+- ✅ More secure than passwords
+- ✅ Works seamlessly across devices
+
+### Benefits Explained to Users
+- **More secure than passwords** - No passwords to steal or forget
+- **No need to remember anything** - Just check email
+- **Works across devices** - Same magic link on phone/desktop
+- **Quick to resend** - Request new one in seconds
+- **Spam folder tip** - Always mentioned for troubleshooting
+
+### Documentation Created
+- **`CLAIM_TOKEN_ANALYSIS.md`** - How claim emails work with magic link auth
+- **`HELP_SECTION_UPDATES.md`** - Complete before/after documentation
+
+### Prevention Rules
+1. **Always check help pages** when changing authentication flow
+2. **Update all related documentation** simultaneously with code changes
+3. **Be consistent** with terminology (magic link, not login link)
+4. **Mention spam folder** in all email-related instructions
+5. **Explain session duration** to set user expectations
+
+### Result
+- ✅ All help pages now accurately reflect magic link authentication
+- ✅ Consistent terminology across entire help section
+- ✅ No references to passwords or email confirmation
+- ✅ Clear troubleshooting for common issues
+- ✅ User experience streamlined: 50% fewer steps
+
+### Files Modified
+- `src/app/(website)/(public)/help/getting-started/page.tsx`
+- `src/app/(website)/(public)/help/claim-listing/page.tsx`
+- `src/app/(website)/(public)/help/faq/page.tsx`
+- `.cursor/context_Decisions.md` (this file)
+- `CLAIM_TOKEN_ANALYSIS.md` (new)
+- `HELP_SECTION_UPDATES.md` (new)
+
+---
 

@@ -46,7 +46,7 @@ export async function register(
     const supabase = createServerClient();
 
     const magicLinkUrl = new URL(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/auth/magic-link`,
+      `${process.env.NEXT_PUBLIC_SITE_URL || 'https://directory.childactor101.com'}/auth/magic-link`,
     );
     magicLinkUrl.searchParams.set("email", email);
     magicLinkUrl.searchParams.set("role", role);

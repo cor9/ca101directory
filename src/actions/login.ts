@@ -78,9 +78,8 @@ export async function login(
     const redirectUrl =
       callbackUrl || roleBasedRedirect || DEFAULT_LOGIN_REDIRECT;
 
-    const magicLinkUrl = new URL(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/auth/magic-link`,
-    );
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://directory.childactor101.com';
+    const magicLinkUrl = new URL(`${siteUrl}/auth/magic-link`);
     magicLinkUrl.searchParams.set("email", email);
     magicLinkUrl.searchParams.set("role", resolvedProfile.role ?? "guest");
     magicLinkUrl.searchParams.set("remember", remember ? "1" : "0");

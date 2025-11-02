@@ -116,17 +116,18 @@ export default function FAQPage() {
 
           <div className="bg-bauhaus-orange border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
             <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
-              Can I change my password?
+              Do I need a password?
             </h3>
             <p className="bauhaus-body text-surface mb-2">
-              Yes! Go to your account settings from the dashboard to update your
-              password or other account information.
+              Nope! We use secure magic links instead of passwords. Enter your
+              email on the login page and we'll email you a one-click link that
+              keeps you signed in for up to 30 days (90 days for admins).
             </p>
             <Link
-              href="/settings"
+              href="/auth/login"
               className="text-secondary-denim hover:text-bauhaus-blue underline text-sm"
             >
-              Go to settings →
+              Send me a login link →
             </Link>
           </div>
         </div>

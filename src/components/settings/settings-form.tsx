@@ -18,7 +18,6 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { SettingsSchema } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BellRingIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useTransition } from "react";
@@ -36,8 +35,6 @@ export default function SettingsForm() {
   const form = useForm<z.infer<typeof SettingsSchema>>({
     resolver: zodResolver(SettingsSchema),
     defaultValues: {
-      password: undefined,
-      newPassword: undefined,
       name: user?.name || undefined,
     },
   });
@@ -90,47 +87,6 @@ export default function SettingsForm() {
               )}
             />
 
-            {user?.isOAuth === false && (
-              <div>
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder="******"
-                          type="password"
-                          disabled={isPending}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="newPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>New Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder="******"
-                          type="password"
-                          disabled={isPending}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            )}
           </CardContent>
           <CardFooter
             className={cn(
@@ -149,15 +105,6 @@ export default function SettingsForm() {
               )}
               Save Changes
             </Button>
-
-            {user?.isOAuth === false && (
-              <div className="text-paper flex items-center justify-center sm:justify-start gap-4">
-                <BellRingIcon className="h-5 w-5 sm:h-6 sm:w-4 flex-shrink-0" />
-                <span className="text-sm">
-                  Password is optional when changing name or link.
-                </span>
-              </div>
-            )}
           </CardFooter>
         </Card>
       </form>
@@ -182,17 +129,6 @@ export function SettingsFormSkeleton() {
             <Skeleton className="h-12 w-full" />
           </div>
 
-          {/* Password fields (assuming they might be present) */}
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Skeleton className="h-8 w-24" />
-              <Skeleton className="h-12 w-full" />
-            </div>
-            <div className="space-y-2">
-              <Skeleton className="h-8 w-32" />
-              <Skeleton className="h-12 w-full" />
-            </div>
-          </div>
         </CardContent>
         <CardFooter
           className={cn(

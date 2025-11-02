@@ -6,11 +6,14 @@ export type ExtendedUser = DefaultSession["user"] & {
   role: UserRole;
   isOAuth: boolean;
   link: string;
+  supabaseAccessToken?: string;
+  supabaseRefreshToken?: string;
 };
 
 // extend session.user to include role and isOAuth
 declare module "next-auth" {
   interface Session {
     user: ExtendedUser;
+    sessionExpiresAt?: string;
   }
 }

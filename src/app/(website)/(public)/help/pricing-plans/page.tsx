@@ -214,10 +214,10 @@ export default function PricingPlansPage() {
 
       {/* Annual Plans */}
       <div className="bg-bauhaus-mustard/20 rounded-lg p-8 mb-12 text-center">
-        <h2 className="text-2xl font-bold text-[#1E1F23] mb-3">
+        <h2 className="text-2xl font-bold text-paper mb-3">
           Save with Annual Plans
         </h2>
-        <p className="text-lg text-[#1E1F23] mb-4">
+        <p className="text-lg text-paper mb-4">
           Pay annually and save 2 months!
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">

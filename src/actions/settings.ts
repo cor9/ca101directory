@@ -4,7 +4,6 @@ import { unstable_update } from "@/auth";
 import { getUserById, updateUser } from "@/data/supabase-user";
 import { currentUser } from "@/lib/auth";
 import type { SettingsSchema } from "@/lib/schemas";
-import { supabase } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 import type * as z from "zod";
 
@@ -25,25 +24,6 @@ export async function settings(
     const dbUser = await getUserById(user.id);
     if (!dbUser) {
       return { status: "error", message: "User not found" };
-    }
-
-    // console.log('settings, values:', values);
-    if (user.isOAuth) {
-      values.password = undefined;
-      values.newPassword = undefined;
-    }
-
-    // password change needs verification
-    if (values.password && values.newPassword) {
-      // For Supabase Auth, we don't need to verify old password
-      // Supabase handles this internally
-      const { error: passwordError } = await supabase.auth.updateUser({
-        password: values.newPassword,
-      });
-
-      if (passwordError) {
-        return { status: "error", message: "Failed to update password!" };
-      }
     }
 
     // Update other profile fields using Supabase

@@ -1,22 +1,30 @@
-import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
+import { currentUser } from "@/lib/auth";
+import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import { createServerClient } from "@/lib/supabase";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Admin • Users",
 };
 
 export default async function AdminUsersPage() {
+  // Verify admin access
+  const user = await currentUser();
+  if (!user?.id) {
+    redirect("/auth/login");
+  }
+  verifyDashboardAccess(user, "admin", "/dashboard/admin/users");
+
   const supabase = createServerClient();
   const { data: users, error } = await supabase
-    .from("users")
-    .select("id, email, name, role, created_at, updated_at")
+    .from("profiles")
+    .select("id, email, full_name, role, created_at, updated_at")
     .order("created_at", { ascending: false })
     .limit(200);
 
   return (
-    <DashboardGuard allowedRoles={["admin"]}>
-      <AdminDashboardLayout>
+    <AdminDashboardLayout>
         <div className="space-y-4">
           <div className="space-y-1">
             <h2 className="text-xl font-semibold">All Users</h2>
@@ -44,7 +52,7 @@ export default async function AdminUsersPage() {
                   {(users || []).map((u) => (
                     <tr key={u.id} className="border-t">
                       <td className="px-3 py-2">{u.email}</td>
-                      <td className="px-3 py-2">{u.name || "—"}</td>
+                      <td className="px-3 py-2">{u.full_name || "—"}</td>
                       <td className="px-3 py-2">{u.role}</td>
                       <td className="px-3 py-2">
                         {u.created_at
@@ -70,6 +78,5 @@ export default async function AdminUsersPage() {
           )}
         </div>
       </AdminDashboardLayout>
-    </DashboardGuard>
   );
 }

@@ -56,17 +56,17 @@ export default function TroubleshootingPage() {
               </div>
               <div>
                 <p className="font-semibold text-[#1E1F23] mb-1">
-                  Solution 2: Reset your password
+                  Solution 2: Request a new magic link
                 </p>
                 <p className="text-[#1E1F23] mb-2">
-                  Click "Forgot Password" on the login page to receive a reset
-                  link via email.
+                  Enter your email on the login page and click "Send me a login
+                  link." We'll email you a fresh magic link immediately.
                 </p>
                 <Link
-                  href="/auth/reset"
+                  href="/auth/login"
                   className="text-[#1E1F23] hover:text-[#1E1F23]/80 underline"
                 >
-                  Reset password →
+                  Send login link →
                 </Link>
               </div>
               <div>

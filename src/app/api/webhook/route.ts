@@ -157,7 +157,7 @@ export async function POST(request: NextRequest) {
 
         try {
           const { data: userData, error: userError } = await supabase
-            .from("users")
+            .from("profiles")
             .select("id")
             .eq("email", session.customer_details.email)
             .single();
@@ -261,15 +261,15 @@ export async function POST(request: NextRequest) {
 
       try {
         // Verify vendor exists before proceeding
-        const { data: vendorExists, error: vendorCheckError } = await supabase
-          .from("users")
+        const { data: vendorExists, error: vendorCheckError} = await supabase
+          .from("profiles")
           .select("id")
           .eq("id", vendorId)
           .single();
 
         if (vendorCheckError || !vendorExists) {
           console.error(
-            "[Webhook] ❌ CRITICAL: Vendor doesn't exist in users table!",
+            "[Webhook] ❌ CRITICAL: Vendor doesn't exist in profiles table!",
             {
               vendorId,
               email: session.customer_details?.email,
@@ -286,13 +286,13 @@ export async function POST(request: NextRequest) {
 
           if (authUser) {
             console.error(
-              "[Webhook] User exists in auth.users but NOT in users table - sync trigger failed!",
+              "[Webhook] User exists in auth.users but NOT in profiles table - sync trigger failed!",
               authUser,
             );
           }
 
           throw new Error(
-            `Vendor ${vendorId} doesn't exist in users table. Email: ${session.customer_details?.email}`,
+            `Vendor ${vendorId} doesn't exist in profiles table. Email: ${session.customer_details?.email}`,
           );
         }
 

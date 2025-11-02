@@ -20,7 +20,7 @@ import { getEnabledRoles } from "@/config/feature-flags";
 import { RegisterSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
 
@@ -44,11 +44,22 @@ export const RegisterForm = () => {
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: "",
-      password: "",
       name: "",
       role: defaultRole as "parent" | "vendor",
+      remember: true,
     },
   });
+
+  useEffect(() => {
+    try {
+      const cachedEmail = window.localStorage.getItem("ca101:last-email");
+      if (cachedEmail) {
+        form.setValue("email", cachedEmail);
+      }
+    } catch (storageError) {
+      console.warn("Unable to read cached magic link email", storageError);
+    }
+  }, [form]);
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     setError("");
@@ -66,6 +77,15 @@ export const RegisterForm = () => {
           if (data.status === "success") {
             console.log("register, success:", data.message);
             setSuccess(data.message);
+
+            try {
+              window.localStorage.setItem("ca101:last-email", values.email);
+            } catch (storageError) {
+              console.warn(
+                "Unable to cache email for magic link registration",
+                storageError,
+              );
+            }
 
             // Redirect to login page if redirectUrl is provided
             // But give user time to read the important email confirmation message
@@ -132,20 +152,27 @@ export const RegisterForm = () => {
             />
             <FormField
               control={form.control}
-              name="password"
+              name="remember"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-paper">Password</FormLabel>
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                   <FormControl>
-                    <Input
-                      {...field}
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 rounded border-secondary-denim bg-paper text-primary-orange"
+                      checked={field.value ?? false}
+                      onChange={(event) => field.onChange(event.target.checked)}
                       disabled={isPending}
-                      placeholder="******"
-                      type="password"
-                      className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-paper">
+                      Keep me logged in on this device
+                    </FormLabel>
+                    <p className="text-xs text-paper/80">
+                      Stay signed in for up to 30 days so you can return without
+                      requesting another email.
+                    </p>
+                  </div>
                 </FormItem>
               )}
             />

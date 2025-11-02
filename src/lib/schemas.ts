@@ -154,38 +154,9 @@ export const EditSchema = SubmitSchema.extend({
 /**
  * account settings
  */
-export const SettingsSchema = z
-  .object({
-    name: z.string().min(1, { message: "Name is required" }),
-    password: z.optional(z.string().min(6)),
-    newPassword: z.optional(z.string().min(6)),
-  })
-  .refine(
-    (data) => {
-      if (data.password && !data.newPassword) {
-        return false;
-      }
-
-      return true;
-    },
-    {
-      message: "New password is required!",
-      path: ["newPassword"],
-    },
-  )
-  .refine(
-    (data) => {
-      if (data.newPassword && !data.password) {
-        return false;
-      }
-
-      return true;
-    },
-    {
-      message: "Password is required!",
-      path: ["password"],
-    },
-  );
+export const SettingsSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
+});
 
 export const UserNameSchema = z.object({
   name: z
@@ -196,90 +167,34 @@ export const UserNameSchema = z.object({
 
 export type UserNameData = z.infer<typeof UserNameSchema>;
 
-export const UserPasswordSchema = z
-  .object({
-    password: z.string().min(6, {
-      message: "Minimum of 6 characters required",
-    }),
-    newPassword: z.string().min(6, {
-      message: "Minimum of 6 characters required",
-    }),
-    confirmPassword: z.string().min(6, {
-      message: "Minimum of 6 characters required",
-    }),
-  })
-  .refine(
-    (data) => {
-      if (data.newPassword && !data.password) {
-        return false;
-      }
-
-      return true;
-    },
-    {
-      message: "Password is required",
-      path: ["password"],
-    },
-  )
-  .refine(
-    (data) => {
-      if (data.password && !data.newPassword) {
-        return false;
-      }
-
-      return true;
-    },
-    {
-      message: "New password is required",
-      path: ["newPassword"],
-    },
-  )
-  .refine(
-    (data) => {
-      if (data.newPassword !== data.confirmPassword) {
-        return false;
-      }
-
-      return true;
-    },
-    {
-      message: "Passwords do not match",
-      path: ["confirmPassword"],
-    },
-  );
-
-export type UserPasswordData = z.infer<typeof UserPasswordSchema>;
 
 /**
  * auth related schemas
  */
-export const NewPasswordSchema = z.object({
-  password: z.string().min(6, {
-    message: "Minimum of 6 characters required",
-  }),
-});
-
-export const ResetSchema = z.object({
+export const MagicLinkRequestSchema = z.object({
   email: z.string().email({
     message: "Email is required",
   }),
+  remember: z.boolean().optional(),
 });
 
 export const LoginSchema = z.object({
   email: z.string().email({
     message: "Email is required",
   }),
-  password: z.string().min(1, {
-    message: "Password is required",
+  token: z.string().min(1, {
+    message: "Magic link token is required",
   }),
+  refreshToken: z.string().min(1, {
+    message: "Refresh token is required",
+  }),
+  remember: z.string().optional(),
+  expiresIn: z.string().optional(),
 });
 
 export const RegisterSchema = z.object({
   email: z.string().email({
     message: "Email is required",
-  }),
-  password: z.string().min(6, {
-    message: "Minimum 6 characters required",
   }),
   name: z.string().min(1, {
     message: "Name is required",
@@ -287,6 +202,7 @@ export const RegisterSchema = z.object({
   role: z.enum(["parent", "vendor"], {
     required_error: "Please select your role",
   }),
+  remember: z.boolean().optional(),
 });
 
 /**

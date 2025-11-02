@@ -1,5 +1,6 @@
 import {
   ArrowRightIcon,
+  AlertTriangleIcon,
   CameraIcon,
   CheckIcon,
   CreditCardIcon,
@@ -81,4 +82,5 @@ export const Icons = {
   x: XIcon,
   trash: TrashIcon,
   plus: PlusIcon,
+  alert: AlertTriangleIcon,
 };

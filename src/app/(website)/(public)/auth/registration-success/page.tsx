@@ -206,7 +206,8 @@ export default function RegistrationSuccessPage() {
           <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-white">
             <p className="font-bold mb-2">⚡ Already confirmed?</p>
             <p className="text-sm">
-              Click "Go to Login" above and sign in with your email and password.
+              Click "Go to Login" above and enter your email. We'll send you a
+              secure magic link to finish signing in.
             </p>
           </div>
         </div>

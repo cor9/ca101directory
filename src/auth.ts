@@ -68,7 +68,7 @@ export const {
         // Initial sign in - user object is available
         const userRole = (user as any).role;
         console.log("JWT: Initial sign in, user role from authorize:", userRole);
-        
+
         if (!userRole || userRole === "guest") {
           console.error("⚠️ WARNING: User has no role or is guest!", {
             userId: user.id,
@@ -76,9 +76,20 @@ export const {
             userObject: user,
           });
         }
-        
+
         token.role = userRole || "guest";
         token.id = user.id;
+        token.supabaseAccessToken = (user as any).supabaseAccessToken;
+        token.supabaseRefreshToken = (user as any).supabaseRefreshToken;
+        token.remember = (user as any).remember;
+
+        if ((user as any).sessionExpiresAt) {
+          token.sessionExpiresAt = (user as any).sessionExpiresAt;
+          token.exp = Math.floor(
+            new Date((user as any).sessionExpiresAt).getTime() / 1000,
+          );
+        }
+
         console.log("JWT: Token role set to:", token.role, "Token ID:", token.id);
       } else if (token.sub && !token.role) {
         // Token refresh but no role in token - fetch from database
@@ -106,9 +117,18 @@ export const {
         }
       }
 
+      if (token.sessionExpiresAt) {
+        const expiresAt = new Date(token.sessionExpiresAt as string).getTime();
+        if (Number.isFinite(expiresAt) && Date.now() > expiresAt) {
+          console.log("JWT: Session expired based on role duration");
+          token.exp = Math.floor(Date.now() / 1000) - 60;
+        }
+      }
+
       console.log("=== JWT CALLBACK END ===", {
         finalTokenRole: token.role,
         finalTokenId: token.id,
+        sessionExpiresAt: token.sessionExpiresAt,
       });
       return token;
     },
@@ -121,11 +141,26 @@ export const {
         tokenRole: token.role,
         tokenId: token.id,
         tokenSub: token.sub,
+        sessionExpiresAt: token.sessionExpiresAt,
       });
+
+      if (token.sessionExpiresAt) {
+        const expiresAt = new Date(token.sessionExpiresAt as string).getTime();
+        if (Number.isFinite(expiresAt) && Date.now() > expiresAt) {
+          console.log("SESSION: Role-based session expired, returning null");
+          return null;
+        }
+        (session as any).expires = new Date(expiresAt).toISOString();
+        (session as any).sessionExpiresAt = (session as any).expires;
+      }
 
       if (token) {
         session.user.id = token.id as string;
         session.user.role = token.role as UserRole;
+        (session.user as any).supabaseAccessToken =
+          token.supabaseAccessToken as string | undefined;
+        (session.user as any).supabaseRefreshToken =
+          token.supabaseRefreshToken as string | undefined;
         console.log("SESSION: User data set from token:", {
           id: session.user.id,
           role: session.user.role,
@@ -136,6 +171,7 @@ export const {
         finalUserId: session.user.id,
         finalUserRole: session.user.role,
         finalUserEmail: session.user.email,
+        sessionExpiresAt: (session as any).sessionExpiresAt,
       });
 
       return session;

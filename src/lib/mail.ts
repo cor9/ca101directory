@@ -4,7 +4,6 @@ import { NotifySubmissionEmail } from "@/emails/notify-submission-to-admin";
 import { NotifySubmissionToUserEmail } from "@/emails/notify-submission-to-user";
 import { PaymentSuccessEmail } from "@/emails/payment-success";
 import RejectionEmail from "@/emails/rejection-email";
-import { ResetPasswordEmail } from "@/emails/reset-password";
 import VerifyEmail from "@/emails/verify-email";
 import { Resend } from "resend";
 import ListingLiveEmail from "@/emails/listing-live";
@@ -46,22 +45,6 @@ function getToAddress(original: string) {
   const override = process.env.RESEND_FORCE_TO;
   return override && override.length > 0 ? override : original;
 }
-
-export const sendPasswordResetEmail = async (
-  userName: string,
-  email: string,
-  token: string,
-) => {
-  const resetLink = `${SITE_URL}/auth/new-password?token=${token}`;
-
-  await resend.emails.send({
-    from: getFrom(),
-    to: getToAddress(email),
-    reply_to: getReplyTo(),
-    subject: "Reset your password",
-    react: ResetPasswordEmail({ userName, resetLink: resetLink }),
-  });
-};
 
 export const sendVerificationEmail = async (email: string, token: string) => {
   const confirmLink = `${SITE_URL}/auth/new-verification?token=${token}`;

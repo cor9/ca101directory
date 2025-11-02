@@ -18,117 +18,121 @@ export default {
   // passed to the app by the proxy to auto-detect the host URL (AUTH_URL)
   // trustHost: true,
   providers: [
-    // Email/Password authentication using Supabase
+    // Passwordless magic link authentication via Supabase
     Credentials({
       name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        token: { label: "Token", type: "text" },
+        refreshToken: { label: "Refresh Token", type: "text" },
+        remember: { label: "Remember", type: "text" },
+        expiresIn: { label: "Expires In", type: "text" },
       },
       async authorize(credentials) {
         const validatedFields = LoginSchema.safeParse(credentials);
 
-        if (validatedFields.success) {
-          const { email, password } = validatedFields.data;
+        if (!validatedFields.success) {
+          console.error("Invalid magic link credentials received");
+          return null;
+        }
 
-          try {
-            // Sign in with Supabase Auth
-            const supabase = createServerClient();
-            const { data: authData, error: authError } =
-              await supabase.auth.signInWithPassword({
-                email,
-                password,
-              });
+        const { email, token, refreshToken, remember } = validatedFields.data;
+        const rememberChoice =
+          remember === "true" || remember === "1" || remember === "on";
 
-            if (authError || !authData.user) {
-              console.error("Supabase login error:", authError);
-              console.error("Auth data:", authData);
+        try {
+          const supabase = createServerClient();
+          const { data: authUser, error: authError } =
+            await supabase.auth.getUser(token);
 
-              // Check if user's email is not confirmed
-              if (authError?.message?.includes("email_not_confirmed")) {
-                throw new AuthError(
-                  "Please check your email and confirm your account.",
-                );
-              }
+          if (authError || !authUser?.user) {
+            console.error("Supabase magic link verification failed:", authError);
+            return null;
+          }
 
+          if (!authUser.user.email_confirmed_at) {
+            throw new AuthError(
+              "Email not confirmed. Please check your email and click the confirmation link.",
+            );
+          }
+
+          if (authUser.user.email?.toLowerCase() !== email.toLowerCase()) {
+            console.error("Magic link email mismatch", {
+              expected: email,
+              actual: authUser.user.email,
+            });
+            return null;
+          }
+
+          let { data: profile, error: profileError } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", authUser.user.id)
+            .single();
+
+          if (profileError || !profile) {
+            console.error("Profile fetch error:", profileError);
+            console.error("Profile data:", profile);
+            console.error("User ID:", authUser.user.id);
+
+            const { data: newProfile, error: createError } = await supabase
+              .from("profiles")
+              .insert({
+                id: authUser.user.id,
+                email: authUser.user.email,
+                full_name:
+                  authUser.user.user_metadata?.name || authUser.user.email,
+                role: authUser.user.user_metadata?.role || "guest",
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+              })
+              .select()
+              .single();
+
+            if (createError || !newProfile) {
+              console.error("Failed to create profile:", createError);
               return null;
             }
 
-            // Check if email is confirmed
-            if (!authData.user.email_confirmed_at) {
-              console.error("Email not confirmed for user:", authData.user.id);
-              throw new AuthError(
-                "Email not confirmed. Please check your email and click the confirmation link.",
-              );
-            }
-
-            // Get user profile from profiles table
-            let { data: profile, error: profileError } = await supabase
-              .from("profiles")
-              .select("*")
-              .eq("id", authData.user.id)
-              .single();
-
-            if (profileError || !profile) {
-              console.error("Profile fetch error:", profileError);
-              console.error("Profile data:", profile);
-              console.error("User ID:", authData.user.id);
-
-              // TEMPORARY WORKAROUND: Create profile if it doesn't exist
-              console.log(
-                "Creating missing profile for user:",
-                authData.user.id,
-              );
-              const { data: newProfile, error: createError } = await supabase
-                .from("profiles")
-                .insert({
-                  id: authData.user.id,
-                  email: authData.user.email,
-                  full_name:
-                    authData.user.user_metadata?.name || authData.user.email,
-                  role: authData.user.user_metadata?.role || "guest",
-                  created_at: new Date().toISOString(),
-                  updated_at: new Date().toISOString(),
-                })
-                .select()
-                .single();
-
-              if (createError || !newProfile) {
-                console.error("Failed to create profile:", createError);
-                return null;
-              }
-
-              console.log("Created new profile:", newProfile);
-              profile = newProfile;
-            }
-
-            console.log("Login successful, profile:", profile);
-
-            // Check if the user's role is enabled via feature flags
-            const { isRoleEnabled } = await import("@/config/feature-flags");
-            if (!isRoleEnabled(profile.role)) {
-              console.error(
-                `Login blocked: Role '${profile.role}' is not enabled for user:`,
-                profile.id,
-              );
-              throw new AuthError(
-                `${profile.role.charAt(0).toUpperCase() + profile.role.slice(1)} accounts are not currently available. Please contact support if you need assistance.`,
-              );
-            }
-
-            return {
-              id: profile.id,
-              email: profile.email,
-              name: profile.full_name || profile.email, // Map full_name to name for session
-              role: profile.role,
-            };
-          } catch (error) {
-            console.error("Authorization error:", error);
-            return null;
+            profile = newProfile;
           }
-        }
 
-        return null;
+          const { isRoleEnabled } = await import("@/config/feature-flags");
+          if (!isRoleEnabled(profile.role)) {
+            console.error(
+              `Login blocked: Role '${profile.role}' is not enabled for user:`,
+              profile.id,
+            );
+            throw new AuthError(
+              `${profile.role.charAt(0).toUpperCase() + profile.role.slice(1)} accounts are not currently available. Please contact support if you need assistance.`,
+            );
+          }
+
+          const sessionDurations: Record<string, number> = {
+            admin: 90,
+            parent: 30,
+            vendor: 7,
+          };
+          const defaultDays = sessionDurations[profile.role] ?? 30;
+          const sessionSeconds = rememberChoice
+            ? defaultDays * 24 * 60 * 60
+            : 24 * 60 * 60;
+          const expiresAt = new Date(Date.now() + sessionSeconds * 1000);
+
+          return {
+            id: profile.id,
+            email: profile.email,
+            name: profile.full_name || profile.email,
+            role: profile.role,
+            supabaseAccessToken: token,
+            supabaseRefreshToken: refreshToken,
+            remember: rememberChoice,
+            sessionExpiresAt: expiresAt.toISOString(),
+          } as any;
+        } catch (error) {
+          console.error("Authorization error:", error);
+          return null;
+        }
       },
     }),
   ],

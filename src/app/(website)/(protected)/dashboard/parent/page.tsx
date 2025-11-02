@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { DashboardGuard } from "@/components/auth/role-guard";
 import { ParentDashboardLayout } from "@/components/layouts/ParentDashboardLayout";
 import {
   isFavoritesEnabled,
@@ -9,6 +8,7 @@ import {
 import { siteConfig } from "@/config/site";
 import { getUserFavorites } from "@/data/favorites";
 import { getUserReviews } from "@/data/reviews";
+import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import { constructMetadata } from "@/lib/metadata";
 import { redirect } from "next/navigation";
 
@@ -28,6 +28,9 @@ export const metadata = constructMetadata({
  * - Quick actions: "Discover Vendors," "Update Account Info"
  *
  * NO vendor content (no billing, no listing submission)
+ *
+ * Note: verifyDashboardAccess() is the ONLY security check needed.
+ * Removed DashboardGuard to prevent redirect loops caused by client/server role detection mismatches.
  */
 export default async function ParentDashboard() {
   const session = await auth();
@@ -41,6 +44,10 @@ export default async function ParentDashboard() {
     redirect("/auth/login");
   }
 
+  // Safety check: Verify user has parent role (SERVER-SIDE ONLY)
+  // This is sufficient - no need for client-side guard that can cause loops
+  verifyDashboardAccess(session.user as any, "parent", "/dashboard/parent");
+
   // Fetch user data
   const [favorites, reviews] = await Promise.all([
     isFavoritesEnabled() ? getUserFavorites(session.user.id) : [],
@@ -48,8 +55,7 @@ export default async function ParentDashboard() {
   ]);
 
   return (
-    <DashboardGuard allowedRoles={["parent"]}>
-      <ParentDashboardLayout>
+    <ParentDashboardLayout>
         <div className="space-y-6">
           {/* Welcome Section */}
           <div className="bg-gradient-to-r from-primary-orange/10 to-secondary-denim/10 rounded-lg p-6 border border-primary-orange/20">
@@ -284,6 +290,5 @@ export default async function ParentDashboard() {
           </div>
         </div>
       </ParentDashboardLayout>
-    </DashboardGuard>
   );
 }

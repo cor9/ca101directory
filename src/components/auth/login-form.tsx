@@ -16,12 +16,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { LoginSchema } from "@/lib/schemas";
+import { MagicLinkRequestSchema } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
 
@@ -43,15 +42,26 @@ export const LoginForm = ({
   const [showResendForm, setShowResendForm] = useState(false);
   const [resendEmail, setResendEmail] = useState("");
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof MagicLinkRequestSchema>>({
+    resolver: zodResolver(MagicLinkRequestSchema),
     defaultValues: {
       email: "",
-      password: "",
+      remember: true,
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  useEffect(() => {
+    try {
+      const cachedEmail = window.localStorage.getItem("ca101:last-email");
+      if (cachedEmail) {
+        form.setValue("email", cachedEmail);
+      }
+    } catch (storageError) {
+      console.warn("Unable to read cached magic link email", storageError);
+    }
+  }, [form]);
+
+  const onSubmit = (values: z.infer<typeof MagicLinkRequestSchema>) => {
     setError("");
     setSuccess("");
 
@@ -61,17 +71,29 @@ export const LoginForm = ({
           // console.log('login, data:', data);
           if (data?.status === "error") {
             console.log("login, error:", data.message);
-            form.reset();
+            form.reset({
+              email: values.email,
+              remember: values.remember,
+            });
             setError(data.message);
           }
 
           if (data?.status === "success") {
             console.log("login, success:", data.message);
-            form.reset();
+            form.reset({
+              email: values.email,
+              remember: values.remember,
+            });
             setSuccess(data.message);
 
-            // NextAuth will handle the redirect automatically
-            // No need to manually redirect here
+            try {
+              window.localStorage.setItem("ca101:last-email", values.email);
+            } catch (storageError) {
+              console.warn(
+                "Unable to cache email for magic link login",
+                storageError,
+              );
+            }
           }
         })
         .catch((error) => {
@@ -138,32 +160,27 @@ return (
           />
           <FormField
             control={form.control}
-            name="password"
+            name="remember"
             render={({ field }) => (
-              <FormItem>
-                <div className="flex justify-between items-center">
-                  <FormLabel className="text-gray-900">Password</FormLabel>
-                  <Button
-                    size="sm"
-                    variant="link"
-                    asChild
-                    className="px-0 font-normal text-secondary-denim hover:text-primary-orange"
-                  >
-                    <Link href="/auth/reset" className="text-xs underline">
-                      Forgot password?
-                    </Link>
-                  </Button>
-                </div>
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                 <FormControl>
-                  <Input
-                    {...field}
+                  <input
+                    type="checkbox"
+                    className="h-4 w-4 rounded border-secondary-denim bg-paper text-primary-orange"
+                    checked={field.value ?? false}
+                    onChange={(event) => field.onChange(event.target.checked)}
                     disabled={isPending}
-                    placeholder="******"
-                    type="password"
-                    className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-700"
                   />
                 </FormControl>
-                <FormMessage />
+                <div className="space-y-1 leading-none">
+                  <FormLabel className="text-gray-900">
+                    Keep me logged in on this device
+                  </FormLabel>
+                  <p className="text-xs text-gray-700">
+                    Stay signed in for faster access. We'll automatically adjust
+                    the session length based on your role.
+                  </p>
+                </div>
               </FormItem>
             )}
           />
@@ -179,7 +196,7 @@ return (
           className="w-full btn-primary flex items-center justify-center gap-2"
         >
           {isPending && <Icons.spinner className="w-4 h-4 animate-spin" />}
-          <span>Login</span>
+          <span>Send me a login link</span>
         </Button>
 
         {/* Resend Confirmation Email Section */}

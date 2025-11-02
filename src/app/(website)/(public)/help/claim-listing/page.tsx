@@ -116,12 +116,15 @@ export default function ClaimListingPage() {
                   <AlertCircle className="w-5 h-5 text-[#1E1F23] flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm font-semibold text-[#1E1F23] mb-1">
-                      Important: Email Confirmation Required
+                      Passwordless Magic Link Login
+                    </p>
+                    <p className="text-sm text-[#1E1F23] mb-2">
+                      No passwords needed! Enter your email and we'll send you a
+                      secure login link. Click it to sign in instantly.
                     </p>
                     <p className="text-sm text-[#1E1F23]">
-                      After registering, check your email (including spam
-                      folder) for a confirmation link. You must confirm your
-                      email before claiming listings.
+                      Check your spam folder if you don't see the email within
+                      a few minutes.
                     </p>
                   </div>
                 </div>
@@ -219,18 +222,19 @@ export default function ClaimListingPage() {
         <div className="space-y-4">
           <div>
             <h3 className="font-semibold text-[#1E1F23] mb-2">
-              Error: "Email not confirmed"
+              I didn't receive my magic link email
             </h3>
             <p className="text-sm text-[#1E1F23] mb-2">
-              Check your email inbox (and spam folder) for the confirmation
-              email. Click the link to verify your account.
+              Check your spam/junk folder first. Magic links are valid for 24
+              hours. If it expired or you can't find it, go back to the login
+              page and request a new one.
             </p>
-            <button
-              type="button"
+            <Link
+              href="/auth/login"
               className="text-sm text-[#1E1F23] hover:text-[#1E1F23]/80 underline"
             >
-              Resend confirmation email →
-            </button>
+              Send me a new login link →
+            </Link>
           </div>
 
           <div>

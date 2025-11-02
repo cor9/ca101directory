@@ -79,9 +79,9 @@ export default function FAQPage() {
               How do I create an account?
             </h3>
             <p className="bauhaus-body text-surface mb-2">
-              Click "Register" in the navigation menu and choose "Vendor" as
-              your role. You'll receive a confirmation email - click the link to
-              activate your account.
+              Click "Register" in the navigation menu, choose "Vendor" as
+              your role, and enter your email. We'll send you a magic link -
+              click it to activate your account instantly. No password needed!
             </p>
             <Link
               href="/auth/register"
@@ -93,12 +93,12 @@ export default function FAQPage() {
 
           <div className="bg-surface border border-secondary-denim/20 rounded-lg p-6 shadow-lg">
             <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
-              I didn't receive my confirmation email. What should I do?
+              I didn't receive my magic link email. What should I do?
             </h3>
             <p className="bauhaus-body text-surface">
-              Check your spam/junk folder first. If it's not there, you can
-              request a new confirmation email from the login page. The
-              confirmation link is valid for 7 days.
+              Check your spam/junk folder first. Magic links are valid for 24
+              hours. If it expired or you can't find it, simply go back to the
+              login page and request a new one - it only takes a few seconds!
             </p>
           </div>
 
@@ -120,8 +120,13 @@ export default function FAQPage() {
             </h3>
             <p className="bauhaus-body text-surface mb-2">
               Nope! We use secure magic links instead of passwords. Enter your
-              email on the login page and we'll email you a one-click link that
+              email on the login page and we'll send you a one-click link that
               keeps you signed in for up to 30 days (90 days for admins).
+            </p>
+            <p className="bauhaus-body text-surface text-sm mb-2">
+              <strong>Benefits:</strong> More secure than passwords, no need to
+              remember or reset anything, and works seamlessly across all your
+              devices!
             </p>
             <Link
               href="/auth/login"

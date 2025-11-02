@@ -40,12 +40,16 @@ export default function GettingStartedPage() {
           </p>
           <div className="bg-bauhaus-blue/20 rounded-lg p-4 mb-4">
             <p className="text-sm text-[#1E1F23] mb-2">
-              <strong>Important:</strong> You'll receive a confirmation
-              email after signing up.
+              <strong>Passwordless Login:</strong> We use secure magic links
+              instead of passwords.
+            </p>
+            <p className="text-sm text-[#1E1F23] mb-2">
+              After entering your email, you'll receive a login link. Click it
+              to access your account instantly - stays logged in for 30 days!
             </p>
             <p className="text-sm text-[#1E1F23]">
-              Check your email (including spam folder) and click the
-              confirmation link to activate your account.
+              <strong>Tip:</strong> Check your spam folder if you don't see
+              the email within a few minutes.
             </p>
           </div>
           <Link

@@ -78,7 +78,11 @@ export async function login(
     const redirectUrl =
       callbackUrl || roleBasedRedirect || DEFAULT_LOGIN_REDIRECT;
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://directory.childactor101.com';
+    // CRITICAL: Always use fallback if env var is missing
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ||
+                    process.env.NEXT_PUBLIC_APP_URL ||
+                    'https://directory.childactor101.com';
+
     const magicLinkUrl = new URL(`${siteUrl}/auth/magic-link`);
     magicLinkUrl.searchParams.set("email", email);
     magicLinkUrl.searchParams.set("role", resolvedProfile.role ?? "guest");

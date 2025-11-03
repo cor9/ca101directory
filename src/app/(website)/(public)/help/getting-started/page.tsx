@@ -45,10 +45,10 @@ export default function GettingStartedPage() {
             </p>
             <p className="text-sm text-[#1E1F23] mb-2">
               After entering your email, you'll receive a login link. Click it
-              to access your account instantly - stays logged in for 30 days!
+              within <strong>1 hour</strong> (links expire for security) to access your account - stays logged in for 30 days!
             </p>
             <p className="text-sm text-[#1E1F23]">
-              <strong>Tip:</strong> Check your spam folder if you don't see
+              <strong>Tip:</strong> If your link expires, just request a new one. Check your spam folder if you don't see
               the email within a few minutes.
             </p>
           </div>

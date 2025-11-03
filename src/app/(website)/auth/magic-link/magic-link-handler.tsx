@@ -169,7 +169,7 @@ export function MagicLinkHandler({
       <StatusMessage
         status="error"
         headline="Magic link expired"
-        description={message}
+        description="Magic links expire after 1 hour for security. Request a new one to log in."
         action={() => router.push(`/auth/login?email=${encodeURIComponent(email)}`)}
       />
     );

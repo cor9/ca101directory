@@ -25,6 +25,9 @@ export const publicRoutes = [
   // user clicks verification link from email
   "/auth/new-verification",
 
+  // vendor access links (long-lived tokens for paid vendors)
+  "/auth/vendor-access(/.*)?",
+
   // unsubscribe
   "/unsubscribe(/.*)?",
 

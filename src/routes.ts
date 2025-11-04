@@ -67,6 +67,7 @@ export const publicRoutes = [
   "/payment-success(/.*)?",
 
   // claim and upgrade routes (public)
+  "/claim(/.*)?",
   "/claim-upgrade(/.*)?",
 
   // vendor landing page (public)

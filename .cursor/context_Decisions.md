@@ -1390,8 +1390,8 @@ redirect_to=https://directory.childactor101.com
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://directory.childactor101.com';
 
 // AFTER (triple fallback)
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 
-                process.env.NEXT_PUBLIC_APP_URL || 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ||
+                process.env.NEXT_PUBLIC_APP_URL ||
                 'https://directory.childactor101.com';
 ```
 

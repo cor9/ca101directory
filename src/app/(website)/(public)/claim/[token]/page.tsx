@@ -32,7 +32,9 @@ export default async function ClaimRedirectPage({
     .single();
 
   if (error || !listing) {
-    redirect("/dashboard");
+    // If listing not found, redirect to expired page rather than dashboard
+    // This provides a better user experience for vendors
+    redirect("/claim/expired");
   }
 
   const slug = (listing.listing_name || "")

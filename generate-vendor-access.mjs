@@ -13,8 +13,8 @@ if (!secret) {
 }
 
 const exp = Math.floor(Date.now() / 1000) + ttlSeconds;
-const payload = JSON.stringify({ 
-  email, 
+const payload = JSON.stringify({
+  email,
   uid: userId,
   role: 'vendor',
   exp,

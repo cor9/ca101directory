@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import crypto from "crypto";
-import { createServerClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 interface PageProps {
   params: Promise<{ token: string }>;
@@ -8,7 +8,7 @@ interface PageProps {
 
 export default async function VendorAccessPage({ params }: PageProps) {
   const { token } = await params;
-  
+
   try {
     // Verify the token
     const secret = process.env.NEXTAUTH_SECRET;
@@ -30,7 +30,7 @@ export default async function VendorAccessPage({ params }: PageProps) {
 
     // Parse payload
     const payload = JSON.parse(Buffer.from(payloadB64, "base64url").toString("utf8"));
-    
+
     // Validate payload
     if (!payload?.email || !payload?.uid || !payload?.exp || payload?.type !== 'vendor_access') {
       redirect("/auth/error");
@@ -43,11 +43,11 @@ export default async function VendorAccessPage({ params }: PageProps) {
     }
 
     // Log them in via Supabase
-    const supabase = await createServerClient();
-    
+    const supabase = createClient();
+
     // Use admin API to create a session for this user
     const { data: { user }, error } = await supabase.auth.admin.getUserById(payload.uid);
-    
+
     if (error || !user) {
       console.error("Error fetching user:", error);
       redirect("/auth/error");

@@ -28,7 +28,7 @@ export function ClaimButton({
 
   // If user is not authenticated, redirect to sign up with return URL
   if (!session) {
-    const signUpUrl = `/auth/register?callbackUrl=${encodeURIComponent(`/submit?claim=true&listingId=${listingId}`)}`;
+    const signUpUrl = `/auth/register?callbackUrl=${encodeURIComponent(`/claim/listing/${listingId}`)}`;
 
     return (
       <Button asChild variant="outline" className={className}>
@@ -37,8 +37,8 @@ export function ClaimButton({
     );
   }
 
-  // If authenticated, redirect to submission form with claim parameters
-  const claimUrl = `/submit?claim=true&listingId=${listingId}`;
+  // If authenticated, redirect to dedicated claim page (Bug #3 fix)
+  const claimUrl = `/claim/listing/${listingId}`;
 
   return (
     <Button asChild variant="outline" className={className}>

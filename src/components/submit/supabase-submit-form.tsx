@@ -394,14 +394,14 @@ export function SupabaseSubmitForm({
                 <CardHeader className="pb-3 pt-4">
                   <CardTitle className="text-lg">Founding Standard</CardTitle>
                   <div className="text-2xl font-bold text-[#FF6B35]">
-                    $15
-                    <span className="text-sm font-normal">/mo</span>
+                    $101
+                    <span className="text-sm font-normal"> for 6 months</span>
                   </div>
-                  <div className="text-xs line-through text-gray-500">
-                    Regular: $25/mo
+                  <div className="text-xs text-gray-500">
+                    ~$16.83/month - vs $25/month regular
                   </div>
                   <div className="text-xs text-green-700 font-semibold mt-1">
-                    Save $10/mo - Lock in this rate forever!
+                    🔒 Locked rate as long as you stay subscribed!
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
@@ -455,19 +455,19 @@ export function SupabaseSubmitForm({
                 onClick={() => handleInputChange("plan", "Founding Pro")}
               >
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-                  🌟 BEST VALUE
+                  🌟 MOST POPULAR
                 </div>
                 <CardHeader className="pb-3 pt-4">
                   <CardTitle className="text-lg">Founding Pro</CardTitle>
                   <div className="text-2xl font-bold text-[#FF6B35]">
-                    $30
-                    <span className="text-sm font-normal">/mo</span>
+                    $199
+                    <span className="text-sm font-normal"> for 6 months</span>
                   </div>
-                  <div className="text-xs line-through text-gray-500">
-                    Regular: $50/mo
+                  <div className="text-xs text-gray-500">
+                    ~$33.17/month - vs $50/month regular
                   </div>
                   <div className="text-xs text-green-700 font-semibold mt-1">
-                    Save $20/mo - Lock in this rate forever!
+                    🔒 Locked rate as long as you stay subscribed!
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
@@ -475,7 +475,7 @@ export function SupabaseSubmitForm({
                     <li>• Everything in Standard</li>
                     <li>• Up to 4 gallery images</li>
                     <li>• Social Media Links</li>
-                    <li>• 101 Approved badge</li>
+                    <li>• 101 Approved badge eligible</li>
                     <li>• Top priority placement</li>
                     <li>• Priority support</li>
                     <li className="text-purple-600 font-semibold">• Founding Member Badge</li>
@@ -564,7 +564,7 @@ export function SupabaseSubmitForm({
                   <div>
                     <p className="text-sm text-orange-900 mb-2">
                       <strong>Founding Standard Selected:</strong> Amazing choice!
-                      You're locking in an exclusive rate:
+                      You're locking in an exclusive 6-month rate:
                     </p>
                     <ul className="text-sm text-orange-800 space-y-1 mb-3 ml-4">
                       <li>✓ Professional profile image</li>
@@ -572,10 +572,10 @@ export function SupabaseSubmitForm({
                       <li>✓ Multiple categories</li>
                       <li>✓ Featured placement</li>
                       <li className="font-bold text-orange-600">✓ Founding Member Badge (exclusive!)</li>
-                      <li className="font-bold text-green-700">✓ Save $10/month forever - never pay full price!</li>
+                      <li className="font-bold text-green-700">✓ Only $101 for 6 months (~$16.83/mo vs $25/mo regular)</li>
                     </ul>
                     <p className="text-xs text-orange-900 font-semibold bg-orange-100 p-2 rounded">
-                      ⏰ This special rate is locked in for life once you subscribe!
+                      🔒 This special 6-month rate stays locked as long as you keep your subscription active!
                     </p>
                   </div>
                 </div>
@@ -588,8 +588,8 @@ export function SupabaseSubmitForm({
                   <span className="text-3xl">🌟</span>
                   <div>
                     <p className="text-sm text-purple-900 mb-2">
-                      <strong>Founding Pro Selected:</strong> BEST VALUE!
-                      You're getting the ultimate deal:
+                      <strong>Founding Pro Selected:</strong> MOST POPULAR!
+                      You're getting the ultimate 6-month deal:
                     </p>
                     <ul className="text-sm text-purple-800 space-y-1 mb-3 ml-4">
                       <li>✓ Profile image + 4 gallery images</li>
@@ -600,10 +600,10 @@ export function SupabaseSubmitForm({
                       <li>✓ 101 Approved badge eligible</li>
                       <li>✓ Priority support</li>
                       <li className="font-bold text-purple-600">✓ Founding Member Badge (exclusive!)</li>
-                      <li className="font-bold text-green-700">✓ Save $20/month forever - 40% off for life!</li>
+                      <li className="font-bold text-green-700">✓ Only $199 for 6 months (~$33.17/mo vs $50/mo regular)</li>
                     </ul>
                     <p className="text-xs text-purple-900 font-semibold bg-purple-100 p-2 rounded">
-                      ⏰ This exclusive founding rate is locked in forever once you subscribe!
+                      🔒 This exclusive 6-month rate stays locked forever as long as you keep your subscription active!
                     </p>
                   </div>
                 </div>
@@ -1153,8 +1153,8 @@ export function SupabaseSubmitForm({
                     </h4>
                     <p className="text-sm text-purple-800 mb-2">
                       {formData.plan === "Free"
-                        ? "Free listings don't include gallery images. Upgrade to Pro ($50/mo) or Founding Pro ($30/mo) to showcase up to 4 additional photos of your work, studio, or team!"
-                        : "Standard plan includes your profile image. Upgrade to Pro ($50/mo) or Founding Pro ($30/mo) to add 4 gallery images and showcase your portfolio!"}
+                        ? "Free listings don't include gallery images. Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to showcase up to 4 additional photos of your work, studio, or team!"
+                        : "Standard plan includes your profile image. Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to add 4 gallery images and showcase your portfolio!"}
                     </p>
                     <div className="flex gap-2">
                       <a
@@ -1206,14 +1206,14 @@ export function SupabaseSubmitForm({
               <p className="text-surface">
                 {isProTierPlan(formData.plan)
                   ? "Add your social media profiles to increase engagement."
-                  : "Upgrade to Pro ($50/mo) or Founding Pro ($30/mo) to display social media links on your listing."}
+                  : "Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to display social media links on your listing."}
               </p>
             </div>
             {!isProTierPlan(formData.plan) && (
               <div className="bg-purple-50 border border-purple-200 rounded p-3">
                 <p className="text-sm text-purple-800">
                   <strong>Pro Feature:</strong> Social media links are exclusive
-                  to Pro tier members. Upgrade to Pro or Founding Pro to showcase your Facebook,
+                  to Pro tier members. Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to showcase your Facebook,
                   Instagram, TikTok, YouTube, LinkedIn, and custom links.{" "}
                   <a
                     href="/pricing"

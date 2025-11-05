@@ -1,3 +1,16 @@
+# 🚨 READ THIS FIRST - NOVEMBER 5, 2025: CRITICAL CLAIM & SUBMISSION FIXES 🚨
+
+**NEW (Nov 5, 2025):** Fixed 5 critical bugs blocking users from claiming and submitting listings. See `.cursor/NOVEMBER_5_2025_CRITICAL_CLAIM_SUBMISSION_FIXES.md` for full details.
+
+**Quick Summary of Nov 5 Fixes:**
+- ✅ Removed email confirmation checks (magic link IS the confirmation)
+- ✅ Increased vendor session from 7 to 30 days
+- ✅ Created dedicated `/claim/listing/[listingId]` page with clear UX
+- ✅ Added self-service role switching (parent ↔ vendor) in `/settings`
+- ✅ Enhanced tier restriction UI with prominent lock icons
+
+---
+
 # 🚨 READ THIS FIRST - NOVEMBER 2-3, 2025 UPDATES 🚨
 
 **AI AGENTS: Before touching authentication, dashboards, or roles, read:**

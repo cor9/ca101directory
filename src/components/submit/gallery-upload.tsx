@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ImageUpIcon, Loader2Icon, XIcon } from "lucide-react";
+import { ImageUpIcon, Loader2Icon, Lock, XIcon } from "lucide-react";
 import NextImage from "next/image";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
@@ -183,17 +183,28 @@ export function GalleryUpload({
       >
         <input {...getInputProps()} disabled={maxImages === 0} />
         <div className="space-y-2">
-          <ImageUpIcon
-            className={cn(
-              "w-8 h-8 mx-auto",
-              isDragActive ? "text-brand-blue" : "text-gray-900",
-            )}
-          />
+          {maxImages === 0 ? (
+            <div className="flex items-center justify-center gap-2">
+              <Lock className="w-12 h-12 text-gray-400" />
+            </div>
+          ) : (
+            <ImageUpIcon
+              className={cn(
+                "w-8 h-8 mx-auto",
+                isDragActive ? "text-brand-blue" : "text-gray-900",
+              )}
+            />
+          )}
           <div className="space-y-1">
             {maxImages === 0 ? (
-              <p className="text-sm text-gray-900">
-                Gallery images not included with Free plan
-              </p>
+              <>
+                <p className="text-sm font-semibold text-gray-700">
+                  Gallery Locked
+                </p>
+                <p className="text-xs text-gray-500">
+                  Upgrade to Pro plan to unlock 4 gallery images
+                </p>
+              </>
             ) : (
               <>
                 <p className="text-sm text-gray-900">

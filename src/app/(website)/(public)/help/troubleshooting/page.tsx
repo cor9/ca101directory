@@ -83,7 +83,7 @@ export default function TroubleshootingPage() {
 
           <div className="bg-surface  rounded-lg p-6">
             <h3 className="font-bold text-[#1E1F23] mb-3 text-lg">
-              ⚠️ I didn't receive my confirmation email
+              ⚠️ I didn't receive my magic link email
             </h3>
             <div className="space-y-3 text-sm">
               <div>
@@ -91,13 +91,13 @@ export default function TroubleshootingPage() {
                   Step 1: Check spam folder
                 </p>
                 <p className="text-[#1E1F23]">
-                  Confirmation emails sometimes end up in spam/junk. Check there
+                  Magic link emails sometimes end up in spam/junk. Check there
                   first and mark it as "Not Spam."
                 </p>
               </div>
               <div>
                 <p className="font-semibold text-[#1E1F23] mb-1">
-                  Step 2: Wait 5-10 minutes
+                  Step 2: Wait 2-3 minutes
                 </p>
                 <p className="text-[#1E1F23]">
                   Email delivery can sometimes be delayed. Give it a few
@@ -106,40 +106,20 @@ export default function TroubleshootingPage() {
               </div>
               <div>
                 <p className="font-semibold text-[#1E1F23] mb-1">
-                  Step 3: Resend confirmation
+                  Step 3: Request a new magic link
                 </p>
                 <p className="text-[#1E1F23] mb-2">
-                  Go to the login page and click "Resend confirmation email."
+                  Magic links expire after 24 hours. Simply request a new one
+                  from the login page - there's no limit.
                 </p>
                 <Link
                   href="/auth/login"
                   className="text-[#1E1F23] hover:text-[#1E1F23]/80 underline"
                 >
-                  Go to login page →
+                  Send me a new login link →
                 </Link>
               </div>
             </div>
-          </div>
-
-          <div className="bg-surface  rounded-lg p-6">
-            <h3 className="font-bold text-[#1E1F23] mb-3 text-lg">
-              ⚠️ Error: "Email not confirmed"
-            </h3>
-            <p className="text-[#1E1F23] text-sm mb-3">
-              You need to confirm your email address before claiming listings or
-              accessing certain features.
-            </p>
-            <div className="bg-bauhaus-blue/20 border-0 rounded p-3 mb-3">
-              <p className="text-sm text-[#1E1F23]">
-                <strong>Quick fix:</strong> Check your email inbox (and spam)
-                for the confirmation email and click the link. The link is valid
-                for 7 days.
-              </p>
-            </div>
-            <p className="text-sm text-[#1E1F23]">
-              If you can't find the email, use the "Resend confirmation" option
-              on the login page.
-            </p>
           </div>
         </div>
       </div>
@@ -158,21 +138,34 @@ export default function TroubleshootingPage() {
             <div className="space-y-3 text-sm">
               <div>
                 <p className="font-semibold text-[#1E1F23] mb-1">
-                  Reason 1: Email not confirmed
+                  Reason 1: Wrong account type
                 </p>
-                <p className="text-[#1E1F23]">
-                  You must confirm your email before claiming listings. Check
-                  your inbox for the confirmation email.
+                <p className="text-[#1E1F23] mb-2">
+                  You need a <strong>Vendor</strong> account to claim listings.
+                  If you have a Parent account, you can easily switch to Vendor
+                  in your Settings page - it's instant and self-service!
                 </p>
+                <Link
+                  href="/settings"
+                  className="text-[#1E1F23] hover:text-[#1E1F23]/80 underline"
+                >
+                  Go to Settings to switch roles →
+                </Link>
               </div>
               <div>
                 <p className="font-semibold text-[#1E1F23] mb-1">
-                  Reason 2: Wrong account type
+                  Reason 2: Not logged in
                 </p>
-                <p className="text-[#1E1F23]">
-                  You need a <strong>Vendor</strong> account to claim listings.
-                  Parent accounts cannot claim business listings.
+                <p className="text-[#1E1F23] mb-2">
+                  You must be logged in with a Vendor account to see the "Claim
+                  This Listing" button. Request a magic link to log in.
                 </p>
+                <Link
+                  href="/auth/login"
+                  className="text-[#1E1F23] hover:text-[#1E1F23]/80 underline"
+                >
+                  Log in now →
+                </Link>
               </div>
               <div>
                 <p className="font-semibold text-[#1E1F23] mb-1">

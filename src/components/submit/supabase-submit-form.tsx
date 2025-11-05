@@ -66,6 +66,7 @@ export function SupabaseSubmitForm({
 }: SupabaseSubmitFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<Record<string, string[]>>({});
   // Helper function to normalize format values from database
   const normalizeFormat = (format: string | undefined): string => {
     if (!format) return "";
@@ -188,9 +189,16 @@ export function SupabaseSubmitForm({
     }));
   };
 
+  // Helper to get error message for a field
+  const getFieldError = (fieldName: string): string | null => {
+    const errors = validationErrors[fieldName];
+    return errors && errors.length > 0 ? errors[0] : null;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setValidationErrors({}); // Clear previous errors
 
     try {
       // Add gallery images to form data
@@ -223,11 +231,29 @@ export function SupabaseSubmitForm({
           router.push(`/payment/${result.listingId}`);
         }
       } else {
-        toast.error(result.message || "Failed to submit listing");
+        // Show field-level errors if available
+        if (result.errors) {
+          setValidationErrors(result.errors);
+          // Show error toast with specific issues
+          const errorCount = Object.keys(result.errors).length;
+          toast.error(`Please fix ${errorCount} error(s) in the form`, {
+            description: result.message,
+            duration: 6000,
+          });
+
+          // Scroll to first error
+          const firstErrorField = Object.keys(result.errors)[0];
+          const errorElement = document.querySelector(`[name="${firstErrorField}"]`);
+          if (errorElement) {
+            errorElement.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        } else {
+          toast.error(result.message || "Failed to submit listing");
+        }
       }
     } catch (error) {
       console.error("Submit error:", error);
-      toast.error("An unexpected error occurred");
+      toast.error("An unexpected error occurred. Please check your entries and try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -293,15 +319,19 @@ export function SupabaseSubmitForm({
               </Label>
               <Input
                 id="name"
+                name="name"
                 value={formData.name}
                 onChange={(e) => handleInputChange("name", e.target.value)}
                 placeholder="Your business name"
-                maxLength={32}
+                maxLength={100}
                 required
-                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                className={`bg-paper border-secondary-denim text-surface placeholder:text-surface/60 ${getFieldError("name") ? "border-red-500 border-2" : ""}`}
               />
-              <p className="text-surface">
-                {formData.name.length}/32 characters
+              {getFieldError("name") && (
+                <p className="text-red-600 text-sm font-semibold">⚠️ {getFieldError("name")}</p>
+              )}
+              <p className="text-surface text-xs">
+                {formData.name.length}/100 characters
               </p>
             </div>
 
@@ -311,6 +341,7 @@ export function SupabaseSubmitForm({
               </Label>
               <Textarea
                 id="description"
+                name="description"
                 value={formData.description}
                 onChange={(e) =>
                   handleInputChange("description", e.target.value)
@@ -318,9 +349,12 @@ export function SupabaseSubmitForm({
                 placeholder="Describe your services"
                 maxLength={256}
                 required
-                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                className={`bg-paper border-secondary-denim text-surface placeholder:text-surface/60 ${getFieldError("description") ? "border-red-500 border-2" : ""}`}
               />
-              <p className="text-surface">
+              {getFieldError("description") && (
+                <p className="text-red-600 text-sm font-semibold">⚠️ {getFieldError("description")}</p>
+              )}
+              <p className="text-surface text-xs">
                 {formData.description.length}/256 characters
               </p>
             </div>
@@ -417,11 +451,12 @@ export function SupabaseSubmitForm({
             <div className="space-y-2">
               <Label className="text-surface">Format *</Label>
               <Select
+                name="format"
                 value={formData.format}
                 onValueChange={(value) => handleInputChange("format", value)}
                 required
               >
-                <SelectTrigger className="bg-paper border-secondary-denim text-surface">
+                <SelectTrigger className={`bg-paper border-secondary-denim text-surface ${getFieldError("format") ? "border-red-500 border-2" : ""}`}>
                   <SelectValue placeholder="Select service format" />
                 </SelectTrigger>
                 <SelectContent>
@@ -430,6 +465,9 @@ export function SupabaseSubmitForm({
                   <SelectItem value="Hybrid">Hybrid</SelectItem>
                 </SelectContent>
               </Select>
+              {getFieldError("format") && (
+                <p className="text-red-600 text-sm font-semibold">⚠️ {getFieldError("format")}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -457,7 +495,7 @@ export function SupabaseSubmitForm({
           {/* Categories */}
           <div className="space-y-4">
             <h3 className="text-surface">
-              Categories {formData.plan === "Free" && "(Select 1 - Free Plan)"}
+              Categories * {formData.plan === "Free" && "(Select 1 - Free Plan)"}
               {formData.plan !== "Free" && "(Select all that apply)"}
             </h3>
             {formData.plan === "Free" && (
@@ -466,7 +504,7 @@ export function SupabaseSubmitForm({
                 to Standard or Pro to select multiple categories.
               </div>
             )}
-            <div className="grid grid-cols-2 gap-2">
+            <div className={`grid grid-cols-2 gap-2 p-3 border rounded-lg ${getFieldError("categories") ? "border-red-500 border-2 bg-red-50" : ""}`}>
               {categories.map((category) => {
                 const isDisabled =
                   formData.plan === "Free" &&
@@ -494,6 +532,9 @@ export function SupabaseSubmitForm({
                 );
               })}
             </div>
+            {getFieldError("categories") && (
+              <p className="text-red-600 text-sm font-semibold">⚠️ {getFieldError("categories")}</p>
+            )}
           </div>
 
           {/* Contact Information */}
@@ -507,13 +548,17 @@ export function SupabaseSubmitForm({
                 </Label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   value={formData.email}
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   placeholder="your@email.com"
                   required
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  className={`bg-paper border-secondary-denim text-surface placeholder:text-surface/60 ${getFieldError("email") ? "border-red-500 border-2" : ""}`}
                 />
+                {getFieldError("email") && (
+                  <p className="text-red-600 text-sm font-semibold">⚠️ {getFieldError("email")}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -533,43 +578,58 @@ export function SupabaseSubmitForm({
 
             <div className="space-y-2">
               <Label htmlFor="link" className="text-surface">
-                Website
+                Website *
               </Label>
               <Input
                 id="link"
+                name="link"
                 type="url"
                 value={formData.link}
                 onChange={(e) => handleInputChange("link", e.target.value)}
-                placeholder="https://yourwebsite.com"
-                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                placeholder="yourwebsite.com (we'll add https:// for you)"
+                className={`bg-paper border-secondary-denim text-surface placeholder:text-surface/60 ${getFieldError("link") ? "border-red-500 border-2" : ""}`}
               />
+              {getFieldError("link") && (
+                <p className="text-red-600 text-sm font-semibold">⚠️ {getFieldError("link")}</p>
+              )}
+              <p className="text-surface text-xs">You can enter just "yoursite.com" - we'll automatically add "https://"</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="city" className="text-surface">
-                  City
+                  City *
                 </Label>
                 <Input
                   id="city"
+                  name="city"
                   value={formData.city}
                   onChange={(e) => handleInputChange("city", e.target.value)}
                   placeholder="Los Angeles"
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  required
+                  className={`bg-paper border-secondary-denim text-surface placeholder:text-surface/60 ${getFieldError("city") ? "border-red-500 border-2" : ""}`}
                 />
+                {getFieldError("city") && (
+                  <p className="text-red-600 text-sm font-semibold">⚠️ {getFieldError("city")}</p>
+                )}
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="state" className="text-surface">
-                  State / Region
+                  State / Region *
                 </Label>
                 <Input
                   id="state"
+                  name="state"
                   value={formData.state}
                   onChange={(e) => handleInputChange("state", e.target.value)}
-                  placeholder="e.g., California, Ontario, or London"
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  placeholder="e.g., CA, NY, or Ontario"
+                  required
+                  className={`bg-paper border-secondary-denim text-surface placeholder:text-surface/60 ${getFieldError("state") ? "border-red-500 border-2" : ""}`}
                 />
+                {getFieldError("state") && (
+                  <p className="text-red-600 text-sm font-semibold">⚠️ {getFieldError("state")}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -588,12 +648,12 @@ export function SupabaseSubmitForm({
 
             <div className="space-y-2">
               <Label className="text-surface">
-                Service Areas (Select all that apply)
+                Service Areas (Select all that apply) *
               </Label>
               <p className="text-surface">
                 Where do you serve clients? Select all regions that apply.
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 border rounded-lg bg-paper/50">
+              <div className={`grid grid-cols-1 md:grid-cols-2 gap-3 p-4 border rounded-lg bg-paper/50 ${getFieldError("region") ? "border-red-500 border-2" : ""}`}>
                 {[
                   "West Coast",
                   "Southwest",
@@ -630,6 +690,9 @@ export function SupabaseSubmitForm({
                   </div>
                 ))}
               </div>
+              {getFieldError("region") && (
+                <p className="text-red-600 text-sm font-semibold">⚠️ {getFieldError("region")}</p>
+              )}
             </div>
           </div>
 

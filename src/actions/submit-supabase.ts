@@ -42,6 +42,7 @@ export type ServerActionResponse = {
   message?: string;
   id?: string;
   listingId?: string;
+  errors?: Record<string, string[]>; // Field-level validation errors
 };
 
 /**
@@ -55,6 +56,44 @@ export async function submitToSupabase(
     const user = await currentUser();
 
     console.log("submitToSupabase, data:", formData);
+
+    // Validate with detailed error messages
+    const validationResult = SubmitSchema.safeParse(formData);
+
+    if (!validationResult.success) {
+      const fieldErrors: Record<string, string[]> = {};
+      validationResult.error.errors.forEach((err) => {
+        const field = err.path.join(".");
+        if (!fieldErrors[field]) {
+          fieldErrors[field] = [];
+        }
+        fieldErrors[field].push(err.message);
+      });
+
+      console.error("Validation errors:", fieldErrors);
+
+      // Build user-friendly error message listing the specific issues
+      const errorList: string[] = [];
+      if (fieldErrors.name) errorList.push(`• Business Name: ${fieldErrors.name[0]}`);
+      if (fieldErrors.link) errorList.push(`• Website: ${fieldErrors.link[0]}`);
+      if (fieldErrors.email) errorList.push(`• Email: ${fieldErrors.email[0]}`);
+      if (fieldErrors.city) errorList.push(`• City: ${fieldErrors.city[0]}`);
+      if (fieldErrors.state) errorList.push(`• State: ${fieldErrors.state[0]}`);
+      if (fieldErrors.region) errorList.push(`• Region: ${fieldErrors.region[0]}`);
+      if (fieldErrors.format) errorList.push(`• Format: ${fieldErrors.format[0]}`);
+      if (fieldErrors.categories) errorList.push(`• Categories: ${fieldErrors.categories[0]}`);
+      
+      const errorMessage = errorList.length > 0
+        ? `Please fix these issues:\n${errorList.join('\n')}`
+        : "Please check all required fields and try again.";
+
+      return {
+        status: "error",
+        message: errorMessage,
+        errors: fieldErrors,
+      };
+    }
+
     const {
       name,
       link,
@@ -86,7 +125,7 @@ export async function submitToSupabase(
       blog_url,
       custom_link_url,
       custom_link_name,
-    } = SubmitSchema.parse(formData);
+    } = validationResult.data;
 
     console.log(
       "submitToSupabase, name:",

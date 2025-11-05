@@ -14,12 +14,42 @@ export type NewsletterFormData = z.infer<typeof NewsletterFormSchema>;
 /**
  * submit item
  */
+// Helper to auto-fix URLs (add https:// if missing)
+const urlWithProtocol = z
+  .string()
+  .transform((val) => {
+    if (!val || val === "") return "";
+    // If it already has a protocol, return as is
+    if (val.match(/^https?:\/\//i)) return val;
+    // Add https:// prefix
+    return `https://${val}`;
+  })
+  .pipe(
+    z.union([
+      z.string().url({ message: "Please enter a valid website URL" }),
+      z.literal(""),
+    ])
+  );
+
+// Helper for optional social media URLs - auto-fix or accept empty
+const optionalUrlWithProtocol = z
+  .string()
+  .optional()
+  .or(z.literal(""))
+  .transform((val) => {
+    if (!val || val === "") return "";
+    // If it already has a protocol, return as is
+    if (val.match(/^https?:\/\//i)) return val;
+    // Add https:// prefix
+    return `https://${val}`;
+  });
+
 export const baseSubmitSchema = {
   name: z
     .string()
-    .min(1, { message: "Name is required" })
-    .max(32, { message: "Name must be 32 or fewer characters long" }),
-  link: z.string().url({ message: "Invalid url" }),
+    .min(1, { message: "Business name is required" })
+    .max(100, { message: "Name must be 100 or fewer characters long" }),
+  link: urlWithProtocol,
   description: z
     .string()
     .max(256, { message: "Description must be 256 or fewer characters long" })
@@ -32,15 +62,18 @@ export const baseSubmitSchema = {
     .optional(), // Optional for free listings
   unique: z.string().optional(), // Optional for free listings, validated in form based on plan
   format: z.enum(["In-person", "Online", "Hybrid"], {
-    required_error: "Please select a format",
+    required_error: "Please select a format (In-person, Online, or Hybrid)",
   }),
   notes: z.string().optional(),
-  email: z.string().email({ message: "Valid email required" }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
   phone: z.string().optional(),
   city: z.string().min(1, { message: "City is required" }), // Required for all listings
   state: z.string().min(1, { message: "State is required" }), // Required for all listings
   zip: z.string().optional(),
-  region: z.array(z.string()).min(1, { message: "Region is required" }), // Required for all listings
+  region: z.union([
+    z.array(z.string()).min(1, { message: "Please select at least one region" }),
+    z.string().transform((val) => [val]), // Convert single string to array
+  ]),
   bondNumber: z.string().optional(),
   plan: z.enum(
     ["Free", "Standard", "Pro", "Founding Standard", "Founding Pro"],
@@ -53,19 +86,19 @@ export const baseSubmitSchema = {
   tags: z.array(z.string()).optional(), // Optional for free listings
   categories: z
     .array(z.string())
-    .min(1, { message: "Must select at least one category" }),
+    .min(1, { message: "Please select at least one category" }),
   gallery: z.array(z.string()).optional(), // Optional gallery images
   imageId: z.string().optional(), // Make optional for testing
   iconId: z.string().optional(), // Optional logo/icon even if icons are disabled
   active: z.boolean().optional(), // Optional active status
-  // Social media fields (Pro users only)
-  facebook_url: z.string().url().optional().or(z.literal("")),
-  instagram_url: z.string().url().optional().or(z.literal("")),
-  tiktok_url: z.string().url().optional().or(z.literal("")),
-  youtube_url: z.string().url().optional().or(z.literal("")),
-  linkedin_url: z.string().url().optional().or(z.literal("")),
-  blog_url: z.string().url().optional().or(z.literal("")),
-  custom_link_url: z.string().url().optional().or(z.literal("")),
+  // Social media fields (Pro users only) - now much more forgiving
+  facebook_url: optionalUrlWithProtocol,
+  instagram_url: optionalUrlWithProtocol,
+  tiktok_url: optionalUrlWithProtocol,
+  youtube_url: optionalUrlWithProtocol,
+  linkedin_url: optionalUrlWithProtocol,
+  blog_url: optionalUrlWithProtocol,
+  custom_link_url: optionalUrlWithProtocol,
   custom_link_name: z.string().optional(),
 };
 

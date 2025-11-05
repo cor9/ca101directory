@@ -10,35 +10,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { regionsList } from "@/data/regions";
 import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-
-// Removed states array - using regions only
-
-// Common regions (can be expanded)
-export const regionsList = [
-  "Los Angeles County",
-  "Orange County",
-  "San Diego County",
-  "San Francisco Bay Area",
-  "Sacramento Area",
-  "Central Valley",
-  "New York City",
-  "Long Island",
-  "Westchester County",
-  "Atlanta Metro",
-  "Miami-Dade County",
-  "Broward County",
-  "Chicago Metro",
-  "Dallas-Fort Worth",
-  "Houston Metro",
-  "Phoenix Metro",
-  "Denver Metro",
-  "Seattle Metro",
-  "Portland Metro",
-  "Online/Virtual",
-];
 
 interface DirectoryFiltersProps {
   className?: string;

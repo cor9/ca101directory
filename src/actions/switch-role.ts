@@ -2,6 +2,7 @@
 
 import { auth, unstable_update } from "@/auth";
 import { createServerClient } from "@/lib/supabase";
+import type { UserRole } from "@/types/user-role";
 import { revalidatePath } from "next/cache";
 
 export type SwitchRoleResponse = {
@@ -88,7 +89,7 @@ export async function switchUserRole(
       await unstable_update({
         user: {
           ...session.user,
-          role: newRole,
+          role: newRole as UserRole,
         },
       });
     } catch (sessionError) {

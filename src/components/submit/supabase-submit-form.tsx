@@ -162,7 +162,7 @@ export function SupabaseSubmitForm({
   };
 
   const isProTierPlan = (plan: string) => {
-    return plan === "Pro" || plan === "Founding Vendor Pro";
+    return plan === "Pro" || plan === "Founding Pro";
   };
 
   const getMaxGalleryImages = () => {
@@ -379,20 +379,20 @@ export function SupabaseSubmitForm({
                 </CardContent>
               </Card>
 
-              {/* Founding Vendor Standard */}
+              {/* Founding Standard */}
               <Card
                 className={`cursor-pointer transition-all hover:shadow-lg relative ${
-                  formData.plan === "Founding Vendor Standard"
+                  formData.plan === "Founding Standard"
                     ? "ring-2 ring-[#FF6B35] bg-blue-50"
                     : "border-gray-200"
                 }`}
-                onClick={() => handleInputChange("plan", "Founding Vendor Standard")}
+                onClick={() => handleInputChange("plan", "Founding Standard")}
               >
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                   🎉 LIMITED TIME
                 </div>
                 <CardHeader className="pb-3 pt-4">
-                  <CardTitle className="text-lg">Founding Vendor Standard</CardTitle>
+                  <CardTitle className="text-lg">Founding Standard</CardTitle>
                   <div className="text-2xl font-bold text-[#FF6B35]">
                     $15
                     <span className="text-sm font-normal">/mo</span>
@@ -445,20 +445,20 @@ export function SupabaseSubmitForm({
                 </CardContent>
               </Card>
 
-              {/* Founding Vendor Pro */}
+              {/* Founding Pro */}
               <Card
                 className={`cursor-pointer transition-all hover:shadow-lg relative ${
-                  formData.plan === "Founding Vendor Pro"
+                  formData.plan === "Founding Pro"
                     ? "ring-2 ring-[#FF6B35] bg-purple-50"
                     : "border-gray-200"
                 }`}
-                onClick={() => handleInputChange("plan", "Founding Vendor Pro")}
+                onClick={() => handleInputChange("plan", "Founding Pro")}
               >
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                   🌟 BEST VALUE
                 </div>
                 <CardHeader className="pb-3 pt-4">
-                  <CardTitle className="text-lg">Founding Vendor Pro</CardTitle>
+                  <CardTitle className="text-lg">Founding Pro</CardTitle>
                   <div className="text-2xl font-bold text-[#FF6B35]">
                     $30
                     <span className="text-sm font-normal">/mo</span>
@@ -557,13 +557,13 @@ export function SupabaseSubmitForm({
               </div>
             )}
 
-            {formData.plan === "Founding Vendor Standard" && (
+            {formData.plan === "Founding Standard" && (
               <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-orange-400 rounded-lg p-4">
                 <div className="flex items-start gap-3">
                   <span className="text-3xl">🎉</span>
                   <div>
                     <p className="text-sm text-orange-900 mb-2">
-                      <strong>Founding Vendor Standard Selected:</strong> Amazing choice!
+                      <strong>Founding Standard Selected:</strong> Amazing choice!
                       You're locking in an exclusive rate:
                     </p>
                     <ul className="text-sm text-orange-800 space-y-1 mb-3 ml-4">
@@ -582,13 +582,13 @@ export function SupabaseSubmitForm({
               </div>
             )}
 
-            {formData.plan === "Founding Vendor Pro" && (
+            {formData.plan === "Founding Pro" && (
               <div className="bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-400 rounded-lg p-4">
                 <div className="flex items-start gap-3">
                   <span className="text-3xl">🌟</span>
                   <div>
                     <p className="text-sm text-purple-900 mb-2">
-                      <strong>Founding Vendor Pro Selected:</strong> BEST VALUE!
+                      <strong>Founding Pro Selected:</strong> BEST VALUE!
                       You're getting the ultimate deal:
                     </p>
                     <ul className="text-sm text-purple-800 space-y-1 mb-3 ml-4">
@@ -1153,8 +1153,8 @@ export function SupabaseSubmitForm({
                     </h4>
                     <p className="text-sm text-purple-800 mb-2">
                       {formData.plan === "Free"
-                        ? "Free listings don't include gallery images. Upgrade to Pro ($50/mo) or Founding Vendor Pro ($30/mo) to showcase up to 4 additional photos of your work, studio, or team!"
-                        : "Standard plan includes your profile image. Upgrade to Pro ($50/mo) or Founding Vendor Pro ($30/mo) to add 4 gallery images and showcase your portfolio!"}
+                        ? "Free listings don't include gallery images. Upgrade to Pro ($50/mo) or Founding Pro ($30/mo) to showcase up to 4 additional photos of your work, studio, or team!"
+                        : "Standard plan includes your profile image. Upgrade to Pro ($50/mo) or Founding Pro ($30/mo) to add 4 gallery images and showcase your portfolio!"}
                     </p>
                     <div className="flex gap-2">
                       <a
@@ -1206,14 +1206,14 @@ export function SupabaseSubmitForm({
               <p className="text-surface">
                 {isProTierPlan(formData.plan)
                   ? "Add your social media profiles to increase engagement."
-                  : "Upgrade to Pro ($50/mo) or Founding Vendor Pro ($30/mo) to display social media links on your listing."}
+                  : "Upgrade to Pro ($50/mo) or Founding Pro ($30/mo) to display social media links on your listing."}
               </p>
             </div>
             {!isProTierPlan(formData.plan) && (
               <div className="bg-purple-50 border border-purple-200 rounded p-3">
                 <p className="text-sm text-purple-800">
                   <strong>Pro Feature:</strong> Social media links are exclusive
-                  to Pro tier members. Upgrade to Pro or Founding Vendor Pro to showcase your Facebook,
+                  to Pro tier members. Upgrade to Pro or Founding Pro to showcase your Facebook,
                   Instagram, TikTok, YouTube, LinkedIn, and custom links.{" "}
                   <a
                     href="/pricing"

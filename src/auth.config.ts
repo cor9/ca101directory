@@ -50,11 +50,8 @@ export default {
             return null;
           }
 
-          if (!authUser.user.email_confirmed_at) {
-            throw new AuthError(
-              "Email not confirmed. Please check your email and click the confirmation link.",
-            );
-          }
+          // REMOVED: email_confirmed_at check - clicking magic link IS the confirmation
+          // Magic link authentication proves email ownership, no separate confirmation needed
 
           if (authUser.user.email?.toLowerCase() !== email.toLowerCase()) {
             console.error("Magic link email mismatch", {
@@ -111,7 +108,7 @@ export default {
           const sessionDurations: Record<string, number> = {
             admin: 90,
             parent: 30,
-            vendor: 7,
+            vendor: 30, // Increased from 7 to 30 days - vendors need longer sessions to complete claims/submissions
           };
           const defaultDays = sessionDurations[profile.role] ?? 30;
           const sessionSeconds = rememberChoice

@@ -82,7 +82,7 @@ export async function submitToSupabase(
       if (fieldErrors.region) errorList.push(`• Region: ${fieldErrors.region[0]}`);
       if (fieldErrors.format) errorList.push(`• Format: ${fieldErrors.format[0]}`);
       if (fieldErrors.categories) errorList.push(`• Categories: ${fieldErrors.categories[0]}`);
-      
+
       const errorMessage = errorList.length > 0
         ? `Please fix these issues:\n${errorList.join('\n')}`
         : "Please check all required fields and try again.";

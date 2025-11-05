@@ -8,7 +8,7 @@
 
 ## 🚨 PROBLEM SUMMARY
 
-Users were reporting inability to claim and submit listings. Investigation revealed **5 critical bugs** blocking the vendor flow.
+Users were reporting inability to claim and submit listings. Investigation revealed **6 critical bugs** blocking the vendor flow.
 
 ---
 
@@ -133,6 +133,40 @@ Users were reporting inability to claim and submit listings. Investigation revea
 
 ---
 
+### ✅ **BUG #6: Free Plan Form UX Confusion**
+
+**Problem:**
+- When claiming/editing Free listings, premium fields appeared BEFORE plan selector
+- Users encountered locked fields (introduction, unique, notes, images) early in form
+- Plan selector came too late (after several locked fields)
+- Confusing UX - users saw "🔒 Upgrade to..." before knowing they could upgrade
+- Form felt cluttered and broken to Free plan users
+
+**Files Changed:**
+- `src/components/submit/supabase-submit-form.tsx` (lines 311-477)
+
+**Solution:**
+- Moved "Choose Your Plan" section from line 699 to line 312 (top of form)
+- Plan selector now appears FIRST, before any premium fields
+- Added descriptive text: "Select your plan first to see which fields you can use"
+- Users now choose plan → see immediate benefits → scroll to relevant fields
+- Premium fields still show as disabled/locked, but AFTER user understands upgrade options
+
+**Free Plan Allowed Fields:**
+- Basic info: listing name, description, email, phone, website
+- Location: city, state, zip, service areas/region
+- Format: In-person/Online/Hybrid
+- Age ranges: 5-8, 9-12, 13-17, 18+
+- Categories: ONE category only (multi-select disabled)
+
+**Premium Fields (Properly Locked):**
+- Standard+: Profile image, introduction, unique, notes, multiple categories
+- Pro only: Gallery images (4 max), social media links
+
+**Commit:** `7c9a075` - Fix Bug #6: Improve Free plan UX by moving plan selector to top
+
+---
+
 ## 📊 IMPACT ASSESSMENT
 
 ### Before Fixes:
@@ -141,6 +175,7 @@ Users were reporting inability to claim and submit listings. Investigation revea
 - ❌ Claim flow confusing and unclear
 - ❌ Parent users permanently locked out from claiming
 - ❌ Free users thought gallery was broken
+- ❌ Free plan form showed locked fields before plan selector
 
 ### After Fixes:
 - ✅ Magic link users can claim immediately
@@ -148,12 +183,15 @@ Users were reporting inability to claim and submit listings. Investigation revea
 - ✅ Clear, dedicated claim page with obvious messaging
 - ✅ Self-service role switching in settings
 - ✅ Obvious locked state for paid features
+- ✅ Plan selector at top - users choose plan before seeing locked fields
 
 ### Expected Results:
 - **50% reduction in support requests** ("Can't claim listing")
 - **30% increase in successful claims** (reduced friction)
 - **25% reduction in abandoned submissions** (longer sessions)
 - **Elimination of role-related lockouts** (self-service switching)
+- **Better upgrade conversion** (plan selector shown first)
+- **Clearer Free plan experience** (reduced confusion about locked features)
 
 ---
 
@@ -188,6 +226,20 @@ Users were reporting inability to claim and submit listings. Investigation revea
 2. Check session expiry in JWT
 3. ✅ Should expire in 30 days (not 7)
 
+### Test Scenario 5: Free Plan Form UX
+1. Claim a Free plan listing
+2. Form loads with claim/edit interface
+3. ✅ Should see "Choose Your Plan" section at TOP of form
+4. ✅ Free plan should be pre-selected (from existing listing)
+5. ✅ Should see clear messaging about what Free includes
+6. Scroll down to Basic Information section
+7. ✅ Premium fields (introduction, unique) should appear AFTER plan selector
+8. ✅ Locked fields should show clear "🔒 Upgrade to..." messaging
+9. Click "Standard" plan in selector
+10. ✅ Should immediately unlock introduction, unique, notes, profile image
+11. Click "Pro" plan
+12. ✅ Should unlock gallery and social media sections
+
 ---
 
 ## 📝 ADDITIONAL NOTES
@@ -197,6 +249,7 @@ Users were reporting inability to claim and submit listings. Investigation revea
 - Standardized session durations across roles
 - Separated claim flow from submission flow (better UX)
 - Added self-service role management
+- Improved form field ordering for better conversion funnel
 
 ### Security Considerations:
 - Role switching prevented for admins (line 61-67 in switch-role.ts)
@@ -236,4 +289,4 @@ Users were reporting inability to claim and submit listings. Investigation revea
 
 **DEPLOYMENT STATUS:** Ready for production ✅
 
-All critical bugs fixed. Vendor claim and submission flow should now work smoothly without authentication blocks, session timeouts, or role lockouts.
+All 6 critical bugs fixed. Vendor claim and submission flow should now work smoothly without authentication blocks, session timeouts, role lockouts, or UX confusion about Free plan limitations.

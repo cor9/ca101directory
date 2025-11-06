@@ -24,16 +24,29 @@ CREATE TABLE IF NOT EXISTS reviews (
   status TEXT DEFAULT 'pending',
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
-  UNIQUE(user_id, listing_id),
-  CHECK (status IN ('pending', 'approved', 'rejected'))
+  UNIQUE(user_id, listing_id)
 );
 
--- 3. ENABLE ROW LEVEL SECURITY
+-- 3. ADD CHECK CONSTRAINT FOR STATUS
+-- =====================================================
+-- Add the constraint after the table is created to avoid column reference issues
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint 
+    WHERE conname = 'reviews_status_check'
+  ) THEN
+    ALTER TABLE reviews ADD CONSTRAINT reviews_status_check 
+    CHECK (status IN ('pending', 'approved', 'rejected'));
+  END IF;
+END $$;
+
+-- 4. ENABLE ROW LEVEL SECURITY
 -- =====================================================
 ALTER TABLE favorites ENABLE ROW LEVEL SECURITY;
 ALTER TABLE reviews ENABLE ROW LEVEL SECURITY;
 
--- 4. CREATE RLS POLICIES FOR FAVORITES
+-- 5. CREATE RLS POLICIES FOR FAVORITES
 -- =====================================================
 -- Drop existing policies if they exist
 DROP POLICY IF EXISTS "Users can view own favorites" ON favorites;
@@ -48,7 +61,7 @@ CREATE POLICY "Users can manage own favorites"
 ON favorites FOR ALL
 USING (auth.uid() = user_id);
 
--- 5. CREATE RLS POLICIES FOR REVIEWS
+-- 6. CREATE RLS POLICIES FOR REVIEWS
 -- =====================================================
 -- Drop existing policies if they exist
 DROP POLICY IF EXISTS "Anyone can view approved reviews" ON reviews;
@@ -73,7 +86,7 @@ CREATE POLICY "Users can update own pending reviews"
 ON reviews FOR UPDATE
 USING (auth.uid() = user_id AND status = 'pending');
 
--- 6. CREATE INDEXES FOR PERFORMANCE
+-- 7. CREATE INDEXES FOR PERFORMANCE
 -- =====================================================
 CREATE INDEX IF NOT EXISTS idx_favorites_user_id ON favorites(user_id);
 CREATE INDEX IF NOT EXISTS idx_favorites_listing_id ON favorites(listing_id);
@@ -81,7 +94,7 @@ CREATE INDEX IF NOT EXISTS idx_reviews_user_id ON reviews(user_id);
 CREATE INDEX IF NOT EXISTS idx_reviews_listing_id ON reviews(listing_id);
 CREATE INDEX IF NOT EXISTS idx_reviews_status ON reviews(status);
 
--- 7. GRANT PERMISSIONS
+-- 8. GRANT PERMISSIONS
 -- =====================================================
 GRANT ALL ON favorites TO authenticated;
 GRANT ALL ON reviews TO authenticated;

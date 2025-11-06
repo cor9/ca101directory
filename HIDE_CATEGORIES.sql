@@ -11,7 +11,8 @@ WHERE category_name IN (
   'Speech Therapy',
   'Wardrobe Consultant',
   'Videographers',
-  'Social Media Consultant'
+  'Social Media Consultant',
+  'Consultants'
 );
 
 -- Verify the changes
@@ -25,7 +26,8 @@ WHERE category_name IN (
   'Speech Therapy',
   'Wardrobe Consultant',
   'Videographers',
-  'Social Media Consultant'
+  'Social Media Consultant',
+  'Consultants'
 )
 ORDER BY category_name;
 

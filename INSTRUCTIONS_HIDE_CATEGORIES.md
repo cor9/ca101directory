@@ -53,8 +53,8 @@ Once the `hidden` column is added and categories are marked as hidden:
 Run this SQL in Supabase:
 
 ```sql
-UPDATE categories 
-SET hidden = FALSE 
+UPDATE categories
+SET hidden = FALSE
 WHERE category_name = 'Category Name Here';
 ```
 

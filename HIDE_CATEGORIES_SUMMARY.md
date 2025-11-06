@@ -75,8 +75,8 @@ Once the SQL is run:
 Run this SQL in Supabase:
 
 ```sql
-UPDATE categories 
-SET hidden = FALSE 
+UPDATE categories
+SET hidden = FALSE
 WHERE category_name = 'Category Name Here';
 ```
 

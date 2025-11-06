@@ -42,34 +42,34 @@ export interface FeatureFlags {
  */
 export const defaultFeatureFlags: FeatureFlags = {
   // Authentication & Roles
-  enableParentAuth: false, // Disabled - not ready for production yet
+  enableParentAuth: true, // Enabled - parent features are ready
   enableVendorAuth: true,
   enableAdminAuth: true,
 
   // User Features
-  enableReviews: false, // Disabled until reviews table is created
-  enableFavorites: false, // Disabled - parent feature
-  enableBookmarks: false, // Disabled - parent feature
+  enableReviews: true, // Enabled - reviews functionality is ready
+  enableFavorites: true, // Enabled - parent feature
+  enableBookmarks: false, // Disabled - not yet implemented
 
   // Dashboard Features
-  enableParentDashboard: false, // Disabled - not ready for production yet
+  enableParentDashboard: true, // Enabled - parent dashboard is ready
   enableVendorDashboard: true,
   enableAdminDashboard: true,
 
   // UI Components
-  enableReviewButtons: false, // Disabled until reviews table is created
-  enableFavoriteButtons: false, // Disabled - parent feature
-  enableBookmarkButtons: false, // Disabled - parent feature
+  enableReviewButtons: true, // Enabled - review buttons are ready
+  enableFavoriteButtons: true, // Enabled - parent feature
+  enableBookmarkButtons: false, // Disabled - not yet implemented
 
   // API Features
-  enableReviewAPI: false, // Disabled until reviews table is created
-  enableFavoriteAPI: false, // Disabled - parent feature
-  enableBookmarkAPI: false, // Disabled - parent feature
+  enableReviewAPI: true, // Enabled - review API is ready
+  enableFavoriteAPI: true, // Enabled - parent feature
+  enableBookmarkAPI: false, // Disabled - not yet implemented
 
   // Navigation
-  showParentNav: false, // Disabled - parent feature
-  showReviewNav: false, // Disabled until reviews table is created
-  showFavoriteNav: false, // Disabled - parent feature
+  showParentNav: true, // Enabled - parent navigation is ready
+  showReviewNav: true, // Enabled - review navigation is ready
+  showFavoriteNav: true, // Enabled - favorites navigation is ready
 };
 
 /**

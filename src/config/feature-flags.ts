@@ -47,9 +47,9 @@ export const defaultFeatureFlags: FeatureFlags = {
   enableAdminAuth: true,
 
   // User Features
-  enableReviews: false, // Disabled until reviews table is created
-  enableFavorites: false, // Disabled - parent feature
-  enableBookmarks: false, // Disabled - parent feature
+  enableReviews: true, // ✅ ENABLED - Reviews table exists in database
+  enableFavorites: true, // ✅ ENABLED - Favorites table exists in database
+  enableBookmarks: false, // Disabled - not implemented yet
 
   // Dashboard Features
   enableParentDashboard: true, // Enabled for parent dashboard access
@@ -57,19 +57,19 @@ export const defaultFeatureFlags: FeatureFlags = {
   enableAdminDashboard: true,
 
   // UI Components
-  enableReviewButtons: false, // Disabled until reviews table is created
-  enableFavoriteButtons: false, // Disabled - parent feature
-  enableBookmarkButtons: false, // Disabled - parent feature
+  enableReviewButtons: true, // ✅ ENABLED - Show review buttons on listings
+  enableFavoriteButtons: true, // ✅ ENABLED - Show favorite buttons on listings
+  enableBookmarkButtons: false, // Disabled - not implemented yet
 
   // API Features
-  enableReviewAPI: false, // Disabled until reviews table is created
-  enableFavoriteAPI: false, // Disabled - parent feature
-  enableBookmarkAPI: false, // Disabled - parent feature
+  enableReviewAPI: true, // ✅ ENABLED - Review submission enabled
+  enableFavoriteAPI: true, // ✅ ENABLED - Favorite management enabled
+  enableBookmarkAPI: false, // Disabled - not implemented yet
 
   // Navigation
-  showParentNav: false, // Disabled - parent feature
-  showReviewNav: false, // Disabled until reviews table is created
-  showFavoriteNav: false, // Disabled - parent feature
+  showParentNav: true, // ✅ ENABLED - Show parent navigation
+  showReviewNav: true, // ✅ ENABLED - Show review navigation
+  showFavoriteNav: true, // ✅ ENABLED - Show favorite navigation
 };
 
 /**

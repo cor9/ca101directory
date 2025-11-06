@@ -15,7 +15,7 @@ WHERE category_name IN (
 );
 
 -- Verify the changes
-SELECT 
+SELECT
   category_name,
   hidden,
   id

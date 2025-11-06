@@ -19,11 +19,6 @@ export const marketingConfig: MarketingConfig = {
       icon: "category",
     },
     {
-      title: "Collection",
-      href: "/collection",
-      icon: "collection",
-    },
-    {
       title: "Pricing",
       href: "/pricing",
       icon: "pricing",

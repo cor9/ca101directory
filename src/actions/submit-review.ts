@@ -34,12 +34,12 @@ export async function submitReview(formData: ReviewFormData) {
 
     const supabase = createServerClient();
 
-    // Check if user has already reviewed this vendor
+    // Check if user has already reviewed this listing
     const { data: existingReview } = await supabase
       .from("reviews")
       .select("id")
-      .eq("vendor_id", formData.vendorId)
-      .eq("parent_id", session.user.id)
+      .eq("listing_id", formData.vendorId)
+      .eq("user_id", session.user.id)
       .single();
 
     if (existingReview) {
@@ -53,11 +53,11 @@ export async function submitReview(formData: ReviewFormData) {
     const { data, error } = await supabase
       .from("reviews")
       .insert({
-        vendor_id: formData.vendorId,
-        parent_id: session.user.id,
-        rating: formData.rating,
-        comment: formData.comment,
-        approved: false, // Requires admin approval
+        listing_id: formData.vendorId,
+        user_id: session.user.id,
+        stars: formData.rating,
+        text: formData.comment,
+        status: "pending", // Requires admin approval
       })
       .select()
       .single();

@@ -466,7 +466,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           </ul>
         </div>
       )}
-      
+
       {/* --- Basic Information --- */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormInput

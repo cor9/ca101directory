@@ -32,7 +32,7 @@ export default function RegistrationSuccessPage() {
       const result = await resendConfirmationEmail(email);
       
       if (result.success) {
-        setResendMessage("✅ Confirmation email sent! Check your inbox.");
+        setResendMessage("✅ Magic link email sent! Check your inbox.");
       } else {
         setResendMessage("❌ " + result.error);
       }
@@ -60,7 +60,7 @@ export default function RegistrationSuccessPage() {
                 ⚡ CHECK YOUR EMAIL RIGHT NOW! ⚡
               </h2>
               <p className="text-paper">
-                One more step to activate your account
+                Click the magic link to sign in
               </p>
             </div>
 
@@ -69,7 +69,7 @@ export default function RegistrationSuccessPage() {
               <div className="flex items-center justify-center mb-4">
                 <span className="text-4xl mr-3">📧</span>
                 <p className="text-lg md:text-xl font-semibold text-paper">
-                  Confirmation email sent to:
+                  Magic link email sent to:
                 </p>
               </div>
               
@@ -84,14 +84,14 @@ export default function RegistrationSuccessPage() {
                 <ol className="list-decimal list-inside space-y-3 text-paper">
                   <li className="font-medium">Open your email inbox RIGHT NOW</li>
                   <li className="font-medium">Look for email from "Child Actor 101 Directory"</li>
-                  <li className="font-medium">Click the big blue confirmation button</li>
-                  <li className="font-medium">Come back here and login</li>
+                  <li className="font-medium">Click the magic link button to sign in instantly</li>
+                  <li className="font-medium">You'll be logged in automatically!</li>
                 </ol>
               </div>
 
               <div className="bg-orange-100 border-2 border-orange-300 p-4 rounded-lg">
                 <p className="font-bold text-orange-900 text-center">
-                  ⏱️ The confirmation link expires in 7 days
+                  ⏱️ The magic link expires in 7 days
                 </p>
               </div>
             </div>
@@ -151,7 +151,7 @@ export default function RegistrationSuccessPage() {
                     Sending...
                   </span>
                 ) : (
-                  <>📧 Resend Confirmation Email</>
+                  <>📧 Resend Magic Link Email</>
                 )}
               </button>
               
@@ -200,14 +200,13 @@ export default function RegistrationSuccessPage() {
           <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-white">
             <p className="font-bold mb-2">🎬 What happens after?</p>
             <p className="text-sm">
-              Once confirmed, you can claim listings, edit your profile, and access your vendor dashboard.
+              Click the magic link in your email to sign in instantly. Then you can access your dashboard, claim listings, and manage your profile.
             </p>
           </div>
           <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-white">
-            <p className="font-bold mb-2">⚡ Already confirmed?</p>
+            <p className="font-bold mb-2">⚡ Already clicked the link?</p>
             <p className="text-sm">
-              Click "Go to Login" above and enter your email. We'll send you a
-              secure magic link to finish signing in.
+              If you already clicked your magic link, you should be signed in! If not, click "Go to Login" and request a new magic link.
             </p>
           </div>
         </div>

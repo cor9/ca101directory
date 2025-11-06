@@ -101,7 +101,7 @@ export async function register(
 
     return {
       status: "success",
-      message: "Check your email to confirm your account and finish signing in.",
+      message: "Check your email for your magic link to sign in!",
       redirectUrl: `/auth/registration-success?email=${encodeURIComponent(email)}`,
     };
   } catch (error) {

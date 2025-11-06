@@ -6,7 +6,7 @@
 -- Hide the requested categories by setting hidden = true
 UPDATE categories
 SET hidden = true
-WHERE "Category Name" IN (
+WHERE category_name IN (
   'Hair/Makeup Artists',
   'Speech Therapy',
   'Wardrobe Consultant',
@@ -15,23 +15,23 @@ WHERE "Category Name" IN (
 
 -- Verify the changes
 SELECT 
-  "Category Name" as category_name,
+  category_name,
   hidden,
   id
 FROM categories
-WHERE "Category Name" IN (
+WHERE category_name IN (
   'Hair/Makeup Artists',
   'Speech Therapy',
   'Wardrobe Consultant',
   'Videographers'
 )
-ORDER BY "Category Name";
+ORDER BY category_name;
 
 -- Show all hidden categories
 SELECT 
-  "Category Name" as category_name,
+  category_name,
   hidden
 FROM categories
 WHERE hidden = true
-ORDER BY "Category Name";
+ORDER BY category_name;
 

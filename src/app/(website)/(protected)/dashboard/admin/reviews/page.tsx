@@ -30,7 +30,7 @@ export default async function AdminReviewsPage() {
       `
       *,
       listing:listings(id, listing_name, slug),
-      user:profiles(id, name, email)
+      user:profiles(id, email)
     `
     )
     .order("created_at", { ascending: false });

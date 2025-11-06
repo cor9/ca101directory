@@ -22,7 +22,6 @@ interface Review {
   };
   user?: {
     id: string;
-    name: string;
     email: string;
   };
 }
@@ -225,7 +224,7 @@ export function AdminReviewQueue({ reviews: initialReviews, error }: AdminReview
                     {getStatusBadge(review.status)}
                   </div>
                   <div className="flex items-center gap-4 text-sm text-gray-600">
-                    <span>By: {review.user?.name || review.user?.email || "Unknown User"}</span>
+                    <span>By: {review.user?.email || "Unknown User"}</span>
                     <span>•</span>
                     <span>{new Date(review.created_at).toLocaleDateString()}</span>
                     {review.listing?.slug && (

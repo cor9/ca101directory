@@ -4,7 +4,7 @@
 -- =====================================================
 
 -- 1. Check all reviews in the table
-SELECT 
+SELECT
   id,
   listing_id,
   user_id,
@@ -16,7 +16,7 @@ FROM reviews
 ORDER BY created_at DESC;
 
 -- 2. Check if listing_id references exist in listings table
-SELECT 
+SELECT
   r.id as review_id,
   r.listing_id,
   r.status,
@@ -27,7 +27,7 @@ LEFT JOIN listings l ON r.listing_id = l.id
 ORDER BY r.created_at DESC;
 
 -- 3. Check if user_id references exist in profiles table
-SELECT 
+SELECT
   r.id as review_id,
   r.user_id,
   r.status,
@@ -50,11 +50,11 @@ JOIN information_schema.key_column_usage AS kcu
   ON tc.constraint_name = kcu.constraint_name
 JOIN information_schema.constraint_column_usage AS ccu
   ON ccu.constraint_name = tc.constraint_name
-WHERE tc.table_name = 'reviews' 
+WHERE tc.table_name = 'reviews'
   AND tc.constraint_type = 'FOREIGN KEY';
 
 -- 5. Simple count by status
-SELECT 
+SELECT
   status,
   COUNT(*) as count
 FROM reviews

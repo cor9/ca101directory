@@ -10,7 +10,8 @@ WHERE category_name IN (
   'Hair/Makeup Artists',
   'Speech Therapy',
   'Wardrobe Consultant',
-  'Videographers'
+  'Videographers',
+  'Social Media Consultant'
 );
 
 -- Verify the changes
@@ -23,12 +24,13 @@ WHERE category_name IN (
   'Hair/Makeup Artists',
   'Speech Therapy',
   'Wardrobe Consultant',
-  'Videographers'
+  'Videographers',
+  'Social Media Consultant'
 )
 ORDER BY category_name;
 
 -- Show all hidden categories
-SELECT 
+SELECT
   category_name,
   hidden
 FROM categories

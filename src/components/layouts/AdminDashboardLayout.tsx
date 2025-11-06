@@ -33,13 +33,12 @@ const adminNavItems = [
     icon: FileText,
     description: "Review and approve listings",
   },
-  // Reviews disabled until reviews table is created
-  // {
-  //   label: "Review Queue",
-  //   href: "/dashboard/admin/reviews",
-  //   icon: Star,
-  //   description: "Moderate user reviews",
-  // },
+  {
+    label: "Review Queue",
+    href: "/dashboard/admin/reviews",
+    icon: Star,
+    description: "Moderate user reviews",
+  },
   {
     label: "Platform Analytics",
     href: "/dashboard/admin/analytics",

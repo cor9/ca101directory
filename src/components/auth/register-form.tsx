@@ -118,7 +118,7 @@ export const RegisterForm = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-paper">Name</FormLabel>
+                  <FormLabel className="text-gray-900">Name</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -136,7 +136,7 @@ export const RegisterForm = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-paper">Email</FormLabel>
+                  <FormLabel className="text-gray-900">Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -165,10 +165,10 @@ export const RegisterForm = () => {
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel className="text-paper">
+                    <FormLabel className="text-gray-900">
                       Keep me logged in on this device
                     </FormLabel>
-                    <p className="text-xs text-paper/80">
+                    <p className="text-xs text-gray-900">
                       Stay signed in for up to 30 days so you can return without
                       requesting another email.
                     </p>
@@ -181,7 +181,7 @@ export const RegisterForm = () => {
               name="role"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel className="text-paper">I am a...</FormLabel>
+                  <FormLabel className="text-gray-900">I am a...</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -193,7 +193,7 @@ export const RegisterForm = () => {
                           <RadioGroupItem value="parent" id="parent" />
                           <label
                             htmlFor="parent"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-paper"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
                           >
                             Parent/Legal Guardian
                           </label>
@@ -204,7 +204,7 @@ export const RegisterForm = () => {
                           <RadioGroupItem value="vendor" id="vendor" />
                           <label
                             htmlFor="vendor"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-paper"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
                           >
                             Professional/Vendor
                           </label>

@@ -143,7 +143,7 @@ export function EditForm({ listing, categories }: EditFormProps) {
         <h2 className="text-2xl font-bold text-paper mb-2">Edit Your Listing</h2>
         <p className="text-paper">Make changes to your listing information below.</p>
       </div>
-      
+
       <form onSubmit={handleSubmit} className="space-y-6">
 
       {/* Business Information */}
@@ -339,7 +339,7 @@ export function EditForm({ listing, categories }: EditFormProps) {
       </div>
 
       {/* Gallery Images (only for Pro plans) */}
-      {(listing.plan?.toLowerCase() === "pro" || 
+      {(listing.plan?.toLowerCase() === "pro" ||
         listing.plan?.toLowerCase() === "founding pro" ||
         listing.comped) && (
         <div className="space-y-2">

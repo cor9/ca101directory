@@ -115,17 +115,17 @@ export default async function CategoryPage() {
         // Custom descriptions for better grammar
         (() => {
           const customDescriptions: Record<string, string> = {
-            "Acting Classes & Coaches": "Professional acting coaching services",
-            "Comedy Coaches": "Professional comedy coaching services",
-            "Vocal Coaches": "Professional vocal coaching services",
-            "Hair/Makeup Artists": "Professional hair and makeup services",
-            "Modeling/Print Agents": "Professional modeling and print representation services",
-            "Talent Agents": "Professional talent representation services",
-            "Influencer Agents": "Professional influencer representation services",
-            "Talent Managers": "Professional talent management services",
+            "Acting Classes & Coaches": "Acting coaching services",
+            "Comedy Coaches": "Comedy coaching services",
+            "Vocal Coaches": "Vocal coaching services",
+            "Hair/Makeup Artists": "Hair and makeup services",
+            "Modeling/Print Agents": "Modeling and print representation services",
+            "Talent Agents": "Talent representation services",
+            "Influencer Agents": "Influencer representation services",
+            "Talent Managers": "Talent management services",
           };
           return customDescriptions[category.category_name] ||
-            `Professional ${category.category_name.toLowerCase()} services`;
+            `${category.category_name} services`;
         })(),
       count: categoryCounts[category.category_name] || 0,
       iconPngUrl: (() => {

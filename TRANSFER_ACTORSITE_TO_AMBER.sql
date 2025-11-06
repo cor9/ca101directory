@@ -4,7 +4,7 @@
 -- =====================================================
 
 -- Step 1: Find Amber Bohac's user ID
-SELECT 
+SELECT
   id as amber_user_id,
   email,
   role
@@ -15,13 +15,13 @@ WHERE email ILIKE '%amber%bohac%'
 -- Step 2: Transfer ActorSite listing to Amber (REPLACE 'AMBER_USER_ID' with actual ID from Step 1)
 -- IMPORTANT: Only run this if you want to transfer ownership!
 UPDATE listings
-SET 
+SET
   owner_id = 'AMBER_USER_ID_HERE',  -- Replace with Amber's actual user ID
   claimed_by_email = 'amber@example.com'  -- Replace with Amber's actual email
 WHERE id = 'da084a22-5f0a-4a7b-8de7-1b05f6479667';
 
 -- Step 3: Verify the transfer
-SELECT 
+SELECT
   l.id,
   l.listing_name,
   l.owner_id,
@@ -36,7 +36,7 @@ WHERE l.id = 'da084a22-5f0a-4a7b-8de7-1b05f6479667';
 -- EXPLANATION
 -- =====================================================
 -- Current owner: actorsite@actorsite.com (vendor role)
--- 
+--
 -- If Amber Bohac needs to edit this listing, she needs either:
 -- 1. Login credentials for actorsite@actorsite.com account, OR
 -- 2. Transfer ownership (run the UPDATE above)

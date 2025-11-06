@@ -4,7 +4,7 @@
 -- =====================================================
 
 -- Check who owns the ActorSite listing
-SELECT 
+SELECT
   l.id,
   l.listing_name,
   l.owner_id,
@@ -17,7 +17,7 @@ LEFT JOIN profiles p ON l.owner_id = p.id
 WHERE l.id = 'da084a22-5f0a-4a7b-8de7-1b05f6479667';
 
 -- Search for Amber Bohac in profiles
-SELECT 
+SELECT
   id,
   email,
   role,
@@ -28,7 +28,7 @@ WHERE email ILIKE '%amber%bohac%'
 ORDER BY created_at DESC;
 
 -- Check if Amber Bohac owns any listings
-SELECT 
+SELECT
   l.id,
   l.listing_name,
   l.plan,

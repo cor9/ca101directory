@@ -81,22 +81,20 @@ export default async function VendorListingPage() {
                             let badgeClassName =
                               "border-gray-300 text-foreground";
 
+                            const planLower = (listing.plan || "").toLowerCase();
+
                             if (listing.comped) {
                               badgeText = "Pro";
                               badgeClassName =
                                 "border-blue-500 text-blue-600 bg-blue-50";
-                            } else if (listing.plan === "Pro") {
-                              badgeText = "Pro";
+                            } else if (planLower === "pro" || planLower === "founding pro") {
+                              badgeText = listing.plan || "Pro";
                               badgeClassName =
                                 "border-blue-500 text-blue-600 bg-blue-50";
-                            } else if (listing.plan === "Standard") {
-                              badgeText = "Standard";
+                            } else if (planLower === "standard" || planLower === "founding standard") {
+                              badgeText = listing.plan || "Standard";
                               badgeClassName =
                                 "border-gray-500 text-foreground bg-gray-50";
-                            } else if (listing.plan === "Premium") {
-                              badgeText = "Premium";
-                              badgeClassName =
-                                "border-orange-500 text-orange-600 bg-orange-50";
                             }
 
                             return (

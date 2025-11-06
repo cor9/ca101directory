@@ -134,21 +134,23 @@ export async function getCategories() {
       throw error;
     }
 
-    // Transform the data to match expected format
+    // Transform the data to match expected format and filter out hidden categories
     const transformedData =
-      data?.map((category) => ({
-        id: category.id,
-        category_name: category["Category Name"] || category.category_name,
-        description: category.description || null,
-        icon: category.icon || null,
-        created_at: category["Created Time"] || category.created_at || null,
-        updated_at: category.updated_at || null,
-      })) || [];
+      data
+        ?.filter((category) => !category.hidden) // Filter out hidden categories
+        ?.map((category) => ({
+          id: category.id,
+          category_name: category["Category Name"] || category.category_name,
+          description: category.description || null,
+          icon: category.icon || null,
+          created_at: category["Created Time"] || category.created_at || null,
+          updated_at: category.updated_at || null,
+        })) || [];
 
     console.log(
       "getCategories: Returning",
       transformedData.length,
-      "categories",
+      "categories (hidden categories filtered out)",
     );
     return transformedData;
   } catch (error) {

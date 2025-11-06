@@ -112,7 +112,21 @@ export default async function CategoryPage() {
       icon: categoryIconMap[category.category_name] || "star",
       description:
         category.description ||
-        `Professional ${category.category_name.toLowerCase()} services`,
+        // Custom descriptions for better grammar
+        (() => {
+          const customDescriptions: Record<string, string> = {
+            "Acting Classes & Coaches": "Professional acting coaching services",
+            "Comedy Coaches": "Professional comedy coaching services",
+            "Vocal Coaches": "Professional vocal coaching services",
+            "Hair/Makeup Artists": "Professional hair and makeup services",
+            "Modeling/Print Agents": "Professional modeling and print representation services",
+            "Talent Agents": "Professional talent representation services",
+            "Influencer Agents": "Professional influencer representation services",
+            "Talent Managers": "Professional talent management services",
+          };
+          return customDescriptions[category.category_name] ||
+            `Professional ${category.category_name.toLowerCase()} services`;
+        })(),
       count: categoryCounts[category.category_name] || 0,
       iconPngUrl: (() => {
         const byId = pngById[category.id];

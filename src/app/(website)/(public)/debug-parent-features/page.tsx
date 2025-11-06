@@ -1,13 +1,13 @@
 import { createServerClient } from "@/lib/supabase";
-import { 
-  isFavoritesEnabled, 
+import {
+  isFavoritesEnabled,
   isReviewsEnabled,
-  isParentDashboardEnabled 
+  isParentDashboardEnabled
 } from "@/config/feature-flags";
 
 export default async function DebugParentFeatures() {
   const supabase = createServerClient();
-  
+
   // Check feature flags
   const flags = {
     parentDashboard: isParentDashboardEnabled(),
@@ -26,7 +26,7 @@ export default async function DebugParentFeatures() {
       .from("favorites")
       .select("id")
       .limit(1);
-    
+
     favoritesTableExists = !error || error.code !== "PGRST204";
     if (error) favoritesError = error.message;
   } catch (e: any) {
@@ -38,7 +38,7 @@ export default async function DebugParentFeatures() {
       .from("reviews")
       .select("id")
       .limit(1);
-    
+
     reviewsTableExists = !error || error.code !== "PGRST204";
     if (error) reviewsError = error.message;
   } catch (e: any) {
@@ -49,7 +49,7 @@ export default async function DebugParentFeatures() {
     <div className="min-h-screen bg-background p-8">
       <div className="max-w-4xl mx-auto space-y-6">
         <h1 className="text-3xl font-bold text-paper">Parent Features Debug</h1>
-        
+
         {/* Feature Flags */}
         <div className="bg-surface p-6 rounded-lg border">
           <h2 className="text-xl font-semibold text-paper mb-4">Feature Flags</h2>

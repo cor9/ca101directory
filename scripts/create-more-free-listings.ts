@@ -3,9 +3,9 @@
  * Run with: npx tsx scripts/create-more-free-listings.ts
  */
 
-import { createClient } from "@supabase/supabase-js";
 import * as fs from "fs";
 import * as path from "path";
+import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
 
 // Load environment variables
@@ -17,7 +17,9 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 if (!supabaseUrl || !supabaseServiceKey) {
   console.error("❌ Missing Supabase credentials");
-  console.error("Required: NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY");
+  console.error(
+    "Required: NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY",
+  );
   process.exit(1);
 }
 
@@ -36,7 +38,8 @@ const listings = [
     region: ["Global (Online Only)"],
     categories: ["Actor Websites"],
     tags: [],
-    description: "Custom designed or industry specific templates for Actor Web Pages",
+    description:
+      "Custom designed or industry specific templates for Actor Web Pages",
   },
   {
     name: "ActorWebs",
@@ -49,7 +52,8 @@ const listings = [
     region: ["Global (Online Only)"],
     categories: ["Actor Websites"],
     tags: [],
-    description: "I'll build a sleek, affordable actor website that gives industry professionals the chance to see and connect with the real you, so you have time to focus on all the other things that come with your busy actor life.",
+    description:
+      "I'll build a sleek, affordable actor website that gives industry professionals the chance to see and connect with the real you, so you have time to focus on all the other things that come with your busy actor life.",
   },
   {
     name: "Web For Actors",
@@ -62,7 +66,8 @@ const listings = [
     region: ["Global (Online Only)"],
     categories: ["Actor Websites"],
     tags: [],
-    description: "Smart actor websites that update themselves. What you get is not your standard actor website. You receive an integrated, beautifully designed, SEO driven website that updates itself when you update your social media. This is a next-generation service.",
+    description:
+      "Smart actor websites that update themselves. What you get is not your standard actor website. You receive an integrated, beautifully designed, SEO driven website that updates itself when you update your social media. This is a next-generation service.",
   },
   {
     name: "Sparkles Entertainment",
@@ -75,7 +80,8 @@ const listings = [
     region: ["Global (Online Only)"],
     categories: ["Actor Websites"],
     tags: [],
-    description: "A personal website is essential for showcasing your acting portfolio and building a strong online presence. It also provides a platform for personal branding, bolstering your credibility and potential in the competitive film industry.",
+    description:
+      "A personal website is essential for showcasing your acting portfolio and building a strong online presence. It also provides a platform for personal branding, bolstering your credibility and potential in the competitive film industry.",
   },
   {
     name: "Actor Square",
@@ -88,7 +94,8 @@ const listings = [
     region: ["Mid-Atlantic"],
     categories: ["Actor Websites"],
     tags: [],
-    description: "Getting an actor website is an essential step in being a professional actor. It's a custom headquarters built to compliment your headshots, reels, resume, contact details, social media, casting profiles and more! This makes it easier for industry professionals to access your information.",
+    description:
+      "Getting an actor website is an essential step in being a professional actor. It's a custom headquarters built to compliment your headshots, reels, resume, contact details, social media, casting profiles and more! This makes it easier for industry professionals to access your information.",
   },
   {
     name: "Tony Howell",
@@ -101,7 +108,8 @@ const listings = [
     region: ["Global (Online Only)"],
     categories: ["Actor Websites"],
     tags: [],
-    description: "Our expertise lies in crafting personalized websites for actors that not only showcase your work across genres, but help connect you with casting directors, agents, and fans around the globe.",
+    description:
+      "Our expertise lies in crafting personalized websites for actors that not only showcase your work across genres, but help connect you with casting directors, agents, and fans around the globe.",
   },
   {
     name: "Central Casting",
@@ -114,7 +122,8 @@ const listings = [
     region: ["West Coast"],
     categories: ["Background Casting"],
     tags: [],
-    description: "Sign up to work as a paid background actor in film and television with the iconic institution of Hollywood that is Central Casting.",
+    description:
+      "Sign up to work as a paid background actor in film and television with the iconic institution of Hollywood that is Central Casting.",
   },
   {
     name: "Alessi Hartigan Casting",
@@ -127,7 +136,8 @@ const listings = [
     region: ["Global (Online Only)"],
     categories: ["Background Casting"],
     tags: [],
-    description: "Alessi Hartigan Casting is a leading background and day-player casting company hiring real people for major film and television productions across the US and UK. Their team casts locally in multiple regions, specializing in authentic character looks, large crowds, and high-volume background casting for studios such as Universal, Netflix, Paramount, Apple TV, CBS, and more. Actors register through their talent portal to be considered for upcoming projects in their area.",
+    description:
+      "Alessi Hartigan Casting is a leading background and day-player casting company hiring real people for major film and television productions across the US and UK. Their team casts locally in multiple regions, specializing in authentic character looks, large crowds, and high-volume background casting for studios such as Universal, Netflix, Paramount, Apple TV, CBS, and more. Actors register through their talent portal to be considered for upcoming projects in their area.",
   },
   {
     name: "Talent House Academy",
@@ -140,7 +150,8 @@ const listings = [
     region: ["West Coast"],
     categories: ["Casting Workshops"],
     tags: [],
-    description: "Talent House Academy is a Talent Training Service our classes, workshops, events, programs, camps, showcases etc. are not an audition for employment or for obtaining a talent agent or talent management.",
+    description:
+      "Talent House Academy is a Talent Training Service our classes, workshops, events, programs, camps, showcases etc. are not an audition for employment or for obtaining a talent agent or talent management.",
   },
   {
     name: "SAG-AFTRA",
@@ -173,7 +184,9 @@ async function createListings() {
     const listing = listings[i];
     const rowNum = i + 1;
 
-    console.log(`\n📝 Processing ${rowNum}/${listings.length}: ${listing.name}`);
+    console.log(
+      `\n📝 Processing ${rowNum}/${listings.length}: ${listing.name}`,
+    );
 
     // Generate slug
     const slug = listing.name
@@ -193,7 +206,9 @@ async function createListings() {
         .limit(1);
 
       if (dupByWebsite && dupByWebsite.length > 0) {
-        console.log(`   ⚠️  Duplicate (website): ${dupByWebsite[0].listing_name}`);
+        console.log(
+          `   ⚠️  Duplicate (website): ${dupByWebsite[0].listing_name}`,
+        );
         results.skipped.push({
           row: rowNum,
           name: listing.name,
@@ -373,4 +388,3 @@ createListings()
     console.error("💥 Fatal error:", error);
     process.exit(1);
   });
-

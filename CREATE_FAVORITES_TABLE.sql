@@ -22,12 +22,12 @@ ALTER TABLE favorites ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "Users can view own favorites" ON favorites;
 DROP POLICY IF EXISTS "Users can manage own favorites" ON favorites;
 
-CREATE POLICY "Users can view own favorites" 
-ON favorites FOR SELECT 
+CREATE POLICY "Users can view own favorites"
+ON favorites FOR SELECT
 USING (auth.uid() = user_id);
 
-CREATE POLICY "Users can manage own favorites" 
-ON favorites FOR ALL 
+CREATE POLICY "Users can manage own favorites"
+ON favorites FOR ALL
 USING (auth.uid() = user_id);
 
 -- 4. CREATE INDEXES

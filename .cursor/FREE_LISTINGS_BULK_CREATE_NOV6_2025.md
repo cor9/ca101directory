@@ -1,16 +1,16 @@
 # Free Listings Bulk Create - November 6, 2025
 
-**Status:** ✅ COMPLETE  
-**Created:** 8 new free listings  
-**Skipped:** 2 duplicates  
+**Status:** ✅ COMPLETE
+**Created:** 8 new free listings
+**Skipped:** 2 duplicates
 **Errors:** 0
 
 ---
 
 ## 📋 SOURCE
 
-**File:** `more free listings.csv`  
-**Location:** Project root directory  
+**File:** `more free listings.csv`
+**Location:** Project root directory
 **Total Records:** 10 listings
 
 ---
@@ -44,8 +44,8 @@
 ## 🔧 TECHNICAL DETAILS
 
 ### Script Used
-**File:** `scripts/create-more-free-listings.ts`  
-**Method:** Direct Supabase insert with duplicate detection  
+**File:** `scripts/create-more-free-listings.ts`
+**Method:** Direct Supabase insert with duplicate detection
 **Run Command:** `npx tsx scripts/create-more-free-listings.ts`
 
 ### Key Features
@@ -175,8 +175,8 @@ f33e33ab-4caf-4f4d-be49-27e255d4f430 - SAG-AFTRA
 
 ---
 
-**Created by:** AI Assistant (Claude)  
-**Date:** November 6, 2025  
-**Execution Time:** ~5 seconds  
+**Created by:** AI Assistant (Claude)
+**Date:** November 6, 2025
+**Execution Time:** ~5 seconds
 **Status:** ✅ Complete
 

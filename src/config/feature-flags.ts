@@ -42,7 +42,7 @@ export interface FeatureFlags {
  */
 export const defaultFeatureFlags: FeatureFlags = {
   // Authentication & Roles
-  enableParentAuth: false, // Disabled - not ready for production yet
+  enableParentAuth: true, // Enabled for parent dashboard access
   enableVendorAuth: true,
   enableAdminAuth: true,
 
@@ -52,7 +52,7 @@ export const defaultFeatureFlags: FeatureFlags = {
   enableBookmarks: false, // Disabled - parent feature
 
   // Dashboard Features
-  enableParentDashboard: false, // Disabled - not ready for production yet
+  enableParentDashboard: true, // Enabled for parent dashboard access
   enableVendorDashboard: true,
   enableAdminDashboard: true,
 

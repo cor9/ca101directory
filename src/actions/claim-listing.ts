@@ -23,21 +23,9 @@ export async function claimListing(listingId: string, message?: string) {
 
   const supabase = createServerClient();
 
-  // STEP 2: Verify email is confirmed
-  const { data: authUser } = await supabase.auth.getUser();
-  if (!authUser?.user?.email_confirmed_at) {
-    return {
-      success: false,
-      error: "EMAIL_NOT_CONFIRMED",
-      title: "Email Not Confirmed",
-      message:
-        "You need to confirm your email address before claiming listings.",
-      action:
-        "Check your email inbox for the confirmation link. Can't find it?",
-      showResendButton: true,
-      userEmail: session.user.email,
-    };
-  }
+  // STEP 2: REMOVED - Email confirmation check
+  // Magic link authentication already proves email ownership
+  // No separate confirmation step needed
 
   // STEP 3: Get user profile and verify role
   const { data: profile, error: profileError } = await supabase

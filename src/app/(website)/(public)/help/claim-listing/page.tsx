@@ -104,12 +104,13 @@ export default function ClaimListingPage() {
           <div className="flex items-start gap-4">
             <div className="flex-1">
               <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
-                Create a Vendor Account
+                Create or Switch to Vendor Account
               </h3>
               <p className="text-[#1E1F23] mb-4">
                 If you don't have an account yet, create one with your business
-                email. Make sure to select <strong>"Vendor"</strong> as your
-                role.
+                email and select <strong>"Vendor"</strong> as your role. If you
+                already have a Parent account, you can easily switch to Vendor
+                in your Settings.
               </p>
               <div className="bg-bauhaus-mustard/20 border-0 rounded-lg p-4 mb-4">
                 <div className="flex items-start gap-3">
@@ -226,8 +227,9 @@ export default function ClaimListingPage() {
             </h3>
             <p className="text-sm text-[#1E1F23] mb-2">
               Check your spam/junk folder first. Magic links are valid for 24
-              hours. If it expired or you can't find it, go back to the login
-              page and request a new one.
+              hours. If it expired or you can't find it, simply request a new
+              one from the login page - there's no limit on how many you can
+              request.
             </p>
             <Link
               href="/auth/login"
@@ -239,13 +241,19 @@ export default function ClaimListingPage() {
 
           <div>
             <h3 className="font-semibold text-[#1E1F23] mb-2">
-              Error: "Wrong role selected"
+              I have a Parent account, can I still claim?
             </h3>
-            <p className="text-sm text-[#1E1F23]">
-              You need a vendor account to claim listings. Create a new account
-              and select "Vendor" as your role, or contact support to update
-              your existing account.
+            <p className="text-sm text-[#1E1F23] mb-2">
+              Yes! Go to your Settings page and use the "Change Account Type"
+              feature to switch from Parent to Vendor. You can switch back
+              anytime - it's instant and self-service.
             </p>
+            <Link
+              href="/settings"
+              className="text-sm text-[#1E1F23] hover:text-[#1E1F23]/80 underline"
+            >
+              Go to Settings to switch roles →
+            </Link>
           </div>
 
           <div>

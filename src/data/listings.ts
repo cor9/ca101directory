@@ -146,22 +146,8 @@ export async function getPublicListings(params?: {
   if (params?.city) query = query.eq("city", params.city);
   if (params?.category) {
     console.log("getPublicListings: Filtering by category:", params.category);
-    // Support either category name or category UUID in the categories array
-    const isUuidLike = (value: string): boolean =>
-      /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
-        value.trim(),
-      );
-
-    if (isUuidLike(params.category)) {
-      // Category is an ID stored in categories[]
-      query = query.contains("categories", [params.category]);
-    } else if (params.category === "Talent Managers") {
-      // Historical special-case
-      query = query.or("categories.cs.{Talent},categories.cs.{Managers}");
-    } else {
-      // Match by exact category name present in categories[]
-      query = query.contains("categories", [params.category]);
-    }
+    // Match by exact category name present in categories[] (TEXT[] array)
+    query = query.contains("categories", [params.category]);
   }
   if (params?.q)
     query = query.or(

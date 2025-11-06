@@ -206,7 +206,7 @@ export default async function SubmitPage({
         </p>
         {existingListing && (
           <div className="bg-surface border border-secondary-denim rounded-lg p-4 mb-6 max-w-2xl mx-auto">
-            <p className="text-sm text-ink">
+            <p className="text-sm text-gray-900 font-semibold">
               <strong>Claiming:</strong> {existingListing.listing_name}
             </p>
           </div>

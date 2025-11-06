@@ -156,9 +156,18 @@ export function SupabaseSubmitForm({
   });
   const [isGalleryUploading, setIsGalleryUploading] = useState(false);
 
+  // Helper functions to check plan tiers
+  const isPremiumPlan = (plan: string) => {
+    return plan !== "Free";
+  };
+
+  const isProTierPlan = (plan: string) => {
+    return plan === "Pro" || plan === "Founding Pro";
+  };
+
   const getMaxGalleryImages = () => {
-    if (formData.plan === "Pro") return 4; // Pro gets 4 gallery images (plus 1 profile = 5 total)
-    return 0; // Only Pro gets gallery images
+    if (isProTierPlan(formData.plan)) return 4; // Pro tiers get 4 gallery images (plus 1 profile = 5 total)
+    return 0; // Only Pro tiers get gallery images
   };
 
   const handleInputChange = (
@@ -309,6 +318,299 @@ export function SupabaseSubmitForm({
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Plan Selection - Moved to top for better UX */}
+          <div className="space-y-4">
+            <h3 className="text-surface">Choose Your Plan</h3>
+            <p className="text-sm text-surface/80">
+              Select your plan first to see which fields you can use. You can upgrade anytime.
+            </p>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {/* Free Plan */}
+              <Card
+                className={`cursor-pointer transition-all hover:shadow-lg ${
+                  formData.plan === "Free"
+                    ? "ring-2 ring-[#FF6B35] bg-orange-50"
+                    : "border-gray-200"
+                }`}
+                onClick={() => handleInputChange("plan", "Free")}
+              >
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">Free</CardTitle>
+                  <div className="text-2xl font-bold text-[#FF6B35]">$0</div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <ul className="text-sm space-y-1">
+                    <li>• Basic directory listing</li>
+                    <li>• Contact information</li>
+                    <li>• Category</li>
+                    <li>• Services Offered</li>
+                  </ul>
+                  <div className="mt-3 text-xs text-surface">
+                    Upgrade for profile image & featured placement
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Standard Plan */}
+              <Card
+                className={`cursor-pointer transition-all hover:shadow-lg ${
+                  formData.plan === "Standard"
+                    ? "ring-2 ring-[#FF6B35] bg-blue-50"
+                    : "border-gray-200"
+                }`}
+                onClick={() => handleInputChange("plan", "Standard")}
+              >
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">Standard</CardTitle>
+                  <div className="text-2xl font-bold text-[#FF6B35]">
+                    Starting at $25
+                    <span className="text-sm font-normal">/mo</span>
+                  </div>
+                  <div className="text-xs text-surface mt-1">
+                    Multiple billing options available
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <ul className="text-sm space-y-1">
+                    <li>• Everything in Free</li>
+                    <li>• 1 profile image</li>
+                    <li>• Robust, Enhanced Listing</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              {/* Founding Standard */}
+              <Card
+                className={`cursor-pointer transition-all hover:shadow-lg relative ${
+                  formData.plan === "Founding Standard"
+                    ? "ring-2 ring-[#FF6B35] bg-blue-50"
+                    : "border-gray-200"
+                }`}
+                onClick={() => handleInputChange("plan", "Founding Standard")}
+              >
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                  🎉 LIMITED TIME
+                </div>
+                <CardHeader className="pb-3 pt-4">
+                  <CardTitle className="text-lg">Founding Standard</CardTitle>
+                  <div className="text-2xl font-bold text-[#FF6B35]">
+                    $101
+                    <span className="text-sm font-normal"> for 6 months</span>
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    ~$16.83/month - vs $25/month regular
+                  </div>
+                  <div className="text-xs text-green-700 font-semibold mt-1">
+                    🔒 Locked rate as long as you stay subscribed!
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <ul className="text-sm space-y-1">
+                    <li>• Everything in Free</li>
+                    <li>• 1 profile image</li>
+                    <li>• Robust, Enhanced Listing</li>
+                    <li className="text-orange-600 font-semibold">• Founding Member Badge</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              {/* Pro Plan */}
+              <Card
+                className={`cursor-pointer transition-all hover:shadow-lg ${
+                  formData.plan === "Pro"
+                    ? "ring-2 ring-[#FF6B35] bg-purple-50"
+                    : "border-gray-200"
+                }`}
+                onClick={() => handleInputChange("plan", "Pro")}
+              >
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">Pro</CardTitle>
+                  <div className="text-2xl font-bold text-[#FF6B35]">
+                    Starting at $50
+                    <span className="text-sm font-normal">/mo</span>
+                  </div>
+                  <div className="text-xs text-surface mt-1">
+                    Multiple billing options available
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <ul className="text-sm space-y-1">
+                    <li>• Everything in Standard</li>
+                    <li>• Up to 4 gallery images</li>
+                    <li>• Social Media Links</li>
+                    <li>• 101 Approved badge</li>
+                    <li>• Top priority placement</li>
+                    <li>• Priority support</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              {/* Founding Pro */}
+              <Card
+                className={`cursor-pointer transition-all hover:shadow-lg relative ${
+                  formData.plan === "Founding Pro"
+                    ? "ring-2 ring-[#FF6B35] bg-purple-50"
+                    : "border-gray-200"
+                }`}
+                onClick={() => handleInputChange("plan", "Founding Pro")}
+              >
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                  🌟 MOST POPULAR
+                </div>
+                <CardHeader className="pb-3 pt-4">
+                  <CardTitle className="text-lg">Founding Pro</CardTitle>
+                  <div className="text-2xl font-bold text-[#FF6B35]">
+                    $199
+                    <span className="text-sm font-normal"> for 6 months</span>
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    ~$33.17/month - vs $50/month regular
+                  </div>
+                  <div className="text-xs text-green-700 font-semibold mt-1">
+                    🔒 Locked rate as long as you stay subscribed!
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <ul className="text-sm space-y-1">
+                    <li>• Everything in Standard</li>
+                    <li>• Up to 4 gallery images</li>
+                    <li>• Social Media Links</li>
+                    <li>• 101 Approved badge eligible</li>
+                    <li>• Top priority placement</li>
+                    <li>• Priority support</li>
+                    <li className="text-purple-600 font-semibold">• Founding Member Badge</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+
+            {formData.plan === "Free" && (
+              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-orange-300 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl">💡</span>
+                  <div>
+                    <p className="text-sm text-orange-900 mb-2">
+                      <strong>Free Plan Selected:</strong> Your listing will
+                      include basic information only. You won't be able to add:
+                    </p>
+                    <ul className="text-sm text-orange-800 space-y-1 mb-3 ml-4">
+                      <li>• Profile image or gallery photos</li>
+                      <li>
+                        • Enhanced listing fields (Who it's for, What makes you
+                        unique)
+                      </li>
+                      <li>• Social media links</li>
+                      <li>• Multiple categories</li>
+                    </ul>
+                    <p className="text-sm text-orange-900 font-semibold">
+                      ✨ Upgrade now to unlock all features and get 3x more
+                      engagement!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {formData.plan === "Standard" && (
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-300 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl">✅</span>
+                  <div>
+                    <p className="text-sm text-green-900 mb-2">
+                      <strong>Standard Plan Selected:</strong> Great choice!
+                      Your listing will include:
+                    </p>
+                    <ul className="text-sm text-green-800 space-y-1 mb-2 ml-4">
+                      <li>✓ Professional profile image</li>
+                      <li>✓ Enhanced listing fields</li>
+                      <li>✓ Multiple categories</li>
+                      <li>✓ Featured placement</li>
+                    </ul>
+                    <p className="text-xs text-green-700">
+                      Want gallery images and social links? Consider Pro plan
+                      ($50/mo)
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {formData.plan === "Pro" && (
+              <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-300 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl">⭐</span>
+                  <div>
+                    <p className="text-sm text-purple-900 mb-2">
+                      <strong>Pro Plan Selected:</strong> Excellent! You get all
+                      premium features:
+                    </p>
+                    <ul className="text-sm text-purple-800 space-y-1 ml-4">
+                      <li>✓ Profile image + 4 gallery images</li>
+                      <li>✓ All enhanced listing fields</li>
+                      <li>✓ Social media links</li>
+                      <li>✓ Multiple categories</li>
+                      <li>✓ Top priority placement</li>
+                      <li>✓ 101 Approved badge eligible</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {formData.plan === "Founding Standard" && (
+              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-orange-400 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-3xl">🎉</span>
+                  <div>
+                    <p className="text-sm text-orange-900 mb-2">
+                      <strong>Founding Standard Selected:</strong> Amazing choice!
+                      You're locking in an exclusive 6-month rate:
+                    </p>
+                    <ul className="text-sm text-orange-800 space-y-1 mb-3 ml-4">
+                      <li>✓ Professional profile image</li>
+                      <li>✓ Enhanced listing fields</li>
+                      <li>✓ Multiple categories</li>
+                      <li>✓ Featured placement</li>
+                      <li className="font-bold text-orange-600">✓ Founding Member Badge (exclusive!)</li>
+                      <li className="font-bold text-green-700">✓ Only $101 for 6 months (~$16.83/mo vs $25/mo regular)</li>
+                    </ul>
+                    <p className="text-xs text-orange-900 font-semibold bg-orange-100 p-2 rounded">
+                      🔒 This special 6-month rate stays locked as long as you keep your subscription active!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {formData.plan === "Founding Pro" && (
+              <div className="bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-400 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-3xl">🌟</span>
+                  <div>
+                    <p className="text-sm text-purple-900 mb-2">
+                      <strong>Founding Pro Selected:</strong> MOST POPULAR!
+                      You're getting the ultimate 6-month deal:
+                    </p>
+                    <ul className="text-sm text-purple-800 space-y-1 mb-3 ml-4">
+                      <li>✓ Profile image + 4 gallery images</li>
+                      <li>✓ All enhanced listing fields</li>
+                      <li>✓ Social media links</li>
+                      <li>✓ Multiple categories</li>
+                      <li>✓ Top priority placement</li>
+                      <li>✓ 101 Approved badge eligible</li>
+                      <li>✓ Priority support</li>
+                      <li className="font-bold text-purple-600">✓ Founding Member Badge (exclusive!)</li>
+                      <li className="font-bold text-green-700">✓ Only $199 for 6 months (~$33.17/mo vs $50/mo regular)</li>
+                    </ul>
+                    <p className="text-xs text-purple-900 font-semibold bg-purple-100 p-2 rounded">
+                      🔒 This exclusive 6-month rate stays locked forever as long as you keep your subscription active!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Basic Information */}
           <div className="space-y-4">
             <h3 className="text-surface">Basic Information</h3>
@@ -696,170 +998,6 @@ export function SupabaseSubmitForm({
             </div>
           </div>
 
-          {/* Plan Selection */}
-          <div className="space-y-4">
-            <h3 className="text-surface">Choose Your Plan</h3>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {/* Free Plan */}
-              <Card
-                className={`cursor-pointer transition-all hover:shadow-lg ${
-                  formData.plan === "Free"
-                    ? "ring-2 ring-[#FF6B35] bg-orange-50"
-                    : "border-gray-200"
-                }`}
-                onClick={() => handleInputChange("plan", "Free")}
-              >
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg">Free</CardTitle>
-                  <div className="text-2xl font-bold text-[#FF6B35]">$0</div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <ul className="text-sm space-y-1">
-                    <li>• Basic directory listing</li>
-                    <li>• Contact information</li>
-                    <li>• Category</li>
-                    <li>• Services Offered</li>
-                  </ul>
-                  <div className="mt-3 text-xs text-surface">
-                    Upgrade for profile image & featured placement
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Standard Plan */}
-              <Card
-                className={`cursor-pointer transition-all hover:shadow-lg ${
-                  formData.plan === "Standard"
-                    ? "ring-2 ring-[#FF6B35] bg-blue-50"
-                    : "border-gray-200"
-                }`}
-                onClick={() => handleInputChange("plan", "Standard")}
-              >
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg">Standard</CardTitle>
-                  <div className="text-2xl font-bold text-[#FF6B35]">
-                    Starting at $25
-                    <span className="text-sm font-normal">/mo</span>
-                  </div>
-                  <div className="text-xs text-surface mt-1">
-                    Multiple billing options available
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <ul className="text-sm space-y-1">
-                    <li>• Everything in Free</li>
-                    <li>• 1 profile image</li>
-                    <li>• Robust, Enhanced Listing</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              {/* Pro Plan */}
-              <Card
-                className={`cursor-pointer transition-all hover:shadow-lg ${
-                  formData.plan === "Pro"
-                    ? "ring-2 ring-[#FF6B35] bg-purple-50"
-                    : "border-gray-200"
-                }`}
-                onClick={() => handleInputChange("plan", "Pro")}
-              >
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg">Pro</CardTitle>
-                  <div className="text-2xl font-bold text-[#FF6B35]">
-                    Starting at $50
-                    <span className="text-sm font-normal">/mo</span>
-                  </div>
-                  <div className="text-xs text-surface mt-1">
-                    Multiple billing options available
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <ul className="text-sm space-y-1">
-                    <li>• Everything in Standard</li>
-                    <li>• Up to 4 gallery images</li>
-                    <li>• Social Media Links</li>
-                    <li>• 101 Approved badge</li>
-                    <li>• Top priority placement</li>
-                    <li>• Priority support</li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
-
-            {formData.plan === "Free" && (
-              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-orange-300 rounded-lg p-4">
-                <div className="flex items-start gap-3">
-                  <span className="text-2xl">💡</span>
-                  <div>
-                    <p className="text-sm text-orange-900 mb-2">
-                      <strong>Free Plan Selected:</strong> Your listing will
-                      include basic information only. You won't be able to add:
-                    </p>
-                    <ul className="text-sm text-orange-800 space-y-1 mb-3 ml-4">
-                      <li>• Profile image or gallery photos</li>
-                      <li>
-                        • Enhanced listing fields (Who it's for, What makes you
-                        unique)
-                      </li>
-                      <li>• Social media links</li>
-                      <li>• Multiple categories</li>
-                    </ul>
-                    <p className="text-sm text-orange-900 font-semibold">
-                      ✨ Upgrade now to unlock all features and get 3x more
-                      engagement!
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {formData.plan === "Standard" && (
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-300 rounded-lg p-4">
-                <div className="flex items-start gap-3">
-                  <span className="text-2xl">✅</span>
-                  <div>
-                    <p className="text-sm text-green-900 mb-2">
-                      <strong>Standard Plan Selected:</strong> Great choice!
-                      Your listing will include:
-                    </p>
-                    <ul className="text-sm text-green-800 space-y-1 mb-2 ml-4">
-                      <li>✓ Professional profile image</li>
-                      <li>✓ Enhanced listing fields</li>
-                      <li>✓ Multiple categories</li>
-                      <li>✓ Featured placement</li>
-                    </ul>
-                    <p className="text-xs text-green-700">
-                      Want gallery images and social links? Consider Pro plan
-                      ($50/mo)
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {formData.plan === "Pro" && (
-              <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-300 rounded-lg p-4">
-                <div className="flex items-start gap-3">
-                  <span className="text-2xl">⭐</span>
-                  <div>
-                    <p className="text-sm text-purple-900 mb-2">
-                      <strong>Pro Plan Selected:</strong> Excellent! You get all
-                      premium features:
-                    </p>
-                    <ul className="text-sm text-purple-800 space-y-1 ml-4">
-                      <li>✓ Profile image + 4 gallery images</li>
-                      <li>✓ All enhanced listing fields</li>
-                      <li>✓ Social media links</li>
-                      <li>✓ Multiple categories</li>
-                      <li>✓ Top priority placement</li>
-                      <li>✓ 101 Approved badge eligible</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
           {/* Legal Compliance */}
           <div className="space-y-4">
             <h3 className="text-surface">Legal Compliance</h3>
@@ -1003,9 +1141,9 @@ export function SupabaseSubmitForm({
           <div className="space-y-2">
             <Label className="text-surface">
               Gallery Images{" "}
-              {formData.plan === "Pro" ? "(Up to 4)" : "- Pro Plan Only"}
+              {isProTierPlan(formData.plan) ? "(Up to 4)" : "- Pro Plan Only"}
             </Label>
-            {formData.plan !== "Pro" && (
+            {!isProTierPlan(formData.plan) && (
               <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-4 mb-3">
                 <div className="flex items-start gap-3">
                   <span className="text-3xl">🖼️</span>
@@ -1015,8 +1153,8 @@ export function SupabaseSubmitForm({
                     </h4>
                     <p className="text-sm text-purple-800 mb-2">
                       {formData.plan === "Free"
-                        ? "Free listings don't include gallery images. Upgrade to Pro ($50/mo) to showcase up to 4 additional photos of your work, studio, or team!"
-                        : "Standard plan includes your profile image. Upgrade to Pro ($50/mo) to add 4 gallery images and showcase your portfolio!"}
+                        ? "Free listings don't include gallery images. Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to showcase up to 4 additional photos of your work, studio, or team!"
+                        : "Standard plan includes your profile image. Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to add 4 gallery images and showcase your portfolio!"}
                     </p>
                     <div className="flex gap-2">
                       <a
@@ -1046,42 +1184,42 @@ export function SupabaseSubmitForm({
             />
             <p className="text-surface text-sm">
               {getMaxGalleryImages() === 0
-                ? "🔒 Gallery images are exclusive to Pro plan members"
-                : "✅ Pro plan includes 4 gallery images (5 total with profile)"}
+                ? "🔒 Gallery images are exclusive to Pro tier members"
+                : "✅ Pro tier includes 4 gallery images (5 total with profile)"}
             </p>
           </div>
 
           {/* Social Media Section */}
           <div
             className={`space-y-4 p-4 border rounded-lg ${
-              formData.plan !== "Pro" ? "opacity-60" : ""
+              !isProTierPlan(formData.plan) ? "opacity-60" : ""
             }`}
             style={{ backgroundColor: "#f8f9fa" }}
           >
             <div>
               <h3 className="text-lg font-semibold text-surface flex items-center gap-2">
                 Social Media Links
-                {formData.plan !== "Pro" && (
+                {!isProTierPlan(formData.plan) && (
                   <span className="text-sm">🔒 Pro Plan Only</span>
                 )}
               </h3>
               <p className="text-surface">
-                {formData.plan === "Pro"
+                {isProTierPlan(formData.plan)
                   ? "Add your social media profiles to increase engagement."
-                  : "Upgrade to Pro ($50/mo) to display social media links on your listing."}
+                  : "Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to display social media links on your listing."}
               </p>
             </div>
-            {formData.plan !== "Pro" && (
+            {!isProTierPlan(formData.plan) && (
               <div className="bg-purple-50 border border-purple-200 rounded p-3">
                 <p className="text-sm text-purple-800">
                   <strong>Pro Feature:</strong> Social media links are exclusive
-                  to Pro plan members. Upgrade to Pro to showcase your Facebook,
+                  to Pro tier members. Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to showcase your Facebook,
                   Instagram, TikTok, YouTube, LinkedIn, and custom links.{" "}
                   <a
                     href="/pricing"
                     className="underline hover:text-purple-900"
                   >
-                    View Pro plan
+                    View Pro plans
                   </a>
                 </p>
               </div>
@@ -1100,11 +1238,11 @@ export function SupabaseSubmitForm({
                     handleInputChange("facebook_url", e.target.value)
                   }
                   placeholder={
-                    formData.plan === "Pro"
+                    isProTierPlan(formData.plan)
                       ? "https://facebook.com/yourpage"
                       : "🔒 Pro plan required"
                   }
-                  disabled={formData.plan !== "Pro"}
+                  disabled={!isProTierPlan(formData.plan)}
                   className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
@@ -1121,11 +1259,11 @@ export function SupabaseSubmitForm({
                     handleInputChange("instagram_url", e.target.value)
                   }
                   placeholder={
-                    formData.plan === "Pro"
+                    isProTierPlan(formData.plan)
                       ? "https://instagram.com/youraccount"
                       : "🔒 Pro plan required"
                   }
-                  disabled={formData.plan !== "Pro"}
+                  disabled={!isProTierPlan(formData.plan)}
                   className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
@@ -1142,11 +1280,11 @@ export function SupabaseSubmitForm({
                     handleInputChange("tiktok_url", e.target.value)
                   }
                   placeholder={
-                    formData.plan === "Pro"
+                    isProTierPlan(formData.plan)
                       ? "https://tiktok.com/@youraccount"
                       : "🔒 Pro plan required"
                   }
-                  disabled={formData.plan !== "Pro"}
+                  disabled={!isProTierPlan(formData.plan)}
                   className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
@@ -1163,11 +1301,11 @@ export function SupabaseSubmitForm({
                     handleInputChange("youtube_url", e.target.value)
                   }
                   placeholder={
-                    formData.plan === "Pro"
+                    isProTierPlan(formData.plan)
                       ? "https://youtube.com/@yourchannel"
                       : "🔒 Pro plan required"
                   }
-                  disabled={formData.plan !== "Pro"}
+                  disabled={!isProTierPlan(formData.plan)}
                   className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
@@ -1184,11 +1322,11 @@ export function SupabaseSubmitForm({
                     handleInputChange("linkedin_url", e.target.value)
                   }
                   placeholder={
-                    formData.plan === "Pro"
+                    isProTierPlan(formData.plan)
                       ? "https://linkedin.com/in/yourprofile"
                       : "🔒 Pro plan required"
                   }
-                  disabled={formData.plan !== "Pro"}
+                  disabled={!isProTierPlan(formData.plan)}
                   className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
@@ -1205,11 +1343,11 @@ export function SupabaseSubmitForm({
                     handleInputChange("blog_url", e.target.value)
                   }
                   placeholder={
-                    formData.plan === "Pro"
+                    isProTierPlan(formData.plan)
                       ? "https://yourblog.com"
                       : "🔒 Pro plan required"
                   }
-                  disabled={formData.plan !== "Pro"}
+                  disabled={!isProTierPlan(formData.plan)}
                   className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                 />
               </div>
@@ -1229,11 +1367,11 @@ export function SupabaseSubmitForm({
                       handleInputChange("custom_link_name", e.target.value)
                     }
                     placeholder={
-                      formData.plan === "Pro"
+                      isProTierPlan(formData.plan)
                         ? "e.g., 'Portfolio', 'Book Now'"
                         : "🔒 Pro plan required"
                     }
-                    disabled={formData.plan !== "Pro"}
+                    disabled={!isProTierPlan(formData.plan)}
                     className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                   />
                 </div>
@@ -1249,11 +1387,11 @@ export function SupabaseSubmitForm({
                       handleInputChange("custom_link_url", e.target.value)
                     }
                     placeholder={
-                      formData.plan === "Pro"
+                      isProTierPlan(formData.plan)
                         ? "https://your-custom-link.com"
                         : "🔒 Pro plan required"
                     }
-                    disabled={formData.plan !== "Pro"}
+                    disabled={!isProTierPlan(formData.plan)}
                     className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
                   />
                 </div>

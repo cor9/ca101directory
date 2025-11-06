@@ -106,12 +106,24 @@ export default function FAQPage() {
             <h3 className="font-bold text-[#1E1F23] mb-2 text-lg">
               What's the difference between Vendor and Parent accounts?
             </h3>
-            <p className="bauhaus-body text-surface">
+            <p className="bauhaus-body text-surface mb-2">
               <strong>Vendor accounts</strong> are for businesses listing their
               services. <strong>Parent accounts</strong> are for families
               browsing and saving their favorite professionals. You need a
               vendor account to create or claim listings.
             </p>
+            <p className="bauhaus-body text-surface text-sm mb-2">
+              <strong>Can I switch between roles?</strong> Yes! Go to your
+              Settings page and use the "Change Account Type" feature. You can
+              switch from Parent to Vendor (or vice versa) instantly - it's
+              self-service and takes just one click!
+            </p>
+            <Link
+              href="/settings"
+              className="text-secondary-denim hover:text-bauhaus-blue underline text-sm"
+            >
+              Switch account type in Settings →
+            </Link>
           </div>
 
           <div className="bg-bauhaus-orange border border-secondary-denim/20 rounded-lg p-6 shadow-lg">

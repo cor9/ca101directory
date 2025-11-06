@@ -21,6 +21,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { type ClaimListingFormData, ClaimListingSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -39,6 +40,7 @@ export function ClaimForm({
   className,
 }: ClaimFormProps) {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const form = useForm<ClaimListingFormData>({
     resolver: zodResolver(ClaimListingSchema),
@@ -54,11 +56,22 @@ export function ClaimForm({
         const result = await claimListing(data.listingId, data.message);
 
         if (result.success) {
-          toast.success(result.message);
+          toast.success(result.title || "Success!", {
+            description: result.message,
+          });
           form.reset();
+
+          // Call optional onSuccess callback
           onSuccess?.();
+
+          // Redirect to vendor dashboard after successful claim
+          setTimeout(() => {
+            router.push("/dashboard/vendor/listing");
+          }, 1000);
         } else {
-          toast.error(result.message);
+          toast.error(result.title || "Claim Failed", {
+            description: result.message,
+          });
         }
       } catch (error) {
         console.error("Form submission error:", error);

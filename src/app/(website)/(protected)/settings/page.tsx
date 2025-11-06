@@ -1,6 +1,8 @@
 import { auth } from "@/auth";
+import { RoleSwitchForm } from "@/components/settings/role-switch-form";
 import { UserNameForm } from "@/components/settings/user-name-form";
 import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
 import { redirect } from "next/navigation";
@@ -32,6 +34,12 @@ export default async function SettingsPage() {
 
         <Card className="overflow-hidden">
           <CardContent className="space-y-6 p-6">
+            {/* Role Switching - Bug #2 Fix */}
+            <RoleSwitchForm />
+
+            <Separator />
+
+            {/* Name Management */}
             <UserNameForm />
           </CardContent>
         </Card>

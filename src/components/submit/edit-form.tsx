@@ -339,7 +339,9 @@ export function EditForm({ listing, categories }: EditFormProps) {
       </div>
 
       {/* Gallery Images (only for Pro plans) */}
-      {listing.plan === "Pro" && (
+      {(listing.plan?.toLowerCase() === "pro" || 
+        listing.plan?.toLowerCase() === "founding pro" ||
+        listing.comped) && (
         <div className="space-y-2">
           <Label>Gallery Images</Label>
           <GalleryUpload
@@ -349,7 +351,7 @@ export function EditForm({ listing, categories }: EditFormProps) {
             onUploadingChange={setIsGalleryUploading}
           />
           <p className="text-xs text-paper">
-            Pro plan includes 4 gallery images (5 total with profile)
+            {listing.plan?.toLowerCase() === "founding pro" ? "Founding Pro" : "Pro"} plan includes 4 gallery images (5 total with profile)
           </p>
         </div>
       )}

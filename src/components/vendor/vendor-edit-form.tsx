@@ -96,7 +96,9 @@ export function VendorEditForm({
       region: listing.region || [],
       profile_image: listing.profile_image || "",
       gallery: typeof listing.gallery === "string" ? listing.gallery : JSON.stringify(listing.gallery || []),
-      status: listing.status || "Pending",
+      status: (listing.status === "Live" || listing.status === "Pending" || listing.status === "Draft" || listing.status === "Archived" || listing.status === "Rejected"
+        ? listing.status
+        : "Pending") as "Pending" | "Live" | "Rejected" | "Draft" | "Archived",
       is_claimed: !!listing.is_claimed,
       is_active: listing.is_active ?? true,
       plan: listing.plan || "Free",

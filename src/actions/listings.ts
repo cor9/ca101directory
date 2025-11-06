@@ -141,14 +141,14 @@ export async function updateListing(
         "Validation errors:",
         JSON.stringify(validatedFields.error.flatten(), null, 2),
       );
-      
+
       // Return detailed error message to help debug
       const errorMessages = validatedFields.error.flatten().fieldErrors;
       const firstError = Object.entries(errorMessages)[0];
-      const detailedMessage = firstError 
+      const detailedMessage = firstError
         ? `Invalid fields: ${firstError[0]} - ${firstError[1]?.[0] || 'validation error'}`
         : "Invalid fields.";
-      
+
       return { status: "error", message: detailedMessage };
     }
 

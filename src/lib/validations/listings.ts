@@ -113,22 +113,27 @@ export const UpdateListingSchema = z.object({
       });
     }
 
-    // basic location: city and state required
-    const city = typeof val.city === "string" ? val.city : "";
-    const state = typeof val.state === "string" ? val.state : "";
-    if (!city || city.trim() === "") {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "City is required for Live listings.",
-        path: ["city"],
-      });
-    }
-    if (!state || state.trim() === "") {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "State is required for Live listings.",
-        path: ["state"],
-      });
+    // basic location: city and state required (except for online-only vendors)
+    const format = typeof val.format === "string" ? val.format.toLowerCase() : "";
+    const isOnlineOnly = format === "online";
+    
+    if (!isOnlineOnly) {
+      const city = typeof val.city === "string" ? val.city : "";
+      const state = typeof val.state === "string" ? val.state : "";
+      if (!city || city.trim() === "") {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "City is required for Live listings (except online-only).",
+          path: ["city"],
+        });
+      }
+      if (!state || state.trim() === "") {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "State is required for Live listings (except online-only).",
+          path: ["state"],
+        });
+      }
     }
   }
 });

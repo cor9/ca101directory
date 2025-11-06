@@ -261,11 +261,10 @@ export async function getItems({
 
         // Helper function to get plan priority (higher = better)
         const getPlanPriority = (plan: string | null | undefined, comped: boolean | null | undefined, featured: boolean) => {
-          if (featured) return 5; // Featured already sorted above, but maintain hierarchy
-          if (comped) return 4; // Comped listings are treated as Pro
+          if (featured) return 4; // Featured already sorted above, but maintain hierarchy
+          if (comped) return 3; // Comped listings are treated as Pro
           const planLower = (plan || "free").toLowerCase();
-          if (planLower === "premium") return 4;
-          if (planLower === "pro") return 3;
+          if (planLower === "pro" || planLower === "founding pro") return 3;
           if (planLower === "standard" || planLower === "founding standard") return 2;
           return 1; // Free or unknown
         };

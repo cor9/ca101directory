@@ -8,6 +8,7 @@ import {
   fontWorkSans,
 } from "@/assets/fonts";
 import { auth } from "@/auth";
+import { AhrefsAnalytics } from "@/components/analytics/ahrefs-analytics";
 import { Analytics } from "@/components/analytics/analytics";
 import { FacebookSDK } from "@/components/analytics/facebook-sdk";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
@@ -66,6 +67,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
             <Analytics />
             <FacebookSDK />
+            <AhrefsAnalytics />
           </ThemeProvider>
         </SessionProvider>
       </body>

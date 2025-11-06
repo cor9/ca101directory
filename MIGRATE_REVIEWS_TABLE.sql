@@ -29,23 +29,31 @@ ALTER TABLE reviews ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT NOW(
 
 -- 2. MIGRATE DATA: Convert approved boolean to status text
 -- =====================================================
-UPDATE reviews 
-SET status = CASE 
+UPDATE reviews
+SET status = CASE
   WHEN approved = true THEN 'approved'
   WHEN approved = false THEN 'pending'
   ELSE 'pending'
 END
 WHERE status = 'pending'; -- Only update rows that haven't been migrated
 
--- 3. DROP OLD APPROVED COLUMN (after data is migrated)
+-- 3. DROP DEPENDENCIES ON APPROVED COLUMN
 -- =====================================================
-ALTER TABLE reviews DROP COLUMN IF EXISTS approved;
+
+-- Drop the policy that depends on approved
+DROP POLICY IF EXISTS "Public can view approved reviews" ON reviews;
+
+-- Drop the view that depends on approved
+DROP VIEW IF EXISTS vendor_ratings CASCADE;
+
+-- Now drop the approved column
+ALTER TABLE reviews DROP COLUMN IF EXISTS approved CASCADE;
 
 -- 4. ADD CONSTRAINTS
 -- =====================================================
 
 -- Add check constraint for stars (1-5 rating)
-DO $$ 
+DO $$
 BEGIN
   IF NOT EXISTS (
     SELECT 1 FROM pg_constraint WHERE conname = 'reviews_stars_check'
@@ -55,7 +63,7 @@ BEGIN
 END $$;
 
 -- Add check constraint for status
-DO $$ 
+DO $$
 BEGIN
   IF NOT EXISTS (
     SELECT 1 FROM pg_constraint WHERE conname = 'reviews_status_check'
@@ -65,7 +73,7 @@ BEGIN
 END $$;
 
 -- Add unique constraint (one review per user per listing)
-DO $$ 
+DO $$
 BEGIN
   IF NOT EXISTS (
     SELECT 1 FROM pg_constraint WHERE conname = 'reviews_user_listing_unique'
@@ -87,10 +95,10 @@ ALTER TABLE reviews DROP CONSTRAINT IF EXISTS reviews_listing_id_fkey;
 ALTER TABLE reviews DROP CONSTRAINT IF EXISTS reviews_user_id_fkey;
 
 -- Add new foreign keys
-ALTER TABLE reviews ADD CONSTRAINT reviews_listing_id_fkey 
+ALTER TABLE reviews ADD CONSTRAINT reviews_listing_id_fkey
   FOREIGN KEY (listing_id) REFERENCES listings(id) ON DELETE CASCADE;
 
-ALTER TABLE reviews ADD CONSTRAINT reviews_user_id_fkey 
+ALTER TABLE reviews ADD CONSTRAINT reviews_user_id_fkey
   FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE;
 
 -- 6. CREATE/UPDATE RLS POLICIES
@@ -106,20 +114,20 @@ DROP POLICY IF EXISTS "Users can create reviews" ON reviews;
 DROP POLICY IF EXISTS "Users can update own pending reviews" ON reviews;
 
 -- Create new policies
-CREATE POLICY "Anyone can view approved reviews" 
-ON reviews FOR SELECT 
+CREATE POLICY "Anyone can view approved reviews"
+ON reviews FOR SELECT
 USING (status = 'approved');
 
-CREATE POLICY "Users can view own reviews" 
-ON reviews FOR SELECT 
+CREATE POLICY "Users can view own reviews"
+ON reviews FOR SELECT
 USING (auth.uid() = user_id);
 
-CREATE POLICY "Users can create reviews" 
-ON reviews FOR INSERT 
+CREATE POLICY "Users can create reviews"
+ON reviews FOR INSERT
 WITH CHECK (auth.uid() = user_id);
 
-CREATE POLICY "Users can update own pending reviews" 
-ON reviews FOR UPDATE 
+CREATE POLICY "Users can update own pending reviews"
+ON reviews FOR UPDATE
 USING (auth.uid() = user_id AND status = 'pending');
 
 -- 7. CREATE/UPDATE INDEXES
@@ -150,8 +158,8 @@ FROM information_schema.table_constraints
 WHERE table_schema = 'public' AND table_name = 'reviews';
 
 -- Check indexes
-SELECT indexname 
-FROM pg_indexes 
+SELECT indexname
+FROM pg_indexes
 WHERE schemaname = 'public' AND tablename = 'reviews';
 
 -- =====================================================

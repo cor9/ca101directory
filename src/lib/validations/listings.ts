@@ -116,7 +116,7 @@ export const UpdateListingSchema = z.object({
     // basic location: city and state required (except for online-only vendors)
     const format = typeof val.format === "string" ? val.format.toLowerCase() : "";
     const isOnlineOnly = format === "online";
-    
+
     if (!isOnlineOnly) {
       const city = typeof val.city === "string" ? val.city : "";
       const state = typeof val.state === "string" ? val.state : "";

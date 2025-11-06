@@ -250,7 +250,7 @@ export async function getItems({
     const isDefaultSort = !sortKey || (sortKey === "publishDate" && reverse);
 
     if (isDefaultSort) {
-      // Custom sorting for directory page: Featured first, then Pro (avoiding duplicates), then alphabetical
+      // Custom sorting for directory page: Featured > Pro/Premium > Standard > Free
       filteredListings.sort((a, b) => {
         // 1. Featured listings first (featured = true)
         const aFeatured = a.featured || false;
@@ -259,14 +259,24 @@ export async function getItems({
         if (aFeatured && !bFeatured) return -1;
         if (!aFeatured && bFeatured) return 1;
 
-        // 2. Pro listings second (plan = 'Pro' or 'Premium'), but only if not already featured
-        const aIsPro = (a.plan === "Pro" || a.plan === "Premium") && !aFeatured;
-        const bIsPro = (b.plan === "Pro" || b.plan === "Premium") && !bFeatured;
+        // Helper function to get plan priority (higher = better)
+        const getPlanPriority = (plan: string | null | undefined, comped: boolean | null | undefined, featured: boolean) => {
+          if (featured) return 5; // Featured already sorted above, but maintain hierarchy
+          if (comped) return 4; // Comped listings are treated as Pro
+          const planLower = (plan || "free").toLowerCase();
+          if (planLower === "premium") return 4;
+          if (planLower === "pro") return 3;
+          if (planLower === "standard" || planLower === "founding standard") return 2;
+          return 1; // Free or unknown
+        };
 
-        if (aIsPro && !bIsPro) return -1;
-        if (!aIsPro && bIsPro) return 1;
+        // 2. Sort by plan priority (Pro > Standard > Free)
+        const aPriority = getPlanPriority(a.plan, a.comped, aFeatured);
+        const bPriority = getPlanPriority(b.plan, b.comped, bFeatured);
 
-        // 3. Everything else alphabetically by name
+        if (aPriority !== bPriority) return bPriority - aPriority;
+
+        // 3. Within same plan tier, sort alphabetically by name
         const aName = a.listing_name || "";
         const bName = b.listing_name || "";
         return aName.localeCompare(bName);

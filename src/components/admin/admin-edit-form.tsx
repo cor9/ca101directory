@@ -173,8 +173,8 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
 
   const form = useForm<FormInputType>({
     resolver: zodResolver(FormInputSchema),
-    mode: "onChange",
-    reValidateMode: "onChange",
+    mode: "onSubmit", // Changed from onChange to reduce false validation errors
+    reValidateMode: "onSubmit",
     criteriaMode: "all",
     defaultValues: {
       listing_name: listing.listing_name || "",
@@ -449,9 +449,24 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
     <form
       onSubmit={form.handleSubmit(onSubmit, (errors) => {
         console.error("Form validation errors:", errors);
+        alert("Please fix the following errors:\n" + Object.entries(errors).map(([field, err]) => `- ${field}: ${err?.message}`).join("\n"));
       })}
       className="space-y-6 max-h-[70vh] overflow-y-auto pr-4"
     >
+      {/* Show form validation status */}
+      {Object.keys(form.formState.errors).length > 0 && (
+        <div className="bg-red-50 border border-red-200 rounded-md p-4">
+          <h4 className="text-red-800 font-semibold mb-2">Form Errors:</h4>
+          <ul className="text-sm text-red-700 space-y-1">
+            {Object.entries(form.formState.errors).map(([field, error]) => (
+              <li key={field}>
+                <strong>{field}:</strong> {error?.message}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      
       {/* --- Basic Information --- */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormInput
@@ -758,12 +773,11 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           disabled={
             isPending ||
             isImageUploading ||
-            isGalleryUploading ||
-            !form.formState.isValid
+            isGalleryUploading
           }
           onClick={() => console.log("Save Changes button clicked!")}
         >
-          {isPending ? "Saving..." : "Save Changes"}
+          {isPending || isImageUploading || isGalleryUploading ? "Uploading..." : "Save Changes"}
         </Button>
       </div>
     </form>

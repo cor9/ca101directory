@@ -1,6 +1,18 @@
-# 🚨 READ THIS FIRST - NOVEMBER 5, 2025: CRITICAL CLAIM & SUBMISSION FIXES 🚨
+# 🚨 READ THIS FIRST - NOVEMBER 6, 2025: BULK FREE LISTINGS CREATED 🚨
 
-**NEW (Nov 5, 2025):** Fixed 5 critical bugs blocking users from claiming and submitting listings. See `.cursor/NOVEMBER_5_2025_CRITICAL_CLAIM_SUBMISSION_FIXES.md` for full details.
+**NEW (Nov 6, 2025):** Created 8 new free listings from "more free listings.csv". See `.cursor/FREE_LISTINGS_BULK_CREATE_NOV6_2025.md` for full details.
+
+**Quick Summary:**
+- ✅ 8 new listings created: Actor Websites (4), Background Casting (2), Casting Workshops (1), Child Advocacy (1)
+- ⚠️ 2 duplicates skipped: Web For Actors, Tony Howell
+- ✅ All set to Live status, Free plan, comped
+- ✅ Script: `scripts/create-more-free-listings.ts`
+
+---
+
+# 🚨 NOVEMBER 5, 2025: CRITICAL CLAIM & SUBMISSION FIXES 🚨
+
+**Fixed (Nov 5, 2025):** Fixed 5 critical bugs blocking users from claiming and submitting listings. See `.cursor/NOVEMBER_5_2025_CRITICAL_CLAIM_SUBMISSION_FIXES.md` for full details.
 
 **Quick Summary of Nov 5 Fixes:**
 - ✅ Removed email confirmation checks (magic link IS the confirmation)

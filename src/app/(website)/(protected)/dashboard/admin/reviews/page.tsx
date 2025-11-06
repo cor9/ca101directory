@@ -39,9 +39,12 @@ export default async function AdminReviewsPage() {
     console.error("Error fetching reviews:", error);
   }
 
+  console.log("Reviews fetched:", reviews?.length || 0);
+  console.log("Reviews data:", JSON.stringify(reviews, null, 2));
+
   return (
     <AdminDashboardLayout>
-      <AdminReviewQueue reviews={reviews || []} />
+      <AdminReviewQueue reviews={reviews || []} error={error?.message} />
     </AdminDashboardLayout>
   );
 }

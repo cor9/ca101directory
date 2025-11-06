@@ -29,9 +29,10 @@ interface Review {
 
 interface AdminReviewQueueProps {
   reviews: Review[];
+  error?: string;
 }
 
-export function AdminReviewQueue({ reviews: initialReviews }: AdminReviewQueueProps) {
+export function AdminReviewQueue({ reviews: initialReviews, error }: AdminReviewQueueProps) {
   const [reviews, setReviews] = useState(initialReviews);
   const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
   const [loading, setLoading] = useState<string | null>(null);
@@ -144,6 +145,11 @@ export function AdminReviewQueue({ reviews: initialReviews }: AdminReviewQueuePr
         <p className="text-gray-400 mt-2">
           Moderate user reviews and ratings for listings
         </p>
+        {error && (
+          <div className="mt-2 p-3 bg-red-100 border border-red-300 rounded text-red-800 text-sm">
+            Error loading reviews: {error}
+          </div>
+        )}
       </div>
 
       {/* Stats */}

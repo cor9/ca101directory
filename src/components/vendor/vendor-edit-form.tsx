@@ -38,6 +38,7 @@ export function VendorEditForm({
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [isGalleryUploading, setIsGalleryUploading] = useState(false);
   const [profileImageId, setProfileImageId] = useState<string>(listing.profile_image || "");
+  const [categoriesLoaded, setCategoriesLoaded] = useState(false);
 
   const [galleryImages, setGalleryImages] = useState<string[]>(() => {
     if (typeof listing.gallery === "string") {
@@ -50,15 +51,19 @@ export function VendorEditForm({
     return Array.isArray(listing.gallery) ? listing.gallery : [];
   });
 
-  // Fetch categories on mount and convert any existing UUIDs to names
+  // Fetch categories on mount
   useEffect(() => {
     getCategoriesClient().then((cats) => {
       setCategories(cats.map(c => ({ id: c.id, category_name: c.category_name })));
+      setCategoriesLoaded(true);
       
-      // Convert UUID categories to names on load
-      const currentCategories = form.getValues("categories") as any;
-      if (currentCategories && typeof currentCategories === "string") {
-        const categoryArray = currentCategories.split(", ").filter(Boolean);
+      // Convert UUID categories to names after categories are loaded
+      const listingCats = Array.isArray(listing.categories) 
+        ? listing.categories.join(", ")
+        : (typeof listing.categories === "string" ? listing.categories : "");
+        
+      if (listingCats) {
+        const categoryArray = listingCats.split(", ").filter(Boolean);
         // Check if we have UUIDs (36 chars with dashes)
         const hasUUIDs = categoryArray.some(cat => cat.length === 36 && cat.includes("-"));
         
@@ -69,12 +74,13 @@ export function VendorEditForm({
             return found ? found.category_name : catId;
           }).filter(Boolean);
           
-          form.setValue("categories", categoryNames.join(", ") as any);
-          console.log("Converted UUID categories to names:", categoryNames);
+          const convertedStr = categoryNames.join(", ");
+          form.setValue("categories", convertedStr as any);
+          console.log("✅ Converted UUID categories to names:", categoryNames);
         }
       }
     });
-  }, []);
+  }, [listing.categories]);
 
   // Helper to normalize format values
   const normalizeFormat = (format: string | undefined): string => {

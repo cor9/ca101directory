@@ -59,7 +59,7 @@ function extractEmailsFromHTML(html: string): string[] {
            !lower.includes('no-reply');
   });
 
-  return [...new Set(filtered)]; // Remove duplicates
+  return Array.from(new Set(filtered)); // Remove duplicates
 }
 
 /**

@@ -3,11 +3,13 @@
  * Run with: npx tsx scripts/export-listings-without-email.ts
  */
 
+import { config } from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 
 // Load environment variables
+config({ path: '.env.local' });
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
@@ -48,6 +50,10 @@ async function exportListingsWithoutEmail() {
 
     if (error) {
       console.error('❌ Error fetching listings:', error);
+      console.error('Error details:', JSON.stringify(error, null, 2));
+      if (error.cause) {
+        console.error('Error cause:', error.cause);
+      }
       return;
     }
 
@@ -116,6 +122,13 @@ async function exportListingsWithoutEmail() {
 
   } catch (error) {
     console.error('❌ Unexpected error:', error);
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+      if (error.cause) {
+        console.error('Error cause:', error.cause);
+      }
+    }
   }
 }
 

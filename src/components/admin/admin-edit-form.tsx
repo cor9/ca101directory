@@ -248,7 +248,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
     try {
       startTransition(() => {
         try {
-          // Convert category names back to UUIDs before submitting
+          // Process form values before submission
           const processedValues = { ...values };
 
           if (values.categories?.trim()) {

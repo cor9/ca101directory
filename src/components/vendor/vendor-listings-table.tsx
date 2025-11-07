@@ -127,10 +127,10 @@ export const VendorListingsTable = ({ listings }: { listings: Listing[] }) => {
         open={!!editingListing}
         onOpenChange={(isOpen) => !isOpen && setEditingListing(null)}
       >
-        <DialogContent className="max-w-3xl">
+        <DialogContent className="max-w-3xl max-h-[90vh] flex flex-col">
           {editingListing && (
             <>
-              <DialogHeader>
+              <DialogHeader className="flex-shrink-0">
                 <DialogTitle>Edit Listing</DialogTitle>
                 <DialogDescription>
                   Make changes to{" "}
@@ -140,10 +140,12 @@ export const VendorListingsTable = ({ listings }: { listings: Listing[] }) => {
                   . Click save when finished.
                 </DialogDescription>
               </DialogHeader>
-              <VendorEditForm
-                listing={editingListing}
-                onFinished={() => setEditingListing(null)}
-              />
+              <div className="flex-1 overflow-y-auto -mx-6 px-6">
+                <VendorEditForm
+                  listing={editingListing}
+                  onFinished={() => setEditingListing(null)}
+                />
+              </div>
             </>
           )}
         </DialogContent>

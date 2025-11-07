@@ -51,11 +51,10 @@ export default function ImageUpload({
       const result = await response.json();
 
       if (result.success && result.url) {
-        // Extract filename from URL for compatibility
-        const filename = result.fileName || `logo-${Date.now()}`;
+        // Return full URL as ID for database storage
         return {
           url: result.url,
-          _id: filename, // Use filename as ID for compatibility
+          _id: result.url, // Use full URL as ID
         };
       }
       throw new Error(result.error || "Upload failed");

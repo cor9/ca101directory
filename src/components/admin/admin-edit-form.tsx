@@ -257,7 +257,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               .split(",")
               .map((name) => name.trim())
               .filter(Boolean);
-            
+
             processedValues.categories = categoryNames.join(", ");
             console.log("Keeping categories as names:", processedValues.categories);
           } else {
@@ -268,12 +268,22 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           console.log("Final processed values:", processedValues);
 
           // Convert string arrays to comma-separated strings for the server schema transformer
-          const serverValues = {
+          const serverValues: any = {
             ...processedValues,
             // The server schema will handle the comma-separated string to array conversion
             categories: processedValues.categories || "",
             age_range: processedValues.age_range || "",
             region: processedValues.region || "",
+            // Ensure all fields are properly formatted
+            website: processedValues.website?.trim() || "",
+            email: processedValues.email?.trim() || "",
+            phone: processedValues.phone?.trim() || "",
+            city: processedValues.city?.trim() || "",
+            state: processedValues.state?.trim() || "",
+            zip: processedValues.zip?.trim() || "",
+            format: processedValues.format?.trim() || "",
+            facebook_url: processedValues.facebook_url?.trim() || "",
+            instagram_url: processedValues.instagram_url?.trim() || "",
           };
 
           // Attach images and compliance fields

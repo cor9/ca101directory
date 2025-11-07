@@ -15,6 +15,7 @@ import { z } from "zod";
 // Fix: Separated imports to pull `Listing` type from data layer and action/schema from the actions layer.
 import { updateListing } from "@/actions/listings";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { getCategoriesClient } from "@/data/categories-client";
 import type { Listing } from "@/data/listings";
 import type { UpdateListingSchema } from "@/lib/validations/listings";

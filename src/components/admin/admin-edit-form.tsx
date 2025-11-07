@@ -589,7 +589,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               {categories.map((category) => {
                 const currentCategories = form.watch("categories")?.split(", ").filter(Boolean) || [];
                 const isChecked = currentCategories.includes(category.category_name);
-                
+
                 return (
                   <label key={category.id} className="flex items-center space-x-2 cursor-pointer">
                     <input
@@ -619,7 +619,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               {["online", "in-person", "hybrid"].map((tag) => {
                 const currentTags = form.watch("age_range")?.split(", ").filter(Boolean) || [];
                 const isChecked = currentTags.includes(tag);
-                
+
                 return (
                   <label key={tag} className="flex items-center space-x-2 cursor-pointer">
                     <input
@@ -647,23 +647,20 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             <Label>Region</Label>
             <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border rounded p-3">
               {[
-                "los-angeles",
-                "northern-california",
-                "pnw",
-                "new-mexico",
-                "arizona",
-                "texas",
-                "chicago",
-                "atlanta-southeast",
-                "new-orleans",
-                "florida",
-                "new-york",
-                "northeast-wilmington",
-                "global-online",
+                "West Coast",
+                "Southwest",
+                "Southeast",
+                "Midwest",
+                "Northeast",
+                "Mid-Atlantic",
+                "Pacific Northwest",
+                "Rocky Mountain",
+                "Canada",
+                "Global (Online Only)",
               ].map((region) => {
                 const currentRegions = form.watch("region")?.split(", ").filter(Boolean) || [];
                 const isChecked = currentRegions.includes(region);
-                
+
                 return (
                   <label key={region} className="flex items-center space-x-2 cursor-pointer">
                     <input
@@ -679,7 +676,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
                       }}
                       className="rounded border-gray-300"
                     />
-                    <span className="text-sm capitalize">{region.replace("-", " ")}</span>
+                    <span className="text-sm">{region}</span>
                   </label>
                 );
               })}

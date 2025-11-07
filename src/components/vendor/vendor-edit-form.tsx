@@ -179,8 +179,18 @@ export function VendorEditForm({
     });
   };
 
+  const onError = (errors: any) => {
+    console.error("Form validation errors:", errors);
+    const firstError = Object.keys(errors)[0];
+    if (firstError) {
+      toast.error(`Please fix the ${firstError} field`);
+    } else {
+      toast.error("Please check all fields and try again");
+    }
+  };
+
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-6">
       {/* Basic Information */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-1">

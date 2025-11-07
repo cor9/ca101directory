@@ -136,11 +136,14 @@ export function VendorEditForm({
   };
 
   const onSubmit = (values: z.infer<typeof UpdateListingSchema>) => {
+    console.log("=== FORM SUBMIT DEBUG ===");
     console.log("Form submitted with values:", values);
+    console.log("Categories raw value:", values.categories);
+    console.log("Categories type:", typeof values.categories, Array.isArray(values.categories));
     console.log("Form errors:", form.formState.errors);
     console.log("Profile image ID:", profileImageId);
     console.log("Gallery images:", galleryImages);
-
+    
     startTransition(() => {
       // Prepare gallery as JSON string
       const galleryString = Array.isArray(galleryImages)
@@ -151,6 +154,11 @@ export function VendorEditForm({
       const categoriesStr = typeof values.categories === "string" ? values.categories : (Array.isArray(values.categories) ? values.categories.join(", ") : "");
       const ageRangeStr = typeof values.age_range === "string" ? values.age_range : (Array.isArray(values.age_range) ? values.age_range.join(", ") : "");
       const regionStr = typeof values.region === "string" ? values.region : (Array.isArray(values.region) ? values.region.join(", ") : "");
+
+      console.log("=== STRING CONVERSIONS ===");
+      console.log("categoriesStr:", categoriesStr);
+      console.log("ageRangeStr:", ageRangeStr);
+      console.log("regionStr:", regionStr);
 
       const fullValues = {
         ...values,
@@ -165,7 +173,9 @@ export function VendorEditForm({
         is_active: listing.is_active ?? true,
       } as any;
 
+      console.log("=== FULL VALUES TO SEND ===");
       console.log("Sending update with fullValues:", fullValues);
+      console.log("Categories in fullValues:", fullValues.categories);
 
       updateListing(listing.id, fullValues)
         .then((res) => {

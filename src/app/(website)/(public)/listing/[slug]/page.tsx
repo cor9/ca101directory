@@ -447,7 +447,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                       height={24}
                       className="object-contain"
                     />
-                    <span className="font-bold text-brand-orange text-sm">
+                    <span className="font-bold text-gray-900 text-sm">
                       101 APPROVED
                     </span>
                   </div>

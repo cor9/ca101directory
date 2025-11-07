@@ -252,42 +252,14 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           const processedValues = { ...values };
 
           if (values.categories?.trim()) {
-            // Check if it's already a UUID (single category) or category names (comma-separated)
-            const isUuid = values.categories?.match(
-              /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
-            );
-
-            if (isUuid) {
-              // It's already a UUID, keep it as is
-              console.log(
-                "Categories field contains UUID, keeping as is:",
-                values.categories,
-              );
-              processedValues.categories = values.categories;
-            } else {
-              // It's category names, convert to UUIDs
-              const categoryNames = values.categories
-                .split(",")
-                .map((name) => name.trim())
-                .filter(Boolean);
-              console.log("Category names to convert:", categoryNames);
-
-              const categoryUuids = categoryNames.map((name) => {
-                const category = categories.find(
-                  (cat) => cat.category_name === name,
-                );
-                console.log(
-                  `Converting "${name}" to UUID:`,
-                  category ? category.id : name,
-                );
-                return category ? category.id : name; // fallback to original if not found
-              });
-              processedValues.categories = categoryUuids.join(", ");
-              console.log(
-                "Final processed categories:",
-                processedValues.categories,
-              );
-            }
+            // Keep category names as-is (don't convert to UUIDs)
+            const categoryNames = values.categories
+              .split(",")
+              .map((name) => name.trim())
+              .filter(Boolean);
+            
+            processedValues.categories = categoryNames.join(", ");
+            console.log("Keeping categories as names:", processedValues.categories);
           } else {
             // If no categories specified, set to empty string
             processedValues.categories = "";

@@ -111,8 +111,8 @@ export function VendorEditForm({
   const isPro = plan === "pro" || plan === "founding pro" || listing.comped;
 
   const handleCategoryToggle = (categoryId: string) => {
-    const currentStr = form.getValues("categories") || "";
-    const currentArray = currentStr ? currentStr.split(", ").filter(Boolean) : [];
+    const currentStr = (form.getValues("categories") as any) || "";
+    const currentArray = currentStr ? String(currentStr).split(", ").filter(Boolean) : [];
     const newCategories = currentArray.includes(categoryId)
       ? currentArray.filter((c) => c !== categoryId)
       : [...currentArray, categoryId];
@@ -123,16 +123,16 @@ export function VendorEditForm({
       return;
     }
 
-    form.setValue("categories", newCategories.join(", "));
+    form.setValue("categories", newCategories.join(", ") as any);
   };
 
   const handleTagToggle = (tag: string, field: "age_range" | "region") => {
-    const currentStr = form.getValues(field) || "";
-    const currentArray = currentStr ? currentStr.split(", ").filter(Boolean) : [];
+    const currentStr = (form.getValues(field) as any) || "";
+    const currentArray = currentStr ? String(currentStr).split(", ").filter(Boolean) : [];
     const newTags = currentArray.includes(tag)
       ? currentArray.filter((t) => t !== tag)
       : [...currentArray, tag];
-    form.setValue(field, newTags.join(", "));
+    form.setValue(field, newTags.join(", ") as any);
   };
 
   const onSubmit = (values: z.infer<typeof UpdateListingSchema>) => {
@@ -475,9 +475,9 @@ export function VendorEditForm({
           {categories.map((category) => (
             <label key={category.id} className="flex items-center space-x-2">
               <Checkbox
-                checked={(form.watch("categories") || "").split(", ").includes(category.id)}
+                checked={String((form.watch("categories") as any) || "").split(", ").includes(category.id)}
                 onCheckedChange={() => handleCategoryToggle(category.id)}
-                disabled={isPending || (isFree && !(form.watch("categories") || "").split(", ").includes(category.id) && (form.watch("categories") || "").split(", ").filter(Boolean).length >= 1)}
+                disabled={isPending || (isFree && !String((form.watch("categories") as any) || "").split(", ").includes(category.id) && String((form.watch("categories") as any) || "").split(", ").filter(Boolean).length >= 1)}
               />
               <span className="text-sm">{category.category_name}</span>
             </label>
@@ -497,7 +497,7 @@ export function VendorEditForm({
           {["online", "in-person", "hybrid"].map((tag) => (
             <label key={tag} className="flex items-center space-x-2">
               <Checkbox
-                checked={(form.watch("age_range") || "").split(", ").includes(tag)}
+                checked={String((form.watch("age_range") as any) || "").split(", ").includes(tag)}
                 onCheckedChange={() => handleTagToggle(tag, "age_range")}
                 disabled={isPending}
               />
@@ -533,7 +533,7 @@ export function VendorEditForm({
           ].map((tag) => (
             <label key={tag} className="flex items-center space-x-2">
               <Checkbox
-                checked={(form.watch("region") || "").split(", ").includes(tag)}
+                checked={String((form.watch("region") as any) || "").split(", ").includes(tag)}
                 onCheckedChange={() => handleTagToggle(tag, "region")}
                 disabled={isPending}
               />

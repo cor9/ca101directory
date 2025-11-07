@@ -152,7 +152,7 @@ export function VendorEditForm({
       const ageRangeStr = typeof values.age_range === "string" ? values.age_range : (Array.isArray(values.age_range) ? values.age_range.join(", ") : "");
       const regionStr = typeof values.region === "string" ? values.region : (Array.isArray(values.region) ? values.region.join(", ") : "");
 
-      const fullValues: z.infer<typeof UpdateListingSchema> = {
+      const fullValues = {
         ...values,
         // Ensure these are strings (schema expects strings)
         categories: categoriesStr,
@@ -163,7 +163,7 @@ export function VendorEditForm({
         status: "Pending" as const, // Always set to Pending for vendor edits
         is_claimed: !!listing.is_claimed,
         is_active: listing.is_active ?? true,
-      };
+      } as z.infer<typeof UpdateListingSchema>;
 
       console.log("Sending update with fullValues:", fullValues);
 

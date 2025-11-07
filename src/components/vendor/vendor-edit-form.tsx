@@ -39,6 +39,7 @@ export function VendorEditForm({
   const [isGalleryUploading, setIsGalleryUploading] = useState(false);
   const [profileImageId, setProfileImageId] = useState<string>(listing.profile_image || "");
   const [categoriesLoaded, setCategoriesLoaded] = useState(false);
+  const [initialCategories, setInitialCategories] = useState<string>("");
 
   const [galleryImages, setGalleryImages] = useState<string[]>(() => {
     if (typeof listing.gallery === "string") {
@@ -51,13 +52,12 @@ export function VendorEditForm({
     return Array.isArray(listing.gallery) ? listing.gallery : [];
   });
 
-  // Fetch categories on mount
+  // Fetch categories on mount and convert UUIDs to names BEFORE form initializes
   useEffect(() => {
     getCategoriesClient().then((cats) => {
       setCategories(cats.map(c => ({ id: c.id, category_name: c.category_name })));
-      setCategoriesLoaded(true);
       
-      // Convert UUID categories to names after categories are loaded
+      // Convert UUID categories to names
       const listingCats = Array.isArray(listing.categories) 
         ? listing.categories.join(", ")
         : (typeof listing.categories === "string" ? listing.categories : "");
@@ -75,12 +75,16 @@ export function VendorEditForm({
           }).filter(Boolean);
           
           const convertedStr = categoryNames.join(", ");
-          form.setValue("categories", convertedStr as any);
+          setInitialCategories(convertedStr);
           console.log("✅ Converted UUID categories to names:", categoryNames);
+        } else {
+          setInitialCategories(listingCats);
         }
       }
+      
+      setCategoriesLoaded(true);
     });
-  }, [listing.categories]);
+  }, []);
 
   // Helper to normalize format values
   const normalizeFormat = (format: string | undefined): string => {
@@ -116,14 +120,12 @@ export function VendorEditForm({
       ca_permit_required: listing.ca_permit_required || false,
       is_bonded: listing.is_bonded || false,
       bond_number: listing.bond_number || "",
-      categories: (Array.isArray(listing.categories)
-        ? listing.categories.join(", ")
-        : (typeof listing.categories === "string" ? listing.categories : "")) as any,
-      age_range: (Array.isArray(listing.age_range)
-        ? listing.age_range.join(", ")
+      categories: "" as any, // Will be set by useEffect after conversion
+      age_range: (Array.isArray(listing.age_range) 
+        ? listing.age_range.join(", ") 
         : (typeof listing.age_range === "string" ? listing.age_range : "")) as any,
-      region: (Array.isArray(listing.region)
-        ? listing.region.join(", ")
+      region: (Array.isArray(listing.region) 
+        ? listing.region.join(", ") 
         : (typeof listing.region === "string" ? listing.region : "")) as any,
       profile_image: listing.profile_image || "",
       gallery: typeof listing.gallery === "string" ? listing.gallery : JSON.stringify(listing.gallery || []),
@@ -135,6 +137,14 @@ export function VendorEditForm({
       plan: listing.plan || "Free",
     },
   });
+  
+  // Update categories after conversion completes
+  useEffect(() => {
+    if (categoriesLoaded && initialCategories) {
+      form.setValue("categories", initialCategories as any);
+      console.log("📝 Set form categories to:", initialCategories);
+    }
+  }, [categoriesLoaded, initialCategories, form]);
 
   const plan = listing.plan?.toLowerCase() || "free";
   const isFree = plan === "free";

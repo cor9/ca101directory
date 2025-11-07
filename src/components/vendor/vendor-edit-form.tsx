@@ -91,9 +91,9 @@ export function VendorEditForm({
       ca_permit_required: listing.ca_permit_required || false,
       is_bonded: listing.is_bonded || false,
       bond_number: listing.bond_number || "",
-      categories: Array.isArray(listing.categories) ? listing.categories.join(", ") : (listing.categories || ""),
-      age_range: Array.isArray(listing.age_range) ? listing.age_range.join(", ") : (listing.age_range || ""),
-      region: Array.isArray(listing.region) ? listing.region.join(", ") : (listing.region || ""),
+      categories: (Array.isArray(listing.categories) ? listing.categories.join(", ") : (listing.categories || "")) as any,
+      age_range: (Array.isArray(listing.age_range) ? listing.age_range.join(", ") : (listing.age_range || "")) as any,
+      region: (Array.isArray(listing.region) ? listing.region.join(", ") : (listing.region || "")) as any,
       profile_image: listing.profile_image || "",
       gallery: typeof listing.gallery === "string" ? listing.gallery : JSON.stringify(listing.gallery || []),
       status: (listing.status === "Live" || listing.status === "Pending" || listing.status === "Draft" || listing.status === "Archived" || listing.status === "Rejected"

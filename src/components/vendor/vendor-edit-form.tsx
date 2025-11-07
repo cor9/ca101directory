@@ -50,10 +50,29 @@ export function VendorEditForm({
     return Array.isArray(listing.gallery) ? listing.gallery : [];
   });
 
-  // Fetch categories on mount
+  // Fetch categories on mount and convert any existing UUIDs to names
   useEffect(() => {
     getCategoriesClient().then((cats) => {
       setCategories(cats.map(c => ({ id: c.id, category_name: c.category_name })));
+      
+      // Convert UUID categories to names on load
+      const currentCategories = form.getValues("categories") as any;
+      if (currentCategories && typeof currentCategories === "string") {
+        const categoryArray = currentCategories.split(", ").filter(Boolean);
+        // Check if we have UUIDs (36 chars with dashes)
+        const hasUUIDs = categoryArray.some(cat => cat.length === 36 && cat.includes("-"));
+        
+        if (hasUUIDs) {
+          // Convert UUIDs to names
+          const categoryNames = categoryArray.map(catId => {
+            const found = cats.find(c => c.id === catId);
+            return found ? found.category_name : catId;
+          }).filter(Boolean);
+          
+          form.setValue("categories", categoryNames.join(", ") as any);
+          console.log("Converted UUID categories to names:", categoryNames);
+        }
+      }
     });
   }, []);
 

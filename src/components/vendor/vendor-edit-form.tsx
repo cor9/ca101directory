@@ -91,14 +91,14 @@ export function VendorEditForm({
       ca_permit_required: listing.ca_permit_required || false,
       is_bonded: listing.is_bonded || false,
       bond_number: listing.bond_number || "",
-      categories: (Array.isArray(listing.categories) 
-        ? listing.categories.join(", ") 
+      categories: (Array.isArray(listing.categories)
+        ? listing.categories.join(", ")
         : (typeof listing.categories === "string" ? listing.categories : "")) as any,
-      age_range: (Array.isArray(listing.age_range) 
-        ? listing.age_range.join(", ") 
+      age_range: (Array.isArray(listing.age_range)
+        ? listing.age_range.join(", ")
         : (typeof listing.age_range === "string" ? listing.age_range : "")) as any,
-      region: (Array.isArray(listing.region) 
-        ? listing.region.join(", ") 
+      region: (Array.isArray(listing.region)
+        ? listing.region.join(", ")
         : (typeof listing.region === "string" ? listing.region : "")) as any,
       profile_image: listing.profile_image || "",
       gallery: typeof listing.gallery === "string" ? listing.gallery : JSON.stringify(listing.gallery || []),
@@ -116,12 +116,12 @@ export function VendorEditForm({
   const isStandard = plan === "standard" || plan === "founding standard";
   const isPro = plan === "pro" || plan === "founding pro" || listing.comped;
 
-  const handleCategoryToggle = (categoryId: string) => {
+  const handleCategoryToggle = (categoryName: string) => {
     const currentStr = (form.getValues("categories") as any) || "";
     const currentArray = currentStr ? String(currentStr).split(", ").filter(Boolean) : [];
-    const newCategories = currentArray.includes(categoryId)
-      ? currentArray.filter((c) => c !== categoryId)
-      : [...currentArray, categoryId];
+    const newCategories = currentArray.includes(categoryName)
+      ? currentArray.filter((c) => c !== categoryName)
+      : [...currentArray, categoryName];
 
     // Free tier: limit to 1 category
     if (isFree && newCategories.length > 1) {
@@ -149,7 +149,7 @@ export function VendorEditForm({
     console.log("Form errors:", form.formState.errors);
     console.log("Profile image ID:", profileImageId);
     console.log("Gallery images:", galleryImages);
-    
+
     startTransition(() => {
       // Prepare gallery as JSON string
       const galleryString = Array.isArray(galleryImages)
@@ -491,9 +491,9 @@ export function VendorEditForm({
           {categories.map((category) => (
             <label key={category.id} className="flex items-center space-x-2">
               <Checkbox
-                checked={String((form.watch("categories") as any) || "").split(", ").includes(category.id)}
-                onCheckedChange={() => handleCategoryToggle(category.id)}
-                disabled={isPending || (isFree && !String((form.watch("categories") as any) || "").split(", ").includes(category.id) && String((form.watch("categories") as any) || "").split(", ").filter(Boolean).length >= 1)}
+                checked={String((form.watch("categories") as any) || "").split(", ").includes(category.category_name)}
+                onCheckedChange={() => handleCategoryToggle(category.category_name)}
+                disabled={isPending || (isFree && !String((form.watch("categories") as any) || "").split(", ").includes(category.category_name) && String((form.watch("categories") as any) || "").split(", ").filter(Boolean).length >= 1)}
               />
               <span className="text-sm">{category.category_name}</span>
             </label>

@@ -145,8 +145,17 @@ export function VendorEditForm({
         ? JSON.stringify(galleryImages.filter(Boolean))
         : (typeof galleryImages === "string" ? galleryImages : JSON.stringify([]));
 
+      // Convert arrays to comma-separated strings for schema validation
+      const categoriesArray = Array.isArray(values.categories) ? values.categories : [];
+      const ageRangeArray = Array.isArray(values.age_range) ? values.age_range : [];
+      const regionArray = Array.isArray(values.region) ? values.region : [];
+
       const fullValues = {
         ...values,
+        // Convert arrays to comma-separated strings (schema expects strings)
+        categories: categoriesArray.join(", "),
+        age_range: ageRangeArray.join(", "),
+        region: regionArray.join(", "),
         profile_image: profileImageId || "",
         gallery: galleryString,
         status: "Pending" as const, // Always set to Pending for vendor edits

@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { CompedToggle } from "@/components/admin/comped-toggle";
 import { ListingActions } from "@/components/admin/listing-actions";
+import { BulkResendButton } from "@/components/admin/bulk-resend-button";
 import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { Badge } from "@/components/ui/badge";
@@ -100,6 +101,15 @@ export default async function AdminListingsPage({
                 </Link>
               </Button>
             </div>
+          </div>
+
+          {/* Bulk Resend Notice */}
+          <div className="bg-brand-orange/10 border border-brand-orange/20 rounded-lg p-4 flex items-center justify-between">
+            <div>
+              <p className="font-semibold text-paper">Bulk Resend Emails</p>
+              <p className="text-sm text-paper/70">Send "listing live" emails to all 24 listings updated on November 6, 2025</p>
+            </div>
+            <BulkResendButton />
           </div>
 
           {/* Status Filter Tabs */}

@@ -69,7 +69,7 @@ Best,
 1. **Vendor Dashboard Plan Detection** (Fixed Nov 6)
    - Changed from exact case-sensitive match to case-insensitive
    - Now recognizes: "Pro", "Founding Pro", comped listings
-   
+
 2. **Edit Form Gallery Upload** (Fixed Nov 6)
    - Added support for "Founding Pro" plan
    - Gallery upload now visible for all Pro-tier users

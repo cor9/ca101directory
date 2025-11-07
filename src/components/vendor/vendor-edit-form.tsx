@@ -56,24 +56,24 @@ export function VendorEditForm({
   useEffect(() => {
     getCategoriesClient().then((cats) => {
       setCategories(cats.map(c => ({ id: c.id, category_name: c.category_name })));
-      
+
       // Convert UUID categories to names
-      const listingCats = Array.isArray(listing.categories) 
+      const listingCats = Array.isArray(listing.categories)
         ? listing.categories.join(", ")
         : (typeof listing.categories === "string" ? listing.categories : "");
-        
+
       if (listingCats) {
         const categoryArray = listingCats.split(", ").filter(Boolean);
         // Check if we have UUIDs (36 chars with dashes)
         const hasUUIDs = categoryArray.some(cat => cat.length === 36 && cat.includes("-"));
-        
+
         if (hasUUIDs) {
           // Convert UUIDs to names
           const categoryNames = categoryArray.map(catId => {
             const found = cats.find(c => c.id === catId);
             return found ? found.category_name : catId;
           }).filter(Boolean);
-          
+
           const convertedStr = categoryNames.join(", ");
           setInitialCategories(convertedStr);
           console.log("✅ Converted UUID categories to names:", categoryNames);
@@ -81,7 +81,7 @@ export function VendorEditForm({
           setInitialCategories(listingCats);
         }
       }
-      
+
       setCategoriesLoaded(true);
     });
   }, []);
@@ -121,11 +121,11 @@ export function VendorEditForm({
       is_bonded: listing.is_bonded || false,
       bond_number: listing.bond_number || "",
       categories: "" as any, // Will be set by useEffect after conversion
-      age_range: (Array.isArray(listing.age_range) 
-        ? listing.age_range.join(", ") 
+      age_range: (Array.isArray(listing.age_range)
+        ? listing.age_range.join(", ")
         : (typeof listing.age_range === "string" ? listing.age_range : "")) as any,
-      region: (Array.isArray(listing.region) 
-        ? listing.region.join(", ") 
+      region: (Array.isArray(listing.region)
+        ? listing.region.join(", ")
         : (typeof listing.region === "string" ? listing.region : "")) as any,
       profile_image: listing.profile_image || "",
       gallery: typeof listing.gallery === "string" ? listing.gallery : JSON.stringify(listing.gallery || []),
@@ -137,7 +137,7 @@ export function VendorEditForm({
       plan: listing.plan || "Free",
     },
   });
-  
+
   // Update categories after conversion completes
   useEffect(() => {
     if (categoriesLoaded && initialCategories) {

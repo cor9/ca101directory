@@ -28,6 +28,8 @@
     "typegen": "sanity schema extract && sanity typegen generate",
     "email": "email dev --dir emails --port 3333",
     "export-user-emails": "tsx scripts/export-user-emails.ts",
+    "find-listing-emails": "tsx scripts/find-listing-emails.ts",
+    "resend-emails-to-new-listings": "tsx scripts/resend-emails-to-new-listings.ts",
     "insert-talent-managers": "tsx scripts/insert-talent-managers.ts",
     "microlink:fetch": "tsx scripts/explore-microlink.ts fetch",
     "microlink:insights": "tsx scripts/explore-microlink.ts insights",

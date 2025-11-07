@@ -163,7 +163,7 @@ export function VendorEditForm({
         status: "Pending" as const, // Always set to Pending for vendor edits
         is_claimed: !!listing.is_claimed,
         is_active: listing.is_active ?? true,
-      } as z.infer<typeof UpdateListingSchema>;
+      } as any;
 
       console.log("Sending update with fullValues:", fullValues);
 

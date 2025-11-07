@@ -91,9 +91,9 @@ export function VendorEditForm({
       ca_permit_required: listing.ca_permit_required || false,
       is_bonded: listing.is_bonded || false,
       bond_number: listing.bond_number || "",
-      categories: listing.categories || [],
-      age_range: listing.age_range || [],
-      region: listing.region || [],
+      categories: Array.isArray(listing.categories) ? listing.categories.join(", ") : (listing.categories || ""),
+      age_range: Array.isArray(listing.age_range) ? listing.age_range.join(", ") : (listing.age_range || ""),
+      region: Array.isArray(listing.region) ? listing.region.join(", ") : (listing.region || ""),
       profile_image: listing.profile_image || "",
       gallery: typeof listing.gallery === "string" ? listing.gallery : JSON.stringify(listing.gallery || []),
       status: (listing.status === "Live" || listing.status === "Pending" || listing.status === "Draft" || listing.status === "Archived" || listing.status === "Rejected"
@@ -111,10 +111,11 @@ export function VendorEditForm({
   const isPro = plan === "pro" || plan === "founding pro" || listing.comped;
 
   const handleCategoryToggle = (categoryId: string) => {
-    const current = form.getValues("categories") || [];
-    const newCategories = current.includes(categoryId)
-      ? current.filter((c) => c !== categoryId)
-      : [...current, categoryId];
+    const currentStr = form.getValues("categories") || "";
+    const currentArray = currentStr ? currentStr.split(", ").filter(Boolean) : [];
+    const newCategories = currentArray.includes(categoryId)
+      ? currentArray.filter((c) => c !== categoryId)
+      : [...currentArray, categoryId];
 
     // Free tier: limit to 1 category
     if (isFree && newCategories.length > 1) {
@@ -122,15 +123,16 @@ export function VendorEditForm({
       return;
     }
 
-    form.setValue("categories", newCategories);
+    form.setValue("categories", newCategories.join(", "));
   };
 
   const handleTagToggle = (tag: string, field: "age_range" | "region") => {
-    const current = form.getValues(field) || [];
-    const newTags = current.includes(tag)
-      ? current.filter((t) => t !== tag)
-      : [...current, tag];
-    form.setValue(field, newTags);
+    const currentStr = form.getValues(field) || "";
+    const currentArray = currentStr ? currentStr.split(", ").filter(Boolean) : [];
+    const newTags = currentArray.includes(tag)
+      ? currentArray.filter((t) => t !== tag)
+      : [...currentArray, tag];
+    form.setValue(field, newTags.join(", "));
   };
 
   const onSubmit = (values: z.infer<typeof UpdateListingSchema>) => {
@@ -145,17 +147,17 @@ export function VendorEditForm({
         ? JSON.stringify(galleryImages.filter(Boolean))
         : (typeof galleryImages === "string" ? galleryImages : JSON.stringify([]));
 
-      // Convert arrays to comma-separated strings for schema validation
-      const categoriesArray = Array.isArray(values.categories) ? values.categories : [];
-      const ageRangeArray = Array.isArray(values.age_range) ? values.age_range : [];
-      const regionArray = Array.isArray(values.region) ? values.region : [];
+      // Values are already strings (from form state), but ensure they're strings
+      const categoriesStr = typeof values.categories === "string" ? values.categories : (Array.isArray(values.categories) ? values.categories.join(", ") : "");
+      const ageRangeStr = typeof values.age_range === "string" ? values.age_range : (Array.isArray(values.age_range) ? values.age_range.join(", ") : "");
+      const regionStr = typeof values.region === "string" ? values.region : (Array.isArray(values.region) ? values.region.join(", ") : "");
 
       const fullValues: z.infer<typeof UpdateListingSchema> = {
         ...values,
-        // Convert arrays to comma-separated strings (schema expects strings)
-        categories: categoriesArray.join(", ") as any,
-        age_range: ageRangeArray.join(", ") as any,
-        region: regionArray.join(", ") as any,
+        // Ensure these are strings (schema expects strings)
+        categories: categoriesStr,
+        age_range: ageRangeStr,
+        region: regionStr,
         profile_image: profileImageId || "",
         gallery: galleryString,
         status: "Pending" as const, // Always set to Pending for vendor edits
@@ -473,9 +475,9 @@ export function VendorEditForm({
           {categories.map((category) => (
             <label key={category.id} className="flex items-center space-x-2">
               <Checkbox
-                checked={(form.watch("categories") || []).includes(category.id)}
+                checked={(form.watch("categories") || "").split(", ").includes(category.id)}
                 onCheckedChange={() => handleCategoryToggle(category.id)}
-                disabled={isPending || (isFree && !(form.watch("categories") || []).includes(category.id) && (form.watch("categories") || []).length >= 1)}
+                disabled={isPending || (isFree && !(form.watch("categories") || "").split(", ").includes(category.id) && (form.watch("categories") || "").split(", ").filter(Boolean).length >= 1)}
               />
               <span className="text-sm">{category.category_name}</span>
             </label>
@@ -495,7 +497,7 @@ export function VendorEditForm({
           {["online", "in-person", "hybrid"].map((tag) => (
             <label key={tag} className="flex items-center space-x-2">
               <Checkbox
-                checked={(form.watch("age_range") || []).includes(tag)}
+                checked={(form.watch("age_range") || "").split(", ").includes(tag)}
                 onCheckedChange={() => handleTagToggle(tag, "age_range")}
                 disabled={isPending}
               />
@@ -531,7 +533,7 @@ export function VendorEditForm({
           ].map((tag) => (
             <label key={tag} className="flex items-center space-x-2">
               <Checkbox
-                checked={(form.watch("region") || []).includes(tag)}
+                checked={(form.watch("region") || "").split(", ").includes(tag)}
                 onCheckedChange={() => handleTagToggle(tag, "region")}
                 disabled={isPending}
               />

@@ -138,7 +138,7 @@ export function VendorEditForm({
     console.log("Form errors:", form.formState.errors);
     console.log("Profile image ID:", profileImageId);
     console.log("Gallery images:", galleryImages);
-    
+
     startTransition(() => {
       // Prepare gallery as JSON string
       const galleryString = Array.isArray(galleryImages)
@@ -150,12 +150,12 @@ export function VendorEditForm({
       const ageRangeArray = Array.isArray(values.age_range) ? values.age_range : [];
       const regionArray = Array.isArray(values.region) ? values.region : [];
 
-      const fullValues = {
+      const fullValues: z.infer<typeof UpdateListingSchema> = {
         ...values,
         // Convert arrays to comma-separated strings (schema expects strings)
-        categories: categoriesArray.join(", "),
-        age_range: ageRangeArray.join(", "),
-        region: regionArray.join(", "),
+        categories: categoriesArray.join(", ") as any,
+        age_range: ageRangeArray.join(", ") as any,
+        region: regionArray.join(", ") as any,
         profile_image: profileImageId || "",
         gallery: galleryString,
         status: "Pending" as const, // Always set to Pending for vendor edits
@@ -168,7 +168,7 @@ export function VendorEditForm({
       updateListing(listing.id, fullValues)
         .then((res) => {
           console.log("Update response:", res);
-          
+
           if (res.status === "error") {
             toast.error(res.message || "Failed to update listing");
             console.error("Update failed:", res.message);

@@ -134,33 +134,48 @@ export function VendorEditForm({
   };
 
   const onSubmit = (values: z.infer<typeof UpdateListingSchema>) => {
+    console.log("Form submitted with values:", values);
+    console.log("Form errors:", form.formState.errors);
+    console.log("Profile image ID:", profileImageId);
+    console.log("Gallery images:", galleryImages);
+    
     startTransition(() => {
       // Prepare gallery as JSON string
       const galleryString = Array.isArray(galleryImages)
         ? JSON.stringify(galleryImages.filter(Boolean))
-        : galleryImages;
+        : (typeof galleryImages === "string" ? galleryImages : JSON.stringify([]));
 
       const fullValues = {
         ...values,
-        profile_image: profileImageId,
+        profile_image: profileImageId || "",
         gallery: galleryString,
         status: "Pending" as const, // Always set to Pending for vendor edits
         is_claimed: !!listing.is_claimed,
         is_active: listing.is_active ?? true,
       };
 
-      updateListing(listing.id, fullValues).then((res) => {
-        if (res.status === "error") {
-          toast.error(res.message);
-        } else {
-          toast.success("Listing has been submitted for review.");
-          if (onFinished) {
-            onFinished();
-          } else if (redirectUrl) {
-            router.push(redirectUrl);
+      console.log("Sending update with fullValues:", fullValues);
+
+      updateListing(listing.id, fullValues)
+        .then((res) => {
+          console.log("Update response:", res);
+          
+          if (res.status === "error") {
+            toast.error(res.message || "Failed to update listing");
+            console.error("Update failed:", res.message);
+          } else {
+            toast.success("Listing has been submitted for review.");
+            if (onFinished) {
+              onFinished();
+            } else if (redirectUrl) {
+              router.push(redirectUrl);
+            }
           }
-        }
-      });
+        })
+        .catch((error) => {
+          console.error("Error in onSubmit:", error);
+          toast.error("An unexpected error occurred. Please try again.");
+        });
     });
   };
 

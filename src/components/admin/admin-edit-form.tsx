@@ -582,30 +582,109 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       <div>
         <h3 className="text-md font-semibold mb-2 text-ink">Categorization</h3>
         <div className="space-y-4">
-          <FormInput
-            id="categories"
-            label="Categories"
-            register={form.register}
-            error={form.formState.errors.categories}
-            disabled={isPending}
-            helpText="Enter values separated by a comma. E.g., Acting Coaches, Headshot Photographers"
-          />
-          <FormInput
-            id="age_range"
-            label="Age Range"
-            register={form.register}
-            error={form.formState.errors.age_range}
-            disabled={isPending}
-            helpText="Enter values separated by a comma. E.g., 5-8, 9-12, 13-17, 18+"
-          />
-          <FormInput
-            id="region"
-            label="Region"
-            register={form.register}
-            error={form.formState.errors.region}
-            disabled={isPending}
-            helpText="Enter values separated by a comma. E.g., West Coast, Southeast"
-          />
+          {/* Categories as Checkboxes */}
+          <div className="space-y-2">
+            <Label>Categories</Label>
+            <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border rounded p-3">
+              {categories.map((category) => {
+                const currentCategories = form.watch("categories")?.split(", ").filter(Boolean) || [];
+                const isChecked = currentCategories.includes(category.category_name);
+                
+                return (
+                  <label key={category.id} className="flex items-center space-x-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      disabled={isPending}
+                      onChange={(e) => {
+                        const current = currentCategories;
+                        const newCategories = e.target.checked
+                          ? [...current, category.category_name]
+                          : current.filter(c => c !== category.category_name);
+                        form.setValue("categories", newCategories.join(", "));
+                      }}
+                      className="rounded border-gray-300"
+                    />
+                    <span className="text-sm">{category.category_name}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Service Format Tags as Checkboxes */}
+          <div className="space-y-2">
+            <Label>Service Format Tags</Label>
+            <div className="space-y-2">
+              {["online", "in-person", "hybrid"].map((tag) => {
+                const currentTags = form.watch("age_range")?.split(", ").filter(Boolean) || [];
+                const isChecked = currentTags.includes(tag);
+                
+                return (
+                  <label key={tag} className="flex items-center space-x-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      disabled={isPending}
+                      onChange={(e) => {
+                        const current = currentTags;
+                        const newTags = e.target.checked
+                          ? [...current, tag]
+                          : current.filter(t => t !== tag);
+                        form.setValue("age_range", newTags.join(", "));
+                      }}
+                      className="rounded border-gray-300"
+                    />
+                    <span className="text-sm capitalize">{tag.replace("-", " ")}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Region as Checkboxes */}
+          <div className="space-y-2">
+            <Label>Region</Label>
+            <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border rounded p-3">
+              {[
+                "los-angeles",
+                "northern-california",
+                "pnw",
+                "new-mexico",
+                "arizona",
+                "texas",
+                "chicago",
+                "atlanta-southeast",
+                "new-orleans",
+                "florida",
+                "new-york",
+                "northeast-wilmington",
+                "global-online",
+              ].map((region) => {
+                const currentRegions = form.watch("region")?.split(", ").filter(Boolean) || [];
+                const isChecked = currentRegions.includes(region);
+                
+                return (
+                  <label key={region} className="flex items-center space-x-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      disabled={isPending}
+                      onChange={(e) => {
+                        const current = currentRegions;
+                        const newRegions = e.target.checked
+                          ? [...current, region]
+                          : current.filter(r => r !== region);
+                        form.setValue("region", newRegions.join(", "));
+                      }}
+                      className="rounded border-gray-300"
+                    />
+                    <span className="text-sm capitalize">{region.replace("-", " ")}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
 

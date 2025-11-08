@@ -10,6 +10,7 @@ import { siteConfig } from "@/config/site";
 import { getCategories, getCategoryIconsMap } from "@/data/categories";
 import { getItems } from "@/data/item-service";
 import { regionsList } from "@/data/regions";
+import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import {
   DEFAULT_SORT,
   ITEMS_PER_PAGE,
@@ -120,6 +121,11 @@ export default async function DirectoryPage({
       {/* Filters */}
       <Container className="pb-8">
         <DirectoryFilters className="mb-8" categories={categories} />
+      </Container>
+
+      {/* Featured Vendors */}
+      <Container className="py-16">
+        <HomeFeaturedListings />
       </Container>
 
       {/* Listings */}

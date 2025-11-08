@@ -104,7 +104,7 @@ export default async function HomeFeaturedListings() {
       .sort((a, b) =>
         (a.listing_name || "").localeCompare(b.listing_name || ""),
       ) // Alphabetical order
-      .slice(0, 3) // Limit to 3
+      .slice(0, 6) // Show 2 rows (6 items)
       .map((listing) => {
         // Resolve category UUIDs to names
         const resolvedCategories = (listing.categories || [])

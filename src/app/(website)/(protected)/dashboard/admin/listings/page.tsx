@@ -3,6 +3,7 @@ import { CompedToggle } from "@/components/admin/comped-toggle";
 import { ListingActions } from "@/components/admin/listing-actions";
 import { BulkResendButton } from "@/components/admin/bulk-resend-button";
 import { BulkResendClaimButton } from "@/components/admin/bulk-resend-claim-button";
+import { BulkResendRecentButton } from "@/components/admin/bulk-resend-recent-button";
 import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { Badge } from "@/components/ui/badge";
@@ -120,6 +121,15 @@ export default async function AdminListingsPage({
               <p className="text-sm text-paper/70">Send claim emails to all ~200 Headshot Photographers listings</p>
             </div>
             <BulkResendClaimButton />
+          </div>
+
+          {/* Bulk Resend for Recent Adds */}
+          <div className="bg-brand-blue/10 border border-brand-blue/20 rounded-lg p-4 flex items-center justify-between">
+            <div>
+              <p className="font-semibold text-paper">Bulk Resend (Recent Adds)</p>
+              <p className="text-sm text-paper/70">Send claim/upgrade emails to listings created in the last 6 hours</p>
+            </div>
+            <BulkResendRecentButton />
           </div>
 
           {/* Status Filter Tabs */}

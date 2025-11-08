@@ -1665,3 +1665,33 @@ Updated all public-facing help documentation to accurately reflect the passwordl
 
 ---
 
+## 2025-11-08 — Featured Listings: Two Rows on Home + Directory
+
+### Decision
+- Increase featured listings shown to 6 items (two rows of 3 on large screens).
+- Surface the same Featured Professionals section on the Directory page.
+
+### Rationale
+- Improves visibility for vetted vendors and aligns with marketing goals.
+- Reuses existing `HomeFeaturedListings` logic to avoid duplication and preserve design system.
+
+### Implementation
+- Home featured count increased:
+  - Updated `src/components/home/home-featured-listings.tsx` to slice 6 items instead of 3.
+- Directory featured section added:
+  - Imported and rendered `HomeFeaturedListings` in `src/app/(website)/(public)/directory/page.tsx` (after filters, before listings).
+
+### Design System Notes
+- Background is navy on both pages; component uses cards with proper contrast (Bauhaus tokens).
+- Kept existing heading "Featured Professionals" for consistency across pages.
+
+### Verification
+- Lint checks passed for modified files.
+- Component remains a Client Component (`"use client"`) via `featured-listings-client.tsx` per `.cursor/rules/fix_featured_listings.md`.
+
+### Files Changed
+- `src/components/home/home-featured-listings.tsx`
+- `src/app/(website)/(public)/directory/page.tsx`
+
+---
+

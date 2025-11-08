@@ -288,13 +288,12 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           };
 
           // Attach images and compliance fields
-          // Use form value directly to avoid state timing issues
+          // Use form values directly to avoid state timing issues
           serverValues.profile_image = form.getValues("profile_image") || "";
-          serverValues.gallery = JSON.stringify(
-            galleryImages.filter((g) => g && g.length > 0),
-          );
+          serverValues.gallery = form.getValues("gallery") || "[]";
 
           console.log("[Admin Edit] Submitting with profile_image:", serverValues.profile_image);
+          console.log("[Admin Edit] Submitting with gallery:", serverValues.gallery);
           console.log("[Admin Edit] Server values:", serverValues);
 
           updateListing(
@@ -539,7 +538,11 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             <GalleryUpload
               maxImages={4}
               currentImages={galleryImages}
-              onImagesChange={setGalleryImages}
+              onImagesChange={(images) => {
+                console.log("[Admin Edit] Gallery images changed:", images);
+                setGalleryImages(images);
+                form.setValue("gallery", JSON.stringify(images.filter(Boolean)));
+              }}
               onUploadingChange={setIsGalleryUploading}
             />
             <p className="text-xs text-ink mt-1">

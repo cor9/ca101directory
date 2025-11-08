@@ -23,7 +23,7 @@ export default function HomeParentCta() {
           <Card className="text-center bauhaus-card bg-surface hover:shadow-xl transition-shadow duration-300">
             <CardHeader>
               <HeartIcon className="h-12 w-12 text-tomato-red mx-auto mb-3" />
-              <CardTitle className="text-xl font-bold text-ink">Save Your Favorites</CardTitle>
+              <CardTitle className="text-xl font-bold text-gray-900">Save Your Favorites</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-surface leading-relaxed">
@@ -37,7 +37,7 @@ export default function HomeParentCta() {
           <Card className="text-center bauhaus-card bg-surface hover:shadow-xl transition-shadow duration-300">
             <CardHeader>
               <StarIcon className="h-12 w-12 text-bauhaus-blue mx-auto mb-3 fill-bauhaus-blue" />
-              <CardTitle className="text-xl font-bold text-ink">Write & Read Reviews</CardTitle>
+              <CardTitle className="text-xl font-bold text-gray-900">Write & Read Reviews</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-surface leading-relaxed">
@@ -51,7 +51,7 @@ export default function HomeParentCta() {
           <Card className="text-center bauhaus-card bg-surface hover:shadow-xl transition-shadow duration-300">
             <CardHeader>
               <CheckCircleIcon className="h-12 w-12 text-mustard-gold mx-auto mb-3" />
-              <CardTitle className="text-xl font-bold text-ink">Track Your Journey</CardTitle>
+              <CardTitle className="text-xl font-bold text-gray-900">Track Your Journey</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-surface leading-relaxed">

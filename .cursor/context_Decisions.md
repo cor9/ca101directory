@@ -1695,3 +1695,43 @@ Updated all public-facing help documentation to accurately reflect the passwordl
 
 ---
 
+## 2025-11-08 — Directory Counts, Headshot Duplicates, and Category Synonyms
+
+### Problem
+- Category index counts and headshot photographers pages were inaccurate due to:
+  - Counting logic on the category index not matching Live/active filters
+  - Category naming variants (e.g., “Headshot Photographers” vs “Headshot Photographer”)
+  - Duplicate entries (free + paid versions, unclaimed + claimed)
+
+### Decisions
+- Keep Directory and Category totals based on Live + active + deduped results to reflect the public-facing catalog (not raw DB counts).
+- Normalize category variants for querying and counts (synonyms).
+- Deduplicate conservatively across the entire catalog; for headshot photographers, also dedup strictly by `listing_name` to remove doubles without collapsing valid entries.
+
+### Implementation
+- Category synonyms merged during data fetch:
+  - `src/data/item-service.ts`: merge “Headshot Photographers/Photographer”, “Self Tape Support/Self‑Tape Support”, “Demo Reel Editors/Reel Editors”
+  - For headshot photographers only: dedup strictly by `listing_name` within the merged result set
+- Robust dedup pipeline:
+  - `src/data/listings.ts`: canonical dedup key priority:
+    1) normalized `website`
+    2) normalized `email`
+    3) `owner_id + listing_name` (dedup free vs paid pairs)
+    4) `listing_name + city/state` when present
+    5) fallback to `id` (no dedup for sparse records)
+  - Keep the “best” listing by featured > plan tier (Premium/Pro/Founding Pro > Standard/Founding Standard > Free) > comped > claimed
+
+### Impact
+- Headshot photographers page now reports correct totals and removes doubles.
+- Directory total shows deduped, public count (not raw DB), hence differs from `COUNT(*)`.
+- Category index and per-category pages are now aligned on Live/active logic and synonyms.
+
+### Files Changed
+- `src/data/item-service.ts`
+- `src/data/listings.ts`
+
+### Follow-ups
+- If we want the dashboard header to show raw totals, switch to a direct SQL aggregate for that widget only.
+
+---
+

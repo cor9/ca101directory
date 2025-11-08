@@ -62,69 +62,68 @@ export type Listing = {
 };
 
 /**
- * Filter out duplicate free listings when user has upgraded
+ * Filter out duplicate listings across free/paid and unclaimed/claimed.
+ * Uses a canonical dedup key: normalized website -> email -> name+city+state.
+ * Keeps the single "best" version by featured/plan priority/claimed status.
  */
 function filterDuplicateListings(listings: Listing[]): Listing[] {
-  // Group listings by owner_id and listing_name
-  const listingGroups = new Map<string, Listing[]>();
-  const unclaimedListings: Listing[] = [];
-
-  for (const listing of listings) {
-    if (!listing.listing_name) continue;
-
-    // Handle unclaimed listings (no owner_id) separately
-    if (!listing.owner_id) {
-      unclaimedListings.push(listing);
-      continue;
-    }
-
-    const key = `${listing.owner_id}-${listing.listing_name.toLowerCase().trim()}`;
-    if (!listingGroups.has(key)) {
-      listingGroups.set(key, []);
-    }
-    const group = listingGroups.get(key);
-    if (group) {
-      group.push(listing);
-    }
-  }
-
-  // For each group, keep only the highest plan listing
-  const filteredListings: Listing[] = [];
-  const planPriority = {
-    Pro: 4,
-    "Founding Pro": 4,
-    Standard: 3,
-    "Founding Standard": 3,
-    Free: 1,
+  const normalizeUrl = (url?: string | null): string | null => {
+    if (!url) return null;
+    const trimmed = url.trim().toLowerCase();
+    // strip scheme and trailing slash
+    return trimmed
+      .replace(/^https?:\/\//, "")
+      .replace(/\/$/, "")
+      .replace(/^www\./, "");
   };
 
-  for (const group of Array.from(listingGroups.values())) {
-    if (group.length === 1) {
-      filteredListings.push(group[0]);
-    } else {
-      // Sort by plan priority (highest first) and keep the best one
-      const sortedGroup = group.sort((a, b) => {
-        const aPriority =
-          planPriority[a.plan as keyof typeof planPriority] || 1;
-        const bPriority =
-          planPriority[b.plan as keyof typeof planPriority] || 1;
-        return bPriority - aPriority;
-      });
-      filteredListings.push(sortedGroup[0]);
+  const normalizeEmail = (email?: string | null): string | null =>
+    email ? email.trim().toLowerCase() : null;
 
-      console.log(
-        `Filtered duplicate listings for ${group[0].listing_name}: kept ${sortedGroup[0].plan}, hidden ${group
-          .slice(1)
-          .map((l) => l.plan)
-          .join(", ")}`,
-      );
+  const makeKey = (l: Listing): string => {
+    const web = normalizeUrl(l.website);
+    if (web) return `w:${web}`;
+    const mail = normalizeEmail(l.email);
+    if (mail) return `e:${mail}`;
+    const name = (l.listing_name || "").toLowerCase().trim();
+    const city = (l.city || "").toLowerCase().trim();
+    const state = (l.state || "").toLowerCase().trim();
+    return `n:${name}|${city}|${state}`;
+  };
+
+  const planPriority: Record<string, number> = {
+    pro: 4,
+    "founding pro": 4,
+    premium: 4,
+    standard: 3,
+    "founding standard": 3,
+    free: 1,
+  };
+
+  const score = (l: Listing): number => {
+    const featured = l.featured ? 1000 : 0;
+    const comp = l.comped ? 50 : 0;
+    const plan = planPriority[(l.plan || "free").toLowerCase()] || 1;
+    const claimed = l.owner_id ? 10 : 0;
+    return featured + plan * 10 + comp + claimed;
+  };
+
+  const bestByKey = new Map<string, Listing>();
+
+  for (const l of listings) {
+    const key = makeKey(l);
+    const existing = bestByKey.get(key);
+    if (!existing) {
+      bestByKey.set(key, l);
+      continue;
+    }
+    // Keep the better-scored listing
+    if (score(l) > score(existing)) {
+      bestByKey.set(key, l);
     }
   }
 
-  // Add all unclaimed listings back (they don't have duplicates by owner)
-  filteredListings.push(...unclaimedListings);
-
-  return filteredListings;
+  return Array.from(bestByKey.values());
 }
 
 export async function getPublicListings(params?: {

@@ -216,12 +216,61 @@ export async function getItems({
     );
 
     // Get all listings from Supabase
-    const allListings = await getPublicListings({
+    let allListings = await getPublicListings({
       q: query,
       region,
       state,
       category,
     });
+
+    // Category synonym handling (fixes page count for categories with naming variants)
+    // Example: "Headshot Photographers" vs "Headshot Photographer"
+    if (category) {
+      const normalize = (v: string) => v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+      const catNorm = normalize(category);
+      const synonymsMap: Record<string, string[]> = {
+        headshotphotographers: ["Headshot Photographers", "Headshot Photographer"],
+        headshotphotographer: ["Headshot Photographers", "Headshot Photographer"],
+        selftapesupport: ["Self Tape Support", "Self-Tape Support"],
+        selftapesupportdash: ["Self Tape Support", "Self-Tape Support"],
+        demoreeleditors: ["Demo Reel Editors", "Reel Editors"],
+        reeleditors: ["Demo Reel Editors", "Reel Editors"],
+      };
+      // Support multiple keys pointing to same synonym set
+      const synonymKey =
+        catNorm in synonymsMap
+          ? catNorm
+          : ((): string | null => {
+              if (catNorm === "selftapesupport") return "selftapesupport";
+              if (catNorm === "selftapeSupport") return "selftapesupport";
+              if (catNorm === "selftapesupport") return "selftapesupport";
+              if (catNorm === "selftapesupport") return "selftapesupport";
+              return null;
+            })();
+
+      const synonyms =
+        synonymsMap[catNorm] ||
+        (catNorm === "selftapeSupport" ? synonymsMap["selftapesupport"] : undefined);
+
+      if (synonyms && synonyms.length > 0) {
+        // Merge listings for all synonyms, then de-duplicate by id
+        const results = await Promise.all(
+          synonyms.map((c) =>
+            getPublicListings({
+              q: query,
+              region,
+              state,
+              category: c,
+            }),
+          ),
+        );
+        const merged = new Map<string, (typeof allListings)[number]>();
+        for (const list of results) {
+          for (const l of list) merged.set(l.id, l);
+        }
+        allListings = Array.from(merged.values());
+      }
+    }
 
     // Apply additional filters
     let filteredListings = allListings;

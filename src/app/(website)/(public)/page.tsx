@@ -111,7 +111,10 @@ export default async function HomePage() {
           <HomeHowItWorks />
         </Container>
 
-        {/* 6. Newsletter Signup (Families) */}
+        {/* 6. Parent Account CTA - Save Favorites & Write Reviews */}
+        <HomeParentCta />
+
+        {/* 7. Newsletter Signup (Families) */}
         <Container className="py-16">
           <NewsletterCard />
         </Container>

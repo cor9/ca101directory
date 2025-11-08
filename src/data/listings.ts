@@ -85,10 +85,19 @@ function filterDuplicateListings(listings: Listing[]): Listing[] {
     if (web) return `w:${web}`;
     const mail = normalizeEmail(l.email);
     if (mail) return `e:${mail}`;
+    // Dedup free vs paid for same owner/name
+    if (l.owner_id && l.listing_name) {
+      return `o:${l.owner_id}:${(l.listing_name || "").toLowerCase().trim()}`;
+    }
+    // Only use name+location when we have enough signal
     const name = (l.listing_name || "").toLowerCase().trim();
     const city = (l.city || "").toLowerCase().trim();
     const state = (l.state || "").toLowerCase().trim();
-    return `n:${name}|${city}|${state}`;
+    if (name && (city || state)) {
+      return `n:${name}|${city}|${state}`;
+    }
+    // Fallback: do not dedup - unique per id
+    return `id:${l.id}`;
   };
 
   const planPriority: Record<string, number> = {

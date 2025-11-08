@@ -288,12 +288,14 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           };
 
           // Attach images and compliance fields
-          serverValues.profile_image = profileImageUrl || "";
+          // Use form value directly to avoid state timing issues
+          serverValues.profile_image = form.getValues("profile_image") || "";
           serverValues.gallery = JSON.stringify(
             galleryImages.filter((g) => g && g.length > 0),
           );
 
-          console.log("Server values:", serverValues);
+          console.log("[Admin Edit] Submitting with profile_image:", serverValues.profile_image);
+          console.log("[Admin Edit] Server values:", serverValues);
 
           updateListing(
             listing.id,
@@ -519,6 +521,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
                 onUploadChange={(status) => {
                   setIsImageUploading(status.isUploading);
                   if (status.imageId) {
+                    console.log("[Admin Edit] Profile image uploaded:", status.imageId);
                     setProfileImageUrl(status.imageId);
                     form.setValue("profile_image", status.imageId);
                   }

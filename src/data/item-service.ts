@@ -269,6 +269,41 @@ export async function getItems({
           for (const l of list) merged.set(l.id, l);
         }
         allListings = Array.from(merged.values());
+
+        // For Headshot Photographers, dedup strictly by listing_name to avoid doubles
+        const isHeadshotCategory =
+          synonyms.includes("Headshot Photographers") ||
+          synonyms.includes("Headshot Photographer");
+        if (isHeadshotCategory) {
+          const nameKey = (n?: string | null) => (n || "").trim().toLowerCase();
+          const planScore = (plan?: string | null, comped?: boolean | null) => {
+            const p = (plan || "Free").toLowerCase();
+            if (p === "premium" || p === "pro" || p === "founding pro") return 3;
+            if (p === "standard" || p === "founding standard") return 2;
+            return 1;
+          };
+          const score = (l: (typeof allListings)[number]) =>
+            (l.featured ? 1000 : 0) +
+            planScore(l.plan, l.comped) * 10 +
+            (l.comped ? 5 : 0) +
+            (l.owner_id ? 2 : 0);
+
+          const byName = new Map<string, (typeof allListings)[number]>();
+          for (const l of allListings) {
+            const key = nameKey(l.listing_name);
+            if (!key) {
+              // Keep entries without a name as-is under unique key
+              byName.set(`${l.id}`, l);
+              continue;
+            }
+            const existing = byName.get(key);
+            if (!existing || score(l) > score(existing)) {
+              byName.set(key, l);
+            }
+          }
+          // Keep only the values
+          allListings = Array.from(byName.values());
+        }
       }
     }
 

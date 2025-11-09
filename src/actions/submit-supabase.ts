@@ -201,6 +201,7 @@ export async function submitToSupabase(
 
     let data: { id: string } | null;
     let error: { message: string } | null;
+    let wasLiveBeforeEdit = false; // Track if listing was Live before editing
 
     if (formData.isEdit && formData.listingId) {
       // Update existing listing
@@ -212,6 +213,9 @@ export async function submitToSupabase(
         .select("status, plan")
         .eq("id", formData.listingId)
         .single();
+
+      // Track if listing was Live (will need review after edit)
+      wasLiveBeforeEdit = currentListingStatus?.status === "Live";
 
       // Get current listing to preserve ownership and claimed status
       const { data: currentListing } = await supabase
@@ -344,14 +348,20 @@ export async function submitToSupabase(
         });
     }
 
-    // Notify admin of submission/update (non-blocking)
-    sendAdminSubmissionNotification(name, data.id, !!formData.isEdit)
-      .then(() => {
-        console.log("Admin notified of submission/update for:", name);
-      })
-      .catch((notifyError) => {
-        console.error("Failed to notify admin of submission:", notifyError);
-      });
+    // Notify admin only if submission requires review (Pending status)
+    // Paid plans are auto-approved (Live) and don't need admin review
+    const needsReview = formData.plan === "Free" ||
+                        (formData.isEdit && wasLiveBeforeEdit);
+
+    if (needsReview) {
+      sendAdminSubmissionNotification(name, data.id, !!formData.isEdit)
+        .then(() => {
+          console.log("Admin notified of submission/update for:", name);
+        })
+        .catch((notifyError) => {
+          console.error("Failed to notify admin of submission:", notifyError);
+        });
+    }
 
     // Discord notification (non-blocking)
     sendDiscordNotification(

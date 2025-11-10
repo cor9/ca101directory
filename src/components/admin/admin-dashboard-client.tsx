@@ -19,14 +19,23 @@ import { toast } from "sonner";
 
 interface AdminDashboardClientProps {
   allListings: Listing[];
+  totalListings: number;
+  totalUsers: number;
+  pendingReviews: number;
+  totalReviews: number;
 }
 
 export const AdminDashboardClient = ({
   allListings: initialListings,
+  totalListings,
+  totalUsers,
+  pendingReviews,
+  totalReviews,
 }: AdminDashboardClientProps) => {
   const router = useRouter();
   const [allListings, setAllListings] = useState(initialListings);
   const [editingListing, setEditingListing] = useState<Listing | null>(null);
+  const [updateError, setUpdateError] = useState<string | null>(null);
 
   useEffect(() => {
     setAllListings(initialListings);
@@ -40,6 +49,7 @@ export const AdminDashboardClient = ({
   );
 
   const handleReviewListing = (listing: Listing) => {
+    setUpdateError(null);
     setEditingListing(listing);
   };
 
@@ -49,13 +59,13 @@ export const AdminDashboardClient = ({
     setEditingListing(null);
 
     if (result.status === "success") {
+      setUpdateError(null);
       toast.success(result.message || "Listing updated successfully.");
       // Refresh server-side props to get the latest listings data
       router.refresh();
     } else {
-      if (result.message) {
-        toast.error(result.message);
-      }
+      const message = result.message || "Failed to update listing.";
+      setUpdateError(message);
     }
   };
 
@@ -83,10 +93,16 @@ export const AdminDashboardClient = ({
         <EmailVerificationTool />
 
         {/* Platform Stats */}
-        <div className="grid gap-4 md:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
           <div className="bg-card rounded-lg p-4 border">
-            <div className="text-2xl font-bold text-primary">0</div>
-            <div className="text-sm text-paper">Total Users</div>
+            <div className="text-2xl font-bold text-primary">{totalListings}</div>
+            <div className="text-sm text-paper">Total Listings</div>
+          </div>
+          <div className="bg-card rounded-lg p-4 border">
+            <div className="text-2xl font-bold text-primary">
+              {pendingListings.length}
+            </div>
+            <div className="text-sm text-paper">Pending Listings</div>
           </div>
           <div className="bg-card rounded-lg p-4 border">
             <div className="text-2xl font-bold text-primary">
@@ -95,23 +111,22 @@ export const AdminDashboardClient = ({
             <div className="text-sm text-paper">Active Listings</div>
           </div>
           <div className="bg-card rounded-lg p-4 border">
-            <div className="text-2xl font-bold text-primary">
-              {pendingListings.length}
-            </div>
-            <div className="text-sm text-paper">
-              Pending Listings
-            </div>
+            <div className="text-2xl font-bold text-primary">{totalUsers}</div>
+            <div className="text-sm text-paper">Total Users</div>
           </div>
           <div className="bg-card rounded-lg p-4 border">
-            <div className="text-2xl font-bold text-primary">0</div>
+            <div className="text-2xl font-bold text-primary">{pendingReviews}</div>
             <div className="text-sm text-paper">Pending Reviews</div>
+            <p className="text-xs text-paper/70 mt-1">
+              {totalReviews} total reviews submitted
+            </p>
           </div>
         </div>
 
         {/* Moderation Queue */}
         <div className="bg-muted/50 rounded-lg p-6">
           <h2 className="text-lg font-semibold mb-4">Moderation Queue</h2>
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             <div className="space-y-2">
               <h3 className="font-medium">Listing Moderation</h3>
               <div className="text-sm text-paper">
@@ -137,6 +152,21 @@ export const AdminDashboardClient = ({
                   className="text-sm text-primary hover:underline"
                 >
                   Review Applications →
+                </a>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <h3 className="font-medium">Review Moderation</h3>
+              <div className="text-sm text-paper">
+                {pendingReviews} review{pendingReviews === 1 ? "" : "s"} pending
+                approval
+              </div>
+              <div className="flex gap-2">
+                <a
+                  href="/dashboard/admin/reviews?status=pending"
+                  className="text-sm text-primary hover:underline"
+                >
+                  Moderate Reviews →
                 </a>
               </div>
             </div>
@@ -224,7 +254,11 @@ export const AdminDashboardClient = ({
         </div>
 
         {/* All Listings Table */}
-        <ListingsTable listings={allListings} onEdit={handleReviewListing} />
+        <ListingsTable
+          listings={allListings}
+          onEdit={handleReviewListing}
+          errorMessage={updateError}
+        />
       </div>
 
       <Dialog

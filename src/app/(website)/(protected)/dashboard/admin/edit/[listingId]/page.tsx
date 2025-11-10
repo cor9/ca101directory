@@ -1,10 +1,10 @@
-import { auth } from "@/auth";
 import { AdminEditForm } from "@/components/admin/admin-edit-form";
 import { ListingActions } from "@/components/admin/listing-actions";
-import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { getListingById } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
+import { currentUser } from "@/lib/auth";
+import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
@@ -28,13 +28,19 @@ interface AdminEditPageProps {
  * Allows admins to edit any listing regardless of ownership
  */
 export default async function AdminEditPage({ params }: AdminEditPageProps) {
-  const session = await auth();
+  const user = await currentUser();
 
-  if (!session?.user) {
+  if (!user?.id) {
     redirect(
       `/auth/login?callbackUrl=${encodeURIComponent(`/dashboard/admin/edit/${params.listingId}`)}`,
     );
   }
+
+  verifyDashboardAccess(
+    user,
+    "admin",
+    `/dashboard/admin/edit/${params.listingId}`,
+  );
 
   // Get the listing
   console.log("[Admin Edit] Attempting to fetch listing:", params.listingId);
@@ -57,29 +63,27 @@ export default async function AdminEditPage({ params }: AdminEditPageProps) {
   }
 
   return (
-    <DashboardGuard allowedRoles={["admin"]}>
-      <AdminDashboardLayout>
-        <div className="space-y-6">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h1 className="text-2xl font-bold">Edit Listing</h1>
-              <p className="text-paper">
-                Edit details for: {listing.listing_name}
-              </p>
-            </div>
-            <div className="shrink-0">
-              {/* Quick actions: Approve/Reject (if pending) and Resend email */}
-              <ListingActions
-                listingId={listing.id}
-                listingName={listing.listing_name || "Unnamed Listing"}
-                showApproveReject={listing.status === "Pending"}
-              />
-            </div>
+    <AdminDashboardLayout>
+      <div className="space-y-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold">Edit Listing</h1>
+            <p className="text-paper">
+              Edit details for: {listing.listing_name}
+            </p>
           </div>
-
-          <AdminEditForm listing={listing} />
+          <div className="shrink-0">
+            {/* Quick actions: Approve/Reject (if pending) and Resend email */}
+            <ListingActions
+              listingId={listing.id}
+              listingName={listing.listing_name || "Unnamed Listing"}
+              showApproveReject={listing.status === "Pending"}
+            />
+          </div>
         </div>
-      </AdminDashboardLayout>
-    </DashboardGuard>
+
+        <AdminEditForm listing={listing} />
+      </div>
+    </AdminDashboardLayout>
   );
 }

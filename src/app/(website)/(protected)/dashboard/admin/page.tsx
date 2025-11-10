@@ -35,13 +35,38 @@ export default async function AdminDashboard() {
 
   // Fetch listings
   const allListings = await getAdminListings();
+  const totalListings = allListings.length;
 
   // Fetch REAL user data from profiles table
   const supabase = createServerClient();
-  const { data: users } = await supabase
+  const { data: users, error: profilesError } = await supabase
     .from("profiles")
     .select("id, role")
     .order("created_at", { ascending: false });
+
+  if (profilesError) {
+    console.error("Failed to load profiles for admin dashboard:", profilesError);
+  }
+
+  const { count: totalReviewsCount, error: reviewsCountError } = await supabase
+    .from("reviews")
+    .select("id", { count: "exact", head: true });
+
+  if (reviewsCountError) {
+    console.error("Failed to load review count for admin dashboard:", reviewsCountError);
+  }
+
+  const { count: pendingReviewsCount, error: pendingReviewsError } = await supabase
+    .from("reviews")
+    .select("id", { count: "exact", head: true })
+    .eq("status", "pending");
+
+  if (pendingReviewsError) {
+    console.error(
+      "Failed to load pending review count for admin dashboard:",
+      pendingReviewsError,
+    );
+  }
 
   const totalUsers = users?.length || 0;
   const totalVendors = users?.filter((u) => u.role === "vendor").length || 0;
@@ -54,6 +79,9 @@ export default async function AdminDashboard() {
         totalUsers={totalUsers}
         totalVendors={totalVendors}
         totalAdmins={totalAdmins}
+        totalListings={totalListings}
+        totalReviews={totalReviewsCount ?? 0}
+        pendingReviews={pendingReviewsCount ?? 0}
       />
     </AdminDashboardLayout>
   );

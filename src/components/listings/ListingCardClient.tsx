@@ -71,12 +71,13 @@ export function ListingCardClient({
   // Plan-based sorting priority (Featured > Pro > Standard > Free)
   const getPlanPriority = (plan: string | null, comped: boolean | null) => {
     if (comped) return 3; // Comped listings are treated as Pro
-    switch (plan) {
-      case "premium":
-        return 4;
+    const p = (plan || "free").toLowerCase();
+    switch (p) {
       case "pro":
+      case "founding pro":
         return 3;
       case "standard":
+      case "founding standard":
         return 2;
       case "free":
         return 1;
@@ -119,19 +120,25 @@ export function ListingCardClient({
               let badgeClassName =
                 "text-xs font-medium bg-gray-100 text-paper dark:bg-gray-900 dark:text-paper";
 
-              if (listing.comped) {
+              if (listing.featured) {
+                badgeText = "Featured";
+                badgeClassName = "text-xs font-medium bg-tomato-red text-cream";
+              } else if (listing.comped) {
                 badgeText = "Pro";
                 badgeClassName = "text-xs font-medium bg-retro-blue text-cream";
-              } else if (listing.plan === "Pro") {
+              } else if (
+                (listing.plan || "").toLowerCase() === "pro" ||
+                (listing.plan || "").toLowerCase() === "founding pro"
+              ) {
                 badgeText = "Pro";
                 badgeClassName = "text-xs font-medium bg-retro-blue text-cream";
-              } else if (listing.plan === "Standard") {
+              } else if (
+                (listing.plan || "").toLowerCase() === "standard" ||
+                (listing.plan || "").toLowerCase() === "founding standard"
+              ) {
                 badgeText = "Standard";
                 badgeClassName =
                   "text-xs font-medium bg-mustard-gold text-cream";
-              } else if (listing.plan === "Premium") {
-                badgeText = "Featured";
-                badgeClassName = "text-xs font-medium bg-tomato-red text-cream";
               }
 
               return (

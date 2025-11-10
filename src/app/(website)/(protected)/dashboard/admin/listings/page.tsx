@@ -55,12 +55,13 @@ export default async function AdminListingsPage({
   const sortedListings = filteredListings.sort((a, b) => {
     const planPriority = (plan: string | null, comped: boolean | null) => {
       if (comped) return 3; // Comped listings are treated as Pro
-      switch (plan) {
-        case "premium":
-          return 4;
+      const p = (plan || "free").toLowerCase();
+      switch (p) {
         case "pro":
+        case "founding pro":
           return 3;
         case "standard":
+        case "founding standard":
           return 2;
         case "free":
           return 1;
@@ -222,11 +223,13 @@ export default async function AdminListingsPage({
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-blue-600">
-                  {
-                    sortedListings.filter(
-                      (l) => l.plan === "Pro" || l.plan === "Premium",
-                    ).length
-                  }
+                  {sortedListings.filter(
+                    (l) =>
+                      l.featured === true ||
+                      l.comped === true ||
+                      (l.plan || "").toLowerCase() === "pro" ||
+                      (l.plan || "").toLowerCase() === "founding pro",
+                  ).length}
                 </div>
               </CardContent>
             </Card>
@@ -271,21 +274,27 @@ export default async function AdminListingsPage({
                             let badgeText = "Free";
                             let badgeClassName = "text-xs bg-gray-100 text-ink";
 
-                            if (listing.comped) {
-                              badgeText = "Pro";
-                              badgeClassName =
-                                "text-xs bg-brand-blue text-white";
-                            } else if (listing.plan === "Pro") {
-                              badgeText = "Pro";
-                              badgeClassName =
-                                "text-xs bg-brand-blue text-white";
-                            } else if (listing.plan === "Standard") {
-                              badgeText = "Standard";
-                              badgeClassName = "text-xs bg-gray-100 text-ink";
-                            } else if (listing.plan === "Premium") {
+                            if (listing.featured) {
                               badgeText = "Featured";
                               badgeClassName =
                                 "text-xs bg-brand-orange text-white";
+                            } else if (listing.comped) {
+                              badgeText = "Pro";
+                              badgeClassName =
+                                "text-xs bg-brand-blue text-white";
+                            } else if (
+                              (listing.plan || "").toLowerCase() === "pro" ||
+                              (listing.plan || "").toLowerCase() === "founding pro"
+                            ) {
+                              badgeText = "Pro";
+                              badgeClassName =
+                                "text-xs bg-brand-blue text-white";
+                            } else if (
+                              (listing.plan || "").toLowerCase() === "standard" ||
+                              (listing.plan || "").toLowerCase() === "founding standard"
+                            ) {
+                              badgeText = "Standard";
+                              badgeClassName = "text-xs bg-gray-100 text-ink";
                             }
 
                             return (

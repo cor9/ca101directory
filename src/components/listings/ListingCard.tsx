@@ -61,12 +61,13 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
   // Plan-based sorting priority (Featured > Pro > Standard > Free)
   const getPlanPriority = (plan: string | null, comped: boolean | null) => {
     if (comped) return 3; // Comped listings are treated as Pro
-    switch (plan) {
-      case "premium":
-        return 4;
+    const p = (plan || "free").toLowerCase();
+    switch (p) {
       case "pro":
+      case "founding pro":
         return 3;
       case "standard":
+      case "founding standard":
         return 2;
       case "free":
         return 1;
@@ -104,7 +105,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
     <Card
       className={cn(
         "group hover:shadow-lg transition-all duration-300 surface border-surface/20",
-        planPriority >= 3 && "ring-1 ring-primary-orange/20",
+        (listing.featured || planPriority >= 3) && "ring-1 ring-primary-orange/20",
         className,
       )}
     >
@@ -157,22 +158,28 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
                     | "outline" = "outline";
                   let badgeClassName = "text-xs bg-gray-100 text-paper";
 
-                  if (listing.comped) {
-                    badgeText = "Pro";
-                    badgeVariant = "default";
-                    badgeClassName = "text-xs bg-primary-orange text-paper";
-                  } else if (listing.plan === "Pro") {
-                    badgeText = "Pro";
-                    badgeVariant = "default";
-                    badgeClassName = "text-xs bg-primary-orange text-paper";
-                  } else if (listing.plan === "Standard") {
-                    badgeText = "Standard";
-                    badgeVariant = "secondary";
-                    badgeClassName = "text-xs bg-highlight text-ink";
-                  } else if (listing.plan === "Premium") {
+                  if (listing.featured) {
                     badgeText = "Featured";
                     badgeVariant = "default";
                     badgeClassName = "text-xs bg-primary-orange text-paper";
+                  } else if (listing.comped) {
+                    badgeText = "Pro";
+                    badgeVariant = "default";
+                    badgeClassName = "text-xs bg-primary-orange text-paper";
+                  } else if (
+                    (listing.plan || "").toLowerCase() === "pro" ||
+                    (listing.plan || "").toLowerCase() === "founding pro"
+                  ) {
+                    badgeText = "Pro";
+                    badgeVariant = "default";
+                    badgeClassName = "text-xs bg-primary-orange text-paper";
+                  } else if (
+                    (listing.plan || "").toLowerCase() === "standard" ||
+                    (listing.plan || "").toLowerCase() === "founding standard"
+                  ) {
+                    badgeText = "Standard";
+                    badgeVariant = "secondary";
+                    badgeClassName = "text-xs bg-highlight text-ink";
                   }
 
                   return (

@@ -154,9 +154,9 @@ export function ListingCardClient({
             <div className="absolute top-2 right-2">
               <Badge
                 variant="secondary"
-                className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs font-medium"
+                className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-gray-900 text-xs font-medium"
               >
-                <CheckCircleIcon className="h-3 w-3 mr-1" />
+                <CheckCircleIcon className="h-3 w-3 mr-1 text-gray-900" />
                 101 Approved
               </Badge>
             </div>

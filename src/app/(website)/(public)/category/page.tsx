@@ -89,14 +89,14 @@ export default async function CategoryPage() {
 
     // Count listings per normalized canonical category (filter out UUID-like)
     const categoryCounts: Record<string, number> = {};
-    const uuidLike = (v: string) =>
+    const isUuidLike = (v: string) =>
       /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
         v.trim(),
       );
     for (const listing of listings) {
       const cats = listing.categories || [];
       for (const cat of cats) {
-        if (!cat || uuidLike(cat)) continue;
+        if (!cat || isUuidLike(cat)) continue;
         const keyNorm = normalize(cat);
         const canonical = synonyms[keyNorm] || keyNorm;
         categoryCounts[canonical] = (categoryCounts[canonical] || 0) + 1;

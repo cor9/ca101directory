@@ -55,6 +55,7 @@ export async function POST(request: NextRequest) {
       let listingId = session.metadata?.listing_id;
       let plan = session.metadata?.plan;
       let billingCycle = session.metadata?.billing_cycle;
+      const listingSlug = session.metadata?.listing_slug;
 
       // For Stripe Pricing Table checkouts, listing_id comes from client_reference_id
       if (!listingId && session.client_reference_id) {
@@ -193,62 +194,37 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ received: true, skipped: true });
       }
 
-      // If no vendorId, store payment info on listing for later claim
-      if (!vendorId && session.customer_details?.email) {
-        console.log(
-          "[Webhook] No user account yet, storing payment info on listing for claim after signup:",
-          {
-            listingId,
-            plan,
-            customerEmail: session.customer_details?.email,
-          },
-        );
+      if (!vendorId) {
+        console.error("[Webhook] Missing vendor_id metadata", {
+          listingId,
+          customerEmail: session.customer_details?.email,
+        });
 
         try {
-          // Update listing with pending payment info
-          const { error: listingError } = await supabase
-            .from("listings")
-            .update({
-              plan: plan,
-              // Store payment email so we can match it after signup
-              pending_claim_email: session.customer_details.email,
-              stripe_session_id: session.id,
-              updated_at: new Date().toISOString(),
-            })
-            .eq("id", listingId);
-
-          if (listingError) {
-            console.error("Error storing pending claim info:", listingError);
-          } else {
-            console.log("✅ Stored pending claim info, awaiting user signup");
-          }
-
-          // Acknowledge receipt
-          return NextResponse.json({
-            received: true,
-            pending_signup: true,
-            message: "Payment received, awaiting user account creation",
-          });
-        } catch (err) {
-          console.error("[Webhook] Error storing pending claim:", err);
-          return NextResponse.json({
-            received: true,
-            error: "Could not store pending claim",
-          });
+          await sendDiscordNotification("⚠️ Stripe checkout missing vendor", [
+            {
+              name: "Listing",
+              value: listingId || session.client_reference_id || "unknown",
+              inline: false,
+            },
+            {
+              name: "Email",
+              value: session.customer_details?.email || "unknown",
+              inline: true,
+            },
+            {
+              name: "Session",
+              value: `\`${session.id}\``,
+              inline: false,
+            },
+          ]);
+        } catch (notifyErr) {
+          console.warn("Discord notification for missing vendor failed", notifyErr);
         }
-      }
 
-      if (!vendorId) {
-        console.error(
-          "[Webhook] Could not determine vendor_id and no email provided:",
-          {
-            listingId,
-            plan,
-          },
-        );
         return NextResponse.json({
           received: true,
-          error: "Could not determine vendor",
+          error: "Checkout session missing vendor metadata",
         });
       }
 
@@ -261,7 +237,7 @@ export async function POST(request: NextRequest) {
 
       try {
         // Verify vendor exists before proceeding
-        const { data: vendorExists, error: vendorCheckError} = await supabase
+        const { data: vendorExists, error: vendorCheckError } = await supabase
           .from("profiles")
           .select("id")
           .eq("id", vendorId)
@@ -323,7 +299,7 @@ export async function POST(request: NextRequest) {
             updated_at: new Date().toISOString(),
           })
           .eq("id", listingId)
-          .select();
+          .select("id, listing_name, plan, owner_id, slug");
 
         if (listingError) {
           console.error("[Webhook] ❌ Error updating listing:", listingError);
@@ -359,12 +335,8 @@ export async function POST(request: NextRequest) {
 
         // Notify admin non-blocking
         try {
-          const { data: listingData } = await supabase
-            .from("listings")
-            .select("listing_name")
-            .eq("id", listingId)
-            .single();
-          const listingName = listingData?.listing_name || listingId;
+          const listingName =
+            updatedListing?.[0]?.listing_name || listingId || "Unknown listing";
           await sendAdminUpgradeNotification(
             listingName,
             listingId,
@@ -387,10 +359,13 @@ export async function POST(request: NextRequest) {
               { name: "User", value: userName, inline: true },
               { name: "Amount", value: `$${amount.toFixed(2)}`, inline: true },
               { name: "Listing", value: listingName, inline: false },
+              listingSlug
+                ? { name: "Listing URL", value: `/listing/${listingSlug}`, inline: false }
+                : undefined,
               { name: "Plan", value: plan, inline: true },
               { name: "Billing", value: billingCycle || "N/A", inline: true },
               { name: "Session", value: `\`${session.id}\``, inline: false },
-            ]);
+            ].filter(Boolean) as { name: string; value: string; inline: boolean }[]);
           } catch (discordErr) {
             console.warn("Discord notification failed:", discordErr);
           }

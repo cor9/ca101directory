@@ -72,23 +72,38 @@ export default async function CategoryPage() {
       sampleListing: listings?.[0],
     });
 
-    // Count listings per category
+    const normalize = (v: string) =>
+      v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+    // Synonyms map to unify variant names under canonical category keys
+    const synonyms: Record<string, string> = {
+      // Headshots
+      [normalize("Headshot Photographers")]: normalize("Headshot Photographers"),
+      [normalize("Headshot Photographer")]: normalize("Headshot Photographers"),
+      // Self Tape
+      [normalize("Self Tape Support")]: normalize("Self Tape Support"),
+      [normalize("Self-Tape Support")]: normalize("Self Tape Support"),
+      // Demo Reel
+      [normalize("Demo Reel Editors")]: normalize("Demo Reel Editors"),
+      [normalize("Reel Editors")]: normalize("Demo Reel Editors"),
+    };
+
+    // Count listings per normalized canonical category (filter out UUID-like)
     const categoryCounts: Record<string, number> = {};
+    const uuidLike = (v: string) =>
+      /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
+        v.trim(),
+      );
     for (const listing of listings) {
-      if (listing.categories) {
-        // categories is now an array, no need to split
-        for (const category of listing.categories) {
-          const trimmedCategory = category.trim();
-          categoryCounts[trimmedCategory] =
-            (categoryCounts[trimmedCategory] || 0) + 1;
-        }
+      const cats = listing.categories || [];
+      for (const cat of cats) {
+        if (!cat || uuidLike(cat)) continue;
+        const keyNorm = normalize(cat);
+        const canonical = synonyms[keyNorm] || keyNorm;
+        categoryCounts[canonical] = (categoryCounts[canonical] || 0) + 1;
       }
     }
 
-    console.log("Category counts:", categoryCounts);
-
-    const normalize = (v: string) =>
-      v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+    console.log("Category counts (normalized):", categoryCounts);
     const pngByName: Record<string, string | undefined> = {};
     const pngById: Record<string, string | undefined> = {};
     const uuidLike = (v: string) =>
@@ -130,7 +145,10 @@ export default async function CategoryPage() {
           return customDescriptions[category.category_name] ||
             `${category.category_name} services`;
         })(),
-      count: categoryCounts[category.category_name] || 0,
+      count: (() => {
+        const key = normalize(category.category_name);
+        return categoryCounts[key] || 0;
+      })(),
       iconPngUrl: (() => {
         const byId = pngById[category.id];
         if (byId) return getCategoryIconUrl(byId);

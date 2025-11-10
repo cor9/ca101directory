@@ -1,10 +1,10 @@
 "use client";
 
-import { 
-  Facebook, 
-  Instagram, 
-  Linkedin, 
-  Youtube, 
+import {
+  Facebook,
+  Instagram,
+  Linkedin,
+  Youtube,
   ExternalLink,
   Music, // For TikTok since lucide doesn't have TikTok icon
   PenTool // For Blog
@@ -44,11 +44,11 @@ const SocialLink = ({ url, icon, label, color, className }: SocialLinkProps) => 
   </a>
 );
 
-const SocialMediaIcons = ({ 
-  listing, 
+const SocialMediaIcons = ({
+  listing,
   className = "",
   iconSize = 20,
-  showLabels = true 
+  showLabels = true
 }: SocialMediaIconsProps) => {
   // Only show for paid tiers: Pro, Premium, Founding Pro, or Comped treated as Pro
   const plan = (listing.plan || '').toLowerCase();
@@ -70,7 +70,7 @@ const SocialMediaIcons = ({
     });
   }
 
-  // Instagram  
+  // Instagram
   if (listing.instagram_url) {
     socialLinks.push({
       url: listing.instagram_url,

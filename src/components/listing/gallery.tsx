@@ -42,8 +42,8 @@ export function Gallery({ listing }: GalleryProps) {
 
   return (
     <>
-      <div className="listing-card">
-        <h2 className="text-lg font-semibold mb-4" style={{ color: "#0C1A2B" }}>
+      <div className="listing-card-transparent">
+        <h2 className="text-xl font-semibold mb-4" style={{ color: "#fafadc" }}>
           Gallery
         </h2>
         {galleryImages.length > 0 ? (
@@ -88,7 +88,7 @@ export function Gallery({ listing }: GalleryProps) {
             ))}
           </div>
         ) : (
-          <div className="aspect-[4/3] bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+          <div className="aspect-[4/3] bg-gray-700 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-100">
             <p className="text-paper text-sm">No gallery images yet</p>
           </div>
         )}

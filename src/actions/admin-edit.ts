@@ -141,6 +141,7 @@ export async function adminUpdateListing(
     revalidatePath("/dashboard/admin/listings");
     revalidatePath(`/listing/${data.id}`);
     revalidatePath("/");
+    revalidatePath("/directory"); // Also revalidate directory page (shows featured listings)
 
     return {
       success: true,

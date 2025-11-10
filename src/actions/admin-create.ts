@@ -159,6 +159,7 @@ export async function adminCreateListing(
     revalidatePath("/dashboard/admin/listings");
     revalidatePath("/dashboard/admin");
     revalidatePath("/");
+    revalidatePath("/directory");
 
     // Notify vendor if email present with individualized claim/upgrade links
     try {
@@ -397,6 +398,8 @@ export async function adminBulkCreateListings(
 
     revalidatePath("/dashboard/admin/listings");
     revalidatePath("/dashboard/admin");
+    revalidatePath("/");
+    revalidatePath("/directory");
 
     return { success: true, data: { created: data, report } };
   } catch (error) {

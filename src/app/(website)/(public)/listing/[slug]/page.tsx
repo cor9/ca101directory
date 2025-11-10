@@ -1,21 +1,18 @@
 import { getCategoriesByIds } from "@/actions/categories";
 import { auth } from "@/auth";
-import { ClaimButton } from "@/components/claim/claim-button";
-import { FavoriteButton } from "@/components/favorites/FavoriteButton";
-import { ClaimedListingActions } from "@/components/listing/claimed-listing-actions";
 import { Gallery } from "@/components/listing/gallery";
-import { ProfileImage } from "@/components/listing/listing-images";
-import { ReviewForm } from "@/components/reviews/ReviewForm";
-import { ReviewsDisplay } from "@/components/reviews/ReviewsDisplay";
+import {
+  ListingDetailsSection,
+  type DisplayCategory,
+} from "@/components/listing/listing-details-section";
+import { ListingHero } from "@/components/listing/listing-hero";
+import { ListingContactSection } from "@/components/listing/listing-contact-section";
+import { ListingReviewsSection } from "@/components/listing/listing-reviews-section";
 import {
   BreadcrumbSchema,
   ListingSchema,
 } from "@/components/seo/listing-schema";
 import { RelatedLinks } from "@/components/seo/related-links";
-import { Button } from "@/components/ui/button";
-import { RichTextDisplay } from "@/components/ui/rich-text-display";
-import SocialMediaIcons from "@/components/ui/social-media-icons";
-import { StarRating } from "@/components/ui/star-rating";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import { siteConfig } from "@/config/site";
 import { getCategories, getCategoryIconsMap } from "@/data/categories";
@@ -28,20 +25,7 @@ import { getListingAverageRating } from "@/data/reviews";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import { constructMetadata } from "@/lib/metadata";
 import { generateSlugFromListing } from "@/lib/slug-utils";
-import { cn } from "@/lib/utils";
-import {
-  CheckCircleIcon,
-  EditIcon,
-  GlobeIcon,
-  MailIcon,
-  MapPinIcon,
-  PhoneIcon,
-  ShieldIcon,
-  StarIcon,
-} from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 // Force dynamic rendering to avoid static/dynamic conflicts
@@ -258,78 +242,50 @@ export default async function ListingPage({ params }: ListingPageProps) {
     console.log("ListingPage: Category names by IDs fetched");
 
     // Display categories - handle both UUIDs and names
-    const displayCategories = (listing.categories || [])
-      .map((catId) => {
-        // If we have a category name from database, use it
-        if (categoryNames[catId]) {
-          const categoryName = categoryNames[catId];
-          const key = normalizeCategory(categoryName);
-          const displayName = categoryNameLookup.get(key) || categoryName;
-          const iconFilename = iconLookup.get(key);
-          const localIconEntry = Object.entries(localIconMap).find(
-            ([n]) => normalizeCategory(n) === key,
-          );
-          const localIcon = localIconEntry?.[1];
-          // New resolution order: exact bucket name, derived, mapped, local
-          const exactNameUrl = getCategoryIconUrl(`${categoryName}.png`);
-          const derivedNameUrl = getCategoryIconUrl(
-            `${categoryName
-              .toLowerCase()
-              .replace(/[^a-z0-9]+/g, "_")
-              .replace(/^_+|_+$/g, "")}.png`,
-          );
-          return {
-            original: categoryName,
-            displayName,
-            iconUrl:
-              (iconFilename ? getCategoryIconUrl(iconFilename) : null) ||
-              exactNameUrl ||
-              derivedNameUrl ||
-              localIcon ||
-              null,
-            key: `${categoryName}-${iconFilename || localIcon || ""}`,
-          };
-        }
+    const displayCategories: DisplayCategory[] = [];
+    for (const rawCategory of listing.categories || []) {
+      const storedName = categoryNames[rawCategory];
+      const readableName = !storedName && !isUuidLike(rawCategory)
+        ? String(rawCategory)
+        : storedName;
 
-        // If catId is already a readable category name (not a UUID), use it directly
-        if (!isUuidLike(catId)) {
-          const key = normalizeCategory(catId);
-          const iconFilename = iconLookup.get(key);
-          const localIconEntry = Object.entries(localIconMap).find(
-            ([n]) => normalizeCategory(n) === key,
-          );
-          const localIcon = localIconEntry?.[1];
-          const exactNameUrl = getCategoryIconUrl(`${catId}.png`);
-          const derivedNameUrl = getCategoryIconUrl(
-            `${String(catId)
-              .toLowerCase()
-              .replace(/[^a-z0-9]+/g, "_")
-              .replace(/^_+|_+$/g, "")}.png`,
-          );
-          return {
-            original: catId,
-            displayName: catId,
-            iconUrl:
-              (iconFilename ? getCategoryIconUrl(iconFilename) : null) ||
-              exactNameUrl ||
-              derivedNameUrl ||
-              localIcon ||
-              null,
-            key: `${catId}-${iconFilename || localIcon || ""}`,
-          };
-        }
+      if (!readableName) continue;
 
-        // If no database match and it's a UUID, use default fallback
-        return {
-          original: catId,
-          displayName: "Acting Classes & Coaches", // Default fallback
-          iconUrl: null,
-          key: `fallback-${catId}`,
-        };
-      })
-      .filter(
-        (cat) => cat.displayName && cat.key && !cat.key.startsWith("fallback-"),
+      const trimmedName = readableName.trim();
+      if (!trimmedName) continue;
+
+      const key = normalizeCategory(trimmedName);
+      const displayName = categoryNameLookup.get(key) || trimmedName;
+      const iconFilename = iconLookup.get(key);
+      const localIconEntry = Object.entries(localIconMap).find(
+        ([name]) => normalizeCategory(name) === key,
       );
+      const localIcon = localIconEntry?.[1];
+      const exactNameUrl = getCategoryIconUrl(`${trimmedName}.png`);
+      const derivedNameUrl = getCategoryIconUrl(
+        `${trimmedName
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "_")
+          .replace(/^_+|_+$/g, "")}.png`,
+      );
+      const iconUrl =
+        (iconFilename ? getCategoryIconUrl(iconFilename) : null) ||
+        exactNameUrl ||
+        derivedNameUrl ||
+        localIcon ||
+        null;
+      const keyValue = `${displayName}-${iconFilename || localIcon || ""}`;
+
+      if (displayCategories.some((category) => category.key === keyValue)) {
+        continue;
+      }
+
+      displayCategories.push({
+        key: keyValue,
+        displayName,
+        iconUrl,
+      });
+    }
 
     console.log("ListingPage: Successfully found listing:", {
       id: listing.id,
@@ -340,12 +296,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
     // Check if current user owns this listing
     const isOwner = session?.user?.id === listing.owner_id;
 
-    // Check if current user is admin
-    const isAdmin = session?.user?.role === "admin";
+    const reviewsEnabled = isReviewsEnabled();
 
     // Get average rating if reviews are enabled
     let averageRating = { average: 0, count: 0 };
-    if (isReviewsEnabled()) {
+    if (reviewsEnabled) {
       try {
         console.log("ListingPage: About to fetch average rating");
         averageRating = await getListingAverageRating(listing.id);
@@ -371,6 +326,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
           l.categories?.includes(primaryCategory || ""),
       )
       .slice(0, 3);
+
+    const showFavorite = isFavoritesEnabled() && !isOwner;
+    const hasPremiumAccess =
+      (listing.plan || "").toLowerCase() !== "free";
+    const showUpgradePrompt = !hasPremiumAccess;
+    const showClaimCallout =
+      !listing.is_claimed && !isOwner && !listing.owner_id;
 
     // Debug listing data
     console.log("Listing data:", {
@@ -398,470 +360,39 @@ export default async function ListingPage({ params }: ListingPageProps) {
           ]}
         />
 
-        {/* Header Card */}
-        <div className="listing-card-transparent">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm mb-6 text-ink">
-            <Link href="/" className="hover:text-primary-orange">
-              Directory
-            </Link>
-            <span>/</span>
-            <span>{listing.listing_name}</span>
-          </div>
+        <ListingHero
+          listing={listing}
+          averageRating={averageRating}
+          isOwner={isOwner}
+          showFavorite={showFavorite}
+          showReviews={reviewsEnabled}
+        />
 
-          {/* Vendor Header - Compact Layout */}
-          <div className="flex items-start gap-6">
-            <ProfileImage listing={listing} />
-            <div className="flex-1">
-              <h1
-                className="bauhaus-heading text-3xl font-bold mb-3"
-                style={{ color: "#fafaf4" }}
-              >
-                {listing.listing_name}
-              </h1>
-
-              <div className="flex flex-wrap items-center gap-4 mb-4 text-paper">
-                {/* Rating */}
-                {isReviewsEnabled() && averageRating.count > 0 && (
-                  <div className="flex items-center gap-2">
-                    <StarRating
-                      value={Math.round(averageRating.average)}
-                      readonly
-                      size="md"
-                    />
-                    <span className="text-paper text-sm">
-                      {averageRating.average.toFixed(1)} ({averageRating.count}{" "}
-                      review
-                      {averageRating.count !== 1 ? "s" : ""})
-                    </span>
-                  </div>
-                )}
-
-                {/* 101 Approved Badge */}
-                {listing.badge_approved === true && (
-                  <div className="flex items-center gap-2 bg-gradient-to-r from-orange-50 to-yellow-50 border-2 border-brand-orange rounded-lg px-3 py-1.5">
-                    <Image
-                      src="/101approvedbadge.png"
-                      alt="101 Approved Badge"
-                      width={24}
-                      height={24}
-                      className="object-contain"
-                    />
-                    <span className="font-bold text-brand-orange text-sm">
-                      101 APPROVED
-                    </span>
-                  </div>
-                )}
-
-                {/* Last Updated */}
-                {listing.updated_at && (
-                  <p className="text-xs text-gray-600">
-                    Last updated:{" "}
-                    {new Date(listing.updated_at).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </p>
-                )}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap gap-3">
-                {listing.website && (
-                  <Button size="default" asChild className="btn-primary">
-                    <Link
-                      href={listing.website}
-                      target="_blank"
-                      prefetch={false}
-                      className="flex items-center justify-center space-x-2 hover:!bg-[#F7931E] hover:!text-white hover:[&_svg]:!text-white hover:opacity-90"
-                    >
-                      <GlobeIcon className="w-4 h-4" />
-                      <span>Visit Website</span>
-                    </Link>
-                  </Button>
-                )}
-                {isOwner && (
-                  <Button size="default" asChild className="btn-secondary">
-                    <Link
-                      href="/dashboard/vendor"
-                      className="flex items-center justify-center space-x-2 hover:!bg-[#2f95ba] hover:!text-white hover:[&_svg]:!text-white hover:opacity-90"
-                    >
-                      <EditIcon className="w-4 h-4" />
-                      <span>Edit Listing</span>
-                    </Link>
-                  </Button>
-                )}
-                {isFavoritesEnabled() && !isOwner && (
-                  <FavoriteButton
-                    listingId={listing.id}
-                    listingName={listing.listing_name}
-                    listingOwnerId={listing.owner_id}
-                    size="default"
-                    variant="outline"
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="listing-container">
-          {/* Left Column - Story Cards */}
-          <div className="space-y-6">
-            {/* About Card */}
-            <div className="listing-card">
-              <h2
-                className="text-xl font-bold mb-4"
-                style={{ color: "#0C1A2B" }}
-              >
-                About This Professional
-              </h2>
-              <div className="mb-6">
-                <RichTextDisplay
-                  content={listing.what_you_offer || ""}
-                  className="text-base leading-relaxed"
-                />
-              </div>
-
-              {/* Premium content - only show for paid plans */}
-              {listing.who_is_it_for &&
-                listing.plan !== "Free" &&
-                listing.plan !== "free" && (
-                  <div className="mb-6">
-                    <h3>Who Is It For</h3>
-                    <RichTextDisplay
-                      content={listing.who_is_it_for}
-                      className="text-base leading-relaxed"
-                    />
-                  </div>
-                )}
-
-              {listing.why_is_it_unique &&
-                listing.plan !== "Free" &&
-                listing.plan !== "free" && (
-                  <div className="mb-6">
-                    <h3>What Makes This Unique</h3>
-                    <RichTextDisplay
-                      content={listing.why_is_it_unique}
-                      className="text-base leading-relaxed"
-                    />
-                  </div>
-                )}
-
-              {/* Premium content - only show for paid plans */}
-              {listing.format &&
-                listing.plan !== "Free" &&
-                listing.plan !== "free" && (
-                  <div className="mb-6">
-                    <h3>Service Format</h3>
-                    <RichTextDisplay
-                      content={listing.format}
-                      className="text-base leading-relaxed"
-                    />
-                  </div>
-                )}
-
-              {listing.extras_notes &&
-                listing.plan !== "Free" &&
-                listing.plan !== "free" && (
-                  <div>
-                    <h3>Additional Notes</h3>
-                    <RichTextDisplay
-                      content={listing.extras_notes}
-                      className="text-base leading-relaxed"
-                    />
-                  </div>
-                )}
-
-              {/* Free plan upgrade prompt */}
-              {(listing.plan === "Free" || listing.plan === "free") && (
-                <div className="mt-6 p-4 bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-200 rounded-lg">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-2xl">📈</span>
-                    <h3 className="font-semibold text-orange-800">
-                      More Details Available
-                    </h3>
-                  </div>
-                  <p className="text-sm text-orange-700 mb-3">
-                    This professional has additional details about their
-                    services, target audience, and unique approach available
-                    with a premium listing.
-                  </p>
-                  <div className="flex gap-2">
-                    <a
-                      href="/pricing"
-                      className="inline-flex items-center px-3 py-2 bg-orange-600 text-white text-sm rounded-md hover:bg-orange-700 transition-colors"
-                    >
-                      View Pricing Plans
-                    </a>
-                    <a
-                      href="/plan-selection"
-                      className="inline-flex items-center px-3 py-2 bg-white text-orange-600 text-sm border border-orange-300 rounded-md hover:bg-orange-50 transition-colors"
-                    >
-                      Upgrade Listing
-                    </a>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Social Media Links - Pro Users Only */}
-            <SocialMediaIcons listing={listing} className="listing-card-blue" />
-
-            {/* Review Form */}
-            {isReviewsEnabled() && (
-              <div
-                className="listing-card-transparent text-paper border"
-                style={{
-                  backgroundColor: "transparent",
-                  borderColor: "#f8f4e6",
-                }}
-              >
-                <ReviewForm
-                  listingId={listing.id}
-                  listingName={listing.listing_name || "Listing"}
-                  listingOwnerId={listing.owner_id}
-                />
-              </div>
-            )}
-
-            {/* Back Link */}
-            <div className="flex items-center justify-start">
-              <Link
-                href="/"
-                className="text-sm hover:text-bauhaus-blue text-paper transition-colors"
-              >
-                ← Back to Directory
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Column - Sidebar */}
-          <div className="space-y-6">
-            {/* Gallery */}
-            <Gallery listing={listing} />
-
-            {/* Contact Information */}
-            <div
-              className="listing-card-blue"
-              style={{ backgroundColor: "rgb(63, 174, 214)" }}
-            >
-              <h2
-                className="bauhaus-heading text-lg font-semibold mb-4"
-                style={{ color: "#0C1A2B" }}
-              >
-                Contact Information
-              </h2>
-              <ul className="space-y-4 text-base">
-                {(listing.city || listing.state || listing.region) && (
-                  <li className="flex items-start gap-3">
-                    <MapPinIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#e4572e]" />
-                    <span style={{ color: "#0C1A2B" }}>
-                      {[listing.city, listing.state].filter(Boolean).join(", ")}
-                    </span>
-                  </li>
-                )}
-                {listing.region && listing.region.length > 0 && (
-                  <li className="flex items-start gap-3">
-                    <span className="sr-only">Regions</span>
-                    <div className="text-sm text-paper ml-7 -mt-2">
-                      {listing.region.join(", ")}
-                    </div>
-                  </li>
-                )}
-                {listing.phone && (
-                  <li className="flex items-start gap-3">
-                    <PhoneIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#e4572e]" />
-                    <a
-                      href={`tel:${listing.phone}`}
-                      className="hover:text-primary-orange"
-                      style={{ color: "#0C1A2B" }}
-                    >
-                      {listing.phone}
-                    </a>
-                  </li>
-                )}
-                {listing.email && (
-                  <li className="flex items-start gap-3">
-                    <MailIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#e4572e]" />
-                    <a
-                      href={`mailto:${listing.email}`}
-                      className="hover:text-primary-orange"
-                      style={{ color: "#0C1A2B" }}
-                    >
-                      {listing.email}
-                    </a>
-                  </li>
-                )}
-                {listing.format?.toLowerCase().includes("online") && (
-                  <li className="flex items-start gap-3">
-                    <GlobeIcon className="w-4 h-4 mt-1 flex-shrink-0 text-[#e4572e]" />
-                    <span style={{ color: "#0C1A2B" }}>
-                      Virtual services available
-                    </span>
-                  </li>
-                )}
-              </ul>
-            </div>
-
-            {/* Claim Listing Section */}
-            {!listing.is_claimed && !isOwner && !listing.owner_id && (
-              <div
-                className="listing-card"
-                style={{ background: "rgb(228, 167, 46)" }}
-              >
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0">
-                    <ShieldIcon className="w-8 h-8 text-primary-orange" />
-                  </div>
-                  <div className="flex-1">
-                    <h2
-                      className="text-lg font-semibold mb-2"
-                      style={{ color: "#0C1A2B" }}
-                    >
-                      Own This Business?
-                    </h2>
-                    <p style={{ color: "#1e1f23" }}>
-                      Claim your listing to gain full control, edit details, and
-                      upgrade to premium plans.
-                    </p>
-                    <ClaimButton
-                      listingId={listing.id}
-                      listingName={listing.listing_name || "Listing"}
-                      claimed={listing.is_claimed === true}
-                      ownerId={listing.owner_id}
-                      className="btn-primary"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Categories */}
-            <div className="listing-card-mustard">
-              <h2
-                className="bauhaus-heading text-lg font-semibold mb-4"
-                style={{ color: "#1e1f23" }}
-              >
-                Categories
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {displayCategories.length > 0 ? (
-                  displayCategories.map(
-                    ({ key, displayName, iconUrl }, index) => {
-                      const colors = ["orange", "blue", "mustard", "green"];
-                      const colorClass = colors[index % colors.length];
-                      return (
-                        <span
-                          key={key}
-                          className={`badge ${colorClass} flex items-center gap-2`}
-                        >
-                          {iconUrl && (
-                            <Image
-                              src={iconUrl}
-                              alt={displayName}
-                              width={20}
-                              height={20}
-                              className="h-5 w-5 rounded-full object-contain"
-                            />
-                          )}
-                          {displayName}
-                        </span>
-                      );
-                    },
-                  )
-                ) : (
-                  <span className="text-paper">No categories listed</span>
-                )}
-              </div>
-            </div>
-
-            {/* Age Range */}
-            <div className="listing-card">
-              <h2
-                className="text-lg font-semibold mb-4"
-                style={{ color: "#0C1A2B" }}
-              >
-                Age Range
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {listing.age_range && listing.age_range.length > 0 ? (
-                  listing.age_range
-                    .filter((age) => {
-                      const val = age?.trim() || "";
-                      if (!val) return false;
-                      if (val.includes("Age Range")) return false;
-                      if (val.includes("los-angeles")) return false;
-                      if (val.includes("hybrid")) return false;
-                      // Exclude UUID-like tokens
-                      const uuidLike =
-                        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-                      if (uuidLike.test(val)) return false;
-                      return true;
-                    })
-                    .map((age) => (
-                      <span key={(age || "").trim()} className="badge blue">
-                        {(age || "").trim()}
-                      </span>
-                    ))
-                ) : (
-                  <span className="text-paper">No age range specified</span>
-                )}
-              </div>
-            </div>
-
-            {/* Reviews Display */}
-            {isReviewsEnabled() && (
-              <div className="listing-card">
-                <ReviewsDisplay listingId={listing.id} />
-              </div>
-            )}
-
-            {/* Certifications & Compliance */}
-            {(listing.ca_permit_required === true ||
-              listing.is_bonded === true) && (
-              <div className="listing-card">
-                <h2
-                  className="text-lg font-semibold mb-4"
-                  style={{ color: "#0C1A2B" }}
-                >
-                  Certifications & Compliance
-                </h2>
-                <ul className="space-y-2 text-sm">
-                  {listing.ca_permit_required === true && (
-                    <li className="flex items-center gap-2">
-                      <CheckCircleIcon className="w-4 h-4 text-green-600" />
-                      <span style={{ color: "#0C1A2B" }}>
-                        California Child Performer Services Permit
-                      </span>
-                    </li>
-                  )}
-                  {listing.is_bonded === true && (
-                    <li className="flex items-center gap-2">
-                      <CheckCircleIcon className="w-4 h-4 text-green-600" />
-                      <span style={{ color: "#0C1A2B" }}>
-                        Bonded for Advanced Fees
-                      </span>
-                      {listing.bond_number && (
-                        <span className="text-paper">
-                          (Bond #{listing.bond_number})
-                        </span>
-                      )}
-                    </li>
-                  )}
-                </ul>
-              </div>
-            )}
-
-            {/* Internal Linking for SEO */}
+        <div className="listing-layout">
+          <div className="listing-layout__main">
+            <ListingDetailsSection
+              listing={listing}
+              displayCategories={displayCategories}
+              hasPremiumAccess={hasPremiumAccess}
+            />
+            <ListingReviewsSection
+              listing={listing}
+              isReviewsEnabled={reviewsEnabled}
+            />
             <RelatedLinks
               listing={listing}
               relatedListings={related}
               categoryNames={displayCategories.map((c) => c.displayName)}
             />
           </div>
+          <aside className="listing-layout__aside">
+            <Gallery listing={listing} />
+            <ListingContactSection
+              listing={listing}
+              showClaimCallout={showClaimCallout}
+              showUpgradePrompt={showUpgradePrompt}
+            />
+          </aside>
         </div>
       </div>
     );

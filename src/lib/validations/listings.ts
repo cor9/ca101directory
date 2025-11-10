@@ -33,7 +33,13 @@ export const UpdateListingSchema = z.object({
   // Extended fields for comprehensive admin editing
   city: z.string().optional(),
   state: z.string().optional(),
-  zip: z.string().optional(),
+  zip: z.union([z.string(), z.undefined(), z.null()]).optional().transform((val) => {
+    // Convert empty string to null for database, or parse to number if database expects integer
+    if (!val || val === "") return null;
+    // Try to parse as integer for database
+    const parsed = Number.parseInt(val, 10);
+    return Number.isNaN(parsed) ? null : parsed;
+  }),
   facebook_url: z
     .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
     .optional(),

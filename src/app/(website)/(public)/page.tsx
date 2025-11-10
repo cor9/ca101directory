@@ -19,6 +19,10 @@ import { DEFAULT_SORT, ITEMS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import Script from "next/script";
 
+// Ensure homepage is always fresh so Featured updates reflect immediately
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata = constructMetadata({
   title: "Child Actor 101 Directory - Find Trusted Acting Professionals",
   description:

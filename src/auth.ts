@@ -91,9 +91,12 @@ export const {
         }
 
         console.log("JWT: Token role set to:", token.role, "Token ID:", token.id);
-      } else if (token.sub && !token.role) {
-        // Token refresh but no role in token - fetch from database
-        console.log("JWT: Token refresh, no role in token. Fetching from database...");
+      } else if (token.sub) {
+        // Existing session: always verify role against profiles to avoid stale roles
+        console.log("JWT: Verifying role against profiles for token:", {
+          tokenSub: token.sub,
+          tokenRole: token.role,
+        });
         try {
           const supabase = createServerClient();
           const { data: profile, error } = await supabase
@@ -105,15 +108,17 @@ export const {
           console.log("JWT: Database profile fetch result:", { profile, error });
 
           if (profile?.role) {
-            token.role = profile.role;
-            console.log("JWT: Token role refreshed from DB to:", token.role);
+            if (token.role !== profile.role) {
+              console.log("JWT: Updating token.role from", token.role, "to", profile.role);
+              token.role = profile.role;
+            }
           } else {
             console.error("⚠️ JWT: No role found in database for user:", token.sub);
-            token.role = "guest"; // Fallback
+            token.role = (token.role as any) || "guest"; // Keep existing or guest
           }
         } catch (error) {
           console.error("❌ JWT: Error refreshing user role:", error);
-          token.role = "guest"; // Fallback
+          // Keep existing role; do not force guest on transient errors
         }
       }
 

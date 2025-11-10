@@ -1,4 +1,4 @@
-import { AdminDashboardClientNew } from "@/components/admin/admin-dashboard-client-new";
+import { AdminDashboardClient } from "@/components/admin/admin-dashboard-client";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { siteConfig } from "@/config/site";
 import { getAdminListings } from "@/data/listings";
@@ -36,25 +36,35 @@ export default async function AdminDashboard() {
   // Fetch listings
   const allListings = await getAdminListings();
 
-  // Fetch REAL user data from profiles table
+  // Fetch platform metrics server-side
   const supabase = createServerClient();
-  const { data: users } = await supabase
-    .from("profiles")
-    .select("id, role")
-    .order("created_at", { ascending: false });
+  const [profilesResult, listingsResult, reviewsResult] = await Promise.all([
+    supabase.from("profiles").select("id", { count: "exact", head: true }),
+    supabase.from("listings").select("id", { count: "exact", head: true }),
+    supabase.from("reviews").select("id", { count: "exact", head: true }),
+  ]);
 
-  const totalUsers = users?.length || 0;
-  const totalVendors = users?.filter((u) => u.role === "vendor").length || 0;
-  const totalAdmins = users?.filter((u) => u.role === "admin").length || 0;
+  if (profilesResult.error) {
+    console.error("Failed to fetch profiles count", profilesResult.error);
+  }
+
+  if (listingsResult.error) {
+    console.error("Failed to fetch listings count", listingsResult.error);
+  }
+
+  if (reviewsResult.error) {
+    console.error("Failed to fetch reviews count", reviewsResult.error);
+  }
+
+  const metrics = {
+    totalProfiles: profilesResult.count ?? 0,
+    totalListings: listingsResult.count ?? allListings.length,
+    totalReviews: reviewsResult.count ?? 0,
+  };
 
   return (
     <AdminDashboardLayout>
-      <AdminDashboardClientNew
-        allListings={allListings}
-        totalUsers={totalUsers}
-        totalVendors={totalVendors}
-        totalAdmins={totalAdmins}
-      />
+      <AdminDashboardClient allListings={allListings} metrics={metrics} />
     </AdminDashboardLayout>
   );
 }

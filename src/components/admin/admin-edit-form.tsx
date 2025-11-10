@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 import { getCategoriesClient } from "@/data/categories-client";
 import type { Listing } from "@/data/listings";
 import type { UpdateListingSchema } from "@/lib/validations/listings";
+import { toast } from "sonner";
 
 // Form input type with strings for array fields (before transformation)
 type FormInputType = Omit<
@@ -138,6 +139,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
   });
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [isGalleryUploading, setIsGalleryUploading] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
 
   // Fetch categories and convert UUIDs to names
   useEffect(() => {
@@ -247,6 +249,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
     // Note: We can now handle both UUIDs and category names, so we don't need to wait for categories to load
 
     try {
+      setSubmissionError(null);
       startTransition(() => {
         try {
           // Process form values before submission
@@ -302,41 +305,64 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           )
             .then((res) => {
               console.log("UpdateListing response:", res);
-              // Pass the entire response to the parent component to handle side-effects
-              if (onFinished) {
-                onFinished(res);
-              } else if (res.status === "success") {
-                // Default behavior: redirect to admin listings page
-                router.push("/dashboard/admin/listings");
+              const handleLocally = !onFinished;
+
+              if (res.status === "success") {
+                setSubmissionError(null);
+                if (handleLocally) {
+                  toast.success(res.message || "Listing updated successfully.");
+                  router.push("/dashboard/admin/listings");
+                }
+              } else {
+                const message =
+                  res.message || "Failed to update listing. Please try again.";
+                setSubmissionError(message);
+                if (handleLocally) {
+                  toast.error(message);
+                }
               }
+
+              onFinished?.(res);
             })
             .catch((error) => {
               console.error("UpdateListing error:", error);
-              if (onFinished) {
-                onFinished({
-                  status: "error",
-                  message: "An unexpected error occurred.",
-                });
+              const fallbackMessage =
+                "An unexpected error occurred while saving the listing.";
+              setSubmissionError(fallbackMessage);
+              if (!onFinished) {
+                toast.error(fallbackMessage);
               }
+              onFinished?.({
+                status: "error",
+                message: fallbackMessage,
+              });
             });
         } catch (innerError) {
           console.error("Error in startTransition:", innerError);
-          if (onFinished) {
-            onFinished({
-              status: "error",
-              message: "Form processing error occurred.",
-            });
+          const fallbackMessage =
+            "Form processing error occurred. Please review the fields and try again.";
+          setSubmissionError(fallbackMessage);
+          if (!onFinished) {
+            toast.error(fallbackMessage);
           }
+          onFinished?.({
+            status: "error",
+            message: fallbackMessage,
+          });
         }
       });
     } catch (outerError) {
       console.error("Error in onSubmit:", outerError);
-      if (onFinished) {
-        onFinished({
-          status: "error",
-          message: "Form submission error occurred.",
-        });
+      const fallbackMessage =
+        "Form submission error occurred. Please try again.";
+      setSubmissionError(fallbackMessage);
+      if (!onFinished) {
+        toast.error(fallbackMessage);
       }
+      onFinished?.({
+        status: "error",
+        message: fallbackMessage,
+      });
     }
   };
 
@@ -448,6 +474,12 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               </li>
             ))}
           </ul>
+        </div>
+      )}
+
+      {submissionError && (
+        <div className="bg-destructive/10 border border-destructive/30 rounded-md p-4 text-sm text-destructive">
+          {submissionError}
         </div>
       )}
 

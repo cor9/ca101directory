@@ -19,14 +19,21 @@ import { toast } from "sonner";
 
 interface AdminDashboardClientProps {
   allListings: Listing[];
+  metrics: {
+    totalProfiles: number;
+    totalListings: number;
+    totalReviews: number;
+  };
 }
 
 export const AdminDashboardClient = ({
   allListings: initialListings,
+  metrics,
 }: AdminDashboardClientProps) => {
   const router = useRouter();
   const [allListings, setAllListings] = useState(initialListings);
   const [editingListing, setEditingListing] = useState<Listing | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     setAllListings(initialListings);
@@ -49,16 +56,18 @@ export const AdminDashboardClient = ({
     setEditingListing(null);
 
     if (result.status === "success") {
+      setErrorMessage(null);
       toast.success(result.message || "Listing updated successfully.");
       // Refresh server-side props to get the latest listings data
       router.refresh();
     } else {
-      if (result.message) {
-        toast.error(result.message);
-      }
+      const message = result.message || "Failed to update listing.";
+      setErrorMessage(message);
+      toast.error(message);
     }
   };
 
+  const { totalProfiles, totalListings, totalReviews } = metrics;
   return (
     <>
       <div className="space-y-6">
@@ -85,14 +94,19 @@ export const AdminDashboardClient = ({
         {/* Platform Stats */}
         <div className="grid gap-4 md:grid-cols-4">
           <div className="bg-card rounded-lg p-4 border">
-            <div className="text-2xl font-bold text-primary">0</div>
+            <div className="text-2xl font-bold text-primary">
+              {totalProfiles}
+            </div>
             <div className="text-sm text-paper">Total Users</div>
           </div>
           <div className="bg-card rounded-lg p-4 border">
             <div className="text-2xl font-bold text-primary">
-              {liveListings.length}
+              {totalListings}
             </div>
-            <div className="text-sm text-paper">Active Listings</div>
+            <div className="text-sm text-paper">Total Listings</div>
+            <p className="text-xs text-paper/70 mt-1">
+              {liveListings.length} currently live
+            </p>
           </div>
           <div className="bg-card rounded-lg p-4 border">
             <div className="text-2xl font-bold text-primary">
@@ -103,8 +117,10 @@ export const AdminDashboardClient = ({
             </div>
           </div>
           <div className="bg-card rounded-lg p-4 border">
-            <div className="text-2xl font-bold text-primary">0</div>
-            <div className="text-sm text-paper">Pending Reviews</div>
+            <div className="text-2xl font-bold text-primary">
+              {totalReviews}
+            </div>
+            <div className="text-sm text-paper">Total Reviews</div>
           </div>
         </div>
 
@@ -224,7 +240,11 @@ export const AdminDashboardClient = ({
         </div>
 
         {/* All Listings Table */}
-        <ListingsTable listings={allListings} onEdit={handleReviewListing} />
+        <ListingsTable
+          listings={allListings}
+          onEdit={handleReviewListing}
+          errorMessage={errorMessage}
+        />
       </div>
 
       <Dialog

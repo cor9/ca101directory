@@ -1,16 +1,16 @@
-import { auth } from "@/auth";
 import { CompedToggle } from "@/components/admin/comped-toggle";
 import { ListingActions } from "@/components/admin/listing-actions";
 import { BulkResendButton } from "@/components/admin/bulk-resend-button";
 import { BulkResendClaimButton } from "@/components/admin/bulk-resend-claim-button";
 import { BulkResendRecentButton } from "@/components/admin/bulk-resend-recent-button";
-import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 import { getAdminListings } from "@/data/listings";
+import { currentUser } from "@/lib/auth";
+import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import { constructMetadata } from "@/lib/metadata";
 import { CheckCircleIcon, EditIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
@@ -36,11 +36,15 @@ export default async function AdminListingsPage({
 }: {
   searchParams?: { status?: string };
 }) {
-  const session = await auth();
+  const user = await currentUser();
 
-  if (!session?.user) {
-    redirect("/auth/login?callbackUrl=/dashboard/admin/listings");
+  if (!user?.id) {
+    redirect(
+      `/auth/login?callbackUrl=${encodeURIComponent("/dashboard/admin/listings")}`,
+    );
   }
+
+  verifyDashboardAccess(user, "admin", "/dashboard/admin/listings");
 
   // Get all listings for admin management (including Pending, Rejected, etc.)
   const allListings = await getAdminListings();
@@ -80,8 +84,7 @@ export default async function AdminListingsPage({
   });
 
   return (
-    <DashboardGuard allowedRoles={["admin"]}>
-      <AdminDashboardLayout>
+    <AdminDashboardLayout>
         <div className="space-y-6">
           {/* Header */}
           <div className="flex items-center justify-between">
@@ -399,6 +402,5 @@ export default async function AdminListingsPage({
           </Card>
         </div>
       </AdminDashboardLayout>
-    </DashboardGuard>
   );
 }

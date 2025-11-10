@@ -85,6 +85,13 @@ export async function adminUpdateListing(
       return value.split(',').map(item => item.trim()).filter(Boolean);
     };
 
+    // Helper to safely parse integer
+    const parseIntSafe = (value: string | number | null | undefined): number | null => {
+      if (value === null || value === undefined || value === '') return null;
+      const parsed = typeof value === 'number' ? value : Number.parseInt(value, 10);
+      return Number.isNaN(parsed) ? null : parsed;
+    };
+
     // Parse gallery JSON if it's a string
     let galleryArray: string[] = [];
     if (typeof formData.gallery === 'string') {

@@ -117,6 +117,10 @@ export default async function HomeFeaturedListings() {
           .filter((cat) => !isUuidLike(cat)); // Filter out any remaining UUIDs
 
         const primaryCategory = resolvedCategories[0] || "Acting Professional";
+        // Sanitize slug: trim whitespace and strip any leading slashes
+        const rawSlug =
+          listing.slug || generateSlug(listing.listing_name || "", listing.id);
+        const safeSlug = rawSlug.trim().replace(/^\/+/, "");
 
         return {
           id: listing.id,
@@ -135,7 +139,7 @@ export default async function HomeFeaturedListings() {
           categorySlug: generateCategorySlug(primaryCategory),
           tags: listing.age_range || [], // age_range is now an array
           featured: listing.featured || false,
-          slug: listing.slug || generateSlug(listing.listing_name || "", listing.id), // Use database slug or generate fallback
+          slug: safeSlug, // Use sanitized database slug or sanitized fallback
         };
       });
   } catch (error) {

@@ -165,7 +165,7 @@ export async function updateListing(
     // Normalize values to satisfy DB constraints (empty strings -> nulls, zip to integer)
     const v = validatedFields.data;
     const toNull = (s?: string) =>
-      typeof s === "string" && s.trim() === "" ? null : s ?? null;
+      typeof s === "string" && s.trim() === "" ? null : (s ?? null);
     const normalizeUrl = (s?: string) => toNull(s);
     const normalizeString = (s?: string) => toNull(s);
     const normalizeZip = (s?: string) => {
@@ -187,7 +187,10 @@ export async function updateListing(
       // Optional media fields
       profile_image: normalizeString(v.profile_image),
       // Gallery stored as text; empty string -> null
-      gallery: typeof v.gallery === "string" && v.gallery.trim() === "" ? null : v.gallery ?? null,
+      gallery:
+        typeof v.gallery === "string" && v.gallery.trim() === ""
+          ? null
+          : (v.gallery ?? null),
       // Zip must be integer
       zip: normalizeZip(v.zip),
     };

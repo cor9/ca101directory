@@ -200,6 +200,27 @@ export async function getPublicListings(params?: {
 }
 
 /**
+ * Fetch only featured, public listings directly (bypass duplicate filtering).
+ * This avoids cases where dedup or cache interferes with homepage featured section.
+ */
+export async function getFeaturedListings() {
+  console.log("getFeaturedListings: Fetching featured public listings");
+  const supabase = createServerClient();
+  const { data, error } = await supabase
+    .from("listings")
+    .select("*")
+    .eq("featured", true)
+    .in("status", ["Live", "Published", "published", "live"])
+    .or("is_active.eq.true,is_active.is.null");
+
+  if (error) {
+    console.error("getFeaturedListings Error:", error);
+    throw error;
+  }
+  return (data || []) as Listing[];
+}
+
+/**
  * Fetches all listings for the admin dashboard, regardless of status.
  * Orders by creation date to show the newest listings first.
  */

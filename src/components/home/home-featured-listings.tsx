@@ -1,5 +1,5 @@
 import { getCategories } from "@/data/categories";
-import { getPublicListings } from "@/data/listings";
+import { getFeaturedListings } from "@/data/listings";
 import { getListingImageUrl } from "@/lib/image-urls";
 import { generateSlug } from "@/lib/slug-utils";
 import FeaturedListingsClient from "./featured-listings-client";
@@ -89,11 +89,11 @@ export default async function HomeFeaturedListings() {
 
   try {
     const [supabaseListings, categories] = await Promise.all([
-      getPublicListings(),
+      getFeaturedListings(),
       getCategories(),
     ]);
     // Debug: log count of public listings and featured subset
-    console.log("[HomeFeatured] public listings:", supabaseListings.length);
+    console.log("[HomeFeatured] featured fetch count:", supabaseListings.length);
 
     // Create a map of category IDs to names for UUID resolution
     const categoryMap = new Map<string, string>();

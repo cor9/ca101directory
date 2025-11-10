@@ -323,6 +323,7 @@ export async function submitToSupabase(
     // Revalidate the submit page and homepage
     revalidatePath("/submit");
     revalidatePath("/");
+    revalidatePath("/directory");
 
     // Send confirmation email (non-blocking, don't fail if email fails)
     if (user?.email) {

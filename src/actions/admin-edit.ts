@@ -123,7 +123,7 @@ export async function adminUpdateListing(
       phone: formData.phone || null,
       city: formData.city || null,
       state: formData.state || null,
-      zip: parseIntSafe(formData.zip), // Safely parse to int or null
+      zip: formData.zip ? Number.parseInt(formData.zip) : null,
       region: stringToArray(formData.region), // Convert comma-separated string to array
       bond_number: formData.bondNumber || null,
       is_active: formData.active,
@@ -167,6 +167,7 @@ export async function adminUpdateListing(
     revalidatePath("/dashboard/admin/listings");
     revalidatePath(`/listing/${data.id}`);
     revalidatePath("/");
+    revalidatePath("/directory"); // Also revalidate directory page (shows featured listings)
 
     return {
       success: true,

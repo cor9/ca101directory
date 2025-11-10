@@ -19,6 +19,7 @@ export async function approveListing(listingId: string) {
 
     revalidatePath("/dashboard/admin/listings");
     revalidatePath("/");
+    revalidatePath("/directory");
 
     // Notify vendor (non-blocking)
     try {

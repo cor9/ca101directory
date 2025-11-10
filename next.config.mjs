@@ -60,6 +60,12 @@ const nextConfig = {
         destination: "/dashboard/vendor",
         permanent: false,
       },
+      // Legacy slug fix: extra dash in "actor-s" -> "actors"
+      {
+        source: "/listing/real-actor-s-lab-with-sarah-gaboury",
+        destination: "/listing/real-actors-lab-with-sarah-gaboury",
+        permanent: true,
+      },
     ];
   },
 

@@ -92,6 +92,8 @@ export default async function HomeFeaturedListings() {
       getPublicListings(),
       getCategories(),
     ]);
+    // Debug: log count of public listings and featured subset
+    console.log("[HomeFeatured] public listings:", supabaseListings.length);
 
     // Create a map of category IDs to names for UUID resolution
     const categoryMap = new Map<string, string>();
@@ -99,12 +101,33 @@ export default async function HomeFeaturedListings() {
       categoryMap.set(category.id, category.category_name);
     }
 
-    listings = supabaseListings
-      .filter((listing) => listing.featured === true) // Show only admin-selected featured listings
-      .sort((a, b) =>
-        (a.listing_name || "").localeCompare(b.listing_name || ""),
-      ) // Alphabetical order
-      .slice(0, 6) // Show 2 rows (6 items)
+    // Weight plans for featured ordering
+    const planWeight = (plan?: string | null) => {
+      const p = (plan || "").toLowerCase();
+      if (p.includes("premium")) return 4;
+      if (p.includes("pro")) return 3;
+      if (p.includes("standard")) return 2;
+      return 1;
+    };
+
+    const featuredSource = supabaseListings.filter((l) => l.featured === true);
+    console.log(
+      "[HomeFeatured] featured candidates:",
+      featuredSource.map((l) => `${l.listing_name} (${l.id})`),
+    );
+
+    listings = featuredSource
+      // Sort by explicit priority desc, then plan weight desc, then name
+      .sort((a, b) => {
+        const pa = (a.priority ?? 0) as number;
+        const pb = (b.priority ?? 0) as number;
+        if (pb !== pa) return pb - pa;
+        const wa = planWeight(a.plan);
+        const wb = planWeight(b.plan);
+        if (wb !== wa) return wb - wa;
+        return (a.listing_name || "").localeCompare(b.listing_name || "");
+      })
+      .slice(0, 12) // Show up to 12 items to reduce accidental trimming
       .map((listing) => {
         // Resolve category UUIDs to names
         const resolvedCategories = (listing.categories || [])
@@ -142,6 +165,10 @@ export default async function HomeFeaturedListings() {
           slug: safeSlug, // Use sanitized database slug or sanitized fallback
         };
       });
+    console.log(
+      "[HomeFeatured] final featured ids:",
+      listings.map((l) => l.id),
+    );
   } catch (error) {
     console.error("Error fetching featured listings:", error);
   }

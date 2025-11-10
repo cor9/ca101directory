@@ -162,15 +162,44 @@ export async function updateListing(
     const supabase = createServerClient();
 
     console.log("=== EXECUTING DATABASE UPDATE ===");
+    // Normalize values to satisfy DB constraints (empty strings -> nulls, zip to integer)
+    const v = validatedFields.data;
+    const toNull = (s?: string) =>
+      typeof s === "string" && s.trim() === "" ? null : s ?? null;
+    const normalizeUrl = (s?: string) => toNull(s);
+    const normalizeString = (s?: string) => toNull(s);
+    const normalizeZip = (s?: string) => {
+      if (!s || s.trim() === "") return null;
+      const parsed = Number.parseInt(s.trim(), 10);
+      return Number.isNaN(parsed) ? null : parsed;
+    };
+    const normalizedPayload = {
+      ...v,
+      // Strings with constraints: send null, not empty string
+      website: normalizeUrl(v.website),
+      email: normalizeString(v.email),
+      phone: normalizeString(v.phone),
+      city: normalizeString(v.city),
+      state: normalizeString(v.state),
+      // URL-like optional fields
+      facebook_url: normalizeUrl(v.facebook_url),
+      instagram_url: normalizeUrl(v.instagram_url),
+      // Optional media fields
+      profile_image: normalizeString(v.profile_image),
+      // Gallery stored as text; empty string -> null
+      gallery: typeof v.gallery === "string" && v.gallery.trim() === "" ? null : v.gallery ?? null,
+      // Zip must be integer
+      zip: normalizeZip(v.zip),
+    };
     console.log("Update query:", {
       table: "listings",
       id,
-      data: validatedFields.data,
+      data: normalizedPayload,
     });
 
     const { data, error } = await supabase
       .from("listings")
-      .update(validatedFields.data)
+      .update(normalizedPayload)
       .eq("id", id)
       .select()
       .single();
@@ -180,7 +209,7 @@ export async function updateListing(
       console.error("Database error:", JSON.stringify(error, null, 2));
       return {
         status: "error",
-        message: "Database Error: Failed to update listing.",
+        message: `Database Error: Failed to update listing.${error?.message ? ` (${error.message})` : ""}`,
       };
     }
 

@@ -1735,3 +1735,29 @@ Updated all public-facing help documentation to accurately reflect the passwordl
 
 ---
 
+## 2025-11-08 — Founding Pro Parity and Removal of “Premium” Tier
+
+### Decision
+- Treat “Founding Pro” exactly like “Pro” for feature gating, badges, plan priority, and counts.
+- Remove “Premium” as a plan value in UI logic. “Featured” is derived from `listing.featured === true`, not a plan string.
+
+### Rationale
+- Avoid plan drift and mismatched displays. Clean separation:
+  - Featured (flag)
+  - Pro tier (Pro + Founding Pro + Comped treated as Pro)
+  - Standard (Standard + Founding Standard)
+  - Free
+
+### Implementation
+- Listing cards (server/client): map badges and sort priority with case-insensitive plan matching; include Founding Pro; no “Premium”.
+- Admin dashboard: Pro/Featured = featured OR pro/founding pro OR comped; removed Premium checks.
+- Social links component: paid tier detection includes comped or any “pro” in plan (covers Founding Pro).
+
+### Files Changed
+- `src/components/listings/ListingCard.tsx`
+- `src/components/listings/ListingCardClient.tsx`
+- `src/app/(website)/(protected)/dashboard/admin/listings/page.tsx`
+- `src/components/ui/social-media-icons.tsx`
+
+---
+

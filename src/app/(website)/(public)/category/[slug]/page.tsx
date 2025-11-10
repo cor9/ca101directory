@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 import ItemCard from "@/components/item/item-card";
 import ItemGrid from "@/components/item/item-grid";
 import { CategoryContent } from "@/components/seo/category-content";

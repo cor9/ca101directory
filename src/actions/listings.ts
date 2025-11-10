@@ -146,7 +146,7 @@ export async function updateListing(
       const errorMessages = validatedFields.error.flatten().fieldErrors;
       const firstError = Object.entries(errorMessages)[0];
       const detailedMessage = firstError
-        ? `Invalid fields: ${firstError[0]} - ${firstError[1]?.[0] || 'validation error'}`
+        ? `Invalid fields: ${firstError[0]} - ${firstError[1]?.[0] || "validation error"}`
         : "Invalid fields.";
 
       return { status: "error", message: detailedMessage };
@@ -187,8 +187,18 @@ export async function updateListing(
     console.log("=== UPDATE SUCCESS ===");
     console.log("Updated data:", JSON.stringify(data, null, 2));
 
-    // Revalidate the path to show the updated data in the table
+    // Revalidate relevant paths so updates reflect immediately across the app
+    // 1) Admin dashboard root and listings management page
     revalidatePath("/dashboard/admin");
+    revalidatePath("/dashboard/admin/listings");
+    // 2) Public homepage (featured listings)
+    revalidatePath("/");
+    // 3) Listing detail page (by slug if present, else by id route)
+    if (data?.slug) {
+      revalidatePath(`/listing/${data.slug}`);
+    } else if (data?.id) {
+      revalidatePath(`/listing/${data.id}`);
+    }
 
     return {
       status: "success",

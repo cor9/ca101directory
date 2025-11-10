@@ -78,6 +78,32 @@ export async function adminUpdateListing(
 
     const supabase = createServerClient();
 
+    // Helper to convert comma-separated strings to arrays
+    const stringToArray = (value: string | string[]): string[] => {
+      if (Array.isArray(value)) return value;
+      if (!value || typeof value !== 'string') return [];
+      return value.split(',').map(item => item.trim()).filter(Boolean);
+    };
+
+    // Helper to safely parse integer
+    const parseIntSafe = (value: string | number | null | undefined): number | null => {
+      if (value === null || value === undefined || value === '') return null;
+      const parsed = typeof value === 'number' ? value : Number.parseInt(value, 10);
+      return Number.isNaN(parsed) ? null : parsed;
+    };
+
+    // Parse gallery JSON if it's a string
+    let galleryArray: string[] = [];
+    if (typeof formData.gallery === 'string') {
+      try {
+        galleryArray = JSON.parse(formData.gallery);
+      } catch {
+        galleryArray = [];
+      }
+    } else if (Array.isArray(formData.gallery)) {
+      galleryArray = formData.gallery;
+    }
+
     // Prepare the update data with proper array handling
     const updateData = {
       listing_name: formData.name.trim(),
@@ -88,8 +114,8 @@ export async function adminUpdateListing(
       format: formData.format || null,
       extras_notes: formData.notes || null,
       profile_image: formData.imageId || null,
-      tags: Array.isArray(formData.tags) ? formData.tags : [], // Ensure array
-      categories: Array.isArray(formData.categories) ? formData.categories : [], // Ensure array
+      age_range: stringToArray(formData.tags), // Convert comma-separated string to array
+      categories: stringToArray(formData.categories), // Convert comma-separated string to array
       plan: formData.plan,
       ca_permit_required: formData.performerPermit,
       is_bonded: formData.bonded,
@@ -97,8 +123,8 @@ export async function adminUpdateListing(
       phone: formData.phone || null,
       city: formData.city || null,
       state: formData.state || null,
-      zip: formData.zip ? Number.parseInt(formData.zip) : null,
-      region: Array.isArray(formData.region) ? formData.region : (formData.region ? [formData.region] : []), // Ensure array
+      zip: parseIntSafe(formData.zip), // Safely parse to int or null
+      region: stringToArray(formData.region), // Convert comma-separated string to array
       bond_number: formData.bondNumber || null,
       is_active: formData.active,
       comped: formData.comped,
@@ -107,8 +133,8 @@ export async function adminUpdateListing(
       is_approved_101: formData.approved_101,
       is_claimed: formData.claimed,
       verification_status: formData.verification_status,
-      gallery: JSON.stringify(formData.gallery),
-      has_gallery: formData.gallery.length > 0,
+      gallery: JSON.stringify(galleryArray),
+      has_gallery: galleryArray.length > 0,
       // Social media fields
       facebook_url: formData.facebook_url || null,
       instagram_url: formData.instagram_url || null,

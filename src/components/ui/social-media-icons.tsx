@@ -50,10 +50,13 @@ const SocialMediaIcons = ({
   iconSize = 20,
   showLabels = true 
 }: SocialMediaIconsProps) => {
-  // Only show for Pro users
-  if (!listing.plan || (listing.plan.toLowerCase() !== 'pro' && listing.plan.toLowerCase() !== 'premium')) {
-    return null;
-  }
+  // Only show for paid tiers: Pro, Premium, Founding Pro, or Comped treated as Pro
+  const plan = (listing.plan || '').toLowerCase();
+  const isPaidTier =
+    listing.comped === true ||
+    plan.includes('pro') ||
+    plan.includes('premium');
+  if (!isPaidTier) return null;
 
   const socialLinks = [];
 

@@ -281,14 +281,16 @@ function generateSlug(listingName: string, id: string): string {
 
 export async function getListingBySlug(slug: string) {
   console.log("getListingBySlug: Looking for slug:", slug);
+  // Sanitize incoming slug (trim and remove any leading slashes)
+  const safeSlug = (slug || "").trim().replace(/^\/+/, "");
 
   // Reject UUID slugs - they're bad for SEO
   const uuidRegex =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-  if (uuidRegex.test(slug)) {
+  if (uuidRegex.test(safeSlug)) {
     console.log(
       "getListingBySlug: UUID slug detected, attempting to find listing by ID:",
-      slug,
+      safeSlug,
     );
 
     // Try to find the listing by ID to get the proper slug
@@ -297,7 +299,7 @@ export async function getListingBySlug(slug: string) {
       await createServerClient()
         .from("listings")
         .select("*")
-        .eq("id", slug)
+        .eq("id", safeSlug)
         .single();
 
     if (listingData && !listingError) {
@@ -400,7 +402,7 @@ export async function getListingBySlug(slug: string) {
   const { data: listingData, error: listingError } = await createServerClient()
     .from("listings")
     .select("*")
-    .eq("slug", slug)
+    .eq("slug", safeSlug) // try sanitized slug first
     .single();
 
   if (listingData && !listingError) {
@@ -409,6 +411,17 @@ export async function getListingBySlug(slug: string) {
       listingData.listing_name,
     );
     return listingData as Listing;
+  }
+
+  // Secondary: if stored slug has stray whitespace, attempt a loose match
+  const { data: loose, error: looseErr } = await createServerClient()
+    .from("listings")
+    .select("*")
+    .ilike("slug", `${safeSlug}%`)
+    .limit(1);
+  if (!looseErr && Array.isArray(loose) && loose[0]) {
+    console.log("getListingBySlug: Found listing by ilike slug match:", loose[0].slug);
+    return loose[0] as Listing;
   }
 
   // Fallback: generate slug from name and match (no status/is_active filters)
@@ -425,7 +438,7 @@ export async function getListingBySlug(slug: string) {
       >[]
     ).find((l) => {
       const generated = generateSlug(l.listing_name || "", l.id);
-      return l.slug === slug || generated === slug;
+      return (l.slug || "").trim() === safeSlug || generated === safeSlug;
     });
     if (match) {
       const { data: resolved, error: resolvedError } =
@@ -435,6 +448,16 @@ export async function getListingBySlug(slug: string) {
           .eq("id", match.id)
           .single();
       if (resolved && !resolvedError) {
+        // If the stored slug differs from the sanitized/generated one, fix it in DB
+        const desired = (resolved.slug || "").trim() || generateSlug(resolved.listing_name || "", resolved.id);
+        const fixed = desired.trim().replace(/^\/+/, "");
+        if ((resolved.slug || "") !== fixed) {
+          console.log("getListingBySlug: Auto-fixing stored slug:", resolved.slug, "->", fixed);
+          await createServerClient()
+            .from("listings")
+            .update({ slug: fixed })
+            .eq("id", resolved.id);
+        }
         return resolved as Listing;
       }
     }

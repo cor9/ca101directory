@@ -143,7 +143,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
                       height={48}
                       className="object-contain"
                     />
-                    <span className="text-sm font-semibold text-gray-900">
+                    <span className="text-xs font-semibold text-gray-900">
                       101 Approved
                     </span>
                   </div>

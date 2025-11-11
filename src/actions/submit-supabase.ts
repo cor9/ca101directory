@@ -1,5 +1,6 @@
 "use server";
 
+import { getListingById, LISTINGS_CACHE_TAG, listingCacheTag } from "@/data/listings";
 import { currentUser } from "@/lib/auth";
 import { sendDiscordNotification } from "@/lib/discord";
 import {
@@ -8,7 +9,7 @@ import {
 } from "@/lib/mail";
 import { SubmitSchema } from "@/lib/schemas";
 import { supabase } from "@/lib/supabase";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 type BaseSubmitFormData = {
   name: string;
@@ -320,10 +321,38 @@ export async function submitToSupabase(
 
     console.log("submitToSupabase, success, listingId:", data.id);
 
-    // Revalidate the submit page and homepage
-    revalidatePath("/submit");
-    revalidatePath("/");
-    revalidatePath("/directory");
+    // Revalidate the submit page and listing surfaces
+    const revalidateTargets = [
+      "/submit",
+      "/",
+      "/directory",
+      "/category",
+      "/category/[slug]",
+      "/location",
+      "/location/[city]",
+      "/tag",
+      "/tag/[slug]",
+      "/dashboard/vendor/listing",
+    ];
+
+    for (const path of revalidateTargets) {
+      revalidatePath(path);
+    }
+
+    let listingSlug: string | null = null;
+    try {
+      const canonical = await getListingById(data.id);
+      listingSlug = canonical?.slug ?? null;
+    } catch (slugError) {
+      console.error("Failed to resolve listing slug after submit:", slugError);
+    }
+
+    if (listingSlug) {
+      revalidatePath(`/listing/${listingSlug}`);
+    }
+
+    revalidateTag(LISTINGS_CACHE_TAG);
+    revalidateTag(listingCacheTag(data.id));
 
     // Send confirmation email (non-blocking, don't fail if email fails)
     if (user?.email) {

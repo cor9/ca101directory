@@ -1,9 +1,10 @@
 "use server";
 
 import { auth } from "@/auth";
+import { getListingById, LISTINGS_CACHE_TAG, listingCacheTag } from "@/data/listings";
 import { sendAdminClaimNotification } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function claimListing(listingId: string, message?: string) {
   // STEP 1: Verify authentication
@@ -163,8 +164,22 @@ export async function claimListing(listingId: string, message?: string) {
     }
 
     // Revalidate relevant pages
-    revalidatePath(`/listing/${listingId}`);
+    let slugToRevalidate = listing.slug ?? null;
+    try {
+      const canonical = await getListingById(listingId);
+      if (canonical?.slug) {
+        slugToRevalidate = canonical.slug;
+      }
+    } catch (slugError) {
+      console.error("Failed to resolve listing slug during claim revalidation:", slugError);
+    }
+
+    if (slugToRevalidate) {
+      revalidatePath(`/listing/${slugToRevalidate}`);
+    }
     revalidatePath("/dashboard/vendor/listing");
+    revalidateTag(LISTINGS_CACHE_TAG);
+    revalidateTag(listingCacheTag(listingId));
 
     // Notify admin (non-blocking)
     try {

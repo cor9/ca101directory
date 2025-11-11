@@ -443,11 +443,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     <Image
                       src="/101approvedbadge.png"
                       alt="101 Approved Badge"
-                      width={24}
-                      height={24}
+                      width={48}
+                      height={48}
                       className="object-contain"
                     />
-                    <span className="font-bold text-brand-orange text-sm">
+                    <span className="font-bold text-gray-900 text-sm">
                       101 APPROVED
                     </span>
                   </div>
@@ -455,7 +455,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
                 {/* Last Updated */}
                 {listing.updated_at && (
-                  <p className="text-xs text-gray-600">
+                  <p className="text-xs text-gray-200">
                     Last updated:{" "}
                     {new Date(listing.updated_at).toLocaleDateString("en-US", {
                       year: "numeric",
@@ -608,7 +608,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
             </div>
 
             {/* Social Media Links - Pro Users Only */}
-            <SocialMediaIcons listing={listing} className="listing-card-blue" />
+            <SocialMediaIcons listing={listing} className="listing-card-blue-dark" />
 
             {/* Review Form */}
             {isReviewsEnabled() && (
@@ -751,7 +751,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 {displayCategories.length > 0 ? (
                   displayCategories.map(
                     ({ key, displayName, iconUrl }, index) => {
-                      const colors = ["orange", "blue", "mustard", "green"];
+                      const colors = ["orange", "blue", "mustard"];
                       const colorClass = colors[index % colors.length];
                       return (
                         <span
@@ -779,10 +779,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
             </div>
 
             {/* Age Range */}
-            <div className="listing-card">
+            <div className="listing-card-red">
               <h2
                 className="text-lg font-semibold mb-4"
-                style={{ color: "#0C1A2B" }}
+                style={{ color: "#fafaf4" }}
               >
                 Age Range
               </h2>
@@ -814,7 +814,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
             {/* Reviews Display */}
             {isReviewsEnabled() && (
-              <div className="listing-card">
+              <div className="listing-card-grey">
                 <ReviewsDisplay listingId={listing.id} />
               </div>
             )}

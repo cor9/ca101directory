@@ -1,24 +1,14 @@
-import Image from "next/image";
-
 import { RichTextDisplay } from "@/components/ui/rich-text-display";
 import SocialMediaIcons from "@/components/ui/social-media-icons";
 import type { Listing } from "@/data/listings";
 
-export interface DisplayCategory {
-  key: string;
-  displayName: string;
-  iconUrl: string | null;
-}
-
 interface ListingDetailsSectionProps {
   listing: Listing;
-  displayCategories: DisplayCategory[];
   hasPremiumAccess: boolean;
 }
 
 export function ListingDetailsSection({
   listing,
-  displayCategories,
   hasPremiumAccess,
 }: ListingDetailsSectionProps) {
   const ageRanges = (listing.age_range || [])
@@ -84,39 +74,6 @@ export function ListingDetailsSection({
                 className="text-base leading-relaxed"
               />
             </div>
-          )}
-        </div>
-      </div>
-
-      <div className="listing-card-mustard">
-        <h2 className="bauhaus-heading text-lg font-semibold text-[var(--charcoal)]">
-          Categories
-        </h2>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {displayCategories.length > 0 ? (
-            displayCategories.map(({ key, displayName, iconUrl }, index) => {
-              const colors = ["orange", "blue", "mustard", "green"] as const;
-              const colorClass = colors[index % colors.length];
-              return (
-                <span
-                  key={key}
-                  className={`badge ${colorClass} flex items-center gap-2`}
-                >
-                  {iconUrl && (
-                    <Image
-                      src={iconUrl}
-                      alt={displayName}
-                      width={20}
-                      height={20}
-                      className="h-5 w-5 rounded-full object-contain"
-                    />
-                  )}
-                  {displayName}
-                </span>
-              );
-            })
-          ) : (
-            <span className="text-[var(--charcoal)]">No categories listed</span>
           )}
         </div>
       </div>

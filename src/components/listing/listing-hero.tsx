@@ -1,8 +1,10 @@
+import Image from "next/image";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { ProfileImage } from "@/components/listing/listing-images";
 import { Button } from "@/components/ui/button";
 import { StarRating } from "@/components/ui/star-rating";
 import type { Listing } from "@/data/listings";
+import type { DisplayCategory } from "./types";
 import { GlobeIcon, EditIcon, StarIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -12,6 +14,7 @@ interface ListingHeroProps {
   isOwner: boolean;
   showFavorite: boolean;
   showReviews: boolean;
+  categories: DisplayCategory[];
 }
 
 export function ListingHero({
@@ -20,6 +23,7 @@ export function ListingHero({
   isOwner,
   showFavorite,
   showReviews,
+  categories,
 }: ListingHeroProps) {
   return (
     <section className="listing-card-transparent">
@@ -114,6 +118,38 @@ export function ListingHero({
               />
             )}
           </div>
+
+          {categories.length > 0 && (
+            <div className="space-y-3">
+              <h2 className="bauhaus-heading text-sm font-semibold uppercase tracking-[0.2em] text-[var(--ink)]">
+                Categories
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {categories.map(({ key, displayName, iconUrl }, index) => {
+                  const colors = ["orange", "blue", "mustard", "green"] as const;
+                  const colorClass = colors[index % colors.length];
+
+                  return (
+                    <span
+                      key={key}
+                      className={`badge ${colorClass} flex items-center gap-2`}
+                    >
+                      {iconUrl && (
+                        <Image
+                          src={iconUrl}
+                          alt={displayName}
+                          width={20}
+                          height={20}
+                          className="h-5 w-5 rounded-full object-contain"
+                        />
+                      )}
+                      {displayName}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

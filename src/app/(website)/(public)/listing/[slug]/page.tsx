@@ -1,11 +1,9 @@
 import { getCategoriesByIds } from "@/actions/categories";
 import { auth } from "@/auth";
 import { Gallery } from "@/components/listing/gallery";
-import {
-  ListingDetailsSection,
-  type DisplayCategory,
-} from "@/components/listing/listing-details-section";
+import { ListingDetailsSection } from "@/components/listing/listing-details-section";
 import { ListingHero } from "@/components/listing/listing-hero";
+import type { DisplayCategory } from "@/components/listing/types";
 import { ListingContactSection } from "@/components/listing/listing-contact-section";
 import { ListingReviewsSection } from "@/components/listing/listing-reviews-section";
 import {
@@ -366,13 +364,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
           isOwner={isOwner}
           showFavorite={showFavorite}
           showReviews={reviewsEnabled}
+          categories={displayCategories}
         />
 
         <div className="listing-layout">
           <div className="listing-layout__main">
             <ListingDetailsSection
               listing={listing}
-              displayCategories={displayCategories}
               hasPremiumAccess={hasPremiumAccess}
             />
             <ListingReviewsSection

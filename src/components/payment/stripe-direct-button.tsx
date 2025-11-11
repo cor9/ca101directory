@@ -2,24 +2,61 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import type { PricePlan } from "@/types";
-import { ArrowRightIcon, RocketIcon } from "lucide-react";
+import { createCheckoutRedirectUrl } from "@/lib/stripe/client";
+import type { ItemInfo, PricePlan } from "@/types";
+import { ArrowRightIcon, Loader2Icon, RocketIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface StripeDirectButtonProps {
   pricePlan: PricePlan;
   className?: string;
+  item?: ItemInfo;
+  listingId?: string;
+  claimToken?: string;
+  flowOverride?: string;
 }
 
 export function StripeDirectButton({
   pricePlan,
   className,
+  item,
+  listingId,
+  claimToken,
+  flowOverride,
 }: StripeDirectButtonProps) {
-  const handleClick = () => {
-    // Open the Stripe Payment Link directly in a new tab
-    // These are reusable links that create fresh checkout sessions automatically
-    if (pricePlan.stripePriceId) {
-      window.open(pricePlan.stripePriceId, "_blank");
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClick = async () => {
+    if (isLoading) return;
+
+    const activeListingId = listingId ?? item?._id;
+    if (!activeListingId) {
+      toast.info("Create or select a listing before upgrading.");
+      router.push("/claim");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const redirectUrl = await createCheckoutRedirectUrl({
+        pricePlan,
+        listingId: activeListingId,
+        claimToken,
+        flowOverride,
+      });
+      window.location.href = redirectUrl;
+    } catch (error) {
+      console.error("Failed to create checkout session", error);
+      const message =
+        error instanceof Error
+          ? error.message
+          : "We couldn't reach Stripe. Please try again in a moment.";
+      toast.error(message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -62,11 +99,16 @@ export function StripeDirectButton({
         "shadow-lg hover:shadow-xl",
         className,
       )}
+      disabled={isLoading}
       onClick={handleClick}
     >
       <div className="flex items-center justify-center gap-2">
-        {getButtonIcon()}
-        <span>{getButtonText()}</span>
+        {isLoading ? (
+          <Loader2Icon className="mr-2 size-4 animate-spin" />
+        ) : (
+          getButtonIcon()
+        )}
+        <span>{isLoading ? "Redirecting..." : getButtonText()}</span>
       </div>
     </Button>
   );

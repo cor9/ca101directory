@@ -183,6 +183,12 @@ export type PriceConfig = {
   foundingBundles?: PricePlan[]; // Legacy support
 };
 
+export type PlanCheckoutConfig = {
+  planId: string;
+  billingCycle: "monthly" | "yearly" | "founding" | "one_time" | "six_month";
+  flow?: string;
+};
+
 export type PricePlan = {
   title: string;
   description: string;
@@ -193,6 +199,7 @@ export type PricePlan = {
   stripePriceId: string | null;
   isFeatured?: boolean; // Highlight this plan
   badge?: string; // Badge text like "BEST VALUE", "MOST POPULAR", "LIMITED TIME"
+  checkout?: PlanCheckoutConfig;
 };
 
 export type HomeConfig = {

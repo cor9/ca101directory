@@ -241,6 +241,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
     // Display categories - handle both UUIDs and names
     const displayCategories: DisplayCategory[] = [];
+    const seenCategoryNames = new Set<string>();
     for (const rawCategory of listing.categories || []) {
       const storedName = categoryNames[rawCategory];
       const readableName = !storedName && !isUuidLike(rawCategory)
@@ -254,6 +255,17 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
       const key = normalizeCategory(trimmedName);
       const displayName = categoryNameLookup.get(key) || trimmedName;
+      const normalizedDisplayName = normalizeCategory(displayName);
+
+      if (!normalizedDisplayName) {
+        continue;
+      }
+
+      if (seenCategoryNames.has(normalizedDisplayName)) {
+        continue;
+      }
+
+      seenCategoryNames.add(normalizedDisplayName);
       const iconFilename = iconLookup.get(key);
       const localIconEntry = Object.entries(localIconMap).find(
         ([name]) => normalizeCategory(name) === key,
@@ -272,14 +284,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
         derivedNameUrl ||
         localIcon ||
         null;
-      const keyValue = `${displayName}-${iconFilename || localIcon || ""}`;
-
-      if (displayCategories.some((category) => category.key === keyValue)) {
-        continue;
-      }
-
       displayCategories.push({
-        key: keyValue,
+        key: normalizedDisplayName,
         displayName,
         iconUrl,
       });
@@ -380,7 +386,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
             <RelatedLinks
               listing={listing}
               relatedListings={related}
-              categoryNames={displayCategories.map((c) => c.displayName)}
+              categoryNames={Array.from(
+                new Set(displayCategories.map((c) => c.displayName.trim())),
+              )}
             />
           </div>
           <aside className="listing-layout__aside">

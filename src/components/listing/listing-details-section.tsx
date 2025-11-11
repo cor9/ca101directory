@@ -11,6 +11,12 @@ export function ListingDetailsSection({
   listing,
   hasPremiumAccess,
 }: ListingDetailsSectionProps) {
+  const primaryHeadingClass =
+    "bauhaus-heading text-2xl font-semibold text-[var(--charcoal)]";
+  const secondaryHeadingClass =
+    "bauhaus-heading text-xl font-semibold text-[var(--charcoal)]";
+  const subHeadingClass =
+    "bauhaus-heading text-lg font-semibold text-[var(--charcoal)] normal-case";
   const ageRanges = (listing.age_range || [])
     .map((age) => (age || "").trim())
     .filter((age) => {
@@ -29,7 +35,7 @@ export function ListingDetailsSection({
   return (
     <section className="flex flex-col gap-6">
       <div className="listing-card">
-        <h2 className="text-xl font-bold text-[var(--navy)]">About This Professional</h2>
+        <h2 className={primaryHeadingClass}>About This Professional</h2>
         <div className="mt-4 space-y-6">
           <RichTextDisplay
             content={listing.what_you_offer || ""}
@@ -38,7 +44,7 @@ export function ListingDetailsSection({
 
           {hasPremiumAccess && listing.who_is_it_for && (
             <div>
-              <h3>Who Is It For</h3>
+              <h3 className={subHeadingClass}>Who Is It For</h3>
               <RichTextDisplay
                 content={listing.who_is_it_for}
                 className="text-base leading-relaxed"
@@ -48,7 +54,7 @@ export function ListingDetailsSection({
 
           {hasPremiumAccess && listing.why_is_it_unique && (
             <div>
-              <h3>What Makes This Unique</h3>
+              <h3 className={subHeadingClass}>What Makes This Unique</h3>
               <RichTextDisplay
                 content={listing.why_is_it_unique}
                 className="text-base leading-relaxed"
@@ -58,7 +64,7 @@ export function ListingDetailsSection({
 
           {hasPremiumAccess && listing.format && (
             <div>
-              <h3>Service Format</h3>
+              <h3 className={subHeadingClass}>Service Format</h3>
               <RichTextDisplay
                 content={listing.format}
                 className="text-base leading-relaxed"
@@ -68,7 +74,7 @@ export function ListingDetailsSection({
 
           {hasPremiumAccess && listing.extras_notes && (
             <div>
-              <h3>Additional Notes</h3>
+              <h3 className={subHeadingClass}>Additional Notes</h3>
               <RichTextDisplay
                 content={listing.extras_notes}
                 className="text-base leading-relaxed"
@@ -79,7 +85,7 @@ export function ListingDetailsSection({
       </div>
 
       <div className="listing-card">
-        <h2 className="text-lg font-semibold text-[var(--navy)]">Age Range</h2>
+        <h2 className={secondaryHeadingClass}>Age Range</h2>
         <div className="mt-4 flex flex-wrap gap-2">
           {ageRanges.length > 0 ? (
             ageRanges.map((age) => (
@@ -97,7 +103,7 @@ export function ListingDetailsSection({
 
       {hasCertifications && (
         <div className="listing-card">
-          <h2 className="text-lg font-semibold text-[var(--navy)]">
+          <h2 className={secondaryHeadingClass}>
             Certifications &amp; Compliance
           </h2>
           <ul className="mt-4 space-y-2 text-sm text-[var(--navy)]">

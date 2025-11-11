@@ -2,23 +2,40 @@ type IssueLevel = "error" | "warning" | "info";
 
 type ErrorContext = Record<string, unknown> | undefined;
 
-let sentryModulePromise: Promise<typeof import("@sentry/nextjs") | null> | null = null;
+type SentryScope = {
+  setTag?: (key: string, value: string) => void;
+  setContext?: (key: string, value: Record<string, unknown>) => void;
+};
 
-async function loadSentry() {
+type SentryFacade = {
+  captureException?: (error: unknown) => void;
+  captureMessage?: (message: string, level?: string) => void;
+  withScope?: (callback: (scope: SentryScope) => void) => void;
+};
+
+function resolveSentryFacade(): SentryFacade | null {
   if (!process.env.SENTRY_DSN) {
     return null;
   }
 
-  if (!sentryModulePromise) {
-    sentryModulePromise = import("@sentry/nextjs")
-      .then((mod) => mod)
-      .catch((error) => {
-        console.warn("Sentry SDK not available:", error);
-        return null;
-      });
+  const globalAny = globalThis as Record<string, any>;
+  const direct = globalAny.Sentry;
+  if (direct && typeof direct === "object") {
+    return direct as SentryFacade;
   }
 
-  return sentryModulePromise;
+  const sentryNamespace = globalAny.__SENTRY__;
+  const hub =
+    sentryNamespace?.hub ||
+    (typeof sentryNamespace?.getCurrentHub === "function"
+      ? sentryNamespace.getCurrentHub()
+      : undefined);
+
+  if (hub && typeof hub === "object") {
+    return hub as SentryFacade;
+  }
+
+  return null;
 }
 
 function logToConsole(level: IssueLevel, message: string, payload: Record<string, unknown>) {
@@ -31,6 +48,59 @@ function logToConsole(level: IssueLevel, message: string, payload: Record<string
   } else {
     console.info(message, logPayload);
   }
+}
+
+function notifySentry(
+  facade: SentryFacade | null,
+  level: IssueLevel,
+  message: string,
+  normalizedError: Error,
+  context?: ErrorContext,
+) {
+  if (!facade) {
+    return;
+  }
+
+  const withScope = typeof facade.withScope === "function" ? facade.withScope.bind(facade) : null;
+  const captureException =
+    typeof facade.captureException === "function" ? facade.captureException.bind(facade) : null;
+  const captureMessage =
+    typeof facade.captureMessage === "function" ? facade.captureMessage.bind(facade) : null;
+
+  if (level === "error" && captureException) {
+    if (withScope) {
+      withScope((scope) => {
+        scope.setTag?.("component", "stripe");
+        if (context) {
+          scope.setContext?.("stripe_context", context as Record<string, unknown>);
+        }
+        captureException(normalizedError);
+      });
+      return;
+    }
+
+    captureException(normalizedError);
+    return;
+  }
+
+  if (!captureMessage) {
+    return;
+  }
+
+  const sentryLevel = level === "warning" ? "warning" : "info";
+
+  if (withScope) {
+    withScope((scope) => {
+      scope.setTag?.("component", "stripe");
+      if (context) {
+        scope.setContext?.("stripe_context", context as Record<string, unknown>);
+      }
+      captureMessage(`[Stripe] ${message}`, sentryLevel);
+    });
+    return;
+  }
+
+  captureMessage(`[Stripe] ${message}`, sentryLevel);
 }
 
 export async function reportStripeIssue(
@@ -49,40 +119,16 @@ export async function reportStripeIssue(
 
   logToConsole(level, `[Stripe] ${message}`, payload);
 
+  const facade = resolveSentryFacade();
+  if (!facade) {
+    return;
+  }
+
+  const normalizedError =
+    error instanceof Error ? error : new Error(message, { cause: error });
+
   try {
-    const sentry = await loadSentry();
-    if (!sentry) {
-      return;
-    }
-
-    const normalizedError =
-      error instanceof Error ? error : new Error(message, { cause: error });
-
-    if (level === "error") {
-      sentry.withScope((scope) => {
-        scope.setTag("component", "stripe");
-        if (context) {
-          scope.setContext("stripe_context", context as Record<string, any>);
-        }
-        sentry.captureException(normalizedError);
-      });
-      return;
-    }
-
-    const captureMessage = (sentry as any).captureMessage as
-      | ((msg: string, lvl?: string) => void)
-      | undefined;
-
-    if (captureMessage) {
-      const sentryLevel = level === "warning" ? "warning" : "info";
-      sentry.withScope((scope) => {
-        scope.setTag("component", "stripe");
-        if (context) {
-          scope.setContext("stripe_context", context as Record<string, any>);
-        }
-        captureMessage(`[Stripe] ${message}`, sentryLevel);
-      });
-    }
+    notifySentry(facade, level, message, normalizedError, context);
   } catch (sentryError) {
     console.warn("Failed to report Stripe issue to Sentry:", sentryError);
   }

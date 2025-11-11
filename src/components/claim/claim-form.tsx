@@ -10,9 +10,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { FieldTooltip } from "@/components/ui/field-tooltip";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,6 +23,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { type ClaimListingFormData, ClaimListingSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -85,7 +88,15 @@ export function ClaimForm({
       <CardHeader>
         <CardTitle className="text-xl font-bold">Claim This Listing</CardTitle>
         <CardDescription>
-          Submit a claim for "{listingName}" to become the owner
+          Submit a compelling reason why you should manage "{listingName}". Need
+          tips?{" "}
+          <Link
+            href="/help/claim-listing"
+            className="font-semibold text-[#FF6B35] underline hover:text-[#d95728]"
+          >
+            Review the claim checklist
+          </Link>
+          .
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -97,10 +108,18 @@ export function ClaimForm({
               name="message"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Why should you own this listing? *</FormLabel>
+                  <div className="flex items-center gap-2">
+                    <FormLabel>Why should you own this listing? *</FormLabel>
+                    <FieldTooltip message="Share proof of ownership, recent wins, or credentials that show you're the right steward for this listing." />
+                  </div>
+                  <FormDescription>
+                    Example: "I'm the studio founder, hold the California Child
+                    Performer Services Permit, and manage all client bookings
+                    for our 120 families."
+                  </FormDescription>
                   <FormControl>
                     <Textarea
-                      placeholder="Please explain why you should be the owner of this listing. Include any relevant business information, credentials, or proof of ownership..."
+                      placeholder="Explain your relationship to the business, proof of ownership, and how you actively support clients."
                       className="min-h-[120px]"
                       {...field}
                     />

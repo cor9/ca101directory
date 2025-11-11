@@ -36,7 +36,10 @@ export function ListingHero({
       </div>
 
       <div className="flex flex-col gap-6 md:flex-row md:items-start">
-        <ProfileImage listing={listing} />
+        <ProfileImage
+          listing={listing}
+          fallbackIconUrl={categories[0]?.iconUrl || null}
+        />
 
         <div className="flex-1 space-y-4">
           <div className="space-y-2">

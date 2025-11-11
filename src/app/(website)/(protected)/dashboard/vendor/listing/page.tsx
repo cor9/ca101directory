@@ -1,27 +1,28 @@
-import { auth } from "@/auth";
-import { DashboardGuard } from "@/components/auth/role-guard";
 import { VendorDashboardLayout } from "@/components/layouts/VendorDashboardLayout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { fetchUserListings } from "@/lib/api/listings";
+import { currentUser } from "@/lib/auth";
+import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import { Edit, ExternalLink, Eye } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function VendorListingPage() {
-  const session = await auth();
-  if (!session?.user) {
+  const user = await currentUser();
+  if (!user?.id) {
     redirect("/auth/login");
   }
 
+  verifyDashboardAccess(user, "vendor", "/dashboard/vendor/listing");
+
   // Fetch user's listings
-  const userListings = await fetchUserListings(session.user.id);
+  const userListings = await fetchUserListings(user.id);
 
   return (
-    <DashboardGuard allowedRoles={["vendor"]}>
-      <VendorDashboardLayout>
-        <div className="space-y-6">
+    <VendorDashboardLayout>
+      <div className="space-y-6">
           {/* Header */}
           <div className="flex items-center justify-between">
             <div>
@@ -173,6 +174,5 @@ export default async function VendorListingPage() {
           )}
         </div>
       </VendorDashboardLayout>
-    </DashboardGuard>
-  );
+    );
 }

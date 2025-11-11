@@ -50,12 +50,14 @@ export async function claimListing(listingId: string, message?: string) {
     return {
       success: false,
       error: "WRONG_ROLE",
-      title: "Vendor Account Required",
+      title: "Switch to a Vendor Account",
       message:
-        "Your account is registered as a Parent. Only Vendor accounts can claim listings.",
+        "Your account is currently set up for Parents. Only Vendor accounts can claim and manage listings.",
       action:
-        "If you're a professional offering services, please contact support to change your account type.",
-      hint: "Parents can browse and review listings, but cannot claim or manage them.",
+        "Open Settings and switch to a Professional/Vendor account to continue your claim.",
+      hint: "You'll find the role switcher on the Account tab in Settings.",
+      redirectTo: "/settings?showRoleSwitcher=1",
+      redirectLabel: "Open Settings",
     };
   }
 

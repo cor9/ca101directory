@@ -72,6 +72,10 @@ export function ClaimForm({
           toast.error(result.title || "Claim Failed", {
             description: result.message,
           });
+
+          if (result.error === "WRONG_ROLE" && result.redirectTo) {
+            router.push(result.redirectTo);
+          }
         }
       } catch (error) {
         console.error("Form submission error:", error);
@@ -89,6 +93,16 @@ export function ClaimForm({
         </CardDescription>
       </CardHeader>
       <CardContent>
+        <div className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
+          <p className="font-semibold">What happens after you submit</p>
+          <p className="mt-1">
+            After you submit, we&apos;ll send you to{" "}
+            <strong>Dashboard → My Listings</strong>{" "}
+            where you can hit{" "}
+            <em>Edit</em>{" "}
+            on "{listingName}" and start updating details.
+          </p>
+        </div>
         <Form {...form}>
           <form onSubmit={onSubmit} className="space-y-6">
             {/* Message */}

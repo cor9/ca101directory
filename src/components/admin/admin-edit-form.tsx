@@ -11,6 +11,7 @@ import {
   useForm,
 } from "react-hook-form";
 import { z } from "zod";
+import { toast } from "sonner";
 
 // Fix: Separated imports to pull `Listing` type from data layer and action/schema from the actions layer.
 import { updateListing } from "@/actions/listings";
@@ -138,6 +139,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
   });
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [isGalleryUploading, setIsGalleryUploading] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Fetch categories and convert UUIDs to names
   useEffect(() => {
@@ -232,6 +234,10 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
     }
   }, [categoryNames, form]);
 
+  useEffect(() => {
+    setSubmitError(null);
+  }, [listing.id]);
+
   // Debug form state
   console.log("Form state:", {
     isValid: form.formState.isValid,
@@ -241,6 +247,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
   });
 
   const onSubmit = (values: FormInputType) => {
+    setSubmitError(null);
     console.log("Form submission started with values:", values);
     console.log("Available categories:", categories);
 
@@ -302,6 +309,16 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           )
             .then((res) => {
               console.log("UpdateListing response:", res);
+
+              if (res.status === "success") {
+                setSubmitError(null);
+              } else {
+                const message =
+                  res.message || "Database Error: Failed to update listing.";
+                setSubmitError(message);
+                toast.error(message);
+              }
+
               // Pass the entire response to the parent component to handle side-effects
               if (onFinished) {
                 onFinished(res);
@@ -312,29 +329,38 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             })
             .catch((error) => {
               console.error("UpdateListing error:", error);
+              const fallbackMessage = "An unexpected error occurred.";
+              setSubmitError(fallbackMessage);
+              toast.error(fallbackMessage);
               if (onFinished) {
                 onFinished({
                   status: "error",
-                  message: "An unexpected error occurred.",
+                  message: fallbackMessage,
                 });
               }
             });
         } catch (innerError) {
           console.error("Error in startTransition:", innerError);
+          const fallbackMessage = "Form processing error occurred.";
+          setSubmitError(fallbackMessage);
+          toast.error(fallbackMessage);
           if (onFinished) {
             onFinished({
               status: "error",
-              message: "Form processing error occurred.",
+              message: fallbackMessage,
             });
           }
         }
       });
     } catch (outerError) {
       console.error("Error in onSubmit:", outerError);
+      const fallbackMessage = "Form submission error occurred.";
+      setSubmitError(fallbackMessage);
+      toast.error(fallbackMessage);
       if (onFinished) {
         onFinished({
           status: "error",
-          message: "Form submission error occurred.",
+          message: fallbackMessage,
         });
       }
     }
@@ -433,10 +459,18 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
     <form
       onSubmit={form.handleSubmit(onSubmit, (errors) => {
         console.error("Form validation errors:", errors);
-        alert("Please fix the following errors:\n" + Object.entries(errors).map(([field, err]) => `- ${field}: ${err?.message}`).join("\n"));
+        const validationMessage =
+          "Please fix the highlighted fields before saving.";
+        setSubmitError(validationMessage);
+        toast.error(validationMessage);
       })}
       className="space-y-6 max-h-[70vh] overflow-y-auto pr-4"
     >
+      {submitError && (
+        <div className="rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+          {submitError}
+        </div>
+      )}
       {/* Show form validation status */}
       {Object.keys(form.formState.errors).length > 0 && (
         <div className="bg-red-50 border border-red-200 rounded-md p-4">

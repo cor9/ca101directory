@@ -85,8 +85,8 @@ export function ProfileImage({ listing }: ProfileImageProps) {
             }
             alt={`Logo of ${listing.listing_name}`}
             title="Click to view larger image"
-            width={200}
-            height={160}
+            width={400}
+            height={267}
             className="object-contain rounded-lg flex-shrink-0 p-1"
           />
         </button>

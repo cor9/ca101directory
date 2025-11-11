@@ -12,9 +12,11 @@ type SortableKeys = "listing_name" | "status" | "is_claimed" | "created_at";
 export const ListingsTable = ({
   listings,
   onEdit,
+  errorMessage,
 }: {
   listings: Listing[];
   onEdit: (listing: Listing) => void;
+  errorMessage?: string | null;
 }) => {
   const [filters, setFilters] = useState({
     status: "all",
@@ -105,6 +107,11 @@ export const ListingsTable = ({
   return (
     <div className="bg-card rounded-lg p-6 border">
       <h2 className="text-lg font-semibold mb-4">All Listings</h2>
+      {errorMessage && (
+        <div className="mb-4 rounded-md border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
+          {errorMessage}
+        </div>
+      )}
       <div className="flex gap-4 mb-4">
         <div>
           <label

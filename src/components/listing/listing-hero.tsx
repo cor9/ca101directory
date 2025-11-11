@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { StarRating } from "@/components/ui/star-rating";
 import type { Listing } from "@/data/listings";
 import type { DisplayCategory } from "./types";
-import { GlobeIcon, EditIcon, StarIcon } from "lucide-react";
+import { GlobeIcon, EditIcon } from "lucide-react";
 import Link from "next/link";
 
 interface ListingHeroProps {
@@ -61,9 +61,15 @@ export function ListingHero({
               )}
 
               {listing.badge_approved === true && (
-                <div className="flex items-center gap-2 rounded-lg border border-[var(--mustard-yellow)] bg-[var(--cream)] px-3 py-1.5">
-                  <StarIcon className="h-4 w-4 text-[var(--faded-red-orange)]" />
-                  <span className="text-xs font-semibold tracking-[0.2em] text-[var(--ink)]">
+                <div className="flex items-center gap-3 rounded-xl border border-[var(--mustard-yellow)] bg-[var(--cream)]/90 px-3 py-2 shadow-sm">
+                  <Image
+                    src="/101approvedbadge.png"
+                    alt="Child Actor 101 Approved"
+                    width={56}
+                    height={56}
+                    className="h-12 w-12 object-contain"
+                  />
+                  <span className="text-xs font-semibold tracking-[0.2em] text-[var(--charcoal)]">
                     101 APPROVED
                   </span>
                 </div>

@@ -17,12 +17,12 @@ export function ListingReviewsSection({
 
   return (
     <section className="flex flex-col gap-6">
-      <div className="listing-card">
+      <div className="listing-card-grey">
         <ReviewsDisplay listingId={listing.id} />
       </div>
       <div
         className="listing-card-transparent border"
-        style={{ borderColor: "var(--cream)" }}
+        style={{ borderColor: "rgba(147, 163, 181, 0.35)" }}
       >
         <ReviewForm
           listingId={listing.id}

@@ -67,7 +67,7 @@ export function ProfileImage({ listing }: ProfileImageProps) {
       {(listing.profile_image || fallbackUrl) && (
         <button
           type="button"
-          className="cursor-pointer hover:opacity-90 transition-opacity"
+          className="flex-shrink-0 cursor-pointer transition-opacity hover:opacity-90"
           onClick={() =>
             openModal(
               listing.profile_image
@@ -85,9 +85,10 @@ export function ProfileImage({ listing }: ProfileImageProps) {
             }
             alt={`Logo of ${listing.listing_name}`}
             title="Click to view larger image"
-            width={160}
-            height={160}
-            className="object-contain rounded-lg flex-shrink-0 p-1"
+            width={224}
+            height={224}
+            sizes="(min-width: 768px) 208px, 160px"
+            className="h-40 w-40 rounded-xl bg-white/80 p-4 shadow-md object-contain md:h-52 md:w-52"
           />
         </button>
       )}

@@ -84,8 +84,10 @@ export function ListingDetailsSection({
         </div>
       </div>
 
-      <div className="listing-card">
-        <h2 className={secondaryHeadingClass}>Age Range</h2>
+      <div className="listing-card-red">
+        <h2 className="bauhaus-heading text-xl font-semibold text-[var(--ink)]">
+          Age Range
+        </h2>
         <div className="mt-4 flex flex-wrap gap-2">
           {ageRanges.length > 0 ? (
             ageRanges.map((age) => (
@@ -94,7 +96,7 @@ export function ListingDetailsSection({
               </span>
             ))
           ) : (
-            <span className="text-[var(--navy)] opacity-70">
+            <span className="text-[var(--ink)] opacity-80">
               No age range specified
             </span>
           )}

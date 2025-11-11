@@ -402,6 +402,25 @@
     line-height: 1.7;
   }
 
+  .listing-card-red {
+    background: var(--faded-red-orange);
+    color: var(--ink);
+    border-radius: 12px;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    box-shadow: var(--shadow-bauhaus);
+    line-height: 1.7;
+  }
+
+  .listing-card-grey {
+    background: rgba(147, 163, 181, 0.16);
+    border: 2px solid rgba(147, 163, 181, 0.35);
+    border-radius: 12px;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    box-shadow: var(--shadow-bauhaus);
+    color: var(--navy);
+    line-height: 1.7;
+  }
+
   .listing-card-transparent {
     background: transparent;
     border: 2px solid var(--robin-egg-blue);

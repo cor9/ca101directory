@@ -131,7 +131,7 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
       </header>
 
       {/* Mobile View */}
-      <header className="md:hidden flex justify-center bg-background/60 backdrop-blur-xl transition-all">
+      <header className="md:hidden flex justify-center bg-white dark:bg-gray-900 border-b transition-all">
         <div className="w-full px-4 h-16 flex items-center justify-between">
           {/* mobile navbar left show menu icon when closed & show sheet when menu is open */}
           <div className="flex items-center gap-x-4">
@@ -146,8 +146,8 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
                   <span className="sr-only">Toggle navigation menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="flex flex-col p-0">
-                <div className="flex h-screen flex-col">
+              <SheetContent side="left" className="flex flex-col p-0 bg-white dark:bg-gray-900">
+                <div className="flex h-screen flex-col bg-white dark:bg-gray-900">
                   {/* logo */}
                   <Link
                     href="/"
@@ -169,14 +169,11 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
                             if (!item.disabled) setOpen(false);
                           }}
                           className={cn(
-                            "flex items-center rounded-md gap-2 p-2 text-sm font-medium hover:bg-muted",
+                            "flex items-center rounded-md gap-2 p-2 text-sm font-medium hover:bg-muted text-gray-900 dark:text-gray-100",
                             isLinkActive(item.href) && "bg-muted",
                             item.disabled &&
                               "cursor-not-allowed opacity-80 hover:bg-transparent",
                           )}
-                          style={{
-                            color: "#1f2327",
-                          }}
                         >
                           <Icon className="size-5" />
                           {item.title}

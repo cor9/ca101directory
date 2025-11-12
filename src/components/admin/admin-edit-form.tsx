@@ -130,12 +130,34 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
   const [galleryImages, setGalleryImages] = useState<string[]>(() => {
     if (typeof listing.gallery === "string") {
       try {
-        return JSON.parse(listing.gallery) || [];
+        const parsed = JSON.parse(listing.gallery) || [];
+        if (Array.isArray(parsed)) {
+          return parsed.map((e: any) => (typeof e === "string" ? e : (e?.url || e?.src || "")));
+        }
+        return [];
       } catch {
         return [];
       }
     }
-    return Array.isArray(listing.gallery) ? listing.gallery : [];
+    return Array.isArray(listing.gallery)
+      ? (listing.gallery as any[]).map((e) => (typeof e === "string" ? e : (e?.url || e?.src || "")))
+      : [];
+  });
+  const [galleryCaptions, setGalleryCaptions] = useState<string[]>(() => {
+    if (typeof listing.gallery === "string") {
+      try {
+        const parsed = JSON.parse(listing.gallery) || [];
+        if (Array.isArray(parsed)) {
+          return parsed.map((e: any) => (typeof e === "object" && typeof e?.caption === "string" ? e.caption : ""));
+        }
+        return [];
+      } catch {
+        return [];
+      }
+    }
+    return Array.isArray(listing.gallery)
+      ? (listing.gallery as any[]).map((e) => (typeof e === "object" && typeof (e as any).caption === "string" ? (e as any).caption : ""))
+      : [];
   });
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [isGalleryUploading, setIsGalleryUploading] = useState(false);
@@ -575,10 +597,36 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               onImagesChange={(images) => {
                 console.log("[Admin Edit] Gallery images changed:", images);
                 setGalleryImages(images);
-                form.setValue("gallery", JSON.stringify(images.filter(Boolean)));
+                const objects = images.map((url, i) => url ? { url, caption: galleryCaptions[i] || "" } : null).filter(Boolean);
+                form.setValue("gallery", JSON.stringify(objects));
               }}
               onUploadingChange={setIsGalleryUploading}
             />
+            {/* Captions per image */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+              {galleryImages.map((url, index) =>
+                url ? (
+                  <div key={`admin-caption-${index}`} className="space-y-1">
+                    <label htmlFor={`admin-caption-${index}`} className="block text-sm font-medium text-ink">
+                      Caption for image {index + 1}
+                    </label>
+                    <textarea
+                      id={`admin-caption-${index}`}
+                      rows={3}
+                      value={galleryCaptions[index] || ""}
+                      onChange={(e) => {
+                        const next = [...galleryCaptions];
+                        next[index] = e.target.value;
+                        setGalleryCaptions(next);
+                        const objects = galleryImages.map((u, i) => u ? { url: u, caption: (i === index ? e.target.value : next[i] || "") } : null).filter(Boolean);
+                        form.setValue("gallery", JSON.stringify(objects));
+                      }}
+                      className="w-full bg-surface border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none text-ink"
+                    />
+                  </div>
+                ) : null,
+              )}
+            </div>
             <p className="text-xs text-ink mt-1">
               Up to 4 gallery images (Pro listings typically use this feature).
             </p>

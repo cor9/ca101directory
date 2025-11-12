@@ -44,12 +44,34 @@ export function VendorEditForm({
   const [galleryImages, setGalleryImages] = useState<string[]>(() => {
     if (typeof listing.gallery === "string") {
       try {
-        return JSON.parse(listing.gallery) || [];
+        const parsed = JSON.parse(listing.gallery) || [];
+        if (Array.isArray(parsed)) {
+          return parsed.map((e: any) => (typeof e === "string" ? e : (e?.url || e?.src || "")));
+        }
+        return [];
       } catch {
         return [];
       }
     }
-    return Array.isArray(listing.gallery) ? listing.gallery : [];
+    return Array.isArray(listing.gallery)
+      ? (listing.gallery as any[]).map((e) => (typeof e === "string" ? e : (e?.url || e?.src || "")))
+      : [];
+  });
+  const [galleryCaptions, setGalleryCaptions] = useState<string[]>(() => {
+    if (typeof listing.gallery === "string") {
+      try {
+        const parsed = JSON.parse(listing.gallery) || [];
+        if (Array.isArray(parsed)) {
+          return parsed.map((e: any) => (typeof e === "object" && typeof e?.caption === "string" ? e.caption : ""));
+        }
+        return [];
+      } catch {
+        return [];
+      }
+    }
+    return Array.isArray(listing.gallery)
+      ? (listing.gallery as any[]).map((e) => (typeof e === "object" && typeof (e as any).caption === "string" ? (e as any).caption : ""))
+      : [];
   });
 
   // Fetch categories on mount and convert UUIDs to names BEFORE form initializes
@@ -186,10 +208,14 @@ export function VendorEditForm({
     console.log("Gallery images:", galleryImages);
 
     startTransition(() => {
-      // Prepare gallery as JSON string
-      const galleryString = Array.isArray(galleryImages)
-        ? JSON.stringify(galleryImages.filter(Boolean))
-        : (typeof galleryImages === "string" ? galleryImages : JSON.stringify([]));
+      // Prepare gallery as JSON string (objects with url and caption)
+      const galleryObjects =
+        Array.isArray(galleryImages)
+          ? galleryImages
+              .map((url, i) => (url ? { url, caption: galleryCaptions[i] || "" } : null))
+              .filter(Boolean)
+          : [];
+      const galleryString = JSON.stringify(galleryObjects);
 
       // Values are already strings (from form state), but ensure they're strings
       const categoriesStr = typeof values.categories === "string" ? values.categories : (Array.isArray(values.categories) ? values.categories.join(", ") : "");
@@ -489,6 +515,27 @@ export function VendorEditForm({
             onImagesChange={setGalleryImages}
             onUploadingChange={setIsGalleryUploading}
           />
+          {/* Captions per image */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {galleryImages.map((url, index) =>
+              url ? (
+                <div key={`caption-${index}`} className="space-y-1">
+                  <Label htmlFor={`caption-${index}`}>Caption for image {index + 1}</Label>
+                  <Textarea
+                    id={`caption-${index}`}
+                    placeholder="Write a caption (hashtags and links allowed)"
+                    rows={3}
+                    value={galleryCaptions[index] || ""}
+                    onChange={(e) => {
+                      const next = [...galleryCaptions];
+                      next[index] = e.target.value;
+                      setGalleryCaptions(next);
+                    }}
+                  />
+                </div>
+              ) : null,
+            )}
+          </div>
           <p className="text-xs text-gray-600">
             {plan === "founding pro" ? "Founding Pro" : "Pro"} plan includes 4 gallery images (5 total with profile)
           </p>

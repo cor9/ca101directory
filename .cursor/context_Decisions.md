@@ -1,3 +1,9 @@
+## Nov 12, 2025 — Vendor Gallery Captions
+- Added support for Instagram-style captions on vendor gallery images.
+- Storage remains in the existing `listing.gallery` field as a JSON string, now supporting objects: `{ url, caption }`. Backward compatible with legacy `string[]` of URLs.
+- Public UI: Captions are only displayed inside the image modal when a user clicks to enlarge an image; not shown in grid thumbnails (per requirement).
+- Vendor Edit UI: Pro-tier vendors can enter a caption per gallery image. On save, we serialize as an array of objects with `url` and `caption`.
+- No changes to plan gating: Free = no images, Standard = profile only, Pro = profile + 4 gallery images.
 # 🚨 READ THIS FIRST - NOVEMBER 6, 2025: PARENT FEATURES ENABLED 🚨
 
 **NEW (Nov 6, 2025 - LATEST):** Enabled parent dashboard features (favorites & reviews). See `.cursor/PARENT_FEATURES_ENABLED_NOV6_2025.md` for full details.

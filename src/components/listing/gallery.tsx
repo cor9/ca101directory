@@ -18,23 +18,71 @@ export function Gallery({ listing }: GalleryProps) {
   const [modalImage, setModalImage] = useState<{
     url: string;
     alt: string;
+    caption?: string;
   } | null>(null);
 
-  const openModal = (url: string, alt: string) => {
-    setModalImage({ url, alt });
+  const openModal = (url: string, alt: string, caption?: string) => {
+    setModalImage({ url, alt, caption });
   };
 
   const closeModal = () => {
     setModalImage(null);
   };
 
-  // Parse gallery images
-  const galleryImages =
-    typeof listing.gallery === "string"
-      ? parseGalleryImages(listing.gallery)
-      : Array.isArray(listing.gallery)
-        ? (listing.gallery as string[]).map((img) => getListingImageUrl(img))
-        : [];
+  // Parse gallery images and optional captions (backward compatible)
+  type GalleryItem = { url: string; caption?: string };
+  const galleryItems: GalleryItem[] = (() => {
+    // If gallery is a string, try to parse JSON first (may be array of strings or objects)
+    if (typeof listing.gallery === "string" && listing.gallery.trim() !== "") {
+      try {
+        const parsed = JSON.parse(listing.gallery);
+        if (Array.isArray(parsed)) {
+          return parsed
+            .map((entry: any) => {
+              // Support objects { url, caption } or { src, caption }
+              if (entry && typeof entry === "object") {
+                const rawUrl = entry.url || entry.src || "";
+                if (!rawUrl || typeof rawUrl !== "string") return null;
+                return {
+                  url: getListingImageUrl(rawUrl),
+                  caption: typeof entry.caption === "string" ? entry.caption : undefined,
+                } as GalleryItem;
+              }
+              // Support legacy string entries
+              if (typeof entry === "string") {
+                return { url: getListingImageUrl(entry) } as GalleryItem;
+              }
+              return null;
+            })
+            .filter(Boolean) as GalleryItem[];
+        }
+      } catch {
+        // Fallback to previous parser that expects a comma-delimited or JSON-like string of filenames/urls
+        const urls = parseGalleryImages(listing.gallery);
+        return urls.map((u) => ({ url: u }));
+      }
+    }
+    // If gallery is already an array
+    if (Array.isArray(listing.gallery)) {
+      return (listing.gallery as any[])
+        .map((entry) => {
+          if (typeof entry === "string") {
+            return { url: getListingImageUrl(entry) } as GalleryItem;
+          }
+          if (entry && typeof entry === "object") {
+            const rawUrl = (entry as any).url || (entry as any).src || "";
+            if (!rawUrl || typeof rawUrl !== "string") return null;
+            return {
+              url: getListingImageUrl(rawUrl),
+              caption: typeof (entry as any).caption === "string" ? (entry as any).caption : undefined,
+            } as GalleryItem;
+          }
+          return null;
+        })
+        .filter(Boolean) as GalleryItem[];
+    }
+    return [];
+  })();
 
   if (!listing.gallery && listing.plan !== "pro" && !listing.comped) {
     return null;
@@ -46,30 +94,32 @@ export function Gallery({ listing }: GalleryProps) {
         <h2 className="text-xl font-semibold mb-4" style={{ color: "#fafadc" }}>
           Gallery
         </h2>
-        {galleryImages.length > 0 ? (
+        {galleryItems.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {galleryImages.map((imageUrl, index) => (
+            {galleryItems.map((item, index) => (
               <button
-                key={`gallery-${index}-${imageUrl}`}
+                key={`gallery-${index}-${item.url}`}
                 className="relative group overflow-hidden rounded-lg h-44 md:h-48 lg:h-56 cursor-pointer hover:opacity-90 transition-opacity"
                 type="button"
                 onClick={() =>
                   openModal(
-                    imageUrl,
+                    item.url,
                     `Gallery image ${index + 1} for ${listing.listing_name}`,
+                    item.caption,
                   )
                 }
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     openModal(
-                      imageUrl,
+                      item.url,
                       `Gallery image ${index + 1} for ${listing.listing_name}`,
+                      item.caption,
                     );
                   }
                 }}
               >
                 <Image
-                  src={imageUrl}
+                  src={item.url}
                   alt={`Gallery image ${index + 1} for ${listing.listing_name}`}
                   title="Click to view larger image"
                   loading="lazy"
@@ -100,6 +150,7 @@ export function Gallery({ listing }: GalleryProps) {
         onClose={closeModal}
         imageUrl={modalImage?.url || ""}
         alt={modalImage?.alt || ""}
+        caption={modalImage?.caption}
       />
     </>
   );

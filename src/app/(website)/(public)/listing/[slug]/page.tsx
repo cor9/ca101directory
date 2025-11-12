@@ -258,7 +258,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
     console.log("ListingPage: Category names by IDs fetched");
 
     // Display categories - handle both UUIDs and names
-    const displayCategories = (listing.categories || [])
+    const displayCategoriesRaw = (listing.categories || [])
       .map((catId) => {
         // If we have a category name from database, use it
         if (categoryNames[catId]) {
@@ -329,19 +329,18 @@ export default async function ListingPage({ params }: ListingPageProps) {
       })
       .filter(
         (cat) => cat.displayName && cat.key && !cat.key.startsWith("fallback-"),
-      )
-      // Dedupe by normalized display name to avoid showing categories twice
-      .filter((cat => {
-        const seen = new Set<string>();
-        const norm = (s: string) =>
-          s.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
-        return (item: typeof cat, index: number, arr: typeof cat[]) => {
-          const k = norm(item.displayName);
-          if (seen.has(k)) return false;
-          seen.add(k);
-          return true;
-        };
-      }) as any);
+      );
+
+    // Properly dedupe by normalized display name
+    const seenCategoryNames = new Set<string>();
+    const normalizeName = (s: string) =>
+      s.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+    const displayCategories = displayCategoriesRaw.filter((cat) => {
+      const k = normalizeName(cat.displayName);
+      if (seenCategoryNames.has(k)) return false;
+      seenCategoryNames.add(k);
+      return true;
+    });
 
     console.log("ListingPage: Successfully found listing:", {
       id: listing.id,
@@ -530,7 +529,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 )}
                 {displayCategories.length > 0 && (
                   <div className="flex flex-wrap gap-2">
-                    {displayCategories.slice(0, 6).map(({ key, displayName, iconUrl }, index) => {
+                    {displayCategories.slice(0, 3).map(({ key, displayName, iconUrl }, index) => {
                       const colors = ["orange", "blue", "mustard"];
                       const colorClass = colors[index % colors.length];
                       return (
@@ -548,28 +547,48 @@ export default async function ListingPage({ params }: ListingPageProps) {
                         </span>
                       );
                     })}
+                    {displayCategories.length > 3 && (
+                      <span className="badge">{`+${displayCategories.length - 3} more`}</span>
+                    )}
                   </div>
                 )}
                 {listing.age_range && listing.age_range.length > 0 && (
                   <div className="flex flex-wrap gap-2">
-                    {listing.age_range
-                      .filter((age) => {
-                        const val = age?.trim() || "";
-                        if (!val) return false;
-                        if (val.includes("Age Range")) return false;
-                        if (val.includes("los-angeles")) return false;
-                        if (val.includes("hybrid")) return false;
-                        const uuidLike =
-                          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-                        if (uuidLike.test(val)) return false;
-                        return true;
-                      })
-                      .slice(0, 6)
-                      .map((age, i) => (
-                        <span key={`header-age-${i}-${(age || "").trim()}`} className="badge blue">
-                          {(age || "").trim()}
-                        </span>
-                      ))}
+                    {(() => {
+                      const raw = (listing.age_range || []).map((v) => (v || "").trim()).filter(Boolean);
+                      const serviceTags = new Set(["online", "in-person", "in person", "hybrid"]);
+                      const isUuid = (s: string) =>
+                        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s);
+                      const isAgeToken = (s: string) =>
+                        /^\d+\s*-\s*\d+$/.test(s) || /^\d+\+$/.test(s) || /^\d+$/.test(s);
+
+                      const ages = raw.filter((s) => !serviceTags.has(s.toLowerCase()) && !isUuid(s) && isAgeToken(s));
+                      const formats = raw.filter((s) => serviceTags.has(s.toLowerCase()));
+
+                      const chips: JSX.Element[] = [];
+                      if (formats.length > 0) {
+                        formats.slice(0, 2).forEach((f, i) =>
+                          chips.push(
+                            <span key={`fmt-${i}-${f}`} className="badge blue">
+                              {f.toLowerCase() === "in person" ? "in-person" : f.toLowerCase()}
+                            </span>,
+                          ),
+                        );
+                      }
+                      if (ages.length > 0) {
+                        ages.slice(0, 4).forEach((a, i) =>
+                          chips.push(
+                            <span key={`age-${i}-${a}`} className="badge mustard">
+                              {a}
+                            </span>,
+                          ),
+                        );
+                        if (ages.length > 4) {
+                          chips.push(<span key="age-more" className="badge">{`+${ages.length - 4}`}</span>);
+                        }
+                      }
+                      return chips;
+                    })()}
                   </div>
                 )}
               </div>

@@ -4,6 +4,19 @@
 - Public UI: Captions are only displayed inside the image modal when a user clicks to enlarge an image; not shown in grid thumbnails (per requirement).
 - Vendor Edit UI: Pro-tier vendors can enter a caption per gallery image. On save, we serialize as an array of objects with `url` and `caption`.
 - No changes to plan gating: Free = no images, Standard = profile only, Pro = profile + 4 gallery images.
+
+## Nov 12, 2025 — Listing Header Information Layout
+- Introduced “Quick Facts” in the header area under the listing title and actions.
+- Replaced pill badges with a clean text layout for contact info using small icons; icons use border blue, text remains white on navy.
+- Categories in header are simplified to text-only chips with a mustard background `#c7a163` (no icons), deduped by normalized name.
+- Age range displays as light grey chips with bold black text; service format tags (e.g., “online”, “hybrid”) are no longer mixed into ages and instead show “Virtual services available” when applicable.
+- The “Visit Website” CTA is styled with a distinct primary style (not shared with other badges).
+- 101 Approved is displayed as a larger transparent icon next to the listing title (no label).
+
+## Nov 12, 2025 — Social “Connect With Us” Card
+- Restyled the social card to a Bauhaus orange/rust variant for visual weight.
+- Increased card header text size; outlined social chips with white borders for contrast (not blending with the card), including YouTube.
+- Kept brand icons and readable labels; maintains paid-tier visibility rules.
 # 🚨 READ THIS FIRST - NOVEMBER 6, 2025: PARENT FEATURES ENABLED 🚨
 
 **NEW (Nov 6, 2025 - LATEST):** Enabled parent dashboard features (favorites & reviews). See `.cursor/PARENT_FEATURES_ENABLED_NOV6_2025.md` for full details.

@@ -840,12 +840,36 @@ td {
   background-color: #0f1729 !important; /* dark navy for contrast */
 }
 
-/* Pills, badges, or buttons that show "Live", "No", etc. */
+/* Pills, badges, or buttons */
 .badge,
 .status-pill,
 .tag {
-  color: #fff !important;
-  background-color: #15803d !important; /* readable green for live */
+  color: #1F2327 !important; /* ink on light surfaces */
+  background-color: #F7F1D8 !important; /* chip background */
+  border: 1px solid #E6DFC3 !important; /* subtle card border */
+}
+
+/* Bauhaus badge variants (use via className="badge orange|blue|mustard") */
+.badge.orange,
+.status-pill.orange,
+.tag.orange {
+  background-color: #E4572E !important; /* primary orange */
+  color: #FAFAF4 !important; /* paper */
+  border-color: transparent !important;
+}
+.badge.blue,
+.status-pill.blue,
+.tag.blue {
+  background-color: #3A76A6 !important; /* secondary denim */
+  color: #FAFAF4 !important;
+  border-color: transparent !important;
+}
+.badge.mustard,
+.status-pill.mustard,
+.tag.mustard {
+  background-color: #E4A72E !important; /* highlight mustard */
+  color: #1E1F23 !important; /* charcoal for contrast */
+  border-color: transparent !important;
 }
 
 /* Text in inputs or filters */

@@ -691,7 +691,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
             </div>
 
             {/* Social Media Links - Pro Users Only */}
-            <SocialMediaIcons listing={listing} className="listing-card-blue-dark" />
+            <SocialMediaIcons listing={listing} className="listing-card-orange-rust" />
 
             {/* Review Form */}
             {isReviewsEnabled() && (

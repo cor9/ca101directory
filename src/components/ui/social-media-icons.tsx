@@ -34,13 +34,14 @@ const SocialLink = ({ url, icon, label, color, className }: SocialLinkProps) => 
     rel="noopener noreferrer"
     className={cn(
       "inline-flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-md",
+      "bg-transparent border-2 border-white/80 text-white hover:bg-white/10",
       color,
       className
     )}
     title={`Visit ${label}`}
   >
     {icon}
-    <span className="text-sm font-medium">{label}</span>
+    <span className="text-sm font-semibold">{label}</span>
   </a>
 );
 
@@ -136,8 +137,8 @@ const SocialMediaIcons = ({
   }
 
   return (
-    <div className={cn("space-y-2", className)}>
-      <h4 className="text-sm font-semibold text-paper uppercase tracking-wider">
+    <div className={cn("space-y-3", className)}>
+      <h4 className="text-lg font-bold text-paper uppercase tracking-wide">
         Connect With Us
       </h4>
       <div className="flex flex-wrap gap-2">

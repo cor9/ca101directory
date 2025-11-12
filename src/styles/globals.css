@@ -424,6 +424,16 @@
     line-height: 1.7;
   }
 
+  .listing-card-orange-rust {
+    background: #CC5A47; /* bauhaus orange/rust */
+    color: #FAFAF4; /* paper */
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    line-height: 1.7;
+  }
+
    .listing-card-blue-dark {
     background: #3a76a6; /* logo blue */
     color: #fafaf0; /* cream text */

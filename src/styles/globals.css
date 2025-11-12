@@ -887,6 +887,37 @@ td {
   border-color: transparent !important;
 }
 
+/* Muted category chips */
+.chip-gold {
+  background-color: #e9dfbf !important; /* muted gold */
+  color: #1E1F23 !important;
+  border: 1px solid #dacfa9 !important;
+}
+.chip-blue {
+  background-color: #cfe0ee !important; /* muted robin egg blue */
+  color: #1E1F23 !important;
+  border: 1px solid #b8cfdf !important;
+}
+
+/* Age chips: light grey with bold black text */
+.chip-age {
+  background-color: #e5e7eb !important; /* tailwind gray-200 */
+  color: #111827 !important; /* near-black */
+  border: 1px solid #d1d5db !important;
+  font-weight: 700 !important;
+}
+
+/* Distinct primary CTA button */
+.btn-primary-cta {
+  background-color: #E4572E !important;
+  color: #ffffff !important;
+  border: 2px solid #CC4E2A !important;
+}
+.btn-primary-cta:hover {
+  background-color: #CC4E2A !important;
+  color: #ffffff !important;
+}
+
 /* High-contrast emergency states if needed */
 .badge.error,
 .status-pill.error,

@@ -448,20 +448,16 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   </div>
                 )}
 
-                {/* 101 Approved Badge */}
+                {/* 101 Approved Icon (transparent, larger) */}
                 {listing.badge_approved === true && (
-                  <div className="flex items-center gap-2 bg-gradient-to-r from-orange-50 to-yellow-50 border-2 border-brand-orange rounded-lg px-3 py-1.5">
-                    <Image
-                      src="/101approvedbadge.png"
-                      alt="101 Approved Badge"
-                      width={48}
-                      height={48}
-                      className="object-contain"
-                    />
-                    <span className="font-bold text-gray-900 text-sm">
-                      101 APPROVED
-                    </span>
-                  </div>
+                  <Image
+                    src="/101approvedbadge.png"
+                    alt="101 Approved"
+                    width={64}
+                    height={64}
+                    className="object-contain"
+                    priority
+                  />
                 )}
 
                 {/* Last Updated */}
@@ -480,12 +476,12 @@ export default async function ListingPage({ params }: ListingPageProps) {
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-3">
                 {listing.website && (
-                  <Button size="default" asChild className="btn-primary">
+                  <Button size="default" asChild className="btn-primary-cta">
                     <Link
                       href={listing.website}
                       target="_blank"
                       prefetch={false}
-                      className="flex items-center justify-center space-x-2 hover:!bg-[#F7931E] hover:!text-white hover:[&_svg]:!text-white hover:opacity-90"
+                      className="flex items-center justify-center space-x-2"
                     >
                       <GlobeIcon className="w-4 h-4" />
                       <span>Visit Website</span>
@@ -514,83 +510,80 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 )}
               </div>
 
-              {/* Quick Facts in header */}
-              <div className="mt-4 space-y-3">
-                {(listing.city || listing.state || listing.phone || listing.email) && (
-                  <div className="flex flex-wrap items-center gap-3">
-                    {(listing.city || listing.state) && (
-                      <span className="badge blue">
-                        {[listing.city, listing.state].filter(Boolean).join(", ")}
-                      </span>
-                    )}
-                    {listing.phone && <span className="badge orange">{listing.phone}</span>}
-                    {listing.email && <span className="badge mustard">{listing.email}</span>}
-                  </div>
-                )}
+              {/* Quick Facts in header - clean layout, no pills */}
+              <div className="mt-4 space-y-2 text-paper">
+                <div className="text-sm font-semibold opacity-90">Contact Information</div>
+                <div className="flex flex-wrap items-center gap-4 text-base">
+                  {(listing.city || listing.state) && (
+                    <span className="flex items-center gap-2">
+                      <MapPinIcon className="w-4 h-4" />
+                      {[listing.city, listing.state].filter(Boolean).join(", ")}
+                    </span>
+                  )}
+                  {listing.region && (
+                    <span className="flex items-center gap-2">
+                      <ShieldIcon className="w-4 h-4" />
+                      {Array.isArray(listing.region)
+                        ? listing.region.join(", ")
+                        : String(listing.region)}
+                    </span>
+                  )}
+                  {listing.phone && (
+                    <span className="flex items-center gap-2">
+                      <PhoneIcon className="w-4 h-4" />
+                      {listing.phone}
+                    </span>
+                  )}
+                  {listing.email && (
+                    <span className="flex items-center gap-2">
+                      <MailIcon className="w-4 h-4" />
+                      {listing.email}
+                    </span>
+                  )}
+                </div>
+                {(() => {
+                  // Virtual services note if formats include online/hybrid
+                  const raw = (listing.age_range || []).map((v) => (v || "").trim().toLowerCase());
+                  const hasVirtual = raw.includes("online") || raw.includes("hybrid");
+                  return hasVirtual ? (
+                    <div className="text-sm opacity-90">Virtual services available</div>
+                  ) : null;
+                })()}
+
+                {/* Categories - muted chips without icons */}
                 {displayCategories.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {displayCategories.slice(0, 3).map(({ key, displayName, iconUrl }, index) => {
-                      const colors = ["orange", "blue", "mustard"];
-                      const colorClass = colors[index % colors.length];
+                  <div className="flex flex-wrap gap-6 mt-2">
+                    {displayCategories.slice(0, 6).map(({ key, displayName }, index) => {
+                      const cls = index % 2 === 0 ? "chip-gold" : "chip-blue";
                       return (
-                        <span key={`header-cat-${key}`} className={`badge ${colorClass} flex items-center gap-2`}>
-                          {iconUrl && (
-                            <Image
-                              src={iconUrl}
-                              alt={displayName}
-                              width={20}
-                              height={20}
-                              className="h-5 w-5 rounded-full object-contain"
-                            />
-                          )}
+                        <span key={`cat-${key}`} className={`badge ${cls}`}>
                           {displayName}
                         </span>
                       );
                     })}
-                    {displayCategories.length > 3 && (
-                      <span className="badge">{`+${displayCategories.length - 3} more`}</span>
-                    )}
                   </div>
                 )}
-                {listing.age_range && listing.age_range.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {(() => {
-                      const raw = (listing.age_range || []).map((v) => (v || "").trim()).filter(Boolean);
-                      const serviceTags = new Set(["online", "in-person", "in person", "hybrid"]);
-                      const isUuid = (s: string) =>
-                        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s);
-                      const isAgeToken = (s: string) =>
-                        /^\d+\s*-\s*\d+$/.test(s) || /^\d+\+$/.test(s) || /^\d+$/.test(s);
 
-                      const ages = raw.filter((s) => !serviceTags.has(s.toLowerCase()) && !isUuid(s) && isAgeToken(s));
-                      const formats = raw.filter((s) => serviceTags.has(s.toLowerCase()));
-
-                      const chips: JSX.Element[] = [];
-                      if (formats.length > 0) {
-                        formats.slice(0, 2).forEach((f, i) =>
-                          chips.push(
-                            <span key={`fmt-${i}-${f}`} className="badge blue">
-                              {f.toLowerCase() === "in person" ? "in-person" : f.toLowerCase()}
-                            </span>,
-                          ),
-                        );
-                      }
-                      if (ages.length > 0) {
-                        ages.slice(0, 4).forEach((a, i) =>
-                          chips.push(
-                            <span key={`age-${i}-${a}`} className="badge mustard">
-                              {a}
-                            </span>,
-                          ),
-                        );
-                        if (ages.length > 4) {
-                          chips.push(<span key="age-more" className="badge">{`+${ages.length - 4}`}</span>);
-                        }
-                      }
-                      return chips;
-                    })()}
-                  </div>
-                )}
+                {/* Ages - light grey chips with bold black text */}
+                {(() => {
+                  const raw = (listing.age_range || []).map((v) => (v || "").trim()).filter(Boolean);
+                  const serviceTags = new Set(["online", "in-person", "in person", "hybrid"]);
+                  const isUuid = (s: string) =>
+                    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s);
+                  const isAgeToken = (s: string) =>
+                    /^\d+\s*-\s*\d+$/.test(s) || /^\d+\+$/.test(s) || /^\d+$/.test(s);
+                  const ages = raw.filter((s) => !serviceTags.has(s.toLowerCase()) && !isUuid(s) && isAgeToken(s));
+                  if (ages.length === 0) return null;
+                  return (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {ages.slice(0, 6).map((a, i) => (
+                        <span key={`age-chip-${i}-${a}`} className="badge chip-age">
+                          {a}
+                        </span>
+                      ))}
+                    </div>
+                  );
+                })()}
               </div>
             </div>
           </div>

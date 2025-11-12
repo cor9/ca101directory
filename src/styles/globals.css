@@ -903,6 +903,11 @@ td {
   color: #1E1F23 !important;
   border: 1px solid #dacfa9 !important;
 }
+.chip-mustard {
+  background-color: #c7a163 !important; /* mustard */
+  color: #1E1F23 !important; /* charcoal text for contrast */
+  border: 1px solid #b08c55 !important; /* slightly darker outline */
+}
 .chip-blue {
   background-color: #cfe0ee !important; /* muted robin egg blue */
   color: #1E1F23 !important;

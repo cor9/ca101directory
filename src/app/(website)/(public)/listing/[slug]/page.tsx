@@ -550,11 +550,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   ) : null;
                 })()}
 
-                {/* Categories - muted chips without icons */}
+                {/* Categories - mustard chips without icons */}
                 {displayCategories.length > 0 && (
                   <div className="flex flex-wrap gap-6 mt-2">
                     {displayCategories.slice(0, 6).map(({ key, displayName }) => {
-                      const cls = "chip-gold"; // single muted gold/mustard for header
+                      const cls = "chip-mustard"; // exact mustard for header
                       return (
                         <span key={`cat-${key}`} className={`badge ${cls}`}>
                           {displayName}

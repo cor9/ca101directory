@@ -329,7 +329,19 @@ export default async function ListingPage({ params }: ListingPageProps) {
       })
       .filter(
         (cat) => cat.displayName && cat.key && !cat.key.startsWith("fallback-"),
-      );
+      )
+      // Dedupe by normalized display name to avoid showing categories twice
+      .filter((cat => {
+        const seen = new Set<string>();
+        const norm = (s: string) =>
+          s.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+        return (item: typeof cat, index: number, arr: typeof cat[]) => {
+          const k = norm(item.displayName);
+          if (seen.has(k)) return false;
+          seen.add(k);
+          return true;
+        };
+      }) as any);
 
     console.log("ListingPage: Successfully found listing:", {
       id: listing.id,

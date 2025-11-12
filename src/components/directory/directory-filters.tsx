@@ -68,7 +68,7 @@ export function DirectoryFilters({
     >
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg text-charcoal">Filters</CardTitle>
+          <CardTitle className="text-lg text-[#1E1F23]">Filters</CardTitle>
           {hasActiveFilters && (
             <Button
               variant="ghost"

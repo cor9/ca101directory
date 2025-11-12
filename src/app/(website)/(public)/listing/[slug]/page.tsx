@@ -514,6 +514,65 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   />
                 )}
               </div>
+
+              {/* Quick Facts in header */}
+              <div className="mt-4 space-y-3">
+                {(listing.city || listing.state || listing.phone || listing.email) && (
+                  <div className="flex flex-wrap items-center gap-3">
+                    {(listing.city || listing.state) && (
+                      <span className="badge blue">
+                        {[listing.city, listing.state].filter(Boolean).join(", ")}
+                      </span>
+                    )}
+                    {listing.phone && <span className="badge orange">{listing.phone}</span>}
+                    {listing.email && <span className="badge mustard">{listing.email}</span>}
+                  </div>
+                )}
+                {displayCategories.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {displayCategories.slice(0, 6).map(({ key, displayName, iconUrl }, index) => {
+                      const colors = ["orange", "blue", "mustard"];
+                      const colorClass = colors[index % colors.length];
+                      return (
+                        <span key={`header-cat-${key}`} className={`badge ${colorClass} flex items-center gap-2`}>
+                          {iconUrl && (
+                            <Image
+                              src={iconUrl}
+                              alt={displayName}
+                              width={20}
+                              height={20}
+                              className="h-5 w-5 rounded-full object-contain"
+                            />
+                          )}
+                          {displayName}
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
+                {listing.age_range && listing.age_range.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {listing.age_range
+                      .filter((age) => {
+                        const val = age?.trim() || "";
+                        if (!val) return false;
+                        if (val.includes("Age Range")) return false;
+                        if (val.includes("los-angeles")) return false;
+                        if (val.includes("hybrid")) return false;
+                        const uuidLike =
+                          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+                        if (uuidLike.test(val)) return false;
+                        return true;
+                      })
+                      .slice(0, 6)
+                      .map((age, i) => (
+                        <span key={`header-age-${i}-${(age || "").trim()}`} className="badge blue">
+                          {(age || "").trim()}
+                        </span>
+                      ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -751,72 +810,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
               </div>
             )}
 
-            {/* Quick Facts (compact header info) */}
-            <div className="listing-card-mustard">
-              <h2
-                className="bauhaus-heading text-lg font-semibold mb-3"
-                style={{ color: "#1e1f23" }}
-              >
-                Quick Facts
-              </h2>
-              <div className="flex flex-col gap-3">
-                {/* Contact */}
-                {(listing.city || listing.state || listing.phone || listing.email) && (
-                  <div className="flex flex-wrap items-center gap-3">
-                    {(listing.city || listing.state) && (
-                      <span className="badge blue">{[listing.city, listing.state].filter(Boolean).join(", ")}</span>
-                    )}
-                    {listing.phone && <span className="badge orange">{listing.phone}</span>}
-                    {listing.email && <span className="badge mustard">{listing.email}</span>}
-                  </div>
-                )}
-                {/* Categories */}
-                {displayCategories.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {displayCategories.map(({ key, displayName, iconUrl }, index) => {
-                      const colors = ["orange", "blue", "mustard"];
-                      const colorClass = colors[index % colors.length];
-                      return (
-                        <span key={key} className={`badge ${colorClass} flex items-center gap-2`}>
-                          {iconUrl && (
-                            <Image
-                              src={iconUrl}
-                              alt={displayName}
-                              width={20}
-                              height={20}
-                              className="h-5 w-5 rounded-full object-contain"
-                            />
-                          )}
-                          {displayName}
-                        </span>
-                      );
-                    })}
-                  </div>
-                )}
-                {/* Age Range */}
-                {listing.age_range && listing.age_range.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {listing.age_range
-                      .filter((age) => {
-                        const val = age?.trim() || "";
-                        if (!val) return false;
-                        if (val.includes("Age Range")) return false;
-                        if (val.includes("los-angeles")) return false;
-                        if (val.includes("hybrid")) return false;
-                        const uuidLike =
-                          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-                        if (uuidLike.test(val)) return false;
-                        return true;
-                      })
-                      .map((age) => (
-                        <span key={(age || "").trim()} className="badge blue">
-                          {(age || "").trim()}
-                        </span>
-                      ))}
-                  </div>
-                )}
-              </div>
-            </div>
+            {/* Quick Facts moved to header */}
 
             {/* Age Range card removed in favor of Quick Facts */}
 

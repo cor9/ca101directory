@@ -751,25 +751,33 @@ export default async function ListingPage({ params }: ListingPageProps) {
               </div>
             )}
 
-            {/* Categories */}
+            {/* Quick Facts (compact header info) */}
             <div className="listing-card-mustard">
               <h2
-                className="bauhaus-heading text-lg font-semibold mb-4"
+                className="bauhaus-heading text-lg font-semibold mb-3"
                 style={{ color: "#1e1f23" }}
               >
-                Categories
+                Quick Facts
               </h2>
-              <div className="flex flex-wrap gap-2">
-                {displayCategories.length > 0 ? (
-                  displayCategories.map(
-                    ({ key, displayName, iconUrl }, index) => {
+              <div className="flex flex-col gap-3">
+                {/* Contact */}
+                {(listing.city || listing.state || listing.phone || listing.email) && (
+                  <div className="flex flex-wrap items-center gap-3">
+                    {(listing.city || listing.state) && (
+                      <span className="badge blue">{[listing.city, listing.state].filter(Boolean).join(", ")}</span>
+                    )}
+                    {listing.phone && <span className="badge orange">{listing.phone}</span>}
+                    {listing.email && <span className="badge mustard">{listing.email}</span>}
+                  </div>
+                )}
+                {/* Categories */}
+                {displayCategories.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {displayCategories.map(({ key, displayName, iconUrl }, index) => {
                       const colors = ["orange", "blue", "mustard"];
                       const colorClass = colors[index % colors.length];
                       return (
-                        <span
-                          key={key}
-                          className={`badge ${colorClass} flex items-center gap-2`}
-                        >
+                        <span key={key} className={`badge ${colorClass} flex items-center gap-2`}>
                           {iconUrl && (
                             <Image
                               src={iconUrl}
@@ -782,47 +790,35 @@ export default async function ListingPage({ params }: ListingPageProps) {
                           {displayName}
                         </span>
                       );
-                    },
-                  )
-                ) : (
-                  <span className="text-paper">No categories listed</span>
+                    })}
+                  </div>
+                )}
+                {/* Age Range */}
+                {listing.age_range && listing.age_range.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {listing.age_range
+                      .filter((age) => {
+                        const val = age?.trim() || "";
+                        if (!val) return false;
+                        if (val.includes("Age Range")) return false;
+                        if (val.includes("los-angeles")) return false;
+                        if (val.includes("hybrid")) return false;
+                        const uuidLike =
+                          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+                        if (uuidLike.test(val)) return false;
+                        return true;
+                      })
+                      .map((age) => (
+                        <span key={(age || "").trim()} className="badge blue">
+                          {(age || "").trim()}
+                        </span>
+                      ))}
+                  </div>
                 )}
               </div>
             </div>
 
-            {/* Age Range */}
-            <div className="listing-card-red">
-              <h2
-                className="text-lg font-semibold mb-4"
-                style={{ color: "#fafaf4" }}
-              >
-                Age Range
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {listing.age_range && listing.age_range.length > 0 ? (
-                  listing.age_range
-                    .filter((age) => {
-                      const val = age?.trim() || "";
-                      if (!val) return false;
-                      if (val.includes("Age Range")) return false;
-                      if (val.includes("los-angeles")) return false;
-                      if (val.includes("hybrid")) return false;
-                      // Exclude UUID-like tokens
-                      const uuidLike =
-                        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-                      if (uuidLike.test(val)) return false;
-                      return true;
-                    })
-                    .map((age) => (
-                      <span key={(age || "").trim()} className="badge blue">
-                        {(age || "").trim()}
-                      </span>
-                    ))
-                ) : (
-                  <span className="text-paper">No age range specified</span>
-                )}
-              </div>
-            </div>
+            {/* Age Range card removed in favor of Quick Facts */}
 
             {/* Reviews Display */}
             {isReviewsEnabled() && (

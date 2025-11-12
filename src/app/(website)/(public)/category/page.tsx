@@ -127,18 +127,32 @@ export default async function CategoryPage() {
       }
     }
 
+    // For accuracy, compute counts using the same filter as the category detail page
+    const countsAccurate = await Promise.all(
+      supabaseCategories.map(async (category) => {
+        try {
+          const result = await getPublicListings({ category: category.category_name });
+          return { name: category.category_name, count: result.length };
+        } catch {
+          const key = normalize(category.category_name);
+          return { name: category.category_name, count: categoryCounts[key] || 0 };
+        }
+      }),
+    );
+    const accurateByName: Record<string, number> = {};
+    for (const { name, count } of countsAccurate) accurateByName[name] = count;
+
     categories = supabaseCategories.map((category) => ({
       name: category.category_name,
       slug: category.category_name
         .toLowerCase()
-        .replace(/[^a-z0-9\s]/g, "") // Remove special characters first
-        .replace(/\s+/g, "-") // Then replace spaces with dashes
-        .replace(/-+/g, "-") // Replace multiple dashes with single dash
-        .replace(/^-|-$/g, ""), // Remove leading/trailing dashes
+        .replace(/[^a-z0-9\s]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, ""),
       icon: categoryIconMap[category.category_name] || "star",
       description:
         category.description ||
-        // Custom descriptions for better grammar
         (() => {
           const customDescriptions: Record<string, string> = {
             "Acting Classes & Coaches": "Acting coaching services",
@@ -153,7 +167,7 @@ export default async function CategoryPage() {
           return customDescriptions[category.category_name] ||
             `${category.category_name} services`;
         })(),
-      count: (() => {
+      count: accurateByName[category.category_name] ?? (() => {
         const key = normalize(category.category_name);
         return categoryCounts[key] || 0;
       })(),

@@ -13,6 +13,7 @@ Summary of changes deployed to main:
 - Category counts fix:
   - Category index now resolves UUID category IDs to names before counting.
   - Prevents undercounting when listings store category UUIDs instead of names.
+  - Additionally, counts are verified by calling the same filtered `getPublicListings({ category })` used by the detail page to guarantee parity.
   - Card background switched to Bauhaus orange/rust variant.
   - Larger header text.
   - Social chips outlined with white borders for contrast (YouTube especially).

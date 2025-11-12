@@ -87,7 +87,13 @@ export default async function CategoryPage() {
       [normalize("Reel Editors")]: normalize("Demo Reel Editors"),
     };
 
-    // Count listings per normalized canonical category (filter out UUID-like)
+    // Map category IDs to names for UUID-based listings
+    const idToName: Record<string, string> = {};
+    for (const c of supabaseCategories || []) {
+      if (c?.id && c?.category_name) idToName[c.id] = c.category_name;
+    }
+
+    // Count listings per normalized canonical category (resolve UUIDs)
     const categoryCounts: Record<string, number> = {};
     const isUuidLike = (v: string) =>
       /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
@@ -96,8 +102,10 @@ export default async function CategoryPage() {
     for (const listing of listings) {
       const cats = listing.categories || [];
       for (const cat of cats) {
-        if (!cat || isUuidLike(cat)) continue;
-        const keyNorm = normalize(cat);
+        if (!cat) continue;
+        const resolvedName = isUuidLike(cat) ? idToName[cat] : cat;
+        if (!resolvedName) continue;
+        const keyNorm = normalize(resolvedName);
         const canonical = synonyms[keyNorm] || keyNorm;
         categoryCounts[canonical] = (categoryCounts[canonical] || 0) + 1;
       }

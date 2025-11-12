@@ -10,6 +10,9 @@ Summary of changes deployed to main:
   - “Visit Website” button restyled as distinct primary CTA.
   - 101 Approved displayed as a larger icon next to the title.
 - Social “Connect With Us” card:
+- Category counts fix:
+  - Category index now resolves UUID category IDs to names before counting.
+  - Prevents undercounting when listings store category UUIDs instead of names.
   - Card background switched to Bauhaus orange/rust variant.
   - Larger header text.
   - Social chips outlined with white borders for contrast (YouTube especially).

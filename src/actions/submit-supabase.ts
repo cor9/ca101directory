@@ -22,7 +22,8 @@ type BaseSubmitFormData = {
   imageId: string;
   tags: string[];
   categories: string[];
-  gallery?: string[];
+  // Support legacy string[] and new object[] with captions
+  gallery?: Array<string | { url: string; caption?: string }>;
   plan: string;
   performerPermit: boolean;
   bonded: boolean;

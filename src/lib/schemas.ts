@@ -87,7 +87,18 @@ export const baseSubmitSchema = {
   categories: z
     .array(z.string())
     .min(1, { message: "Please select at least one category" }),
-  gallery: z.array(z.string()).optional(), // Optional gallery images
+  // Gallery supports legacy string[] and new object format with captions
+  gallery: z
+    .array(
+      z.union([
+        z.string(),
+        z.object({
+          url: z.string(),
+          caption: z.string().optional(),
+        }),
+      ]),
+    )
+    .optional(),
   imageId: z.string().optional(), // Make optional for testing
   iconId: z.string().optional(), // Optional logo/icon even if icons are disabled
   active: z.boolean().optional(), // Optional active status

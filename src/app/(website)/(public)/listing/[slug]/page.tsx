@@ -516,13 +516,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 <div className="flex flex-wrap items-center gap-4 text-base">
                   {(listing.city || listing.state) && (
                     <span className="flex items-center gap-2">
-                      <MapPinIcon className="w-4 h-4" />
+                      <MapPinIcon className="w-4 h-4 text-[#3A76A6]" />
                       {[listing.city, listing.state].filter(Boolean).join(", ")}
                     </span>
                   )}
                   {listing.region && (
                     <span className="flex items-center gap-2">
-                      <ShieldIcon className="w-4 h-4" />
+                      <ShieldIcon className="w-4 h-4 text-[#3A76A6]" />
                       {Array.isArray(listing.region)
                         ? listing.region.join(", ")
                         : String(listing.region)}
@@ -530,13 +530,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   )}
                   {listing.phone && (
                     <span className="flex items-center gap-2">
-                      <PhoneIcon className="w-4 h-4" />
+                      <PhoneIcon className="w-4 h-4 text-[#3A76A6]" />
                       {listing.phone}
                     </span>
                   )}
                   {listing.email && (
                     <span className="flex items-center gap-2">
-                      <MailIcon className="w-4 h-4" />
+                      <MailIcon className="w-4 h-4 text-[#3A76A6]" />
                       {listing.email}
                     </span>
                   )}
@@ -553,8 +553,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 {/* Categories - muted chips without icons */}
                 {displayCategories.length > 0 && (
                   <div className="flex flex-wrap gap-6 mt-2">
-                    {displayCategories.slice(0, 6).map(({ key, displayName }, index) => {
-                      const cls = index % 2 === 0 ? "chip-gold" : "chip-blue";
+                    {displayCategories.slice(0, 6).map(({ key, displayName }) => {
+                      const cls = "chip-gold"; // single muted gold/mustard for header
                       return (
                         <span key={`cat-${key}`} className={`badge ${cls}`}>
                           {displayName}

@@ -443,7 +443,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     line-height: 1.7;
   }
-  
+
   .listing-card-transparent {
     background: transparent;
     border: 2px solid #2e77b8;
@@ -847,6 +847,21 @@ td {
   color: #1F2327 !important; /* ink on light surfaces */
   background-color: #F7F1D8 !important; /* chip background */
   border: 1px solid #E6DFC3 !important; /* subtle card border */
+  /* Ensure nested text/icons inherit readable foreground */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.badge *, .status-pill *, .tag * {
+  color: inherit !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+.badge a, .status-pill a, .tag a {
+  color: inherit !important;
+  text-decoration: none;
+}
+.badge a:hover, .status-pill a:hover, .tag a:hover {
+  text-decoration: underline;
 }
 
 /* Bauhaus badge variants (use via className="badge orange|blue|mustard") */
@@ -870,6 +885,20 @@ td {
   background-color: #E4A72E !important; /* highlight mustard */
   color: #1E1F23 !important; /* charcoal for contrast */
   border-color: transparent !important;
+}
+
+/* High-contrast emergency states if needed */
+.badge.error,
+.status-pill.error,
+.tag.error {
+  background-color: #C84F41 !important; /* error */
+  color: #FAFAF4 !important;
+}
+.badge.info,
+.status-pill.info,
+.tag.info {
+  background-color: #3E9CA3 !important; /* info */
+  color: #FAFAF4 !important;
 }
 
 /* Text in inputs or filters */

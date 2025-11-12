@@ -188,6 +188,7 @@ export async function getItems({
   filter,
   currentPage,
   hasSponsorItem,
+  excludeFeatured,
 }: {
   collection?: string;
   category?: string;
@@ -200,6 +201,7 @@ export async function getItems({
   filter?: string;
   currentPage: number;
   hasSponsorItem?: boolean;
+  excludeFeatured?: boolean;
 }) {
   try {
     console.log(
@@ -222,6 +224,11 @@ export async function getItems({
       state,
       category,
     });
+
+    // Exclude featured listings when requested (to avoid repeating them on directory page)
+    if (excludeFeatured) {
+      allListings = allListings.filter((l) => !l.featured);
+    }
 
     // Category synonym handling (fixes page count for categories with naming variants)
     // Example: "Headshot Photographers" vs "Headshot Photographer"

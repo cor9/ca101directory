@@ -96,6 +96,7 @@ export default async function DirectoryPage({
     reverse,
     currentPage,
     hasSponsorItem,
+    excludeFeatured: true, // avoid repeating featured listings shown above
   });
 
   console.log("DirectoryPage: Received items:", {

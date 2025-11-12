@@ -148,7 +148,7 @@ export function EditForm({ listing, categories }: EditFormProps) {
         isEdit: true,
       };
 
-      const result = await submitToSupabase(submitData);
+      const result = await submitToSupabase(submitData as any);
 
       if (result.status === "success") {
         toast.success("Listing updated successfully!");

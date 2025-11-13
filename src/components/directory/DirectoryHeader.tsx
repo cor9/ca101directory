@@ -17,6 +17,14 @@ export default function DirectoryHeader({
         professionals who work with young performers. From classes to career
         support, find trusted services all in one place.
       </p>
+      <div className="mt-4">
+        <a
+          href="/suggest-vendor"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-[color:var(--card-border)] bg-[color:var(--cream)] text-[color:var(--ink)] hover:bg-[color:var(--cream)]/90 transition-colors"
+        >
+          Know someone great? Suggest a vendor →
+        </a>
+      </div>
 
       <div className="mt-8 bauhaus-grid bauhaus-grid-3">
         {[

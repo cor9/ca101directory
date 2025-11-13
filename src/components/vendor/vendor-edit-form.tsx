@@ -19,6 +19,7 @@ import { getCategoriesClient } from "@/data/categories-client";
 import type { Listing } from "@/data/listings";
 import { UpdateListingSchema } from "@/lib/validations/listings";
 import { Lock } from "lucide-react";
+import { regionsList } from "@/data/regions";
 import Link from "next/link";
 
 interface VendorEditFormProps {
@@ -624,29 +625,17 @@ export function VendorEditForm({
       <div className="space-y-2">
         <Label>Location/Region</Label>
         <div className="grid grid-cols-2 gap-2">
-          {[
-            "los-angeles",
-            "northern-california",
-            "pnw",
-            "new-mexico",
-            "arizona",
-            "texas",
-            "chicago",
-            "atlanta-southeast",
-            "new-orleans",
-            "florida",
-            "new-york",
-            "northeast-wilmington",
-            "global-online",
-          ].map((tag) => (
+          {regionsList.map((regionName) => (
             <label key={tag} className="flex items-center space-x-2">
               <Checkbox
-                checked={String((form.watch("region") as any) || "").split(", ").includes(tag)}
-                onCheckedChange={() => handleTagToggle(tag, "region")}
+                checked={String((form.watch("region") as any) || "")
+                  .split(", ")
+                  .includes(regionName)}
+                onCheckedChange={() => handleTagToggle(regionName, "region")}
                 disabled={isPending}
               />
               <span className="text-sm capitalize">
-                {tag.replace("-", " ")}
+                {regionName}
               </span>
             </label>
           ))}

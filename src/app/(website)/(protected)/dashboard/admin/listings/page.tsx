@@ -16,6 +16,7 @@ import { CheckCircleIcon, EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { deleteListing } from "@/actions/listings";
+import AdminListingsSearch from "@/components/admin/admin-listings-search";
 
 export const metadata = constructMetadata({
   title: "Admin Listings Management - Child Actor 101 Directory",
@@ -112,15 +113,9 @@ export default async function AdminListingsPage({
               </p>
             </div>
             <div className="flex items-center gap-4">
-              <form className="hidden md:block" action="/dashboard/admin/listings" method="get">
-                <input
-                  type="text"
-                  name="q"
-                  defaultValue={searchParams?.q || ""}
-                  placeholder="Search name, email, site, city or state"
-                  className="px-3 py-2 rounded-md border border-gray-300 text-ink w-72"
-                />
-              </form>
+              <div className="hidden md:block">
+                <AdminListingsSearch />
+              </div>
               <div className="text-sm text-paper">
                 {sortedListings.length} total listings
               </div>

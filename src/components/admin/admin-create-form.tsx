@@ -24,6 +24,11 @@ export function AdminCreateForm() {
     email: "",
     phone: "",
       what_you_offer: "",
+      category: "",
+      format: "Online",
+      city: "",
+      state: "",
+      region: "",
     },
   });
 
@@ -133,6 +138,65 @@ export function AdminCreateForm() {
                 />
               </div>
             </div>
+
+      {/* Category */}
+      <div className="space-y-1">
+        <label htmlFor="category">Category</label>
+        <input
+          id="category"
+          {...form.register("category")}
+          placeholder="e.g., Acting Classes & Coaches"
+          className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+          disabled={isPending}
+        />
+      </div>
+
+      {/* Format */}
+      <div className="space-y-1">
+        <label htmlFor="format">Format</label>
+        <select
+          id="format"
+          {...form.register("format")}
+          className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+          disabled={isPending}
+        >
+          <option value="Online">Online</option>
+          <option value="In-person">In-person</option>
+          <option value="Hybrid">Hybrid</option>
+        </select>
+      </div>
+
+      {/* Location */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="space-y-1">
+          <label htmlFor="city">City</label>
+          <input
+            id="city"
+            {...form.register("city")}
+            className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+            disabled={isPending}
+          />
+        </div>
+        <div className="space-y-1">
+          <label htmlFor="state">State</label>
+          <input
+            id="state"
+            {...form.register("state")}
+            className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+            disabled={isPending}
+          />
+        </div>
+        <div className="space-y-1">
+          <label htmlFor="region">Region</label>
+          <input
+            id="region"
+            {...form.register("region")}
+            placeholder='e.g., "West Coast"'
+            className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+            disabled={isPending}
+          />
+        </div>
+      </div>
 
       {/* What You Offer */}
       <div className="space-y-1">

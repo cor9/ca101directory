@@ -155,4 +155,10 @@ export const CreateListingSchema = z.object({
   what_you_offer: z.string().optional(),
   // Allow optional plan for admin-created listings
   plan: z.string().optional(),
+  // New admin-create fields
+  category: z.string().optional(), // single category name (admin free create)
+  format: z.enum(["In-person", "Online", "Hybrid"]).optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  region: z.string().optional(), // comma-separated or a single region label
 });

@@ -34,7 +34,7 @@ export const metadata = constructMetadata({
 export default async function AdminListingsPage({
   searchParams,
 }: {
-  searchParams?: { status?: string };
+  searchParams?: { status?: string; q?: string };
 }) {
   const user = await currentUser();
 
@@ -49,9 +49,25 @@ export default async function AdminListingsPage({
 
   // Filter by status if provided
   const statusFilter = searchParams?.status;
-  const filteredListings = statusFilter
+  const q = (searchParams?.q || "").toLowerCase().trim();
+  const filteredListings = (statusFilter
     ? allListings.filter((listing) => listing.status === statusFilter)
-    : allListings;
+    : allListings
+  ).filter((l) => {
+    if (!q) return true;
+    const name = (l.listing_name || "").toLowerCase();
+    const email = (l.email || "").toLowerCase();
+    const website = (l.website || "").toLowerCase();
+    const city = (l.city || "").toLowerCase();
+    const state = (l.state || "").toLowerCase();
+    return (
+      name.includes(q) ||
+      email.includes(q) ||
+      website.includes(q) ||
+      city.includes(q) ||
+      state.includes(q)
+    );
+  });
 
   // Sort listings by plan priority and name
   const sortedListings = filteredListings.sort((a, b) => {
@@ -95,6 +111,15 @@ export default async function AdminListingsPage({
               </p>
             </div>
             <div className="flex items-center gap-4">
+              <form className="hidden md:block" action="/dashboard/admin/listings" method="get">
+                <input
+                  type="text"
+                  name="q"
+                  defaultValue={searchParams?.q || ""}
+                  placeholder="Search name, email, site, city or state"
+                  className="px-3 py-2 rounded-md border border-gray-300 text-ink w-72"
+                />
+              </form>
               <div className="text-sm text-paper">
                 {sortedListings.length} total listings
               </div>

@@ -626,7 +626,7 @@ export function VendorEditForm({
         <Label>Location/Region</Label>
         <div className="grid grid-cols-2 gap-2">
           {regionsList.map((regionName) => (
-            <label key={tag} className="flex items-center space-x-2">
+            <label key={regionName} className="flex items-center space-x-2">
               <Checkbox
                 checked={String((form.watch("region") as any) || "")
                   .split(", ")

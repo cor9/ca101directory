@@ -285,6 +285,8 @@ export const sendAdminVendorSuggestionNotification = async (payload: {
   city?: string;
   state?: string;
   suggestedBy?: string;
+  vendorEmail?: string;
+  vendorPhone?: string;
 }) => {
   const subject = `New Vendor Suggestion: ${payload.vendorName}`;
   const html = `
@@ -294,6 +296,8 @@ export const sendAdminVendorSuggestionNotification = async (payload: {
       ${payload.website ? `<p>Website: <a href="${payload.website}" target="_blank" rel="noopener noreferrer">${payload.website}</a></p>` : ""}
       ${payload.category ? `<p>Category: ${payload.category}</p>` : ""}
       ${payload.city || payload.state ? `<p>Location: ${payload.city ?? ""}${payload.city && payload.state ? ", " : ""}${payload.state ?? ""}</p>` : ""}
+      ${payload.vendorEmail ? `<p>Vendor Email: <a href="mailto:${payload.vendorEmail}">${payload.vendorEmail}</a></p>` : ""}
+      ${payload.vendorPhone ? `<p>Vendor Phone: ${payload.vendorPhone}</p>` : ""}
       ${payload.suggestedBy ? `<p>Suggested by: ${payload.suggestedBy}</p>` : ""}
     </div>
   `;

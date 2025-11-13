@@ -38,6 +38,8 @@ export default async function AdminListingsPage({
 }: {
   searchParams?: { status?: string; q?: string };
 }) {
+  // Temporary feature toggle: hide bulk resend sections unless explicitly enabled
+  const showBulkResendSections = false;
   const user = await currentUser();
 
   if (!user?.id) {
@@ -128,32 +130,32 @@ export default async function AdminListingsPage({
             </div>
           </div>
 
-          {/* Bulk Resend Notice */}
-          <div className="bg-brand-orange/10 border border-brand-orange/20 rounded-lg p-4 flex items-center justify-between">
-            <div>
-              <p className="font-semibold text-paper">Bulk Resend Emails</p>
-              <p className="text-sm text-paper/70">Send "listing live" emails to all 24 listings updated on November 6, 2025</p>
-            </div>
-            <BulkResendButton />
-          </div>
-
-          {/* Bulk Resend Claim Emails Notice */}
-          <div className="bg-brand-blue/10 border border-brand-blue/20 rounded-lg p-4 flex items-center justify-between">
-            <div>
-              <p className="font-semibold text-paper">Bulk Resend Claim Emails</p>
-              <p className="text-sm text-paper/70">Send claim emails to all ~200 Headshot Photographers listings</p>
-            </div>
-            <BulkResendClaimButton />
-          </div>
-
-          {/* Bulk Resend for Recent Adds */}
-          <div className="bg-brand-blue/10 border border-brand-blue/20 rounded-lg p-4 flex items-center justify-between">
-            <div>
-              <p className="font-semibold text-paper">Bulk Resend (Recent Adds)</p>
-              <p className="text-sm text-paper/70">Send claim/upgrade emails to listings created in the last 6 hours</p>
-            </div>
-            <BulkResendRecentButton />
-          </div>
+          {/* Bulk Resend Sections (hidden by default) */}
+          {showBulkResendSections && (
+            <>
+              <div className="bg-brand-orange/10 border border-brand-orange/20 rounded-lg p-4 flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-paper">Bulk Resend Emails</p>
+                  <p className="text-sm text-paper/70">Send "listing live" emails to all 24 listings updated on November 6, 2025</p>
+                </div>
+                <BulkResendButton />
+              </div>
+              <div className="bg-brand-blue/10 border border-brand-blue/20 rounded-lg p-4 flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-paper">Bulk Resend Claim Emails</p>
+                  <p className="text-sm text-paper/70">Send claim emails to all ~200 Headshot Photographers listings</p>
+                </div>
+                <BulkResendClaimButton />
+              </div>
+              <div className="bg-brand-blue/10 border border-brand-blue/20 rounded-lg p-4 flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-paper">Bulk Resend (Recent Adds)</p>
+                  <p className="text-sm text-paper/70">Send claim/upgrade emails to listings created in the last 6 hours</p>
+                </div>
+                <BulkResendRecentButton />
+              </div>
+            </>
+          )}
 
           {/* Status Filter Tabs */}
           <div className="flex gap-2 border-b border-gray-200">

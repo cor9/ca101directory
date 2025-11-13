@@ -20,7 +20,7 @@ export default function DirectoryHeader({
       <div className="mt-4">
         <a
           href="/suggest-vendor"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-[color:var(--card-border)] bg-[color:rgb (63, 174, 214)] text-gray-900 hover:bg-[color:var(--cream)]/90 transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-[color:var(--card-border)] bg-[color: rgb(63, 174, 214)] text-gray-900 hover:bg-[color:var(--cream)]/90 transition-colors"
         >
           Know someone great? Suggest a vendor →
         </a>

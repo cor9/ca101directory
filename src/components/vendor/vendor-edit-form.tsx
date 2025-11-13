@@ -279,6 +279,16 @@ export function VendorEditForm({
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-6">
+      {/* Top Actions */}
+      <div className="flex justify-end">
+        <Button
+          type="submit"
+          variant="default"
+          disabled={isPending || isImageUploading || isGalleryUploading}
+        >
+          {isPending ? "Saving..." : "Save Changes"}
+        </Button>
+      </div>
       {/* Basic Information */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-1">
@@ -678,7 +688,7 @@ export function VendorEditForm({
       </div>
 
       {/* Submit Buttons */}
-      <div className="flex justify-end gap-2 pt-4 border-t">
+      <div className="flex justify-end gap-2 pt-4 border-t sticky bottom-0 bg-card/90 backdrop-blur supports-[backdrop-filter]:bg-card/70">
         <Button
           type="button"
           variant="ghost"

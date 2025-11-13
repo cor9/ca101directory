@@ -18,12 +18,12 @@ export default function DirectoryHeader({
         support, find trusted services all in one place.
       </p>
       <div className="mt-4">
-        <a
-          href="/suggest-vendor"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-[color:var(--card-border)] background-color: rgb(63, 174, 214) text-gray-900 hover:bg-[color:var(--cream)]/90 transition-colors"
-        >
-          Know someone great? Suggest a vendor →
-        </a>
+       <a
+        href="/suggest-vendor"
+        className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-[color:var(--card-border)] bg-[#3FAED6] text-gray-900 hover:bg-[color:var(--cream)]/90 transition-colors"
+>
+  Know someone great? Suggest a vendor →
+</a>
       </div>
 
       <div className="mt-8 bauhaus-grid bauhaus-grid-3">

@@ -251,6 +251,27 @@ export async function updateListing(
 }
 
 /**
+ * Server action to delete a listing by ID (admin only).
+ */
+export async function deleteListing(id: string) {
+  try {
+    const supabase = createServerClient();
+    const { error } = await supabase.from("listings").delete().eq("id", id);
+    if (error) {
+      console.error("Delete Listing Error:", error);
+      return { status: "error", message: "Failed to delete listing." };
+    }
+    // Revalidate affected paths
+    revalidatePath("/dashboard/admin");
+    revalidatePath("/dashboard/admin/listings");
+    return { status: "success" };
+  } catch (e) {
+    console.error("Unexpected error in deleteListing:", e);
+    return { status: "error", message: "Unexpected server error." };
+  }
+}
+
+/**
  * Server action for a vendor to claim an existing, unclaimed listing.
  */
 export async function claimListing(listingId: string) {

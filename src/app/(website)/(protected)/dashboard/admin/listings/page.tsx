@@ -12,9 +12,10 @@ import { getAdminListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
 import { currentUser } from "@/lib/auth";
 import { verifyDashboardAccess } from "@/lib/dashboard-safety";
-import { CheckCircleIcon, EditIcon, EyeIcon } from "lucide-react";
+import { CheckCircleIcon, EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { deleteListing } from "@/actions/listings";
 
 export const metadata = constructMetadata({
   title: "Admin Listings Management - Child Actor 101 Directory",
@@ -392,6 +393,19 @@ export default async function AdminListingsPage({
                           Edit
                         </Link>
                       </Button>
+
+                      {/* Delete Button (server action) */}
+                      <form
+                        action={async () => {
+                          "use server";
+                          await deleteListing(listing.id);
+                        }}
+                      >
+                        <Button size="sm" variant="destructive">
+                          <Trash2Icon className="w-4 h-4 mr-1" />
+                          Delete
+                        </Button>
+                      </form>
 
                       {/* View Button */}
                       <Button size="sm" variant="outline" asChild>

@@ -92,13 +92,13 @@ const PricingPlanCard = ({ item, pricePlan }: PricingPlanCardProps) => {
             {pricePlan.title === PricePlans.FREE ? (
               <FreePlanButton item={item} className="w-full" />
             ) : pricePlan.title === PricePlans.BASIC ? (
-              <StripeDirectButton pricePlan={pricePlan} className="w-full" />
+              <StripeDirectButton item={item} pricePlan={pricePlan} className="w-full" />
             ) : pricePlan.title === PricePlans.PRO ? (
-              <StripeDirectButton pricePlan={pricePlan} className="w-full" />
+              <StripeDirectButton item={item} pricePlan={pricePlan} className="w-full" />
             ) : pricePlan.title === PricePlans.PREMIUM ? (
-              <StripeDirectButton pricePlan={pricePlan} className="w-full" />
+              <StripeDirectButton item={item} pricePlan={pricePlan} className="w-full" />
             ) : (
-              <StripeDirectButton pricePlan={pricePlan} className="w-full" />
+              <StripeDirectButton item={item} pricePlan={pricePlan} className="w-full" />
             )}
           </div>
         </div>

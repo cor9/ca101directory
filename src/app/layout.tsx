@@ -37,7 +37,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        <meta name="impact-site-verification" value="72d79363-1a4b-42ec-be63-d24c04b73026" />
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background antialiased",

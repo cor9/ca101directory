@@ -16,6 +16,7 @@ import type { Listing } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
 import { generateSlugFromListing } from "@/lib/slug-utils";
 import { cn } from "@/lib/utils";
+import { getListingImageUrl } from "@/lib/image-urls";
 import { CheckCircleIcon, GlobeIcon, MapPinIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -100,11 +101,11 @@ export function ListingCardClient({
         <div className="relative w-full h-48 overflow-hidden rounded-t-lg">
           {listing.profile_image ? (
             <Image
-              src={listing.profile_image}
+              src={getListingImageUrl(listing.profile_image)}
               alt={`Logo of ${listing.listing_name}`}
               title={`Logo of ${listing.listing_name}`}
               fill
-              className="object-cover"
+              className="object-contain bg-cream p-2"
             />
           ) : (
             <div className="w-full h-full bg-muted flex items-center justify-center">

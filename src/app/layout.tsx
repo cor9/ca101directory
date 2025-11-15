@@ -57,6 +57,10 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           fontBricolage.variable,
         )}
       >
+        {/* Impact verification text in first body section */}
+        <p className="sr-only">
+          Impact-Site-Verification: 72d79363-1a4b-42ec-be63-d24c04b73026
+        </p>
         <SessionProvider session={session}>
           <ThemeProvider
             attribute="class"

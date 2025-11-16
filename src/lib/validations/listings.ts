@@ -40,6 +40,11 @@ export const UpdateListingSchema = z.object({
   instagram_url: z
     .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
     .optional(),
+  // Custom link (used for promo video or other CTA)
+  custom_link_url: z
+    .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
+    .optional(),
+  custom_link_name: z.string().optional(),
   plan: z.string().optional(),
   is_active: z.boolean(),
   featured: z.boolean().optional(),

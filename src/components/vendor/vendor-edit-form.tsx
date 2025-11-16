@@ -230,6 +230,10 @@ export function VendorEditForm({
 
       const fullValues = {
         ...values,
+        custom_link_name:
+          ((values as any)?.custom_link_url || "").trim().length > 0
+            ? "Promo Video"
+            : (values as any)?.custom_link_name,
         // Ensure these are strings (schema expects strings)
         categories: categoriesStr,
         age_range: ageRangeStr,
@@ -526,6 +530,20 @@ export function VendorEditForm({
             onImagesChange={setGalleryImages}
             onUploadingChange={setIsGalleryUploading}
           />
+          {/* Promo Video (link) */}
+          <div className="space-y-1 pt-2">
+            <Label htmlFor="promo_video">Promo Video (YouTube/Vimeo link)</Label>
+            <Input
+              id="promo_video"
+              placeholder="https://youtube.com/watch?v=... or https://vimeo.com/..."
+              defaultValue={(listing as any).custom_link_url || ""}
+              onChange={(e) => form.setValue("custom_link_url" as any, e.target.value)}
+              disabled={isPending}
+            />
+            <p className="text-xs text-gray-600">
+              Suggested length under 3 minutes. Keep it focused on what families should know.
+            </p>
+          </div>
           {/* Captions per image */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {galleryImages.map((url, index) =>

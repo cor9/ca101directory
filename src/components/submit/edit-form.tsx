@@ -62,6 +62,7 @@ export function EditForm({ listing, categories }: EditFormProps) {
     region: listing.region || "",
     bondNumber: listing.bond_number || "",
     active: listing.is_active ?? true,
+    promoVideo: (listing as any).custom_link_url || "",
   });
 
   const [galleryImages, setGalleryImages] = useState<string[]>(() => {
@@ -137,6 +138,10 @@ export function EditForm({ listing, categories }: EditFormProps) {
 
       const submitData = {
         ...formData,
+        // Map promo video to custom link fields expected by submit action/schema
+        ...(formData.promoVideo && formData.promoVideo.trim().length > 0
+          ? { custom_link_url: formData.promoVideo.trim(), custom_link_name: "Promo Video" }
+          : {}),
         tags: formData.tags.length > 0 ? formData.tags : ["hybrid"], // Default tag
         categories:
           formData.categories.length > 0
@@ -377,6 +382,19 @@ export function EditForm({ listing, categories }: EditFormProps) {
             onImagesChange={setGalleryImages}
             onUploadingChange={setIsGalleryUploading}
           />
+          {/* Promo Video (link) */}
+          <div className="space-y-1 pt-2">
+            <Label htmlFor="promoVideo">Promo Video (YouTube/Vimeo link)</Label>
+            <Input
+              id="promoVideo"
+              placeholder="https://youtube.com/watch?v=... or https://vimeo.com/..."
+              value={formData.promoVideo}
+              onChange={(e) => handleInputChange("promoVideo", e.target.value)}
+            />
+            <p className="text-xs text-paper">
+              Suggested length under 3 minutes. Keep it focused on what families should know.
+            </p>
+          </div>
           {/* Captions per image */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {galleryImages.map((url, index) =>

@@ -193,6 +193,31 @@ export default async function ListingPage({ params }: ListingPageProps) {
       getCategoryIconsMap(),
     ]);
     console.log("ListingPage: Categories and icons fetched");
+    // Simple helper to transform a YouTube/Vimeo link into an embeddable URL
+    const toEmbedUrl = (url?: string): string | null => {
+      if (!url) return null;
+      try {
+        const u = new URL(url);
+        const host = u.hostname.toLowerCase();
+        // YouTube
+        if (host.includes("youtube.com")) {
+          const id = u.searchParams.get("v");
+          return id ? `https://www.youtube.com/embed/${id}` : null;
+        }
+        if (host === "youtu.be") {
+          const id = u.pathname.replace("/", "");
+          return id ? `https://www.youtube.com/embed/${id}` : null;
+        }
+        // Vimeo
+        if (host.includes("vimeo.com")) {
+          const id = u.pathname.split("/").filter(Boolean).pop();
+          return id ? `https://player.vimeo.com/video/${id}` : null;
+        }
+        return null;
+      } catch {
+        return null;
+      }
+    };
 
     const normalizeCategory = (value: string) =>
       value.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
@@ -819,6 +844,27 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     />
                   </div>
                 </div>
+              </div>
+            )}
+
+            {/* Promo Video (if provided) */}
+            {listing.custom_link_url && toEmbedUrl(listing.custom_link_url) && (
+              <div className="listing-card">
+                <h2 className="text-lg font-semibold mb-3" style={{ color: "#0C1A2B" }}>
+                  Promo Video
+                </h2>
+                <div className="aspect-video w-full rounded-lg overflow-hidden border border-[color:var(--card-border)] bg-black">
+                  <iframe
+                    src={toEmbedUrl(listing.custom_link_url) as string}
+                    title="Promo video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className="w-full h-full"
+                  />
+                </div>
+                <p className="text-xs mt-2 text-paper">
+                  Suggested length under 3 minutes.
+                </p>
               </div>
             )}
 

@@ -404,6 +404,16 @@
     line-height: 1.7;
   }
 
+      .listing-card-green {
+    background: #455C41; /* green */
+    color: #fafaf4; /* white text */
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    line-height: 1.7;
+  }
+
    .listing-card {
     background: #fffdd0; /* cream */
     border-radius: 12px;

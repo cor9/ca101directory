@@ -57,6 +57,10 @@ const FormInputSchema = z.object({
   instagram_url: z
     .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
     .optional(),
+  // Promo video link (Pro marketing)
+  custom_link_url: z
+    .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
+    .optional(),
   plan: z.string().optional(),
   is_active: z.boolean(),
   featured: z.boolean(),
@@ -221,6 +225,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       zip: String(listing.zip || ""),
       facebook_url: listing.facebook_url || "",
       instagram_url: listing.instagram_url || "",
+      custom_link_url: (listing as any).custom_link_url || "",
       plan: listing.plan || "Free",
       is_active: listing.is_active ?? false,
       featured: listing.featured ?? false,
@@ -314,6 +319,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             format: processedValues.format?.trim() || "",
             facebook_url: processedValues.facebook_url?.trim() || "",
             instagram_url: processedValues.instagram_url?.trim() || "",
+            custom_link_url: processedValues.custom_link_url?.trim() || "",
           };
 
           // Attach images and compliance fields

@@ -1,3 +1,24 @@
+## Nov 16, 2025 — Profile Image Upload: Preserve Aspect (No Forced Crop)
+- Problem: Logos/profile images looked unnaturally cropped. Root cause was client-side uploader cropping to 1:1 at 1200x1200.
+- Decision: Remove hard crop; resize down if extremely large while preserving original aspect ratio.
+- Implementation:
+  - `src/components/shared/image-upload.tsx`: replaced `cropToAspect(...)` with `resizeToMax(file, 1600)`; uploads the resized image without cropping.
+  - Display already uses `object-contain` on listing cards to avoid cropping at render time.
+- Impact: New uploads retain their natural aspect; display is consistent and unclipped.
+
+## Nov 16, 2025 — Pro Promo Video Link (YouTube/Vimeo) + Public Embed
+- Goal: Provide Pro tier a simple promo video showcase (great for acting coaches/classes) via URL, with a suggested time under 3 minutes.
+- Decision: Use existing custom link fields (`custom_link_url`, `custom_link_name`) to avoid DB migration. Auto-embed on listing pages when present.
+- Implementation:
+  - Admin + Vendor:
+    - `src/components/vendor/vendor-edit-form.tsx`: Added "Promo Video (YouTube/Vimeo link)" field for Pro; saves to `custom_link_url`, sets `custom_link_name` to "Promo Video".
+    - `src/components/admin/admin-edit-form.tsx`: Added `custom_link_url` to form schema, defaults, and submit payload.
+    - `src/components/submit/edit-form.tsx`: Added Pro-only promo video input; mapped to `custom_link_url/name` in submit payload.
+  - Validation:
+    - `src/lib/validations/listings.ts`: Added optional `custom_link_url` and `custom_link_name`.
+  - Public Listing:
+    - `src/app/(website)/(public)/listing/[slug]/page.tsx`: Added helper to derive embed URL for YouTube/Vimeo; renders an `iframe` card when `custom_link_url` exists. Shows note: "Suggested length under 3 minutes."
+- Impact: Pro listings can surface a concise promo video via link; no storage costs; consistent display on listing page.
 ## Nov 12, 2025 — Vendor Gallery Captions
 - Added support for Instagram-style captions on vendor gallery images.
 - Storage remains in the existing `listing.gallery` field as a JSON string, now supporting objects: `{ url, caption }`. Backward compatible with legacy `string[]` of URLs.

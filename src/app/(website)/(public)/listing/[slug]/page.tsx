@@ -849,8 +849,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
             {/* Promo Video (if provided) */}
             {listing.custom_link_url && toEmbedUrl(listing.custom_link_url) && (
-              <div className="listing-card">
-                <h2 className="text-lg font-semibold mb-3" style={{ color: "#0C1A2B" }}>
+              <div className="listing-card-green">
+                <h2 className="text-lg font-semibold text-paper"}}>
                   Promo Video
                 </h2>
                 <div className="aspect-video w-full rounded-lg overflow-hidden border border-[color:var(--card-border)] bg-black">

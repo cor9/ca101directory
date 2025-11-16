@@ -35,12 +35,12 @@ export default function ImageUpload({
 
   const uploadImage = async (file: File) => {
     try {
-      // Preprocess: center-crop to 1:1 (1200x1200) for profile images
-      const cropped = await cropToAspect(file, 1200, 1200);
+      // Preserve original aspect ratio; resize only if very large (no hard crop)
+      const processed = await resizeToMax(file, 1600);
 
       // Upload to Supabase Storage via API route
       const formData = new FormData();
-      formData.append("file", cropped);
+      formData.append("file", processed);
       formData.append("businessSlug", "logo");
 
       const response = await fetch("/api/upload", {
@@ -69,41 +69,23 @@ export default function ImageUpload({
     }
   };
 
-  // Helper: center-crop an image file to a target aspect and size
-  async function cropToAspect(
+  // Helper: resize while preserving aspect ratio (no cropping)
+  async function resizeToMax(
     file: File,
-    targetWidth: number,
-    targetHeight: number,
+    maxDim: number,
   ): Promise<File> {
     const img = await fileToImage(file);
     const sourceW = img.naturalWidth || img.width;
     const sourceH = img.naturalHeight || img.height;
-
-    const targetAspect = targetWidth / targetHeight;
-    const sourceAspect = sourceW / sourceH;
-
-    // Compute centered source crop
-    let sx = 0;
-    let sy = 0;
-    let sw = sourceW;
-    let sh = sourceH;
-
-    if (sourceAspect > targetAspect) {
-      // Source is wider -> crop width
-      sw = Math.round(sourceH * targetAspect);
-      sx = Math.round((sourceW - sw) / 2);
-    } else if (sourceAspect < targetAspect) {
-      // Source is taller -> crop height
-      sh = Math.round(sourceW / targetAspect);
-      sy = Math.round((sourceH - sh) / 2);
-    }
-
+    const scale = Math.min(1, maxDim / Math.max(sourceW, sourceH));
+    const targetWidth = Math.max(1, Math.round(sourceW * scale));
+    const targetHeight = Math.max(1, Math.round(sourceH * scale));
     const canvas = document.createElement("canvas");
     canvas.width = targetWidth;
     canvas.height = targetHeight;
     const ctx = canvas.getContext("2d");
     if (!ctx) return file;
-    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, targetWidth, targetHeight);
+    ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
 
     const blob: Blob = await new Promise((resolve, reject) => {
       canvas.toBlob(
@@ -114,7 +96,7 @@ export default function ImageUpload({
     });
 
     const nameNoExt = (file.name || "image").replace(/\.[^.]+$/, "");
-    return new File([blob], `${nameNoExt}-cropped.jpg`, { type: "image/jpeg" });
+    return new File([blob], `${nameNoExt}-resized.jpg`, { type: "image/jpeg" });
   }
 
   async function fileToImage(file: File): Promise<HTMLImageElement> {

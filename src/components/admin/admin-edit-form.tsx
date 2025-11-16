@@ -320,6 +320,10 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             facebook_url: processedValues.facebook_url?.trim() || "",
             instagram_url: processedValues.instagram_url?.trim() || "",
             custom_link_url: processedValues.custom_link_url?.trim() || "",
+            custom_link_name:
+              (processedValues.custom_link_url?.trim() || "").length > 0
+                ? "Promo Video"
+                : (processedValues as any).custom_link_name,
           };
 
           // Attach images and compliance fields
@@ -798,6 +802,14 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             register={form.register}
             error={form.formState.errors.instagram_url}
             disabled={isPending}
+          />
+          <FormInput
+            id="custom_link_url"
+            label="Promo Video (YouTube/Vimeo URL)"
+            register={form.register}
+            error={form.formState.errors.custom_link_url as any}
+            disabled={isPending}
+            helpText="Suggested length under 3 minutes."
           />
         </div>
       </div>

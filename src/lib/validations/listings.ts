@@ -158,6 +158,11 @@ export const CreateListingSchema = z.object({
     .optional(),
   phone: z.string().optional(),
   what_you_offer: z.string().optional(),
+  // Promo video/custom link (optional)
+  custom_link_url: z
+    .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
+    .optional(),
+  custom_link_name: z.string().optional(),
   // Allow optional plan for admin-created listings
   plan: z.string().optional(),
   // New admin-create fields

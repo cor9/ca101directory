@@ -1,7 +1,7 @@
+import { StripeDirectButton } from "@/components/payment/stripe-direct-button";
 import { priceConfig } from "@/config/price";
-import { CheckIcon, SparklesIcon, XIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { CheckIcon, SparklesIcon, XIcon } from "lucide-react";
 
 export function FoundingPlansSection() {
   const foundingPlans = priceConfig.foundingPlans || [];
@@ -116,22 +116,16 @@ function FoundingPlanCard({ plan, featured = false }: FoundingPlanCardProps) {
       </div>
 
       {/* CTA Button */}
-      <Button
-        size="lg"
+      <StripeDirectButton
+        pricePlan={plan}
         className={cn(
           "w-full font-bold",
           featured
             ? "bg-gradient-to-r from-brand-blue to-purple-600 text-white hover:opacity-90"
             : "bg-brand-blue text-white hover:bg-brand-blue/90",
         )}
-        onClick={() => {
-          if (plan.stripePriceId) {
-            window.open(plan.stripePriceId, "_blank");
-          }
-        }}
-      >
-        Claim Founding Rate →
-      </Button>
+        flowOverride="founding"
+      />
 
       {/* Trust badge */}
       <p className="mt-4 text-center text-xs text-muted-foreground">

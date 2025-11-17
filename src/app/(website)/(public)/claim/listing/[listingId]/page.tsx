@@ -34,7 +34,13 @@ export default async function ClaimListingPage({
   const userRole = getRole(session.user as any);
 
   // Fetch the listing being claimed
-  const listing = await getListingById(params.listingId);
+  let listing: Awaited<ReturnType<typeof getListingById>> | null = null;
+  try {
+    listing = await getListingById(params.listingId);
+  } catch (e) {
+    // Gracefully handle Supabase/RLS or fetch errors to avoid 500
+    listing = null;
+  }
 
   if (!listing) {
     return (

@@ -97,6 +97,31 @@ export default async function ClaimListingPage({
     );
   }
 
+  // Admins should not claim listings directly; guide them to admin dashboard
+  if (userRole === "admin") {
+    return (
+      <div className="container mx-auto px-4 py-16">
+        <Card className="max-w-2xl mx-auto">
+          <CardHeader>
+            <h1 className="text-2xl font-bold text-center">
+              Admins Manage Claims from Dashboard
+            </h1>
+          </CardHeader>
+          <CardContent className="space-y-4 text-center">
+            <p className="text-muted-foreground">
+              You&apos;re signed in as an <strong>Admin</strong>. Admin
+              accounts don&apos;t claim listings. Manage ownership or assign
+              vendors from the admin dashboard.
+            </p>
+            <Button asChild>
+              <Link href="/dashboard/admin">Go to Admin Dashboard</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   // Check if already claimed
   if (listing.is_claimed && listing.owner_id) {
     if (listing.owner_id === session.user.id) {

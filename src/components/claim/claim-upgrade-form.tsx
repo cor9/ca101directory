@@ -12,7 +12,13 @@ import {
 } from "@/components/ui/card";
 import type { Listing } from "@/data/listings";
 import { cn } from "@/lib/utils";
-import { Check, Star } from "lucide-react";
+import {
+  Check,
+  CheckCircle2,
+  ShieldAlert,
+  Star,
+  Workflow,
+} from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
@@ -135,9 +141,11 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
   const searchParams = useSearchParams();
   const claimToken = searchParams.get("token") || undefined;
   const [selectedPlan, setSelectedPlan] = useState<string>(
-    (process.env.NEXT_PUBLIC_FOUNDING_STANDARD_URL || process.env.NEXT_PUBLIC_FOUNDING_PRO_URL)
-      ? (process.env.NEXT_PUBLIC_FOUNDING_PRO_URL ? "founding-pro" : "founding-standard")
-      : "standard",
+    process.env.NEXT_PUBLIC_FOUNDING_PRO_URL
+      ? "founding-pro"
+      : process.env.NEXT_PUBLIC_FOUNDING_STANDARD_URL
+        ? "founding-standard"
+        : "standard",
   );
   // Bauhaus-ish minimalist: default emphasis on monthly. Annual shown as a subtle alternate.
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
@@ -196,12 +204,19 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
         const url = json.url as string;
         window.location.href = url;
       } else {
-        const msg = (json && (json.error || json.details)) ? String(json.error || json.details) : "No checkout URL received";
+        const msg =
+          json && (json.error || json.details)
+            ? String(json.error || json.details)
+            : "We couldn't start checkout. Try again.";
         throw new Error(msg);
       }
     } catch (error) {
       console.error("Error creating checkout session:", error);
-      alert(`Failed to start checkout: ${error instanceof Error ? error.message : "Unknown error"}`);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "We couldn't start checkout. Refresh and try again.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -251,6 +266,37 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
         </div>
       )}
 
+      {/* Process overview */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+        <div className="rounded-lg border bg-white p-5 text-left shadow-sm">
+          <div className="flex items-center gap-3">
+            <Workflow className="h-5 w-5 text-brand-blue" />
+            <h3 className="bauhaus-heading text-lg text-paper">1. Pick your plan</h3>
+          </div>
+          <p className="mt-2 text-sm text-paper">
+            Choose Free to get started or upgrade for featured placement. You'll stay in this tab the whole time.
+          </p>
+        </div>
+        <div className="rounded-lg border bg-white p-5 text-left shadow-sm">
+          <div className="flex items-center gap-3">
+            <CheckCircle2 className="h-5 w-5 text-green-600" />
+            <h3 className="bauhaus-heading text-lg text-paper">2. Secure checkout</h3>
+          </div>
+          <p className="mt-2 text-sm text-paper">
+            We redirect you to Stripe with your listing already attached—no manual matching or support emails.
+          </p>
+        </div>
+        <div className="rounded-lg border bg-white p-5 text-left shadow-sm">
+          <div className="flex items-center gap-3">
+            <ShieldAlert className="h-5 w-5 text-brand-orange" />
+            <h3 className="bauhaus-heading text-lg text-paper">3. Review & launch</h3>
+          </div>
+          <p className="mt-2 text-sm text-paper">
+            After payment you'll land back here with a checklist and timeline while our team approves your updates.
+          </p>
+        </div>
+      </div>
+
       {/* Optional upgrades */}
       <div className="text-center mb-3">
         <h2 className="bauhaus-heading text-2xl text-paper">Boost your visibility (optional)</h2>
@@ -297,8 +343,11 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
                 ))}
               </ul>
               <div className="mt-6 flex items-center justify-center gap-3">
-                <BauhausButton onClick={() => handleSelectPlan(plan.id, "monthly")}>
-                  Upgrade to {plan.name}
+                <BauhausButton
+                  disabled={isLoading}
+                  onClick={() => handleSelectPlan(plan.id, "monthly")}
+                >
+                  {isLoading ? "Preparing checkout..." : `Upgrade to ${plan.name}`}
                 </BauhausButton>
               </div>
             </CardContent>
@@ -354,12 +403,19 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
               </ul>
 
               <div className="mt-6 flex items-center justify-center gap-3">
-                <BauhausButton onClick={() => handleSelectPlan(plan.id, "monthly")}>
-                  {plan.name} Monthly
+                <BauhausButton
+                  disabled={isLoading}
+                  onClick={() => handleSelectPlan(plan.id, "monthly")}
+                >
+                  {isLoading && selectedPlan === plan.id ? "Preparing checkout..." : `${plan.name} Monthly`}
                 </BauhausButton>
-                {(plan.yearlyLink || plan.yearlyPrice) && (
-                  <BauhausButton variant="secondary" onClick={() => handleSelectPlan(plan.id, "yearly")}>
-                    {plan.name} Annual
+                {(plan.yearlyPrice || plan.yearlyLink) && (
+                  <BauhausButton
+                    disabled={isLoading}
+                    variant="secondary"
+                    onClick={() => handleSelectPlan(plan.id, "yearly")}
+                  >
+                    {isLoading && selectedPlan === plan.id ? "Preparing checkout..." : `${plan.name} Annual`}
                   </BauhausButton>
                 )}
               </div>
@@ -368,71 +424,20 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
         ))}
       </div>
 
-      {/* 101 Badge Add-ons (optional) */}
+      {/* 101 Badge Add-ons placeholder */}
       {hasBadgeAddOns && (
-        <div className="mt-10">
-          <div className="text-center mb-4">
-            <Badge variant="secondary">Add-ons</Badge>
-            <p className="text-sm text-paper mt-1">Boost credibility with a 101 Badge subscription.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {badgeMonthly && (
-              <Card className="relative">
-                <CardHeader className="text-center">
-                  <CardTitle className="text-2xl">101 Badge Monthly</CardTitle>
-                  <CardDescription>$10/month</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3">
-                    <li className="flex items-center gap-3"><Check className="w-4 h-4 text-green-600" /> Display 101 Badge on listing</li>
-                    <li className="flex items-center gap-3"><Check className="w-4 h-4 text-green-600" /> Cancel anytime</li>
-                  </ul>
-                  <Button
-                    className="w-full mt-6"
-                    onClick={() => {
-                      const url = new URL(badgeMonthly);
-                      url.searchParams.set("listing_id", listing.id);
-                      window.location.href = url.toString();
-                    }}
-                  >
-                    Choose 101 Badge Monthly
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-            {badgeYearly && (
-              <Card className="relative">
-                <CardHeader className="text-center">
-                  <CardTitle className="text-2xl">101 Badge Annual</CardTitle>
-                  <CardDescription>$100/year</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3">
-                    <li className="flex items-center gap-3"><Check className="w-4 h-4 text-green-600" /> Display 101 Badge on listing</li>
-                    <li className="flex items-center gap-3"><Check className="w-4 h-4 text-green-600" /> Save vs monthly</li>
-                  </ul>
-                  <Button
-                    className="w-full mt-6"
-                    onClick={() => {
-                      const url = new URL(badgeYearly);
-                      url.searchParams.set("listing_id", listing.id);
-                      window.location.href = url.toString();
-                    }}
-                  >
-                    Choose 101 Badge Annual
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-          </div>
+        <div className="mt-10 text-center">
+          <Badge variant="secondary">Add-ons</Badge>
+          <p className="text-sm text-paper mt-2">
+            Badge subscriptions now happen after your main upgrade so we can keep everything tied to your account. You'll see the option on your dashboard once approval is complete.
+          </p>
         </div>
       )}
 
       {/* Additional Info */}
       <div className="mt-8 text-center text-sm text-paper">
         <p>
-          After payment, your claim will be submitted for review. Once approved,
-          you'll have full control over your listing.
+          After payment you'll get an email receipt plus a progress tracker in your dashboard. No more guessing who's reviewing what—we keep the steps in sync automatically.
         </p>
       </div>
     </div>

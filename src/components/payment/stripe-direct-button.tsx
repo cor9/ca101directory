@@ -15,12 +15,15 @@ export function StripeDirectButton({
   pricePlan,
   className,
 }: StripeDirectButtonProps) {
+  const router = useRouter();
+
   const handleClick = () => {
-    // Open the Stripe Payment Link directly in a new tab
-    // These are reusable links that create fresh checkout sessions automatically
-    if (pricePlan.stripePriceId) {
-      window.open(pricePlan.stripePriceId, "_blank");
-    }
+    const normalizedPlan = pricePlan.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+
+    router.push(`/submit?plan=${encodeURIComponent(normalizedPlan)}`);
   };
 
   const getButtonText = () => {

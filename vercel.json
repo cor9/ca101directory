@@ -55,5 +55,11 @@
       "source": "/health",
       "destination": "/api/health/simple"
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/notifications/digest",
+      "schedule": "0 16 * * *"
+    }
   ]
 }

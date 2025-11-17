@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { sendListingLiveEmail } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { createClaimToken, createOptOutToken } from "@/lib/tokens";
 import {
   CreateListingSchema,
@@ -37,6 +38,23 @@ export async function createListing(
         status: "error",
         message: "Database Error: Failed to create listing.",
       };
+    }
+
+    // Insert admin notification (non-blocking)
+    try {
+      await supabaseAdmin.from("notifications").insert({
+        type: "new_listing",
+        title: "New Listing Submission",
+        message: `${validatedFields.data.listing_name || "Untitled"} (${validatedFields.data.plan || "Free"}) submitted`,
+        data: {
+          id: data.id,
+          name: validatedFields.data.listing_name,
+          plan: validatedFields.data.plan,
+          email: validatedFields.data.email,
+        },
+      } as any);
+    } catch (notifyErr) {
+      console.warn("createListing: failed to insert notification:", notifyErr);
     }
 
     // Email vendor with individualized claim/upgrade links

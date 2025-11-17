@@ -23,6 +23,27 @@ export default async function VendorListingPage() {
   return (
     <VendorDashboardLayout>
       <div className="space-y-6">
+          {/* Upgrade Banner for Free plan vendors */}
+          {userListings.some((l) => (l.comped ? false : ((l.plan || "free").toLowerCase() === "free"))) && (
+            <div className="rounded-lg border border-orange-300 bg-orange-50 p-4">
+              <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <h2 className="text-lg font-semibold text-ink">
+                    Upgrade to Pro — Limited Bonus Offer Ends Soon
+                  </h2>
+                  <div className="text-sm text-ink/80 mt-1 space-y-1">
+                    <p>Pro listings get priority placement, expanded visuals, direct links, and new premium features.</p>
+                    <p>For photographers: Featured spotlight in the 2025 Headshot Guide.</p>
+                    <p>For acting coaches: Add a promo video to your profile.</p>
+                    <p className="font-medium text-ink mt-2">This bonus window closes in 10 days.</p>
+                  </div>
+                </div>
+                <Button asChild className="mt-3 md:mt-0">
+                  <Link href="/pricing?from=vendor-dashboard-upgrade">Upgrade to Pro</Link>
+                </Button>
+              </div>
+            </div>
+          )}
           {/* Header */}
           <div className="flex items-center justify-between">
             <div>

@@ -9,6 +9,7 @@ export const metadata = constructMetadata({
   title: "Claim Your Listing - Child Actor 101 Directory",
   description: "Find and claim your business listing on our directory.",
   canonicalUrl: `${siteConfig.url}/dashboard/vendor/claim`,
+  noIndex: true,
 });
 
 export default async function ClaimListingPage() {

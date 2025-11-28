@@ -6,6 +6,7 @@ export const metadata = constructMetadata({
   title: "New Verification",
   description: "New Verification",
   canonicalUrl: `${siteConfig.url}/auth/new-verification`,
+  noIndex: true,
 });
 
 const NewVerificationPage = () => {

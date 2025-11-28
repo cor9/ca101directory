@@ -5,10 +5,15 @@ import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import { createServerClient } from "@/lib/supabase";
 import type { UserRole } from "@/actions/admin-users";
 import { redirect } from "next/navigation";
+import { siteConfig } from "@/config/site";
+import { constructMetadata } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = constructMetadata({
   title: "Admin • Users",
-};
+  description: "Manage user accounts and roles",
+  canonicalUrl: `${siteConfig.url}/dashboard/admin/users`,
+  noIndex: true,
+});
 
 // Force dynamic rendering - don't cache this page
 export const dynamic = "force-dynamic";

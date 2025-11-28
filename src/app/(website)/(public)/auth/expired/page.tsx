@@ -1,11 +1,15 @@
 import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
+import { siteConfig } from "@/config/site";
+import { constructMetadata } from "@/lib/metadata";
 import Link from "next/link";
 
-export const metadata = {
-  title: "Login Link Expired - Child Actor 101 Directory",
+export const metadata = constructMetadata({
+  title: "Login Link Expired",
   description: "Your magic link has expired. Request a new one to log in.",
-};
+  canonicalUrl: `${siteConfig.url}/auth/expired`,
+  noIndex: true,
+});
 
 export default function MagicLinkExpiredPage() {
   return (

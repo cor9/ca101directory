@@ -22,6 +22,7 @@ export const metadata = constructMetadata({
   title: "Admin Listings Management - Child Actor 101 Directory",
   description: "Manage and moderate all listings on the platform",
   canonicalUrl: `${siteConfig.url}/dashboard/admin/listings`,
+  noIndex: true,
 });
 
 /**

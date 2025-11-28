@@ -12,6 +12,7 @@ export const metadata = constructMetadata({
   title: "Vendor Dashboard - Child Actor 101 Directory",
   description: "Manage your business listings and profile.",
   canonicalUrl: `${siteConfig.url}/dashboard/vendor`,
+  noIndex: true,
 });
 
 /**

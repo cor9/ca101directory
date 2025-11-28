@@ -2,10 +2,15 @@ import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout"
 import { currentUser } from "@/lib/auth";
 import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import { redirect } from "next/navigation";
+import { siteConfig } from "@/config/site";
+import { constructMetadata } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = constructMetadata({
   title: "Admin • Analytics",
-};
+  description: "Platform analytics and insights",
+  canonicalUrl: `${siteConfig.url}/dashboard/admin/analytics`,
+  noIndex: true,
+});
 
 export default async function AdminAnalyticsPage() {
   const user = await currentUser();

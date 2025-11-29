@@ -2,11 +2,15 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { BadgeApplicationForm } from "@/components/badge/badge-application-form";
 import { currentUser } from "@/lib/auth";
+import { siteConfig } from "@/config/site";
+import { constructMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = constructMetadata({
   title: "101 Approved Badge Application | Dashboard",
   description: "Apply for the 101 Approved badge - our highest mark of trust for child acting professionals",
-};
+  canonicalUrl: `${siteConfig.url}/dashboard/vendor/badge-application`,
+  noIndex: true,
+});
 
 export default async function BadgeApplicationPage() {
   const user = await currentUser();

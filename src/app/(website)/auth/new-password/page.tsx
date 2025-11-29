@@ -6,6 +6,7 @@ export const metadata = constructMetadata({
   title: "Use a magic link",
   description: "Passwords have been replaced with secure email links.",
   canonicalUrl: `${siteConfig.url}/auth/new-password`,
+  noIndex: true,
 });
 
 const NewPasswordPage = () => {

@@ -1,6 +1,14 @@
 import Container from "@/components/container";
 import { HeaderSection } from "@/components/shared/header-section";
 import { VendorSuggestionForm } from "@/components/vendor-suggestion/vendor-suggestion-form";
+import { siteConfig } from "@/config/site";
+import { constructMetadata } from "@/lib/metadata";
+
+export const metadata = constructMetadata({
+  title: "Suggest a Vendor | Child Actor 101 Directory",
+  description: "Know a great acting coach, headshot photographer, or talent rep for child actors? Suggest them to our directory and help families discover trusted professionals. Share recommendations for acting coaches, photographers, agents, managers, and more.",
+  canonicalUrl: `${siteConfig.url}/suggest-vendor`,
+});
 
 export default function SuggestVendorPage() {
   return (

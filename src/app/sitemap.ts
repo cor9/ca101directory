@@ -11,7 +11,7 @@ const site_url = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sitemapList: MetadataRoute.Sitemap = [];
 
-  // Static routes
+  // Static routes (excluding auth pages - they should have noindex)
   const staticRoutes = [
     "", // home
     "search", // directory
@@ -19,8 +19,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "category",
     "pricing",
     "submit",
-    "auth/login",
-    "auth/register",
     "suggest-vendor",
   ];
 
@@ -59,10 +57,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Add listing pages
     for (const listing of listings) {
-      // Only include active, live listings
-      if (listing.status === "Live" && listing.is_active) {
+      // Only include active, live listings with valid slugs
+      if (listing.status === "Live" && listing.is_active && listing.slug) {
         sitemapList.push({
-          url: `${site_url}/listing/${listing.id}`,
+          url: `${site_url}/listing/${listing.slug}`,
           lastModified: listing.updated_at
             ? new Date(listing.updated_at).toISOString()
             : new Date().toISOString(),

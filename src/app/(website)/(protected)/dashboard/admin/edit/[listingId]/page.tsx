@@ -15,6 +15,7 @@ export const revalidate = 0;
 export const metadata: Metadata = constructMetadata({
   title: "Edit Listing - Admin Dashboard",
   description: "Edit listing details as admin",
+  noIndex: true,
 });
 
 interface AdminEditPageProps {

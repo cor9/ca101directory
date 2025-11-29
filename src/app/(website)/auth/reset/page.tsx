@@ -6,6 +6,7 @@ export const metadata = constructMetadata({
   title: "Log in with a magic link",
   description: "We use secure magic links instead of passwords.",
   canonicalUrl: `${siteConfig.url}/auth/reset`,
+  noIndex: true,
 });
 
 const ResetPage = () => {

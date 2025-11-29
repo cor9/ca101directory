@@ -26,6 +26,7 @@ export const metadata = constructMetadata({
   title: "My Submissions - Child Actor 101 Directory",
   description: "View and manage your submitted listings",
   canonicalUrl: `${siteConfig.url}/dashboard/submissions`,
+  noIndex: true,
 });
 
 /**

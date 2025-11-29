@@ -12,6 +12,7 @@ export const metadata = constructMetadata({
   title: "Admin Dashboard - Child Actor 101 Directory",
   description: "Administrative dashboard for platform management",
   canonicalUrl: `${siteConfig.url}/dashboard/admin`,
+  noIndex: true,
 });
 
 /**

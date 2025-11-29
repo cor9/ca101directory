@@ -11,6 +11,7 @@ export const metadata = constructMetadata({
   title: "Create New Listing - Admin Dashboard",
   description: "Create a new business listing for the directory.",
   canonicalUrl: `${siteConfig.url}/dashboard/admin/create`,
+  noIndex: true,
 });
 
 export default async function CreateListingPage() {

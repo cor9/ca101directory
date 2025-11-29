@@ -8,6 +8,7 @@ export const metadata = constructMetadata({
   title: "Backlink Resource Kit - Vendor Dashboard",
   description: "Download badges and get resources to link to your Child Actor 101 profile.",
   canonicalUrl: `${siteConfig.url}/dashboard/vendor/resources`,
+  noIndex: true,
 });
 
 export default function BacklinkKitPage() {

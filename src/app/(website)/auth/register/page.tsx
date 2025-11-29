@@ -6,6 +6,7 @@ export const metadata = constructMetadata({
   title: "Register",
   description: "Create an account to get started",
   canonicalUrl: `${siteConfig.url}/auth/register`,
+  noIndex: true,
 });
 
 const RegisterPage = () => {

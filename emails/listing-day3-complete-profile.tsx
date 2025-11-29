@@ -28,9 +28,7 @@ export default function ListingDay3CompleteProfileEmail({
   return (
     <Html>
       <Head />
-      <Preview>
-        Complete your profile to appear higher in search results 📈
-      </Preview>
+      <Preview>Complete your profile to appear higher in search results</Preview>
       <Body
         style={{
           backgroundColor: "#FFFDD0",
@@ -45,26 +43,36 @@ export default function ListingDay3CompleteProfileEmail({
           </Text>
 
           <Text style={{ lineHeight: 1.6 }}>
-            Your listing for <strong>{listingName}</strong> is live on Child Actor 101!
+            Your listing for <strong>{listingName}</strong> is live on Child
+            Actor 101.
           </Text>
 
           <Text style={{ lineHeight: 1.6 }}>
-            I wanted to share a quick tip: <strong>Complete listings get 3x more views</strong> from parents searching for professionals like you.
+            One quick note from the data: listings that feel complete and
+            professional often get several times more views from parents who are
+            actively searching for support.
           </Text>
 
           <Text style={{ lineHeight: 1.6 }}>
-            Right now, your listing is showing basic information. But parents are looking for:
+            Right now, your listing is showing only the basics. Parents are
+            looking for:
           </Text>
 
           <ul style={{ lineHeight: 1.6, paddingLeft: 24, marginTop: 0 }}>
-            <li>📸 A professional logo or photo (builds trust instantly)</li>
-            <li>📝 Detailed description of your services</li>
-            <li>⭐ Your unique approach and specializations</li>
-            <li>🎯 Who you work best with (age ranges, experience levels)</li>
+            <li>A logo or photo that immediately signals trust.</li>
+            <li>
+              A clear description of what you offer and how you work with young
+              performers.
+            </li>
+            <li>Your unique approach and specializations.</li>
+            <li>
+              Who you work best with, including age ranges and experience
+              levels.
+            </li>
           </ul>
 
           <Text style={{ lineHeight: 1.6 }}>
-            The good news? <strong>You can add all of this in just 5 minutes.</strong>
+            The good news: you can add all of this in a few minutes.
           </Text>
 
           <Section style={{ textAlign: "center", margin: "28px 0" }}>
@@ -80,12 +88,20 @@ export default function ListingDay3CompleteProfileEmail({
                 display: "inline-block",
               }}
             >
-              👉 Complete My Profile Now
+              Complete My Profile Now
             </Button>
           </Section>
 
-          <Text style={{ lineHeight: 1.6, fontSize: 14, color: "#475569" }}>
-            <strong>Pro tip:</strong> Listings with photos appear at the top of search results and get saved to favorites 5x more often.
+          <Text
+            style={{
+              lineHeight: 1.6,
+              fontSize: 14,
+              color: "#475569",
+            }}
+          >
+            A simple upgrade, like adding photos and a stronger description, can
+            move you higher in search results and make it much more likely that
+            parents save and contact your listing.
           </Text>
 
           <Section style={{ textAlign: "center", margin: "16px 0 24px" }}>
@@ -106,16 +122,32 @@ export default function ListingDay3CompleteProfileEmail({
           </Section>
 
           <Text style={{ marginTop: 24, lineHeight: 1.6 }}>
-            Parents are searching right now — make sure they choose you.
+            Parents are searching right now. A complete profile makes it much
+            easier for them to choose you.
           </Text>
 
           <Text style={{ marginTop: 32 }}>
             All the best, <br />
             <strong>Corey Ralston</strong> <br />
             Founder, Child Actor 101 <br />
-            <Link href={siteUrl} style={{ color: "#3A76A6", textDecoration: "none" }}>
+            <Link
+              href={siteUrl}
+              style={{ color: "#3A76A6", textDecoration: "none" }}
+            >
               directory.childactor101.com
             </Link>
+          </Text>
+
+          <Text
+            style={{
+              marginTop: 24,
+              fontSize: 11,
+              color: "#94A3B8",
+              lineHeight: 1.6,
+            }}
+          >
+            You are receiving this email because you created or claimed a
+            listing in the Child Actor 101 Directory.
           </Text>
         </Container>
       </Body>

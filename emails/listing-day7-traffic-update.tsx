@@ -28,15 +28,22 @@ export default function ListingDay7TrafficUpdateEmail({
   siteUrl = "https://directory.childactor101.com",
 }: Props) {
   const hasViews = viewCount > 0;
-  const viewText = hasViews
-    ? `Your listing has been viewed <strong>${viewCount} times</strong> this week`
-    : `Parents are finding your listing on Child Actor 101`;
+
+  const viewContent = hasViews ? (
+    <>
+      Your listing has been viewed <strong>{viewCount} times</strong> this week
+    </>
+  ) : (
+    <>Parents are finding your listing on Child Actor 101</>
+  );
 
   return (
     <Html>
       <Head />
       <Preview>
-        {hasViews ? `${viewCount} parents viewed your listing this week 👀` : `Parents are finding you on Child Actor 101 👀`}
+        {hasViews
+          ? `${viewCount} parents viewed your listing this week`
+          : "See how parents are finding you in the Child Actor 101 Directory"}
       </Preview>
       <Body
         style={{
@@ -52,7 +59,7 @@ export default function ListingDay7TrafficUpdateEmail({
           </Text>
 
           <Text style={{ lineHeight: 1.6 }}>
-            Great news about <strong>{listingName}</strong>!
+            Good news about <strong>{listingName}</strong>.
           </Text>
 
           <Section
@@ -61,31 +68,45 @@ export default function ListingDay7TrafficUpdateEmail({
               padding: "20px",
               borderRadius: 8,
               border: "2px solid #FCD34D",
-              margin: "20px 0"
+              margin: "20px 0",
             }}
           >
-            <Text style={{ fontSize: 16, fontWeight: 600, margin: 0, textAlign: "center" }}>
-              📊 {viewText}
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 600,
+                margin: 0,
+                textAlign: "center",
+              }}
+            >
+              {viewContent}
             </Text>
           </Section>
 
           <Text style={{ lineHeight: 1.6 }}>
-            These are real parents actively searching for professionals like you in our directory of 250+ trusted vendors.
+            These are real parents actively searching for professionals like you
+            in a directory of more than 250 trusted vendors.
           </Text>
 
-          <Text style={{ lineHeight: 1.6 }}>
-            Here's what happens next:
-          </Text>
+          <Text style={{ lineHeight: 1.6 }}>Here is what happens next:</Text>
 
           <ul style={{ lineHeight: 1.6, paddingLeft: 24, marginTop: 0 }}>
-            <li>🔍 Parents search by category, location, and specialization</li>
-            <li>📱 They click on listings that stand out (photos, detailed info)</li>
-            <li>⭐ They save favorites and reach out to vendors they trust</li>
-            <li>💼 <strong>Free listings appear at the bottom</strong> of search results</li>
+            <li>Parents search by category, location, and specialization.</li>
+            <li>
+              They click on listings that stand out with strong photos and clear
+              information.
+            </li>
+            <li>They save favorites and reach out to vendors they trust.</li>
+            <li>
+              Free listings appear after paid, featured vendors in search
+              results.
+            </li>
           </ul>
 
           <Text style={{ lineHeight: 1.6 }}>
-            <strong>Right now, parents are seeing your basic info at the bottom of the list.</strong> Want to appear at the top and get more inquiries?
+            Right now, parents are only seeing a basic version of your listing.
+            If you want to move higher in search and get more inquiries, an
+            upgrade is the next smart step.
           </Text>
 
           <Section style={{ textAlign: "center", margin: "28px 0" }}>
@@ -101,7 +122,7 @@ export default function ListingDay7TrafficUpdateEmail({
                 display: "inline-block",
               }}
             >
-              👉 Get Featured Placement
+              Get Featured Placement
             </Button>
           </Section>
 
@@ -110,11 +131,14 @@ export default function ListingDay7TrafficUpdateEmail({
           </Text>
 
           <ul style={{ lineHeight: 1.6, paddingLeft: 24, marginTop: 0 }}>
-            <li>✓ <strong>Top placement</strong> in your category</li>
-            <li>✓ Logo + gallery (4 photos)</li>
-            <li>✓ Social media links</li>
-            <li>✓ 101 Approved Badge eligibility (builds instant trust)</li>
-            <li>✓ <strong>3-5x more profile views</strong></li>
+            <li>
+              Top placement in your category, above free listings in search
+              results.
+            </li>
+            <li>Logo plus gallery space for up to four photos.</li>
+            <li>Social media links on your profile.</li>
+            <li>Eligibility for the 101 Approved Badge, which builds trust.</li>
+            <li>Three to five times more profile views on average.</li>
           </ul>
 
           <Section style={{ textAlign: "center", margin: "16px 0 24px" }}>
@@ -130,21 +154,45 @@ export default function ListingDay7TrafficUpdateEmail({
                 display: "inline-block",
               }}
             >
-              See Plans & Pricing
+              See Plans and Pricing
             </Button>
           </Section>
 
-          <Text style={{ marginTop: 24, lineHeight: 1.6, fontSize: 14, color: "#475569" }}>
-            💰 <strong>Limited time:</strong> Founding members get 6 months of Pro for just $199 (normally $300). Lock in this price forever.
+          <Text
+            style={{
+              marginTop: 24,
+              lineHeight: 1.6,
+              fontSize: 14,
+              color: "#475569",
+            }}
+          >
+            <strong>Limited time:</strong> Founding members get six months of
+            Pro for just 199 dollars (normally 300 dollars). You can lock in
+            this pricing for the future.
           </Text>
 
           <Text style={{ marginTop: 32 }}>
             Here to help, <br />
             <strong>Corey Ralston</strong> <br />
             Founder, Child Actor 101 <br />
-            <Link href={siteUrl} style={{ color: "#3A76A6", textDecoration: "none" }}>
+            <Link
+              href={siteUrl}
+              style={{ color: "#3A76A6", textDecoration: "none" }}
+            >
               directory.childactor101.com
             </Link>
+          </Text>
+
+          <Text
+            style={{
+              marginTop: 24,
+              fontSize: 11,
+              color: "#94A3B8",
+              lineHeight: 1.6,
+            }}
+          >
+            You are receiving this email because you created or claimed a
+            listing in the Child Actor 101 Directory.
           </Text>
         </Container>
       </Body>

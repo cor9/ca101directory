@@ -15,13 +15,18 @@ import { getCampaignsDueForEmail, processCampaignStep } from "@/data/email-campa
  *   -H "Authorization: Bearer YOUR_CRON_SECRET"
  */
 
-export async function POST(request: Request) {
+// Shared logic for processing campaigns
+async function processCampaigns(request: Request) {
   try {
-    // Verify cron secret (basic auth)
+    // Verify this is from Vercel cron or has valid auth
+    const userAgent = request.headers.get("user-agent") || "";
     const authHeader = request.headers.get("authorization");
     const cronSecret = process.env.CRON_SECRET;
 
-    if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
+    const isVercelCron = userAgent.includes("vercel-cron");
+    const hasValidAuth = cronSecret && authHeader === `Bearer ${cronSecret}`;
+
+    if (!isVercelCron && !hasValidAuth) {
       return NextResponse.json(
         { error: "Unauthorized" },
         { status: 401 }
@@ -79,30 +84,13 @@ export async function POST(request: Request) {
   }
 }
 
-// Allow GET for manual testing/monitoring
+// GET handler for Vercel cron (Vercel makes GET requests)
 export async function GET(request: Request) {
-  const authHeader = request.headers.get("authorization");
-  const cronSecret = process.env.CRON_SECRET;
-
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-    return NextResponse.json(
-      { error: "Unauthorized" },
-      { status: 401 }
-    );
-  }
-
-  // Get upcoming campaigns (next 24 hours)
-  const campaigns = await getCampaignsDueForEmail();
-  const upcoming = campaigns.filter(
-    (c: any) =>
-      c.next_email_due_at &&
-      new Date(c.next_email_due_at) < new Date(Date.now() + 24 * 60 * 60 * 1000)
-  );
-
-  return NextResponse.json({
-    message: "Email campaigns cron endpoint",
-    upcomingCampaigns: upcoming.length,
-    duNow: campaigns.length,
-    status: "ready",
-  });
+  return processCampaigns(request);
 }
+
+// POST handler for manual testing
+export async function POST(request: Request) {
+  return processCampaigns(request);
+}
+

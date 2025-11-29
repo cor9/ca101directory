@@ -21,6 +21,7 @@ import {
   DistributionPieChart,
   StatCard,
 } from "@/components/analytics/analytics-charts";
+import { HotLeadsTable } from "@/components/admin/hot-leads-table";
 import {
   TrendingUp,
   Users,
@@ -197,6 +198,14 @@ export default async function AdminAnalyticsPage() {
             title="Top 10 Categories by Listing Count"
             color="#FF6B35"
           />
+        </div>
+
+        {/* Hot Leads - Revenue Opportunities */}
+        <div>
+          <h2 className="text-2xl font-semibold text-foreground mb-4">
+            🎯 Revenue Opportunities
+          </h2>
+          <HotLeadsTable />
         </div>
 
         {/* Footer Note */}

@@ -1,6 +1,7 @@
 import { VendorDashboardLayout } from "@/components/layouts/VendorDashboardLayout";
 import { Button } from "@/components/ui/button";
 import { VendorListingsTable } from "@/components/vendor/vendor-listings-table";
+import { VendorROIStats } from "@/components/vendor/vendor-roi-stats";
 import { siteConfig } from "@/config/site";
 import { getVendorListings } from "@/data/listings";
 import { currentUser } from "@/lib/auth";
@@ -67,6 +68,9 @@ export default async function VendorDashboard({ searchParams }: { searchParams?:
             access resources to grow your business with us.
           </p>
         </div>
+
+        {/* ROI Stats Widget */}
+        <VendorROIStats vendorId={user.id} />
 
         <div className="bg-card rounded-lg p-6 border">
           <h2 className="text-xl font-bold text-foreground mb-4">

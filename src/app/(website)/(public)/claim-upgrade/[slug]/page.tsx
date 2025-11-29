@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { ClaimUpgradeForm } from "@/components/claim/claim-upgrade-form";
 import Container from "@/components/container";
 import { HeaderSection } from "@/components/shared/header-section";
+import { SocialProofStats } from "@/components/conversion/social-proof-stats";
 import { getPublicListings, getListingById } from "@/data/listings";
 import { redirect, notFound } from "next/navigation";
 
@@ -89,6 +90,7 @@ export default async function ClaimUpgradePage({ params, searchParams }: ClaimUp
         </div>
 
         <Container className="mt-8">
+          <SocialProofStats />
           <ClaimUpgradeForm listing={listing} />
         </Container>
       </div>

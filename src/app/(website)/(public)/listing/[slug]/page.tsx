@@ -12,6 +12,7 @@ import {
   ListingSchema,
 } from "@/components/seo/listing-schema";
 import { RelatedLinks } from "@/components/seo/related-links";
+import { ViewTracker } from "@/components/analytics/view-tracker";
 import { Button } from "@/components/ui/button";
 import { RichTextDisplay } from "@/components/ui/rich-text-display";
 import SocialMediaIcons from "@/components/ui/social-media-icons";
@@ -421,6 +422,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
     return (
       <div className="listing-page">
+        {/* Track listing view for analytics */}
+        <ViewTracker listingId={listing.id} />
+
         {/* Schema.org Structured Data for SEO */}
         <ListingSchema listing={listing} averageRating={averageRating} />
         <BreadcrumbSchema

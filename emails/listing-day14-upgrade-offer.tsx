@@ -25,11 +25,13 @@ export default function ListingDay14UpgradeOfferEmail({
   upgradeUrl,
   siteUrl = "https://directory.childactor101.com",
 }: Props) {
+  const hasViews = viewCount > 0;
+
   return (
     <Html>
       <Head />
       <Preview>
-        You're missing out on {viewCount > 0 ? `${viewCount}+` : 'dozens of'} parent inquiries 💼
+        Your listing is getting seen, but Pro vendors are getting the inquiries
       </Preview>
       <Body
         style={{
@@ -45,11 +47,13 @@ export default function ListingDay14UpgradeOfferEmail({
           </Text>
 
           <Text style={{ lineHeight: 1.6 }}>
-            I wanted to reach out personally about <strong>{listingName}</strong>.
+            I wanted to reach out personally about{" "}
+            <strong>{listingName}</strong>.
           </Text>
 
           <Text style={{ lineHeight: 1.6 }}>
-            It's been 2 weeks since your listing went live, and here's what I'm seeing:
+            It has been about two weeks since your listing went live, and here
+            is what I am seeing on the directory side.
           </Text>
 
           <Section
@@ -58,26 +62,49 @@ export default function ListingDay14UpgradeOfferEmail({
               padding: "20px",
               borderRadius: 8,
               border: "2px solid #60A5FA",
-              margin: "20px 0"
+              margin: "20px 0",
             }}
           >
             <Text style={{ fontSize: 15, margin: "0 0 12px 0" }}>
-              📊 <strong>Your Stats:</strong>
+              Your current snapshot:
             </Text>
             <ul style={{ margin: 0, paddingLeft: 20, lineHeight: 1.8 }}>
-              {viewCount > 0 && <li>{viewCount} parents viewed your profile</li>}
-              <li>Your listing appears on page 3-4 of search results</li>
-              <li>Parents are favoriting competitors with photos</li>
-              <li><strong>0 inquiries from the directory</strong> (free tier limitation)</li>
+              {hasViews && (
+                <li>
+                  Parents have viewed your profile around {viewCount} times.
+                </li>
+              )}
+              <li>
+                Your listing appears below featured Pro vendors in search
+                results.
+              </li>
+              <li>
+                Parents are clicking first on listings with strong photos and
+                trust badges.
+              </li>
+              <li>
+                Free listings tend to see fewer direct inquiries from the
+                directory.
+              </li>
             </ul>
           </Section>
 
           <Text style={{ lineHeight: 1.6 }}>
-            Meanwhile, <strong>Pro members in your category are getting 3-5 inquiries per week</strong> from qualified parents ready to book.
+            In the same categories, many Pro members are seeing several qualified
+            parent inquiries each week. The main difference is how they show up
+            in the directory.
           </Text>
 
-          <Text style={{ lineHeight: 1.6, fontSize: 16, fontWeight: 600, color: "#DC2626" }}>
-            The difference? They show up at the top with professional photos and trust signals.
+          <Text
+            style={{
+              lineHeight: 1.6,
+              fontSize: 16,
+              fontWeight: 600,
+              color: "#DC2626",
+            }}
+          >
+            Pro vendors are at the top of search with clear photos, trust
+            signals, and stronger profiles.
           </Text>
 
           <Section
@@ -85,19 +112,31 @@ export default function ListingDay14UpgradeOfferEmail({
               backgroundColor: "#FEF3C7",
               padding: "20px",
               borderRadius: 8,
-              margin: "24px 0"
+              margin: "24px 0",
             }}
           >
-            <Text style={{ fontSize: 16, fontWeight: 600, margin: "0 0 12px 0", textAlign: "center" }}>
-              💎 What You're Missing:
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 600,
+                margin: "0 0 12px 0",
+                textAlign: "center",
+              }}
+            >
+              What a Pro upgrade adds:
             </Text>
             <ul style={{ margin: 0, paddingLeft: 20, lineHeight: 1.8 }}>
-              <li><strong>Top placement</strong> — appear first in search results</li>
-              <li><strong>Professional photos</strong> — logo + gallery (4 images)</li>
-              <li><strong>Trust badges</strong> — 101 Approved badge eligibility</li>
-              <li><strong>Social proof</strong> — reviews & ratings display</li>
-              <li><strong>Direct inquiries</strong> — contact button prominently displayed</li>
-              <li><strong>Analytics</strong> — see exactly how parents find you</li>
+              <li>Top placement in your category search results.</li>
+              <li>Professional photos, including logo and gallery images.</li>
+              <li>Eligibility for the 101 Approved badge.</li>
+              <li>Stronger social proof with reviews and ratings display.</li>
+              <li>
+                A prominent contact button so parents can reach you directly.
+              </li>
+              <li>
+                Analytics that show you how parents are finding and engaging
+                with your listing.
+              </li>
             </ul>
           </Section>
 
@@ -115,7 +154,7 @@ export default function ListingDay14UpgradeOfferEmail({
                 display: "inline-block",
               }}
             >
-              🚀 Upgrade to Pro — Start Getting Inquiries
+              Upgrade to Pro and Start Getting More Inquiries
             </Button>
           </Section>
 
@@ -124,25 +163,36 @@ export default function ListingDay14UpgradeOfferEmail({
               backgroundColor: "#FEE2E2",
               padding: "16px",
               borderRadius: 8,
-              margin: "24px 0"
+              margin: "24px 0",
             }}
           >
-            <Text style={{ fontSize: 14, margin: 0, textAlign: "center", color: "#991B1B" }}>
-              ⏰ <strong>Founding Member Pricing Ends Soon:</strong> $199 for 6 months of Pro (normally $300)<br />
-              Lock in this rate forever + get founding vendor badge
+            <Text
+              style={{
+                fontSize: 14,
+                margin: 0,
+                textAlign: "center",
+                color: "#991B1B",
+              }}
+            >
+              Founding Member Pricing is available for a limited time:
+              199 dollars for six months of Pro (regularly 300 dollars), plus a
+              founding vendor badge and the ability to keep that rate going
+              forward.
             </Text>
           </Section>
 
           <Text style={{ lineHeight: 1.6 }}>
-            <strong>Here's my honest recommendation:</strong>
+            My honest recommendation: if you want the directory to be a real
+            source of clients, Pro is built to pay for itself with one or two
+            bookings. Most vendors see it as a simple, focused marketing
+            investment.
           </Text>
 
           <Text style={{ lineHeight: 1.6 }}>
-            If you're serious about getting clients from the directory, Pro pays for itself with just 1-2 bookings. Our Pro members say it's the best marketing investment they've made.
-          </Text>
-
-          <Text style={{ lineHeight: 1.6 }}>
-            If you're not ready to invest in your listing, that's okay too — your free listing will stay up. But you'll continue to appear at the bottom while competitors capture the inquiries.
+            If you are not ready to invest in your listing yet, your free
+            listing will stay up and continue to appear below featured vendors.
+            You will still benefit from being present, you just will not have
+            the extra visibility and trust signals.
           </Text>
 
           <Section style={{ textAlign: "center", margin: "24px 0" }}>
@@ -158,25 +208,51 @@ export default function ListingDay14UpgradeOfferEmail({
                 display: "inline-block",
               }}
             >
-              View Pro Plans & Pricing
+              View Pro Plans and Pricing
             </Button>
           </Section>
 
           <Text style={{ lineHeight: 1.6 }}>
-            Questions? Just reply to this email — I read every message personally.
+            Questions about whether Pro is a good fit for you right now? Reply
+            to this email and I will take a look at your situation personally.
           </Text>
 
           <Text style={{ marginTop: 32 }}>
             Rooting for your success, <br />
             <strong>Corey Ralston</strong> <br />
             Founder, Child Actor 101 <br />
-            <Link href={siteUrl} style={{ color: "#3A76A6", textDecoration: "none" }}>
+            <Link
+              href={siteUrl}
+              style={{ color: "#3A76A6", textDecoration: "none" }}
+            >
               directory.childactor101.com
             </Link>
           </Text>
 
-          <Text style={{ marginTop: 24, fontSize: 12, color: "#64748B", lineHeight: 1.6 }}>
-            P.S. This is my last email about upgrading. If I don't hear from you, I'll assume you're happy with the free tier and won't email again about Pro. You'll only get important updates about your listing.
+          <Text
+            style={{
+              marginTop: 24,
+              fontSize: 12,
+              color: "#64748B",
+              lineHeight: 1.6,
+            }}
+          >
+            P.S. This is the final email in this sequence about upgrading to
+            Pro. If I do not hear from you, I will assume you would like to stay
+            on the free tier and you will only receive important updates about
+            your listing going forward.
+          </Text>
+
+          <Text
+            style={{
+              marginTop: 16,
+              fontSize: 11,
+              color: "#94A3B8",
+              lineHeight: 1.6,
+            }}
+          >
+            You are receiving this email because you created or claimed a
+            listing in the Child Actor 101 Directory.
           </Text>
         </Container>
       </Body>

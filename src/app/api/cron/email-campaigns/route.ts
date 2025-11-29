@@ -7,8 +7,8 @@ import { getCampaignsDueForEmail, processCampaignStep } from "@/data/email-campa
  * Setup in Vercel:
  * 1. Go to Project Settings > Cron Jobs
  * 2. Add: /api/cron/email-campaigns
- * 3. Schedule: 0 */6 * * * (every 6 hours)
- * 4. Or use: 0 10 * * * (daily at 10am UTC)
+ * 3. Schedule: 0 (star)(slash)6 (star) (star) (star) (every 6 hours)
+ * 4. Or use: 0 10 (star) (star) (star) (daily at 10am UTC)
  *
  * Manual trigger for testing:
  * curl -X POST https://yourdomain.com/api/cron/email-campaigns \

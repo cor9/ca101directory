@@ -2,10 +2,23 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY as string);
+// Force this route to be dynamic (not statically optimized)
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
+// Lazy initialization for Resend client
+function getResendClient() {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    throw new Error("RESEND_API_KEY environment variable is not set");
+  }
+  return new Resend(apiKey);
+}
+
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "you@childactor101.com";
 
 export async function GET() {
+  const resend = getResendClient();
   // 1) fetch notifications that haven't been emailed yet
   const { data: notifications, error } = await supabaseAdmin
     .from("notifications")

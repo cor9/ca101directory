@@ -8,8 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { TrendingUp, Mail, ExternalLink } from "lucide-react";
+import { TrendingUp } from "lucide-react";
+import { HotLeadActions } from "./hot-leads-actions";
 
 /**
  * Hot Leads Table
@@ -90,46 +90,13 @@ export async function HotLeadsTable() {
                   </span>
                 </TableCell>
                 <TableCell className="text-right">
-                  <div className="flex items-center gap-2 justify-end">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      asChild
-                    >
-                      <a
-                        href={`mailto:${lead.email}?subject=${encodeURIComponent(`Your ${lead.listing_name} listing - ${lead.views_last_7_days} views this week!`)}&body=${encodeURIComponent(`Hi,
-
-I wanted to reach out personally about your listing on Child Actor 101.
-
-Your profile for "${lead.listing_name}" got ${lead.views_last_7_days} views this week - that's ${lead.is_above_average ? '3x' : '2x'} the average!
-
-Parents are actively looking for you, but right now you're appearing at the bottom of search results.
-
-Want to appear at the top and get more inquiries? Let's get you upgraded to Pro.
-
-Reply to this email and I'll personally walk you through it.
-
-- Corey
-Child Actor 101`)}`}
-                      >
-                        <Mail className="h-3 w-3 mr-1" />
-                        Email
-                      </a>
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      asChild
-                    >
-                      <a
-                        href={`/listings/${lead.slug}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <ExternalLink className="h-3 w-3" />
-                      </a>
-                    </Button>
-                  </div>
+                  <HotLeadActions
+                    listingId={lead.listing_id}
+                    listingName={lead.listing_name}
+                    email={lead.email}
+                    slug={lead.slug}
+                    viewCount={lead.views_last_7_days}
+                  />
                 </TableCell>
               </TableRow>
             ))}

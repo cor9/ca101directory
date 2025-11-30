@@ -317,6 +317,10 @@ export const sendAdminVendorSuggestionNotification = async (payload: {
  * Drip Campaign Emails: Send automated follow-up emails to unclaimed listings
  */
 
+/**
+ * Drip Campaign Emails: Send automated follow-up emails to unclaimed listings
+ */
+
 /** Day 3: Complete your profile */
 export const sendDay3CompleteProfileEmail = async (payload: {
   vendorName: string;
@@ -331,7 +335,7 @@ export const sendDay3CompleteProfileEmail = async (payload: {
     from: getFrom(),
     to: getToAddress(payload.vendorEmail),
     reply_to: getReplyTo(),
-    subject: `Complete your profile to appear higher in search results 📈`,
+    subject: "Complete your profile to appear higher in search results",
     react: ListingDay3CompleteProfileEmail({
       vendorName: payload.vendorName,
       listingName: payload.listingName,
@@ -352,18 +356,22 @@ export const sendDay7TrafficUpdateEmail = async (payload: {
 }) => {
   const claimUrl = `${SITE_URL}/claim-upgrade/${payload.slug}`;
   const upgradeUrl = `${SITE_URL}/claim-upgrade/${payload.slug}#pricing`;
+  const count = payload.viewCount ?? 0;
+
+  const subject =
+    count > 0
+      ? `${count} parents viewed your listing this week`
+      : "See how parents are finding you in the Child Actor 101 Directory";
 
   await resend.emails.send({
     from: getFrom(),
     to: getToAddress(payload.vendorEmail),
     reply_to: getReplyTo(),
-    subject: payload.viewCount && payload.viewCount > 0
-      ? `${payload.viewCount} parents viewed your listing this week 👀`
-      : `Parents are finding you on Child Actor 101 👀`,
+    subject,
     react: ListingDay7TrafficUpdateEmail({
       vendorName: payload.vendorName,
       listingName: payload.listingName,
-      viewCount: payload.viewCount,
+      viewCount: count,
       claimUrl,
       upgradeUrl,
       siteUrl: SITE_URL,
@@ -380,16 +388,17 @@ export const sendDay14UpgradeOfferEmail = async (payload: {
   viewCount?: number;
 }) => {
   const upgradeUrl = `${SITE_URL}/claim-upgrade/${payload.slug}#pricing`;
+  const count = payload.viewCount ?? 0;
 
   await resend.emails.send({
     from: getFrom(),
     to: getToAddress(payload.vendorEmail),
     reply_to: getReplyTo(),
-    subject: `You're missing out on parent inquiries 💼`,
+    subject: "Is it time to move your listing to the top?",
     react: ListingDay14UpgradeOfferEmail({
       vendorName: payload.vendorName,
       listingName: payload.listingName,
-      viewCount: payload.viewCount,
+      viewCount: count,
       upgradeUrl,
       siteUrl: SITE_URL,
     }),

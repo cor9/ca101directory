@@ -1,148 +1,82 @@
 import { generateText } from "ai";
 import { openai } from "@ai-sdk/openai";
 
-/**
- * AI-powered description rewriter for listing mockups
- * Uses OpenAI to create compelling, conversion-focused descriptions
- */
+export type RewriteOptions = {
+  tier?: "standard" | "pro";
+};
 
 export type ListingInfo = {
   businessName: string;
-  currentDescription?: string;
   categories: string[];
-  city?: string;
-  state?: string;
-  website?: string;
+  website?: string | null;
+  city?: string | null;
+  state?: string | null;
+  description?: string | null;
+  highlights?: string[] | null;
 };
 
-export type RewriteOptions = {
-  tier: "standard" | "pro";
-  tone?: "professional" | "friendly" | "persuasive";
+const tierAngles: Record<"standard" | "pro", string> = {
+  standard:
+    "Position this as a polished starter profile focused on trust, clarity, and a clear call to book.",
+  pro: "Position this as premium and in-demand, with social proof, urgency, and a clear ROI angle.",
 };
 
-/**
- * Rewrite a listing description to be more compelling
- */
+function buildFallbackCopy(listing: ListingInfo, tier: "standard" | "pro") {
+  const location = [listing.city, listing.state].filter(Boolean).join(", ");
+  const category = listing.categories?.[0] || "service provider";
+  const tierTagline =
+    tier === "pro"
+      ? "Stand-out premium profile with priority placement"
+      : "Clean, trustworthy profile that parents can act on";
+
+  return [
+    `${listing.businessName} — ${category}${location ? ` in ${location}` : ""}.`,
+    tierTagline,
+    listing.description || "We help young performers succeed with dependable, parent-approved support.",
+    "• What we do: Clear, parent-friendly services",
+    "• Why choose us: Reliable, vetted, and easy to book",
+    "• Next step: Reply to this email and we’ll set everything up for you",
+  ].join("\n");
+}
+
 export async function rewriteListingDescription(
   listing: ListingInfo,
-  options: RewriteOptions = { tier: "pro" }
+  options: RewriteOptions = { tier: "pro" },
 ): Promise<string> {
-  const { businessName, currentDescription, categories, city, state } = listing;
-  const { tier, tone = "persuasive" } = options;
+  const tier = options.tier || "pro";
 
-  const prompt = `You are a conversion copywriter for a child actor services directory.
-
-Rewrite this business listing to be compelling and conversion-focused.
-
-BUSINESS INFO:
-- Name: ${businessName}
-- Categories: ${categories.join(", ")}
-- Location: ${city}, ${state}
-- Current description: ${currentDescription || "No description provided"}
-
-TIER: ${tier.toUpperCase()} (${tier === "pro" ? "$50/mo - premium features" : "$25/mo - enhanced visibility"})
-
-REQUIREMENTS:
-- Write in ${tone} tone
-- Focus on benefits, not features
-- Include social proof if possible
-- Highlight what makes them unique
-- Target parent audience searching for child acting services
-- 3-4 short paragraphs
-- Include a "Perfect for:" section at the end
-- Use compelling, action-oriented language
-- ${tier === "pro" ? "Premium positioning - emphasize exclusivity and results" : "Value positioning - emphasize affordability and quality"}
-
-FORMAT:
-[Strong opening hook about their unique value]
-
-[Why they're different - 3-4 bullet points with emojis]
-
-[Social proof or credentials if available]
-
-Perfect for: [specific target audience]
-
-Write the description now:`;
+  // If OpenAI key is missing, return a high-quality fallback so the flow still works
+  if (!process.env.OPENAI_API_KEY) {
+    return buildFallbackCopy(listing, tier);
+  }
 
   try {
     const { text } = await generateText({
-      model: openai("gpt-4-turbo"),
-      prompt,
-      maxTokens: 500,
+      model: openai("gpt-4o-mini"),
+      prompt: `Rewrite this business listing to sound clear, compelling, and upgrade-worthy. Keep it concise (140-200 words), scannable, and parent-friendly.
+
+Business name: ${listing.businessName}
+Category: ${(listing.categories || []).join(", ") || "General"}
+Website: ${listing.website || "N/A"}
+Location: ${[listing.city, listing.state].filter(Boolean).join(", ") || "N/A"}
+Tier: ${tier}
+Current description: ${listing.description || "(no description provided)"}
+Highlights: ${(listing.highlights || []).join(", ") || "None"}
+
+Writing rules:
+- ${tierAngles[tier]}
+- Use confident but warm tone; avoid hype
+- Make benefits explicit for parents and talent
+- Include 3-4 short bullets with tangible outcomes
+- Close with a single, clear next step to book or inquire
+`,
+      maxTokens: 400,
       temperature: 0.7,
     });
 
     return text.trim();
   } catch (error) {
-    console.error("Error rewriting description:", error);
-    // Fallback to template-based description
-    return generateTemplateDescription(listing, options);
-  }
-}
-
-/**
- * Fallback: Generate template-based description if AI fails
- */
-function generateTemplateDescription(
-  listing: ListingInfo,
-  options: RewriteOptions
-): string {
-  const { businessName, categories, city, state } = listing;
-  const { tier } = options;
-
-  const primaryCategory = categories[0] || "Professional Services";
-
-  if (tier === "pro") {
-    return `${businessName} - Premium ${primaryCategory} for Young Performers
-
-Specializing in child actors and young performers in ${city}, ${state}.
-
-What makes us different:
-✓ Proven track record of success
-✓ Industry-experienced professionals
-✓ Personalized attention for each student
-✓ Results-focused approach
-
-Join the families who trust ${businessName} for their child's entertainment career development.
-
-Perfect for: Aspiring young actors, experienced performers, and families committed to their child's success.`;
-  } else {
-    return `${businessName} - Quality ${primaryCategory} in ${city}
-
-Trusted by families across ${state} for professional ${primaryCategory.toLowerCase()}.
-
-What we offer:
-✓ Experienced professionals
-✓ Personalized service
-✓ Convenient location
-✓ Proven results
-
-Helping young actors achieve their dreams since [year].
-
-Perfect for: Families seeking quality ${primaryCategory.toLowerCase()} at an affordable price.`;
-  }
-}
-
-/**
- * Generate bullet points highlighting tier benefits
- */
-export function getTierBenefits(tier: "standard" | "pro"): string[] {
-  if (tier === "pro") {
-    return [
-      "Featured placement - appear first in search results",
-      "Professional photo gallery (4 images)",
-      "Social media integration",
-      "101 Approved Badge eligibility",
-      "Priority customer support",
-      "Enhanced analytics",
-    ];
-  } else {
-    return [
-      "Enhanced visibility - appear higher in search",
-      "Professional logo display",
-      "Edit your listing anytime",
-      "Better search ranking",
-      "Email support",
-    ];
+    console.error("rewriteListingDescription fallback due to error", error);
+    return buildFallbackCopy(listing, tier);
   }
 }

@@ -1,105 +1,61 @@
-import { NextResponse } from "next/server";
-import { getListingById } from "@/data/listings";
-import { generateMockup, generateMockupEmail, generateMockupEmailHTML, type MockupTier } from "@/lib/mockup-generator";
+import { auth } from "@/auth";
+import { generateMockup, generateMockupEmailHTML } from "@/lib/mockup-generator";
 import { resend } from "@/lib/mail";
-import { currentUser } from "@/lib/auth";
-
-/**
- * Generate listing mockup
- * POST /api/admin/generate-mockup
- *
- * Body: {
- *   listingId: string
- *   tier: "standard" | "pro"
- *   sendEmail?: boolean
- * }
- */
+import { createServerClient } from "@/lib/supabase";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    // Verify admin access
-    const user = await currentUser();
-    if (!user || user.role !== "admin") {
-      return NextResponse.json(
-        { error: "Unauthorized - Admin access required" },
-        { status: 401 }
-      );
+    const session = await auth();
+    if (!session?.user || session.user.role !== "admin") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await request.json();
-    const { listingId, tier = "pro", sendEmail = false } = body;
+    const { listingId, tier = "pro", sendEmail = false } = body as {
+      listingId: string;
+      tier?: "standard" | "pro";
+      sendEmail?: boolean;
+    };
 
     if (!listingId) {
-      return NextResponse.json(
-        { error: "listingId is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Missing listingId" }, { status: 400 });
     }
 
-    // Get listing data
-    const listing = await getListingById(listingId);
+    const supabase = createServerClient();
+    const { data: listing, error } = await supabase
+      .from("listings")
+      .select(
+        "id, listing_name, slug, what_you_offer, description, extras_notes, website, email, city, state, plan, categories, profile_image, gallery, tags",
+      )
+      .eq("id", listingId)
+      .single();
 
-    if (!listing) {
-      return NextResponse.json(
-        { error: "Listing not found" },
-        { status: 404 }
-      );
+    if (error || !listing) {
+      console.error("generate-mockup: failed to load listing", error);
+      return NextResponse.json({ error: "Listing not found" }, { status: 404 });
     }
 
-    // Generate mockup
-    const mockup = await generateMockup(listing, tier as MockupTier);
+    const mockup = await generateMockup(listing, tier);
 
-    // Optionally send email
     let emailSent = false;
     if (sendEmail && listing.email) {
-      const vendorName = listing.listing_name?.split(" ")[0] || "there";
-      const { subject, body } = generateMockupEmail(
-        mockup,
-        vendorName,
-        listing.slug || ""
-      );
-
-      try {
-        await resend.emails.send({
-          from: process.env.RESEND_EMAIL_FROM || "Corey Ralston <corey@childactor101.com>",
-          to: listing.email,
-          subject,
-          text: body,
-          html: generateMockupEmailHTML(mockup, vendorName, listing.slug || ""),
-        });
-        emailSent = true;
-      } catch (emailError) {
-        console.error("Error sending mockup email:", emailError);
-      }
+      await resend.emails.send({
+        from: process.env.RESEND_EMAIL_FROM || "Corey Ralston <corey@childactor101.com>",
+        to: listing.email,
+        reply_to: process.env.RESEND_REPLY_TO || "corey@childactor101.com",
+        subject: `${listing.listing_name || "Your"} listing makeover (${tier === "pro" ? "Pro" : "Standard"})`,
+        html: generateMockupEmailHTML(mockup, listing.listing_name, listing.slug),
+      });
+      emailSent = true;
     }
 
-    return NextResponse.json({
-      success: true,
-      mockup,
-      emailSent,
-      message: emailSent
-        ? "Mockup generated and email sent successfully"
-        : "Mockup generated successfully",
-    });
+    return NextResponse.json({ success: true, mockup, emailSent });
   } catch (error) {
-    console.error("Error generating mockup:", error);
+    console.error("generate-mockup API error", error);
     return NextResponse.json(
-      {
-        error: "Internal server error",
-        message: error instanceof Error ? error.message : "Unknown error",
-      },
-      { status: 500 }
+      { error: "Failed to generate mockup" },
+      { status: 500 },
     );
   }
-}
-
-/**
- * Health check
- */
-export async function GET() {
-  return NextResponse.json({
-    status: "ok",
-    endpoint: "generate-mockup",
-    description: "AI-powered listing mockup generator",
-  });
 }

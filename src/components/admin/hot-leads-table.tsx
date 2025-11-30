@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp } from "lucide-react";
-import { HotLeadActions } from "./hot-leads-actions";
+import { HotLeadActions } from "@/components/admin/hot-lead-actions";
 
 /**
  * Hot Leads Table

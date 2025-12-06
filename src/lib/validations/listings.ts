@@ -166,7 +166,7 @@ export const UpdateListingSchema = z
 // Schema for creating a new listing
 export const CreateListingSchema = z.object({
   listing_name: z.string().min(1, "Listing name is required."),
-  status: z.enum(["Live", "Pending", "Draft", "Archived", "Rejected"]),
+  status: z.enum(["Live", "Pending", "Rejected", "Inactive"]), // Match database enum
   website: z
     .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
     .optional(),

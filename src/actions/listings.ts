@@ -22,21 +22,96 @@ export async function createListing(
   try {
     const validatedFields = CreateListingSchema.safeParse(values);
     if (!validatedFields.success) {
-      return { status: "error", message: "Invalid fields." };
+      console.error("Validation errors:", validatedFields.error.flatten());
+      // Return more detailed error message
+      const errorMessages = validatedFields.error.flatten().fieldErrors;
+      const firstError = Object.entries(errorMessages)[0];
+      const detailedMessage = firstError
+        ? `${firstError[0]}: ${firstError[1]?.[0] || "validation error"}`
+        : "Invalid fields. Please check your input.";
+      return { status: "error", message: detailedMessage };
     }
 
+    // Generate slug from listing name
+    let slug = (validatedFields.data.listing_name || "")
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^a-z0-9-]/g, "")
+      .replace(/-+/g, "-") // Collapse multiple hyphens
+      .replace(/^-|-$/g, ""); // Remove leading/trailing hyphens
+
+    // Ensure slug is not empty (fallback to timestamp-based slug)
+    if (!slug || slug.length === 0) {
+      slug = `listing-${Date.now()}`;
+    }
+
+    // Check for existing slug and append number if needed
     const supabase = createServerClient();
+    let finalSlug = slug;
+    let slugCounter = 1;
+    while (true) {
+      const { data: existing } = await supabase
+        .from("listings")
+        .select("id")
+        .eq("slug", finalSlug)
+        .single();
+
+      if (!existing) {
+        break; // Slug is available
+      }
+      finalSlug = `${slug}-${slugCounter}`;
+      slugCounter++;
+      if (slugCounter > 100) {
+        // Fallback to timestamp if too many conflicts
+        finalSlug = `${slug}-${Date.now()}`;
+        break;
+      }
+    }
+
+    // Normalize empty strings to null for optional fields
+    const normalizeString = (s?: string) =>
+      typeof s === "string" && s.trim() === "" ? null : (s ?? null);
+    const normalizeUrl = (s?: string) => normalizeString(s);
+
+    // Prepare listing data with required fields
+    const listingData = {
+      ...validatedFields.data,
+      slug: finalSlug,
+      is_active: false, // Default to inactive for new listings
+      is_claimed: false, // Default to unclaimed
+      // Normalize optional string fields
+      website: normalizeUrl(validatedFields.data.website),
+      email: normalizeString(validatedFields.data.email),
+      phone: normalizeString(validatedFields.data.phone),
+      city: normalizeString(validatedFields.data.city),
+      state: normalizeString(validatedFields.data.state),
+      region: normalizeString(validatedFields.data.region),
+      category: normalizeString(validatedFields.data.category),
+      what_you_offer: normalizeString(validatedFields.data.what_you_offer),
+      custom_link_url: normalizeUrl(validatedFields.data.custom_link_url),
+      custom_link_name: normalizeString(validatedFields.data.custom_link_name),
+      plan: normalizeString(validatedFields.data.plan),
+    };
+
+    console.log("Creating listing with data:", JSON.stringify(listingData, null, 2));
+
     const { data, error } = await supabase
       .from("listings")
-      .insert([validatedFields.data])
+      .insert([listingData])
       .select()
       .single();
 
     if (error) {
-      console.error("Create Listing Error:", error);
+      console.error("Create Listing Error:", JSON.stringify(error, null, 2));
+      console.error("Error details:", {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+      });
       return {
         status: "error",
-        message: "Database Error: Failed to create listing.",
+        message: `Database Error: ${error.message || "Failed to create listing."}`,
       };
     }
 

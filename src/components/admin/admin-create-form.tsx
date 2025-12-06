@@ -24,8 +24,6 @@ export function AdminCreateForm() {
     email: "",
     phone: "",
       what_you_offer: "",
-      custom_link_url: "",
-      custom_link_name: "Promo Video",
       category: "",
       format: "Online",
       city: "",
@@ -79,11 +77,10 @@ export function AdminCreateForm() {
             className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
             disabled={isPending}
           >
-            <option value="Draft">Draft</option>
             <option value="Pending">Pending</option>
             <option value="Live">Live</option>
-            <option value="Archived">Archived</option>
             <option value="Rejected">Rejected</option>
+            <option value="Inactive">Inactive</option>
           </select>
             </div>
 
@@ -211,19 +208,6 @@ export function AdminCreateForm() {
           disabled={isPending}
                 />
               </div>
-
-      {/* Promo Video (optional) */}
-      <div className="space-y-1">
-        <label htmlFor="custom_link_url">Promo Video (YouTube/Vimeo URL)</label>
-        <input
-          id="custom_link_url"
-          placeholder="https://youtube.com/watch?v=... or https://vimeo.com/..."
-          {...form.register("custom_link_url")}
-          className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
-          disabled={isPending}
-        />
-        <p className="text-xs text-muted-foreground">Suggested length under 3 minutes.</p>
-      </div>
 
       <div className="flex justify-end gap-2">
               <Button

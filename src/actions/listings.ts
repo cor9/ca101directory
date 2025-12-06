@@ -73,10 +73,21 @@ export async function createListing(
       typeof s === "string" && s.trim() === "" ? null : (s ?? null);
     const normalizeUrl = (s?: string) => normalizeString(s);
 
+    // Helper to convert comma-separated strings to arrays
+    const stringToArray = (value: string | string[] | undefined | null): string[] | null => {
+      if (Array.isArray(value)) return value.length > 0 ? value : null;
+      if (!value || typeof value !== 'string' || value.trim() === '') return null;
+      const array = value.split(',').map(item => item.trim()).filter(Boolean);
+      return array.length > 0 ? array : null;
+    };
+
     // Convert single category string to categories array
     const categories = validatedFields.data.category
       ? [validatedFields.data.category.trim()].filter(Boolean)
       : [];
+
+    // Convert region string to array
+    const regionArray = stringToArray(validatedFields.data.region);
 
     // Prepare listing data with required fields
     // Remove 'category' field and use 'categories' array instead
@@ -87,13 +98,13 @@ export async function createListing(
       is_active: false, // Default to inactive for new listings
       is_claimed: false, // Default to unclaimed
       categories: categories.length > 0 ? categories : null, // Convert to array or null
+      region: regionArray, // Convert to array or null
       // Normalize optional string fields
       website: normalizeUrl(validatedFields.data.website),
       email: normalizeString(validatedFields.data.email),
       phone: normalizeString(validatedFields.data.phone),
       city: normalizeString(validatedFields.data.city),
       state: normalizeString(validatedFields.data.state),
-      region: normalizeString(validatedFields.data.region),
       what_you_offer: normalizeString(validatedFields.data.what_you_offer),
       custom_link_url: normalizeUrl(validatedFields.data.custom_link_url),
       custom_link_name: normalizeString(validatedFields.data.custom_link_name),

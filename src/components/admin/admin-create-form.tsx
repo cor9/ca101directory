@@ -37,20 +37,45 @@ export function AdminCreateForm() {
       createListing(values).then((res) => {
         if (res?.status === "error") {
           toast.error(res.message);
+          // Form data is preserved automatically by react-hook-form
+          // Don't reset the form on error
         } else {
           toast.success("Listing created successfully!");
-          // Redirect back to admin dashboard
+          // Only reset and redirect on success
+          form.reset();
           router.push("/dashboard/admin");
         }
       }).catch((error) => {
         console.error("CreateListing error:", error);
-        toast.error("An unexpected error occurred.");
+        toast.error("An unexpected error occurred. Your form data has been preserved.");
+        // Form data is preserved automatically by react-hook-form
       });
     });
   };
 
+  // Get all form errors for display
+  const formErrors = form.formState.errors;
+  const hasErrors = Object.keys(formErrors).length > 0;
+
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={form.handleSubmit(onSubmit, (errors) => {
+      // Handle validation errors - form data is preserved
+      console.error("Form validation errors:", errors);
+      toast.error("Please fix the highlighted fields before submitting.");
+    })} className="space-y-6">
+      {/* Error Summary */}
+      {hasErrors && (
+        <div className="bg-red-50 border border-red-200 rounded-md p-4">
+          <h4 className="text-red-800 font-semibold mb-2">Please fix these errors:</h4>
+          <ul className="text-sm text-red-700 space-y-1">
+            {Object.entries(formErrors).map(([field, error]) => (
+              <li key={field}>
+                <strong>{field.replace(/_/g, " ")}:</strong> {error?.message}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Listing Name */}
         <div className="space-y-1">
@@ -58,7 +83,9 @@ export function AdminCreateForm() {
           <input
             id="listing_name"
             {...form.register("listing_name")}
-            className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+            className={`w-full bg-background border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none ${
+              formErrors.listing_name ? "border-red-500 border-2" : "border-input"
+            }`}
             disabled={isPending}
           />
           {form.formState.errors.listing_name && (
@@ -90,7 +117,9 @@ export function AdminCreateForm() {
           <input
             id="website"
             {...form.register("website")}
-            className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+            className={`w-full bg-background border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none ${
+              formErrors.website ? "border-red-500 border-2" : "border-input"
+            }`}
             disabled={isPending}
           />
           {form.formState.errors.website && (
@@ -111,7 +140,9 @@ export function AdminCreateForm() {
           <input
                   id="email"
             {...form.register("email")}
-            className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+            className={`w-full bg-background border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none ${
+              formErrors.email ? "border-red-500 border-2" : "border-input"
+            }`}
             disabled={isPending}
           />
           {form.formState.errors.email && (

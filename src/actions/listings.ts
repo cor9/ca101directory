@@ -73,12 +73,20 @@ export async function createListing(
       typeof s === "string" && s.trim() === "" ? null : (s ?? null);
     const normalizeUrl = (s?: string) => normalizeString(s);
 
+    // Convert single category string to categories array
+    const categories = validatedFields.data.category
+      ? [validatedFields.data.category.trim()].filter(Boolean)
+      : [];
+
     // Prepare listing data with required fields
+    // Remove 'category' field and use 'categories' array instead
+    const { category, ...dataWithoutCategory } = validatedFields.data;
     const listingData = {
-      ...validatedFields.data,
+      ...dataWithoutCategory,
       slug: finalSlug,
       is_active: false, // Default to inactive for new listings
       is_claimed: false, // Default to unclaimed
+      categories: categories.length > 0 ? categories : null, // Convert to array or null
       // Normalize optional string fields
       website: normalizeUrl(validatedFields.data.website),
       email: normalizeString(validatedFields.data.email),
@@ -86,7 +94,6 @@ export async function createListing(
       city: normalizeString(validatedFields.data.city),
       state: normalizeString(validatedFields.data.state),
       region: normalizeString(validatedFields.data.region),
-      category: normalizeString(validatedFields.data.category),
       what_you_offer: normalizeString(validatedFields.data.what_you_offer),
       custom_link_url: normalizeUrl(validatedFields.data.custom_link_url),
       custom_link_name: normalizeString(validatedFields.data.custom_link_name),

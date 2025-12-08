@@ -1,12 +1,11 @@
 import { getCategoriesByIds } from "@/actions/categories";
 import { auth } from "@/auth";
-import { ClaimButton } from "@/components/claim/claim-button";
-import { FavoriteButton } from "@/components/favorites/FavoriteButton";
-import { ClaimedListingActions } from "@/components/listing/claimed-listing-actions";
 import { Gallery } from "@/components/listing/gallery";
-import { ProfileImage } from "@/components/listing/listing-images";
-import { ReviewForm } from "@/components/reviews/ReviewForm";
-import { ReviewsDisplay } from "@/components/reviews/ReviewsDisplay";
+import { ListingDetailsSection } from "@/components/listing/listing-details-section";
+import { ListingHero } from "@/components/listing/listing-hero";
+import type { DisplayCategory } from "@/components/listing/types";
+import { ListingContactSection } from "@/components/listing/listing-contact-section";
+import { ListingReviewsSection } from "@/components/listing/listing-reviews-section";
 import {
   BreadcrumbSchema,
   ListingSchema,
@@ -29,20 +28,7 @@ import { getListingAverageRating } from "@/data/reviews";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import { constructMetadata } from "@/lib/metadata";
 import { generateSlugFromListing } from "@/lib/slug-utils";
-import { cn } from "@/lib/utils";
-import {
-  CheckCircleIcon,
-  EditIcon,
-  GlobeIcon,
-  MailIcon,
-  MapPinIcon,
-  PhoneIcon,
-  ShieldIcon,
-  StarIcon,
-} from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 // Force dynamic rendering to avoid static/dynamic conflicts
@@ -284,6 +270,35 @@ export default async function ListingPage({ params }: ListingPageProps) {
     console.log("ListingPage: Category names by IDs fetched");
 
     // Display categories - handle both UUIDs and names
+    const displayCategories: DisplayCategory[] = [];
+    const seenCategoryNames = new Set<string>();
+    for (const rawCategory of listing.categories || []) {
+      const storedName = categoryNames[rawCategory];
+      const readableName = !storedName && !isUuidLike(rawCategory)
+        ? String(rawCategory)
+        : storedName;
+
+      if (!readableName) continue;
+
+      const trimmedName = readableName.trim();
+      if (!trimmedName) continue;
+
+      const key = normalizeCategory(trimmedName);
+      const displayName = categoryNameLookup.get(key) || trimmedName;
+      const normalizedDisplayName = normalizeCategory(displayName);
+
+      if (!normalizedDisplayName) {
+        continue;
+      }
+
+      if (seenCategoryNames.has(normalizedDisplayName)) {
+        continue;
+      }
+
+      seenCategoryNames.add(normalizedDisplayName);
+      const iconFilename = iconLookup.get(key);
+      const localIconEntry = Object.entries(localIconMap).find(
+        ([name]) => normalizeCategory(name) === key,
     const displayCategoriesRaw = (listing.categories || [])
       .map((catId) => {
         // If we have a category name from database, use it
@@ -356,6 +371,26 @@ export default async function ListingPage({ params }: ListingPageProps) {
       .filter(
         (cat) => cat.displayName && cat.key && !cat.key.startsWith("fallback-"),
       );
+      const localIcon = localIconEntry?.[1];
+      const exactNameUrl = getCategoryIconUrl(`${trimmedName}.png`);
+      const derivedNameUrl = getCategoryIconUrl(
+        `${trimmedName
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "_")
+          .replace(/^_+|_+$/g, "")}.png`,
+      );
+      const iconUrl =
+        (iconFilename ? getCategoryIconUrl(iconFilename) : null) ||
+        exactNameUrl ||
+        derivedNameUrl ||
+        localIcon ||
+        null;
+      displayCategories.push({
+        key: normalizedDisplayName,
+        displayName,
+        iconUrl,
+      });
+    }
 
     // Properly dedupe by normalized display name
     const seenCategoryNames = new Set<string>();
@@ -377,12 +412,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
     // Check if current user owns this listing
     const isOwner = session?.user?.id === listing.owner_id;
 
-    // Check if current user is admin
-    const isAdmin = session?.user?.role === "admin";
+    const reviewsEnabled = isReviewsEnabled();
 
     // Get average rating if reviews are enabled
     let averageRating = { average: 0, count: 0 };
-    if (isReviewsEnabled()) {
+    if (reviewsEnabled) {
       try {
         console.log("ListingPage: About to fetch average rating");
         averageRating = await getListingAverageRating(listing.id);
@@ -408,6 +442,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
           l.categories?.includes(primaryCategory || ""),
       )
       .slice(0, 3);
+
+    const showFavorite = isFavoritesEnabled() && !isOwner;
+    const hasPremiumAccess =
+      (listing.plan || "").toLowerCase() !== "free";
+    const showUpgradePrompt = !hasPremiumAccess;
+    const showClaimCallout =
+      !listing.is_claimed && !isOwner && !listing.owner_id;
 
     // Debug listing data
     console.log("Listing data:", {
@@ -438,6 +479,25 @@ export default async function ListingPage({ params }: ListingPageProps) {
           ]}
         />
 
+        <ListingHero
+          listing={listing}
+          averageRating={averageRating}
+          isOwner={isOwner}
+          showFavorite={showFavorite}
+          showReviews={reviewsEnabled}
+          categories={displayCategories}
+        />
+
+        <div className="listing-layout">
+          <div className="listing-layout__main">
+            <ListingDetailsSection
+              listing={listing}
+              hasPremiumAccess={hasPremiumAccess}
+            />
+            <ListingReviewsSection
+              listing={listing}
+              isReviewsEnabled={reviewsEnabled}
+            />
         {/* Header Card */}
         <div className="listing-card-transparent">
           {/* Breadcrumb */}
@@ -923,9 +983,19 @@ export default async function ListingPage({ params }: ListingPageProps) {
             <RelatedLinks
               listing={listing}
               relatedListings={related}
-              categoryNames={displayCategories.map((c) => c.displayName)}
+              categoryNames={Array.from(
+                new Set(displayCategories.map((c) => c.displayName.trim())),
+              )}
             />
           </div>
+          <aside className="listing-layout__aside">
+            <Gallery listing={listing} />
+            <ListingContactSection
+              listing={listing}
+              showClaimCallout={showClaimCallout}
+              showUpgradePrompt={showUpgradePrompt}
+            />
+          </aside>
         </div>
       </div>
     );

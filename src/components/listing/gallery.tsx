@@ -91,6 +91,7 @@ export function Gallery({ listing }: GalleryProps) {
   return (
     <>
       <div className="listing-card-transparent">
+        <h2 className="bauhaus-heading text-lg font-semibold mb-4 text-[var(--ink)]">
         <h2 className="text-xl font-semibold mb-4" style={{ color: "#fafadc" }}>
           Gallery
         </h2>

@@ -368,18 +368,18 @@
 
   /* Listing page design system */
   .listing-page {
-    background: #0c1a2b; /* navy backdrop */
-    padding: 2rem;
+    background: var(--navy);
+    padding: clamp(1.5rem, 5vw, 3rem);
     min-height: 100vh;
+    color: var(--ink);
   }
 
   .listing-card {
-    background: #fffdd0; /* cream */
+    background: var(--cream);
     border-radius: 12px;
-    padding: 2rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    color: #0c1a2b; /* navy text */
+    padding: clamp(1.5rem, 3vw, 2rem);
+    box-shadow: var(--shadow-bauhaus);
+    color: var(--navy);
     line-height: 1.7;
   }
 
@@ -388,9 +388,8 @@
     background: #c7a163; /* mustard */
     color: #1e1f23; /* charcoal text */
     border-radius: 12px;
-    padding: 2rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    box-shadow: var(--shadow-bauhaus);
     line-height: 1.7;
   }
 
@@ -428,9 +427,27 @@
     background: #3faed6; /* logo blue */
     color: #0c1a2b; /* navy text */
     border-radius: 12px;
-    padding: 2rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    box-shadow: var(--shadow-bauhaus);
+    line-height: 1.7;
+  }
+
+  .listing-card-red {
+    background: var(--faded-red-orange);
+    color: var(--ink);
+    border-radius: 12px;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    box-shadow: var(--shadow-bauhaus);
+    line-height: 1.7;
+  }
+
+  .listing-card-grey {
+    background: rgba(147, 163, 181, 0.16);
+    border: 2px solid rgba(147, 163, 181, 0.35);
+    border-radius: 12px;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    box-shadow: var(--shadow-bauhaus);
+    color: var(--navy);
     line-height: 1.7;
   }
 
@@ -466,11 +483,10 @@
 
   .listing-card-transparent {
     background: transparent;
-    border: 2px solid #2e77b8;
+    border: 2px solid var(--robin-egg-blue);
     border-radius: 12px;
-    padding: 2rem;
-    margin-bottom: 1.5rem;
-    color: #fafaf4; /* paper white text */
+    padding: clamp(1.5rem, 3vw, 2rem);
+    color: var(--ink);
     line-height: 1.7;
   }
 
@@ -480,14 +496,27 @@
     font-size: 0.9rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    color: #2a2a2a;
+    color: var(--charcoal);
   }
 
-  /* Sidebar layout */
-  .listing-container {
+  /* Responsive layout */
+  .listing-layout {
     display: grid;
-    grid-template-columns: 2fr 1fr;
     gap: 1.5rem;
+  }
+
+  .listing-layout__main,
+  .listing-layout__aside {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .listing-layout {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      align-items: start;
+    }
   }
 
   /* Badges */
@@ -498,19 +527,19 @@
     margin: 0.2rem;
     font-size: 0.8rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--ink);
   }
   .badge.orange {
-    background: #f25c05;
+    background: var(--faded-red-orange);
   }
   .badge.blue {
-    background: #0c88f2;
+    background: var(--robin-egg-blue);
   }
   .badge.mustard {
-    background: #f2b705;
+    background: var(--mustard-yellow);
   }
   .badge.green {
-    background: #1f7a4d;
+    background: var(--success);
   }
 
   /* Text line clamping utilities */

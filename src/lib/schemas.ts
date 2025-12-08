@@ -87,7 +87,18 @@ export const baseSubmitSchema = {
   categories: z
     .array(z.string())
     .min(1, { message: "Please select at least one category" }),
-  gallery: z.array(z.string()).optional(), // Optional gallery images
+  // Gallery supports legacy string[] and new object format with captions
+  gallery: z
+    .array(
+      z.union([
+        z.string(),
+        z.object({
+          url: z.string(),
+          caption: z.string().optional(),
+        }),
+      ]),
+    )
+    .optional(),
   imageId: z.string().optional(), // Make optional for testing
   iconId: z.string().optional(), // Optional logo/icon even if icons are disabled
   active: z.boolean().optional(), // Optional active status
@@ -120,18 +131,12 @@ export const VendorSuggestionSchema = z.object({
     .optional()
     .or(z.literal("")),
   category: z.string().min(1, { message: "Category is required" }),
-  city: z
-    .string()
-    .min(1, { message: "City is required" })
-    .max(50, { message: "City must be 50 or fewer characters long" }),
-  state: z
-    .string()
-    .min(2, { message: "State is required" })
-    .max(2, { message: "Please use 2-letter state code" }),
-  region: z
-    .string()
-    .min(1, { message: "Region is required" })
-    .max(50, { message: "Region must be 50 or fewer characters long" }),
+  // City/state optional to allow online-only or unknown submissions
+  city: z.string().max(50, { message: "City must be 50 or fewer characters long" }).optional().or(z.literal("")),
+  state: z.string().max(2, { message: "Use 2-letter state code" }).optional().or(z.literal("")),
+  // Removed 'region'; replacing with vendor contact channels
+  vendorEmail: z.string().email({ message: "Enter a valid email" }).optional().or(z.literal("")),
+  vendorPhone: z.string().optional().or(z.literal("")),
   notes: z
     .string()
     .max(500, { message: "Notes must be 500 or fewer characters long" })

@@ -7,6 +7,9 @@ import RejectionEmail from "@/emails/rejection-email";
 import VerifyEmail from "@/emails/verify-email";
 import { Resend } from "resend";
 import ListingLiveEmail from "@/emails/listing-live";
+import ListingDay3CompleteProfileEmail from "@/emails/listing-day3-complete-profile";
+import ListingDay7TrafficUpdateEmail from "@/emails/listing-day7-traffic-update";
+import ListingDay14UpgradeOfferEmail from "@/emails/listing-day14-upgrade-offer";
 
 // Lazy-load Resend to avoid errors if API key is missing
 let resendInstance: Resend | null = null;
@@ -285,6 +288,8 @@ export const sendAdminVendorSuggestionNotification = async (payload: {
   city?: string;
   state?: string;
   suggestedBy?: string;
+  vendorEmail?: string;
+  vendorPhone?: string;
 }) => {
   const subject = `New Vendor Suggestion: ${payload.vendorName}`;
   const html = `
@@ -294,6 +299,8 @@ export const sendAdminVendorSuggestionNotification = async (payload: {
       ${payload.website ? `<p>Website: <a href="${payload.website}" target="_blank" rel="noopener noreferrer">${payload.website}</a></p>` : ""}
       ${payload.category ? `<p>Category: ${payload.category}</p>` : ""}
       ${payload.city || payload.state ? `<p>Location: ${payload.city ?? ""}${payload.city && payload.state ? ", " : ""}${payload.state ?? ""}</p>` : ""}
+      ${payload.vendorEmail ? `<p>Vendor Email: <a href="mailto:${payload.vendorEmail}">${payload.vendorEmail}</a></p>` : ""}
+      ${payload.vendorPhone ? `<p>Vendor Phone: ${payload.vendorPhone}</p>` : ""}
       ${payload.suggestedBy ? `<p>Suggested by: ${payload.suggestedBy}</p>` : ""}
     </div>
   `;
@@ -303,5 +310,97 @@ export const sendAdminVendorSuggestionNotification = async (payload: {
     to: process.env.RESEND_EMAIL_ADMIN,
     subject,
     html,
+  });
+};
+
+/**
+ * Drip Campaign Emails: Send automated follow-up emails to unclaimed listings
+ */
+
+/**
+ * Drip Campaign Emails: Send automated follow-up emails to unclaimed listings
+ */
+
+/** Day 3: Complete your profile */
+export const sendDay3CompleteProfileEmail = async (payload: {
+  vendorName: string;
+  vendorEmail: string;
+  listingName: string;
+  slug: string;
+}) => {
+  const claimUrl = `${SITE_URL}/claim-upgrade/${payload.slug}`;
+  const manageUrl = `${SITE_URL}/dashboard/vendor`;
+
+  await resend.emails.send({
+    from: getFrom(),
+    to: getToAddress(payload.vendorEmail),
+    reply_to: getReplyTo(),
+    subject: "Complete your profile to appear higher in search results",
+    react: ListingDay3CompleteProfileEmail({
+      vendorName: payload.vendorName,
+      listingName: payload.listingName,
+      claimUrl,
+      manageUrl,
+      siteUrl: SITE_URL,
+    }),
+  });
+};
+
+/** Day 7: Here's how parents are finding you */
+export const sendDay7TrafficUpdateEmail = async (payload: {
+  vendorName: string;
+  vendorEmail: string;
+  listingName: string;
+  slug: string;
+  viewCount?: number;
+}) => {
+  const claimUrl = `${SITE_URL}/claim-upgrade/${payload.slug}`;
+  const upgradeUrl = `${SITE_URL}/claim-upgrade/${payload.slug}#pricing`;
+  const count = payload.viewCount ?? 0;
+
+  const subject =
+    count > 0
+      ? `${count} parents viewed your listing this week`
+      : "See how parents are finding you in the Child Actor 101 Directory";
+
+  await resend.emails.send({
+    from: getFrom(),
+    to: getToAddress(payload.vendorEmail),
+    reply_to: getReplyTo(),
+    subject,
+    react: ListingDay7TrafficUpdateEmail({
+      vendorName: payload.vendorName,
+      listingName: payload.listingName,
+      viewCount: count,
+      claimUrl,
+      upgradeUrl,
+      siteUrl: SITE_URL,
+    }),
+  });
+};
+
+/** Day 14: Upgrade to Pro - here's what you're missing */
+export const sendDay14UpgradeOfferEmail = async (payload: {
+  vendorName: string;
+  vendorEmail: string;
+  listingName: string;
+  slug: string;
+  viewCount?: number;
+}) => {
+  const upgradeUrl = `${SITE_URL}/claim-upgrade/${payload.slug}#pricing`;
+  const count = payload.viewCount ?? 0;
+
+  await resend.emails.send({
+    from: getFrom(),
+    to: getToAddress(payload.vendorEmail),
+    reply_to: getReplyTo(),
+    subject: "Is it time to move your listing to the top?",
+    react: ListingDay14UpgradeOfferEmail({
+      vendorName: payload.vendorName,
+      listingName: payload.listingName,
+      viewCount: count,
+      upgradeUrl,
+      siteUrl: SITE_URL,
+    }),
   });
 };

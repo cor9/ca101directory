@@ -1,9 +1,10 @@
 "use server";
 
 import { auth } from "@/auth";
+import { getListingById, LISTINGS_CACHE_TAG, listingCacheTag } from "@/data/listings";
 import { sendAdminClaimNotification } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function claimListing(listingId: string, message?: string) {
   // STEP 1: Verify authentication
@@ -50,12 +51,14 @@ export async function claimListing(listingId: string, message?: string) {
     return {
       success: false,
       error: "WRONG_ROLE",
-      title: "Vendor Account Required",
+      title: "Switch to a Vendor Account",
       message:
-        "Your account is registered as a Parent. Only Vendor accounts can claim listings.",
+        "Your account is currently set up for Parents. Only Vendor accounts can claim and manage listings.",
       action:
-        "If you're a professional offering services, please contact support to change your account type.",
-      hint: "Parents can browse and review listings, but cannot claim or manage them.",
+        "Open Settings and switch to a Professional/Vendor account to continue your claim.",
+      hint: "You'll find the role switcher on the Account tab in Settings.",
+      redirectTo: "/settings?showRoleSwitcher=1",
+      redirectLabel: "Open Settings",
     };
   }
 
@@ -161,8 +164,22 @@ export async function claimListing(listingId: string, message?: string) {
     }
 
     // Revalidate relevant pages
-    revalidatePath(`/listing/${listingId}`);
+    let slugToRevalidate = listing.slug ?? null;
+    try {
+      const canonical = await getListingById(listingId);
+      if (canonical?.slug) {
+        slugToRevalidate = canonical.slug;
+      }
+    } catch (slugError) {
+      console.error("Failed to resolve listing slug during claim revalidation:", slugError);
+    }
+
+    if (slugToRevalidate) {
+      revalidatePath(`/listing/${slugToRevalidate}`);
+    }
     revalidatePath("/dashboard/vendor/listing");
+    revalidateTag(LISTINGS_CACHE_TAG);
+    revalidateTag(listingCacheTag(listingId));
 
     // Notify admin (non-blocking)
     try {

@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 import { Icons } from "@/components/icons/icons";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -69,23 +72,46 @@ export default async function CategoryPage() {
       sampleListing: listings?.[0],
     });
 
-    // Count listings per category
+    const normalize = (v: string) =>
+      v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+    // Synonyms map to unify variant names under canonical category keys
+    const synonyms: Record<string, string> = {
+      // Headshots
+      [normalize("Headshot Photographers")]: normalize("Headshot Photographers"),
+      [normalize("Headshot Photographer")]: normalize("Headshot Photographers"),
+      // Self Tape
+      [normalize("Self Tape Support")]: normalize("Self Tape Support"),
+      [normalize("Self-Tape Support")]: normalize("Self Tape Support"),
+      // Demo Reel
+      [normalize("Demo Reel Editors")]: normalize("Demo Reel Editors"),
+      [normalize("Reel Editors")]: normalize("Demo Reel Editors"),
+    };
+
+    // Map category IDs to names for UUID-based listings
+    const idToName: Record<string, string> = {};
+    for (const c of supabaseCategories || []) {
+      if (c?.id && c?.category_name) idToName[c.id] = c.category_name;
+    }
+
+    // Count listings per normalized canonical category (resolve UUIDs)
     const categoryCounts: Record<string, number> = {};
+    const isUuidLike = (v: string) =>
+      /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
+        v.trim(),
+      );
     for (const listing of listings) {
-      if (listing.categories) {
-        // categories is now an array, no need to split
-        for (const category of listing.categories) {
-          const trimmedCategory = category.trim();
-          categoryCounts[trimmedCategory] =
-            (categoryCounts[trimmedCategory] || 0) + 1;
-        }
+      const cats = listing.categories || [];
+      for (const cat of cats) {
+        if (!cat) continue;
+        const resolvedName = isUuidLike(cat) ? idToName[cat] : cat;
+        if (!resolvedName) continue;
+        const keyNorm = normalize(resolvedName);
+        const canonical = synonyms[keyNorm] || keyNorm;
+        categoryCounts[canonical] = (categoryCounts[canonical] || 0) + 1;
       }
     }
 
-    console.log("Category counts:", categoryCounts);
-
-    const normalize = (v: string) =>
-      v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+    console.log("Category counts (normalized):", categoryCounts);
     const pngByName: Record<string, string | undefined> = {};
     const pngById: Record<string, string | undefined> = {};
     const uuidLike = (v: string) =>
@@ -101,18 +127,32 @@ export default async function CategoryPage() {
       }
     }
 
+    // For accuracy, compute counts using the same filter as the category detail page
+    const countsAccurate = await Promise.all(
+      supabaseCategories.map(async (category) => {
+        try {
+          const result = await getPublicListings({ category: category.category_name });
+          return { name: category.category_name, count: result.length };
+        } catch {
+          const key = normalize(category.category_name);
+          return { name: category.category_name, count: categoryCounts[key] || 0 };
+        }
+      }),
+    );
+    const accurateByName: Record<string, number> = {};
+    for (const { name, count } of countsAccurate) accurateByName[name] = count;
+
     categories = supabaseCategories.map((category) => ({
       name: category.category_name,
       slug: category.category_name
         .toLowerCase()
-        .replace(/[^a-z0-9\s]/g, "") // Remove special characters first
-        .replace(/\s+/g, "-") // Then replace spaces with dashes
-        .replace(/-+/g, "-") // Replace multiple dashes with single dash
-        .replace(/^-|-$/g, ""), // Remove leading/trailing dashes
+        .replace(/[^a-z0-9\s]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, ""),
       icon: categoryIconMap[category.category_name] || "star",
       description:
         category.description ||
-        // Custom descriptions for better grammar
         (() => {
           const customDescriptions: Record<string, string> = {
             "Acting Classes & Coaches": "Acting coaching services",
@@ -127,7 +167,10 @@ export default async function CategoryPage() {
           return customDescriptions[category.category_name] ||
             `${category.category_name} services`;
         })(),
-      count: categoryCounts[category.category_name] || 0,
+      count: accurateByName[category.category_name] ?? (() => {
+        const key = normalize(category.category_name);
+        return categoryCounts[key] || 0;
+      })(),
       iconPngUrl: (() => {
         const byId = pngById[category.id];
         if (byId) return getCategoryIconUrl(byId);

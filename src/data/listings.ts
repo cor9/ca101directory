@@ -1,4 +1,5 @@
 import { createServerClient } from "@/lib/supabase";
+import { unstable_cache } from "next/cache";
 
 export type Listing = {
   id: string; // UUID
@@ -135,13 +136,16 @@ function filterDuplicateListings(listings: Listing[]): Listing[] {
   return Array.from(bestByKey.values());
 }
 
-export async function getPublicListings(params?: {
+export const LISTINGS_CACHE_TAG = "listings";
+export const listingCacheTag = (id: string) => `listing:${id}`;
+
+const getPublicListingsInternal = async (params?: {
   q?: string;
   state?: string;
   region?: string;
   city?: string;
   category?: string;
-}) {
+}) => {
   console.log("getPublicListings: Starting fetch with params:", params);
 
   let query = createServerClient().from("listings").select("*");
@@ -197,7 +201,13 @@ export async function getPublicListings(params?: {
     "listings after duplicate filtering",
   );
   return filteredData;
-}
+};
+
+export const getPublicListings = unstable_cache(
+  getPublicListingsInternal,
+  ["listings", "public"],
+  { tags: [LISTINGS_CACHE_TAG] },
+) as typeof getPublicListingsInternal;
 
 /**
  * Fetch only featured, public listings directly (bypass duplicate filtering).
@@ -266,7 +276,7 @@ export async function getVendorListings(vendorId: string) {
   return data as Listing[];
 }
 
-export async function getListingById(id: string) {
+const getListingByIdInternal = async (id: string) => {
   const { data, error } = await createServerClient()
     .from("listings")
     .select("*")
@@ -281,6 +291,15 @@ export async function getListingById(id: string) {
     return null;
   }
   return data as Listing;
+};
+
+export async function getListingById(id: string) {
+  const cached = unstable_cache(
+    () => getListingByIdInternal(id),
+    ["listings", "by-id", id],
+    { tags: [LISTINGS_CACHE_TAG, listingCacheTag(id)] },
+  );
+  return cached();
 }
 
 /**

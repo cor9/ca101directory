@@ -6,6 +6,7 @@ export const metadata = constructMetadata({
   title: "Auth Error",
   description: "Auth Error",
   canonicalUrl: `${siteConfig.url}/auth/error`,
+  noIndex: true,
 });
 
 const AuthErrorPage = () => {

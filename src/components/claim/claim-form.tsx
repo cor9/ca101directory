@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { FieldTooltip } from "@/components/ui/field-tooltip";
 import {
   Form,
   FormControl,
@@ -21,6 +22,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { type ClaimListingFormData, ClaimListingSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -72,6 +74,10 @@ export function ClaimForm({
           toast.error(result.title || "Claim Failed", {
             description: result.message,
           });
+
+          if (result.error === "WRONG_ROLE" && result.redirectTo) {
+            router.push(result.redirectTo);
+          }
         }
       } catch (error) {
         console.error("Form submission error:", error);
@@ -85,10 +91,28 @@ export function ClaimForm({
       <CardHeader>
         <CardTitle className="text-xl font-bold">Claim This Listing</CardTitle>
         <CardDescription>
-          Submit a claim for "{listingName}" to become the owner
+          Submit a claim for "{listingName}" to become the owner. Need a
+          refresher? Explore our{" "}
+          <Link
+            href="/help/claim-listing"
+            className="font-medium underline underline-offset-2"
+          >
+            claim guide
+          </Link>{" "}
+          for required documentation.
         </CardDescription>
       </CardHeader>
       <CardContent>
+        <div className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
+          <p className="font-semibold">What happens after you submit</p>
+          <p className="mt-1">
+            After you submit, we&apos;ll send you to{" "}
+            <strong>Dashboard → My Listings</strong>{" "}
+            where you can hit{" "}
+            <em>Edit</em>{" "}
+            on "{listingName}" and start updating details.
+          </p>
+        </div>
         <Form {...form}>
           <form onSubmit={onSubmit} className="space-y-6">
             {/* Message */}
@@ -97,14 +121,23 @@ export function ClaimForm({
               name="message"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Why should you own this listing? *</FormLabel>
+                  <div className="flex items-center gap-2">
+                    <FormLabel className="leading-tight">
+                      Why should you own this listing? *
+                    </FormLabel>
+                    <FieldTooltip message="Explain your relationship to the business, how you currently manage it, and any proof of ownership we can verify quickly." />
+                  </div>
                   <FormControl>
                     <Textarea
-                      placeholder="Please explain why you should be the owner of this listing. Include any relevant business information, credentials, or proof of ownership..."
+                      placeholder="Example: 'I'm the owner of Bright Lights Talent Co. Our EIN matches this listing and I use hello@brightlightstalent.com for all contracts. Happy to provide invoices or my child performer permit on request.'"
                       className="min-h-[120px]"
                       {...field}
                     />
                   </FormControl>
+                  <p className="text-xs text-muted-foreground">
+                    Tip: Reference official emails, permits, or invoices that
+                    our team can cross-check.
+                  </p>
                   <FormMessage />
                 </FormItem>
               )}

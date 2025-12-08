@@ -19,6 +19,7 @@ import { getCategoriesClient } from "@/data/categories-client";
 import type { Listing } from "@/data/listings";
 import { UpdateListingSchema } from "@/lib/validations/listings";
 import { Lock } from "lucide-react";
+import { regionsList } from "@/data/regions";
 import Link from "next/link";
 
 interface VendorEditFormProps {
@@ -44,12 +45,34 @@ export function VendorEditForm({
   const [galleryImages, setGalleryImages] = useState<string[]>(() => {
     if (typeof listing.gallery === "string") {
       try {
-        return JSON.parse(listing.gallery) || [];
+        const parsed = JSON.parse(listing.gallery) || [];
+        if (Array.isArray(parsed)) {
+          return parsed.map((e: any) => (typeof e === "string" ? e : (e?.url || e?.src || "")));
+        }
+        return [];
       } catch {
         return [];
       }
     }
-    return Array.isArray(listing.gallery) ? listing.gallery : [];
+    return Array.isArray(listing.gallery)
+      ? (listing.gallery as any[]).map((e) => (typeof e === "string" ? e : (e?.url || e?.src || "")))
+      : [];
+  });
+  const [galleryCaptions, setGalleryCaptions] = useState<string[]>(() => {
+    if (typeof listing.gallery === "string") {
+      try {
+        const parsed = JSON.parse(listing.gallery) || [];
+        if (Array.isArray(parsed)) {
+          return parsed.map((e: any) => (typeof e === "object" && typeof e?.caption === "string" ? e.caption : ""));
+        }
+        return [];
+      } catch {
+        return [];
+      }
+    }
+    return Array.isArray(listing.gallery)
+      ? (listing.gallery as any[]).map((e) => (typeof e === "object" && typeof (e as any).caption === "string" ? (e as any).caption : ""))
+      : [];
   });
 
   // Fetch categories on mount and convert UUIDs to names BEFORE form initializes
@@ -186,10 +209,14 @@ export function VendorEditForm({
     console.log("Gallery images:", galleryImages);
 
     startTransition(() => {
-      // Prepare gallery as JSON string
-      const galleryString = Array.isArray(galleryImages)
-        ? JSON.stringify(galleryImages.filter(Boolean))
-        : (typeof galleryImages === "string" ? galleryImages : JSON.stringify([]));
+      // Prepare gallery as JSON string (objects with url and caption)
+      const galleryObjects =
+        Array.isArray(galleryImages)
+          ? galleryImages
+              .map((url, i) => (url ? { url, caption: galleryCaptions[i] || "" } : null))
+              .filter(Boolean)
+          : [];
+      const galleryString = JSON.stringify(galleryObjects);
 
       // Values are already strings (from form state), but ensure they're strings
       const categoriesStr = typeof values.categories === "string" ? values.categories : (Array.isArray(values.categories) ? values.categories.join(", ") : "");
@@ -203,6 +230,10 @@ export function VendorEditForm({
 
       const fullValues = {
         ...values,
+        custom_link_name:
+          ((values as any)?.custom_link_url || "").trim().length > 0
+            ? "Promo Video"
+            : (values as any)?.custom_link_name,
         // Ensure these are strings (schema expects strings)
         categories: categoriesStr,
         age_range: ageRangeStr,
@@ -253,6 +284,16 @@ export function VendorEditForm({
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-6">
+      {/* Top Actions */}
+      <div className="flex justify-end">
+        <Button
+          type="submit"
+          variant="default"
+          disabled={isPending || isImageUploading || isGalleryUploading}
+        >
+          {isPending ? "Saving..." : "Save Changes"}
+        </Button>
+      </div>
       {/* Basic Information */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-1">
@@ -489,6 +530,41 @@ export function VendorEditForm({
             onImagesChange={setGalleryImages}
             onUploadingChange={setIsGalleryUploading}
           />
+          {/* Promo Video (link) */}
+          <div className="space-y-1 pt-2">
+            <Label htmlFor="promo_video">Promo Video (YouTube/Vimeo link)</Label>
+            <Input
+              id="promo_video"
+              placeholder="https://youtube.com/watch?v=... or https://vimeo.com/..."
+              defaultValue={(listing as any).custom_link_url || ""}
+              onChange={(e) => form.setValue("custom_link_url" as any, e.target.value)}
+              disabled={isPending}
+            />
+            <p className="text-xs text-gray-600">
+              Suggested length under 3 minutes. Keep it focused on what families should know.
+            </p>
+          </div>
+          {/* Captions per image */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {galleryImages.map((url, index) =>
+              url ? (
+                <div key={`caption-${index}`} className="space-y-1">
+                  <Label htmlFor={`caption-${index}`}>Caption for image {index + 1}</Label>
+                  <Textarea
+                    id={`caption-${index}`}
+                    placeholder="Write a caption (hashtags and links allowed)"
+                    rows={3}
+                    value={galleryCaptions[index] || ""}
+                    onChange={(e) => {
+                      const next = [...galleryCaptions];
+                      next[index] = e.target.value;
+                      setGalleryCaptions(next);
+                    }}
+                  />
+                </div>
+              ) : null,
+            )}
+          </div>
           <p className="text-xs text-gray-600">
             {plan === "founding pro" ? "Founding Pro" : "Pro"} plan includes 4 gallery images (5 total with profile)
           </p>
@@ -567,29 +643,17 @@ export function VendorEditForm({
       <div className="space-y-2">
         <Label>Location/Region</Label>
         <div className="grid grid-cols-2 gap-2">
-          {[
-            "los-angeles",
-            "northern-california",
-            "pnw",
-            "new-mexico",
-            "arizona",
-            "texas",
-            "chicago",
-            "atlanta-southeast",
-            "new-orleans",
-            "florida",
-            "new-york",
-            "northeast-wilmington",
-            "global-online",
-          ].map((tag) => (
-            <label key={tag} className="flex items-center space-x-2">
+          {regionsList.map((regionName) => (
+            <label key={regionName} className="flex items-center space-x-2">
               <Checkbox
-                checked={String((form.watch("region") as any) || "").split(", ").includes(tag)}
-                onCheckedChange={() => handleTagToggle(tag, "region")}
+                checked={String((form.watch("region") as any) || "")
+                  .split(", ")
+                  .includes(regionName)}
+                onCheckedChange={() => handleTagToggle(regionName, "region")}
                 disabled={isPending}
               />
               <span className="text-sm capitalize">
-                {tag.replace("-", " ")}
+                {regionName}
               </span>
             </label>
           ))}
@@ -631,7 +695,7 @@ export function VendorEditForm({
       </div>
 
       {/* Submit Buttons */}
-      <div className="flex justify-end gap-2 pt-4 border-t">
+      <div className="flex justify-end gap-2 pt-4 border-t sticky bottom-0 bg-card/90 backdrop-blur supports-[backdrop-filter]:bg-card/70">
         <Button
           type="button"
           variant="ghost"

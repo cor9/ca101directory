@@ -68,6 +68,9 @@ export function ProfileImage({ listing, fallbackIconUrl }: ProfileImageProps) {
             height={224}
             sizes="(min-width: 768px) 208px, 160px"
             className="h-40 w-40 rounded-xl bg-white/80 p-4 shadow-md object-contain md:h-52 md:w-52"
+            width={400}
+            height={267}
+            className="object-contain rounded-lg flex-shrink-0 p-1"
           />
         </button>
       )}

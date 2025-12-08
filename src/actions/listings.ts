@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { sendListingLiveEmail } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { createClaimToken, createOptOutToken } from "@/lib/tokens";
 import {
   CreateListingSchema,
@@ -21,22 +22,132 @@ export async function createListing(
   try {
     const validatedFields = CreateListingSchema.safeParse(values);
     if (!validatedFields.success) {
-      return { status: "error", message: "Invalid fields." };
+      console.error("Validation errors:", validatedFields.error.flatten());
+      // Return more detailed error message
+      const errorMessages = validatedFields.error.flatten().fieldErrors;
+      const firstError = Object.entries(errorMessages)[0];
+      const detailedMessage = firstError
+        ? `${firstError[0]}: ${firstError[1]?.[0] || "validation error"}`
+        : "Invalid fields. Please check your input.";
+      return { status: "error", message: detailedMessage };
     }
 
+    // Generate slug from listing name
+    let slug = (validatedFields.data.listing_name || "")
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^a-z0-9-]/g, "")
+      .replace(/-+/g, "-") // Collapse multiple hyphens
+      .replace(/^-|-$/g, ""); // Remove leading/trailing hyphens
+
+    // Ensure slug is not empty (fallback to timestamp-based slug)
+    if (!slug || slug.length === 0) {
+      slug = `listing-${Date.now()}`;
+    }
+
+    // Check for existing slug and append number if needed
     const supabase = createServerClient();
+    let finalSlug = slug;
+    let slugCounter = 1;
+    while (true) {
+      const { data: existing } = await supabase
+        .from("listings")
+        .select("id")
+        .eq("slug", finalSlug)
+        .single();
+
+      if (!existing) {
+        break; // Slug is available
+      }
+      finalSlug = `${slug}-${slugCounter}`;
+      slugCounter++;
+      if (slugCounter > 100) {
+        // Fallback to timestamp if too many conflicts
+        finalSlug = `${slug}-${Date.now()}`;
+        break;
+      }
+    }
+
+    // Normalize empty strings to null for optional fields
+    const normalizeString = (s?: string) =>
+      typeof s === "string" && s.trim() === "" ? null : (s ?? null);
+    const normalizeUrl = (s?: string) => normalizeString(s);
+
+    // Helper to convert comma-separated strings to arrays
+    const stringToArray = (value: string | string[] | undefined | null): string[] | null => {
+      if (Array.isArray(value)) return value.length > 0 ? value : null;
+      if (!value || typeof value !== 'string' || value.trim() === '') return null;
+      const array = value.split(',').map(item => item.trim()).filter(Boolean);
+      return array.length > 0 ? array : null;
+    };
+
+    // Convert single category string to categories array
+    const categories = validatedFields.data.category
+      ? [validatedFields.data.category.trim()].filter(Boolean)
+      : [];
+
+    // Convert region string to array
+    const regionArray = stringToArray(validatedFields.data.region);
+
+    // Prepare listing data with required fields
+    // Remove 'category' field and use 'categories' array instead
+    const { category, ...dataWithoutCategory } = validatedFields.data;
+    const listingData = {
+      ...dataWithoutCategory,
+      slug: finalSlug,
+      is_active: false, // Default to inactive for new listings
+      is_claimed: false, // Default to unclaimed
+      categories: categories.length > 0 ? categories : null, // Convert to array or null
+      region: regionArray, // Convert to array or null
+      // Normalize optional string fields
+      website: normalizeUrl(validatedFields.data.website),
+      email: normalizeString(validatedFields.data.email),
+      phone: normalizeString(validatedFields.data.phone),
+      city: normalizeString(validatedFields.data.city),
+      state: normalizeString(validatedFields.data.state),
+      what_you_offer: normalizeString(validatedFields.data.what_you_offer),
+      custom_link_url: normalizeUrl(validatedFields.data.custom_link_url),
+      custom_link_name: normalizeString(validatedFields.data.custom_link_name),
+      plan: normalizeString(validatedFields.data.plan),
+    };
+
+    console.log("Creating listing with data:", JSON.stringify(listingData, null, 2));
+
     const { data, error } = await supabase
       .from("listings")
-      .insert([validatedFields.data])
+      .insert([listingData])
       .select()
       .single();
 
     if (error) {
-      console.error("Create Listing Error:", error);
+      console.error("Create Listing Error:", JSON.stringify(error, null, 2));
+      console.error("Error details:", {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+      });
       return {
         status: "error",
-        message: "Database Error: Failed to create listing.",
+        message: `Database Error: ${error.message || "Failed to create listing."}`,
       };
+    }
+
+    // Insert admin notification (non-blocking)
+    try {
+      await supabaseAdmin.from("notifications").insert({
+        type: "new_listing",
+        title: "New Listing Submission",
+        message: `${validatedFields.data.listing_name || "Untitled"} (${validatedFields.data.plan || "Free"}) submitted`,
+        data: {
+          id: data.id,
+          name: validatedFields.data.listing_name,
+          plan: validatedFields.data.plan,
+          email: validatedFields.data.email,
+        },
+      } as any);
+    } catch (notifyErr) {
+      console.warn("createListing: failed to insert notification:", notifyErr);
     }
 
     // Email vendor with individualized claim/upgrade links
@@ -247,6 +358,27 @@ export async function updateListing(
     );
     console.error("Full error object:", JSON.stringify(e, null, 2));
     return { status: "error", message: "An unexpected server error occurred." };
+  }
+}
+
+/**
+ * Server action to delete a listing by ID (admin only).
+ */
+export async function deleteListing(id: string) {
+  try {
+    const supabase = createServerClient();
+    const { error } = await supabase.from("listings").delete().eq("id", id);
+    if (error) {
+      console.error("Delete Listing Error:", error);
+      return { status: "error", message: "Failed to delete listing." };
+    }
+    // Revalidate affected paths
+    revalidatePath("/dashboard/admin");
+    revalidatePath("/dashboard/admin/listings");
+    return { status: "success" };
+  } catch (e) {
+    console.error("Unexpected error in deleteListing:", e);
+    return { status: "error", message: "Unexpected server error." };
   }
 }
 

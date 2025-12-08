@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 import Container from "@/components/container";
 import DirectoryHeader from "@/components/directory/DirectoryHeader";
 import ListingCard from "@/components/directory/ListingCard";
@@ -93,6 +96,7 @@ export default async function DirectoryPage({
     reverse,
     currentPage,
     hasSponsorItem,
+    excludeFeatured: true, // avoid repeating featured listings shown above
   });
 
   console.log("DirectoryPage: Received items:", {

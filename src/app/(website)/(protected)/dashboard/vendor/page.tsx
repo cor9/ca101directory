@@ -1,6 +1,7 @@
 import { VendorDashboardLayout } from "@/components/layouts/VendorDashboardLayout";
 import { Button } from "@/components/ui/button";
 import { VendorListingsTable } from "@/components/vendor/vendor-listings-table";
+import { VendorROIStats } from "@/components/vendor/vendor-roi-stats";
 import { siteConfig } from "@/config/site";
 import { getVendorListings } from "@/data/listings";
 import { currentUser } from "@/lib/auth";
@@ -12,6 +13,7 @@ export const metadata = constructMetadata({
   title: "Vendor Dashboard - Child Actor 101 Directory",
   description: "Manage your business listings and profile.",
   canonicalUrl: `${siteConfig.url}/dashboard/vendor`,
+  noIndex: true,
 });
 
 /**
@@ -66,6 +68,9 @@ export default async function VendorDashboard({ searchParams }: { searchParams?:
             access resources to grow your business with us.
           </p>
         </div>
+
+        {/* ROI Stats Widget */}
+        <VendorROIStats vendorId={user.id} />
 
         <div className="bg-card rounded-lg p-6 border">
           <h2 className="text-xl font-bold text-foreground mb-4">

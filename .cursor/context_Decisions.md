@@ -1,3 +1,43 @@
+## Nov 16, 2025 — Profile Image Upload: Preserve Aspect (No Forced Crop)
+- Problem: Logos/profile images looked unnaturally cropped. Root cause was client-side uploader cropping to 1:1 at 1200x1200.
+- Decision: Remove hard crop; resize down if extremely large while preserving original aspect ratio.
+- Implementation:
+  - `src/components/shared/image-upload.tsx`: replaced `cropToAspect(...)` with `resizeToMax(file, 1600)`; uploads the resized image without cropping.
+  - Display already uses `object-contain` on listing cards to avoid cropping at render time.
+- Impact: New uploads retain their natural aspect; display is consistent and unclipped.
+
+## Nov 16, 2025 — Pro Promo Video Link (YouTube/Vimeo) + Public Embed
+- Goal: Provide Pro tier a simple promo video showcase (great for acting coaches/classes) via URL, with a suggested time under 3 minutes.
+- Decision: Use existing custom link fields (`custom_link_url`, `custom_link_name`) to avoid DB migration. Auto-embed on listing pages when present.
+- Implementation:
+  - Admin + Vendor:
+    - `src/components/vendor/vendor-edit-form.tsx`: Added "Promo Video (YouTube/Vimeo link)" field for Pro; saves to `custom_link_url`, sets `custom_link_name` to "Promo Video".
+    - `src/components/admin/admin-edit-form.tsx`: Added `custom_link_url` to form schema, defaults, and submit payload.
+    - `src/components/submit/edit-form.tsx`: Added Pro-only promo video input; mapped to `custom_link_url/name` in submit payload.
+  - Validation:
+    - `src/lib/validations/listings.ts`: Added optional `custom_link_url` and `custom_link_name`.
+  - Public Listing:
+    - `src/app/(website)/(public)/listing/[slug]/page.tsx`: Added helper to derive embed URL for YouTube/Vimeo; renders an `iframe` card when `custom_link_url` exists. Shows note: "Suggested length under 3 minutes."
+- Impact: Pro listings can surface a concise promo video via link; no storage costs; consistent display on listing page.
+## Nov 12, 2025 — Vendor Gallery Captions
+- Added support for Instagram-style captions on vendor gallery images.
+- Storage remains in the existing `listing.gallery` field as a JSON string, now supporting objects: `{ url, caption }`. Backward compatible with legacy `string[]` of URLs.
+- Public UI: Captions are only displayed inside the image modal when a user clicks to enlarge an image; not shown in grid thumbnails (per requirement).
+- Vendor Edit UI: Pro-tier vendors can enter a caption per gallery image. On save, we serialize as an array of objects with `url` and `caption`.
+- No changes to plan gating: Free = no images, Standard = profile only, Pro = profile + 4 gallery images.
+
+## Nov 12, 2025 — Listing Header Information Layout
+- Introduced “Quick Facts” in the header area under the listing title and actions.
+- Replaced pill badges with a clean text layout for contact info using small icons; icons use border blue, text remains white on navy.
+- Categories in header are simplified to text-only chips with a mustard background `#c7a163` (no icons), deduped by normalized name.
+- Age range displays as light grey chips with bold black text; service format tags (e.g., “online”, “hybrid”) are no longer mixed into ages and instead show “Virtual services available” when applicable.
+- The “Visit Website” CTA is styled with a distinct primary style (not shared with other badges).
+- 101 Approved is displayed as a larger transparent icon next to the listing title (no label).
+
+## Nov 12, 2025 — Social “Connect With Us” Card
+- Restyled the social card to a Bauhaus orange/rust variant for visual weight.
+- Increased card header text size; outlined social chips with white borders for contrast (not blending with the card), including YouTube.
+- Kept brand icons and readable labels; maintains paid-tier visibility rules.
 # 🚨 READ THIS FIRST - NOVEMBER 6, 2025: PARENT FEATURES ENABLED 🚨
 
 **NEW (Nov 6, 2025 - LATEST):** Enabled parent dashboard features (favorites & reviews). See `.cursor/PARENT_FEATURES_ENABLED_NOV6_2025.md` for full details.
@@ -1732,6 +1772,32 @@ Updated all public-facing help documentation to accurately reflect the passwordl
 
 ### Follow-ups
 - If we want the dashboard header to show raw totals, switch to a direct SQL aggregate for that widget only.
+
+---
+
+## 2025-11-08 — Founding Pro Parity and Removal of “Premium” Tier
+
+### Decision
+- Treat “Founding Pro” exactly like “Pro” for feature gating, badges, plan priority, and counts.
+- Remove “Premium” as a plan value in UI logic. “Featured” is derived from `listing.featured === true`, not a plan string.
+
+### Rationale
+- Avoid plan drift and mismatched displays. Clean separation:
+  - Featured (flag)
+  - Pro tier (Pro + Founding Pro + Comped treated as Pro)
+  - Standard (Standard + Founding Standard)
+  - Free
+
+### Implementation
+- Listing cards (server/client): map badges and sort priority with case-insensitive plan matching; include Founding Pro; no “Premium”.
+- Admin dashboard: Pro/Featured = featured OR pro/founding pro OR comped; removed Premium checks.
+- Social links component: paid tier detection includes comped or any “pro” in plan (covers Founding Pro).
+
+### Files Changed
+- `src/components/listings/ListingCard.tsx`
+- `src/components/listings/ListingCardClient.tsx`
+- `src/app/(website)/(protected)/dashboard/admin/listings/page.tsx`
+- `src/components/ui/social-media-icons.tsx`
 
 ---
 

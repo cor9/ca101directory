@@ -20,4 +20,13 @@ Notes:
 Status:
 - Pushed to main; Vercel production deployment triggered and monitored.
 
+Post-deploy adjustments (same date):
+- Fix: Over-aggressive dedup briefly collapsed headshot counts. Adjusted to conservative keys:
+  - Primary: website → email → owner_id+listing_name → name+city/state → fallback id
+  - Headshot Photographers: extra dedup strictly by listing_name within the category merge
+- Fix: Remove “Premium” plan references; Featured comes from listing.featured only
+- Update: Pro includes Founding Pro everywhere (badges, priority, counts)
+- Update: Admin “Pro/Featured” metric = featured OR pro/founding pro OR comped
+- Files: `src/data/listings.ts`, `src/data/item-service.ts`, `src/components/listings/ListingCard.tsx`, `src/components/listings/ListingCardClient.tsx`, `src/app/(website)/(protected)/dashboard/admin/listings/page.tsx`
+
 

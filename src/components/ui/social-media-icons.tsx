@@ -1,10 +1,10 @@
 "use client";
 
-import { 
-  Facebook, 
-  Instagram, 
-  Linkedin, 
-  Youtube, 
+import {
+  Facebook,
+  Instagram,
+  Linkedin,
+  Youtube,
   ExternalLink,
   Music, // For TikTok since lucide doesn't have TikTok icon
   PenTool // For Blog
@@ -34,21 +34,22 @@ const SocialLink = ({ url, icon, label, color, className }: SocialLinkProps) => 
     rel="noopener noreferrer"
     className={cn(
       "inline-flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-md",
+      "bg-transparent border-2 border-white/80 text-white hover:bg-white/10",
       color,
       className
     )}
     title={`Visit ${label}`}
   >
     {icon}
-    <span className="text-sm font-medium">{label}</span>
+    <span className="text-sm font-semibold">{label}</span>
   </a>
 );
 
-const SocialMediaIcons = ({ 
-  listing, 
+const SocialMediaIcons = ({
+  listing,
   className = "",
   iconSize = 20,
-  showLabels = true 
+  showLabels = true
 }: SocialMediaIconsProps) => {
   // Only show for paid tiers: Pro, Premium, Founding Pro, or Comped treated as Pro
   const plan = (listing.plan || '').toLowerCase();
@@ -70,7 +71,7 @@ const SocialMediaIcons = ({
     });
   }
 
-  // Instagram  
+  // Instagram
   if (listing.instagram_url) {
     socialLinks.push({
       url: listing.instagram_url,
@@ -137,7 +138,7 @@ const SocialMediaIcons = ({
 
   return (
     <div className={cn("space-y-3", className)}>
-      <h4 className="bauhaus-heading text-lg font-semibold text-paper">
+      <h4 className="text-lg font-bold text-paper uppercase tracking-wide">
         Connect With Us
       </h4>
       <div className="flex flex-wrap gap-2">

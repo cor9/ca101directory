@@ -132,9 +132,10 @@ export function VendorSuggestionForm({ className }: VendorSuggestionFormProps) {
       name: "",
       website: "",
       category: "",
-      city: "",
-      state: "",
-      region: "",
+  city: "",
+  state: "",
+  vendorEmail: "",
+  vendorPhone: "",
       notes: "",
       suggestedBy: "",
     },
@@ -236,7 +237,7 @@ export function VendorSuggestionForm({ className }: VendorSuggestionFormProps) {
               )}
             />
 
-            {/* City */}
+            {/* City (optional) */}
             <FormField
               control={form.control}
               name="city"
@@ -251,7 +252,7 @@ export function VendorSuggestionForm({ className }: VendorSuggestionFormProps) {
               )}
             />
 
-            {/* State */}
+            {/* State (optional) */}
             <FormField
               control={form.control}
               name="state"
@@ -280,18 +281,30 @@ export function VendorSuggestionForm({ className }: VendorSuggestionFormProps) {
               )}
             />
 
-            {/* Region */}
+            {/* Vendor Email (recommended) */}
             <FormField
               control={form.control}
-              name="region"
+              name="vendorEmail"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Region *</FormLabel>
+                  <FormLabel>Vendor Email</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Los Angeles County, Orange County, etc."
-                      {...field}
-                    />
+                    <Input type="email" placeholder="vendor@example.com" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Vendor Phone (optional) */}
+            <FormField
+              control={form.control}
+              name="vendorPhone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Vendor Phone</FormLabel>
+                  <FormControl>
+                    <Input placeholder="(555) 123-4567" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -9,9 +9,16 @@ interface ImageModalProps {
   onClose: () => void;
   imageUrl: string;
   alt: string;
+  caption?: string;
 }
 
-export function ImageModal({ isOpen, onClose, imageUrl, alt }: ImageModalProps) {
+export function ImageModal({
+  isOpen,
+  onClose,
+  imageUrl,
+  alt,
+  caption,
+}: ImageModalProps) {
   // Close modal on Escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -49,9 +56,9 @@ export function ImageModal({ isOpen, onClose, imageUrl, alt }: ImageModalProps) 
         role="button"
         aria-label="Close modal"
       />
-      
+
       {/* Modal content */}
-      <div className="relative max-w-4xl max-h-[80vh] p-4">
+      <div className="relative w-full max-w-4xl p-4">
         {/* Close button */}
         <button
           type="button"
@@ -61,17 +68,29 @@ export function ImageModal({ isOpen, onClose, imageUrl, alt }: ImageModalProps) 
         >
           <X className="w-6 h-6 text-paper" />
         </button>
-        
-        {/* Image */}
-        <div className="relative max-w-full max-h-full">
-          <Image
-            src={imageUrl}
-            alt={alt}
-            width={800}
-            height={600}
-            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-            priority
-          />
+
+        {/* Scrollable content (image + caption) */}
+        <div className="max-h-[85vh] overflow-y-auto pr-1">
+          {/* Image */}
+          <div className="relative">
+            <Image
+              src={imageUrl}
+              alt={alt}
+              width={1200}
+              height={800}
+              className="w-full h-auto max-h-[70vh] object-contain rounded-lg shadow-2xl"
+              priority
+            />
+          </div>
+
+          {/* Caption (visible only in modal) */}
+          {caption && caption.trim() !== "" && (
+            <div className="mt-4 bg-black/50 rounded-lg p-4">
+              <p className="text-paper text-sm whitespace-pre-wrap">
+                {caption}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

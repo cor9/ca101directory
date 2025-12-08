@@ -28,6 +28,9 @@ interface AdminDashboardProps {
   totalUsers: number;
   totalVendors: number;
   totalAdmins: number;
+  totalListings: number;
+  totalReviews: number;
+  pendingReviews: number;
 }
 
 export const AdminDashboardClientNew = ({
@@ -35,10 +38,14 @@ export const AdminDashboardClientNew = ({
   totalUsers,
   totalVendors,
   totalAdmins,
+  totalListings,
+  totalReviews,
+  pendingReviews,
 }: AdminDashboardProps) => {
   const router = useRouter();
   const [editingListing, setEditingListing] = useState<Listing | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [updateError, setUpdateError] = useState<string | null>(null);
 
   // Real calculated stats
   const pendingListings = allListings.filter((l) => l.status === "Pending");
@@ -67,18 +74,23 @@ export const AdminDashboardClientNew = ({
 
   const filteredListings = getFilteredListings();
 
+  const handleReviewListing = (listing: Listing) => {
+    setUpdateError(null);
+    setEditingListing(listing);
+  };
+
   const handleFinishEditing = (
     result: Awaited<ReturnType<typeof updateListing>>,
   ) => {
     setEditingListing(null);
 
     if (result.status === "success") {
+      setUpdateError(null);
       toast.success(result.message || "Listing updated successfully.");
       router.refresh();
     } else {
-      if (result.message) {
-        toast.error(result.message);
-      }
+      const message = result.message || "Failed to update listing.";
+      setUpdateError(message);
     }
   };
 
@@ -95,8 +107,14 @@ export const AdminDashboardClientNew = ({
           </p>
         </div>
 
+        {updateError && (
+          <div className="rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+            {updateError}
+          </div>
+        )}
+
         {/* Stats Grid - REAL DATA */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
           {/* Total Listings */}
           <div className="bg-card rounded-lg p-6 border shadow-sm">
             <div className="flex items-center justify-between">
@@ -105,7 +123,7 @@ export const AdminDashboardClientNew = ({
                   Total Listings
                 </p>
                 <p className="text-3xl font-bold text-foreground mt-2">
-                  {allListings.length}
+                  {totalListings}
                 </p>
               </div>
               <div className="h-12 w-12 rounded-full bg-blue-100 dark:bg-blue-900/20 flex items-center justify-center">
@@ -114,12 +132,12 @@ export const AdminDashboardClientNew = ({
             </div>
           </div>
 
-          {/* Pending */}
+          {/* Pending Listings */}
           <div className="bg-card rounded-lg p-6 border shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">
-                  Pending Review
+                  Pending Listings
                 </p>
                 <p className="text-3xl font-bold text-orange-600 dark:text-orange-400 mt-2">
                   {pendingListings.length}
@@ -174,6 +192,26 @@ export const AdminDashboardClientNew = ({
             </div>
             <p className="text-xs text-muted-foreground mt-2">
               {totalVendors} vendors, {totalAdmins} admins
+            </p>
+          </div>
+
+          {/* Pending Reviews */}
+          <div className="bg-card rounded-lg p-6 border shadow-sm">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Pending Reviews
+                </p>
+                <p className="text-3xl font-bold text-foreground mt-2">
+                  {pendingReviews}
+                </p>
+              </div>
+              <div className="h-12 w-12 rounded-full bg-amber-100 dark:bg-amber-900/20 flex items-center justify-center">
+                <span className="text-2xl">📝</span>
+              </div>
+            </div>
+            <p className="text-xs text-muted-foreground mt-2">
+              {totalReviews} total reviews submitted
             </p>
           </div>
         </div>
@@ -318,7 +356,7 @@ export const AdminDashboardClientNew = ({
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => setEditingListing(listing)}
+                        onClick={() => handleReviewListing(listing)}
                       >
                         Edit
                       </Button>

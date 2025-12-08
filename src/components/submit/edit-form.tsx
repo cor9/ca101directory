@@ -62,17 +62,40 @@ export function EditForm({ listing, categories }: EditFormProps) {
     region: listing.region || "",
     bondNumber: listing.bond_number || "",
     active: listing.is_active ?? true,
+    promoVideo: (listing as any).custom_link_url || "",
   });
 
   const [galleryImages, setGalleryImages] = useState<string[]>(() => {
     if (typeof listing.gallery === "string") {
       try {
-        return JSON.parse(listing.gallery) || [];
+        const parsed = JSON.parse(listing.gallery) || [];
+        if (Array.isArray(parsed)) {
+          return parsed.map((e: any) => (typeof e === "string" ? e : (e?.url || e?.src || "")));
+        }
+        return [];
       } catch {
         return [];
       }
     }
-    return Array.isArray(listing.gallery) ? listing.gallery : [];
+    return Array.isArray(listing.gallery)
+      ? (listing.gallery as any[]).map((e) => (typeof e === "string" ? e : (e?.url || e?.src || "")))
+      : [];
+  });
+  const [galleryCaptions, setGalleryCaptions] = useState<string[]>(() => {
+    if (typeof listing.gallery === "string") {
+      try {
+        const parsed = JSON.parse(listing.gallery) || [];
+        if (Array.isArray(parsed)) {
+          return parsed.map((e: any) => (typeof e === "object" && typeof e?.caption === "string" ? e.caption : ""));
+        }
+        return [];
+      } catch {
+        return [];
+      }
+    }
+    return Array.isArray(listing.gallery)
+      ? (listing.gallery as any[]).map((e) => (typeof e === "object" && typeof (e as any).caption === "string" ? (e as any).caption : ""))
+      : [];
   });
 
   const [isImageUploading, setIsImageUploading] = useState(false);
@@ -108,20 +131,29 @@ export function EditForm({ listing, categories }: EditFormProps) {
 
     try {
       // Ensure required fields are present
+      const galleryObjects =
+        Array.isArray(galleryImages)
+          ? galleryImages.map((url, i) => (url ? { url, caption: galleryCaptions[i] || "" } : null)).filter(Boolean)
+          : [];
+
       const submitData = {
         ...formData,
+        // Map promo video to custom link fields expected by submit action/schema
+        ...(formData.promoVideo && formData.promoVideo.trim().length > 0
+          ? { custom_link_url: formData.promoVideo.trim(), custom_link_name: "Promo Video" }
+          : {}),
         tags: formData.tags.length > 0 ? formData.tags : ["hybrid"], // Default tag
         categories:
           formData.categories.length > 0
             ? formData.categories
             : ["acting-coaches"], // Default category
-        gallery: galleryImages,
+        gallery: galleryObjects,
         // Mark as update to existing listing
         listingId: listing.id,
         isEdit: true,
       };
 
-      const result = await submitToSupabase(submitData);
+      const result = await submitToSupabase(submitData as any);
 
       if (result.status === "success") {
         toast.success("Listing updated successfully!");
@@ -350,6 +382,40 @@ export function EditForm({ listing, categories }: EditFormProps) {
             onImagesChange={setGalleryImages}
             onUploadingChange={setIsGalleryUploading}
           />
+          {/* Promo Video (link) */}
+          <div className="space-y-1 pt-2">
+            <Label htmlFor="promoVideo">Promo Video (YouTube/Vimeo link)</Label>
+            <Input
+              id="promoVideo"
+              placeholder="https://youtube.com/watch?v=... or https://vimeo.com/..."
+              value={formData.promoVideo}
+              onChange={(e) => handleInputChange("promoVideo", e.target.value)}
+            />
+            <p className="text-xs text-paper">
+              Suggested length under 3 minutes. Keep it focused on what families should know.
+            </p>
+          </div>
+          {/* Captions per image */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {galleryImages.map((url, index) =>
+              url ? (
+                <div key={`submit-caption-${index}`} className="space-y-1">
+                  <Label htmlFor={`submit-caption-${index}`}>Caption for image {index + 1}</Label>
+                  <Textarea
+                    id={`submit-caption-${index}`}
+                    placeholder="Write a caption (hashtags and links allowed)"
+                    rows={3}
+                    value={galleryCaptions[index] || ""}
+                    onChange={(e) => {
+                      const next = [...galleryCaptions];
+                      next[index] = e.target.value;
+                      setGalleryCaptions(next);
+                    }}
+                  />
+                </div>
+              ) : null,
+            )}
+          </div>
           <p className="text-xs text-paper">
             {listing.plan?.toLowerCase() === "founding pro" ? "Founding Pro" : "Pro"} plan includes 4 gallery images (5 total with profile)
           </p>

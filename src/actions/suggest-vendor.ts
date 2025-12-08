@@ -12,11 +12,13 @@ export async function suggestVendor(formData: VendorSuggestionFormData) {
       vendor_name: formData.name,
       website: formData.website || "",
       category: formData.category,
-      city: formData.city,
-      state: formData.state,
-      region: formData.region,
+      city: formData.city || "",
+      state: formData.state || "",
+      region: undefined, // removed field
       notes: formData.notes || "",
       suggested_by: formData.suggestedBy || "",
+      vendor_email: formData.vendorEmail || "",
+      vendor_phone: formData.vendorPhone || "",
     });
 
     console.log("✅ Vendor suggestion submitted to Supabase");
@@ -28,6 +30,8 @@ export async function suggestVendor(formData: VendorSuggestionFormData) {
       category: formData.category,
       city: formData.city,
       state: formData.state,
+      vendorEmail: formData.vendorEmail,
+      vendorPhone: formData.vendorPhone,
       suggestedBy: formData.suggestedBy,
     }).catch((e) => console.warn("Admin suggestion email failed:", e));
 

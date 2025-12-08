@@ -15,6 +15,7 @@ interface ClaimErrorProps {
     hint?: string;
     details?: string;
     redirectTo?: string;
+    redirectLabel?: string;
     showLoginButton?: boolean;
     showResendButton?: boolean;
     showDashboardButton?: boolean;
@@ -175,7 +176,7 @@ export function ClaimErrorDisplay({ error }: ClaimErrorProps) {
             onClick={() => router.push(error.redirectTo!)}
             className={`flex-1 ${buttonClasses[color]} text-white`}
           >
-            Continue
+            {error.redirectLabel || "Continue"}
           </Button>
         )}
       </div>

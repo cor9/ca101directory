@@ -11,6 +11,7 @@ export const metadata = constructMetadata({
   title: "Review Queue - Admin Dashboard",
   description: "Moderate and approve user reviews",
   canonicalUrl: `${siteConfig.url}/dashboard/admin/reviews`,
+  noIndex: true,
 });
 
 export default async function AdminReviewsPage() {

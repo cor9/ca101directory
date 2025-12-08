@@ -83,7 +83,7 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
             src={resolvedSrc}
             alt={item.image?.alt || item.name}
             fill
-            className="object-cover"
+            className="object-contain p-2"
           />
         )}
       </div>

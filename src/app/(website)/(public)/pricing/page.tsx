@@ -10,9 +10,9 @@ import Link from "next/link";
 import Script from "next/script";
 
 export const metadata = constructMetadata({
-  title: "Pricing Plans - Child Actor 101 Directory",
+  title: "Pricing Plans - List Your Business | Child Actor 101 Directory",
   description:
-    "Choose a pricing plan for listing your child actor services. Simple, transparent pricing for professionals.",
+    "Compare our Free, Standard, and Pro pricing plans for listing your child actor services. Get more visibility, enhanced features, and priority placement. Simple, transparent pricing with no hidden fees for acting coaches, photographers, and talent reps.",
   canonicalUrl: `${siteConfig.url}/pricing`,
 });
 

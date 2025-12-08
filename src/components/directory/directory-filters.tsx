@@ -64,11 +64,11 @@ export function DirectoryFilters({
 
   return (
     <Card
-      className={`${className} bg-paper border border-surface/20 rounded-2xl shadow-[var(--shadow-cream)] relative z-[60] overflow-visible`}
+      className={`${className} bg-[#cfe0ee] border border-[#b8cfdf] rounded-2xl shadow-[var(--shadow-cream)] relative z-[60] overflow-visible`}
     >
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg text-gray-900">Filters</CardTitle>
+          <CardTitle className="text-lg text-[#1E1F23]">Filters</CardTitle>
           {hasActiveFilters && (
             <Button
               variant="ghost"

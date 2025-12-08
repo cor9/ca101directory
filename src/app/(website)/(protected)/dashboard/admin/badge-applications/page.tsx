@@ -2,11 +2,15 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { BadgeApplicationsTable } from "@/components/admin/badge-applications-table";
+import { siteConfig } from "@/config/site";
+import { constructMetadata } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = constructMetadata({
   title: "Badge Applications | Admin Dashboard",
   description: "Review and manage 101 Approved Badge applications",
-};
+  canonicalUrl: `${siteConfig.url}/dashboard/admin/badge-applications`,
+  noIndex: true,
+});
 
 export default async function BadgeApplicationsPage() {
   const supabase = createServerComponentClient({ cookies });

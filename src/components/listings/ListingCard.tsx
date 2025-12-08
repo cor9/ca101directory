@@ -139,11 +139,11 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
                     <Image
                       src="/101approvedbadge.png"
                       alt="101 Approved Badge"
-                      width={24}
-                      height={24}
+                      width={48}
+                      height={48}
                       className="object-contain"
                     />
-                    <span className="text-xs font-semibold text-brand-orange">
+                    <span className="text-xs font-semibold text-paper">
                       101 Approved
                     </span>
                   </div>

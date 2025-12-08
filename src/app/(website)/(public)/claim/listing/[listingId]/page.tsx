@@ -3,6 +3,7 @@ import { ClaimForm } from "@/components/claim/claim-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { getListingById } from "@/data/listings";
+import { getRole } from "@/lib/auth/roles";
 import { ArrowLeft, Building2, MapPin } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -30,8 +31,16 @@ export default async function ClaimListingPage({
     redirect(`/auth/register?callbackUrl=${callbackUrl}`);
   }
 
+  const userRole = getRole(session.user as any);
+
   // Fetch the listing being claimed
-  const listing = await getListingById(params.listingId);
+  let listing: Awaited<ReturnType<typeof getListingById>> | null = null;
+  try {
+    listing = await getListingById(params.listingId);
+  } catch (e) {
+    // Gracefully handle Supabase/RLS or fetch errors to avoid 500
+    listing = null;
+  }
 
   if (!listing) {
     return (
@@ -49,6 +58,63 @@ export default async function ClaimListingPage({
             </p>
             <Button asChild>
               <Link href="/directory">Browse Directory</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (userRole === "parent") {
+    return (
+      <div className="container mx-auto px-4 py-16">
+        <Card className="max-w-2xl mx-auto">
+          <CardHeader>
+            <h1 className="text-2xl font-bold text-center">
+              Switch to a Vendor Account First
+            </h1>
+          </CardHeader>
+          <CardContent className="space-y-4 text-center">
+            <p className="text-muted-foreground">
+              This claim flow is for professionals managing listings. Update
+              your account type to <strong>Professional/Vendor</strong> before
+              continuing so you can edit and publish this listing.
+            </p>
+            <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
+              <p className="font-semibold">How to switch:</p>
+              <p>
+                Go to <em>Settings → Account</em> and use the role switcher to
+                change to a vendor profile. Then return to this page to submit
+                your claim.
+              </p>
+            </div>
+            <Button asChild className="bauhaus-btn-primary">
+              <Link href="/settings?showRoleSwitcher=1">Open Settings</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Admins should not claim listings directly; guide them to admin dashboard
+  if (userRole === "admin") {
+    return (
+      <div className="container mx-auto px-4 py-16">
+        <Card className="max-w-2xl mx-auto">
+          <CardHeader>
+            <h1 className="text-2xl font-bold text-center">
+              Admins Manage Claims from Dashboard
+            </h1>
+          </CardHeader>
+          <CardContent className="space-y-4 text-center">
+            <p className="text-muted-foreground">
+              You&apos;re signed in as an <strong>Admin</strong>. Admin
+              accounts don&apos;t claim listings. Manage ownership or assign
+              vendors from the admin dashboard.
+            </p>
+            <Button asChild>
+              <Link href="/dashboard/admin">Go to Admin Dashboard</Link>
             </Button>
           </CardContent>
         </Card>
@@ -153,6 +219,15 @@ export default async function ClaimListingPage({
               • You'll get access to your vendor dashboard to manage everything
             </li>
           </ul>
+        </div>
+
+        <div className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
+          <p className="font-semibold">Next steps after you submit</p>
+          <p className="mt-1">
+            We&apos;ll send you straight to <strong>Dashboard → My Listings</strong>.
+            Look for the <em>Edit</em> button next to this listing to start
+            updating details right away.
+          </p>
         </div>
 
         {/* Claim form */}

@@ -385,17 +385,47 @@
 
   /* Listing card variants for visual variety */
   .listing-card-mustard {
-    background: var(--mustard-yellow);
-    color: var(--charcoal);
+    background: #c7a163; /* mustard */
+    color: #1e1f23; /* charcoal text */
     border-radius: 12px;
     padding: clamp(1.5rem, 3vw, 2rem);
     box-shadow: var(--shadow-bauhaus);
     line-height: 1.7;
   }
 
+    .listing-card-red {
+    background: #853211; /* mustard */
+    color: #fafaf4; /* white text */
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    line-height: 1.7;
+  }
+
+      .listing-card-green {
+    background: #455C41; /* green */
+    color: #fafaf4; /* white text */
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    line-height: 1.7;
+  }
+
+   .listing-card {
+    background: #fffdd0; /* cream */
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #0c1a2b; /* navy text */
+    line-height: 1.7;
+  }
+
   .listing-card-blue {
-    background: var(--robin-egg-blue);
-    color: var(--navy);
+    background: #3faed6; /* logo blue */
+    color: #0c1a2b; /* navy text */
     border-radius: 12px;
     padding: clamp(1.5rem, 3vw, 2rem);
     box-shadow: var(--shadow-bauhaus);
@@ -418,6 +448,36 @@
     padding: clamp(1.5rem, 3vw, 2rem);
     box-shadow: var(--shadow-bauhaus);
     color: var(--navy);
+    line-height: 1.7;
+  }
+
+  .listing-card-orange-rust {
+    background: #CC5A47; /* bauhaus orange/rust */
+    color: #FAFAF4; /* paper */
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    line-height: 1.7;
+  }
+
+   .listing-card-blue-dark {
+    background: #3a76a6; /* logo blue */
+    color: #fafaf0; /* cream text */
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    line-height: 1.7;
+  }
+
+     .listing-card-grey {
+    background: #78797a; /* logo blue */
+    color: #fafaf0; /* cream text */
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     line-height: 1.7;
   }
 
@@ -829,12 +889,101 @@ td {
   background-color: #0f1729 !important; /* dark navy for contrast */
 }
 
-/* Pills, badges, or buttons that show "Live", "No", etc. */
+/* Pills, badges, or buttons */
 .badge,
 .status-pill,
 .tag {
-  color: #fff !important;
-  background-color: #15803d !important; /* readable green for live */
+  color: #1F2327 !important; /* ink on light surfaces */
+  background-color: #F7F1D8 !important; /* chip background */
+  border: 1px solid #E6DFC3 !important; /* subtle card border */
+  /* Ensure nested text/icons inherit readable foreground */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.badge *, .status-pill *, .tag * {
+  color: inherit !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+.badge a, .status-pill a, .tag a {
+  color: inherit !important;
+  text-decoration: none;
+}
+.badge a:hover, .status-pill a:hover, .tag a:hover {
+  text-decoration: underline;
+}
+
+/* Bauhaus badge variants (use via className="badge orange|blue|mustard") */
+.badge.orange,
+.status-pill.orange,
+.tag.orange {
+  background-color: #E4572E !important; /* primary orange */
+  color: #FAFAF4 !important; /* paper */
+  border-color: transparent !important;
+}
+.badge.blue,
+.status-pill.blue,
+.tag.blue {
+  background-color: #3A76A6 !important; /* secondary denim */
+  color: #FAFAF4 !important;
+  border-color: transparent !important;
+}
+.badge.mustard,
+.status-pill.mustard,
+.tag.mustard {
+  background-color: #E4A72E !important; /* highlight mustard */
+  color: #1E1F23 !important; /* charcoal for contrast */
+  border-color: transparent !important;
+}
+
+/* Muted category chips */
+.chip-gold {
+  background-color: #e9dfbf !important; /* muted gold */
+  color: #1E1F23 !important;
+  border: 1px solid #dacfa9 !important;
+}
+.chip-mustard {
+  background-color: #c7a163 !important; /* mustard */
+  color: #1E1F23 !important; /* charcoal text for contrast */
+  border: 1px solid #b08c55 !important; /* slightly darker outline */
+}
+.chip-blue {
+  background-color: #cfe0ee !important; /* muted robin egg blue */
+  color: #1E1F23 !important;
+  border: 1px solid #b8cfdf !important;
+}
+
+/* Age chips: light grey with bold black text */
+.chip-age {
+  background-color: #e5e7eb !important; /* tailwind gray-200 */
+  color: #111827 !important; /* near-black */
+  border: 1px solid #d1d5db !important;
+  font-weight: 700 !important;
+}
+
+/* Distinct primary CTA button */
+.btn-primary-cta {
+  background-color: #E4572E !important;
+  color: #ffffff !important;
+  border: 2px solid #CC4E2A !important;
+}
+.btn-primary-cta:hover {
+  background-color: #CC4E2A !important;
+  color: #ffffff !important;
+}
+
+/* High-contrast emergency states if needed */
+.badge.error,
+.status-pill.error,
+.tag.error {
+  background-color: #C84F41 !important; /* error */
+  color: #FAFAF4 !important;
+}
+.badge.info,
+.status-pill.info,
+.tag.info {
+  background-color: #3E9CA3 !important; /* info */
+  color: #FAFAF4 !important;
 }
 
 /* Text in inputs or filters */

@@ -1,10 +1,8 @@
-import { auth } from "@/auth";
 import { CompedToggle } from "@/components/admin/comped-toggle";
 import { ListingActions } from "@/components/admin/listing-actions";
 import { BulkResendButton } from "@/components/admin/bulk-resend-button";
 import { BulkResendClaimButton } from "@/components/admin/bulk-resend-claim-button";
 import { BulkResendRecentButton } from "@/components/admin/bulk-resend-recent-button";
-import { DashboardGuard } from "@/components/auth/role-guard";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,14 +10,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 import { getAdminListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
-import { CheckCircleIcon, EditIcon, EyeIcon } from "lucide-react";
+import { currentUser } from "@/lib/auth";
+import { verifyDashboardAccess } from "@/lib/dashboard-safety";
+import { CheckCircleIcon, EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { deleteListing } from "@/actions/listings";
+import AdminListingsSearch from "@/components/admin/admin-listings-search";
 
 export const metadata = constructMetadata({
   title: "Admin Listings Management - Child Actor 101 Directory",
   description: "Manage and moderate all listings on the platform",
   canonicalUrl: `${siteConfig.url}/dashboard/admin/listings`,
+  noIndex: true,
 });
 
 /**
@@ -34,22 +37,42 @@ export const metadata = constructMetadata({
 export default async function AdminListingsPage({
   searchParams,
 }: {
-  searchParams?: { status?: string };
+  searchParams?: { status?: string; q?: string };
 }) {
-  const session = await auth();
+  // Temporary feature toggle: hide bulk resend sections unless explicitly enabled
+  const showBulkResendSections = false;
+  const user = await currentUser();
 
-  if (!session?.user) {
+  if (!user?.id) {
     redirect("/auth/login?callbackUrl=/dashboard/admin/listings");
   }
+
+  verifyDashboardAccess(user, "admin", "/dashboard/admin/listings");
 
   // Get all listings for admin management (including Pending, Rejected, etc.)
   const allListings = await getAdminListings();
 
   // Filter by status if provided
   const statusFilter = searchParams?.status;
-  const filteredListings = statusFilter
+  const q = (searchParams?.q || "").toLowerCase().trim();
+  const filteredListings = (statusFilter
     ? allListings.filter((listing) => listing.status === statusFilter)
-    : allListings;
+    : allListings
+  ).filter((l) => {
+    if (!q) return true;
+    const name = (l.listing_name || "").toLowerCase();
+    const email = (l.email || "").toLowerCase();
+    const website = (l.website || "").toLowerCase();
+    const city = (l.city || "").toLowerCase();
+    const state = (l.state || "").toLowerCase();
+    return (
+      name.includes(q) ||
+      email.includes(q) ||
+      website.includes(q) ||
+      city.includes(q) ||
+      state.includes(q)
+    );
+  });
 
   // Sort listings by plan priority and name
   const sortedListings = filteredListings.sort((a, b) => {
@@ -80,9 +103,8 @@ export default async function AdminListingsPage({
   });
 
   return (
-    <DashboardGuard allowedRoles={["admin"]}>
-      <AdminDashboardLayout>
-        <div className="space-y-6">
+    <AdminDashboardLayout>
+      <div className="space-y-6">
           {/* Header */}
           <div className="flex items-center justify-between">
             <div>
@@ -94,6 +116,9 @@ export default async function AdminListingsPage({
               </p>
             </div>
             <div className="flex items-center gap-4">
+              <div className="hidden md:block">
+                <AdminListingsSearch />
+              </div>
               <div className="text-sm text-paper">
                 {sortedListings.length} total listings
               </div>
@@ -106,32 +131,32 @@ export default async function AdminListingsPage({
             </div>
           </div>
 
-          {/* Bulk Resend Notice */}
-          <div className="bg-brand-orange/10 border border-brand-orange/20 rounded-lg p-4 flex items-center justify-between">
-            <div>
-              <p className="font-semibold text-paper">Bulk Resend Emails</p>
-              <p className="text-sm text-paper/70">Send "listing live" emails to all 24 listings updated on November 6, 2025</p>
-            </div>
-            <BulkResendButton />
-          </div>
-
-          {/* Bulk Resend Claim Emails Notice */}
-          <div className="bg-brand-blue/10 border border-brand-blue/20 rounded-lg p-4 flex items-center justify-between">
-            <div>
-              <p className="font-semibold text-paper">Bulk Resend Claim Emails</p>
-              <p className="text-sm text-paper/70">Send claim emails to all ~200 Headshot Photographers listings</p>
-            </div>
-            <BulkResendClaimButton />
-          </div>
-
-          {/* Bulk Resend for Recent Adds */}
-          <div className="bg-brand-blue/10 border border-brand-blue/20 rounded-lg p-4 flex items-center justify-between">
-            <div>
-              <p className="font-semibold text-paper">Bulk Resend (Recent Adds)</p>
-              <p className="text-sm text-paper/70">Send claim/upgrade emails to listings created in the last 6 hours</p>
-            </div>
-            <BulkResendRecentButton />
-          </div>
+          {/* Bulk Resend Sections (hidden by default) */}
+          {showBulkResendSections && (
+            <>
+              <div className="bg-brand-orange/10 border border-brand-orange/20 rounded-lg p-4 flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-paper">Bulk Resend Emails</p>
+                  <p className="text-sm text-paper/70">Send "listing live" emails to all 24 listings updated on November 6, 2025</p>
+                </div>
+                <BulkResendButton />
+              </div>
+              <div className="bg-brand-blue/10 border border-brand-blue/20 rounded-lg p-4 flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-paper">Bulk Resend Claim Emails</p>
+                  <p className="text-sm text-paper/70">Send claim emails to all ~200 Headshot Photographers listings</p>
+                </div>
+                <BulkResendClaimButton />
+              </div>
+              <div className="bg-brand-blue/10 border border-brand-blue/20 rounded-lg p-4 flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-paper">Bulk Resend (Recent Adds)</p>
+                  <p className="text-sm text-paper/70">Send claim/upgrade emails to listings created in the last 6 hours</p>
+                </div>
+                <BulkResendRecentButton />
+              </div>
+            </>
+          )}
 
           {/* Status Filter Tabs */}
           <div className="flex gap-2 border-b border-gray-200">
@@ -367,6 +392,19 @@ export default async function AdminListingsPage({
                         </Link>
                       </Button>
 
+                      {/* Delete Button (server action) */}
+                      <form
+                        action={async () => {
+                          "use server";
+                          await deleteListing(listing.id);
+                        }}
+                      >
+                        <Button size="sm" variant="destructive">
+                          <Trash2Icon className="w-4 h-4 mr-1" />
+                          Delete
+                        </Button>
+                      </form>
+
                       {/* View Button */}
                       <Button size="sm" variant="outline" asChild>
                         <Link
@@ -399,6 +437,5 @@ export default async function AdminListingsPage({
           </Card>
         </div>
       </AdminDashboardLayout>
-    </DashboardGuard>
-  );
+    );
 }

@@ -1,27 +1,49 @@
-import { auth } from "@/auth";
-import { DashboardGuard } from "@/components/auth/role-guard";
 import { VendorDashboardLayout } from "@/components/layouts/VendorDashboardLayout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { fetchUserListings } from "@/lib/api/listings";
+import { currentUser } from "@/lib/auth";
+import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import { Edit, ExternalLink, Eye } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function VendorListingPage() {
-  const session = await auth();
-  if (!session?.user) {
+  const user = await currentUser();
+  if (!user?.id) {
     redirect("/auth/login");
   }
 
+  verifyDashboardAccess(user, "vendor", "/dashboard/vendor/listing");
+
   // Fetch user's listings
-  const userListings = await fetchUserListings(session.user.id);
+  const userListings = await fetchUserListings(user.id);
 
   return (
-    <DashboardGuard allowedRoles={["vendor"]}>
-      <VendorDashboardLayout>
-        <div className="space-y-6">
+    <VendorDashboardLayout>
+      <div className="space-y-6">
+          {/* Upgrade Banner for Free plan vendors */}
+          {userListings.some((l) => (l.comped ? false : ((l.plan || "free").toLowerCase() === "free"))) && (
+            <div className="rounded-lg border border-orange-300 bg-orange-50 p-4">
+              <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <h2 className="text-lg font-semibold text-ink">
+                    Upgrade to Pro — Limited Bonus Offer Ends Soon
+                  </h2>
+                  <div className="text-sm text-ink/80 mt-1 space-y-1">
+                    <p>Pro listings get priority placement, expanded visuals, direct links, and new premium features.</p>
+                    <p>For photographers: Featured spotlight in the 2025 Headshot Guide.</p>
+                    <p>For acting coaches: Add a promo video to your profile.</p>
+                    <p className="font-medium text-ink mt-2">This bonus window closes in 10 days.</p>
+                  </div>
+                </div>
+                <Button asChild className="mt-3 md:mt-0">
+                  <Link href="/pricing?from=vendor-dashboard-upgrade">Upgrade to Pro</Link>
+                </Button>
+              </div>
+            </div>
+          )}
           {/* Header */}
           <div className="flex items-center justify-between">
             <div>
@@ -173,6 +195,5 @@ export default async function VendorListingPage() {
           )}
         </div>
       </VendorDashboardLayout>
-    </DashboardGuard>
-  );
+    );
 }

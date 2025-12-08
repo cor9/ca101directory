@@ -7,8 +7,8 @@ import { constructMetadata } from "@/lib/metadata";
 import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
-  title: "Submit Your Listing",
-  description: "Submit your child actor business to our directory",
+  title: "Submit Your Business | List on Child Actor 101 Directory",
+  description: "Join 250+ trusted child actor professionals on our directory. Submit your acting coaching, photography, talent management, or other child entertainment services. Get discovered by families nationwide.",
   canonicalUrl: `${siteConfig.url}/submit`,
 });
 

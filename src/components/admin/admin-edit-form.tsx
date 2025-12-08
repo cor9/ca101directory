@@ -11,6 +11,7 @@ import {
   useForm,
 } from "react-hook-form";
 import { z } from "zod";
+import { toast } from "sonner";
 
 // Fix: Separated imports to pull `Listing` type from data layer and action/schema from the actions layer.
 import { updateListing } from "@/actions/listings";
@@ -54,6 +55,10 @@ const FormInputSchema = z.object({
     .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
     .optional(),
   instagram_url: z
+    .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
+    .optional(),
+  // Promo video link (Pro marketing)
+  custom_link_url: z
     .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
     .optional(),
   plan: z.string().optional(),
@@ -129,15 +134,38 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
   const [galleryImages, setGalleryImages] = useState<string[]>(() => {
     if (typeof listing.gallery === "string") {
       try {
-        return JSON.parse(listing.gallery) || [];
+        const parsed = JSON.parse(listing.gallery) || [];
+        if (Array.isArray(parsed)) {
+          return parsed.map((e: any) => (typeof e === "string" ? e : (e?.url || e?.src || "")));
+        }
+        return [];
       } catch {
         return [];
       }
     }
-    return Array.isArray(listing.gallery) ? listing.gallery : [];
+    return Array.isArray(listing.gallery)
+      ? (listing.gallery as any[]).map((e) => (typeof e === "string" ? e : (e?.url || e?.src || "")))
+      : [];
+  });
+  const [galleryCaptions, setGalleryCaptions] = useState<string[]>(() => {
+    if (typeof listing.gallery === "string") {
+      try {
+        const parsed = JSON.parse(listing.gallery) || [];
+        if (Array.isArray(parsed)) {
+          return parsed.map((e: any) => (typeof e === "object" && typeof e?.caption === "string" ? e.caption : ""));
+        }
+        return [];
+      } catch {
+        return [];
+      }
+    }
+    return Array.isArray(listing.gallery)
+      ? (listing.gallery as any[]).map((e) => (typeof e === "object" && typeof (e as any).caption === "string" ? (e as any).caption : ""))
+      : [];
   });
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [isGalleryUploading, setIsGalleryUploading] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Fetch categories and convert UUIDs to names
   useEffect(() => {
@@ -197,6 +225,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       zip: String(listing.zip || ""),
       facebook_url: listing.facebook_url || "",
       instagram_url: listing.instagram_url || "",
+      custom_link_url: (listing as any).custom_link_url || "",
       plan: listing.plan || "Free",
       is_active: listing.is_active ?? false,
       featured: listing.featured ?? false,
@@ -232,6 +261,10 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
     }
   }, [categoryNames, form]);
 
+  useEffect(() => {
+    setSubmitError(null);
+  }, [listing.id]);
+
   // Debug form state
   console.log("Form state:", {
     isValid: form.formState.isValid,
@@ -241,6 +274,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
   });
 
   const onSubmit = (values: FormInputType) => {
+    setSubmitError(null);
     console.log("Form submission started with values:", values);
     console.log("Available categories:", categories);
 
@@ -285,6 +319,11 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             format: processedValues.format?.trim() || "",
             facebook_url: processedValues.facebook_url?.trim() || "",
             instagram_url: processedValues.instagram_url?.trim() || "",
+            custom_link_url: processedValues.custom_link_url?.trim() || "",
+            custom_link_name:
+              (processedValues.custom_link_url?.trim() || "").length > 0
+                ? "Promo Video"
+                : (processedValues as any).custom_link_name,
           };
 
           // Attach images and compliance fields
@@ -302,6 +341,16 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           )
             .then((res) => {
               console.log("UpdateListing response:", res);
+
+              if (res.status === "success") {
+                setSubmitError(null);
+              } else {
+                const message =
+                  res.message || "Database Error: Failed to update listing.";
+                setSubmitError(message);
+                toast.error(message);
+              }
+
               // Pass the entire response to the parent component to handle side-effects
               if (onFinished) {
                 onFinished(res);
@@ -312,29 +361,38 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             })
             .catch((error) => {
               console.error("UpdateListing error:", error);
+              const fallbackMessage = "An unexpected error occurred.";
+              setSubmitError(fallbackMessage);
+              toast.error(fallbackMessage);
               if (onFinished) {
                 onFinished({
                   status: "error",
-                  message: "An unexpected error occurred.",
+                  message: fallbackMessage,
                 });
               }
             });
         } catch (innerError) {
           console.error("Error in startTransition:", innerError);
+          const fallbackMessage = "Form processing error occurred.";
+          setSubmitError(fallbackMessage);
+          toast.error(fallbackMessage);
           if (onFinished) {
             onFinished({
               status: "error",
-              message: "Form processing error occurred.",
+              message: fallbackMessage,
             });
           }
         }
       });
     } catch (outerError) {
       console.error("Error in onSubmit:", outerError);
+      const fallbackMessage = "Form submission error occurred.";
+      setSubmitError(fallbackMessage);
+      toast.error(fallbackMessage);
       if (onFinished) {
         onFinished({
           status: "error",
-          message: "Form submission error occurred.",
+          message: fallbackMessage,
         });
       }
     }
@@ -433,10 +491,18 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
     <form
       onSubmit={form.handleSubmit(onSubmit, (errors) => {
         console.error("Form validation errors:", errors);
-        alert("Please fix the following errors:\n" + Object.entries(errors).map(([field, err]) => `- ${field}: ${err?.message}`).join("\n"));
+        const validationMessage =
+          "Please fix the highlighted fields before saving.";
+        setSubmitError(validationMessage);
+        toast.error(validationMessage);
       })}
       className="space-y-6 max-h-[70vh] overflow-y-auto pr-4"
     >
+      {submitError && (
+        <div className="rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+          {submitError}
+        </div>
+      )}
       {/* Show form validation status */}
       {Object.keys(form.formState.errors).length > 0 && (
         <div className="bg-red-50 border border-red-200 rounded-md p-4">
@@ -541,10 +607,36 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               onImagesChange={(images) => {
                 console.log("[Admin Edit] Gallery images changed:", images);
                 setGalleryImages(images);
-                form.setValue("gallery", JSON.stringify(images.filter(Boolean)));
+                const objects = images.map((url, i) => url ? { url, caption: galleryCaptions[i] || "" } : null).filter(Boolean);
+                form.setValue("gallery", JSON.stringify(objects));
               }}
               onUploadingChange={setIsGalleryUploading}
             />
+            {/* Captions per image */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+              {galleryImages.map((url, index) =>
+                url ? (
+                  <div key={`admin-caption-${index}`} className="space-y-1">
+                    <label htmlFor={`admin-caption-${index}`} className="block text-sm font-medium text-ink">
+                      Caption for image {index + 1}
+                    </label>
+                    <textarea
+                      id={`admin-caption-${index}`}
+                      rows={3}
+                      value={galleryCaptions[index] || ""}
+                      onChange={(e) => {
+                        const next = [...galleryCaptions];
+                        next[index] = e.target.value;
+                        setGalleryCaptions(next);
+                        const objects = galleryImages.map((u, i) => u ? { url: u, caption: (i === index ? e.target.value : next[i] || "") } : null).filter(Boolean);
+                        form.setValue("gallery", JSON.stringify(objects));
+                      }}
+                      className="w-full bg-surface border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none text-ink"
+                    />
+                  </div>
+                ) : null,
+              )}
+            </div>
             <p className="text-xs text-ink mt-1">
               Up to 4 gallery images (Pro listings typically use this feature).
             </p>
@@ -710,6 +802,14 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             register={form.register}
             error={form.formState.errors.instagram_url}
             disabled={isPending}
+          />
+          <FormInput
+            id="custom_link_url"
+            label="Promo Video (YouTube/Vimeo URL)"
+            register={form.register}
+            error={form.formState.errors.custom_link_url as any}
+            disabled={isPending}
+            helpText="Suggested length under 3 minutes."
           />
         </div>
       </div>

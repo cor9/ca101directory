@@ -1,6 +1,6 @@
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { siteConfig } from "@/config/site";
-import { getListingById, type Listing } from "@/data/listings";
+import { type Listing, getListingById } from "@/data/listings";
 import { currentUser } from "@/lib/auth";
 import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import { constructMetadata } from "@/lib/metadata";
@@ -23,13 +23,13 @@ interface MockupPageProps {
 
 /**
  * Admin-only Pro Listing Mockup Generator
- * 
+ *
  * Fetches a listing by ID and transforms it in-memory to preview Pro features.
  * NO database writes - purely client-side mockup rendering.
  */
 export default async function MockupPage({ params }: MockupPageProps) {
   const user = await currentUser();
-  
+
   if (!user?.id) {
     redirect("/auth/login");
   }

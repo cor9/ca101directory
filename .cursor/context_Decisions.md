@@ -1,3 +1,64 @@
+## Dec 10, 2025 — Directory Page Phase 1: Search-First Hero & Enhanced Listing Cards
+
+### Problem
+Directory page needed modernization with better search UX, visual tier differentiation, and improved pagination.
+
+### Changes Implemented
+
+#### 1. Search-First Hero (DirectoryHeroSearch.tsx)
+- Headline: "Find trusted acting coaches, photographers, and agents for your child."
+- Subline: "Search by category and location. Every listing is reviewed by Child Actor 101."
+- Compact search panel: keyword input + category dropdown + state dropdown + Search button
+- Navy background (#0C1A2B) with white text
+
+#### 2. Redesigned Listing Cards (ListingCard.tsx, ListingCardClient.tsx)
+- Tier-based borders:
+  - Pro/Premium: border-2 border-amber-400 shadow-lg (gold/mustard)
+  - Standard: border border-sky-400 shadow-md (robin's egg blue)
+  - Free: border border-slate-200 shadow-sm (neutral)
+- Logo or Initials: Shows profile image or initials in coral circle (#CC5A47)
+- Badges: Pro/Standard tier badges, 101 Approved (coral), Verified (sky blue)
+- Age range tags: Light blue background (#7AB8CC/20)
+- CTAs: "View Profile" link + "Contact" button (orange #FF6B35)
+
+#### 3. Load More Pagination (DirectoryClient.tsx, /api/public-listings)
+- Replaced page-based pagination with "Load More" button
+- Client component fetches additional pages via API
+- Appends results without page refresh
+
+#### 4. Why Parents Trust Us Section (WhyParentsTrust.tsx)
+- Stats grid: Professionals, Categories, Regions
+- Trust points: Vetted Professionals, Parent-First Approach, Transparent Reviews, Industry Expertise
+- Moved below listings grid (was in header)
+
+#### 5. Data Layer (listings.ts, regions.ts)
+- Added PublicListing interface with rating fields
+- Added getPublicListingsWithRatings() for batch rating fetching
+- Added statesList and stateNames for state dropdown
+
+### Files Changed
+- src/app/(website)/(public)/directory/page.tsx - Reorganized sections
+- src/components/directory/ListingCard.tsx - Redesigned with tiers
+- src/data/listings.ts - Added PublicListing interface
+- src/data/regions.ts - Added states data
+
+### New Files
+- src/components/directory/DirectoryHeroSearch.tsx
+- src/components/directory/DirectoryClient.tsx
+- src/components/directory/ListingCardClient.tsx
+- src/components/directory/WhyParentsTrust.tsx
+- src/app/api/public-listings/route.ts
+
+### Style Alignment
+- Navy background: #0C1A2B ✅
+- Cream cards: #FFFBEA ✅
+- Pro border: gold/mustard ✅
+- Standard border: robin's egg blue ✅
+- 101 Approved badge: coral #CC5A47 ✅
+- Contact button: orange #FF6B35 ✅
+
+---
+
 ## Nov 16, 2025 — Profile Image Upload: Preserve Aspect (No Forced Crop)
 - Problem: Logos/profile images looked unnaturally cropped. Root cause was client-side uploader cropping to 1:1 at 1200x1200.
 - Decision: Remove hard crop; resize down if extremely large while preserving original aspect ratio.

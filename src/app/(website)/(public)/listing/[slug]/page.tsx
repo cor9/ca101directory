@@ -1,6 +1,7 @@
 import { getCategoriesByIds } from "@/actions/categories";
 import { auth } from "@/auth";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
+import { ContactActions } from "@/components/listing/contact-actions";
 import { Gallery } from "@/components/listing/gallery";
 import { ListingContactSection } from "@/components/listing/listing-contact-section";
 import {
@@ -21,6 +22,7 @@ import { getListingAverageRating, getListingReviews } from "@/data/reviews";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import { constructMetadata } from "@/lib/metadata";
 import { generateSlugFromListing } from "@/lib/slug-utils";
+import { createServerClient } from "@/lib/supabase";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
@@ -335,14 +337,14 @@ export default async function ListingPage({ params }: ListingPageProps) {
     // const relatedListings = await getPublicListings();
     const relatedListings: Listing[] = [];
     console.log("ListingPage: Public listings fetch skipped (debugging)");
-    const primaryCategory = listing.categories?.[0];
+    const relatedPrimaryCategory = listing.categories?.[0];
     const related = relatedListings
       .filter(
         (l) =>
           l.id !== listing.id &&
           l.status === "Live" &&
           l.is_active &&
-          l.categories?.includes(primaryCategory || ""),
+          l.categories?.includes(relatedPrimaryCategory || ""),
       )
       .slice(0, 3);
 
@@ -381,6 +383,18 @@ export default async function ListingPage({ params }: ListingPageProps) {
     const is101Approved =
       listing.badge_approved === true || listing.is_approved_101 === true;
     const reviews = reviewsEnabled ? await getListingReviews(listing.id) : [];
+
+    try {
+      await createServerClient()
+        .from("listings")
+        .update({
+          views_count: (listing.views_count ?? 0) + 1,
+          last_active_at: new Date().toISOString(),
+        })
+        .eq("id", listing.id);
+    } catch (error) {
+      console.error("ListingPage: Error updating view analytics", error);
+    }
 
     // Debug listing data
     console.log("Listing data:", {
@@ -477,28 +491,15 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     )}
                   </div>
 
-                  <div className="mt-6 flex flex-wrap gap-3">
-                    {listing.website && (
-                      <a
-                        href={listing.website}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="rounded-full bg-[#FF6B35] px-6 py-2 text-sm font-semibold text-white shadow hover:bg-[#E55F2F]"
-                      >
-                        Visit Website
-                      </a>
-                    )}
+                  <ContactActions
+                    listingId={listing.id}
+                    website={listing.website}
+                    email={listing.email}
+                    className="mt-6"
+                  />
 
-                    {listing.email && (
-                      <a
-                        href={`mailto:${listing.email}`}
-                        className="rounded-full border border-slate-300 px-6 py-2 text-sm font-semibold text-slate-100 hover:bg-slate-800"
-                      >
-                        Email
-                      </a>
-                    )}
-
-                    {showFavorite && (
+                  {showFavorite && (
+                    <div className="mt-4">
                       <FavoriteButton
                         listingId={listing.id}
                         listingName={listing.listing_name}
@@ -506,8 +507,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                         size="default"
                         variant="outline"
                       />
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -649,27 +650,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
           <div className="mx-auto flex max-w-3xl items-center justify-between">
             <span className="text-xs text-slate-200">Ready to contact?</span>
 
-            <div className="flex gap-2">
-              {listing.website && (
-                <a
-                  href={listing.website}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-full bg-[#FF6B35] px-3 py-1 text-xs font-semibold text-white"
-                >
-                  Website
-                </a>
-              )}
-
-              {listing.email && (
-                <a
-                  href={`mailto:${listing.email}`}
-                  className="rounded-full border border-slate-500 px-3 py-1 text-xs font-semibold text-white"
-                >
-                  Email
-                </a>
-              )}
-            </div>
+            <ContactActions
+              listingId={listing.id}
+              website={listing.website}
+              email={listing.email}
+              variant="mobile"
+              className="flex gap-2"
+            />
           </div>
         </div>
       </>

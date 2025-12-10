@@ -17,6 +17,16 @@ export interface PublicListing {
   plan_tier: "free" | "standard" | "pro" | "premium";
   is_101_approved: boolean;
   is_verified: boolean;
+  trust_level: "unverified" | "verified" | "background_checked";
+  background_check_provider?: string | null;
+  repeat_families_count: number;
+  response_time_label?: string | null;
+  last_active_at?: string | null;
+  profile_completeness?: number;
+  views_count: number;
+  contact_clicks: number;
+  favorites_count: number;
+  profile_impressions: number;
   averageRating: number | null;
   reviewCount: number;
   logo_url: string | null;
@@ -64,6 +74,16 @@ export type Listing = {
   comped: boolean | null;
 
   // Additional new fields
+  trust_level: "unverified" | "verified" | "background_checked";
+  background_check_provider: string | null;
+  repeat_families_count: number;
+  response_time_label: string | null;
+  last_active_at: string | null;
+  profile_completeness: number | null;
+  views_count: number;
+  contact_clicks: number;
+  favorites_count: number;
+  profile_impressions: number;
   owner_id: string | null; // UUID reference to users
   primary_category_id: string | null; // UUID reference to categories
   description: string | null;
@@ -172,7 +192,23 @@ const getPublicListingsInternal = async (params?: {
 }) => {
   console.log("getPublicListings: Starting fetch with params:", params);
 
-  let query = createServerClient().from("listings").select("*");
+  let query = createServerClient()
+    .from("listings")
+    .select(
+      `
+      *,
+      trust_level,
+      background_check_provider,
+      repeat_families_count,
+      response_time_label,
+      last_active_at,
+      profile_completeness,
+      views_count,
+      contact_clicks,
+      favorites_count,
+      profile_impressions
+    `,
+    );
 
   if (params?.state) query = query.eq("state", params.state);
   if (params?.region) {
@@ -238,7 +274,7 @@ export const getPublicListings = unstable_cache(
  */
 function listingToPublicListing(
   listing: Listing,
-  rating?: { average: number; count: number }
+  rating?: { average: number; count: number },
 ): PublicListing {
   // Determine plan tier (normalize variants)
   const planRaw = (listing.plan || "free").toLowerCase();
@@ -274,7 +310,19 @@ function listingToPublicListing(
     short_description: shortDescription || null,
     plan_tier: planTier,
     is_101_approved: listing.badge_approved || listing.is_approved_101 || false,
-    is_verified: listing.verification_status === "verified" || listing.is_claimed || false,
+    is_verified:
+      listing.verification_status === "verified" || listing.is_claimed || false,
+    trust_level:
+      (listing.trust_level as PublicListing["trust_level"]) || "unverified",
+    background_check_provider: listing.background_check_provider,
+    repeat_families_count: listing.repeat_families_count ?? 0,
+    response_time_label: listing.response_time_label,
+    last_active_at: listing.last_active_at || null,
+    profile_completeness: listing.profile_completeness ?? 0,
+    views_count: listing.views_count ?? 0,
+    contact_clicks: listing.contact_clicks ?? 0,
+    favorites_count: listing.favorites_count ?? 0,
+    profile_impressions: listing.profile_impressions ?? 0,
     averageRating: rating?.average || null,
     reviewCount: rating?.count || 0,
     logo_url: listing.profile_image,
@@ -313,7 +361,10 @@ export async function getPublicListingsWithRatings(params?: {
   // Aggregate ratings by listing_id
   const ratingsMap = new Map<string, { total: number; count: number }>();
   for (const review of reviewsData || []) {
-    const existing = ratingsMap.get(review.listing_id) || { total: 0, count: 0 };
+    const existing = ratingsMap.get(review.listing_id) || {
+      total: 0,
+      count: 0,
+    };
     existing.total += review.stars;
     existing.count += 1;
     ratingsMap.set(review.listing_id, existing);
@@ -595,7 +646,10 @@ export async function getListingBySlug(slug: string) {
     .ilike("slug", `${safeSlug}%`)
     .limit(1);
   if (!looseErr && Array.isArray(loose) && loose[0]) {
-    console.log("getListingBySlug: Found listing by ilike slug match:", loose[0].slug);
+    console.log(
+      "getListingBySlug: Found listing by ilike slug match:",
+      loose[0].slug,
+    );
     return loose[0] as Listing;
   }
 
@@ -624,10 +678,17 @@ export async function getListingBySlug(slug: string) {
           .single();
       if (resolved && !resolvedError) {
         // If the stored slug differs from the sanitized/generated one, fix it in DB
-        const desired = (resolved.slug || "").trim() || generateSlug(resolved.listing_name || "", resolved.id);
+        const desired =
+          (resolved.slug || "").trim() ||
+          generateSlug(resolved.listing_name || "", resolved.id);
         const fixed = desired.trim().replace(/^\/+/, "");
         if ((resolved.slug || "") !== fixed) {
-          console.log("getListingBySlug: Auto-fixing stored slug:", resolved.slug, "->", fixed);
+          console.log(
+            "getListingBySlug: Auto-fixing stored slug:",
+            resolved.slug,
+            "->",
+            fixed,
+          );
           await createServerClient()
             .from("listings")
             .update({ slug: fixed })

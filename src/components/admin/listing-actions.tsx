@@ -2,6 +2,7 @@
 
 import { approveListing, rejectListing } from "@/actions/admin-listing-actions";
 import { adminResendClaimEmail } from "@/actions/admin-resend-claim";
+import { ViewClaimLinks } from "@/components/admin/view-claim-links";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Mail, XCircle } from "lucide-react";
 import { useState } from "react";
@@ -96,6 +97,7 @@ export function ListingActions({
         <Mail className="w-4 h-4 mr-1" />
         Resend
       </Button>
+      <ViewClaimLinks listingId={listingId} listingName={listingName} />
     </div>
   );
 }

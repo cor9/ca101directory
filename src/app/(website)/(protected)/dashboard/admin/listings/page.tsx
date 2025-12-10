@@ -12,7 +12,13 @@ import { getAdminListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
 import { currentUser } from "@/lib/auth";
 import { verifyDashboardAccess } from "@/lib/dashboard-safety";
-import { CheckCircleIcon, EditIcon, EyeIcon, Trash2Icon } from "lucide-react";
+import {
+  CheckCircleIcon,
+  EditIcon,
+  EyeIcon,
+  Sparkles,
+  Trash2Icon,
+} from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { deleteListing } from "@/actions/listings";
@@ -389,6 +395,19 @@ export default async function AdminListingsPage({
                         <Link href={`/dashboard/admin/edit/${listing.id}`}>
                           <EditIcon className="w-4 h-4 mr-1" />
                           Edit
+                        </Link>
+                      </Button>
+
+                      {/* Mockup Button */}
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        asChild
+                        className="text-purple-600 border-purple-300 hover:bg-purple-50 hover:text-purple-700"
+                      >
+                        <Link href={`/dashboard/admin/mockup/${listing.id}`}>
+                          <Sparkles className="w-4 h-4 mr-1" />
+                          Pro
                         </Link>
                       </Button>
 

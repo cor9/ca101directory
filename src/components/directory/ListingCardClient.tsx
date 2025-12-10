@@ -1,6 +1,7 @@
-import { getCategoryIconsMap } from "@/data/categories";
+"use client";
+
 import { urlForIcon, urlForImage } from "@/lib/image";
-import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
+import { getListingImageUrl } from "@/lib/image-urls";
 import { generateSlugFromItem } from "@/lib/slug-utils";
 import { cn } from "@/lib/utils";
 import type { ItemInfo } from "@/types";
@@ -43,7 +44,11 @@ function tierClasses(tier: "free" | "standard" | "pro" | "premium"): string {
   }
 }
 
-export default async function ListingCard({ item }: { item: ItemInfo }) {
+interface ListingCardClientProps {
+  item: ItemInfo;
+}
+
+export default function ListingCardClient({ item }: ListingCardClientProps) {
   const imageProps = item?.image
     ? urlForImage(item.image)
     : item?.icon
@@ -58,47 +63,6 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
       ? (item as unknown as { icon?: { asset?: { _ref?: string } } }).icon
           ?.asset?._ref
       : null);
-
-  // Category icon fallback using Supabase-backed map, with filename fallbacks
-  const firstCategory = item.categories?.[0]?.name || "";
-  const normalize = (v: string) =>
-    (v || "").replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
-  const iconMap = await getCategoryIconsMap();
-
-  let categoryIconUrl = "";
-  if (firstCategory) {
-    // Try direct lookup first
-    categoryIconUrl = iconMap[firstCategory] || "";
-
-    // Try normalized lookup
-    if (!categoryIconUrl) {
-      const match = Object.entries(iconMap).find(
-        ([name]) => normalize(name) === normalize(firstCategory),
-      );
-      if (match?.[1]) categoryIconUrl = match[1];
-    }
-
-    // If the map value is just a filename, build the full URL
-    if (categoryIconUrl && !categoryIconUrl.startsWith("http")) {
-      categoryIconUrl = getCategoryIconUrl(categoryIconUrl);
-    }
-
-    // Derive common filename patterns as fallback
-    if (!categoryIconUrl) {
-      const exactEncodedFilename = encodeURIComponent(`${firstCategory}.png`);
-      categoryIconUrl = getCategoryIconUrl(exactEncodedFilename);
-      if (!categoryIconUrl) {
-        const derivedFilename = `${firstCategory
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "_")
-          .replace(/^_+|_+$/g, "")}.png`;
-        categoryIconUrl = getCategoryIconUrl(derivedFilename);
-      }
-    }
-  }
-  if (!categoryIconUrl) {
-    categoryIconUrl = getCategoryIconUrl("clapperboard.png");
-  }
 
   const resolvedSrc = profileRef
     ? getListingImageUrl(profileRef)
@@ -118,6 +82,7 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
   // Extract tier and generate slug
   const tier = getTierFromItem(item);
   const slug = generateSlugFromItem({ name: item.name, _id: item._id });
+  const firstCategory = item.categories?.[0]?.name || "";
 
   // Extract age ranges from tags
   const ageRanges = (item.tags || [])
@@ -187,8 +152,6 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
       {/* Category + Location */}
       <p className="mt-3 text-xs text-slate-700">
         {firstCategory}
-        {item.link && " • "}
-        {/* Location would come from extended item data if available */}
       </p>
 
       {/* Description */}
@@ -249,3 +212,4 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
     </article>
   );
 }
+

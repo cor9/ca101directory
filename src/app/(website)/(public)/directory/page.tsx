@@ -2,23 +2,17 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 import Container from "@/components/container";
-import DirectoryHeader from "@/components/directory/DirectoryHeader";
-import ListingCard from "@/components/directory/ListingCard";
+import DirectoryHeroSearch from "@/components/directory/DirectoryHeroSearch";
+import DirectoryClient from "@/components/directory/DirectoryClient";
 import { DirectoryFilters } from "@/components/directory/directory-filters";
-import ItemGrid from "@/components/item/item-grid";
-import SearchBox from "@/components/search/search-box";
+import WhyParentsTrust from "@/components/directory/WhyParentsTrust";
 import EmptyGrid from "@/components/shared/empty-grid";
-import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
-import { getCategories, getCategoryIconsMap } from "@/data/categories";
+import { getCategories } from "@/data/categories";
 import { getItems } from "@/data/item-service";
 import { regionsList } from "@/data/regions";
 import HomeFeaturedListings from "@/components/home/home-featured-listings";
-import {
-  DEFAULT_SORT,
-  ITEMS_PER_PAGE,
-  SORT_FILTER_LIST,
-} from "@/lib/constants";
+import { ITEMS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 
@@ -35,22 +29,14 @@ export default async function DirectoryPage({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   // Fetch categories for filters
-  let categories = [];
-  let categoryIconMap: Record<string, string> = {};
+  let categories: Array<{ id: string; category_name: string }> = [];
   try {
     categories = await getCategories();
-    categoryIconMap = await getCategoryIconsMap();
   } catch (error) {
     console.error("Error fetching categories:", error);
   }
 
-  // No sponsor items for now
-  const sponsorItems: unknown[] = [];
-  const showSponsor = false;
-  const hasSponsorItem = false;
-
   const {
-    sort,
     page,
     category,
     state,
@@ -59,8 +45,6 @@ export default async function DirectoryPage({
   } = searchParams as {
     [key: string]: string;
   };
-  const { sortKey, reverse } =
-    SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
   const currentPage = page ? Number(page) : 1;
 
   // Convert category ID to category name
@@ -81,10 +65,7 @@ export default async function DirectoryPage({
     state,
     region,
     query,
-    sortKey,
-    reverse,
     currentPage,
-    hasSponsorItem,
   });
 
   const { items, totalCount } = await getItems({
@@ -92,10 +73,7 @@ export default async function DirectoryPage({
     state,
     region,
     query,
-    sortKey,
-    reverse,
     currentPage,
-    hasSponsorItem,
     excludeFeatured: true, // avoid repeating featured listings shown above
   });
 
@@ -108,55 +86,48 @@ export default async function DirectoryPage({
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   return (
-    <div className="flex flex-col bg-[color:var(--navy)] bg-[radial-gradient(1200px_600px_at_70%_-10%,#122338,transparent)]">
-      <DirectoryHeader
-        total={totalCount}
-        categoriesCount={categories?.length}
-        regionsCount={regionsList.length}
-      />
+    <div className="flex flex-col bg-[#0C1A2B]">
+      {/* Search-First Hero */}
+      <DirectoryHeroSearch categories={categories} />
 
-      {/* Search */}
-      <Container className="pb-8">
-        <div className="mb-8">
-          <SearchBox urlPrefix="/directory" />
-        </div>
-      </Container>
-
-      {/* Filters */}
-      <Container className="pb-8">
-        <DirectoryFilters className="mb-8" categories={categories} />
+      {/* Filters (compact) */}
+      <Container className="py-6">
+        <DirectoryFilters className="" categories={categories} />
       </Container>
 
       {/* Featured Vendors */}
-      <Container className="py-16">
+      <Container className="py-8">
         <HomeFeaturedListings />
       </Container>
 
-      {/* Listings */}
-      <section className="mx-auto max-w-7xl px-6 py-8">
+      {/* Listings Grid */}
+      <section id="search-results" className="mx-auto max-w-7xl px-6 py-8">
+        <h2 className="bauhaus-heading text-2xl text-white mb-6">
+          All Professionals
+          <span className="text-white/50 text-lg font-normal ml-2">
+            ({totalCount} results)
+          </span>
+        </h2>
+
         {/* when no items are found */}
         {items?.length === 0 && <EmptyGrid />}
 
-        {/* when items are found */}
+        {/* when items are found - use client component for Load More */}
         {items && items.length > 0 && (
-          <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {items.map((it) => (
-                <ListingCard key={it._id} item={it} />
-              ))}
-            </div>
-
-            <div className="mt-10 flex justify-center">
-              <div className="bg-[color:var(--cream)] border border-[color:var(--card-border)] rounded-full px-2 py-1">
-                <CustomPagination
-                  routePrefix="/directory"
-                  totalPages={totalPages}
-                />
-              </div>
-            </div>
-          </>
+          <DirectoryClient
+            initialItems={items}
+            initialTotalCount={totalCount}
+            initialTotalPages={totalPages}
+          />
         )}
       </section>
+
+      {/* Why Parents Trust Us (moved below listings) */}
+      <WhyParentsTrust
+        totalListings={totalCount}
+        categoriesCount={categories?.length}
+        regionsCount={regionsList.length}
+      />
     </div>
   );
 }

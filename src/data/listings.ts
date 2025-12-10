@@ -1,6 +1,30 @@
 import { createServerClient } from "@/lib/supabase";
 import { unstable_cache } from "next/cache";
 
+/**
+ * PublicListing: Enhanced listing type for directory cards with computed fields
+ */
+export interface PublicListing {
+  id: string;
+  slug: string | null;
+  name: string;
+  city: string | null;
+  state: string | null;
+  primary_category: string;
+  age_ranges: string[];
+  key_services?: string[];
+  short_description?: string | null;
+  plan_tier: "free" | "standard" | "pro" | "premium";
+  is_101_approved: boolean;
+  is_verified: boolean;
+  averageRating: number | null;
+  reviewCount: number;
+  logo_url: string | null;
+  hero_image_url: string | null;
+  website: string | null;
+  featured: boolean;
+}
+
 export type Listing = {
   id: string; // UUID
   slug: string | null;
@@ -208,6 +232,117 @@ export const getPublicListings = unstable_cache(
   ["listings", "public"],
   { tags: [LISTINGS_CACHE_TAG] },
 ) as typeof getPublicListingsInternal;
+
+/**
+ * Convert a raw Listing to PublicListing format
+ */
+function listingToPublicListing(
+  listing: Listing,
+  rating?: { average: number; count: number }
+): PublicListing {
+  // Determine plan tier (normalize variants)
+  const planRaw = (listing.plan || "free").toLowerCase();
+  let planTier: PublicListing["plan_tier"] = "free";
+  if (planRaw.includes("pro") || listing.comped) {
+    planTier = "pro";
+  } else if (planRaw.includes("standard")) {
+    planTier = "standard";
+  } else if (planRaw.includes("premium")) {
+    planTier = "premium";
+  }
+
+  // Get primary category (first one)
+  const primaryCategory = listing.categories?.[0] || "Professional Services";
+
+  // Extract short description (strip HTML, limit length)
+  const rawDesc = listing.what_you_offer || listing.description || "";
+  const shortDescription = rawDesc
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 200);
+
+  return {
+    id: listing.id,
+    slug: listing.slug,
+    name: listing.listing_name || "Untitled Listing",
+    city: listing.city,
+    state: listing.state,
+    primary_category: primaryCategory,
+    age_ranges: listing.age_range || [],
+    key_services: listing.categories?.slice(0, 3),
+    short_description: shortDescription || null,
+    plan_tier: planTier,
+    is_101_approved: listing.badge_approved || listing.is_approved_101 || false,
+    is_verified: listing.verification_status === "verified" || listing.is_claimed || false,
+    averageRating: rating?.average || null,
+    reviewCount: rating?.count || 0,
+    logo_url: listing.profile_image,
+    hero_image_url: listing.profile_image, // Use same for now
+    website: listing.website,
+    featured: listing.featured || false,
+  };
+}
+
+/**
+ * Get public listings with ratings for directory display
+ * Returns PublicListing[] with aggregated review data
+ */
+export async function getPublicListingsWithRatings(params?: {
+  q?: string;
+  state?: string;
+  region?: string;
+  city?: string;
+  category?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<{ listings: PublicListing[]; totalCount: number }> {
+  const rawListings = await getPublicListings(params);
+  const supabase = createServerClient();
+
+  // Get all listing IDs
+  const listingIds = rawListings.map((l) => l.id);
+
+  // Batch fetch ratings for all listings at once
+  const { data: reviewsData } = await supabase
+    .from("reviews")
+    .select("listing_id, stars")
+    .in("listing_id", listingIds)
+    .eq("status", "approved");
+
+  // Aggregate ratings by listing_id
+  const ratingsMap = new Map<string, { total: number; count: number }>();
+  for (const review of reviewsData || []) {
+    const existing = ratingsMap.get(review.listing_id) || { total: 0, count: 0 };
+    existing.total += review.stars;
+    existing.count += 1;
+    ratingsMap.set(review.listing_id, existing);
+  }
+
+  // Convert to PublicListing format
+  const listings = rawListings.map((listing) => {
+    const ratingData = ratingsMap.get(listing.id);
+    const rating = ratingData
+      ? {
+          average: Math.round((ratingData.total / ratingData.count) * 10) / 10,
+          count: ratingData.count,
+        }
+      : undefined;
+    return listingToPublicListing(listing, rating);
+  });
+
+  // Apply pagination if specified
+  const offset = params?.offset || 0;
+  const limit = params?.limit;
+  const paginatedListings = limit
+    ? listings.slice(offset, offset + limit)
+    : listings;
+
+  return {
+    listings: paginatedListings,
+    totalCount: listings.length,
+  };
+}
 
 /**
  * Fetch only featured, public listings directly (bypass duplicate filtering).

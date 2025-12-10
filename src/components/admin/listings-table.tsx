@@ -2,7 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import type { Listing } from "@/data/listings";
-import { ArrowDown, ArrowUp, ArrowUpDown, Pencil } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpDown, Pencil, Sparkles } from "lucide-react";
+import Link from "next/link";
 import type React from "react";
 import { useMemo, useState } from "react";
 
@@ -231,15 +232,31 @@ export const ListingsTable = ({
                     : "N/A"}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => onEdit(listing)}
-                    aria-label={`Edit ${listing.listing_name}`}
-                  >
-                    <Pencil className="mr-2 h-4 w-4" aria-hidden="true" />
-                    Edit
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => onEdit(listing)}
+                      aria-label={`Edit ${listing.listing_name}`}
+                    >
+                      <Pencil className="mr-2 h-4 w-4" aria-hidden="true" />
+                      Edit
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      asChild
+                      className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                    >
+                      <Link
+                        href={`/dashboard/admin/mockup/${listing.id}`}
+                        aria-label={`View Pro mockup for ${listing.listing_name}`}
+                      >
+                        <Sparkles className="mr-2 h-4 w-4" aria-hidden="true" />
+                        Mockup
+                      </Link>
+                    </Button>
+                  </div>
                 </td>
               </tr>
             ))}

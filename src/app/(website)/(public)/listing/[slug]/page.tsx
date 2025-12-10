@@ -4,6 +4,7 @@ import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { ContactActions } from "@/components/listing/contact-actions";
 import { Gallery } from "@/components/listing/gallery";
 import { ListingContactSection } from "@/components/listing/listing-contact-section";
+import type { DisplayCategory } from "@/components/listing/types";
 import {
   BreadcrumbSchema,
   ListingSchema,

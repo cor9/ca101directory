@@ -1,16 +1,14 @@
 import { getCategoriesByIds } from "@/actions/categories";
 import { auth } from "@/auth";
+import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { Gallery } from "@/components/listing/gallery";
-import { ListingDetailsSection } from "@/components/listing/listing-details-section";
-import { ListingHero } from "@/components/listing/listing-hero";
-import type { DisplayCategory } from "@/components/listing/types";
 import { ListingContactSection } from "@/components/listing/listing-contact-section";
-import { ListingReviewsSection } from "@/components/listing/listing-reviews-section";
 import {
   BreadcrumbSchema,
   ListingSchema,
 } from "@/components/seo/listing-schema";
 import { RelatedLinks } from "@/components/seo/related-links";
+import { RichTextDisplay } from "@/components/ui/rich-text-display";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import { siteConfig } from "@/config/site";
 import { getCategories, getCategoryIconsMap } from "@/data/categories";
@@ -19,11 +17,12 @@ import {
   getListingBySlug,
   getPublicListings,
 } from "@/data/listings";
-import { getListingAverageRating } from "@/data/reviews";
+import { getListingAverageRating, getListingReviews } from "@/data/reviews";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import { constructMetadata } from "@/lib/metadata";
 import { generateSlugFromListing } from "@/lib/slug-utils";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 // Force dynamic rendering to avoid static/dynamic conflicts
@@ -145,6 +144,21 @@ interface ListingPageProps {
 }
 
 export default async function ListingPage({ params }: ListingPageProps) {
+  const initialsFromName = (name: string) =>
+    name
+      .split(" ")
+      .filter(Boolean)
+      .map((part) => part[0]?.toUpperCase())
+      .slice(0, 2)
+      .join("") || "CA";
+
+  const formatDate = (iso: string) =>
+    new Date(iso).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+
   try {
     console.log(
       "ListingPage: Attempting to load listing for slug:",
@@ -244,9 +258,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
     const seenCategoryNames = new Set<string>();
     for (const rawCategory of listing.categories || []) {
       const storedName = categoryNames[rawCategory];
-      const readableName = !storedName && !isUuidLike(rawCategory)
-        ? String(rawCategory)
-        : storedName;
+      const readableName =
+        !storedName && !isUuidLike(rawCategory)
+          ? String(rawCategory)
+          : storedName;
 
       if (!readableName) continue;
 
@@ -332,11 +347,40 @@ export default async function ListingPage({ params }: ListingPageProps) {
       .slice(0, 3);
 
     const showFavorite = isFavoritesEnabled() && !isOwner;
-    const hasPremiumAccess =
-      (listing.plan || "").toLowerCase() !== "free";
+    const hasPremiumAccess = (listing.plan || "").toLowerCase() !== "free";
     const showUpgradePrompt = !hasPremiumAccess;
     const showClaimCallout =
       !listing.is_claimed && !isOwner && !listing.owner_id;
+    const primaryCategory =
+      displayCategories[0]?.displayName ||
+      listing.categories?.[0] ||
+      "Acting Professional";
+    const locationLabel = [listing.city, listing.state]
+      .filter(Boolean)
+      .join(", ");
+    const ageRanges = (listing.age_range || [])
+      .map((age) => (age || "").trim())
+      .filter((age) => {
+        if (!age) return false;
+        if (age.includes("Age Range")) return false;
+        if (age.includes("los-angeles")) return false;
+        if (age.includes("hybrid")) return false;
+        const uuidLike =
+          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        return !uuidLike.test(age);
+      });
+    const services = Array.isArray(listing.tags)
+      ? listing.tags.filter(Boolean)
+      : [];
+    const heroImageUrl = listing.profile_image
+      ? getListingImageUrl(listing.profile_image)
+      : (listing as any).hero_image_url || (listing as any).logo_url || null;
+    const isVerified =
+      listing.verification_status?.toLowerCase() === "verified" ||
+      (listing as any).is_verified === true;
+    const is101Approved =
+      listing.badge_approved === true || listing.is_approved_101 === true;
+    const reviews = reviewsEnabled ? await getListingReviews(listing.id) : [];
 
     // Debug listing data
     console.log("Listing data:", {
@@ -350,57 +394,285 @@ export default async function ListingPage({ params }: ListingPageProps) {
     });
 
     return (
-      <div className="listing-page">
-        {/* Schema.org Structured Data for SEO */}
-        <ListingSchema listing={listing} averageRating={averageRating} />
-        <BreadcrumbSchema
-          items={[
-            { name: "Home", url: siteConfig.url },
-            { name: "Directory", url: `${siteConfig.url}/directory` },
-            {
-              name: listing.listing_name || "Listing",
-              url: `${siteConfig.url}/listing/${params.slug}`,
-            },
-          ]}
-        />
+      <>
+        <div className="pb-20 sm:pb-0">
+          {/* Schema.org Structured Data for SEO */}
+          <ListingSchema listing={listing} averageRating={averageRating} />
+          <BreadcrumbSchema
+            items={[
+              { name: "Directory", url: `${siteConfig.url}/directory` },
+              {
+                name: primaryCategory,
+                url: `${siteConfig.url}/directory?category=${encodeURIComponent(primaryCategory)}`,
+              },
+              {
+                name: listing.listing_name || "Listing",
+                url: `${siteConfig.url}/listing/${params.slug}`,
+              },
+            ]}
+          />
 
-        <ListingHero
-          listing={listing}
-          averageRating={averageRating}
-          isOwner={isOwner}
-          showFavorite={showFavorite}
-          showReviews={reviewsEnabled}
-          categories={displayCategories}
-        />
+          <div className="bg-[#0C1A2B] text-white py-10 pb-14">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+              <nav className="text-xs text-slate-300 mb-4">
+                <Link href="/directory" className="hover:underline">
+                  Directory
+                </Link>
+                {" / "}
+                <Link
+                  href={`/directory?category=${encodeURIComponent(primaryCategory)}`}
+                  className="hover:underline"
+                >
+                  {primaryCategory}
+                </Link>
+                {" / "}
+                <span className="text-slate-400">
+                  {listing.listing_name || "Listing"}
+                </span>
+              </nav>
 
-        <div className="listing-layout">
-          <div className="listing-layout__main">
-            <ListingDetailsSection
-              listing={listing}
-              hasPremiumAccess={hasPremiumAccess}
-            />
-            <ListingReviewsSection
-              listing={listing}
-              isReviewsEnabled={reviewsEnabled}
-            />
-            <RelatedLinks
-              listing={listing}
-              relatedListings={related}
-              categoryNames={Array.from(
-                new Set(displayCategories.map((c) => c.displayName.trim())),
-              )}
-            />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <div className="md:col-span-1 flex justify-center md:justify-start">
+                  {heroImageUrl ? (
+                    <img
+                      src={heroImageUrl}
+                      alt={listing.listing_name || "Listing image"}
+                      className="w-full rounded-xl shadow-lg object-cover max-h-64"
+                    />
+                  ) : (
+                    <div className="h-40 w-40 flex items-center justify-center rounded-full bg-[#CC5A47] text-white text-3xl font-bold shadow-lg">
+                      {initialsFromName(listing.listing_name || "Listing")}
+                    </div>
+                  )}
+                </div>
+
+                <div className="md:col-span-2">
+                  <h1 className="text-3xl font-bold mb-2">
+                    {listing.listing_name || "Listing"}
+                  </h1>
+
+                  <p className="text-sm text-slate-200">
+                    {primaryCategory}
+                    {locationLabel ? ` • ${locationLabel}` : ""}
+                  </p>
+
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {isVerified && (
+                      <span className="px-3 py-1 rounded-full bg-sky-600 text-xs font-semibold">
+                        Verified
+                      </span>
+                    )}
+
+                    {is101Approved && (
+                      <span className="px-3 py-1 rounded-full bg-[#CC5A47] text-xs font-semibold text-white">
+                        101 Approved
+                      </span>
+                    )}
+
+                    {averageRating.count > 0 && (
+                      <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-[#FFFBEA] text-xs font-semibold text-slate-900">
+                        ★ {averageRating.average.toFixed(1)} (
+                        {averageRating.count})
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    {listing.website && (
+                      <a
+                        href={listing.website}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="rounded-full bg-[#FF6B35] px-6 py-2 text-sm font-semibold text-white shadow hover:bg-[#E55F2F]"
+                      >
+                        Visit Website
+                      </a>
+                    )}
+
+                    {listing.email && (
+                      <a
+                        href={`mailto:${listing.email}`}
+                        className="rounded-full border border-slate-300 px-6 py-2 text-sm font-semibold text-slate-100 hover:bg-slate-800"
+                      >
+                        Email
+                      </a>
+                    )}
+
+                    {showFavorite && (
+                      <FavoriteButton
+                        listingId={listing.id}
+                        listingName={listing.listing_name}
+                        listingOwnerId={listing.owner_id}
+                        size="default"
+                        variant="outline"
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <aside className="listing-layout__aside">
-            <Gallery listing={listing} />
-            <ListingContactSection
-              listing={listing}
-              showClaimCallout={showClaimCallout}
-              showUpgradePrompt={showUpgradePrompt}
-            />
-          </aside>
+
+          <div className="bg-[#FFFBEA] text-slate-900 py-10">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+              <section>
+                <h2 className="text-xl font-bold mb-3">About</h2>
+                {listing.what_you_offer || listing.description ? (
+                  <RichTextDisplay
+                    content={
+                      listing.what_you_offer || listing.description || ""
+                    }
+                    className="text-sm leading-relaxed text-slate-800"
+                  />
+                ) : (
+                  <p className="text-sm leading-relaxed text-slate-800">
+                    No description provided yet.
+                  </p>
+                )}
+              </section>
+
+              <section>
+                <h2 className="text-xl font-bold mb-3">Details</h2>
+                <dl className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
+                  <div>
+                    <dt className="font-semibold">Category</dt>
+                    <dd>{primaryCategory}</dd>
+                  </div>
+
+                  <div>
+                    <dt className="font-semibold">Location</dt>
+                    <dd>{locationLabel || "—"}</dd>
+                  </div>
+
+                  <div>
+                    <dt className="font-semibold">Ages Served</dt>
+                    <dd className="flex flex-wrap gap-2">
+                      {ageRanges.length > 0 ? (
+                        ageRanges.map((age) => (
+                          <span
+                            key={age}
+                            className="px-2 py-0.5 rounded-full bg-[#7AB8CC1A]"
+                          >
+                            {age}
+                          </span>
+                        ))
+                      ) : (
+                        <span>—</span>
+                      )}
+                    </dd>
+                  </div>
+
+                  <div>
+                    <dt className="font-semibold">Services</dt>
+                    <dd>{services.length > 0 ? services.join(", ") : "—"}</dd>
+                  </div>
+                </dl>
+              </section>
+
+              {reviewsEnabled && (
+                <section id="reviews">
+                  <h2 className="text-xl font-bold mb-4">
+                    Reviews from Parents
+                  </h2>
+
+                  {averageRating.count === 0 && reviews.length === 0 && (
+                    <p className="text-sm text-slate-700">
+                      This provider does not have reviews yet.
+                    </p>
+                  )}
+
+                  {reviews.length > 0 && (
+                    <div className="space-y-6">
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="text-2xl">★</span>
+                        <span className="text-xl font-semibold">
+                          {averageRating.average.toFixed(1)}
+                        </span>
+                        <span className="text-sm text-slate-600">
+                          based on {averageRating.count} review
+                          {averageRating.count === 1 ? "" : "s"}
+                        </span>
+                      </div>
+
+                      {reviews.map((review) => (
+                        <div
+                          key={review.id}
+                          className="rounded-lg border border-slate-300 p-4 bg-white shadow-sm"
+                        >
+                          <p className="text-sm leading-relaxed text-slate-800">
+                            {review.text}
+                          </p>
+                          <p className="mt-2 text-xs text-slate-500">
+                            —{" "}
+                            {review.user?.name ||
+                              review.user?.email ||
+                              "Anonymous"}
+                            , {formatDate(review.created_at)}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="mt-6">
+                    <RelatedLinks
+                      listing={listing}
+                      relatedListings={related}
+                      categoryNames={Array.from(
+                        new Set(
+                          displayCategories.map((c) => c.displayName.trim()),
+                        ),
+                      )}
+                    />
+                  </div>
+                </section>
+              )}
+
+              <div className="grid gap-8 md:grid-cols-3">
+                <div className="md:col-span-2">
+                  <Gallery listing={listing} />
+                </div>
+                <div>
+                  <ListingContactSection
+                    listing={listing}
+                    showClaimCallout={showClaimCallout}
+                    showUpgradePrompt={showUpgradePrompt}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+
+        {/* Mobile sticky contact bar */}
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-800 bg-[#0C1A2B] px-4 py-2 sm:hidden">
+          <div className="mx-auto flex max-w-3xl items-center justify-between">
+            <span className="text-xs text-slate-200">Ready to contact?</span>
+
+            <div className="flex gap-2">
+              {listing.website && (
+                <a
+                  href={listing.website}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full bg-[#FF6B35] px-3 py-1 text-xs font-semibold text-white"
+                >
+                  Website
+                </a>
+              )}
+
+              {listing.email && (
+                <a
+                  href={`mailto:${listing.email}`}
+                  className="rounded-full border border-slate-500 px-3 py-1 text-xs font-semibold text-white"
+                >
+                  Email
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      </>
     );
   } catch (error) {
     const err = error as { digest?: string };

@@ -1,3 +1,25 @@
+## Dec 10, 2025 — Listing Detail Phase 2: Hero, Trust, Structured Content
+
+### Problem
+Listing detail pages needed a conversion-focused hero, clear trust signals, structured info, and mobile contact affordances.
+
+### Changes Implemented
+- Replaced legacy hero with navy two-column layout: hero image/initials, name, category/location, Verified + 101 Approved pills, rating chip, and Visit/Email CTAs; added breadcrumbs to directory/category/listing.
+- Added cream “About” and “Details” panels: description via rich text, category, location, ages (chips), services (tags).
+- Reviews section now shows rating summary + parent reviews list (using existing data) with empty state messaging.
+- Kept gallery and contact/claim/upgrade cards in a supporting grid; added mobile-only sticky contact bar with Website/Email actions and bottom padding for clearance.
+
+### Files Changed
+- `src/app/(website)/(public)/listing/[slug]/page.tsx`
+
+### Style Alignment
+- Navy hero and sticky bar: #0C1A2B
+- Cream content panels: #FFFBEA with dark ink text
+- Trust badge colors: Verified (sky), 101 Approved (coral #CC5A47)
+- CTA: Primary orange #FF6B35 with hover #E55F2F
+
+---
+
 ## Dec 10, 2025 — Directory Page Phase 1: Search-First Hero & Enhanced Listing Cards
 
 ### Problem

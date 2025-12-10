@@ -15,6 +15,11 @@ export function getListingImageUrl(filename: string): string {
     return filename;
   }
 
+  // If it's a base64 data URL (e.g., from mockup uploads), return as-is
+  if (filename.startsWith("data:")) {
+    return filename;
+  }
+
   // Normalize any stored path variants to avoid double bucket prefixes
   // Supported inputs:
   // - "filename.jpg"

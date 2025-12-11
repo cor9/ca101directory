@@ -72,6 +72,44 @@ export default async function VendorDashboard({ searchParams }: { searchParams?:
         {/* ROI Stats Widget */}
         <VendorROIStats vendorId={user.id} />
 
+        {/* Performance & Trust Panel (Phase 3) */}
+        {vendorListings.length > 0 && (
+          <section className="rounded-xl bg-[#0C1A2B] text-white p-6 mt-8 shadow-lg">
+            <h2 className="text-lg font-semibold text-amber-300 mb-4">Performance & Trust (Primary Listing)</h2>
+            
+            <dl className="grid grid-cols-2 sm:grid-cols-3 gap-6 text-sm">
+              <div>
+                <dt className="text-slate-400">Profile Views</dt>
+                <dd className="text-xl font-bold">{vendorListings[0].views_count}</dd>
+              </div>
+              <div>
+                <dt className="text-slate-400">Contact Clicks</dt>
+                <dd className="text-xl font-bold">{vendorListings[0].contact_clicks}</dd>
+              </div>
+              <div>
+                <dt className="text-slate-400">Favorites</dt>
+                <dd className="text-xl font-bold">{vendorListings[0].favorites_count}</dd>
+              </div>
+              <div>
+                <dt className="text-slate-400">Reviews</dt>
+                <dd className="text-xl font-bold text-slate-500">-</dd> {/* We need to fetch review count separately or add it to Listing type if aggregated */}
+              </div>
+              <div>
+                <dt className="text-slate-400">Repeat Families</dt>
+                <dd className="text-xl font-bold">{vendorListings[0].repeat_families_count}</dd>
+              </div>
+              <div>
+                <dt className="text-slate-400">Response Time</dt>
+                <dd className="text-xl font-bold text-emerald-400">{vendorListings[0].response_time_label ?? '—'}</dd>
+              </div>
+            </dl>
+
+            <p className="mt-4 text-xs text-slate-300">
+              Improve your ranking by completing your profile, responding quickly, and collecting reviews from parents.
+            </p>
+          </section>
+        )}
+
         <div className="bg-card rounded-lg p-6 border">
           <h2 className="text-xl font-bold text-foreground mb-4">
             Grow Your Reach

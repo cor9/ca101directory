@@ -14,6 +14,7 @@ import { regionsList } from "@/data/regions";
 import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
+import { createServerClient } from "@/lib/supabase";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = constructMetadata({
@@ -34,6 +35,24 @@ export default async function DirectoryPage({
     categories = await getCategories();
   } catch (error) {
     console.error("Error fetching categories:", error);
+  }
+
+  // Fetch unique states from listings
+  let states: string[] = [];
+  try {
+    const supabase = createServerClient();
+    const { data: statesData } = await supabase
+      .from("listings")
+      .select("state")
+      .neq("state", null)
+      .neq("state", "")
+      .order("state", { ascending: true });
+    
+    if (statesData) {
+      states = Array.from(new Set(statesData.map((item) => item.state).filter(Boolean))) as string[];
+    }
+  } catch (error) {
+    console.error("Error fetching states:", error);
   }
 
   const {
@@ -93,7 +112,7 @@ export default async function DirectoryPage({
 
       {/* Filters (compact) */}
       <Container className="py-6">
-        <DirectoryFilters className="" categories={categories} />
+        <DirectoryFilters className="" categories={categories} states={states} />
       </Container>
 
       {/* Featured Vendors */}

@@ -189,6 +189,9 @@ const getPublicListingsInternal = async (params?: {
   region?: string;
   city?: string;
   category?: string;
+  verified?: boolean;
+  bg_checked?: boolean;
+  repeat?: boolean;
 }) => {
   console.log("getPublicListings: Starting fetch with params:", params);
 
@@ -206,6 +209,16 @@ const getPublicListingsInternal = async (params?: {
     // Match by exact category name present in categories[] (TEXT[] array)
     query = query.contains("categories", [params.category]);
   }
+  if (params?.verified) {
+    query = query.eq("trust_level", "verified");
+  }
+  if (params?.bg_checked) {
+    query = query.eq("trust_level", "background_checked");
+  }
+  if (params?.repeat) {
+    query = query.gt("repeat_families_count", 0);
+  }
+  
   if (params?.q)
     query = query.or(
       [
@@ -332,6 +345,10 @@ export async function getPublicListingsWithRatings(params?: {
   category?: string;
   limit?: number;
   offset?: number;
+  verified?: boolean;
+  bg_checked?: boolean;
+  high_rated?: boolean;
+  repeat?: boolean;
 }): Promise<{ listings: PublicListing[]; totalCount: number }> {
   const rawListings = await getPublicListings(params);
   const supabase = createServerClient();
@@ -359,7 +376,7 @@ export async function getPublicListingsWithRatings(params?: {
   }
 
   // Convert to PublicListing format
-  const listings = rawListings.map((listing) => {
+  let listings = rawListings.map((listing) => {
     const ratingData = ratingsMap.get(listing.id);
     const rating = ratingData
       ? {
@@ -368,6 +385,43 @@ export async function getPublicListingsWithRatings(params?: {
         }
       : undefined;
     return listingToPublicListing(listing, rating);
+  });
+
+  // Apply high rated filter
+  if (params?.high_rated) {
+    listings = listings.filter(l => (l.averageRating || 0) >= 4.5);
+  }
+
+  // Smart Ranking Logic
+  // Calculate trust score and sort
+  const tierWeight = {
+    premium: 3,
+    pro: 2,
+    standard: 1,
+    free: 0,
+  };
+
+  listings.sort((a, b) => {
+    // Paid tiers override
+    if (a.plan_tier !== b.plan_tier) {
+      return tierWeight[b.plan_tier] - tierWeight[a.plan_tier];
+    }
+
+    const calculateTrustScore = (l: PublicListing) => {
+      return (
+        (l.plan_tier === 'premium' || l.plan_tier === 'pro' ? 20 : 0) +
+        (l.trust_level === 'verified' ? 20 : 0) +
+        (l.trust_level === 'background_checked' ? 40 : 0) +
+        Math.min(l.profile_completeness ?? 0, 20) +
+        (l.reviewCount > 0 ? Math.min((l.averageRating || 0) * 4, 20) : 0) +
+        Math.min(l.repeat_families_count * 2, 20)
+      );
+    };
+
+    const scoreA = calculateTrustScore(a);
+    const scoreB = calculateTrustScore(b);
+
+    return scoreB - scoreA;
   });
 
   // Apply pagination if specified
@@ -612,15 +666,18 @@ export async function getListingBySlug(slug: string) {
     } as Listing;
   }
 
-  // Primary: look up by exact slug OR lowercase slug
+  // Primary: look up by case-insensitive slug
   const { data: listingData, error: listingError } = await createServerClient()
     .from("listings")
     .select("*")
-    .or(`slug.eq.${safeSlug},slug.eq.${safeSlug.toLowerCase()}`)
+    .ilike("slug", safeSlug)
     .single();
 
   if (listingError && listingError.code !== "PGRST116") {
-    console.error("getListingBySlug: Error fetching listing by slug:", listingError);
+    console.error(
+      "getListingBySlug: Error fetching listing by slug:",
+      listingError,
+    );
   }
 
   if (listingData && !listingError) {
@@ -660,7 +717,7 @@ export async function getListingBySlug(slug: string) {
     ).find((l) => {
       const generated = generateSlug(l.listing_name || "", l.id);
       return (
-        (l.slug || "").trim().toLowerCase() === safeSlug.toLowerCase() || 
+        (l.slug || "").trim().toLowerCase() === safeSlug.toLowerCase() ||
         generated === safeSlug.toLowerCase()
       );
     });

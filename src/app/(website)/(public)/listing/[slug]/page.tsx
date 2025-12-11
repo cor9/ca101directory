@@ -4,6 +4,7 @@ import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { ContactActions } from "@/components/listing/contact-actions";
 import { Gallery } from "@/components/listing/gallery";
 import { ListingContactSection } from "@/components/listing/listing-contact-section";
+import { ListingCarousel } from "@/components/listing/listing-carousel";
 import type { DisplayCategory } from "@/components/listing/types";
 import {
   BreadcrumbSchema,
@@ -14,6 +15,7 @@ import { RichTextDisplay } from "@/components/ui/rich-text-display";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import { siteConfig } from "@/config/site";
 import { getCategories, getCategoryIconsMap } from "@/data/categories";
+import { listingToItem } from "@/data/item-service";
 import {
   type Listing,
   getListingBySlug,
@@ -334,20 +336,47 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
     // Get related listings (same category, different listing)
     console.log("ListingPage: About to fetch public listings for related");
-    // Temporarily disable related listings fetch to debug hanging issue
-    // const relatedListings = await getPublicListings();
-    const relatedListings: Listing[] = [];
-    console.log("ListingPage: Public listings fetch skipped (debugging)");
-    const relatedPrimaryCategory = listing.categories?.[0];
-    const related = relatedListings
-      .filter(
-        (l) =>
-          l.id !== listing.id &&
-          l.status === "Live" &&
-          l.is_active &&
-          l.categories?.includes(relatedPrimaryCategory || ""),
-      )
-      .slice(0, 3);
+    const allPublicListings = await getPublicListings({ 
+      state: listing.state ?? undefined,
+      category: listing.categories?.[0]
+    });
+    
+    // Sort by Trust Score logic (simplified here as we don't have all ratings)
+    // We prioritize Featured > Plan Tier > Completeness
+    const recommendedListings = allPublicListings
+      .filter((l) => l.id !== listing.id)
+      .sort((a, b) => {
+        // 1. Featured
+        if (a.featured !== b.featured) return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
+        
+        // 2. Plan Tier
+        const getTierScore = (plan: string | null) => {
+          const p = (plan || "free").toLowerCase();
+          if (p.includes("premium")) return 3;
+          if (p.includes("pro")) return 2;
+          if (p.includes("standard")) return 1;
+          return 0;
+        };
+        const tierA = getTierScore(a.plan);
+        const tierB = getTierScore(b.plan);
+        if (tierA !== tierB) return tierB - tierA;
+        
+        // 3. Trust Level
+        const getTrustScore = (l: Listing) => {
+          if (l.trust_level === "background_checked") return 2;
+          if (l.trust_level === "verified") return 1;
+          return 0;
+        };
+        return getTrustScore(b) - getTrustScore(a);
+      })
+      .slice(0, 6);
+
+    const recommendedItems = await Promise.all(
+      recommendedListings.map(l => listingToItem(l))
+    );
+
+    // Old related logic (kept for compatibility if needed elsewhere, but we use recommendedListings now)
+    const related = recommendedListings.slice(0, 3);
 
     const showFavorite = isFavoritesEnabled() && !isOwner;
     const hasPremiumAccess = (listing.plan || "").toLowerCase() !== "free";
@@ -648,6 +677,16 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   />
                 </div>
               </div>
+
+              {/* Recommended Providers Module */}
+              {recommendedItems.length > 0 && (
+                <section className="mt-16 pt-10 border-t border-slate-200">
+                  <h2 className="text-xl font-bold mb-6 text-slate-900">
+                    Other Trusted Providers in {listing.state || "Your Area"}
+                  </h2>
+                  <ListingCarousel listings={recommendedItems} />
+                </section>
+              )}
             </div>
           </div>
         </div>

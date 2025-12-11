@@ -27,7 +27,7 @@ function generateSlug(listingName: string, id: string): string {
 /**
  * Convert Airtable Listing to MkDirs Item format
  */
-async function listingToItem(listing: Listing): Promise<ItemInfo> {
+export async function listingToItem(listing: Listing): Promise<ItemInfo> {
   return {
     _id: listing.id,
     _createdAt: new Date().toISOString(),

@@ -59,7 +59,6 @@ interface GalleryImage {
 interface MockupEdits {
   listing_name: string;
   what_you_offer: string;
-  who_is_it_for: string;
   why_is_it_unique: string;
   format: string;
   extras_notes: string;
@@ -107,7 +106,6 @@ export function MockupListingPage({ dbListing }: MockupListingPageProps) {
   const [edits, setEdits] = useState<MockupEdits>({
     listing_name: dbListing.listing_name || "",
     what_you_offer: dbListing.what_you_offer || "",
-    who_is_it_for: dbListing.who_is_it_for || "",
     why_is_it_unique: dbListing.why_is_it_unique || "",
     format: dbListing.format || "",
     extras_notes: dbListing.extras_notes || "",
@@ -139,10 +137,7 @@ export function MockupListingPage({ dbListing }: MockupListingPageProps) {
 
   // Handle image upload (converts to base64 data URL for preview)
   const handleImageUpload = useCallback(
-    (
-      e: React.ChangeEvent<HTMLInputElement>,
-      type: "logo" | "gallery",
-    ) => {
+    (e: React.ChangeEvent<HTMLInputElement>, type: "logo" | "gallery") => {
       const files = e.target.files;
       if (!files) return;
 
@@ -218,10 +213,7 @@ export function MockupListingPage({ dbListing }: MockupListingPageProps) {
       badge_approved: controls.show101Approved,
       is_mockup: true,
       // Gallery as JSON string
-      gallery:
-        edits.gallery.length > 0
-          ? JSON.stringify(edits.gallery)
-          : null,
+      gallery: edits.gallery.length > 0 ? JSON.stringify(edits.gallery) : null,
       has_gallery: edits.gallery.length > 0,
     };
 
@@ -487,20 +479,6 @@ export function MockupListingPage({ dbListing }: MockupListingPageProps) {
                       }
                       placeholder="Describe your services..."
                       rows={4}
-                      className="mt-1"
-                    />
-                  </div>
-                  <div>
-                    <Label className="text-xs text-gray-600">
-                      Who Is It For
-                    </Label>
-                    <Textarea
-                      value={edits.who_is_it_for}
-                      onChange={(e) =>
-                        updateEdit("who_is_it_for", e.target.value)
-                      }
-                      placeholder="Target audience..."
-                      rows={2}
                       className="mt-1"
                     />
                   </div>

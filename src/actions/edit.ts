@@ -1,18 +1,17 @@
 "use server";
 
-import { createServerClient } from "@/lib/supabase";
 import { currentUser } from "@/lib/auth";
 import type { SUPPORT_ITEM_ICON } from "@/lib/constants";
 import { sendNotifySubmissionEmail } from "@/lib/mail";
 import { EditSchema } from "@/lib/schemas";
 import { FreePlanStatus, PricePlans } from "@/lib/submission";
+import { createServerClient } from "@/lib/supabase";
 import {
   getItemLinkInStudio,
   getItemStatusLinkInWebsite,
   slugify,
 } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
-
 
 type BaseEditFormData = {
   id: string;
@@ -88,7 +87,6 @@ export async function edit(
       listing_name: name,
       website: link,
       what_you_offer: description,
-      who_is_it_for: introduction,
       profile_image: imageId,
       tags: tags || [],
       categories: categories || [],
@@ -96,9 +94,8 @@ export async function edit(
       // Free plan: update item leads to be unpublished and reviewed again
       // remain submitted if the plan status is submitted, otherwise set to pending
       ...(pricePlan === PricePlans.FREE && {
-        status: planStatus === FreePlanStatus.SUBMITTING
-          ? "Pending"
-          : "Pending",
+        status:
+          planStatus === FreePlanStatus.SUBMITTING ? "Pending" : "Pending",
       }),
       updated_at: new Date().toISOString(),
     };

@@ -52,7 +52,6 @@ export interface Listing {
   vendor_id: string;
   listing_name?: string;
   what_you_offer?: string;
-  who_is_it_for?: string;
   why_is_it_unique?: string;
   format?: string;
   extras_notes?: string;
@@ -208,7 +207,6 @@ export interface PaginatedResponse<T = any> {
 export interface CreateListingForm {
   listing_name: string;
   what_you_offer: string;
-  who_is_it_for: string;
   why_is_it_unique: string;
   format: string;
   website: string;

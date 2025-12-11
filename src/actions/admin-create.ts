@@ -1,8 +1,8 @@
 "use server";
 
 import { auth } from "@/auth";
-import { createServerClient } from "@/lib/supabase";
 import { sendListingLiveEmail } from "@/lib/mail";
+import { createServerClient } from "@/lib/supabase";
 import { createClaimToken, createOptOutToken } from "@/lib/tokens";
 import { revalidatePath } from "next/cache";
 
@@ -90,7 +90,6 @@ export async function adminCreateListing(
       slug: slug,
       website: formData.link || null,
       what_you_offer: formData.description.trim(),
-      who_is_it_for: formData.introduction || null,
       why_is_it_unique: formData.unique || null,
       format: formData.format || null,
       extras_notes: formData.notes || null,
@@ -174,8 +173,13 @@ export async function adminCreateListing(
             e,
           );
         }
-        const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
-        const slug = (data.listing_name || "").toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+        const siteUrl =
+          process.env.NEXT_PUBLIC_APP_URL ||
+          "https://directory.childactor101.com";
+        const slug = (data.listing_name || "")
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, "");
         const claimUrl = token
           ? `${siteUrl}/claim/${encodeURIComponent(token)}?lid=${encodeURIComponent(data.id)}`
           : `${siteUrl}/claim-upgrade/${encodeURIComponent(slug)}?lid=${encodeURIComponent(data.id)}`;
@@ -200,7 +204,10 @@ export async function adminCreateListing(
         });
       }
     } catch (notifyErr) {
-      console.error("adminCreateListing: failed to send listing live email", notifyErr);
+      console.error(
+        "adminCreateListing: failed to send listing live email",
+        notifyErr,
+      );
     }
 
     return {
@@ -297,7 +304,12 @@ export async function adminBulkCreateListings(
     });
 
     // Validate and check duplicates per-row
-    const report: Array<{ row: number; status: string; reason?: string; id?: string }> = [];
+    const report: Array<{
+      row: number;
+      status: string;
+      reason?: string;
+      id?: string;
+    }> = [];
     const toInsert: any[] = [];
 
     for (const r of rows) {
@@ -365,8 +377,13 @@ export async function adminBulkCreateListings(
                 e,
               );
             }
-            const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
-            const slug = (row.listing_name || "").toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+            const siteUrl =
+              process.env.NEXT_PUBLIC_APP_URL ||
+              "https://directory.childactor101.com";
+            const slug = (row.listing_name || "")
+              .toLowerCase()
+              .replace(/\s+/g, "-")
+              .replace(/[^a-z0-9-]/g, "");
             const claimUrl = token
               ? `${siteUrl}/claim/${encodeURIComponent(token)}?lid=${encodeURIComponent(row.id)}`
               : `${siteUrl}/claim-upgrade/${encodeURIComponent(slug)}?lid=${encodeURIComponent(row.id)}`;
@@ -376,7 +393,10 @@ export async function adminBulkCreateListings(
             try {
               optOutUrl = `${siteUrl}/remove/${encodeURIComponent(createOptOutToken(row.id))}?lid=${encodeURIComponent(row.id)}`;
             } catch (e) {
-              console.error("adminBulkCreateListings: opt-out token unavailable", e);
+              console.error(
+                "adminBulkCreateListings: opt-out token unavailable",
+                e,
+              );
             }
             await sendListingLiveEmail({
               vendorName: row.listing_name || "",
@@ -393,7 +413,10 @@ export async function adminBulkCreateListings(
         }
       }
     } catch (notifyErr) {
-      console.error("adminBulkCreateListings: listing live email failed", notifyErr);
+      console.error(
+        "adminBulkCreateListings: listing live email failed",
+        notifyErr,
+      );
     }
 
     revalidatePath("/dashboard/admin/listings");

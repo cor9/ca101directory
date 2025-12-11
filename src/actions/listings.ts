@@ -74,10 +74,16 @@ export async function createListing(
     const normalizeUrl = (s?: string) => normalizeString(s);
 
     // Helper to convert comma-separated strings to arrays
-    const stringToArray = (value: string | string[] | undefined | null): string[] | null => {
+    const stringToArray = (
+      value: string | string[] | undefined | null,
+    ): string[] | null => {
       if (Array.isArray(value)) return value.length > 0 ? value : null;
-      if (!value || typeof value !== 'string' || value.trim() === '') return null;
-      const array = value.split(',').map(item => item.trim()).filter(Boolean);
+      if (!value || typeof value !== "string" || value.trim() === "")
+        return null;
+      const array = value
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean);
       return array.length > 0 ? array : null;
     };
 
@@ -106,12 +112,17 @@ export async function createListing(
       city: normalizeString(validatedFields.data.city),
       state: normalizeString(validatedFields.data.state),
       what_you_offer: normalizeString(validatedFields.data.what_you_offer),
+      logo_url: normalizeString(validatedFields.data.logo_url),
+      video_url: normalizeUrl(validatedFields.data.video_url),
       custom_link_url: normalizeUrl(validatedFields.data.custom_link_url),
       custom_link_name: normalizeString(validatedFields.data.custom_link_name),
       plan: normalizeString(validatedFields.data.plan),
     };
 
-    console.log("Creating listing with data:", JSON.stringify(listingData, null, 2));
+    console.log(
+      "Creating listing with data:",
+      JSON.stringify(listingData, null, 2),
+    );
 
     const { data, error } = await supabase
       .from("listings")
@@ -295,7 +306,9 @@ export async function updateListing(
       // URL-like optional fields
       facebook_url: normalizeUrl(v.facebook_url),
       instagram_url: normalizeUrl(v.instagram_url),
+      video_url: normalizeUrl(v.video_url),
       // Optional media fields
+      logo_url: normalizeString(v.logo_url),
       profile_image: normalizeString(v.profile_image),
       // Gallery stored as text; empty string -> null
       gallery:

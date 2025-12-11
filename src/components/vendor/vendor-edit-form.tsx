@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import type { z } from "zod";
 
 import { updateListing } from "@/actions/listings";
 import ImageUpload from "@/components/shared/image-upload";
@@ -17,9 +17,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { getCategoriesClient } from "@/data/categories-client";
 import type { Listing } from "@/data/listings";
+import { regionsList } from "@/data/regions";
 import { UpdateListingSchema } from "@/lib/validations/listings";
 import { Lock } from "lucide-react";
-import { regionsList } from "@/data/regions";
 import Link from "next/link";
 
 interface VendorEditFormProps {
@@ -35,10 +35,18 @@ export function VendorEditForm({
 }: VendorEditFormProps) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const [categories, setCategories] = useState<Array<{ id: string; category_name: string }>>([]);
+  const [categories, setCategories] = useState<
+    Array<{ id: string; category_name: string }>
+  >([]);
   const [isImageUploading, setIsImageUploading] = useState(false);
+  const [isLogoUploading, setIsLogoUploading] = useState(false);
   const [isGalleryUploading, setIsGalleryUploading] = useState(false);
-  const [profileImageId, setProfileImageId] = useState<string>(listing.profile_image || "");
+  const [profileImageId, setProfileImageId] = useState<string>(
+    listing.profile_image || "",
+  );
+  const [logoUrl, setLogoUrl] = useState<string>(
+    (listing as any).logo_url || "",
+  );
   const [categoriesLoaded, setCategoriesLoaded] = useState(false);
   const [initialCategories, setInitialCategories] = useState<string>("");
 
@@ -47,7 +55,9 @@ export function VendorEditForm({
       try {
         const parsed = JSON.parse(listing.gallery) || [];
         if (Array.isArray(parsed)) {
-          return parsed.map((e: any) => (typeof e === "string" ? e : (e?.url || e?.src || "")));
+          return parsed.map((e: any) =>
+            typeof e === "string" ? e : e?.url || e?.src || "",
+          );
         }
         return [];
       } catch {
@@ -55,7 +65,9 @@ export function VendorEditForm({
       }
     }
     return Array.isArray(listing.gallery)
-      ? (listing.gallery as any[]).map((e) => (typeof e === "string" ? e : (e?.url || e?.src || "")))
+      ? (listing.gallery as any[]).map((e) =>
+          typeof e === "string" ? e : e?.url || e?.src || "",
+        )
       : [];
   });
   const [galleryCaptions, setGalleryCaptions] = useState<string[]>(() => {
@@ -63,7 +75,11 @@ export function VendorEditForm({
       try {
         const parsed = JSON.parse(listing.gallery) || [];
         if (Array.isArray(parsed)) {
-          return parsed.map((e: any) => (typeof e === "object" && typeof e?.caption === "string" ? e.caption : ""));
+          return parsed.map((e: any) =>
+            typeof e === "object" && typeof e?.caption === "string"
+              ? e.caption
+              : "",
+          );
         }
         return [];
       } catch {
@@ -71,31 +87,43 @@ export function VendorEditForm({
       }
     }
     return Array.isArray(listing.gallery)
-      ? (listing.gallery as any[]).map((e) => (typeof e === "object" && typeof (e as any).caption === "string" ? (e as any).caption : ""))
+      ? (listing.gallery as any[]).map((e) =>
+          typeof e === "object" && typeof (e as any).caption === "string"
+            ? (e as any).caption
+            : "",
+        )
       : [];
   });
 
   // Fetch categories on mount and convert UUIDs to names BEFORE form initializes
   useEffect(() => {
     getCategoriesClient().then((cats) => {
-      setCategories(cats.map(c => ({ id: c.id, category_name: c.category_name })));
+      setCategories(
+        cats.map((c) => ({ id: c.id, category_name: c.category_name })),
+      );
 
       // Convert UUID categories to names
       const listingCats = Array.isArray(listing.categories)
         ? listing.categories.join(", ")
-        : (typeof listing.categories === "string" ? listing.categories : "");
+        : typeof listing.categories === "string"
+          ? listing.categories
+          : "";
 
       if (listingCats) {
         const categoryArray = listingCats.split(", ").filter(Boolean);
         // Check if we have UUIDs (36 chars with dashes)
-        const hasUUIDs = categoryArray.some(cat => cat.length === 36 && cat.includes("-"));
+        const hasUUIDs = categoryArray.some(
+          (cat) => cat.length === 36 && cat.includes("-"),
+        );
 
         if (hasUUIDs) {
           // Convert UUIDs to names
-          const categoryNames = categoryArray.map(catId => {
-            const found = cats.find(c => c.id === catId);
-            return found ? found.category_name : catId;
-          }).filter(Boolean);
+          const categoryNames = categoryArray
+            .map((catId) => {
+              const found = cats.find((c) => c.id === catId);
+              return found ? found.category_name : catId;
+            })
+            .filter(Boolean);
 
           const convertedStr = categoryNames.join(", ");
           setInitialCategories(convertedStr);
@@ -133,9 +161,9 @@ export function VendorEditForm({
       email: listing.email || "",
       phone: listing.phone || "",
       what_you_offer: listing.what_you_offer || "",
-      who_is_it_for: listing.who_is_it_for || "",
       why_is_it_unique: listing.why_is_it_unique || "",
       extras_notes: listing.extras_notes || "",
+      video_url: (listing as any).video_url || "",
       format: normalizeFormat(listing.format),
       city: listing.city || "",
       state: listing.state || "",
@@ -146,13 +174,37 @@ export function VendorEditForm({
       categories: "" as any, // Will be set by useEffect after conversion
       age_range: (Array.isArray(listing.age_range)
         ? listing.age_range.join(", ")
-        : (typeof listing.age_range === "string" ? listing.age_range : "")) as any,
+        : typeof listing.age_range === "string"
+          ? listing.age_range
+          : "") as any,
+      age_tags: (Array.isArray((listing as any).age_tags)
+        ? (listing as any).age_tags.join(", ")
+        : ((listing as any).age_tags as any) || "") as any,
+      services_offered: (Array.isArray((listing as any).services_offered)
+        ? (listing as any).services_offered.join(", ")
+        : ((listing as any).services_offered as any) || "") as any,
+      techniques: (Array.isArray((listing as any).techniques)
+        ? (listing as any).techniques.join(", ")
+        : ((listing as any).techniques as any) || "") as any,
+      specialties: (Array.isArray((listing as any).specialties)
+        ? (listing as any).specialties.join(", ")
+        : ((listing as any).specialties as any) || "") as any,
       region: (Array.isArray(listing.region)
         ? listing.region.join(", ")
-        : (typeof listing.region === "string" ? listing.region : "")) as any,
+        : typeof listing.region === "string"
+          ? listing.region
+          : "") as any,
+      logo_url: (listing as any).logo_url || "",
       profile_image: listing.profile_image || "",
-      gallery: typeof listing.gallery === "string" ? listing.gallery : JSON.stringify(listing.gallery || []),
-      status: (listing.status === "Live" || listing.status === "Pending" || listing.status === "Draft" || listing.status === "Archived" || listing.status === "Rejected"
+      gallery:
+        typeof listing.gallery === "string"
+          ? listing.gallery
+          : JSON.stringify(listing.gallery || []),
+      status: (listing.status === "Live" ||
+      listing.status === "Pending" ||
+      listing.status === "Draft" ||
+      listing.status === "Archived" ||
+      listing.status === "Rejected"
         ? listing.status
         : "Pending") as "Pending" | "Live" | "Rejected" | "Draft" | "Archived",
       is_claimed: !!listing.is_claimed,
@@ -174,25 +226,61 @@ export function VendorEditForm({
   const isStandard = plan === "standard" || plan === "founding standard";
   const isPro = plan === "pro" || plan === "founding pro" || listing.comped;
 
+  const serviceOptions = [
+    "Private Coaching",
+    "Group Classes",
+    "On-Set Coaching",
+    "Zoom/Remote",
+  ];
+  const techniqueOptions = [
+    "Meisner",
+    "Method",
+    "Improv",
+    "On-Camera",
+    "Commercial",
+    "Theatrical",
+  ];
+  const specialtyOptions = [
+    "Pre-Readers",
+    "Memorization",
+    "Audition Prep",
+    "Self-Tapes",
+  ];
+
   const handleCategoryToggle = (categoryName: string) => {
     const currentStr = (form.getValues("categories") as any) || "";
-    const currentArray = currentStr ? String(currentStr).split(", ").filter(Boolean) : [];
+    const currentArray = currentStr
+      ? String(currentStr).split(", ").filter(Boolean)
+      : [];
     const newCategories = currentArray.includes(categoryName)
       ? currentArray.filter((c) => c !== categoryName)
       : [...currentArray, categoryName];
 
     // Free tier: limit to 1 category
     if (isFree && newCategories.length > 1) {
-      toast.error("Free plan allows only 1 category. Upgrade to select multiple.");
+      toast.error(
+        "Free plan allows only 1 category. Upgrade to select multiple.",
+      );
       return;
     }
 
     form.setValue("categories", newCategories.join(", ") as any);
   };
 
-  const handleTagToggle = (tag: string, field: "age_range" | "region") => {
+  const handleTagToggle = (
+    tag: string,
+    field:
+      | "age_range"
+      | "region"
+      | "age_tags"
+      | "services_offered"
+      | "techniques"
+      | "specialties",
+  ) => {
     const currentStr = (form.getValues(field) as any) || "";
-    const currentArray = currentStr ? String(currentStr).split(", ").filter(Boolean) : [];
+    const currentArray = currentStr
+      ? String(currentStr).split(", ").filter(Boolean)
+      : [];
     const newTags = currentArray.includes(tag)
       ? currentArray.filter((t) => t !== tag)
       : [...currentArray, tag];
@@ -203,25 +291,69 @@ export function VendorEditForm({
     console.log("=== FORM SUBMIT DEBUG ===");
     console.log("Form submitted with values:", values);
     console.log("Categories raw value:", values.categories);
-    console.log("Categories type:", typeof values.categories, Array.isArray(values.categories));
+    console.log(
+      "Categories type:",
+      typeof values.categories,
+      Array.isArray(values.categories),
+    );
     console.log("Form errors:", form.formState.errors);
     console.log("Profile image ID:", profileImageId);
     console.log("Gallery images:", galleryImages);
 
     startTransition(() => {
       // Prepare gallery as JSON string (objects with url and caption)
-      const galleryObjects =
-        Array.isArray(galleryImages)
-          ? galleryImages
-              .map((url, i) => (url ? { url, caption: galleryCaptions[i] || "" } : null))
-              .filter(Boolean)
-          : [];
+      const galleryObjects = Array.isArray(galleryImages)
+        ? galleryImages
+            .map((url, i) =>
+              url ? { url, caption: galleryCaptions[i] || "" } : null,
+            )
+            .filter(Boolean)
+        : [];
       const galleryString = JSON.stringify(galleryObjects);
 
       // Values are already strings (from form state), but ensure they're strings
-      const categoriesStr = typeof values.categories === "string" ? values.categories : (Array.isArray(values.categories) ? values.categories.join(", ") : "");
-      const ageRangeStr = typeof values.age_range === "string" ? values.age_range : (Array.isArray(values.age_range) ? values.age_range.join(", ") : "");
-      const regionStr = typeof values.region === "string" ? values.region : (Array.isArray(values.region) ? values.region.join(", ") : "");
+      const categoriesStr =
+        typeof values.categories === "string"
+          ? values.categories
+          : Array.isArray(values.categories)
+            ? values.categories.join(", ")
+            : "";
+      const ageRangeStr =
+        typeof values.age_range === "string"
+          ? values.age_range
+          : Array.isArray(values.age_range)
+            ? values.age_range.join(", ")
+            : "";
+      const ageTagsStr =
+        typeof (values as any).age_tags === "string"
+          ? (values as any).age_tags
+          : Array.isArray((values as any).age_tags)
+            ? (values as any).age_tags.join(", ")
+            : "";
+      const servicesStr =
+        typeof (values as any).services_offered === "string"
+          ? (values as any).services_offered
+          : Array.isArray((values as any).services_offered)
+            ? (values as any).services_offered.join(", ")
+            : "";
+      const techniquesStr =
+        typeof (values as any).techniques === "string"
+          ? (values as any).techniques
+          : Array.isArray((values as any).techniques)
+            ? (values as any).techniques.join(", ")
+            : "";
+      const specialtiesStr =
+        typeof (values as any).specialties === "string"
+          ? (values as any).specialties
+          : Array.isArray((values as any).specialties)
+            ? (values as any).specialties.join(", ")
+            : "";
+      const regionStr =
+        typeof values.region === "string"
+          ? values.region
+          : Array.isArray(values.region)
+            ? values.region.join(", ")
+            : "";
 
       console.log("=== STRING CONVERSIONS ===");
       console.log("categoriesStr:", categoriesStr);
@@ -237,6 +369,10 @@ export function VendorEditForm({
         // Ensure these are strings (schema expects strings)
         categories: categoriesStr,
         age_range: ageRangeStr,
+        age_tags: ageTagsStr,
+        services_offered: servicesStr,
+        techniques: techniquesStr,
+        specialties: specialtiesStr,
         region: regionStr,
         profile_image: profileImageId || "",
         gallery: galleryString,
@@ -289,7 +425,12 @@ export function VendorEditForm({
         <Button
           type="submit"
           variant="default"
-          disabled={isPending || isImageUploading || isGalleryUploading}
+          disabled={
+            isPending ||
+            isImageUploading ||
+            isLogoUploading ||
+            isGalleryUploading
+          }
         >
           {isPending ? "Saving..." : "Save Changes"}
         </Button>
@@ -332,11 +473,7 @@ export function VendorEditForm({
 
         <div className="space-y-1">
           <Label htmlFor="phone">Phone</Label>
-          <Input
-            id="phone"
-            {...form.register("phone")}
-            disabled={isPending}
-          />
+          <Input id="phone" {...form.register("phone")} disabled={isPending} />
         </div>
       </div>
 
@@ -354,17 +491,6 @@ export function VendorEditForm({
       {/* Premium Fields - Standard/Pro Only */}
       {!isFree ? (
         <>
-          <div className="space-y-1">
-            <Label htmlFor="who_is_it_for">Who Is It For</Label>
-            <Textarea
-              id="who_is_it_for"
-              {...form.register("who_is_it_for")}
-              rows={3}
-              disabled={isPending}
-              placeholder="Describe your target audience"
-            />
-          </div>
-
           <div className="space-y-1">
             <Label htmlFor="why_is_it_unique">Why Is It Unique</Label>
             <Textarea
@@ -390,24 +516,10 @@ export function VendorEditForm({
       ) : (
         <>
           <div className="space-y-1 opacity-50 pointer-events-none">
-            <Label htmlFor="who_is_it_for" className="flex items-center gap-2">
-              <Lock className="w-4 h-4" />
-              Who Is It For
-            </Label>
-            <Textarea
-              id="who_is_it_for"
-              rows={3}
-              disabled
-              placeholder="🔒 Upgrade to Standard or Pro to use this field"
-            />
-          </div>
-          <div className="bg-orange-50 border border-orange-200 rounded-md p-3 text-sm text-orange-800">
-            <strong>Premium Field:</strong> This field is only available with Standard ($25/mo) or Pro ($50/mo) plans.{" "}
-            <Link href="/pricing" className="underline font-semibold">View plans</Link>
-          </div>
-
-          <div className="space-y-1 opacity-50 pointer-events-none">
-            <Label htmlFor="why_is_it_unique" className="flex items-center gap-2">
+            <Label
+              htmlFor="why_is_it_unique"
+              className="flex items-center gap-2"
+            >
               <Lock className="w-4 h-4" />
               Why Is It Unique
             </Label>
@@ -454,28 +566,38 @@ export function VendorEditForm({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="space-y-1">
           <Label htmlFor="city">City</Label>
-          <Input
-            id="city"
-            {...form.register("city")}
-            disabled={isPending}
-          />
+          <Input id="city" {...form.register("city")} disabled={isPending} />
         </div>
         <div className="space-y-1">
           <Label htmlFor="state">State</Label>
-          <Input
-            id="state"
-            {...form.register("state")}
-            disabled={isPending}
-          />
+          <Input id="state" {...form.register("state")} disabled={isPending} />
         </div>
         <div className="space-y-1">
           <Label htmlFor="zip">ZIP Code</Label>
-          <Input
-            id="zip"
-            {...form.register("zip")}
-            disabled={isPending}
+          <Input id="zip" {...form.register("zip")} disabled={isPending} />
+        </div>
+      </div>
+
+      {/* Logo - available for all plans */}
+      <div className="space-y-2">
+        <Label>Logo (one image)</Label>
+        <div className="h-32 border-2 border-dashed border-gray-300 rounded-lg">
+          <ImageUpload
+            currentImageUrl={logoUrl}
+            onUploadChange={(status) => {
+              setIsLogoUploading(status.isUploading);
+              if (status.imageId) {
+                setLogoUrl(status.imageId);
+                form.setValue("logo_url" as any, status.imageId);
+              }
+            }}
+            type="image"
           />
         </div>
+        <p className="text-xs text-gray-600">
+          Free tier listings can upload a logo. Standard/Pro can use both logo
+          and gallery.
+        </p>
       </div>
 
       {/* Profile Image */}
@@ -505,43 +627,54 @@ export function VendorEditForm({
           <div className="h-48 border-2 border-dashed border-gray-300 rounded-lg opacity-50 pointer-events-none flex items-center justify-center">
             <div className="text-center">
               <Lock className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-              <p className="text-sm text-gray-600">Free listings don't include images</p>
-              <p className="text-xs text-gray-500 mt-1">Upgrade to Standard ($25/mo) or Pro ($50/mo) to add a profile photo</p>
+              <p className="text-sm text-gray-600">
+                Free listings don't include images
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                Upgrade to Standard ($25/mo) or Pro ($50/mo) to add a profile
+                photo
+              </p>
             </div>
           </div>
           <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-md p-4">
             <p className="text-sm text-blue-900">
               <strong>📸 Stand Out with a Professional Image</strong>
               <br />
-              Free listings don't include images. Upgrade to Standard ($25/mo) or Pro ($50/mo) to add a professional profile photo that makes your listing 3x more likely to be clicked!{" "}
-              <Link href="/pricing" className="underline font-semibold">View Upgrade Options →</Link>
+              Free listings don't include images. Upgrade to Standard ($25/mo)
+              or Pro ($50/mo) to add a professional profile photo that makes
+              your listing 3x more likely to be clicked!{" "}
+              <Link href="/pricing" className="underline font-semibold">
+                View Upgrade Options →
+              </Link>
             </p>
           </div>
         </div>
       )}
 
-      {/* Gallery Images - Pro Only */}
-      {isPro ? (
+      {/* Gallery Images - Standard/Pro */}
+      {isPro || isStandard ? (
         <div className="space-y-2">
           <Label>Gallery Images</Label>
           <GalleryUpload
-            maxImages={4}
+            maxImages={isPro ? 12 : 6}
             currentImages={galleryImages}
             onImagesChange={setGalleryImages}
             onUploadingChange={setIsGalleryUploading}
           />
           {/* Promo Video (link) */}
           <div className="space-y-1 pt-2">
-            <Label htmlFor="promo_video">Promo Video (YouTube/Vimeo link)</Label>
+            <Label htmlFor="video_url">Video URL (YouTube/Vimeo)</Label>
             <Input
-              id="promo_video"
-              placeholder="https://youtube.com/watch?v=... or https://vimeo.com/..."
-              defaultValue={(listing as any).custom_link_url || ""}
-              onChange={(e) => form.setValue("custom_link_url" as any, e.target.value)}
+              id="video_url"
+              placeholder="https://youtu.be/... or https://vimeo.com/..."
+              defaultValue={(listing as any).video_url || ""}
+              onChange={(e) =>
+                form.setValue("video_url" as any, e.target.value)
+              }
               disabled={isPending}
             />
             <p className="text-xs text-gray-600">
-              Suggested length under 3 minutes. Keep it focused on what families should know.
+              Must be a YouTube or Vimeo link.
             </p>
           </div>
           {/* Captions per image */}
@@ -549,7 +682,9 @@ export function VendorEditForm({
             {galleryImages.map((url, index) =>
               url ? (
                 <div key={`caption-${index}`} className="space-y-1">
-                  <Label htmlFor={`caption-${index}`}>Caption for image {index + 1}</Label>
+                  <Label htmlFor={`caption-${index}`}>
+                    Caption for image {index + 1}
+                  </Label>
                   <Textarea
                     id={`caption-${index}`}
                     placeholder="Write a caption (hashtags and links allowed)"
@@ -566,7 +701,9 @@ export function VendorEditForm({
             )}
           </div>
           <p className="text-xs text-gray-600">
-            {plan === "founding pro" ? "Founding Pro" : "Pro"} plan includes 4 gallery images (5 total with profile)
+            {isPro
+              ? "Pro plan can upload up to 12 gallery images."
+              : "Standard plan can upload up to 6 gallery images."}
           </p>
         </div>
       ) : (
@@ -578,16 +715,23 @@ export function VendorEditForm({
           <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 opacity-50 pointer-events-none">
             <div className="text-center">
               <Lock className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-gray-700">Gallery Locked</p>
-              <p className="text-xs text-gray-500">Upgrade to Pro plan to unlock 4 gallery images</p>
+              <p className="text-sm font-semibold text-gray-700">
+                Gallery Locked
+              </p>
+              <p className="text-xs text-gray-500">
+                Upgrade to Pro plan to unlock 4 gallery images
+              </p>
             </div>
           </div>
           <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-md p-4">
             <p className="text-sm text-purple-900">
               <strong>🖼️ Showcase Your Work with Gallery Images</strong>
               <br />
-              Upgrade to Pro ($50/mo) to showcase up to 4 additional photos of your work, studio, or team!{" "}
-              <Link href="/pricing" className="underline font-semibold">Upgrade to Pro →</Link>
+              Upgrade to Pro ($50/mo) to showcase up to 4 additional photos of
+              your work, studio, or team!{" "}
+              <Link href="/pricing" className="underline font-semibold">
+                Upgrade to Pro →
+              </Link>
             </p>
           </div>
         </div>
@@ -595,16 +739,27 @@ export function VendorEditForm({
 
       {/* Categories */}
       <div className="space-y-2">
-        <Label>
-          Categories {isFree && "(Select 1 - Free Plan)"}
-        </Label>
+        <Label>Categories {isFree && "(Select 1 - Free Plan)"}</Label>
         <div className="grid grid-cols-2 gap-2">
           {categories.map((category) => (
             <label key={category.id} className="flex items-center space-x-2">
               <Checkbox
-                checked={String((form.watch("categories") as any) || "").split(", ").includes(category.category_name)}
-                onCheckedChange={() => handleCategoryToggle(category.category_name)}
-                disabled={isPending || (isFree && !String((form.watch("categories") as any) || "").split(", ").includes(category.category_name) && String((form.watch("categories") as any) || "").split(", ").filter(Boolean).length >= 1)}
+                checked={String((form.watch("categories") as any) || "")
+                  .split(", ")
+                  .includes(category.category_name)}
+                onCheckedChange={() =>
+                  handleCategoryToggle(category.category_name)
+                }
+                disabled={
+                  isPending ||
+                  (isFree &&
+                    !String((form.watch("categories") as any) || "")
+                      .split(", ")
+                      .includes(category.category_name) &&
+                    String((form.watch("categories") as any) || "")
+                      .split(", ")
+                      .filter(Boolean).length >= 1)
+                }
               />
               <span className="text-sm">{category.category_name}</span>
             </label>
@@ -612,7 +767,8 @@ export function VendorEditForm({
         </div>
         {isFree && (
           <p className="text-xs text-gray-600">
-            Free Plan: You can select 1 category. Upgrade to Standard or Pro to select multiple categories.
+            Free Plan: You can select 1 category. Upgrade to Standard or Pro to
+            select multiple categories.
           </p>
         )}
       </div>
@@ -624,7 +780,9 @@ export function VendorEditForm({
           {["online", "in-person", "hybrid"].map((tag) => (
             <label key={tag} className="flex items-center space-x-2">
               <Checkbox
-                checked={String((form.watch("age_range") as any) || "").split(", ").includes(tag)}
+                checked={String((form.watch("age_range") as any) || "")
+                  .split(", ")
+                  .includes(tag)}
                 onCheckedChange={() => handleTagToggle(tag, "age_range")}
                 disabled={isPending}
               />
@@ -637,6 +795,87 @@ export function VendorEditForm({
         <p className="text-xs text-gray-600">
           Select all that apply. These tags help families find your service.
         </p>
+      </div>
+
+      {/* Age Tags */}
+      <div className="space-y-2">
+        <Label>Age Tags</Label>
+        <div className="flex flex-wrap gap-2">
+          {["Ages 5–8", "Ages 9–12", "Ages 13–17", "Ages 18+"].map((tag) => (
+            <label key={tag} className="flex items-center space-x-2">
+              <Checkbox
+                checked={String((form.watch("age_tags") as any) || "")
+                  .split(", ")
+                  .includes(tag)}
+                onCheckedChange={() => handleTagToggle(tag, "age_tags")}
+                disabled={isPending}
+              />
+              <span className="text-sm">{tag}</span>
+            </label>
+          ))}
+        </div>
+        <p className="text-xs text-gray-600">
+          Pick one or more age bands you serve.
+        </p>
+      </div>
+
+      {/* Structured Taxonomy */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="space-y-2">
+          <Label>Services Offered</Label>
+          <div className="space-y-2">
+            {serviceOptions.map((opt) => (
+              <label key={opt} className="flex items-center space-x-2">
+                <Checkbox
+                  checked={String((form.watch("services_offered") as any) || "")
+                    .split(", ")
+                    .includes(opt)}
+                  onCheckedChange={() =>
+                    handleTagToggle(opt, "services_offered")
+                  }
+                  disabled={isPending}
+                />
+                <span className="text-sm">{opt}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label>Techniques</Label>
+          <div className="space-y-2">
+            {techniqueOptions.map((opt) => (
+              <label key={opt} className="flex items-center space-x-2">
+                <Checkbox
+                  checked={String((form.watch("techniques") as any) || "")
+                    .split(", ")
+                    .includes(opt)}
+                  onCheckedChange={() => handleTagToggle(opt, "techniques")}
+                  disabled={isPending}
+                />
+                <span className="text-sm">{opt}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label>Specialties</Label>
+          <div className="space-y-2">
+            {specialtyOptions.map((opt) => (
+              <label key={opt} className="flex items-center space-x-2">
+                <Checkbox
+                  checked={String((form.watch("specialties") as any) || "")
+                    .split(", ")
+                    .includes(opt)}
+                  onCheckedChange={() => handleTagToggle(opt, "specialties")}
+                  disabled={isPending}
+                />
+                <span className="text-sm">{opt}</span>
+              </label>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Location/Region Tags */}
@@ -652,9 +891,7 @@ export function VendorEditForm({
                 onCheckedChange={() => handleTagToggle(regionName, "region")}
                 disabled={isPending}
               />
-              <span className="text-sm capitalize">
-                {regionName}
-              </span>
+              <span className="text-sm capitalize">{regionName}</span>
             </label>
           ))}
         </div>
@@ -666,7 +903,9 @@ export function VendorEditForm({
           <Checkbox
             id="ca_permit_required"
             checked={form.watch("ca_permit_required")}
-            onCheckedChange={(checked) => form.setValue("ca_permit_required", !!checked)}
+            onCheckedChange={(checked) =>
+              form.setValue("ca_permit_required", !!checked)
+            }
             disabled={isPending}
           />
           <Label htmlFor="ca_permit_required">
@@ -700,13 +939,23 @@ export function VendorEditForm({
           type="button"
           variant="ghost"
           onClick={onFinished}
-          disabled={isPending || isImageUploading || isGalleryUploading}
+          disabled={
+            isPending ||
+            isImageUploading ||
+            isLogoUploading ||
+            isGalleryUploading
+          }
         >
           Cancel
         </Button>
         <Button
           type="submit"
-          disabled={isPending || isImageUploading || isGalleryUploading}
+          disabled={
+            isPending ||
+            isImageUploading ||
+            isLogoUploading ||
+            isGalleryUploading
+          }
         >
           {isPending ? "Saving..." : "Save Changes"}
         </Button>

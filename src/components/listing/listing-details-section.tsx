@@ -42,16 +42,6 @@ export function ListingDetailsSection({
             className="text-base leading-relaxed"
           />
 
-          {hasPremiumAccess && listing.who_is_it_for && (
-            <div>
-              <h3 className={subHeadingClass}>Who Is It For</h3>
-              <RichTextDisplay
-                content={listing.who_is_it_for}
-                className="text-base leading-relaxed"
-              />
-            </div>
-          )}
-
           {hasPremiumAccess && listing.why_is_it_unique && (
             <div>
               <h3 className={subHeadingClass}>What Makes This Unique</h3>

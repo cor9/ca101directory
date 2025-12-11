@@ -61,8 +61,15 @@ export const UpdateListingSchema = z
     plan: z.string().optional(),
     is_active: z.boolean(),
     featured: z.boolean().optional(),
+    video_url: z
+      .union([z.string().url({ message: "Invalid video URL." }), z.literal("")])
+      .optional()
+      .refine(
+        (val) =>
+          !val || val === "" || val.includes("youtu") || val.includes("vimeo"),
+        { message: "Video URL must be YouTube or Vimeo." },
+      ),
     // Detailed Profile Fields
-    who_is_it_for: z.string().optional(),
     why_is_it_unique: z.string().optional(),
     format: z.string().optional(),
     extras_notes: z.string().optional(),
@@ -78,7 +85,12 @@ export const UpdateListingSchema = z
     // Array fields handled with transform
     categories: commaSeparatedStringToArray,
     age_range: commaSeparatedStringToArray,
+    age_tags: commaSeparatedStringToArray,
+    services_offered: commaSeparatedStringToArray,
+    techniques: commaSeparatedStringToArray,
+    specialties: commaSeparatedStringToArray,
     region: commaSeparatedStringToArray,
+    logo_url: z.string().optional(),
   })
   .superRefine((val, ctx) => {
     // If bonded, bond_number required
@@ -183,12 +195,25 @@ export const CreateListingSchema = z.object({
     .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
     .optional(),
   custom_link_name: z.string().optional(),
+  video_url: z
+    .union([z.string().url({ message: "Invalid video URL." }), z.literal("")])
+    .optional()
+    .refine(
+      (val) =>
+        !val || val === "" || val.includes("youtu") || val.includes("vimeo"),
+      { message: "Video URL must be YouTube or Vimeo." },
+    ),
   // Allow optional plan for admin-created listings
   plan: z.string().optional(),
+  logo_url: z.string().optional(),
   // New admin-create fields
   category: z.string().optional(), // single category name (admin free create)
   format: z.enum(["In-person", "Online", "Hybrid"]).optional(),
   city: z.string().optional(),
   state: z.string().optional(),
   region: z.string().optional(), // comma-separated or a single region label
+  age_tags: z.string().optional(),
+  services_offered: z.string().optional(),
+  techniques: z.string().optional(),
+  specialties: z.string().optional(),
 });

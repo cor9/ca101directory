@@ -164,6 +164,23 @@ export default async function ListingPage({ params }: ListingPageProps) {
       year: "numeric",
     });
 
+  const convertToEmbed = (url: string) => {
+    if (!url) return "";
+    if (url.includes("watch?v=")) {
+      return url.replace("watch?v=", "embed/");
+    }
+    if (url.includes("youtu.be")) {
+      return url.replace("youtu.be/", "www.youtube.com/embed/");
+    }
+    if (url.includes("youtube.com")) {
+      return url.replace("youtube.com/", "youtube.com/embed/");
+    }
+    if (url.includes("vimeo.com")) {
+      return url.replace("vimeo.com", "player.vimeo.com/video");
+    }
+    return url;
+  };
+
   try {
     const decodedSlug = decodeURIComponent(params.slug);
     console.log(
@@ -456,11 +473,14 @@ export default async function ListingPage({ params }: ListingPageProps) {
     const heroImageUrl = listing.profile_image
       ? getListingImageUrl(listing.profile_image)
       : (listing as any).hero_image_url || (listing as any).logo_url || null;
-    const isVerified =
-      listing.verification_status?.toLowerCase() === "verified" ||
-      (listing as any).is_verified === true;
+    const trustLevel = (listing as any).trust_level;
+    const isVerifiedSafe =
+      trustLevel === "verified_safe" || trustLevel === "background_checked";
+    const isVerified = trustLevel === "verified";
     const is101Approved =
-      listing.badge_approved === true || listing.is_approved_101 === true;
+      (listing as any).is_approved === true ||
+      listing.badge_approved === true ||
+      listing.is_approved_101 === true;
     let reviews: Awaited<ReturnType<typeof getListingReviews>> = [];
     if (reviewsEnabled) {
       try {
@@ -566,6 +586,12 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     {isVerified && (
                       <span className="px-3 py-1 rounded-full bg-sky-600 text-xs font-semibold">
                         Verified
+                      </span>
+                    )}
+
+                    {isVerifiedSafe && (
+                      <span className="px-3 py-1 rounded-full bg-emerald-600 text-xs font-semibold text-white">
+                        Verified Safe
                       </span>
                     )}
 
@@ -725,6 +751,17 @@ export default async function ListingPage({ params }: ListingPageProps) {
               <div className="grid gap-8 md:grid-cols-3">
                 <div className="md:col-span-2">
                   <Gallery listing={listing} />
+                  {listing.video_url && (
+                    <div className="aspect-video w-full mt-4 rounded-lg overflow-hidden bg-black">
+                      <iframe
+                        src={convertToEmbed(listing.video_url)}
+                        title="Provider video"
+                        className="h-full w-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  )}
                 </div>
                 <div>
                   <ListingContactSection

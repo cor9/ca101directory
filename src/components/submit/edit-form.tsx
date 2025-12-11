@@ -44,7 +44,6 @@ export function EditForm({ listing, categories }: EditFormProps) {
     name: listing.listing_name || "",
     link: listing.website || "",
     description: listing.what_you_offer || "",
-    introduction: listing.who_is_it_for || "",
     unique: listing.why_is_it_unique || "",
     format: normalizeFormat(listing.format),
     notes: listing.extras_notes || "",
@@ -70,7 +69,9 @@ export function EditForm({ listing, categories }: EditFormProps) {
       try {
         const parsed = JSON.parse(listing.gallery) || [];
         if (Array.isArray(parsed)) {
-          return parsed.map((e: any) => (typeof e === "string" ? e : (e?.url || e?.src || "")));
+          return parsed.map((e: any) =>
+            typeof e === "string" ? e : e?.url || e?.src || "",
+          );
         }
         return [];
       } catch {
@@ -78,7 +79,9 @@ export function EditForm({ listing, categories }: EditFormProps) {
       }
     }
     return Array.isArray(listing.gallery)
-      ? (listing.gallery as any[]).map((e) => (typeof e === "string" ? e : (e?.url || e?.src || "")))
+      ? (listing.gallery as any[]).map((e) =>
+          typeof e === "string" ? e : e?.url || e?.src || "",
+        )
       : [];
   });
   const [galleryCaptions, setGalleryCaptions] = useState<string[]>(() => {
@@ -86,7 +89,11 @@ export function EditForm({ listing, categories }: EditFormProps) {
       try {
         const parsed = JSON.parse(listing.gallery) || [];
         if (Array.isArray(parsed)) {
-          return parsed.map((e: any) => (typeof e === "object" && typeof e?.caption === "string" ? e.caption : ""));
+          return parsed.map((e: any) =>
+            typeof e === "object" && typeof e?.caption === "string"
+              ? e.caption
+              : "",
+          );
         }
         return [];
       } catch {
@@ -94,7 +101,11 @@ export function EditForm({ listing, categories }: EditFormProps) {
       }
     }
     return Array.isArray(listing.gallery)
-      ? (listing.gallery as any[]).map((e) => (typeof e === "object" && typeof (e as any).caption === "string" ? (e as any).caption : ""))
+      ? (listing.gallery as any[]).map((e) =>
+          typeof e === "object" && typeof (e as any).caption === "string"
+            ? (e as any).caption
+            : "",
+        )
       : [];
   });
 
@@ -131,16 +142,22 @@ export function EditForm({ listing, categories }: EditFormProps) {
 
     try {
       // Ensure required fields are present
-      const galleryObjects =
-        Array.isArray(galleryImages)
-          ? galleryImages.map((url, i) => (url ? { url, caption: galleryCaptions[i] || "" } : null)).filter(Boolean)
-          : [];
+      const galleryObjects = Array.isArray(galleryImages)
+        ? galleryImages
+            .map((url, i) =>
+              url ? { url, caption: galleryCaptions[i] || "" } : null,
+            )
+            .filter(Boolean)
+        : [];
 
       const submitData = {
         ...formData,
         // Map promo video to custom link fields expected by submit action/schema
         ...(formData.promoVideo && formData.promoVideo.trim().length > 0
-          ? { custom_link_url: formData.promoVideo.trim(), custom_link_name: "Promo Video" }
+          ? {
+              custom_link_url: formData.promoVideo.trim(),
+              custom_link_name: "Promo Video",
+            }
           : {}),
         tags: formData.tags.length > 0 ? formData.tags : ["hybrid"], // Default tag
         categories:
@@ -172,360 +189,365 @@ export function EditForm({ listing, categories }: EditFormProps) {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-paper mb-2">Edit Your Listing</h2>
-        <p className="text-paper">Make changes to your listing information below.</p>
+        <h2 className="text-2xl font-bold text-paper mb-2">
+          Edit Your Listing
+        </h2>
+        <p className="text-paper">
+          Make changes to your listing information below.
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-
-      {/* Business Information */}
-      <div className="grid gap-6 md:grid-cols-2">
-        <div className="space-y-2">
-          <Label htmlFor="name">Business Name</Label>
-          <Input
-            id="name"
-            value={formData.name}
-            onChange={(e) => handleInputChange("name", e.target.value)}
-            placeholder="Your business name"
-            required
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="link">Website</Label>
-          <Input
-            id="link"
-            type="url"
-            value={formData.link}
-            onChange={(e) => handleInputChange("link", e.target.value)}
-            placeholder="https://yourwebsite.com"
-          />
-        </div>
-      </div>
-
-      {/* Services */}
-      <div className="space-y-2">
-        <Label htmlFor="description">What You Offer</Label>
-        <Textarea
-          id="description"
-          value={formData.description}
-          onChange={(e) => handleInputChange("description", e.target.value)}
-          placeholder="Describe your services"
-          rows={4}
-          required
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="introduction">Who Is It For</Label>
-        <Textarea
-          id="introduction"
-          value={formData.introduction}
-          onChange={(e) => handleInputChange("introduction", e.target.value)}
-          placeholder="Target audience"
-          rows={3}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="unique">Why Is It Unique</Label>
-        <Textarea
-          id="unique"
-          value={formData.unique}
-          onChange={(e) => handleInputChange("unique", e.target.value)}
-          placeholder="What makes your service special"
-          rows={3}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="format">Format</Label>
-        <select
-          id="format"
-          value={formData.format}
-          onChange={(e) => handleInputChange("format", e.target.value)}
-          className="w-full p-2 border rounded-md"
-        >
-          <option value="">Select format</option>
-          <option value="In-person">In-person Only</option>
-          <option value="Online">Online Only</option>
-          <option value="Hybrid">Hybrid (Online & In-person)</option>
-        </select>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="notes">Additional Notes/Extras</Label>
-        <Textarea
-          id="notes"
-          value={formData.notes}
-          onChange={(e) => handleInputChange("notes", e.target.value)}
-          placeholder="Any additional information"
-          rows={3}
-        />
-      </div>
-
-      {/* Contact Information */}
-      <div className="grid gap-6 md:grid-cols-2">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            value={formData.email}
-            onChange={(e) => handleInputChange("email", e.target.value)}
-            placeholder="your@email.com"
-            required
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="phone">Phone</Label>
-          <Input
-            id="phone"
-            value={formData.phone}
-            onChange={(e) => handleInputChange("phone", e.target.value)}
-            placeholder="(555) 123-4567"
-          />
-        </div>
-      </div>
-
-      {/* Location Information */}
-      <div className="grid gap-6 md:grid-cols-3">
-        <div className="space-y-2">
-          <Label htmlFor="city">City</Label>
-          <Input
-            id="city"
-            value={formData.city}
-            onChange={(e) => handleInputChange("city", e.target.value)}
-            placeholder="Los Angeles"
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="state">State</Label>
-          <Input
-            id="state"
-            value={formData.state}
-            onChange={(e) => handleInputChange("state", e.target.value)}
-            placeholder="CA"
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="zip">ZIP Code</Label>
-          <Input
-            id="zip"
-            value={formData.zip}
-            onChange={(e) => handleInputChange("zip", e.target.value)}
-            placeholder="90210"
-          />
-        </div>
-      </div>
-
-      {/* Legal Compliance */}
-      <div className="space-y-4">
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="performerPermit"
-            checked={formData.performerPermit}
-            onCheckedChange={(checked) =>
-              handleInputChange("performerPermit", checked)
-            }
-          />
-          <Label htmlFor="performerPermit">
-            California Child Performer Services Permit Required
-          </Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="bonded"
-            checked={formData.bonded}
-            onCheckedChange={(checked) => handleInputChange("bonded", checked)}
-          />
-          <Label htmlFor="bonded">Bonded For Advanced Fees</Label>
-        </div>
-        {formData.bonded && (
+        {/* Business Information */}
+        <div className="grid gap-6 md:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="bondNumber">Bond Number</Label>
+            <Label htmlFor="name">Business Name</Label>
             <Input
-              id="bondNumber"
-              value={formData.bondNumber}
-              onChange={(e) => handleInputChange("bondNumber", e.target.value)}
-              placeholder="Enter bond number"
+              id="name"
+              value={formData.name}
+              onChange={(e) => handleInputChange("name", e.target.value)}
+              placeholder="Your business name"
+              required
             />
           </div>
-        )}
-      </div>
+          <div className="space-y-2">
+            <Label htmlFor="link">Website</Label>
+            <Input
+              id="link"
+              type="url"
+              value={formData.link}
+              onChange={(e) => handleInputChange("link", e.target.value)}
+              placeholder="https://yourwebsite.com"
+            />
+          </div>
+        </div>
 
-      {/* Profile Image */}
-      <div className="space-y-2">
-        <Label>Profile Image</Label>
-        <div className="h-48 border-2 border-dashed border-gray-300 rounded-lg">
-          <ImageUpload
-            currentImageUrl={formData.imageId}
-            onUploadChange={(status) => {
-              setIsImageUploading(status.isUploading);
-              if (status.imageId) {
-                handleInputChange("imageId", status.imageId);
-              }
-            }}
-            type="image"
+        {/* Services */}
+        <div className="space-y-2">
+          <Label htmlFor="description">What You Offer</Label>
+          <Textarea
+            id="description"
+            value={formData.description}
+            onChange={(e) => handleInputChange("description", e.target.value)}
+            placeholder="Describe your services"
+            rows={4}
+            required
           />
         </div>
-      </div>
 
-      {/* Gallery Images (only for Pro plans) */}
-      {(listing.plan?.toLowerCase() === "pro" ||
-        listing.plan?.toLowerCase() === "founding pro" ||
-        listing.comped) && (
         <div className="space-y-2">
-          <Label>Gallery Images</Label>
-          <GalleryUpload
-            maxImages={4}
-            currentImages={galleryImages}
-            onImagesChange={setGalleryImages}
-            onUploadingChange={setIsGalleryUploading}
+          <Label htmlFor="unique">Why Is It Unique</Label>
+          <Textarea
+            id="unique"
+            value={formData.unique}
+            onChange={(e) => handleInputChange("unique", e.target.value)}
+            placeholder="What makes your service special"
+            rows={3}
           />
-          {/* Promo Video (link) */}
-          <div className="space-y-1 pt-2">
-            <Label htmlFor="promoVideo">Promo Video (YouTube/Vimeo link)</Label>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="format">Format</Label>
+          <select
+            id="format"
+            value={formData.format}
+            onChange={(e) => handleInputChange("format", e.target.value)}
+            className="w-full p-2 border rounded-md"
+          >
+            <option value="">Select format</option>
+            <option value="In-person">In-person Only</option>
+            <option value="Online">Online Only</option>
+            <option value="Hybrid">Hybrid (Online & In-person)</option>
+          </select>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="notes">Additional Notes/Extras</Label>
+          <Textarea
+            id="notes"
+            value={formData.notes}
+            onChange={(e) => handleInputChange("notes", e.target.value)}
+            placeholder="Any additional information"
+            rows={3}
+          />
+        </div>
+
+        {/* Contact Information */}
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
             <Input
-              id="promoVideo"
-              placeholder="https://youtube.com/watch?v=... or https://vimeo.com/..."
-              value={formData.promoVideo}
-              onChange={(e) => handleInputChange("promoVideo", e.target.value)}
+              id="email"
+              type="email"
+              value={formData.email}
+              onChange={(e) => handleInputChange("email", e.target.value)}
+              placeholder="your@email.com"
+              required
             />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="phone">Phone</Label>
+            <Input
+              id="phone"
+              value={formData.phone}
+              onChange={(e) => handleInputChange("phone", e.target.value)}
+              placeholder="(555) 123-4567"
+            />
+          </div>
+        </div>
+
+        {/* Location Information */}
+        <div className="grid gap-6 md:grid-cols-3">
+          <div className="space-y-2">
+            <Label htmlFor="city">City</Label>
+            <Input
+              id="city"
+              value={formData.city}
+              onChange={(e) => handleInputChange("city", e.target.value)}
+              placeholder="Los Angeles"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="state">State</Label>
+            <Input
+              id="state"
+              value={formData.state}
+              onChange={(e) => handleInputChange("state", e.target.value)}
+              placeholder="CA"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="zip">ZIP Code</Label>
+            <Input
+              id="zip"
+              value={formData.zip}
+              onChange={(e) => handleInputChange("zip", e.target.value)}
+              placeholder="90210"
+            />
+          </div>
+        </div>
+
+        {/* Legal Compliance */}
+        <div className="space-y-4">
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="performerPermit"
+              checked={formData.performerPermit}
+              onCheckedChange={(checked) =>
+                handleInputChange("performerPermit", checked)
+              }
+            />
+            <Label htmlFor="performerPermit">
+              California Child Performer Services Permit Required
+            </Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="bonded"
+              checked={formData.bonded}
+              onCheckedChange={(checked) =>
+                handleInputChange("bonded", checked)
+              }
+            />
+            <Label htmlFor="bonded">Bonded For Advanced Fees</Label>
+          </div>
+          {formData.bonded && (
+            <div className="space-y-2">
+              <Label htmlFor="bondNumber">Bond Number</Label>
+              <Input
+                id="bondNumber"
+                value={formData.bondNumber}
+                onChange={(e) =>
+                  handleInputChange("bondNumber", e.target.value)
+                }
+                placeholder="Enter bond number"
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Profile Image */}
+        <div className="space-y-2">
+          <Label>Profile Image</Label>
+          <div className="h-48 border-2 border-dashed border-gray-300 rounded-lg">
+            <ImageUpload
+              currentImageUrl={formData.imageId}
+              onUploadChange={(status) => {
+                setIsImageUploading(status.isUploading);
+                if (status.imageId) {
+                  handleInputChange("imageId", status.imageId);
+                }
+              }}
+              type="image"
+            />
+          </div>
+        </div>
+
+        {/* Gallery Images (only for Pro plans) */}
+        {(listing.plan?.toLowerCase() === "pro" ||
+          listing.plan?.toLowerCase() === "founding pro" ||
+          listing.comped) && (
+          <div className="space-y-2">
+            <Label>Gallery Images</Label>
+            <GalleryUpload
+              maxImages={4}
+              currentImages={galleryImages}
+              onImagesChange={setGalleryImages}
+              onUploadingChange={setIsGalleryUploading}
+            />
+            {/* Promo Video (link) */}
+            <div className="space-y-1 pt-2">
+              <Label htmlFor="promoVideo">
+                Promo Video (YouTube/Vimeo link)
+              </Label>
+              <Input
+                id="promoVideo"
+                placeholder="https://youtube.com/watch?v=... or https://vimeo.com/..."
+                value={formData.promoVideo}
+                onChange={(e) =>
+                  handleInputChange("promoVideo", e.target.value)
+                }
+              />
+              <p className="text-xs text-paper">
+                Suggested length under 3 minutes. Keep it focused on what
+                families should know.
+              </p>
+            </div>
+            {/* Captions per image */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {galleryImages.map((url, index) =>
+                url ? (
+                  <div key={`submit-caption-${index}`} className="space-y-1">
+                    <Label htmlFor={`submit-caption-${index}`}>
+                      Caption for image {index + 1}
+                    </Label>
+                    <Textarea
+                      id={`submit-caption-${index}`}
+                      placeholder="Write a caption (hashtags and links allowed)"
+                      rows={3}
+                      value={galleryCaptions[index] || ""}
+                      onChange={(e) => {
+                        const next = [...galleryCaptions];
+                        next[index] = e.target.value;
+                        setGalleryCaptions(next);
+                      }}
+                    />
+                  </div>
+                ) : null,
+              )}
+            </div>
             <p className="text-xs text-paper">
-              Suggested length under 3 minutes. Keep it focused on what families should know.
+              {listing.plan?.toLowerCase() === "founding pro"
+                ? "Founding Pro"
+                : "Pro"}{" "}
+              plan includes 4 gallery images (5 total with profile)
             </p>
           </div>
-          {/* Captions per image */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {galleryImages.map((url, index) =>
-              url ? (
-                <div key={`submit-caption-${index}`} className="space-y-1">
-                  <Label htmlFor={`submit-caption-${index}`}>Caption for image {index + 1}</Label>
-                  <Textarea
-                    id={`submit-caption-${index}`}
-                    placeholder="Write a caption (hashtags and links allowed)"
-                    rows={3}
-                    value={galleryCaptions[index] || ""}
-                    onChange={(e) => {
-                      const next = [...galleryCaptions];
-                      next[index] = e.target.value;
-                      setGalleryCaptions(next);
-                    }}
-                  />
-                </div>
-              ) : null,
-            )}
+        )}
+
+        {/* Categories */}
+        <div className="space-y-2">
+          <Label>Categories</Label>
+          <div className="grid grid-cols-2 gap-2">
+            {categories.map((category) => (
+              <label key={category.id} className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={formData.categories.includes(category.id)}
+                  onChange={() => handleCategoryToggle(category.id)}
+                  className="rounded"
+                />
+                <span className="text-sm">{category.name}</span>
+              </label>
+            ))}
           </div>
-          <p className="text-xs text-paper">
-            {listing.plan?.toLowerCase() === "founding pro" ? "Founding Pro" : "Pro"} plan includes 4 gallery images (5 total with profile)
+        </div>
+
+        {/* Service Format Tags */}
+        <div className="space-y-2">
+          <Label>Service Format</Label>
+          <div className="space-y-2">
+            {["online", "in-person", "hybrid"].map((tag) => (
+              <label key={tag} className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={formData.tags.includes(tag)}
+                  onChange={() => handleTagToggle(tag)}
+                  className="rounded"
+                />
+                <span className="text-sm capitalize">
+                  {tag.replace("-", " ")}
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Location/Region Tags */}
+        <div className="space-y-2">
+          <Label>Location/Region</Label>
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              "los-angeles",
+              "northern-california",
+              "pnw",
+              "new-mexico",
+              "arizona",
+              "texas",
+              "chicago",
+              "atlanta-southeast",
+              "new-orleans",
+              "florida",
+              "new-york",
+              "northeast-wilmington",
+              "global-online",
+            ].map((tag) => (
+              <label key={tag} className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={formData.tags.includes(tag)}
+                  onChange={() => handleTagToggle(tag)}
+                  className="rounded"
+                />
+                <span className="text-sm capitalize">
+                  {tag.replace("-", " ")}
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <div className="bg-gray-50 border-t border-gray-200 -mx-6 px-6 py-6 mt-8">
+          <div className="flex gap-4">
+            <Button
+              type="submit"
+              disabled={isSubmitting || isImageUploading || isGalleryUploading}
+              className="flex-1 bg-primary-orange hover:bg-primary-orange/90 text-white font-semibold py-3 px-6 text-lg shadow-lg hover:shadow-xl transition-all duration-200"
+            >
+              {isSubmitting ? (
+                <>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3" />
+                  Updating Listing...
+                </>
+              ) : (
+                <>✓ Update Listing</>
+              )}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => router.push("/dashboard/vendor")}
+              className="px-6 py-3 text-paper hover:text-paper border-gray-300 hover:border-gray-400"
+            >
+              Cancel
+            </Button>
+          </div>
+          <p className="text-sm text-paper mt-3 text-center">
+            Your changes will be saved immediately after clicking "Update
+            Listing"
           </p>
         </div>
-      )}
-
-      {/* Categories */}
-      <div className="space-y-2">
-        <Label>Categories</Label>
-        <div className="grid grid-cols-2 gap-2">
-          {categories.map((category) => (
-            <label key={category.id} className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={formData.categories.includes(category.id)}
-                onChange={() => handleCategoryToggle(category.id)}
-                className="rounded"
-              />
-              <span className="text-sm">{category.name}</span>
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Service Format Tags */}
-      <div className="space-y-2">
-        <Label>Service Format</Label>
-        <div className="space-y-2">
-          {["online", "in-person", "hybrid"].map((tag) => (
-            <label key={tag} className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={formData.tags.includes(tag)}
-                onChange={() => handleTagToggle(tag)}
-                className="rounded"
-              />
-              <span className="text-sm capitalize">
-                {tag.replace("-", " ")}
-              </span>
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Location/Region Tags */}
-      <div className="space-y-2">
-        <Label>Location/Region</Label>
-        <div className="grid grid-cols-2 gap-2">
-          {[
-            "los-angeles",
-            "northern-california",
-            "pnw",
-            "new-mexico",
-            "arizona",
-            "texas",
-            "chicago",
-            "atlanta-southeast",
-            "new-orleans",
-            "florida",
-            "new-york",
-            "northeast-wilmington",
-            "global-online",
-          ].map((tag) => (
-            <label key={tag} className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={formData.tags.includes(tag)}
-                onChange={() => handleTagToggle(tag)}
-                className="rounded"
-              />
-              <span className="text-sm capitalize">
-                {tag.replace("-", " ")}
-              </span>
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Submit Button */}
-      <div className="bg-gray-50 border-t border-gray-200 -mx-6 px-6 py-6 mt-8">
-        <div className="flex gap-4">
-          <Button
-            type="submit"
-            disabled={isSubmitting || isImageUploading || isGalleryUploading}
-            className="flex-1 bg-primary-orange hover:bg-primary-orange/90 text-white font-semibold py-3 px-6 text-lg shadow-lg hover:shadow-xl transition-all duration-200"
-          >
-            {isSubmitting ? (
-              <>
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3" />
-                Updating Listing...
-              </>
-            ) : (
-              <>
-                ✓ Update Listing
-              </>
-            )}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => router.push("/dashboard/vendor")}
-            className="px-6 py-3 text-paper hover:text-paper border-gray-300 hover:border-gray-400"
-          >
-            Cancel
-          </Button>
-        </div>
-        <p className="text-sm text-paper mt-3 text-center">
-          Your changes will be saved immediately after clicking "Update Listing"
-        </p>
-      </div>
       </form>
     </div>
   );

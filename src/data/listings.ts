@@ -620,7 +620,6 @@ export async function getListingBySlug(slug: string) {
       listing_name: "Actorsite",
       what_you_offer:
         "Actorsite delivers high-level, results-driven training for kids, teens, and adults. Build booking power, master self-tapes, and train with expert coaches who help you grow, get callbacks, and thrive—from your first class to your next big role.",
-      who_is_it_for: "",
       why_is_it_unique: "",
       format: "Online",
       extras_notes: "",

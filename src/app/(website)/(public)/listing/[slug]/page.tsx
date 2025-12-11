@@ -656,7 +656,6 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   <div>
                     <dt className="font-semibold">Category</dt>
                     <dd>{displayPrimaryCategory}</dd>
-                    <dd>{displayPrimaryCategory}</dd>
                   </div>
 
                   <div>

@@ -10,8 +10,8 @@ import {
   type UseFormRegister,
   useForm,
 } from "react-hook-form";
-import { z } from "zod";
 import { toast } from "sonner";
+import { z } from "zod";
 
 // Fix: Separated imports to pull `Listing` type from data layer and action/schema from the actions layer.
 import { updateListing } from "@/actions/listings";
@@ -57,6 +57,14 @@ const FormInputSchema = z.object({
   instagram_url: z
     .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
     .optional(),
+  video_url: z
+    .union([z.string().url({ message: "Invalid Video URL." }), z.literal("")])
+    .optional()
+    .refine(
+      (val) =>
+        !val || val === "" || val.includes("youtu") || val.includes("vimeo"),
+      { message: "Video URL must be YouTube or Vimeo." },
+    ),
   // Promo video link (Pro marketing)
   custom_link_url: z
     .union([z.string().url({ message: "Invalid URL format." }), z.literal("")])
@@ -65,11 +73,11 @@ const FormInputSchema = z.object({
   is_active: z.boolean(),
   featured: z.boolean(),
   // Detailed Profile Fields
-  who_is_it_for: z.string().optional(),
   why_is_it_unique: z.string().optional(),
   format: z.string().optional(),
   extras_notes: z.string().optional(),
   // Images
+  logo_url: z.string().optional(),
   profile_image: z.string().optional(),
   gallery: z.string().optional(),
   // Badges/Compliance
@@ -136,7 +144,9 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       try {
         const parsed = JSON.parse(listing.gallery) || [];
         if (Array.isArray(parsed)) {
-          return parsed.map((e: any) => (typeof e === "string" ? e : (e?.url || e?.src || "")));
+          return parsed.map((e: any) =>
+            typeof e === "string" ? e : e?.url || e?.src || "",
+          );
         }
         return [];
       } catch {
@@ -144,7 +154,9 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       }
     }
     return Array.isArray(listing.gallery)
-      ? (listing.gallery as any[]).map((e) => (typeof e === "string" ? e : (e?.url || e?.src || "")))
+      ? (listing.gallery as any[]).map((e) =>
+          typeof e === "string" ? e : e?.url || e?.src || "",
+        )
       : [];
   });
   const [galleryCaptions, setGalleryCaptions] = useState<string[]>(() => {
@@ -152,7 +164,11 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       try {
         const parsed = JSON.parse(listing.gallery) || [];
         if (Array.isArray(parsed)) {
-          return parsed.map((e: any) => (typeof e === "object" && typeof e?.caption === "string" ? e.caption : ""));
+          return parsed.map((e: any) =>
+            typeof e === "object" && typeof e?.caption === "string"
+              ? e.caption
+              : "",
+          );
         }
         return [];
       } catch {
@@ -160,11 +176,19 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       }
     }
     return Array.isArray(listing.gallery)
-      ? (listing.gallery as any[]).map((e) => (typeof e === "object" && typeof (e as any).caption === "string" ? (e as any).caption : ""))
+      ? (listing.gallery as any[]).map((e) =>
+          typeof e === "object" && typeof (e as any).caption === "string"
+            ? (e as any).caption
+            : "",
+        )
       : [];
   });
   const [isImageUploading, setIsImageUploading] = useState(false);
+  const [isLogoUploading, setIsLogoUploading] = useState(false);
   const [isGalleryUploading, setIsGalleryUploading] = useState(false);
+  const [logoUrl, setLogoUrl] = useState<string>(
+    (listing as any).logo_url || "",
+  );
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Fetch categories and convert UUIDs to names
@@ -225,16 +249,17 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       zip: String(listing.zip || ""),
       facebook_url: listing.facebook_url || "",
       instagram_url: listing.instagram_url || "",
+      video_url: (listing as any).video_url || "",
       custom_link_url: (listing as any).custom_link_url || "",
       plan: listing.plan || "Free",
       is_active: listing.is_active ?? false,
       featured: listing.featured ?? false,
       // Detailed profile fields
-      who_is_it_for: listing.who_is_it_for || "",
       why_is_it_unique: listing.why_is_it_unique || "",
       format: listing.format || "",
       extras_notes: listing.extras_notes || "",
       // Images
+      logo_url: (listing as any).logo_url || "",
       profile_image: listing.profile_image || "",
       gallery:
         typeof listing.gallery === "string"
@@ -294,7 +319,10 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               .filter(Boolean);
 
             processedValues.categories = categoryNames.join(", ");
-            console.log("Keeping categories as names:", processedValues.categories);
+            console.log(
+              "Keeping categories as names:",
+              processedValues.categories,
+            );
           } else {
             // If no categories specified, set to empty string
             processedValues.categories = "";
@@ -319,6 +347,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             format: processedValues.format?.trim() || "",
             facebook_url: processedValues.facebook_url?.trim() || "",
             instagram_url: processedValues.instagram_url?.trim() || "",
+            video_url: processedValues.video_url?.trim() || "",
             custom_link_url: processedValues.custom_link_url?.trim() || "",
             custom_link_name:
               (processedValues.custom_link_url?.trim() || "").length > 0
@@ -331,8 +360,14 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           serverValues.profile_image = form.getValues("profile_image") || "";
           serverValues.gallery = form.getValues("gallery") || "[]";
 
-          console.log("[Admin Edit] Submitting with profile_image:", serverValues.profile_image);
-          console.log("[Admin Edit] Submitting with gallery:", serverValues.gallery);
+          console.log(
+            "[Admin Edit] Submitting with profile_image:",
+            serverValues.profile_image,
+          );
+          console.log(
+            "[Admin Edit] Submitting with gallery:",
+            serverValues.gallery,
+          );
           console.log("[Admin Edit] Server values:", serverValues);
 
           updateListing(
@@ -575,6 +610,26 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       <div>
         <h3 className="text-md font-semibold mb-2 text-ink">Images</h3>
         <div className="space-y-4">
+          {/* Logo */}
+          <div>
+            <p className="block text-sm font-medium text-ink mb-2">
+              Logo (one image)
+            </p>
+            <div className="h-32 border-2 border-dashed border-gray-300 rounded-lg">
+              <ImageUpload
+                currentImageUrl={logoUrl}
+                onUploadChange={(status) => {
+                  setIsLogoUploading(status.isUploading);
+                  if (status.imageId) {
+                    setLogoUrl(status.imageId);
+                    form.setValue("logo_url", status.imageId);
+                  }
+                }}
+                type="image"
+              />
+            </div>
+          </div>
+
           {/* Profile Image */}
           <div>
             <p className="block text-sm font-medium text-ink mb-2">
@@ -586,7 +641,10 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
                 onUploadChange={(status) => {
                   setIsImageUploading(status.isUploading);
                   if (status.imageId) {
-                    console.log("[Admin Edit] Profile image uploaded:", status.imageId);
+                    console.log(
+                      "[Admin Edit] Profile image uploaded:",
+                      status.imageId,
+                    );
                     setProfileImageUrl(status.imageId);
                     form.setValue("profile_image", status.imageId);
                   }
@@ -602,12 +660,16 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               Gallery Images
             </p>
             <GalleryUpload
-              maxImages={4}
+              maxImages={12}
               currentImages={galleryImages}
               onImagesChange={(images) => {
                 console.log("[Admin Edit] Gallery images changed:", images);
                 setGalleryImages(images);
-                const objects = images.map((url, i) => url ? { url, caption: galleryCaptions[i] || "" } : null).filter(Boolean);
+                const objects = images
+                  .map((url, i) =>
+                    url ? { url, caption: galleryCaptions[i] || "" } : null,
+                  )
+                  .filter(Boolean);
                 form.setValue("gallery", JSON.stringify(objects));
               }}
               onUploadingChange={setIsGalleryUploading}
@@ -617,7 +679,10 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               {galleryImages.map((url, index) =>
                 url ? (
                   <div key={`admin-caption-${index}`} className="space-y-1">
-                    <label htmlFor={`admin-caption-${index}`} className="block text-sm font-medium text-ink">
+                    <label
+                      htmlFor={`admin-caption-${index}`}
+                      className="block text-sm font-medium text-ink"
+                    >
                       Caption for image {index + 1}
                     </label>
                     <textarea
@@ -628,7 +693,19 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
                         const next = [...galleryCaptions];
                         next[index] = e.target.value;
                         setGalleryCaptions(next);
-                        const objects = galleryImages.map((u, i) => u ? { url: u, caption: (i === index ? e.target.value : next[i] || "") } : null).filter(Boolean);
+                        const objects = galleryImages
+                          .map((u, i) =>
+                            u
+                              ? {
+                                  url: u,
+                                  caption:
+                                    i === index
+                                      ? e.target.value
+                                      : next[i] || "",
+                                }
+                              : null,
+                          )
+                          .filter(Boolean);
                         form.setValue("gallery", JSON.stringify(objects));
                       }}
                       className="w-full bg-surface border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none text-ink"
@@ -638,7 +715,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               )}
             </div>
             <p className="text-xs text-ink mt-1">
-              Up to 4 gallery images (Pro listings typically use this feature).
+              Up to 12 gallery images for Pro; Standard may use fewer as needed.
             </p>
           </div>
         </div>
@@ -685,11 +762,17 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             <Label>Categories</Label>
             <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border rounded p-3">
               {categories.map((category) => {
-                const currentCategories = form.watch("categories")?.split(", ").filter(Boolean) || [];
-                const isChecked = currentCategories.includes(category.category_name);
+                const currentCategories =
+                  form.watch("categories")?.split(", ").filter(Boolean) || [];
+                const isChecked = currentCategories.includes(
+                  category.category_name,
+                );
 
                 return (
-                  <label key={category.id} className="flex items-center space-x-2 cursor-pointer">
+                  <label
+                    key={category.id}
+                    className="flex items-center space-x-2 cursor-pointer"
+                  >
                     <input
                       type="checkbox"
                       checked={isChecked}
@@ -698,7 +781,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
                         const current = currentCategories;
                         const newCategories = e.target.checked
                           ? [...current, category.category_name]
-                          : current.filter(c => c !== category.category_name);
+                          : current.filter((c) => c !== category.category_name);
                         form.setValue("categories", newCategories.join(", "));
                       }}
                       className="rounded border-gray-300"
@@ -715,11 +798,15 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             <Label>Service Format Tags</Label>
             <div className="space-y-2">
               {["online", "in-person", "hybrid"].map((tag) => {
-                const currentTags = form.watch("age_range")?.split(", ").filter(Boolean) || [];
+                const currentTags =
+                  form.watch("age_range")?.split(", ").filter(Boolean) || [];
                 const isChecked = currentTags.includes(tag);
 
                 return (
-                  <label key={tag} className="flex items-center space-x-2 cursor-pointer">
+                  <label
+                    key={tag}
+                    className="flex items-center space-x-2 cursor-pointer"
+                  >
                     <input
                       type="checkbox"
                       checked={isChecked}
@@ -728,12 +815,14 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
                         const current = currentTags;
                         const newTags = e.target.checked
                           ? [...current, tag]
-                          : current.filter(t => t !== tag);
+                          : current.filter((t) => t !== tag);
                         form.setValue("age_range", newTags.join(", "));
                       }}
                       className="rounded border-gray-300"
                     />
-                    <span className="text-sm capitalize">{tag.replace("-", " ")}</span>
+                    <span className="text-sm capitalize">
+                      {tag.replace("-", " ")}
+                    </span>
                   </label>
                 );
               })}
@@ -756,11 +845,15 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
                 "Canada",
                 "Global (Online Only)",
               ].map((region) => {
-                const currentRegions = form.watch("region")?.split(", ").filter(Boolean) || [];
+                const currentRegions =
+                  form.watch("region")?.split(", ").filter(Boolean) || [];
                 const isChecked = currentRegions.includes(region);
 
                 return (
-                  <label key={region} className="flex items-center space-x-2 cursor-pointer">
+                  <label
+                    key={region}
+                    className="flex items-center space-x-2 cursor-pointer"
+                  >
                     <input
                       type="checkbox"
                       checked={isChecked}
@@ -769,7 +862,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
                         const current = currentRegions;
                         const newRegions = e.target.checked
                           ? [...current, region]
-                          : current.filter(r => r !== region);
+                          : current.filter((r) => r !== region);
                         form.setValue("region", newRegions.join(", "));
                       }}
                       className="rounded border-gray-300"
@@ -804,6 +897,14 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             disabled={isPending}
           />
           <FormInput
+            id="video_url"
+            label="Video URL (YouTube/Vimeo)"
+            register={form.register}
+            error={form.formState.errors.video_url as any}
+            disabled={isPending}
+            helpText="Must start with https://youtu or https://vimeo"
+          />
+          <FormInput
             id="custom_link_url"
             label="Promo Video (YouTube/Vimeo URL)"
             register={form.register}
@@ -826,13 +927,6 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             register={form.register}
             disabled={isPending}
             rows={6}
-          />
-          <FormTextarea
-            id="who_is_it_for"
-            label="Who Is It For"
-            register={form.register}
-            disabled={isPending}
-            rows={4}
           />
           <FormTextarea
             id="why_is_it_unique"
@@ -938,11 +1032,17 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           disabled={
             isPending ||
             isImageUploading ||
+            isLogoUploading ||
             isGalleryUploading
           }
           onClick={() => console.log("Save Changes button clicked!")}
         >
-          {isPending || isImageUploading || isGalleryUploading ? "Uploading..." : "Save Changes"}
+          {isPending ||
+          isImageUploading ||
+          isLogoUploading ||
+          isGalleryUploading
+            ? "Uploading..."
+            : "Save Changes"}
         </Button>
       </div>
     </form>

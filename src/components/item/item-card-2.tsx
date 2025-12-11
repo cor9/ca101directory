@@ -73,9 +73,7 @@ export default function ItemCard2({ item }: ItemCard2Props) {
                     "px-2 py-1 h-6 rounded-md",
                   )}
                 >
-                  <span className="text-sm text-paper">
-                    {category.name}
-                  </span>
+                  <span className="text-sm text-paper">{category.name}</span>
                 </a>
               ))}
             </div>
@@ -83,7 +81,10 @@ export default function ItemCard2({ item }: ItemCard2Props) {
         </div>
 
         {/* min-h-[4.5rem] is used for making sure height of the card is the same */}
-        <Link href={`/listing/${item.slug?.current || generateSlugFromItem({ name: item.name, _id: item._id })}`} className="block cursor-pointer">
+        <Link
+          href={`/listing/${item.slug?.current || generateSlugFromItem({ name: item.name, _id: item._id })}`}
+          className="block cursor-pointer"
+        >
           <p className="text-sm line-clamp-3 leading-relaxed min-h-[4.5rem] text-paper">
             {item.description}
           </p>

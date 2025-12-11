@@ -81,20 +81,26 @@ export async function adminUpdateListing(
     // Helper to convert comma-separated strings to arrays
     const stringToArray = (value: string | string[]): string[] => {
       if (Array.isArray(value)) return value;
-      if (!value || typeof value !== 'string') return [];
-      return value.split(',').map(item => item.trim()).filter(Boolean);
+      if (!value || typeof value !== "string") return [];
+      return value
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean);
     };
 
     // Helper to safely parse integer
-    const parseIntSafe = (value: string | number | null | undefined): number | null => {
-      if (value === null || value === undefined || value === '') return null;
-      const parsed = typeof value === 'number' ? value : Number.parseInt(value, 10);
+    const parseIntSafe = (
+      value: string | number | null | undefined,
+    ): number | null => {
+      if (value === null || value === undefined || value === "") return null;
+      const parsed =
+        typeof value === "number" ? value : Number.parseInt(value, 10);
       return Number.isNaN(parsed) ? null : parsed;
     };
 
     // Parse gallery JSON if it's a string
     let galleryArray: string[] = [];
-    if (typeof formData.gallery === 'string') {
+    if (typeof formData.gallery === "string") {
       try {
         galleryArray = JSON.parse(formData.gallery);
       } catch {
@@ -109,7 +115,6 @@ export async function adminUpdateListing(
       listing_name: formData.name.trim(),
       website: formData.link || null,
       what_you_offer: formData.description.trim(),
-      who_is_it_for: formData.introduction || null,
       why_is_it_unique: formData.unique || null,
       format: formData.format || null,
       extras_notes: formData.notes || null,

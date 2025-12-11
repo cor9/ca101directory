@@ -12,12 +12,21 @@ export interface PublicListing {
   state: string | null;
   primary_category: string;
   age_ranges: string[];
+  age_tags?: string[] | null;
   key_services?: string[];
+  services_offered?: string[] | null;
+  techniques?: string[] | null;
+  specialties?: string[] | null;
   short_description?: string | null;
   plan_tier: "free" | "standard" | "pro" | "premium";
   is_101_approved: boolean;
+  is_approved?: boolean | null;
   is_verified: boolean;
-  trust_level: "unverified" | "verified" | "background_checked";
+  trust_level:
+    | "unverified"
+    | "verified"
+    | "background_checked"
+    | "verified_safe";
   background_check_provider?: string | null;
   repeat_families_count: number;
   response_time_label?: string | null;
@@ -31,6 +40,7 @@ export interface PublicListing {
   reviewCount: number;
   logo_url: string | null;
   hero_image_url: string | null;
+  video_url?: string | null;
   website: string | null;
   featured: boolean;
 }
@@ -40,7 +50,6 @@ export type Listing = {
   slug: string | null;
   listing_name: string | null;
   what_you_offer: string | null;
-  who_is_it_for: string | null;
   why_is_it_unique: string | null;
   format: string | null;
   extras_notes: string | null;
@@ -53,20 +62,27 @@ export type Listing = {
   state: string | null;
   zip: number | null; // INTEGER with ZIP constraint (10000-99999)
   age_range: string[] | null; // TEXT[] array
+  age_tags?: string[] | null;
   categories: string[] | null; // TEXT[] array
+  services_offered?: string[] | null;
+  techniques?: string[] | null;
+  specialties?: string[] | null;
   profile_image: string | null;
+  logo_url: string | null;
   stripe_plan_id: string | null; // VARCHAR(100)
   plan: string | null; // constrained to 'free', 'standard', 'pro', 'founding'
   claimed_by_email: string | null;
   date_claimed: string | null;
   verification_status: string | null;
   gallery: string | null;
+  video_url?: string | null;
   status: string | null; // constrained to 'draft', 'pending', 'published', 'rejected', 'archived'
 
   // New boolean fields (replacing old text fields)
   is_active: boolean | null;
   is_claimed: boolean | null;
   is_approved_101: boolean | null;
+  is_approved?: boolean | null;
   badge_approved: boolean | null;
   ca_permit_required: boolean | null;
   is_bonded: boolean | null;
@@ -74,7 +90,11 @@ export type Listing = {
   comped: boolean | null;
 
   // Additional new fields
-  trust_level: "unverified" | "verified" | "background_checked";
+  trust_level:
+    | "unverified"
+    | "verified"
+    | "background_checked"
+    | "verified_safe";
   background_check_provider: string | null;
   repeat_families_count: number;
   response_time_label: string | null;
@@ -304,10 +324,16 @@ function listingToPublicListing(
     state: listing.state,
     primary_category: primaryCategory,
     age_ranges: listing.age_range || [],
+    age_tags: (listing as any).age_tags || [],
+    services_offered: (listing as any).services_offered || [],
+    techniques: (listing as any).techniques || [],
+    specialties: (listing as any).specialties || [],
     key_services: listing.categories?.slice(0, 3),
     short_description: shortDescription || null,
     plan_tier: planTier,
     is_101_approved: listing.badge_approved || listing.is_approved_101 || false,
+    is_approved:
+      (listing as any).is_approved ?? listing.is_approved_101 ?? false,
     is_verified:
       listing.verification_status === "verified" || listing.is_claimed || false,
     // Phase 3 fields (may not exist in DB yet - use defensive access)
@@ -326,8 +352,9 @@ function listingToPublicListing(
     profile_impressions: (listing as any).profile_impressions ?? 0,
     averageRating: rating?.average || null,
     reviewCount: rating?.count || 0,
-    logo_url: listing.profile_image,
+    logo_url: (listing as any).logo_url ?? listing.profile_image,
     hero_image_url: listing.profile_image, // Use same for now
+    video_url: (listing as any).video_url ?? null,
     website: listing.website,
     featured: listing.featured || false,
   };
@@ -703,15 +730,23 @@ export async function getListingBySlug(slug: string) {
   }
 
   // Fallback: generate slug from name and match (no status/is_active filters)
-  const { count, data: candidates, error: candidatesError } =
-    await createServerClient()
-      .from("listings")
-      .select("id, listing_name, slug, status, is_active", { count: "exact" });
+  const {
+    count,
+    data: candidates,
+    error: candidatesError,
+  } = await createServerClient()
+    .from("listings")
+    .select("id, listing_name, slug, status, is_active", { count: "exact" });
 
   if (candidatesError) {
-    console.error("getListingBySlug: Error fetching candidates:", candidatesError);
+    console.error(
+      "getListingBySlug: Error fetching candidates:",
+      candidatesError,
+    );
   } else {
-    console.log(`getListingBySlug: Fetched ${count} candidates for fallback matching`);
+    console.log(
+      `getListingBySlug: Fetched ${count} candidates for fallback matching`,
+    );
   }
 
   if (!candidatesError && candidates) {

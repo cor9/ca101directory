@@ -20,7 +20,9 @@ function initialsFromName(name: string): string {
 /**
  * Determine tier from item pricePlan
  */
-function getTierFromItem(item: ItemInfo): "free" | "standard" | "pro" | "premium" {
+function getTierFromItem(
+  item: ItemInfo,
+): "free" | "standard" | "pro" | "premium" {
   const plan = (item.pricePlan || "free").toLowerCase();
   if (plan.includes("pro") || plan.includes("premium")) return "pro";
   if (plan.includes("standard") || plan.includes("basic")) return "standard";
@@ -117,7 +119,9 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
 
   // Extract tier and generate slug
   const tier = getTierFromItem(item);
-  const slug = item.slug?.current || generateSlugFromItem({ name: item.name, _id: item._id });
+  const slug =
+    item.slug?.current ||
+    generateSlugFromItem({ name: item.name, _id: item._id });
 
   // Extract age ranges from tags
   const ageRanges = (item.tags || [])
@@ -128,7 +132,7 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
     <article
       className={cn(
         "relative flex flex-col rounded-xl bg-[#FFFBEA] p-4 sm:p-5 transition-shadow hover:shadow-xl",
-        tierClasses(tier)
+        tierClasses(tier),
       )}
     >
       {/* Logo / Initials */}

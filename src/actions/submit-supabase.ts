@@ -1,6 +1,10 @@
 "use server";
 
-import { getListingById, LISTINGS_CACHE_TAG, listingCacheTag } from "@/data/listings";
+import {
+  LISTINGS_CACHE_TAG,
+  getListingById,
+  listingCacheTag,
+} from "@/data/listings";
 import { currentUser } from "@/lib/auth";
 import { sendDiscordNotification } from "@/lib/discord";
 import {
@@ -76,18 +80,23 @@ export async function submitToSupabase(
 
       // Build user-friendly error message listing the specific issues
       const errorList: string[] = [];
-      if (fieldErrors.name) errorList.push(`• Business Name: ${fieldErrors.name[0]}`);
+      if (fieldErrors.name)
+        errorList.push(`• Business Name: ${fieldErrors.name[0]}`);
       if (fieldErrors.link) errorList.push(`• Website: ${fieldErrors.link[0]}`);
       if (fieldErrors.email) errorList.push(`• Email: ${fieldErrors.email[0]}`);
       if (fieldErrors.city) errorList.push(`• City: ${fieldErrors.city[0]}`);
       if (fieldErrors.state) errorList.push(`• State: ${fieldErrors.state[0]}`);
-      if (fieldErrors.region) errorList.push(`• Region: ${fieldErrors.region[0]}`);
-      if (fieldErrors.format) errorList.push(`• Format: ${fieldErrors.format[0]}`);
-      if (fieldErrors.categories) errorList.push(`• Categories: ${fieldErrors.categories[0]}`);
+      if (fieldErrors.region)
+        errorList.push(`• Region: ${fieldErrors.region[0]}`);
+      if (fieldErrors.format)
+        errorList.push(`• Format: ${fieldErrors.format[0]}`);
+      if (fieldErrors.categories)
+        errorList.push(`• Categories: ${fieldErrors.categories[0]}`);
 
-      const errorMessage = errorList.length > 0
-        ? `Please fix these issues:\n${errorList.join('\n')}`
-        : "Please check all required fields and try again.";
+      const errorMessage =
+        errorList.length > 0
+          ? `Please fix these issues:\n${errorList.join("\n")}`
+          : "Please check all required fields and try again.";
 
       return {
         status: "error",
@@ -142,6 +151,7 @@ export async function submitToSupabase(
 
     // Determine if this is a Free tier listing
     const isFree = plan === "Free";
+    const isStandard = plan === "Standard" || plan === "Founding Standard";
     const isPro = plan === "Pro" || plan === "Founding Pro";
 
     // TIER RESTRICTIONS ENFORCEMENT (Server-side validation)
@@ -153,10 +163,12 @@ export async function submitToSupabase(
       ? categories.slice(0, 1) // Free: only 1 category
       : categories; // Paid: multiple categories allowed
 
+    const galleryLimit = isPro ? 12 : isStandard ? 6 : 0;
+
     const enforcedGallery =
-      isPro && gallery && gallery.length > 0
-        ? JSON.stringify(gallery.slice(0, 4)) // Pro: max 4 gallery images
-        : null; // Free/Standard: no gallery
+      galleryLimit > 0 && gallery && gallery.length > 0
+        ? JSON.stringify(gallery.slice(0, galleryLimit)) // Limit based on plan
+        : null; // Free: no gallery
 
     // Create listing data for Supabase
     const listingData = {
@@ -164,7 +176,6 @@ export async function submitToSupabase(
       website: link,
       what_you_offer: description,
       // Premium content fields: only for paid plans (Standard/Pro)
-      who_is_it_for: isFree ? null : introduction || null,
       why_is_it_unique: isFree ? null : unique || null,
       format: format,
       extras_notes: isFree ? null : notes || null,

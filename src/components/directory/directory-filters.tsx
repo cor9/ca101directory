@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { regionsList } from "@/data/regions";
-import { X, MapPin } from "lucide-react";
+import { MapPin, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -35,7 +35,7 @@ export function DirectoryFilters({
   const [selectedRegion, setSelectedRegion] = useState<string>("all");
   const [selectedState, setSelectedState] = useState<string>("all");
   const [selectedCity, setSelectedCity] = useState<string>("all");
-  
+
   // Trust Filters
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [backgroundCheckedOnly, setBackgroundCheckedOnly] = useState(false);
@@ -48,7 +48,7 @@ export function DirectoryFilters({
     setSelectedRegion(searchParams.get("region") || "all");
     setSelectedState(searchParams.get("state") || "all");
     setSelectedCity(searchParams.get("city") || "all");
-    
+
     setVerifiedOnly(searchParams.get("verified") === "true");
     setBackgroundCheckedOnly(searchParams.get("bg_checked") === "true");
     setHighRated(searchParams.get("high_rated") === "true");
@@ -95,7 +95,7 @@ export function DirectoryFilters({
       (error) => {
         console.error("Error getting location:", error);
         alert("Unable to retrieve your location");
-      }
+      },
     );
   };
 
@@ -117,9 +117,9 @@ export function DirectoryFilters({
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg text-[#1E1F23]">Filters</CardTitle>
           <div className="flex gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               onClick={handleNearMe}
               className="rounded-full bg-[#004E89] text-white hover:bg-[#003d6d] hover:text-white border-none h-7 text-xs"
             >
@@ -183,15 +183,33 @@ export function DirectoryFilters({
               </Badge>
             )}
             {verifiedOnly && (
-              <Badge variant="secondary" className="flex items-center gap-1 bg-sky-100 text-sky-800 border-sky-200">
+              <Badge
+                variant="secondary"
+                className="flex items-center gap-1 bg-sky-100 text-sky-800 border-sky-200"
+              >
                 Verified Only
-                <button type="button" onClick={() => updateFilters({ verified: false })} className="ml-1 hover:bg-sky-200 rounded-full p-0.5"><X className="h-3 w-3" /></button>
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ verified: false })}
+                  className="ml-1 hover:bg-sky-200 rounded-full p-0.5"
+                >
+                  <X className="h-3 w-3" />
+                </button>
               </Badge>
             )}
             {backgroundCheckedOnly && (
-              <Badge variant="secondary" className="flex items-center gap-1 bg-green-100 text-green-800 border-green-200">
+              <Badge
+                variant="secondary"
+                className="flex items-center gap-1 bg-green-100 text-green-800 border-green-200"
+              >
                 Background Checked
-                <button type="button" onClick={() => updateFilters({ bg_checked: false })} className="ml-1 hover:bg-green-200 rounded-full p-0.5"><X className="h-3 w-3" /></button>
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ bg_checked: false })}
+                  className="ml-1 hover:bg-green-200 rounded-full p-0.5"
+                >
+                  <X className="h-3 w-3" />
+                </button>
               </Badge>
             )}
           </div>
@@ -307,48 +325,70 @@ export function DirectoryFilters({
 
         {/* Trust Filters */}
         <div className="pt-2 border-t border-slate-300/50">
-          <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Trust & Quality</div>
+          <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
+            Trust & Quality
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="verified" 
+              <Checkbox
+                id="verified"
                 checked={verifiedOnly}
-                onCheckedChange={(checked) => updateFilters({ verified: !!checked })}
+                onCheckedChange={(checked) =>
+                  updateFilters({ verified: !!checked })
+                }
               />
-              <Label htmlFor="verified" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              <Label
+                htmlFor="verified"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
                 Verified Providers
               </Label>
             </div>
-            
+
             <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="bg-checked" 
+              <Checkbox
+                id="bg-checked"
                 checked={backgroundCheckedOnly}
-                onCheckedChange={(checked) => updateFilters({ bg_checked: !!checked })}
+                onCheckedChange={(checked) =>
+                  updateFilters({ bg_checked: !!checked })
+                }
               />
-              <Label htmlFor="bg-checked" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              <Label
+                htmlFor="bg-checked"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
                 Background Checked
               </Label>
             </div>
 
             <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="high-rated" 
+              <Checkbox
+                id="high-rated"
                 checked={highRated}
-                onCheckedChange={(checked) => updateFilters({ high_rated: !!checked })}
+                onCheckedChange={(checked) =>
+                  updateFilters({ high_rated: !!checked })
+                }
               />
-              <Label htmlFor="high-rated" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              <Label
+                htmlFor="high-rated"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
                 4.5+ Stars
               </Label>
             </div>
 
             <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="repeat" 
+              <Checkbox
+                id="repeat"
                 checked={repeatFamilies}
-                onCheckedChange={(checked) => updateFilters({ repeat: !!checked })}
+                onCheckedChange={(checked) =>
+                  updateFilters({ repeat: !!checked })
+                }
               />
-              <Label htmlFor="repeat" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              <Label
+                htmlFor="repeat"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
                 Trusted by Repeat Families
               </Label>
             </div>

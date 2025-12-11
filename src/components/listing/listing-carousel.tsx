@@ -1,8 +1,8 @@
 "use client";
 
-import type { ItemInfo } from "@/types";
 import ListingCardClient from "@/components/directory/ListingCardClient";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import type { ItemInfo } from "@/types";
 
 interface ListingCarouselProps {
   listings: ItemInfo[];

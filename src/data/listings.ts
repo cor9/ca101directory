@@ -218,7 +218,7 @@ const getPublicListingsInternal = async (params?: {
   if (params?.repeat) {
     query = query.gt("repeat_families_count", 0);
   }
-  
+
   if (params?.q)
     query = query.or(
       [
@@ -389,7 +389,7 @@ export async function getPublicListingsWithRatings(params?: {
 
   // Apply high rated filter
   if (params?.high_rated) {
-    listings = listings.filter(l => (l.averageRating || 0) >= 4.5);
+    listings = listings.filter((l) => (l.averageRating || 0) >= 4.5);
   }
 
   // Smart Ranking Logic
@@ -409,9 +409,9 @@ export async function getPublicListingsWithRatings(params?: {
 
     const calculateTrustScore = (l: PublicListing) => {
       return (
-        (l.plan_tier === 'premium' || l.plan_tier === 'pro' ? 20 : 0) +
-        (l.trust_level === 'verified' ? 20 : 0) +
-        (l.trust_level === 'background_checked' ? 40 : 0) +
+        (l.plan_tier === "premium" || l.plan_tier === "pro" ? 20 : 0) +
+        (l.trust_level === "verified" ? 20 : 0) +
+        (l.trust_level === "background_checked" ? 40 : 0) +
         Math.min(l.profile_completeness ?? 0, 20) +
         (l.reviewCount > 0 ? Math.min((l.averageRating || 0) * 4, 20) : 0) +
         Math.min(l.repeat_families_count * 2, 20)
@@ -703,10 +703,16 @@ export async function getListingBySlug(slug: string) {
   }
 
   // Fallback: generate slug from name and match (no status/is_active filters)
-  const { data: candidates, error: candidatesError } =
+  const { count, data: candidates, error: candidatesError } =
     await createServerClient()
       .from("listings")
-      .select("id, listing_name, slug, status, is_active");
+      .select("id, listing_name, slug, status, is_active", { count: "exact" });
+
+  if (candidatesError) {
+    console.error("getListingBySlug: Error fetching candidates:", candidatesError);
+  } else {
+    console.log(`getListingBySlug: Fetched ${count} candidates for fallback matching`);
+  }
 
   if (!candidatesError && candidates) {
     const match = (

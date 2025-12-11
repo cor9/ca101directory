@@ -81,7 +81,7 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
 
   // Extract tier and generate slug
   const tier = getTierFromItem(item);
-  const slug = generateSlugFromItem({ name: item.name, _id: item._id });
+  const slug = item.slug?.current || generateSlugFromItem({ name: item.name, _id: item._id });
   const firstCategory = item.categories?.[0]?.name || "";
 
   // Extract age ranges from tags

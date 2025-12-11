@@ -2,16 +2,16 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 import Container from "@/components/container";
-import DirectoryHeroSearch from "@/components/directory/DirectoryHeroSearch";
 import DirectoryClient from "@/components/directory/DirectoryClient";
-import { DirectoryFilters } from "@/components/directory/directory-filters";
+import DirectoryHeroSearch from "@/components/directory/DirectoryHeroSearch";
 import WhyParentsTrust from "@/components/directory/WhyParentsTrust";
+import { DirectoryFilters } from "@/components/directory/directory-filters";
+import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import EmptyGrid from "@/components/shared/empty-grid";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
 import { getItems } from "@/data/item-service";
 import { regionsList } from "@/data/regions";
-import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import { createServerClient } from "@/lib/supabase";
@@ -47,9 +47,11 @@ export default async function DirectoryPage({
       .neq("state", null)
       .neq("state", "")
       .order("state", { ascending: true });
-    
+
     if (statesData) {
-      states = Array.from(new Set(statesData.map((item) => item.state).filter(Boolean))) as string[];
+      states = Array.from(
+        new Set(statesData.map((item) => item.state).filter(Boolean)),
+      ) as string[];
     }
   } catch (error) {
     console.error("Error fetching states:", error);
@@ -112,7 +114,11 @@ export default async function DirectoryPage({
 
       {/* Filters (compact) */}
       <Container className="py-6">
-        <DirectoryFilters className="" categories={categories} states={states} />
+        <DirectoryFilters
+          className=""
+          categories={categories}
+          states={states}
+        />
       </Container>
 
       {/* Featured Vendors */}

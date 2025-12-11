@@ -233,11 +233,18 @@ export async function getItems({
     // Category synonym handling (fixes page count for categories with naming variants)
     // Example: "Headshot Photographers" vs "Headshot Photographer"
     if (category) {
-      const normalize = (v: string) => v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+      const normalize = (v: string) =>
+        v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
       const catNorm = normalize(category);
       const synonymsMap: Record<string, string[]> = {
-        headshotphotographers: ["Headshot Photographers", "Headshot Photographer"],
-        headshotphotographer: ["Headshot Photographers", "Headshot Photographer"],
+        headshotphotographers: [
+          "Headshot Photographers",
+          "Headshot Photographer",
+        ],
+        headshotphotographer: [
+          "Headshot Photographers",
+          "Headshot Photographer",
+        ],
         selftapesupport: ["Self Tape Support", "Self-Tape Support"],
         selftapesupportdash: ["Self Tape Support", "Self-Tape Support"],
         demoreeleditors: ["Demo Reel Editors", "Reel Editors"],
@@ -257,7 +264,9 @@ export async function getItems({
 
       const synonyms =
         synonymsMap[catNorm] ||
-        (catNorm === "selftapeSupport" ? synonymsMap["selftapesupport"] : undefined);
+        (catNorm === "selftapeSupport"
+          ? synonymsMap["selftapesupport"]
+          : undefined);
 
       if (synonyms && synonyms.length > 0) {
         // Merge listings for all synonyms, then de-duplicate by id
@@ -285,7 +294,8 @@ export async function getItems({
           const nameKey = (n?: string | null) => (n || "").trim().toLowerCase();
           const planScore = (plan?: string | null, comped?: boolean | null) => {
             const p = (plan || "Free").toLowerCase();
-            if (p === "premium" || p === "pro" || p === "founding pro") return 3;
+            if (p === "premium" || p === "pro" || p === "founding pro")
+              return 3;
             if (p === "standard" || p === "founding standard") return 2;
             return 1;
           };
@@ -351,12 +361,17 @@ export async function getItems({
         if (!aFeatured && bFeatured) return 1;
 
         // Helper function to get plan priority (higher = better)
-        const getPlanPriority = (plan: string | null | undefined, comped: boolean | null | undefined, featured: boolean) => {
+        const getPlanPriority = (
+          plan: string | null | undefined,
+          comped: boolean | null | undefined,
+          featured: boolean,
+        ) => {
           if (featured) return 4; // Featured already sorted above, but maintain hierarchy
           if (comped) return 3; // Comped listings are treated as Pro
           const planLower = (plan || "free").toLowerCase();
           if (planLower === "pro" || planLower === "founding pro") return 3;
-          if (planLower === "standard" || planLower === "founding standard") return 2;
+          if (planLower === "standard" || planLower === "founding standard")
+            return 2;
           return 1; // Free or unknown
         };
 

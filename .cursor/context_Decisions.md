@@ -18,6 +18,26 @@ Listing detail pages needed a conversion-focused hero, clear trust signals, stru
 - Trust badge colors: Verified (sky), 101 Approved (coral #CC5A47)
 - CTA: Primary orange #FF6B35 with hover #E55F2F
 
+## Dec 11, 2025 — Phase 3 foundations: trust filters, smart ranking, recommendations
+
+### Problem
+Phase 3 needs trust-aware discovery (filters + ranking), resilient listing slugs, and a recommendations module while avoiding regressions when new DB columns are absent.
+
+### Changes Implemented
+- Directory: fetch unique states from Supabase and pass into `DirectoryFilters` to power location filtering; prep for “Near Me” work.
+- Listings query: added optional trust filters (`verified`, `bg_checked`, `repeat`) and high-rated filter; smart ranking blends tier, trust level, completeness, ratings, and repeat families.
+- Related→Recommended: compute recommended providers by trust/tier and show via `ListingCarousel` with a “Other Trusted Providers in {state}” section.
+- Slug lookup: case-insensitive match with defensive logging; keeps UUID redirect behavior.
+- Resilience: listing Phase 3 fields remain optional to prevent 404s if columns are missing.
+
+### Files Changed
+- `src/app/(website)/(public)/directory/page.tsx` — load states for filters.
+- `src/data/listings.ts` — trust filters, smart ranking, case-insensitive slug lookup.
+- `src/app/(website)/(public)/listing/[slug]/page.tsx` — recommended providers module, defensive analytics update.
+
+### Status
+- Deployed with Phase 3 foundations; remaining Phase 3 items (parent trust filters UI, admin trust controls, vendor analytics panel, Near Me geolocation) still pending.
+
 ---
 
 ## Dec 10, 2025 — Directory Page Phase 1: Search-First Hero & Enhanced Listing Cards

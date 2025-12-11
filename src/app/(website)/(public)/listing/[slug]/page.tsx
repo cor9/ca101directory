@@ -3,8 +3,8 @@ import { auth } from "@/auth";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { ContactActions } from "@/components/listing/contact-actions";
 import { Gallery } from "@/components/listing/gallery";
-import { ListingContactSection } from "@/components/listing/listing-contact-section";
 import { ListingCarousel } from "@/components/listing/listing-carousel";
+import { ListingContactSection } from "@/components/listing/listing-contact-section";
 import type { DisplayCategory } from "@/components/listing/types";
 import {
   BreadcrumbSchema,
@@ -165,12 +165,15 @@ export default async function ListingPage({ params }: ListingPageProps) {
     });
 
   try {
+    const decodedSlug = decodeURIComponent(params.slug);
     console.log(
       "ListingPage: Attempting to load listing for slug:",
       params.slug,
+      "Decoded:",
+      decodedSlug
     );
 
-    const listing = await getListingBySlug(params.slug);
+    const listing = await getListingBySlug(decodedSlug);
     console.log("ListingPage: getListingBySlug completed");
 
     const session = await auth();
@@ -336,19 +339,20 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
     // Get related listings (same category, different listing)
     console.log("ListingPage: About to fetch public listings for related");
-    const allPublicListings = await getPublicListings({ 
+    const allPublicListings = await getPublicListings({
       state: listing.state ?? undefined,
-      category: listing.categories?.[0]
+      category: listing.categories?.[0],
     });
-    
+
     // Sort by Trust Score logic (simplified here as we don't have all ratings)
     // We prioritize Featured > Plan Tier > Completeness
     const recommendedListings = allPublicListings
       .filter((l) => l.id !== listing.id)
       .sort((a, b) => {
         // 1. Featured
-        if (a.featured !== b.featured) return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
-        
+        if (a.featured !== b.featured)
+          return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
+
         // 2. Plan Tier
         const getTierScore = (plan: string | null) => {
           const p = (plan || "free").toLowerCase();
@@ -360,7 +364,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
         const tierA = getTierScore(a.plan);
         const tierB = getTierScore(b.plan);
         if (tierA !== tierB) return tierB - tierA;
-        
+
         // 3. Trust Level
         const getTrustScore = (l: Listing) => {
           if (l.trust_level === "background_checked") return 2;
@@ -372,7 +376,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
       .slice(0, 6);
 
     const recommendedItems = await Promise.all(
-      recommendedListings.map(l => listingToItem(l))
+      recommendedListings.map((l) => listingToItem(l)),
     );
 
     // Old related logic (kept for compatibility if needed elsewhere, but we use recommendedListings now)

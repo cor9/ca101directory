@@ -93,6 +93,9 @@ export type ItemInfo = {
   }>;
   submitter: any;
   related?: any[];
+  city?: string | null;
+  state?: string | null;
+  logoUrl?: string | null;
 };
 
 // ItemFullInfo has more fields (eg. introduction and related items)

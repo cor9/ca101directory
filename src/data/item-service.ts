@@ -149,6 +149,9 @@ export async function listingToItem(listing: Listing): Promise<ItemInfo> {
       : [],
     submitter: null,
     related: [],
+    city: listing.city || null,
+    state: listing.state || null,
+    logoUrl: (listing as any).logo_url || null,
   } as ItemInfo;
 }
 

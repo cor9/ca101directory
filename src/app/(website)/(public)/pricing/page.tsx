@@ -1,7 +1,7 @@
 import Container from "@/components/container";
-import { PricingFaq } from "@/components/pricing/pricing-faq";
 import { FoundingMemberBanner } from "@/components/pricing/founding-member-banner";
 import { FoundingPlansSection } from "@/components/pricing/founding-plans-section";
+import { PricingFaq } from "@/components/pricing/pricing-faq";
 import { HeaderSection } from "@/components/shared/header-section";
 import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
@@ -33,7 +33,7 @@ export default async function PricingPage() {
                   <div className="absolute inset-0 bg-gradient-to-r from-primary-orange/20 via-secondary-denim/20 to-highlight/20 rounded-full blur-2xl scale-110" />
                   <div className="relative backdrop-blur-sm rounded-xl p-6 shadow-xl border border-white/20">
                     <Image
-                      src="/logo.png"
+                      src="/directorylogo.png"
                       alt="Child Actor 101 Directory Logo"
                       width={300}
                       height={150}
@@ -72,7 +72,9 @@ export default async function PricingPage() {
                   <li>✓ Contact details displayed</li>
                   <li>✓ Searchable in directory</li>
                   <li>✓ Quality review process</li>
-                  <li>✗ No images</li>
+                  <li>✓ 1 logo or thumbnail image</li>
+                  <li>✓ Age tags</li>
+                  <li>✓ Services metadata</li>
                 </ul>
                 <Link
                   href="/submit"

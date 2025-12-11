@@ -240,7 +240,7 @@ export function SupabaseSubmitForm({
   };
 
   const getMaxGalleryImages = () => {
-    if (canEditGallery) return 4; // Pro tiers get 4 gallery images (plus 1 profile = 5 total)
+    if (canEditGallery) return 12; // Pro tiers get up to 12 gallery images
     return 0; // Only Pro tiers get gallery images
   };
 
@@ -526,7 +526,7 @@ export function SupabaseSubmitForm({
                 <CardContent className="pt-0">
                   <ul className="text-sm space-y-1">
                     <li>• Everything in Standard</li>
-                    <li>• Up to 4 gallery images</li>
+                    <li>• Up to 12 gallery images</li>
                     <li>• Social Media Links</li>
                     <li>• 101 Approved badge</li>
                     <li>• Top priority placement</li>
@@ -563,7 +563,7 @@ export function SupabaseSubmitForm({
                 <CardContent className="pt-0">
                   <ul className="text-sm space-y-1">
                     <li>• Everything in Standard</li>
-                    <li>• Up to 4 gallery images</li>
+                    <li>• Up to 12 gallery images</li>
                     <li>• Social Media Links</li>
                     <li>• 101 Approved badge eligible</li>
                     <li>• Top priority placement</li>
@@ -637,7 +637,7 @@ export function SupabaseSubmitForm({
                       premium features:
                     </p>
                     <ul className="text-sm text-purple-800 space-y-1 ml-4">
-                      <li>✓ Profile image + 4 gallery images</li>
+                      <li>✓ Profile image + up to 12 gallery images</li>
                       <li>✓ All enhanced listing fields</li>
                       <li>✓ Social media links</li>
                       <li>✓ Multiple categories</li>
@@ -689,7 +689,7 @@ export function SupabaseSubmitForm({
                       You're getting the ultimate 6-month deal:
                     </p>
                     <ul className="text-sm text-purple-800 space-y-1 mb-3 ml-4">
-                      <li>✓ Profile image + 4 gallery images</li>
+                      <li>✓ Profile image + up to 12 gallery images</li>
                       <li>✓ All enhanced listing fields</li>
                       <li>✓ Social media links</li>
                       <li>✓ Multiple categories</li>
@@ -1428,7 +1428,7 @@ export function SupabaseSubmitForm({
                       <p className="text-sm text-purple-800 mb-2">
                         {formData.plan === "Free"
                           ? "Free listings don't include gallery images. Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to showcase up to 4 additional photos of your work, studio, or team!"
-                          : "Standard plan includes your profile image. Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to add 4 gallery images and showcase your portfolio!"}
+                          : "Standard plan includes your profile image. Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to add up to 12 gallery images and showcase your portfolio!"}
                       </p>
                       <div className="flex gap-2">
                         <a

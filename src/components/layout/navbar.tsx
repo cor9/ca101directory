@@ -60,7 +60,7 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
   }, [open]);
 
   return (
-    <div className="sticky top-0 z-40 w-full">
+    <div className="fixed top-0 left-0 w-full z-50 bg-[#0e1217]/90 backdrop-blur-md">
       {/* Desktop View */}
       <header
         className={cn(
@@ -146,7 +146,10 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
                   <span className="sr-only">Toggle navigation menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="flex flex-col p-0 bg-white dark:bg-gray-900">
+              <SheetContent
+                side="left"
+                className="flex flex-col p-0 bg-white dark:bg-gray-900"
+              >
                 <div className="flex h-screen flex-col bg-white dark:bg-gray-900">
                   {/* logo */}
                   <Link

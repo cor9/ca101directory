@@ -18,12 +18,11 @@ const plans = [
       "Contact details displayed",
       "Searchable in directory",
       "Quality review process",
+      "1 logo or thumbnail image",
+      "Age tags",
+      "Services metadata",
     ],
-    limitations: [
-      "No profile image",
-      "No gallery images",
-      "Lower search ranking",
-    ],
+    limitations: ["Lower search ranking"],
     popular: false,
     cta: "Get Started Free",
   },
@@ -36,6 +35,8 @@ const plans = [
     features: [
       "Everything in Free",
       "1 profile image",
+      "Video embeds (YouTube/Vimeo)",
+      "Enhanced listing layout",
       "Better search ranking",
       "Edit anytime",
       "Email support",
@@ -51,7 +52,8 @@ const plans = [
     description: "Best for growing businesses",
     features: [
       "Everything in Standard",
-      "4 gallery images",
+      "Up to 12 gallery images",
+      "YouTube/Vimeo embeds",
       "Priority placement",
       "Social media links",
       "101 Approved Badge eligible",
@@ -64,7 +66,9 @@ const plans = [
 
 export function PlanSelectionCards() {
   const router = useRouter();
-  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("yearly");
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
+    "yearly",
+  );
 
   const handleSelectPlan = (planId: string) => {
     if (planId === "free") {
@@ -131,7 +135,10 @@ export function PlanSelectionCards() {
               <CardTitle className="text-2xl mb-2">{plan.name}</CardTitle>
               <div className="mb-2">
                 <span className="text-4xl font-bold text-paper">
-                  ${billingCycle === "monthly" ? plan.monthlyPrice : plan.yearlyPrice}
+                  $
+                  {billingCycle === "monthly"
+                    ? plan.monthlyPrice
+                    : plan.yearlyPrice}
                 </span>
                 <span className="text-paper">
                   /{billingCycle === "monthly" ? "month" : "year"}
@@ -174,7 +181,8 @@ export function PlanSelectionCards() {
       {/* Additional Info */}
       <div className="mt-12 text-center">
         <p className="text-sm text-paper">
-          All plans include our quality review process and trusted directory listing.
+          All plans include our quality review process and trusted directory
+          listing.
           <br />
           Need help choosing?{" "}
           <a
@@ -189,4 +197,3 @@ export function PlanSelectionCards() {
     </div>
   );
 }
-

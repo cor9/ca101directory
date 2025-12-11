@@ -95,6 +95,15 @@
     @apply border-border;
   }
 
+  input[type="checkbox"] {
+    accent-color: #ff6b35;
+  }
+
+  .dark label {
+    color: #ffffff !important;
+    font-weight: 500;
+  }
+
   body {
     @apply bg-background text-foreground;
     background: linear-gradient(180deg, #0d1b2a 0%, #142b3b 100%);
@@ -393,7 +402,7 @@
     line-height: 1.7;
   }
 
-    .listing-card-red {
+  .listing-card-red {
     background: #853211; /* mustard */
     color: #fafaf4; /* white text */
     border-radius: 12px;
@@ -403,8 +412,8 @@
     line-height: 1.7;
   }
 
-      .listing-card-green {
-    background: #455C41; /* green */
+  .listing-card-green {
+    background: #455c41; /* green */
     color: #fafaf4; /* white text */
     border-radius: 12px;
     padding: 2rem;
@@ -413,7 +422,7 @@
     line-height: 1.7;
   }
 
-   .listing-card {
+  .listing-card {
     background: #fffdd0; /* cream */
     border-radius: 12px;
     padding: 2rem;
@@ -452,8 +461,8 @@
   }
 
   .listing-card-orange-rust {
-    background: #CC5A47; /* bauhaus orange/rust */
-    color: #FAFAF4; /* paper */
+    background: #cc5a47; /* bauhaus orange/rust */
+    color: #fafaf4; /* paper */
     border-radius: 12px;
     padding: 2rem;
     margin-bottom: 1.5rem;
@@ -461,7 +470,7 @@
     line-height: 1.7;
   }
 
-   .listing-card-blue-dark {
+  .listing-card-blue-dark {
     background: #3a76a6; /* logo blue */
     color: #fafaf0; /* cream text */
     border-radius: 12px;
@@ -471,7 +480,7 @@
     line-height: 1.7;
   }
 
-     .listing-card-grey {
+  .listing-card-grey {
     background: #78797a; /* logo blue */
     color: #fafaf0; /* cream text */
     border-radius: 12px;
@@ -893,23 +902,29 @@ td {
 .badge,
 .status-pill,
 .tag {
-  color: #1F2327 !important; /* ink on light surfaces */
-  background-color: #F7F1D8 !important; /* chip background */
-  border: 1px solid #E6DFC3 !important; /* subtle card border */
+  color: #1f2327 !important; /* ink on light surfaces */
+  background-color: #f7f1d8 !important; /* chip background */
+  border: 1px solid #e6dfc3 !important; /* subtle card border */
   /* Ensure nested text/icons inherit readable foreground */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.badge *, .status-pill *, .tag * {
+.badge *,
+.status-pill *,
+.tag * {
   color: inherit !important;
   fill: currentColor !important;
   stroke: currentColor !important;
 }
-.badge a, .status-pill a, .tag a {
+.badge a,
+.status-pill a,
+.tag a {
   color: inherit !important;
   text-decoration: none;
 }
-.badge a:hover, .status-pill a:hover, .tag a:hover {
+.badge a:hover,
+.status-pill a:hover,
+.tag a:hover {
   text-decoration: underline;
 }
 
@@ -917,39 +932,39 @@ td {
 .badge.orange,
 .status-pill.orange,
 .tag.orange {
-  background-color: #E4572E !important; /* primary orange */
-  color: #FAFAF4 !important; /* paper */
+  background-color: #e4572e !important; /* primary orange */
+  color: #fafaf4 !important; /* paper */
   border-color: transparent !important;
 }
 .badge.blue,
 .status-pill.blue,
 .tag.blue {
-  background-color: #3A76A6 !important; /* secondary denim */
-  color: #FAFAF4 !important;
+  background-color: #3a76a6 !important; /* secondary denim */
+  color: #fafaf4 !important;
   border-color: transparent !important;
 }
 .badge.mustard,
 .status-pill.mustard,
 .tag.mustard {
-  background-color: #E4A72E !important; /* highlight mustard */
-  color: #1E1F23 !important; /* charcoal for contrast */
+  background-color: #e4a72e !important; /* highlight mustard */
+  color: #1e1f23 !important; /* charcoal for contrast */
   border-color: transparent !important;
 }
 
 /* Muted category chips */
 .chip-gold {
   background-color: #e9dfbf !important; /* muted gold */
-  color: #1E1F23 !important;
+  color: #1e1f23 !important;
   border: 1px solid #dacfa9 !important;
 }
 .chip-mustard {
   background-color: #c7a163 !important; /* mustard */
-  color: #1E1F23 !important; /* charcoal text for contrast */
+  color: #1e1f23 !important; /* charcoal text for contrast */
   border: 1px solid #b08c55 !important; /* slightly darker outline */
 }
 .chip-blue {
   background-color: #cfe0ee !important; /* muted robin egg blue */
-  color: #1E1F23 !important;
+  color: #1e1f23 !important;
   border: 1px solid #b8cfdf !important;
 }
 
@@ -963,12 +978,12 @@ td {
 
 /* Distinct primary CTA button */
 .btn-primary-cta {
-  background-color: #E4572E !important;
+  background-color: #e4572e !important;
   color: #ffffff !important;
-  border: 2px solid #CC4E2A !important;
+  border: 2px solid #cc4e2a !important;
 }
 .btn-primary-cta:hover {
-  background-color: #CC4E2A !important;
+  background-color: #cc4e2a !important;
   color: #ffffff !important;
 }
 
@@ -976,14 +991,14 @@ td {
 .badge.error,
 .status-pill.error,
 .tag.error {
-  background-color: #C84F41 !important; /* error */
-  color: #FAFAF4 !important;
+  background-color: #c84f41 !important; /* error */
+  color: #fafaf4 !important;
 }
 .badge.info,
 .status-pill.info,
 .tag.info {
-  background-color: #3E9CA3 !important; /* info */
-  color: #FAFAF4 !important;
+  background-color: #3e9ca3 !important; /* info */
+  color: #fafaf4 !important;
 }
 
 /* Text in inputs or filters */

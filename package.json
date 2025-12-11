@@ -21,6 +21,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node scripts/ensure-default-stylesheet.js",
     "start": "next start",
     "lint": "biome check --write .",
     "lint:fix": "biome check --fix --unsafe .",

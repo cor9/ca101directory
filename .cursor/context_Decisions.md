@@ -46,7 +46,7 @@ Phase 3 needs trust-aware discovery (filters + ranking), resilient listing slugs
 UI elements were dated or incorrect: placeholder logo, subtle “suggest vendor” CTA, low-contrast checkboxes, muted listing cards without location, navbar occasionally hidden, outdated tier copy (images/gallery limits), and cards missing modern layout.
 
 ### Changes
-- Branding: set site logo to `/directorylogo.png`; added favicon/apple-touch links in layout head.
+- Branding: set site logo to `/logo.png` (from uploaded asset); added favicon/apple-touch links in layout head.
 - Directory: added bold “Suggest a vendor” CTA on `/directory`.
 - Accessibility: set checkbox accent color and dark-label styling in `globals.css`.
 - Listing cards (server/client): rebuilt with white cards, hero/logo image, location, bold CTAs, updated tier/verified/101 badges, and modern layout.

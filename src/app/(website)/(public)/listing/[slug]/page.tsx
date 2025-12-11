@@ -720,6 +720,22 @@ export default async function ListingPage({ params }: ListingPageProps) {
     // Allow Next.js redirects to bubble up instead of being converted to 404
     if (err?.digest === "NEXT_REDIRECT") throw error;
     console.error("ListingPage: Error loading listing:", error);
-    return notFound();
+    return (
+      <div className="min-h-screen bg-[#0C1A2B] text-white flex items-center justify-center px-4">
+        <div className="max-w-lg text-center space-y-4">
+          <h1 className="text-3xl font-bold">We’re loading this listing</h1>
+          <p className="text-sm text-slate-200">
+            Something went wrong while fetching this profile. Please refresh or
+            try again in a moment.
+          </p>
+          <a
+            href="/directory"
+            className="inline-flex items-center justify-center rounded-full bg-[#FF6B35] px-6 py-2 text-sm font-semibold text-white shadow hover:bg-[#E55F2F]"
+          >
+            Back to Directory
+          </a>
+        </div>
+      </div>
+    );
   }
 }

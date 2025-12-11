@@ -173,7 +173,12 @@ export default async function ListingPage({ params }: ListingPageProps) {
       decodedSlug,
     );
 
-    const listing = await getListingBySlug(decodedSlug);
+    let listing: Listing | null = null;
+    try {
+      listing = await getListingBySlug(decodedSlug);
+    } catch (err) {
+      console.error("ListingPage: getListingBySlug failed", err);
+    }
     console.log("ListingPage: getListingBySlug completed");
 
     const session = await auth();
@@ -181,7 +186,23 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
     if (!listing) {
       console.error("ListingPage: Listing not found for slug:", params.slug);
-      return notFound();
+      return (
+        <div className="min-h-screen bg-[#0C1A2B] text-white flex items-center justify-center px-4">
+          <div className="max-w-lg text-center space-y-4">
+            <h1 className="text-3xl font-bold">We can’t find this listing</h1>
+            <p className="text-sm text-slate-200">
+              The profile might be unpublished or the slug changed. Try
+              returning to the directory.
+            </p>
+            <a
+              href="/directory"
+              className="inline-flex items-center justify-center rounded-full bg-[#FF6B35] px-6 py-2 text-sm font-semibold text-white shadow hover:bg-[#E55F2F]"
+            >
+              Back to Directory
+            </a>
+          </div>
+        </div>
+      );
     }
 
     // Handle UUID redirect - redirect to proper SEO-friendly URL
@@ -193,8 +214,22 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
     console.log("ListingPage: About to fetch categories and icons");
     const [categoryRecords, categoryIconMap] = await Promise.all([
-      getCategories(),
-      getCategoryIconsMap(),
+      (async () => {
+        try {
+          return await getCategories();
+        } catch (err) {
+          console.error("ListingPage: getCategories failed", err);
+          return [];
+        }
+      })(),
+      (async () => {
+        try {
+          return await getCategoryIconsMap();
+        } catch (err) {
+          console.error("ListingPage: getCategoryIconsMap failed", err);
+          return {};
+        }
+      })(),
     ]);
     console.log("ListingPage: Categories and icons fetched");
 
@@ -258,7 +293,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
     // Fetch category names from database for UUIDs using server action
     console.log("ListingPage: About to fetch category names by IDs");
-    const categoryNames = await getCategoriesByIds(listing.categories || []);
+    let categoryNames: Record<string, string> = {};
+    try {
+      categoryNames = await getCategoriesByIds(listing.categories || []);
+    } catch (err) {
+      console.error("ListingPage: getCategoriesByIds failed", err);
+      categoryNames = {};
+    }
     console.log("ListingPage: Category names by IDs fetched");
 
     // Display categories - handle both UUIDs and names
@@ -420,7 +461,15 @@ export default async function ListingPage({ params }: ListingPageProps) {
       (listing as any).is_verified === true;
     const is101Approved =
       listing.badge_approved === true || listing.is_approved_101 === true;
-    const reviews = reviewsEnabled ? await getListingReviews(listing.id) : [];
+    let reviews: Awaited<ReturnType<typeof getListingReviews>> = [];
+    if (reviewsEnabled) {
+      try {
+        reviews = await getListingReviews(listing.id);
+      } catch (err) {
+        console.error("ListingPage: getListingReviews failed", err);
+        reviews = [];
+      }
+    }
 
     // Increment views_count if column exists (Phase 3 feature)
     try {

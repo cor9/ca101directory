@@ -628,7 +628,7 @@ export function VendorEditForm({
             <div className="text-center">
               <Lock className="w-12 h-12 text-gray-400 mx-auto mb-2" />
               <p className="text-sm text-gray-600">
-                Free listings don't include images
+                Free plan includes one logo image
               </p>
               <p className="text-xs text-gray-500 mt-1">
                 Upgrade to Standard ($25/mo) or Pro ($50/mo) to add a profile
@@ -640,9 +640,9 @@ export function VendorEditForm({
             <p className="text-sm text-blue-900">
               <strong>📸 Stand Out with a Professional Image</strong>
               <br />
-              Free listings don't include images. Upgrade to Standard ($25/mo)
-              or Pro ($50/mo) to add a professional profile photo that makes
-              your listing 3x more likely to be clicked!{" "}
+              Free plan includes one logo. Upgrade to Standard ($25/mo) or Pro
+              ($50/mo) to add a professional profile photo that makes your
+              listing 3x more likely to be clicked!{" "}
               <Link href="/pricing" className="underline font-semibold">
                 View Upgrade Options →
               </Link>
@@ -719,7 +719,7 @@ export function VendorEditForm({
                 Gallery Locked
               </p>
               <p className="text-xs text-gray-500">
-                Upgrade to Pro plan to unlock 4 gallery images
+                Upgrade to Pro plan to unlock up to 12 gallery images
               </p>
             </div>
           </div>
@@ -727,8 +727,8 @@ export function VendorEditForm({
             <p className="text-sm text-purple-900">
               <strong>🖼️ Showcase Your Work with Gallery Images</strong>
               <br />
-              Upgrade to Pro ($50/mo) to showcase up to 4 additional photos of
-              your work, studio, or team!{" "}
+              Upgrade to Pro ($50/mo) to showcase up to 12 photos of your work,
+              studio, or team!{" "}
               <Link href="/pricing" className="underline font-semibold">
                 Upgrade to Pro →
               </Link>

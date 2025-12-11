@@ -440,7 +440,7 @@ export function EditForm({ listing, categories }: EditFormProps) {
               {listing.plan?.toLowerCase() === "founding pro"
                 ? "Founding Pro"
                 : "Pro"}{" "}
-              plan includes 4 gallery images (5 total with profile)
+              plan includes up to 12 gallery images
             </p>
           </div>
         )}

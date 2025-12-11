@@ -106,6 +106,8 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
     ? getListingImageUrl(profileRef)
     : imageProps?.src || null;
 
+  const heroImage = (item as any).logoUrl || resolvedSrc;
+
   // Check if 101 Approved (from tags)
   const is101Approved = Array.isArray(item.tags)
     ? item.tags.some(
@@ -128,83 +130,82 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
     .filter((t) => t?.name && /^\d+-\d+|^\d+\+|^under|^over/i.test(t.name))
     .map((t) => t.name);
 
+  const locationLabel = [(item as any).city, (item as any).state]
+    .filter(Boolean)
+    .join(", ");
+
   return (
-    <article
-      className={cn(
-        "relative flex flex-col rounded-xl bg-[#FFFBEA] p-4 sm:p-5 transition-shadow hover:shadow-xl",
-        tierClasses(tier),
+    <article className="bg-white rounded-xl p-5 shadow-md border hover:shadow-lg transition relative">
+      {tier !== "free" && (
+        <span className="absolute top-3 right-3 rounded-full bg-amber-500 px-3 py-1 text-[11px] font-semibold text-white">
+          {tier === "pro" || tier === "premium" ? "Pro" : "Standard"}
+        </span>
       )}
-    >
-      {/* Logo / Initials */}
-      <div className="flex items-start gap-4">
-        {resolvedSrc ? (
-          <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-lg bg-[#EDE6C8]">
-            <Image
-              src={resolvedSrc}
-              alt={item.image?.alt || item.name}
-              fill
-              className="object-contain p-1"
-            />
-          </div>
-        ) : (
-          <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-[#CC5A47] text-white text-xl font-bold">
-            {initialsFromName(item.name)}
-          </div>
-        )}
 
-        {/* Name + Badges */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-2">
-            <h3 className="font-semibold text-slate-900 line-clamp-2 text-base leading-tight">
-              {item.name}
-            </h3>
-            <div className="flex gap-1 flex-shrink-0">
-              {tier === "pro" && (
-                <span className="rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-semibold text-white whitespace-nowrap">
-                  Pro
-                </span>
-              )}
-              {tier === "standard" && (
-                <span className="rounded-full bg-sky-500 px-2 py-0.5 text-[10px] font-semibold text-white whitespace-nowrap">
-                  Standard
-                </span>
-              )}
-            </div>
-          </div>
+      {/* Hero image / logo */}
+      {heroImage && (
+        <div className="mb-4 h-40 w-full overflow-hidden rounded-lg bg-slate-100 relative">
+          <Image
+            src={heroImage}
+            alt={`${item.name} logo`}
+            fill
+            className="object-cover"
+          />
+        </div>
+      )}
 
-          {/* Badges row */}
-          <div className="mt-1.5 flex flex-wrap gap-1.5">
-            {is101Approved && (
-              <span className="rounded-full bg-[#CC5A47] px-2 py-0.5 text-[10px] font-semibold text-white">
-                101 Approved
-              </span>
-            )}
-            {item.paid && (
-              <span className="rounded-full bg-sky-600 px-2 py-0.5 text-[10px] font-semibold text-white">
-                Verified
-              </span>
-            )}
-          </div>
+      {/* Name + badges */}
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-sm font-semibold text-orange-600 mb-1">
+            {firstCategory || "Featured Provider"}
+          </p>
+          <h3 className="font-bold text-slate-900 text-lg leading-tight line-clamp-2">
+            {item.name}
+          </h3>
+          {locationLabel ? (
+            <p className="text-sm text-gray-600 mt-1">{locationLabel}</p>
+          ) : null}
+        </div>
+
+        <div className="flex flex-wrap gap-1">
+          {is101Approved && (
+            <span className="rounded-full bg-[#CC5A47] px-2 py-0.5 text-[11px] font-semibold text-white">
+              101 Approved
+            </span>
+          )}
+          {item.paid && (
+            <span className="rounded-full bg-sky-600 px-2 py-0.5 text-[11px] font-semibold text-white">
+              Verified
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Category + Location */}
-      <p className="mt-3 text-xs text-slate-700">
-        {firstCategory}
-        {item.link && " • "}
-        {/* Location would come from extended item data if available */}
-      </p>
-
       {/* Description */}
       {item.description && (
-        <p className="mt-2 line-clamp-2 text-sm text-slate-800">
+        <p className="mt-3 line-clamp-3 text-sm text-slate-700">
           {item.description}
         </p>
       )}
 
-      {/* Categories as services */}
+      {/* Age tags */}
+      {ageRanges.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {ageRanges.slice(0, 4).map((age) => (
+            <span
+              key={age}
+              className="rounded-full bg-[#7AB8CC]/20 px-2 py-0.5 text-[11px] font-semibold text-slate-800"
+            >
+              {age}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Secondary categories */}
       {item.categories && item.categories.length > 1 && (
-        <div className="mt-2 flex flex-wrap gap-1">
+        <div className="mt-3 flex flex-wrap gap-2">
           {item.categories.slice(1, 4).map((c) => (
             <span
               key={c._id}
@@ -221,33 +222,19 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
         </div>
       )}
 
-      {/* Age Range Tags */}
-      {ageRanges.length > 0 && (
-        <div className="mt-2 flex flex-wrap gap-1">
-          {ageRanges.slice(0, 4).map((age) => (
-            <span
-              key={age}
-              className="rounded-full bg-[#7AB8CC]/20 px-2 py-0.5 text-[11px] font-medium text-slate-800"
-            >
-              {age}
-            </span>
-          ))}
-        </div>
-      )}
-
       {/* CTAs */}
-      <div className="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+      <div className="mt-5 flex items-center gap-3">
         <Link
           href={`/listing/${slug}`}
-          className="text-xs font-semibold text-slate-700 underline-offset-2 hover:underline"
+          className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
         >
           View Profile
         </Link>
         <Link
           href={`/listing/${slug}#contact`}
-          className="rounded-full bg-[#FF6B35] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#E55F2F] transition-colors"
+          className="inline-block text-orange-500 font-semibold hover:underline"
         >
-          Contact
+          Contact →
         </Link>
       </div>
     </article>

@@ -121,6 +121,16 @@ export default async function DirectoryPage({
         />
       </Container>
 
+      {/* Suggest a vendor CTA */}
+      <Container className="px-6">
+        <a
+          href="/submit"
+          className="inline-block mt-2 px-5 py-3 rounded-lg font-semibold text-white bg-orange-500 hover:bg-orange-600 transition shadow-md text-lg"
+        >
+          Know someone great? Suggest a vendor →
+        </a>
+      </Container>
+
       {/* Featured Vendors */}
       <Container className="py-8">
         <HomeFeaturedListings />

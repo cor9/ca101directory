@@ -40,6 +40,33 @@ Phase 3 needs trust-aware discovery (filters + ranking), resilient listing slugs
 
 ---
 
+## Feb 7, 2026 — Phase 5 visual modernization + tier/media updates
+
+### Problem
+UI elements were dated or incorrect: placeholder logo, subtle “suggest vendor” CTA, low-contrast checkboxes, muted listing cards without location, navbar occasionally hidden, outdated tier copy (images/gallery limits), and cards missing modern layout.
+
+### Changes
+- Branding: set site logo to `/directorylogo.png`; added favicon/apple-touch links in layout head.
+- Directory: added bold “Suggest a vendor” CTA on `/directory`.
+- Accessibility: set checkbox accent color and dark-label styling in `globals.css`.
+- Listing cards (server/client): rebuilt with white cards, hero/logo image, location, bold CTAs, updated tier/verified/101 badges, and modern layout.
+- Navbar: fixed position/z-index with translucent backdrop.
+- Pricing/tier copy: updated Free/Standard/Pro bullets to reflect Free logo, Standard video/embed, Pro up to 12 gallery images; synced constants and plan selection cards.
+- Forms/help: updated gallery limits messaging (Pro=12), free logo allowance, and help text.
+- Data/types: extended `ItemInfo` to carry `city/state/logoUrl`; mapped in `listingToItem` for card display.
+
+### Affected Files (high level)
+- Layout/branding: `src/app/layout.tsx`, `src/config/site.ts`, `public/directorylogo.png`
+- Directory CTA: `src/app/(website)/(public)/directory/page.tsx`
+- Styles: `src/styles/globals.css`
+- Cards: `src/components/directory/ListingCard.tsx`, `ListingCardClient.tsx`, `src/data/item-service.ts`, `src/types/index.d.ts`
+- Navbar: `src/components/layout/navbar.tsx`
+- Pricing/copy: `src/app/(website)/(public)/pricing/page.tsx`, `src/components/pricing/plan-selection-cards.tsx`, `src/lib/constants.ts`
+- Forms/help messaging: `src/components/submit/edit-form.tsx`, `gallery-upload.tsx`, `supabase-submit-form.tsx`, `vendor-edit-form.tsx`, `src/app/(website)/(public)/help/getting-started/page.tsx`
+
+### Status
+Build passing after changes; ready to deploy.
+
 ## Dec 10, 2025 — Directory Page Phase 1: Search-First Hero & Enhanced Listing Cards
 
 ### Problem

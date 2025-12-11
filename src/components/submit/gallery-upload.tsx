@@ -128,7 +128,11 @@ export function GalleryUpload({
     ctx.drawImage(img, sx, sy, sw, sh, 0, 0, targetWidth, targetHeight);
 
     const blob: Blob = await new Promise((resolve, reject) => {
-      canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/jpeg", 0.9);
+      canvas.toBlob(
+        (b) => (b ? resolve(b) : reject(new Error("toBlob failed"))),
+        "image/jpeg",
+        0.9,
+      );
     });
 
     const nameNoExt = (file.name || "image").replace(/\.[^.]+$/, "");
@@ -202,7 +206,7 @@ export function GalleryUpload({
                   Gallery Locked
                 </p>
                 <p className="text-xs text-gray-500">
-                  Upgrade to Pro plan to unlock 4 gallery images
+                  Upgrade to Pro plan to unlock up to 12 gallery images
                 </p>
               </>
             ) : (

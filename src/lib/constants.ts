@@ -85,14 +85,13 @@ export const PLAN_FEATURES = {
       "Contact information",
       "Social media links",
       "Searchable in directory",
+      "1 logo or thumbnail image",
+      "Age tags",
+      "Services metadata",
     ],
-    limitations: [
-      "No profile image",
-      "No gallery images",
-      "Standard placement",
-      "Admin review required",
-    ],
-    upgradePrompt: "Upgrade to Standard for profile image and featured placement",
+    limitations: ["Standard placement", "Admin review required"],
+    upgradePrompt:
+      "Upgrade to Standard for profile image and featured placement",
   },
   STANDARD: {
     name: "Standard Plan",
@@ -100,6 +99,8 @@ export const PLAN_FEATURES = {
     features: [
       "Everything in Free",
       "1 profile image",
+      "Video embeds (YouTube/Vimeo)",
+      "Enhanced listing layout",
       "Featured placement",
       "SEO boost",
     ],
@@ -110,7 +111,7 @@ export const PLAN_FEATURES = {
     price: 50,
     features: [
       "Everything in Standard",
-      "Up to 4 gallery images",
+      "Up to 12 gallery images",
       "101 Approved badge",
       "Top priority placement",
       "Premium support",

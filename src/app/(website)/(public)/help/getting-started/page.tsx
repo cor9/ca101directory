@@ -35,8 +35,8 @@ export default function GettingStartedPage() {
             Create Your Account
           </h2>
           <p className="text-[#1E1F23] mb-4">
-            Start by creating a vendor account. This gives you access to
-            submit listings and manage your profile.
+            Start by creating a vendor account. This gives you access to submit
+            listings and manage your profile.
           </p>
           <div className="bg-bauhaus-blue/20 rounded-lg p-4 mb-4">
             <p className="text-sm text-[#1E1F23] mb-2">
@@ -45,11 +45,13 @@ export default function GettingStartedPage() {
             </p>
             <p className="text-sm text-[#1E1F23] mb-2">
               After entering your email, you'll receive a login link. Click it
-              within <strong>1 hour</strong> (links expire for security) to access your account - stays logged in for 30 days!
+              within <strong>1 hour</strong> (links expire for security) to
+              access your account - stays logged in for 30 days!
             </p>
             <p className="text-sm text-[#1E1F23]">
-              <strong>Tip:</strong> If your link expires, just request a new one. Check your spam folder if you don't see
-              the email within a few minutes.
+              <strong>Tip:</strong> If your link expires, just request a new
+              one. Check your spam folder if you don't see the email within a
+              few minutes.
             </p>
           </div>
           <Link
@@ -118,7 +120,7 @@ export default function GettingStartedPage() {
               <ul className="text-sm text-[#1E1F23] space-y-1">
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span>Profile + 4 gallery images</span>
+                  <span>Profile + up to 12 gallery images</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
@@ -145,8 +147,7 @@ export default function GettingStartedPage() {
             Complete Your Listing
           </h2>
           <p className="text-[#1E1F23] mb-4">
-            Fill out your business information to create a compelling
-            listing.
+            Fill out your business information to create a compelling listing.
           </p>
           <div className="space-y-3 mb-4">
             <div className="flex items-start gap-3">
@@ -206,8 +207,7 @@ export default function GettingStartedPage() {
             Wait for Approval
           </h2>
           <p className="text-[#1E1F23] mb-4">
-            Our team reviews all new listings to ensure quality and
-            accuracy.
+            Our team reviews all new listings to ensure quality and accuracy.
           </p>
           <div className="bg-bauhaus-mustard/20 rounded-lg p-4 mb-4">
             <p className="text-sm text-[#1E1F23] mb-2">
@@ -215,12 +215,12 @@ export default function GettingStartedPage() {
             </p>
             <ul className="text-sm text-[#1E1F23] space-y-1 list-disc list-inside">
               <li>
-                <strong>All Plans:</strong> Require admin approval,
-                typically 24-48 hours
+                <strong>All Plans:</strong> Require admin approval, typically
+                24-48 hours
               </li>
               <li>
-                <strong>Free Plan:</strong> Requires admin approval
-                (typically 24-48 hours)
+                <strong>Free Plan:</strong> Requires admin approval (typically
+                24-48 hours)
               </li>
               <li>
                 All edits to existing listings require approval before going
@@ -229,8 +229,8 @@ export default function GettingStartedPage() {
             </ul>
           </div>
           <p className="text-sm text-[#1E1F23]">
-            You'll receive an email notification once your listing is
-            approved and live.
+            You'll receive an email notification once your listing is approved
+            and live.
           </p>
         </div>
 
@@ -240,8 +240,8 @@ export default function GettingStartedPage() {
             Manage Your Listing
           </h2>
           <p className="text-[#1E1F23] mb-4">
-            Access your dashboard to update information, track performance,
-            and manage your subscription.
+            Access your dashboard to update information, track performance, and
+            manage your subscription.
           </p>
           <div className="space-y-2 mb-4">
             <Link

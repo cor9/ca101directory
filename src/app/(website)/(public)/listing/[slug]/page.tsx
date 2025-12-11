@@ -467,7 +467,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   </h1>
 
                   <p className="text-sm text-slate-200">
-                    {primaryCategory}
+                    {displayPrimaryCategory}
                     {locationLabel ? ` • ${locationLabel}` : ""}
                   </p>
 

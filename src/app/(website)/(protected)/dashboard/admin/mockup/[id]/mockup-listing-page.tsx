@@ -190,7 +190,6 @@ export function MockupListingPage({ dbListing }: MockupListingPageProps) {
       // Override with edits
       listing_name: edits.listing_name,
       what_you_offer: edits.what_you_offer,
-      who_is_it_for: edits.who_is_it_for,
       why_is_it_unique: edits.why_is_it_unique,
       format: edits.format,
       extras_notes: edits.extras_notes,

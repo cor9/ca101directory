@@ -354,7 +354,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
     const showUpgradePrompt = !hasPremiumAccess;
     const showClaimCallout =
       !listing.is_claimed && !isOwner && !listing.owner_id;
-    const primaryCategory =
+    const displayPrimaryCategory =
       displayCategories[0]?.displayName ||
       listing.categories?.[0] ||
       "Acting Professional";
@@ -417,8 +417,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
             items={[
               { name: "Directory", url: `${siteConfig.url}/directory` },
               {
-                name: primaryCategory,
-                url: `${siteConfig.url}/directory?category=${encodeURIComponent(primaryCategory)}`,
+                name: displayPrimaryCategory,
+                url: `${siteConfig.url}/directory?category=${encodeURIComponent(displayPrimaryCategory)}`,
               },
               {
                 name: listing.listing_name || "Listing",
@@ -435,10 +435,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 </Link>
                 {" / "}
                 <Link
-                  href={`/directory?category=${encodeURIComponent(primaryCategory)}`}
+                  href={`/directory?category=${encodeURIComponent(displayPrimaryCategory)}`}
                   className="hover:underline"
                 >
-                  {primaryCategory}
+                  {displayPrimaryCategory}
                 </Link>
                 {" / "}
                 <span className="text-slate-400">
@@ -538,7 +538,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 <dl className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
                   <div>
                     <dt className="font-semibold">Category</dt>
-                    <dd>{primaryCategory}</dd>
+                    <dd>{displayPrimaryCategory}</dd>
+                    <dd>{displayPrimaryCategory}</dd>
                   </div>
 
                   <div>

@@ -21,7 +21,9 @@ function initialsFromName(name: string): string {
 /**
  * Determine tier from item pricePlan
  */
-function getTierFromItem(item: ItemInfo): "free" | "standard" | "pro" | "premium" {
+function getTierFromItem(
+  item: ItemInfo,
+): "free" | "standard" | "pro" | "premium" {
   const plan = (item.pricePlan || "free").toLowerCase();
   if (plan.includes("pro") || plan.includes("premium")) return "pro";
   if (plan.includes("standard") || plan.includes("basic")) return "standard";
@@ -81,7 +83,9 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
 
   // Extract tier and generate slug
   const tier = getTierFromItem(item);
-  const slug = item.slug?.current || generateSlugFromItem({ name: item.name, _id: item._id });
+  const slug =
+    item.slug?.current ||
+    generateSlugFromItem({ name: item.name, _id: item._id });
   const firstCategory = item.categories?.[0]?.name || "";
 
   // Extract age ranges from tags
@@ -93,7 +97,7 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
     <article
       className={cn(
         "relative flex flex-col rounded-xl bg-[#FFFBEA] p-4 sm:p-5 transition-shadow hover:shadow-xl",
-        tierClasses(tier)
+        tierClasses(tier),
       )}
     >
       {/* Logo / Initials */}
@@ -150,9 +154,7 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
       </div>
 
       {/* Category + Location */}
-      <p className="mt-3 text-xs text-slate-700">
-        {firstCategory}
-      </p>
+      <p className="mt-3 text-xs text-slate-700">{firstCategory}</p>
 
       {/* Description */}
       {item.description && (
@@ -212,4 +214,3 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
     </article>
   );
 }
-

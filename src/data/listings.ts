@@ -193,9 +193,7 @@ const getPublicListingsInternal = async (params?: {
   console.log("getPublicListings: Starting fetch with params:", params);
 
   // Use * to fetch all columns; Phase 3 columns may or may not exist yet
-  let query = createServerClient()
-    .from("listings")
-    .select("*");
+  let query = createServerClient().from("listings").select("*");
 
   if (params?.state) query = query.eq("state", params.state);
   if (params?.region) {
@@ -301,8 +299,10 @@ function listingToPublicListing(
       listing.verification_status === "verified" || listing.is_claimed || false,
     // Phase 3 fields (may not exist in DB yet - use defensive access)
     trust_level:
-      ((listing as any).trust_level as PublicListing["trust_level"]) || "unverified",
-    background_check_provider: (listing as any).background_check_provider ?? null,
+      ((listing as any).trust_level as PublicListing["trust_level"]) ||
+      "unverified",
+    background_check_provider:
+      (listing as any).background_check_provider ?? null,
     repeat_families_count: (listing as any).repeat_families_count ?? 0,
     response_time_label: (listing as any).response_time_label ?? null,
     last_active_at: (listing as any).last_active_at || null,

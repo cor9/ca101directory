@@ -397,7 +397,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
         .eq("id", listing.id);
     } catch (error) {
       // Silently ignore if columns don't exist yet
-      console.warn("ListingPage: views_count update skipped (column may not exist)");
+      console.warn(
+        "ListingPage: views_count update skipped (column may not exist)",
+      );
     }
 
     // Debug listing data

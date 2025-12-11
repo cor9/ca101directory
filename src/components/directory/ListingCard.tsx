@@ -117,7 +117,7 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
 
   // Extract tier and generate slug
   const tier = getTierFromItem(item);
-  const slug = generateSlugFromItem({ name: item.name, _id: item._id });
+  const slug = item.slug?.current || generateSlugFromItem({ name: item.name, _id: item._id });
 
   // Extract age ranges from tags
   const ageRanges = (item.tags || [])

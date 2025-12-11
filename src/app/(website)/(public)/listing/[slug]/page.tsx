@@ -385,16 +385,19 @@ export default async function ListingPage({ params }: ListingPageProps) {
       listing.badge_approved === true || listing.is_approved_101 === true;
     const reviews = reviewsEnabled ? await getListingReviews(listing.id) : [];
 
+    // Increment views_count if column exists (Phase 3 feature)
     try {
+      const currentViews = (listing as any).views_count ?? 0;
       await createServerClient()
         .from("listings")
         .update({
-          views_count: (listing.views_count ?? 0) + 1,
+          views_count: currentViews + 1,
           last_active_at: new Date().toISOString(),
         })
         .eq("id", listing.id);
     } catch (error) {
-      console.error("ListingPage: Error updating view analytics", error);
+      // Silently ignore if columns don't exist yet
+      console.warn("ListingPage: views_count update skipped (column may not exist)");
     }
 
     // Debug listing data

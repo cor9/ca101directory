@@ -192,23 +192,10 @@ const getPublicListingsInternal = async (params?: {
 }) => {
   console.log("getPublicListings: Starting fetch with params:", params);
 
+  // Use * to fetch all columns; Phase 3 columns may or may not exist yet
   let query = createServerClient()
     .from("listings")
-    .select(
-      `
-      *,
-      trust_level,
-      background_check_provider,
-      repeat_families_count,
-      response_time_label,
-      last_active_at,
-      profile_completeness,
-      views_count,
-      contact_clicks,
-      favorites_count,
-      profile_impressions
-    `,
-    );
+    .select("*");
 
   if (params?.state) query = query.eq("state", params.state);
   if (params?.region) {
@@ -312,17 +299,18 @@ function listingToPublicListing(
     is_101_approved: listing.badge_approved || listing.is_approved_101 || false,
     is_verified:
       listing.verification_status === "verified" || listing.is_claimed || false,
+    // Phase 3 fields (may not exist in DB yet - use defensive access)
     trust_level:
-      (listing.trust_level as PublicListing["trust_level"]) || "unverified",
-    background_check_provider: listing.background_check_provider,
-    repeat_families_count: listing.repeat_families_count ?? 0,
-    response_time_label: listing.response_time_label,
-    last_active_at: listing.last_active_at || null,
-    profile_completeness: listing.profile_completeness ?? 0,
-    views_count: listing.views_count ?? 0,
-    contact_clicks: listing.contact_clicks ?? 0,
-    favorites_count: listing.favorites_count ?? 0,
-    profile_impressions: listing.profile_impressions ?? 0,
+      ((listing as any).trust_level as PublicListing["trust_level"]) || "unverified",
+    background_check_provider: (listing as any).background_check_provider ?? null,
+    repeat_families_count: (listing as any).repeat_families_count ?? 0,
+    response_time_label: (listing as any).response_time_label ?? null,
+    last_active_at: (listing as any).last_active_at || null,
+    profile_completeness: (listing as any).profile_completeness ?? 0,
+    views_count: (listing as any).views_count ?? 0,
+    contact_clicks: (listing as any).contact_clicks ?? 0,
+    favorites_count: (listing as any).favorites_count ?? 0,
+    profile_impressions: (listing as any).profile_impressions ?? 0,
     averageRating: rating?.average || null,
     reviewCount: rating?.count || 0,
     logo_url: listing.profile_image,

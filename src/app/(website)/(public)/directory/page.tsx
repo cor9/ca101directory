@@ -41,6 +41,7 @@ export default async function DirectoryPage({
     category,
     state,
     region,
+    city,
     q: query,
   } = searchParams as {
     [key: string]: string;

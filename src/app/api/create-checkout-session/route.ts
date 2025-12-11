@@ -1,12 +1,34 @@
 import { auth } from "@/auth";
+import { reportStripeIssue } from "@/lib/error-reporting";
+import { verifyClaimToken } from "@/lib/tokens";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { verifyClaimToken } from "@/lib/tokens";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: "2024-04-10",
-});
+class StripeConfigError extends Error {
+  constructor(message: string, public details?: Record<string, unknown>) {
+    super(message);
+    this.name = "StripeConfigError";
+  }
+}
+
+let stripeClient: Stripe | null = null;
+
+function getStripeClient(): Stripe {
+  if (stripeClient) {
+    return stripeClient;
+  }
+
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+  if (!secretKey) {
+    throw new StripeConfigError("STRIPE_SECRET_KEY is not configured", {
+      env: "STRIPE_SECRET_KEY",
+    });
+  }
+
+  stripeClient = new Stripe(secretKey, { apiVersion: "2024-04-10" });
+  return stripeClient;
+}
 
 // Plan pricing (in cents)
 const PLAN_PRICES = {
@@ -22,13 +44,7 @@ const PLAN_PRICES = {
 
 export async function POST(request: NextRequest) {
   try {
-    if (!process.env.STRIPE_SECRET_KEY) {
-      console.error("STRIPE_SECRET_KEY is not configured");
-      return NextResponse.json(
-        { error: "Stripe is not configured (missing secret key)" },
-        { status: 500 },
-      );
-    }
+    const stripe = getStripeClient();
     console.log("Starting checkout session creation...");
 
     const session = await auth();
@@ -154,6 +170,18 @@ export async function POST(request: NextRequest) {
           ...(token ? { claim_token: token } : {}),
         },
       });
+      if (!priceId) {
+        await reportStripeIssue(
+          "warning",
+          "Falling back to inline price_data because STRIPE_PRICE_FOUNDING_* is not set",
+          undefined,
+          {
+            planId,
+            billingCycle,
+            listingId,
+          },
+        );
+      }
     } else {
       checkoutSession = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
@@ -194,12 +222,23 @@ export async function POST(request: NextRequest) {
     console.log("Checkout session created successfully:", checkoutSession.id);
     return NextResponse.json({ url: checkoutSession.url });
   } catch (error) {
+    if (error instanceof StripeConfigError) {
+      await reportStripeIssue("error", error.message, error, error.details);
+      return NextResponse.json(
+        {
+          error:
+            "Payments are temporarily unavailable while we finish setting up Stripe. Please contact support if this persists.",
+        },
+        { status: 503 },
+      );
+    }
+
     const details = {
       message: error instanceof Error ? error.message : "Unknown error",
       stack: error instanceof Error ? error.stack : undefined,
       name: error instanceof Error ? error.name : undefined,
     };
-    console.error("Error creating checkout session:", details);
+    await reportStripeIssue("error", "Error creating checkout session", error, details);
     return NextResponse.json(
       { error: details.message || "Internal server error" },
       { status: 500 },

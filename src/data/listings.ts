@@ -612,12 +612,16 @@ export async function getListingBySlug(slug: string) {
     } as Listing;
   }
 
-  // Primary: look up by exact slug (do not apply status/is_active filters here)
+  // Primary: look up by exact slug OR lowercase slug
   const { data: listingData, error: listingError } = await createServerClient()
     .from("listings")
     .select("*")
-    .eq("slug", safeSlug) // try sanitized slug first
+    .or(`slug.eq.${safeSlug},slug.eq.${safeSlug.toLowerCase()}`)
     .single();
+
+  if (listingError && listingError.code !== "PGRST116") {
+    console.error("getListingBySlug: Error fetching listing by slug:", listingError);
+  }
 
   if (listingData && !listingError) {
     console.log(
@@ -655,7 +659,10 @@ export async function getListingBySlug(slug: string) {
       >[]
     ).find((l) => {
       const generated = generateSlug(l.listing_name || "", l.id);
-      return (l.slug || "").trim() === safeSlug || generated === safeSlug;
+      return (
+        (l.slug || "").trim().toLowerCase() === safeSlug.toLowerCase() || 
+        generated === safeSlug.toLowerCase()
+      );
     });
     if (match) {
       const { data: resolved, error: resolvedError } =

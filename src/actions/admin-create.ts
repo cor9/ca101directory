@@ -257,7 +257,6 @@ export async function adminBulkCreateListings(
         slug,
         website: formData.link || null,
         what_you_offer: (formData.description || "").trim(),
-        who_is_it_for: formData.introduction || null,
         why_is_it_unique: formData.unique || null,
         format: formData.format || null,
         extras_notes: formData.notes || null,

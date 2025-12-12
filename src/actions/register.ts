@@ -46,9 +46,10 @@ export async function register(
     const supabase = createServerClient();
 
     // CRITICAL: Always use fallback if env var is missing
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ||
-                    process.env.NEXT_PUBLIC_APP_URL ||
-                    'https://directory.childactor101.com';
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      process.env.NEXT_PUBLIC_APP_URL ||
+      "https://directory.childactor101.com";
 
     const magicLinkUrl = new URL(`${siteUrl}/auth/magic-link`);
     magicLinkUrl.searchParams.set("email", email);
@@ -101,7 +102,8 @@ export async function register(
 
     return {
       status: "success",
-      message: "Check your email to confirm your account and finish signing in.",
+      message:
+        "Check your email to confirm your account and finish signing in.",
       redirectUrl: `/auth/registration-success?email=${encodeURIComponent(email)}`,
     };
   } catch (error) {

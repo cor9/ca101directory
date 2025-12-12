@@ -26,7 +26,7 @@ export default async function ClaimListingPage({
   const session = await auth();
   if (!session?.user) {
     const callbackUrl = encodeURIComponent(
-      `/claim/listing/${params.listingId}`
+      `/claim/listing/${params.listingId}`,
     );
     redirect(`/auth/register?callbackUrl=${callbackUrl}`);
   }
@@ -109,9 +109,9 @@ export default async function ClaimListingPage({
           </CardHeader>
           <CardContent className="space-y-4 text-center">
             <p className="text-muted-foreground">
-              You&apos;re signed in as an <strong>Admin</strong>. Admin
-              accounts don&apos;t claim listings. Manage ownership or assign
-              vendors from the admin dashboard.
+              You&apos;re signed in as an <strong>Admin</strong>. Admin accounts
+              don&apos;t claim listings. Manage ownership or assign vendors from
+              the admin dashboard.
             </p>
             <Button asChild>
               <Link href="/dashboard/admin">Go to Admin Dashboard</Link>
@@ -132,9 +132,7 @@ export default async function ClaimListingPage({
       <div className="container mx-auto px-4 py-16">
         <Card className="max-w-2xl mx-auto">
           <CardHeader>
-            <h1 className="text-2xl font-bold text-center">
-              Already Claimed
-            </h1>
+            <h1 className="text-2xl font-bold text-center">Already Claimed</h1>
           </CardHeader>
           <CardContent className="text-center">
             <p className="text-muted-foreground mb-6">
@@ -224,9 +222,9 @@ export default async function ClaimListingPage({
         <div className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
           <p className="font-semibold">Next steps after you submit</p>
           <p className="mt-1">
-            We&apos;ll send you straight to <strong>Dashboard → My Listings</strong>.
-            Look for the <em>Edit</em> button next to this listing to start
-            updating details right away.
+            We&apos;ll send you straight to{" "}
+            <strong>Dashboard → My Listings</strong>. Look for the <em>Edit</em>{" "}
+            button next to this listing to start updating details right away.
           </p>
         </div>
 

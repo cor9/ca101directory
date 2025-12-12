@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +11,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { ExternalLink, Loader2, Mail, MoreHorizontal } from "lucide-react";
 
@@ -22,7 +22,13 @@ interface HotLeadActionsProps {
   viewCount: number;
 }
 
-export function HotLeadActions({ listingId, listingName, email, slug, viewCount }: HotLeadActionsProps) {
+export function HotLeadActions({
+  listingId,
+  listingName,
+  email,
+  slug,
+  viewCount,
+}: HotLeadActionsProps) {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -90,7 +96,11 @@ Child Actor 101 Directory`,
     <DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
       <DropdownMenuTrigger asChild>
         <Button size="sm" variant="outline" disabled={isPending}>
-          {isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <MoreHorizontal className="h-4 w-4" />}
+          {isPending ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <MoreHorizontal className="h-4 w-4" />
+          )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
@@ -116,7 +126,11 @@ Child Actor 101 Directory`,
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <a href={`/listing/${slug}`} target="_blank" rel="noopener noreferrer">
+          <a
+            href={`/listing/${slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <ExternalLink className="mr-2 h-4 w-4" /> View listing
           </a>
         </DropdownMenuItem>

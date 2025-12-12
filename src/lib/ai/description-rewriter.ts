@@ -1,5 +1,5 @@
-import { generateText } from "ai";
 import { openai } from "@ai-sdk/openai";
+import { generateText } from "ai";
 
 export type RewriteOptions = {
   tier?: "standard" | "pro";
@@ -32,7 +32,8 @@ function buildFallbackCopy(listing: ListingInfo, tier: "standard" | "pro") {
   return [
     `${listing.businessName} — ${category}${location ? ` in ${location}` : ""}.`,
     tierTagline,
-    listing.description || "We help young performers succeed with dependable, parent-approved support.",
+    listing.description ||
+      "We help young performers succeed with dependable, parent-approved support.",
     "• What we do: Clear, parent-friendly services",
     "• Why choose us: Reliable, vetted, and easy to book",
     "• Next step: Reply to this email and we’ll set everything up for you",

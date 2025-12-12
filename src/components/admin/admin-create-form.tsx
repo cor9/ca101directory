@@ -1,8 +1,8 @@
 "use client";
 
 import { createListing } from "@/actions/listings";
-import { CreateListingSchema } from "@/lib/validations/listings";
 import { Button } from "@/components/ui/button";
+import { CreateListingSchema } from "@/lib/validations/listings";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -21,8 +21,8 @@ export function AdminCreateForm() {
       status: "Pending",
       plan: "Free",
       website: "",
-    email: "",
-    phone: "",
+      email: "",
+      phone: "",
       what_you_offer: "",
       category: "",
       format: "Online",
@@ -34,22 +34,26 @@ export function AdminCreateForm() {
 
   const onSubmit = (values: z.infer<typeof CreateListingSchema>) => {
     startTransition(() => {
-      createListing(values).then((res) => {
-        if (res?.status === "error") {
-          toast.error(res.message);
+      createListing(values)
+        .then((res) => {
+          if (res?.status === "error") {
+            toast.error(res.message);
+            // Form data is preserved automatically by react-hook-form
+            // Don't reset the form on error
+          } else {
+            toast.success("Listing created successfully!");
+            // Only reset and redirect on success
+            form.reset();
+            router.push("/dashboard/admin");
+          }
+        })
+        .catch((error) => {
+          console.error("CreateListing error:", error);
+          toast.error(
+            "An unexpected error occurred. Your form data has been preserved.",
+          );
           // Form data is preserved automatically by react-hook-form
-          // Don't reset the form on error
-        } else {
-          toast.success("Listing created successfully!");
-          // Only reset and redirect on success
-          form.reset();
-          router.push("/dashboard/admin");
-        }
-      }).catch((error) => {
-        console.error("CreateListing error:", error);
-        toast.error("An unexpected error occurred. Your form data has been preserved.");
-        // Form data is preserved automatically by react-hook-form
-      });
+        });
     });
   };
 
@@ -58,15 +62,20 @@ export function AdminCreateForm() {
   const hasErrors = Object.keys(formErrors).length > 0;
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit, (errors) => {
-      // Handle validation errors - form data is preserved
-      console.error("Form validation errors:", errors);
-      toast.error("Please fix the highlighted fields before submitting.");
-    })} className="space-y-6">
+    <form
+      onSubmit={form.handleSubmit(onSubmit, (errors) => {
+        // Handle validation errors - form data is preserved
+        console.error("Form validation errors:", errors);
+        toast.error("Please fix the highlighted fields before submitting.");
+      })}
+      className="space-y-6"
+    >
       {/* Error Summary */}
       {hasErrors && (
         <div className="bg-red-50 border border-red-200 rounded-md p-4">
-          <h4 className="text-red-800 font-semibold mb-2">Please fix these errors:</h4>
+          <h4 className="text-red-800 font-semibold mb-2">
+            Please fix these errors:
+          </h4>
           <ul className="text-sm text-red-700 space-y-1">
             {Object.entries(formErrors).map(([field, error]) => (
               <li key={field}>
@@ -76,7 +85,7 @@ export function AdminCreateForm() {
           </ul>
         </div>
       )}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Listing Name */}
         <div className="space-y-1">
           <label htmlFor="listing_name">Listing Name</label>
@@ -84,7 +93,9 @@ export function AdminCreateForm() {
             id="listing_name"
             {...form.register("listing_name")}
             className={`w-full bg-background border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none ${
-              formErrors.listing_name ? "border-red-500 border-2" : "border-input"
+              formErrors.listing_name
+                ? "border-red-500 border-2"
+                : "border-input"
             }`}
             disabled={isPending}
           />
@@ -93,7 +104,7 @@ export function AdminCreateForm() {
               {form.formState.errors.listing_name?.message}
             </p>
           )}
-              </div>
+        </div>
 
         {/* Status */}
         <div className="space-y-1">
@@ -109,7 +120,7 @@ export function AdminCreateForm() {
             <option value="Rejected">Rejected</option>
             <option value="Inactive">Inactive</option>
           </select>
-            </div>
+        </div>
 
         {/* Website */}
         <div className="space-y-1">
@@ -127,18 +138,21 @@ export function AdminCreateForm() {
               {form.formState.errors.website?.message}
             </p>
           )}
-          {form.watch("website") && form.watch("website").length > 0 && !form.watch("website").match(/^https?:\/\/.+\..+/) && (
-            <p className="text-sm text-yellow-600">
-              Warning: This doesn't look like a valid URL. Please check the format.
-            </p>
-          )}
-            </div>
+          {form.watch("website") &&
+            form.watch("website").length > 0 &&
+            !form.watch("website").match(/^https?:\/\/.+\..+/) && (
+              <p className="text-sm text-yellow-600">
+                Warning: This doesn't look like a valid URL. Please check the
+                format.
+              </p>
+            )}
+        </div>
 
         {/* Email */}
         <div className="space-y-1">
           <label htmlFor="email">Email</label>
           <input
-                  id="email"
+            id="email"
             {...form.register("email")}
             className={`w-full bg-background border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none ${
               formErrors.email ? "border-red-500 border-2" : "border-input"
@@ -150,24 +164,27 @@ export function AdminCreateForm() {
               {form.formState.errors.email?.message}
             </p>
           )}
-          {form.watch("email") && form.watch("email").length > 0 && !form.watch("email").match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && (
-            <p className="text-sm text-yellow-600">
-              Warning: This doesn't look like a valid email address. Please check the format.
-            </p>
-          )}
-              </div>
+          {form.watch("email") &&
+            form.watch("email").length > 0 &&
+            !form.watch("email").match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && (
+              <p className="text-sm text-yellow-600">
+                Warning: This doesn't look like a valid email address. Please
+                check the format.
+              </p>
+            )}
+        </div>
 
         {/* Phone */}
         <div className="space-y-1 md:col-span-2">
           <label htmlFor="phone">Phone</label>
           <input
-                  id="phone"
+            id="phone"
             {...form.register("phone")}
             className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
             disabled={isPending}
-                />
-              </div>
-            </div>
+          />
+        </div>
+      </div>
 
       {/* Category */}
       <div className="space-y-1">
@@ -237,22 +254,22 @@ export function AdminCreateForm() {
           rows={4}
           className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
           disabled={isPending}
-                />
-              </div>
+        />
+      </div>
 
       <div className="flex justify-end gap-2">
-              <Button
-                type="button"
+        <Button
+          type="button"
           variant="ghost"
           onClick={() => router.back()}
           disabled={isPending}
-              >
-                Cancel
-              </Button>
+        >
+          Cancel
+        </Button>
         <Button type="submit" disabled={isPending}>
           {isPending ? "Creating..." : "Create Listing"}
-              </Button>
-            </div>
-      </form>
+        </Button>
+      </div>
+    </form>
   );
 }

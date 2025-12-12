@@ -38,8 +38,7 @@ const multiSelectVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "border-foreground/10 text-paper bg-card hover:bg-card/80",
+        default: "border-foreground/10 text-paper bg-card hover:bg-card/80",
         secondary:
           "border-foreground/10 bg-secondary text-secondary-foreground hover:bg-secondary/80",
         destructive:
@@ -266,9 +265,7 @@ export const MultiSelect = React.forwardRef<
               </div>
             ) : (
               <div className="flex items-center justify-between w-full mx-auto">
-                <span className="text-sm text-paper mx-3">
-                  {placeholder}
-                </span>
+                <span className="text-sm text-paper mx-3">{placeholder}</span>
                 <ChevronDown className="h-4 cursor-pointer text-paper mx-2" />
               </div>
             )}

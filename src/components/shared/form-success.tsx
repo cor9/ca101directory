@@ -8,7 +8,8 @@ export const FormSuccess = ({ message }: FormSuccessProps) => {
   if (!message) return null;
 
   // Check if this is an email confirmation message
-  const isEmailConfirmation = message.includes("check your email") || message.includes("📧");
+  const isEmailConfirmation =
+    message.includes("check your email") || message.includes("📧");
 
   if (isEmailConfirmation) {
     return (
@@ -26,11 +27,14 @@ export const FormSuccess = ({ message }: FormSuccessProps) => {
               <p className="text-sm text-yellow-800">
                 We sent a confirmation link to your email address.
                 <br />
-                <strong>You MUST click the link to activate your account.</strong>
+                <strong>
+                  You MUST click the link to activate your account.
+                </strong>
               </p>
             </div>
             <p className="text-sm text-paper">
-              ⚠️ Check your spam/junk folder if you don't see it within 2 minutes.
+              ⚠️ Check your spam/junk folder if you don't see it within 2
+              minutes.
             </p>
             <p className="text-xs text-paper">
               Redirecting to login page in 8 seconds...

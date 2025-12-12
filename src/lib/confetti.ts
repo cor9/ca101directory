@@ -12,7 +12,7 @@ export function celebrateSuccess() {
     return Math.random() * (max - min) + min;
   }
 
-  const interval: ReturnType<typeof setInterval> = setInterval(function () {
+  const interval: ReturnType<typeof setInterval> = setInterval(() => {
     const timeLeft = animationEnd - Date.now();
 
     if (timeLeft <= 0) {
@@ -20,7 +20,7 @@ export function celebrateSuccess() {
     }
 
     const particleCount = 50 * (timeLeft / duration);
-    
+
     // Fire from two locations
     confetti({
       ...defaults,
@@ -69,4 +69,3 @@ export function checkmarkCelebration() {
     zIndex: 9999,
   });
 }
-

@@ -79,9 +79,7 @@ export function PlanComparison({
             <div className="text-3xl font-bold text-[#FF6B35]">
               ${plan.price}
               {plan.price > 0 && (
-                <span className="text-sm font-normal text-paper">
-                  /month
-                </span>
+                <span className="text-sm font-normal text-paper">/month</span>
               )}
             </div>
           </CardHeader>
@@ -100,15 +98,11 @@ export function PlanComparison({
               plan.limitations &&
               plan.limitations.length > 0 && (
                 <div className="space-y-2 pt-2 border-t">
-                  <p className="text-sm font-medium text-paper">
-                    Limitations:
-                  </p>
+                  <p className="text-sm font-medium text-paper">Limitations:</p>
                   {plan.limitations.map((limitation, index) => (
                     <div key={index} className="flex items-center gap-2">
                       <span className="text-paper text-sm">•</span>
-                      <span className="text-sm text-paper">
-                        {limitation}
-                      </span>
+                      <span className="text-sm text-paper">{limitation}</span>
                     </div>
                   ))}
                 </div>

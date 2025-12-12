@@ -1,6 +1,6 @@
 import {
-  ArrowRightIcon,
   AlertTriangleIcon,
+  ArrowRightIcon,
   CameraIcon,
   CheckIcon,
   CreditCardIcon,

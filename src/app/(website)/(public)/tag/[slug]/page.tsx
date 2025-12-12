@@ -168,9 +168,7 @@ export default async function TagPage({
       <div>
         {/* Tag header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-paper mb-2">
-            {ageRangeName}
-          </h1>
+          <h1 className="text-3xl font-bold text-paper mb-2">{ageRangeName}</h1>
           <p className="text-lg text-paper">
             Find acting professionals for {ageRangeName} age range
           </p>

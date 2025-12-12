@@ -24,7 +24,7 @@ export async function GET() {
       console.error("Error fetching pending listings:", error);
       return NextResponse.json(
         { error: "Failed to fetch pending listings" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -33,7 +33,7 @@ export async function GET() {
     console.error("API error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

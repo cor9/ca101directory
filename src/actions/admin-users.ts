@@ -8,7 +8,7 @@ export type UserRole = "guest" | "parent" | "vendor" | "admin";
 
 export async function updateUserRole(
   userId: string,
-  newRole: UserRole
+  newRole: UserRole,
 ): Promise<{ status: "success" | "error"; message: string }> {
   try {
     // Verify admin access
@@ -59,4 +59,3 @@ export async function updateUserRole(
     };
   }
 }
-

@@ -132,10 +132,10 @@ export function VendorSuggestionForm({ className }: VendorSuggestionFormProps) {
       name: "",
       website: "",
       category: "",
-  city: "",
-  state: "",
-  vendorEmail: "",
-  vendorPhone: "",
+      city: "",
+      state: "",
+      vendorEmail: "",
+      vendorPhone: "",
       notes: "",
       suggestedBy: "",
     },
@@ -289,7 +289,11 @@ export function VendorSuggestionForm({ className }: VendorSuggestionFormProps) {
                 <FormItem>
                   <FormLabel>Vendor Email</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="vendor@example.com" {...field} />
+                    <Input
+                      type="email"
+                      placeholder="vendor@example.com"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

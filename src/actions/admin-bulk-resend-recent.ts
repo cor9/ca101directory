@@ -1,15 +1,15 @@
 "use server";
 
 import { auth } from "@/auth";
-import { createServerClient } from "@/lib/supabase";
 import { sendListingLiveEmail } from "@/lib/mail";
+import { createServerClient } from "@/lib/supabase";
 import { createClaimToken, createOptOutToken } from "@/lib/tokens";
 
 /**
  * Bulk resend claim/upgrade emails to listings created recently.
  * Defaults to the last 6 hours.
  */
-export async function bulkResendClaimEmailsForRecentAdds(hours: number = 6) {
+export async function bulkResendClaimEmailsForRecentAdds(hours = 6) {
   const session = await auth();
   if (!session?.user?.id || session.user.role !== "admin") {
     return { success: false, message: "Admin authentication required" };
@@ -115,5 +115,3 @@ export async function bulkResendClaimEmailsForRecentAdds(hours: number = 6) {
     },
   };
 }
-
-

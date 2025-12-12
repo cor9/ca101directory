@@ -1,30 +1,30 @@
 "use client";
 
-import { useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { formatDistanceToNow } from "date-fns";
 import {
+  AlertCircle,
+  Award,
   CheckCircle2,
-  XCircle,
+  Clock,
   Eye,
   FileText,
-  Clock,
-  Award,
-  AlertCircle,
+  XCircle,
 } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface BadgeApplication {
   id: string;
@@ -52,9 +52,7 @@ export function BadgeApplicationsTable({
 }: BadgeApplicationsTableProps) {
   const [applications, setApplications] =
     useState<BadgeApplication[]>(initialApplications);
-  const [selectedApp, setSelectedApp] = useState<BadgeApplication | null>(
-    null,
-  );
+  const [selectedApp, setSelectedApp] = useState<BadgeApplication | null>(null);
   const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
   const [adminNotes, setAdminNotes] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -356,7 +354,9 @@ export function BadgeApplicationsTable({
                   </div>
                   <div>
                     <span className="text-paper">Email:</span>
-                    <span className="ml-2 font-medium">{selectedApp.email}</span>
+                    <span className="ml-2 font-medium">
+                      {selectedApp.email}
+                    </span>
                   </div>
                   <div>
                     <span className="text-paper">Business:</span>
@@ -366,7 +366,9 @@ export function BadgeApplicationsTable({
                   </div>
                   <div>
                     <span className="text-paper">Status:</span>
-                    <span className="ml-2">{getStatusBadge(selectedApp.status)}</span>
+                    <span className="ml-2">
+                      {getStatusBadge(selectedApp.status)}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -546,4 +548,3 @@ export function BadgeApplicationsTable({
     </>
   );
 }
-

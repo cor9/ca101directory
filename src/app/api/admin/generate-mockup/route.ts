@@ -1,6 +1,9 @@
 import { auth } from "@/auth";
-import { generateMockup, generateMockupEmailHTML } from "@/lib/mockup-generator";
 import { resend } from "@/lib/mail";
+import {
+  generateMockup,
+  generateMockupEmailHTML,
+} from "@/lib/mockup-generator";
 import { createServerClient } from "@/lib/supabase";
 import { NextResponse } from "next/server";
 
@@ -12,7 +15,11 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { listingId, tier = "pro", sendEmail = false } = body as {
+    const {
+      listingId,
+      tier = "pro",
+      sendEmail = false,
+    } = body as {
       listingId: string;
       tier?: "standard" | "pro";
       sendEmail?: boolean;
@@ -41,11 +48,17 @@ export async function POST(request: Request) {
     let emailSent = false;
     if (sendEmail && listing.email) {
       await resend.emails.send({
-        from: process.env.RESEND_EMAIL_FROM || "Corey Ralston <corey@childactor101.com>",
+        from:
+          process.env.RESEND_EMAIL_FROM ||
+          "Corey Ralston <corey@childactor101.com>",
         to: listing.email,
         reply_to: process.env.RESEND_REPLY_TO || "corey@childactor101.com",
         subject: `${listing.listing_name || "Your"} listing makeover (${tier === "pro" ? "Pro" : "Standard"})`,
-        html: generateMockupEmailHTML(mockup, listing.listing_name, listing.slug),
+        html: generateMockupEmailHTML(
+          mockup,
+          listing.listing_name,
+          listing.slug,
+        ),
       });
       emailSent = true;
     }

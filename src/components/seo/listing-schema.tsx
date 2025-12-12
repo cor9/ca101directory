@@ -1,6 +1,6 @@
+import { siteConfig } from "@/config/site";
 import type { Listing } from "@/data/listings";
 import { getListingImageUrl } from "@/lib/image-urls";
-import { siteConfig } from "@/config/site";
 
 interface ListingSchemaProps {
   listing: Listing;
@@ -31,26 +31,24 @@ export function ListingSchema({ listing, averageRating }: ListingSchemaProps) {
       : undefined,
     telephone: listing.phone || undefined,
     email: listing.email || undefined,
-    address: listing.city || listing.state
-      ? {
-          "@type": "PostalAddress",
-          addressLocality: listing.city || undefined,
-          addressRegion: listing.state || undefined,
-          postalCode: listing.zip?.toString() || undefined,
-          addressCountry: "US",
-        }
-      : undefined,
+    address:
+      listing.city || listing.state
+        ? {
+            "@type": "PostalAddress",
+            addressLocality: listing.city || undefined,
+            addressRegion: listing.state || undefined,
+            postalCode: listing.zip?.toString() || undefined,
+            addressCountry: "US",
+          }
+        : undefined,
     areaServed: listing.region
       ? {
           "@type": "City",
           name: listing.region,
         }
       : undefined,
-    priceRange: listing.plan === "Premium"
-      ? "$$$"
-      : listing.plan === "Pro"
-        ? "$$"
-        : "$",
+    priceRange:
+      listing.plan === "Premium" ? "$$$" : listing.plan === "Pro" ? "$$" : "$",
     // Social media profiles
     sameAs: [
       listing.facebook_url,
@@ -80,7 +78,9 @@ export function ListingSchema({ listing, averageRating }: ListingSchemaProps) {
 
   // Remove undefined values
   const cleanSchema = JSON.parse(
-    JSON.stringify(schema, (key, value) => (value === undefined ? null : value))
+    JSON.stringify(schema, (key, value) =>
+      value === undefined ? null : value,
+    ),
   );
 
   return (

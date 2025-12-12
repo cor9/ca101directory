@@ -1,20 +1,21 @@
+import { BadgeApplicationForm } from "@/components/badge/badge-application-form";
+import { siteConfig } from "@/config/site";
+import { currentUser } from "@/lib/auth";
+import { constructMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { BadgeApplicationForm } from "@/components/badge/badge-application-form";
-import { currentUser } from "@/lib/auth";
-import { siteConfig } from "@/config/site";
-import { constructMetadata } from "@/lib/metadata";
 
 export const metadata = constructMetadata({
   title: "101 Approved Badge Application | Dashboard",
-  description: "Apply for the 101 Approved badge - our highest mark of trust for child acting professionals",
+  description:
+    "Apply for the 101 Approved badge - our highest mark of trust for child acting professionals",
   canonicalUrl: `${siteConfig.url}/dashboard/vendor/badge-application`,
   noIndex: true,
 });
 
 export default async function BadgeApplicationPage() {
   const user = await currentUser();
-  
+
   if (!user) {
     redirect("/auth/login");
   }
@@ -31,7 +32,8 @@ export default async function BadgeApplicationPage() {
           101 Approved Badge Application
         </h1>
         <p className="text-foreground">
-          Apply for our highest mark of trust for verified child acting professionals
+          Apply for our highest mark of trust for verified child acting
+          professionals
         </p>
       </div>
 

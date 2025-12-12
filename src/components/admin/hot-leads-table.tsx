@@ -1,4 +1,5 @@
-import { getHotLeads } from "@/data/conversion-stats";
+import { HotLeadActions } from "@/components/admin/hot-lead-actions";
+import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -7,9 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+import { getHotLeads } from "@/data/conversion-stats";
 import { TrendingUp } from "lucide-react";
-import { HotLeadActions } from "@/components/admin/hot-lead-actions";
 
 /**
  * Hot Leads Table
@@ -25,7 +25,8 @@ export async function HotLeadsTable() {
         <TrendingUp className="h-12 w-12 mx-auto mb-4 opacity-50" />
         <p>No hot leads at the moment.</p>
         <p className="text-sm mt-2">
-          Free listings with high traffic will appear here for targeted outreach.
+          Free listings with high traffic will appear here for targeted
+          outreach.
         </p>
       </div>
     );
@@ -43,7 +44,8 @@ export async function HotLeadsTable() {
           </p>
         </div>
         <Badge variant="default" className="bg-green-600">
-          ${hotLeads.reduce((sum, l) => sum + l.potential_revenue, 0)}/mo potential
+          ${hotLeads.reduce((sum, l) => sum + l.potential_revenue, 0)}/mo
+          potential
         </Badge>
       </div>
 
@@ -105,8 +107,9 @@ export async function HotLeadsTable() {
       </div>
 
       <div className="text-xs text-muted-foreground">
-        💡 <strong>Tip:</strong> These vendors are getting traffic but missing out on inquiries.
-        Personal outreach works best - mention their specific view count and show the value of upgrading.
+        💡 <strong>Tip:</strong> These vendors are getting traffic but missing
+        out on inquiries. Personal outreach works best - mention their specific
+        view count and show the value of upgrading.
       </div>
     </div>
   );

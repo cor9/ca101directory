@@ -1,6 +1,6 @@
 "use client";
 
-import { updateUserRole, type UserRole } from "@/actions/admin-users";
+import { type UserRole, updateUserRole } from "@/actions/admin-users";
 import {
   Select,
   SelectContent,
@@ -108,4 +108,3 @@ export function UserRoleSelector({
     </Select>
   );
 }
-

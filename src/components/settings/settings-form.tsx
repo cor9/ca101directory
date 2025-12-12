@@ -86,7 +86,6 @@ export default function SettingsForm() {
                 </FormItem>
               )}
             />
-
           </CardContent>
           <CardFooter
             className={cn(
@@ -128,7 +127,6 @@ export function SettingsFormSkeleton() {
             <Skeleton className="h-8 w-16" />
             <Skeleton className="h-12 w-full" />
           </div>
-
         </CardContent>
         <CardFooter
           className={cn(

@@ -67,7 +67,10 @@ export const {
       if (user) {
         // Initial sign in - user object is available
         const userRole = (user as any).role;
-        console.log("JWT: Initial sign in, user role from authorize:", userRole);
+        console.log(
+          "JWT: Initial sign in, user role from authorize:",
+          userRole,
+        );
 
         if (!userRole || userRole === "guest") {
           console.error("⚠️ WARNING: User has no role or is guest!", {
@@ -90,7 +93,12 @@ export const {
           );
         }
 
-        console.log("JWT: Token role set to:", token.role, "Token ID:", token.id);
+        console.log(
+          "JWT: Token role set to:",
+          token.role,
+          "Token ID:",
+          token.id,
+        );
       } else if (token.sub) {
         // Existing session: always verify role against profiles to avoid stale roles
         console.log("JWT: Verifying role against profiles for token:", {
@@ -105,15 +113,26 @@ export const {
             .eq("id", token.sub)
             .single();
 
-          console.log("JWT: Database profile fetch result:", { profile, error });
+          console.log("JWT: Database profile fetch result:", {
+            profile,
+            error,
+          });
 
           if (profile?.role) {
             if (token.role !== profile.role) {
-              console.log("JWT: Updating token.role from", token.role, "to", profile.role);
+              console.log(
+                "JWT: Updating token.role from",
+                token.role,
+                "to",
+                profile.role,
+              );
               token.role = profile.role;
             }
           } else {
-            console.error("⚠️ JWT: No role found in database for user:", token.sub);
+            console.error(
+              "⚠️ JWT: No role found in database for user:",
+              token.sub,
+            );
             token.role = (token.role as any) || "guest"; // Keep existing or guest
           }
         } catch (error) {
@@ -162,8 +181,9 @@ export const {
       if (token) {
         session.user.id = token.id as string;
         session.user.role = token.role as UserRole;
-        (session.user as any).supabaseAccessToken =
-          token.supabaseAccessToken as string | undefined;
+        (session.user as any).supabaseAccessToken = token.supabaseAccessToken as
+          | string
+          | undefined;
         (session.user as any).supabaseRefreshToken =
           token.supabaseRefreshToken as string | undefined;
         console.log("SESSION: User data set from token:", {

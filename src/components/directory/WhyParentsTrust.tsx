@@ -1,4 +1,4 @@
-import { CheckCircle2, Shield, Users, Star } from "lucide-react";
+import { CheckCircle2, Shield, Star, Users } from "lucide-react";
 
 interface WhyParentsTrustProps {
   totalListings: number;
@@ -97,4 +97,3 @@ export default function WhyParentsTrust({
     </section>
   );
 }
-

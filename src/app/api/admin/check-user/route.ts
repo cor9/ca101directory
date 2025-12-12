@@ -1,6 +1,6 @@
 import { createServerClient } from "@/lib/supabase";
-import { NextResponse } from "next/server";
 import type { User } from "@supabase/supabase-js";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -14,8 +14,8 @@ export async function GET(request: Request) {
     const supabase = createServerClient();
 
     // Check auth.users
-    const { data: authData, error: authError } = await supabase.auth.admin
-      .listUsers();
+    const { data: authData, error: authError } =
+      await supabase.auth.admin.listUsers();
 
     if (authError || !authData) {
       return NextResponse.json(
@@ -76,4 +76,3 @@ export async function GET(request: Request) {
     );
   }
 }
-

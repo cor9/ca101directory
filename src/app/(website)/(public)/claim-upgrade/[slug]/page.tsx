@@ -1,10 +1,10 @@
 import { auth } from "@/auth";
 import { ClaimUpgradeForm } from "@/components/claim/claim-upgrade-form";
 import Container from "@/components/container";
-import { HeaderSection } from "@/components/shared/header-section";
 import { SocialProofStats } from "@/components/conversion/social-proof-stats";
-import { getPublicListings, getListingById } from "@/data/listings";
-import { redirect, notFound } from "next/navigation";
+import { HeaderSection } from "@/components/shared/header-section";
+import { getListingById, getPublicListings } from "@/data/listings";
+import { notFound, redirect } from "next/navigation";
 
 export const metadata = {
   title: "Claim & Upgrade Your Listing - Child Actor 101 Directory",
@@ -17,7 +17,10 @@ interface ClaimUpgradePageProps {
   searchParams: { lid?: string; token?: string };
 }
 
-export default async function ClaimUpgradePage({ params, searchParams }: ClaimUpgradePageProps) {
+export default async function ClaimUpgradePage({
+  params,
+  searchParams,
+}: ClaimUpgradePageProps) {
   const session = await auth();
 
   // Preserve existing query params in login callback so token/lid aren't lost

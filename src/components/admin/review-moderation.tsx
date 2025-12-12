@@ -146,9 +146,7 @@ export function ReviewModeration() {
           <CardTitle>Pending Reviews</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-paper">
-            No pending reviews to moderate.
-          </p>
+          <p className="text-paper">No pending reviews to moderate.</p>
         </CardContent>
       </Card>
     );

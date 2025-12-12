@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
+import { verifyClaimToken } from "@/lib/tokens";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { verifyClaimToken } from "@/lib/tokens";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2024-04-10",
@@ -44,7 +44,15 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     console.log("Request body:", body);
-    const { listingId, planId, billingCycle, successUrl, cancelUrl, flow, token } = body;
+    const {
+      listingId,
+      planId,
+      billingCycle,
+      successUrl,
+      cancelUrl,
+      flow,
+      token,
+    } = body;
 
     if (!listingId || !planId || !billingCycle || !successUrl || !cancelUrl) {
       console.log("Missing required parameters:", {
@@ -66,11 +74,17 @@ export async function POST(request: NextRequest) {
         const parsed = verifyClaimToken(token);
         if (!parsed || parsed.lid !== listingId) {
           console.warn("Invalid claim token for listingId", { listingId });
-          return NextResponse.json({ error: "Invalid claim token" }, { status: 400 });
+          return NextResponse.json(
+            { error: "Invalid claim token" },
+            { status: 400 },
+          );
         }
       } catch (e) {
         console.error("Claim token verification failed", e);
-        return NextResponse.json({ error: "Invalid claim token" }, { status: 400 });
+        return NextResponse.json(
+          { error: "Invalid claim token" },
+          { status: 400 },
+        );
       }
     }
 
@@ -88,9 +102,10 @@ export async function POST(request: NextRequest) {
         console.log("Invalid plan ID:", planId);
         return NextResponse.json({ error: "Invalid plan ID" }, { status: 400 });
       }
-      price = PLAN_PRICES[planId as keyof typeof PLAN_PRICES][
-        billingCycle as keyof typeof PLAN_PRICES.standard
-      ];
+      price =
+        PLAN_PRICES[planId as keyof typeof PLAN_PRICES][
+          billingCycle as keyof typeof PLAN_PRICES.standard
+        ];
       if (!price) {
         console.log("Invalid billing cycle:", billingCycle);
         return NextResponse.json(
@@ -115,7 +130,10 @@ export async function POST(request: NextRequest) {
           console.log("Using existing customer:", customerId);
         }
       } catch (error) {
-        console.warn("Customer lookup failed; proceeding without explicit customer.", error);
+        console.warn(
+          "Customer lookup failed; proceeding without explicit customer.",
+          error,
+        );
       }
     }
 
@@ -123,7 +141,9 @@ export async function POST(request: NextRequest) {
     let checkoutSession: Stripe.Checkout.Session;
     if (isFounding) {
       const priceId = isFoundingStandard ? FOUNDING_STANDARD : FOUNDING_PRO;
-      const productName = isFoundingStandard ? "Founding Standard (6 months)" : "Founding Pro (6 months)";
+      const productName = isFoundingStandard
+        ? "Founding Standard (6 months)"
+        : "Founding Pro (6 months)";
       const amountCents = isFoundingStandard ? 10100 : 19900;
 
       // Prefer configured Stripe Price IDs; otherwise fall back to inline price_data
@@ -133,14 +153,19 @@ export async function POST(request: NextRequest) {
         ...(session.user.email ? { customer_email: session.user.email } : {}),
         line_items: priceId
           ? [{ price: priceId, quantity: 1 }]
-          : [{
-              price_data: {
-                currency: "usd",
-                product_data: { name: productName, description: "Founding vendor special (6 months)" },
-                unit_amount: amountCents,
+          : [
+              {
+                price_data: {
+                  currency: "usd",
+                  product_data: {
+                    name: productName,
+                    description: "Founding vendor special (6 months)",
+                  },
+                  unit_amount: amountCents,
+                },
+                quantity: 1,
               },
-              quantity: 1,
-            }],
+            ],
         mode: "payment",
         allow_promotion_codes: true,
         success_url: successUrl,

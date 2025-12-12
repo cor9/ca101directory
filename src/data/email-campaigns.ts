@@ -1,9 +1,9 @@
-import { createServerClient } from "@/lib/supabase";
 import {
   sendDay3CompleteProfileEmail,
   sendDay7TrafficUpdateEmail,
   sendDay14UpgradeOfferEmail,
 } from "@/lib/mail";
+import { createServerClient } from "@/lib/supabase";
 
 /**
  * Email campaign data functions
@@ -70,7 +70,11 @@ export async function processCampaignStep(campaign: any) {
   }
 
   // Double-check listing is still unclaimed and live
-  if (listing.is_claimed || listing.status !== "Live" || listing.plan !== "free") {
+  if (
+    listing.is_claimed ||
+    listing.status !== "Live" ||
+    listing.plan !== "free"
+  ) {
     // Mark campaign as completed
     await supabase
       .from("email_campaigns")
@@ -84,7 +88,10 @@ export async function processCampaignStep(campaign: any) {
     .from("listing_views")
     .select("id", { count: "exact", head: true })
     .eq("listing_id", listing.id)
-    .gte("viewed_at", new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString());
+    .gte(
+      "viewed_at",
+      new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+    );
 
   const vendorName = listing.listing_name?.split(" ")[0] || "there";
   const emailPayload = {

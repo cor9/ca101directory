@@ -10,7 +10,11 @@ export function BulkResendButton() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleBulkResend = async () => {
-    if (!confirm("Send 'listing live' emails to all 24 listings updated on November 6, 2025?")) {
+    if (
+      !confirm(
+        "Send 'listing live' emails to all 24 listings updated on November 6, 2025?",
+      )
+    ) {
       return;
     }
 
@@ -24,7 +28,9 @@ export function BulkResendButton() {
         if (result.details) {
           console.log("Bulk resend details:", result.details);
           if (result.details.errors.length > 0) {
-            toast.error(`${result.details.errors.length} errors occurred. Check console for details.`);
+            toast.error(
+              `${result.details.errors.length} errors occurred. Check console for details.`,
+            );
           }
         }
       } else {
@@ -49,16 +55,3 @@ export function BulkResendButton() {
     </Button>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

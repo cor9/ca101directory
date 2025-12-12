@@ -2,9 +2,9 @@ import { AdminEditForm } from "@/components/admin/admin-edit-form";
 import { ListingActions } from "@/components/admin/listing-actions";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { getListingById } from "@/data/listings";
-import { constructMetadata } from "@/lib/metadata";
 import { currentUser } from "@/lib/auth";
 import { verifyDashboardAccess } from "@/lib/dashboard-safety";
+import { constructMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 

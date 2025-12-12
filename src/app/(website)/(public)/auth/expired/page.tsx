@@ -22,14 +22,12 @@ export default function MagicLinkExpiredPage() {
           Magic Link Expired
         </h1>
         <p className="mt-3 text-gray-700">
-          Magic links expire after <strong>1 hour</strong> for security.
-          Request a new one to log in.
+          Magic links expire after <strong>1 hour</strong> for security. Request
+          a new one to log in.
         </p>
         <div className="mt-6 space-y-3">
           <Link href="/auth/login">
-            <Button className="w-full">
-              Request New Magic Link
-            </Button>
+            <Button className="w-full">Request New Magic Link</Button>
           </Link>
           <p className="text-sm text-gray-600">
             💡 <strong>Tip:</strong> Check your email right away and click the
@@ -40,4 +38,3 @@ export default function MagicLinkExpiredPage() {
     </div>
   );
 }
-

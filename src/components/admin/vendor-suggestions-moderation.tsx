@@ -150,9 +150,7 @@ export function VendorSuggestionsModeration() {
           <CardTitle>Pending Vendor Suggestions</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-paper">
-            No pending vendor suggestions to review.
-          </p>
+          <p className="text-paper">No pending vendor suggestions to review.</p>
         </CardContent>
       </Card>
     );

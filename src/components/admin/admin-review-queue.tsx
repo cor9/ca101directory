@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { updateReviewStatus, deleteReview } from "@/actions/admin-reviews";
-import { Button } from "@/components/ui/button";
+import { deleteReview, updateReviewStatus } from "@/actions/admin-reviews";
 import { Badge } from "@/components/ui/badge";
-import { Check, X, Trash2, ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Check, ExternalLink, Trash2, X } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 interface Review {
@@ -31,9 +31,14 @@ interface AdminReviewQueueProps {
   error?: string;
 }
 
-export function AdminReviewQueue({ reviews: initialReviews, error }: AdminReviewQueueProps) {
+export function AdminReviewQueue({
+  reviews: initialReviews,
+  error,
+}: AdminReviewQueueProps) {
   const [reviews, setReviews] = useState(initialReviews);
-  const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
+  const [filter, setFilter] = useState<
+    "all" | "pending" | "approved" | "rejected"
+  >("all");
   const [loading, setLoading] = useState<string | null>(null);
 
   const filteredReviews = reviews.filter((review) => {
@@ -52,8 +57,8 @@ export function AdminReviewQueue({ reviews: initialReviews, error }: AdminReview
       if (result.success) {
         setReviews(
           reviews.map((r) =>
-            r.id === reviewId ? { ...r, status: "approved" as const } : r
-          )
+            r.id === reviewId ? { ...r, status: "approved" as const } : r,
+          ),
         );
         toast.success("Review approved and published");
       } else {
@@ -73,8 +78,8 @@ export function AdminReviewQueue({ reviews: initialReviews, error }: AdminReview
       if (result.success) {
         setReviews(
           reviews.map((r) =>
-            r.id === reviewId ? { ...r, status: "rejected" as const } : r
-          )
+            r.id === reviewId ? { ...r, status: "rejected" as const } : r,
+          ),
         );
         toast.success("Review rejected");
       } else {
@@ -111,11 +116,23 @@ export function AdminReviewQueue({ reviews: initialReviews, error }: AdminReview
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "pending":
-        return <Badge variant="outline" className="bg-yellow-100 text-yellow-800">Pending</Badge>;
+        return (
+          <Badge variant="outline" className="bg-yellow-100 text-yellow-800">
+            Pending
+          </Badge>
+        );
       case "approved":
-        return <Badge variant="outline" className="bg-green-100 text-green-800">Approved</Badge>;
+        return (
+          <Badge variant="outline" className="bg-green-100 text-green-800">
+            Approved
+          </Badge>
+        );
       case "rejected":
-        return <Badge variant="outline" className="bg-red-100 text-red-800">Rejected</Badge>;
+        return (
+          <Badge variant="outline" className="bg-red-100 text-red-800">
+            Rejected
+          </Badge>
+        );
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -154,15 +171,21 @@ export function AdminReviewQueue({ reviews: initialReviews, error }: AdminReview
       {/* Stats */}
       <div className="grid gap-4 md:grid-cols-4">
         <div className="bg-white rounded-lg p-4 border">
-          <div className="text-2xl font-bold text-gray-900">{reviews.length}</div>
+          <div className="text-2xl font-bold text-gray-900">
+            {reviews.length}
+          </div>
           <div className="text-sm text-gray-600">Total Reviews</div>
         </div>
         <div className="bg-white rounded-lg p-4 border">
-          <div className="text-2xl font-bold text-yellow-600">{pendingCount}</div>
+          <div className="text-2xl font-bold text-yellow-600">
+            {pendingCount}
+          </div>
           <div className="text-sm text-gray-600">Pending</div>
         </div>
         <div className="bg-white rounded-lg p-4 border">
-          <div className="text-2xl font-bold text-green-600">{approvedCount}</div>
+          <div className="text-2xl font-bold text-green-600">
+            {approvedCount}
+          </div>
           <div className="text-sm text-gray-600">Approved</div>
         </div>
         <div className="bg-white rounded-lg p-4 border">
@@ -226,7 +249,9 @@ export function AdminReviewQueue({ reviews: initialReviews, error }: AdminReview
                   <div className="flex items-center gap-4 text-sm text-gray-600">
                     <span>By: {review.user?.email || "Unknown User"}</span>
                     <span>•</span>
-                    <span>{new Date(review.created_at).toLocaleDateString()}</span>
+                    <span>
+                      {new Date(review.created_at).toLocaleDateString()}
+                    </span>
                     {review.listing?.slug && (
                       <>
                         <span>•</span>
@@ -294,4 +319,3 @@ export function AdminReviewQueue({ reviews: initialReviews, error }: AdminReview
     </div>
   );
 }
-

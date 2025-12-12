@@ -1,5 +1,5 @@
 import { getSocialProofStats } from "@/data/conversion-stats";
-import { TrendingUp, Users, Sparkles } from "lucide-react";
+import { Sparkles, TrendingUp, Users } from "lucide-react";
 
 /**
  * Social Proof & FOMO Generator
@@ -25,11 +25,12 @@ export async function SocialProofStats() {
       text: `Join ${stats.proMembersCount}+ Pro members growing their business`,
       color: "text-purple-600 dark:text-purple-400",
     },
-    stats.categoryUpgradeLeader && stats.categoryUpgradeCount > 0 && {
-      icon: TrendingUp,
-      text: `${stats.categoryUpgradeCount} ${stats.categoryUpgradeLeader} upgraded this month`,
-      color: "text-orange-600 dark:text-orange-400",
-    },
+    stats.categoryUpgradeLeader &&
+      stats.categoryUpgradeCount > 0 && {
+        icon: TrendingUp,
+        text: `${stats.categoryUpgradeCount} ${stats.categoryUpgradeLeader} upgraded this month`,
+        color: "text-orange-600 dark:text-orange-400",
+      },
   ].filter(Boolean);
 
   if (messages.length === 0) {

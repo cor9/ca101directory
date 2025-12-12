@@ -33,9 +33,7 @@ export function FreePlanCard() {
           {freePlan.title}
         </h3>
         <div className="flex items-baseline justify-center gap-1">
-          <div className="text-3xl font-bold text-paper">
-            ${freePlan.price}
-          </div>
+          <div className="text-3xl font-bold text-paper">${freePlan.price}</div>
           <div className="text-sm text-paper">{freePlan.priceSuffix}</div>
         </div>
         <p className="text-sm text-paper mt-2">{freePlan.description}</p>

@@ -1,9 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { resendConfirmationEmail } from "@/actions/resend-confirmation";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface ClaimErrorProps {
   error: {
@@ -30,13 +30,13 @@ export function ClaimErrorDisplay({ error }: ClaimErrorProps) {
 
   const handleResend = async () => {
     if (!error.userEmail) return;
-    
+
     setResending(true);
     setResendMessage("");
-    
+
     try {
       const result = await resendConfirmationEmail(error.userEmail);
-      
+
       if (result.success) {
         setResendMessage("✅ Confirmation email sent! Check your inbox.");
       } else {
@@ -111,11 +111,11 @@ export function ClaimErrorDisplay({ error }: ClaimErrorProps) {
         <div className="flex-1">
           <h3 className="text-xl font-bold mb-2">{error.title}</h3>
           <p className="text-base mb-3">{error.message}</p>
-          
+
           {error.action && (
             <p className="text-sm font-medium mb-2">{error.action}</p>
           )}
-          
+
           {error.hint && (
             <p className="text-sm italic opacity-80">{error.hint}</p>
           )}
@@ -124,11 +124,13 @@ export function ClaimErrorDisplay({ error }: ClaimErrorProps) {
 
       {/* Resend confirmation message */}
       {resendMessage && (
-        <div className={`mb-4 p-3 rounded ${
-          resendMessage.includes("✅")
-            ? "bg-green-100 text-green-800"
-            : "bg-red-100 text-red-800"
-        }`}>
+        <div
+          className={`mb-4 p-3 rounded ${
+            resendMessage.includes("✅")
+              ? "bg-green-100 text-green-800"
+              : "bg-red-100 text-red-800"
+          }`}
+        >
           {resendMessage}
         </div>
       )}
@@ -171,14 +173,16 @@ export function ClaimErrorDisplay({ error }: ClaimErrorProps) {
           </Button>
         )}
 
-        {error.redirectTo && !error.showLoginButton && !error.showDashboardButton && (
-          <Button
-            onClick={() => router.push(error.redirectTo!)}
-            className={`flex-1 ${buttonClasses[color]} text-white`}
-          >
-            {error.redirectLabel || "Continue"}
-          </Button>
-        )}
+        {error.redirectTo &&
+          !error.showLoginButton &&
+          !error.showDashboardButton && (
+            <Button
+              onClick={() => router.push(error.redirectTo!)}
+              className={`flex-1 ${buttonClasses[color]} text-white`}
+            >
+              {error.redirectLabel || "Continue"}
+            </Button>
+          )}
       </div>
 
       {/* Support contact - always show for errors */}
@@ -232,20 +236,18 @@ export function ClaimSuccessDisplay({ success }: ClaimSuccessProps) {
           <h3 className="text-xl font-bold text-green-900 mb-2">
             {success.title}
           </h3>
-          <p className="text-base text-green-800 mb-3">
-            {success.message}
-          </p>
+          <p className="text-base text-green-800 mb-3">{success.message}</p>
           {success.details && (
-            <p className="text-sm text-green-700">
-              {success.details}
-            </p>
+            <p className="text-sm text-green-700">{success.details}</p>
           )}
         </div>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
         <Button
-          onClick={() => router.push(success.redirectTo || "/dashboard/vendor/listing")}
+          onClick={() =>
+            router.push(success.redirectTo || "/dashboard/vendor/listing")
+          }
           className="flex-1 bg-green-600 hover:bg-green-700 text-white"
         >
           Go to Dashboard
@@ -262,4 +264,3 @@ export function ClaimSuccessDisplay({ success }: ClaimSuccessProps) {
     </div>
   );
 }
-

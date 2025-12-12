@@ -18,7 +18,7 @@ export function RoleSwitchForm() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [selectedRole, setSelectedRole] = useState<"parent" | "vendor">(
-    (session?.user as any)?.role || "parent"
+    (session?.user as any)?.role || "parent",
   );
 
   const currentRole = (session?.user as any)?.role;

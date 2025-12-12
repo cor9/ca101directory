@@ -1,8 +1,8 @@
 "use server";
 
 import { auth } from "@/auth";
-import { createServerClient } from "@/lib/supabase";
 import { sendListingLiveEmail } from "@/lib/mail";
+import { createServerClient } from "@/lib/supabase";
 import { createClaimToken, createOptOutToken } from "@/lib/tokens";
 
 export async function bulkResendEmailsToNewListings() {
@@ -24,15 +24,21 @@ export async function bulkResendEmailsToNewListings() {
     .order("listing_name");
 
   if (error) {
-    return { success: false, message: `Error fetching listings: ${error.message}` };
+    return {
+      success: false,
+      message: `Error fetching listings: ${error.message}`,
+    };
   }
 
   if (!listings || listings.length === 0) {
-    return { success: false, message: "No listings found updated on November 6, 2025" };
+    return {
+      success: false,
+      message: "No listings found updated on November 6, 2025",
+    };
   }
 
   // Filter out talent agents and managers
-  const targetListings = listings.filter(listing => {
+  const targetListings = listings.filter((listing) => {
     // We need to check categories, but it's not in the select
     // For now, we'll filter after fetching full data
     return true;
@@ -49,15 +55,20 @@ export async function bulkResendEmailsToNewListings() {
     .order("listing_name");
 
   if (fullError) {
-    return { success: false, message: `Error fetching listings: ${fullError.message}` };
+    return {
+      success: false,
+      message: `Error fetching listings: ${fullError.message}`,
+    };
   }
 
-  const filteredListings = (fullListings || []).filter(listing => {
+  const filteredListings = (fullListings || []).filter((listing) => {
     if (!listing.categories || !Array.isArray(listing.categories)) {
       return true;
     }
-    return !listing.categories.includes("Talent Agents") &&
-           !listing.categories.includes("Talent Managers");
+    return (
+      !listing.categories.includes("Talent Agents") &&
+      !listing.categories.includes("Talent Managers")
+    );
   });
 
   const results = {
@@ -67,7 +78,8 @@ export async function bulkResendEmailsToNewListings() {
     errors: [] as string[],
   };
 
-  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
+  const siteUrl =
+    process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
 
   for (const listing of filteredListings) {
     const email = (listing.email || "").trim();
@@ -79,10 +91,12 @@ export async function bulkResendEmailsToNewListings() {
     }
 
     try {
-      const slug = listing.slug || (listing.listing_name || "")
-        .toLowerCase()
-        .replace(/\s+/g, "-")
-        .replace(/[^a-z0-9-]/g, "");
+      const slug =
+        listing.slug ||
+        (listing.listing_name || "")
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, "");
 
       const claimUrl = `${siteUrl}/claim/${encodeURIComponent(createClaimToken(listing.id))}?lid=${encodeURIComponent(listing.id)}`;
       const upgradeUrl = `${siteUrl}/claim-upgrade/${encodeURIComponent(slug)}?lid=${encodeURIComponent(listing.id)}&utm_source=email&utm_medium=listing_live`;
@@ -120,16 +134,3 @@ export async function bulkResendEmailsToNewListings() {
     },
   };
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

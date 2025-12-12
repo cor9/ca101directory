@@ -24,9 +24,7 @@ export function DashboardHeader({
         </div>
 
         {/* subtitle */}
-        {subtitle && (
-          <h2 className="text-base text-paper">{subtitle}</h2>
-        )}
+        {subtitle && <h2 className="text-base text-paper">{subtitle}</h2>}
       </div>
 
       {/* actions */}

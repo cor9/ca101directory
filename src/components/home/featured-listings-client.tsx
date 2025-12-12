@@ -25,7 +25,9 @@ interface FeaturedListingsClientProps {
   listings: FeaturedListing[];
 }
 
-export default function FeaturedListingsClient({ listings }: FeaturedListingsClientProps) {
+export default function FeaturedListingsClient({
+  listings,
+}: FeaturedListingsClientProps) {
   return (
     <section className="py-16">
       <div className="text-center mb-12">
@@ -81,10 +83,7 @@ export default function FeaturedListingsClient({ listings }: FeaturedListingsCli
 
               <div className="flex flex-wrap gap-2 mb-4">
                 {listing.tags.slice(0, 3).map((tag, index) => (
-                  <span
-                    key={index}
-                    className="chip chip-sm"
-                  >
+                  <span key={index} className="chip chip-sm">
                     {tag}
                   </span>
                 ))}

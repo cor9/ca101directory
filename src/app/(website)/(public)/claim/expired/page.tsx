@@ -4,7 +4,8 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Claim Link Issue - Child Actor 101",
-  description: "Your claim link has expired or is invalid. Request a fresh link.",
+  description:
+    "Your claim link has expired or is invalid. Request a fresh link.",
 };
 
 export default function ClaimExpiredPage() {
@@ -20,8 +21,9 @@ export default function ClaimExpiredPage() {
         </h1>
 
         <p className="mt-3 text-gray-700">
-          Your claim link may have <strong>expired</strong> (links are valid for 14 days) or the
-          link may have been <strong>copied incorrectly</strong>.
+          Your claim link may have <strong>expired</strong> (links are valid for
+          14 days) or the link may have been <strong>copied incorrectly</strong>
+          .
         </p>
 
         <div className="mt-6 rounded-lg bg-blue-50 p-4 text-left">
@@ -36,16 +38,14 @@ export default function ClaimExpiredPage() {
               <strong>Check your spam folder</strong> for the original email
             </li>
             <li>
-              Make sure to <strong>click the link directly</strong> from your email
-              (don't copy/paste the URL, as it may break)
+              Make sure to <strong>click the link directly</strong> from your
+              email (don't copy/paste the URL, as it may break)
             </li>
           </ul>
         </div>
 
         <div className="mt-6 space-y-3">
-          <a
-            href="mailto:corey@childactor101.com?subject=New%20Claim%20Link%20Request&body=Hi%2C%0A%0AI%20need%20a%20new%20claim%20link%20for%20my%20listing.%0A%0ABusiness%20Name%3A%20%5BYour%20Business%20Name%5D%0AEmail%3A%20%5BYour%20Email%5D%0A%0AThank%20you!"
-          >
+          <a href="mailto:corey@childactor101.com?subject=New%20Claim%20Link%20Request&body=Hi%2C%0A%0AI%20need%20a%20new%20claim%20link%20for%20my%20listing.%0A%0ABusiness%20Name%3A%20%5BYour%20Business%20Name%5D%0AEmail%3A%20%5BYour%20Email%5D%0A%0AThank%20you!">
             <Button className="w-full bg-primary-orange hover:bg-primary-orange/90">
               Request New Claim Link
             </Button>
@@ -66,4 +66,3 @@ export default function ClaimExpiredPage() {
     </div>
   );
 }
-

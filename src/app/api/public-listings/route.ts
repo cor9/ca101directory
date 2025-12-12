@@ -20,7 +20,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
 
-    const page = parseInt(searchParams.get("page") || "1", 10);
+    const page = Number.parseInt(searchParams.get("page") || "1", 10);
     const q = searchParams.get("q") || undefined;
     const category = searchParams.get("category") || undefined;
     const state = searchParams.get("state") || undefined;
@@ -50,8 +50,7 @@ export async function GET(request: Request) {
     console.error("Error fetching public listings:", error);
     return NextResponse.json(
       { error: "Failed to fetch listings" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-

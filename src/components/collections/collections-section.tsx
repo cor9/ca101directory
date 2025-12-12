@@ -121,9 +121,7 @@ export function CollectionsSection() {
               </div>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col">
-              <p className="text-paper mb-4 flex-1">
-                {collection.description}
-              </p>
+              <p className="text-paper mb-4 flex-1">{collection.description}</p>
               <Button asChild variant="outline" size="sm" className="w-full">
                 <Link href={collection.href}>Browse Collection</Link>
               </Button>

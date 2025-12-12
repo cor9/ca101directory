@@ -1,7 +1,7 @@
-import { priceConfig } from "@/config/price";
-import { CheckIcon, SparklesIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { priceConfig } from "@/config/price";
 import { cn } from "@/lib/utils";
+import { CheckIcon, SparklesIcon, XIcon } from "lucide-react";
 
 export function FoundingPlansSection() {
   const foundingPlans = priceConfig.foundingPlans || [];
@@ -21,8 +21,8 @@ export function FoundingPlansSection() {
             Lock In Your Lifetime Rate
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Be a founding member and secure these exclusive rates forever.
-            Once we reach our member cap, prices return to standard rates.
+            Be a founding member and secure these exclusive rates forever. Once
+            we reach our member cap, prices return to standard rates.
           </p>
         </div>
 
@@ -140,4 +140,3 @@ function FoundingPlanCard({ plan, featured = false }: FoundingPlanCardProps) {
     </div>
   );
 }
-

@@ -100,76 +100,76 @@ export const LoginForm = ({
   };
 
   return (
-  <AuthCard
-    headerLabel="Welcome back"
-    bottomButtonLabel="Don't have an account? Sign up"
-    bottomButtonHref="/auth/register"
-    className={cn("border-none text-gray-900", className)}
-  >
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="space-y-4">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-gray-900">Email</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    disabled={isPending}
-                    placeholder="name@example.com"
-                    type="email"
-                    className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-700"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="remember"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                <FormControl>
-                  <input
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-secondary-denim bg-paper text-primary-orange"
-                    checked={field.value ?? false}
-                    onChange={(event) => field.onChange(event.target.checked)}
-                    disabled={isPending}
-                  />
-                </FormControl>
-                <div className="space-y-1 leading-none">
-                  <FormLabel className="text-gray-900">
-                    Keep me logged in on this device
-                  </FormLabel>
-                  <p className="text-xs text-gray-700">
-                    Stay signed in for faster access. We'll automatically adjust
-                    the session length based on your role.
-                  </p>
-                </div>
-              </FormItem>
-            )}
-          />
-        </div>
+    <AuthCard
+      headerLabel="Welcome back"
+      bottomButtonLabel="Don't have an account? Sign up"
+      bottomButtonHref="/auth/register"
+      className={cn("border-none text-gray-900", className)}
+    >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <div className="space-y-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-900">Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="name@example.com"
+                      type="email"
+                      className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-700"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="remember"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                  <FormControl>
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 rounded border-secondary-denim bg-paper text-primary-orange"
+                      checked={field.value ?? false}
+                      onChange={(event) => field.onChange(event.target.checked)}
+                      disabled={isPending}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-gray-900">
+                      Keep me logged in on this device
+                    </FormLabel>
+                    <p className="text-xs text-gray-700">
+                      Stay signed in for faster access. We'll automatically
+                      adjust the session length based on your role.
+                    </p>
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
 
-        <FormError message={error || urlError} />
-        <FormSuccess message={success} />
+          <FormError message={error || urlError} />
+          <FormSuccess message={success} />
 
-        <Button
-          disabled={isPending}
-          size="lg"
-          type="submit"
-          className="w-full btn-primary flex items-center justify-center gap-2"
-        >
-          {isPending && <Icons.spinner className="w-4 h-4 animate-spin" />}
-          <span>Send me a login link</span>
-        </Button>
-      </form>
-    </Form>
-  </AuthCard>
-);
+          <Button
+            disabled={isPending}
+            size="lg"
+            type="submit"
+            className="w-full btn-primary flex items-center justify-center gap-2"
+          >
+            {isPending && <Icons.spinner className="w-4 h-4 animate-spin" />}
+            <span>Send me a login link</span>
+          </Button>
+        </form>
+      </Form>
+    </AuthCard>
+  );
 };

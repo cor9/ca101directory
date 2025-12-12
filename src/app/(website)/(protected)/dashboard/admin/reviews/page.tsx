@@ -1,5 +1,5 @@
-import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { AdminReviewQueue } from "@/components/admin/admin-review-queue";
+import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { siteConfig } from "@/config/site";
 import { currentUser } from "@/lib/auth";
 import { verifyDashboardAccess } from "@/lib/dashboard-safety";
@@ -32,7 +32,7 @@ export default async function AdminReviewsPage() {
       *,
       listing:listings(id, listing_name, slug),
       user:profiles(id, email)
-    `
+    `,
     )
     .order("created_at", { ascending: false });
 

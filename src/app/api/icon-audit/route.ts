@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import { getCategories, getCategoryIconsMap } from "@/data/categories";
 import { getCategoryIconUrl } from "@/lib/image-urls";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -37,19 +37,23 @@ export async function GET() {
       }),
     );
 
-    const missing = results.filter((r) => !r.ok).map((r) => ({
-      category: r.name,
-      filename: r.filename,
-      url: r.url,
-      status: r.status,
-    }));
+    const missing = results
+      .filter((r) => !r.ok)
+      .map((r) => ({
+        category: r.name,
+        filename: r.filename,
+        url: r.url,
+        status: r.status,
+      }));
 
     // Orphaned rows that exist in iconMap but not in categories
-    const orphaned = Object.keys(iconMap).filter((name) => !categoryNames.includes(name)).map((name) => ({
-      category: name,
-      filename: iconMap[name],
-      url: getCategoryIconUrl(iconMap[name]),
-    }));
+    const orphaned = Object.keys(iconMap)
+      .filter((name) => !categoryNames.includes(name))
+      .map((name) => ({
+        category: name,
+        filename: iconMap[name],
+        url: getCategoryIconUrl(iconMap[name]),
+      }));
 
     return NextResponse.json({
       totals: {
@@ -70,5 +74,3 @@ export async function GET() {
     );
   }
 }
-
-

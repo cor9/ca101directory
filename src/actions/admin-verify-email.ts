@@ -25,12 +25,16 @@ export async function adminVerifyEmail(email: string) {
     const supabase = createServerClient();
 
     // Check if user exists in auth.users using direct SQL query
-    const { data: users, error: fetchError } = await supabase.rpc('get_user_by_email', {
-      user_email: email
-    });
+    const { data: users, error: fetchError } = await supabase.rpc(
+      "get_user_by_email",
+      {
+        user_email: email,
+      },
+    );
 
     // If RPC doesn't exist, use auth admin listUsers (less efficient but works)
-    const { data: authData, error: authError } = await supabase.auth.admin.listUsers();
+    const { data: authData, error: authError } =
+      await supabase.auth.admin.listUsers();
 
     if (authError) {
       console.error("Error fetching users:", authError);
@@ -40,7 +44,9 @@ export async function adminVerifyEmail(email: string) {
       };
     }
 
-    const user = authData.users.find((u: any) => u.email?.toLowerCase() === email.toLowerCase());
+    const user = authData.users.find(
+      (u: any) => u.email?.toLowerCase() === email.toLowerCase(),
+    );
 
     if (!user) {
       return {
@@ -57,9 +63,12 @@ export async function adminVerifyEmail(email: string) {
     }
 
     // Manually verify the email using auth admin
-    const { error: updateError } = await supabase.auth.admin.updateUserById(user.id, {
-      email_confirm: true,
-    });
+    const { error: updateError } = await supabase.auth.admin.updateUserById(
+      user.id,
+      {
+        email_confirm: true,
+      },
+    );
 
     if (updateError) {
       console.error("Error verifying email:", updateError);
@@ -81,4 +90,3 @@ export async function adminVerifyEmail(email: string) {
     };
   }
 }
-

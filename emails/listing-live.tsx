@@ -1,13 +1,13 @@
 import {
-  Html,
-  Head,
-  Preview,
   Body,
-  Container,
-  Text,
   Button,
+  Container,
+  Head,
+  Html,
   Link,
+  Preview,
   Section,
+  Text,
 } from "@react-email/components";
 
 type Props = {
@@ -56,13 +56,17 @@ export default function ListingLiveEmail({
 
           <Text style={{ lineHeight: 1.6 }}>
             Your business, <strong>{listingName}</strong>, is now live on the{" "}
-            <strong>Child Actor 101 Vendor & Industry Professionals Directory</strong> — a trusted hub where over
-            12,000 parents search for coaches, photographers, and youth-industry pros.
+            <strong>
+              Child Actor 101 Vendor & Industry Professionals Directory
+            </strong>{" "}
+            — a trusted hub where over 12,000 parents search for coaches,
+            photographers, and youth-industry pros.
           </Text>
 
           <Text style={{ lineHeight: 1.6 }}>
-            You’ve been added to our <strong>Free Listing</strong> tier so families can easily find you. To edit your
-            details, upload a logo, or appear higher in search results, claim and upgrade here:
+            You’ve been added to our <strong>Free Listing</strong> tier so
+            families can easily find you. To edit your details, upload a logo,
+            or appear higher in search results, claim and upgrade here:
           </Text>
 
           <Section style={{ textAlign: "center", margin: "28px 0" }}>
@@ -128,7 +132,8 @@ export default function ListingLiveEmail({
           </Section>
 
           <Text style={{ lineHeight: 1.6 }}>
-            Prefer not to be listed? Reply to this email, or click below and we’ll remove your profile promptly:
+            Prefer not to be listed? Reply to this email, or click below and
+            we’ll remove your profile promptly:
           </Text>
 
           <Section style={{ textAlign: "center", margin: "18px 0 8px" }}>
@@ -149,14 +154,18 @@ export default function ListingLiveEmail({
           </Section>
 
           <Text style={{ marginTop: 24, lineHeight: 1.6 }}>
-            Thanks for being part of a community that helps parents discover trusted professionals.
+            Thanks for being part of a community that helps parents discover
+            trusted professionals.
           </Text>
 
           <Text style={{ marginTop: 32 }}>
             Warm regards, <br />
             <strong>Corey Ralston</strong> <br />
             Founder, Child Actor 101 <br />
-            <Link href={siteUrl} style={{ color: "#3A76A6", textDecoration: "none" }}>
+            <Link
+              href={siteUrl}
+              style={{ color: "#3A76A6", textDecoration: "none" }}
+            >
               directory.childactor101.com
             </Link>
           </Text>

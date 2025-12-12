@@ -1,5 +1,8 @@
+import {
+  getCampaignsDueForEmail,
+  processCampaignStep,
+} from "@/data/email-campaigns";
 import { NextResponse } from "next/server";
-import { getCampaignsDueForEmail, processCampaignStep } from "@/data/email-campaigns";
 
 /**
  * Cron job endpoint: Process automated email campaigns
@@ -27,10 +30,7 @@ async function processCampaigns(request: Request) {
     const hasValidAuth = cronSecret && authHeader === `Bearer ${cronSecret}`;
 
     if (!isVercelCron && !hasValidAuth) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     console.log("[Cron] Starting email campaign processing...");
@@ -50,17 +50,17 @@ async function processCampaigns(request: Request) {
 
     // Process each campaign
     const results = await Promise.allSettled(
-      campaigns.map((campaign) => processCampaignStep(campaign))
+      campaigns.map((campaign) => processCampaignStep(campaign)),
     );
 
     // Count successes and failures
     const successful = results.filter(
-      (r) => r.status === "fulfilled" && r.value === true
+      (r) => r.status === "fulfilled" && r.value === true,
     ).length;
     const failed = results.length - successful;
 
     console.log(
-      `[Cron] Processed ${successful} campaigns successfully, ${failed} failed`
+      `[Cron] Processed ${successful} campaigns successfully, ${failed} failed`,
     );
 
     return NextResponse.json({
@@ -79,7 +79,7 @@ async function processCampaigns(request: Request) {
         error: "Internal server error",
         message: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -93,4 +93,3 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   return processCampaigns(request);
 }
-

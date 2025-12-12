@@ -10,7 +10,9 @@ export function BulkResendClaimButton() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleBulkResend = async () => {
-    if (!confirm("Send claim emails to all ~200 Headshot Photographers listings?")) {
+    if (
+      !confirm("Send claim emails to all ~200 Headshot Photographers listings?")
+    ) {
       return;
     }
 
@@ -24,7 +26,9 @@ export function BulkResendClaimButton() {
         if (result.details) {
           console.log("Bulk claim email details:", result.details);
           if (result.details.errors.length > 0) {
-            toast.error(`${result.details.errors.length} errors occurred. Check console for details.`);
+            toast.error(
+              `${result.details.errors.length} errors occurred. Check console for details.`,
+            );
           }
         }
       } else {
@@ -49,15 +53,3 @@ export function BulkResendClaimButton() {
     </Button>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-

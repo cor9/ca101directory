@@ -1,19 +1,19 @@
-import { Footer } from "@/components/layout/footer";
-import { Navbar } from "@/components/layout/navbar";
-import { marketingConfig } from "@/config/marketing";
 import Container from "@/components/container";
 import CategoryTileGrid from "@/components/home/category-tile-grid";
 import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import HomeSearchBox from "@/components/home/home-search-box";
 import { HomeSidebar } from "@/components/home/home-sidebar";
+import { Footer } from "@/components/layout/footer";
+import { Navbar } from "@/components/layout/navbar";
 import { ListingCard } from "@/components/listings/ListingCard";
 import { OrganizationSchema } from "@/components/seo/listing-schema";
+import { marketingConfig } from "@/config/marketing";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
 import { getItems } from "@/data/item-service";
+import { currentUser } from "@/lib/auth";
 import { DEFAULT_SORT } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
-import { currentUser } from "@/lib/auth";
 import Script from "next/script";
 import { Suspense } from "react";
 
@@ -72,62 +72,64 @@ export default async function HomePage() {
         />
 
         <Container className="py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Sidebar */}
-          <div className="lg:col-span-3">
-            <HomeSidebar categories={categories} />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Left Sidebar */}
+            <div className="lg:col-span-3">
+              <HomeSidebar categories={categories} />
+            </div>
+
+            {/* Main Content */}
+            <div className="lg:col-span-9 space-y-8">
+              {/* Hero Section - Simplified */}
+              <section className="space-y-4">
+                <h1 className="text-4xl font-bold text-text-primary">
+                  Find Trusted Acting Professionals
+                </h1>
+                <p className="text-lg text-text-secondary max-w-2xl">
+                  Connect with vetted coaches, photographers, agents, and more
+                  for your child's acting journey.
+                </p>
+                <div className="max-w-md">
+                  <Suspense
+                    fallback={<div className="h-12 bg-bg-dark-2 rounded-lg" />}
+                  >
+                    <HomeSearchBox urlPrefix="/" />
+                  </Suspense>
+                </div>
+              </section>
+
+              {/* Featured Professionals */}
+              <section>
+                <h2 className="text-2xl font-semibold text-text-primary mb-6">
+                  Featured Professionals
+                </h2>
+                <HomeFeaturedListings />
+              </section>
+
+              {/* Browse by Category */}
+              <Suspense
+                fallback={
+                  <div className="text-text-secondary">
+                    Loading categories...
+                  </div>
+                }
+              >
+                <CategoryTileGrid />
+              </Suspense>
+
+              {/* Newest / Recently Updated */}
+              <section>
+                <h2 className="text-2xl font-semibold text-text-primary mb-6">
+                  Newest Professionals
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {previewItems.map((item) => (
+                    <ListingCard key={item.id} listing={item} />
+                  ))}
+                </div>
+              </section>
+            </div>
           </div>
-
-          {/* Main Content */}
-          <div className="lg:col-span-9 space-y-8">
-            {/* Hero Section - Simplified */}
-            <section className="space-y-4">
-              <h1 className="text-4xl font-bold text-text-primary">
-                Find Trusted Acting Professionals
-              </h1>
-              <p className="text-lg text-text-secondary max-w-2xl">
-                Connect with vetted coaches, photographers, agents, and more for
-                your child's acting journey.
-              </p>
-              <div className="max-w-md">
-                <Suspense
-                  fallback={<div className="h-12 bg-bg-dark-2 rounded-lg" />}
-                >
-                  <HomeSearchBox urlPrefix="/" />
-                </Suspense>
-              </div>
-            </section>
-
-            {/* Featured Professionals */}
-            <section>
-              <h2 className="text-2xl font-semibold text-text-primary mb-6">
-                Featured Professionals
-              </h2>
-              <HomeFeaturedListings />
-            </section>
-
-            {/* Browse by Category */}
-            <Suspense
-              fallback={
-                <div className="text-text-secondary">Loading categories...</div>
-              }
-            >
-              <CategoryTileGrid />
-            </Suspense>
-
-            {/* Newest / Recently Updated */}
-            <section>
-              <h2 className="text-2xl font-semibold text-text-primary mb-6">
-                Newest Professionals
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {previewItems.map((item) => (
-                  <ListingCard key={item.id} listing={item} />
-                ))}
-              </div>
-            </section>
-          </div>
-        </div>
         </Container>
       </main>
       <Footer />

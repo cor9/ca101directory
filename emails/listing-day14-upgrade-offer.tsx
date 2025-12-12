@@ -1,13 +1,13 @@
 import {
-  Html,
-  Head,
-  Preview,
   Body,
-  Container,
-  Text,
   Button,
+  Container,
+  Head,
+  Html,
   Link,
+  Preview,
   Section,
+  Text,
 } from "@react-email/components";
 
 type Props = {
@@ -90,9 +90,9 @@ export default function ListingDay14UpgradeOfferEmail({
           </Section>
 
           <Text style={{ lineHeight: 1.6 }}>
-            In the same categories, many Pro members are seeing several qualified
-            parent inquiries each week. The main difference is how they show up
-            in the directory.
+            In the same categories, many Pro members are seeing several
+            qualified parent inquiries each week. The main difference is how
+            they show up in the directory.
           </Text>
 
           <Text
@@ -174,8 +174,8 @@ export default function ListingDay14UpgradeOfferEmail({
                 color: "#991B1B",
               }}
             >
-              Founding Member Pricing is available for a limited time:
-              199 dollars for six months of Pro (regularly 300 dollars), plus a
+              Founding Member Pricing is available for a limited time: 199
+              dollars for six months of Pro (regularly 300 dollars), plus a
               founding vendor badge and the ability to keep that rate going
               forward.
             </Text>

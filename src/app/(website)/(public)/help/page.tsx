@@ -94,7 +94,7 @@ export default function HelpCenterPage() {
           <Link
             key={topic.href}
             href={topic.href}
-            className="group bauhaus-card bg-surface border-2 border-secondary-denim/20 rounded-lg p-6 hover:border-bauhaus-blue hover:shadow-lg transition-all duration-200"
+            className="group bauhaus-card bg-card-surface border-2 border-border-subtle rounded-lg p-6 hover:border-bauhaus-blue hover:shadow-lg transition-all duration-200"
           >
             <div
               className={`inline-flex p-3 rounded-lg ${topic.color} mb-4 group-hover:scale-110 transition-transform duration-200`}

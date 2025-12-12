@@ -61,7 +61,7 @@ export default async function ClaimRedirectPage({
   // Public landing with context before auth
   return (
     <div className="max-w-2xl mx-auto px-4 py-12">
-      <h1 className="text-2xl font-bold text-ink mb-2">
+      <h1 className="text-2xl font-bold text-text-primary mb-2">
         Claim “{listing.listing_name}”
       </h1>
       <p className="text-paper mb-6">

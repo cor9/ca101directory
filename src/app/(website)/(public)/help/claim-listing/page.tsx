@@ -79,7 +79,7 @@ export default function ClaimListingPage() {
         </h2>
 
         {/* Step 1 */}
-        <div className="bg-surface rounded-lg p-6 shadow-lg">
+        <div className="bg-card-surface rounded-lg p-6 shadow-lg">
           <div className="flex items-start gap-4">
             <div className="flex-1">
               <h3 className="text-xl font-bold text-[#1E1F23] mb-3">
@@ -162,7 +162,7 @@ export default function ClaimListingPage() {
         </div>
 
         {/* Step 4 */}
-        <div className="bg-surface rounded-lg p-6 shadow-lg">
+        <div className="bg-card-surface rounded-lg p-6 shadow-lg">
           <div className="flex items-start gap-4">
             <div className="flex-1">
               <h3 className="text-xl font-bold text-[#1E1F23] mb-3">

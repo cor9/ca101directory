@@ -24,9 +24,9 @@ export default function HomeHowItWorks() {
           {homeConfig.howItWorks.map((step, index) => (
             <article
               key={step.title}
-              className="relative h-full rounded-2xl border border-surface/20 bg-surface/10 backdrop-blur-sm p-8 shadow-sm"
+              className="relative h-full rounded-2xl border border-border-subtle bg-card-surface backdrop-blur-sm p-8 shadow-sm"
             >
-              <span className="absolute -top-4 left-8 inline-flex h-10 w-10 items-center justify-center rounded-full bg-highlight text-lg font-semibold text-ink shadow-lg shadow-highlight/30">
+              <span className="absolute -top-4 left-8 inline-flex h-10 w-10 items-center justify-center rounded-full bg-highlight text-lg font-semibold text-text-primary shadow-lg shadow-highlight/30">
                 {index + 1}
               </span>
               <h3 className="mb-3 text-xl font-semibold text-paper">

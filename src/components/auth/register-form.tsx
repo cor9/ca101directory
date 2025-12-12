@@ -124,7 +124,7 @@ export const RegisterForm = () => {
                       {...field}
                       disabled={isPending}
                       placeholder="name"
-                      className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                      className="bg-bg-2 border-border-subtle text-text-primary placeholder:text-text-muted"
                     />
                   </FormControl>
                   <FormMessage />
@@ -143,7 +143,7 @@ export const RegisterForm = () => {
                       disabled={isPending}
                       placeholder="name@example.com"
                       type="email"
-                      className="bg-paper border-secondary-denim text-paper placeholder:text-paper/60"
+                      className="bg-bg-2 border-border-subtle text-text-primary placeholder:text-text-muted"
                     />
                   </FormControl>
                   <FormMessage />
@@ -158,7 +158,7 @@ export const RegisterForm = () => {
                   <FormControl>
                     <input
                       type="checkbox"
-                      className="h-4 w-4 rounded border-secondary-denim bg-paper text-primary-orange"
+                      className="h-4 w-4 rounded border-border-subtle bg-bg-2 text-primary-orange"
                       checked={field.value ?? false}
                       onChange={(event) => field.onChange(event.target.checked)}
                       disabled={isPending}

@@ -5,7 +5,7 @@ import { NewsletterForm } from "./newsletter-form";
 
 export function NewsletterCard() {
   return (
-    <div className="w-full px-4 py-8 md:p-12 bg-surface border border-surface rounded-lg">
+    <div className="w-full px-4 py-8 md:p-12 bg-card-surface border border-border-subtle rounded-lg">
       <div className="flex flex-col items-center justify-center gap-8">
         <div className="flex flex-col items-center text-center">
           <h2 className="text-xl uppercase tracking-wider text-gradient_blue-orange font-bold">

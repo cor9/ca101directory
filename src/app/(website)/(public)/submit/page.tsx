@@ -206,7 +206,7 @@ export default async function SubmitPage({
           Choose your plan below and get started in minutes.
         </p>
         {existingListing && (
-          <div className="bg-surface border border-secondary-denim rounded-lg p-4 mb-6 max-w-2xl mx-auto">
+          <div className="bg-card-surface border border-border-subtle rounded-lg p-4 mb-6 max-w-2xl mx-auto">
             <p className="text-sm text-gray-900 font-semibold">
               <strong>Claiming:</strong> {existingListing.listing_name}
             </p>

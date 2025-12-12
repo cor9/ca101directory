@@ -21,7 +21,7 @@ export default function HomeParentCta() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          <Card className="text-center bauhaus-card bg-surface hover:shadow-xl transition-shadow duration-300">
+          <Card className="text-center bauhaus-card bg-card-surface hover:shadow-xl transition-shadow duration-300">
             <CardHeader>
               <HeartIcon className="h-12 w-12 text-tomato-red mx-auto mb-3" />
               <CardTitle className="text-xl font-bold text-gray-900">
@@ -37,7 +37,7 @@ export default function HomeParentCta() {
             </CardContent>
           </Card>
 
-          <Card className="text-center bauhaus-card bg-surface hover:shadow-xl transition-shadow duration-300">
+          <Card className="text-center bauhaus-card bg-card-surface hover:shadow-xl transition-shadow duration-300">
             <CardHeader>
               <StarIcon className="h-12 w-12 text-bauhaus-blue mx-auto mb-3 fill-bauhaus-blue" />
               <CardTitle className="text-xl font-bold text-gray-900">
@@ -54,7 +54,7 @@ export default function HomeParentCta() {
             </CardContent>
           </Card>
 
-          <Card className="text-center bauhaus-card bg-surface hover:shadow-xl transition-shadow duration-300">
+          <Card className="text-center bauhaus-card bg-card-surface hover:shadow-xl transition-shadow duration-300">
             <CardHeader>
               <CheckCircleIcon className="h-12 w-12 text-mustard-gold mx-auto mb-3" />
               <CardTitle className="text-xl font-bold text-gray-900">

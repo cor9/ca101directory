@@ -1,6 +1,6 @@
 export default function VendorFinalCta() {
   return (
-    <div className="bg-paper border border-primary-orange/20 rounded-xl p-12 text-center shadow-lg">
+    <div className="bg-bg-2 border border-primary-orange/20 rounded-xl p-12 text-center shadow-lg">
       <h2 className="bauhaus-heading text-3xl md:text-4xl mb-4 text-gray-950">
         Ready to grow your business?
       </h2>

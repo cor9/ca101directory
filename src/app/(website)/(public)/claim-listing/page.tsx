@@ -27,7 +27,7 @@ export default function ClaimListingPage() {
       <Container className="mt-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* How it works */}
-          <div className="bg-surface rounded-lg p-6 shadow-lg">
+          <div className="bg-card-surface rounded-lg p-6 shadow-lg">
             <div className="mb-6">
               <h3 className="text-xl font-bold text-[#1E1F23] flex items-center gap-2 mb-2">
                 <Clock className="h-5 w-5" />

@@ -207,7 +207,7 @@ export default async function LocationPage({
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Hero Section - Bauhaus theme */}
-      <div className="bg-surface rounded-lg p-8 mb-8">
+      <div className="bg-card-surface rounded-lg p-8 mb-8">
         <h1 className="text-4xl font-bold text-paper mb-2">
           Child Actor Resources in {location.name}
         </h1>
@@ -217,7 +217,7 @@ export default async function LocationPage({
       </div>
 
       {/* Intro Content */}
-      <div className="bg-paper rounded-lg p-8 border-2 border-surface/20 mb-8">
+      <div className="bg-bg-2 rounded-lg p-8 border-2 border-border-subtle mb-8">
         <p className="text-lg leading-relaxed text-paper mb-6">
           {location.intro}
         </p>
@@ -236,7 +236,7 @@ export default async function LocationPage({
       </div>
 
       {/* Top Categories */}
-      <div className="bg-surface rounded-lg p-8 mb-8">
+      <div className="bg-card-surface rounded-lg p-8 mb-8">
         <h2 className="text-2xl font-bold mb-6 text-paper">
           Popular Categories in {location.shortName}
         </h2>
@@ -270,7 +270,7 @@ export default async function LocationPage({
       </div>
 
       {/* Neighborhoods */}
-      <div className="bg-paper rounded-lg p-8 border-2 border-surface/20 mb-8">
+      <div className="bg-bg-2 rounded-lg p-8 border-2 border-border-subtle mb-8">
         <h2 className="text-2xl font-bold mb-4 text-paper">
           Areas We Serve in {location.name}
         </h2>
@@ -278,7 +278,7 @@ export default async function LocationPage({
           {location.neighborhoods.map((neighborhood) => (
             <span
               key={neighborhood}
-              className="px-4 py-2 bg-surface text-ink rounded-md text-sm font-medium"
+              className="px-4 py-2 bg-card-surface text-text-primary rounded-md text-sm font-medium"
             >
               {neighborhood}
             </span>

@@ -78,7 +78,7 @@ export default function SearchBox({ urlPrefix }: SearchBoxProps) {
         value={searchQuery}
         onChange={handleSearch}
         className={cn(
-          "w-[320px] sm:w-[480px] md:w-[640px] h-12 rounded-r-none bg-paper text-paper placeholder:text-paper/50",
+          "w-[320px] sm:w-[480px] md:w-[640px] h-12 rounded-r-none bg-bg-2 text-text-primary placeholder:text-text-muted",
           // Stronger outline: thick mustard (or white) outline with glow
           "border-2 border-[#c7a163] focus:border-[#c7a163] focus:ring-4 focus:ring-[#c7a163]/60 focus-visible:ring-[#c7a163]/60 focus-visible:ring-offset-0 focus:outline-none",
         )}

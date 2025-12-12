@@ -172,17 +172,17 @@ export default async function ClaimListingPage({
         </div>
 
         {/* Listing preview card */}
-        <Card className="mb-8 bg-surface">
+        <Card className="mb-8 bg-card-surface">
           <CardHeader>
             <div className="flex items-start gap-4">
               <div className="h-16 w-16 bg-bauhaus-blue rounded-lg flex items-center justify-center flex-shrink-0">
-                <Building2 className="h-8 w-8 text-ink" />
+                <Building2 className="h-8 w-8 text-text-primary" />
               </div>
               <div className="flex-1">
-                <h2 className="text-xl font-bold text-ink mb-1">
+                <h2 className="text-xl font-bold text-text-primary mb-1">
                   {listing.listing_name}
                 </h2>
-                <div className="flex items-center gap-2 text-sm text-ink/70">
+                <div className="flex items-center gap-2 text-sm text-text-primary/70">
                   <MapPin className="h-4 w-4" />
                   <span>
                     {listing.city}, {listing.state}
@@ -190,7 +190,7 @@ export default async function ClaimListingPage({
                 </div>
                 {listing.plan && (
                   <div className="mt-2">
-                    <span className="text-xs px-2 py-1 bg-bauhaus-mustard rounded-full text-ink font-medium">
+                    <span className="text-xs px-2 py-1 bg-bauhaus-mustard rounded-full text-text-primary font-medium">
                       {listing.plan} Plan
                     </span>
                   </div>

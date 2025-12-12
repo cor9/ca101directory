@@ -88,7 +88,7 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
         onChange={handleSearch}
         className={cn(
           "w-[320px] sm:w-[480px] md:w-[640px] h-12 rounded-r-none",
-          "bg-paper border-secondary-denim text-paper placeholder:text-paper/60",
+          "bg-bg-2 border-border-subtle text-text-primary placeholder:text-text-muted",
           "focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary-orange focus:border-2 focus:border-r-0",
         )}
       />

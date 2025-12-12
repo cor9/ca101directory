@@ -56,7 +56,7 @@ export default async function PricingPage() {
 
             {/* Free Plan Card - Custom (not Stripe) */}
             <div className="max-w-md mx-auto mb-8">
-              <div className="bauhaus-card bg-surface border-2 border-secondary-denim rounded-lg p-8 text-center shadow-lg">
+              <div className="bauhaus-card bg-card-surface border-2 border-border-subtle rounded-lg p-8 text-center shadow-lg">
                 <h2 className="bauhaus-heading text-2xl font-bold mb-2">
                   Free Plan
                 </h2>

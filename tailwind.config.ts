@@ -22,6 +22,8 @@ const config: Config = {
           DEFAULT: "#0E1117",
           2: "#151922",
           3: "#1B1F29",
+          dark: "#0E1117", // Alias for DEFAULT
+          "dark-2": "#151922", // Alias for 2
         },
 
         card: {

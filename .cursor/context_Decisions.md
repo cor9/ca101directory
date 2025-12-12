@@ -1931,3 +1931,34 @@ Updated all public-facing help documentation to accurately reflect the passwordl
 
 ---
 
+## 2026-02-XX — Session 1: Dark Marketplace Visual Foundation
+
+### Decision
+Establish dark marketplace design system as the dominant visual language. No Bauhaus colors on page-level backgrounds or cards.
+
+### Visual Language Rules
+**Marketplace defaults:**
+- Dark, calm background (`bg-bg` or `bg-bg-dark` for pages, `bg-bg-2` or `bg-bg-dark-2` for sections)
+- Soft cards (`bg-card-surface`)
+- Color as accent, not wallpaper
+- Text defaults to `text-text-primary`
+
+**Rule:** No page-level backgrounds or cards use Bauhaus colors anymore. Accent colors are used sparingly for icons, hover states, and CTAs—never as full tile backgrounds.
+
+### Implementation
+- Root layout: `bg-bg` (dark base)
+- Public layout: `bg-bg` (dark base)
+- Section backgrounds: `bg-bg-2` (slightly lighter dark)
+- Cards: `bg-card-surface` (replaces `bg-surface`, `bg-paper`)
+- Text: `text-text-primary` (replaces `text-ink`, generic `text-text`)
+- Borders: `border-border-subtle` (replaces generic `border`)
+
+### Files Changed
+- `tailwind.config.ts` — added `bg-bg-dark` and `bg-bg-dark-2` aliases
+- Global token swap across components (Session 1, Step 3)
+
+### Status
+In progress — Session 1 foundation work.
+
+---
+

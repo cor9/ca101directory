@@ -99,7 +99,7 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
         />
         <Button
           type="submit"
-          className="rounded-l-none size-12 btn-primary"
+          className="rounded-l-none size-12 bg-accent-aqua text-black hover:bg-accent-aqua/90"
           disabled={isSearching}
         >
           <SearchIcon

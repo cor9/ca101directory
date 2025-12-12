@@ -98,8 +98,7 @@ export default async function AdminDashboard() {
   );
 
   // Calculate MRR (assuming $50/mo for Pro, $25/mo for Standard)
-  const mrr =
-    proListings.length * 50 + standardListings.length * 25;
+  const mrr = proListings.length * 50 + standardListings.length * 25;
 
   // Calculate conversion rate
   const totalPaid = proListings.length + standardListings.length;

@@ -43,14 +43,15 @@ const config: Config = {
           muted: "#A0A3A9",
         },
 
-        /* Accents (used sparingly, never full tiles) */
+        /* Accents - ONE canonical system (Patreon-style) */
         accent: {
-          teal: "#3EE2C9",
-          lemon: "#F7D74E",
-          blue: "#4FA6FF",
-          purple: "#A97CFF",
-          salmon: "#FF8C7A",
-          cranberry: "#B92B5C",
+          red: "#FF3333",       // urgency / submit / alerts
+          orange: "#FF8800",    // CTAs / revenue
+          rose: "#FF00CC",      // creative / demo reels
+          blue: "#6666FF",      // agents / trust
+          aqua: "#00E5FF",      // search / discovery
+          purple: "#B24BF3",    // premium / featured
+          gold: "#FFD700",      // verified / approved
         },
 
         /* Status / utility */

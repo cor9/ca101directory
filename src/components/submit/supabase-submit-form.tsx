@@ -1452,9 +1452,9 @@ export function SupabaseSubmitForm({
             className="
               mt-6
               w-full
-              bg-accent-blue
-              text-bg-dark
-              hover:opacity-90
+              bg-accent-orange
+              text-black
+              hover:bg-accent-orange/90
             "
           >
             {isSubmitting

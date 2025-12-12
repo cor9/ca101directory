@@ -157,8 +157,8 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
     badges.push({
       type: "approved",
       component: (
-        <Badge key="approved" className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
-          <CheckCircleIcon className="w-3 h-3 mr-1" />
+        <Badge key="approved" className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold">
+          <CheckCircleIcon className="w-3 h-3" />
           101 Approved
         </Badge>
       ),
@@ -168,7 +168,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
     badges.push({
       type: "verified",
       component: (
-        <Badge key="verified" className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
+        <Badge key="verified" className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold">
           Verified
         </Badge>
       ),
@@ -212,8 +212,8 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
     <Card
       className={cn(
         "group bg-card-surface border border-border-subtle rounded-xl overflow-hidden shadow-card hover:shadow-cardHover transition-all duration-300",
-        // STEP 8: Featured listings - subtle elevation
-        listing.featured && "ring-1 ring-accent-lemon/40",
+        // STEP 8: Featured listings - subtle elevation (accent-purple border)
+        listing.featured && "ring-1 ring-accent-purple/40",
         isProFeatured && !listing.featured && "ring-1 ring-accent-purple/30",
         isPaidClaimed && !isProFeatured && "bg-bg-dark-2",
         // 16A: Free listings - smaller card, no image
@@ -322,14 +322,14 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
           {isFree ? (
             <Link
               href={`/listing/${slug}`}
-              className="inline-flex items-center justify-center px-3 py-1.5 rounded-md text-sm font-medium bg-accent-teal text-bg-dark hover:opacity-90 transition-colors"
+              className="inline-flex items-center justify-center px-3 py-1.5 rounded-md text-sm font-medium bg-accent-orange text-black hover:bg-accent-orange/90 transition-colors"
             >
               View Profile →
             </Link>
           ) : (
             <Link
               href={`/listing/${slug}`}
-              className="inline-flex items-center justify-center px-3 py-1.5 rounded-md text-sm font-medium bg-accent-teal text-bg-dark hover:opacity-90 transition-colors"
+              className="inline-flex items-center justify-center px-3 py-1.5 rounded-md text-sm font-medium bg-accent-orange text-black hover:bg-accent-orange/90 transition-colors"
             >
               Contact →
             </Link>

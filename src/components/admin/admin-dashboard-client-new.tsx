@@ -105,8 +105,7 @@ export const AdminDashboardClientNew = ({
   // Calculate action items
   const highViewFreeListings = allListings.filter(
     (l) =>
-      (!l.plan || l.plan === "Free" || l.plan === null) &&
-      l.status === "Live",
+      (!l.plan || l.plan === "Free" || l.plan === null) && l.status === "Live",
   );
 
   // Get churn risk (inactive Pro listings - simplified)
@@ -172,11 +171,10 @@ export const AdminDashboardClientNew = ({
               <div className="bg-bg-dark-3 border border-border-subtle rounded-lg p-4 flex justify-between items-center">
                 <div>
                   <p className="text-text-primary font-medium">
-                    {pendingListings.length} listing{pendingListings.length !== 1 ? "s" : ""} pending review
+                    {pendingListings.length} listing
+                    {pendingListings.length !== 1 ? "s" : ""} pending review
                   </p>
-                  <p className="text-sm text-text-muted">
-                    Awaiting approval
-                  </p>
+                  <p className="text-sm text-text-muted">Awaiting approval</p>
                 </div>
                 <button
                   type="button"
@@ -191,7 +189,8 @@ export const AdminDashboardClientNew = ({
               <div className="bg-bg-dark-3 border border-border-subtle rounded-lg p-4 flex justify-between items-center">
                 <div>
                   <p className="text-text-primary font-medium">
-                    {pendingReviews} review{pendingReviews !== 1 ? "s" : ""} pending moderation
+                    {pendingReviews} review{pendingReviews !== 1 ? "s" : ""}{" "}
+                    pending moderation
                   </p>
                   <p className="text-sm text-text-muted">
                     Reviews awaiting approval
@@ -209,7 +208,8 @@ export const AdminDashboardClientNew = ({
               <div className="bg-bg-dark-3 border border-border-subtle rounded-lg p-4 flex justify-between items-center">
                 <div>
                   <p className="text-text-primary font-medium">
-                    {unclaimedListings.length} unclaimed listing{unclaimedListings.length !== 1 ? "s" : ""}
+                    {unclaimedListings.length} unclaimed listing
+                    {unclaimedListings.length !== 1 ? "s" : ""}
                   </p>
                   <p className="text-sm text-text-muted">
                     Free listings not yet claimed
@@ -228,7 +228,9 @@ export const AdminDashboardClientNew = ({
               <div className="bg-bg-dark-3 border border-border-subtle rounded-lg p-4 flex justify-between items-center">
                 <div>
                   <p className="text-text-primary font-medium">
-                    {highViewFreeListings.length} free listing{highViewFreeListings.length !== 1 ? "s" : ""} with high visibility
+                    {highViewFreeListings.length} free listing
+                    {highViewFreeListings.length !== 1 ? "s" : ""} with high
+                    visibility
                   </p>
                   <p className="text-sm text-text-muted">
                     Potential upgrade candidates
@@ -298,11 +300,11 @@ export const AdminDashboardClientNew = ({
             </button>
           </div>
 
-        {updateError && (
-          <div className="rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-700 mb-6">
-            {updateError}
-          </div>
-        )}
+          {updateError && (
+            <div className="rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-700 mb-6">
+              {updateError}
+            </div>
+          )}
 
           {/* Listings as compact cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -336,9 +338,7 @@ export const AdminDashboardClientNew = ({
                 </div>
                 <div className="flex items-center justify-between mt-3 text-xs text-text-muted">
                   <span>{listing.plan || "Free"}</span>
-                  <span>
-                    {listing.is_claimed ? "Claimed" : "Unclaimed"}
-                  </span>
+                  <span>{listing.is_claimed ? "Claimed" : "Unclaimed"}</span>
                 </div>
                 <button
                   type="button"

@@ -103,7 +103,7 @@ export function ListingCardClient({
       className={cn(
         "h-full flex flex-col bg-card-surface border border-border-subtle rounded-xl shadow-card hover:shadow-cardHover transition-all duration-300",
         // STEP 8: Featured listings - subtle elevation
-        isFeatured && "ring-1 ring-accent-lemon/40",
+        isFeatured && "ring-1 ring-accent-purple/40",
         className,
       )}
     >
@@ -166,11 +166,8 @@ export function ListingCardClient({
           {/* 101 Approved Badge */}
           {listing.is_approved_101 === true && (
             <div className="absolute top-2 right-2">
-              <Badge
-                variant="secondary"
-                className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-text-primary text-xs font-medium"
-              >
-                <CheckCircleIcon className="h-3 w-3 mr-1 text-text-primary" />
+              <Badge className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold">
+                <CheckCircleIcon className="w-3 h-3" />
                 101 Approved
               </Badge>
             </div>

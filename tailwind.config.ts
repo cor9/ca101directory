@@ -20,18 +20,13 @@ const config = {
         "card-surface": "rgba(255,255,255,0.05)",
         "border-subtle": "rgba(255,255,255,0.08)",
 
-        // Accent palette for tiles, highlights, badges, CTAs
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-          teal: "#1CC8B0",
-          lemon: "#F5E76A",
-          blue: "#4EA3FF",
-          purple: "#C57CFF",
-          salmon: "#FF8A7A",
-          cranberry: "#D9476D",
-          stone: "#A8ACB9",
-        },
+     // Accent palette — Patreon modern colors
+"accent-teal": "#3EE2C9",
+"accent-lemon": "#F7D74E",
+"accent-blue": "#4FA6FF",
+"accent-purple": "#A97CFF",
+"accent-salmon": "#FF8C7A",
+"accent-cranberry": "#B92B5C",
 
         // Text colors
         "text-primary": "#FFFFFF",

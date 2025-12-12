@@ -48,7 +48,7 @@ export default function FeaturedListingsClient({
             />
             {listing.featured && (
               <div className="absolute top-3 left-3">
-                <span className="px-2 py-1 text-xs font-semibold rounded-md bg-accent-teal text-bg-dark">
+                <span className="px-2 py-1 text-xs font-semibold rounded-md bg-accent-purple text-bg-dark">
                   Featured
                 </span>
               </div>
@@ -57,13 +57,13 @@ export default function FeaturedListingsClient({
 
           <div className="p-4">
             <div className="flex items-center gap-2 mb-2">
-              <Icons.star className="h-3.5 w-3.5 text-accent-teal" />
-              <span className="text-xs text-accent-teal font-medium">
+              <Icons.star className="h-3.5 w-3.5 text-text-muted" />
+              <span className="text-xs text-text-muted font-medium">
                 {listing.category}
               </span>
             </div>
 
-            <h3 className="text-lg font-semibold text-text-primary mb-2 group-hover:text-accent-teal transition-colors">
+            <h3 className="text-lg font-semibold text-text-primary mb-2">
               {listing.name}
             </h3>
 
@@ -84,7 +84,7 @@ export default function FeaturedListingsClient({
               </div>
             )}
 
-            <div className="text-sm font-semibold text-accent-teal group-hover:underline">
+            <div className="text-sm font-semibold text-text-secondary group-hover:text-text-primary transition-colors">
               View Profile →
             </div>
           </div>

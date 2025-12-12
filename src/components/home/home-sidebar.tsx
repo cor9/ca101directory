@@ -159,13 +159,13 @@ export function HomeSidebar({ categories }: HomeSidebarProps) {
       <section>
         <Link
           href="/suggest-vendor"
-          className="block p-4 rounded-xl border border-accent-teal/40 bg-accent-teal/10 hover:bg-accent-teal/20 transition-all hover:border-accent-teal/60 hover:shadow-lg hover:shadow-accent-teal/20 group"
+          className="block p-4 rounded-xl border border-border-subtle bg-card-surface hover:bg-bg-3 transition-all hover:border-border-subtle group"
         >
           <div className="flex items-center justify-between">
-            <span className="font-semibold text-base text-text-primary group-hover:text-accent-teal transition-colors">
+            <span className="font-semibold text-base text-text-primary">
               Know someone great?
             </span>
-            <ArrowRightIcon className="w-5 h-5 text-accent-teal group-hover:translate-x-1 transition-transform" />
+            <ArrowRightIcon className="w-5 h-5 text-text-muted group-hover:text-text-primary group-hover:translate-x-1 transition-all" />
           </div>
           <p className="text-sm text-text-secondary mt-2 group-hover:text-text-primary">
             Suggest a vendor →

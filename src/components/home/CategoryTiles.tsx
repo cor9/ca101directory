@@ -116,7 +116,7 @@ export default async function CategoryTiles() {
               />
 
               <div className="relative">
-                <div className={cn("mb-4", category.iconColor)}>
+                <div className="mb-4 text-text-secondary">
                   <Icon className="w-6 h-6" />
                 </div>
 

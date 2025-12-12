@@ -8,6 +8,6 @@
   }
 
   a {
-    @apply text-accent-teal hover:text-accent-lemon transition-colors;
+    @apply text-text-secondary hover:text-text-primary transition-colors;
   }
 }

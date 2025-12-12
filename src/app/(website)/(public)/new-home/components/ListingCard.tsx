@@ -132,7 +132,7 @@ export default function ListingCard({
 
         <div className="flex-1 min-w-0">
 
-          <h3 className="font-medium text-text-primary truncate group-hover:text-accent-teal transition">
+          <h3 className="font-medium text-text-primary truncate  transition">
 
             {listingName}
 
@@ -146,7 +146,7 @@ export default function ListingCard({
 
         {listing.is_verified && (
 
-          <CheckCircle className="w-4 h-4 text-accent-teal flex-shrink-0" />
+          <CheckCircle className="w-4 h-4 text-accent-lemon flex-shrink-0" />
 
         )}
 
@@ -224,7 +224,7 @@ export default function ListingCard({
 
           {listing.is_verified && (
 
-            <div className="absolute top-3 right-3 px-3 py-1 bg-accent-teal/90 text-white font-semibold text-xs rounded-full flex items-center gap-1">
+            <div className="absolute top-3 right-3 px-3 py-1 bg-accent-lemon text-bg-dark font-semibold text-xs rounded-full flex items-center gap-1">
 
               <CheckCircle className="w-3 h-3" />
 
@@ -246,7 +246,7 @@ export default function ListingCard({
 
             <div className="min-w-0">
 
-              <h3 className="text-xl font-semibold text-text-primary truncate group-hover:text-accent-teal transition">
+              <h3 className="text-xl font-semibold text-text-primary truncate  transition">
 
                 {listingName}
 
@@ -402,7 +402,7 @@ export default function ListingCard({
 
         {listing.is_verified && (
 
-          <div className="absolute top-2 right-2 px-2 py-1 bg-accent-teal/90 text-white text-xs font-medium rounded-full flex items-center gap-1">
+          <div className="absolute top-2 right-2 px-2 py-1 bg-accent-lemon text-bg-dark text-xs font-medium rounded-full flex items-center gap-1">
 
             <CheckCircle className="w-3 h-3" />
 
@@ -420,7 +420,7 @@ export default function ListingCard({
 
       <div className="p-4">
 
-        <h3 className="font-semibold text-text-primary truncate group-hover:text-accent-teal transition">
+        <h3 className="font-semibold text-text-primary truncate  transition">
 
           {listingName}
 

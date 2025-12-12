@@ -137,7 +137,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
     <Card
       className={cn(
         "group bg-card-surface border border-border-subtle rounded-card overflow-hidden shadow-card hover:shadow-cardHover hover:-translate-y-0.5 transition-all duration-300",
-        isProFeatured && "ring-1 ring-accent-teal/30",
+        isProFeatured && "ring-1 ring-accent-purple/30",
         className,
       )}
     >
@@ -191,7 +191,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
           {/* Right badges */}
           <div className="flex gap-2">
             {listing.badge_approved === true && (
-              <Badge className="text-xs font-semibold bg-accent-teal text-bg-dark">
+              <Badge className="text-xs font-semibold bg-accent-lemon text-bg-dark">
                 <CheckCircleIcon className="w-3 h-3 mr-1" />
                 101 Approved
               </Badge>
@@ -210,13 +210,13 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
 
       <CardContent className="p-4 space-y-3">
         {/* Title */}
-        <h3 className="text-lg font-semibold text-text-primary line-clamp-1 group-hover:text-accent-teal transition-colors">
+        <h3 className="text-lg font-semibold text-text-primary line-clamp-1">
           {listing.listing_name || "Untitled Listing"}
         </h3>
 
         {/* Category */}
         {validCategories.length > 0 && (
-          <div className="text-sm text-accent-teal font-medium">
+          <div className="text-sm text-text-secondary font-medium">
             {validCategories[0]}
           </div>
         )}
@@ -290,7 +290,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
           <Button
             size="sm"
             asChild
-            className="w-full rounded-xl bg-accent-teal text-bg-dark font-semibold hover:opacity-90"
+            className="w-full rounded-xl bg-accent-teal text-bg-dark font-semibold hover:bg-accent-teal/90"
           >
             <Link href={`/listing/${slug}`}>View Profile</Link>
           </Button>

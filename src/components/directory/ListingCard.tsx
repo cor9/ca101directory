@@ -75,14 +75,14 @@ export default function ListingCard({ listing, variant = "default" }: ListingCar
 
         {/* Text */}
         <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-text-primary truncate group-hover:text-accent-teal transition">
+          <h3 className="font-medium text-text-primary truncate">
             {listingName}
           </h3>
           <p className="text-xs text-text-muted truncate">{category}</p>
         </div>
 
         {listing.is_verified && (
-          <CheckCircle className="w-4 h-4 text-accent-teal" />
+          <CheckCircle className="w-4 h-4 text-accent-lemon" />
         )}
       </Link>
     );
@@ -119,7 +119,7 @@ export default function ListingCard({ listing, variant = "default" }: ListingCar
 
           {/* Verified Badge */}
           {listing.is_verified && (
-            <div className="absolute top-3 right-3 bg-accent-teal text-white font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1 shadow">
+            <div className="absolute top-3 right-3 bg-accent-lemon text-bg-dark font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1 shadow">
               <CheckCircle className="w-3 h-3" /> Verified
             </div>
           )}
@@ -127,7 +127,7 @@ export default function ListingCard({ listing, variant = "default" }: ListingCar
 
         {/* Content */}
         <div className="p-5">
-          <h3 className="text-xl font-semibold text-text-primary truncate group-hover:text-accent-teal transition">
+          <h3 className="text-xl font-semibold text-text-primary truncate">
             {listingName}
           </h3>
           <p className="text-sm text-accent-blue mt-1">{category}</p>
@@ -206,7 +206,7 @@ export default function ListingCard({ listing, variant = "default" }: ListingCar
         )}
 
         {listing.is_verified && (
-          <div className="absolute top-2 right-2 bg-accent-teal text-white text-xs px-2 py-1 rounded-full flex items-center gap-1 shadow">
+          <div className="absolute top-2 right-2 bg-accent-lemon text-bg-dark text-xs px-2 py-1 rounded-full flex items-center gap-1 shadow">
             <CheckCircle className="w-3 h-3" /> Verified
           </div>
         )}
@@ -214,7 +214,7 @@ export default function ListingCard({ listing, variant = "default" }: ListingCar
 
       {/* Content */}
       <div className="p-4 space-y-2">
-        <h3 className="font-semibold text-text-primary truncate group-hover:text-accent-teal transition">
+        <h3 className="font-semibold text-text-primary truncate">
           {listingName}
         </h3>
 

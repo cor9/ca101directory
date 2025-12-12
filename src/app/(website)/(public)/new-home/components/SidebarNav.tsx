@@ -41,7 +41,7 @@ export default function SidebarNav() {
                 href={item.href}
                 className={`flex items-center gap-3 px-3 py-2 rounded-xl transition ${
                   isActive
-                    ? "bg-accent-teal/20 text-accent-teal"
+                    ? "bg-bg-3 text-text-primary"
                     : "text-text-secondary hover:bg-white/10"
                 }`}
               >
@@ -66,7 +66,7 @@ export default function SidebarNav() {
                 <Link
                   href={item.href}
                   className={`flex flex-col items-center gap-1 px-3 py-2 ${
-                    isActive ? "text-accent-teal" : "text-text-muted"
+                    isActive ? "text-text-primary" : "text-text-muted"
                   }`}
                 >
                   <item.icon className="w-5 h-5" />

@@ -230,7 +230,7 @@ export default function ListingGrid({
 
   return (
 
-    <div className={`grid gap-6 ${gridClass}`}>
+    <div className={`grid gap-8 ${gridClass}`}>
 
       {listings.map((listing) => (
 

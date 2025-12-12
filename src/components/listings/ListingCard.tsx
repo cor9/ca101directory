@@ -161,28 +161,12 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
           {/* Left badges */}
           <div className="flex gap-2">
             {listing.featured && (
-              <Badge
-                className={cn(
-                  "text-xs font-semibold",
-                  badgeColor,
-                  badgeColor === "bg-primary-orange"
-                    ? "text-text-primary"
-                    : "text-text-primary",
-                )}
-              >
+              <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
                 {badgeText}
               </Badge>
             )}
             {!listing.featured && planPriority >= 3 && (
-              <Badge
-                className={cn(
-                  "text-xs font-semibold",
-                  badgeColor,
-                  badgeColor === "bg-primary-orange"
-                    ? "text-text-primary"
-                    : "text-text-primary",
-                )}
-              >
+              <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
                 {badgeText}
               </Badge>
             )}
@@ -191,44 +175,20 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
           {/* Right badges */}
           <div className="flex gap-2">
             {listing.badge_approved === true && (
-              <Badge className="text-xs font-semibold bg-accent-lemon text-bg-dark">
+              <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
                 <CheckCircleIcon className="w-3 h-3 mr-1" />
                 101 Approved
               </Badge>
             )}
-            {isReviewsEnabled() &&
-              averageRating.count > 0 &&
-              averageRating.average >= 4.5 && (
-                <Badge className="text-xs font-semibold bg-highlight text-text-primary">
-                  <StarIcon className="w-3 h-3 mr-1" />
-                  {averageRating.average.toFixed(1)}
-                </Badge>
-              )}
           </div>
         </div>
       </div>
 
-      <CardContent className="p-4 space-y-3">
+      <CardContent className="p-4 space-y-2">
         {/* Title */}
-        <h3 className="text-lg font-semibold text-text-primary line-clamp-1">
+        <h3 className="text-xl font-semibold text-text-primary line-clamp-1">
           {listing.listing_name || "Untitled Listing"}
         </h3>
-
-        {/* Category */}
-        {validCategories.length > 0 && (
-          <div className="text-sm text-text-secondary font-medium">
-            {validCategories[0]}
-          </div>
-        )}
-
-        {/* Description */}
-        <p className="text-sm text-text-secondary line-clamp-2">
-          {(listing.what_you_offer || "Professional acting services")
-            .replace(/<[^>]*>/g, "")
-            .substring(0, 120)}
-          {(listing.what_you_offer || "").replace(/<[^>]*>/g, "").length >
-            120 && "..."}
-        </p>
 
         {/* Location - Always shown if present */}
         {(listing.city || listing.state || listing.region) && (
@@ -242,59 +202,38 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
           </div>
         )}
 
-        {/* Rating */}
-        {isReviewsEnabled() && averageRating.count > 0 && (
-          <div className="flex items-center gap-2 text-sm">
+        {/* Category / Services - 1 line summary */}
+        {validCategories.length > 0 && (
+          <p className="text-sm text-text-muted line-clamp-1">
+            {validCategories[0]}
+          </p>
+        )}
+      </CardContent>
+
+      <CardFooter className="p-4 pt-0 flex items-center justify-between">
+        {/* Rating - bottom left */}
+        {isReviewsEnabled() && averageRating.count > 0 ? (
+          <div className="flex items-center gap-1.5">
             <StarRating
               value={Math.round(averageRating.average)}
               readonly
               size="sm"
             />
-            <span className="text-text-secondary">
-              {averageRating.average.toFixed(1)} ({averageRating.count} review
-              {averageRating.count !== 1 ? "s" : ""})
+            <span className="text-xs text-text-muted">
+              {averageRating.average.toFixed(1)}
             </span>
           </div>
+        ) : (
+          <div />
         )}
-      </CardContent>
 
-      <CardFooter className="p-4 pt-0">
-        <div className="flex items-center justify-between w-full gap-2">
-          <div className="flex items-center gap-2">
-            {listing.website && (
-              <Button
-                size="sm"
-                variant="ghost"
-                asChild
-                className="text-text-secondary hover:text-text-primary"
-              >
-                <Link
-                  href={listing.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1"
-                >
-                  <GlobeIcon className="w-4 h-4" />
-                </Link>
-              </Button>
-            )}
-            {isFavoritesEnabled() && (
-              <FavoriteButton
-                listingId={listing.id}
-                listingName={listing.listing_name}
-                size="sm"
-                variant="ghost"
-              />
-            )}
-          </div>
-          <Button
-            size="sm"
-            asChild
-            className="w-full rounded-xl bg-accent-teal text-bg-dark font-semibold hover:bg-accent-teal/90"
-          >
-            <Link href={`/listing/${slug}`}>View Profile</Link>
-          </Button>
-        </div>
+        {/* CTA - bottom right */}
+        <Link
+          href={`/listing/${slug}`}
+          className="text-sm text-text-secondary hover:text-accent-teal transition-colors"
+        >
+          View Profile →
+        </Link>
       </CardFooter>
     </Card>
   );

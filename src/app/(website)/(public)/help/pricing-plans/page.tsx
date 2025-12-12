@@ -20,9 +20,7 @@ export default function PricingPlansPage() {
       </Link>
 
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-paper mb-4">
-          Pricing & Plans
-        </h1>
+        <h1 className="text-4xl font-bold text-paper mb-4">Pricing & Plans</h1>
         <p className="text-xl text-paper max-w-2xl mx-auto">
           Choose the plan that best fits your business needs. All plans include
           core listing features.
@@ -39,7 +37,9 @@ export default function PricingPlansPage() {
               <span className="text-4xl font-bold text-[#1E1F23]">$0</span>
               <span className="text-[#1E1F23]">/forever</span>
             </div>
-            <p className="text-sm text-[#1E1F23]">Perfect for getting started</p>
+            <p className="text-sm text-[#1E1F23]">
+              Perfect for getting started
+            </p>
           </div>
 
           <div className="flex-1 space-y-3 mb-6">
@@ -53,7 +53,9 @@ export default function PricingPlansPage() {
             </div>
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-[#1E1F23]">Contact information</span>
+              <span className="text-sm text-[#1E1F23]">
+                Contact information
+              </span>
             </div>
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
@@ -122,7 +124,9 @@ export default function PricingPlansPage() {
             </div>
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-[#1E1F23]">Enhanced visibility</span>
+              <span className="text-sm text-[#1E1F23]">
+                Enhanced visibility
+              </span>
             </div>
             <div className="flex items-start gap-2">
               <X className="w-5 h-5 text-[#1E1F23] flex-shrink-0 mt-0.5" />
@@ -157,7 +161,9 @@ export default function PricingPlansPage() {
               <span className="text-4xl font-bold text-[#1E1F23]">$50</span>
               <span className="text-[#1E1F23]">/month</span>
             </div>
-            <p className="text-sm text-[#1E1F23]">Best for growing businesses</p>
+            <p className="text-sm text-[#1E1F23]">
+              Best for growing businesses
+            </p>
           </div>
 
           <div className="flex-1 space-y-3 mb-6">
@@ -170,7 +176,9 @@ export default function PricingPlansPage() {
             <div className="flex items-start gap-2">
               <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
               <span className="text-sm text-[#1E1F23]">
-                <strong>Gallery images (4 photos)</strong>
+                <strong>
+                  Gallery images (up to 12 photos) + YouTube/Vimeo embed
+                </strong>
               </span>
             </div>
             <div className="flex items-start gap-2">
@@ -209,7 +217,6 @@ export default function PricingPlansPage() {
             Choose Pro
           </Link>
         </div>
-
       </div>
 
       {/* Annual Plans */}

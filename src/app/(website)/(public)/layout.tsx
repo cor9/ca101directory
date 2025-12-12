@@ -15,11 +15,7 @@ export default async function MarketingLayout({
   const user = await currentUser();
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* <div className="sticky top-0 z-50">
-        <BannerAd />
-        <Navbar scroll={true} config={marketingConfig} user={user} />
-      </div> */}
+    <div className="flex flex-col min-h-screen bg-bg-dark text-text-primary">
       <Navbar scroll={true} config={marketingConfig} user={user} />
       <main className="flex-1 pt-16">{children}</main>
       <Footer />

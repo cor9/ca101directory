@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 import Container from "@/components/container";
+import { SuggestVendorCTA } from "@/components/cta/SuggestVendorCTA";
 import DirectoryClient from "@/components/directory/DirectoryClient";
 import DirectoryHeroSearch from "@/components/directory/DirectoryHeroSearch";
 import WhyParentsTrust from "@/components/directory/WhyParentsTrust";
@@ -122,13 +123,8 @@ export default async function DirectoryPage({
       </Container>
 
       {/* Suggest a vendor CTA */}
-      <Container className="px-6">
-        <a
-          href="/submit"
-          className="inline-block mt-2 px-5 py-3 rounded-lg font-semibold text-white bg-orange-500 hover:bg-orange-600 transition shadow-md text-lg"
-        >
-          Know someone great? Suggest a vendor →
-        </a>
+      <Container className="px-6 py-4">
+        <SuggestVendorCTA />
       </Container>
 
       {/* Featured Vendors */}

@@ -188,7 +188,8 @@ export default function GettingStartedPage() {
                   Gallery Images (Pro+)
                 </p>
                 <p className="text-sm text-[#1E1F23]">
-                  Add up to 4 additional photos (1200x800px recommended)
+                  Add up to 12 gallery photos + YouTube/Vimeo embed (1200x800px
+                  recommended)
                 </p>
               </div>
             </div>

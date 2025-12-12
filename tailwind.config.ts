@@ -93,6 +93,17 @@ const config = {
         "bauhaus-orange": "var(--faded-red-orange)",
         "bauhaus-blue": "var(--robin-egg-blue)",
         "bauhaus-charcoal": "var(--charcoal)",
+
+        // Phase 6: Patreon-style dark marketplace tokens
+        "bg-dark": "#0D1B2A",
+        "bg-dark-2": "#142B3B",
+        "bg-dark-3": "#19324B",
+        "text-primary": "#FAFAF4",
+        "text-secondary": "#FAFAF499",
+        "text-muted": "#93A3B5",
+        "accent-teal": "#3E9CA3",
+        "border-subtle": "rgba(58, 118, 166, 0.3)",
+        "card-surface": "#1A2332",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -102,6 +113,7 @@ const config = {
       },
       boxShadow: {
         card: "0 6px 14px rgba(13, 27, 42, 0.25)",
+        cardHover: "0 10px 20px rgba(13, 27, 42, 0.35)",
         hover: "0 10px 20px rgba(13, 27, 42, 0.35)",
       },
       fontFamily: {

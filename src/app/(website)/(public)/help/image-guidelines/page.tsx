@@ -1,10 +1,11 @@
+import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Image Guidelines | Child Actor 101 Directory",
-  description: "Professional image upload guidelines for your Pro listing on Child Actor 101 Directory",
+  description:
+    "Professional image upload guidelines for your Pro listing on Child Actor 101 Directory",
 };
 
 export default function ImageGuidelinesPage() {
@@ -75,8 +76,9 @@ export default function ImageGuidelinesPage() {
             Gallery Images (Your Photo Gallery)
           </h2>
           <p className="text-[#1E1F23]">
-            <strong>What it is:</strong> Up to 4 additional images showcasing
-            your business, facility, team, or work samples.
+            <strong>What it is:</strong> Up to 12 gallery images showcasing your
+            business, facility, team, or work samples. Pro plan also includes
+            YouTube/Vimeo embed.
           </p>
 
           <div className="bg-bauhaus-blue rounded-lg p-6 shadow-lg my-6 shadow-sm">
@@ -129,11 +131,15 @@ export default function ImageGuidelinesPage() {
             </li>
             <li className="flex items-start gap-3">
               <span className="text-2xl">✅</span>
-              <span>Profile image is square (or will be cropped to square)</span>
+              <span>
+                Profile image is square (or will be cropped to square)
+              </span>
             </li>
             <li className="flex items-start gap-3">
               <span className="text-2xl">✅</span>
-              <span>Gallery images are landscape orientation for best display</span>
+              <span>
+                Gallery images are landscape orientation for best display
+              </span>
             </li>
             <li className="flex items-start gap-3">
               <span className="text-2xl">✅</span>
@@ -190,4 +196,3 @@ export default function ImageGuidelinesPage() {
     </div>
   );
 }
-

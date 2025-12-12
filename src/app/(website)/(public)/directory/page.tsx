@@ -109,7 +109,7 @@ export default async function DirectoryPage({
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   return (
-    <div className="flex flex-col bg-[#0C1A2B]">
+    <div className="flex flex-col bg-bg-dark min-h-screen">
       {/* Search-First Hero */}
       <DirectoryHeroSearch categories={categories} />
 
@@ -133,7 +133,7 @@ export default async function DirectoryPage({
       </Container>
 
       {/* Listings Grid */}
-      <section id="search-results" className="mx-auto max-w-7xl px-6 py-8">
+      <section id="search-results" className="max-w-7xl mx-auto px-4 py-8">
         <h2 className="bauhaus-heading text-2xl text-white mb-6">
           All Professionals
           <span className="text-white/50 text-lg font-normal ml-2">

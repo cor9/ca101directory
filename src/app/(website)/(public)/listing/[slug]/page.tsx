@@ -780,7 +780,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
               </div>
 
               {/* 16C: Competitive Context for Free listings */}
-              {(!listing.plan || listing.plan === "Free" || listing.plan === null) && (
+              {(!listing.plan ||
+                listing.plan === "Free" ||
+                listing.plan === null) && (
                 <section className="mt-16 pt-10 border-t border-slate-200">
                   <p className="text-sm text-slate-600 mb-6">
                     Families typically contact 2–3 providers before deciding.
@@ -807,7 +809,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
                         })
                         .slice(0, 2)
                         .map((itemListing) => (
-                          <ListingCard key={itemListing.id} listing={itemListing} />
+                          <ListingCard
+                            key={itemListing.id}
+                            listing={itemListing}
+                          />
                         ))}
                     </div>
                   ) : recommendedItems.length > 0 ? (
@@ -817,14 +822,17 @@ export default async function ListingPage({ params }: ListingPageProps) {
               )}
 
               {/* Recommended Providers Module - for paid listings */}
-              {listing.plan && listing.plan !== "Free" && listing.plan !== null && recommendedItems.length > 0 && (
-                <section className="mt-16 pt-10 border-t border-slate-200">
-                  <h2 className="text-xl font-bold mb-6 text-slate-900">
-                    Other Trusted Providers in {listing.state || "Your Area"}
-                  </h2>
-                  <ListingCarousel listings={recommendedItems} />
-                </section>
-              )}
+              {listing.plan &&
+                listing.plan !== "Free" &&
+                listing.plan !== null &&
+                recommendedItems.length > 0 && (
+                  <section className="mt-16 pt-10 border-t border-slate-200">
+                    <h2 className="text-xl font-bold mb-6 text-slate-900">
+                      Other Trusted Providers in {listing.state || "Your Area"}
+                    </h2>
+                    <ListingCarousel listings={recommendedItems} />
+                  </section>
+                )}
             </div>
           </div>
         </div>

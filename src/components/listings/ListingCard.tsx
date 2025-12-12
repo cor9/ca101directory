@@ -211,18 +211,20 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
   return (
     <Card
       className={cn(
-        "group bg-card-surface border border-border-subtle rounded-card overflow-hidden shadow-card hover:shadow-cardHover hover:-translate-y-0.5 transition-all duration-300",
-        isProFeatured && "ring-1 ring-accent-purple/30",
+        "group bg-card-surface border border-border-subtle rounded-xl overflow-hidden shadow-card hover:shadow-cardHover transition-all duration-300",
+        // STEP 8: Featured listings - subtle elevation
+        listing.featured && "ring-1 ring-accent-lemon/40",
+        isProFeatured && !listing.featured && "ring-1 ring-accent-purple/30",
         isPaidClaimed && !isProFeatured && "bg-bg-dark-2",
         // 16A: Free listings - smaller card, no image
         isFree && "opacity-90 scale-[0.98]",
         className,
       )}
     >
-      {/* Image Area - Hero */}
+      {/* STEP 4: Image Area - Hero - fixed height, rounded top */}
       {/* 16A: Free listings get no image, Standard/Pro get image */}
       {!isFree && (
-        <div className="relative h-44 w-full bg-bg-2">
+        <div className="relative h-40 w-full overflow-hidden rounded-t-xl bg-bg-dark-2">
           {(listing.profile_image || fallbackCategoryUrl) && (
             <Image
               src={
@@ -285,12 +287,12 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
           </div>
         )}
 
-        {/* Category / Services - 1 line summary */}
+        {/* STEP 5: Category label - readable, scannable */}
         {/* 16A: Free listings get muted category label */}
         {validCategories.length > 0 && (
           <p className={cn(
-            "text-sm line-clamp-1",
-            isFree ? "text-text-muted/70" : "text-text-muted"
+            "text-sm font-medium line-clamp-1",
+            isFree ? "text-text-muted/70" : "text-accent-blue"
           )}>
             {validCategories[0]}
           </p>
@@ -315,19 +317,19 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
             <div />
           )}
 
-          {/* CTA - bottom right */}
+          {/* STEP 7: CTA hierarchy - real button, not ghost link */}
           {/* 16A: Free listings get "View Profile" only, Standard/Pro get "Contact" button */}
           {isFree ? (
             <Link
               href={`/listing/${slug}`}
-              className="text-sm text-text-secondary hover:text-accent-teal transition-colors"
+              className="inline-flex items-center justify-center px-3 py-1.5 rounded-md text-sm font-medium bg-accent-teal text-bg-dark hover:opacity-90 transition-colors"
             >
               View Profile →
             </Link>
           ) : (
             <Link
               href={`/listing/${slug}`}
-              className="text-sm text-accent-teal hover:text-accent-teal/80 font-medium transition-colors"
+              className="inline-flex items-center justify-center px-3 py-1.5 rounded-md text-sm font-medium bg-accent-teal text-bg-dark hover:opacity-90 transition-colors"
             >
               Contact →
             </Link>

@@ -36,7 +36,8 @@ export async function getVendorPosition(
   // Get category name from listing or parameter
   const primaryCategory =
     categoryName ||
-    (Array.isArray(vendorListing.categories) && vendorListing.categories.length > 0
+    (Array.isArray(vendorListing.categories) &&
+    vendorListing.categories.length > 0
       ? vendorListing.categories[0]
       : null);
 

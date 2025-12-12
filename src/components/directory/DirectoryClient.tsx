@@ -64,8 +64,8 @@ export default function DirectoryClient({
 
   return (
     <div>
-      {/* Listings Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* STEP 2: Grid system - proper density */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {items.map((item) => (
           <ListingCardClient key={item._id} item={item} />
         ))}

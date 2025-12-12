@@ -198,21 +198,22 @@ export default async function CategoryPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-navy-900 text-paper">
+    <div className="bg-bg-dark min-h-screen">
+      <section className="max-w-7xl mx-auto px-4 py-8">
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="bauhaus-heading text-4xl mb-8 text-paper">
+        <h1 className="text-4xl font-semibold mb-8 text-text-primary">
           Browse by Category
         </h1>
-        <p className="bauhaus-body text-xl text-paper max-w-3xl mx-auto">
+        <p className="text-lg text-text-secondary max-w-3xl mx-auto">
           Find trusted acting professionals organized by specialty. Each
           category contains verified professionals ready to help your child
           succeed in the entertainment industry.
         </p>
       </div>
 
-      {/* Categories Grid */}
-      <div className="bauhaus-grid bauhaus-grid-3 xl:grid-cols-4 gap-6 mb-12">
+      {/* STEP 2: Categories Grid - proper density */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
         {categories.map((category, index) => {
           const IconComponent = category.icon
             ? Icons[category.icon]
@@ -239,67 +240,111 @@ export default async function CategoryPage() {
           const colors = bauhausColors[index % bauhausColors.length];
 
           return (
-            <Link key={category.slug} href={`/category/${category.slug}`}>
-              <div className="bauhaus-card p-6 mb-4 h-full hover:shadow-xl transition-all duration-300">
-                <div className="text-center p-6">
-                  <div className="flex justify-center mb-4">
-                    <div
-                      className={`relative h-24 w-24 ${colors.bg} rounded-lg shadow-bauhaus overflow-hidden`}
-                    >
-                      {category.iconPngUrl ? (
-                        <Image
-                          src={category.iconPngUrl}
-                          alt={category.name}
-                          fill
-                          className="object-contain"
-                        />
-                      ) : (
-                        <div
-                          className={`absolute inset-0 ${colors.text} flex items-center justify-center font-bold text-2xl`}
-                        >
-                          {category.name.charAt(0)}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <h3 className="bauhaus-heading text-xl mb-3">
-                    {category.name}
-                  </h3>
-                  <div
-                    className={`bauhaus-chip ${colors.bg} ${colors.text} mb-4`}
-                  >
-                    {category.count} PROFESSIONAL
-                    {category.count !== 1 ? "S" : ""}
-                  </div>
-                  <p className="bauhaus-body text-base leading-relaxed text-surface">
-                    {category.description}
-                  </p>
-                </div>
+            <Link
+              key={category.slug}
+              href={`/category/${category.slug}`}
+              className="
+                group
+                relative
+                bg-card-surface
+                border
+                border-border-subtle
+                rounded-xl
+                p-5
+                shadow-card
+                transition
+                hover:shadow-cardHover
+                hover:border-accent-blue/40
+              "
+            >
+              {/* STEP 4: Category icon - visual anchor */}
+              <div className="
+                w-10 h-10
+                rounded-lg
+                bg-bg-dark-3
+                flex items-center justify-center
+                text-accent-blue
+                mb-4
+              ">
+                {category.iconPngUrl ? (
+                  <Image
+                    src={category.iconPngUrl}
+                    alt={category.name}
+                    width={20}
+                    height={20}
+                    className="object-contain"
+                  />
+                ) : (
+                  <IconComponent className="w-5 h-5" />
+                )}
               </div>
+
+              {/* STEP 5: Category name - headline */}
+              <h3 className="
+                text-lg
+                font-semibold
+                text-text-primary
+                group-hover:text-accent-blue
+                transition
+                mb-1
+              ">
+                {category.name}
+              </h3>
+
+              {/* STEP 6: Category description - optional, short */}
+              {category.description && (
+                <p className="
+                  mt-1
+                  text-sm
+                  text-text-muted
+                  line-clamp-2
+                ">
+                  {category.description}
+                </p>
+              )}
+
+              {/* STEP 7: Count/signal - confidence cue */}
+              <span className="
+                absolute
+                top-4
+                right-4
+                text-xs
+                font-medium
+                text-text-muted
+              ">
+                {category.count}+ providers
+              </span>
             </Link>
           );
         })}
       </div>
 
       {/* Call to Action */}
-      <div className="bauhaus-card text-center p-8">
-        <h2 className="bauhaus-heading text-2xl mb-4">
+      <div className="bg-card-surface border border-border-subtle rounded-xl text-center p-8">
+        <h2 className="text-2xl font-semibold mb-4 text-text-primary">
           Don't See Your Category?
         </h2>
-        <p className="bauhaus-body text-surface mb-6 max-w-2xl mx-auto">
+        <p className="text-text-secondary mb-6 max-w-2xl mx-auto">
           We're constantly adding new categories and professionals. If you don't
           see what you're looking for, try our search feature or submit a
           listing request.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/search" className="bauhaus-btn-primary">
-            SEARCH ALL PROFESSIONALS
+          <Link
+            href="/search"
+            className="inline-flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium bg-accent-teal text-bg-dark hover:opacity-90 transition-colors"
+          >
+            Search All Professionals
           </Link>
-          <Link href="/submit" className="bauhaus-btn-secondary">
-            SUBMIT YOUR LISTING
+          <Link
+            href="/submit"
+            className="inline-flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium bg-transparent border border-border-subtle text-text-secondary hover:text-text-primary transition-colors"
+          >
+            Submit Your Listing
           </Link>
         </div>
       </div>
+      </section>
     </div>
   );
 }

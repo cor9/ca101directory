@@ -87,9 +87,10 @@ export default async function CategoryTiles() {
   }
 
   return (
-    <section id="categories" className="bg-bg-dark pb-20">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <section id="categories" className="bg-bg-dark min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* STEP 2: Category grid - proper density */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
           {categoryConfig.map((category) => {
             const count = categoryCounts[category.name] || 0;
             const Icon = category.icon;
@@ -100,27 +101,53 @@ export default async function CategoryTiles() {
                 href={`/category/${category.slug}`}
                 className="
                   group
-                  bg-bg-dark-3
-                  border border-border-subtle
-                  rounded-tile
-                  p-6
+                  relative
+                  bg-card-surface
+                  border
+                  border-border-subtle
+                  rounded-xl
+                  p-5
                   shadow-card
-                  hover:shadow-cardHover
-                  hover:-translate-y-1
                   transition
+                  hover:shadow-cardHover
+                  hover:border-accent-blue/40
                 "
               >
-                <div className="mb-4">
-                  <Icon className="w-6 h-6 text-text-muted" />
+                {/* STEP 4: Category icon - visual anchor */}
+                <div className="
+                  w-10 h-10
+                  rounded-lg
+                  bg-bg-dark-3
+                  flex items-center justify-center
+                  text-accent-blue
+                  mb-4
+                ">
+                  <Icon className="w-5 h-5" />
                 </div>
 
-                <h3 className="text-text-primary font-semibold mb-2">
+                {/* STEP 5: Category name - headline, not metadata */}
+                <h3 className="
+                  text-lg
+                  font-semibold
+                  text-text-primary
+                  group-hover:text-accent-blue
+                  transition
+                  mb-1
+                ">
                   {category.name}
                 </h3>
 
-                <p className="text-text-muted text-sm">
-                  {count} {count === 1 ? "professional" : "professionals"}
-                </p>
+                {/* STEP 7: Count/signal - confidence cue */}
+                <span className="
+                  absolute
+                  top-4
+                  right-4
+                  text-xs
+                  font-medium
+                  text-text-muted
+                ">
+                  {count}+ providers
+                </span>
               </Link>
             );
           })}

@@ -13,6 +13,17 @@ const config = {
     },
     extend: {
       colors: {
+        // New homepage palette (Phase 6)
+        "new-teal": "#0D9488",
+        "new-lemon": "#F2C94C",
+        "new-cranberry": "#DC2626",
+        "new-purple": "#7C3AED",
+        "new-stone": "#64748B",
+        "new-salmon": "#F97316",
+        "new-muted-blue": "#3B82F6",
+        "new-dark": "#0F121A",
+        "new-dark-secondary": "#121620",
+        "new-card": "#1A1F2E",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -101,6 +112,8 @@ const config = {
       boxShadow: {
         card: "0 6px 14px rgba(13, 27, 42, 0.25)",
         hover: "0 10px 20px rgba(13, 27, 42, 0.35)",
+        "card-new": "0 4px 20px rgba(0, 0, 0, 0.3)",
+        "card-new-hover": "0 8px 30px rgba(0, 0, 0, 0.4)",
       },
       fontFamily: {
         bricolage: ["var(--font-bricolage)", ...fontFamily.sans],

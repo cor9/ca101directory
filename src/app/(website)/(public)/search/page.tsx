@@ -64,11 +64,32 @@ export default async function SearchPage({
     ? sortSearchResultsByPriority(allListings, query)
     : allListings;
 
-  // Separate best matches (paid, max 3) from other results
+  // 17A: Top 2 slots per search = Pro only (highest intent surface)
+  const featuredProviders = sortedListings
+    .filter((l) => {
+      const plan = (l.plan || "").toLowerCase();
+      return (
+        plan.includes("pro") ||
+        plan.includes("premium") ||
+        l.comped ||
+        l.featured
+      );
+    })
+    .slice(0, 2);
+  
+  // Separate other best matches (paid, max 3) from other results
   const bestMatches = sortedListings
-    .filter((l) => l.plan && l.plan !== "Free" && l.plan !== null)
+    .filter(
+      (l) =>
+        l.plan &&
+        l.plan !== "Free" &&
+        l.plan !== null &&
+        !featuredProviders.some((fp) => fp.id === l.id),
+    )
     .slice(0, 3);
-  const otherResults = sortedListings.slice(bestMatches.length);
+  const otherResults = sortedListings.slice(
+    featuredProviders.length + bestMatches.length,
+  );
 
   // Get query clarification for vague terms
   const getQueryClarification = (q: string | undefined): string | null => {
@@ -163,9 +184,26 @@ export default async function SearchPage({
         </div>
       ) : (
         <section>
+          {/* 17A: Featured Providers - Top 2 slots = Pro only */}
+          {featuredProviders.length > 0 && query && (
+            <div className="mb-12">
+              <p className="text-sm text-text-muted mb-4">Featured providers</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {featuredProviders.map((listing) => (
+                  <div key={listing.id} className="relative">
+                    <div className="absolute -inset-0.5 bg-accent-purple/20 rounded-lg blur-sm opacity-50" />
+                    <div className="relative">
+                      <ListingCard listing={listing} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* 15C: Best Matches */}
           {bestMatches.length > 0 && query && (
-            <div className="mb-12">
+            <div className={featuredProviders.length > 0 ? "mt-12 pt-12 border-t border-border-subtle" : "mb-12"}>
               <h2 className="text-2xl font-semibold text-text-primary mb-6">
                 Best matches
               </h2>

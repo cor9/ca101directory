@@ -129,23 +129,38 @@ export default async function CategoryPage({
     // Get all listings for this category
     const allListings = await getPublicListings({ category: categoryName });
 
-    // Get featured listings for this category (max 3)
-    let featuredListings: typeof allListings = [];
-    try {
-      featuredListings = await getFeaturedListingsByCategory(categoryName);
-    } catch (error) {
-      console.error("Error fetching featured listings:", error);
-    }
-
+    // 17B: Category hero structure - 1 hero Pro tile + 2 secondary Pro tiles
     // Sort all listings by priority: Pro > Standard > Free, then by photos, then updated
     const sortedListings = sortListingsByPriority(allListings);
 
-    // Separate paid and free listings
-    const paidListings = sortedListings.filter(
-      (l) => l.plan && l.plan !== "Free" && l.plan !== null,
+    // Get Pro listings for hero section
+    const proListings = sortedListings.filter((l) => {
+      const plan = (l.plan || "").toLowerCase();
+      return (
+        plan.includes("pro") ||
+        plan.includes("premium") ||
+        l.comped ||
+        l.featured
+      );
+    });
+
+    // Hero Pro tile (first Pro)
+    const heroProTile = proListings[0] || null;
+    // Secondary Pro tiles (next 2)
+    const secondaryProTiles = proListings.slice(1, 3);
+
+    // Separate Standard and Free listings
+    const standardListings = sortedListings.filter(
+      (l) =>
+        l.plan &&
+        l.plan.toLowerCase().includes("standard") &&
+        !proListings.some((p) => p.id === l.id),
     );
     const freeListings = sortedListings.filter(
-      (l) => !l.plan || l.plan === "Free" || l.plan === null,
+      (l) =>
+        (!l.plan || l.plan === "Free" || l.plan === null) &&
+        !proListings.some((p) => p.id === l.id) &&
+        !standardListings.some((s) => s.id === l.id),
     );
 
     // Get related categories for SEO links
@@ -180,16 +195,27 @@ export default async function CategoryPage({
           </p>
         </div>
 
-        {/* 14B: Featured in This Category */}
-        {featuredListings.length > 0 && (
+        {/* 17B: Recommended Providers - Hero Pro tile + 2 secondary */}
+        {(heroProTile || secondaryProTiles.length > 0) && (
           <section className="mb-12">
             <h2 className="text-xl font-semibold text-text-primary mb-6">
-              Featured in this category
+              Recommended Providers
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredListings.map((listing) => (
-                <ListingCard key={listing.id} listing={listing} />
-              ))}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Hero Pro tile */}
+              {heroProTile && (
+                <div className="md:col-span-1">
+                  <ListingCard listing={heroProTile} />
+                </div>
+              )}
+              {/* Secondary Pro tiles */}
+              {secondaryProTiles.length > 0 && (
+                <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {secondaryProTiles.map((listing) => (
+                    <ListingCard key={listing.id} listing={listing} />
+                  ))}
+                </div>
+              )}
             </div>
           </section>
         )}
@@ -258,15 +284,15 @@ export default async function CategoryPage({
           </div>
         ) : (
           <section>
-            {/* Paid Listings */}
-            {paidListings.length > 0 && (
+            {/* Standard Listings */}
+            {standardListings.length > 0 && (
               <div className="mb-12">
                 <h2 className="text-2xl font-semibold text-text-primary mb-6">
                   All {categoryName} (
-                  {paidListings.length + freeListings.length})
+                  {standardListings.length + freeListings.length})
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {paidListings.map((listing) => (
+                  {standardListings.map((listing) => (
                     <ListingCard key={listing.id} listing={listing} />
                   ))}
                 </div>
@@ -277,7 +303,7 @@ export default async function CategoryPage({
             {freeListings.length > 0 && (
               <div
                 className={
-                  paidListings.length > 0
+                  standardListings.length > 0
                     ? "mt-12 pt-12 border-t border-border-subtle"
                     : ""
                 }

@@ -696,10 +696,16 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     Reviews from Parents
                   </h2>
 
+                  {/* 17F: Review Gating Message */}
                   {averageRating.count === 0 && reviews.length === 0 && (
-                    <p className="text-sm text-slate-700">
-                      This provider does not have reviews yet.
-                    </p>
+                    <div className="mb-4 p-4 bg-bg-dark-2 border border-border-subtle rounded-lg">
+                      <p className="text-sm text-text-secondary mb-2">
+                        This provider does not have reviews yet.
+                      </p>
+                      <p className="text-xs text-text-muted italic">
+                        Profiles with reviews get 4× more contact requests.
+                      </p>
+                    </div>
                   )}
 
                   {reviews.length > 0 && (

@@ -1352,11 +1352,11 @@ export function SupabaseSubmitForm({
                         Stand Out with a Professional Image
                       </h4>
                       <p className="text-sm text-blue-800 mb-2">
-                        Free listings don't include images. Upgrade to{" "}
+                        Free listings include 1 logo image. Upgrade to{" "}
                         <strong>Standard ($25/mo)</strong> or{" "}
                         <strong>Pro ($50/mo)</strong> to add a professional
-                        profile photo that makes your listing 3x more likely to
-                        be clicked!
+                        profile photo and gallery images that make your listing
+                        3x more likely to be clicked!
                       </p>
                       <a
                         href="/pricing"
@@ -1368,8 +1368,8 @@ export function SupabaseSubmitForm({
                   </div>
                 </div>
                 <p className="text-surface text-sm">
-                  🔒 Profile images are available starting with the Standard
-                  plan
+                  ✅ Free plan includes 1 logo. Standard plan includes profile
+                  image + YouTube/Vimeo embed
                 </p>
               </>
             )}
@@ -1380,7 +1380,7 @@ export function SupabaseSubmitForm({
             <div className="flex items-center justify-between gap-2">
               <Label className="text-surface">
                 Gallery Images{" "}
-                {canEditGallery ? "(Up to 4)" : "- Pro Plan Only"}
+                {canEditGallery ? "(Up to 12)" : "- Pro Plan Only"}
               </Label>
               <FieldTooltip
                 message="Use high-quality photos of your studio, classes, or happy clients to build trust."
@@ -1427,8 +1427,8 @@ export function SupabaseSubmitForm({
                       </h4>
                       <p className="text-sm text-purple-800 mb-2">
                         {formData.plan === "Free"
-                          ? "Free listings don't include gallery images. Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to showcase up to 4 additional photos of your work, studio, or team!"
-                          : "Standard plan includes your profile image. Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to add up to 12 gallery images and showcase your portfolio!"}
+                          ? "Free listings include 1 logo image. Standard plan includes profile image + YouTube/Vimeo embed. Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to showcase up to 12 gallery images of your work, studio, or team!"
+                          : "Standard plan includes your profile image + YouTube/Vimeo embed. Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to add up to 12 gallery images and showcase your portfolio!"}
                       </p>
                       <div className="flex gap-2">
                         <a

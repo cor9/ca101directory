@@ -51,7 +51,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       </head>
       <body
         className={cn(
-          "min-h-screen bg-background antialiased",
+          "min-h-screen bg-bg-dark text-text-primary antialiased",
           fontBricolage.className,
           // fontSourceSans.className,
           // fontSourceSerif.className,

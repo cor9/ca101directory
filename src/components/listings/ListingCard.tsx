@@ -101,114 +101,129 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
     }
   }
 
+  // Determine badge text and styling
+  let badgeText = "Free";
+  let badgeColor = "bg-bg-dark-3";
+  if (listing.featured) {
+    badgeText = "Featured";
+    badgeColor = "bg-primary-orange";
+  } else if (listing.comped) {
+    badgeText = "Pro";
+    badgeColor = "bg-primary-orange";
+  } else if (
+    (listing.plan || "").toLowerCase() === "pro" ||
+    (listing.plan || "").toLowerCase() === "founding pro"
+  ) {
+    badgeText = "Pro";
+    badgeColor = "bg-primary-orange";
+  } else if (
+    (listing.plan || "").toLowerCase() === "standard" ||
+    (listing.plan || "").toLowerCase() === "founding standard"
+  ) {
+    badgeText = "Standard";
+    badgeColor = "bg-highlight";
+  }
+
   return (
     <Card
       className={cn(
-        "group hover:shadow-lg transition-all duration-300 surface border-surface/20",
-        (listing.featured || planPriority >= 3) && "ring-1 ring-primary-orange/20",
+        "group bg-card-surface border border-border-subtle rounded-2xl overflow-hidden shadow-card hover:shadow-cardHover hover:-translate-y-0.5 transition-all duration-300",
         className,
       )}
     >
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-3">
-            {(listing.profile_image || fallbackCategoryUrl) && (
-              <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-muted">
-                <Image
-                  src={
-                    listing.profile_image
-                      ? getListingImageUrl(listing.profile_image)
-                      : fallbackCategoryUrl || ""
-                  }
-                  alt={listing.listing_name || "Listing"}
-                  fill
-                  className="object-contain p-1"
-                />
-              </div>
-            )}
-            <div className="flex-1 min-w-0">
-              <h3
-                className="font-semibold text-lg group-hover:text-primary-orange transition-colors line-clamp-1"
-                style={{ color: "#1B1F29" }}
-              >
-                {listing.listing_name || "Untitled Listing"}
-              </h3>
-              <div className="flex items-center gap-2 mt-1">
-                {listing.badge_approved === true && (
-                  <div className="flex items-center gap-1">
-                    <Image
-                      src="/101approvedbadge.png"
-                      alt="101 Approved Badge"
-                      width={48}
-                      height={48}
-                      className="object-contain"
-                    />
-                    <span className="text-xs font-semibold text-paper">
-                      101 Approved
-                    </span>
-                  </div>
+      {/* Image Area - Hero */}
+      <div className="relative h-44 w-full bg-bg-dark-2">
+        {(listing.profile_image || fallbackCategoryUrl) && (
+          <Image
+            src={
+              listing.profile_image
+                ? getListingImageUrl(listing.profile_image)
+                : fallbackCategoryUrl || ""
+            }
+            alt={listing.listing_name || "Listing"}
+            fill
+            className="object-cover"
+          />
+        )}
+
+        {/* Badges Overlay */}
+        <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
+          {/* Left badges */}
+          <div className="flex gap-2">
+            {listing.featured && (
+              <Badge
+                className={cn(
+                  "text-xs font-semibold",
+                  badgeColor,
+                  badgeColor === "bg-primary-orange"
+                    ? "text-paper"
+                    : "text-text-primary",
                 )}
-                {(() => {
-                  // Determine badge text and styling
-                  let badgeText = "Free";
-                  let badgeVariant:
-                    | "default"
-                    | "secondary"
-                    | "destructive"
-                    | "outline" = "outline";
-                  let badgeClassName = "text-xs bg-gray-100 text-paper";
-
-                  if (listing.featured) {
-                    badgeText = "Featured";
-                    badgeVariant = "default";
-                    badgeClassName = "text-xs bg-primary-orange text-paper";
-                  } else if (listing.comped) {
-                    badgeText = "Pro";
-                    badgeVariant = "default";
-                    badgeClassName = "text-xs bg-primary-orange text-paper";
-                  } else if (
-                    (listing.plan || "").toLowerCase() === "pro" ||
-                    (listing.plan || "").toLowerCase() === "founding pro"
-                  ) {
-                    badgeText = "Pro";
-                    badgeVariant = "default";
-                    badgeClassName = "text-xs bg-primary-orange text-paper";
-                  } else if (
-                    (listing.plan || "").toLowerCase() === "standard" ||
-                    (listing.plan || "").toLowerCase() === "founding standard"
-                  ) {
-                    badgeText = "Standard";
-                    badgeVariant = "secondary";
-                    badgeClassName = "text-xs bg-highlight text-ink";
-                  }
-
-                  return (
-                    <Badge variant={badgeVariant} className={badgeClassName}>
-                      {badgeText}
-                    </Badge>
-                  );
-                })()}
-              </div>
-            </div>
+              >
+                {badgeText}
+              </Badge>
+            )}
+            {!listing.featured && planPriority >= 3 && (
+              <Badge
+                className={cn(
+                  "text-xs font-semibold",
+                  badgeColor,
+                  badgeColor === "bg-primary-orange"
+                    ? "text-paper"
+                    : "text-text-primary",
+                )}
+              >
+                {badgeText}
+              </Badge>
+            )}
           </div>
-          {planPriority >= 3 && (
-            <StarIcon className="w-5 h-5 text-primary-orange" />
-          )}
-        </div>
-      </CardHeader>
 
-      <CardContent className="pb-3">
-        <div className="text-paper">
+          {/* Right badges */}
+          <div className="flex gap-2">
+            {listing.badge_approved === true && (
+              <Badge className="text-xs font-semibold bg-accent-teal text-bg-dark">
+                <CheckCircleIcon className="w-3 h-3 mr-1" />
+                101 Approved
+              </Badge>
+            )}
+            {isReviewsEnabled() &&
+              averageRating.count > 0 &&
+              averageRating.average >= 4.5 && (
+                <Badge className="text-xs font-semibold bg-highlight text-text-primary">
+                  <StarIcon className="w-3 h-3 mr-1" />
+                  {averageRating.average.toFixed(1)}
+                </Badge>
+              )}
+          </div>
+        </div>
+      </div>
+
+      <CardContent className="p-4 space-y-3">
+        {/* Title */}
+        <h3 className="text-lg font-semibold text-text-primary line-clamp-1 group-hover:text-accent-teal transition-colors">
+          {listing.listing_name || "Untitled Listing"}
+        </h3>
+
+        {/* Category */}
+        {validCategories.length > 0 && (
+          <div className="text-sm text-accent-teal font-medium">
+            {validCategories[0]}
+          </div>
+        )}
+
+        {/* Description */}
+        <p className="text-sm text-text-secondary line-clamp-2">
           {(listing.what_you_offer || "Professional acting services")
             .replace(/<[^>]*>/g, "")
             .substring(0, 120)}
-          ...
-        </div>
+          {(listing.what_you_offer || "").replace(/<[^>]*>/g, "").length >
+            120 && "..."}
+        </p>
 
-        {/* Location */}
+        {/* Location - Always shown if present */}
         {(listing.city || listing.state || listing.region) && (
-          <div className="flex items-center gap-2 text-sm mb-3 text-paper">
-            <MapPinIcon className="w-4 h-4" />
+          <div className="flex items-center gap-2 text-xs text-text-muted">
+            <MapPinIcon className="w-3 h-3" />
             <span>
               {[listing.city, listing.state, listing.region]
                 .filter(Boolean)
@@ -219,75 +234,29 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
 
         {/* Rating */}
         {isReviewsEnabled() && averageRating.count > 0 && (
-          <div className="flex items-center gap-2 text-sm mb-3">
+          <div className="flex items-center gap-2 text-sm">
             <StarRating
               value={Math.round(averageRating.average)}
               readonly
               size="sm"
             />
-            <span className="text-paper">
+            <span className="text-text-secondary">
               {averageRating.average.toFixed(1)} ({averageRating.count} review
               {averageRating.count !== 1 ? "s" : ""})
             </span>
           </div>
         )}
-
-        {/* Categories */}
-        {validCategories.length > 0 && (
-          <div className="flex flex-wrap gap-1 mb-3">
-            {validCategories.slice(0, 2).map((category) => (
-              <Badge
-                key={category}
-                variant="outline"
-                className="text-xs border-secondary-denim text-secondary-denim"
-              >
-                {category}
-              </Badge>
-            ))}
-            {validCategories.length > 2 && (
-              <Badge
-                variant="outline"
-                className="text-xs border-secondary-denim text-secondary-denim"
-              >
-                +{validCategories.length - 2} more
-              </Badge>
-            )}
-          </div>
-        )}
-
-        {/* Age Range */}
-        {ageRange.length > 0 && (
-          <div className="flex flex-wrap gap-1">
-            {ageRange.slice(0, 3).map((age) => (
-              <Badge
-                key={age}
-                variant="secondary"
-                className="text-xs bg-highlight/10 text-highlight"
-              >
-                {age}
-              </Badge>
-            ))}
-            {ageRange.length > 3 && (
-              <Badge
-                variant="secondary"
-                className="text-xs bg-highlight/10 text-highlight"
-              >
-                +{ageRange.length - 3}
-              </Badge>
-            )}
-          </div>
-        )}
       </CardContent>
 
-      <CardFooter className="pt-3">
-        <div className="flex items-center justify-between w-full">
+      <CardFooter className="p-4 pt-0">
+        <div className="flex items-center justify-between w-full gap-2">
           <div className="flex items-center gap-2">
             {listing.website && (
               <Button
                 size="sm"
-                variant="outline"
+                variant="ghost"
                 asChild
-                className="btn-secondary"
+                className="text-text-secondary hover:text-text-primary"
               >
                 <Link
                   href={listing.website}
@@ -295,8 +264,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
                   rel="noopener noreferrer"
                   className="flex items-center gap-1"
                 >
-                  <GlobeIcon className="w-3 h-3" />
-                  Website
+                  <GlobeIcon className="w-4 h-4" />
                 </Link>
               </Button>
             )}
@@ -309,8 +277,12 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
               />
             )}
           </div>
-          <Button size="sm" asChild className="btn-primary">
-            <Link href={`/listing/${slug}`}>View Details</Link>
+          <Button
+            size="sm"
+            asChild
+            className="w-full rounded-xl bg-accent-teal text-bg-dark font-semibold hover:opacity-90"
+          >
+            <Link href={`/listing/${slug}`}>View Profile</Link>
           </Button>
         </div>
       </CardFooter>

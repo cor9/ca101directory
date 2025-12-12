@@ -129,6 +129,41 @@
     background: linear-gradient(180deg, #0d1b2a 0%, #142b3b 100%);
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+
+  /* Phase 6: Dark marketplace utilities */
+  .bg-bg-dark {
+    background-color: #0d1b2a;
+  }
+  .bg-bg-dark-2 {
+    background-color: #142b3b;
+  }
+  .bg-bg-dark-3 {
+    background-color: #19324b;
+  }
+  .text-text-primary {
+    color: #fafaf4;
+  }
+  .text-text-secondary {
+    color: rgba(250, 250, 244, 0.6);
+  }
+  .text-text-muted {
+    color: #93a3b5;
+  }
+  .bg-accent-teal {
+    background-color: #3e9ca3;
+  }
+  .text-accent-teal {
+    color: #3e9ca3;
+  }
+  .border-accent-teal {
+    border-color: #3e9ca3;
+  }
+  .border-border-subtle {
+    border-color: rgba(58, 118, 166, 0.3);
+  }
+  .bg-card-surface {
+    background-color: #1a2332;
+  }
 }
 
 @layer utilities {

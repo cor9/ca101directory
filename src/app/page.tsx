@@ -1,3 +1,7 @@
+import { BannerAd } from "@/components/layout/banner-ad";
+import { Footer } from "@/components/layout/footer";
+import { Navbar } from "@/components/layout/navbar";
+import { marketingConfig } from "@/config/marketing";
 import Container from "@/components/container";
 import CategoryTileGrid from "@/components/home/category-tile-grid";
 import HomeFeaturedListings from "@/components/home/home-featured-listings";
@@ -10,6 +14,7 @@ import { getCategories } from "@/data/categories";
 import { getItems } from "@/data/item-service";
 import { DEFAULT_SORT } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
+import { currentUser } from "@/lib/auth";
 import Script from "next/script";
 import { Suspense } from "react";
 

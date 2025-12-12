@@ -60,12 +60,11 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
   }, [open]);
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 bg-[#0e1217]/90 backdrop-blur-md">
+    <div className="sticky top-0 z-50 bg-bg-dark/80 backdrop-blur-md border-b border-border-subtle">
       {/* Desktop View */}
       <header
         className={cn(
-          "hidden md:flex justify-center bg-background/60 backdrop-blur-xl transition-all",
-          scroll ? (scrolled ? "border-b" : "bg-transparent") : "border-b",
+          "hidden md:flex justify-center bg-bg-dark/80 backdrop-blur-xl transition-all border-b border-border-subtle",
         )}
       >
         <Container className="flex h-16 items-center justify-between">
@@ -131,7 +130,7 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
       </header>
 
       {/* Mobile View */}
-      <header className="md:hidden flex justify-center bg-white dark:bg-gray-900 border-b transition-all">
+      <header className="md:hidden flex justify-center bg-bg-dark/80 backdrop-blur-md border-b border-border-subtle transition-all">
         <div className="w-full px-4 h-16 flex items-center justify-between">
           {/* mobile navbar left show menu icon when closed & show sheet when menu is open */}
           <div className="flex items-center gap-x-4">
@@ -148,9 +147,9 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
               </SheetTrigger>
               <SheetContent
                 side="left"
-                className="flex flex-col p-0 bg-white dark:bg-gray-900"
+                className="flex flex-col p-0 bg-bg-dark"
               >
-                <div className="flex h-screen flex-col bg-white dark:bg-gray-900">
+                <div className="flex h-screen flex-col bg-bg-dark">
                   {/* logo */}
                   <Link
                     href="/"
@@ -172,8 +171,8 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
                             if (!item.disabled) setOpen(false);
                           }}
                           className={cn(
-                            "flex items-center rounded-md gap-2 p-2 text-sm font-medium hover:bg-muted text-gray-900 dark:text-gray-100",
-                            isLinkActive(item.href) && "bg-muted",
+                            "flex items-center rounded-md gap-2 p-2 text-sm font-medium hover:bg-bg-dark-3 text-text-primary",
+                            isLinkActive(item.href) && "bg-bg-dark-3",
                             item.disabled &&
                               "cursor-not-allowed opacity-80 hover:bg-transparent",
                           )}

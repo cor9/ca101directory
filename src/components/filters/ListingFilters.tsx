@@ -90,7 +90,7 @@ export function ListingFilters({ className = "" }: ListingFiltersProps) {
   return (
     <div className={`space-y-4 ${className}`}>
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Filters</h3>
+        <h3 className="text-lg font-semibold text-text-primary">Filters</h3>
         {hasActiveFilters && (
           <Button variant="outline" size="sm" onClick={handleReset}>
             Clear All
@@ -101,7 +101,10 @@ export function ListingFilters({ className = "" }: ListingFiltersProps) {
       <div className="space-y-4">
         {/* Category Filter */}
         <div className="space-y-2">
-          <label htmlFor="category-filter" className="text-sm font-medium">
+          <label
+            htmlFor="category-filter"
+            className="text-sm font-medium text-text-secondary"
+          >
             Category
           </label>
           <Select
@@ -124,7 +127,10 @@ export function ListingFilters({ className = "" }: ListingFiltersProps) {
 
         {/* Region Filter */}
         <div className="space-y-2">
-          <label htmlFor="region-filter" className="text-sm font-medium">
+          <label
+            htmlFor="region-filter"
+            className="text-sm font-medium text-text-secondary"
+          >
             Region
           </label>
           <Select
@@ -156,7 +162,10 @@ export function ListingFilters({ className = "" }: ListingFiltersProps) {
 
         {/* State Filter */}
         <div className="space-y-2">
-          <label htmlFor="state-filter" className="text-sm font-medium">
+          <label
+            htmlFor="state-filter"
+            className="text-sm font-medium text-text-secondary"
+          >
             State
           </label>
           <Select
@@ -180,19 +189,23 @@ export function ListingFilters({ className = "" }: ListingFiltersProps) {
         </div>
 
         {/* 101 Approved Badge Filter */}
-        <div className="flex items-center space-x-2">
+        <label className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-bg-dark-3/60 transition-colors cursor-pointer group">
           <Checkbox
             id="approved101"
             checked={currentApproved101}
             onCheckedChange={handleApproved101Change}
+            className="border-border-subtle data-[state=checked]:bg-accent-teal data-[state=checked]:border-accent-teal"
           />
-          <label
-            htmlFor="approved101"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          <span
+            className={`text-sm flex-1 ${
+              currentApproved101
+                ? "text-text-primary font-semibold"
+                : "text-text-secondary"
+            }`}
           >
             101 Approved Badge Only
-          </label>
-        </div>
+          </span>
+        </label>
       </div>
 
       {/* Active Filters Display */}

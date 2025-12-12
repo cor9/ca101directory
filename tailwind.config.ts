@@ -20,13 +20,13 @@ const config = {
         "card-surface": "rgba(255,255,255,0.05)",
         "border-subtle": "rgba(255,255,255,0.08)",
 
-     // Accent palette — Patreon modern colors
-"accent-teal": "#3EE2C9",
-"accent-lemon": "#F7D74E",
-"accent-blue": "#4FA6FF",
-"accent-purple": "#A97CFF",
-"accent-salmon": "#FF8C7A",
-"accent-cranberry": "#B92B5C",
+        // Accent palette — Patreon modern colors
+        "accent-teal": "#3EE2C9",
+        "accent-lemon": "#F7D74E",
+        "accent-blue": "#4FA6FF",
+        "accent-purple": "#A97CFF",
+        "accent-salmon": "#FF8C7A",
+        "accent-cranberry": "#B92B5C",
 
         // Text colors
         "text-primary": "#FFFFFF",
@@ -145,6 +145,17 @@ patreon: {
         "bauhaus-orange": "var(--faded-red-orange)",
         "bauhaus-blue": "var(--robin-egg-blue)",
         "bauhaus-charcoal": "var(--charcoal)",
+
+        // Phase 6: Patreon-style dark marketplace tokens (additional aliases)
+        "bg-bg-dark": "#0D1B2A",
+        "bg-bg-dark-2": "#142B3B",
+        "bg-bg-dark-3": "#19324B",
+        "text-text-primary": "#FAFAF4",
+        "text-text-secondary": "#FAFAF499",
+        "text-text-muted": "#93A3B5",
+        "accent-teal-alt": "#3E9CA3",
+        "border-border-subtle": "rgba(58, 118, 166, 0.3)",
+        "bg-card-surface": "#1A2332",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -155,7 +166,8 @@ patreon: {
         "2xl": "1.5rem",
       },
       boxShadow: {
-        card: "0 4px 12px rgba(0,0,0,0.35)",
+        card: "0 6px 14px rgba(13, 27, 42, 0.25)",
+        cardHover: "0 10px 20px rgba(13, 27, 42, 0.35)",
         hover: "0 10px 20px rgba(13, 27, 42, 0.35)",
         inset: "inset 0 0 0 1px rgba(255,255,255,0.08)",
         "card-new": "0 4px 20px rgba(0, 0, 0, 0.3)",

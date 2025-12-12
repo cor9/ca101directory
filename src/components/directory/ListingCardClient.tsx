@@ -127,7 +127,7 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
             {item.name}
           </h3>
           {locationLabel ? (
-            <p className="text-sm text-gray-600 mt-1">{locationLabel}</p>
+            <p className="text-sm text-paper/70 mt-1">{locationLabel}</p>
           ) : null}
         </div>
 

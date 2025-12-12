@@ -34,6 +34,16 @@
     --ring: #e4572e; /* Clapper Orange ring */
     --radius: 0.5rem;
 
+    /* Sidebar colors */
+    --sidebar-background: #0d1b2a;
+    --sidebar-foreground: #fafaf4;
+    --sidebar-primary: #e4572e;
+    --sidebar-primary-foreground: #fafaf4;
+    --sidebar-accent: #3a76a6;
+    --sidebar-accent-foreground: #fafaf4;
+    --sidebar-border: #3a76a6;
+    --sidebar-ring: #e4572e;
+
     /* Legacy colors (to be phased out) */
     --cream: 60 100% 94%;
     --cream-ink: 220 15% 15%; /* #1B1F29 - Dark text on cream */ /* #FFFDD0 - Base Light */
@@ -72,6 +82,16 @@
     --border: #3a76a6;
     --input: #142b3b;
     --ring: #e4572e;
+
+    /* Sidebar colors */
+    --sidebar-background: #0d1b2a;
+    --sidebar-foreground: #fafaf4;
+    --sidebar-primary: #e4572e;
+    --sidebar-primary-foreground: #fafaf4;
+    --sidebar-accent: #3a76a6;
+    --sidebar-accent-foreground: #fafaf4;
+    --sidebar-border: #3a76a6;
+    --sidebar-ring: #e4572e;
 
     /* Legacy colors */
     --cream: 60 100% 94%;

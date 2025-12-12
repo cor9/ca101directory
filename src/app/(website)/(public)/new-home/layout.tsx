@@ -4,11 +4,11 @@ import { marketingConfig } from "@/config/marketing";
 import { currentUser } from "@/lib/auth";
 import SidebarNav from "./components/SidebarNav";
 
-interface NewLayoutProps {
+interface NewHomeLayoutProps {
   children: React.ReactNode;
 }
 
-export default async function NewLayout({ children }: NewLayoutProps) {
+export default async function NewHomeLayout({ children }: NewHomeLayoutProps) {
   const user = await currentUser();
 
   return (

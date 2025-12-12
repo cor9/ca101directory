@@ -13,10 +13,10 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata = constructMetadata({
-  title: "Child Actor 101 Directory - Find Trusted Acting Professionals",
+  title: "New Homepage Preview - Child Actor 101 Directory",
   description:
-    "Find 250+ trusted acting coaches, headshot photographers, talent agents, and managers for child actors in Los Angeles, New York, Atlanta & nationwide. 101 Approved professionals.",
-  canonicalUrl: `${siteConfig.url}/`,
+    "Preview of the new Patreon-inspired homepage design for Child Actor 101 Directory.",
+  canonicalUrl: `${siteConfig.url}/new-home`,
 });
 
 export default async function NewHomePage() {

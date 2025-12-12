@@ -36,6 +36,12 @@ export default async function EnhanceListingPage({
               plan. You can save and finish later, or submit for review when
               ready.
             </p>
+            {/* 18G: The One Sentence */}
+            {!searchParams.upgraded && (
+              <p className="text-xs text-paper/70 mt-2 italic">
+                Providers with Pro features receive 3–5× more parent contact.
+              </p>
+            )}
           </div>
 
           {/* Reuse vendor edit form for now; it respects fields and validation */}

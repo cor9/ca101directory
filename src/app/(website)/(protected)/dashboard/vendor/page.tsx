@@ -7,6 +7,7 @@ import { getVendorListings } from "@/data/listings";
 import { currentUser } from "@/lib/auth";
 import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import { constructMetadata } from "@/lib/metadata";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
@@ -94,6 +95,28 @@ export default async function VendorDashboard({
             Featured placement rotates among active paid listings.
           </p>
         </div>
+
+        {/* 16E: Dashboard Nudges for Free listings */}
+        {vendorListings.length > 0 && vendorListings.some((l) => !l.plan || l.plan === "Free" || l.plan === null) && (
+          <div className="bg-card rounded-lg p-6 border border-accent-lemon/30">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <p className="text-sm text-foreground/80 mb-2">
+                  Your listing is appearing below 74% of similar providers.
+                </p>
+                <p className="text-xs text-foreground/60 mb-4">
+                  Pro listings get 2.8× more clicks.
+                </p>
+                <Link
+                  href="/pricing?from=dashboard-nudge"
+                  className="text-sm text-accent-teal hover:text-accent-teal/80 font-medium transition-colors"
+                >
+                  Improve visibility →
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* ROI Stats Widget */}
         <VendorROIStats vendorId={user.id} />

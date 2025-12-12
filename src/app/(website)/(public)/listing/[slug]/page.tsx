@@ -6,6 +6,7 @@ import { Gallery } from "@/components/listing/gallery";
 import { ListingCarousel } from "@/components/listing/listing-carousel";
 import { ListingContactSection } from "@/components/listing/listing-contact-section";
 import type { DisplayCategory } from "@/components/listing/types";
+import { ListingCard } from "@/components/listings/ListingCard";
 import {
   BreadcrumbSchema,
   ListingSchema,
@@ -399,15 +400,16 @@ export default async function ListingPage({ params }: ListingPageProps) {
     console.log("ListingPage: About to fetch public listings for related");
     let recommendedItems: Awaited<ReturnType<typeof listingToItem>>[] = [];
     let related: Listing[] = [];
+    let allPublicListingsForComparison: Listing[] = [];
     try {
-      const allPublicListings = await getPublicListings({
+      allPublicListingsForComparison = await getPublicListings({
         state: listing.state ?? undefined,
         category: listing.categories?.[0],
       });
 
       // Sort by Trust Score logic (simplified here as we don't have all ratings)
       // We prioritize Featured > Plan Tier > Trust Level
-      const recommendedListings = allPublicListings
+      const recommendedListings = allPublicListingsForComparison
         .filter((l) => l.id !== listing.id)
         .sort((a, b) => {
           // 1. Featured
@@ -771,8 +773,40 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 </div>
               </div>
 
-              {/* Recommended Providers Module */}
-              {recommendedItems.length > 0 && (
+              {/* 16C: Competitive Context for Free listings */}
+              {(!listing.plan || listing.plan === "Free" || listing.plan === null) && (
+                <section className="mt-16 pt-10 border-t border-slate-200">
+                  <p className="text-sm text-slate-600 mb-6">
+                    Families typically contact 2–3 providers before deciding.
+                  </p>
+                  <h2 className="text-xl font-bold mb-6 text-slate-900">
+                    Similar providers families also viewed
+                  </h2>
+                  {allPublicListingsForComparison.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {allPublicListingsForComparison
+                        .filter((l) => {
+                          // Show only Standard/Pro listings with images, different from current
+                          return (
+                            l.id !== listing.id &&
+                            l.plan &&
+                            l.plan !== "Free" &&
+                            l.profile_image
+                          );
+                        })
+                        .slice(0, 2)
+                        .map((itemListing) => (
+                          <ListingCard key={itemListing.id} listing={itemListing} />
+                        ))}
+                    </div>
+                  ) : recommendedItems.length > 0 ? (
+                    <ListingCarousel listings={recommendedItems.slice(0, 2)} />
+                  ) : null}
+                </section>
+              )}
+
+              {/* Recommended Providers Module - for paid listings */}
+              {listing.plan && listing.plan !== "Free" && listing.plan !== null && recommendedItems.length > 0 && (
                 <section className="mt-16 pt-10 border-t border-slate-200">
                   <h2 className="text-xl font-bold mb-6 text-slate-900">
                     Other Trusted Providers in {listing.state || "Your Area"}

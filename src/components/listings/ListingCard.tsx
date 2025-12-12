@@ -137,57 +137,135 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
   const isPaidClaimed =
     listing.is_claimed || (listing.plan && listing.plan !== "Free");
 
+  // 16A: Determine if Free listing
+  const isFree = !listing.plan || listing.plan === "Free" || listing.plan === null;
+  const isStandard = listing.plan && (listing.plan.toLowerCase() === "standard" || listing.plan.toLowerCase() === "founding standard");
+  const isPro = planPriority >= 3;
+
+  // 16D: Badge Economy - limit badges by tier
+  const getMaxBadges = (): number => {
+    if (isPro) return 10; // All applicable
+    if (isStandard) return 2;
+    return 1; // Free: max 1 badge
+  };
+
+  const maxBadges = getMaxBadges();
+  const badges: Array<{ type: string; component: React.ReactNode }> = [];
+
+  // Collect all possible badges
+  if (listing.badge_approved) {
+    badges.push({
+      type: "approved",
+      component: (
+        <Badge key="approved" className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
+          <CheckCircleIcon className="w-3 h-3 mr-1" />
+          101 Approved
+        </Badge>
+      ),
+    });
+  }
+  if (listing.trust_level === "verified") {
+    badges.push({
+      type: "verified",
+      component: (
+        <Badge key="verified" className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
+          Verified
+        </Badge>
+      ),
+    });
+  }
+  if (listing.trust_level === "background_checked") {
+    badges.push({
+      type: "bg_checked",
+      component: (
+        <Badge key="bg_checked" className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
+          Background Checked
+        </Badge>
+      ),
+    });
+  }
+  if (isReviewsEnabled() && averageRating.count > 0 && averageRating.average >= 4.5) {
+    badges.push({
+      type: "rating",
+      component: (
+        <Badge key="rating" className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
+          4.5+ Rating
+        </Badge>
+      ),
+    });
+  }
+  if (listing.repeat_families_count > 0) {
+    badges.push({
+      type: "repeat",
+      component: (
+        <Badge key="repeat" className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
+          Repeat Families
+        </Badge>
+      ),
+    });
+  }
+
+  // Limit badges by tier
+  const displayBadges = badges.slice(0, maxBadges);
+
   return (
     <Card
       className={cn(
         "group bg-card-surface border border-border-subtle rounded-card overflow-hidden shadow-card hover:shadow-cardHover hover:-translate-y-0.5 transition-all duration-300",
         isProFeatured && "ring-1 ring-accent-purple/30",
         isPaidClaimed && !isProFeatured && "bg-bg-dark-2",
+        // 16A: Free listings - smaller card, no image
+        isFree && "opacity-90 scale-[0.98]",
         className,
       )}
     >
       {/* Image Area - Hero */}
-      <div className="relative h-44 w-full bg-bg-2">
-        {(listing.profile_image || fallbackCategoryUrl) && (
-          <Image
-            src={
-              listing.profile_image
-                ? getListingImageUrl(listing.profile_image)
-                : fallbackCategoryUrl || ""
-            }
-            alt={listing.listing_name || "Listing"}
-            fill
-            className="object-cover"
-          />
-        )}
+      {/* 16A: Free listings get no image, Standard/Pro get image */}
+      {!isFree && (
+        <div className="relative h-44 w-full bg-bg-2">
+          {(listing.profile_image || fallbackCategoryUrl) && (
+            <Image
+              src={
+                listing.profile_image
+                  ? getListingImageUrl(listing.profile_image)
+                  : fallbackCategoryUrl || ""
+              }
+              alt={listing.listing_name || "Listing"}
+              fill
+              className="object-cover"
+            />
+          )}
 
-        {/* Badges Overlay */}
-        <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
-          {/* Left badges */}
-          <div className="flex gap-2">
-            {listing.featured && (
-              <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
-                {badgeText}
-              </Badge>
-            )}
-            {!listing.featured && planPriority >= 3 && (
-              <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
-                {badgeText}
-              </Badge>
-            )}
-          </div>
+          {/* Badges Overlay */}
+          <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
+            {/* Left badges */}
+            <div className="flex gap-2">
+              {listing.featured && (
+                <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
+                  {badgeText}
+                </Badge>
+              )}
+              {!listing.featured && planPriority >= 3 && (
+                <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
+                  {badgeText}
+                </Badge>
+              )}
+            </div>
 
-          {/* Right badges */}
-          <div className="flex gap-2">
-            {listing.badge_approved === true && (
-              <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
-                <CheckCircleIcon className="w-3 h-3 mr-1" />
-                101 Approved
-              </Badge>
-            )}
+            {/* Right badges - 16D: Limited by tier */}
+            <div className="flex gap-2">
+              {displayBadges.map((badge) => badge.component)}
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
+      {/* 16A: Free listings - show badges in content area instead */}
+      {isFree && displayBadges.length > 0 && (
+        <div className="p-4 pb-2 flex gap-2 flex-wrap">
+          {displayBadges.map((badge) => badge.component)}
+        </div>
+      )}
 
       <CardContent className="p-4 space-y-2">
         {/* Title */}
@@ -208,8 +286,12 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
         )}
 
         {/* Category / Services - 1 line summary */}
+        {/* 16A: Free listings get muted category label */}
         {validCategories.length > 0 && (
-          <p className="text-sm text-text-muted line-clamp-1">
+          <p className={cn(
+            "text-sm line-clamp-1",
+            isFree ? "text-text-muted/70" : "text-text-muted"
+          )}>
             {validCategories[0]}
           </p>
         )}
@@ -234,12 +316,22 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
           )}
 
           {/* CTA - bottom right */}
-          <Link
-            href={`/listing/${slug}`}
-            className="text-sm text-text-secondary hover:text-accent-teal transition-colors"
-          >
-            View Profile →
-          </Link>
+          {/* 16A: Free listings get "View Profile" only, Standard/Pro get "Contact" button */}
+          {isFree ? (
+            <Link
+              href={`/listing/${slug}`}
+              className="text-sm text-text-secondary hover:text-accent-teal transition-colors"
+            >
+              View Profile →
+            </Link>
+          ) : (
+            <Link
+              href={`/listing/${slug}`}
+              className="text-sm text-accent-teal hover:text-accent-teal/80 font-medium transition-colors"
+            >
+              Contact →
+            </Link>
+          )}
         </div>
 
         {/* Claim status micro-copy */}
@@ -250,6 +342,21 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
               ? "This listing has not been claimed by the professional."
               : null}
         </div>
+
+        {/* 16B: Inline Upgrade Teaser for Free listings only */}
+        {isFree && !listing.profile_image && (
+          <div className="pt-2 border-t border-border-subtle">
+            <p className="text-xs text-text-muted/70 mb-1">
+              Listings with photos get 3× more clicks
+            </p>
+            <Link
+              href={`/pricing?from=listing-card&listing=${listing.id}`}
+              className="text-xs text-accent-teal hover:text-accent-teal/80 transition-colors"
+            >
+              Upgrade to add images →
+            </Link>
+          </div>
+        )}
       </CardFooter>
     </Card>
   );

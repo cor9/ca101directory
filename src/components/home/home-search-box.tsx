@@ -38,7 +38,7 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
     // 15F: Minimum 2 characters before search fires
     const trimmedQuery = debouncedQuery.trim();
     const shouldSearch = trimmedQuery.length === 0 || trimmedQuery.length >= 2;
-    
+
     if (debouncedQuery !== lastExecutedQuery.current && shouldSearch) {
       setIsSearching(true);
       const newParams = new URLSearchParams(searchParams?.toString());

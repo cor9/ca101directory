@@ -351,15 +351,15 @@ export function SupabaseSubmitForm({
 
   return (
     <>
-        <form onSubmit={handleSubmit} className="space-y-8">
-          {/* STEP 9: Remove upgrade callouts - plan selection hidden for new submissions */}
-          {isClaimFlow && (
-            <div className="space-y-4">
-              {/* STEP 4: Field grouping */}
-              <h2 className="text-lg font-semibold text-text-primary mb-4">
-                Plan Selection
-              </h2>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <form onSubmit={handleSubmit} className="space-y-8">
+      {/* STEP 9: Remove upgrade callouts - plan selection hidden for new submissions */}
+      {isClaimFlow && (
+        <div className="space-y-4">
+          {/* STEP 4: Field grouping */}
+          <h2 className="text-lg font-semibold text-text-primary mb-4">
+            Plan Selection
+          </h2>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {/* Free Plan */}
               <Card
                 className={`cursor-pointer transition-all hover:shadow-lg ${
@@ -657,10 +657,11 @@ export function SupabaseSubmitForm({
                   </div>
                 </div>
               </div>
-            )}
-          </div>
+          )}
+        </div>
+      )}
 
-          {/* STEP 4: Field grouping - Basic Information */}
+      {/* STEP 4: Field grouping - Basic Information */}
           <div className="space-y-4">
             <h2 className="text-lg font-semibold text-text-primary mb-4">
               Basic information
@@ -869,7 +870,6 @@ export function SupabaseSubmitForm({
                   !formData.categories.includes(category.id);
 
                 return (
-                  {/* STEP 6: Checkboxes - visible, legible */}
                   <div
                     key={category.id}
                     className="flex items-start gap-2 text-text-secondary"
@@ -1067,7 +1067,6 @@ export function SupabaseSubmitForm({
                   "Canada",
                   "Global (Online Only)",
                 ].map((regionOption) => (
-                  {/* STEP 6: Checkboxes - visible, legible */}
                   <div
                     key={regionOption}
                     className="flex items-start gap-2 text-text-secondary"
@@ -1463,7 +1462,7 @@ export function SupabaseSubmitForm({
                 ? "Uploading Images..."
                 : "Create free listing"}
           </Button>
-        </form>
+      </form>
     </>
   );
 }

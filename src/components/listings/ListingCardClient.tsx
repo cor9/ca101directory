@@ -40,14 +40,21 @@ export function ListingCardClient({
   const ageRange = listing.age_range || [];
 
   // Filter out UUIDs from categories
-  const isUuidLike = (value: string | undefined): boolean => {
-    if (!value) return false;
+  const isUuidLike = (value: unknown): boolean => {
+    if (typeof value !== "string") return false;
     return /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
       value.trim(),
     );
   };
 
-  const validCategories = categories.filter((cat) => !isUuidLike(cat));
+  // Normalize categories to string[] before filtering
+  const normalizedCategories = (categories || []).filter(
+    (cat): cat is string => typeof cat === "string",
+  );
+
+  const validCategories = normalizedCategories.filter(
+    (cat) => !isUuidLike(cat),
+  );
 
   // Get average rating if reviews are enabled
   useEffect(() => {

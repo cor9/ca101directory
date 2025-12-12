@@ -70,8 +70,8 @@ export default async function HomeFeaturedListings() {
   let listings: FeaturedListing[] = [];
 
   // Helper function to check if a value looks like a UUID
-  const isUuidLike = (value: string | undefined): boolean => {
-    if (!value || typeof value !== "string") return false;
+  const isUuidLike = (value: unknown): boolean => {
+    if (typeof value !== "string") return false;
     return /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
       value.trim(),
     );
@@ -132,8 +132,13 @@ export default async function HomeFeaturedListings() {
       })
       .slice(0, 12) // Show up to 12 items to reduce accidental trimming
       .map((listing) => {
+        // Normalize categories to string[] first
+        const normalizedCategories = (listing.categories || []).filter(
+          (cat): cat is string => typeof cat === "string",
+        );
+
         // Resolve category UUIDs to names
-        const resolvedCategories = (listing.categories || [])
+        const resolvedCategories = normalizedCategories
           .map((cat) => {
             if (isUuidLike(cat)) {
               return categoryMap.get(cat) || cat;

@@ -59,7 +59,7 @@ export function ListingCardClient({
   // Get average rating if reviews are enabled
   useEffect(() => {
     const fetchRating = async () => {
-      if (isReviewsEnabled()) {
+      if (isReviewsEnabled() && listing.id) {
         try {
           const rating = await getListingAverageRating(listing.id);
           setAverageRating(rating);

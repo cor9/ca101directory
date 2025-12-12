@@ -1,5 +1,6 @@
 import Container from "@/components/container";
 import CategoryTiles from "@/components/home/CategoryTiles";
+import FeaturedListingsGrid from "@/components/home/FeaturedListingsGrid";
 import HomeHero from "@/components/home/HomeHero";
 import CategoryTileGrid from "@/components/home/category-tile-grid";
 import HomeFeaturedListings from "@/components/home/home-featured-listings";
@@ -12,6 +13,7 @@ import { OrganizationSchema } from "@/components/seo/listing-schema";
 import { marketingConfig } from "@/config/marketing";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
+import { getFeaturedListings, getPublicListings } from "@/data/listings";
 import { getItems } from "@/data/item-service";
 import { currentUser } from "@/lib/auth";
 import { DEFAULT_SORT } from "@/lib/constants";
@@ -82,17 +84,23 @@ export default async function Page() {
           {/* Category Tiles */}
           <CategoryTiles />
 
-          {/* Listings Preview */}
-          <section className="bg-bg-dark pb-20">
+          {/* Featured Listings */}
+          <section className="bg-bg-dark pb-24">
             <div className="max-w-6xl mx-auto px-6">
-              <h2 className="text-2xl font-semibold text-text-primary mb-6">
-                Newest Professionals
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {previewItems.map((item) => (
-                  <ListingCardClient key={item.id} listing={item} />
-                ))}
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-semibold text-text-primary">
+                  Featured Professionals
+                </h2>
+                <a
+                  href="/directory"
+                  className="text-text-secondary hover:text-text-primary transition-colors"
+                >
+                  View all →
+                </a>
               </div>
+              <Suspense fallback={<div className="h-48 bg-bg-2 rounded-lg" />}>
+                <FeaturedListingsGrid />
+              </Suspense>
             </div>
           </section>
         </main>

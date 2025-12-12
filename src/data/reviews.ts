@@ -22,6 +22,10 @@ export interface Review {
  * Get all reviews for a listing (approved only)
  */
 export async function getListingReviews(listingId: string): Promise<Review[]> {
+  if (!listingId) {
+    return [];
+  }
+
   const { data, error } = await supabase
     .from("reviews")
     .select(`
@@ -140,6 +144,10 @@ export async function getListingAverageRating(listingId: string): Promise<{
   average: number;
   count: number;
 }> {
+  if (!listingId) {
+    return { average: 0, count: 0 };
+  }
+
   const { data, error } = await supabase
     .from("reviews")
     .select("stars")

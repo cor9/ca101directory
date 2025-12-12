@@ -109,9 +109,6 @@ export const AdminDashboardClientNew = ({
       l.status === "Live",
   );
 
-  // Get listings close to upgrade threshold (simplified - would need view data)
-  const unclaimedListings = allListings.filter((l) => !l.is_claimed);
-
   // Get churn risk (inactive Pro listings - simplified)
   const proListings = allListings.filter(
     (l) =>
@@ -182,6 +179,7 @@ export const AdminDashboardClientNew = ({
                   </p>
                 </div>
                 <button
+                  type="button"
                   className="text-accent-blue text-sm hover:underline"
                   onClick={() => setStatusFilter("Pending")}
                 >
@@ -250,6 +248,7 @@ export const AdminDashboardClientNew = ({
         <section className="mb-12">
           <div className="flex gap-4 border-b border-border-subtle mb-6">
             <button
+              type="button"
               className={`pb-2 px-1 ${
                 statusFilter === "all"
                   ? "text-text-primary border-b-2 border-accent-blue"
@@ -260,19 +259,13 @@ export const AdminDashboardClientNew = ({
               All
             </button>
             <button
+              type="button"
               className={`pb-2 px-1 ${
                 statusFilter === "Pro"
                   ? "text-text-primary border-b-2 border-accent-blue"
                   : "text-text-muted"
               }`}
               onClick={() => {
-                const proFiltered = allListings.filter(
-                  (l) =>
-                    l.plan &&
-                    (l.plan.toLowerCase().includes("pro") ||
-                      l.plan.toLowerCase().includes("premium") ||
-                      l.comped),
-                );
                 // This is a simplified filter - would need state management
                 setStatusFilter("all");
               }}
@@ -280,6 +273,7 @@ export const AdminDashboardClientNew = ({
               Pro
             </button>
             <button
+              type="button"
               className={`pb-2 px-1 ${
                 statusFilter === "Rejected"
                   ? "text-text-primary border-b-2 border-accent-blue"
@@ -290,6 +284,7 @@ export const AdminDashboardClientNew = ({
               Flagged
             </button>
             <button
+              type="button"
               className={`pb-2 px-1 ${
                 statusFilter === "Unclaimed"
                   ? "text-text-primary border-b-2 border-accent-blue"
@@ -344,6 +339,7 @@ export const AdminDashboardClientNew = ({
                   </span>
                 </div>
                 <button
+                  type="button"
                   className="mt-3 w-full text-xs text-accent-blue hover:underline text-left"
                   onClick={() => handleReviewListing(listing)}
                 >

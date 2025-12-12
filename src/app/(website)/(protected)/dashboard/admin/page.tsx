@@ -76,7 +76,7 @@ export default async function AdminDashboard() {
     );
   }
 
-  const totalUsers = users?.length || 0;
+  const totalUsers = users?.length ?? 0;
   const totalVendors = users?.filter((u) => u.role === "vendor").length || 0;
   const totalAdmins = users?.filter((u) => u.role === "admin").length || 0;
 

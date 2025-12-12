@@ -350,68 +350,15 @@ export function SupabaseSubmitForm({
   };
 
   return (
-    <Card className="surface border-surface/20">
-      <CardHeader>
-        <CardTitle className="text-surface">
-          {isClaimFlow ? "Edit Your Listing" : "Submit Your Listing"}
-        </CardTitle>
-        <CardDescription className="text-surface">
-          {isClaimFlow
-            ? "Update your listing information and choose your plan level."
-            : "Create a professional listing for your child actor business."}
-        </CardDescription>
-
-        {/* Special message when claiming a Free listing */}
-        {isClaimFlow &&
-          existingListing &&
-          getPlanLevel(existingListing.plan) === "Free" && (
-            <div className="mt-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-lg p-4">
-              <div className="flex items-start gap-3">
-                <span className="text-3xl">🎉</span>
-                <div>
-                  <h4 className="font-bold text-blue-900 mb-1">
-                    You're Claiming a Free Listing!
-                  </h4>
-                  <p className="text-sm text-blue-800 mb-2">
-                    This listing is currently on the <strong>Free plan</strong>,
-                    which includes basic information only. You can keep it free
-                    or upgrade now to unlock premium features:
-                  </p>
-                  <ul className="text-sm text-blue-800 space-y-1 ml-4 mb-3">
-                    <li>
-                      • <strong>Standard ($25/mo):</strong> Profile image +
-                      enhanced fields
-                    </li>
-                    <li>
-                      • <strong>Pro ($50/mo):</strong> Everything + gallery
-                      images + social links
-                    </li>
-                  </ul>
-                  <p className="text-xs text-blue-700 font-semibold">
-                    💡 Choose your plan below to unlock features as you fill out
-                    the form.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Plan Selection - Moved to top for better UX */}
-          <div className="space-y-4">
-            <h3 className="text-surface">Choose Your Plan</h3>
-            <p className="text-sm text-surface/80">
-              Select your plan first to see which fields you can use. You can
-              upgrade anytime.{" "}
-              <Link
-                href="/help/pricing-plans"
-                className="font-medium text-primary underline underline-offset-2"
-              >
-                Compare plan benefits
-              </Link>
-              .
-            </p>
+    <>
+        <form onSubmit={handleSubmit} className="space-y-8">
+          {/* STEP 9: Remove upgrade callouts - plan selection hidden for new submissions */}
+          {isClaimFlow && (
+            <div className="space-y-4">
+              {/* STEP 4: Field grouping */}
+              <h2 className="text-lg font-semibold text-text-primary mb-4">
+                Plan Selection
+              </h2>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {/* Free Plan */}
               <Card
@@ -713,25 +660,20 @@ export function SupabaseSubmitForm({
             )}
           </div>
 
-          {/* Basic Information */}
+          {/* STEP 4: Field grouping - Basic Information */}
           <div className="space-y-4">
-            <div className="flex flex-wrap items-center gap-2">
-              <h3 className="text-surface">Basic Information</h3>
-              <Link
-                href="/help/editing-listing"
-                className="text-sm font-medium text-primary underline underline-offset-2"
-              >
-                View writing tips
-              </Link>
-            </div>
+            <h2 className="text-lg font-semibold text-text-primary mb-4">
+              Basic information
+            </h2>
 
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-2">
-                <Label htmlFor="name" className="text-surface">
+                <Label htmlFor="name" className="text-text-primary">
                   Business Name *
                 </Label>
                 <FieldTooltip message="Use the exact name parents will search for. Avoid abbreviations unless they appear on your signage and marketing." />
               </div>
+              {/* STEP 5: Input styling */}
               <Input
                 id="name"
                 name="name"
@@ -740,25 +682,26 @@ export function SupabaseSubmitForm({
                 placeholder="e.g., Bright Lights Talent Coaching"
                 maxLength={100}
                 required
-                className={`bg-paper border-secondary-denim text-surface placeholder:text-surface/60 ${getFieldError("name") ? "border-red-500 border-2" : ""}`}
+                className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("name") ? "border-red-500 border-2" : ""}`}
               />
               {getFieldError("name") && (
                 <p className="text-red-600 text-sm font-semibold">
                   ⚠️ {getFieldError("name")}
                 </p>
               )}
-              <p className="text-surface text-xs">
+              <p className="text-text-muted text-xs">
                 {formData.name.length}/100 characters
               </p>
             </div>
 
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-2">
-                <Label htmlFor="description" className="text-surface">
+                <Label htmlFor="description" className="text-text-primary">
                   What You Offer *
                 </Label>
                 <FieldTooltip message="List your signature services and what makes them valuable. Aim for one punchy sentence with an outcome." />
               </div>
+              {/* STEP 5: Input styling */}
               <Textarea
                 id="description"
                 name="description"
@@ -769,21 +712,21 @@ export function SupabaseSubmitForm({
                 placeholder="Example: 'On-set tutoring, permit processing, and audition coaching for young performers in LA.'"
                 maxLength={256}
                 required
-                className={`bg-paper border-secondary-denim text-surface placeholder:text-surface/60 ${getFieldError("description") ? "border-red-500 border-2" : ""}`}
+                className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("description") ? "border-red-500 border-2" : ""}`}
               />
               {getFieldError("description") && (
                 <p className="text-red-600 text-sm font-semibold">
                   ⚠️ {getFieldError("description")}
                 </p>
               )}
-              <p className="text-surface text-xs">
+              <p className="text-text-muted text-xs">
                 {formData.description.length}/256 characters
               </p>
             </div>
 
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <Label htmlFor="introduction" className="text-surface">
+                <Label htmlFor="introduction" className="text-text-primary">
                   Who Is It For {canEditEnhancedFields && "*"}
                 </Label>
                 <FieldTooltip
@@ -800,45 +743,26 @@ export function SupabaseSubmitForm({
                     handleInputChange("introduction", e.target.value)
                   }
                   placeholder="Share who you support and any specialties (ex: 'LA-based child actors needing weekly coaching')."
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
                 />
-              ) : isClaimFlow ? (
-                renderUpgradeNotice({
-                  tone: "standard",
-                  title: "Unlock audience targeting",
-                  description:
-                    "Upgrade to the Standard plan to explain who you serve and help families understand if you're a fit.",
-                  helpHref: "/help/pricing-plans",
-                })
               ) : (
-                <>
-                  <Textarea
-                    id="introduction"
-                    value={formData.introduction}
-                    onChange={(e) =>
-                      handleInputChange("introduction", e.target.value)
-                    }
-                    placeholder="🔒 Upgrade to Standard or Pro to use this field"
-                    disabled
-                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60 opacity-50 cursor-not-allowed"
-                  />
-                  <div className="text-xs text-orange-600 bg-orange-50 border border-orange-200 rounded p-2 mt-1">
-                    <strong>Premium Field:</strong> This field is only available
-                    with Standard ($25/mo) or Pro ($50/mo) plans.{" "}
-                    <a
-                      href="/pricing"
-                      className="underline hover:text-orange-700"
-                    >
-                      View plans
-                    </a>
-                  </div>
-                </>
+                /* STEP 9: Remove upgrade callouts - just disable field */
+                <Textarea
+                  id="introduction"
+                  value={formData.introduction}
+                  onChange={(e) =>
+                    handleInputChange("introduction", e.target.value)
+                  }
+                  placeholder="Optional field"
+                  disabled
+                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted opacity-50 cursor-not-allowed"
+                />
               )}
             </div>
 
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <Label htmlFor="unique" className="text-surface">
+                <Label htmlFor="unique" className="text-text-primary">
                   What Makes You Unique {canEditEnhancedFields && "*"}
                 </Label>
                 <FieldTooltip
@@ -853,50 +777,29 @@ export function SupabaseSubmitForm({
                   value={formData.unique}
                   onChange={(e) => handleInputChange("unique", e.target.value)}
                   placeholder="Example: 'Only bilingual SAG-AFTRA accredited coaching studio with on-set former child stars as mentors.'"
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
                 />
-              ) : isClaimFlow ? (
-                renderUpgradeNotice({
-                  tone: "standard",
-                  title: "Feature your differentiators",
-                  description:
-                    "Upgrade to Standard to showcase why your services stand out. Claimed Free listings hide this section.",
-                  helpHref: "/help/editing-listing",
-                })
               ) : (
-                <>
-                  <Textarea
-                    id="unique"
-                    value={formData.unique}
-                    onChange={(e) =>
-                      handleInputChange("unique", e.target.value)
-                    }
-                    placeholder="🔒 Upgrade to Standard or Pro to use this field"
-                    disabled
-                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60 opacity-50 cursor-not-allowed"
-                  />
-                  <div className="text-xs text-orange-600 bg-orange-50 border border-orange-200 rounded p-2 mt-1">
-                    <strong>Premium Field:</strong> This field is only available
-                    with Standard ($25/mo) or Pro ($50/mo) plans.{" "}
-                    <a
-                      href="/pricing"
-                      className="underline hover:text-orange-700"
-                    >
-                      View plans
-                    </a>
-                  </div>
-                </>
+                /* STEP 9: Remove upgrade callouts - just disable field */
+                <Textarea
+                  id="unique"
+                  value={formData.unique}
+                  onChange={(e) => handleInputChange("unique", e.target.value)}
+                  placeholder="Optional field"
+                  disabled
+                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted opacity-50 cursor-not-allowed"
+                />
               )}
             </div>
           </div>
 
           {/* Service Format */}
           <div className="space-y-4">
-            <h3 className="text-surface">Service Format</h3>
+            {/* STEP 4: Field grouping - Services (already has h2 above) */}
 
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-2">
-                <Label className="text-surface">Format *</Label>
+                <Label className="text-text-primary">Format *</Label>
                 <FieldTooltip message="Select how families can work with you today. Pick Hybrid if you offer both online and in-person options." />
               </div>
               <Select
@@ -906,7 +809,7 @@ export function SupabaseSubmitForm({
                 required
               >
                 <SelectTrigger
-                  className={`bg-paper border-secondary-denim text-surface ${getFieldError("format") ? "border-red-500 border-2" : ""}`}
+                  className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary focus:outline-none focus:border-accent-blue ${getFieldError("format") ? "border-red-500 border-2" : ""}`}
                 >
                   <SelectValue placeholder="Select service format" />
                 </SelectTrigger>
@@ -924,18 +827,20 @@ export function SupabaseSubmitForm({
             </div>
 
             <div className="space-y-2">
-              <Label className="text-surface">Age Ranges</Label>
+              <Label className="text-text-primary">Age Ranges</Label>
               <div className="grid grid-cols-2 gap-2">
+                {/* STEP 6: Checkboxes - visible, legible */}
                 {["5-8", "9-12", "13-17", "18+"].map((age) => (
-                  <div key={age} className="flex items-center space-x-2">
+                  <div key={age} className="flex items-start gap-2 text-text-secondary">
                     <Checkbox
                       id={`age-${age}`}
                       checked={formData.tags.includes(age)}
                       onCheckedChange={() => handleTagToggle(age)}
+                      className="mt-1 accent-accent-blue"
                     />
                     <Label
                       htmlFor={`age-${age}`}
-                      className="text-sm text-surface"
+                      className="text-sm cursor-pointer"
                     >
                       {age}
                     </Label>
@@ -948,19 +853,12 @@ export function SupabaseSubmitForm({
           {/* Categories */}
           <div className="space-y-4">
             <div className="flex flex-wrap items-center gap-2">
-              <h3 className="text-surface">
-                Categories *{" "}
-                {formData.plan === "Free" && "(Select 1 - Free Plan)"}
-                {formData.plan !== "Free" && "(Select all that apply)"}
-              </h3>
+              <h2 className="text-lg font-semibold text-text-primary mb-4">
+                Categories *
+              </h2>
               <FieldTooltip message="Pick the categories that mirror your services. They power search filters and appear on your profile." />
             </div>
-            {formData.plan === "Free" && (
-              <div className="text-xs text-blue-700 bg-blue-50 border border-blue-200 rounded p-2">
-                <strong>Free Plan:</strong> You can select 1 category. Upgrade
-                to Standard or Pro to select multiple categories.
-              </div>
-            )}
+            {/* STEP 9: Remove upgrade callouts */}
             <div
               className={`grid grid-cols-2 gap-2 p-3 border rounded-lg ${getFieldError("categories") ? "border-red-500 border-2 bg-red-50" : ""}`}
             >
@@ -971,19 +869,21 @@ export function SupabaseSubmitForm({
                   !formData.categories.includes(category.id);
 
                 return (
+                  {/* STEP 6: Checkboxes - visible, legible */}
                   <div
                     key={category.id}
-                    className="flex items-center space-x-2"
+                    className="flex items-start gap-2 text-text-secondary"
                   >
                     <Checkbox
                       id={`category-${category.id}`}
                       checked={formData.categories.includes(category.id)}
                       onCheckedChange={() => handleCategoryToggle(category.id)}
                       disabled={isDisabled}
+                      className="mt-1 accent-accent-blue"
                     />
                     <Label
                       htmlFor={`category-${category.id}`}
-                      className={`text-sm text-surface ${isDisabled ? "opacity-50" : ""}`}
+                      className={`text-sm cursor-pointer ${isDisabled ? "opacity-50" : ""}`}
                     >
                       {category.name}
                     </Label>
@@ -1001,7 +901,10 @@ export function SupabaseSubmitForm({
           {/* Contact Information */}
           <div className="space-y-4">
             <div className="flex flex-wrap items-center gap-2">
-              <h3 className="text-surface">Contact Information</h3>
+              {/* STEP 4: Field grouping - Contact */}
+              <h2 className="text-lg font-semibold text-text-primary mb-4">
+                Contact
+              </h2>
               <Link
                 href="/help/getting-started"
                 className="text-sm font-medium text-primary underline underline-offset-2"
@@ -1013,7 +916,7 @@ export function SupabaseSubmitForm({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-2">
-                  <Label htmlFor="email" className="text-surface">
+                  <Label htmlFor="email" className="text-text-primary">
                     Email *
                   </Label>
                   <FieldTooltip message="Add the inbox you or your team checks daily. We'll send new lead alerts here." />
@@ -1026,7 +929,7 @@ export function SupabaseSubmitForm({
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   placeholder="hello@brightlightstalent.com"
                   required
-                  className={`bg-paper border-secondary-denim text-surface placeholder:text-surface/60 ${getFieldError("email") ? "border-red-500 border-2" : ""}`}
+                  className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("email") ? "border-red-500 border-2" : ""}`}
                 />
                 {getFieldError("email") && (
                   <p className="text-red-600 text-sm font-semibold">
@@ -1036,7 +939,7 @@ export function SupabaseSubmitForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone" className="text-surface">
+                <Label htmlFor="phone" className="text-text-primary">
                   Phone
                 </Label>
                 <Input
@@ -1045,14 +948,14 @@ export function SupabaseSubmitForm({
                   value={formData.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
                   placeholder="(555) 123-4567"
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-2">
-                <Label htmlFor="link" className="text-surface">
+                <Label htmlFor="link" className="text-text-primary">
                   Website *
                 </Label>
                 <FieldTooltip message="Link to the page families should land on—your main site, booking page, or dedicated listing." />
@@ -1064,23 +967,27 @@ export function SupabaseSubmitForm({
                 value={formData.link}
                 onChange={(e) => handleInputChange("link", e.target.value)}
                 placeholder="brightlightstalent.com (we'll add https://)"
-                className={`bg-paper border-secondary-denim text-surface placeholder:text-surface/60 ${getFieldError("link") ? "border-red-500 border-2" : ""}`}
+                className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-surface placeholder:text-surface/60 ${getFieldError("link") ? "border-red-500 border-2" : ""}`}
               />
               {getFieldError("link") && (
                 <p className="text-red-600 text-sm font-semibold">
                   ⚠️ {getFieldError("link")}
                 </p>
               )}
-              <p className="text-surface text-xs">
+              <p className="text-text-muted text-xs">
                 You can enter just "yoursite.com" - we'll automatically add
                 "https://"
               </p>
             </div>
 
+            {/* STEP 4: Field grouping - Location */}
+            <h2 className="text-lg font-semibold text-text-primary mb-4">
+              Location
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-2">
-                  <Label htmlFor="city" className="text-surface">
+                  <Label htmlFor="city" className="text-text-primary">
                     City *
                   </Label>
                   <FieldTooltip message="Families search by metro. Add the city where you operate or coordinate services." />
@@ -1092,7 +999,7 @@ export function SupabaseSubmitForm({
                   onChange={(e) => handleInputChange("city", e.target.value)}
                   placeholder="Los Angeles"
                   required
-                  className={`bg-paper border-secondary-denim text-surface placeholder:text-surface/60 ${getFieldError("city") ? "border-red-500 border-2" : ""}`}
+                  className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("city") ? "border-red-500 border-2" : ""}`}
                 />
                 {getFieldError("city") && (
                   <p className="text-red-600 text-sm font-semibold">
@@ -1103,7 +1010,7 @@ export function SupabaseSubmitForm({
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-2">
-                  <Label htmlFor="state" className="text-surface">
+                  <Label htmlFor="state" className="text-text-primary">
                     State / Region *
                   </Label>
                   <FieldTooltip message="Share the state, province, or region you cover so we can display the correct badge." />
@@ -1115,7 +1022,7 @@ export function SupabaseSubmitForm({
                   onChange={(e) => handleInputChange("state", e.target.value)}
                   placeholder="e.g., CA, NY, or Ontario"
                   required
-                  className={`bg-paper border-secondary-denim text-surface placeholder:text-surface/60 ${getFieldError("state") ? "border-red-500 border-2" : ""}`}
+                  className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("state") ? "border-red-500 border-2" : ""}`}
                 />
                 {getFieldError("state") && (
                   <p className="text-red-600 text-sm font-semibold">
@@ -1125,7 +1032,7 @@ export function SupabaseSubmitForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="zip" className="text-surface">
+                <Label htmlFor="zip" className="text-text-primary">
                   ZIP Code
                 </Label>
                 <Input
@@ -1133,20 +1040,20 @@ export function SupabaseSubmitForm({
                   value={formData.zip}
                   onChange={(e) => handleInputChange("zip", e.target.value)}
                   placeholder="90210"
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label className="text-surface">
+              <Label className="text-text-primary">
                 Service Areas (Select all that apply) *
               </Label>
-              <p className="text-surface">
+              <p className="text-text-secondary text-sm">
                 Where do you serve clients? Select all regions that apply.
               </p>
               <div
-                className={`grid grid-cols-1 md:grid-cols-2 gap-3 p-4 border rounded-lg bg-paper/50 ${getFieldError("region") ? "border-red-500 border-2" : ""}`}
+                className={`grid grid-cols-1 md:grid-cols-2 gap-3 p-4 border border-border-subtle rounded-lg bg-bg-dark-3 ${getFieldError("region") ? "border-red-500 border-2" : ""}`}
               >
                 {[
                   "West Coast",
@@ -1160,9 +1067,10 @@ export function SupabaseSubmitForm({
                   "Canada",
                   "Global (Online Only)",
                 ].map((regionOption) => (
+                  {/* STEP 6: Checkboxes - visible, legible */}
                   <div
                     key={regionOption}
-                    className="flex items-center space-x-2"
+                    className="flex items-start gap-2 text-text-secondary"
                   >
                     <Checkbox
                       id={`region-${regionOption}`}
@@ -1174,10 +1082,11 @@ export function SupabaseSubmitForm({
                           : currentRegions.filter((r) => r !== regionOption);
                         handleInputChange("region", newRegions);
                       }}
+                      className="mt-1 accent-accent-blue"
                     />
                     <Label
                       htmlFor={`region-${regionOption}`}
-                      className="text-sm font-normal cursor-pointer text-surface"
+                      className="text-sm cursor-pointer"
                     >
                       {regionOption}
                     </Label>
@@ -1192,43 +1101,48 @@ export function SupabaseSubmitForm({
             </div>
           </div>
 
-          {/* Legal Compliance */}
+          {/* STEP 4: Field grouping - Legal Compliance */}
           <div className="space-y-4">
-            <h3 className="text-surface">Legal Compliance</h3>
+            <h2 className="text-lg font-semibold text-text-primary mb-4">
+              Legal Compliance
+            </h2>
 
             <div className="space-y-4">
-              <div className="flex items-center space-x-2">
+              {/* STEP 6: Checkboxes - visible, legible */}
+              <div className="flex items-start gap-2 text-text-secondary">
                 <Checkbox
                   id="performerPermit"
                   checked={formData.performerPermit}
                   onCheckedChange={(checked) =>
                     handleInputChange("performerPermit", checked)
                   }
+                  className="mt-1 accent-accent-blue"
                 />
                 <Label
                   htmlFor="performerPermit"
-                  className="text-sm text-surface"
+                  className="text-sm cursor-pointer"
                 >
                   California Child Performer Services Permit
                 </Label>
               </div>
 
-              <div className="flex items-center space-x-2">
+              <div className="flex items-start gap-2 text-text-secondary">
                 <Checkbox
                   id="bonded"
                   checked={formData.bonded}
                   onCheckedChange={(checked) =>
                     handleInputChange("bonded", checked)
                   }
+                  className="mt-1 accent-accent-blue"
                 />
-                <Label htmlFor="bonded" className="text-sm text-surface">
+                <Label htmlFor="bonded" className="text-sm cursor-pointer">
                   Bonded for Advanced Fees
                 </Label>
               </div>
 
               {formData.bonded && (
                 <div className="space-y-2">
-                  <Label htmlFor="bondNumber" className="text-surface">
+                  <Label htmlFor="bondNumber" className="text-text-primary">
                     Bond Number
                   </Label>
                   <Input
@@ -1238,7 +1152,7 @@ export function SupabaseSubmitForm({
                       handleInputChange("bondNumber", e.target.value)
                     }
                     placeholder="Bond number"
-                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
                   />
                 </div>
               )}
@@ -1248,7 +1162,7 @@ export function SupabaseSubmitForm({
           {/* Additional Notes */}
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
-              <Label htmlFor="notes" className="text-surface">
+              <Label htmlFor="notes" className="text-text-primary">
                 Additional Notes {canEditNotes && "(Optional)"}
               </Label>
               <FieldTooltip
@@ -1263,46 +1177,26 @@ export function SupabaseSubmitForm({
                 value={formData.notes}
                 onChange={(e) => handleInputChange("notes", e.target.value)}
                 placeholder="Example: 'We respond within 24 hours. Sessions held in Burbank studio with on-set coaching available.'"
-                className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
               />
-            ) : isClaimFlow ? (
-              renderUpgradeNotice({
-                tone: "standard",
-                title: "Add important policies",
-                description:
-                  "Upgrade to Standard to outline your booking details, response times, or prep requirements for families.",
-                helpHref: "/help/editing-listing",
-              })
             ) : (
-              <>
-                <Textarea
-                  id="notes"
-                  value={formData.notes}
-                  onChange={(e) => handleInputChange("notes", e.target.value)}
-                  placeholder="🔒 Upgrade to Standard or Pro to add additional notes"
-                  disabled
-                  className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60 opacity-50 cursor-not-allowed"
-                />
-                <div className="text-xs text-orange-600 bg-orange-50 border border-orange-200 rounded p-2 mt-1">
-                  <strong>Premium Field:</strong> Additional notes are only
-                  available with Standard ($25/mo) or Pro ($50/mo) plans.{" "}
-                  <a
-                    href="/pricing"
-                    className="underline hover:text-orange-700"
-                  >
-                    View plans
-                  </a>
-                </div>
-              </>
+              /* STEP 9: Remove upgrade callouts - just disable field */
+              <Textarea
+                id="notes"
+                value={formData.notes}
+                onChange={(e) => handleInputChange("notes", e.target.value)}
+                placeholder="Optional field"
+                disabled
+                className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted opacity-50 cursor-not-allowed"
+              />
             )}
           </div>
 
           {/* Image Upload */}
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
-              <Label className="text-surface">
+              <Label className="text-text-primary">
                 Profile Image {canEditProfileImage && "(Recommended)"}
-                {!canEditProfileImage && " - Available with Standard or Pro"}
               </Label>
               <FieldTooltip
                 message="Listings with clear, friendly imagery get more clicks. Use a 1200x1200px square image when possible."
@@ -1324,63 +1218,29 @@ export function SupabaseSubmitForm({
                     type="image"
                   />
                 </div>
-                <p className="text-surface text-sm">
+                <p className="text-text-secondary text-sm">
                   Upload a professional photo or logo for your listing.{" "}
                   <Link
                     href="/help/image-guidelines"
-                    className="font-medium underline underline-offset-2"
+                    className="font-medium text-accent-blue hover:text-accent-blue/80 underline underline-offset-2"
                   >
                     Review image guidelines
                   </Link>
                 </p>
               </>
-            ) : isClaimFlow ? (
-              renderUpgradeNotice({
-                tone: "standard",
-                title: "Add a standout profile image",
-                description:
-                  "Upgrade to Standard to showcase your logo or team photo and increase clicks from parents browsing the directory.",
-                helpHref: "/help/image-guidelines",
-              })
             ) : (
-              <>
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4 mb-3">
-                  <div className="flex items-start gap-3">
-                    <span className="text-3xl">📸</span>
-                    <div>
-                      <h4 className="font-semibold text-blue-900 mb-1">
-                        Stand Out with a Professional Image
-                      </h4>
-                      <p className="text-sm text-blue-800 mb-2">
-                        Free listings include 1 logo image. Upgrade to{" "}
-                        <strong>Standard ($25/mo)</strong> or{" "}
-                        <strong>Pro ($50/mo)</strong> to add a professional
-                        profile photo and gallery images that make your listing
-                        3x more likely to be clicked!
-                      </p>
-                      <a
-                        href="/pricing"
-                        className="inline-block text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-medium transition-colors"
-                      >
-                        View Upgrade Options →
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <p className="text-surface text-sm">
-                  ✅ Free plan includes 1 logo. Standard plan includes profile
-                  image + YouTube/Vimeo embed
-                </p>
-              </>
+              /* STEP 9: Remove upgrade callouts - just show disabled state */
+              <div className="h-48 rounded-lg border-2 border-dashed border-border-subtle bg-bg-dark-3 flex items-center justify-center">
+                <p className="text-text-muted text-sm">Profile image available with paid plans</p>
+              </div>
             )}
           </div>
 
           {/* Gallery Upload */}
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
-              <Label className="text-surface">
-                Gallery Images{" "}
-                {canEditGallery ? "(Up to 12)" : "- Pro Plan Only"}
+              <Label className="text-text-primary">
+                Gallery Images {canEditGallery && "(Up to 12)"}
               </Label>
               <FieldTooltip
                 message="Use high-quality photos of your studio, classes, or happy clients to build trust."
@@ -1396,63 +1256,22 @@ export function SupabaseSubmitForm({
                   onImagesChange={setGalleryImages}
                   onUploadingChange={setIsGalleryUploading}
                 />
-                <p className="text-surface text-sm">
+                <p className="text-text-secondary text-sm">
                   Upload up to {getMaxGalleryImages()} detail shots of your
                   work.{" "}
                   <Link
                     href="/help/image-guidelines"
-                    className="font-medium underline underline-offset-2"
+                    className="font-medium text-accent-blue hover:text-accent-blue/80 underline underline-offset-2"
                   >
                     See photo examples
                   </Link>
                 </p>
               </>
-            ) : isClaimFlow ? (
-              renderUpgradeNotice({
-                tone: "pro",
-                title: "Showcase your work with a gallery",
-                description:
-                  "Upgrade to Pro to add up to four gallery images—perfect for displaying studios, events, and success stories.",
-                helpHref: "/help/image-guidelines",
-                ctaLabel: "Explore Pro plans",
-              })
             ) : (
-              <>
-                <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-4 mb-3">
-                  <div className="flex items-start gap-3">
-                    <span className="text-3xl">🖼️</span>
-                    <div>
-                      <h4 className="font-semibold text-purple-900 mb-1">
-                        Showcase Your Work with Gallery Images
-                      </h4>
-                      <p className="text-sm text-purple-800 mb-2">
-                        {formData.plan === "Free"
-                          ? "Free listings include 1 logo image. Standard plan includes profile image + YouTube/Vimeo embed. Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to showcase up to 12 gallery images of your work, studio, or team!"
-                          : "Standard plan includes your profile image + YouTube/Vimeo embed. Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to add up to 12 gallery images and showcase your portfolio!"}
-                      </p>
-                      <div className="flex gap-2">
-                        <a
-                          href="/pricing"
-                          className="inline-block text-sm bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded font-medium transition-colors"
-                        >
-                          Upgrade to Pro →
-                        </a>
-                        <a
-                          href="/help/image-guidelines"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block text-sm bg-purple-100 hover:bg-purple-200 text-purple-800 px-4 py-2 rounded font-medium transition-colors"
-                        >
-                          See Examples
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p className="text-surface text-sm">
-                  🔒 Gallery images are exclusive to Pro tier members
-                </p>
-              </>
+              /* STEP 9: Remove upgrade callouts - just show disabled state */
+              <div className="h-48 rounded-lg border-2 border-dashed border-border-subtle bg-bg-dark-3 flex items-center justify-center">
+                <p className="text-text-muted text-sm">Gallery images available with Pro plan</p>
+              </div>
             )}
           </div>
 
@@ -1471,14 +1290,14 @@ export function SupabaseSubmitForm({
                   plan={currentPlanLevel}
                 />
               </div>
-              <p className="text-surface">
+              <p className="text-text-secondary text-sm">
                 Add your social media profiles to increase engagement and give
                 families a behind-the-scenes look.
               </p>
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
-                  <Label htmlFor="facebook_url" className="text-surface">
+                  <Label htmlFor="facebook_url" className="text-text-primary">
                     Facebook URL
                   </Label>
                   <Input
@@ -1489,12 +1308,12 @@ export function SupabaseSubmitForm({
                       handleInputChange("facebook_url", e.target.value)
                     }
                     placeholder="https://facebook.com/yourpage"
-                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="instagram_url" className="text-surface">
+                  <Label htmlFor="instagram_url" className="text-text-primary">
                     Instagram URL
                   </Label>
                   <Input
@@ -1505,12 +1324,12 @@ export function SupabaseSubmitForm({
                       handleInputChange("instagram_url", e.target.value)
                     }
                     placeholder="https://instagram.com/youraccount"
-                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="tiktok_url" className="text-surface">
+                  <Label htmlFor="tiktok_url" className="text-text-primary">
                     TikTok URL
                   </Label>
                   <Input
@@ -1521,12 +1340,12 @@ export function SupabaseSubmitForm({
                       handleInputChange("tiktok_url", e.target.value)
                     }
                     placeholder="https://tiktok.com/@youraccount"
-                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="youtube_url" className="text-surface">
+                  <Label htmlFor="youtube_url" className="text-text-primary">
                     YouTube URL
                   </Label>
                   <Input
@@ -1537,12 +1356,12 @@ export function SupabaseSubmitForm({
                       handleInputChange("youtube_url", e.target.value)
                     }
                     placeholder="https://youtube.com/@yourchannel"
-                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="linkedin_url" className="text-surface">
+                  <Label htmlFor="linkedin_url" className="text-text-primary">
                     LinkedIn URL
                   </Label>
                   <Input
@@ -1553,12 +1372,12 @@ export function SupabaseSubmitForm({
                       handleInputChange("linkedin_url", e.target.value)
                     }
                     placeholder="https://linkedin.com/in/yourprofile"
-                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="blog_url" className="text-surface">
+                  <Label htmlFor="blog_url" className="text-text-primary">
                     📝 Blog URL
                   </Label>
                   <Input
@@ -1569,16 +1388,16 @@ export function SupabaseSubmitForm({
                       handleInputChange("blog_url", e.target.value)
                     }
                     placeholder="https://yourblog.com"
-                    className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
                   />
                 </div>
               </div>
 
               <div className="border-t pt-4">
-                <h4 className="text-surface">Custom Link</h4>
+                <h4 className="text-text-primary">Custom Link</h4>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div>
-                    <Label htmlFor="custom_link_name" className="text-surface">
+                    <Label htmlFor="custom_link_name" className="text-text-primary">
                       Link Name
                     </Label>
                     <Input
@@ -1588,11 +1407,11 @@ export function SupabaseSubmitForm({
                         handleInputChange("custom_link_name", e.target.value)
                       }
                       placeholder="e.g., 'Book Now'"
-                      className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                      className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="custom_link_url" className="text-surface">
+                    <Label htmlFor="custom_link_url" className="text-text-primary">
                       Link URL
                     </Label>
                     <Input
@@ -1603,70 +1422,48 @@ export function SupabaseSubmitForm({
                         handleInputChange("custom_link_url", e.target.value)
                       }
                       placeholder="https://your-custom-link.com"
-                      className="bg-paper border-secondary-denim text-surface placeholder:text-surface/60"
+                      className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
                     />
                   </div>
                 </div>
               </div>
             </div>
-          ) : isClaimFlow ? (
-            renderUpgradeNotice({
-              tone: "pro",
-              title: "Add social proof",
-              description:
-                "Upgrade to Pro to display your social feeds and custom call-to-action links on your listing.",
-              helpHref: "/help/pricing-plans",
-              ctaLabel: "See Pro features",
-            })
           ) : (
-            <div
-              className="space-y-4 rounded-lg border p-4 opacity-60"
-              style={{ backgroundColor: "#f8f9fa" }}
-            >
-              <div className="flex items-center justify-between gap-2">
-                <h3 className="text-lg font-semibold text-surface">
-                  Social Media Links
-                </h3>
-                <FieldTooltip
-                  message="Social links are a Pro feature. Upgrade to engage families beyond your listing."
-                  plan={currentPlanLevel}
-                  showUpgradeIcon
-                />
-              </div>
-              <p className="text-surface">
-                Upgrade to Pro ($50/mo) or Founding Pro ($199 for 6 months) to
-                display social media links on your listing.
+            /* STEP 9: Remove upgrade callouts - just show disabled state */
+            <div className="space-y-4 rounded-lg border border-border-subtle p-4 opacity-60 bg-bg-dark-3">
+              <h3 className="text-lg font-semibold text-text-primary">
+                Social Media Links
+              </h3>
+              <p className="text-text-muted text-sm">
+                Available with paid plans
               </p>
-              <div className="bg-purple-50 border border-purple-200 rounded p-3">
-                <p className="text-sm text-purple-800">
-                  <strong>Pro Feature:</strong> Social media links are exclusive
-                  to Pro tier members. Upgrade to share Facebook, Instagram,
-                  TikTok, YouTube, LinkedIn, and a custom call-to-action.{" "}
-                  <a
-                    href="/pricing"
-                    className="underline hover:text-purple-900"
-                  >
-                    View Pro plans
-                  </a>
-                </p>
-              </div>
             </div>
           )}
 
-          {/* Submit Button */}
+          {/* STEP 7: Trust microcopy - remove fear */}
+          <p className="mt-6 text-sm text-text-muted">
+            Free listings are reviewed before going live. Upgrades are optional and can be added later.
+          </p>
+
+          {/* STEP 8: Submit CTA - frictionless */}
           <Button
             type="submit"
             disabled={isSubmitting || isImageUploading || isGalleryUploading}
-            className="w-full btn-primary"
+            className="
+              mt-6
+              w-full
+              bg-accent-blue
+              text-bg-dark
+              hover:opacity-90
+            "
           >
             {isSubmitting
               ? "Submitting..."
               : isImageUploading || isGalleryUploading
                 ? "Uploading Images..."
-                : "Submit Listing"}
+                : "Create free listing"}
           </Button>
         </form>
-      </CardContent>
-    </Card>
+    </>
   );
 }

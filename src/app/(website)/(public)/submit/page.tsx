@@ -192,53 +192,42 @@ export default async function SubmitPage({
     }));
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="text-center mb-8">
-        <h1 className="bauhaus-heading text-4xl font-bold text-paper mb-4">
-          {isClaimFlow ? "Claim Your Listing" : "List Your Business"}
-        </h1>
-        <p className="bauhaus-body text-xl text-paper mb-2">
-          {isClaimFlow
-            ? "Choose a plan and complete your listing details"
-            : "Join the Child Actor 101 Directory and connect with parents"}
-        </p>
-        <p className="bauhaus-body text-sm text-paper">
-          Choose your plan below and get started in minutes.
-        </p>
-        {existingListing && (
-          <div className="bg-card-surface border border-border-subtle rounded-lg p-4 mb-6 max-w-2xl mx-auto">
-            <p className="text-sm text-gray-900 font-semibold">
-              <strong>Claiming:</strong> {existingListing.listing_name}
-            </p>
-          </div>
-        )}
-      </div>
-
-      <div className="max-w-6xl mx-auto">
-        {isClaimFlow ? (
-          // Show plan selection for claim flow
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="bauhaus-heading text-2xl font-semibold text-paper mb-2">
-                Choose Your Plan
-              </h2>
-              <p className="bauhaus-body text-paper">
-                Select a plan to claim and enhance this listing.
+    <div className="bg-bg-dark min-h-screen">
+      <section className="max-w-4xl mx-auto px-4 py-12">
+        {/* STEP 2: Header copy - low pressure */}
+        <header className="mb-10">
+          <h1 className="text-3xl font-semibold text-text-primary">
+            {isClaimFlow ? "Claim Your Listing" : "Submit your business"}
+          </h1>
+          <p className="mt-3 text-text-secondary max-w-2xl">
+            {isClaimFlow
+              ? "Complete your listing details to claim this business."
+              : "Create a free listing and be discovered by parents looking for trusted child-acting professionals."}
+          </p>
+          {existingListing && (
+            <div className="mt-4 bg-card-surface border border-border-subtle rounded-lg p-4">
+              <p className="text-sm text-text-primary font-semibold">
+                <strong>Claiming:</strong> {existingListing.listing_name}
               </p>
             </div>
-            <SupabaseSubmitForm
-              categories={freeFormCategories}
-              existingListing={existingListing}
-              isClaimFlow={true}
-            />
-          </div>
-        ) : (
-          // Show plan selection for new submissions
-          <div className="space-y-8">
-            <SupabaseSubmitForm categories={freeFormCategories} />
-          </div>
-        )}
-      </div>
+          )}
+        </header>
+        {/* STEP 3: Form container - safe place to start */}
+        <div className="
+          bg-card-surface
+          border
+          border-border-subtle
+          rounded-xl
+          p-6
+          shadow-card
+        ">
+          <SupabaseSubmitForm
+            categories={freeFormCategories}
+            existingListing={existingListing}
+            isClaimFlow={isClaimFlow}
+          />
+        </div>
+      </section>
     </div>
   );
 }

@@ -445,7 +445,6 @@ export const AdminDashboardClientNew = ({
           </div>
         </section>
       </div>
-    </div>
 
       {/* Edit Dialog */}
       <Dialog
@@ -473,6 +472,6 @@ export const AdminDashboardClientNew = ({
           )}
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 };

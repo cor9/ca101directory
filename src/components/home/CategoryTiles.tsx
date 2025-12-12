@@ -1,12 +1,5 @@
+import { Briefcase, Camera, Mic, Star, Users, Video } from "lucide-react";
 import Link from "next/link";
-import {
-  Camera,
-  Mic,
-  Users,
-  Video,
-  Star,
-  Briefcase,
-} from "lucide-react";
 
 const categories = [
   {

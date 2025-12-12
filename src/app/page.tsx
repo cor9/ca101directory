@@ -1,8 +1,8 @@
 import Container from "@/components/container";
-import CategoryTileGrid from "@/components/home/category-tile-grid";
 import CategoryTiles from "@/components/home/CategoryTiles";
-import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import HomeHero from "@/components/home/HomeHero";
+import CategoryTileGrid from "@/components/home/category-tile-grid";
+import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import HomeSearchBox from "@/components/home/home-search-box";
 import { HomeSidebar } from "@/components/home/home-sidebar";
 import { Footer } from "@/components/layout/footer";
@@ -99,7 +99,9 @@ export default async function Page() {
                       Featured Professionals
                     </h2>
                     <Suspense
-                      fallback={<div className="h-48 bg-bg-dark-2 rounded-lg" />}
+                      fallback={
+                        <div className="h-48 bg-bg-dark-2 rounded-lg" />
+                      }
                     >
                       <HomeFeaturedListings />
                     </Suspense>
@@ -108,7 +110,9 @@ export default async function Page() {
                   {/* Browse by Category (legacy grid) */}
                   <Suspense
                     fallback={
-                      <div className="text-text-secondary">Loading categories...</div>
+                      <div className="text-text-secondary">
+                        Loading categories...
+                      </div>
                     }
                   >
                     <CategoryTileGrid />

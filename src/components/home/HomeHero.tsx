@@ -16,7 +16,8 @@ export default function HomeHero() {
         </h1>
 
         <p className="mt-4 text-lg text-text-secondary max-w-2xl">
-          Coaches, photographers, agents, and industry pros — vetted for families.
+          Coaches, photographers, agents, and industry pros — vetted for
+          families.
         </p>
 
         {/* Search Bar */}

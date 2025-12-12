@@ -868,7 +868,7 @@
 
   /* Card Component */
   .card {
-    @apply bg-card-surface rounded-2xl shadow-card border border-subtle;
+    @apply bg-card-surface rounded-2xl shadow-card border border-border-subtle;
   }
 
   .card-surface {

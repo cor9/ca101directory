@@ -60,11 +60,11 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
   }, [open]);
 
   return (
-    <div className="sticky top-0 z-50 bg-bg/80 backdrop-blur-md border-b border-subtle">
+    <div className="sticky top-0 z-50 bg-bg-dark-2 border-b border-border-subtle">
       {/* Desktop View */}
       <header
         className={cn(
-          "hidden md:flex justify-center bg-bg/80 backdrop-blur-xl transition-all border-b border-subtle",
+          "hidden md:flex justify-center bg-bg-dark-2 transition-all border-b border-border-subtle",
         )}
       >
         <Container className="flex h-16 items-center justify-between">
@@ -130,7 +130,7 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
       </header>
 
       {/* Mobile View */}
-      <header className="md:hidden flex justify-center bg-bg/80 backdrop-blur-md border-b border-subtle transition-all">
+      <header className="md:hidden flex justify-center bg-bg-dark-2 border-b border-border-subtle transition-all">
         <div className="w-full px-4 h-16 flex items-center justify-between">
           {/* mobile navbar left show menu icon when closed & show sheet when menu is open */}
           <div className="flex items-center gap-x-4">

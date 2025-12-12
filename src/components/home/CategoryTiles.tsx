@@ -98,17 +98,19 @@ export default async function CategoryTiles() {
               key={category.name}
               href={`/category/${category.slug}`}
               className="
-                group relative rounded-2xl p-6
-                bg-card-surface
+                group relative rounded-card p-6
+                bg-bg-dark-3
                 border border-border-subtle
                 shadow-card
                 transition
                 hover:-translate-y-1 hover:shadow-cardHover
               "
             >
+              <div className={cn("absolute top-0 left-0 right-0 h-1 rounded-t-card", category.hoverBg)} />
+
               <div
                 className={cn(
-                  "absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition",
+                  "absolute inset-0 rounded-card opacity-0 group-hover:opacity-100 transition",
                   category.hoverBg,
                 )}
               />

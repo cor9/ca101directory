@@ -56,7 +56,7 @@ export default function ClaimUpgradePage() {
                 </Badge>
                 <div>
                   <h4 className="font-medium">Find Your Listing</h4>
-                  <p className="text-sm text-ink">
+                  <p className="text-sm text-text-primary">
                     Search our directory to find your business listing
                   </p>
                 </div>
@@ -70,7 +70,7 @@ export default function ClaimUpgradePage() {
                 </Badge>
                 <div>
                   <h4 className="font-medium">Click "Claim This Listing"</h4>
-                  <p className="text-sm text-ink">
+                  <p className="text-sm text-text-primary">
                     On your listing page, click the claim button
                   </p>
                 </div>
@@ -84,7 +84,7 @@ export default function ClaimUpgradePage() {
                 </Badge>
                 <div>
                   <h4 className="font-medium">Choose Your Plan</h4>
-                  <p className="text-sm text-ink">
+                  <p className="text-sm text-text-primary">
                     Select Standard or Pro plan and complete payment
                   </p>
                 </div>
@@ -98,7 +98,7 @@ export default function ClaimUpgradePage() {
                 </Badge>
                 <div>
                   <h4 className="font-medium">Get Approved</h4>
-                  <p className="text-sm text-ink">
+                  <p className="text-sm text-text-primary">
                     Our team reviews and approves your claim
                   </p>
                 </div>
@@ -122,7 +122,7 @@ export default function ClaimUpgradePage() {
                 <Shield className="h-5 w-5 text-green-600 mt-0.5" />
                 <div>
                   <h4 className="font-medium">Full Control</h4>
-                  <p className="text-sm text-ink">
+                  <p className="text-sm text-text-primary">
                     Update your business information, photos, and services
                   </p>
                 </div>
@@ -131,7 +131,7 @@ export default function ClaimUpgradePage() {
                 <Users className="h-5 w-5 text-blue-600 mt-0.5" />
                 <div>
                   <h4 className="font-medium">Respond to Reviews</h4>
-                  <p className="text-sm text-ink">
+                  <p className="text-sm text-text-primary">
                     Engage with families and build your reputation
                   </p>
                 </div>
@@ -140,7 +140,7 @@ export default function ClaimUpgradePage() {
                 <Star className="h-5 w-5 text-brand-blue mt-0.5" />
                 <div>
                   <h4 className="font-medium">Premium Features</h4>
-                  <p className="text-sm text-ink">
+                  <p className="text-sm text-text-primary">
                     Featured placement, analytics, and priority support
                   </p>
                 </div>
@@ -163,7 +163,7 @@ export default function ClaimUpgradePage() {
                 <h3 className="text-xl font-semibold mb-2">Standard</h3>
                 <div className="text-3xl font-bold mb-4">
                   $25
-                  <span className="text-lg text-ink">/month</span>
+                  <span className="text-lg text-text-primary">/month</span>
                 </div>
                 <ul className="space-y-2 text-sm mb-6">
                   <li className="flex items-center gap-2">
@@ -198,7 +198,7 @@ export default function ClaimUpgradePage() {
                 </div>
                 <div className="text-3xl font-bold mb-4">
                   $50
-                  <span className="text-lg text-ink">/month</span>
+                  <span className="text-lg text-text-primary">/month</span>
                 </div>
                 <ul className="space-y-2 text-sm mb-6">
                   <li className="flex items-center gap-2">

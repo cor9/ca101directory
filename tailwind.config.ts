@@ -82,6 +82,7 @@ const config: Config = {
         lg: "14px",
         xl: "18px",
         card: "14px",
+        tile: "18px",
       },
 
       boxShadow: {

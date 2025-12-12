@@ -116,7 +116,7 @@ export function ListingCardClient({
             />
           ) : (
             <div className="w-full h-full bg-muted flex items-center justify-center">
-              <Icons.studio className="h-12 w-12 text-paper" />
+              <Icons.studio className="h-12 w-12 text-text-primary" />
             </div>
           )}
 
@@ -126,7 +126,7 @@ export function ListingCardClient({
               // Determine badge text and styling
               let badgeText = "Free";
               let badgeClassName =
-                "text-xs font-medium bg-gray-100 text-paper dark:bg-gray-900 dark:text-paper";
+                "text-xs font-medium bg-gray-100 text-text-primary dark:bg-gray-900 dark:text-text-primary";
 
               if (listing.featured) {
                 badgeText = "Featured";
@@ -162,9 +162,9 @@ export function ListingCardClient({
             <div className="absolute top-2 right-2">
               <Badge
                 variant="secondary"
-                className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-paper text-xs font-medium"
+                className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-text-primary text-xs font-medium"
               >
-                <CheckCircleIcon className="h-3 w-3 mr-1 text-paper" />
+                <CheckCircleIcon className="h-3 w-3 mr-1 text-text-primary" />
                 101 Approved
               </Badge>
             </div>

@@ -251,7 +251,7 @@ export default async function LocationPage({
               <Link
                 key={categoryName}
                 href={`/category/${slug}`}
-                className="block bg-paper rounded-lg p-4 border-2 border-surface/20 hover:border-primary-orange transition-colors"
+                className="block bg-bg-2 rounded-lg p-4 border-2 border-border-subtle hover:border-primary-orange transition-colors"
               >
                 <h3 className="font-semibold text-paper mb-1">
                   {categoryName}

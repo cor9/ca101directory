@@ -167,10 +167,10 @@ export default async function CategoryPage({
       <div className="container max-w-7xl mx-auto px-4 py-8">
         {/* Category header - off-white text on dark navy background */}
         <div className="mb-6">
-          <h1 className="bauhaus-heading text-4xl mb-2 text-paper">
+          <h1 className="bauhaus-heading text-4xl mb-2 text-text-secondary">
             {categoryName}
           </h1>
-          <p className="bauhaus-body text-xl text-paper">
+          <p className="bauhaus-body text-xl text-text-secondary">
             Find {categoryName.toLowerCase()} professionals for your child's
             acting career
           </p>

@@ -131,10 +131,13 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
     badgeColor = "bg-highlight";
   }
 
+  const isProFeatured = listing.featured || listing.comped || planPriority >= 3;
+
   return (
     <Card
       className={cn(
-        "group bg-card border border-subtle rounded-2xl overflow-hidden shadow-card hover:shadow-cardHover hover:-translate-y-0.5 transition-all duration-300",
+        "group bg-card-surface border border-border-subtle rounded-card overflow-hidden shadow-card hover:shadow-cardHover hover:-translate-y-0.5 transition-all duration-300",
+        isProFeatured && "ring-1 ring-accent-teal/30",
         className,
       )}
     >
@@ -163,7 +166,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
                   "text-xs font-semibold",
                   badgeColor,
                   badgeColor === "bg-primary-orange"
-                    ? "text-paper"
+                    ? "text-text-primary"
                     : "text-text-primary",
                 )}
               >
@@ -176,7 +179,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
                   "text-xs font-semibold",
                   badgeColor,
                   badgeColor === "bg-primary-orange"
-                    ? "text-paper"
+                    ? "text-text-primary"
                     : "text-text-primary",
                 )}
               >

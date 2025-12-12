@@ -14,7 +14,7 @@ export const metadata = constructMetadata({
 export default function MagicLinkExpiredPage() {
   return (
     <div className="container mx-auto max-w-lg px-4 py-16">
-      <div className="rounded-2xl border border-secondary-denim bg-paper p-8 text-center shadow-lg">
+      <div className="rounded-2xl border border-border-subtle bg-bg-2 p-8 text-center shadow-lg">
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary-orange/10 text-primary-orange">
           <Icons.alert className="h-6 w-6" />
         </div>

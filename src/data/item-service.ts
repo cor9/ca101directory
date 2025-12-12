@@ -89,7 +89,8 @@ export async function listingToItem(listing: Listing): Promise<ItemInfo> {
                 categoryValue,
               );
 
-            let categoryName = categoryValue.trim();
+            let categoryName =
+              typeof categoryValue === "string" ? categoryValue.trim() : "";
 
             if (isUuid) {
               // Resolve UUID to category name

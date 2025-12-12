@@ -29,91 +29,69 @@ export default function FeaturedListingsClient({
   listings,
 }: FeaturedListingsClientProps) {
   return (
-    <section className="py-16">
-      <div className="text-center mb-12">
-        <h2 className="bauhaus-heading text-3xl mb-4 text-paper">
-          Featured Professionals
-        </h2>
-        <p className="bauhaus-body text-lg max-w-2xl mx-auto text-paper">
-          Hand-picked professionals trusted by families across the industry
-        </p>
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {listings.map((listing) => (
+        <Link
+          key={listing.id}
+          href={
+            listing.isFallback
+              ? listing.website
+              : `/listing/${listing.slug}`
+          }
+          target={listing.isFallback ? "_blank" : undefined}
+          className="group card-surface rounded-xl overflow-hidden hover:shadow-cardHover transition-all duration-300 hover:-translate-y-1"
+        >
+          <div className="relative aspect-[16/9] w-full bg-bg-dark-2">
+            <Image
+              src={listing.image}
+              alt={listing.name}
+              fill
+              className="object-cover"
+            />
+            {listing.featured && (
+              <div className="absolute top-3 left-3">
+                <span className="px-2 py-1 text-xs font-semibold rounded-md bg-accent-teal text-bg-dark">
+                  Featured
+                </span>
+              </div>
+            )}
+          </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {listings.map((listing) => (
-          <div
-            key={listing.id}
-            className="surface overflow-hidden hover:shadow-hover hover:border-secondary-denim transition-all duration-300"
-          >
-            <div className="relative aspect-[3/2]">
-              <Image
-                src={listing.image}
-                alt={listing.name}
-                width={400}
-                height={267}
-                className={`w-full h-full object-cover ${
-                  listing.name === "Coaching with Corey" ? "bg-muted p-4" : ""
-                }`}
-              />
-              {listing.featured && (
-                <div className="absolute top-4 left-4">
-                  <span className="chip chip-cat">Featured</span>
-                </div>
-              )}
+          <div className="p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Icons.star className="h-3.5 w-3.5 text-accent-teal" />
+              <span className="text-xs text-accent-teal font-medium">
+                {listing.category}
+              </span>
             </div>
 
-            <div className="p-6">
-              <div className="flex items-center gap-2 mb-3">
-                <Icons.star className="h-4 w-4 text-primary-orange" />
-                <Link
-                  href={`/category/${listing.categorySlug}`}
-                  className="bauhaus-body text-secondary-denim hover:text-primary-orange transition-colors"
-                >
-                  {listing.category}
-                </Link>
-              </div>
+            <h3 className="text-lg font-semibold text-text-primary mb-2 group-hover:text-accent-teal transition-colors">
+              {listing.name}
+            </h3>
 
-              <h3 className="bauhaus-heading text-xl mb-3 text-gray-900">
-                {listing.name}
-              </h3>
+            <p className="text-sm text-text-secondary mb-3 line-clamp-2">
+              {listing.description}
+            </p>
 
-              <p className="bauhaus-body text-gray-900 mb-4 line-clamp-3">
-                {listing.description}
-              </p>
-
-              <div className="flex flex-wrap gap-2 mb-4">
+            {listing.tags && listing.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mb-3">
                 {listing.tags.slice(0, 3).map((tag, index) => (
-                  <span key={index} className="chip chip-sm">
+                  <span
+                    key={index}
+                    className="px-2 py-0.5 text-xs rounded-md bg-bg-dark-3 text-text-secondary"
+                  >
                     {tag}
                   </span>
                 ))}
               </div>
+            )}
 
-              <Link
-                href={
-                  listing.isFallback
-                    ? listing.website
-                    : `/listing/${listing.slug}`
-                }
-                className="text-secondary-denim hover:text-primary-orange text-sm font-semibold transition-colors"
-                target={listing.isFallback ? "_blank" : undefined}
-              >
-                View Listing →
-              </Link>
+            <div className="text-sm font-semibold text-accent-teal group-hover:underline">
+              View Profile →
             </div>
           </div>
-        ))}
-      </div>
-
-      <div className="text-center mt-12">
-        <Link
-          href="/directory"
-          className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-secondary-denim to-primary-orange text-paper rounded-xl hover:from-secondary-denim-600 hover:to-primary-orange-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-semibold"
-        >
-          View All Listings
-          <Icons.arrowRight className="ml-2 h-5 w-5" />
         </Link>
-      </div>
-    </section>
+      ))}
+    </div>
   );
 }

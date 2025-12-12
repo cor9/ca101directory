@@ -35,11 +35,15 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (debouncedQuery !== lastExecutedQuery.current) {
+    // 15F: Minimum 2 characters before search fires
+    const trimmedQuery = debouncedQuery.trim();
+    const shouldSearch = trimmedQuery.length === 0 || trimmedQuery.length >= 2;
+    
+    if (debouncedQuery !== lastExecutedQuery.current && shouldSearch) {
       setIsSearching(true);
       const newParams = new URLSearchParams(searchParams?.toString());
-      if (debouncedQuery) {
-        newParams.set("q", debouncedQuery);
+      if (trimmedQuery.length >= 2) {
+        newParams.set("q", trimmedQuery);
       } else {
         newParams.delete("q");
       }
@@ -50,7 +54,7 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
       router.push(newUrl, { scroll: false });
 
       // Smooth scroll to results after a short delay to allow the page to update
-      if (debouncedQuery) {
+      if (trimmedQuery.length >= 2) {
         setTimeout(() => {
           const resultsElement = document.getElementById("search-results");
           if (resultsElement) {

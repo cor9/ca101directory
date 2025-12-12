@@ -1,7 +1,76 @@
-export default function Page() {
+import HomepageClient from "@/components/homepage/HomepageClient";
+import { OrganizationSchema } from "@/components/seo/listing-schema";
+import { marketingConfig } from "@/config/marketing";
+import { siteConfig } from "@/config/site";
+import { getCategories } from "@/data/categories";
+import { getItems } from "@/data/item-service";
+import { currentUser } from "@/lib/auth";
+import { DEFAULT_SORT } from "@/lib/constants";
+import { constructMetadata } from "@/lib/metadata";
+import Script from "next/script";
+
+// Ensure homepage is always fresh so Featured updates reflect immediately
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export const metadata = constructMetadata({
+  title: "Child Actor 101 Directory - Find Trusted Acting Professionals",
+  description:
+    "Find 250+ trusted acting coaches, headshot photographers, talent agents, and managers for child actors in Los Angeles, New York, Atlanta & nationwide. 101 Approved professionals.",
+  canonicalUrl: `${siteConfig.url}/`,
+});
+
+export default async function Page() {
+  // Fetch categories for filters
+  let categories = [];
+  try {
+    categories = await getCategories();
+    console.log("Homepage: Fetched categories:", categories.length, categories);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+  }
+
+  // Fetch first few listings for homepage preview
+  let items = [];
+  let totalCount = 0;
+  try {
+    const result = await getItems({
+      sortKey: DEFAULT_SORT.sortKey,
+      reverse: DEFAULT_SORT.reverse,
+      currentPage: 1,
+      hasSponsorItem: false,
+    });
+    items = result.items;
+    totalCount = result.totalCount;
+  } catch (error) {
+    console.error("Error fetching items:", error);
+  }
+
+  // Show only first 12 items on homepage
+  const previewItems = items.slice(0, 12);
+
+  let user = null;
+  try {
+    user = await currentUser();
+  } catch (error) {
+    console.error("Error fetching user:", error);
+  }
+
   return (
-    <main style={{ padding: 40, color: "white", background: "#0E1117" }}>
-      <h1>Homepage is rendering</h1>
-    </main>
+    <>
+      {/* Schema.org Organization Data for SEO */}
+      <OrganizationSchema />
+
+      <Script
+        src="https://js.stripe.com/v3/pricing-table.js"
+        strategy="afterInteractive"
+      />
+
+      <HomepageClient
+        categories={categories}
+        previewItems={previewItems}
+        user={user}
+      />
+    </>
   );
 }

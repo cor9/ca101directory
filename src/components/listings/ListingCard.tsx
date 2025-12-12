@@ -150,7 +150,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
   };
 
   const maxBadges = getMaxBadges();
-  const badges: Array<{ type: string; component: React.ReactNode }> = [];
+  const badges: Array<{ type: string; component: JSX.Element }> = [];
 
   // Collect all possible badges
   if (listing.badge_approved) {

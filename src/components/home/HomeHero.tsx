@@ -6,6 +6,10 @@ export default function HomeHero() {
           Find trusted professionals for young actors
         </h1>
 
+        <p className="mt-3 text-base text-text-secondary">
+          A trusted directory built by working industry professionals — not advertisers.
+        </p>
+
         <p className="mt-4 max-w-xl text-lg text-text-secondary">
           Acting coaches, headshot photographers, agents, and industry pros — vetted for families.
         </p>

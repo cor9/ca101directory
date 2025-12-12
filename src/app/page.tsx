@@ -81,6 +81,17 @@ export default async function Page() {
           {/* Hero Section */}
           <HomeHero />
 
+          {/* Credibility Strip */}
+          <section className="bg-bg-dark border-t border-border-subtle py-6">
+            <div className="max-w-6xl mx-auto px-6">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 text-sm text-text-muted">
+                <div>1,000+ vetted professionals</div>
+                <div>25+ industry categories</div>
+                <div>Used by families nationwide</div>
+              </div>
+            </div>
+          </section>
+
           {/* Category Tiles */}
           <CategoryTiles />
 

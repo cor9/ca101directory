@@ -106,15 +106,15 @@ export default async function CategoryTiles() {
                   p-6
                   shadow-card
                   hover:shadow-cardHover
-                  hover:border-accent-teal/40
+                  hover:-translate-y-1
                   transition
                 "
               >
                 <div className="mb-4">
-                  <Icon className="w-6 h-6 text-text-muted group-hover:text-accent-teal transition-colors" />
+                  <Icon className="w-6 h-6 text-text-muted" />
                 </div>
 
-                <h3 className="text-text-primary font-medium mb-2">
+                <h3 className="text-text-primary font-semibold mb-2">
                   {category.name}
                 </h3>
 

@@ -2,7 +2,6 @@ import HomepageClient from "@/components/homepage/HomepageClient";
 import CategoryTileGrid from "@/components/home/category-tile-grid";
 import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import { OrganizationSchema } from "@/components/seo/listing-schema";
-import { marketingConfig } from "@/config/marketing";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
 import { getItems } from "@/data/item-service";
@@ -28,14 +27,12 @@ export default async function Page() {
   let categories = [];
   try {
     categories = await getCategories();
-    console.log("Homepage: Fetched categories:", categories.length, categories);
   } catch (error) {
     console.error("Error fetching categories:", error);
   }
 
   // Fetch first few listings for homepage preview
   let items = [];
-  let totalCount = 0;
   try {
     const result = await getItems({
       sortKey: DEFAULT_SORT.sortKey,
@@ -44,7 +41,6 @@ export default async function Page() {
       hasSponsorItem: false,
     });
     items = result.items;
-    totalCount = result.totalCount;
   } catch (error) {
     console.error("Error fetching items:", error);
   }
@@ -73,21 +69,20 @@ export default async function Page() {
         categories={categories}
         previewItems={previewItems}
         user={user}
-        featuredListings={
-          <Suspense fallback={<div className="h-48 bg-bg-dark-2 rounded-lg" />}>
-            <HomeFeaturedListings />
-          </Suspense>
-        }
-        categoryGrid={
-          <Suspense
-            fallback={
-              <div className="text-text-secondary">Loading categories...</div>
-            }
-          >
-            <CategoryTileGrid />
-          </Suspense>
-        }
       />
+
+      {/* Render async server components directly in server page */}
+      <Suspense fallback={<div className="h-48 bg-bg-dark-2 rounded-lg" />}>
+        <HomeFeaturedListings />
+      </Suspense>
+
+      <Suspense
+        fallback={
+          <div className="text-text-secondary">Loading categories...</div>
+        }
+      >
+        <CategoryTileGrid />
+      </Suspense>
     </>
   );
 }

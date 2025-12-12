@@ -8,22 +8,17 @@ import { Navbar } from "@/components/layout/navbar";
 import { ListingCardClient } from "@/components/listings/ListingCardClient";
 import { marketingConfig } from "@/config/marketing";
 import { Suspense } from "react";
-import type { ReactNode } from "react";
 
 interface HomepageClientProps {
   categories: Array<{ id: string; category_name: string }>;
   previewItems: Array<any>;
   user: any;
-  featuredListings: ReactNode;
-  categoryGrid: ReactNode;
 }
 
 export default function HomepageClient({
   categories,
   previewItems,
   user,
-  featuredListings,
-  categoryGrid,
 }: HomepageClientProps) {
   return (
     <div className="flex flex-col min-h-screen bg-bg-dark text-text-primary">
@@ -56,16 +51,8 @@ export default function HomepageClient({
                 </div>
               </section>
 
-              {/* Featured Professionals */}
-              <section>
-                <h2 className="text-2xl font-semibold text-text-primary mb-6">
-                  Featured Professionals
-                </h2>
-                {featuredListings}
-              </section>
-
-              {/* Browse by Category */}
-              {categoryGrid}
+              {/* Featured Professionals - rendered in server page */}
+              {/* Browse by Category - rendered in server page */}
 
               {/* Newest / Recently Updated */}
               <section>

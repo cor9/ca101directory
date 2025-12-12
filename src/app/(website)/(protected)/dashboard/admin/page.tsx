@@ -90,8 +90,7 @@ export default async function AdminDashboard() {
   );
   const standardListings = allListings.filter(
     (l) =>
-      l.plan &&
-      l.plan.toLowerCase().includes("standard") &&
+      l.plan?.toLowerCase().includes("standard") &&
       !proListings.some((p) => p.id === l.id),
   );
   const freeListings = allListings.filter(

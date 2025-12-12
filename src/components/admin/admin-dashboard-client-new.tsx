@@ -216,6 +216,7 @@ export const AdminDashboardClientNew = ({
                   </p>
                 </div>
                 <button
+                  type="button"
                   className="text-accent-blue text-sm hover:underline"
                   onClick={() => setStatusFilter("Unclaimed")}
                 >
@@ -234,6 +235,7 @@ export const AdminDashboardClientNew = ({
                   </p>
                 </div>
                 <button
+                  type="button"
                   className="text-accent-blue text-sm hover:underline"
                   onClick={() => setStatusFilter("all")}
                 >
@@ -443,6 +445,7 @@ export const AdminDashboardClientNew = ({
           </div>
         </section>
       </div>
+    </div>
 
       {/* Edit Dialog */}
       <Dialog

@@ -71,7 +71,7 @@ export default async function HomeFeaturedListings() {
 
   // Helper function to check if a value looks like a UUID
   const isUuidLike = (value: string | undefined): boolean => {
-    if (!value) return false;
+    if (!value || typeof value !== "string") return false;
     return /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
       value.trim(),
     );
@@ -146,7 +146,7 @@ export default async function HomeFeaturedListings() {
         // Sanitize slug: trim whitespace and strip any leading slashes
         const rawSlug =
           listing.slug || generateSlug(listing.listing_name || "", listing.id);
-        const safeSlug = rawSlug.trim().replace(/^\/+/, "");
+        const safeSlug = typeof rawSlug === "string" ? rawSlug.trim().replace(/^\/+/, "") : "";
 
         return {
           id: listing.id,

@@ -35,9 +35,12 @@ export default async function CategoryTileGrid() {
     for (const listing of listings) {
       if (listing.categories) {
         for (const category of listing.categories) {
-          const trimmedCategory = category.trim();
-          categoryCounts[trimmedCategory] =
-            (categoryCounts[trimmedCategory] || 0) + 1;
+          // Only process string categories, skip UUIDs and other types
+          if (typeof category === "string" && category.trim()) {
+            const trimmedCategory = category.trim();
+            categoryCounts[trimmedCategory] =
+              (categoryCounts[trimmedCategory] || 0) + 1;
+          }
         }
       }
     }

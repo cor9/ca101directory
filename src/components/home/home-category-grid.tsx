@@ -107,9 +107,12 @@ export default async function HomeCategoryGrid() {
       if (listing.categories) {
         const categoryList = listing.categories;
         for (const category of categoryList) {
-          const trimmedCategory = category.trim();
-          categoryCounts[trimmedCategory] =
-            (categoryCounts[trimmedCategory] || 0) + 1;
+          // Only process string categories, skip UUIDs and other types
+          if (typeof category === "string" && category.trim()) {
+            const trimmedCategory = category.trim();
+            categoryCounts[trimmedCategory] =
+              (categoryCounts[trimmedCategory] || 0) + 1;
+          }
         }
       }
     }

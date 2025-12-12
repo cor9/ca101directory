@@ -1,0 +1,128 @@
+import Container from "@/components/container";
+import { DirectoryFilters } from "@/components/directory/directory-filters";
+import HomeFAQ from "@/components/home/home-faq";
+import HomeFeaturedListings from "@/components/home/home-featured-listings";
+import HomeHero from "@/components/home/home-hero";
+import HomeHowItWorks from "@/components/home/home-how-it-works";
+import HomeParentCta from "@/components/home/home-parent-cta";
+import HomePricingPreview from "@/components/home/home-pricing-preview";
+import HomeValueProps from "@/components/home/home-value-props";
+import HomeVendorCta from "@/components/home/home-vendor-cta";
+import ItemGrid from "@/components/item/item-grid";
+import { NewsletterCard } from "@/components/newsletter/newsletter-card";
+import SearchBox from "@/components/search/search-box";
+import { OrganizationSchema } from "@/components/seo/listing-schema";
+import { siteConfig } from "@/config/site";
+import { getCategories } from "@/data/categories";
+import { getItems } from "@/data/item-service";
+import { DEFAULT_SORT, ITEMS_PER_PAGE } from "@/lib/constants";
+import { constructMetadata } from "@/lib/metadata";
+import Script from "next/script";
+
+// Ensure homepage is always fresh so Featured updates reflect immediately
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export const metadata = constructMetadata({
+  title: "Child Actor 101 Directory - Find Trusted Acting Professionals (Old)",
+  description:
+    "Find 250+ trusted acting coaches, headshot photographers, talent agents, and managers for child actors in Los Angeles, New York, Atlanta & nationwide. 101 Approved professionals.",
+  canonicalUrl: `${siteConfig.url}/old-home`,
+});
+
+export default async function OldHomePage() {
+  // Fetch categories for filters
+  let categories = [];
+  try {
+    categories = await getCategories();
+    console.log("OldHomePage: Fetched categories:", categories.length, categories);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+  }
+
+  // Fetch first few listings for homepage preview
+  let items = [];
+  let totalCount = 0;
+  try {
+    const result = await getItems({
+      sortKey: DEFAULT_SORT.sortKey,
+      reverse: DEFAULT_SORT.reverse,
+      currentPage: 1,
+      hasSponsorItem: false,
+    });
+    items = result.items;
+    totalCount = result.totalCount;
+  } catch (error) {
+    console.error("Error fetching items:", error);
+  }
+
+  // Show only first 6 items on homepage
+  const previewItems = items.slice(0, 6);
+
+  return (
+    <>
+      {/* Schema.org Organization Data for SEO */}
+      <OrganizationSchema />
+
+      <Script
+        src="https://js.stripe.com/v3/pricing-table.js"
+        strategy="afterInteractive"
+      />
+
+      <div className="flex min-h-screen flex-col">
+        {/* 1. Hero Section */}
+        <Container className="mt-8 mb-20">
+          <HomeHero />
+        </Container>
+
+        {/* 2. Why Families Choose Us */}
+        <HomeValueProps />
+
+        {/* 3. Vendor Ribbon CTA */}
+        <Container className="py-12">
+          <div className="relative overflow-hidden bg-gradient-to-r from-secondary-denim/20 via-primary-orange/15 to-secondary-denim/20 border-2 border-primary-orange/30 rounded-2xl p-10 text-center shadow-2xl hover:shadow-primary-orange/20 transition-all duration-300 hover:scale-[1.02] group">
+            {/* Animated background elements */}
+            <div className="absolute inset-0 bg-gradient-to-r from-primary-orange/5 via-transparent to-secondary-denim/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary-orange/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500" />
+            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-secondary-denim/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500" />
+
+            <div className="relative z-10">
+              <p className="bauhaus-heading text-3xl text-paper mb-4 leading-tight">
+                Are you a coach, photographer, or rep?{" "}
+                <a
+                  href="/list-your-business"
+                  className="text-bauhaus-orange hover:text-bauhaus-blue transition-all duration-300 text-3xl underline decoration-2 underline-offset-4 hover:decoration-bauhaus-blue hover:scale-105 inline-block"
+                >
+                  List your business here →
+                </a>
+              </p>
+
+              <p className="bauhaus-body text-lg text-paper/80 max-w-2xl mx-auto">
+                Join 12,000+ families already using our directory. Get featured
+                placement, build trust, and grow your business.
+              </p>
+            </div>
+          </div>
+        </Container>
+
+        {/* 4. Featured Vendors */}
+        <Container className="py-16">
+          <HomeFeaturedListings />
+        </Container>
+
+        {/* 5. How It Works (for Families) */}
+        <Container className="py-16">
+          <HomeHowItWorks />
+        </Container>
+
+        {/* 6. Parent Account CTA - Save Favorites & Write Reviews */}
+        <HomeParentCta />
+
+        {/* 7. Newsletter Signup (Families) */}
+        <Container className="py-16">
+          <NewsletterCard />
+        </Container>
+      </div>
+    </>
+  );
+}

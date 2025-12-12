@@ -80,6 +80,39 @@ export default async function AdminDashboard() {
   const totalVendors = users?.filter((u) => u.role === "vendor").length || 0;
   const totalAdmins = users?.filter((u) => u.role === "admin").length || 0;
 
+  // Calculate revenue metrics
+  const proListings = allListings.filter(
+    (l) =>
+      l.plan &&
+      (l.plan.toLowerCase().includes("pro") ||
+        l.plan.toLowerCase().includes("premium") ||
+        l.comped),
+  );
+  const standardListings = allListings.filter(
+    (l) =>
+      l.plan &&
+      l.plan.toLowerCase().includes("standard") &&
+      !proListings.some((p) => p.id === l.id),
+  );
+  const freeListings = allListings.filter(
+    (l) => !l.plan || l.plan === "Free" || l.plan === null,
+  );
+
+  // Calculate MRR (assuming $50/mo for Pro, $25/mo for Standard)
+  const mrr =
+    proListings.length * 50 + standardListings.length * 25;
+
+  // Calculate conversion rate
+  const totalPaid = proListings.length + standardListings.length;
+  const totalListingsCount = allListings.length;
+  const conversionRate =
+    totalListingsCount > 0
+      ? Math.round((totalPaid / totalListingsCount) * 100)
+      : 0;
+
+  // Get flagged/reported listings (assuming status or a flag field)
+  const flaggedListings = allListings.filter((l) => l.status === "Rejected");
+
   return (
     <AdminDashboardLayout>
       <AdminDashboardClientNew
@@ -90,6 +123,10 @@ export default async function AdminDashboard() {
         totalListings={totalListings}
         totalReviews={totalReviewsCount ?? 0}
         pendingReviews={pendingReviewsCount ?? 0}
+        mrr={mrr}
+        activeProListings={proListings.length}
+        conversionRate={conversionRate}
+        flaggedListings={flaggedListings.length}
       />
     </AdminDashboardLayout>
   );

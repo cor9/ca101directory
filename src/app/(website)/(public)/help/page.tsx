@@ -1,168 +1,225 @@
-import {
-  Award,
-  ClipboardCheckIcon,
-  CreditCardIcon,
-  EditIcon,
-  HelpCircleIcon,
-  ImageIcon,
-  MailIcon,
-  RocketIcon,
-} from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Help Center | Child Actor 101 Directory",
+  title: "Help | Child Actor 101 Directory",
   description:
-    "Find answers and guides to help you get the most out of your Child Actor 101 Directory listing",
+    "Quick answers for parents and professionals using the Child Actor 101 Directory",
 };
 
-const helpTopics = [
-  {
-    title: "Image Guidelines",
-    description:
-      "Learn the best image sizes, formats, and practices for your profile and gallery images",
-    icon: ImageIcon,
-    href: "/help/image-guidelines",
-    color: "bg-blue-100 text-blue-600",
-  },
-  {
-    title: "Getting Started",
-    description:
-      "New to the directory? Learn how to create and optimize your listing",
-    icon: RocketIcon,
-    href: "/help/getting-started",
-    color: "bg-green-100 text-green-600",
-  },
-  {
-    title: "Claim Your Listing",
-    description:
-      "Already listed? Learn how to claim and take control of your existing listing",
-    icon: ClipboardCheckIcon,
-    href: "/help/claim-listing",
-    color: "bg-purple-100 text-purple-600",
-  },
-  {
-    title: "Pricing & Plans",
-    description:
-      "Understand our pricing tiers and choose the right plan for your business",
-    icon: CreditCardIcon,
-    href: "/help/pricing-plans",
-    color: "bg-yellow-100 text-yellow-600",
-  },
-  {
-    title: "Editing Your Listing",
-    description:
-      "Step-by-step guide to updating your profile, images, and business information",
-    icon: EditIcon,
-    href: "/help/editing-listing",
-    color: "bg-pink-100 text-pink-600",
-  },
-  {
-    title: "Frequently Asked Questions",
-    description:
-      "Quick answers to common questions about the directory and your listing",
-    icon: HelpCircleIcon,
-    href: "/help/faq",
-    color: "bg-indigo-100 text-indigo-600",
-  },
-  {
-    title: "101 Approved Badge",
-    description:
-      "Learn how to qualify for our highest mark of trust for verified professionals",
-    icon: Award,
-    href: "/help/101-approved",
-    color: "bg-orange-100 text-orange-600",
-  },
-];
-
-export default function HelpCenterPage() {
+export default function HelpPage() {
   return (
-    <div className="container max-w-6xl mx-auto px-4 py-12">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-5xl font-bold text-paper mb-4">Help Center</h1>
-        <p className="text-xl text-paper max-w-2xl mx-auto">
-          Everything you need to know about creating and managing your listing
-          on Child Actor 101 Directory
-        </p>
-      </div>
+    <div className="bg-bg-dark min-h-screen">
+      {/* STEP 1: Page structure */}
+      <section className="max-w-5xl mx-auto px-4 py-12">
+        {/* STEP 2: Header - reassuring, not techy */}
+        <header className="mb-12">
+          <h1 className="text-3xl font-semibold text-text-primary">
+            How can we help?
+          </h1>
+          <p className="mt-3 text-text-secondary max-w-2xl">
+            Quick answers for parents and professionals using the Child Actor 101
+            Directory.
+          </p>
+        </header>
 
-      {/* Help Topics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        {helpTopics.map((topic) => (
-          <Link
-            key={topic.href}
-            href={topic.href}
-            className="group bauhaus-card bg-card-surface border-2 border-border-subtle rounded-lg p-6 hover:border-bauhaus-blue hover:shadow-lg transition-all duration-200"
-          >
-            <div
-              className={`inline-flex p-3 rounded-lg ${topic.color} mb-4 group-hover:scale-110 transition-transform duration-200`}
-            >
-              <topic.icon className="w-6 h-6" />
-            </div>
-            <h2 className="bauhaus-heading text-xl font-bold mb-2 group-hover:text-bauhaus-blue transition-colors">
-              {topic.title}
-            </h2>
-            <p className="bauhaus-body text-surface text-sm">
-              {topic.description}
+        {/* STEP 3: Primary help tiles */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+          <div className="
+            bg-card-surface
+            border border-border-subtle
+            rounded-xl
+            p-6
+            hover:bg-bg-dark-3
+            transition
+          ">
+            <h3 className="text-lg font-semibold text-text-primary mb-2">
+              For Parents
+            </h3>
+            <p className="text-text-secondary text-sm">
+              Finding trusted professionals, saving favorites, and understanding
+              listings.
             </p>
-          </Link>
-        ))}
-      </div>
+          </div>
 
-      {/* Contact Support Section */}
-      <div className="bg-gradient-to-r from-brand-blue to-brand-navy text-white rounded-lg p-8 text-center">
-        <div className="inline-flex p-4 bg-white/10 rounded-full mb-4">
-          <MailIcon className="w-8 h-8" />
-        </div>
-        <h2 className="text-2xl font-bold mb-3">Still Need Help?</h2>
-        <p className="text-lg mb-6 opacity-90">
-          Can't find what you're looking for? Our support team is here to help.
-        </p>
-        <a
-          href="mailto:hello@childactor101.com"
-          className="inline-block bg-white text-brand-blue font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors"
-        >
-          Contact Support
-        </a>
-      </div>
+          <div className="
+            bg-card-surface
+            border border-border-subtle
+            rounded-xl
+            p-6
+            hover:bg-bg-dark-3
+            transition
+          ">
+            <h3 className="text-lg font-semibold text-text-primary mb-2">
+              For Vendors
+            </h3>
+            <p className="text-text-secondary text-sm">
+              Creating listings, managing your profile, and understanding plans.
+            </p>
+          </div>
 
-      {/* Quick Links */}
-      <div className="mt-12 pt-8 border-t border-secondary-denim/20">
-        <h3 className="bauhaus-heading text-lg font-semibold text-paper mb-4 text-center">
-          Quick Links
-        </h3>
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link
-            href="/submit"
-            className="bauhaus-body text-bauhaus-blue hover:text-bauhaus-mustard underline transition-colors"
-          >
-            Submit New Listing
-          </Link>
-          <span className="text-paper">•</span>
-          <Link
-            href="/claim-listing"
-            className="bauhaus-body text-bauhaus-blue hover:text-bauhaus-mustard underline transition-colors"
-          >
-            Claim Existing Listing
-          </Link>
-          <span className="text-paper">•</span>
-          <Link
-            href="/pricing"
-            className="bauhaus-body text-bauhaus-blue hover:text-bauhaus-mustard underline transition-colors"
-          >
-            View Pricing
-          </Link>
-          <span className="text-paper">•</span>
-          <Link
-            href="/dashboard"
-            className="bauhaus-body text-bauhaus-blue hover:text-bauhaus-mustard underline transition-colors"
-          >
-            Go to Dashboard
-          </Link>
+          <div className="
+            bg-card-surface
+            border border-border-subtle
+            rounded-xl
+            p-6
+            hover:bg-bg-dark-3
+            transition
+          ">
+            <h3 className="text-lg font-semibold text-text-primary mb-2">
+              Listings & Reviews
+            </h3>
+            <p className="text-text-secondary text-sm">
+              How listings work, what reviews mean, and how to leave feedback.
+            </p>
+          </div>
+
+          <div className="
+            bg-card-surface
+            border border-border-subtle
+            rounded-xl
+            p-6
+            hover:bg-bg-dark-3
+            transition
+          ">
+            <h3 className="text-lg font-semibold text-text-primary mb-2">
+              Safety & Trust
+            </h3>
+            <p className="text-text-secondary text-sm">
+              Verification, background checks, and what makes a listing trusted.
+            </p>
+          </div>
         </div>
-      </div>
+
+        {/* STEP 4: FAQ sections - short + human */}
+        <section className="space-y-10">
+          <h2 className="text-xl font-semibold text-text-primary">
+            Common questions
+          </h2>
+
+          {/* For Parents */}
+          <div className="space-y-6">
+            <h3 className="text-lg font-medium text-text-primary">
+              For Parents
+            </h3>
+
+            <div>
+              <h4 className="font-medium text-text-primary">
+                How do I know who's legit?
+              </h4>
+              <p className="mt-2 text-text-secondary text-sm max-w-3xl">
+                Listings are reviewed before going live. Some providers go through
+                additional verification, which is clearly marked on their profile.
+                Look for the "101 Approved" badge for extra peace of mind.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium text-text-primary">
+                Can I save favorites?
+              </h4>
+              <p className="mt-2 text-text-secondary text-sm max-w-3xl">
+                Yes. Create a free account to save listings you're interested in
+                and compare options before reaching out.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium text-text-primary">
+                Do you take commissions?
+              </h4>
+              <p className="mt-2 text-text-secondary text-sm max-w-3xl">
+                No. We don't take any commission from bookings. Contact providers
+                directly and work out terms with them.
+              </p>
+            </div>
+          </div>
+
+          {/* For Vendors */}
+          <div className="space-y-6">
+            <h3 className="text-lg font-medium text-text-primary">
+              For Vendors
+            </h3>
+
+            <div>
+              <h4 className="font-medium text-text-primary">
+                Is there a free listing?
+              </h4>
+              <p className="mt-2 text-text-secondary text-sm max-w-3xl">
+                Yes. Free listings include basic information and appear in search
+                results. You can upgrade anytime to add photos, featured placement,
+                and more.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium text-text-primary">
+                Can I upgrade later?
+              </h4>
+              <p className="mt-2 text-text-secondary text-sm max-w-3xl">
+                Absolutely. Start with a free listing and upgrade when you're ready.
+                Changes take effect immediately.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium text-text-primary">
+                How do parents contact me?
+              </h4>
+              <p className="mt-2 text-text-secondary text-sm max-w-3xl">
+                Parents use the contact information on your listing—email, phone, or
+                website. You'll receive inquiries directly, no middleman.
+              </p>
+            </div>
+          </div>
+
+          {/* Trust */}
+          <div className="space-y-6">
+            <h3 className="text-lg font-medium text-text-primary">
+              Safety & Trust
+            </h3>
+
+            <div>
+              <h4 className="font-medium text-text-primary">
+                What does "101 Approved" mean?
+              </h4>
+              <p className="mt-2 text-text-secondary text-sm max-w-3xl">
+                The 101 Approved badge means a professional has met our highest
+                standards: proper certifications, background checks, experience with
+                children, and positive references. We personally vet each
+                application.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-medium text-text-primary">
+                Are background checks required?
+              </h4>
+              <p className="mt-2 text-text-secondary text-sm max-w-3xl">
+                Background checks are required for 101 Approved professionals. For
+                other listings, we review credentials and references. Always do your
+                own due diligence when choosing a provider.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* STEP 5: Contact without inviting chaos */}
+        <div className="
+          mt-16
+          border-t border-border-subtle
+          pt-8
+        ">
+          <p className="text-text-secondary text-sm">
+            Still stuck? Email us at{" "}
+            <a
+              href="mailto:support@childactor101.com"
+              className="text-accent-blue hover:underline"
+            >
+              support@childactor101.com
+            </a>
+          </p>
+        </div>
+      </section>
     </div>
   );
 }

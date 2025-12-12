@@ -809,7 +809,7 @@ export function SupabaseSubmitForm({
                 required
               >
                 <SelectTrigger
-                  className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary focus:outline-none focus:border-accent-blue ${getFieldError("format") ? "border-red-500 border-2" : ""}`}
+                  className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 h-10 text-text-primary focus:outline-none focus:border-accent-blue ${getFieldError("format") ? "border-red-500 border-2" : ""}`}
                 >
                   <SelectValue placeholder="Select service format" />
                 </SelectTrigger>
@@ -1206,7 +1206,7 @@ export function SupabaseSubmitForm({
             </div>
             {canEditProfileImage ? (
               <>
-                <div className="h-48 rounded-lg border-2 border-dashed border-secondary-denim">
+                <div className="h-48 rounded-lg border-2 border-dashed border-border-subtle bg-bg-dark-3">
                   <ImageUpload
                     currentImageUrl={formData.imageId}
                     onUploadChange={(status) => {

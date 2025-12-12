@@ -33,7 +33,7 @@ export default async function PricingPage() {
                   <div className="absolute inset-0 bg-gradient-to-r from-primary-orange/20 via-secondary-denim/20 to-highlight/20 rounded-full blur-2xl scale-110" />
                   <div className="relative backdrop-blur-sm rounded-xl p-6 shadow-xl border border-white/20">
                     <Image
-                      src="/directorylogo.png"
+                      src="/logo.png"
                       alt="Child Actor 101 Directory Logo"
                       width={300}
                       height={150}

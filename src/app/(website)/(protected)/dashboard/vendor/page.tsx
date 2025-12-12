@@ -83,9 +83,12 @@ export default async function VendorDashboard({
           <h1 className="text-2xl font-bold text-foreground mb-2">
             Welcome to Your Dashboard
           </h1>
-          <p className="text-foreground">
+          <p className="text-foreground mb-2">
             This is your space to manage your listing, view analytics, and
             access resources to grow your business with us.
+          </p>
+          <p className="text-sm text-foreground/80 italic">
+            Parents tend to contact professionals with claimed listings.
           </p>
         </div>
 

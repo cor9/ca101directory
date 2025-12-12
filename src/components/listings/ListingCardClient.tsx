@@ -258,7 +258,7 @@ export function ListingCardClient({
         )}
       </CardContent>
 
-      <CardFooter className="pt-3">
+      <CardFooter className="pt-3 flex flex-col gap-2">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-2">
             {listing.website && (
@@ -290,6 +290,15 @@ export function ListingCardClient({
           >
             <Link href={`/listing/${slug}`}>View Details</Link>
           </Button>
+        </div>
+
+        {/* Claim status micro-copy */}
+        <div className="text-xs text-charcoal/60">
+          {listing.is_claimed || (listing.plan && listing.plan !== "Free")
+            ? "Listing claimed and maintained by the professional."
+            : !listing.is_claimed
+              ? "This listing has not been claimed by the professional."
+              : null}
         </div>
       </CardFooter>
     </Card>

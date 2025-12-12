@@ -133,11 +133,15 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
 
   const isProFeatured = listing.featured || listing.comped || planPriority >= 3;
 
+  // Determine if listing is paid/claimed for subtle contrast
+  const isPaidClaimed = listing.is_claimed || (listing.plan && listing.plan !== "Free");
+
   return (
     <Card
       className={cn(
         "group bg-card-surface border border-border-subtle rounded-card overflow-hidden shadow-card hover:shadow-cardHover hover:-translate-y-0.5 transition-all duration-300",
         isProFeatured && "ring-1 ring-accent-purple/30",
+        isPaidClaimed && !isProFeatured && "bg-bg-dark-2",
         className,
       )}
     >
@@ -237,12 +241,12 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
           </Link>
         </div>
 
-        {/* Trust micro-copy */}
+        {/* Claim status micro-copy */}
         <div className="text-xs text-text-muted">
-          {listing.is_claimed
-            ? "Claimed by professional"
-            : listing.badge_approved
-              ? "Verified listing"
+          {listing.is_claimed || (listing.plan && listing.plan !== "Free")
+            ? "Listing claimed and maintained by the professional."
+            : !listing.is_claimed
+              ? "This listing has not been claimed by the professional."
               : null}
         </div>
       </CardFooter>

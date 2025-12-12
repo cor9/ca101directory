@@ -19,8 +19,8 @@ import {
   SORT_FILTER_LIST,
 } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
-import Link from "next/link";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 /**
@@ -128,7 +128,7 @@ export default async function CategoryPage({
 
     // Get all listings for this category
     const allListings = await getPublicListings({ category: categoryName });
-    
+
     // Get featured listings for this category (max 3)
     let featuredListings: typeof allListings = [];
     try {
@@ -139,7 +139,7 @@ export default async function CategoryPage({
 
     // Sort all listings by priority: Pro > Standard > Free, then by photos, then updated
     const sortedListings = sortListingsByPriority(allListings);
-    
+
     // Separate paid and free listings
     const paidListings = sortedListings.filter(
       (l) => l.plan && l.plan !== "Free" && l.plan !== null,
@@ -262,7 +262,8 @@ export default async function CategoryPage({
             {paidListings.length > 0 && (
               <div className="mb-12">
                 <h2 className="text-2xl font-semibold text-text-primary mb-6">
-                  All {categoryName} ({paidListings.length + freeListings.length})
+                  All {categoryName} (
+                  {paidListings.length + freeListings.length})
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {paidListings.map((listing) => (
@@ -274,7 +275,13 @@ export default async function CategoryPage({
 
             {/* Free Listings - Visual downgrade */}
             {freeListings.length > 0 && (
-              <div className={paidListings.length > 0 ? "mt-12 pt-12 border-t border-border-subtle" : ""}>
+              <div
+                className={
+                  paidListings.length > 0
+                    ? "mt-12 pt-12 border-t border-border-subtle"
+                    : ""
+                }
+              >
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {freeListings.map((listing) => (
                     <div key={listing.id} className="opacity-75">

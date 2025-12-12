@@ -620,7 +620,7 @@ export async function getFeaturedListingsByCategory(
   categoryName: string,
 ): Promise<Listing[]> {
   const allFeatured = await getFeaturedListingsUncached();
-  
+
   // Filter by category and resolve category names
   const { getCategories } = await import("@/data/categories");
   const categories = await getCategories();
@@ -655,11 +655,116 @@ export async function getFeaturedListingsByCategory(
 }
 
 /**
+ * Sort search results by intent-driven priority:
+ * 1. Exact match (name or category)
+ * 2. Paid tier
+ * 3. Featured
+ * 4. Location match
+ * 5. Review count
+ * 6. Recency
+ */
+export function sortSearchResultsByPriority(
+  listings: Listing[],
+  query: string,
+): Listing[] {
+  if (!query || query.trim().length < 2) {
+    return sortListingsByPriority(listings);
+  }
+
+  const queryLower = query.toLowerCase().trim();
+  const queryWords = queryLower.split(/\s+/);
+
+  const getTierWeight = (
+    plan: string | null,
+    comped: boolean | null,
+  ): number => {
+    if (comped) return 3;
+    const p = (plan || "").toLowerCase();
+    if (p.includes("pro") || p.includes("premium")) return 3;
+    if (p.includes("standard")) return 2;
+    return 1; // Free
+  };
+
+  const matchesName = (listing: Listing): boolean => {
+    const name = (listing.listing_name || "").toLowerCase();
+    return name.includes(queryLower) || queryWords.some((w) => name.includes(w));
+  };
+
+  const matchesCategory = (listing: Listing): boolean => {
+    if (!listing.categories) return false;
+    return listing.categories.some((cat) => {
+      const catStr = (typeof cat === "string" ? cat : "").toLowerCase();
+      return catStr.includes(queryLower) || queryWords.some((w) => catStr.includes(w));
+    });
+  };
+
+  const matchesLocation = (listing: Listing): boolean => {
+    const city = (listing.city || "").toLowerCase();
+    const state = (listing.state || "").toLowerCase();
+    return (
+      city.includes(queryLower) ||
+      state.includes(queryLower) ||
+      queryWords.some((w) => city.includes(w) || state.includes(w))
+    );
+  };
+
+  return listings.sort((a, b) => {
+    // 1. Exact match in name or category (highest priority)
+    const aExactMatch = matchesName(a) || matchesCategory(a);
+    const bExactMatch = matchesName(b) || matchesCategory(b);
+    if (aExactMatch !== bExactMatch) {
+      return aExactMatch ? -1 : 1;
+    }
+
+    // 2. Paid tier
+    const aTier = getTierWeight(a.plan, a.comped);
+    const bTier = getTierWeight(b.plan, b.comped);
+    if (bTier !== aTier) {
+      return bTier - aTier;
+    }
+
+    // 3. Featured
+    const aFeatured = Boolean(a.featured);
+    const bFeatured = Boolean(b.featured);
+    if (aFeatured !== bFeatured) {
+      return aFeatured ? -1 : 1;
+    }
+
+    // 4. Location match
+    const aLocationMatch = matchesLocation(a);
+    const bLocationMatch = matchesLocation(b);
+    if (aLocationMatch !== bLocationMatch) {
+      return aLocationMatch ? -1 : 1;
+    }
+
+    // 5. Has photos
+    const aHasPhoto = Boolean(a.profile_image);
+    const bHasPhoto = Boolean(b.profile_image);
+    if (aHasPhoto !== bHasPhoto) {
+      return bHasPhoto ? 1 : -1;
+    }
+
+    // 6. Updated recently
+    const aUpdated = a.updated_at ? new Date(a.updated_at).getTime() : 0;
+    const bUpdated = b.updated_at ? new Date(b.updated_at).getTime() : 0;
+    if (bUpdated !== aUpdated) {
+      return bUpdated - aUpdated;
+    }
+
+    // 7. Alphabetical
+    return (a.listing_name || "").localeCompare(b.listing_name || "");
+  });
+}
+
+/**
  * Sort listings by priority: Pro > Standard > Free
  * Within tier: with reviews > without, with photos > without, updated recently > stale
  */
 export function sortListingsByPriority(listings: Listing[]): Listing[] {
-  const getTierWeight = (plan: string | null, comped: boolean | null): number => {
+  const getTierWeight = (
+    plan: string | null,
+    comped: boolean | null,
+  ): number => {
     if (comped) return 3;
     const p = (plan || "").toLowerCase();
     if (p.includes("pro") || p.includes("premium")) return 3;

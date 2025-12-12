@@ -1,18 +1,17 @@
 import Container from "@/components/container";
 import { DirectoryFilters } from "@/components/directory/directory-filters";
 import HomeSearchBox from "@/components/home/home-search-box";
-import ItemGrid from "@/components/item/item-grid";
+import { ListingCard } from "@/components/listings/ListingCard";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
-import { getItems } from "@/data/item-service";
 import {
-  DEFAULT_SORT,
-  ITEMS_PER_PAGE,
-  SORT_FILTER_LIST,
-} from "@/lib/constants";
+  getPublicListings,
+  sortSearchResultsByPriority,
+} from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
+import Link from "next/link";
 
 export const metadata = constructMetadata({
   title: "Search Directory - Find Acting Professionals for Child Actors",
@@ -52,74 +51,152 @@ export default async function SearchPage({
     region,
   } = searchParams as { [key: string]: string };
 
-  // Convert category ID to category name
-  let categoryName: string | undefined = undefined;
-  if (category && category !== "all") {
-    const foundCategory = categories.find((cat) => cat.id === category);
-    categoryName = foundCategory?.category_name;
-    console.log("SearchPage: Category mapping:", {
-      categoryId: category,
-      categoryName,
-      foundCategory,
-    });
-  }
-
-  const { sortKey, reverse } =
-    SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
-  const currentPage = page ? Number(page) : 1;
-  const { items, totalCount } = await getItems({
-    category: categoryName, // Pass category name instead of ID
-    tag,
+  // Get all listings matching search query
+  const allListings = await getPublicListings({
+    q: query,
+    category,
     state,
     region,
-    sortKey,
-    reverse,
-    query,
-    filter,
-    currentPage,
-    hasSponsorItem,
   });
-  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-  console.log("SearchPage, totalCount", totalCount, ", totalPages", totalPages);
+
+  // Sort by search priority
+  const sortedListings = query
+    ? sortSearchResultsByPriority(allListings, query)
+    : allListings;
+
+  // Separate best matches (paid, max 3) from other results
+  const bestMatches = sortedListings
+    .filter((l) => l.plan && l.plan !== "Free" && l.plan !== null)
+    .slice(0, 3);
+  const otherResults = sortedListings.slice(bestMatches.length);
+
+  // Get query clarification for vague terms
+  const getQueryClarification = (q: string | undefined): string | null => {
+    if (!q) return null;
+    const qLower = q.toLowerCase();
+    if (qLower.includes("coach")) {
+      return "Showing acting coaches, audition coaches, and related services.";
+    }
+    if (qLower.includes("photo") || qLower.includes("headshot")) {
+      return "Showing headshot photographers and related services.";
+    }
+    if (qLower.includes("agent") || qLower.includes("manager")) {
+      return "Showing talent agents, managers, and related services.";
+    }
+    return null;
+  };
+
+  const clarification = getQueryClarification(query);
 
   return (
-    <div className="container max-w-7xl py-16">
-      <div className="text-center mb-12">
-        <h1 className="bauhaus-heading text-3xl text-paper mb-4">
+    <div className="container max-w-7xl mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl md:text-4xl font-semibold text-text-primary mb-4">
           {query ? `Search Results for "${query}"` : "Search Professionals"}
         </h1>
-        <p className="bauhaus-body text-lg text-paper max-w-2xl mx-auto mb-8">
-          {query
-            ? `Found ${totalCount} professional${totalCount !== 1 ? "s" : ""} matching your search`
-            : "Search our directory of vetted child actor professionals"}
-        </p>
 
         {/* Search Box */}
-        <div className="max-w-md mx-auto">
+        <div className="max-w-2xl mb-4">
           <HomeSearchBox urlPrefix="/search" />
         </div>
+
+        {/* 15H: Microcopy */}
+        <p className="text-sm text-text-muted mt-2">
+          Most families compare 2–3 providers before reaching out.
+        </p>
       </div>
 
-      {/* Filters */}
-      <Container className="pb-8">
-        <DirectoryFilters className="mb-8" categories={categories} />
-      </Container>
+      {/* 15D: Query Clarification */}
+      {clarification && (
+        <div className="mb-6 pb-4 border-b border-border-subtle">
+          <p className="text-sm text-text-secondary italic">{clarification}</p>
+        </div>
+      )}
 
-      {/* when no items are found */}
-      {items?.length === 0 && <EmptyGrid />}
-
-      {/* when items are found */}
-      {items && items.length > 0 && (
-        <section className="">
-          <ItemGrid
-            items={items}
-            sponsorItems={sponsorItems}
-            showSponsor={showSponsor}
-          />
-
-          <div className="mt-8 flex items-center justify-center">
-            <CustomPagination routePrefix="/search" totalPages={totalPages} />
+      {/* 15E: Zero Results */}
+      {sortedListings.length === 0 ? (
+        <div className="text-center py-16">
+          <div className="max-w-md mx-auto">
+            <h3 className="text-xl font-semibold text-text-primary mb-4">
+              We don't have an exact match yet
+            </h3>
+            <p className="text-text-secondary mb-6">
+              Try a different search term or explore categories.
+            </p>
+            <div className="space-y-4">
+              {categories.length > 0 && (
+                <div>
+                  <p className="text-sm text-text-muted mb-3">
+                    Explore categories:
+                  </p>
+                  <div className="flex flex-wrap gap-3 justify-center">
+                    {categories.slice(0, 4).map((cat) => {
+                      const slug = cat.category_name
+                        .toLowerCase()
+                        .replace(/[^a-z0-9\s]/g, "")
+                        .replace(/\s+/g, "-")
+                        .replace(/-+/g, "-")
+                        .replace(/^-|-$/g, "");
+                      return (
+                        <Link
+                          key={cat.id}
+                          href={`/category/${slug}`}
+                          className="text-sm text-accent-teal hover:text-accent-teal/80 transition-colors"
+                        >
+                          {cat.category_name} →
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+              <div>
+                <Link
+                  href="/suggest-vendor"
+                  className="inline-block text-sm text-text-secondary hover:text-text-primary transition-colors"
+                >
+                  Suggest a provider →
+                </Link>
+              </div>
+            </div>
           </div>
+        </div>
+      ) : (
+        <section>
+          {/* 15C: Best Matches */}
+          {bestMatches.length > 0 && query && (
+            <div className="mb-12">
+              <h2 className="text-2xl font-semibold text-text-primary mb-6">
+                Best matches
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {bestMatches.map((listing) => (
+                  <ListingCard key={listing.id} listing={listing} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Other Results */}
+          {otherResults.length > 0 && (
+            <div className={bestMatches.length > 0 ? "mt-12 pt-12 border-t border-border-subtle" : ""}>
+              <h2 className="text-2xl font-semibold text-text-primary mb-6">
+                {bestMatches.length > 0 ? "Other results" : "All results"} (
+                {sortedListings.length})
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {otherResults.map((listing) => {
+                  const isFree =
+                    !listing.plan || listing.plan === "Free" || listing.plan === null;
+                  return (
+                    <div key={listing.id} className={isFree ? "opacity-75" : ""}>
+                      <ListingCard listing={listing} />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </section>
       )}
     </div>

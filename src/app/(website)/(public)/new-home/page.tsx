@@ -49,44 +49,29 @@ export default async function NewHomePage() {
   const popularVendors = items.slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-[#0F121A]">
-      {/* Hero Section with Featured Vendor */}
-      <section className="page-width py-8 lg:py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-start">
-          {/* Left: Hero Content */}
-          <div className="lg:col-span-3">
-            <Hero />
-          </div>
+    <div className="min-h-screen bg-bg-dark">
+      {/* Hero Section */}
+      <Hero />
 
-          {/* Right: Featured Vendor Card */}
-          <div className="lg:col-span-2">
-            <FeaturedVendor vendor={featuredItem} />
-          </div>
+      {/* Featured Vendor + Popular Section */}
+      <section className="section grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div className="lg:col-span-2">
+          <h2 className="text-3xl font-semibold text-text-primary mb-6">
+            Popular This Week
+          </h2>
+          <PopularVendors vendors={popularVendors} />
+        </div>
+
+        <div>
+          <FeaturedVendor vendor={featuredItem} />
         </div>
       </section>
 
-      {/* Suggest a Vendor CTA */}
-      <section className="page-width py-4">
-        <p className="text-gray-300">
-          Know someone great?{" "}
-          <a
-            href="/suggest-vendor"
-            className="text-[#F2C94C] font-semibold hover:underline hover:scale-105 transition-all duration-200 inline-block"
-          >
-            Suggest a vendor +
-          </a>
-        </p>
-      </section>
-
-      {/* Popular This Week */}
-      <section className="page-width py-12">
-        <h2 className="text-2xl font-bold text-white mb-6">Popular This Week</h2>
-        <PopularVendors vendors={popularVendors} />
-      </section>
-
       {/* Explore Topics Grid */}
-      <section className="page-width py-12">
-        <h2 className="text-2xl font-bold text-white mb-6">Explore topics</h2>
+      <section className="section">
+        <h2 className="text-3xl font-semibold text-text-primary mb-6">
+          Explore Topics
+        </h2>
         <CategoryGrid categories={categories} />
       </section>
     </div>

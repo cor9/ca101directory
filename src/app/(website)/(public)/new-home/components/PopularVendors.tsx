@@ -24,11 +24,11 @@ interface PopularVendorsProps {
 export default function PopularVendors({ vendors }: PopularVendorsProps) {
   if (!vendors || vendors.length === 0) {
     return (
-      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+      <div className="flex gap-6 overflow-x-auto hide-scrollbar pb-2">
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="flex-shrink-0 w-64 h-32 bg-[#121620] rounded-xl animate-pulse"
+            className="flex-shrink-0 min-w-[240px] h-48 bg-bg-dark-2 rounded-xl animate-pulse"
           />
         ))}
       </div>
@@ -36,7 +36,7 @@ export default function PopularVendors({ vendors }: PopularVendorsProps) {
   }
 
   return (
-    <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+    <div className="flex gap-6 overflow-x-auto hide-scrollbar pb-2">
       {vendors.map((vendor) => (
         <VendorCardSmall key={vendor.id} vendor={vendor} />
       ))}

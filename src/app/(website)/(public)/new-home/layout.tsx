@@ -12,12 +12,14 @@ export default async function NewHomeLayout({ children }: NewHomeLayoutProps) {
   const user = await currentUser();
 
   return (
-    <div className="flex min-h-screen bg-[#0F121A]">
-      {/* Left Sidebar Navigation */}
-      <SidebarNav />
+    <div className="flex bg-bg-dark text-text-primary">
+      {/* Sidebar */}
+      <aside className="hidden lg:block w-64 bg-bg-dark-3 border-r border-border-subtle sticky top-0 h-screen">
+        <SidebarNav />
+      </aside>
 
-      {/* Main Content Area */}
-      <div className="flex flex-1 flex-col lg:ml-64">
+      {/* Main Content */}
+      <div className="flex flex-1 flex-col min-h-screen">
         {/* Top Navbar */}
         <Navbar scroll={true} config={marketingConfig} user={user} />
 

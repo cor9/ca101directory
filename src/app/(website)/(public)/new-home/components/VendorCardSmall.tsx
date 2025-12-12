@@ -1,4 +1,3 @@
-import { CheckCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -29,62 +28,44 @@ export default function VendorCardSmall({ vendor }: VendorCardSmallProps) {
   const vendorImage = vendor.image_url || vendor.logo_url;
   const vendorSlug = vendor.slug || vendor.id;
 
-  // Generate initials for placeholder
-  const initials = vendorName
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-
   return (
     <Link
       href={`/item/${vendorSlug}`}
-      className="flex-shrink-0 w-64 card-surface rounded-xl p-4 hover:shadow-hover transition-all duration-200 group"
+      className="min-w-[240px] card-surface rounded-xl p-4 shadow-card hover-glow transition"
     >
-      <div className="flex items-start gap-3">
-        {/* Profile Photo / Letter Bubble */}
-        <div className="relative flex-shrink-0">
-          {vendorImage ? (
-            <div className="w-12 h-12 rounded-full overflow-hidden bg-[#1A1F2E]">
-              <Image
-                src={vendorImage}
-                alt={vendorName}
-                width={48}
-                height={48}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ) : (
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#3A76A6] to-[#E4572E] flex items-center justify-center text-white font-bold text-lg">
-              {initials}
-            </div>
-          )}
-        </div>
-
-        {/* Vendor Info */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5">
-            <h4 className="text-white font-semibold text-sm truncate group-hover:text-[#3A76A6] transition-colors">
-              {vendorName}
-            </h4>
-            {vendor.is_verified && (
-              <CheckCircle className="w-4 h-4 text-[#10B981] flex-shrink-0" />
-            )}
+      {/* Vendor Image */}
+      <div className="relative h-32 w-full bg-bg-dark-2 rounded-lg overflow-hidden">
+        {vendorImage ? (
+          <Image
+            src={vendorImage}
+            alt={vendorName}
+            fill
+            className="object-cover"
+            sizes="240px"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent-blue/30 to-accent-purple/30">
+            <span className="text-2xl font-bold text-text-muted">
+              {vendorName.charAt(0)}
+            </span>
           </div>
+        )}
+      </div>
 
-          {vendor.is_verified && (
-            <span className="text-xs text-[#10B981] font-medium">Verified</span>
-          )}
+      {/* Vendor Info */}
+      <div className="mt-3">
+        <h3 className="font-medium text-text-primary truncate">{vendorName}</h3>
+        <p className="text-xs text-text-muted">{vendorCategory}</p>
+        {vendorLocation && (
+          <p className="text-xs text-text-muted">{vendorLocation}</p>
+        )}
 
-          <p className="text-gray-400 text-sm mt-1 truncate">{vendorCategory}</p>
-
-          {vendorLocation && (
-            <p className="text-gray-500 text-xs mt-0.5 truncate">
-              {vendorLocation}
-            </p>
-          )}
-        </div>
+        {/* Verified Badge */}
+        {vendor.is_verified && (
+          <span className="inline-flex items-center mt-2 text-xs bg-accent-blue/20 text-accent-blue px-2 py-0.5 rounded-md">
+            Verified
+          </span>
+        )}
       </div>
     </Link>
   );

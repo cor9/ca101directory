@@ -1,4 +1,3 @@
-import { CheckCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -22,11 +21,11 @@ interface FeaturedVendorProps {
 export default function FeaturedVendor({ vendor }: FeaturedVendorProps) {
   if (!vendor) {
     return (
-      <div className="card-surface rounded-xl p-6">
-        <div className="aspect-video bg-[#1A1F2E] rounded-lg animate-pulse" />
+      <div className="card-surface rounded-2xl p-6 max-w-sm w-full">
+        <div className="w-full h-52 bg-bg-dark-2 rounded-xl animate-pulse" />
         <div className="mt-4 space-y-2">
-          <div className="h-6 bg-[#1A1F2E] rounded animate-pulse" />
-          <div className="h-4 bg-[#1A1F2E] rounded w-2/3 animate-pulse" />
+          <div className="h-6 bg-bg-dark-2 rounded animate-pulse" />
+          <div className="h-4 bg-bg-dark-2 rounded w-2/3 animate-pulse" />
         </div>
       </div>
     );
@@ -42,9 +41,9 @@ export default function FeaturedVendor({ vendor }: FeaturedVendorProps) {
   const vendorSlug = vendor.slug || vendor.id;
 
   return (
-    <div className="card-surface rounded-xl overflow-hidden shadow-card hover:shadow-hover transition-shadow duration-300">
+    <div className="card-surface rounded-2xl p-6 shadow-card max-w-sm w-full hover-lift">
       {/* Vendor Image */}
-      <div className="relative aspect-video bg-[#1A1F2E]">
+      <div className="relative w-full h-52 bg-bg-dark-2 rounded-xl overflow-hidden">
         <Image
           src={vendorImage}
           alt={vendorName}
@@ -55,38 +54,26 @@ export default function FeaturedVendor({ vendor }: FeaturedVendorProps) {
       </div>
 
       {/* Vendor Info */}
-      <div className="p-5">
-        <h3 className="text-xl font-bold text-white mb-2">{vendorName}</h3>
+      <h3 className="mt-4 text-xl font-semibold text-text-primary">{vendorName}</h3>
+      <p className="text-text-muted text-sm">{vendorCategory}</p>
+      {vendorLocation && (
+        <p className="text-text-muted text-sm">{vendorLocation}</p>
+      )}
 
-        {/* Location Badge */}
-        {vendorLocation && (
-          <span className="inline-block px-3 py-1 bg-[#1A1F2E] rounded-full text-sm text-gray-400 mb-3">
-            {vendorLocation}
-          </span>
-        )}
+      {/* Verified Badge */}
+      {vendor.is_verified && (
+        <span className="inline-flex items-center mt-3 text-xs bg-accent-blue/20 text-accent-blue px-2 py-1 rounded-md font-medium">
+          Verified
+        </span>
+      )}
 
-        {/* Category */}
-        <p className="text-gray-400 text-base mb-4">{vendorCategory}</p>
-
-        {/* Actions Row */}
-        <div className="flex items-center justify-between">
-          {/* Verified Badge */}
-          {vendor.is_verified && (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0D4F3C] border-2 border-[#10B981] rounded-md text-white text-sm font-semibold">
-              <CheckCircle className="w-4 h-4" />
-              Verified
-            </span>
-          )}
-
-          {/* View Button */}
-          <Link
-            href={`/item/${vendorSlug}`}
-            className="px-5 py-2 bg-[#E4572E] hover:bg-[#CC4E2A] text-white font-semibold rounded-lg transition-colors"
-          >
-            View
-          </Link>
-        </div>
-      </div>
+      {/* View Profile CTA */}
+      <Link
+        href={`/item/${vendorSlug}`}
+        className="btn-secondary w-full text-center block mt-4"
+      >
+        View Profile →
+      </Link>
     </div>
   );
 }

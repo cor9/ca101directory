@@ -7,31 +7,32 @@ import {
   Palette,
   Building2,
   HelpCircle,
-  Theater,
-  Briefcase,
+  Heart,
+  Sparkles,
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
 
-// Brand color palette for category tiles
+// UI Kit accent colors for category tiles
 const tileColors = [
-  "from-[#0D9488] to-[#0F766E]", // teal
-  "from-[#F59E0B] to-[#D97706]", // lemon/amber
-  "from-[#DC2626] to-[#B91C1C]", // cranberry
-  "from-[#7C3AED] to-[#6D28D9]", // purple
-  "from-[#64748B] to-[#475569]", // stone
-  "from-[#F97316] to-[#EA580C]", // salmon/orange
-  "from-[#3B82F6] to-[#2563EB]", // muted-blue
-  "from-[#EC4899] to-[#DB2777]", // pink
+  "#1CC8B0", // teal
+  "#FF8A7A", // salmon
+  "#C57CFF", // purple
+  "#D9476D", // cranberry
+  "#4EA3FF", // blue
+  "#A8ACB9", // stone
+  "#F5E76A", // lemon
+  "#1CC8B0", // teal (repeat)
 ];
 
 // Map category names to icons
 const categoryIcons: Record<string, LucideIcon> = {
-  "acting classes": Theater,
+  "acting classes": Users,
+  "acting coaches": Users,
   coaches: BookOpen,
   photographers: Camera,
   "headshot photographers": Camera,
-  "talent agents": Briefcase,
+  "talent agents": Users,
   "talent managers": Users,
   "demo reels": Video,
   "demo reel creators": Video,
@@ -40,6 +41,10 @@ const categoryIcons: Record<string, LucideIcon> = {
   resources: HelpCircle,
   "vocal coaches": Mic,
   stylists: Palette,
+  "branding": Palette,
+  "voice": Mic,
+  "advocacy": Heart,
+  "workshops": Sparkles,
   default: HelpCircle,
 };
 
@@ -73,39 +78,15 @@ function getCategoryIcon(categoryName: string): LucideIcon {
   return categoryIcons.default;
 }
 
-// Main category tiles to show (limited set for homepage)
-const mainCategoryNames = [
-  "Acting Classes & Coaches",
-  "Headshot Photographers",
-  "Talent Agents",
-  "Talent Managers",
-  "Demo Reel Creators",
-  "Coaches",
-  "Studios",
-  "Resources",
-];
-
 export default function CategoryGrid({ categories }: CategoryGridProps) {
-  // Filter to main categories or use first 8 if no matches
-  let displayCategories = categories.filter((cat) =>
-    mainCategoryNames.some(
-      (name) => cat.category_name?.toLowerCase() === name.toLowerCase()
-    )
-  );
-
-  // If we don't have enough, use the first 8 categories
-  if (displayCategories.length < 4) {
-    displayCategories = categories.slice(0, 8);
-  }
-
-  // Limit to 8 categories
-  displayCategories = displayCategories.slice(0, 8);
+  // Use first 8 categories
+  const displayCategories = categories.slice(0, 8);
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-6">
       {displayCategories.map((category, index) => {
         const Icon = getCategoryIcon(category.category_name);
-        const colorClass = tileColors[index % tileColors.length];
+        const bgColor = tileColors[index % tileColors.length];
 
         return (
           <Link
@@ -114,16 +95,14 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
               ?.toLowerCase()
               .replace(/[&]/g, "and")
               .replace(/\s+/g, "-")}`}
-            className={`tile-accent group relative overflow-hidden rounded-xl p-5 bg-gradient-to-br ${colorClass} transition-all duration-300 hover:scale-105 hover:shadow-lg`}
+            className="tile group"
+            style={{ background: bgColor }}
           >
-            {/* Category Name */}
-            <h3 className="text-white font-bold text-sm md:text-base leading-tight mb-8">
-              {category.category_name}
-            </h3>
-
-            {/* Icon at bottom right */}
-            <div className="absolute bottom-3 right-3 opacity-70 group-hover:opacity-100 transition-opacity">
-              <Icon className="w-8 h-8 text-white/80" />
+            <div className="flex items-center justify-between w-full">
+              <span className="text-text-primary font-semibold">
+                {category.category_name}
+              </span>
+              <Icon className="h-6 w-6 opacity-80 text-text-primary" />
             </div>
           </Link>
         );

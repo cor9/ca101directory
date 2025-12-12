@@ -129,16 +129,21 @@ export default async function HomePage() {
                 <h2 className="text-2xl font-semibold text-text-primary mb-6">
                   Newest Professionals
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {previewItems.map((item) => (
-                    <Suspense
-                      key={item.id}
-                      fallback={<div className="h-64 bg-bg-dark-2 rounded-lg" />}
-                    >
-                      <ListingCard listing={item} />
-                    </Suspense>
-                  ))}
-                </div>
+                <Suspense
+                  fallback={
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {Array.from({ length: 6 }).map((_, i) => (
+                        <div key={i} className="h-64 bg-bg-dark-2 rounded-lg" />
+                      ))}
+                    </div>
+                  }
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {previewItems.map((item) => (
+                      <ListingCard key={item.id} listing={item} />
+                    ))}
+                  </div>
+                </Suspense>
               </section>
             </div>
           </div>

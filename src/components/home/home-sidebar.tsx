@@ -69,8 +69,8 @@ export function HomeSidebar({ categories }: HomeSidebarProps) {
 
       {/* Quick Filters */}
       <section>
-        <h3 className="text-lg font-semibold text-text-primary mb-4">
-          Quick Filters
+        <h3 className="text-sm font-medium text-text-muted mb-4">
+          Narrow your options
         </h3>
         <div className="space-y-3">
           <label className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-bg-3/60 transition-colors cursor-pointer group">

@@ -79,32 +79,37 @@ export default function HomeSearchBox({ urlPrefix }: SearchBoxProps) {
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <Input
-        type="text"
-        placeholder="Search for acting coaches, photographers, editors..."
-        autoComplete="off"
-        value={searchQuery}
-        onChange={handleSearch}
-        className={cn(
-          "w-[320px] sm:w-[480px] md:w-[640px] h-12 rounded-r-none",
-          "bg-bg-2 border-border-subtle text-text-primary placeholder:text-text-muted",
-          "focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary-orange focus:border-2 focus:border-r-0",
-        )}
-      />
-      <Button
-        type="submit"
-        className="rounded-l-none size-12 btn-primary"
-        disabled={isSearching}
-      >
-        <SearchIcon
-          className={cn("size-6", isSearching && "animate-pulse")}
-          aria-hidden="true"
+    <div className="flex flex-col items-center">
+      <div className="flex items-center justify-center">
+        <Input
+          type="text"
+          placeholder="Search by service, city, or professional name"
+          autoComplete="off"
+          value={searchQuery}
+          onChange={handleSearch}
+          className={cn(
+            "w-[320px] sm:w-[480px] md:w-[640px] h-12 rounded-r-none",
+            "bg-bg-2 border-border-subtle text-text-primary placeholder:text-text-muted",
+            "focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-primary-orange focus:border-2 focus:border-r-0",
+          )}
         />
-        <span className="sr-only">
-          {isSearching ? "Searching..." : "Search"}
-        </span>
-      </Button>
+        <Button
+          type="submit"
+          className="rounded-l-none size-12 btn-primary"
+          disabled={isSearching}
+        >
+          <SearchIcon
+            className={cn("size-6", isSearching && "animate-pulse")}
+            aria-hidden="true"
+          />
+          <span className="sr-only">
+            {isSearching ? "Searching..." : "Search"}
+          </span>
+        </Button>
+      </div>
+      <p className="mt-2 text-xs text-text-muted">
+        Results are curated for youth performers and families.
+      </p>
     </div>
   );
 }

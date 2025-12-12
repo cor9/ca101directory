@@ -210,30 +210,41 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
         )}
       </CardContent>
 
-      <CardFooter className="p-4 pt-0 flex items-center justify-between">
-        {/* Rating - bottom left */}
-        {isReviewsEnabled() && averageRating.count > 0 ? (
-          <div className="flex items-center gap-1.5">
-            <StarRating
-              value={Math.round(averageRating.average)}
-              readonly
-              size="sm"
-            />
-            <span className="text-xs text-text-muted">
-              {averageRating.average.toFixed(1)}
-            </span>
-          </div>
-        ) : (
-          <div />
-        )}
+      <CardFooter className="p-4 pt-0 flex flex-col gap-2">
+        <div className="flex items-center justify-between w-full">
+          {/* Rating - bottom left */}
+          {isReviewsEnabled() && averageRating.count > 0 ? (
+            <div className="flex items-center gap-1.5">
+              <StarRating
+                value={Math.round(averageRating.average)}
+                readonly
+                size="sm"
+              />
+              <span className="text-xs text-text-muted">
+                {averageRating.average.toFixed(1)}
+              </span>
+            </div>
+          ) : (
+            <div />
+          )}
 
-        {/* CTA - bottom right */}
-        <Link
-          href={`/listing/${slug}`}
-          className="text-sm text-text-secondary hover:text-accent-teal transition-colors"
-        >
-          View Profile →
-        </Link>
+          {/* CTA - bottom right */}
+          <Link
+            href={`/listing/${slug}`}
+            className="text-sm text-text-secondary hover:text-accent-teal transition-colors"
+          >
+            View Profile →
+          </Link>
+        </div>
+
+        {/* Trust micro-copy */}
+        <div className="text-xs text-text-muted">
+          {listing.is_claimed
+            ? "Claimed by professional"
+            : listing.badge_approved
+              ? "Verified listing"
+              : null}
+        </div>
       </CardFooter>
     </Card>
   );

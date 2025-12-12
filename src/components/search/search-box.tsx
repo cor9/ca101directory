@@ -73,7 +73,7 @@ export default function SearchBox({ urlPrefix }: SearchBoxProps) {
     <div className="flex items-center justify-center">
       <Input
         type="text"
-        placeholder="Search for acting coaches, photographers, editors..."
+        placeholder="Search by service, city, or professional name"
         autoComplete="off"
         value={searchQuery}
         onChange={handleSearch}

@@ -35,10 +35,13 @@ export default function Hero() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search acting coaches, photographers, editors..."
+            placeholder="Search by service, city, or professional name"
             className="bg-transparent outline-none flex-1 text-text-primary placeholder:text-text-muted text-base"
           />
         </div>
+        <p className="mt-2 text-xs text-text-muted text-center">
+          Results are curated for youth performers and families.
+        </p>
       </form>
 
       {/* Suggest Vendor CTA */}

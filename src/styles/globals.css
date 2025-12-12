@@ -130,39 +130,8 @@
   }
 
   /* Phase 6: Dark marketplace utilities - using Tailwind config tokens */
-  .bg-bg-dark {
-    background-color: var(--bg-dark, #0E1117);
-  }
-  .bg-bg-dark-2 {
-    background-color: var(--bg-dark-2, #151922);
-  }
-  .bg-bg-dark-3 {
-    background-color: var(--bg-dark-3, #1B1F29);
-  }
-  .text-text-primary {
-    color: var(--text-primary, #FFFFFF);
-  }
-  .text-text-secondary {
-    color: var(--text-secondary, #D1D5DB);
-  }
-  .text-text-muted {
-    color: var(--text-muted, #A0A3A9);
-  }
-  .bg-accent-teal {
-    background-color: var(--accent-teal, #3EE2C9);
-  }
-  .text-accent-teal {
-    color: var(--accent-teal, #3EE2C9);
-  }
-  .border-accent-teal {
-    border-color: var(--accent-teal, #3EE2C9);
-  }
-  .border-border-subtle {
-    border-color: var(--border-subtle, rgba(255,255,255,0.08));
-  }
-  .bg-card-surface {
-    background-color: var(--card-surface, rgba(255,255,255,0.05));
-  }
+  /* Note: These are now defined in tailwind.config.ts as nested objects */
+  /* bg-bg, bg-bg-2, bg-bg-3, bg-card, text-text-primary, etc. are available via Tailwind */
 }
 
 @layer utilities {
@@ -868,7 +837,7 @@
 
   /* Card Component */
   .card {
-    @apply bg-card-surface rounded-2xl shadow-card border border-border-subtle;
+    @apply bg-card rounded-2xl shadow-card border border-subtle;
   }
 
   .card-surface {

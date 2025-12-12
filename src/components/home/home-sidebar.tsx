@@ -57,7 +57,7 @@ export function HomeSidebar({ categories }: HomeSidebarProps) {
                   .toLowerCase()
                   .replace(/[^a-z0-9\s]/g, "")
                   .replace(/\s+/g, "-")}`}
-                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-bg-dark-3 transition-colors text-text-secondary hover:text-text-primary"
+                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-bg-3 transition-colors text-text-secondary hover:text-text-primary"
               >
                 <Icon className="w-4 h-4" />
                 <span className="text-sm">{category.category_name}</span>
@@ -73,7 +73,7 @@ export function HomeSidebar({ categories }: HomeSidebarProps) {
           Quick Filters
         </h3>
         <div className="space-y-3">
-          <label className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-bg-dark-3/60 transition-colors cursor-pointer group">
+          <label className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-bg-3/60 transition-colors cursor-pointer group">
             <Checkbox
               checked={verified}
               onCheckedChange={(checked) => {
@@ -93,7 +93,7 @@ export function HomeSidebar({ categories }: HomeSidebarProps) {
             </span>
           </label>
 
-          <label className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-bg-dark-3/60 transition-colors cursor-pointer group">
+          <label className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-bg-3/60 transition-colors cursor-pointer group">
             <Checkbox
               checked={backgroundChecked}
               onCheckedChange={(checked) => {
@@ -113,7 +113,7 @@ export function HomeSidebar({ categories }: HomeSidebarProps) {
             </span>
           </label>
 
-          <label className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-bg-dark-3/60 transition-colors cursor-pointer group">
+          <label className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-bg-3/60 transition-colors cursor-pointer group">
             <Checkbox
               checked={highRating}
               onCheckedChange={(checked) => {
@@ -133,7 +133,7 @@ export function HomeSidebar({ categories }: HomeSidebarProps) {
             </span>
           </label>
 
-          <label className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-bg-dark-3/60 transition-colors cursor-pointer group">
+          <label className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-bg-3/60 transition-colors cursor-pointer group">
             <Checkbox
               checked={trustedRepeat}
               onCheckedChange={(checked) => {

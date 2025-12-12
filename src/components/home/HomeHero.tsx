@@ -6,7 +6,7 @@ export default function HomeHero() {
   return (
     <section className="relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-bg-dark via-bg-dark-2 to-bg-dark-3" />
+      <div className="absolute inset-0 bg-gradient-to-br from-bg via-bg-2 to-bg-3" />
       <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,_rgba(62,226,201,0.15),_transparent_60%)]" />
 
       {/* Content */}
@@ -22,7 +22,7 @@ export default function HomeHero() {
 
         {/* Search Bar */}
         <div className="mt-8 max-w-3xl">
-          <div className="flex items-center gap-3 bg-card-surface border border-border-subtle rounded-2xl px-4 py-4 shadow-card">
+          <div className="flex items-center gap-3 bg-card border border-subtle rounded-2xl px-4 py-4 shadow-card">
             <Search className="w-5 h-5 text-text-muted" />
             <input
               type="text"

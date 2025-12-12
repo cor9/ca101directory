@@ -41,7 +41,7 @@ export default function FeaturedListingsClient({
           target={listing.isFallback ? "_blank" : undefined}
           className="group card-surface rounded-xl overflow-hidden hover:shadow-cardHover transition-all duration-300 hover:-translate-y-1"
         >
-          <div className="relative aspect-[16/9] w-full bg-bg-dark-2">
+          <div className="relative aspect-[16/9] w-full bg-bg-2">
             <Image
               src={listing.image}
               alt={listing.name}
@@ -78,7 +78,7 @@ export default function FeaturedListingsClient({
                 {listing.tags.slice(0, 3).map((tag, index) => (
                   <span
                     key={index}
-                    className="px-2 py-0.5 text-xs rounded-md bg-bg-dark-3 text-text-secondary"
+                    className="px-2 py-0.5 text-xs rounded-md bg-bg-3 text-text-secondary"
                   >
                     {tag}
                   </span>

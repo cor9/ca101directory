@@ -52,10 +52,10 @@ export default function CategoryTiles() {
           <Link
             key={cat.label}
             href={cat.href}
-            className={`group relative rounded-2xl border border-border-subtle bg-gradient-to-br ${cat.color} p-6 hover:shadow-card hover:-translate-y-0.5 transition-all duration-300`}
+            className={`group relative rounded-2xl border border-subtle bg-gradient-to-br ${cat.color} p-6 hover:shadow-card hover:-translate-y-0.5 transition-all duration-300`}
           >
             <div className="flex items-center gap-4">
-              <div className="p-3 rounded-xl bg-bg-dark-3 border border-border-subtle">
+              <div className="p-3 rounded-xl bg-bg-3 border border-subtle">
                 <cat.icon className="w-6 h-6 text-text-primary" />
               </div>
 

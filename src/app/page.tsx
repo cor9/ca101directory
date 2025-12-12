@@ -73,7 +73,7 @@ export default async function Page() {
         strategy="afterInteractive"
       />
 
-      <div className="flex flex-col min-h-screen bg-bg-dark text-text-primary">
+      <div className="flex flex-col min-h-screen bg-bg text-text-primary">
         <Navbar scroll={true} config={marketingConfig} user={user} />
         <main className="flex-1 pt-16">
           {/* Hero Section */}
@@ -100,7 +100,7 @@ export default async function Page() {
                     </h2>
                     <Suspense
                       fallback={
-                        <div className="h-48 bg-bg-dark-2 rounded-lg" />
+                        <div className="h-48 bg-bg-2 rounded-lg" />
                       }
                     >
                       <HomeFeaturedListings />

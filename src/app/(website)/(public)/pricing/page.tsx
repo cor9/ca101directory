@@ -23,131 +23,138 @@ export default async function PricingPage() {
         src="https://js.stripe.com/v3/pricing-table.js"
         strategy="afterInteractive"
       />
-      <Container className="mt-8 pb-16">
-        <div className="w-full flex flex-col gap-16">
-          <section className="w-full flex flex-col gap-8 justify-center">
-            <div className="text-center mb-12">
-              {/* Prominent Logo */}
-              <div className="flex justify-center mb-8">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary-orange/20 via-secondary-denim/20 to-highlight/20 rounded-full blur-2xl scale-110" />
-                  <div className="relative backdrop-blur-sm rounded-xl p-6 shadow-xl border border-white/20">
-                    <Image
-                      src="/logo.png"
-                      alt="Child Actor 101 Directory Logo"
-                      width={300}
-                      height={150}
-                      className="w-auto h-20 mx-auto drop-shadow-lg"
-                      priority
-                    />
-                  </div>
-                </div>
+      {/* STEP 1: Page wrapper - kill Bauhaus */}
+      <div className="bg-bg-dark min-h-screen">
+        <section className="max-w-6xl mx-auto px-4 py-12">
+          {/* STEP 2: Pricing header - simple, confident */}
+          <header className="text-center mb-12">
+            <h1 className="text-3xl md:text-4xl font-semibold text-text-primary">
+              Simple pricing. Real visibility.
+            </h1>
+            <p className="mt-3 text-text-secondary max-w-2xl mx-auto">
+              List your business where parents are actively searching for trusted child-acting professionals.
+            </p>
+          </header>
+
+          {/* STEP 3: Pricing grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Free Plan Card */}
+            <div className="
+              relative
+              bg-card-surface
+              border
+              border-border-subtle
+              rounded-xl
+              p-6
+              shadow-card
+              transition
+            ">
+              {/* STEP 5: Plan name + price */}
+              <h3 className="text-lg font-semibold text-text-primary">
+                Free Plan
+              </h3>
+              <div className="mt-2 flex items-end gap-1">
+                <span className="text-3xl font-bold text-text-primary">
+                  $0
+                </span>
+                <span className="text-sm text-text-muted">
+                  / forever
+                </span>
               </div>
 
-              <h1 className="bauhaus-heading text-4xl text-paper mb-4">
-                Simple, Transparent Pricing
-              </h1>
-              <p className="bauhaus-body text-xl text-paper max-w-3xl mx-auto">
-                Choose the perfect plan for your child actor services. All plans
-                include our quality review process and trusted directory
-                listing.
-              </p>
+              {/* STEP 6: Feature list - scannable */}
+              <ul className="mt-6 space-y-3">
+                <li className="flex gap-2 text-sm text-text-secondary">
+                  <span className="text-accent-teal mt-0.5">✓</span>
+                  <span>Basic listing information</span>
+                </li>
+                <li className="flex gap-2 text-sm text-text-secondary">
+                  <span className="text-accent-teal mt-0.5">✓</span>
+                  <span>Contact details displayed</span>
+                </li>
+                <li className="flex gap-2 text-sm text-text-secondary">
+                  <span className="text-accent-teal mt-0.5">✓</span>
+                  <span>Searchable in directory</span>
+                </li>
+                <li className="flex gap-2 text-sm text-text-secondary">
+                  <span className="text-accent-teal mt-0.5">✓</span>
+                  <span>Quality review process</span>
+                </li>
+                <li className="flex gap-2 text-sm text-text-secondary">
+                  <span className="text-accent-teal mt-0.5">✓</span>
+                  <span>1 logo or thumbnail image</span>
+                </li>
+              </ul>
+
+              {/* STEP 7: CTA button */}
+              <Link
+                href="/submit"
+                className="
+                  mt-6
+                  w-full
+                  inline-flex
+                  items-center
+                  justify-center
+                  px-4
+                  py-2
+                  rounded-md
+                  text-sm
+                  font-medium
+                  bg-bg-dark-3
+                  text-text-primary
+                  border
+                  border-border-subtle
+                  hover:border-accent-blue
+                  transition-colors
+                "
+              >
+                Get Started
+              </Link>
             </div>
 
-            {/* Free Plan Card - Custom (not Stripe) */}
-            <div className="max-w-md mx-auto mb-8">
-              <div className="bauhaus-card bg-card-surface border-2 border-border-subtle rounded-lg p-8 text-center shadow-lg">
-                <h2 className="bauhaus-heading text-2xl font-bold mb-2">
-                  Free Plan
-                </h2>
-                <div className="mb-4">
-                  <span className="text-4xl font-bold">$0</span>
-                  <span className="bauhaus-body text-surface">/forever</span>
-                </div>
-                <p className="bauhaus-body text-sm text-surface mb-6">
-                  Get started with a basic listing - no credit card required!
-                </p>
-                <ul className="text-left mb-6 space-y-2 text-sm text-surface">
-                  <li>✓ Basic listing information</li>
-                  <li>✓ Contact details displayed</li>
-                  <li>✓ Searchable in directory</li>
-                  <li>✓ Quality review process</li>
-                  <li>✓ 1 logo or thumbnail image</li>
-                  <li>✓ Age tags</li>
-                  <li>✓ Services metadata</li>
-                </ul>
-                <Link
-                  href="/submit"
-                  className="bauhaus-btn-secondary inline-block w-full font-bold py-3 px-6 rounded-lg transition-colors"
-                >
-                  Start Free Listing →
-                </Link>
-              </div>
-            </div>
-
-            {/* First Stripe Pricing Table - Standard & Pro Plans */}
-            <div className="w-full mx-auto">
-              <div className="text-center mb-8">
-                <h2 className="bauhaus-heading text-2xl text-bauhaus-blue mb-2">
-                  Standard & Pro Plans
-                </h2>
-                <p className="bauhaus-body text-paper">
-                  Monthly and annual billing options
-                </p>
-              </div>
+            {/* Stripe Pricing Table - Standard & Pro Plans */}
+            <div className="md:col-span-2">
               <stripe-pricing-table
                 pricing-table-id="prctbl_1SCpyNBqTvwy9ZuSNiSGY03P"
                 publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
               />
             </div>
+          </div>
 
-            {/* Second Stripe Pricing Table - 101 Approved Badge Add-on */}
-            <div className="w-full mx-auto mt-12">
-              <div className="text-center mb-8">
-                <h2 className="bauhaus-heading text-2xl font-bold text-primary-orange mb-2">
-                  🏆 101 Approved Badge Add-on
-                </h2>
-                <p className="bauhaus-body text-paper">
-                  Add our trusted badge to your listing
-                </p>
-              </div>
-              <stripe-pricing-table
-                pricing-table-id="prctbl_1SCqZVBqTvwy9ZuSqFvjgpqP"
-                publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
-              />
-            </div>
-
-            <div className="text-center mt-8">
-              <p className="bauhaus-body text-sm text-paper leading-normal">
-                All plans include our{" "}
-                <span className="font-semibold">quality review process</span>{" "}
-                and trusted directory listing.
-                <br />
-                Need help choosing?{" "}
-                <a
-                  href="mailto:hello@childactor101.com"
-                  className="text-secondary-denim hover:text-bauhaus-blue font-semibold link-underline"
-                >
-                  Contact us
-                </a>{" "}
-                for personalized recommendations.
+          {/* Second Stripe Pricing Table - 101 Approved Badge Add-on */}
+          <div className="mt-12">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-semibold text-text-primary mb-2">
+                101 Approved Badge Add-on
+              </h2>
+              <p className="text-text-secondary">
+                Add our trusted badge to your listing
               </p>
             </div>
-          </section>
-
-          <section className="w-full flex flex-col gap-8 justify-center">
-            <HeaderSection
-              label="FAQ"
-              titleAs="h2"
-              title="Frequently Asked Questions"
+            <stripe-pricing-table
+              pricing-table-id="prctbl_1SCqZVBqTvwy9ZuSqFvjgpqP"
+              publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
             />
+          </div>
 
-            <div className="w-full max-w-4xl mx-auto">
+          {/* STEP 9: Trust footer - low key */}
+          <p className="mt-10 text-center text-sm text-text-muted">
+            Cancel anytime. No contracts. Listings reviewed for quality.
+          </p>
+
+          {/* FAQ Section */}
+          <section className="mt-16">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-semibold text-text-primary">
+                Frequently Asked Questions
+              </h2>
+            </div>
+            <div className="max-w-4xl mx-auto">
               <PricingFaq />
             </div>
           </section>
-        </div>
-      </Container>
+        </section>
+      </div>
     </>
   );
 }

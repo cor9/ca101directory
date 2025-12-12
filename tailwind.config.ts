@@ -56,6 +56,51 @@ const config = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // ------------------------------------------
+// PATREON-STYLE DARK UI KIT (Phase 6 Tokens)
+// ------------------------------------------
+patreon: {
+  // Core Surfaces
+  bg: "#0E1117",
+  bg2: "#151922",
+  bg3: "#1B1F29",
+
+  // Card + Surface Layers
+  card: {
+    DEFAULT: "rgba(255,255,255,0.05)",
+    hover: "rgba(255,255,255,0.08)"
+  },
+
+  // Accents (teal, lemon, purple, salmon, cranberry, stone)
+  accent: {
+    teal: "#1CC8B0",
+    lemon: "#F5E76A",
+    purple: "#C57CFF",
+    salmon: "#FF8A7A",
+    cranberry: "#D9476D",
+    stone: "#A8ACB9",
+    blue: "#4EA3FF",
+  },
+
+  // Text System
+  text: {
+    primary: "#FFFFFF",
+    secondary: "#D1D5DB",
+    muted: "#A0A3A9",
+  },
+},
+
+// Shadows
+shadow: {
+  card: "0 4px 12px rgba(0,0,0,0.35)",
+  cardHover: "0 6px 16px rgba(0,0,0,0.4)",
+},
+
+// Rounded Corners
+radius: {
+  card: "12px",
+  tile: "14px",
+},
         // Production-ready color system from artwork
         bg: "#0D1B2A",
         bg2: "#142B3B",

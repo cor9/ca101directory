@@ -1,4 +1,6 @@
 import HomepageClient from "@/components/homepage/HomepageClient";
+import CategoryTileGrid from "@/components/home/category-tile-grid";
+import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import { OrganizationSchema } from "@/components/seo/listing-schema";
 import { marketingConfig } from "@/config/marketing";
 import { siteConfig } from "@/config/site";
@@ -8,6 +10,7 @@ import { currentUser } from "@/lib/auth";
 import { DEFAULT_SORT } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import Script from "next/script";
+import { Suspense } from "react";
 
 // Ensure homepage is always fresh so Featured updates reflect immediately
 export const dynamic = "force-dynamic";
@@ -70,6 +73,20 @@ export default async function Page() {
         categories={categories}
         previewItems={previewItems}
         user={user}
+        featuredListings={
+          <Suspense fallback={<div className="h-48 bg-bg-dark-2 rounded-lg" />}>
+            <HomeFeaturedListings />
+          </Suspense>
+        }
+        categoryGrid={
+          <Suspense
+            fallback={
+              <div className="text-text-secondary">Loading categories...</div>
+            }
+          >
+            <CategoryTileGrid />
+          </Suspense>
+        }
       />
     </>
   );

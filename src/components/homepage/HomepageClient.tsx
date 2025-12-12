@@ -1,8 +1,6 @@
 "use client";
 
 import Container from "@/components/container";
-import CategoryTileGrid from "@/components/home/category-tile-grid";
-import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import HomeSearchBox from "@/components/home/home-search-box";
 import { HomeSidebar } from "@/components/home/home-sidebar";
 import { Footer } from "@/components/layout/footer";
@@ -10,11 +8,14 @@ import { Navbar } from "@/components/layout/navbar";
 import { ListingCardClient } from "@/components/listings/ListingCardClient";
 import { marketingConfig } from "@/config/marketing";
 import { Suspense } from "react";
+import type { ReactNode } from "react";
 
 interface HomepageClientProps {
   categories: Array<{ id: string; category_name: string }>;
   previewItems: Array<any>;
   user: any;
+  featuredListings: ReactNode;
+  categoryGrid: ReactNode;
 }
 
 export default function HomepageClient({
@@ -58,23 +59,11 @@ export default function HomepageClient({
                 <h2 className="text-2xl font-semibold text-text-primary mb-6">
                   Featured Professionals
                 </h2>
-                <Suspense
-                  fallback={<div className="h-48 bg-bg-dark-2 rounded-lg" />}
-                >
-                  <HomeFeaturedListings />
-                </Suspense>
+                {featuredListings}
               </section>
 
               {/* Browse by Category */}
-              <Suspense
-                fallback={
-                  <div className="text-text-secondary">
-                    Loading categories...
-                  </div>
-                }
-              >
-                <CategoryTileGrid />
-              </Suspense>
+              {categoryGrid}
 
               {/* Newest / Recently Updated */}
               <section>

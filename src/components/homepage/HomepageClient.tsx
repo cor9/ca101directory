@@ -22,6 +22,8 @@ export default function HomepageClient({
   categories,
   previewItems,
   user,
+  featuredListings,
+  categoryGrid,
 }: HomepageClientProps) {
   return (
     <div className="flex flex-col min-h-screen bg-bg-dark text-text-primary">

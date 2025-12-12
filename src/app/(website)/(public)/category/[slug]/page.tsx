@@ -1,21 +1,25 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
-import ItemCard from "@/components/item/item-card";
-import ItemGrid from "@/components/item/item-grid";
+import { ListingCard } from "@/components/listings/ListingCard";
+import { ListingCardClient } from "@/components/listings/ListingCardClient";
 import { CategoryContent } from "@/components/seo/category-content";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
-import { getItems } from "@/data/item-service";
-import { getPublicListings } from "@/data/listings";
+import {
+  getFeaturedListingsByCategory,
+  getPublicListings,
+  sortListingsByPriority,
+} from "@/data/listings";
 import {
   DEFAULT_SORT,
   ITEMS_PER_PAGE,
   SORT_FILTER_LIST,
 } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -122,86 +126,193 @@ export default async function CategoryPage({
 
     const categoryName = category.category_name;
 
-    console.log("CategoryPage Debug:", {
-      slug: params.slug,
-      categoryName,
-      category,
-    });
+    // Get all listings for this category
+    const allListings = await getPublicListings({ category: categoryName });
+    
+    // Get featured listings for this category (max 3)
+    let featuredListings: typeof allListings = [];
+    try {
+      featuredListings = await getFeaturedListingsByCategory(categoryName);
+    } catch (error) {
+      console.error("Error fetching featured listings:", error);
+    }
 
-    // For now, we don't have sponsor items in Airtable
-    const sponsorItems: unknown[] = [];
-    const showSponsor = false;
-    const hasSponsorItem = false;
+    // Sort all listings by priority: Pro > Standard > Free, then by photos, then updated
+    const sortedListings = sortListingsByPriority(allListings);
+    
+    // Separate paid and free listings
+    const paidListings = sortedListings.filter(
+      (l) => l.plan && l.plan !== "Free" && l.plan !== null,
+    );
+    const freeListings = sortedListings.filter(
+      (l) => !l.plan || l.plan === "Free" || l.plan === null,
+    );
 
-    const { sort, page } = searchParams as { [key: string]: string };
-    const { sortKey, reverse } =
-      SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
-    const currentPage = page ? Number(page) : 1;
+    // Get related categories for SEO links
+    const relatedCategories = categories
+      .filter((c) => c.category_name !== categoryName)
+      .slice(0, 2);
 
-    const { items, totalCount } = await getItems({
-      category: categoryName, // Use the actual category name, not the slug
-      sortKey,
-      reverse,
-      currentPage,
-      hasSponsorItem,
-    });
-
-    console.log("CategoryPage: getItems result:", {
-      itemsCount: items?.length || 0,
-      totalCount,
-      categoryName,
-      items: items?.slice(0, 3), // Show first 3 items for debugging
-    });
-
-    // Debug: Test getPublicListings directly
-    const directListings = await getPublicListings({ category: categoryName });
-    console.log("CategoryPage: Direct getPublicListings result:", {
-      directCount: directListings?.length || 0,
-      categoryName,
-      sampleListings: directListings?.slice(0, 3),
-    });
-
-    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+    // Generate category subtext (1 line, factual)
+    const getCategorySubtext = (name: string): string => {
+      const lower = name.toLowerCase();
+      if (lower.includes("coach") || lower.includes("class")) {
+        return "Professionals experienced with young performers in TV, film, and commercial work.";
+      }
+      if (lower.includes("photographer")) {
+        return "Professional headshot photographers specializing in child and teen actors.";
+      }
+      if (lower.includes("agent") || lower.includes("manager")) {
+        return "Talent representation for young actors in television, film, and commercial work.";
+      }
+      return "Professionals experienced with young performers in TV, film, and commercial work.";
+    };
 
     return (
       <div className="container max-w-7xl mx-auto px-4 py-8">
-        {/* Category header - off-white text on dark navy background */}
-        <div className="mb-6">
-          <h1 className="bauhaus-heading text-4xl mb-2 text-text-secondary">
-            {categoryName}
+        {/* 14A: Category Hero */}
+        <div className="mb-8">
+          <h1 className="text-4xl md:text-5xl font-semibold text-text-primary mb-3">
+            {categoryName} for Kids & Teens
           </h1>
-          <p className="bauhaus-body text-xl text-text-secondary">
-            Find {categoryName.toLowerCase()} professionals for your child's
-            acting career
+          <p className="text-lg text-text-secondary max-w-2xl">
+            {getCategorySubtext(categoryName)}
           </p>
         </div>
 
-        {/* SEO-rich category content */}
+        {/* 14B: Featured in This Category */}
+        {featuredListings.length > 0 && (
+          <section className="mb-12">
+            <h2 className="text-xl font-semibold text-text-primary mb-6">
+              Featured in this category
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredListings.map((listing) => (
+                <ListingCard key={listing.id} listing={listing} />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* 14C: Smart Filters (placeholder for now - will be enhanced later) */}
+        <div className="mb-6 pb-4 border-b border-border-subtle">
+          <p className="text-sm text-text-muted italic">
+            Tip: Families often start with 2–3 providers and compare approach,
+            fit, and communication style.
+          </p>
+        </div>
+
+        {/* 14E: SEO Intro Text */}
         <div className="mb-8">
           <CategoryContent
             categoryName={categoryName}
-            listingCount={totalCount}
+            listingCount={allListings.length}
           />
         </div>
 
-        {/* when no items are found */}
-        {items?.length === 0 && <EmptyGrid />}
-
-        {/* when items are found */}
-        {items && items.length > 0 && (
-          <section className="pt-2">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {items.map((item) => (
-                <ItemCard key={item._id} item={item} />
-              ))}
+        {/* 14D: All Listings - Paid first, then free */}
+        {allListings.length === 0 ? (
+          <div className="text-center py-16">
+            <div className="max-w-md mx-auto">
+              <h3 className="text-xl font-semibold text-text-primary mb-4">
+                This category is growing
+              </h3>
+              <p className="text-text-secondary mb-4">
+                We're actively adding vetted professionals.
+              </p>
+              {relatedCategories.length > 0 && (
+                <div className="mt-6">
+                  <p className="text-sm text-text-muted mb-3">
+                    Explore related categories:
+                  </p>
+                  <div className="flex flex-wrap gap-3 justify-center">
+                    {relatedCategories.map((related) => {
+                      const relatedSlug = related.category_name
+                        .toLowerCase()
+                        .replace(/[^a-z0-9\s]/g, "")
+                        .replace(/\s+/g, "-")
+                        .replace(/-+/g, "-")
+                        .replace(/^-|-$/g, "");
+                      return (
+                        <Link
+                          key={related.id}
+                          href={`/category/${relatedSlug}`}
+                          className="text-sm text-accent-teal hover:text-accent-teal/80 transition-colors"
+                        >
+                          {related.category_name} →
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+              <div className="mt-6">
+                <Link
+                  href="/suggest-vendor"
+                  className="inline-block text-sm text-text-secondary hover:text-text-primary transition-colors"
+                >
+                  Suggest a provider →
+                </Link>
+              </div>
             </div>
+          </div>
+        ) : (
+          <section>
+            {/* Paid Listings */}
+            {paidListings.length > 0 && (
+              <div className="mb-12">
+                <h2 className="text-2xl font-semibold text-text-primary mb-6">
+                  All {categoryName} ({paidListings.length + freeListings.length})
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {paidListings.map((listing) => (
+                    <ListingCard key={listing.id} listing={listing} />
+                  ))}
+                </div>
+              </div>
+            )}
 
-            <div className="mt-8 flex items-center justify-center">
-              <CustomPagination
-                routePrefix={`/category/${params.slug}`}
-                totalPages={totalPages}
-              />
-            </div>
+            {/* Free Listings - Visual downgrade */}
+            {freeListings.length > 0 && (
+              <div className={paidListings.length > 0 ? "mt-12 pt-12 border-t border-border-subtle" : ""}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {freeListings.map((listing) => (
+                    <div key={listing.id} className="opacity-75">
+                      <ListingCard listing={listing} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 14E: Related Categories Links */}
+            {relatedCategories.length > 0 && (
+              <div className="mt-12 pt-8 border-t border-border-subtle">
+                <p className="text-sm text-text-muted mb-4">
+                  Many families looking for {categoryName.toLowerCase()} also
+                  explore:
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  {relatedCategories.map((related) => {
+                    const relatedSlug = related.category_name
+                      .toLowerCase()
+                      .replace(/[^a-z0-9\s]/g, "")
+                      .replace(/\s+/g, "-")
+                      .replace(/-+/g, "-")
+                      .replace(/^-|-$/g, "");
+                    return (
+                      <Link
+                        key={related.id}
+                        href={`/category/${relatedSlug}`}
+                        className="text-sm text-text-secondary hover:text-accent-teal transition-colors"
+                      >
+                        {related.category_name} →
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </section>
         )}
       </div>

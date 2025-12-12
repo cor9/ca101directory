@@ -466,7 +466,7 @@ export async function getPublicListingsWithRatings(params?: {
 
 /**
  * Fetch featured listings with weighted rotation engine.
- * 
+ *
  * Rules:
  * - Only paid listings (Pro or Standard, never Free)
  * - Rotates based on: tier weight, recency of activity, category balance
@@ -476,7 +476,7 @@ export async function getPublicListingsWithRatings(params?: {
 async function getFeaturedListingsUncached(): Promise<Listing[]> {
   console.log("getFeaturedListings: Fetching with weighted rotation");
   const supabase = createServerClient();
-  
+
   // Get all paid listings (Pro or Standard, not Free)
   const { data, error } = await supabase
     .from("listings")
@@ -506,7 +506,10 @@ async function getFeaturedListingsUncached(): Promise<Listing[]> {
   }
 
   // Helper: Get tier weight (Pro=3, Standard=2, Free=0)
-  const getTierWeight = (plan: string | null, comped: boolean | null): number => {
+  const getTierWeight = (
+    plan: string | null,
+    comped: boolean | null,
+  ): number => {
     if (comped) return 3; // Comped treated as Pro
     const p = (plan || "").toLowerCase();
     if (p.includes("pro") || p.includes("premium")) return 3;
@@ -518,7 +521,10 @@ async function getFeaturedListingsUncached(): Promise<Listing[]> {
   const resolveCategoryName = (categoryValue: string | null): string | null => {
     if (!categoryValue) return null;
     // Check if it's a UUID
-    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(categoryValue);
+    const isUuid =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        categoryValue,
+      );
     if (isUuid) {
       return categoryMap.get(categoryValue) || null;
     }
@@ -529,22 +535,33 @@ async function getFeaturedListingsUncached(): Promise<Listing[]> {
   const getPrimaryCategory = (listing: Listing): string | null => {
     if (!listing.categories || listing.categories.length === 0) return null;
     const firstCategory = listing.categories[0];
-    return resolveCategoryName(typeof firstCategory === "string" ? firstCategory : null);
+    return resolveCategoryName(
+      typeof firstCategory === "string" ? firstCategory : null,
+    );
   };
 
   // Daily random seed (changes once per day)
   const today = new Date();
   const daySeed = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
-  const seedValue = daySeed.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const seedValue = daySeed
+    .split("")
+    .reduce((acc, char) => acc + char.charCodeAt(0), 0);
 
   // Sort by: tier_weight DESC, updated_at DESC, random seed
   const sorted = listings
     .map((listing) => ({
       listing,
       tierWeight: getTierWeight(listing.plan, listing.comped),
-      updatedAt: listing.updated_at ? new Date(listing.updated_at).getTime() : 0,
+      updatedAt: listing.updated_at
+        ? new Date(listing.updated_at).getTime()
+        : 0,
       // Simple seeded random based on listing ID + day seed
-      randomSeed: (listing.id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) + seedValue) % 1000,
+      randomSeed:
+        (listing.id
+          .split("")
+          .reduce((acc, char) => acc + char.charCodeAt(0), 0) +
+          seedValue) %
+        1000,
       primaryCategory: getPrimaryCategory(listing),
     }))
     .sort((a, b) => {
@@ -567,17 +584,19 @@ async function getFeaturedListingsUncached(): Promise<Listing[]> {
   for (const item of sorted) {
     const category = item.primaryCategory || "uncategorized";
     const count = categoryCounts.get(category) || 0;
-    
+
     if (count < 2) {
       balanced.push(item.listing);
       categoryCounts.set(category, count + 1);
     }
-    
+
     // Stop when we have enough (we'll limit in component)
     if (balanced.length >= 12) break;
   }
 
-  console.log(`getFeaturedListings: Returning ${balanced.length} balanced listings`);
+  console.log(
+    `getFeaturedListings: Returning ${balanced.length} balanced listings`,
+  );
   return balanced;
 }
 
@@ -592,6 +611,91 @@ export const getFeaturedListings = unstable_cache(
     tags: ["featured-listings"],
   },
 );
+
+/**
+ * Get featured listings for a specific category (max 3)
+ * Uses same weighted rotation logic but scoped to category
+ */
+export async function getFeaturedListingsByCategory(
+  categoryName: string,
+): Promise<Listing[]> {
+  const allFeatured = await getFeaturedListingsUncached();
+  
+  // Filter by category and resolve category names
+  const { getCategories } = await import("@/data/categories");
+  const categories = await getCategories();
+  const categoryMap = new Map<string, string>();
+  for (const cat of categories) {
+    categoryMap.set(cat.id, cat.category_name);
+  }
+
+  const resolveCategoryName = (categoryValue: string | null): string | null => {
+    if (!categoryValue) return null;
+    const isUuid =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        categoryValue,
+      );
+    if (isUuid) {
+      return categoryMap.get(categoryValue) || null;
+    }
+    return categoryValue;
+  };
+
+  const categoryListings = allFeatured.filter((listing) => {
+    if (!listing.categories || listing.categories.length === 0) return false;
+    return listing.categories.some((cat) => {
+      const resolved = resolveCategoryName(
+        typeof cat === "string" ? cat : null,
+      );
+      return resolved === categoryName;
+    });
+  });
+
+  return categoryListings.slice(0, 3);
+}
+
+/**
+ * Sort listings by priority: Pro > Standard > Free
+ * Within tier: with reviews > without, with photos > without, updated recently > stale
+ */
+export function sortListingsByPriority(listings: Listing[]): Listing[] {
+  const getTierWeight = (plan: string | null, comped: boolean | null): number => {
+    if (comped) return 3;
+    const p = (plan || "").toLowerCase();
+    if (p.includes("pro") || p.includes("premium")) return 3;
+    if (p.includes("standard")) return 2;
+    return 1; // Free
+  };
+
+  return listings.sort((a, b) => {
+    // 1. Tier weight (Pro > Standard > Free)
+    const aTier = getTierWeight(a.plan, a.comped);
+    const bTier = getTierWeight(b.plan, b.comped);
+    if (bTier !== aTier) {
+      return bTier - aTier;
+    }
+
+    // 2. Has reviews (we'll need to check this separately, for now assume all have same)
+    // This would require fetching ratings, so we'll skip for now
+
+    // 3. Has photos
+    const aHasPhoto = Boolean(a.profile_image);
+    const bHasPhoto = Boolean(b.profile_image);
+    if (aHasPhoto !== bHasPhoto) {
+      return bHasPhoto ? 1 : -1;
+    }
+
+    // 4. Updated recently
+    const aUpdated = a.updated_at ? new Date(a.updated_at).getTime() : 0;
+    const bUpdated = b.updated_at ? new Date(b.updated_at).getTime() : 0;
+    if (bUpdated !== aUpdated) {
+      return bUpdated - aUpdated;
+    }
+
+    // 5. Alphabetical by name
+    return (a.listing_name || "").localeCompare(b.listing_name || "");
+  });
+}
 
 /**
  * Fetches all listings for the admin dashboard, regardless of status.

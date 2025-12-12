@@ -110,7 +110,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
 
   // Determine badge text and styling
   let badgeText = "Free";
-  let badgeColor = "bg-bg-dark-3";
+  let badgeColor = "bg-bg-3";
   if (listing.featured) {
     badgeText = "Featured";
     badgeColor = "bg-primary-orange";
@@ -134,12 +134,12 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
   return (
     <Card
       className={cn(
-        "group bg-card-surface border border-border-subtle rounded-2xl overflow-hidden shadow-card hover:shadow-cardHover hover:-translate-y-0.5 transition-all duration-300",
+        "group bg-card border border-subtle rounded-2xl overflow-hidden shadow-card hover:shadow-cardHover hover:-translate-y-0.5 transition-all duration-300",
         className,
       )}
     >
       {/* Image Area - Hero */}
-      <div className="relative h-44 w-full bg-bg-dark-2">
+      <div className="relative h-44 w-full bg-bg-2">
         {(listing.profile_image || fallbackCategoryUrl) && (
           <Image
             src={

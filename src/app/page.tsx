@@ -1,4 +1,3 @@
-import { BannerAd } from "@/components/layout/banner-ad";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { marketingConfig } from "@/config/marketing";
@@ -58,17 +57,21 @@ export default async function HomePage() {
   // Show only first 12 items on homepage
   const previewItems = items.slice(0, 12);
 
+  const user = await currentUser();
+
   return (
-    <>
-      {/* Schema.org Organization Data for SEO */}
-      <OrganizationSchema />
+    <div className="flex flex-col min-h-screen bg-bg-dark text-text-primary">
+      <Navbar scroll={true} config={marketingConfig} user={user} />
+      <main className="flex-1 pt-16">
+        {/* Schema.org Organization Data for SEO */}
+        <OrganizationSchema />
 
-      <Script
-        src="https://js.stripe.com/v3/pricing-table.js"
-        strategy="afterInteractive"
-      />
+        <Script
+          src="https://js.stripe.com/v3/pricing-table.js"
+          strategy="afterInteractive"
+        />
 
-      <Container className="py-8">
+        <Container className="py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left Sidebar */}
           <div className="lg:col-span-3">
@@ -125,7 +128,9 @@ export default async function HomePage() {
             </section>
           </div>
         </div>
-      </Container>
-    </>
+        </Container>
+      </main>
+      <Footer />
+    </div>
   );
 }

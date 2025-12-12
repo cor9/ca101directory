@@ -465,25 +465,133 @@ export async function getPublicListingsWithRatings(params?: {
 }
 
 /**
- * Fetch only featured, public listings directly (bypass duplicate filtering).
- * This avoids cases where dedup or cache interferes with homepage featured section.
+ * Fetch featured listings with weighted rotation engine.
+ * 
+ * Rules:
+ * - Only paid listings (Pro or Standard, never Free)
+ * - Rotates based on: tier weight, recency of activity, category balance
+ * - Cached for 24 hours (daily rotation)
+ * - Max 2 listings per category
  */
-export async function getFeaturedListings() {
-  console.log("getFeaturedListings: Fetching featured public listings");
+async function getFeaturedListingsUncached(): Promise<Listing[]> {
+  console.log("getFeaturedListings: Fetching with weighted rotation");
   const supabase = createServerClient();
+  
+  // Get all paid listings (Pro or Standard, not Free)
   const { data, error } = await supabase
     .from("listings")
     .select("*")
-    .eq("featured", true)
     .in("status", ["Live", "Published", "published", "live"])
-    .or("is_active.eq.true,is_active.is.null");
+    .or("is_active.eq.true,is_active.is.null")
+    .not("plan", "eq", "Free")
+    .not("plan", "is", null);
 
   if (error) {
     console.error("getFeaturedListings Error:", error);
     throw error;
   }
-  return (data || []) as Listing[];
+
+  if (!data || data.length === 0) {
+    return [];
+  }
+
+  const listings = data as Listing[];
+
+  // Get categories for category name resolution
+  const { getCategories } = await import("@/data/categories");
+  const categories = await getCategories();
+  const categoryMap = new Map<string, string>();
+  for (const cat of categories) {
+    categoryMap.set(cat.id, cat.category_name);
+  }
+
+  // Helper: Get tier weight (Pro=3, Standard=2, Free=0)
+  const getTierWeight = (plan: string | null, comped: boolean | null): number => {
+    if (comped) return 3; // Comped treated as Pro
+    const p = (plan || "").toLowerCase();
+    if (p.includes("pro") || p.includes("premium")) return 3;
+    if (p.includes("standard")) return 2;
+    return 0; // Free or unknown
+  };
+
+  // Helper: Resolve category name (handle UUIDs)
+  const resolveCategoryName = (categoryValue: string | null): string | null => {
+    if (!categoryValue) return null;
+    // Check if it's a UUID
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(categoryValue);
+    if (isUuid) {
+      return categoryMap.get(categoryValue) || null;
+    }
+    return categoryValue;
+  };
+
+  // Helper: Get primary category name
+  const getPrimaryCategory = (listing: Listing): string | null => {
+    if (!listing.categories || listing.categories.length === 0) return null;
+    const firstCategory = listing.categories[0];
+    return resolveCategoryName(typeof firstCategory === "string" ? firstCategory : null);
+  };
+
+  // Daily random seed (changes once per day)
+  const today = new Date();
+  const daySeed = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+  const seedValue = daySeed.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+
+  // Sort by: tier_weight DESC, updated_at DESC, random seed
+  const sorted = listings
+    .map((listing) => ({
+      listing,
+      tierWeight: getTierWeight(listing.plan, listing.comped),
+      updatedAt: listing.updated_at ? new Date(listing.updated_at).getTime() : 0,
+      // Simple seeded random based on listing ID + day seed
+      randomSeed: (listing.id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) + seedValue) % 1000,
+      primaryCategory: getPrimaryCategory(listing),
+    }))
+    .sort((a, b) => {
+      // 1. Tier weight (highest first)
+      if (b.tierWeight !== a.tierWeight) {
+        return b.tierWeight - a.tierWeight;
+      }
+      // 2. Updated_at (most recent first)
+      if (b.updatedAt !== a.updatedAt) {
+        return b.updatedAt - a.updatedAt;
+      }
+      // 3. Random seed (daily shuffle)
+      return a.randomSeed - b.randomSeed;
+    });
+
+  // Apply category balance: max 2 per category
+  const categoryCounts = new Map<string, number>();
+  const balanced: Listing[] = [];
+
+  for (const item of sorted) {
+    const category = item.primaryCategory || "uncategorized";
+    const count = categoryCounts.get(category) || 0;
+    
+    if (count < 2) {
+      balanced.push(item.listing);
+      categoryCounts.set(category, count + 1);
+    }
+    
+    // Stop when we have enough (we'll limit in component)
+    if (balanced.length >= 12) break;
+  }
+
+  console.log(`getFeaturedListings: Returning ${balanced.length} balanced listings`);
+  return balanced;
 }
+
+/**
+ * Cached version of getFeaturedListings - rotates daily (24 hour cache)
+ */
+export const getFeaturedListings = unstable_cache(
+  getFeaturedListingsUncached,
+  ["featured-listings-rotation"],
+  {
+    revalidate: 86400, // 24 hours
+    tags: ["featured-listings"],
+  },
+);
 
 /**
  * Fetches all listings for the admin dashboard, regardless of status.

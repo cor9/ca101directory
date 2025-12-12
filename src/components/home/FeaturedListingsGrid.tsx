@@ -6,8 +6,6 @@ export default async function FeaturedListingsGrid() {
 
   try {
     featuredListings = await getFeaturedListings();
-    // Limit to 6 listings
-    featuredListings = featuredListings.slice(0, 6);
   } catch (error) {
     console.error("Error fetching featured listings:", error);
   }
@@ -20,11 +18,29 @@ export default async function FeaturedListingsGrid() {
     );
   }
 
+  // Responsive limits: Desktop 6, Tablet 4, Mobile 3
+  const displayListings = featuredListings.slice(0, 6);
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {featuredListings.map((listing) => (
-        <ListingCardClient key={listing.id} listing={listing} />
-      ))}
-    </div>
+    <>
+      {/* Mobile: show 3 */}
+      <div className="grid grid-cols-1 gap-8 md:hidden">
+        {displayListings.slice(0, 3).map((listing) => (
+          <ListingCardClient key={listing.id} listing={listing} isFeatured />
+        ))}
+      </div>
+      {/* Tablet: show 4 */}
+      <div className="hidden md:grid lg:hidden grid-cols-2 gap-8">
+        {displayListings.slice(0, 4).map((listing) => (
+          <ListingCardClient key={listing.id} listing={listing} isFeatured />
+        ))}
+      </div>
+      {/* Desktop: show 6 */}
+      <div className="hidden lg:grid grid-cols-3 gap-8">
+        {displayListings.map((listing) => (
+          <ListingCardClient key={listing.id} listing={listing} isFeatured />
+        ))}
+      </div>
+    </>
   );
 }

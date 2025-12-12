@@ -90,6 +90,9 @@ export default async function VendorDashboard({
           <p className="text-sm text-foreground/80 italic">
             Parents tend to contact professionals with claimed listings.
           </p>
+          <p className="text-sm text-foreground/70 mt-2">
+            Featured placement rotates among active paid listings.
+          </p>
         </div>
 
         {/* ROI Stats Widget */}

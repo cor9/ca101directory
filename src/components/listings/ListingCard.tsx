@@ -134,7 +134,8 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
   const isProFeatured = listing.featured || listing.comped || planPriority >= 3;
 
   // Determine if listing is paid/claimed for subtle contrast
-  const isPaidClaimed = listing.is_claimed || (listing.plan && listing.plan !== "Free");
+  const isPaidClaimed =
+    listing.is_claimed || (listing.plan && listing.plan !== "Free");
 
   return (
     <Card

@@ -25,11 +25,13 @@ import { useEffect, useState } from "react";
 interface ListingCardClientProps {
   listing: Listing;
   className?: string;
+  isFeatured?: boolean;
 }
 
 export function ListingCardClient({
   listing,
   className,
+  isFeatured = false,
 }: ListingCardClientProps) {
   const [averageRating, setAverageRating] = useState({ average: 0, count: 0 });
   const [ratingLoading, setRatingLoading] = useState(true);
@@ -100,12 +102,16 @@ export function ListingCardClient({
     <Card
       className={cn(
         "h-full flex flex-col bg-cream border-cream hover:shadow-tomato-red/10",
+        isFeatured && "border-accent-lemon border-2 shadow-lg",
         className,
       )}
     >
       <CardHeader className="relative p-0">
         {/* Profile Image */}
-        <div className="relative w-full h-48 overflow-hidden rounded-t-lg">
+        <div className={cn(
+          "relative w-full overflow-hidden rounded-t-lg",
+          isFeatured ? "h-56" : "h-48"
+        )}>
           {listing.profile_image ? (
             <Image
               src={getListingImageUrl(listing.profile_image)}

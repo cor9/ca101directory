@@ -13,6 +13,38 @@ const config = {
     },
     extend: {
       colors: {
+        // UI Kit - Dark Patreon Edition (Phase 6)
+        "bg-dark": "#0E1117",
+        "bg-dark-2": "#151922",
+        "bg-dark-3": "#1B1F29",
+        "card-surface": "rgba(255,255,255,0.05)",
+        "border-subtle": "rgba(255,255,255,0.08)",
+
+        // Accent palette for tiles, highlights, badges, CTAs
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+          teal: "#1CC8B0",
+          lemon: "#F5E76A",
+          blue: "#4EA3FF",
+          purple: "#C57CFF",
+          salmon: "#FF8A7A",
+          cranberry: "#D9476D",
+          stone: "#A8ACB9",
+        },
+
+        // Text colors
+        "text-primary": "#FFFFFF",
+        "text-secondary": "#D1D5DB",
+        "text-muted": "#A0A3A9",
+
+        // Brand colors
+        brand: {
+          success: "#3DD68C",
+          warning: "#F7C948",
+          danger: "#EF4665",
+          info: "#2BB0ED",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -33,10 +65,6 @@ const config = {
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -142,16 +170,23 @@ radius: {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
         card: "12px",
+        xl: "1rem",
+        "2xl": "1.5rem",
       },
       boxShadow: {
-        card: "0 6px 14px rgba(13, 27, 42, 0.25)",
+        card: "0 4px 12px rgba(0,0,0,0.35)",
         hover: "0 10px 20px rgba(13, 27, 42, 0.35)",
+        inset: "inset 0 0 0 1px rgba(255,255,255,0.08)",
+        "card-new": "0 4px 20px rgba(0, 0, 0, 0.3)",
+        "card-new-hover": "0 8px 30px rgba(0, 0, 0, 0.4)",
       },
       fontFamily: {
         bricolage: ["var(--font-bricolage)", ...fontFamily.sans],
         sourceSans: ["var(--font-source-sans)", ...fontFamily.sans],
         sourceSerif: ["var(--font-source-serif)", ...fontFamily.serif],
         workSans: ["var(--font-work-sans)", ...fontFamily.sans],
+        display: ["Inter", "system-ui", ...fontFamily.sans],
+        body: ["Inter", "system-ui", ...fontFamily.sans],
       },
       keyframes: {
         "accordion-down": {

@@ -57,7 +57,12 @@ export default async function HomePage() {
   // Show only first 12 items on homepage
   const previewItems = items.slice(0, 12);
 
-  const user = await currentUser();
+  let user = null;
+  try {
+    user = await currentUser();
+  } catch (error) {
+    console.error("Error fetching user:", error);
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-bg-dark text-text-primary">
@@ -103,7 +108,9 @@ export default async function HomePage() {
                 <h2 className="text-2xl font-semibold text-text-primary mb-6">
                   Featured Professionals
                 </h2>
-                <HomeFeaturedListings />
+                <Suspense fallback={<div className="h-48 bg-bg-dark-2 rounded-lg" />}>
+                  <HomeFeaturedListings />
+                </Suspense>
               </section>
 
               {/* Browse by Category */}
@@ -124,7 +131,12 @@ export default async function HomePage() {
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {previewItems.map((item) => (
-                    <ListingCard key={item.id} listing={item} />
+                    <Suspense
+                      key={item.id}
+                      fallback={<div className="h-64 bg-bg-dark-2 rounded-lg" />}
+                    >
+                      <ListingCard listing={item} />
+                    </Suspense>
                   ))}
                 </div>
               </section>

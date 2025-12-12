@@ -189,9 +189,13 @@ export function ListingContactSection({
               </div>
             </label>
           </div>
+          {/* 18G: The One Sentence */}
+          <p className="mt-3 text-xs text-text-muted italic">
+            Providers with these features receive 3–5× more parent contact.
+          </p>
           <Link
             href="/pricing?from=profile-addons"
-            className="mt-4 inline-block text-sm text-accent-teal hover:text-accent-teal/80 transition-colors"
+            className="mt-2 inline-block text-sm text-accent-teal hover:text-accent-teal/80 transition-colors"
           >
             Manage add-ons →
           </Link>

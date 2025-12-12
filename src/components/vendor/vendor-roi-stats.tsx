@@ -132,19 +132,20 @@ export async function VendorROIStats({ vendorId }: Props) {
             </div>
           )}
 
-          {/* Upgrade CTA for free users */}
-          {listings.some((l) => l.plan === "free") && totalViews30Days > 10 && (
+          {/* 18D: Time-based Psychology - Upgrade CTA after viewing stats */}
+          {listings.some((l) => !l.plan || l.plan === "Free" || l.plan === null) && totalViews30Days > 10 && (
             <div className="border-t pt-4">
               <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
                 <div className="text-sm font-medium text-amber-900 dark:text-amber-100 mb-1">
                   💡 Pro Tip
                 </div>
+                {/* 18G: The One Sentence */}
                 <div className="text-xs text-amber-800 dark:text-amber-200">
-                  You're getting great traffic! Pro members with similar views
-                  get 3-5x more inquiries with featured placement and photos.
+                  You're getting great traffic! Providers with Pro features
+                  receive 3–5× more parent contact.
                 </div>
                 <a
-                  href="/pricing"
+                  href="/pricing?from=view-stats"
                   className="inline-block mt-3 text-xs font-medium text-amber-900 dark:text-amber-100 underline hover:no-underline"
                 >
                   See Pro Plans →

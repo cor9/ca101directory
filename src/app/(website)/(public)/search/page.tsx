@@ -76,7 +76,7 @@ export default async function SearchPage({
       );
     })
     .slice(0, 2);
-  
+
   // Separate other best matches (paid, max 3) from other results
   const bestMatches = sortedListings
     .filter(
@@ -203,7 +203,13 @@ export default async function SearchPage({
 
           {/* 15C: Best Matches */}
           {bestMatches.length > 0 && query && (
-            <div className={featuredProviders.length > 0 ? "mt-12 pt-12 border-t border-border-subtle" : "mb-12"}>
+            <div
+              className={
+                featuredProviders.length > 0
+                  ? "mt-12 pt-12 border-t border-border-subtle"
+                  : "mb-12"
+              }
+            >
               <h2 className="text-2xl font-semibold text-text-primary mb-6">
                 Best matches
               </h2>
@@ -217,7 +223,13 @@ export default async function SearchPage({
 
           {/* Other Results */}
           {otherResults.length > 0 && (
-            <div className={bestMatches.length > 0 ? "mt-12 pt-12 border-t border-border-subtle" : ""}>
+            <div
+              className={
+                bestMatches.length > 0
+                  ? "mt-12 pt-12 border-t border-border-subtle"
+                  : ""
+              }
+            >
               <h2 className="text-2xl font-semibold text-text-primary mb-6">
                 {bestMatches.length > 0 ? "Other results" : "All results"} (
                 {sortedListings.length})
@@ -225,9 +237,14 @@ export default async function SearchPage({
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {otherResults.map((listing) => {
                   const isFree =
-                    !listing.plan || listing.plan === "Free" || listing.plan === null;
+                    !listing.plan ||
+                    listing.plan === "Free" ||
+                    listing.plan === null;
                   return (
-                    <div key={listing.id} className={isFree ? "opacity-75" : ""}>
+                    <div
+                      key={listing.id}
+                      className={isFree ? "opacity-75" : ""}
+                    >
                       <ListingCard listing={listing} />
                     </div>
                   );

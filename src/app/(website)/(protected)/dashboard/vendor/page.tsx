@@ -4,6 +4,7 @@ import { VendorListingsTable } from "@/components/vendor/vendor-listings-table";
 import { VendorROIStats } from "@/components/vendor/vendor-roi-stats";
 import { siteConfig } from "@/config/site";
 import { getVendorListings } from "@/data/listings";
+import { getVendorPosition } from "@/data/vendor-position";
 import { currentUser } from "@/lib/auth";
 import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import { constructMetadata } from "@/lib/metadata";
@@ -52,6 +53,18 @@ export default async function VendorDashboard({
     searchParams?.claimed || searchParams?.upgraded || searchParams?.onboard,
   );
 
+  // 18A: Visibility Anxiety - Calculate relative position for primary listing
+  let positionData = null;
+  if (vendorListings.length > 0) {
+    const primaryListing = vendorListings[0];
+    const categoryName =
+      Array.isArray(primaryListing.categories) &&
+      primaryListing.categories.length > 0
+        ? primaryListing.categories[0]
+        : undefined;
+    positionData = await getVendorPosition(primaryListing.id, categoryName);
+  }
+
   return (
     <VendorDashboardLayout>
       <div className="space-y-6">
@@ -96,27 +109,73 @@ export default async function VendorDashboard({
           </p>
         </div>
 
-        {/* 16E: Dashboard Nudges for Free listings */}
-        {vendorListings.length > 0 && vendorListings.some((l) => !l.plan || l.plan === "Free" || l.plan === null) && (
-          <div className="bg-card rounded-lg p-6 border border-accent-lemon/30">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <p className="text-sm text-foreground/80 mb-2">
-                  Your listing is appearing below 74% of similar providers.
-                </p>
-                <p className="text-xs text-foreground/60 mb-4">
-                  Pro listings get 2.8× more clicks.
-                </p>
-                <Link
-                  href="/pricing?from=dashboard-nudge"
-                  className="text-sm text-accent-teal hover:text-accent-teal/80 font-medium transition-colors"
-                >
-                  Improve visibility →
-                </Link>
+        {/* 18A: Visibility Anxiety - Show relative position */}
+        {vendorListings.length > 0 &&
+          positionData &&
+          positionData.aboveCount > 0 && (
+            <div className="bg-card rounded-lg p-6 border border-accent-lemon/30">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <p className="text-sm text-foreground/80 mb-2">
+                    {positionData.categoryName && (
+                      <>
+                        You appear below {positionData.aboveCount} similar
+                        provider
+                        {positionData.aboveCount === 1 ? "" : "s"} in{" "}
+                        {positionData.categoryName}.
+                      </>
+                    )}
+                    {!positionData.categoryName && (
+                      <>
+                        You appear below {positionData.aboveCount} similar
+                        provider
+                        {positionData.aboveCount === 1 ? "" : "s"}.
+                      </>
+                    )}
+                  </p>
+                  {/* 18G: The One Sentence */}
+                  <p className="text-xs text-foreground/60 mb-4">
+                    Providers with Pro features receive 3–5× more parent
+                    contact.
+                  </p>
+                  <Link
+                    href="/pricing?from=visibility-anxiety"
+                    className="text-sm text-accent-teal hover:text-accent-teal/80 font-medium transition-colors"
+                  >
+                    Improve visibility →
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+
+        {/* 16E: Dashboard Nudges for Free listings (fallback if no position data) */}
+        {vendorListings.length > 0 &&
+          vendorListings.some(
+            (l) => !l.plan || l.plan === "Free" || l.plan === null,
+          ) &&
+          (!positionData || positionData.aboveCount === 0) && (
+            <div className="bg-card rounded-lg p-6 border border-accent-lemon/30">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <p className="text-sm text-foreground/80 mb-2">
+                    Your listing is appearing below 74% of similar providers.
+                  </p>
+                  {/* 18G: The One Sentence */}
+                  <p className="text-xs text-foreground/60 mb-4">
+                    Providers with Pro features receive 3–5× more parent
+                    contact.
+                  </p>
+                  <Link
+                    href="/pricing?from=dashboard-nudge"
+                    className="text-sm text-accent-teal hover:text-accent-teal/80 font-medium transition-colors"
+                  >
+                    Improve visibility →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
 
         {/* ROI Stats Widget */}
         <VendorROIStats vendorId={user.id} />
@@ -169,6 +228,10 @@ export default async function VendorDashboard({
             <p className="mt-4 text-xs text-slate-300">
               Improve your ranking by completing your profile, responding
               quickly, and collecting reviews from parents.
+            </p>
+            {/* 18G: The One Sentence */}
+            <p className="mt-2 text-xs text-slate-400 italic">
+              Providers with Pro features receive 3–5× more parent contact.
             </p>
           </section>
         )}

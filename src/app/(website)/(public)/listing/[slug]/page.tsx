@@ -785,6 +785,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   <p className="text-sm text-slate-600 mb-6">
                     Families typically contact 2–3 providers before deciding.
                   </p>
+                  {/* 18G: The One Sentence */}
+                  <p className="text-xs text-slate-500 italic mb-4">
+                    Providers with Pro features receive 3–5× more parent
+                    contact.
+                  </p>
                   <h2 className="text-xl font-bold mb-6 text-slate-900">
                     Similar providers families also viewed
                   </h2>

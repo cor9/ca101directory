@@ -394,6 +394,22 @@ export function VendorEditForm({
             console.error("Update failed:", res.message);
           } else {
             toast.success("Listing has been submitted for review.");
+            
+            // 18D: Time-based Psychology - Trigger upgrade prompt after save
+            const isFree = !listing.plan || listing.plan === "Free" || listing.plan === null;
+            if (isFree) {
+              // Small delay to let success toast show first
+              setTimeout(() => {
+                toast.info("💡 Pro tip: Providers with Pro features receive 3–5× more parent contact.", {
+                  duration: 6000,
+                  action: {
+                    label: "Learn more",
+                    onClick: () => router.push("/pricing?from=after-save"),
+                  },
+                });
+              }, 2000);
+            }
+            
             if (onFinished) {
               onFinished();
             } else if (redirectUrl) {

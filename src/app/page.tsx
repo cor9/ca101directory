@@ -75,61 +75,25 @@ export default async function Page() {
 
       <div className="flex flex-col min-h-screen bg-bg text-text-primary">
         <Navbar scroll={true} config={marketingConfig} user={user} />
-        <main className="flex-1 pt-16">
+        <main className="flex-1">
           {/* Hero Section */}
           <HomeHero />
 
           {/* Category Tiles */}
           <CategoryTiles />
 
-          {/* Existing content */}
-          <section className="max-w-6xl mx-auto px-6 pb-24">
-            <Container className="py-8">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                {/* Left Sidebar */}
-                <div className="lg:col-span-3">
-                  <HomeSidebar categories={categories} />
-                </div>
-
-                {/* Main Content */}
-                <div className="lg:col-span-9 space-y-8">
-                  {/* Featured Professionals */}
-                  <section>
-                    <h2 className="text-2xl font-semibold text-text-primary mb-6">
-                      Featured Professionals
-                    </h2>
-                    <Suspense
-                      fallback={<div className="h-48 bg-bg-2 rounded-lg" />}
-                    >
-                      <HomeFeaturedListings />
-                    </Suspense>
-                  </section>
-
-                  {/* Browse by Category (legacy grid) */}
-                  <Suspense
-                    fallback={
-                      <div className="text-text-secondary">
-                        Loading categories...
-                      </div>
-                    }
-                  >
-                    <CategoryTileGrid />
-                  </Suspense>
-
-                  {/* Newest / Recently Updated */}
-                  <section>
-                    <h2 className="text-2xl font-semibold text-text-primary mb-6">
-                      Newest Professionals
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {previewItems.map((item) => (
-                        <ListingCardClient key={item.id} listing={item} />
-                      ))}
-                    </div>
-                  </section>
-                </div>
+          {/* Listings Preview */}
+          <section className="bg-bg-dark pb-20">
+            <div className="max-w-6xl mx-auto px-6">
+              <h2 className="text-2xl font-semibold text-text-primary mb-6">
+                Newest Professionals
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {previewItems.map((item) => (
+                  <ListingCardClient key={item.id} listing={item} />
+                ))}
               </div>
-            </Container>
+            </div>
           </section>
         </main>
         <Footer />

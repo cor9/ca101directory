@@ -87,50 +87,44 @@ export default async function CategoryTiles() {
   }
 
   return (
-    <section id="categories" className="max-w-6xl mx-auto px-6 py-16">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {categoryConfig.map((category) => {
-          const count = categoryCounts[category.name] || 0;
-          const Icon = category.icon;
+    <section id="categories" className="bg-bg-dark pb-20">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {categoryConfig.map((category) => {
+            const count = categoryCounts[category.name] || 0;
+            const Icon = category.icon;
 
-          return (
-            <Link
-              key={category.name}
-              href={`/category/${category.slug}`}
-              className="
-                group relative rounded-card p-6
-                bg-bg-dark-3
-                border border-border-subtle
-                shadow-card
-                transition
-                hover:-translate-y-1 hover:shadow-cardHover
-              "
-            >
-              <div className={cn("absolute top-0 left-0 right-0 h-1 rounded-t-card", category.hoverBg)} />
-
-              <div
-                className={cn(
-                  "absolute inset-0 rounded-card opacity-0 group-hover:opacity-100 transition",
-                  category.hoverBg,
-                )}
-              />
-
-              <div className="relative">
-                <div className="mb-4 text-text-secondary">
-                  <Icon className="w-6 h-6" />
+            return (
+              <Link
+                key={category.name}
+                href={`/category/${category.slug}`}
+                className="
+                  group
+                  bg-bg-dark-3
+                  border border-border-subtle
+                  rounded-tile
+                  p-6
+                  shadow-card
+                  hover:shadow-cardHover
+                  hover:border-accent-teal/40
+                  transition
+                "
+              >
+                <div className="mb-4">
+                  <Icon className="w-6 h-6 text-text-muted group-hover:text-accent-teal transition-colors" />
                 </div>
 
-                <h3 className="text-lg font-semibold text-text-primary">
+                <h3 className="text-text-primary font-medium mb-2">
                   {category.name}
                 </h3>
 
-                <p className="mt-2 text-sm text-text-muted">
+                <p className="text-text-muted text-sm">
                   {count} {count === 1 ? "professional" : "professionals"}
                 </p>
-              </div>
-            </Link>
-          );
-        })}
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

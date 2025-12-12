@@ -39,10 +39,7 @@ export async function getSocialProofStats(): Promise<SocialProofStats> {
     const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
     const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
-    const [
-      { data: listings },
-      { count: proMembers },
-    ] = await Promise.all([
+    const [{ data: listings }, { count: proMembers }] = await Promise.all([
       supabase
         .from("listings")
         .select("plan, categories, created_at, updated_at"),
@@ -54,32 +51,27 @@ export async function getSocialProofStats(): Promise<SocialProofStats> {
     ]);
 
     // Count upgrades (listings updated from free to paid in time period)
-    const upgradesToday = listings?.filter(
-      (l) =>
-        l.plan !== "free" &&
-        new Date(l.updated_at) >= todayStart
-    ).length || 0;
+    const upgradesToday =
+      listings?.filter(
+        (l) => l.plan !== "free" && new Date(l.updated_at) >= todayStart,
+      ).length || 0;
 
-    const upgradesThisWeek = listings?.filter(
-      (l) =>
-        l.plan !== "free" &&
-        new Date(l.updated_at) >= weekAgo
-    ).length || 0;
+    const upgradesThisWeek =
+      listings?.filter(
+        (l) => l.plan !== "free" && new Date(l.updated_at) >= weekAgo,
+      ).length || 0;
 
-    const upgradesThisMonth = listings?.filter(
-      (l) =>
-        l.plan !== "free" &&
-        new Date(l.updated_at) >= monthAgo
-    ).length || 0;
+    const upgradesThisMonth =
+      listings?.filter(
+        (l) => l.plan !== "free" && new Date(l.updated_at) >= monthAgo,
+      ).length || 0;
 
     // Count new listings
-    const newListingsWeek = listings?.filter(
-      (l) => new Date(l.created_at) >= weekAgo
-    ).length || 0;
+    const newListingsWeek =
+      listings?.filter((l) => new Date(l.created_at) >= weekAgo).length || 0;
 
-    const newListingsMonth = listings?.filter(
-      (l) => new Date(l.created_at) >= monthAgo
-    ).length || 0;
+    const newListingsMonth =
+      listings?.filter((l) => new Date(l.created_at) >= monthAgo).length || 0;
 
     // Find category with most upgrades
     const categoryUpgrades: Record<string, number> = {};
@@ -92,8 +84,9 @@ export async function getSocialProofStats(): Promise<SocialProofStats> {
         });
       });
 
-    const topCategory = Object.entries(categoryUpgrades)
-      .sort(([, a], [, b]) => b - a)[0];
+    const topCategory = Object.entries(categoryUpgrades).sort(
+      ([, a], [, b]) => b - a,
+    )[0];
 
     return {
       upgradesTodayCount: upgradesToday,
@@ -124,7 +117,7 @@ export async function getSocialProofStats(): Promise<SocialProofStats> {
  * Get "hot leads" - free listings with high traffic
  * These are prime targets for manual outreach
  */
-export async function getHotLeads(minViews: number = 20): Promise<HotLead[]> {
+export async function getHotLeads(minViews = 20): Promise<HotLead[]> {
   const supabase = createServerClient();
 
   try {

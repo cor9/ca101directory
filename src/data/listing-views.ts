@@ -20,7 +20,7 @@ export type ListingStats = {
  * Get view stats for a specific listing (for vendor dashboard)
  */
 export async function getListingViewStats(
-  listingId: string
+  listingId: string,
 ): Promise<ListingStats | null> {
   const supabase = createServerClient();
 
@@ -41,7 +41,7 @@ export async function getListingViewStats(
         views_previous_30_days: statsData.views_previous_30_days || 0,
         growth_percentage: calculateGrowth(
           statsData.views_last_30_days,
-          statsData.views_previous_30_days
+          statsData.views_previous_30_days,
         ),
         favorites_count: statsData.favorites_count || 0,
         reviews_count: statsData.reviews_count || 0,
@@ -144,7 +144,7 @@ export async function getVendorListingsStats(vendorId: string) {
       getListingViewStats(listing.id).then((stats) => ({
         ...listing,
         stats,
-      }))
+      })),
     );
 
     return await Promise.all(statsPromises);

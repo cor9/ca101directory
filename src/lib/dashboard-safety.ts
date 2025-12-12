@@ -4,8 +4,8 @@
  */
 
 import { getRole } from "@/lib/auth/roles";
-import { redirect } from "next/navigation";
 import type { ExtendedUser } from "@/types/next-auth";
+import { redirect } from "next/navigation";
 
 /**
  * Verify user has correct role for dashboard access

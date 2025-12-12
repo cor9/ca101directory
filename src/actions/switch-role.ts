@@ -16,7 +16,7 @@ export type SwitchRoleResponse = {
  * Fixes Bug #2: Users stuck with wrong role
  */
 export async function switchUserRole(
-  newRole: "parent" | "vendor"
+  newRole: "parent" | "vendor",
 ): Promise<SwitchRoleResponse> {
   try {
     const session = await auth();
@@ -101,8 +101,7 @@ export async function switchUserRole(
     revalidatePath("/settings");
     revalidatePath("/dashboard");
 
-    const roleNameFrom =
-      currentProfile.role === "parent" ? "Parent" : "Vendor";
+    const roleNameFrom = currentProfile.role === "parent" ? "Parent" : "Vendor";
     const roleNameTo = newRole === "parent" ? "Parent" : "Vendor";
 
     return {

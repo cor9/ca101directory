@@ -124,8 +124,8 @@ export default function ClaimListingPage() {
                       secure login link. Click it to sign in instantly.
                     </p>
                     <p className="text-sm text-[#1E1F23]">
-                      Check your spam folder if you don't see the email within
-                      a few minutes.
+                      Check your spam folder if you don't see the email within a
+                      few minutes.
                     </p>
                   </div>
                 </div>
@@ -304,9 +304,7 @@ export default function ClaimListingPage() {
 
       {/* Related Articles */}
       <div className="mt-12">
-        <h3 className="text-xl font-bold text-paper mb-4">
-          Related Articles
-        </h3>
+        <h3 className="text-xl font-bold text-paper mb-4">Related Articles</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Link
             href="/help/getting-started"

@@ -103,7 +103,8 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const title = searchParams.get("title") || "🚨 User Issue Reported (Test)";
     const path = searchParams.get("path") || "/test";
-    const message = searchParams.get("message") || "This is a test support ping.";
+    const message =
+      searchParams.get("message") || "This is a test support ping.";
     const userEmail = searchParams.get("userEmail") || "test@example.com";
 
     // Origin validation relaxed as in POST

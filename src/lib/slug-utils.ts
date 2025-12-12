@@ -6,7 +6,7 @@ export function generateSlug(listingName: string, id: string): string {
     // If no name, create a generic slug with ID suffix
     return `listing-${id.slice(-8)}`;
   }
-  
+
   return listingName
     .toLowerCase()
     .replace(/\s+/g, "-")
@@ -18,13 +18,19 @@ export function generateSlug(listingName: string, id: string): string {
 /**
  * Generate slug from ItemInfo object
  */
-export function generateSlugFromItem(item: { name: string; _id: string }): string {
+export function generateSlugFromItem(item: {
+  name: string;
+  _id: string;
+}): string {
   return generateSlug(item.name, item._id);
 }
 
 /**
  * Generate slug from Listing object
  */
-export function generateSlugFromListing(listing: { listing_name: string | null; id: string }): string {
+export function generateSlugFromListing(listing: {
+  listing_name: string | null;
+  id: string;
+}): string {
   return generateSlug(listing.listing_name || "", listing.id);
 }

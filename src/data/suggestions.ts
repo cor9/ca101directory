@@ -13,7 +13,7 @@ export async function createVendorSuggestion(payload: {
   vendor_phone?: string;
 }) {
   // First attempt: insert with vendor_email/vendor_phone if columns exist
-  let { error } = await supabase.from("vendor_suggestions").insert([
+  const { error } = await supabase.from("vendor_suggestions").insert([
     {
       vendor_name: payload.vendor_name,
       website: payload.website ?? null,

@@ -52,9 +52,7 @@ export function ReviewsDisplay({ listingId, className }: ReviewsDisplayProps) {
   if (reviews.length === 0) {
     return (
       <div className={cn("text-center py-8", className)}>
-        <p className="text-paper">
-          No reviews yet. Be the first to review!
-        </p>
+        <p className="text-paper">No reviews yet. Be the first to review!</p>
       </div>
     );
   }

@@ -1,5 +1,5 @@
-import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { auth } from "@/auth";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 
 export function createClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -18,23 +18,23 @@ export function createClient() {
 export async function createClientWithSession() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  
+
   if (!supabaseUrl || !supabaseAnonKey) {
     throw new Error("Missing Supabase environment variables");
   }
 
   const session = await auth();
-  
+
   if (!session?.user?.id) {
     throw new Error("No authenticated session");
   }
 
   const client = createSupabaseClient(supabaseUrl, supabaseAnonKey);
-  
+
   // Set the session for RLS
   await client.auth.setSession({
-    access_token: (session as any).accessToken || '',
-    refresh_token: (session as any).refreshToken || ''
+    access_token: (session as any).accessToken || "",
+    refresh_token: (session as any).refreshToken || "",
   });
 
   return client;

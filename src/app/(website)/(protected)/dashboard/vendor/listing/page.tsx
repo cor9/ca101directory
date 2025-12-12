@@ -23,177 +23,190 @@ export default async function VendorListingPage() {
   return (
     <VendorDashboardLayout>
       <div className="space-y-6">
-          {/* Upgrade Banner for Free plan vendors */}
-          {userListings.some((l) => (l.comped ? false : ((l.plan || "free").toLowerCase() === "free"))) && (
-            <div className="rounded-lg border border-orange-300 bg-orange-50 p-4">
-              <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                <div>
-                  <h2 className="text-lg font-semibold text-ink">
-                    Upgrade to Pro — Limited Bonus Offer Ends Soon
-                  </h2>
-                  <div className="text-sm text-ink/80 mt-1 space-y-1">
-                    <p>Pro listings get priority placement, expanded visuals, direct links, and new premium features.</p>
-                    <p>For photographers: Featured spotlight in the 2025 Headshot Guide.</p>
-                    <p>For acting coaches: Add a promo video to your profile.</p>
-                    <p className="font-medium text-ink mt-2">This bonus window closes in 10 days.</p>
-                  </div>
+        {/* Upgrade Banner for Free plan vendors */}
+        {userListings.some((l) =>
+          l.comped ? false : (l.plan || "free").toLowerCase() === "free",
+        ) && (
+          <div className="rounded-lg border border-orange-300 bg-orange-50 p-4">
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+              <div>
+                <h2 className="text-lg font-semibold text-ink">
+                  Upgrade to Pro — Limited Bonus Offer Ends Soon
+                </h2>
+                <div className="text-sm text-ink/80 mt-1 space-y-1">
+                  <p>
+                    Pro listings get priority placement, expanded visuals,
+                    direct links, and new premium features.
+                  </p>
+                  <p>
+                    For photographers: Featured spotlight in the 2025 Headshot
+                    Guide.
+                  </p>
+                  <p>For acting coaches: Add a promo video to your profile.</p>
+                  <p className="font-medium text-ink mt-2">
+                    This bonus window closes in 10 days.
+                  </p>
                 </div>
-                <Button asChild className="mt-3 md:mt-0">
-                  <Link href="/pricing?from=vendor-dashboard-upgrade">Upgrade to Pro</Link>
+              </div>
+              <Button asChild className="mt-3 md:mt-0">
+                <Link href="/pricing?from=vendor-dashboard-upgrade">
+                  Upgrade to Pro
+                </Link>
+              </Button>
+            </div>
+          </div>
+        )}
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="bauhaus-heading text-3xl">My Listings</h1>
+            <p className="bauhaus-body text-foreground">
+              Manage your professional listings and content
+            </p>
+          </div>
+          <Button asChild className="bauhaus-btn-primary">
+            <Link href="/submit">
+              <Edit className="mr-2 h-4 w-4" />
+              CREATE NEW LISTING
+            </Link>
+          </Button>
+        </div>
+
+        {/* Listings Grid */}
+        {userListings.length === 0 ? (
+          <Card>
+            <CardContent className="flex flex-col items-center justify-center py-12">
+              <div className="text-center space-y-4">
+                <h3 className="bauhaus-heading text-xl">No listings yet</h3>
+                <p className="bauhaus-body text-foreground max-w-md">
+                  Create your first professional listing to start connecting
+                  with families
+                </p>
+                <Button asChild className="bauhaus-btn-primary">
+                  <Link href="/submit">CREATE YOUR FIRST LISTING</Link>
                 </Button>
               </div>
-            </div>
-          )}
-          {/* Header */}
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="bauhaus-heading text-3xl">My Listings</h1>
-              <p className="bauhaus-body text-foreground">
-                Manage your professional listings and content
-              </p>
-            </div>
-            <Button asChild className="bauhaus-btn-primary">
-              <Link href="/submit">
-                <Edit className="mr-2 h-4 w-4" />
-                CREATE NEW LISTING
-              </Link>
-            </Button>
-          </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="bauhaus-grid bauhaus-grid-2 gap-6">
+            {userListings.map((listing) => (
+              <Card key={listing.id} className="bauhaus-card">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <CardTitle className="bauhaus-heading text-xl mb-2">
+                        {listing.listing_name}
+                      </CardTitle>
+                      <div className="flex items-center gap-2 mb-3">
+                        <Badge
+                          variant={
+                            listing.status === "Live"
+                              ? "default"
+                              : listing.status === "Pending"
+                                ? "secondary"
+                                : "destructive"
+                          }
+                        >
+                          {listing.status}
+                        </Badge>
+                        {(() => {
+                          let badgeText = "Free";
+                          let badgeClassName =
+                            "border-gray-300 text-foreground";
 
-          {/* Listings Grid */}
-          {userListings.length === 0 ? (
-            <Card>
-              <CardContent className="flex flex-col items-center justify-center py-12">
-                <div className="text-center space-y-4">
-                  <h3 className="bauhaus-heading text-xl">No listings yet</h3>
-                  <p className="bauhaus-body text-foreground max-w-md">
-                    Create your first professional listing to start connecting
-                    with families
-                  </p>
-                  <Button asChild className="bauhaus-btn-primary">
-                    <Link href="/submit">CREATE YOUR FIRST LISTING</Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="bauhaus-grid bauhaus-grid-2 gap-6">
-              {userListings.map((listing) => (
-                <Card key={listing.id} className="bauhaus-card">
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <CardTitle className="bauhaus-heading text-xl mb-2">
-                          {listing.listing_name}
-                        </CardTitle>
-                        <div className="flex items-center gap-2 mb-3">
-                          <Badge
-                            variant={
-                              listing.status === "Live"
-                                ? "default"
-                                : listing.status === "Pending"
-                                  ? "secondary"
-                                  : "destructive"
-                            }
-                          >
-                            {listing.status}
-                          </Badge>
-                          {(() => {
-                            let badgeText = "Free";
-                            let badgeClassName =
-                              "border-gray-300 text-foreground";
+                          const planLower = (listing.plan || "").toLowerCase();
 
-                            const planLower = (listing.plan || "").toLowerCase();
+                          if (listing.comped) {
+                            badgeText = "Pro";
+                            badgeClassName =
+                              "border-blue-500 text-blue-600 bg-blue-50";
+                          } else if (
+                            planLower === "pro" ||
+                            planLower === "founding pro"
+                          ) {
+                            badgeText = listing.plan || "Pro";
+                            badgeClassName =
+                              "border-blue-500 text-blue-600 bg-blue-50";
+                          } else if (
+                            planLower === "standard" ||
+                            planLower === "founding standard"
+                          ) {
+                            badgeText = listing.plan || "Standard";
+                            badgeClassName =
+                              "border-gray-500 text-foreground bg-gray-50";
+                          }
 
-                            if (listing.comped) {
-                              badgeText = "Pro";
-                              badgeClassName =
-                                "border-blue-500 text-blue-600 bg-blue-50";
-                            } else if (planLower === "pro" || planLower === "founding pro") {
-                              badgeText = listing.plan || "Pro";
-                              badgeClassName =
-                                "border-blue-500 text-blue-600 bg-blue-50";
-                            } else if (planLower === "standard" || planLower === "founding standard") {
-                              badgeText = listing.plan || "Standard";
-                              badgeClassName =
-                                "border-gray-500 text-foreground bg-gray-50";
-                            }
-
-                            return (
-                              <Badge
-                                variant="outline"
-                                className={badgeClassName}
-                              >
-                                {badgeText}
-                              </Badge>
-                            );
-                          })()}
-                        </div>
+                          return (
+                            <Badge variant="outline" className={badgeClassName}>
+                              {badgeText}
+                            </Badge>
+                          );
+                        })()}
                       </div>
                     </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="bauhaus-body text-sm text-foreground line-clamp-2">
-                      {(listing.what_you_offer || "")
-                        .replace(/<[^>]*>/g, " ")
-                        .replace(/\s+/g, " ")
-                        .trim()}
-                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="bauhaus-body text-sm text-foreground line-clamp-2">
+                    {(listing.what_you_offer || "")
+                      .replace(/<[^>]*>/g, " ")
+                      .replace(/\s+/g, " ")
+                      .trim()}
+                  </div>
 
-                    <div className="flex items-center gap-2">
-                      <Button asChild variant="outline" size="sm">
-                        <Link href={`/listing/${listing.slug || listing.id}`}>
-                          <Eye className="mr-2 h-4 w-4" />
-                          VIEW
-                        </Link>
-                      </Button>
+                  <div className="flex items-center gap-2">
+                    <Button asChild variant="outline" size="sm">
+                      <Link href={`/listing/${listing.slug || listing.id}`}>
+                        <Eye className="mr-2 h-4 w-4" />
+                        VIEW
+                      </Link>
+                    </Button>
+                    <Button asChild variant="outline" size="sm">
+                      <Link href={`/submit?claim=true&listingId=${listing.id}`}>
+                        <Edit className="mr-2 h-4 w-4" />
+                        EDIT
+                      </Link>
+                    </Button>
+                    {listing.website && (
                       <Button asChild variant="outline" size="sm">
                         <Link
-                          href={`/submit?claim=true&listingId=${listing.id}`}
+                          href={listing.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
-                          <Edit className="mr-2 h-4 w-4" />
-                          EDIT
+                          <ExternalLink className="mr-2 h-4 w-4" />
+                          WEBSITE
                         </Link>
                       </Button>
-                      {listing.website && (
-                        <Button asChild variant="outline" size="sm">
-                          <Link
-                            href={listing.website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <ExternalLink className="mr-2 h-4 w-4" />
-                            WEBSITE
-                          </Link>
-                        </Button>
-                      )}
-                    </div>
+                    )}
+                  </div>
 
-                    {/* Quick Stats */}
-                    <div className="pt-3 border-t grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <span className="text-foreground">Created:</span>
-                        <div className="font-medium">
-                          {listing.created_at
-                            ? new Date(listing.created_at).toLocaleDateString()
-                            : "N/A"}
-                        </div>
-                      </div>
-                      <div>
-                        <span className="text-foreground">Updated:</span>
-                        <div className="font-medium">
-                          {listing.updated_at
-                            ? new Date(listing.updated_at).toLocaleDateString()
-                            : "N/A"}
-                        </div>
+                  {/* Quick Stats */}
+                  <div className="pt-3 border-t grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <span className="text-foreground">Created:</span>
+                      <div className="font-medium">
+                        {listing.created_at
+                          ? new Date(listing.created_at).toLocaleDateString()
+                          : "N/A"}
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-        </div>
-      </VendorDashboardLayout>
-    );
+                    <div>
+                      <span className="text-foreground">Updated:</span>
+                      <div className="font-medium">
+                        {listing.updated_at
+                          ? new Date(listing.updated_at).toLocaleDateString()
+                          : "N/A"}
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
+    </VendorDashboardLayout>
+  );
 }

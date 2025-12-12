@@ -4,7 +4,7 @@ import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
 import { signIn } from "next-auth/react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 type MagicLinkHandlerProps = {
@@ -170,7 +170,9 @@ export function MagicLinkHandler({
         status="error"
         headline="Magic link expired"
         description="Magic links expire after 1 hour for security. Request a new one to log in."
-        action={() => router.push(`/auth/login?email=${encodeURIComponent(email)}`)}
+        action={() =>
+          router.push(`/auth/login?email=${encodeURIComponent(email)}`)
+        }
       />
     );
   }
@@ -188,7 +190,9 @@ export function MagicLinkHandler({
   return (
     <StatusMessage
       status="loading"
-      headline={intent === "register" ? "Setting up your account" : "Signing you in"}
+      headline={
+        intent === "register" ? "Setting up your account" : "Signing you in"
+      }
       description={message}
     />
   );

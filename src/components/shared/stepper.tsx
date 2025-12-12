@@ -30,9 +30,7 @@ const StepperTrigger = React.forwardRef<
     ref={ref}
     className={cn(
       "flex flex-col items-center gap-4 py-4 px-4 rounded-md transition-colors",
-      active
-        ? "text-paper"
-        : "text-paper hover:text-paper",
+      active ? "text-paper" : "text-paper hover:text-paper",
       className,
     )}
     {...props}

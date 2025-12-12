@@ -41,9 +41,7 @@ export default function PublishPage({
             : "Your listing is being processed and will be published shortly."}
         </p>
         {listingId && (
-          <p className="text-sm text-paper">
-            Listing ID: {listingId}
-          </p>
+          <p className="text-sm text-paper">Listing ID: {listingId}</p>
         )}
       </div>
 

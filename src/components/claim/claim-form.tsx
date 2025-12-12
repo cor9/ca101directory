@@ -107,10 +107,8 @@ export function ClaimForm({
           <p className="font-semibold">What happens after you submit</p>
           <p className="mt-1">
             After you submit, we&apos;ll send you to{" "}
-            <strong>Dashboard → My Listings</strong>{" "}
-            where you can hit{" "}
-            <em>Edit</em>{" "}
-            on "{listingName}" and start updating details.
+            <strong>Dashboard → My Listings</strong> where you can hit{" "}
+            <em>Edit</em> on "{listingName}" and start updating details.
           </p>
         </div>
         <Form {...form}>

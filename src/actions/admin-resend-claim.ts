@@ -1,8 +1,8 @@
 "use server";
 
 import { auth } from "@/auth";
-import { createServerClient } from "@/lib/supabase";
 import { sendListingLiveEmail } from "@/lib/mail";
+import { createServerClient } from "@/lib/supabase";
 import { createClaimToken, createOptOutToken } from "@/lib/tokens";
 
 export async function adminResendClaimEmail(listingId: string) {
@@ -28,8 +28,12 @@ export async function adminResendClaimEmail(listingId: string) {
   }
 
   const token = createClaimToken(data.id);
-  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
-  const slug = (data.listing_name || "").toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+  const siteUrl =
+    process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
+  const slug = (data.listing_name || "")
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "");
   const claimUrl = `${siteUrl}/claim/${encodeURIComponent(token)}?lid=${encodeURIComponent(data.id)}`;
   const upgradeUrl = `${siteUrl}/claim-upgrade/${encodeURIComponent(slug)}?lid=${encodeURIComponent(data.id)}&utm_source=email&utm_medium=listing_live`;
   const manageUrl = `${siteUrl}/dashboard/vendor?lid=${encodeURIComponent(data.id)}`;
@@ -49,4 +53,3 @@ export async function adminResendClaimEmail(listingId: string) {
 
   return { success: true, message: "Claim email resent" };
 }
-

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { useSearchParams } from "next/navigation";
 import type { ItemInfo } from "@/types";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useState } from "react";
 import ListingCardClient from "./ListingCardClient";
 
 interface DirectoryClientProps {
@@ -93,4 +93,3 @@ export default function DirectoryClient({
     </div>
   );
 }
-

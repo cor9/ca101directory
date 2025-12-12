@@ -205,10 +205,7 @@ const markdownComponents = {
   ),
   blockquote: ({ className, ...props }) => (
     <blockquote
-      className={cn(
-        "mt-6 border-l-2 pl-6 italic [&>*]:text-paper",
-        className,
-      )}
+      className={cn("mt-6 border-l-2 pl-6 italic [&>*]:text-paper", className)}
       {...props}
     />
   ),

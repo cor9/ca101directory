@@ -1,35 +1,35 @@
-import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
-import { currentUser } from "@/lib/auth";
-import { verifyDashboardAccess } from "@/lib/dashboard-safety";
-import { redirect } from "next/navigation";
-import { siteConfig } from "@/config/site";
-import { constructMetadata } from "@/lib/metadata";
-import {
-  getAnalyticsSummary,
-  getListingsGrowth,
-  getUsersGrowth,
-  getReviewsGrowth,
-  getListingsByPlan,
-  getListingsByStatus,
-  getReviewRatingDistribution,
-  getUsersByRole,
-  getTopCategories,
-} from "@/data/analytics";
-import {
-  GrowthLineChart,
-  DistributionBarChart,
-  DistributionPieChart,
-  StatCard,
-} from "@/components/analytics/analytics-charts";
 import { HotLeadsTable } from "@/components/admin/hot-leads-table";
 import {
-  TrendingUp,
-  Users,
+  DistributionBarChart,
+  DistributionPieChart,
+  GrowthLineChart,
+  StatCard,
+} from "@/components/analytics/analytics-charts";
+import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
+import { siteConfig } from "@/config/site";
+import {
+  getAnalyticsSummary,
+  getListingsByPlan,
+  getListingsByStatus,
+  getListingsGrowth,
+  getReviewRatingDistribution,
+  getReviewsGrowth,
+  getTopCategories,
+  getUsersByRole,
+  getUsersGrowth,
+} from "@/data/analytics";
+import { currentUser } from "@/lib/auth";
+import { verifyDashboardAccess } from "@/lib/dashboard-safety";
+import { constructMetadata } from "@/lib/metadata";
+import {
+  DollarSign,
   FileText,
   Star,
   Target,
-  DollarSign,
+  TrendingUp,
+  Users,
 } from "lucide-react";
+import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
   title: "Admin • Analytics",

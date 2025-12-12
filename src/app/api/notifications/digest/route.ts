@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
 // Force this route to be dynamic (not statically optimized)
@@ -80,7 +80,10 @@ export async function GET() {
     });
   } catch (e) {
     console.error("Error sending digest email:", e);
-    return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to send email" },
+      { status: 500 },
+    );
   }
 
   // 4) mark notifications as emailed
@@ -99,5 +102,3 @@ export async function GET() {
     message: `Sent digest for ${notifications.length} notifications.`,
   });
 }
-
-

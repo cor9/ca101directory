@@ -1,8 +1,8 @@
 "use server";
 
 import { auth } from "@/auth";
-import { createServerClient } from "@/lib/supabase";
 import { sendListingLiveEmail } from "@/lib/mail";
+import { createServerClient } from "@/lib/supabase";
 import { createClaimToken, createOptOutToken } from "@/lib/tokens";
 
 export async function bulkResendClaimEmailsToHeadshotPhotographers() {
@@ -24,11 +24,17 @@ export async function bulkResendClaimEmailsToHeadshotPhotographers() {
     .order("listing_name");
 
   if (error) {
-    return { success: false, message: `Error fetching listings: ${error.message}` };
+    return {
+      success: false,
+      message: `Error fetching listings: ${error.message}`,
+    };
   }
 
   if (!listings || listings.length === 0) {
-    return { success: false, message: "No Headshot Photographers listings found" };
+    return {
+      success: false,
+      message: "No Headshot Photographers listings found",
+    };
   }
 
   const results = {
@@ -38,7 +44,8 @@ export async function bulkResendClaimEmailsToHeadshotPhotographers() {
     errors: [] as string[],
   };
 
-  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
+  const siteUrl =
+    process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com";
 
   for (const listing of listings) {
     const email = (listing.email || "").trim();
@@ -50,10 +57,12 @@ export async function bulkResendClaimEmailsToHeadshotPhotographers() {
     }
 
     try {
-      const slug = listing.slug || (listing.listing_name || "")
-        .toLowerCase()
-        .replace(/\s+/g, "-")
-        .replace(/[^a-z0-9-]/g, "");
+      const slug =
+        listing.slug ||
+        (listing.listing_name || "")
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, "");
 
       const claimUrl = `${siteUrl}/claim/${encodeURIComponent(createClaimToken(listing.id))}?lid=${encodeURIComponent(listing.id)}`;
       const upgradeUrl = `${siteUrl}/claim-upgrade/${encodeURIComponent(slug)}?lid=${encodeURIComponent(listing.id)}&utm_source=email&utm_medium=listing_live`;
@@ -91,4 +100,3 @@ export async function bulkResendClaimEmailsToHeadshotPhotographers() {
     },
   };
 }
-

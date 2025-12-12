@@ -1,16 +1,8 @@
 {
   "version": 1,
   "context": {
-    "include": [
-      "rules/*.md",
-      "for cursor/context/*.md"
-    ],
-    "exclude": [
-      "**/tmp*/**",
-      "**/*.csv",
-      "**/*_BACKUP.md",
-      "**/*_ARCHIVE.md"
-    ]
+    "include": ["rules/*.md", "for cursor/context/*.md"],
+    "exclude": ["**/tmp*/**", "**/*.csv", "**/*_BACKUP.md", "**/*_ARCHIVE.md"]
   },
   "rules": {
     "enforceCSS": true,

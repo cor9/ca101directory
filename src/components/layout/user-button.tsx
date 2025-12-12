@@ -73,9 +73,7 @@ export function UserButton() {
                   {user.name || user.email || "User"}
                 </p>
                 {user?.email && (
-                  <p className="w-[200px] truncate text-paper">
-                    {user.email}
-                  </p>
+                  <p className="w-[200px] truncate text-paper">{user.email}</p>
                 )}
               </div>
             </div>
@@ -99,10 +97,7 @@ export function UserButton() {
                   </li>
                 );
               })}
-              <li
-                key="logout"
-                className="rounded-lg text-paper hover:bg-muted"
-              >
+              <li key="logout" className="rounded-lg text-paper hover:bg-muted">
                 <Link
                   href="#"
                   onClick={(event) => {

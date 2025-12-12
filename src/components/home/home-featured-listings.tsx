@@ -93,7 +93,10 @@ export default async function HomeFeaturedListings() {
       getCategories(),
     ]);
     // Debug: log count of public listings and featured subset
-    console.log("[HomeFeatured] featured fetch count:", supabaseListings.length);
+    console.log(
+      "[HomeFeatured] featured fetch count:",
+      supabaseListings.length,
+    );
 
     // Create a map of category IDs to names for UUID resolution
     const categoryMap = new Map<string, string>();

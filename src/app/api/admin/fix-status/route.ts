@@ -21,10 +21,13 @@ export async function GET() {
 
     if (fetchError) {
       console.error("Error fetching listings:", fetchError);
-      return NextResponse.json({
-        success: false,
-        error: fetchError.message
-      }, { status: 500 });
+      return NextResponse.json(
+        {
+          success: false,
+          error: fetchError.message,
+        },
+        { status: 500 },
+      );
     }
 
     console.log(`Found ${listings?.length || 0} listings with "Active" status`);
@@ -65,13 +68,14 @@ export async function GET() {
       message: `Successfully updated ${updates.length} listings from Active to Live`,
       updates,
     });
-
   } catch (error) {
     console.error("Fix error:", error);
-    return NextResponse.json({
-      success: false,
-      error: error instanceof Error ? error.message : "Unknown error"
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
+    );
   }
 }
-

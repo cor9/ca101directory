@@ -1,13 +1,13 @@
 import {
-  Html,
-  Head,
-  Preview,
   Body,
-  Container,
-  Text,
   Button,
+  Container,
+  Head,
+  Html,
   Link,
+  Preview,
   Section,
+  Text,
 } from "@react-email/components";
 
 type Props = {

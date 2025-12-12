@@ -1,7 +1,11 @@
 "use server";
 
 import { auth } from "@/auth";
-import { getListingById, LISTINGS_CACHE_TAG, listingCacheTag } from "@/data/listings";
+import {
+  LISTINGS_CACHE_TAG,
+  getListingById,
+  listingCacheTag,
+} from "@/data/listings";
 import { sendAdminClaimNotification } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
 import { revalidatePath, revalidateTag } from "next/cache";
@@ -171,7 +175,10 @@ export async function claimListing(listingId: string, message?: string) {
         slugToRevalidate = canonical.slug;
       }
     } catch (slugError) {
-      console.error("Failed to resolve listing slug during claim revalidation:", slugError);
+      console.error(
+        "Failed to resolve listing slug during claim revalidation:",
+        slugError,
+      );
     }
 
     if (slugToRevalidate) {

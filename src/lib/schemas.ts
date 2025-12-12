@@ -28,7 +28,7 @@ const urlWithProtocol = z
     z.union([
       z.string().url({ message: "Please enter a valid website URL" }),
       z.literal(""),
-    ])
+    ]),
   );
 
 // Helper for optional social media URLs - auto-fix or accept empty
@@ -71,8 +71,12 @@ export const baseSubmitSchema = {
   state: z.string().min(1, { message: "State is required" }), // Required for all listings
   zip: z.string().optional(),
   region: z.union([
-    z.array(z.string()).min(1, { message: "Please select at least one region" }),
-    z.string().transform((val) => [val]), // Convert single string to array
+    z
+      .array(z.string())
+      .min(1, { message: "Please select at least one region" }),
+    z
+      .string()
+      .transform((val) => [val]), // Convert single string to array
   ]),
   bondNumber: z.string().optional(),
   plan: z.enum(
@@ -132,10 +136,22 @@ export const VendorSuggestionSchema = z.object({
     .or(z.literal("")),
   category: z.string().min(1, { message: "Category is required" }),
   // City/state optional to allow online-only or unknown submissions
-  city: z.string().max(50, { message: "City must be 50 or fewer characters long" }).optional().or(z.literal("")),
-  state: z.string().max(2, { message: "Use 2-letter state code" }).optional().or(z.literal("")),
+  city: z
+    .string()
+    .max(50, { message: "City must be 50 or fewer characters long" })
+    .optional()
+    .or(z.literal("")),
+  state: z
+    .string()
+    .max(2, { message: "Use 2-letter state code" })
+    .optional()
+    .or(z.literal("")),
   // Removed 'region'; replacing with vendor contact channels
-  vendorEmail: z.string().email({ message: "Enter a valid email" }).optional().or(z.literal("")),
+  vendorEmail: z
+    .string()
+    .email({ message: "Enter a valid email" })
+    .optional()
+    .or(z.literal("")),
   vendorPhone: z.string().optional().or(z.literal("")),
   notes: z
     .string()
@@ -204,7 +220,6 @@ export const UserNameSchema = z.object({
 });
 
 export type UserNameData = z.infer<typeof UserNameSchema>;
-
 
 /**
  * auth related schemas

@@ -1,7 +1,7 @@
 "use server";
 
-import { createServerClient } from "@/lib/supabase";
 import { currentUser } from "@/lib/auth";
+import { createServerClient } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 
 export type ServerActionResponse = {

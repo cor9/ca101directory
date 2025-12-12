@@ -44,7 +44,12 @@ export function ProfileImage({ listing, fallbackIconUrl }: ProfileImageProps) {
     }
 
     return null;
-  }, [listing.profile_image, listing.is_claimed, listing.plan, fallbackIconUrl]);
+  }, [
+    listing.profile_image,
+    listing.is_claimed,
+    listing.plan,
+    fallbackIconUrl,
+  ]);
 
   return (
     <>
@@ -54,10 +59,7 @@ export function ProfileImage({ listing, fallbackIconUrl }: ProfileImageProps) {
           type="button"
           className="flex-shrink-0 cursor-pointer transition-opacity hover:opacity-90"
           onClick={() =>
-            openModal(
-              imageSource,
-              `Logo of ${listing.listing_name}`,
-            )
+            openModal(imageSource, `Logo of ${listing.listing_name}`)
           }
         >
           <Image

@@ -70,10 +70,7 @@ export default function ImageUpload({
   };
 
   // Helper: resize while preserving aspect ratio (no cropping)
-  async function resizeToMax(
-    file: File,
-    maxDim: number,
-  ): Promise<File> {
+  async function resizeToMax(file: File, maxDim: number): Promise<File> {
     const img = await fileToImage(file);
     const sourceW = img.naturalWidth || img.width;
     const sourceH = img.naturalHeight || img.height;

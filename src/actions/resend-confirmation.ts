@@ -17,7 +17,7 @@ export async function resendConfirmationEmail(email: string) {
 
     if (error) {
       console.error("Resend confirmation error:", error);
-      
+
       if (error.message.includes("rate limit")) {
         return {
           success: false,

@@ -45,7 +45,10 @@ export function Gallery({ listing }: GalleryProps) {
                 if (!rawUrl || typeof rawUrl !== "string") return null;
                 return {
                   url: getListingImageUrl(rawUrl),
-                  caption: typeof entry.caption === "string" ? entry.caption : undefined,
+                  caption:
+                    typeof entry.caption === "string"
+                      ? entry.caption
+                      : undefined,
                 } as GalleryItem;
               }
               // Support legacy string entries
@@ -74,7 +77,10 @@ export function Gallery({ listing }: GalleryProps) {
             if (!rawUrl || typeof rawUrl !== "string") return null;
             return {
               url: getListingImageUrl(rawUrl),
-              caption: typeof (entry as any).caption === "string" ? (entry as any).caption : undefined,
+              caption:
+                typeof (entry as any).caption === "string"
+                  ? (entry as any).caption
+                  : undefined,
             } as GalleryItem;
           }
           return null;

@@ -1,5 +1,6 @@
 "use client";
 
+import type { updateListing } from "@/actions/listings";
 import { AdminEditForm } from "@/components/admin/admin-edit-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +19,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { Listing } from "@/data/listings";
-import type { updateListing } from "@/actions/listings";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -412,4 +412,3 @@ export const AdminDashboardClientNew = ({
     </>
   );
 };
-

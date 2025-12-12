@@ -29,8 +29,11 @@ export default function ListingSubmittedEmail({
 }: ListingSubmittedEmailProps) {
   const isPaidPlan = plan !== "Free" && plan !== "free";
   const action = isEdit ? "updated" : "submitted";
-  const reviewTime = isPaidPlan && !isEdit ? "Your listing is now live!" : "Listings are typically reviewed within 24-48 hours.";
-  
+  const reviewTime =
+    isPaidPlan && !isEdit
+      ? "Your listing is now live!"
+      : "Listings are typically reviewed within 24-48 hours.";
+
   return (
     <Html>
       <Head />
@@ -46,7 +49,7 @@ export default function ListingSubmittedEmail({
             alt="Child Actor 101 Directory"
             style={logo}
           />
-          
+
           <Heading style={h1}>
             ✅ Listing {isEdit ? "Updated" : "Submitted"} Successfully!
           </Heading>
@@ -54,10 +57,9 @@ export default function ListingSubmittedEmail({
           <Text style={text}>Hi {vendorName},</Text>
 
           <Text style={text}>
-            {isEdit 
+            {isEdit
               ? `Your updates to "${listingName}" have been successfully submitted.`
-              : `Thank you for submitting "${listingName}" to Child Actor 101 Directory!`
-            }
+              : `Thank you for submitting "${listingName}" to Child Actor 101 Directory!`}
           </Text>
 
           <Section style={infoBox}>
@@ -66,7 +68,8 @@ export default function ListingSubmittedEmail({
             </Text>
             {!isPaidPlan && (
               <Text style={infoText}>
-                💡 Want more features? Upgrade to Standard or Pro for enhanced visibility, gallery images, and priority placement.
+                💡 Want more features? Upgrade to Standard or Pro for enhanced
+                visibility, gallery images, and priority placement.
               </Text>
             )}
           </Section>
@@ -87,25 +90,25 @@ export default function ListingSubmittedEmail({
           ) : isEdit ? (
             <>
               <Text style={text}>
-                📝 Your listing remains visible with the current information while our team reviews your changes.
+                📝 Your listing remains visible with the current information
+                while our team reviews your changes.
               </Text>
+              <Text style={text}>{reviewTime}</Text>
               <Text style={text}>
-                {reviewTime}
-              </Text>
-              <Text style={text}>
-                Once approved, your changes will go live and you'll receive another confirmation email.
+                Once approved, your changes will go live and you'll receive
+                another confirmation email.
               </Text>
             </>
           ) : (
             <>
               <Text style={text}>
-                📝 Our team will review your listing to ensure quality and accuracy.
+                📝 Our team will review your listing to ensure quality and
+                accuracy.
               </Text>
+              <Text style={text}>{reviewTime}</Text>
               <Text style={text}>
-                {reviewTime}
-              </Text>
-              <Text style={text}>
-                Once approved, your listing will go live and you'll receive a confirmation email with your live link!
+                Once approved, your listing will go live and you'll receive a
+                confirmation email with your live link!
               </Text>
             </>
           )}
@@ -213,4 +216,3 @@ const footer = {
   margin: "24px",
   textAlign: "center" as const,
 };
-

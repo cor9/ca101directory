@@ -9,10 +9,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { statesList, stateNames } from "@/data/regions";
-import { SearchIcon, MapPinIcon, LocateIcon } from "lucide-react";
+import { stateNames, statesList } from "@/data/regions";
+import { LocateIcon, MapPinIcon, SearchIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 
 interface DirectoryHeroSearchProps {
   categories: Array<{ id: string; category_name: string }>;
@@ -56,7 +56,7 @@ export default function DirectoryHeroSearch({
           // Reverse geocode using free Nominatim API
           const { latitude, longitude } = position.coords;
           const res = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
           );
           const data = await res.json();
           const address = data?.address || {};
@@ -67,8 +67,7 @@ export default function DirectoryHeroSearch({
           // Map state name to abbreviation
           const stateAbbr =
             Object.entries(stateNames).find(
-              ([, name]) =>
-                name.toLowerCase() === detectedState.toLowerCase()
+              ([, name]) => name.toLowerCase() === detectedState.toLowerCase(),
             )?.[0] || "";
           if (detectedCity) setCity(detectedCity);
           if (stateAbbr) setState(stateAbbr);
@@ -83,7 +82,7 @@ export default function DirectoryHeroSearch({
         setLocating(false);
         alert("Unable to retrieve your location.");
       },
-      { enableHighAccuracy: false, timeout: 10000 }
+      { enableHighAccuracy: false, timeout: 10000 },
     );
   }, []);
 
@@ -240,4 +239,3 @@ export default function DirectoryHeroSearch({
     </div>
   );
 }
-

@@ -1,12 +1,12 @@
-import Image from "next/image";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { ProfileImage } from "@/components/listing/listing-images";
 import { Button } from "@/components/ui/button";
 import { StarRating } from "@/components/ui/star-rating";
 import type { Listing } from "@/data/listings";
-import type { DisplayCategory } from "./types";
-import { GlobeIcon, EditIcon } from "lucide-react";
+import { EditIcon, GlobeIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import type { DisplayCategory } from "./types";
 
 interface ListingHeroProps {
   listing: Listing;
@@ -80,7 +80,8 @@ export function ListingHero({
 
               {listing.updated_at && (
                 <p className="text-xs">
-                  Last updated: {new Date(listing.updated_at).toLocaleDateString("en-US", {
+                  Last updated:{" "}
+                  {new Date(listing.updated_at).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
@@ -135,7 +136,12 @@ export function ListingHero({
               </h2>
               <div className="flex flex-wrap gap-2">
                 {categories.map(({ key, displayName, iconUrl }, index) => {
-                  const colors = ["orange", "blue", "mustard", "green"] as const;
+                  const colors = [
+                    "orange",
+                    "blue",
+                    "mustard",
+                    "green",
+                  ] as const;
                   const colorClass = colors[index % colors.length];
 
                   return (

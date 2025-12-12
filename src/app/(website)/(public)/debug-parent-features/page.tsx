@@ -1,9 +1,9 @@
-import { createServerClient } from "@/lib/supabase";
 import {
   isFavoritesEnabled,
+  isParentDashboardEnabled,
   isReviewsEnabled,
-  isParentDashboardEnabled
 } from "@/config/feature-flags";
+import { createServerClient } from "@/lib/supabase";
 
 export default async function DebugParentFeatures() {
   const supabase = createServerClient();
@@ -22,10 +22,7 @@ export default async function DebugParentFeatures() {
   let reviewsError = null;
 
   try {
-    const { error } = await supabase
-      .from("favorites")
-      .select("id")
-      .limit(1);
+    const { error } = await supabase.from("favorites").select("id").limit(1);
 
     favoritesTableExists = !error || error.code !== "PGRST204";
     if (error) favoritesError = error.message;
@@ -34,10 +31,7 @@ export default async function DebugParentFeatures() {
   }
 
   try {
-    const { error } = await supabase
-      .from("reviews")
-      .select("id")
-      .limit(1);
+    const { error } = await supabase.from("reviews").select("id").limit(1);
 
     reviewsTableExists = !error || error.code !== "PGRST204";
     if (error) reviewsError = error.message;
@@ -52,24 +46,32 @@ export default async function DebugParentFeatures() {
 
         {/* Feature Flags */}
         <div className="bg-surface p-6 rounded-lg border">
-          <h2 className="text-xl font-semibold text-paper mb-4">Feature Flags</h2>
+          <h2 className="text-xl font-semibold text-paper mb-4">
+            Feature Flags
+          </h2>
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <span className="text-paper">Parent Dashboard Enabled:</span>
-              <span className={`font-bold ${flags.parentDashboard ? 'text-green-500' : 'text-red-500'}`}>
-                {flags.parentDashboard ? '✅ YES' : '❌ NO'}
+              <span
+                className={`font-bold ${flags.parentDashboard ? "text-green-500" : "text-red-500"}`}
+              >
+                {flags.parentDashboard ? "✅ YES" : "❌ NO"}
               </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-paper">Favorites Enabled:</span>
-              <span className={`font-bold ${flags.favorites ? 'text-green-500' : 'text-red-500'}`}>
-                {flags.favorites ? '✅ YES' : '❌ NO'}
+              <span
+                className={`font-bold ${flags.favorites ? "text-green-500" : "text-red-500"}`}
+              >
+                {flags.favorites ? "✅ YES" : "❌ NO"}
               </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-paper">Reviews Enabled:</span>
-              <span className={`font-bold ${flags.reviews ? 'text-green-500' : 'text-red-500'}`}>
-                {flags.reviews ? '✅ YES' : '❌ NO'}
+              <span
+                className={`font-bold ${flags.reviews ? "text-green-500" : "text-red-500"}`}
+              >
+                {flags.reviews ? "✅ YES" : "❌ NO"}
               </span>
             </div>
           </div>
@@ -77,13 +79,17 @@ export default async function DebugParentFeatures() {
 
         {/* Database Tables */}
         <div className="bg-surface p-6 rounded-lg border">
-          <h2 className="text-xl font-semibold text-paper mb-4">Database Tables</h2>
+          <h2 className="text-xl font-semibold text-paper mb-4">
+            Database Tables
+          </h2>
           <div className="space-y-4">
             <div>
               <div className="flex justify-between items-center mb-2">
                 <span className="text-paper font-medium">Favorites Table:</span>
-                <span className={`font-bold ${favoritesTableExists ? 'text-green-500' : 'text-red-500'}`}>
-                  {favoritesTableExists ? '✅ EXISTS' : '❌ MISSING'}
+                <span
+                  className={`font-bold ${favoritesTableExists ? "text-green-500" : "text-red-500"}`}
+                >
+                  {favoritesTableExists ? "✅ EXISTS" : "❌ MISSING"}
                 </span>
               </div>
               {favoritesError && (
@@ -96,8 +102,10 @@ export default async function DebugParentFeatures() {
             <div>
               <div className="flex justify-between items-center mb-2">
                 <span className="text-paper font-medium">Reviews Table:</span>
-                <span className={`font-bold ${reviewsTableExists ? 'text-green-500' : 'text-red-500'}`}>
-                  {reviewsTableExists ? '✅ EXISTS' : '❌ MISSING'}
+                <span
+                  className={`font-bold ${reviewsTableExists ? "text-green-500" : "text-red-500"}`}
+                >
+                  {reviewsTableExists ? "✅ EXISTS" : "❌ MISSING"}
                 </span>
               </div>
               {reviewsError && (
@@ -111,19 +119,29 @@ export default async function DebugParentFeatures() {
 
         {/* Environment Variables */}
         <div className="bg-surface p-6 rounded-lg border">
-          <h2 className="text-xl font-semibold text-paper mb-4">Environment Variables</h2>
+          <h2 className="text-xl font-semibold text-paper mb-4">
+            Environment Variables
+          </h2>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between items-center">
               <span className="text-paper">NEXT_PUBLIC_DIRECTORY_LITE:</span>
-              <code className="text-highlight">{process.env.NEXT_PUBLIC_DIRECTORY_LITE || 'not set'}</code>
+              <code className="text-highlight">
+                {process.env.NEXT_PUBLIC_DIRECTORY_LITE || "not set"}
+              </code>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-paper">NEXT_PUBLIC_ENABLE_FAVORITES:</span>
-              <code className="text-highlight">{process.env.NEXT_PUBLIC_ENABLE_FAVORITES || 'not set (defaults to true)'}</code>
+              <code className="text-highlight">
+                {process.env.NEXT_PUBLIC_ENABLE_FAVORITES ||
+                  "not set (defaults to true)"}
+              </code>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-paper">NEXT_PUBLIC_ENABLE_REVIEWS:</span>
-              <code className="text-highlight">{process.env.NEXT_PUBLIC_ENABLE_REVIEWS || 'not set (defaults to true)'}</code>
+              <code className="text-highlight">
+                {process.env.NEXT_PUBLIC_ENABLE_REVIEWS ||
+                  "not set (defaults to true)"}
+              </code>
             </div>
           </div>
         </div>
@@ -137,7 +155,9 @@ export default async function DebugParentFeatures() {
                 <span className="text-red-500">❌</span>
                 <div>
                   <p className="font-medium">Favorites table is missing</p>
-                  <p className="text-sm opacity-80">Run the database migration to create the favorites table</p>
+                  <p className="text-sm opacity-80">
+                    Run the database migration to create the favorites table
+                  </p>
                 </div>
               </div>
             )}
@@ -146,30 +166,42 @@ export default async function DebugParentFeatures() {
                 <span className="text-red-500">❌</span>
                 <div>
                   <p className="font-medium">Reviews table is missing</p>
-                  <p className="text-sm opacity-80">Run the database migration to create the reviews table</p>
+                  <p className="text-sm opacity-80">
+                    Run the database migration to create the reviews table
+                  </p>
                 </div>
               </div>
             )}
-            {favoritesTableExists && reviewsTableExists && flags.favorites && flags.reviews && (
-              <div className="flex items-start gap-2">
-                <span className="text-green-500">✅</span>
-                <div>
-                  <p className="font-medium">All systems operational!</p>
-                  <p className="text-sm opacity-80">Parent features should be fully functional</p>
+            {favoritesTableExists &&
+              reviewsTableExists &&
+              flags.favorites &&
+              flags.reviews && (
+                <div className="flex items-start gap-2">
+                  <span className="text-green-500">✅</span>
+                  <div>
+                    <p className="font-medium">All systems operational!</p>
+                    <p className="text-sm opacity-80">
+                      Parent features should be fully functional
+                    </p>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </div>
 
         {/* Next Steps */}
         {(!favoritesTableExists || !reviewsTableExists) && (
           <div className="bg-surface p-6 rounded-lg border">
-            <h2 className="text-xl font-semibold text-paper mb-4">Next Steps</h2>
+            <h2 className="text-xl font-semibold text-paper mb-4">
+              Next Steps
+            </h2>
             <div className="space-y-3 text-paper">
-              <p>To fix the missing tables, run this SQL in your Supabase SQL Editor:</p>
+              <p>
+                To fix the missing tables, run this SQL in your Supabase SQL
+                Editor:
+              </p>
               <pre className="bg-background p-4 rounded overflow-x-auto text-sm">
-{`-- Create favorites table
+                {`-- Create favorites table
 CREATE TABLE IF NOT EXISTS favorites (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
@@ -225,4 +257,3 @@ CREATE INDEX IF NOT EXISTS idx_reviews_status ON reviews(status);`}
     </div>
   );
 }
-

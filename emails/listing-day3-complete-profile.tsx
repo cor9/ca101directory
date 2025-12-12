@@ -1,13 +1,13 @@
 import {
-  Html,
-  Head,
-  Preview,
   Body,
-  Container,
-  Text,
   Button,
+  Container,
+  Head,
+  Html,
   Link,
+  Preview,
   Section,
+  Text,
 } from "@react-email/components";
 
 type Props = {
@@ -28,7 +28,9 @@ export default function ListingDay3CompleteProfileEmail({
   return (
     <Html>
       <Head />
-      <Preview>Complete your profile to appear higher in search results</Preview>
+      <Preview>
+        Complete your profile to appear higher in search results
+      </Preview>
       <Body
         style={{
           backgroundColor: "#FFFDD0",

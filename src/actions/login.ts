@@ -46,7 +46,10 @@ export async function login(
         });
 
       if (authLookupError) {
-        console.error("Login Action - Admin user lookup error", authLookupError);
+        console.error(
+          "Login Action - Admin user lookup error",
+          authLookupError,
+        );
       }
 
       const adminUsers = (authUsers?.users ?? []) as User[];
@@ -79,9 +82,10 @@ export async function login(
       callbackUrl || roleBasedRedirect || DEFAULT_LOGIN_REDIRECT;
 
     // CRITICAL: Always use fallback if env var is missing
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ||
-                    process.env.NEXT_PUBLIC_APP_URL ||
-                    'https://directory.childactor101.com';
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      process.env.NEXT_PUBLIC_APP_URL ||
+      "https://directory.childactor101.com";
 
     const magicLinkUrl = new URL(`${siteUrl}/auth/magic-link`);
     magicLinkUrl.searchParams.set("email", email);

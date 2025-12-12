@@ -22,7 +22,7 @@ export function useFormAutosave({
 
   useEffect(() => {
     // Only run on client side
-    if (typeof window === 'undefined' || !enabled) return;
+    if (typeof window === "undefined" || !enabled) return;
 
     // Clear existing timeout
     if (timeoutRef.current) {
@@ -32,7 +32,7 @@ export function useFormAutosave({
     // Debounce the save
     timeoutRef.current = setTimeout(() => {
       const dataString = JSON.stringify(formData);
-      
+
       // Only save if data has changed
       if (dataString !== lastSavedRef.current) {
         try {
@@ -57,8 +57,8 @@ export function useFormAutosave({
    */
   const loadSavedData = (): Record<string, any> | null => {
     // Only run on client side
-    if (typeof window === 'undefined') return null;
-    
+    if (typeof window === "undefined") return null;
+
     try {
       const saved = localStorage.getItem(storageKey);
       if (saved) {
@@ -75,8 +75,8 @@ export function useFormAutosave({
    */
   const clearSavedData = () => {
     // Only run on client side
-    if (typeof window === 'undefined') return;
-    
+    if (typeof window === "undefined") return;
+
     try {
       localStorage.removeItem(storageKey);
       lastSavedRef.current = "";
@@ -88,4 +88,3 @@ export function useFormAutosave({
 
   return { loadSavedData, clearSavedData };
 }
-

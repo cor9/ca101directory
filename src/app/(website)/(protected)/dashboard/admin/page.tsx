@@ -46,7 +46,10 @@ export default async function AdminDashboard() {
     .order("created_at", { ascending: false });
 
   if (profilesError) {
-    console.error("Failed to load profiles for admin dashboard:", profilesError);
+    console.error(
+      "Failed to load profiles for admin dashboard:",
+      profilesError,
+    );
   }
 
   const { count: totalReviewsCount, error: reviewsCountError } = await supabase
@@ -54,13 +57,17 @@ export default async function AdminDashboard() {
     .select("id", { count: "exact", head: true });
 
   if (reviewsCountError) {
-    console.error("Failed to load review count for admin dashboard:", reviewsCountError);
+    console.error(
+      "Failed to load review count for admin dashboard:",
+      reviewsCountError,
+    );
   }
 
-  const { count: pendingReviewsCount, error: pendingReviewsError } = await supabase
-    .from("reviews")
-    .select("id", { count: "exact", head: true })
-    .eq("status", "pending");
+  const { count: pendingReviewsCount, error: pendingReviewsError } =
+    await supabase
+      .from("reviews")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "pending");
 
   if (pendingReviewsError) {
     console.error(

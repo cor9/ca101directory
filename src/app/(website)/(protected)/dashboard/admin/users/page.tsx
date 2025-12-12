@@ -1,12 +1,12 @@
-import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
+import type { UserRole } from "@/actions/admin-users";
 import { UserRoleSelector } from "@/components/admin/user-role-selector";
+import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
+import { siteConfig } from "@/config/site";
 import { currentUser } from "@/lib/auth";
 import { verifyDashboardAccess } from "@/lib/dashboard-safety";
-import { createServerClient } from "@/lib/supabase";
-import type { UserRole } from "@/actions/admin-users";
-import { redirect } from "next/navigation";
-import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
+import { createServerClient } from "@/lib/supabase";
+import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
   title: "Admin • Users",
@@ -83,9 +83,7 @@ export default async function AdminUsersPage() {
                         ? new Date(u.updated_at).toLocaleString()
                         : "—"}
                     </td>
-                    <td className="px-3 py-2 text-xs text-gray-500">
-                      {u.id}
-                    </td>
+                    <td className="px-3 py-2 text-xs text-gray-500">{u.id}</td>
                   </tr>
                 ))}
               </tbody>

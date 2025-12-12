@@ -46,9 +46,7 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
       supabase.from("listings").select("id", { count: "exact", head: true }),
       supabase.from("profiles").select("id", { count: "exact", head: true }),
       supabase.from("reviews").select("id", { count: "exact", head: true }),
-      supabase
-        .from("favorites")
-        .select("id", { count: "exact", head: true }),
+      supabase.from("favorites").select("id", { count: "exact", head: true }),
       supabase.from("listings").select("is_claimed, plan"),
       supabase.from("reviews").select("stars").eq("status", "approved"),
     ]);
@@ -102,7 +100,7 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
  * Get listings created over time (last 30 days)
  */
 export async function getListingsGrowth(
-  days: number = 30,
+  days = 30,
 ): Promise<TimeSeriesDataPoint[]> {
   const supabase = createServerClient();
 
@@ -151,7 +149,7 @@ export async function getListingsGrowth(
  * Get users created over time (last 30 days)
  */
 export async function getUsersGrowth(
-  days: number = 30,
+  days = 30,
 ): Promise<TimeSeriesDataPoint[]> {
   const supabase = createServerClient();
 
@@ -338,7 +336,7 @@ export async function getUsersByRole(): Promise<DistributionDataPoint[]> {
  * Get top categories by listing count
  */
 export async function getTopCategories(
-  limit: number = 10,
+  limit = 10,
 ): Promise<DistributionDataPoint[]> {
   const supabase = createServerClient();
 
@@ -376,7 +374,7 @@ export async function getTopCategories(
  * Get reviews created over time (last 30 days)
  */
 export async function getReviewsGrowth(
-  days: number = 30,
+  days = 30,
 ): Promise<TimeSeriesDataPoint[]> {
   const supabase = createServerClient();
 

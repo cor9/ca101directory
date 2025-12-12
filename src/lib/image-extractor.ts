@@ -11,14 +11,18 @@ function normalizeUrl(url?: string | null): string | null {
   }
 }
 
-async function fetchOpenGraphImage(url?: string | null): Promise<string | null> {
+async function fetchOpenGraphImage(
+  url?: string | null,
+): Promise<string | null> {
   const normalized = normalizeUrl(url);
   if (!normalized) return null;
 
   try {
     const response = await fetch(normalized, { cache: "no-store" });
     const html = await response.text();
-    const match = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["'][^>]*>/i);
+    const match = html.match(
+      /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["'][^>]*>/i,
+    );
 
     if (match?.[1]) {
       const imageUrl = match[1];

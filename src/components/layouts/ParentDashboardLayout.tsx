@@ -84,9 +84,7 @@ export function ParentDashboardLayout({
             </div>
             <div className="flex items-center gap-4">
               <RoleBadge showIcon />
-              <span className="text-sm text-paper">
-                {session?.user?.email}
-              </span>
+              <span className="text-sm text-paper">{session?.user?.email}</span>
             </div>
           </div>
         </div>

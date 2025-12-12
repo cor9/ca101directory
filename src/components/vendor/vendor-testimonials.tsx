@@ -62,15 +62,9 @@ export default function VendorTestimonials() {
                 "{testimonial.quote}"
               </blockquote>
               <div className="border-t pt-4" style={{ borderColor: "#E0E0E0" }}>
-                <div className="text-paper">
-                  {testimonial.author}
-                </div>
-                <div className="text-paper">
-                  {testimonial.role}
-                </div>
-                <div className="text-paper">
-                  {testimonial.location}
-                </div>
+                <div className="text-paper">{testimonial.author}</div>
+                <div className="text-paper">{testimonial.role}</div>
+                <div className="text-paper">{testimonial.location}</div>
               </div>
             </div>
           );

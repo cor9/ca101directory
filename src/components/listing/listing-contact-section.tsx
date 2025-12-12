@@ -44,9 +44,7 @@ export function ListingContactSection({
           )}
 
           {regions.length > 0 && (
-            <li className="ml-7 text-sm opacity-80">
-              {regions.join(", ")}
-            </li>
+            <li className="ml-7 text-sm opacity-80">{regions.join(", ")}</li>
           )}
 
           {listing.phone && (
@@ -83,7 +81,10 @@ export function ListingContactSection({
       </div>
 
       {showClaimCallout && (
-        <div className="listing-card" style={{ background: "var(--mustard-yellow)" }}>
+        <div
+          className="listing-card"
+          style={{ background: "var(--mustard-yellow)" }}
+        >
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">
               <ShieldIcon className="h-8 w-8 text-[var(--faded-red-orange)]" />
@@ -91,8 +92,8 @@ export function ListingContactSection({
             <div className="flex-1 text-[var(--navy)]">
               <h2 className="text-lg font-semibold">Own This Business?</h2>
               <p className="mt-2 text-sm opacity-80">
-                Claim your listing to manage details, unlock upgrades, and stay in
-                touch with new families.
+                Claim your listing to manage details, unlock upgrades, and stay
+                in touch with new families.
               </p>
               <div className="mt-3">
                 <ClaimButton

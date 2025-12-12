@@ -1,5 +1,5 @@
-import { createServerClient } from "@/lib/supabase";
 import { auth } from "@/auth";
+import { createServerClient } from "@/lib/supabase";
 import type { NextRequest } from "next/server";
 
 // Use Node.js runtime for broader compatibility with Storage upload
@@ -19,13 +19,18 @@ export async function POST(req: NextRequest) {
     const maxSizeInBytes = 10 * 1024 * 1024;
     if (file.size > maxSizeInBytes) {
       return Response.json(
-        { error: `File too large (${Math.round(file.size / 1024 / 1024)}MB). Max 10MB. Consider resizing to under 2000px.` },
+        {
+          error: `File too large (${Math.round(file.size / 1024 / 1024)}MB). Max 10MB. Consider resizing to under 2000px.`,
+        },
         { status: 400 },
       );
     }
 
     // Validate file type (allow JPEG, PNG, WebP, and HEIC)
-    if (!file.type.match(/^image\/(jpeg|jpg|png|webp|heic)$/) && !/\.heic$/i.test((formData.get("file") as File)?.name || "")) {
+    if (
+      !file.type.match(/^image\/(jpeg|jpg|png|webp|heic)$/) &&
+      !/\.heic$/i.test((formData.get("file") as File)?.name || "")
+    ) {
       return Response.json(
         { error: "Only JPEG, PNG, WebP, and HEIC images are allowed" },
         { status: 400 },

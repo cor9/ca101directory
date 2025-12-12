@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { SparklesIcon, ClockIcon, ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon, ClockIcon, SparklesIcon } from "lucide-react";
 import Link from "next/link";
 
 export function FoundingMemberBanner() {
@@ -25,7 +25,10 @@ export function FoundingMemberBanner() {
 
         {/* Subheadline */}
         <p className="mb-6 text-xl md:text-2xl">
-          Lock in <span className="font-bold underline decoration-yellow-300">lifetime rates</span>{" "}
+          Lock in{" "}
+          <span className="font-bold underline decoration-yellow-300">
+            lifetime rates
+          </span>{" "}
           before prices go up!
         </p>
 
@@ -68,8 +71,8 @@ export function FoundingMemberBanner() {
 
         {/* Urgency text */}
         <p className="mt-4 text-sm opacity-90">
-          ⏰ <strong>Limited spots available</strong> - Once we hit our founding member
-          cap, prices return to regular rates
+          ⏰ <strong>Limited spots available</strong> - Once we hit our founding
+          member cap, prices return to regular rates
         </p>
       </div>
     </div>
@@ -87,7 +90,9 @@ export function FoundingMemberBannerCompact() {
           </div>
         </div>
         <div className="flex-grow">
-          <h3 className="text-lg font-bold">🎉 Founding Member Rates Available</h3>
+          <h3 className="text-lg font-bold">
+            🎉 Founding Member Rates Available
+          </h3>
           <p className="text-sm opacity-90">
             Lock in lifetime rates before prices increase - Limited time only!
           </p>
@@ -105,4 +110,3 @@ export function FoundingMemberBannerCompact() {
     </div>
   );
 }
-

@@ -9,7 +9,7 @@ import { createServerClient } from "@/lib/supabase";
  */
 export async function updateReviewStatus(
   reviewId: string,
-  status: "approved" | "rejected"
+  status: "approved" | "rejected",
 ) {
   try {
     const user = await currentUser();
@@ -146,4 +146,3 @@ export async function getReviewStats() {
     };
   }
 }
-

@@ -95,7 +95,9 @@ export const AdminDashboardClient = ({
         {/* Platform Stats */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
           <div className="bg-card rounded-lg p-4 border">
-            <div className="text-2xl font-bold text-primary">{totalListings}</div>
+            <div className="text-2xl font-bold text-primary">
+              {totalListings}
+            </div>
             <div className="text-sm text-paper">Total Listings</div>
           </div>
           <div className="bg-card rounded-lg p-4 border">
@@ -115,7 +117,9 @@ export const AdminDashboardClient = ({
             <div className="text-sm text-paper">Total Users</div>
           </div>
           <div className="bg-card rounded-lg p-4 border">
-            <div className="text-2xl font-bold text-primary">{pendingReviews}</div>
+            <div className="text-2xl font-bold text-primary">
+              {pendingReviews}
+            </div>
             <div className="text-sm text-paper">Pending Reviews</div>
             <p className="text-xs text-paper/70 mt-1">
               {totalReviews} total reviews submitted

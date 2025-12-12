@@ -1,13 +1,13 @@
 #!/usr/bin/env tsx
+import * as path from "path";
 import { createClient } from "@supabase/supabase-js";
 import * as dotenv from "dotenv";
-import * as path from "path";
 
 dotenv.config({ path: path.join(process.cwd(), ".env.local") });
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 const CATEGORIES_TO_HIDE = [
@@ -21,7 +21,7 @@ const CATEGORIES_TO_HIDE = [
   "Dance Classes",
   "Cosmetic Dentistry",
   "Content Creators",
-  "Comedy Coaches"
+  "Comedy Coaches",
 ];
 
 async function hideCategories() {
@@ -45,7 +45,7 @@ async function hideCategories() {
 
   for (const categoryName of CATEGORIES_TO_HIDE) {
     const category = allCategories?.find(
-      (cat) => cat.category_name === categoryName
+      (cat) => cat.category_name === categoryName,
     );
 
     if (!category) {
@@ -67,10 +67,17 @@ async function hideCategories() {
       .eq("id", category.id);
 
     if (updateError) {
-      console.log(`❌ Failed to hide "${categoryName}": ${updateError.message}`);
-      if (updateError.message.includes("column") && updateError.message.includes("hidden")) {
+      console.log(
+        `❌ Failed to hide "${categoryName}": ${updateError.message}`,
+      );
+      if (
+        updateError.message.includes("column") &&
+        updateError.message.includes("hidden")
+      ) {
         console.log("\n⚠️  ERROR: The 'hidden' column doesn't exist!");
-        console.log("Please follow the instructions in INSTRUCTIONS_HIDE_CATEGORIES.md\n");
+        console.log(
+          "Please follow the instructions in INSTRUCTIONS_HIDE_CATEGORIES.md\n",
+        );
         return;
       }
     } else {
@@ -90,8 +97,9 @@ async function hideCategories() {
   console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
 
   console.log("🎉 Categories have been hidden successfully!");
-  console.log("They will no longer appear in dropdowns or category listings.\n");
+  console.log(
+    "They will no longer appear in dropdowns or category listings.\n",
+  );
 }
 
 hideCategories();
-

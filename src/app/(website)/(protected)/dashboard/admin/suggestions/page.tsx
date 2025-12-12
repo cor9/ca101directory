@@ -1,9 +1,9 @@
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
+import { siteConfig } from "@/config/site";
 import { currentUser } from "@/lib/auth";
 import { verifyDashboardAccess } from "@/lib/dashboard-safety";
-import { redirect } from "next/navigation";
-import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
+import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
   title: "Admin • Vendor Suggestions",
@@ -33,4 +33,3 @@ export default async function AdminSuggestionsPage() {
     </AdminDashboardLayout>
   );
 }
-

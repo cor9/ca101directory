@@ -1,4 +1,4 @@
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { type SupabaseClient, createClient } from "@supabase/supabase-js";
 
 // Lazy initialization - only create client when first accessed
 let _supabaseAdmin: SupabaseClient | null = null;

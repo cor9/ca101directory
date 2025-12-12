@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { createServerClient } from "@/lib/supabase";
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,7 +11,10 @@ export async function POST(req: NextRequest) {
 
     const { listingId } = (await req.json()) as { listingId?: string };
     if (!listingId) {
-      return NextResponse.json({ error: "listingId required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "listingId required" },
+        { status: 400 },
+      );
     }
 
     const supabase = createServerClient();
@@ -59,4 +62,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-

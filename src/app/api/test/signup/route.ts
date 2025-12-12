@@ -10,7 +10,11 @@ export async function GET(request: Request) {
     await sendDiscordNotification("🆕 New Sign-up (Test)", [
       { name: "Email", value: email, inline: true },
       { name: "Role", value: role, inline: true },
-      { name: "Env", value: process.env.VERCEL ? "Vercel" : "Local", inline: true },
+      {
+        name: "Env",
+        value: process.env.VERCEL ? "Vercel" : "Local",
+        inline: true,
+      },
     ]);
 
     return NextResponse.json({ ok: true });
@@ -18,5 +22,3 @@ export async function GET(request: Request) {
     return NextResponse.json({ ok: false }, { status: 500 });
   }
 }
-
-

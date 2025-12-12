@@ -1,4 +1,8 @@
 import { ApprovalEmail } from "@/emails/approval-email";
+import ListingDay3CompleteProfileEmail from "@/emails/listing-day3-complete-profile";
+import ListingDay7TrafficUpdateEmail from "@/emails/listing-day7-traffic-update";
+import ListingDay14UpgradeOfferEmail from "@/emails/listing-day14-upgrade-offer";
+import ListingLiveEmail from "@/emails/listing-live";
 import ListingSubmittedEmail from "@/emails/listing-submitted";
 import { NotifySubmissionEmail } from "@/emails/notify-submission-to-admin";
 import { NotifySubmissionToUserEmail } from "@/emails/notify-submission-to-user";
@@ -6,10 +10,6 @@ import { PaymentSuccessEmail } from "@/emails/payment-success";
 import RejectionEmail from "@/emails/rejection-email";
 import VerifyEmail from "@/emails/verify-email";
 import { Resend } from "resend";
-import ListingLiveEmail from "@/emails/listing-live";
-import ListingDay3CompleteProfileEmail from "@/emails/listing-day3-complete-profile";
-import ListingDay7TrafficUpdateEmail from "@/emails/listing-day7-traffic-update";
-import ListingDay14UpgradeOfferEmail from "@/emails/listing-day14-upgrade-offer";
 
 // Lazy-load Resend to avoid errors if API key is missing
 let resendInstance: Resend | null = null;
@@ -39,7 +39,9 @@ const SITE_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 // Standardize From/Reply-To and allow forcing a single recipient during testing
 function getFrom() {
-  return process.env.RESEND_EMAIL_FROM || "Corey Ralston <corey@childactor101.com>";
+  return (
+    process.env.RESEND_EMAIL_FROM || "Corey Ralston <corey@childactor101.com>"
+  );
 }
 function getReplyTo() {
   return process.env.RESEND_REPLY_TO || "corey@childactor101.com";

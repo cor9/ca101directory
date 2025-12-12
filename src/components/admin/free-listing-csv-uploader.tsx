@@ -1,9 +1,9 @@
 "use client";
 
+import { adminBulkCreateListings } from "@/actions/admin-create";
+import { Button } from "@/components/ui/button";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { adminBulkCreateListings } from "@/actions/admin-create";
 
 type CsvRow = Record<string, string>;
 
@@ -61,7 +61,8 @@ export function FreeListingCsvUploader() {
 
   const preview = rows.slice(0, 5);
 
-  const sample = `name,description,website,email,phone,city,state,zip,region\n` +
+  const sample =
+    `name,description,website,email,phone,city,state,zip,region\n` +
     `ACME Kids Coaching,Helpful coaching for young actors,https://acme.com,hello@acme.com,555-123-4567,Los Angeles,CA,90001,SoCal`;
 
   const onFileChange = async (file: File | null) => {
@@ -94,8 +95,14 @@ export function FreeListingCsvUploader() {
       state: r["state"] || "",
       zip: r["zip"] || "",
       region: r["region"] || "",
-      tags: (r["tags"] || "").split(",").map((s) => s.trim()).filter(Boolean),
-      categories: (r["categories"] || "").split(",").map((s) => s.trim()).filter(Boolean),
+      tags: (r["tags"] || "")
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+      categories: (r["categories"] || "")
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
       plan: "Free",
       performerPermit: false,
       bonded: false,
@@ -121,10 +128,14 @@ export function FreeListingCsvUploader() {
       if (!res.success) {
         toast.error(res.error || "Bulk create failed");
       } else {
-        const payload = (res.data as undefined | { created?: any[]; report?: any[] }) || undefined;
+        const payload =
+          (res.data as undefined | { created?: any[]; report?: any[] }) ||
+          undefined;
         const created = (payload?.created ?? []).length;
         const report = payload?.report ?? [];
-        const skipped = report.filter((r: any) => r.status !== "created").length;
+        const skipped = report.filter(
+          (r: any) => r.status !== "created",
+        ).length;
         toast.success(`Created ${created} listing(s). ${skipped} skipped.`);
         // Keep raw so user can review report below
         setReport(report);
@@ -149,16 +160,20 @@ export function FreeListingCsvUploader() {
           className="block text-sm"
         />
         {fileName && <span className="text-sm text-paper">{fileName}</span>}
-        <Button size="sm" variant="secondary" onClick={() => {
-          setFileName("sample.csv");
-          setRaw(sample);
-        }}>Load Sample</Button>
+        <Button
+          size="sm"
+          variant="secondary"
+          onClick={() => {
+            setFileName("sample.csv");
+            setRaw(sample);
+          }}
+        >
+          Load Sample
+        </Button>
       </div>
 
       {rows.length > 0 && (
-        <div className="text-sm text-paper/80">
-          Parsed rows: {rows.length}
-        </div>
+        <div className="text-sm text-paper/80">Parsed rows: {rows.length}</div>
       )}
 
       {preview.length > 0 && (
@@ -167,7 +182,10 @@ export function FreeListingCsvUploader() {
             <thead className="bg-muted">
               <tr>
                 {Object.keys(preview[0]).map((h) => (
-                  <th key={h} className="text-left px-3 py-2 font-medium text-ink border-b">
+                  <th
+                    key={h}
+                    className="text-left px-3 py-2 font-medium text-ink border-b"
+                  >
                     {h}
                   </th>
                 ))}

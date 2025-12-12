@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase";
 import { headers } from "next/headers";
+import { NextResponse } from "next/server";
 
 /**
  * Track listing page views
@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     if (!listingId) {
       return NextResponse.json(
         { error: "listingId is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -50,7 +50,10 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: true, duplicate: true });
       }
       console.error("Error tracking view:", error);
-      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+      return NextResponse.json(
+        { success: false, error: error.message },
+        { status: 500 },
+      );
     }
 
     return NextResponse.json({ success: true });
@@ -58,7 +61,7 @@ export async function POST(request: Request) {
     console.error("Error in track-view API:", error);
     return NextResponse.json(
       { success: false, error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -46,7 +46,10 @@ export default {
             await supabase.auth.getUser(token);
 
           if (authError || !authUser?.user) {
-            console.error("Supabase magic link verification failed:", authError);
+            console.error(
+              "Supabase magic link verification failed:",
+              authError,
+            );
             return null;
           }
 

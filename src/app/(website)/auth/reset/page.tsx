@@ -17,8 +17,8 @@ const ResetPage = () => {
       </h1>
       <p className="text-gray-700">
         We now use secure, one-time magic links for every login. Enter your
-        email on the login page and we&apos;ll send you a link that keeps you signed
-        in on this device.
+        email on the login page and we&apos;ll send you a link that keeps you
+        signed in on this device.
       </p>
       <Link
         href="/auth/login"

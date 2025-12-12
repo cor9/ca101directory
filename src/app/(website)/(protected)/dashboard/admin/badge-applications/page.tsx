@@ -1,9 +1,9 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { BadgeApplicationsTable } from "@/components/admin/badge-applications-table";
 import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
   title: "Badge Applications | Admin Dashboard",
@@ -96,4 +96,3 @@ export default async function BadgeApplicationsPage() {
     </div>
   );
 }
-

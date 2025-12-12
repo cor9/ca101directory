@@ -1,12 +1,12 @@
-import { NextResponse } from "next/server";
-import { getCategories } from "@/data/categories";
 import { getCategoriesByIds } from "@/actions/categories";
+import { getCategories } from "@/data/categories";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
     // Get all categories from Supabase
     const categories = await getCategories();
-    
+
     // Test the getCategoriesByIds function with the Actorsite category IDs
     const actorsiteCategoryIds = [
       "c0b8d6a5-436a-4004-b6b6-8b58a9f5b3d2",
@@ -18,11 +18,11 @@ export async function GET() {
       "1f3ec0a8-f2b8-41c4-b5fd-c7b78c266629",
       "e656d5c5-35c8-426e-a02c-5adf5e82f7e7",
       "dff32333-23be-4cbc-86e6-9bde617e2ddd",
-      "ca25586e-8cb2-40db-a06b-f6570a8952f9"
+      "ca25586e-8cb2-40db-a06b-f6570a8952f9",
     ];
-    
+
     const resolvedCategories = await getCategoriesByIds(actorsiteCategoryIds);
-    
+
     return NextResponse.json({
       totalCategories: categories.length,
       categories: categories,

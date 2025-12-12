@@ -1,242 +1,246 @@
-import { getCategoryIconsMap } from "@/data/categories";
-import { urlForIcon, urlForImage } from "@/lib/image";
-import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
-import { generateSlugFromItem } from "@/lib/slug-utils";
-import { cn } from "@/lib/utils";
-import type { ItemInfo } from "@/types";
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { MapPin, Star, CheckCircle } from "lucide-react";
 
-/**
- * Get initials from a name (first letter of first two words)
- */
-function initialsFromName(name: string): string {
-  const words = name.trim().split(/\s+/).filter(Boolean);
-  if (words.length === 0) return "?";
-  if (words.length === 1) return words[0].charAt(0).toUpperCase();
-  return (words[0].charAt(0) + words[1].charAt(0)).toUpperCase();
+interface ListingCardProps {
+  listing: {
+    id: string;
+    slug?: string;
+    title?: string;
+    name?: string;
+    description?: string;
+    category?: string;
+    category_name?: string;
+    city?: string;
+    state?: string;
+    location?: string;
+    is_verified?: boolean;
+    is_featured?: boolean;
+    image_url?: string;
+    logo_url?: string;
+    rating?: number;
+    review_count?: number;
+    tags?: string[];
+  };
+  variant?: "default" | "compact" | "featured";
 }
 
-/**
- * Determine tier from item pricePlan
- */
-function getTierFromItem(
-  item: ItemInfo,
-): "free" | "standard" | "pro" | "premium" {
-  const plan = (item.pricePlan || "free").toLowerCase();
-  if (plan.includes("pro") || plan.includes("premium")) return "pro";
-  if (plan.includes("standard") || plan.includes("basic")) return "standard";
-  return "free";
-}
+/** Category Color Map (matches Patreon-style UI kit) */
+const categoryColors: Record<string, string> = {
+  Photographer: "from-accent-purple to-accent-blue",
+  "Acting Coach": "from-accent-teal to-accent-lemon",
+  Studio: "from-accent-salmon to-accent-purple",
+  Editor: "from-accent-lemon to-accent-blue",
+};
 
-/**
- * Get tier-based border classes
- */
-function tierClasses(tier: "free" | "standard" | "pro" | "premium"): string {
-  switch (tier) {
-    case "premium":
-    case "pro":
-      return "border-2 border-amber-400 shadow-lg";
-    case "standard":
-      return "border border-sky-400 shadow-md";
-    case "free":
-    default:
-      return "border border-slate-200 shadow-sm";
-  }
-}
+export default function ListingCard({ listing, variant = "default" }: ListingCardProps) {
+  const listingName = listing.title || listing.name || "Listing";
+  const category = listing.category || listing.category_name || "Professional";
 
-export default async function ListingCard({ item }: { item: ItemInfo }) {
-  const imageProps = item?.image
-    ? urlForImage(item.image)
-    : item?.icon
-      ? urlForIcon(item.icon)
-      : null;
+  const location =
+    listing.city && listing.state
+      ? `${listing.city}, ${listing.state}`
+      : listing.location || "";
 
-  // Prefer Supabase profile image URL when available
-  const profileRef =
-    (item as unknown as { icon?: unknown })?.icon &&
-    typeof (item as unknown as { icon?: unknown }).icon === "object" &&
-    ((item as unknown as { icon?: { asset?: { _ref?: string } } }).icon?.asset
-      ? (item as unknown as { icon?: { asset?: { _ref?: string } } }).icon
-          ?.asset?._ref
-      : null);
+  const image = listing.image_url || listing.logo_url;
+  const slug = listing.slug || listing.id;
 
-  // Category icon fallback using Supabase-backed map, with filename fallbacks
-  const firstCategory = item.categories?.[0]?.name || "";
-  const normalize = (v: string) =>
-    (v || "").replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
-  const iconMap = await getCategoryIconsMap();
+  const headerGradient =
+    categoryColors[category] || "from-accent-blue/60 to-accent-purple/60";
 
-  let categoryIconUrl = "";
-  if (firstCategory) {
-    // Try direct lookup first
-    categoryIconUrl = iconMap[firstCategory] || "";
-
-    // Try normalized lookup
-    if (!categoryIconUrl) {
-      const match = Object.entries(iconMap).find(
-        ([name]) => normalize(name) === normalize(firstCategory),
-      );
-      if (match?.[1]) categoryIconUrl = match[1];
-    }
-
-    // If the map value is just a filename, build the full URL
-    if (categoryIconUrl && !categoryIconUrl.startsWith("http")) {
-      categoryIconUrl = getCategoryIconUrl(categoryIconUrl);
-    }
-
-    // Derive common filename patterns as fallback
-    if (!categoryIconUrl) {
-      const exactEncodedFilename = encodeURIComponent(`${firstCategory}.png`);
-      categoryIconUrl = getCategoryIconUrl(exactEncodedFilename);
-      if (!categoryIconUrl) {
-        const derivedFilename = `${firstCategory
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "_")
-          .replace(/^_+|_+$/g, "")}.png`;
-        categoryIconUrl = getCategoryIconUrl(derivedFilename);
-      }
-    }
-  }
-  if (!categoryIconUrl) {
-    categoryIconUrl = getCategoryIconUrl("clapperboard.png");
-  }
-
-  const resolvedSrc = profileRef
-    ? getListingImageUrl(profileRef)
-    : imageProps?.src || null;
-
-  const heroImage = (item as any).logoUrl || resolvedSrc;
-
-  // Check if 101 Approved (from tags)
-  const is101Approved = Array.isArray(item.tags)
-    ? item.tags.some(
-        (t) =>
-          (t?.name && String(t.name).toLowerCase().includes("101")) ||
-          (t?.slug?.current &&
-            String(t.slug.current).toLowerCase().includes("101")) ||
-          (t?.name && String(t.name).toLowerCase().includes("approved")),
-      )
-    : false;
-
-  // Extract tier and generate slug
-  const tier = getTierFromItem(item);
-  const slug =
-    item.slug?.current ||
-    generateSlugFromItem({ name: item.name, _id: item._id });
-
-  // Extract age ranges from tags
-  const ageRanges = (item.tags || [])
-    .filter((t) => t?.name && /^\d+-\d+|^\d+\+|^under|^over/i.test(t.name))
-    .map((t) => t.name);
-
-  const locationLabel = [(item as any).city, (item as any).state]
-    .filter(Boolean)
-    .join(", ");
-
-  return (
-    <article className="bg-white rounded-xl p-5 shadow-md border hover:shadow-lg transition relative">
-      {tier !== "free" && (
-        <span className="absolute top-3 right-3 rounded-full bg-amber-500 px-3 py-1 text-[11px] font-semibold text-white">
-          {tier === "pro" || tier === "premium" ? "Pro" : "Standard"}
-        </span>
-      )}
-
-      {/* Hero image / logo */}
-      {heroImage && (
-        <div className="mb-4 h-40 w-full overflow-hidden rounded-lg bg-slate-100 relative">
-          <Image
-            src={heroImage}
-            alt={`${item.name} logo`}
-            fill
-            className="object-cover"
-          />
+  /** COMPACT VARIANT — used inside mixed grids / sidebars */
+  if (variant === "compact") {
+    return (
+      <Link
+        href={`/item/${slug}`}
+        className="flex items-center gap-4 p-3 rounded-xl bg-bg-dark-2 border border-border-subtle hover-glow transition group"
+      >
+        {/* Thumbnail */}
+        <div className="relative w-16 h-16 flex-shrink-0 bg-bg-dark rounded-lg overflow-hidden">
+          {image ? (
+            <Image
+              src={image}
+              alt={listingName}
+              fill
+              className="object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent-blue to-accent-purple text-text-muted font-bold text-lg">
+              {listingName.charAt(0)}
+            </div>
+          )}
         </div>
-      )}
 
-      {/* Name + badges */}
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-sm font-semibold text-orange-600 mb-1">
-            {firstCategory || "Featured Provider"}
-          </p>
-          <h3 className="font-bold text-slate-900 text-lg leading-tight line-clamp-2">
-            {item.name}
+        {/* Text */}
+        <div className="flex-1 min-w-0">
+          <h3 className="font-medium text-text-primary truncate group-hover:text-accent-teal transition">
+            {listingName}
           </h3>
-          {locationLabel ? (
-            <p className="text-sm text-slate-600 mt-1">{locationLabel}</p>
-          ) : null}
+          <p className="text-xs text-text-muted truncate">{category}</p>
         </div>
 
-        <div className="flex flex-wrap gap-1">
-          {is101Approved && (
-            <span className="rounded-full bg-[#CC5A47] px-2 py-0.5 text-[11px] font-semibold text-white">
-              101 Approved
-            </span>
+        {listing.is_verified && (
+          <CheckCircle className="w-4 h-4 text-accent-teal" />
+        )}
+      </Link>
+    );
+  }
+
+  /** FEATURED VARIANT */
+  if (variant === "featured") {
+    return (
+      <Link
+        href={`/item/${slug}`}
+        className="rounded-2xl overflow-hidden bg-bg-dark-2 border border-border-subtle hover-glow transition block group"
+      >
+        {/* Hero Image */}
+        <div className="relative h-56 w-full bg-bg-dark">
+          {image ? (
+            <Image
+              src={image}
+              alt={listingName}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+          ) : (
+            <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-accent-purple to-accent-blue text-5xl font-bold text-text-muted">
+              {listingName.charAt(0)}
+            </div>
           )}
-          {item.paid && (
-            <span className="rounded-full bg-sky-600 px-2 py-0.5 text-[11px] font-semibold text-white">
-              Verified
-            </span>
+
+          {/* Featured Badge */}
+          {listing.is_featured && (
+            <div className="absolute top-3 left-3 bg-accent-lemon text-bg-dark font-semibold text-xs px-3 py-1 rounded-full shadow">
+              Featured
+            </div>
+          )}
+
+          {/* Verified Badge */}
+          {listing.is_verified && (
+            <div className="absolute top-3 right-3 bg-accent-teal text-white font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1 shadow">
+              <CheckCircle className="w-3 h-3" /> Verified
+            </div>
           )}
         </div>
+
+        {/* Content */}
+        <div className="p-5">
+          <h3 className="text-xl font-semibold text-text-primary truncate group-hover:text-accent-teal transition">
+            {listingName}
+          </h3>
+          <p className="text-sm text-accent-blue mt-1">{category}</p>
+
+          {/* Rating */}
+          {listing.rating && (
+            <div className="flex items-center gap-1 mt-2">
+              <Star className="w-4 h-4 text-accent-lemon fill-accent-lemon" />
+              <span className="text-sm text-text-primary font-medium">
+                {listing.rating.toFixed(1)}
+              </span>
+              {listing.review_count && (
+                <span className="text-xs text-text-muted">
+                  ({listing.review_count})
+                </span>
+              )}
+            </div>
+          )}
+
+          {/* Description */}
+          {listing.description && (
+            <p className="text-sm text-text-secondary mt-3 line-clamp-2">
+              {listing.description}
+            </p>
+          )}
+
+          {/* Location */}
+          {location && (
+            <div className="flex items-center gap-1 mt-3 text-sm text-text-muted">
+              <MapPin className="w-4 h-4" /> {location}
+            </div>
+          )}
+
+          {/* Tags */}
+          {listing.tags && listing.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-4">
+              {listing.tags.slice(0, 3).map((tag) => (
+                <span
+                  key={tag}
+                  className="px-2 py-1 text-xs bg-bg-dark-3 text-text-muted rounded-md"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </Link>
+    );
+  }
+
+  /** DEFAULT VARIANT — Your new standard Patreon-style tile */
+  return (
+    <Link
+      href={`/item/${slug}`}
+      className="rounded-xl overflow-hidden bg-bg-dark-2 border border-border-subtle hover-glow transition block group shadow-card"
+    >
+      {/* Category Header Bar */}
+      <div
+        className={`h-2 w-full bg-gradient-to-r ${headerGradient}`}
+      />
+
+      {/* Image */}
+      <div className="relative h-44 w-full bg-bg-dark">
+        {image ? (
+          <Image
+            src={image}
+            alt={listingName}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        ) : (
+          <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-accent-purple to-accent-blue text-4xl font-bold text-text-muted">
+            {listingName.charAt(0)}
+          </div>
+        )}
+
+        {listing.is_verified && (
+          <div className="absolute top-2 right-2 bg-accent-teal text-white text-xs px-2 py-1 rounded-full flex items-center gap-1 shadow">
+            <CheckCircle className="w-3 h-3" /> Verified
+          </div>
+        )}
       </div>
 
-      {/* Description */}
-      {item.description && (
-        <p className="mt-3 line-clamp-3 text-sm text-slate-700">
-          {item.description}
-        </p>
-      )}
+      {/* Content */}
+      <div className="p-4 space-y-2">
+        <h3 className="font-semibold text-text-primary truncate group-hover:text-accent-teal transition">
+          {listingName}
+        </h3>
 
-      {/* Age tags */}
-      {ageRanges.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {ageRanges.slice(0, 4).map((age) => (
-            <span
-              key={age}
-              className="rounded-full bg-[#7AB8CC]/20 px-2 py-0.5 text-[11px] font-semibold text-slate-800"
-            >
-              {age}
-            </span>
-          ))}
-        </div>
-      )}
+        <p className="text-sm text-accent-blue font-medium">{category}</p>
 
-      {/* Secondary categories */}
-      {item.categories && item.categories.length > 1 && (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {item.categories.slice(1, 4).map((c) => (
-            <span
-              key={c._id}
-              className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-700"
-            >
-              {c.name}
-            </span>
-          ))}
-          {item.categories.length > 4 && (
-            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-500">
-              +{item.categories.length - 4} more
-            </span>
-          )}
-        </div>
-      )}
+        {location && (
+          <div className="flex items-center gap-1 text-xs text-text-secondary">
+            <MapPin className="w-3 h-3" />
+            {location}
+          </div>
+        )}
 
-      {/* CTAs */}
-      <div className="mt-5 flex items-center gap-3">
-        <Link
-          href={`/listing/${slug}`}
-          className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
-        >
-          View Profile
-        </Link>
-        <Link
-          href={`/listing/${slug}#contact`}
-          className="inline-block text-orange-500 font-semibold hover:underline"
-        >
-          Contact →
-        </Link>
+        {listing.rating && (
+          <div className="flex items-center gap-1 pt-1">
+            <Star className="w-3 h-3 text-accent-lemon fill-accent-lemon" />
+            <span className="text-xs text-text-primary font-semibold">
+              {listing.rating.toFixed(1)}
+            </span>
+            {listing.review_count && (
+              <span className="text-xs text-text-muted">
+                ({listing.review_count})
+              </span>
+            )}
+          </div>
+        )}
       </div>
-    </article>
+    </Link>
   );
 }

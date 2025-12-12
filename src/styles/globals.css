@@ -839,6 +839,225 @@
   .border-bauhaus-blue {
     border-color: var(--robin-egg-blue);
   }
+
+  /* ========================================
+     UI KIT - DARK PATREON EDITION (Phase 6)
+     ======================================== */
+
+  /* CSS Custom Properties for UI Kit */
+  :root {
+    --bg-dark: #0E1117;
+    --bg-dark-2: #151922;
+    --bg-dark-3: #1B1F29;
+    --card-surface: rgba(255,255,255,0.05);
+    --border-subtle: rgba(255,255,255,0.08);
+    --text-primary: #FFFFFF;
+    --text-secondary: #D1D5DB;
+    --text-muted: #A0A3A9;
+    --accent-teal: #1CC8B0;
+    --accent-lemon: #F5E76A;
+    --accent-blue: #4EA3FF;
+    --accent-purple: #C57CFF;
+    --accent-salmon: #FF8A7A;
+    --accent-cranberry: #D9476D;
+    --accent-stone: #A8ACB9;
+    --brand-success: #3DD68C;
+    --brand-warning: #F7C948;
+    --brand-danger: #EF4665;
+    --brand-info: #2BB0ED;
+  }
+
+  /* Card Component */
+  .card {
+    @apply bg-card-surface rounded-2xl shadow-card border border-border-subtle;
+  }
+
+  .card-surface {
+    background: var(--card-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  }
+
+  .card-surface:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Tile Component */
+  .tile {
+    @apply rounded-2xl p-6 font-semibold shadow-card transition-transform;
+    color: var(--text-primary);
+  }
+
+  .tile:hover {
+    transform: scale(1.02);
+    filter: brightness(1.1);
+  }
+
+  /* Section Container */
+  .section {
+    @apply max-w-7xl mx-auto px-6 py-16;
+  }
+
+  .page-width {
+    width: 100%;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .page-width {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* Button Styles */
+  .btn-primary {
+    @apply px-4 py-2 rounded-xl font-semibold shadow-card transition;
+    background-color: var(--accent-teal);
+    color: var(--bg-dark);
+  }
+
+  .btn-primary:hover {
+    opacity: 0.8;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 rounded-xl font-medium transition;
+    background: var(--card-surface);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .btn-destructive {
+    @apply px-4 py-2 rounded-xl font-semibold transition;
+    background-color: var(--brand-danger);
+    color: white;
+  }
+
+  .btn-destructive:hover {
+    opacity: 0.8;
+  }
+
+  /* Badge Component */
+  .badge {
+    @apply inline-flex items-center px-2 py-1 rounded-md text-xs font-medium;
+  }
+
+  .badge-verified {
+    background: rgba(78, 163, 255, 0.2);
+    color: var(--accent-blue);
+  }
+
+  /* Scrollbar Utilities */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar,
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Shadow utilities */
+  .shadow-card {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  }
+
+  .shadow-hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Verified Badge Styling */
+  .verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(78, 163, 255, 0.2);
+    border-radius: 0.375rem;
+    color: var(--accent-blue);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .verified-badge-lg {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  /* Motion/Interaction Classes */
+  .hover-lift {
+    @apply transition-all duration-150 ease-out;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .hover-glow:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .active-press:active {
+    transform: scale(0.98);
+  }
+
+  /* Text Color Utilities */
+  .text-ui-primary {
+    color: var(--text-primary);
+  }
+
+  .text-ui-secondary {
+    color: var(--text-secondary);
+  }
+
+  .text-ui-muted {
+    color: var(--text-muted);
+  }
+
+  /* Background Utilities */
+  .bg-ui-dark {
+    background-color: var(--bg-dark);
+  }
+
+  .bg-ui-dark-2 {
+    background-color: var(--bg-dark-2);
+  }
+
+  .bg-ui-dark-3 {
+    background-color: var(--bg-dark-3);
+  }
+
+  /* Category text improvement */
+  .category-text {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .category-text-light {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
 }
 
 .text-gradient_blue-orange {

@@ -77,7 +77,9 @@ export default async function CategoryPage() {
     // Synonyms map to unify variant names under canonical category keys
     const synonyms: Record<string, string> = {
       // Headshots
-      [normalize("Headshot Photographers")]: normalize("Headshot Photographers"),
+      [normalize("Headshot Photographers")]: normalize(
+        "Headshot Photographers",
+      ),
       [normalize("Headshot Photographer")]: normalize("Headshot Photographers"),
       // Self Tape
       [normalize("Self Tape Support")]: normalize("Self Tape Support"),
@@ -131,11 +133,16 @@ export default async function CategoryPage() {
     const countsAccurate = await Promise.all(
       supabaseCategories.map(async (category) => {
         try {
-          const result = await getPublicListings({ category: category.category_name });
+          const result = await getPublicListings({
+            category: category.category_name,
+          });
           return { name: category.category_name, count: result.length };
         } catch {
           const key = normalize(category.category_name);
-          return { name: category.category_name, count: categoryCounts[key] || 0 };
+          return {
+            name: category.category_name,
+            count: categoryCounts[key] || 0,
+          };
         }
       }),
     );
@@ -159,18 +166,23 @@ export default async function CategoryPage() {
             "Comedy Coaches": "Comedy coaching services",
             "Vocal Coaches": "Vocal coaching services",
             "Hair/Makeup Artists": "Hair and makeup services",
-            "Modeling/Print Agents": "Modeling and print representation services",
+            "Modeling/Print Agents":
+              "Modeling and print representation services",
             "Talent Agents": "Talent representation services",
             "Influencer Agents": "Influencer representation services",
             "Talent Managers": "Talent management services",
           };
-          return customDescriptions[category.category_name] ||
-            `${category.category_name} services`;
+          return (
+            customDescriptions[category.category_name] ||
+            `${category.category_name} services`
+          );
         })(),
-      count: accurateByName[category.category_name] ?? (() => {
-        const key = normalize(category.category_name);
-        return categoryCounts[key] || 0;
-      })(),
+      count:
+        accurateByName[category.category_name] ??
+        (() => {
+          const key = normalize(category.category_name);
+          return categoryCounts[key] || 0;
+        })(),
       iconPngUrl: (() => {
         const byId = pngById[category.id];
         if (byId) return getCategoryIconUrl(byId);

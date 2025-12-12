@@ -48,7 +48,10 @@ function getPricing(tier: MockupTier) {
     : { monthly: 25, semiAnnual: 135, savings: 15 };
 }
 
-export async function generateMockup(listing: any, tier: MockupTier): Promise<MockupData> {
+export async function generateMockup(
+  listing: any,
+  tier: MockupTier,
+): Promise<MockupData> {
   const images = await extractListingImages({
     website: listing.website,
     categories: listing.categories,
@@ -93,7 +96,10 @@ export async function generateMockup(listing: any, tier: MockupTier): Promise<Mo
   };
 }
 
-export function generateMockupEmail(mockup: MockupData, vendorName?: string | null) {
+export function generateMockupEmail(
+  mockup: MockupData,
+  vendorName?: string | null,
+) {
   const tierLabel = mockup.tier === "pro" ? "Pro" : "Standard";
   const greeting = vendorName ? `Hi ${vendorName},` : "Hi there,";
 

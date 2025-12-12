@@ -46,7 +46,9 @@ export default function ClaimListingPage() {
                   1
                 </Badge>
                 <div>
-                  <h4 className="font-medium text-[#1E1F23]">Find Your Listing</h4>
+                  <h4 className="font-medium text-[#1E1F23]">
+                    Find Your Listing
+                  </h4>
                   <p className="text-sm text-[#1E1F23]">
                     Search our directory to find your business listing
                   </p>
@@ -60,7 +62,9 @@ export default function ClaimListingPage() {
                   2
                 </Badge>
                 <div>
-                  <h4 className="font-medium text-[#1E1F23]">Click "Claim This Listing"</h4>
+                  <h4 className="font-medium text-[#1E1F23]">
+                    Click "Claim This Listing"
+                  </h4>
                   <p className="text-sm text-[#1E1F23]">
                     On your listing page, click the claim button
                   </p>
@@ -74,7 +78,9 @@ export default function ClaimListingPage() {
                   3
                 </Badge>
                 <div>
-                  <h4 className="font-medium text-[#1E1F23]">Submit Your Claim</h4>
+                  <h4 className="font-medium text-[#1E1F23]">
+                    Submit Your Claim
+                  </h4>
                   <p className="text-sm text-[#1E1F23]">
                     Provide proof of ownership and business details
                   </p>
@@ -121,7 +127,9 @@ export default function ClaimListingPage() {
               <div className="flex gap-3">
                 <Users className="h-5 w-5 text-blue-600 mt-0.5" />
                 <div>
-                  <h4 className="font-medium text-[#1E1F23]">Respond to Reviews</h4>
+                  <h4 className="font-medium text-[#1E1F23]">
+                    Respond to Reviews
+                  </h4>
                   <p className="text-sm text-[#1E1F23]">
                     Engage with families and build your reputation
                   </p>
@@ -143,14 +151,18 @@ export default function ClaimListingPage() {
         {/* Requirements */}
         <div className="bg-bauhaus-orange rounded-lg p-6 shadow-lg mt-8">
           <div className="mb-6">
-            <h3 className="text-xl font-bold text-[#1E1F23] mb-2">Requirements</h3>
+            <h3 className="text-xl font-bold text-[#1E1F23] mb-2">
+              Requirements
+            </h3>
             <p className="text-[#1E1F23]/70">
               What you need to claim your listing
             </p>
           </div>
           <div>
             <div className="max-w-md mx-auto">
-              <h4 className="font-medium text-[#1E1F23] mb-2">Account Requirements</h4>
+              <h4 className="font-medium text-[#1E1F23] mb-2">
+                Account Requirements
+              </h4>
               <ul className="text-sm text-[#1E1F23] space-y-1">
                 <li>• Free account registration</li>
                 <li>• Email verification</li>

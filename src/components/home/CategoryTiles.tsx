@@ -1,70 +1,134 @@
-import { Briefcase, Camera, Mic, Star, Users, Video } from "lucide-react";
+import { getPublicListings } from "@/data/listings";
+import { cn } from "@/lib/utils";
+import {
+  Camera,
+  Globe,
+  GraduationCap,
+  Sparkles,
+  Star,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
 
-const categories = [
+// Category configuration with color assignments
+const categoryConfig = [
   {
-    label: "Acting Coaches",
-    href: "/category/acting-coaches",
-    icon: Mic,
-    color: "from-accent-teal/20 to-accent-teal/5",
-  },
-  {
-    label: "Headshot Photographers",
-    href: "/category/headshots",
-    icon: Camera,
-    color: "from-accent-purple/20 to-accent-purple/5",
-  },
-  {
-    label: "Talent Agents",
-    href: "/category/agents",
+    name: "Acting Classes & Coaches",
+    slug: "acting-classes-coaches",
     icon: Users,
-    color: "from-accent-blue/20 to-accent-blue/5",
+    accentColor: "accent-teal",
+    hoverBg: "bg-accent-teal/10",
+    iconColor: "text-accent-teal",
   },
   {
-    label: "Audition Prep",
-    href: "/category/audition-prep",
+    name: "Acting Schools",
+    slug: "acting-schools",
+    icon: GraduationCap,
+    accentColor: "accent-lemon",
+    hoverBg: "bg-accent-lemon/10",
+    iconColor: "text-accent-lemon",
+  },
+  {
+    name: "Actor Websites",
+    slug: "actor-websites",
+    icon: Globe,
+    accentColor: "accent-blue",
+    hoverBg: "bg-accent-blue/10",
+    iconColor: "text-accent-blue",
+  },
+  {
+    name: "Audition Prep",
+    slug: "audition-prep",
     icon: Star,
-    color: "from-accent-lemon/20 to-accent-lemon/5",
+    accentColor: "accent-salmon",
+    hoverBg: "bg-accent-salmon/10",
+    iconColor: "text-accent-salmon",
   },
   {
-    label: "Demo Reels",
-    href: "/category/demo-reels",
-    icon: Video,
-    color: "from-accent-salmon/20 to-accent-salmon/5",
+    name: "Background Casting",
+    slug: "background-casting",
+    icon: Camera,
+    accentColor: "accent-purple",
+    hoverBg: "bg-accent-purple/10",
+    iconColor: "text-accent-purple",
   },
   {
-    label: "Industry Services",
-    href: "/category/services",
-    icon: Briefcase,
-    color: "from-accent-cranberry/20 to-accent-cranberry/5",
+    name: "Branding Coaches",
+    slug: "branding-coaches",
+    icon: Sparkles,
+    accentColor: "accent-cranberry",
+    hoverBg: "bg-accent-cranberry/10",
+    iconColor: "text-accent-cranberry",
   },
 ];
 
-export default function CategoryTiles() {
+export default async function CategoryTiles() {
+  // Fetch all listings to count per category
+  let categoryCounts: Record<string, number> = {};
+
+  try {
+    const listings = await getPublicListings();
+
+    // Count listings per category
+    const counts: Record<string, number> = {};
+    for (const listing of listings) {
+      if (listing.categories) {
+        for (const category of listing.categories) {
+          if (typeof category === "string" && category.trim()) {
+            const categoryName = category.trim();
+            counts[categoryName] = (counts[categoryName] || 0) + 1;
+          }
+        }
+      }
+    }
+    categoryCounts = counts;
+  } catch (error) {
+    console.error("Error fetching category counts:", error);
+  }
+
   return (
-    <section className="max-w-6xl mx-auto px-6 py-16">
-      <h2 className="text-2xl font-semibold text-text-primary mb-8">
-        Browse by category
-      </h2>
-
+    <section id="categories" className="max-w-6xl mx-auto px-6 py-16">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {categories.map((cat) => (
-          <Link
-            key={cat.label}
-            href={cat.href}
-            className={`group relative rounded-2xl border border-subtle bg-gradient-to-br ${cat.color} p-6 hover:shadow-card hover:-translate-y-0.5 transition-all duration-300`}
-          >
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-xl bg-bg-3 border border-subtle">
-                <cat.icon className="w-6 h-6 text-text-primary" />
-              </div>
+        {categoryConfig.map((category) => {
+          const count = categoryCounts[category.name] || 0;
+          const Icon = category.icon;
 
-              <span className="text-lg font-medium text-text-primary group-hover:text-accent-teal transition">
-                {cat.label}
-              </span>
-            </div>
-          </Link>
-        ))}
+          return (
+            <Link
+              key={category.name}
+              href={`/category/${category.slug}`}
+              className="
+                group relative rounded-2xl p-6
+                bg-card-surface
+                border border-border-subtle
+                shadow-card
+                transition
+                hover:-translate-y-1 hover:shadow-cardHover
+              "
+            >
+              <div
+                className={cn(
+                  "absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition",
+                  category.hoverBg,
+                )}
+              />
+
+              <div className="relative">
+                <div className={cn("mb-4", category.iconColor)}>
+                  <Icon className="w-6 h-6" />
+                </div>
+
+                <h3 className="text-lg font-semibold text-text-primary">
+                  {category.name}
+                </h3>
+
+                <p className="mt-2 text-sm text-text-muted">
+                  {count} {count === 1 ? "professional" : "professionals"}
+                </p>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );

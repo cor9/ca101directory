@@ -145,10 +145,7 @@ export function Navbar({ scroll = false, config, user }: NavBarProps) {
                   <span className="sr-only">Toggle navigation menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent
-                side="left"
-                className="flex flex-col p-0 bg-bg"
-              >
+              <SheetContent side="left" className="flex flex-col p-0 bg-bg">
                 <div className="flex h-screen flex-col bg-bg">
                   {/* logo */}
                   <Link

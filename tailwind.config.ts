@@ -27,6 +27,7 @@ const config: Config = {
         card: {
           DEFAULT: "rgba(255,255,255,0.05)",
           hover: "rgba(255,255,255,0.08)",
+          surface: "rgba(255,255,255,0.05)",
         },
 
         border: {
@@ -117,10 +118,7 @@ const config: Config = {
     },
   },
 
-  plugins: [
-    require("tailwindcss-animate"),
-    require("@tailwindcss/typography"),
-  ],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 };
 
 export default config;

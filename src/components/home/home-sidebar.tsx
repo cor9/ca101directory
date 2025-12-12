@@ -80,7 +80,7 @@ export function HomeSidebar({ categories }: HomeSidebarProps) {
                 setVerified(checked as boolean);
                 updateFilter("verified", checked as boolean);
               }}
-                          className="border-subtle data-[state=checked]:bg-accent-teal data-[state=checked]:border-accent-teal"
+              className="border-subtle data-[state=checked]:bg-accent-teal data-[state=checked]:border-accent-teal"
             />
             <span
               className={`text-sm flex-1 ${
@@ -100,7 +100,7 @@ export function HomeSidebar({ categories }: HomeSidebarProps) {
                 setBackgroundChecked(checked as boolean);
                 updateFilter("bg_checked", checked as boolean);
               }}
-                          className="border-subtle data-[state=checked]:bg-accent-teal data-[state=checked]:border-accent-teal"
+              className="border-subtle data-[state=checked]:bg-accent-teal data-[state=checked]:border-accent-teal"
             />
             <span
               className={`text-sm flex-1 ${
@@ -120,7 +120,7 @@ export function HomeSidebar({ categories }: HomeSidebarProps) {
                 setHighRating(checked as boolean);
                 updateFilter("high_rating", checked as boolean);
               }}
-                          className="border-subtle data-[state=checked]:bg-accent-teal data-[state=checked]:border-accent-teal"
+              className="border-subtle data-[state=checked]:bg-accent-teal data-[state=checked]:border-accent-teal"
             />
             <span
               className={`text-sm flex-1 ${
@@ -140,7 +140,7 @@ export function HomeSidebar({ categories }: HomeSidebarProps) {
                 setTrustedRepeat(checked as boolean);
                 updateFilter("repeat", checked as boolean);
               }}
-                          className="border-subtle data-[state=checked]:bg-accent-teal data-[state=checked]:border-accent-teal"
+              className="border-subtle data-[state=checked]:bg-accent-teal data-[state=checked]:border-accent-teal"
             />
             <span
               className={`text-sm flex-1 ${

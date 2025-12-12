@@ -99,9 +99,7 @@ export default async function Page() {
                       Featured Professionals
                     </h2>
                     <Suspense
-                      fallback={
-                        <div className="h-48 bg-bg-2 rounded-lg" />
-                      }
+                      fallback={<div className="h-48 bg-bg-2 rounded-lg" />}
                     >
                       <HomeFeaturedListings />
                     </Suspense>

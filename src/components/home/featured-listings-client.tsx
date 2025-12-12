@@ -34,9 +34,7 @@ export default function FeaturedListingsClient({
         <Link
           key={listing.id}
           href={
-            listing.isFallback
-              ? listing.website
-              : `/listing/${listing.slug}`
+            listing.isFallback ? listing.website : `/listing/${listing.slug}`
           }
           target={listing.isFallback ? "_blank" : undefined}
           className="group card-surface rounded-xl overflow-hidden hover:shadow-cardHover transition-all duration-300 hover:-translate-y-1"

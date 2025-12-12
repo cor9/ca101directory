@@ -3,7 +3,10 @@ export default function HomeHero() {
     <section className="bg-bg-dark pt-16 pb-14">
       <div className="max-w-6xl mx-auto px-6">
         <h1 className="text-4xl md:text-5xl font-semibold text-text-primary leading-tight">
-          Find trusted professionals for young actors
+          The #1 Directory for{" "}
+          <span className="text-accent-orange">Child Actor Vendors</span>{" "}
+          &{" "}
+          <span className="text-accent-blue">Industry Professionals</span>
         </h1>
 
         <p className="mt-3 text-base text-text-secondary">

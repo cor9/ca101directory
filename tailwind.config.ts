@@ -69,19 +69,17 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
-        },
+       sidebar: {
+  DEFAULT: "hsl(var(--sidebar-background))",
+  foreground: "hsl(var(--sidebar-foreground))",
+  primary: "hsl(var(--sidebar-primary))",
+  "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+  accentBg: "hsl(var(--sidebar-accent))",
+  accentFg: "hsl(var(--sidebar-accent-foreground))",
+  border: "hsl(var(--sidebar-border))",
+  ring: "hsl(var(--sidebar-ring))",
+},
         // ------------------------------------------
-// PATREON-STYLE DARK UI KIT (Phase 6 Tokens)
-// ------------------------------------------
 patreon: {
   // Core Surfaces
   bg: "#0E1117",
@@ -91,11 +89,11 @@ patreon: {
   // Card + Surface Layers
   card: {
     DEFAULT: "rgba(255,255,255,0.05)",
-    hover: "rgba(255,255,255,0.08)"
+    hover: "rgba(255,255,255,0.08)",
   },
 
-  // Accents (teal, lemon, purple, salmon, cranberry, stone)
-  accent: {
+  // Accents (renamed from `accent`)
+  accents: {
     teal: "#1CC8B0",
     lemon: "#F5E76A",
     purple: "#C57CFF",
@@ -111,18 +109,6 @@ patreon: {
     secondary: "#D1D5DB",
     muted: "#A0A3A9",
   },
-},
-
-// Shadows
-shadow: {
-  card: "0 4px 12px rgba(0,0,0,0.35)",
-  cardHover: "0 6px 16px rgba(0,0,0,0.4)",
-},
-
-// Rounded Corners
-radius: {
-  card: "12px",
-  tile: "14px",
 },
         // Production-ready color system from artwork
         bg: "#0D1B2A",

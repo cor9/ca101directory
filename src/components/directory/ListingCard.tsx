@@ -164,7 +164,7 @@ export default async function ListingCard({ item }: { item: ItemInfo }) {
             {item.name}
           </h3>
           {locationLabel ? (
-            <p className="text-sm text-gray-600 mt-1">{locationLabel}</p>
+            <p className="text-sm text-slate-600 mt-1">{locationLabel}</p>
           ) : null}
         </div>
 

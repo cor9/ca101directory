@@ -12,14 +12,23 @@ interface CategoryTile {
   color: string;
 }
 
-const categoryColors = [
-  "bg-accent-teal",
-  "bg-highlight",
-  "bg-secondary-denim",
-  "bg-primary-orange",
-  "bg-info",
-  "bg-success",
-];
+// Category → Color Map (NON-NEGOTIABLE - Patreon-style)
+const CATEGORY_COLORS: Record<string, string> = {
+  "Acting Classes": "bg-accent-aqua",
+  Photographers: "bg-accent-gold",
+  "Talent Agents": "bg-accent-blue",
+  Headshots: "bg-accent-purple",
+  "Demo Reels": "bg-accent-rose",
+  Coaches: "bg-accent-aqua",
+  Studios: "bg-accent-orange",
+  Resources: "bg-accent-red",
+  // Aliases for variations
+  "Acting Classes & Coaches": "bg-accent-aqua",
+  "Acting Coaches": "bg-accent-aqua",
+  "Headshot Photographers": "bg-accent-gold",
+  "Demo Reel Editors": "bg-accent-rose",
+  Agents: "bg-accent-blue",
+};
 
 export default async function CategoryTileGrid() {
   let categories: CategoryTile[] = [];
@@ -55,7 +64,7 @@ export default async function CategoryTileGrid() {
       "Voice Coaches": "mic",
     };
 
-    categories = supabaseCategories.slice(0, 6).map((category, index) => ({
+    categories = supabaseCategories.slice(0, 6).map((category) => ({
       name: category.category_name,
       slug: category.category_name
         .toLowerCase()
@@ -65,7 +74,7 @@ export default async function CategoryTileGrid() {
         .replace(/^-|-$/g, ""),
       icon: iconMap[category.category_name] || "star",
       count: categoryCounts[category.category_name] || 0,
-      color: categoryColors[index % categoryColors.length],
+      color: CATEGORY_COLORS[category.category_name] || "bg-accent-aqua",
     }));
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -84,25 +93,17 @@ export default async function CategoryTileGrid() {
               key={category.slug}
               href={`/category/${category.slug}`}
               className={cn(
-                "group relative overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl",
+                "group relative rounded-xl p-6 shadow-card transition hover:shadow-cardHover",
                 category.color,
-                "hover:shadow-lg",
+                "text-black", // Text on colored surface
               )}
             >
-              <div className="flex flex-col items-center text-center space-y-3">
-                <div className="p-3 bg-white/20 rounded-lg group-hover:bg-white/30 transition-colors">
-                  <Icon className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="font-semibold text-lg text-white">
-                  {category.name}
-                </h3>
-                {category.count > 0 && (
-                  <p className="text-sm text-white/80">
-                    {category.count}{" "}
-                    {category.count === 1 ? "professional" : "professionals"}
-                  </p>
-                )}
-              </div>
+              <h3 className="text-lg font-semibold mb-2">{category.name}</h3>
+              {category.count > 0 && (
+                <p className="opacity-80 text-sm">
+                  {category.count}+ professionals
+                </p>
+              )}
             </Link>
           );
         })}

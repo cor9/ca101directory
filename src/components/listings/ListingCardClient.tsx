@@ -109,10 +109,12 @@ export function ListingCardClient({
     >
       <CardHeader className="relative p-0">
         {/* STEP 4: Profile Image - fixed height, rounded top */}
-        <div className={cn(
-          "relative w-full overflow-hidden rounded-t-xl bg-bg-dark-2",
-          isFeatured ? "h-56" : "h-40"
-        )}>
+        <div
+          className={cn(
+            "relative w-full overflow-hidden rounded-t-xl bg-bg-dark-2",
+            isFeatured ? "h-56" : "h-40",
+          )}
+        >
           {listing.profile_image ? (
             <Image
               src={getListingImageUrl(listing.profile_image)}
@@ -137,22 +139,26 @@ export function ListingCardClient({
 
               if (listing.featured) {
                 badgeText = "Featured";
-                badgeClassName = "text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle";
+                badgeClassName =
+                  "text-xs font-medium bg-bg-3 text-text-secondary border border-accent-purple/40";
               } else if (listing.comped) {
                 badgeText = "Pro";
-                badgeClassName = "text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle";
+                badgeClassName =
+                  "text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle";
               } else if (
                 (listing.plan || "").toLowerCase() === "pro" ||
                 (listing.plan || "").toLowerCase() === "founding pro"
               ) {
                 badgeText = "Pro";
-                badgeClassName = "text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle";
+                badgeClassName =
+                  "text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle";
               } else if (
                 (listing.plan || "").toLowerCase() === "standard" ||
                 (listing.plan || "").toLowerCase() === "founding standard"
               ) {
                 badgeText = "Standard";
-                badgeClassName = "text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle";
+                badgeClassName =
+                  "text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle";
               }
 
               return (

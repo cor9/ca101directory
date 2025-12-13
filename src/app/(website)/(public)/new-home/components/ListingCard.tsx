@@ -100,7 +100,7 @@ export default function ListingCard({
         </div>
 
         {listing.is_verified && (
-          <CheckCircle className="w-4 h-4 text-accent-lemon flex-shrink-0" />
+          <CheckCircle className="w-4 h-4 text-accent-gold flex-shrink-0" />
         )}
       </Link>
     );
@@ -134,7 +134,7 @@ export default function ListingCard({
           {/* Featured Badge */}
 
           {listing.is_featured && (
-            <div className="absolute top-3 left-3 px-3 py-1 bg-accent-lemon text-bg-dark font-semibold text-xs rounded-full">
+            <div className="absolute top-3 left-3 px-3 py-1 bg-bg-3 text-text-secondary border border-accent-purple/40 font-semibold text-xs rounded-full">
               Featured
             </div>
           )}
@@ -142,7 +142,7 @@ export default function ListingCard({
           {/* Verified Badge */}
 
           {listing.is_verified && (
-            <div className="absolute top-3 right-3 px-3 py-1 bg-accent-lemon text-bg-dark font-semibold text-xs rounded-full flex items-center gap-1">
+            <div className="absolute top-3 right-3 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold">
               <CheckCircle className="w-3 h-3" />
               Verified
             </div>
@@ -163,7 +163,7 @@ export default function ListingCard({
 
             {listing.rating && (
               <div className="flex items-center gap-1 flex-shrink-0">
-                <Star className="w-4 h-4 text-accent-lemon fill-accent-lemon" />
+                <Star className="w-4 h-4 text-accent-gold fill-accent-gold" />
 
                 <span className="text-sm font-medium text-text-primary">
                   {listing.rating.toFixed(1)}
@@ -240,7 +240,7 @@ export default function ListingCard({
         {/* Verified Badge */}
 
         {listing.is_verified && (
-          <div className="absolute top-2 right-2 px-2 py-1 bg-accent-lemon text-bg-dark text-xs font-medium rounded-full flex items-center gap-1">
+          <div className="absolute top-2 right-2 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold">
             <CheckCircle className="w-3 h-3" />
             Verified
           </div>
@@ -266,7 +266,7 @@ export default function ListingCard({
 
         {listing.rating && (
           <div className="flex items-center gap-1 mt-2">
-            <Star className="w-3 h-3 text-accent-lemon fill-accent-lemon" />
+            <Star className="w-3 h-3 text-accent-gold fill-accent-gold" />
 
             <span className="text-xs font-medium text-text-primary">
               {listing.rating.toFixed(1)}

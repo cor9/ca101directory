@@ -85,7 +85,7 @@ export default function SearchBox({ urlPrefix }: SearchBoxProps) {
       />
       <Button
         type="submit"
-        className="rounded-l-none size-12 bg-primary-orange hover:bg-primary-orange/90 text-paper"
+        className="rounded-l-none size-12 bg-accent-aqua text-black hover:bg-accent-aqua/90"
         disabled={isSearching}
       >
         <SearchIcon

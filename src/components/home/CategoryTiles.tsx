@@ -13,18 +13,20 @@ import Link from "next/link";
 
 // Category → Color Map (NON-NEGOTIABLE - Patreon-style)
 const CATEGORY_COLORS: Record<string, string> = {
-  "Acting Classes & Coaches": "bg-accent-aqua",
   "Acting Classes": "bg-accent-aqua",
-  "Acting Coaches": "bg-accent-aqua",
-  Coaches: "bg-accent-aqua",
-  "Headshot Photographers": "bg-accent-gold",
   Photographers: "bg-accent-gold",
   "Talent Agents": "bg-accent-blue",
-  Agents: "bg-accent-blue",
+  Headshots: "bg-accent-purple",
   "Demo Reels": "bg-accent-rose",
-  "Demo Reel Editors": "bg-accent-rose",
+  Coaches: "bg-accent-aqua",
   Studios: "bg-accent-orange",
   Resources: "bg-accent-red",
+  // Aliases for variations
+  "Acting Classes & Coaches": "bg-accent-aqua",
+  "Acting Coaches": "bg-accent-aqua",
+  "Headshot Photographers": "bg-accent-gold",
+  "Demo Reel Editors": "bg-accent-rose",
+  Agents: "bg-accent-blue",
   "Acting Schools": "bg-accent-aqua",
   "Actor Websites": "bg-accent-blue",
   "Audition Prep": "bg-accent-orange",
@@ -85,8 +87,7 @@ export default async function CategoryTiles() {
             const count = categoryCounts[category.category_name] || 0;
             const categoryColor =
               CATEGORY_COLORS[category.category_name] || "bg-accent-aqua";
-            const Icon =
-              categoryIcons[category.category_name] || Users;
+            const Icon = categoryIcons[category.category_name] || Users;
             const slug = category.category_name
               .toLowerCase()
               .replace(/[^a-z0-9\s]/g, "")
@@ -105,9 +106,7 @@ export default async function CategoryTiles() {
                 <h3 className="text-lg font-semibold mb-2">
                   {category.category_name}
                 </h3>
-                <p className="opacity-80 text-sm">
-                  {count}+ professionals
-                </p>
+                <p className="opacity-80 text-sm">{count}+ professionals</p>
               </Link>
             );
           })}

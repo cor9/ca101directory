@@ -138,8 +138,12 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
     listing.is_claimed || (listing.plan && listing.plan !== "Free");
 
   // 16A: Determine if Free listing
-  const isFree = !listing.plan || listing.plan === "Free" || listing.plan === null;
-  const isStandard = listing.plan && (listing.plan.toLowerCase() === "standard" || listing.plan.toLowerCase() === "founding standard");
+  const isFree =
+    !listing.plan || listing.plan === "Free" || listing.plan === null;
+  const isStandard =
+    listing.plan &&
+    (listing.plan.toLowerCase() === "standard" ||
+      listing.plan.toLowerCase() === "founding standard");
   const isPro = planPriority >= 3;
 
   // 16D: Badge Economy - limit badges by tier
@@ -157,7 +161,10 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
     badges.push({
       type: "approved",
       component: (
-        <Badge key="approved" className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold">
+        <Badge
+          key="approved"
+          className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold"
+        >
           <CheckCircleIcon className="w-3 h-3" />
           101 Approved
         </Badge>
@@ -168,7 +175,10 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
     badges.push({
       type: "verified",
       component: (
-        <Badge key="verified" className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold">
+        <Badge
+          key="verified"
+          className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold"
+        >
           Verified
         </Badge>
       ),
@@ -178,17 +188,27 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
     badges.push({
       type: "bg_checked",
       component: (
-        <Badge key="bg_checked" className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
+        <Badge
+          key="bg_checked"
+          className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle"
+        >
           Background Checked
         </Badge>
       ),
     });
   }
-  if (isReviewsEnabled() && averageRating.count > 0 && averageRating.average >= 4.5) {
+  if (
+    isReviewsEnabled() &&
+    averageRating.count > 0 &&
+    averageRating.average >= 4.5
+  ) {
     badges.push({
       type: "rating",
       component: (
-        <Badge key="rating" className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
+        <Badge
+          key="rating"
+          className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle"
+        >
           4.5+ Rating
         </Badge>
       ),
@@ -198,7 +218,10 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
     badges.push({
       type: "repeat",
       component: (
-        <Badge key="repeat" className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
+        <Badge
+          key="repeat"
+          className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle"
+        >
           Repeat Families
         </Badge>
       ),
@@ -243,7 +266,7 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
             {/* Left badges */}
             <div className="flex gap-2">
               {listing.featured && (
-                <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
+                <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-accent-purple/40">
                   {badgeText}
                 </Badge>
               )}
@@ -290,10 +313,12 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
         {/* STEP 5: Category label - readable, scannable */}
         {/* 16A: Free listings get muted category label */}
         {validCategories.length > 0 && (
-          <p className={cn(
-            "text-sm font-medium line-clamp-1",
-            isFree ? "text-text-muted/70" : "text-accent-blue"
-          )}>
+          <p
+            className={cn(
+              "text-sm font-medium line-clamp-1",
+              isFree ? "text-text-muted/70" : "text-accent-blue",
+            )}
+          >
             {validCategories[0]}
           </p>
         )}

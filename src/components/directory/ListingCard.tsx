@@ -1,8 +1,8 @@
 "use client";
 
+import { CheckCircle, MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Star, CheckCircle } from "lucide-react";
 
 interface ListingCardProps {
   listing: {
@@ -35,7 +35,10 @@ const categoryColors: Record<string, string> = {
   Editor: "from-accent-lemon to-accent-blue",
 };
 
-export default function ListingCard({ listing, variant = "default" }: ListingCardProps) {
+export default function ListingCard({
+  listing,
+  variant = "default",
+}: ListingCardProps) {
   const listingName = listing.title || listing.name || "Listing";
   const category = listing.category || listing.category_name || "Professional";
 
@@ -82,7 +85,7 @@ export default function ListingCard({ listing, variant = "default" }: ListingCar
         </div>
 
         {listing.is_verified && (
-          <CheckCircle className="w-4 h-4 text-accent-lemon" />
+          <CheckCircle className="w-4 h-4 text-accent-gold" />
         )}
       </Link>
     );
@@ -112,14 +115,14 @@ export default function ListingCard({ listing, variant = "default" }: ListingCar
 
           {/* Featured Badge */}
           {listing.is_featured && (
-            <div className="absolute top-3 left-3 bg-accent-lemon text-bg-dark font-semibold text-xs px-3 py-1 rounded-full shadow">
+            <div className="absolute top-3 left-3 px-3 py-1 bg-bg-3 text-text-secondary border border-accent-purple/40 font-semibold text-xs rounded-full shadow">
               Featured
             </div>
           )}
 
           {/* Verified Badge */}
           {listing.is_verified && (
-            <div className="absolute top-3 right-3 bg-accent-lemon text-bg-dark font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1 shadow">
+            <div className="absolute top-3 right-3 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold shadow">
               <CheckCircle className="w-3 h-3" /> Verified
             </div>
           )}
@@ -135,7 +138,7 @@ export default function ListingCard({ listing, variant = "default" }: ListingCar
           {/* Rating */}
           {listing.rating && (
             <div className="flex items-center gap-1 mt-2">
-              <Star className="w-4 h-4 text-accent-lemon fill-accent-lemon" />
+              <Star className="w-4 h-4 text-accent-gold fill-accent-gold" />
               <span className="text-sm text-text-primary font-medium">
                 {listing.rating.toFixed(1)}
               </span>
@@ -186,9 +189,7 @@ export default function ListingCard({ listing, variant = "default" }: ListingCar
       className="rounded-xl overflow-hidden bg-bg-dark-2 border border-border-subtle hover-glow transition block group shadow-card"
     >
       {/* Category Header Bar */}
-      <div
-        className={`h-2 w-full bg-gradient-to-r ${headerGradient}`}
-      />
+      <div className={`h-2 w-full bg-gradient-to-r ${headerGradient}`} />
 
       {/* Image */}
       <div className="relative h-44 w-full bg-bg-dark">
@@ -206,7 +207,7 @@ export default function ListingCard({ listing, variant = "default" }: ListingCar
         )}
 
         {listing.is_verified && (
-          <div className="absolute top-2 right-2 bg-accent-lemon text-bg-dark text-xs px-2 py-1 rounded-full flex items-center gap-1 shadow">
+          <div className="absolute top-2 right-2 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold shadow">
             <CheckCircle className="w-3 h-3" /> Verified
           </div>
         )}
@@ -229,7 +230,7 @@ export default function ListingCard({ listing, variant = "default" }: ListingCar
 
         {listing.rating && (
           <div className="flex items-center gap-1 pt-1">
-            <Star className="w-3 h-3 text-accent-lemon fill-accent-lemon" />
+            <Star className="w-3 h-3 text-accent-gold fill-accent-gold" />
             <span className="text-xs text-text-primary font-semibold">
               {listing.rating.toFixed(1)}
             </span>

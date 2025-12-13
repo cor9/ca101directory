@@ -11,3 +11,17 @@
     @apply text-text-secondary hover:text-text-primary transition-colors;
   }
 }
+
+@layer utilities {
+  /* Category tile glow effect - atmospheric color tint */
+  .category-tile::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0.25;
+    filter: blur(24px);
+    pointer-events: none;
+    z-index: 0;
+  }
+}

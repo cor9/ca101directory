@@ -11,27 +11,28 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-// Category → Color Map (NON-NEGOTIABLE - Patreon-style)
-const CATEGORY_COLORS: Record<string, string> = {
-  "Acting Classes": "bg-accent-aqua",
-  Photographers: "bg-accent-gold",
-  "Talent Agents": "bg-accent-blue",
-  Headshots: "bg-accent-purple",
-  "Demo Reels": "bg-accent-rose",
-  Coaches: "bg-accent-aqua",
-  Studios: "bg-accent-orange",
-  Resources: "bg-accent-red",
-  // Aliases for variations
-  "Acting Classes & Coaches": "bg-accent-aqua",
-  "Acting Coaches": "bg-accent-aqua",
-  "Headshot Photographers": "bg-accent-gold",
-  "Demo Reel Editors": "bg-accent-rose",
-  Agents: "bg-accent-blue",
-  "Acting Schools": "bg-accent-aqua",
-  "Actor Websites": "bg-accent-blue",
-  "Audition Prep": "bg-accent-orange",
-  "Background Casting": "bg-accent-purple",
-  "Branding Coaches": "bg-accent-rose",
+// Category → Color Tint Map (Toned, Adult, Premium - Patreon-style)
+const CATEGORY_TINTS: Record<string, string> = {
+  "Acting Classes & Coaches": "before:bg-accent-aqua",
+  "Acting Classes": "before:bg-accent-aqua",
+  "Acting Coaches": "before:bg-accent-aqua",
+  "Acting Schools": "before:bg-accent-blue",
+  "Actor Websites": "before:bg-accent-purple",
+  "Audition Prep": "before:bg-accent-orange",
+  "Background Casting": "before:bg-accent-gold",
+  "Branding Coaches": "before:bg-accent-rose",
+  Photographers: "before:bg-accent-gold",
+  "Headshot Photographers": "before:bg-accent-gold",
+  Headshots: "before:bg-accent-purple",
+  "Talent Agents": "before:bg-accent-blue",
+  Agents: "before:bg-accent-blue",
+  "Demo Reels": "before:bg-accent-rose",
+  "Demo Reel Editors": "before:bg-accent-rose",
+  Coaches: "before:bg-accent-aqua",
+  Studios: "before:bg-accent-orange",
+  Resources: "before:bg-accent-red",
+  "Business of Acting": "before:bg-accent-blue",
+  "Career Consulting": "before:bg-accent-aqua",
 };
 
 // Icon mapping
@@ -93,20 +94,35 @@ export default async function CategoryTiles() {
               .replace(/[^a-z0-9\s]/g, "")
               .replace(/\s+/g, "-");
 
+            const categoryTint =
+              CATEGORY_TINTS[category.category_name] || "before:bg-accent-aqua";
+
             return (
               <Link
                 key={category.id}
                 href={`/category/${slug}`}
                 className={cn(
-                  "group relative rounded-xl p-6 shadow-card transition hover:shadow-cardHover",
-                  categoryColor,
-                  "text-black", // Text on colored surface
+                  "category-tile group relative rounded-xl p-5",
+                  "bg-bg-dark-2 border border-white/10",
+                  "hover:border-white/20 transition",
+                  categoryTint,
                 )}
               >
-                <h3 className="text-lg font-semibold mb-2">
-                  {category.category_name}
-                </h3>
-                <p className="opacity-80 text-sm">{count}+ professionals</p>
+                {/* Color glow */}
+                <div
+                  className="absolute inset-0 rounded-xl opacity-20 blur-xl pointer-events-none"
+                  aria-hidden
+                />
+
+                {/* Content */}
+                <div className="relative z-10">
+                  <h3 className="text-white font-semibold text-lg mb-2">
+                    {category.category_name}
+                  </h3>
+                  <p className="text-text-muted text-sm">
+                    {count}+ professionals
+                  </p>
+                </div>
               </Link>
             );
           })}

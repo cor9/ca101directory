@@ -12,22 +12,28 @@ interface CategoryTile {
   color: string;
 }
 
-// Category → Color Map (NON-NEGOTIABLE - Patreon-style)
-const CATEGORY_COLORS: Record<string, string> = {
-  "Acting Classes": "bg-accent-aqua",
-  Photographers: "bg-accent-gold",
-  "Talent Agents": "bg-accent-blue",
-  Headshots: "bg-accent-purple",
-  "Demo Reels": "bg-accent-rose",
-  Coaches: "bg-accent-aqua",
-  Studios: "bg-accent-orange",
-  Resources: "bg-accent-red",
-  // Aliases for variations
-  "Acting Classes & Coaches": "bg-accent-aqua",
-  "Acting Coaches": "bg-accent-aqua",
-  "Headshot Photographers": "bg-accent-gold",
-  "Demo Reel Editors": "bg-accent-rose",
-  Agents: "bg-accent-blue",
+// Category → Color Tint Map (Toned, Adult, Premium - Patreon-style)
+const CATEGORY_TINTS: Record<string, string> = {
+  "Acting Classes & Coaches": "before:bg-accent-aqua",
+  "Acting Classes": "before:bg-accent-aqua",
+  "Acting Coaches": "before:bg-accent-aqua",
+  "Acting Schools": "before:bg-accent-blue",
+  "Actor Websites": "before:bg-accent-purple",
+  "Audition Prep": "before:bg-accent-orange",
+  "Background Casting": "before:bg-accent-gold",
+  "Branding Coaches": "before:bg-accent-rose",
+  Photographers: "before:bg-accent-gold",
+  "Headshot Photographers": "before:bg-accent-gold",
+  Headshots: "before:bg-accent-purple",
+  "Talent Agents": "before:bg-accent-blue",
+  Agents: "before:bg-accent-blue",
+  "Demo Reels": "before:bg-accent-rose",
+  "Demo Reel Editors": "before:bg-accent-rose",
+  Coaches: "before:bg-accent-aqua",
+  Studios: "before:bg-accent-orange",
+  Resources: "before:bg-accent-red",
+  "Business of Acting": "before:bg-accent-blue",
+  "Career Consulting": "before:bg-accent-aqua",
 };
 
 export default async function CategoryTileGrid() {
@@ -74,7 +80,7 @@ export default async function CategoryTileGrid() {
         .replace(/^-|-$/g, ""),
       icon: iconMap[category.category_name] || "star",
       count: categoryCounts[category.category_name] || 0,
-      color: CATEGORY_COLORS[category.category_name] || "bg-accent-aqua",
+      tint: CATEGORY_TINTS[category.category_name] || "before:bg-accent-aqua",
     }));
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -93,17 +99,29 @@ export default async function CategoryTileGrid() {
               key={category.slug}
               href={`/category/${category.slug}`}
               className={cn(
-                "group relative rounded-xl p-6 shadow-card transition hover:shadow-cardHover",
-                category.color,
-                "text-black", // Text on colored surface
+                "category-tile group relative rounded-xl p-5",
+                "bg-bg-dark-2 border border-white/10",
+                "hover:border-white/20 transition",
+                category.tint,
               )}
             >
-              <h3 className="text-lg font-semibold mb-2">{category.name}</h3>
-              {category.count > 0 && (
-                <p className="opacity-80 text-sm">
-                  {category.count}+ professionals
-                </p>
-              )}
+              {/* Color glow */}
+              <div
+                className="absolute inset-0 rounded-xl opacity-20 blur-xl pointer-events-none"
+                aria-hidden
+              />
+
+              {/* Content */}
+              <div className="relative z-10">
+                <h3 className="text-white font-semibold text-lg mb-2">
+                  {category.name}
+                </h3>
+                {category.count > 0 && (
+                  <p className="text-text-muted text-sm">
+                    {category.count}+ professionals
+                  </p>
+                )}
+              </div>
             </Link>
           );
         })}

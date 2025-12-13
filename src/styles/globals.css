@@ -14,6 +14,8 @@
 
 @layer utilities {
   /* Category tile glow effect - atmospheric color tint */
+  /* The before:bg-* classes from Tailwind provide the color */
+  /* This utility sets up the glow effect */
   .category-tile::before {
     content: "";
     position: absolute;

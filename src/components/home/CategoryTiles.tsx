@@ -86,8 +86,6 @@ export default async function CategoryTiles() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
           {categories.map((category) => {
             const count = categoryCounts[category.category_name] || 0;
-            const categoryColor =
-              CATEGORY_COLORS[category.category_name] || "bg-accent-aqua";
             const Icon = categoryIcons[category.category_name] || Users;
             const slug = category.category_name
               .toLowerCase()

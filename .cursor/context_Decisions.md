@@ -1,3 +1,80 @@
+## Feb 7, 2026 — Patreon-Style Color System Implementation
+
+### Problem
+Color usage was scattered and inconsistent across the site. Needed a canonical, restrained color system that uses color strategically in only four places: hero emphasis, category tiles, badges/tags, and primary actions—following Patreon's proven color philosophy.
+
+### Solution Implemented
+
+#### 1. Locked Accent System (tailwind.config.ts)
+- Established ONE canonical color map replacing scattered accent usage
+- Accent colors defined:
+  - `accent-red` (#FF3333) - urgency/submit/alerts
+  - `accent-orange` (#FF8800) - CTAs/revenue
+  - `accent-rose` (#FF00CC) - creative/demo reels
+  - `accent-blue` (#6666FF) - agents/trust
+  - `accent-aqua` (#00E5FF) - search/discovery
+  - `accent-purple` (#B24BF3) - premium/featured
+  - `accent-gold` (#FFD700) - verified/approved
+
+#### 2. Category Tiles - Colored Surfaces
+- Category tiles now use colored backgrounds (not neutral)
+- Category-to-color mapping (NON-NEGOTIABLE):
+  - "Acting Classes" → `bg-accent-aqua`
+  - "Photographers" → `bg-accent-gold`
+  - "Talent Agents" → `bg-accent-blue`
+  - "Headshots" → `bg-accent-purple`
+  - "Demo Reels" → `bg-accent-rose`
+  - "Coaches" → `bg-accent-aqua`
+  - "Studios" → `bg-accent-orange`
+  - "Resources" → `bg-accent-red`
+- Text on colored surfaces: `text-black` for readability
+- Updated in `CategoryTiles.tsx` and `category-tile-grid.tsx`
+
+#### 3. Hero Section - Colored Keywords
+- Hero already had colored keyword accents (orange & blue)
+- CTA button uses `accent-orange` (revenue color)
+- Search icon uses `accent-aqua` (discovery color)
+
+#### 4. Badges - Trust Signals
+- **Verified badges**: `bg-accent-gold/20 text-accent-gold` (gold = verified/approved)
+- **Featured badges**: `border-accent-purple/40` (purple = premium/featured)
+- Updated in `ListingCard.tsx`, `ListingCardClient.tsx`, and other card components
+- Removed incorrect `accent-lemon` usage (doesn't exist in system)
+
+#### 5. Search Icons
+- Updated `search-box.tsx` to use `accent-aqua` for search button (discovery color)
+- `home-search-box.tsx` already correct
+
+### Color Philosophy (Patreon-Style)
+**Use color in four places only:**
+1. Hero emphasis (headline accents, CTA)
+2. Category tiles (primary color moment)
+3. Badges & tags (Verified, Featured, Pro)
+4. Primary actions (View, Upgrade, Submit)
+
+**Everything else stays dark, calm, restrained.**
+
+### Files Changed
+- `tailwind.config.ts` - Accent colors already defined (verified)
+- `src/components/home/CategoryTiles.tsx` - Updated category color mapping
+- `src/components/home/category-tile-grid.tsx` - Updated to use canonical colors
+- `src/components/listings/ListingCard.tsx` - Featured badge border, Verified badge colors
+- `src/components/listings/ListingCardClient.tsx` - Featured badge border
+- `src/components/search/search-box.tsx` - Search button uses accent-aqua
+- `src/components/directory/ListingCard.tsx` - Updated badges to use accent-gold
+- `src/app/(website)/(public)/new-home/components/ListingCard.tsx` - Updated badges
+
+### Design System Alignment
+- Maintains dark marketplace foundation (bg-bg-dark, bg-card-surface)
+- Color used strategically, not as wallpaper
+- Category tiles are the primary color moment (like Patreon's Explore Topics)
+- Badges use subtle, premium styling (gold for trust, purple border for featured)
+
+### Status
+✅ Complete - All components updated to use canonical accent system. Color usage now follows Patreon-style restraint philosophy.
+
+---
+
 ## Dec 10, 2025 — Listing Detail Phase 2: Hero, Trust, Structured Content
 
 ### Problem

@@ -9,7 +9,7 @@ interface CategoryTile {
   slug: string;
   icon: keyof typeof Icons;
   count: number;
-  color: string;
+  tint: string;
 }
 
 // Category → Color Tint Map (Toned, Adult, Premium - Patreon-style)
@@ -105,13 +105,7 @@ export default async function CategoryTileGrid() {
                 category.tint,
               )}
             >
-              {/* Color glow */}
-              <div
-                className="absolute inset-0 rounded-xl opacity-20 blur-xl pointer-events-none"
-                aria-hidden
-              />
-
-              {/* Content */}
+              {/* Content - z-10 to sit above the ::before glow */}
               <div className="relative z-10">
                 <h3 className="text-white font-semibold text-lg mb-2">
                   {category.name}

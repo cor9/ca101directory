@@ -102,7 +102,9 @@ export default async function CategoryTiles() {
                 className={cn(
                   "category-tile group relative rounded-xl p-5",
                   "bg-bg-dark-2 border border-white/10",
-                  "hover:border-white/20 transition",
+                  "shadow-[0_10px_30px_rgba(0,0,0,0.45)]",
+                  "hover:shadow-[0_16px_40px_rgba(0,0,0,0.55)]",
+                  "hover:border-white/20 transition-all",
                   categoryTint,
                 )}
               >
@@ -111,7 +113,7 @@ export default async function CategoryTiles() {
                   <h3 className="text-white font-semibold text-lg mb-2">
                     {category.category_name}
                   </h3>
-                  <p className="text-text-muted text-sm">
+                  <p className="text-white/80 text-sm">
                     {count}+ professionals
                   </p>
                 </div>

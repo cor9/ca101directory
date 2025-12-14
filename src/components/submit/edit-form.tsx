@@ -89,9 +89,10 @@ export function EditForm({ listing, categories }: EditFormProps) {
       : listing.region
         ? [listing.region]
         : [],
-    promoVideo: typeof listing.custom_link_url === "string"
-      ? listing.custom_link_url
-      : "",
+    promoVideo:
+      typeof listing.custom_link_url === "string"
+        ? listing.custom_link_url
+        : "",
   });
 
   const [galleryImages, setGalleryImages] = useState<string[]>(() => {

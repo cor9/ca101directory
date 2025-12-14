@@ -20,7 +20,7 @@ export default function HomeHero() {
         <div className="mt-6 flex items-center">
           <a
             href="#categories"
-            className="bg-accent-orange text-black px-6 py-3 rounded-lg font-semibold hover:bg-accent-orange/90 transition"
+            className="bg-accent-teal text-black px-6 py-3 rounded-lg font-semibold hover:bg-accent-teal/90 transition"
           >
             Browse the Directory
           </a>

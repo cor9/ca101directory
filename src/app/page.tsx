@@ -95,6 +95,41 @@ export default async function Page() {
           {/* Category Tiles */}
           <CategoryTiles />
 
+          {/* Vendor CTA - Bridge between categories and listings */}
+          <section className="mt-14">
+            <div className="max-w-7xl mx-auto px-4">
+              <div className="rounded-xl border border-border-subtle bg-bg-dark-2 px-6 py-8">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                  <div>
+                    <h3 className="text-lg font-semibold text-text-primary">
+                      Are you a trusted industry professional working with young
+                      actors?
+                    </h3>
+                    <p className="mt-1 text-sm text-text-muted">
+                      List your services where families already come looking for
+                      vetted support.
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <a
+                      href="/submit"
+                      className="rounded-md bg-accent-blue px-5 py-2.5 text-sm font-medium text-white hover:opacity-90 transition"
+                    >
+                      List Your Services
+                    </a>
+                    <a
+                      href="/pricing"
+                      className="text-sm text-text-secondary hover:text-text-primary transition"
+                    >
+                      Learn how listings work →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Featured Listings */}
           <section className="bg-bg-dark pb-24">
             <div className="max-w-6xl mx-auto px-6">

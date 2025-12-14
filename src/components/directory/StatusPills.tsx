@@ -78,17 +78,17 @@ export function StatusPills({
             key={pill.label}
             className={cn(
               "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium",
-              "border transition-colors tracking-wide",
+              "border transition-colors tracking-wide text-white",
             )}
             style={{
               backgroundColor: hexToRgba(pill.accentColor, 0.12),
-              borderColor: hexToRgba(pill.accentColor, 0.35),
-              color: pill.accentColor,
+              borderColor: hexToRgba(pill.accentColor, 0.8),
+              color: "#FFFFFF",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = hexToRgba(
                 pill.accentColor,
-                0.18,
+                0.14,
               );
             }}
             onMouseLeave={(e) => {
@@ -98,9 +98,7 @@ export function StatusPills({
               );
             }}
           >
-            {Icon && (
-              <Icon className="h-3 w-3" style={{ color: pill.accentColor }} />
-            )}
+            {Icon && <Icon className="h-3 w-3" style={{ color: "#FFFFFF" }} />}
             <span>{pill.label}</span>
           </div>
         );

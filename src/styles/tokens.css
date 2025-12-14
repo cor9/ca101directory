@@ -1,6 +1,15 @@
 :root {
-  /* Bauhaus Mid-Century Modern Hollywood Palette */
+  /* Dark Surface System - Directory Pages Only */
+  --bg-root: #0b0f14;
+  --bg-section: #0f141b;
+  --bg-panel: #141a22;
 
+  /* Text Colors - Dark Surfaces */
+  --text-primary: #ffffff;
+  --text-secondary: #b8c0cc;
+  --text-muted: #8a94a6;
+
+  /* Bauhaus Mid-Century Modern Hollywood Palette */
   /* Cinema Backdrop - Dark navy/deep charcoal */
   --navy: #0c1a2b;
   --navy-900: #0c1a2b;
@@ -8,7 +17,7 @@
   --navy-700: #19324b;
   --charcoal: #1e1f23;
 
-  /* Screen/Card Canvas - Soft cream */
+  /* Screen/Card Canvas - Soft cream (BLOG/MARKETING ONLY - NOT DIRECTORY) */
   --cream: #fffdd0;
   --cream-ink: #1b1f29;
   --ink: #f7fafc;

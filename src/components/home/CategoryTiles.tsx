@@ -26,16 +26,16 @@ const HOME_CATEGORY_COLORS: Record<string, string> = {
   "Talent Managers": "#EF4444", // crimson - strategy + leverage
 };
 
-// Normalize visual weight with opacity compensation per color type
+// Normalize visual weight with opacity compensation per color type (18-22% range per spec)
 const CATEGORY_OPACITY: Record<string, number> = {
-  "Acting Classes & Coaches": 16, // teal
-  "Audition Prep": 14, // orange
-  "Career Consultation": 18, // blue
-  "Demo Reel Creators": 15, // magenta
-  "Headshot Photographers": 13, // gold
-  "Self Tape Support": 16, // lime green
-  "Talent Agents": 18, // indigo
-  "Talent Managers": 14, // crimson
+  "Acting Classes & Coaches": 20, // teal
+  "Audition Prep": 18, // orange
+  "Career Consultation": 22, // blue
+  "Demo Reel Creators": 20, // magenta
+  "Headshot Photographers": 18, // gold
+  "Self Tape Support": 20, // lime green
+  "Talent Agents": 22, // indigo
+  "Talent Managers": 18, // crimson
 };
 
 export default async function CategoryTiles() {

@@ -51,16 +51,16 @@ const FEATURED_CATEGORY_COLORS: Record<string, string> = {
   "Talent Managers": "#EF4444", // red - talent managers
 };
 
-// Normalize visual weight with opacity compensation (8-12% range for subtlety)
+// Normalize visual weight with opacity compensation (18-22% range per spec)
 const CATEGORY_OPACITY: Record<string, number> = {
-  "Acting Classes & Coaches": 10, // teal
-  "Audition Prep": 10, // orange
-  "Career Consultation": 10, // lime green
-  "Demo Reel Creators": 10, // magenta
-  "Headshot Photographers": 10, // gold
-  "Self Tape Support": 10, // cyan
-  "Talent Agents": 12, // blue (slightly more for authority)
-  "Talent Managers": 10, // red
+  "Acting Classes & Coaches": 20, // teal
+  "Audition Prep": 18, // orange
+  "Career Consultation": 22, // lime green
+  "Demo Reel Creators": 20, // magenta
+  "Headshot Photographers": 18, // gold
+  "Self Tape Support": 20, // cyan
+  "Talent Agents": 22, // blue (slightly more for authority)
+  "Talent Managers": 18, // red
 };
 
 export default async function CategoryPage() {

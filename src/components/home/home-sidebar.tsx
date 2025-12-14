@@ -22,9 +22,6 @@ export function HomeSidebar({ categories }: HomeSidebarProps) {
   const [verified, setVerified] = useState(
     searchParams.get("verified") === "true",
   );
-  const [backgroundChecked, setBackgroundChecked] = useState(
-    searchParams.get("bg_checked") === "true",
-  );
   const [highRating, setHighRating] = useState(
     searchParams.get("high_rating") === "true",
   );
@@ -90,26 +87,6 @@ export function HomeSidebar({ categories }: HomeSidebarProps) {
               }`}
             >
               Verified Providers
-            </span>
-          </label>
-
-          <label className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-bg-3/60 transition-colors cursor-pointer group">
-            <Checkbox
-              checked={backgroundChecked}
-              onCheckedChange={(checked) => {
-                setBackgroundChecked(checked as boolean);
-                updateFilter("bg_checked", checked as boolean);
-              }}
-              className="border-subtle data-[state=checked]:bg-accent-teal data-[state=checked]:border-accent-teal"
-            />
-            <span
-              className={`text-sm flex-1 ${
-                backgroundChecked
-                  ? "text-text-primary font-semibold"
-                  : "text-text-secondary"
-              }`}
-            >
-              Background Checked
             </span>
           </label>
 

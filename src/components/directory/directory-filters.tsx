@@ -38,7 +38,6 @@ export function DirectoryFilters({
 
   // Trust Filters
   const [verifiedOnly, setVerifiedOnly] = useState(false);
-  const [backgroundCheckedOnly, setBackgroundCheckedOnly] = useState(false);
   const [highRated, setHighRated] = useState(false);
   const [repeatFamilies, setRepeatFamilies] = useState(false);
 
@@ -50,7 +49,6 @@ export function DirectoryFilters({
     setSelectedCity(searchParams.get("city") || "all");
 
     setVerifiedOnly(searchParams.get("verified") === "true");
-    setBackgroundCheckedOnly(searchParams.get("bg_checked") === "true");
     setHighRated(searchParams.get("high_rated") === "true");
     setRepeatFamilies(searchParams.get("repeat") === "true");
   }, [searchParams]);
@@ -342,22 +340,6 @@ export function DirectoryFilters({
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Verified Providers
-              </Label>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="bg-checked"
-                checked={backgroundCheckedOnly}
-                onCheckedChange={(checked) =>
-                  updateFilters({ bg_checked: !!checked })
-                }
-              />
-              <Label
-                htmlFor="bg-checked"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Background Checked
               </Label>
             </div>
 

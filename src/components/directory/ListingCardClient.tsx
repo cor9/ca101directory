@@ -185,15 +185,9 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
       <div className="mt-5 flex items-center gap-3">
         <Link
           href={`/listing/${slug}`}
-          className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
+          className="inline-flex items-center justify-center px-4 py-2.5 rounded-md text-sm font-medium bg-accent-blue text-white hover:opacity-90 transition-colors"
         >
-          View Profile
-        </Link>
-        <Link
-          href={`/listing/${slug}#contact`}
-          className="inline-block text-orange-500 font-semibold hover:underline"
-        >
-          Contact →
+          View Details
         </Link>
       </div>
     </article>

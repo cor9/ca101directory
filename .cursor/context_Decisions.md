@@ -1,4 +1,202 @@
-## Feb 7, 2026 — Patreon-Style Color System Implementation
+## Feb 7, 2026 — REMOVE CREAM FROM DIRECTORY UI: Complete Dark Surface System
+
+### Problem
+Cream/beige/warm off-white backgrounds were appearing on directory pages (homepage, listings, category pages, dashboards, search/filters, cards, CTAs), violating the dark marketplace design system.
+
+### Solution Implemented
+
+#### 1. New Dark Surface Tokens (tokens.css)
+- `--bg-root: #0B0F14` - Base body background
+- `--bg-section: #0F141B` - Page sections
+- `--bg-panel: #141A22` - Cards/filters/modals
+- `--text-primary: #FFFFFF` - Primary text
+- `--text-secondary: #B8C0CC` - Secondary text
+- `--text-muted: #8A94A6` - Muted text
+
+**Rule:** Cream colors (`#FAFADC`, `#FFF7E6`, `#FDF6EC`, `rgb(250, 250, 220)`) are BANNED from directory pages. They may only exist in blog posts, long-form educational pages, and marketing landing pages.
+
+#### 2. Category Tiles - Final Spec (18-22% Opacity)
+- Background: `color @ 18-22% opacity` (updated from 10-18%)
+- Border: `color @ 80-100%` (solid, not gradient)
+- Text: White title, neutral gray count
+- No glow bleeding outside the card
+- Updated in `CategoryTiles.tsx` and `category/page.tsx`
+
+#### 3. Locked 8 Featured Categories
+Always render these 8 categories in exact order:
+1. Acting Classes & Coaches
+2. Audition Prep
+3. Career Consultation
+4. Demo Reel Creators
+5. Headshot Photographers
+6. Self Tape Support
+7. Talent Agents
+8. Talent Managers
+
+If fewer than 8 render, that's a bug, not design.
+
+#### 4. Category Page Structure
+- **Section 1:** "Featured Categories" → shows the same 8 as homepage
+- **Section 2:** "All Other Categories" → everything else goes here
+
+#### 5. Filters & Pills (Subtle Carryover)
+- Neutral pill by default
+- Active pill gets:
+  - Thin accent border (80% opacity)
+  - Very light accent background (10-14%)
+  - White text always readable
+- No full-color pills
+- Updated `StatusPills.tsx` to use 12% background with 80% border
+
+#### 6. Badge System (Unified)
+- Badge base: `background: #0F141B; border: accent color; text: white;`
+- Badge types:
+  - Verified → teal/cyan (#2DD4BF)
+  - Featured → gold (#FACC15)
+  - Pro → purple (#B24BF3)
+- No transparent badges. Ever.
+- Updated `StatusBadge.tsx` to use exact spec
+
+#### 7. Listing Card CTAs
+- "View Details" is always a solid button, never ghost text
+- High contrast
+- Consistent placement
+- Never rely on hover to discover
+- Updated `ListingCardClient.tsx` and `ListingCard.tsx`
+
+#### 8. Removed Redundant UI
+- Removed background check filters from `home-sidebar.tsx` and `directory-filters.tsx` (service not offered)
+- Removed secondary filter panels
+- Removed light blue filter blocks
+
+#### 9. Vendor CTA Placement
+- Lives inside layout flow
+- Spans same max-width as content
+- Never floats at bottom creating dead space
+- Uses full-width dark panel with strong CTA button
+- Already correctly implemented in `page.tsx`
+
+### Files Changed
+- `src/styles/tokens.css` - Added dark surface tokens
+- `src/styles/globals.css` - Updated category tile opacity range
+- `src/components/home/CategoryTiles.tsx` - Updated opacity to 18-22%
+- `src/app/(website)/(public)/category/page.tsx` - Updated opacity to 18-22%
+- `src/components/directory/StatusPills.tsx` - Updated to 12% background, 80% border, white text
+- `src/components/badges/StatusBadge.tsx` - Updated to solid dark base (#0F141B) with accent borders
+- `src/components/directory/ListingCardClient.tsx` - Updated CTA to solid button
+- `src/components/home/home-sidebar.tsx` - Removed background check filter
+- `src/components/directory/directory-filters.tsx` - Removed background check filter
+
+### Design Philosophy
+- **Cream is banned from directory pages** - Only dark surfaces allowed
+- **Accent colors are signals, not backgrounds** - Only in tiles, badges, pills, CTAs
+- **Color contained inside cards** - No bleeding outside boundaries
+- **8 featured categories locked** - Always render, no substitutions
+- **All CTAs are real buttons** - Never ghost text
+
+### Status
+✅ Complete - All directory pages now use dark surfaces. Cream removed entirely. Category tiles, badges, filters, and CTAs follow final spec.
+
+---
+
+## Feb 7, 2026 — Category Tiles & Badge System: Final Spec Implementation
+
+### Problem
+Category tiles had visual issues (foggy appearance from blur/opacity) and badges were invisible on images. Needed a clean, professional system with:
+- Solid color-tinted tiles (not foggy)
+- Badges with legible base (not floating on images)
+- Consistent 8 featured categories
+- Proper structural spacing (no viewport height gaps)
+
+### Solution Implemented
+
+#### 1. Category Tiles - Final Spec (Homepage & Category Page)
+- **8 Featured Categories** (locked, always render):
+  1. Acting Classes & Coaches
+  2. Audition Prep
+  3. Career Consultation
+  4. Demo Reel Creators
+  5. Headshot Photographers
+  6. Self Tape Support
+  7. Talent Agents
+  8. Talent Managers
+
+- **Color System** (8-accent balanced set):
+  - Teal (#2DD4BF) - Acting Classes & Coaches
+  - Orange (#FB923C) - Audition Prep
+  - Lime Green (#84CC16) - Career Consultation
+  - Magenta (#D946EF) - Demo Reel Creators
+  - Gold (#FACC15) - Headshot Photographers
+  - Cyan (#06B6D4) - Self Tape Support
+  - Blue (#3B82F6) - Talent Agents
+  - Red (#EF4444) - Talent Managers
+
+- **Visual Treatment**:
+  - Background: `color-mix(in srgb, var(--accent) 10-12%, #0b0f14)` (subtle tint, not foggy)
+  - Border: `2px solid var(--accent)` (solid, not gradient)
+  - Hover: Background 14-18%, subtle glow only on hover
+  - Text: White title, neutral gray count (#9CA3AF)
+  - Normalized opacity per color type (8-12% range) for visual weight balance
+
+- **Category Page Structure**:
+  - Featured section (top): 8 categories with color
+  - "All Other Categories" section (below): Neutral dark cards, no accent until hover
+
+#### 2. Badge System Redesign
+- **Solid Base Container**:
+  - `bg-black/70` with `backdrop-blur-sm`
+  - `border border-white/10`
+  - Ensures legibility on any image background
+
+- **Accent Colors as Accents Only**:
+  - Verified: Teal left border + teal check icon
+  - Featured: Gold left border + gold star icon
+  - Pro: Purple border + purple dot indicator
+  - No neon fills, no gradients
+
+- **White Text Always**: `text-white text-xs font-medium`
+- **Consistent Placement**: Top-left (`absolute left-3 top-3`), stacked with `gap-2`
+
+#### 3. Structural Fixes
+- **Removed viewport heights**: No `min-h-screen` on category sections
+- **Content-driven spacing**: `py-12 md:py-16` (responsive padding rhythm)
+- **Explicit sections**: Each section self-contained, no flex stretching
+
+#### 4. Directory Page Cleanup
+- **Removed light-blue filter section**: Deleted `DirectoryFilters` component with "Trust & Quality" checkboxes
+- **Added Status Pills**: Context indicators above results grid showing active filters
+- **Page flow**: Hero Search → Helper text → Featured → Status Pills → Results Grid
+
+#### 5. Vendor CTA Section
+- **Placement**: Between category tiles and featured listings
+- **Design**: Calm, Patreon-style with subtle background (`bg-bg-dark-2`)
+- **One accent**: Blue on primary button only
+- **Copy**: "Are you a trusted industry professional working with young actors?"
+
+### Files Changed
+- `src/components/home/CategoryTiles.tsx` - Final spec with normalized opacity
+- `src/app/(website)/(public)/category/page.tsx` - Restructured with featured/all sections
+- `src/components/badges/StatusBadge.tsx` - Solid base with accent borders/icons
+- `src/components/listings/ListingCard.tsx` - Updated badge placement
+- `src/components/listings/ListingCardClient.tsx` - Updated badge placement
+- `src/components/directory/ListingCard.tsx` - Updated badge placement
+- `src/app/page.tsx` - Added Vendor CTA, fixed structural gaps
+- `src/styles/globals.css` - Category tile styles, dashboard utilities
+- `src/app/(website)/(public)/directory/page.tsx` - Removed filter section, added status pills
+- `src/components/directory/StatusPills.tsx` - New component for context indicators
+
+### Design Philosophy
+- **Color is hierarchical, not decorative**: Only 8 featured categories get color
+- **Badges are status markers**: Solid base ensures legibility, accent colors for meaning
+- **Content-driven height**: No viewport-based stretching, proper padding rhythm
+- **Clean structure**: No redundant UI, clear hierarchy
+
+### Status
+✅ Complete - All components updated. Category tiles are crisp and professional, badges are legible, structure is clean.
+
+---
+
+## Feb 7, 2026 — Patreon-Style Color System Implementation (Original)
 
 ### Problem
 Color usage was scattered and inconsistent across the site. Needed a canonical, restrained color system that uses color strategically in only four places: hero emphasis, category tiles, badges/tags, and primary actions—following Patreon's proven color philosophy.

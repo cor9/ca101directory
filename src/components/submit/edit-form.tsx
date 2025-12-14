@@ -65,7 +65,7 @@ export function EditForm({ listing, categories }: EditFormProps) {
     state: string;
     zip: string;
     region: string[];
-    promoVideo: string;
+    promoVideo?: string;
   }>({
     name: listing.listing_name || "",
     link: listing.website || "",
@@ -89,7 +89,9 @@ export function EditForm({ listing, categories }: EditFormProps) {
       : listing.region
         ? [listing.region]
         : [],
-    promoVideo: (listing as any).custom_link_url || "",
+    promoVideo: typeof listing.custom_link_url === "string"
+      ? listing.custom_link_url
+      : "",
   });
 
   const [galleryImages, setGalleryImages] = useState<string[]>(() => {
@@ -181,12 +183,8 @@ export function EditForm({ listing, categories }: EditFormProps) {
       const submitData = {
         ...formData,
         // Map promo video to custom link fields expected by submit action/schema
-        ...(formData.promoVideo && formData.promoVideo.trim().length > 0
-          ? {
-              custom_link_url: formData.promoVideo.trim(),
-              custom_link_name: "Promo Video",
-            }
-          : {}),
+        custom_link_url: formData.promoVideo?.trim() || null,
+        custom_link_name: formData.promoVideo?.trim() ? "Promo Video" : null,
         tags: formData.tags.length > 0 ? formData.tags : ["hybrid"], // Default tag
         categories:
           formData.categories.length > 0
@@ -437,7 +435,7 @@ export function EditForm({ listing, categories }: EditFormProps) {
               <Input
                 id="promoVideo"
                 placeholder="https://youtube.com/watch?v=... or https://vimeo.com/..."
-                value={formData.promoVideo}
+                value={formData.promoVideo || ""}
                 onChange={(e) =>
                   handleInputChange("promoVideo", e.target.value)
                 }

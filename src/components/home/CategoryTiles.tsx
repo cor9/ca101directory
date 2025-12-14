@@ -79,8 +79,8 @@ export default async function CategoryTiles() {
   });
 
   return (
-    <section id="categories" className="bg-bg-dark min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+    <section id="categories" className="bg-bg-dark py-12 md:py-16">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {categories.map((category) => {
             const count = categoryCounts[category.category_name] || 0;

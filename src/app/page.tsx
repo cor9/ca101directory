@@ -13,8 +13,8 @@ import { OrganizationSchema } from "@/components/seo/listing-schema";
 import { marketingConfig } from "@/config/marketing";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
-import { getFeaturedListings, getPublicListings } from "@/data/listings";
 import { getItems } from "@/data/item-service";
+import { getFeaturedListings, getPublicListings } from "@/data/listings";
 import { currentUser } from "@/lib/auth";
 import { DEFAULT_SORT } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
@@ -75,9 +75,9 @@ export default async function Page() {
         strategy="afterInteractive"
       />
 
-      <div className="flex flex-col min-h-screen bg-bg text-text-primary">
+      <div className="flex flex-col bg-bg text-text-primary">
         <Navbar scroll={true} config={marketingConfig} user={user} />
-        <main className="flex-1">
+        <main>
           {/* Hero Section */}
           <HomeHero />
 
@@ -96,7 +96,7 @@ export default async function Page() {
           <CategoryTiles />
 
           {/* Vendor CTA - Bridge between categories and listings */}
-          <section className="mt-14">
+          <section className="bg-bg-dark py-12 md:py-16">
             <div className="max-w-7xl mx-auto px-4">
               <div className="rounded-xl border border-border-subtle bg-bg-dark-2 px-6 py-8">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
@@ -131,8 +131,8 @@ export default async function Page() {
           </section>
 
           {/* Featured Listings */}
-          <section className="bg-bg-dark pb-24">
-            <div className="max-w-6xl mx-auto px-6">
+          <section className="bg-bg-dark py-12 md:py-16 lg:py-20">
+            <div className="max-w-7xl mx-auto px-4">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-semibold text-text-primary">
                   Featured Professionals

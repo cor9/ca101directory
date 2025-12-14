@@ -1,8 +1,8 @@
+import { BadgeStack } from "@/components/badges/StatusBadge";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { Icons } from "@/components/icons/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BadgeStack } from "@/components/badges/StatusBadge";
 import {
   Card,
   CardContent,

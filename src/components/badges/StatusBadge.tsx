@@ -1,5 +1,5 @@
-import { CheckCircle, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CheckCircle, Star } from "lucide-react";
 
 export type BadgeType = "verified" | "featured" | "pro";
 

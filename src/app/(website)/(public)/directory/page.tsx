@@ -6,7 +6,7 @@ import { SuggestVendorCTA } from "@/components/cta/SuggestVendorCTA";
 import DirectoryClient from "@/components/directory/DirectoryClient";
 import DirectoryHeroSearch from "@/components/directory/DirectoryHeroSearch";
 import WhyParentsTrust from "@/components/directory/WhyParentsTrust";
-import { DirectoryFilters } from "@/components/directory/directory-filters";
+import { StatusPills } from "@/components/directory/StatusPills";
 import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import EmptyGrid from "@/components/shared/empty-grid";
 import { siteConfig } from "@/config/site";
@@ -65,6 +65,10 @@ export default async function DirectoryPage({
     region,
     city,
     q: query,
+    verified,
+    bg_checked,
+    repeat,
+    high_rated,
   } = searchParams as {
     [key: string]: string;
   };
@@ -113,18 +117,11 @@ export default async function DirectoryPage({
       {/* Search-First Hero */}
       <DirectoryHeroSearch categories={categories} />
 
-      {/* Filters (compact) */}
-      <Container className="py-6">
-        <DirectoryFilters
-          className=""
-          categories={categories}
-          states={states}
-        />
-      </Container>
-
-      {/* Suggest a vendor CTA */}
-      <Container className="px-6 py-4">
-        <SuggestVendorCTA />
+      {/* Optional helper text */}
+      <Container className="py-4">
+        <p className="text-sm text-text-muted text-center">
+          Use filters to narrow by specialty and location.
+        </p>
       </Container>
 
       {/* Featured Vendors */}
@@ -134,12 +131,27 @@ export default async function DirectoryPage({
 
       {/* Listings Grid */}
       <section id="search-results" className="max-w-7xl mx-auto px-4 py-8">
-        <h2 className="bauhaus-heading text-2xl text-white mb-6">
-          All Professionals
-          <span className="text-white/50 text-lg font-normal ml-2">
-            ({totalCount} results)
-          </span>
-        </h2>
+        <div className="mb-6">
+          <h2 className="bauhaus-heading text-2xl text-white mb-4">
+            All Professionals
+            <span className="text-white/50 text-lg font-normal ml-2">
+              ({totalCount} results)
+            </span>
+          </h2>
+
+          {/* Status Pills - Context indicators above results */}
+          <div className="mb-4">
+            <p className="text-xs text-text-muted mb-2">
+              Showing listings that are:
+            </p>
+            <StatusPills
+              verified={verified === "true"}
+              featured={false} // Featured is handled separately
+              pro={false} // Pro is handled separately
+              onlineOnly={false} // Can be added if format filter exists
+            />
+          </div>
+        </div>
 
         {/* when no items are found */}
         {items?.length === 0 && <EmptyGrid />}

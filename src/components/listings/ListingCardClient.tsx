@@ -133,7 +133,9 @@ export function ListingCardClient({
           {/* Badges Overlay - Top-left placement */}
           <div className="absolute left-3 top-3 flex gap-2">
             <BadgeStack
-              verified={listing.trust_level === "verified" || !!listing.is_approved_101}
+              verified={
+                listing.trust_level === "verified" || !!listing.is_approved_101
+              }
               featured={!!listing.featured}
               pro={
                 (listing.plan || "").toLowerCase() === "pro" ||

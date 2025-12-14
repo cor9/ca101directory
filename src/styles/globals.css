@@ -12,3 +12,32 @@
   }
 }
 
+@layer components {
+  /* Category tile - solid color-tinted dark background */
+  .category-tile {
+    background: color-mix(in srgb, var(--accent) 18%, #0e1117);
+    border-radius: 18px;
+    padding: 24px;
+    border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    transition: transform 0.15s ease, background 0.15s ease;
+    display: block;
+  }
+
+  .category-tile:hover {
+    background: color-mix(in srgb, var(--accent) 26%, #0e1117);
+    transform: translateY(-2px);
+  }
+
+  .category-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 6px;
+  }
+
+  .category-count {
+    font-size: 0.85rem;
+    color: color-mix(in srgb, var(--accent) 70%, #ffffff);
+  }
+}

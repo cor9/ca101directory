@@ -14,16 +14,16 @@ const HOME_CATEGORIES = [
   "Talent Managers",
 ] as const;
 
-// Category → Color Map (high-chroma, electric, modern)
+// Category → Color Map (electric, but grown-up - Patreon-adjacent)
 const HOME_CATEGORY_COLORS: Record<string, string> = {
-  "Acting Classes & Coaches": "#00E5FF",     // electric aqua
-  "Audition Prep": "#FF8C1A",               // hot orange
-  "Career Consultation": "#00D6A3",         // energized mint
-  "Demo Reel Creators": "#FF4FD8",          // clean neon rose
-  "Headshot Photographers": "#FFD400",      // studio gold
-  "Self Tape Support": "#5B6CFF",            // electric blue
-  "Talent Agents": "#9B5CFF",               // modern violet
-  "Talent Managers": "#FF3B3B",             // assertive red
+  "Acting Classes & Coaches": "#2DD4BF", // teal - trust + learning
+  "Audition Prep": "#FB923C", // orange - energy + action
+  "Career Consultation": "#3B82F6", // blue - authority, guidance
+  "Demo Reel Creators": "#D946EF", // magenta - creative output
+  "Headshot Photographers": "#FACC15", // gold - premium visual craft
+  "Self Tape Support": "#84CC16", // lime green - technical + problem solving
+  "Talent Agents": "#6366F1", // indigo - power + access
+  "Talent Managers": "#EF4444", // crimson - strategy + leverage
 };
 
 export default async function CategoryTiles() {
@@ -56,15 +56,15 @@ export default async function CategoryTiles() {
     console.error("Error fetching categories:", error);
   }
 
-  // Filter to only the 8 homepage categories, in exact order
+  // Render all 8 homepage categories, in exact order (even if not in DB)
   const categories = HOME_CATEGORIES.map((categoryName) => {
-    const found = allCategories.find(
-      (c) => c.category_name === categoryName,
-    );
-    return found
-      ? { id: found.id, category_name: found.category_name }
-      : null;
-  }).filter((c): c is { id: string; category_name: string } => c !== null);
+    const found = allCategories.find((c) => c.category_name === categoryName);
+    // Always render all 8, even if category doesn't exist in DB yet
+    return {
+      id: found?.id || `placeholder-${categoryName}`,
+      category_name: categoryName,
+    };
+  });
 
   return (
     <section id="categories" className="bg-bg-dark min-h-screen">
@@ -88,9 +88,7 @@ export default async function CategoryTiles() {
                 style={{ "--accent": color } as React.CSSProperties}
               >
                 <div className="category-title">{category.category_name}</div>
-                <div className="category-count">
-                  {count}+ professionals
-                </div>
+                <div className="category-count">{count}+ professionals</div>
               </Link>
             );
           })}

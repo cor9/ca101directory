@@ -103,7 +103,6 @@ export function DirectoryFilters({
     (selectedState && selectedState !== "all") ||
     (selectedCity && selectedCity !== "all") ||
     verifiedOnly ||
-    backgroundCheckedOnly ||
     highRated ||
     repeatFamilies;
 
@@ -190,21 +189,6 @@ export function DirectoryFilters({
                   type="button"
                   onClick={() => updateFilters({ verified: false })}
                   className="ml-1 hover:bg-sky-200 rounded-full p-0.5"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </Badge>
-            )}
-            {backgroundCheckedOnly && (
-              <Badge
-                variant="secondary"
-                className="flex items-center gap-1 bg-green-100 text-green-800 border-green-200"
-              >
-                Background Checked
-                <button
-                  type="button"
-                  onClick={() => updateFilters({ bg_checked: false })}
-                  className="ml-1 hover:bg-green-200 rounded-full p-0.5"
                 >
                   <X className="h-3 w-3" />
                 </button>

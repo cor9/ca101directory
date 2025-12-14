@@ -21,7 +21,7 @@ type BaseSubmitFormData = {
   description: string;
   introduction: string;
   unique: string;
-  format: string;
+  format: string | string[]; // Can be array (tags) or string (legacy)
   notes: string;
   imageId: string;
   tags: string[];
@@ -170,6 +170,11 @@ export async function submitToSupabase(
         ? JSON.stringify(gallery.slice(0, galleryLimit)) // Limit based on plan
         : null; // Free: no gallery
 
+    // Convert format array to comma-separated string for storage
+    const formatString = Array.isArray(format)
+      ? format.join(", ")
+      : format || "";
+
     // Create listing data for Supabase
     const listingData = {
       listing_name: name,
@@ -177,7 +182,7 @@ export async function submitToSupabase(
       what_you_offer: description,
       // Premium content fields: only for paid plans (Standard/Pro)
       why_is_it_unique: isFree ? null : unique || null,
-      format: format,
+      format: formatString,
       extras_notes: isFree ? null : notes || null,
       email: email,
       phone: phone,

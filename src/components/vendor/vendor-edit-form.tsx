@@ -137,20 +137,25 @@ export function VendorEditForm({
     });
   }, []);
 
-  // Helper to normalize format values
-  const normalizeFormat = (format: string | undefined): string => {
-    if (!format) return "";
-    const lowerFormat = format.toLowerCase();
-    if (lowerFormat === "in-person" || lowerFormat === "in person") {
-      return "In-person";
+  // Parse format from string to array (for tags)
+  const parseFormatTags = (format: string | undefined): string[] => {
+    if (!format) return [];
+    // Handle comma-separated values or single value
+    const normalized = format.toLowerCase().trim();
+    if (normalized.includes(",")) {
+      return normalized.split(",").map((f) => f.trim()).filter(Boolean);
     }
-    if (lowerFormat === "online") {
-      return "Online";
+    // Map single values to tag format
+    if (normalized === "in-person" || normalized === "in person") {
+      return ["in-person"];
     }
-    if (lowerFormat === "hybrid") {
-      return "Hybrid";
+    if (normalized === "online") {
+      return ["online"];
     }
-    return format.charAt(0).toUpperCase() + format.slice(1).toLowerCase();
+    if (normalized === "hybrid") {
+      return ["hybrid"];
+    }
+    return [];
   };
 
   const form = useForm<z.infer<typeof UpdateListingSchema>>({
@@ -164,7 +169,7 @@ export function VendorEditForm({
       why_is_it_unique: listing.why_is_it_unique || "",
       extras_notes: listing.extras_notes || "",
       video_url: (listing as any).video_url || "",
-      format: normalizeFormat(listing.format),
+      format: parseFormatTags(listing.format).join(", "), // Store as comma-separated string
       city: listing.city || "",
       state: listing.state || "",
       zip: listing.zip?.toString() || "",
@@ -270,6 +275,7 @@ export function VendorEditForm({
   const handleTagToggle = (
     tag: string,
     field:
+      | "format"
       | "age_range"
       | "region"
       | "age_tags"
@@ -566,21 +572,6 @@ export function VendorEditForm({
         </>
       )}
 
-      {/* Format */}
-      <div className="space-y-1">
-        <Label htmlFor="format">Service Format</Label>
-        <select
-          id="format"
-          {...form.register("format")}
-          className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm"
-          disabled={isPending}
-        >
-          <option value="">Select format</option>
-          <option value="In-person">In-person Only</option>
-          <option value="Online">Online Only</option>
-          <option value="Hybrid">Hybrid (Online & In-person)</option>
-        </select>
-      </div>
 
       {/* Location */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -793,24 +784,30 @@ export function VendorEditForm({
         )}
       </div>
 
-      {/* Service Format Tags (stored in age_range field) */}
+      {/* Service Format Tags */}
       <div className="space-y-2">
         <Label>Service Format Tags</Label>
         <div className="space-y-2">
-          {["online", "in-person", "hybrid"].map((tag) => (
-            <label key={tag} className="flex items-center space-x-2">
-              <Checkbox
-                checked={String((form.watch("age_range") as any) || "")
-                  .split(", ")
-                  .includes(tag)}
-                onCheckedChange={() => handleTagToggle(tag, "age_range")}
-                disabled={isPending}
-              />
-              <span className="text-sm capitalize">
-                {tag.replace("-", " ")}
-              </span>
-            </label>
-          ))}
+          {["online", "in-person", "hybrid"].map((tag) => {
+            const formatStr = (form.watch("format") as any) || "";
+            const formatArray = formatStr
+              ? String(formatStr).split(", ").filter(Boolean)
+              : [];
+            const isChecked = formatArray.includes(tag);
+
+            return (
+              <label key={tag} className="flex items-center space-x-2">
+                <Checkbox
+                  checked={isChecked}
+                  onCheckedChange={() => handleTagToggle(tag, "format")}
+                  disabled={isPending}
+                />
+                <span className="text-sm capitalize">
+                  {tag.replace("-", " ")}
+                </span>
+              </label>
+            );
+          })}
         </div>
         <p className="text-xs text-gray-600">
           Select all that apply. These tags help families find your service.

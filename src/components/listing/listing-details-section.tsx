@@ -55,10 +55,30 @@ export function ListingDetailsSection({
           {hasPremiumAccess && listing.format && (
             <div>
               <h3 className={subHeadingClass}>Service Format</h3>
-              <RichTextDisplay
-                content={listing.format}
-                className="text-base leading-relaxed"
-              />
+              <div className="mt-4 flex flex-wrap gap-2">
+                {(() => {
+                  // Parse format from string to array
+                  const formatStr = listing.format || "";
+                  const formatArray = formatStr.includes(",")
+                    ? formatStr.split(",").map((f) => f.trim()).filter(Boolean)
+                    : [formatStr].filter(Boolean);
+                  
+                  return formatArray.length > 0 ? (
+                    formatArray.map((format) => (
+                      <span
+                        key={format}
+                        className="badge blue capitalize"
+                      >
+                        {format.toLowerCase().replace("-", " ")}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="text-[var(--ink)] opacity-80">
+                      No service format specified
+                    </span>
+                  );
+                })()}
+              </div>
             </div>
           )}
 

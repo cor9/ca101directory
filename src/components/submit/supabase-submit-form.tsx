@@ -108,13 +108,34 @@ export function SupabaseSubmitForm({
     return format.charAt(0).toUpperCase() + format.slice(1).toLowerCase();
   };
 
+  // Parse format from string to array (for tags)
+  const parseFormatTags = (format?: string): string[] => {
+    if (!format) return [];
+    // Handle comma-separated values or single value
+    const normalized = format.toLowerCase().trim();
+    if (normalized.includes(",")) {
+      return normalized.split(",").map((f) => f.trim()).filter(Boolean);
+    }
+    // Map single values to tag format
+    if (normalized === "in-person" || normalized === "in person") {
+      return ["in-person"];
+    }
+    if (normalized === "online") {
+      return ["online"];
+    }
+    if (normalized === "hybrid") {
+      return ["hybrid"];
+    }
+    return [];
+  };
+
   const [formData, setFormData] = useState({
     name: existingListing?.listing_name || "",
     link: existingListing?.website || "",
     description: existingListing?.description || "",
     introduction: "",
     unique: "",
-    format: normalizeFormat(existingListing?.format),
+    format: parseFormatTags(existingListing?.format), // Now an array
     notes: existingListing?.notes || "",
     imageId: existingListing?.image_url || "",
     tags: existingListing?.age_range || [],
@@ -260,6 +281,17 @@ export function SupabaseSubmitForm({
       tags: prev.tags.includes(tag)
         ? prev.tags.filter((t) => t !== tag)
         : [...prev.tags, tag],
+    }));
+  };
+
+  const handleFormatToggle = (formatTag: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      format: Array.isArray(prev.format)
+        ? prev.format.includes(formatTag)
+          ? prev.format.filter((f) => f !== formatTag)
+          : [...prev.format, formatTag]
+        : [formatTag],
     }));
   };
 
@@ -794,32 +826,39 @@ export function SupabaseSubmitForm({
             </div>
           </div>
 
-          {/* Service Format */}
+          {/* Service Format Tags */}
           <div className="space-y-4">
             {/* STEP 4: Field grouping - Services (already has h2 above) */}
 
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-2">
-                <Label className="text-text-primary">Format *</Label>
-                <FieldTooltip message="Select how families can work with you today. Pick Hybrid if you offer both online and in-person options." />
+                <Label className="text-text-primary">Service Format *</Label>
+                <FieldTooltip message="Select all that apply. These tags help families find your service." />
               </div>
-              <Select
-                name="format"
-                value={formData.format}
-                onValueChange={(value) => handleInputChange("format", value)}
-                required
-              >
-                <SelectTrigger
-                  className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 h-10 text-text-primary focus:outline-none focus:border-accent-blue ${getFieldError("format") ? "border-red-500 border-2" : ""}`}
-                >
-                  <SelectValue placeholder="Select service format" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Online">Online</SelectItem>
-                  <SelectItem value="In-person">In-person</SelectItem>
-                  <SelectItem value="Hybrid">Hybrid</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="space-y-2">
+                {["online", "in-person", "hybrid"].map((formatTag) => {
+                  const formatArray = Array.isArray(formData.format)
+                    ? formData.format
+                    : [];
+                  const isChecked = formatArray.includes(formatTag);
+
+                  return (
+                    <label
+                      key={formatTag}
+                      className="flex items-center space-x-2 cursor-pointer"
+                    >
+                      <Checkbox
+                        checked={isChecked}
+                        onCheckedChange={() => handleFormatToggle(formatTag)}
+                        required={formatArray.length === 0}
+                      />
+                      <span className="text-sm text-text-primary capitalize">
+                        {formatTag.replace("-", " ")}
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
               {getFieldError("format") && (
                 <p className="text-red-600 text-sm font-semibold">
                   ⚠️ {getFieldError("format")}

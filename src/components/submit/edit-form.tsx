@@ -22,22 +22,25 @@ export function EditForm({ listing, categories }: EditFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Helper function to normalize format values from database
-  const normalizeFormat = (format: string | undefined): string => {
-    if (!format) return "";
-    const lowerFormat = format.toLowerCase();
-    // Map to exact schema values
-    if (lowerFormat === "in-person" || lowerFormat === "in person") {
-      return "In-person";
+  // Parse format from string to array (for tags)
+  const parseFormatTags = (format: string | undefined): string[] => {
+    if (!format) return [];
+    // Handle comma-separated values or single value
+    const normalized = format.toLowerCase().trim();
+    if (normalized.includes(",")) {
+      return normalized.split(",").map((f) => f.trim()).filter(Boolean);
     }
-    if (lowerFormat === "online") {
-      return "Online";
+    // Map single values to tag format
+    if (normalized === "in-person" || normalized === "in person") {
+      return ["in-person"];
     }
-    if (lowerFormat === "hybrid") {
-      return "Hybrid";
+    if (normalized === "online") {
+      return ["online"];
     }
-    // Default: capitalize first letter only
-    return format.charAt(0).toUpperCase() + format.slice(1).toLowerCase();
+    if (normalized === "hybrid") {
+      return ["hybrid"];
+    }
+    return [];
   };
 
   const [formData, setFormData] = useState({
@@ -45,7 +48,7 @@ export function EditForm({ listing, categories }: EditFormProps) {
     link: listing.website || "",
     description: listing.what_you_offer || "",
     unique: listing.why_is_it_unique || "",
-    format: normalizeFormat(listing.format),
+    format: parseFormatTags(listing.format), // Now an array
     notes: listing.extras_notes || "",
     imageId: listing.profile_image || "",
     tags: listing.age_range || [],
@@ -246,19 +249,41 @@ export function EditForm({ listing, categories }: EditFormProps) {
           />
         </div>
 
+        {/* Service Format Tags */}
         <div className="space-y-2">
-          <Label htmlFor="format">Format</Label>
-          <select
-            id="format"
-            value={formData.format}
-            onChange={(e) => handleInputChange("format", e.target.value)}
-            className="w-full p-2 border rounded-md"
-          >
-            <option value="">Select format</option>
-            <option value="In-person">In-person Only</option>
-            <option value="Online">Online Only</option>
-            <option value="Hybrid">Hybrid (Online & In-person)</option>
-          </select>
+          <Label>Service Format</Label>
+          <div className="space-y-2">
+            {["online", "in-person", "hybrid"].map((formatTag) => {
+              const formatArray = Array.isArray(formData.format)
+                ? formData.format
+                : formData.format
+                  ? formData.format.split(", ").filter(Boolean)
+                  : [];
+              const isChecked = formatArray.includes(formatTag);
+
+              return (
+                <label
+                  key={formatTag}
+                  className="flex items-center space-x-2 cursor-pointer"
+                >
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={() => {
+                      const newFormat = isChecked
+                        ? formatArray.filter((f) => f !== formatTag)
+                        : [...formatArray, formatTag];
+                      handleInputChange("format", newFormat);
+                    }}
+                    className="rounded border-gray-300"
+                  />
+                  <span className="text-sm capitalize">
+                    {formatTag.replace("-", " ")}
+                  </span>
+                </label>
+              );
+            })}
+          </div>
         </div>
 
         <div className="space-y-2">

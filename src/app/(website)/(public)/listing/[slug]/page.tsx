@@ -604,7 +604,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     )}
 
                     {averageRating.count > 0 && (
-                      <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-[#FFFBEA] text-xs font-semibold text-slate-900">
+                      <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-white/5 text-xs font-semibold text-text-primary border border-white/10">
                         ★ {averageRating.average.toFixed(1)} (
                         {averageRating.count})
                       </span>
@@ -634,65 +634,65 @@ export default async function ListingPage({ params }: ListingPageProps) {
             </div>
           </div>
 
-          <div className="bg-[#FFFBEA] text-slate-900 py-10">
+          <div className="bg-bg-dark py-10">
             <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-              <section>
-                <h2 className="text-xl font-bold mb-3">About</h2>
+              <section className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6">
+                <h2 className="text-xl font-bold mb-3 text-text-primary">About</h2>
                 {listing.what_you_offer || listing.description ? (
                   <RichTextDisplay
                     content={
                       listing.what_you_offer || listing.description || ""
                     }
-                    className="text-sm leading-relaxed text-slate-800"
+                    className="text-sm leading-relaxed text-text-secondary"
                   />
                 ) : (
-                  <p className="text-sm leading-relaxed text-slate-800">
+                  <p className="text-sm leading-relaxed text-text-secondary">
                     No description provided yet.
                   </p>
                 )}
               </section>
 
-              <section>
-                <h2 className="text-xl font-bold mb-3">Details</h2>
+              <section className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6">
+                <h2 className="text-xl font-bold mb-3 text-text-primary">Details</h2>
                 <dl className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
                   <div>
-                    <dt className="font-semibold">Category</dt>
-                    <dd>{displayPrimaryCategory}</dd>
+                    <dt className="font-semibold text-text-primary">Category</dt>
+                    <dd className="text-text-secondary">{displayPrimaryCategory}</dd>
                   </div>
 
                   <div>
-                    <dt className="font-semibold">Location</dt>
-                    <dd>{locationLabel || "—"}</dd>
+                    <dt className="font-semibold text-text-primary">Location</dt>
+                    <dd className="text-text-secondary">{locationLabel || "—"}</dd>
                   </div>
 
                   <div>
-                    <dt className="font-semibold">Ages Served</dt>
+                    <dt className="font-semibold text-text-primary">Ages Served</dt>
                     <dd className="flex flex-wrap gap-2">
                       {ageRanges.length > 0 ? (
                         ageRanges.map((age) => (
                           <span
                             key={age}
-                            className="px-2 py-0.5 rounded-full bg-[#7AB8CC1A]"
+                            className="px-2 py-0.5 rounded-full bg-white/5 text-text-secondary border border-white/10"
                           >
                             {age}
                           </span>
                         ))
                       ) : (
-                        <span>—</span>
+                        <span className="text-text-secondary">—</span>
                       )}
                     </dd>
                   </div>
 
                   <div>
-                    <dt className="font-semibold">Services</dt>
-                    <dd>{services.length > 0 ? services.join(", ") : "—"}</dd>
+                    <dt className="font-semibold text-text-primary">Services</dt>
+                    <dd className="text-text-secondary">{services.length > 0 ? services.join(", ") : "—"}</dd>
                   </div>
                 </dl>
               </section>
 
               {reviewsEnabled && (
-                <section id="reviews">
-                  <h2 className="text-xl font-bold mb-4">
+                <section id="reviews" className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6">
+                  <h2 className="text-xl font-bold mb-4 text-text-primary">
                     Reviews from Parents
                   </h2>
 
@@ -712,10 +712,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
                     <div className="space-y-6">
                       <div className="flex items-center gap-2 mb-3">
                         <span className="text-2xl">★</span>
-                        <span className="text-xl font-semibold">
+                        <span className="text-xl font-semibold text-text-primary">
                           {averageRating.average.toFixed(1)}
                         </span>
-                        <span className="text-sm text-slate-600">
+                        <span className="text-sm text-text-muted">
                           based on {averageRating.count} review
                           {averageRating.count === 1 ? "" : "s"}
                         </span>
@@ -724,12 +724,12 @@ export default async function ListingPage({ params }: ListingPageProps) {
                       {reviews.map((review) => (
                         <div
                           key={review.id}
-                          className="rounded-lg border border-slate-300 p-4 bg-white shadow-sm"
+                          className="rounded-lg border border-white/10 p-4 bg-bg-dark-2"
                         >
-                          <p className="text-sm leading-relaxed text-slate-800">
+                          <p className="text-sm leading-relaxed text-text-secondary">
                             {review.text}
                           </p>
-                          <p className="mt-2 text-xs text-slate-500">
+                          <p className="mt-2 text-xs text-text-muted">
                             —{" "}
                             {review.user?.name ||
                               review.user?.email ||
@@ -783,16 +783,16 @@ export default async function ListingPage({ params }: ListingPageProps) {
               {(!listing.plan ||
                 listing.plan === "Free" ||
                 listing.plan === null) && (
-                <section className="mt-16 pt-10 border-t border-slate-200">
-                  <p className="text-sm text-slate-600 mb-6">
+                <section className="mt-16 pt-10 border-t border-white/10">
+                  <p className="text-sm text-text-secondary mb-6">
                     Families typically contact 2–3 providers before deciding.
                   </p>
                   {/* 18G: The One Sentence */}
-                  <p className="text-xs text-slate-500 italic mb-4">
+                  <p className="text-xs text-text-muted italic mb-4">
                     Providers with Pro features receive 3–5× more parent
                     contact.
                   </p>
-                  <h2 className="text-xl font-bold mb-6 text-slate-900">
+                  <h2 className="text-xl font-bold mb-6 text-text-primary">
                     Similar providers families also viewed
                   </h2>
                   {allPublicListingsForComparison.length > 0 ? (
@@ -826,8 +826,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 listing.plan !== "Free" &&
                 listing.plan !== null &&
                 recommendedItems.length > 0 && (
-                  <section className="mt-16 pt-10 border-t border-slate-200">
-                    <h2 className="text-xl font-bold mb-6 text-slate-900">
+                  <section className="mt-16 pt-10 border-t border-white/10">
+                    <h2 className="text-xl font-bold mb-6 text-text-primary">
                       Other Trusted Providers in {listing.state || "Your Area"}
                     </h2>
                     <ListingCarousel listings={recommendedItems} />

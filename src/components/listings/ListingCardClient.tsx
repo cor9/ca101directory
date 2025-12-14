@@ -130,40 +130,18 @@ export function ListingCardClient({
             </div>
           )}
 
-          {/* Badges Overlay */}
-          <div className="absolute top-2 left-2 right-2 flex items-start justify-between gap-2">
-            {/* Left: Plan badge (if not Pro) */}
-            {(() => {
-              const plan = (listing.plan || "").toLowerCase();
-              const isPro =
-                plan === "pro" ||
-                plan === "founding pro" ||
-                listing.comped;
-              const isStandard =
-                plan === "standard" || plan === "founding standard";
-
-              if (isPro || isStandard) return null; // Pro/Standard shown in BadgeStack
-
-              return (
-                <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
-                  Free
-                </Badge>
-              );
-            })()}
-
-            {/* Right: Status badges */}
-            <div className="flex gap-2">
-              <BadgeStack
-                verified={listing.trust_level === "verified" || !!listing.is_approved_101}
-                featured={!!listing.featured}
-                pro={
-                  (listing.plan || "").toLowerCase() === "pro" ||
-                  (listing.plan || "").toLowerCase() === "founding pro" ||
-                  !!listing.comped
-                }
-                maxBadges={2}
-              />
-            </div>
+          {/* Badges Overlay - Top-left placement */}
+          <div className="absolute left-3 top-3 flex gap-2">
+            <BadgeStack
+              verified={listing.trust_level === "verified" || !!listing.is_approved_101}
+              featured={!!listing.featured}
+              pro={
+                (listing.plan || "").toLowerCase() === "pro" ||
+                (listing.plan || "").toLowerCase() === "founding pro" ||
+                !!listing.comped
+              }
+              maxBadges={2}
+            />
           </div>
         </div>
       </CardHeader>

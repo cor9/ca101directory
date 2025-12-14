@@ -191,24 +191,14 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
             />
           )}
 
-          {/* Badges Overlay */}
-          <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
-            {/* Left: Plan badge (if not Pro) */}
-            {!isProBadge && planPriority >= 3 && (
-              <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
-                {badgeText}
-              </Badge>
-            )}
-
-            {/* Right: Status badges (Verified, Featured, Pro) */}
-            <div className="flex gap-2">
-              <BadgeStack
-                verified={isVerified}
-                featured={isFeatured}
-                pro={isProBadge}
-                maxBadges={maxBadges}
-              />
-            </div>
+          {/* Badges Overlay - Top-left placement */}
+          <div className="absolute left-3 top-3 flex gap-2">
+            <BadgeStack
+              verified={isVerified}
+              featured={isFeatured}
+              pro={isProBadge}
+              maxBadges={maxBadges}
+            />
           </div>
         </div>
       )}

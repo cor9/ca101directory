@@ -117,12 +117,13 @@ export default function ListingCard({
           {/* Status Badges */}
           <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
             <BadgeStack
-              verified={listing.is_verified || listing.trust_level === "verified"}
-              featured={listing.is_featured || listing.featured}
+              verified={listing.is_verified || false}
+              featured={listing.is_featured || listing.featured || false}
               pro={
                 listing.plan?.toLowerCase() === "pro" ||
                 listing.plan?.toLowerCase() === "founding pro" ||
-                listing.comped
+                listing.comped ||
+                false
               }
               maxBadges={2}
             />

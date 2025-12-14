@@ -28,7 +28,10 @@ export function EditForm({ listing, categories }: EditFormProps) {
     // Handle comma-separated values or single value
     const normalized = format.toLowerCase().trim();
     if (normalized.includes(",")) {
-      return normalized.split(",").map((f) => f.trim()).filter(Boolean);
+      return normalized
+        .split(",")
+        .map((f) => f.trim())
+        .filter(Boolean);
     }
     // Map single values to tag format
     if (normalized === "in-person" || normalized === "in person") {
@@ -255,11 +258,12 @@ export function EditForm({ listing, categories }: EditFormProps) {
           <div className="space-y-2">
             {["online", "in-person", "hybrid"].map((formatTag) => {
               // Parse format - handle both array and string
+              const formatValue = formData.format;
               let formatArray: string[] = [];
-              if (Array.isArray(formData.format)) {
-                formatArray = formData.format;
-              } else if (typeof formData.format === "string" && formData.format) {
-                formatArray = formData.format.split(", ").filter(Boolean);
+              if (Array.isArray(formatValue)) {
+                formatArray = formatValue;
+              } else if (typeof formatValue === "string" && formatValue) {
+                formatArray = formatValue.split(", ").filter(Boolean);
               }
               const isChecked = formatArray.includes(formatTag);
 

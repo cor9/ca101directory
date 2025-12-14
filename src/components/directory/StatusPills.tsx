@@ -61,6 +61,14 @@ export function StatusPills({
     <div className={cn("flex flex-wrap gap-2", className)}>
       {pills.map((pill) => {
         const Icon = pill.icon;
+        // Convert hex to rgba for opacity
+        const hexToRgba = (hex: string, opacity: number) => {
+          const r = parseInt(hex.slice(1, 3), 16);
+          const g = parseInt(hex.slice(3, 5), 16);
+          const b = parseInt(hex.slice(5, 7), 16);
+          return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+        };
+
         return (
           <div
             key={pill.label}
@@ -69,15 +77,15 @@ export function StatusPills({
               "border transition-colors tracking-wide",
             )}
             style={{
-              backgroundColor: `${pill.accentColor}1F`, // 12% opacity (1F in hex)
-              borderColor: `${pill.accentColor}59`, // 35% opacity (59 in hex)
+              backgroundColor: hexToRgba(pill.accentColor, 0.12),
+              borderColor: hexToRgba(pill.accentColor, 0.35),
               color: pill.accentColor,
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = `${pill.accentColor}2E`; // 18% opacity
+              e.currentTarget.style.backgroundColor = hexToRgba(pill.accentColor, 0.18);
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = `${pill.accentColor}1F`; // 12% opacity
+              e.currentTarget.style.backgroundColor = hexToRgba(pill.accentColor, 0.12);
             }}
           >
             {Icon && <Icon className="h-3 w-3" style={{ color: pill.accentColor }} />}

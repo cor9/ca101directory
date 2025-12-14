@@ -254,11 +254,13 @@ export function EditForm({ listing, categories }: EditFormProps) {
           <Label>Service Format</Label>
           <div className="space-y-2">
             {["online", "in-person", "hybrid"].map((formatTag) => {
-              const formatArray = Array.isArray(formData.format)
-                ? formData.format
-                : formData.format
-                  ? formData.format.split(", ").filter(Boolean)
-                  : [];
+              // Parse format - handle both array and string
+              let formatArray: string[] = [];
+              if (Array.isArray(formData.format)) {
+                formatArray = formData.format;
+              } else if (typeof formData.format === "string" && formData.format) {
+                formatArray = formData.format.split(", ").filter(Boolean);
+              }
               const isChecked = formatArray.includes(formatTag);
 
               return (

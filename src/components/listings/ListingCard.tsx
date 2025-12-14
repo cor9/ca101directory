@@ -148,10 +148,10 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
   const isPro = planPriority >= 3;
 
   // 16D: Badge Economy - limit badges by tier
-  // Determine badge states
-  const isVerified = listing.trust_level === "verified" || listing.is_verified;
-  const isFeatured = listing.featured || listing.is_featured;
-  const isProBadge = isPro || listing.comped;
+  // Determine badge states (using canonical fields only)
+  const isVerified = listing.trust_level === "verified";
+  const isFeatured = !!listing.featured;
+  const isProBadge = isPro || !!listing.comped;
 
   const getMaxBadges = (): number => {
     if (isPro) return 2; // Max 2 badges (Verified + Pro)

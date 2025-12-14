@@ -154,16 +154,12 @@ export function ListingCardClient({
             {/* Right: Status badges */}
             <div className="flex gap-2">
               <BadgeStack
-                verified={
-                  listing.is_verified ||
-                  listing.trust_level === "verified" ||
-                  listing.is_approved_101
-                }
-                featured={listing.featured || listing.is_featured}
+                verified={listing.trust_level === "verified" || !!listing.is_approved_101}
+                featured={!!listing.featured}
                 pro={
                   (listing.plan || "").toLowerCase() === "pro" ||
                   (listing.plan || "").toLowerCase() === "founding pro" ||
-                  listing.comped
+                  !!listing.comped
                 }
                 maxBadges={2}
               />

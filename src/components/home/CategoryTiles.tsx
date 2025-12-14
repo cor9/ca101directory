@@ -26,6 +26,18 @@ const HOME_CATEGORY_COLORS: Record<string, string> = {
   "Talent Managers": "#EF4444", // crimson - strategy + leverage
 };
 
+// Normalize visual weight with opacity compensation per color type
+const CATEGORY_OPACITY: Record<string, number> = {
+  "Acting Classes & Coaches": 16, // teal
+  "Audition Prep": 14, // orange
+  "Career Consultation": 18, // blue
+  "Demo Reel Creators": 15, // magenta
+  "Headshot Photographers": 13, // gold
+  "Self Tape Support": 16, // lime green
+  "Talent Agents": 18, // indigo
+  "Talent Managers": 14, // crimson
+};
+
 export default async function CategoryTiles() {
   // Fetch categories and listings
   let allCategories: Array<{ id: string; category_name: string }> = [];
@@ -69,7 +81,7 @@ export default async function CategoryTiles() {
   return (
     <section id="categories" className="bg-bg-dark min-h-screen">
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {categories.map((category) => {
             const count = categoryCounts[category.category_name] || 0;
             const slug = category.category_name
@@ -78,14 +90,21 @@ export default async function CategoryTiles() {
               .replace(/\s+/g, "-");
 
             const color =
-              HOME_CATEGORY_COLORS[category.category_name] || "#00E5FF";
+              HOME_CATEGORY_COLORS[category.category_name] || "#2DD4BF";
+            const opacity =
+              CATEGORY_OPACITY[category.category_name] || 18;
 
             return (
               <Link
                 key={category.id}
                 href={`/category/${slug}`}
                 className="category-tile"
-                style={{ "--accent": color } as React.CSSProperties}
+                style={
+                  {
+                    "--accent": color,
+                    "--accent-opacity": opacity,
+                  } as React.CSSProperties
+                }
               >
                 <div className="category-title">{category.category_name}</div>
                 <div className="category-count">{count}+ professionals</div>

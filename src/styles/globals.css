@@ -13,18 +13,35 @@
 }
 
 @layer components {
-  /* Category tile - homepage (color-mix tinted background) */
+  /* Category tile - homepage (color-mix tinted background, normalized opacity) */
   .category-tile {
-    background: color-mix(in srgb, var(--accent) 22%, #0b0f14);
+    background: color-mix(
+      in srgb,
+      var(--accent) calc(var(--accent-opacity, 18) * 1%),
+      #0b0f14
+    );
     border: 2px solid color-mix(in srgb, var(--accent) 65%, transparent);
-    border-radius: 18px;
-    padding: 24px;
-    transition: background 0.15s ease, transform 0.15s ease;
+    border-radius: 16px;
+    padding: 1.5rem; /* p-6 desktop */
+    min-height: 88px; /* touch safety */
+    transition: background 0.15s ease, border-color 0.15s ease,
+      transform 0.15s ease;
     display: block;
   }
 
+  @media (max-width: 640px) {
+    .category-tile {
+      padding: 1rem; /* p-4 mobile */
+    }
+  }
+
   .category-tile:hover {
-    background: color-mix(in srgb, var(--accent) 30%, #0b0f14);
+    background: color-mix(
+      in srgb,
+      var(--accent) calc((var(--accent-opacity, 18) + 8) * 1%),
+      #0b0f14
+    );
+    border-color: color-mix(in srgb, var(--accent) 85%, transparent);
     transform: translateY(-2px);
   }
 
@@ -45,15 +62,23 @@
   }
 
   .category-title {
-    font-size: 1.05rem;
+    font-size: 1.125rem; /* text-lg desktop */
     font-weight: 600;
     color: #ffffff;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 640px) {
+    .category-title {
+      font-size: 1rem; /* text-base mobile */
+    }
   }
 
   .category-count {
-    font-size: 0.85rem;
-    margin-top: 6px;
-    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 400;
+    margin-top: 0.5rem;
+    color: #9ca3af; /* neutral, not accent */
   }
 
   /* Provider count - primary element on category page */

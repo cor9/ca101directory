@@ -61,6 +61,18 @@ export const AdminDashboardClientNew = ({
   const rejectedListings = allListings.filter((l) => l.status === "Rejected");
   const claimedListings = allListings.filter((l) => l.is_claimed);
   const unclaimedListings = allListings.filter((l) => !l.is_claimed);
+  const flaggedListingsFiltered = allListings.filter(
+    (l) => l.status === "Rejected",
+  );
+
+  // Calculate Pro listings (used in filter and later in component)
+  const proListings = allListings.filter(
+    (l) =>
+      l.plan &&
+      (l.plan.toLowerCase().includes("pro") ||
+        l.plan.toLowerCase().includes("premium") ||
+        l.comped),
+  );
 
   // Filtered listings based on status
   const getFilteredListings = () => {
@@ -75,6 +87,10 @@ export const AdminDashboardClientNew = ({
         return claimedListings;
       case "Unclaimed":
         return unclaimedListings;
+      case "pro":
+        return proListings;
+      case "flagged":
+        return flaggedListingsFiltered;
       default:
         return allListings;
     }
@@ -108,14 +124,7 @@ export const AdminDashboardClientNew = ({
       (!l.plan || l.plan === "Free" || l.plan === null) && l.status === "Live",
   );
 
-  // Get churn risk (inactive Pro listings - simplified)
-  const proListings = allListings.filter(
-    (l) =>
-      l.plan &&
-      (l.plan.toLowerCase().includes("pro") ||
-        l.plan.toLowerCase().includes("premium") ||
-        l.comped),
-  );
+  // proListings is already calculated above for filter logic
 
   return (
     <div className="bg-bg-dark min-h-screen">
@@ -251,53 +260,33 @@ export const AdminDashboardClientNew = ({
         {/* STEP 5: Listings control - not a table from hell */}
         <section className="mb-12">
           <div className="flex gap-4 border-b border-border-subtle mb-6">
-            <button
-              type="button"
-              className={`pb-2 px-1 ${
-                statusFilter === "all"
-                  ? "text-text-primary border-b-2 border-accent-blue"
-                  : "text-text-muted"
-              }`}
-              onClick={() => setStatusFilter("all")}
-            >
-              All
-            </button>
-            <button
-              type="button"
-              className={`pb-2 px-1 ${
-                statusFilter === "Pro"
-                  ? "text-text-primary border-b-2 border-accent-blue"
-                  : "text-text-muted"
-              }`}
-              onClick={() => {
-                // This is a simplified filter - would need state management
-                setStatusFilter("all");
-              }}
-            >
-              Pro
-            </button>
-            <button
-              type="button"
-              className={`pb-2 px-1 ${
-                statusFilter === "Rejected"
-                  ? "text-text-primary border-b-2 border-accent-blue"
-                  : "text-text-muted"
-              }`}
-              onClick={() => setStatusFilter("Rejected")}
-            >
-              Flagged
-            </button>
-            <button
-              type="button"
-              className={`pb-2 px-1 ${
-                statusFilter === "Unclaimed"
-                  ? "text-text-primary border-b-2 border-accent-blue"
-                  : "text-text-muted"
-              }`}
-              onClick={() => setStatusFilter("Unclaimed")}
-            >
-              Unclaimed
-            </button>
+            {[
+              { key: "all", label: "All", count: allListings.length },
+              { key: "pro", label: "Pro", count: proListings.length },
+              {
+                key: "flagged",
+                label: "Flagged",
+                count: flaggedListingsFiltered.length,
+              },
+              {
+                key: "Unclaimed",
+                label: "Unclaimed",
+                count: unclaimedListings.length,
+              },
+            ].map((tab) => (
+              <button
+                key={tab.key}
+                type="button"
+                onClick={() => setStatusFilter(tab.key)}
+                className={`px-2 pb-2 border-b-2 transition-colors cursor-pointer ${
+                  statusFilter === tab.key
+                    ? "border-orange-400 text-text-primary"
+                    : "border-transparent text-text-muted hover:text-text-secondary"
+                }`}
+              >
+                {tab.label} ({tab.count})
+              </button>
+            ))}
           </div>
 
           {updateError && (

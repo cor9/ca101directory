@@ -4,7 +4,7 @@ export default function HomeHero() {
       <div className="max-w-6xl mx-auto px-6">
         <h1 className="text-4xl md:text-5xl font-semibold text-text-primary leading-tight">
           The #1 Directory for{" "}
-          <span className="text-accent-yellow">Child Actor Vendors</span>{" "}
+          <span className="text-accent-orange">Child Actor Vendors</span>{" "}
           &{" "}
           <span className="text-accent-blue">Industry Professionals</span>
         </h1>

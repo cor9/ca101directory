@@ -83,7 +83,11 @@ export function EditForm({ listing, categories }: EditFormProps) {
     city: listing.city || "",
     state: listing.state || "",
     zip: listing.zip?.toString() || "",
-    region: listing.region || "",
+    region: Array.isArray(listing.region)
+      ? listing.region
+      : listing.region
+        ? [listing.region]
+        : [],
     bondNumber: listing.bond_number || "",
     active: listing.is_active ?? true,
     promoVideo: (listing as any).custom_link_url || "",

@@ -936,13 +936,6 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             rows={4}
           />
           <FormTextarea
-            id="format"
-            label="Service Format"
-            register={form.register}
-            disabled={isPending}
-            rows={2}
-          />
-          <FormTextarea
             id="extras_notes"
             label="Additional Notes"
             register={form.register}

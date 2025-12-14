@@ -184,7 +184,7 @@ export default async function CategoryPage() {
               <Link
                 key={category.slug}
                 href={`/category/${category.slug}`}
-                className="category-tile"
+                className="category-page-tile"
                 style={{ "--accent": color } as React.CSSProperties}
               >
                 {/* Provider count - primary element, big and colored */}

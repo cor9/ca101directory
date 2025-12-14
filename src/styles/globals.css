@@ -13,8 +13,23 @@
 }
 
 @layer components {
-  /* Category tile - solid color-tinted dark background */
+  /* Category tile - homepage (color-mix tinted background) */
   .category-tile {
+    background: color-mix(in srgb, var(--accent) 22%, #0b0f14);
+    border: 2px solid color-mix(in srgb, var(--accent) 65%, transparent);
+    border-radius: 18px;
+    padding: 24px;
+    transition: background 0.15s ease, transform 0.15s ease;
+    display: block;
+  }
+
+  .category-tile:hover {
+    background: color-mix(in srgb, var(--accent) 30%, #0b0f14);
+    transform: translateY(-2px);
+  }
+
+  /* Category page tile - solid dark with colored border */
+  .category-page-tile {
     background: #0e1117;
     border: 3px solid var(--accent);
     border-radius: 18px;
@@ -24,7 +39,7 @@
     display: block;
   }
 
-  .category-tile:hover {
+  .category-page-tile:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55);
   }

@@ -14,16 +14,16 @@ const HOME_CATEGORIES = [
   "Talent Managers",
 ] as const;
 
-// Category → Color Map (simple, one hex per category)
+// Category → Color Map (high-chroma, electric, modern)
 const HOME_CATEGORY_COLORS: Record<string, string> = {
-  "Acting Classes & Coaches": "#00E5FF",
-  "Audition Prep": "#FF8C3A",
-  "Career Consultation": "#00C896",
-  "Demo Reel Creators": "#FF5DB1",
-  "Headshot Photographers": "#FFD23F",
-  "Self Tape Support": "#6C7CFF",
-  "Talent Agents": "#A855F7",
-  "Talent Managers": "#FF3333",
+  "Acting Classes & Coaches": "#00E5FF",     // electric aqua
+  "Audition Prep": "#FF8C1A",               // hot orange
+  "Career Consultation": "#00D6A3",         // energized mint
+  "Demo Reel Creators": "#FF4FD8",          // clean neon rose
+  "Headshot Photographers": "#FFD400",      // studio gold
+  "Self Tape Support": "#5B6CFF",            // electric blue
+  "Talent Agents": "#9B5CFF",               // modern violet
+  "Talent Managers": "#FF3B3B",             // assertive red
 };
 
 export default async function CategoryTiles() {

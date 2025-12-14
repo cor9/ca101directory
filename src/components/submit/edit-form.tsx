@@ -46,12 +46,31 @@ export function EditForm({ listing, categories }: EditFormProps) {
     return [];
   };
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    name: string;
+    link: string;
+    description: string;
+    unique: string;
+    format: string[]; // Always an array
+    notes: string;
+    imageId: string;
+    tags: string[];
+    categories: string[];
+    plan: string;
+    performerPermit: boolean;
+    bonded: boolean;
+    email: string;
+    phone: string;
+    city: string;
+    state: string;
+    zip: string;
+    region: string[];
+  }>({
     name: listing.listing_name || "",
     link: listing.website || "",
     description: listing.what_you_offer || "",
     unique: listing.why_is_it_unique || "",
-    format: parseFormatTags(listing.format), // Now an array
+    format: parseFormatTags(listing.format), // Always an array
     notes: listing.extras_notes || "",
     imageId: listing.profile_image || "",
     tags: listing.age_range || [],
@@ -257,14 +276,8 @@ export function EditForm({ listing, categories }: EditFormProps) {
           <Label>Service Format</Label>
           <div className="space-y-2">
             {["online", "in-person", "hybrid"].map((formatTag) => {
-              // Parse format - handle both array and string
-              const formatValue = formData.format;
-              let formatArray: string[] = [];
-              if (Array.isArray(formatValue)) {
-                formatArray = formatValue;
-              } else if (typeof formatValue === "string" && formatValue) {
-                formatArray = formatValue.split(", ").filter(Boolean);
-              }
+              // format is always an array
+              const formatArray = formData.format || [];
               const isChecked = formatArray.includes(formatTag);
 
               return (

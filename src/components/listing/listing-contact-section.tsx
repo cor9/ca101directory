@@ -30,13 +30,13 @@ export function ListingContactSection({
   return (
     <section className="flex flex-col gap-6">
       <div className="listing-card-blue">
-        <h2 className="bauhaus-heading text-lg font-semibold text-[var(--navy)]">
+        <h2 className="bauhaus-heading text-lg font-semibold text-neutral-200">
           Contact Information
         </h2>
-        <ul className="mt-4 space-y-4 text-base text-[var(--navy)]">
+        <ul className="mt-4 space-y-4 text-base text-neutral-200">
           {hasLocation && (
             <li className="flex items-start gap-3">
-              <MapPinIcon className="mt-1 h-4 w-4 text-[var(--faded-red-orange)]" />
+              <MapPinIcon className="mt-1 h-4 w-4 text-orange-400" />
               <span>
                 {[listing.city, listing.state].filter(Boolean).join(", ")}
               </span>
@@ -49,10 +49,10 @@ export function ListingContactSection({
 
           {listing.phone && (
             <li className="flex items-start gap-3">
-              <PhoneIcon className="mt-1 h-4 w-4 text-[var(--faded-red-orange)]" />
+              <PhoneIcon className="mt-1 h-4 w-4 text-orange-400" />
               <a
                 href={`tel:${listing.phone}`}
-                className="hover:text-[var(--faded-red-orange)]"
+                className="hover:text-orange-300 transition-colors"
               >
                 {listing.phone}
               </a>
@@ -61,10 +61,10 @@ export function ListingContactSection({
 
           {listing.email && (
             <li className="flex items-start gap-3">
-              <MailIcon className="mt-1 h-4 w-4 text-[var(--faded-red-orange)]" />
+              <MailIcon className="mt-1 h-4 w-4 text-orange-400" />
               <a
                 href={`mailto:${listing.email}`}
-                className="hover:text-[var(--faded-red-orange)]"
+                className="hover:text-orange-300 transition-colors"
               >
                 {listing.email}
               </a>
@@ -73,7 +73,7 @@ export function ListingContactSection({
 
           {hasVirtualOption && (
             <li className="flex items-start gap-3">
-              <GlobeIcon className="mt-1 h-4 w-4 text-[var(--faded-red-orange)]" />
+              <GlobeIcon className="mt-1 h-4 w-4 text-orange-400" />
               <span>Virtual services available</span>
             </li>
           )}
@@ -238,7 +238,7 @@ export function ListingContactSection({
       <div>
         <Link
           href="/"
-          className="text-sm text-[var(--ink)] transition-colors hover:text-[var(--faded-red-orange)]"
+          className="text-sm text-neutral-300 hover:text-white underline-offset-4 hover:underline transition-colors"
         >
           ← Back to Directory
         </Link>

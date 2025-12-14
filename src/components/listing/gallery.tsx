@@ -97,55 +97,63 @@ export function Gallery({ listing }: GalleryProps) {
   return (
     <>
       <div className="listing-card-transparent">
-        <h2 className="text-xl font-semibold mb-4" style={{ color: "#fafadc" }}>
+        <h2 className="text-xl font-semibold mb-4 text-text-primary">
           Gallery
         </h2>
         {galleryItems.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {galleryItems.map((item, index) => (
-              <button
-                key={`gallery-${index}-${item.url}`}
-                className="relative group overflow-hidden rounded-lg h-44 md:h-48 lg:h-56 cursor-pointer hover:opacity-90 transition-opacity"
-                type="button"
-                onClick={() =>
-                  openModal(
-                    item.url,
-                    `Gallery image ${index + 1} for ${listing.listing_name}`,
-                    item.caption,
-                  )
-                }
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
+          <div className="relative">
+            <div className="absolute inset-0 bg-black/40 rounded-xl pointer-events-none z-10" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-0">
+              {galleryItems.map((item, index) => (
+                <button
+                  key={`gallery-${index}-${item.url}`}
+                  className="relative group overflow-hidden rounded-lg h-44 md:h-48 lg:h-56 cursor-pointer hover:opacity-90 transition-opacity"
+                  type="button"
+                  onClick={() =>
                     openModal(
                       item.url,
                       `Gallery image ${index + 1} for ${listing.listing_name}`,
                       item.caption,
-                    );
+                    )
                   }
-                }}
-              >
-                <Image
-                  src={item.url}
-                  alt={`Gallery image ${index + 1} for ${listing.listing_name}`}
-                  title="Click to view larger image"
-                  loading="lazy"
-                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                  fill
-                  className="border w-full shadow-lg object-cover"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white px-4 py-2 rounded-full shadow-lg border border-gray-200">
-                    <span className="text-sm font-semibold text-black">
-                      Click to enlarge
-                    </span>
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      openModal(
+                        item.url,
+                        `Gallery image ${index + 1} for ${listing.listing_name}`,
+                        item.caption,
+                      );
+                    }
+                  }}
+                >
+                  <Image
+                    src={item.url}
+                    alt={`Gallery image ${index + 1} for ${listing.listing_name}`}
+                    title="Click to view larger image"
+                    loading="lazy"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    fill
+                    className="border w-full shadow-lg object-cover"
+                  />
+                  {item.caption && (
+                    <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white px-3 py-1 rounded-b-lg">
+                      <p className="text-xs">{item.caption}</p>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white px-4 py-2 rounded-full shadow-lg border border-gray-200">
+                      <span className="text-sm font-semibold text-black">
+                        Click to enlarge
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </button>
-            ))}
+                </button>
+              ))}
+            </div>
           </div>
         ) : (
-          <div className="aspect-[4/3] bg-gray-700 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-100">
-            <p className="text-paper text-sm">No gallery images yet</p>
+          <div className="aspect-[4/3] bg-gray-700 rounded-lg flex items-center justify-center border-2 border-dashed border-white/10">
+            <p className="text-text-secondary text-sm">No gallery images yet</p>
           </div>
         )}
       </div>

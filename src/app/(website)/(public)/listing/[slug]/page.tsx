@@ -637,7 +637,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
           <div className="bg-bg-dark py-10">
             <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
               <section className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6">
-                <h2 className="text-xl font-bold mb-3 text-text-primary">About</h2>
+                <h2 className="text-xl font-bold mb-3 text-text-primary">
+                  About
+                </h2>
                 {listing.what_you_offer || listing.description ? (
                   <RichTextDisplay
                     content={
@@ -653,20 +655,32 @@ export default async function ListingPage({ params }: ListingPageProps) {
               </section>
 
               <section className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6">
-                <h2 className="text-xl font-bold mb-3 text-text-primary">Details</h2>
+                <h2 className="text-xl font-bold mb-3 text-text-primary">
+                  Details
+                </h2>
                 <dl className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
                   <div>
-                    <dt className="font-semibold text-text-primary">Category</dt>
-                    <dd className="text-text-secondary">{displayPrimaryCategory}</dd>
+                    <dt className="font-semibold text-text-primary">
+                      Category
+                    </dt>
+                    <dd className="text-text-secondary">
+                      {displayPrimaryCategory}
+                    </dd>
                   </div>
 
                   <div>
-                    <dt className="font-semibold text-text-primary">Location</dt>
-                    <dd className="text-text-secondary">{locationLabel || "—"}</dd>
+                    <dt className="font-semibold text-text-primary">
+                      Location
+                    </dt>
+                    <dd className="text-text-secondary">
+                      {locationLabel || "—"}
+                    </dd>
                   </div>
 
                   <div>
-                    <dt className="font-semibold text-text-primary">Ages Served</dt>
+                    <dt className="font-semibold text-text-primary">
+                      Ages Served
+                    </dt>
                     <dd className="flex flex-wrap gap-2">
                       {ageRanges.length > 0 ? (
                         ageRanges.map((age) => (
@@ -684,14 +698,21 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   </div>
 
                   <div>
-                    <dt className="font-semibold text-text-primary">Services</dt>
-                    <dd className="text-text-secondary">{services.length > 0 ? services.join(", ") : "—"}</dd>
+                    <dt className="font-semibold text-text-primary">
+                      Services
+                    </dt>
+                    <dd className="text-text-secondary">
+                      {services.length > 0 ? services.join(", ") : "—"}
+                    </dd>
                   </div>
                 </dl>
               </section>
 
               {reviewsEnabled && (
-                <section id="reviews" className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6">
+                <section
+                  id="reviews"
+                  className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6"
+                >
                   <h2 className="text-xl font-bold mb-4 text-text-primary">
                     Reviews from Parents
                   </h2>

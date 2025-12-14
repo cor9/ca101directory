@@ -12,18 +12,3 @@
   }
 }
 
-@layer utilities {
-  /* Category tile glow effect - atmospheric color tint */
-  /* The before:bg-* classes from Tailwind provide the color */
-  /* This utility sets up the glow effect - reduced opacity for clarity */
-  .category-tile::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    opacity: 0.15;
-    filter: blur(20px);
-    pointer-events: none;
-    z-index: 0;
-  }
-}

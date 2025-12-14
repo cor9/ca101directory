@@ -9,31 +9,31 @@ interface CategoryTile {
   slug: string;
   icon: keyof typeof Icons;
   count: number;
-  tint: string;
+  borderGradient: string;
 }
 
-// Category → Color Tint Map (Toned, Adult, Premium - Patreon-style)
-const CATEGORY_TINTS: Record<string, string> = {
-  "Acting Classes & Coaches": "before:bg-accent-aqua",
-  "Acting Classes": "before:bg-accent-aqua",
-  "Acting Coaches": "before:bg-accent-aqua",
-  "Acting Schools": "before:bg-accent-blue",
-  "Actor Websites": "before:bg-accent-purple",
-  "Audition Prep": "before:bg-accent-orange",
-  "Background Casting": "before:bg-accent-gold",
-  "Branding Coaches": "before:bg-accent-rose",
-  Photographers: "before:bg-accent-gold",
-  "Headshot Photographers": "before:bg-accent-gold",
-  Headshots: "before:bg-accent-purple",
-  "Talent Agents": "before:bg-accent-blue",
-  Agents: "before:bg-accent-blue",
-  "Demo Reels": "before:bg-accent-rose",
-  "Demo Reel Editors": "before:bg-accent-rose",
-  Coaches: "before:bg-accent-aqua",
-  Studios: "before:bg-accent-orange",
-  Resources: "before:bg-accent-red",
-  "Business of Acting": "before:bg-accent-blue",
-  "Career Consulting": "before:bg-accent-aqua",
+// Category → Border Gradient Map (Thick accent border with dark core)
+const CATEGORY_BORDERS: Record<string, string> = {
+  "Acting Classes & Coaches": "bg-gradient-to-br from-accent-aqua to-[#00B8CC]",
+  "Acting Classes": "bg-gradient-to-br from-accent-aqua to-[#00B8CC]",
+  "Acting Coaches": "bg-gradient-to-br from-accent-aqua to-[#00B8CC]",
+  "Acting Schools": "bg-gradient-to-br from-accent-blue to-[#4D4DFF]",
+  "Actor Websites": "bg-gradient-to-br from-accent-purple to-[#8B2FE6]",
+  "Audition Prep": "bg-gradient-to-br from-accent-orange to-[#E67700]",
+  "Background Casting": "bg-gradient-to-br from-accent-gold to-[#E6C200]",
+  "Branding Coaches": "bg-gradient-to-br from-accent-rose to-[#E600B8]",
+  Photographers: "bg-gradient-to-br from-accent-gold to-[#E6C200]",
+  "Headshot Photographers": "bg-gradient-to-br from-accent-gold to-[#E6C200]",
+  Headshots: "bg-gradient-to-br from-accent-purple to-[#8B2FE6]",
+  "Talent Agents": "bg-gradient-to-br from-accent-blue to-[#4D4DFF]",
+  Agents: "bg-gradient-to-br from-accent-blue to-[#4D4DFF]",
+  "Demo Reels": "bg-gradient-to-br from-accent-rose to-[#E600B8]",
+  "Demo Reel Editors": "bg-gradient-to-br from-accent-rose to-[#E600B8]",
+  Coaches: "bg-gradient-to-br from-accent-aqua to-[#00B8CC]",
+  Studios: "bg-gradient-to-br from-accent-orange to-[#E67700]",
+  Resources: "bg-gradient-to-br from-accent-red to-[#E60000]",
+  "Business of Acting": "bg-gradient-to-br from-accent-blue to-[#4D4DFF]",
+  "Career Consulting": "bg-gradient-to-br from-accent-aqua to-[#00B8CC]",
 };
 
 export default async function CategoryTileGrid() {
@@ -80,7 +80,9 @@ export default async function CategoryTileGrid() {
         .replace(/^-|-$/g, ""),
       icon: iconMap[category.category_name] || "star",
       count: categoryCounts[category.category_name] || 0,
-      tint: CATEGORY_TINTS[category.category_name] || "before:bg-accent-aqua",
+      borderGradient:
+        CATEGORY_BORDERS[category.category_name] ||
+        "bg-gradient-to-br from-accent-aqua to-[#00B8CC]",
     }));
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -99,16 +101,17 @@ export default async function CategoryTileGrid() {
               key={category.slug}
               href={`/category/${category.slug}`}
               className={cn(
-                "category-tile group relative rounded-xl p-5",
-                "bg-bg-dark-2 border border-white/10",
-                "shadow-[0_10px_30px_rgba(0,0,0,0.45)]",
-                "hover:shadow-[0_16px_40px_rgba(0,0,0,0.55)]",
-                "hover:border-white/20 transition-all",
-                category.tint,
+                "relative rounded-2xl p-[3px]",
+                category.borderGradient,
               )}
             >
-              {/* Content - z-10 to sit above the ::before glow */}
-              <div className="relative z-10">
+              <div
+                className={cn(
+                  "rounded-[14px] bg-[#0E1117] p-6",
+                  "shadow-[0_6px_18px_rgba(0,0,0,0.45)]",
+                  "transition-transform hover:-translate-y-1",
+                )}
+              >
                 <h3 className="text-white font-semibold text-lg mb-2">
                   {category.name}
                 </h3>

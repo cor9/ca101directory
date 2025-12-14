@@ -4,7 +4,7 @@ export default function HomeHero() {
       <div className="max-w-6xl mx-auto px-6">
         <h1 className="text-4xl md:text-5xl font-semibold text-text-primary leading-tight">
           The #1 Directory for{" "}
-          <span className="text-accent-teal">Child Actor Vendors</span>{" "}
+          <span className="text-accent-yellow">Child Actor Vendors</span>{" "}
           &{" "}
           <span className="text-accent-blue">Industry Professionals</span>
         </h1>
@@ -20,7 +20,7 @@ export default function HomeHero() {
         <div className="mt-6 flex items-center">
           <a
             href="#categories"
-            className="bg-accent-teal text-black px-6 py-3 rounded-lg font-semibold hover:bg-accent-teal/90 transition"
+            className="bg-accent-orange text-black px-6 py-3 rounded-lg font-semibold hover:bg-accent-orange/90 transition"
           >
             Browse the Directory
           </a>

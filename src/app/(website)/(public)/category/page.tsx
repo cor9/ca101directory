@@ -15,6 +15,7 @@ export const metadata = constructMetadata({
 });
 
 // Featured Categories (homepage + top of category page) - ONLY these get color
+// Locked list - must render all 8, regardless of count or existence in DB
 const FEATURED_CATEGORIES = [
   "Acting Classes & Coaches",
   "Audition Prep",
@@ -24,6 +25,18 @@ const FEATURED_CATEGORIES = [
   "Self Tape Support",
   "Talent Agents",
   "Talent Managers",
+] as const;
+
+// Slug mapping for reliable matching
+const FEATURED_CATEGORY_SLUGS = [
+  "acting-classes-coaches",
+  "audition-prep",
+  "career-consultation",
+  "demo-reel-creators",
+  "headshot-photographers",
+  "self-tape-support",
+  "talent-agents",
+  "talent-managers",
 ] as const;
 
 // Category → Color Map (8-accent balanced set)
@@ -175,18 +188,45 @@ export default async function CategoryPage() {
     console.error("Error fetching categories:", error);
   }
 
-  // Split into featured (8) and all others
-  const featuredCategories = categories.filter((cat) =>
-    FEATURED_CATEGORIES.includes(cat.name as any),
-  );
-  // Sort featured to match FEATURED_CATEGORIES order
-  const sortedFeatured = FEATURED_CATEGORIES.map((name) =>
-    featuredCategories.find((cat) => cat.name === name),
-  ).filter((cat): cat is typeof categories[0] => cat !== undefined);
+  // Helper to generate slug from category name (matches the logic used in categories)
+  const generateSlug = (name: string): string => {
+    return name
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+  };
 
-  const otherCategories = categories.filter(
-    (cat) => !FEATURED_CATEGORIES.includes(cat.name as any),
-  );
+  // Build featured categories - always render all 8, create placeholders if missing
+  const sortedFeatured = FEATURED_CATEGORIES.map((name, index) => {
+    const slug = FEATURED_CATEGORY_SLUGS[index];
+    const found = categories.find(
+      (cat) =>
+        cat.name === name ||
+        generateSlug(cat.name) === slug ||
+        cat.slug === slug,
+    );
+
+    // If found, use it; otherwise create placeholder
+    if (found) {
+      return found;
+    }
+
+    // Placeholder - ensures all 8 always render
+    return {
+      name,
+      slug,
+      description: `${name} services`,
+      count: 0,
+    };
+  });
+
+  // All other categories (not in featured list)
+  const otherCategories = categories.filter((cat) => {
+    const catSlug = cat.slug || generateSlug(cat.name);
+    return !FEATURED_CATEGORY_SLUGS.includes(catSlug as any);
+  });
 
   return (
     <div className="bg-bg-dark min-h-screen">
@@ -239,11 +279,11 @@ export default async function CategoryPage() {
           </div>
         )}
 
-        {/* All Categories - Neutral cards, no accent until hover */}
+        {/* All Other Categories - Neutral cards, no accent until hover */}
         {otherCategories.length > 0 && (
           <div>
             <h2 className="text-2xl font-semibold text-text-primary mb-6">
-              All Categories
+              All Other Categories
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
               {otherCategories.map((category) => {

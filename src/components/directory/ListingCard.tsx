@@ -114,8 +114,8 @@ export default function ListingCard({
             </div>
           )}
 
-          {/* Status Badges */}
-          <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
+          {/* Status Badges - Top-left placement */}
+          <div className="absolute left-3 top-3 flex gap-2">
             <BadgeStack
               verified={!!listing.is_verified}
               featured={!!listing.is_featured}

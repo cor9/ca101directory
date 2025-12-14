@@ -1,78 +1,60 @@
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Shield, Star } from "lucide-react";
+import { CheckCircle, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type BadgeType = "verified" | "featured" | "pro";
 
 interface StatusBadgeProps {
   type: BadgeType;
-  showIcon?: boolean;
   className?: string;
 }
 
-const BADGE_CONFIG: Record<
-  BadgeType,
-  {
-    label: string;
-    bgColor: string;
-    borderColor: string;
-    textColor: string;
-    icon?: typeof CheckCircle;
+export function StatusBadge({ type, className }: StatusBadgeProps) {
+  switch (type) {
+    case "verified":
+      return (
+        <div
+          className={cn(
+            "flex items-center gap-1 rounded-full bg-black/70 px-2 py-1 text-xs font-medium text-white backdrop-blur-sm border border-white/10 border-l-2 border-l-accent-aqua",
+            className,
+          )}
+        >
+          <CheckCircle className="h-3 w-3 text-accent-aqua" />
+          <span>Verified</span>
+        </div>
+      );
+
+    case "featured":
+      return (
+        <div
+          className={cn(
+            "flex items-center gap-1 rounded-full bg-black/70 px-2 py-1 text-xs font-medium text-white backdrop-blur-sm border border-white/10 border-l-2 border-l-accent-gold",
+            className,
+          )}
+        >
+          <Star className="h-3 w-3 text-accent-gold" />
+          <span>Featured</span>
+        </div>
+      );
+
+    case "pro":
+      return (
+        <div
+          className={cn(
+            "flex items-center gap-1 rounded-full bg-black/70 px-2 py-1 text-xs font-medium text-white backdrop-blur-sm border border-accent-purple/40",
+            className,
+          )}
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-accent-purple" />
+          <span>Pro</span>
+        </div>
+      );
   }
-> = {
-  verified: {
-    label: "Verified",
-    bgColor: "rgba(78,163,255,0.10)",
-    borderColor: "rgba(78,163,255,0.60)",
-    textColor: "#FFFFFF",
-    icon: CheckCircle,
-  },
-  featured: {
-    label: "Featured",
-    bgColor: "rgba(247,201,72,0.12)",
-    borderColor: "rgba(247,201,72,0.70)",
-    textColor: "#FFFFFF",
-    icon: Star,
-  },
-  pro: {
-    label: "Pro",
-    bgColor: "rgba(169,124,255,0.10)",
-    borderColor: "rgba(169,124,255,0.65)",
-    textColor: "#FFFFFF",
-  },
-};
-
-export function StatusBadge({
-  type,
-  showIcon = false,
-  className,
-}: StatusBadgeProps) {
-  const config = BADGE_CONFIG[type];
-  const Icon = config.icon;
-
-  return (
-    <Badge
-      className={cn(
-        "rounded-full px-2.5 py-0.5 text-xs font-medium border",
-        className,
-      )}
-      style={{
-        backgroundColor: config.bgColor,
-        borderColor: config.borderColor,
-        color: config.textColor,
-      }}
-    >
-      {showIcon && Icon && (
-        <Icon className="w-3 h-3 mr-1" style={{ color: config.textColor }} />
-      )}
-      {config.label}
-    </Badge>
-  );
 }
 
 /**
  * Badge stack with priority: Verified → Featured → Pro
  * If all 3 exist, show Verified + Pro only (Featured rotates, not stacked)
+ * Badges sit top-left with consistent spacing
  */
 export function BadgeStack({
   verified = false,
@@ -104,9 +86,9 @@ export function BadgeStack({
   const displayBadges = badges.slice(0, maxBadges);
 
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div className="flex flex-wrap gap-2">
       {displayBadges.map((type) => (
-        <StatusBadge key={type} type={type} showIcon={type === "verified"} />
+        <StatusBadge key={type} type={type} />
       ))}
     </div>
   );

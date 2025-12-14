@@ -92,13 +92,18 @@ export async function submit(
     );
 
     // Create form data in the format expected by toAirtable transform
+    // Convert format array to string for Airtable compatibility
+    const formatString = Array.isArray(format)
+      ? format.join(", ")
+      : format || "";
+
     const airtableFormData = {
       name: name,
       link: link,
       description: description,
       introduction: introduction,
       unique: unique,
-      format: format,
+      format: formatString,
       notes: notes,
       email: email,
       phone: phone,

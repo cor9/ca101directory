@@ -60,15 +60,15 @@ export function ListingDetailsSection({
                   // Parse format from string to array
                   const formatStr = listing.format || "";
                   const formatArray = formatStr.includes(",")
-                    ? formatStr.split(",").map((f) => f.trim()).filter(Boolean)
+                    ? formatStr
+                        .split(",")
+                        .map((f) => f.trim())
+                        .filter(Boolean)
                     : [formatStr].filter(Boolean);
-                  
+
                   return formatArray.length > 0 ? (
                     formatArray.map((format) => (
-                      <span
-                        key={format}
-                        className="badge blue capitalize"
-                      >
+                      <span key={format} className="badge blue capitalize">
                         {format.toLowerCase().replace("-", " ")}
                       </span>
                     ))

@@ -13,7 +13,7 @@ SET format = CASE
   WHEN format ILIKE '%hybrid%' AND format NOT LIKE '%,%' THEN 'hybrid'
   ELSE LOWER(TRIM(format))
 END
-WHERE format IS NOT NULL 
+WHERE format IS NOT NULL
   AND format != ''
   AND format NOT LIKE '%,%'; -- Only update single values, not already comma-separated
 

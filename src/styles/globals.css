@@ -24,8 +24,8 @@
     border-radius: 16px;
     padding: 1.5rem; /* p-6 desktop */
     min-height: 88px; /* touch safety */
-    transition: background 0.15s ease, border-color 0.15s ease,
-      transform 0.15s ease;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s
+      ease;
     display: block;
   }
 
@@ -91,5 +91,35 @@
     font-size: 0.85rem;
     color: #a0a3a9;
     margin-top: 4px;
+  }
+
+  /* Dashboard - calm, not cold */
+  .dashboard-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .dashboard-metric-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .dashboard-metric-title {
+    font-size: 0.875rem;
+    color: #a0a3a9;
+    margin-bottom: 0.5rem;
+  }
+
+  .dashboard-delta-success {
+    color: #3dd68c;
+    font-size: 0.875rem;
+  }
+
+  .dashboard-delta-decline {
+    color: #ef4665;
+    font-size: 0.875rem;
   }
 }

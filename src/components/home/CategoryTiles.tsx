@@ -91,8 +91,7 @@ export default async function CategoryTiles() {
 
             const color =
               HOME_CATEGORY_COLORS[category.category_name] || "#2DD4BF";
-            const opacity =
-              CATEGORY_OPACITY[category.category_name] || 18;
+            const opacity = CATEGORY_OPACITY[category.category_name] || 18;
 
             return (
               <Link

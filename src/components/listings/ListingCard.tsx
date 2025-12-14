@@ -2,6 +2,7 @@ import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { Icons } from "@/components/icons/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { BadgeStack } from "@/components/badges/StatusBadge";
 import {
   Card,
   CardContent,
@@ -147,89 +148,18 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
   const isPro = planPriority >= 3;
 
   // 16D: Badge Economy - limit badges by tier
+  // Determine badge states
+  const isVerified = listing.trust_level === "verified" || listing.is_verified;
+  const isFeatured = listing.featured || listing.is_featured;
+  const isProBadge = isPro || listing.comped;
+
   const getMaxBadges = (): number => {
-    if (isPro) return 10; // All applicable
+    if (isPro) return 2; // Max 2 badges (Verified + Pro)
     if (isStandard) return 2;
     return 1; // Free: max 1 badge
   };
 
   const maxBadges = getMaxBadges();
-  const badges: Array<{ type: string; component: JSX.Element }> = [];
-
-  // Collect all possible badges
-  if (listing.badge_approved) {
-    badges.push({
-      type: "approved",
-      component: (
-        <Badge
-          key="approved"
-          className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold"
-        >
-          <CheckCircleIcon className="w-3 h-3" />
-          101 Approved
-        </Badge>
-      ),
-    });
-  }
-  if (listing.trust_level === "verified") {
-    badges.push({
-      type: "verified",
-      component: (
-        <Badge
-          key="verified"
-          className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold"
-        >
-          Verified
-        </Badge>
-      ),
-    });
-  }
-  if (listing.trust_level === "background_checked") {
-    badges.push({
-      type: "bg_checked",
-      component: (
-        <Badge
-          key="bg_checked"
-          className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle"
-        >
-          Background Checked
-        </Badge>
-      ),
-    });
-  }
-  if (
-    isReviewsEnabled() &&
-    averageRating.count > 0 &&
-    averageRating.average >= 4.5
-  ) {
-    badges.push({
-      type: "rating",
-      component: (
-        <Badge
-          key="rating"
-          className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle"
-        >
-          4.5+ Rating
-        </Badge>
-      ),
-    });
-  }
-  if (listing.repeat_families_count > 0) {
-    badges.push({
-      type: "repeat",
-      component: (
-        <Badge
-          key="repeat"
-          className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle"
-        >
-          Repeat Families
-        </Badge>
-      ),
-    });
-  }
-
-  // Limit badges by tier
-  const displayBadges = badges.slice(0, maxBadges);
 
   return (
     <Card
@@ -263,32 +193,35 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
 
           {/* Badges Overlay */}
           <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
-            {/* Left badges */}
-            <div className="flex gap-2">
-              {listing.featured && (
-                <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-accent-purple/40">
-                  {badgeText}
-                </Badge>
-              )}
-              {!listing.featured && planPriority >= 3 && (
-                <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
-                  {badgeText}
-                </Badge>
-              )}
-            </div>
+            {/* Left: Plan badge (if not Pro) */}
+            {!isProBadge && planPriority >= 3 && (
+              <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
+                {badgeText}
+              </Badge>
+            )}
 
-            {/* Right badges - 16D: Limited by tier */}
+            {/* Right: Status badges (Verified, Featured, Pro) */}
             <div className="flex gap-2">
-              {displayBadges.map((badge) => badge.component)}
+              <BadgeStack
+                verified={isVerified}
+                featured={isFeatured}
+                pro={isProBadge}
+                maxBadges={maxBadges}
+              />
             </div>
           </div>
         </div>
       )}
 
       {/* 16A: Free listings - show badges in content area instead */}
-      {isFree && displayBadges.length > 0 && (
-        <div className="p-4 pb-2 flex gap-2 flex-wrap">
-          {displayBadges.map((badge) => badge.component)}
+      {isFree && (isVerified || isFeatured || isProBadge) && (
+        <div className="p-4 pb-2">
+          <BadgeStack
+            verified={isVerified}
+            featured={isFeatured}
+            pro={isProBadge}
+            maxBadges={maxBadges}
+          />
         </div>
       )}
 

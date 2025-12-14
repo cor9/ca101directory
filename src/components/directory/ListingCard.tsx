@@ -1,5 +1,6 @@
 "use client";
 
+import { BadgeStack } from "@/components/badges/StatusBadge";
 import { CheckCircle, MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -113,19 +114,19 @@ export default function ListingCard({
             </div>
           )}
 
-          {/* Featured Badge */}
-          {listing.is_featured && (
-            <div className="absolute top-3 left-3 px-3 py-1 bg-bg-3 text-text-secondary border border-accent-purple/40 font-semibold text-xs rounded-full shadow">
-              Featured
-            </div>
-          )}
-
-          {/* Verified Badge */}
-          {listing.is_verified && (
-            <div className="absolute top-3 right-3 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold shadow">
-              <CheckCircle className="w-3 h-3" /> Verified
-            </div>
-          )}
+          {/* Status Badges */}
+          <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
+            <BadgeStack
+              verified={listing.is_verified || listing.trust_level === "verified"}
+              featured={listing.is_featured || listing.featured}
+              pro={
+                listing.plan?.toLowerCase() === "pro" ||
+                listing.plan?.toLowerCase() === "founding pro" ||
+                listing.comped
+              }
+              maxBadges={2}
+            />
+          </div>
         </div>
 
         {/* Content */}

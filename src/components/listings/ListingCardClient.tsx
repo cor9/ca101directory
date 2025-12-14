@@ -1,5 +1,6 @@
 "use client";
 
+import { BadgeStack } from "@/components/badges/StatusBadge";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { Icons } from "@/components/icons/icons";
 import { Badge } from "@/components/ui/badge";
@@ -129,55 +130,45 @@ export function ListingCardClient({
             </div>
           )}
 
-          {/* Plan Badge */}
-          <div className="absolute top-2 left-2">
+          {/* Badges Overlay */}
+          <div className="absolute top-2 left-2 right-2 flex items-start justify-between gap-2">
+            {/* Left: Plan badge (if not Pro) */}
             {(() => {
-              // Determine badge text and styling
-              let badgeText = "Free";
-              let badgeClassName =
-                "text-xs font-medium bg-gray-100 text-text-primary dark:bg-gray-900 dark:text-text-primary";
+              const plan = (listing.plan || "").toLowerCase();
+              const isPro =
+                plan === "pro" ||
+                plan === "founding pro" ||
+                listing.comped;
+              const isStandard =
+                plan === "standard" || plan === "founding standard";
 
-              if (listing.featured) {
-                badgeText = "Featured";
-                badgeClassName =
-                  "text-xs font-medium bg-bg-3 text-text-secondary border border-accent-purple/40";
-              } else if (listing.comped) {
-                badgeText = "Pro";
-                badgeClassName =
-                  "text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle";
-              } else if (
-                (listing.plan || "").toLowerCase() === "pro" ||
-                (listing.plan || "").toLowerCase() === "founding pro"
-              ) {
-                badgeText = "Pro";
-                badgeClassName =
-                  "text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle";
-              } else if (
-                (listing.plan || "").toLowerCase() === "standard" ||
-                (listing.plan || "").toLowerCase() === "founding standard"
-              ) {
-                badgeText = "Standard";
-                badgeClassName =
-                  "text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle";
-              }
+              if (isPro || isStandard) return null; // Pro/Standard shown in BadgeStack
 
               return (
-                <Badge variant="secondary" className={badgeClassName}>
-                  {badgeText}
+                <Badge className="text-xs font-medium bg-bg-3 text-text-secondary border border-border-subtle">
+                  Free
                 </Badge>
               );
             })()}
-          </div>
 
-          {/* 101 Approved Badge */}
-          {listing.is_approved_101 === true && (
-            <div className="absolute top-2 right-2">
-              <Badge className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold">
-                <CheckCircleIcon className="w-3 h-3" />
-                101 Approved
-              </Badge>
+            {/* Right: Status badges */}
+            <div className="flex gap-2">
+              <BadgeStack
+                verified={
+                  listing.is_verified ||
+                  listing.trust_level === "verified" ||
+                  listing.is_approved_101
+                }
+                featured={listing.featured || listing.is_featured}
+                pro={
+                  (listing.plan || "").toLowerCase() === "pro" ||
+                  (listing.plan || "").toLowerCase() === "founding pro" ||
+                  listing.comped
+                }
+                maxBadges={2}
+              />
             </div>
-          )}
+          </div>
         </div>
       </CardHeader>
 

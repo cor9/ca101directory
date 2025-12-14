@@ -14,24 +14,40 @@ export const metadata = constructMetadata({
   canonicalUrl: `${siteConfig.url}/category`,
 });
 
-// Category → Color Map (electric, but grown-up - Patreon-adjacent)
-const CATEGORY_COLORS: Record<string, string> = {
-  "Acting Classes & Coaches": "#2DD4BF", // teal
-  "Audition Prep": "#FB923C", // orange
-  "Career Consultation": "#3B82F6", // blue
-  "Demo Reel Creators": "#D946EF", // magenta
-  "Headshot Photographers": "#FACC15", // gold
-  "Self Tape Support": "#84CC16", // lime green
-  "Talent Agents": "#6366F1", // indigo
-  "Talent Managers": "#EF4444", // crimson
-  // Fallbacks for other categories
-  "Acting Classes": "#2DD4BF",
-  "Acting Coaches": "#2DD4BF",
-  "Demo Reel Editors": "#D946EF",
-  "Reel Editors": "#D946EF",
-  Photographers: "#FACC15",
-  Agents: "#6366F1",
-  Managers: "#EF4444",
+// Featured Categories (homepage + top of category page) - ONLY these get color
+const FEATURED_CATEGORIES = [
+  "Acting Classes & Coaches",
+  "Audition Prep",
+  "Career Consultation",
+  "Demo Reel Creators",
+  "Headshot Photographers",
+  "Self Tape Support",
+  "Talent Agents",
+  "Talent Managers",
+] as const;
+
+// Category → Color Map (8-accent balanced set)
+const FEATURED_CATEGORY_COLORS: Record<string, string> = {
+  "Acting Classes & Coaches": "#2DD4BF", // teal - coaching/classes
+  "Audition Prep": "#FB923C", // orange - audition prep
+  "Career Consultation": "#84CC16", // lime green - career consultation
+  "Demo Reel Creators": "#D946EF", // magenta - demo reels
+  "Headshot Photographers": "#FACC15", // gold - headshots
+  "Self Tape Support": "#06B6D4", // cyan - self tape support
+  "Talent Agents": "#3B82F6", // blue - talent agents
+  "Talent Managers": "#EF4444", // red - talent managers
+};
+
+// Normalize visual weight with opacity compensation (8-12% range for subtlety)
+const CATEGORY_OPACITY: Record<string, number> = {
+  "Acting Classes & Coaches": 10, // teal
+  "Audition Prep": 10, // orange
+  "Career Consultation": 10, // lime green
+  "Demo Reel Creators": 10, // magenta
+  "Headshot Photographers": 10, // gold
+  "Self Tape Support": 10, // cyan
+  "Talent Agents": 12, // blue (slightly more for authority)
+  "Talent Managers": 10, // red
 };
 
 export default async function CategoryPage() {
@@ -159,6 +175,19 @@ export default async function CategoryPage() {
     console.error("Error fetching categories:", error);
   }
 
+  // Split into featured (8) and all others
+  const featuredCategories = categories.filter((cat) =>
+    FEATURED_CATEGORIES.includes(cat.name as any),
+  );
+  // Sort featured to match FEATURED_CATEGORIES order
+  const sortedFeatured = FEATURED_CATEGORIES.map((name) =>
+    featuredCategories.find((cat) => cat.name === name),
+  ).filter((cat): cat is typeof categories[0] => cat !== undefined);
+
+  const otherCategories = categories.filter(
+    (cat) => !FEATURED_CATEGORIES.includes(cat.name as any),
+  );
+
   return (
     <div className="bg-bg-dark min-h-screen">
       <section className="max-w-7xl mx-auto px-4 py-8">
@@ -174,33 +203,69 @@ export default async function CategoryPage() {
           </p>
         </div>
 
-        {/* Categories Grid - provider count first, no images */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
-          {categories.map((category) => {
-            const color =
-              CATEGORY_COLORS[category.name] || CATEGORY_COLORS["Acting Classes"];
+        {/* Featured Categories (8) - Colored, prominent */}
+        {sortedFeatured.length > 0 && (
+          <div className="mb-16">
+            <h2 className="text-2xl font-semibold text-text-primary mb-6">
+              Featured Categories
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+              {sortedFeatured.map((category) => {
+                const color =
+                  FEATURED_CATEGORY_COLORS[category.name] || "#2DD4BF";
+                const opacity = CATEGORY_OPACITY[category.name] || 10;
 
-            return (
-              <Link
-                key={category.slug}
-                href={`/category/${category.slug}`}
-                className="category-page-tile"
-                style={{ "--accent": color } as React.CSSProperties}
-              >
-                {/* Provider count - primary element, big and colored */}
-                <div className="provider-count">{category.count}+</div>
+                return (
+                  <Link
+                    key={category.slug}
+                    href={`/category/${category.slug}`}
+                    className="category-tile"
+                    style={
+                      {
+                        "--accent": color,
+                        "--accent-opacity": opacity,
+                      } as React.CSSProperties
+                    }
+                  >
+                    <div className="provider-count">{category.count}+</div>
+                    <h3 className="category-title">{category.name}</h3>
+                    {category.description && (
+                      <p className="category-desc">{category.description}</p>
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
-                {/* Category name */}
-                <h3 className="category-title">{category.name}</h3>
-
-                {/* Description - optional, muted */}
-                {category.description && (
-                  <p className="category-desc">{category.description}</p>
-                )}
-              </Link>
-            );
-          })}
-        </div>
+        {/* All Categories - Neutral cards, no accent until hover */}
+        {otherCategories.length > 0 && (
+          <div>
+            <h2 className="text-2xl font-semibold text-text-primary mb-6">
+              All Categories
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+              {otherCategories.map((category) => {
+                return (
+                  <Link
+                    key={category.slug}
+                    href={`/category/${category.slug}`}
+                    className="category-neutral-tile"
+                  >
+                    <div className="provider-count-neutral">
+                      {category.count}+
+                    </div>
+                    <h3 className="category-title">{category.name}</h3>
+                    {category.description && (
+                      <p className="category-desc">{category.description}</p>
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Call to Action */}
         <div className="bg-card-surface border border-border-subtle rounded-xl text-center p-8">

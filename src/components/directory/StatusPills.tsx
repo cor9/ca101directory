@@ -1,7 +1,7 @@
 "use client";
 
-import { CheckCircle, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CheckCircle, Star } from "lucide-react";
 
 interface StatusPillsProps {
   verified?: boolean;
@@ -26,7 +26,11 @@ export function StatusPills({
   onlineOnly = false,
   className,
 }: StatusPillsProps) {
-  const pills: Array<{ label: string; accentColor: string; icon?: typeof CheckCircle }> = [];
+  const pills: Array<{
+    label: string;
+    accentColor: string;
+    icon?: typeof CheckCircle;
+  }> = [];
 
   if (verified) {
     pills.push({
@@ -63,9 +67,9 @@ export function StatusPills({
         const Icon = pill.icon;
         // Convert hex to rgba for opacity
         const hexToRgba = (hex: string, opacity: number) => {
-          const r = parseInt(hex.slice(1, 3), 16);
-          const g = parseInt(hex.slice(3, 5), 16);
-          const b = parseInt(hex.slice(5, 7), 16);
+          const r = Number.parseInt(hex.slice(1, 3), 16);
+          const g = Number.parseInt(hex.slice(3, 5), 16);
+          const b = Number.parseInt(hex.slice(5, 7), 16);
           return `rgba(${r}, ${g}, ${b}, ${opacity})`;
         };
 
@@ -82,13 +86,21 @@ export function StatusPills({
               color: pill.accentColor,
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = hexToRgba(pill.accentColor, 0.18);
+              e.currentTarget.style.backgroundColor = hexToRgba(
+                pill.accentColor,
+                0.18,
+              );
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = hexToRgba(pill.accentColor, 0.12);
+              e.currentTarget.style.backgroundColor = hexToRgba(
+                pill.accentColor,
+                0.12,
+              );
             }}
           >
-            {Icon && <Icon className="h-3 w-3" style={{ color: pill.accentColor }} />}
+            {Icon && (
+              <Icon className="h-3 w-3" style={{ color: pill.accentColor }} />
+            )}
             <span>{pill.label}</span>
           </div>
         );

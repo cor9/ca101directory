@@ -215,7 +215,7 @@ export default async function CategoryPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/search"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium bg-accent-teal text-bg-dark hover:opacity-90 transition-colors"
+              className="inline-flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium bg-transparent border border-border-subtle text-text-secondary hover:text-text-primary transition-colors"
             >
               Search All Professionals
             </Link>

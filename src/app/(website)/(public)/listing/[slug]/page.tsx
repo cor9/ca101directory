@@ -1,7 +1,7 @@
 import { getCategoriesByIds } from "@/actions/categories";
 import { auth } from "@/auth";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
-import { ListingLayout } from "@/components/listing/ListingLayout";
+import ListingLayout from "@/components/listing/ListingLayout";
 import { ListingCarousel } from "@/components/listing/listing-carousel";
 import { ListingContactSection } from "@/components/listing/listing-contact-section";
 import type { DisplayCategory } from "@/components/listing/types";

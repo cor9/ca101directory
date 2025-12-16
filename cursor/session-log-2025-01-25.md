@@ -795,3 +795,162 @@ Check these pages - should see:
 
 **Status:** ✅ Complete and pushed to production
 
+---
+
+## 🎯 Fix Listing Detail Page Hierarchy
+
+### Date: January 25, 2025 (Evening Session)
+
+### Problem Statement
+The listing detail page had a critical layout hierarchy failure. The information order was upside-down, making listings feel broken and untrustworthy:
+
+**Wrong order:**
+1. Hero / header
+2. About + Details
+3. Reviews
+4. "You Might Also Like" / other vendors
+5. Gallery
+6. Contact Information
+
+**Why this is wrong:**
+- Gallery and contact info are primary conversion elements, not footer scraps
+- They should never live below discovery content
+- Page feels like it "falls apart" vertically
+- Parents can't find contact info when they need it
+- Gallery appears too late in the evaluation process
+
+**Business impact:**
+- Every pixel that delays photos, contact info, or legitimacy signals costs vendor confidence and parent confidence
+- This page is where trust converts - hierarchy matters
+
+### Solution: Three-Zone Mental Model
+
+#### ZONE 1 — IDENTITY (who this is)
+- Logo / image
+- Name
+- Badges (Verified / Featured / Pro)
+- Category
+- Location
+- Primary CTA (Website / Contact)
+
+✅ Already working correctly
+
+#### ZONE 2 — EVALUATION (should I trust them?)
+**Left column:**
+- About
+- Details (Services, Ages served, etc.)
+- Gallery (moved here - primary conversion element)
+- Reviews
+
+**Right column (sticky on desktop):**
+- Contact info
+- Website
+- Virtual / Online indicator
+- Secondary CTA
+
+#### ZONE 3 — EXPLORATION (what else?)
+**Only after the listing is fully evaluated:**
+- "You Might Also Like"
+- Related categories
+- Browse links
+
+### Changes Made
+
+#### 1. Restructured Page Layout
+**Before:**
+```tsx
+<div className="max-w-5xl mx-auto space-y-12">
+  <About />
+  <Details />
+  <Reviews />
+  <Gallery /> {/* Too late! */}
+  <ContactInfo /> {/* Buried! */}
+  <RelatedListings />
+</div>
+```
+
+**After:**
+```tsx
+<div className="max-w-7xl mx-auto">
+  <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 lg:gap-12">
+    {/* Left: Main content */}
+    <div className="space-y-12">
+      <About />
+      <Details />
+      <Gallery /> {/* Early - primary conversion */}
+      <Reviews />
+    </div>
+    
+    {/* Right: Sticky sidebar */}
+    <aside className="lg:sticky lg:top-24">
+      <ContactInfo />
+    </aside>
+  </div>
+  
+  {/* Full width: Related listings (last) */}
+  <div className="mt-16">
+    <RelatedListings />
+  </div>
+</div>
+```
+
+#### 2. Created Two-Column Layout
+- **Desktop:** `grid-cols-[2fr_1fr]` - Main content (2/3) + Sidebar (1/3)
+- **Mobile:** `grid-cols-1` - Natural stacking
+- **Gap:** `gap-8 lg:gap-12` - Proper spacing
+
+#### 3. Sticky Sidebar
+- `lg:sticky lg:top-24` - ContactInfo stays visible during scroll
+- Only on desktop (lg breakpoint)
+- Mobile stacks naturally below main content
+
+#### 4. Component Order (New)
+1. Hero/Header (Zone 1)
+2. **About** (Zone 2 - left)
+3. **Details** (Zone 2 - left)
+4. **Gallery** (Zone 2 - left) ⬅️ **MOVED UP**
+5. **Reviews** (Zone 2 - left)
+6. **ContactInfo** (Zone 2 - right sidebar) ⬅️ **MOVED UP**
+7. Related Listings (Zone 3 - full width, last)
+
+### Files Modified
+- `src/app/(website)/(public)/listing/[slug]/page.tsx`
+  - Changed container from `max-w-5xl` to `max-w-7xl` for two-column layout
+  - Restructured content into grid layout
+  - Moved Gallery to appear after Details (before Reviews)
+  - Moved ContactInfo to sticky sidebar
+  - Moved Related Listings to end (Zone 3)
+  - Added proper mobile stacking
+
+### Git Commit
+```
+3b7e4dbe - Fix listing detail page hierarchy: Gallery and ContactInfo before related listings
+```
+
+### Key Changes
+1. ✅ Gallery appears immediately after Details section
+2. ✅ ContactInfo in sticky sidebar during evaluation phase
+3. ✅ Two-column layout: Main (2fr) + Sidebar (1fr)
+4. ✅ Related listings moved to end (Zone 3)
+5. ✅ Mobile stacks naturally: Header → Details → Gallery → Contact → Related
+6. ✅ Desktop: Sticky sidebar keeps ContactInfo visible
+7. ✅ Gallery is now primary conversion element, not footer scrap
+
+### Verification
+Check listing detail page - should see:
+- Gallery appears early (after Details, before Reviews)
+- ContactInfo in right sidebar (sticky on desktop)
+- Related listings at the very end
+- Mobile: Natural stacking order
+- Desktop: Two-column layout with sticky sidebar
+
+### Result
+- **Conversion friction drops** - Contact info visible at decision time
+- **Gallery no longer feels "lost"** - Appears when parents are evaluating
+- **Page reads like a profile** - Not a blog post
+- **Matches parent expectations** - Information hierarchy makes sense
+- **Trust converts** - Primary elements (photos, contact) appear early
+- **Mobile UX** - Natural stacking, no layout chaos
+
+**Status:** ✅ Complete and pushed to production
+

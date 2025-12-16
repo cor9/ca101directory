@@ -880,13 +880,13 @@ The listing detail page had a critical layout hierarchy failure. The information
       <Gallery /> {/* Early - primary conversion */}
       <Reviews />
     </div>
-    
+
     {/* Right: Sticky sidebar */}
     <aside className="lg:sticky lg:top-24">
       <ContactInfo />
     </aside>
   </div>
-  
+
   {/* Full width: Related listings (last) */}
   <div className="mt-16">
     <RelatedListings />
@@ -951,6 +951,121 @@ Check listing detail page - should see:
 - **Matches parent expectations** - Information hierarchy makes sense
 - **Trust converts** - Primary elements (photos, contact) appear early
 - **Mobile UX** - Natural stacking, no layout chaos
+
+**Status:** ✅ Complete and pushed to production
+
+---
+
+## 🚫 Remove "Enhance Your Visibility" Upsell from Public Pages
+
+### Date: January 25, 2025 (Evening Session)
+
+### Problem Statement
+The "Enhance Your Visibility" upsell panel on public listing pages created three critical problems:
+
+1. **Breaks trust illusion**
+   - Pro listings should feel like "This person has arrived"
+   - Upsell says "You're still missing something. Pay more."
+   - Reframes directory as transactional instead of curated
+
+2. **Competes with actual content**
+   - Sidebar's job is supporting evaluation, not monetization
+   - Visually louder than Contact info, Services, Gallery context
+   - Backwards priority
+
+3. **Wrong audience**
+   - Parents are reading this page
+   - They don't care about "Search Boost (monthly)", "Multi-City Listing", "Manage add-ons"
+   - Vendor-dashboard language leaking into public-facing page
+
+**Strategic impact:**
+- A Pro listing page should feel like a profile, recommendation, confident introduction
+- Not a Shopify checkout
+- Building a trust directory, not a SaaS pricing funnel
+
+### Solution: Remove Upsells from Public Pages
+
+#### Rule 1: NEVER upsell on Pro listings
+- If `plan === "pro"` or `"founding pro"`: Remove upsell entirely
+- Do not replace with "you're maxed out" message
+- Do not show checklists of features they already have
+- **Silence = confidence**
+
+#### Rule 2: Sidebar priority order (public view)
+For all listings, sidebar should be:
+1. Contact Information
+2. Website / CTA
+3. Virtual / Online indicator
+4. Badges (Verified / Featured / Pro)
+5. Location / Regions
+
+**Nothing else.**
+
+#### Rule 3: Where upsells actually belong
+Upsells belong in only two places:
+- Vendor Dashboard (private)
+- Claim / Upgrade flow (explicit intent)
+
+**Never on a public profile page.**
+
+### Changes Made
+
+#### Removed Entire "Enhance Your Visibility" Section
+**Before:**
+```tsx
+{listing.is_claimed && listing.owner_id && (
+  <div className="bg-card-surface border border-border-subtle rounded-lg p-6">
+    <h3>Enhance Your Visibility</h3>
+    {/* Featured, Search Boost, Verified Badge, Multi-City checkboxes */}
+    <Link href="/pricing?from=profile-addons">Manage add-ons →</Link>
+  </div>
+)}
+```
+
+**After:**
+```tsx
+{/* REMOVED: "Enhance Your Visibility" upsell section
+    - Never show upsells on public listing pages
+    - Pro listings should feel confident, not transactional
+    - Upsells belong in vendor dashboard only
+    - This breaks trust illusion and competes with actual content
+*/}
+```
+
+### Files Modified
+- `src/components/listing/listing-contact-section.tsx`
+  - Removed entire "Enhance Your Visibility" section (lines 112-203)
+  - Removed 92 lines of upsell UI
+  - Added comment explaining why it was removed
+  - Sidebar now only shows: Contact Info, Website, Virtual indicator, Location
+
+### Git Commit
+```
+fe74fc71 - Remove 'Enhance Your Visibility' upsell from public listing pages
+```
+
+### Key Changes
+1. ✅ Removed entire upsell section from public listing pages
+2. ✅ No upsells on Pro listings (feels confident, not transactional)
+3. ✅ Sidebar now focuses on evaluation, not monetization
+4. ✅ Public pages show only: Contact, Website, Virtual, Location
+5. ✅ Upsells remain in vendor dashboard (appropriate place)
+
+### Verification
+Check listing detail pages - should see:
+- No "Enhance Your Visibility" section
+- Sidebar shows only contact information and location
+- Pro listings feel confident and curated
+- No vendor-dashboard language on public pages
+- Page reads like a profile, not a checkout
+
+### Result
+- **Trust restored** - Pro listings feel like "arrived" professionals
+- **Content priority** - Sidebar supports evaluation, not monetization
+- **Right audience** - Parents see relevant info, not vendor upsells
+- **Clean sidebar** - Only Contact, Website, Virtual, Location
+- **Strategic clarity** - Trust directory, not SaaS pricing funnel
+- **Professional feel** - Profile/recommendation, not transactional
 
 **Status:** ✅ Complete and pushed to production
 

@@ -1,6 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CheckIcon } from "lucide-react";
 import { useState } from "react";
@@ -53,26 +52,25 @@ export function CompedToggle({
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <Button
-        variant={comped ? "default" : "outline"}
-        size="sm"
-        onClick={handleToggle}
-        disabled={isLoading}
-        className={comped ? "bg-yellow-500 hover:bg-yellow-600" : ""}
-      >
-        {comped ? "Comped" : "Mark Comped"}
-      </Button>
-
-      {comped && (
-        <Badge
-          variant="secondary"
-          className="bg-yellow-100 text-yellow-800 text-xs"
-        >
-          <CheckIcon className="w-3 h-3 mr-1" />
-          Pro
-        </Badge>
+    <Button
+      variant={comped ? "default" : "outline"}
+      size="sm"
+      onClick={handleToggle}
+      disabled={isLoading}
+      className={
+        comped
+          ? "bg-yellow-500 hover:bg-yellow-600 text-white"
+          : "border-neutral-600 hover:bg-neutral-800 text-neutral-300"
+      }
+    >
+      {comped ? (
+        <>
+          <CheckIcon className="w-4 h-4 mr-1" />
+          Comped
+        </>
+      ) : (
+        "Mark Comped"
       )}
-    </div>
+    </Button>
   );
 }

@@ -5,6 +5,7 @@ import { BulkResendClaimButton } from "@/components/admin/bulk-resend-claim-butt
 import { BulkResendRecentButton } from "@/components/admin/bulk-resend-recent-button";
 import { CompedToggle } from "@/components/admin/comped-toggle";
 import { ListingActions } from "@/components/admin/listing-actions";
+import { ViewClaimLinks } from "@/components/admin/view-claim-links";
 import { AdminDashboardLayout } from "@/components/layouts/AdminDashboardLayout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,7 @@ import {
   EditIcon,
   EyeIcon,
   Sparkles,
+  StarIcon,
   Trash2Icon,
 } from "lucide-react";
 import Link from "next/link";
@@ -300,161 +302,211 @@ export default async function AdminListingsPage({
             <CardTitle>All Listings</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {sortedListings.map((listing) => (
-                <div
-                  key={listing.id}
-                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
-                >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-semibold text-ink truncate">
+            <div className="space-y-3">
+              {sortedListings.map((listing) => {
+                // Determine status pills (max 3)
+                const statusPills = [];
+
+                // Status: Live or Pending (only one status pill)
+                if (listing.status === "Live") {
+                  statusPills.push({
+                    text: "Live",
+                    color: "green",
+                  });
+                } else if (listing.status === "Pending") {
+                  statusPills.push({
+                    text: "Pending",
+                    color: "yellow",
+                  });
+                } else if (listing.status === "Rejected") {
+                  statusPills.push({
+                    text: "Rejected",
+                    color: "red",
+                  });
+                }
+
+                // Approved badge (renamed from 101 Approved)
+                if (
+                  listing.is_approved_101 === true &&
+                  statusPills.length < 3
+                ) {
+                  statusPills.push({
+                    text: "Approved",
+                    color: "blue",
+                  });
+                }
+
+                // Plan: Pro only (if not already at max) - outline style
+                const isPro =
+                  listing.comped ||
+                  (listing.plan || "").toLowerCase() === "pro" ||
+                  (listing.plan || "").toLowerCase() === "founding pro";
+                if (isPro && statusPills.length < 3) {
+                  statusPills.push({
+                    text: "Pro",
+                    color: "blue",
+                    outline: true,
+                  });
+                }
+
+                // Determine if Featured
+                const isFeatured = listing.featured === true;
+
+                return (
+                  <div
+                    key={listing.id}
+                    className="relative flex items-center gap-6 p-4 bg-neutral-900 border border-neutral-800 rounded-lg hover:border-neutral-700 hover:shadow-lg transition-all"
+                  >
+                    {/* Featured Star Indicator - Top Left */}
+                    {isFeatured && (
+                      <div className="absolute left-3 top-3 z-10">
+                        <StarIcon className="w-4 h-4 text-brand-orange fill-brand-orange" />
+                      </div>
+                    )}
+
+                    {/* ZONE 1: Identity (left, dominant) */}
+                    <div className="flex-1 min-w-0 pl-6">
+                      <h3 className="text-lg font-semibold text-paper line-clamp-1">
                         {listing.listing_name || "Untitled Listing"}
                       </h3>
-                      <div className="flex items-center gap-2">
-                        {/* Plan Badge */}
-                        {(() => {
-                          // Determine badge text and styling
-                          let badgeText = "Free";
-                          let badgeClassName = "text-xs bg-gray-100 text-ink";
+                      <p className="text-sm text-neutral-400 mt-0.5">
+                        {[listing.city, listing.state]
+                          .filter(Boolean)
+                          .join(", ") || "—"}
+                      </p>
+                      <p className="text-xs text-neutral-500 mt-0.5">
+                        {listing.email || "No email"}
+                      </p>
+                      {/* Comped text (not a pill) */}
+                      {listing.comped && (
+                        <p className="text-xs text-neutral-500 mt-1">
+                          Comped listing
+                        </p>
+                      )}
+                    </div>
 
-                          if (listing.featured) {
-                            badgeText = "Featured";
-                            badgeClassName =
-                              "text-xs bg-brand-orange text-white";
-                          } else if (listing.comped) {
-                            badgeText = "Pro";
-                            badgeClassName = "text-xs bg-brand-blue text-white";
-                          } else if (
-                            (listing.plan || "").toLowerCase() === "pro" ||
-                            (listing.plan || "").toLowerCase() ===
-                              "founding pro"
-                          ) {
-                            badgeText = "Pro";
-                            badgeClassName = "text-xs bg-brand-blue text-white";
-                          } else if (
-                            (listing.plan || "").toLowerCase() === "standard" ||
-                            (listing.plan || "").toLowerCase() ===
-                              "founding standard"
-                          ) {
-                            badgeText = "Standard";
-                            badgeClassName = "text-xs bg-gray-100 text-ink";
+                    {/* ZONE 2: Status (center, calm, grouped) */}
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      {statusPills.map((pill) => {
+                        const colorClasses = {
+                          green: "bg-green-500/[0.1] text-green-500",
+                          yellow: "bg-yellow-500/[0.1] text-yellow-500",
+                          red: "bg-red-500/[0.1] text-red-500",
+                          blue: pill.outline
+                            ? "border border-blue-500/30 text-blue-500 bg-transparent"
+                            : "bg-blue-500/[0.1] text-blue-500",
+                        };
+
+                        return (
+                          <span
+                            key={pill.text}
+                            className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${
+                              pill.outline ? "" : "border-0"
+                            } ${colorClasses[pill.color]}`}
+                          >
+                            {pill.text}
+                          </span>
+                        );
+                      })}
+                    </div>
+
+                    {/* ZONE 3: Actions (right, obvious buttons) */}
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      {/* Pending actions */}
+                      {listing.status === "Pending" && (
+                        <ListingActions
+                          listingId={listing.id}
+                          listingName={
+                            listing.listing_name || "Unnamed Listing"
                           }
+                          showApproveReject={true}
+                        />
+                      )}
 
-                          return (
-                            <Badge variant="outline" className={badgeClassName}>
-                              {badgeText}
-                            </Badge>
-                          );
-                        })()}
+                      {/* Comped Toggle */}
+                      <CompedToggle
+                        listingId={listing.id}
+                        isComped={listing.comped || false}
+                        currentPlan={listing.plan}
+                      />
 
-                        {/* Comped Badge */}
-                        {listing.comped && (
-                          <Badge
-                            variant="secondary"
-                            className="bg-yellow-100 text-yellow-800 text-xs"
-                          >
-                            Comped
-                          </Badge>
-                        )}
-
-                        {/* 101 Approved Badge */}
-                        {listing.is_approved_101 === true && (
-                          <Badge
-                            variant="secondary"
-                            className="bg-green-100 text-green-800 text-xs"
-                          >
-                            <CheckCircleIcon className="w-3 h-3 mr-1" />
-                            101 Approved
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="text-sm text-ink">
-                      <div className="flex items-center gap-4">
-                        <span>Email: {listing.email || "N/A"}</span>
-                        <span>
-                          Location:{" "}
-                          {[listing.city, listing.state]
-                            .filter(Boolean)
-                            .join(", ") || "N/A"}
-                        </span>
-                        <span>Status: {listing.status || "Unknown"}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {/* Resend Claim Email - Always Available */}
-                    <ListingActions
-                      listingId={listing.id}
-                      listingName={listing.listing_name || "Unnamed Listing"}
-                      showApproveReject={listing.status === "Pending"}
-                    />
-
-                    {/* Comped Toggle */}
-                    <CompedToggle
-                      listingId={listing.id}
-                      isComped={listing.comped || false}
-                      currentPlan={listing.plan}
-                    />
-
-                    {/* Edit Button */}
-                    <Button size="sm" variant="default" asChild>
-                      <Link href={`/dashboard/admin/edit/${listing.id}`}>
-                        <EditIcon className="w-4 h-4 mr-1" />
-                        Edit
-                      </Link>
-                    </Button>
-
-                    {/* Mockup Button */}
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      asChild
-                      className="text-purple-600 border-purple-300 hover:bg-purple-50 hover:text-purple-700"
-                    >
-                      <Link href={`/dashboard/admin/mockup/${listing.id}`}>
-                        <Sparkles className="w-4 h-4 mr-1" />
-                        Pro
-                      </Link>
-                    </Button>
-
-                    {/* Delete Button (server action) */}
-                    <form
-                      action={async () => {
-                        "use server";
-                        await deleteListing(listing.id);
-                      }}
-                    >
-                      <Button size="sm" variant="destructive">
-                        <Trash2Icon className="w-4 h-4 mr-1" />
-                        Delete
-                      </Button>
-                    </form>
-
-                    {/* View Button */}
-                    <Button size="sm" variant="outline" asChild>
-                      <Link
-                        href={`/listing/${
-                          listing.slug ||
-                          (
-                            listing.listing_name
-                              ?.toLowerCase()
-                              .replace(/\s+/g, "-")
-                              .replace(/[^a-z0-9-]/g, "")
-                          ) ||
-                          listing.id
-                        }`}
+                      {/* Primary: View */}
+                      <Button
+                        size="sm"
+                        variant="default"
+                        asChild
+                        className="bg-brand-blue hover:bg-brand-blue/90 text-white font-medium"
                       >
-                        <EyeIcon className="w-4 h-4 mr-1" />
-                        View
-                      </Link>
-                    </Button>
+                        <Link
+                          href={`/listing/${
+                            listing.slug ||
+                            (
+                              listing.listing_name
+                                ?.toLowerCase()
+                                .replace(/\s+/g, "-")
+                                .replace(/[^a-z0-9-]/g, "")
+                            ) ||
+                            listing.id
+                          }`}
+                        >
+                          <EyeIcon className="w-4 h-4 mr-1" />
+                          View
+                        </Link>
+                      </Button>
+
+                      {/* Secondary: Edit */}
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        asChild
+                        className="bg-neutral-800 hover:bg-neutral-700 text-paper border border-neutral-700"
+                      >
+                        <Link href={`/dashboard/admin/edit/${listing.id}`}>
+                          <EditIcon className="w-4 h-4 mr-1" />
+                          Edit
+                        </Link>
+                      </Button>
+
+                      {/* Utility: View Links */}
+                      <ViewClaimLinks
+                        listingId={listing.id}
+                        listingName={listing.listing_name || "Unnamed Listing"}
+                      />
+
+                      {/* Utility: Mockup/Pro */}
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        asChild
+                        className="border-neutral-600 hover:bg-neutral-800 text-neutral-300"
+                      >
+                        <Link href={`/dashboard/admin/mockup/${listing.id}`}>
+                          <Sparkles className="w-4 h-4 mr-1" />
+                          Pro
+                        </Link>
+                      </Button>
+
+                      {/* Destructive: Delete */}
+                      <form
+                        action={async () => {
+                          "use server";
+                          await deleteListing(listing.id);
+                        }}
+                        className="inline"
+                      >
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="border-red-500/50 text-red-500 hover:bg-red-500/10 hover:border-red-500"
+                        >
+                          <Trash2Icon className="w-4 h-4 mr-1" />
+                          Delete
+                        </Button>
+                      </form>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
 
               {sortedListings.length === 0 && (
                 <div className="text-center py-8 rounded-lg border border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50 text-ink">

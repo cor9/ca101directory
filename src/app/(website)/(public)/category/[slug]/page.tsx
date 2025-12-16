@@ -129,11 +129,15 @@ export default async function CategoryPage({
     // Get all listings for this category
     const allListings = await getPublicListings({ category: categoryName });
 
+    // DEBUG: Log raw query results
+    console.log(`[CategoryPage:${params.slug}] Total listings returned:`, allListings.length);
+    console.log(`[CategoryPage:${params.slug}] Sample data:`, allListings.slice(0, 3));
+
     // 17B: Category hero structure - 1 hero Pro tile + 2 secondary Pro tiles
     // Sort all listings by priority: Pro > Standard > Free, then by photos, then updated
     const sortedListings = sortListingsByPriority(allListings);
 
-    // Get Pro listings for hero section
+    // Get Pro listings for hero section (first 3 only)
     const proListings = sortedListings.filter((l) => {
       const plan = (l.plan || "").toLowerCase();
       return (
@@ -148,20 +152,26 @@ export default async function CategoryPage({
     const heroProTile = proListings[0] || null;
     // Secondary Pro tiles (next 2)
     const secondaryProTiles = proListings.slice(1, 3);
+    // IDs of listings shown in hero (to avoid duplication in main grid)
+    const heroListingIds = new Set(
+      [heroProTile, ...secondaryProTiles]
+        .filter(Boolean)
+        .map((l) => l.id),
+    );
 
-    // Separate Standard and Free listings
-    const standardListings = sortedListings.filter(
-      (l) =>
-        l.plan &&
-        l.plan.toLowerCase().includes("standard") &&
-        !proListings.some((p) => p.id === l.id),
+    // All remaining listings for main grid (exclude hero listings to avoid duplication)
+    // Show ALL listings: Pro, Standard, and Free (sorted by priority)
+    const mainGridListings = sortedListings.filter(
+      (l) => !heroListingIds.has(l.id),
     );
-    const freeListings = sortedListings.filter(
-      (l) =>
-        (!l.plan || l.plan === "Free" || l.plan === null) &&
-        !proListings.some((p) => p.id === l.id) &&
-        !standardListings.some((s) => s.id === l.id),
-    );
+
+    // DEBUG: Log breakdown
+    console.log(`[CategoryPage:${params.slug}] Breakdown:`, {
+      total: sortedListings.length,
+      hero: heroListingIds.size,
+      mainGrid: mainGridListings.length,
+      pro: proListings.length,
+    });
 
     // Get related categories for SEO links
     const relatedCategories = categories
@@ -284,36 +294,35 @@ export default async function CategoryPage({
           </div>
         ) : (
           <section>
-            {/* Standard Listings */}
-            {standardListings.length > 0 && (
+            {/* All Listings Grid - Shows ALL listings (Pro, Standard, Free) sorted by priority */}
+            {mainGridListings.length > 0 && (
               <div className="mb-12">
                 <h2 className="text-2xl font-semibold text-text-primary mb-6">
-                  All {categoryName} (
-                  {standardListings.length + freeListings.length})
+                  All {categoryName} ({allListings.length})
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {standardListings.map((listing) => (
-                    <ListingCard key={listing.id} listing={listing} />
-                  ))}
-                </div>
-              </div>
-            )}
+                  {mainGridListings.map((listing) => {
+                    // Visual styling based on plan tier
+                    const plan = (listing.plan || "").toLowerCase();
+                    const isFree =
+                      !listing.plan ||
+                      listing.plan === "Free" ||
+                      listing.plan === null;
+                    const isPro =
+                      plan.includes("pro") ||
+                      plan.includes("premium") ||
+                      listing.comped ||
+                      listing.featured;
 
-            {/* Free Listings - Visual downgrade */}
-            {freeListings.length > 0 && (
-              <div
-                className={
-                  standardListings.length > 0
-                    ? "mt-12 pt-12 border-t border-border-subtle"
-                    : ""
-                }
-              >
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {freeListings.map((listing) => (
-                    <div key={listing.id} className="opacity-75">
-                      <ListingCard listing={listing} />
-                    </div>
-                  ))}
+                    return (
+                      <div
+                        key={listing.id}
+                        className={isFree ? "opacity-75" : ""}
+                      >
+                        <ListingCard listing={listing} />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}

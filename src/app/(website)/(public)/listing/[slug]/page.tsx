@@ -1,5 +1,6 @@
 import { getCategoriesByIds } from "@/actions/categories";
 import { auth } from "@/auth";
+import { ContactActions } from "@/components/listing/contact-actions";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import ListingLayout from "@/components/listing/ListingLayout";
 import { ListingCarousel } from "@/components/listing/listing-carousel";

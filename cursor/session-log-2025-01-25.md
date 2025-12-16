@@ -441,3 +441,103 @@ const mainGridListings = sortedListings.filter(
 
 **Status:** ✅ Complete and pushed to production
 
+---
+
+## 🎯 Category Pages Refactor - Match Directory Exactly
+
+### Date: January 25, 2025 (Evening Session)
+
+### Problem Statement
+Category pages used different card components and grid layouts than the directory page, causing:
+- Visual inconsistency
+- Different user experience
+- Maintenance burden (duplicate code)
+- Hard to debug issues (different rendering paths)
+
+### Solution: Single Source of Truth
+
+#### Rule: Filtering changes data, not layout
+
+Category pages are now **filtered directory views**, not separate layouts.
+
+### Changes Made
+
+#### 1. Replaced Data Fetching
+**Before:**
+```typescript
+const allListings = await getPublicListings({ category: categoryName });
+```
+
+**After:**
+```typescript
+const { items, totalCount } = await getItems({
+  category: categoryName,
+  currentPage: 1,
+  excludeFeatured: false,
+});
+```
+
+#### 2. Replaced Card Component
+**Before:**
+- Used `ListingCard` from `@/components/listings/ListingCard.tsx`
+- Custom category-specific rendering
+- Different grid classes
+
+**After:**
+- Uses `ListingCardClient` from `@/components/directory/ListingCardClient.tsx`
+- Exact same component as directory
+- Exact same grid: `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6`
+
+#### 3. Removed Category-Specific Code
+**Deleted:**
+- Hero section with Pro tiles
+- Custom card markup
+- Category-specific grid classes
+- Separate standard/free listing sections
+- Custom opacity styling
+
+**Kept:**
+- Category title
+- Category description
+- Result count
+
+#### 4. Created CategoryClient Component
+- Extends DirectoryClient functionality
+- Handles category-specific pagination
+- Passes category name to API for "Load More"
+- Identical grid and card rendering
+
+### Files Modified
+- `src/app/(website)/(public)/category/[slug]/page.tsx`
+  - Replaced `getPublicListings` with `getItems`
+  - Removed all custom card rendering
+  - Removed hero section
+  - Uses `CategoryClient` component
+  - Kept only category context above grid
+- `src/components/directory/CategoryClient.tsx` (NEW)
+  - Category-specific pagination client
+  - Identical to DirectoryClient but accepts categoryName prop
+  - Same grid and card rendering
+
+### Git Commit
+```
+f28bdd10 - Refactor category pages to match directory: use same card component and grid
+```
+
+### Key Changes
+1. ✅ Single card component (`ListingCardClient`) for all pages
+2. ✅ Single grid system (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6`)
+3. ✅ Same data fetching method (`getItems`)
+4. ✅ Same pagination pattern (Load More button)
+5. ✅ Visual parity - cards identical across pages
+6. ✅ Removed 230 lines of duplicate/custom code
+
+### Result
+- **Visual consistency** - Cards look identical on directory and category pages
+- **Maintainability** - Single source of truth for card rendering
+- **User trust** - Consistent experience builds confidence
+- **Easier debugging** - One rendering path to maintain
+- **Future-proof** - Changes to directory cards automatically apply to categories
+
+**Status:** ✅ Complete and pushed to production
+

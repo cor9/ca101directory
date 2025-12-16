@@ -109,98 +109,12 @@ export function ListingContactSection({
         </div>
       )}
 
-      {/* 17C: Profile Page Micro-transactions - Add-ons for vendors */}
-      {listing.is_claimed && listing.owner_id && (
-        <div className="bg-card-surface border border-border-subtle rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-text-primary mb-4">
-            Enhance Your Visibility
-          </h3>
-          <div className="space-y-3">
-            <label className="flex items-start gap-3 p-3 rounded-lg hover:bg-bg-3 transition-colors cursor-pointer group">
-              <input
-                type="checkbox"
-                className="mt-1"
-                disabled
-                readOnly
-                checked={listing.featured || false}
-              />
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-base">⭐</span>
-                  <span className="text-sm font-medium text-text-primary">
-                    Featured in Category
-                  </span>
-                  <span className="text-xs text-text-muted">(monthly)</span>
-                </div>
-                <p className="text-xs text-text-muted mt-1">
-                  Priority placement in category pages
-                </p>
-              </div>
-            </label>
-            <label className="flex items-start gap-3 p-3 rounded-lg hover:bg-bg-3 transition-colors cursor-pointer group">
-              <input type="checkbox" className="mt-1" disabled readOnly />
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-base">🔍</span>
-                  <span className="text-sm font-medium text-text-primary">
-                    Search Boost
-                  </span>
-                  <span className="text-xs text-text-muted">(monthly)</span>
-                </div>
-                <p className="text-xs text-text-muted mt-1">
-                  Appear in top 2 search results
-                </p>
-              </div>
-            </label>
-            <label className="flex items-start gap-3 p-3 rounded-lg hover:bg-bg-3 transition-colors cursor-pointer group">
-              <input
-                type="checkbox"
-                className="mt-1"
-                disabled
-                readOnly
-                checked={listing.badge_approved || false}
-              />
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-base">🏅</span>
-                  <span className="text-sm font-medium text-text-primary">
-                    Verified Badge
-                  </span>
-                  <span className="text-xs text-text-muted">(one-time)</span>
-                </div>
-                <p className="text-xs text-text-muted mt-1">
-                  Build trust with families
-                </p>
-              </div>
-            </label>
-            <label className="flex items-start gap-3 p-3 rounded-lg hover:bg-bg-3 transition-colors cursor-pointer group">
-              <input type="checkbox" className="mt-1" disabled readOnly />
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-base">📍</span>
-                  <span className="text-sm font-medium text-text-primary">
-                    Multi-City Listing
-                  </span>
-                  <span className="text-xs text-text-muted">(monthly)</span>
-                </div>
-                <p className="text-xs text-text-muted mt-1">
-                  List in multiple locations
-                </p>
-              </div>
-            </label>
-          </div>
-          {/* 18G: The One Sentence */}
-          <p className="mt-3 text-xs text-text-muted italic">
-            Providers with these features receive 3–5× more parent contact.
-          </p>
-          <Link
-            href="/pricing?from=profile-addons"
-            className="mt-2 inline-block text-sm text-accent-teal hover:text-accent-teal/80 transition-colors"
-          >
-            Manage add-ons →
-          </Link>
-        </div>
-      )}
+      {/* REMOVED: "Enhance Your Visibility" upsell section
+          - Never show upsells on public listing pages
+          - Pro listings should feel confident, not transactional
+          - Upsells belong in vendor dashboard only
+          - This breaks trust illusion and competes with actual content
+      */}
 
       {showUpgradePrompt && (
         <div className="listing-card" style={{ background: "var(--cream)" }}>

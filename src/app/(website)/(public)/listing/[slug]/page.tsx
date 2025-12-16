@@ -1,8 +1,7 @@
 import { getCategoriesByIds } from "@/actions/categories";
 import { auth } from "@/auth";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
-import { ContactActions } from "@/components/listing/contact-actions";
-import { Gallery } from "@/components/listing/gallery";
+import { ListingLayout } from "@/components/listing/ListingLayout";
 import { ListingCarousel } from "@/components/listing/listing-carousel";
 import { ListingContactSection } from "@/components/listing/listing-contact-section";
 import type { DisplayCategory } from "@/components/listing/types";
@@ -23,7 +22,7 @@ import {
   getPublicListings,
 } from "@/data/listings";
 import { getListingAverageRating, getListingReviews } from "@/data/reviews";
-import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
+import { getCategoryIconUrl } from "@/lib/image-urls";
 import { constructMetadata } from "@/lib/metadata";
 import { generateSlugFromListing } from "@/lib/slug-utils";
 import { createServerClient } from "@/lib/supabase";
@@ -150,37 +149,12 @@ interface ListingPageProps {
 }
 
 export default async function ListingPage({ params }: ListingPageProps) {
-  const initialsFromName = (name: string) =>
-    name
-      .split(" ")
-      .filter(Boolean)
-      .map((part) => part[0]?.toUpperCase())
-      .slice(0, 2)
-      .join("") || "CA";
-
   const formatDate = (iso: string) =>
     new Date(iso).toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
       year: "numeric",
     });
-
-  const convertToEmbed = (url: string) => {
-    if (!url) return "";
-    if (url.includes("watch?v=")) {
-      return url.replace("watch?v=", "embed/");
-    }
-    if (url.includes("youtu.be")) {
-      return url.replace("youtu.be/", "www.youtube.com/embed/");
-    }
-    if (url.includes("youtube.com")) {
-      return url.replace("youtube.com/", "youtube.com/embed/");
-    }
-    if (url.includes("vimeo.com")) {
-      return url.replace("vimeo.com", "player.vimeo.com/video");
-    }
-    return url;
-  };
 
   try {
     const decodedSlug = decodeURIComponent(params.slug);
@@ -472,17 +446,6 @@ export default async function ListingPage({ params }: ListingPageProps) {
     const services = Array.isArray(listing.tags)
       ? listing.tags.filter(Boolean)
       : [];
-    const heroImageUrl = listing.profile_image
-      ? getListingImageUrl(listing.profile_image)
-      : (listing as any).hero_image_url || (listing as any).logo_url || null;
-    const trustLevel = (listing as any).trust_level;
-    const isVerifiedSafe =
-      trustLevel === "verified_safe" || trustLevel === "background_checked";
-    const isVerified = trustLevel === "verified";
-    const is101Approved =
-      (listing as any).is_approved === true ||
-      listing.badge_approved === true ||
-      listing.is_approved_101 === true;
     let reviews: Awaited<ReturnType<typeof getListingReviews>> = [];
     if (reviewsEnabled) {
       try {
@@ -521,6 +484,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
       relatedCount: related.length,
     });
 
+    // Prepare data for canonical layout
+    const regions = Array.isArray(listing.region) ? listing.region : [];
+
     return (
       <>
         <div className="pb-20 sm:pb-0">
@@ -540,9 +506,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
             ]}
           />
 
-          <div className="bg-[#0C1A2B] text-white py-10 pb-14">
+          {/* Breadcrumb Navigation */}
+          <div className="bg-[#0C1A2B] text-white py-4">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-              <nav className="text-xs text-slate-300 mb-4">
+              <nav className="text-xs text-slate-300">
                 <Link href="/directory" className="hover:underline">
                   Directory
                 </Link>
@@ -558,68 +525,99 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   {listing.listing_name || "Listing"}
                 </span>
               </nav>
+            </div>
+          </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                <div className="md:col-span-1 flex justify-center md:justify-start">
-                  {heroImageUrl ? (
-                    <img
-                      src={heroImageUrl}
-                      alt={listing.listing_name || "Listing image"}
-                      className="w-full rounded-xl shadow-lg object-cover max-h-64"
-                    />
-                  ) : (
-                    <div className="h-40 w-40 flex items-center justify-center rounded-full bg-[#CC5A47] text-white text-3xl font-bold shadow-lg">
-                      {initialsFromName(listing.listing_name || "Listing")}
+          {/* Canonical Listing Layout */}
+          <ListingLayout
+            listing={listing}
+            slug={params.slug}
+            category={displayPrimaryCategory}
+            location={locationLabel}
+            ageRanges={ageRanges}
+            services={services}
+            regions={regions}
+            hasVirtualOption={hasVirtualOption}
+            averageRating={averageRating}
+          />
+
+          {/* Additional Content: Reviews and Sidebar */}
+          <div className="bg-bg-dark py-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 lg:gap-12 items-start">
+                {/* Left column: Reviews */}
+                {reviewsEnabled && (
+                  <section
+                    id="reviews"
+                    className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6"
+                  >
+                    <h2 className="text-xl font-bold mb-4 text-text-primary">
+                      Reviews from Parents
+                    </h2>
+
+                    {/* 17F: Review Gating Message */}
+                    {averageRating.count === 0 && reviews.length === 0 && (
+                      <div className="mb-4 p-4 bg-bg-dark-2 border border-border-subtle rounded-lg">
+                        <p className="text-sm text-text-secondary mb-2">
+                          This provider does not have reviews yet.
+                        </p>
+                        <p className="text-xs text-text-muted italic">
+                          Profiles with reviews get 4× more contact requests.
+                        </p>
+                      </div>
+                    )}
+
+                    {reviews.length > 0 && (
+                      <div className="space-y-6">
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className="text-2xl">★</span>
+                          <span className="text-xl font-semibold text-text-primary">
+                            {averageRating.average.toFixed(1)}
+                          </span>
+                          <span className="text-sm text-text-muted">
+                            based on {averageRating.count} review
+                            {averageRating.count === 1 ? "" : "s"}
+                          </span>
+                        </div>
+
+                        {reviews.map((review) => (
+                          <div
+                            key={review.id}
+                            className="rounded-lg border border-white/10 p-4 bg-bg-dark-2"
+                          >
+                            <p className="text-sm leading-relaxed text-text-secondary">
+                              {review.text}
+                            </p>
+                            <p className="mt-2 text-xs text-text-muted">
+                              —{" "}
+                              {review.user?.name ||
+                                review.user?.email ||
+                                "Anonymous"}
+                              , {formatDate(review.created_at)}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="mt-6">
+                      <RelatedLinks
+                        listing={listing}
+                        relatedListings={related}
+                        categoryNames={Array.from(
+                          new Set(
+                            displayCategories.map((c) => c.displayName.trim()),
+                          ),
+                        )}
+                      />
                     </div>
-                  )}
-                </div>
+                  </section>
+                )}
 
-                <div className="md:col-span-2">
-                  <h1 className="text-3xl font-bold mb-2">
-                    {listing.listing_name || "Listing"}
-                  </h1>
-
-                  <p className="text-sm text-slate-200">
-                    {displayPrimaryCategory}
-                    {locationLabel ? ` • ${locationLabel}` : ""}
-                  </p>
-
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {isVerified && (
-                      <span className="px-3 py-1 rounded-full bg-sky-600 text-xs font-semibold">
-                        Verified
-                      </span>
-                    )}
-
-                    {isVerifiedSafe && (
-                      <span className="px-3 py-1 rounded-full bg-emerald-600 text-xs font-semibold text-white">
-                        Verified Safe
-                      </span>
-                    )}
-
-                    {is101Approved && (
-                      <span className="px-3 py-1 rounded-full bg-[#CC5A47] text-xs font-semibold text-white">
-                        101 Approved
-                      </span>
-                    )}
-
-                    {averageRating.count > 0 && (
-                      <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-white/5 text-xs font-semibold text-text-primary border border-white/10">
-                        ★ {averageRating.average.toFixed(1)} (
-                        {averageRating.count})
-                      </span>
-                    )}
-                  </div>
-
-                  <ContactActions
-                    listingId={listing.id}
-                    website={listing.website}
-                    email={listing.email}
-                    className="mt-6"
-                  />
-
+                {/* Right column: Sticky sidebar with Contact Info */}
+                <aside className="lg:sticky lg:top-24">
                   {showFavorite && (
-                    <div className="mt-4">
+                    <div className="mb-6">
                       <FavoriteButton
                         listingId={listing.id}
                         listingName={listing.listing_name}
@@ -629,177 +627,6 @@ export default async function ListingPage({ params }: ListingPageProps) {
                       />
                     </div>
                   )}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-bg-dark py-10">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              {/* ZONE 2: EVALUATION - Two-column layout: Main content + Sidebar */}
-              <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 lg:gap-12 items-start">
-                {/* Left column: Main content */}
-                <div className="space-y-12">
-                  <section className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6">
-                    <h2 className="text-xl font-bold mb-3 text-text-primary">
-                      About
-                    </h2>
-                    {listing.what_you_offer || listing.description ? (
-                      <RichTextDisplay
-                        content={
-                          listing.what_you_offer || listing.description || ""
-                        }
-                        className="text-sm leading-relaxed text-text-secondary"
-                      />
-                    ) : (
-                      <p className="text-sm leading-relaxed text-text-secondary">
-                        No description provided yet.
-                      </p>
-                    )}
-                  </section>
-
-                  <section className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6">
-                    <h2 className="text-xl font-bold mb-3 text-text-primary">
-                      Details
-                    </h2>
-                    <dl className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
-                      <div>
-                        <dt className="font-semibold text-text-primary">
-                          Category
-                        </dt>
-                        <dd className="text-text-secondary">
-                          {displayPrimaryCategory}
-                        </dd>
-                      </div>
-
-                      <div>
-                        <dt className="font-semibold text-text-primary">
-                          Location
-                        </dt>
-                        <dd className="text-text-secondary">
-                          {locationLabel || "—"}
-                        </dd>
-                      </div>
-
-                      <div>
-                        <dt className="font-semibold text-text-primary">
-                          Ages Served
-                        </dt>
-                        <dd className="flex flex-wrap gap-2">
-                          {ageRanges.length > 0 ? (
-                            ageRanges.map((age) => (
-                              <span
-                                key={age}
-                                className="px-2 py-0.5 rounded-full bg-white/5 text-text-secondary border border-white/10"
-                              >
-                                {age}
-                              </span>
-                            ))
-                          ) : (
-                            <span className="text-text-secondary">—</span>
-                          )}
-                        </dd>
-                      </div>
-
-                      <div>
-                        <dt className="font-semibold text-text-primary">
-                          Services
-                        </dt>
-                        <dd className="text-text-secondary">
-                          {services.length > 0 ? services.join(", ") : "—"}
-                        </dd>
-                      </div>
-                    </dl>
-                  </section>
-
-                  {/* Gallery - Primary conversion element, appears early */}
-                  <section>
-                    <Gallery listing={listing} />
-                    {listing.video_url && (
-                      <div className="aspect-video w-full mt-4 rounded-lg overflow-hidden bg-black">
-                        <iframe
-                          src={convertToEmbed(listing.video_url)}
-                          title="Provider video"
-                          className="h-full w-full"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
-                      </div>
-                    )}
-                  </section>
-
-                  {/* Reviews - Evaluation content */}
-                  {reviewsEnabled && (
-                    <section
-                      id="reviews"
-                      className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6"
-                    >
-                      <h2 className="text-xl font-bold mb-4 text-text-primary">
-                        Reviews from Parents
-                      </h2>
-
-                      {/* 17F: Review Gating Message */}
-                      {averageRating.count === 0 && reviews.length === 0 && (
-                        <div className="mb-4 p-4 bg-bg-dark-2 border border-border-subtle rounded-lg">
-                          <p className="text-sm text-text-secondary mb-2">
-                            This provider does not have reviews yet.
-                          </p>
-                          <p className="text-xs text-text-muted italic">
-                            Profiles with reviews get 4× more contact requests.
-                          </p>
-                        </div>
-                      )}
-
-                      {reviews.length > 0 && (
-                        <div className="space-y-6">
-                          <div className="flex items-center gap-2 mb-3">
-                            <span className="text-2xl">★</span>
-                            <span className="text-xl font-semibold text-text-primary">
-                              {averageRating.average.toFixed(1)}
-                            </span>
-                            <span className="text-sm text-text-muted">
-                              based on {averageRating.count} review
-                              {averageRating.count === 1 ? "" : "s"}
-                            </span>
-                          </div>
-
-                          {reviews.map((review) => (
-                            <div
-                              key={review.id}
-                              className="rounded-lg border border-white/10 p-4 bg-bg-dark-2"
-                            >
-                              <p className="text-sm leading-relaxed text-text-secondary">
-                                {review.text}
-                              </p>
-                              <p className="mt-2 text-xs text-text-muted">
-                                —{" "}
-                                {review.user?.name ||
-                                  review.user?.email ||
-                                  "Anonymous"}
-                                , {formatDate(review.created_at)}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      <div className="mt-6">
-                        <RelatedLinks
-                          listing={listing}
-                          relatedListings={related}
-                          categoryNames={Array.from(
-                            new Set(
-                              displayCategories.map((c) => c.displayName.trim()),
-                            ),
-                          )}
-                        />
-                      </div>
-                    </section>
-                  )}
-                </div>
-
-                {/* Right column: Sticky sidebar with Contact Info */}
-                <aside className="lg:sticky lg:top-24">
                   <ListingContactSection
                     listing={listing}
                     showClaimCallout={showClaimCallout}

@@ -1,5 +1,6 @@
 "use client";
 
+import { BadgeStack } from "@/components/badges/StatusBadge";
 import { urlForIcon, urlForImage } from "@/lib/image";
 import { getListingImageUrl } from "@/lib/image-urls";
 import { generateSlugFromItem } from "@/lib/slug-utils";
@@ -99,14 +100,42 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
     .filter(Boolean)
     .join(", ");
 
+  // Normalize badge detection (handles missing/inconsistent fields)
+  // Verified: Check paid status or trust_level from original listing data
+  const isVerified = Boolean(
+    item.paid ||
+      (item as any).trust_level === "verified" ||
+      (item as any).trust_level === "background_checked" ||
+      (item as any).trust_level === "verified_safe" ||
+      (item as any).is_verified,
+  );
+
+  // Featured: Check featured field or use pricePlan as proxy
+  // Note: listingToItem hardcodes featured: false, so we check pricePlan for Pro/Premium
+  const isFeatured = Boolean(
+    item.featured ||
+      (item as any).is_featured ||
+      tier === "pro" ||
+      tier === "premium",
+  );
+
+  // Pro: Check pricePlan for pro/premium tiers
+  const isPro =
+    typeof item.pricePlan === "string" &&
+    (item.pricePlan.toLowerCase().includes("pro") ||
+      item.pricePlan.toLowerCase().includes("premium"));
+
+  // Determine max badges based on tier
+  const getMaxBadges = (): number => {
+    if (tier === "pro" || tier === "premium") return 2; // Max 2 badges (Verified + Pro)
+    if (tier === "standard") return 2;
+    return 1; // Free: max 1 badge
+  };
+
+  const maxBadges = getMaxBadges();
+
   return (
     <article className="bg-white rounded-xl p-5 shadow-md border hover:shadow-lg transition relative">
-      {tier !== "free" && (
-        <span className="absolute top-3 right-3 rounded-full bg-amber-500 px-3 py-1 text-[11px] font-semibold text-white">
-          {tier === "pro" || tier === "premium" ? "Pro" : "Standard"}
-        </span>
-      )}
-
       {heroImage && (
         <div className="mb-4 h-40 w-full overflow-hidden rounded-lg bg-slate-100 relative">
           <Image
@@ -114,6 +143,28 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
             alt={`${item.name} logo`}
             fill
             className="object-cover"
+          />
+
+          {/* Badges Overlay - Top-left placement */}
+          <div className="absolute left-3 top-3 flex gap-2">
+            <BadgeStack
+              verified={isVerified}
+              featured={isFeatured}
+              pro={isPro}
+              maxBadges={maxBadges}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Badges for listings without images (shown in content area) */}
+      {!heroImage && (isVerified || isFeatured || isPro) && (
+        <div className="mb-3">
+          <BadgeStack
+            verified={isVerified}
+            featured={isFeatured}
+            pro={isPro}
+            maxBadges={maxBadges}
           />
         </div>
       )}
@@ -131,18 +182,14 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
           ) : null}
         </div>
 
-        <div className="flex flex-wrap gap-1">
-          {is101Approved && (
+        {/* Legacy 101 Approved badge - keep for now but will be replaced by BadgeStack */}
+        {is101Approved && (
+          <div className="flex flex-wrap gap-1">
             <span className="rounded-full bg-[#CC5A47] px-2 py-0.5 text-[11px] font-semibold text-white">
               101 Approved
             </span>
-          )}
-          {item.paid && (
-            <span className="rounded-full bg-sky-600 px-2 py-0.5 text-[11px] font-semibold text-white">
-              Verified
-            </span>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {item.description && (

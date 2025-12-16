@@ -48,7 +48,7 @@ export async function listingToItem(listing: Listing): Promise<ItemInfo> {
     sponsorStartDate: null,
     sponsorEndDate: null,
     note: null,
-    featured: false, // Will be determined by plan
+    featured: Boolean(listing.featured), // Map actual featured field from listing
     icon: listing.profile_image
       ? {
           asset: {

@@ -541,3 +541,121 @@ f28bdd10 - Refactor category pages to match directory: use same card component a
 
 **Status:** ✅ Complete and pushed to production
 
+---
+
+## 🚫 Remove Stock/Illustrated Placeholder Images
+
+### Date: January 25, 2025 (Evening Session)
+
+### Problem Statement
+Stock illustrations (like "agent on the phone" images) were appearing on listing cards when listings had no uploaded images. These were coming from fallback logic, not the category page itself:
+- `fallbackCategoryUrl` in ListingCard.tsx
+- Category icon fallbacks in universal-image.ts
+- Clapperboard.png ultimate fallback
+
+**Why this is bad:**
+- Implies editorial endorsement (we didn't create these)
+- Cheapens trust
+- Confuses parents
+- Hurts vendors who actually uploaded photos
+- Directory is about credibility, not decoration
+
+### Solution: No Fallbacks, Only Real Images
+
+#### Rule: No stock illustrations. Ever.
+
+If a listing has no images:
+- Show nothing (clean card)
+- Or neutral branded empty state
+- Or subtle icon placeholder (not illustration pretending to be content)
+
+### Changes Made
+
+#### 1. Removed Fallback Logic from ListingCard.tsx
+**Before:**
+```typescript
+let fallbackCategoryUrl: string | null = null;
+if (needsCategoryFallback) {
+  // ... category icon lookup logic
+}
+```
+
+**After:**
+```typescript
+// NO FALLBACKS - Only use real uploaded images
+// If no profile_image, show nothing (no fake illustrations)
+```
+
+#### 2. Updated Image Rendering
+**Before:**
+```typescript
+{(listing.profile_image || fallbackCategoryUrl) && (
+  <Image src={...} />
+)}
+```
+
+**After:**
+```typescript
+{!isFree && listing.profile_image && (
+  <Image src={getListingImageUrl(listing.profile_image)} />
+)}
+```
+
+#### 3. Removed Fallbacks from universal-image.ts
+**Removed:**
+- Category icon fallback logic
+- Clapperboard.png ultimate fallback
+- All stock illustration paths
+
+**Now returns:**
+- Empty string if no image
+- Only real uploaded images
+
+#### 4. Updated ItemCard Component
+- Only renders image if `src` is not empty
+- No placeholder fallbacks
+- Clean empty state when no image
+
+### Files Modified
+- `src/components/listings/ListingCard.tsx`
+  - Removed `fallbackCategoryUrl` logic
+  - Removed category icon imports
+  - Conditional rendering: only show if `profile_image` exists
+  - Badges shown in content area when no image
+- `src/lib/universal-image.ts`
+  - Removed all category icon fallbacks
+  - Removed clapperboard.png fallback
+  - Returns empty string if no image
+- `src/components/item/item-card.tsx`
+  - Updated to handle empty images correctly
+  - Only renders if `src` is not empty
+
+### Git Commit
+```
+d7e87775 - Remove all stock/illustrated placeholder images from listing cards
+```
+
+### Key Changes
+1. ✅ No category icon fallbacks
+2. ✅ No clapperboard.png fallback
+3. ✅ No stock illustrations anywhere
+4. ✅ Only real uploaded images shown
+5. ✅ Clean cards when no images (no fake content)
+6. ✅ Removed 129 lines of fallback code
+
+### Verification
+Check these pages - should see:
+- Real photos where they exist
+- Clean cards where they don't
+- ZERO illustrated people anywhere
+- No fake imagery implying endorsement
+
+### Result
+- **Credibility restored** - No fake illustrations implying endorsement
+- **Trust increased** - Only real vendor content shown
+- **Vendor fairness** - Vendors with photos get proper credit
+- **Clean UX** - Cards render properly without images
+- **Honest presentation** - Directory shows reality, not marketing fluff
+
+**Status:** ✅ Complete and pushed to production
+

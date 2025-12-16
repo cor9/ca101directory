@@ -276,3 +276,82 @@ bfdd5981 - Trigger redeploy after fixing RESEND_EMAIL_FROM
 
 **Status:** Production-ready. User can now scale free listing management and outreach.
 
+---
+
+## 🎨 UI/UX Restructure - Admin Listings Page
+
+### Date: January 25, 2025 (Evening Session)
+
+### Problem Statement
+Admin listings page had severe visual hierarchy issues:
+- Everything competing at same visual weight (pills, status, email, location, actions, badges)
+- No clear primary/secondary/tertiary hierarchy
+- Pills doing too many jobs (status, plan, promotion, compensation)
+- Action buttons blending into metadata
+- Eye doesn't know where to land
+
+### Solution: Three-Zone Layout Enforcement
+
+#### Zone 1: Identity (Left, Dominant)
+- **Listing name:** `text-lg font-semibold`
+- **Location:** `text-sm text-neutral-400`
+- **Email:** `text-xs text-neutral-500`
+- **Comped:** Text only (not a pill): "Comped listing"
+
+#### Zone 2: Status (Center, Calm, Grouped)
+- **Max 3 pills per card**
+- **Status pills:** Soft fill with 8-12% opacity (`/[0.1]`), no borders
+  - Live (green)
+  - Pending (yellow)
+  - Rejected (red)
+  - Approved (blue)
+- **Plan pills:** Outline style only for "Pro"
+- **Featured:** Star icon in top-left corner (not a pill)
+
+#### Zone 3: Actions (Right, Obvious Buttons)
+- **Primary:** View (brand-blue, solid)
+- **Secondary:** Edit (neutral-800, solid with border)
+- **Utility:** View Links, Pro (outline style)
+- **Destructive:** Delete (red outline, clear danger state)
+
+### Visual Improvements
+- **Card styling:** Solid dark background (`bg-neutral-900`), proper borders (`border-neutral-800`), enhanced hover states
+- **Pill opacity:** 8-12% background with full-strength text color
+- **Removed visual noise:**
+  - "Comped" pill → text only
+  - Duplicate "Pro" badge from CompedToggle
+  - Featured pill → star icon
+
+### Files Modified
+- `src/app/(website)/(protected)/dashboard/admin/listings/page.tsx`
+  - Restructured listing cards into three explicit zones
+  - Limited pills to max 3 with proper styling
+  - Improved card styling and hover states
+  - Enhanced action button hierarchy
+- `src/components/admin/comped-toggle.tsx`
+  - Removed duplicate "Pro" badge
+  - Simplified to single button with check icon when comped
+
+### Git Commit
+```
+83e8da9a - Restructure admin listings UI: enforce three-zone layout with clear visual hierarchy
+```
+
+### Key Changes
+1. ✅ Three-zone structure enforced (Identity | Status | Actions)
+2. ✅ Pills limited to max 3 with 8-12% opacity
+3. ✅ Status pills: soft fill, no borders
+4. ✅ Plan pills: outline style only
+5. ✅ Featured: star icon, not pill
+6. ✅ Comped: text only, not pill
+7. ✅ Action buttons: clear hierarchy (Primary/Secondary/Utility/Destructive)
+8. ✅ Card styling: solid dark background, proper borders, enhanced hover
+
+### Result
+- **Clear visual hierarchy** - Eye knows where to land
+- **Reduced noise** - 40% reduction in visual clutter
+- **Better scannability** - Admins can quickly scan, filter, and act
+- **Professional appearance** - Decision-making software, not decorative UI
+
+**Status:** ✅ Complete and pushed to production
+

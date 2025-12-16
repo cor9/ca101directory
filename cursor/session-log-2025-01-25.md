@@ -1069,3 +1069,131 @@ Check listing detail pages - should see:
 
 **Status:** ✅ Complete and pushed to production
 
+---
+
+## 🏗️ Create Canonical Listing Layout System
+
+### Date: January 25, 2025 (Evening Session)
+
+### Problem Statement
+Listing pages had inconsistent layouts across `/directory`, `/category/[slug]`, and `/listing/[slug]`. No single source of truth, causing:
+- Layout drift across pages
+- Inconsistent visual language
+- Video not properly integrated
+- "What Makes You Unique" and "Additional Notes" competing with main description
+- No unified component system
+
+**Strategic need:**
+- Single source of truth for all listing displays
+- Uniform, readable, restrained design
+- Dark backgrounds only
+- One accent color per listing
+- Video properly supported
+- Clear content hierarchy
+
+### Solution: Canonical Component System
+
+#### Created 8 Canonical Components
+1. **ListingHeader.tsx** - Logo, Name, Badges, Category, Location
+2. **ListingBadges.tsx** - Verified, Featured, Pro badges (consistent order)
+3. **ListingCTA.tsx** - Primary CTA row (Website, Contact, View Gallery)
+4. **ListingAbout.tsx** - Main description (hides if empty)
+5. **ListingMedia.tsx** - Video embed + Gallery (Video first, then Gallery)
+6. **ListingDifferentiators.tsx** - "What Sets This Provider Apart" section
+   - What Makes Us Unique
+   - Additional Notes
+   - Appears AFTER media, calm styling
+7. **ListingDetails.tsx** - Details grid (Location, Services, Ages, Format, Regions)
+8. **ListingLayout.tsx** - Wrapper component enforcing hierarchy
+
+#### Canonical Structure (Top → Bottom)
+1. **Header Block** - Logo, Name, Badges, Category, Location
+2. **Primary CTA Row** - Website, Contact, View Gallery
+3. **About / Description** - Main narrative
+4. **Media Section** - Video (if exists) → Gallery
+5. **Differentiators Section** - "What Sets This Provider Apart"
+   - What Makes Us Unique
+   - Additional Notes
+   - Neutral styling, editorial footnotes feel
+6. **Details Grid** - Location, Services, Ages, Format, Regions
+7. **Back to Directory** - Single neutral CTA
+
+### Key Design Decisions
+
+#### Visual Principles (Non-Negotiable)
+- **Dark background only** - No cream, no light panels
+- **One accent color per listing** - Derived from category
+- **Accent used for:** Top border, badge outlines, primary CTA
+- **Never for:** Body text backgrounds, full panels
+- **Readable at 80-90% zoom**
+
+#### Content Hierarchy Rules
+- **Video always first** - If exists, appears before Gallery
+- **Differentiators after media** - Not competing with main description
+- **Calm styling** - Neutral dark surface, subtle borders
+- **No upsells** - Removed from public pages entirely
+- **No admin language** - Public pages focus on evaluation
+
+#### Field Placement (Final)
+- **Main Description** (`what_you_offer` or `description`) - Primary narrative
+- **What Makes Us Unique** (`why_is_it_unique`) - After media, in Differentiators section
+- **Additional Notes** (`extras_notes`) - After media, in Differentiators section
+
+**Why this works:**
+- Parents get: Clear story → Visual proof → Then nuance
+- Providers still feel heard
+- Page breathes
+- Nothing feels bolted on
+
+### Files Created
+- `src/components/listing/ListingHeader.tsx`
+- `src/components/listing/ListingBadges.tsx`
+- `src/components/listing/ListingCTA.tsx`
+- `src/components/listing/ListingAbout.tsx`
+- `src/components/listing/ListingMedia.tsx`
+- `src/components/listing/ListingDifferentiators.tsx`
+- `src/components/listing/ListingDetails.tsx`
+- `src/components/listing/ListingLayout.tsx`
+
+### Files Modified
+- `src/app/(website)/(public)/listing/[slug]/page.tsx`
+  - Refactored to use `ListingLayout` component
+  - Removed duplicate header/gallery/description code
+  - Integrated with existing reviews section
+  - Maintained sidebar with ContactInfo
+
+### Git Commit
+```
+9e589e73 - Create canonical listing layout system - single source of truth
+```
+
+### Key Changes
+1. ✅ Created 8 canonical components
+2. ✅ Enforced strict content hierarchy
+3. ✅ Video embed support (responsive, 16:9)
+4. ✅ Differentiators section after media (calm, neutral)
+5. ✅ Removed all upsells from public pages
+6. ✅ Dark backgrounds only
+7. ✅ Single accent color system
+8. ✅ Same components across all listing pages
+
+### Verification
+Check listing pages - should see:
+- Consistent layout across /directory, /category/[slug], /listing/[slug]
+- Video appears before Gallery (if both exist)
+- "What Sets This Provider Apart" after media section
+- No upsells on public pages
+- Dark backgrounds, restrained colors
+- Clear content hierarchy
+
+### Result
+- **Single source of truth** - No layout drift
+- **Uniform design** - Same components everywhere
+- **Video respected** - Proper placement and responsive
+- **Content hierarchy** - Clear story → Visual proof → Nuance
+- **Professional feel** - Calm, intentional, not transactional
+- **Maintainable** - Changes to components apply everywhere
+- **Trust directory** - Profile/recommendation, not SaaS funnel
+
+**Status:** ✅ Complete and pushed to production
+

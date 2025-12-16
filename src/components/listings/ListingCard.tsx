@@ -11,10 +11,9 @@ import {
 } from "@/components/ui/card";
 import { StarRating } from "@/components/ui/star-rating";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
-import { getCategoryIconsMap } from "@/data/categories";
 import type { Listing } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
-import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
+import { getListingImageUrl } from "@/lib/image-urls";
 import { generateSlugFromListing } from "@/lib/slug-utils";
 import { cn } from "@/lib/utils";
 import { CheckCircleIcon, GlobeIcon, MapPinIcon, StarIcon } from "lucide-react";
@@ -86,28 +85,8 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
 
   const planPriority = getPlanPriority(listing.plan, listing.comped);
 
-  // Determine primary image or fallback to category icon for free/unclaimed without profile image
-  const needsCategoryFallback =
-    !listing.profile_image && (!listing.is_claimed || listing.plan === "Free");
-  let fallbackCategoryUrl: string | null = null;
-  if (needsCategoryFallback) {
-    try {
-      const iconMap = await getCategoryIconsMap();
-      const normalize = (v: string) =>
-        v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
-      for (const cat of validCategories) {
-        const entry = Object.entries(iconMap || {}).find(
-          ([name]) => normalize(name) === normalize(cat),
-        );
-        if (entry?.[1]) {
-          fallbackCategoryUrl = getCategoryIconUrl(entry[1]);
-          break;
-        }
-      }
-    } catch (e) {
-      // ignore
-    }
-  }
+  // NO FALLBACKS - Only use real uploaded images
+  // If no profile_image, show nothing (no fake illustrations)
 
   // Determine badge text and styling
   let badgeText = "Free";
@@ -176,20 +155,15 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
     >
       {/* STEP 4: Image Area - Hero - fixed height, rounded top */}
       {/* 16A: Free listings get no image, Standard/Pro get image */}
-      {!isFree && (
+      {/* ONLY show real uploaded images - no fallbacks, no illustrations */}
+      {!isFree && listing.profile_image && (
         <div className="relative h-40 w-full overflow-hidden rounded-t-xl bg-bg-dark-2">
-          {(listing.profile_image || fallbackCategoryUrl) && (
-            <Image
-              src={
-                listing.profile_image
-                  ? getListingImageUrl(listing.profile_image)
-                  : fallbackCategoryUrl || ""
-              }
-              alt={listing.listing_name || "Listing"}
-              fill
-              className="object-cover"
-            />
-          )}
+          <Image
+            src={getListingImageUrl(listing.profile_image)}
+            alt={listing.listing_name || "Listing"}
+            fill
+            className="object-cover"
+          />
 
           {/* Badges Overlay - Top-left placement */}
           <div className="absolute left-3 top-3 flex gap-2">
@@ -200,6 +174,18 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
               maxBadges={maxBadges}
             />
           </div>
+        </div>
+      )}
+
+      {/* Badges for listings without images (shown in content area) */}
+      {!isFree && !listing.profile_image && (
+        <div className="p-4 pb-2">
+          <BadgeStack
+            verified={isVerified}
+            featured={isFeatured}
+            pro={isProBadge}
+            maxBadges={maxBadges}
+          />
         </div>
       )}
 

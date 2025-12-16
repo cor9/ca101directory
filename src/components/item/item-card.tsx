@@ -24,20 +24,20 @@ export default function ItemCard({ item }: ItemCardProps) {
     isFallback: boolean;
   } | null>(null);
 
-  // Get universal image with proper fallbacks
+  // Get image - NO FALLBACKS (only real uploaded images)
   useEffect(() => {
     const fetchImage = async () => {
       try {
         const result = await getUniversalItemImage(item);
-        setImageResult(result);
+        // Only set if we have a real image (not empty string)
+        if (result.src && result.src.trim() !== "") {
+          setImageResult(result);
+        } else {
+          setImageResult(null);
+        }
       } catch (error) {
-        console.error("Error fetching universal image:", error);
-        // Fallback to generic icon
-        setImageResult({
-          src: "/api/placeholder/400/300",
-          alt: `Generic icon for ${item.name}`,
-          isFallback: true,
-        });
+        console.error("Error fetching image:", error);
+        setImageResult(null);
       }
     };
 
@@ -50,7 +50,7 @@ export default function ItemCard({ item }: ItemCardProps) {
   return (
     <article className="bg-[color:var(--cream)] text-[color:var(--cream-ink)] rounded-2xl border border-[color:var(--card-border)] shadow-[var(--shadow-cream)] overflow-hidden transition-transform hover:-translate-y-0.5 hover:shadow-[var(--shadow-cream-lg)]">
       <div className="aspect-[16/9] bg-[#EDE6C8] relative">
-        {imageResult && (
+        {imageResult && imageResult.src && imageResult.src.trim() !== "" && (
           <Image
             src={imageResult.src}
             alt={imageResult.alt}

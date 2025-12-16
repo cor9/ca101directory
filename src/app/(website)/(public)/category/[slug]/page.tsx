@@ -1,23 +1,13 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
-import { ListingCard } from "@/components/listings/ListingCard";
-import { ListingCardClient } from "@/components/listings/ListingCardClient";
-import { CategoryContent } from "@/components/seo/category-content";
+import Container from "@/components/container";
+import CategoryClient from "@/components/directory/CategoryClient";
 import EmptyGrid from "@/components/shared/empty-grid";
-import CustomPagination from "@/components/shared/pagination";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
-import {
-  getFeaturedListingsByCategory,
-  getPublicListings,
-  sortListingsByPriority,
-} from "@/data/listings";
-import {
-  DEFAULT_SORT,
-  ITEMS_PER_PAGE,
-  SORT_FILTER_LIST,
-} from "@/lib/constants";
+import { getItems } from "@/data/item-service";
+import { ITEMS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -74,14 +64,12 @@ export async function generateMetadata({
     }
 
     // Get listing count for this category
-    const listings = await getPublicListings();
-    const categoryListings = listings.filter(
-      (listing) =>
-        listing.categories?.includes(category.category_name) &&
-        listing.status === "Live" &&
-        listing.is_active,
-    );
-    const count = categoryListings.length;
+    const { totalCount } = await getItems({
+      category: category.category_name,
+      currentPage: 1,
+      excludeFeatured: false,
+    });
+    const count = totalCount;
 
     return constructMetadata({
       title: `${category.category_name} for Child Actors - ${count}+ Professionals | Child Actor 101`,
@@ -126,57 +114,20 @@ export default async function CategoryPage({
 
     const categoryName = category.category_name;
 
-    // Get all listings for this category
-    const allListings = await getPublicListings({ category: categoryName });
+    // Get listings for this category using the same method as directory page
+    const currentPage = 1;
+    const { items, totalCount } = await getItems({
+      category: categoryName,
+      currentPage,
+      excludeFeatured: false, // Show featured listings on category pages
+    });
+
+    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
     // DEBUG: Log raw query results
-    console.log(`[CategoryPage:${params.slug}] Total listings returned:`, allListings.length);
-    console.log(`[CategoryPage:${params.slug}] Sample data:`, allListings.slice(0, 3));
-
-    // 17B: Category hero structure - 1 hero Pro tile + 2 secondary Pro tiles
-    // Sort all listings by priority: Pro > Standard > Free, then by photos, then updated
-    const sortedListings = sortListingsByPriority(allListings);
-
-    // Get Pro listings for hero section (first 3 only)
-    const proListings = sortedListings.filter((l) => {
-      const plan = (l.plan || "").toLowerCase();
-      return (
-        plan.includes("pro") ||
-        plan.includes("premium") ||
-        l.comped ||
-        l.featured
-      );
-    });
-
-    // Hero Pro tile (first Pro)
-    const heroProTile = proListings[0] || null;
-    // Secondary Pro tiles (next 2)
-    const secondaryProTiles = proListings.slice(1, 3);
-    // IDs of listings shown in hero (to avoid duplication in main grid)
-    const heroListingIds = new Set(
-      [heroProTile, ...secondaryProTiles]
-        .filter(Boolean)
-        .map((l) => l.id),
-    );
-
-    // All remaining listings for main grid (exclude hero listings to avoid duplication)
-    // Show ALL listings: Pro, Standard, and Free (sorted by priority)
-    const mainGridListings = sortedListings.filter(
-      (l) => !heroListingIds.has(l.id),
-    );
-
-    // DEBUG: Log breakdown
-    console.log(`[CategoryPage:${params.slug}] Breakdown:`, {
-      total: sortedListings.length,
-      hero: heroListingIds.size,
-      mainGrid: mainGridListings.length,
-      pro: proListings.length,
-    });
-
-    // Get related categories for SEO links
-    const relatedCategories = categories
-      .filter((c) => c.category_name !== categoryName)
-      .slice(0, 2);
+    console.log(`[CategoryPage:${params.slug}] Total listings returned:`, totalCount);
+    console.log(`[CategoryPage:${params.slug}] Items on page 1:`, items.length);
+    console.log(`[CategoryPage:${params.slug}] Sample data:`, items.slice(0, 3));
 
     // Generate category subtext (1 line, factual)
     const getCategorySubtext = (name: string): string => {
@@ -194,169 +145,46 @@ export default async function CategoryPage({
     };
 
     return (
-      <div className="container max-w-7xl mx-auto px-4 py-8">
-        {/* 14A: Category Hero */}
-        <div className="mb-8">
-          <h1 className="text-4xl md:text-5xl font-semibold text-text-primary mb-3">
-            {categoryName} for Kids & Teens
-          </h1>
-          <p className="text-lg text-text-secondary max-w-2xl">
-            {getCategorySubtext(categoryName)}
-          </p>
-        </div>
-
-        {/* 17B: Recommended Providers - Hero Pro tile + 2 secondary */}
-        {(heroProTile || secondaryProTiles.length > 0) && (
-          <section className="mb-12">
-            <h2 className="text-xl font-semibold text-text-primary mb-6">
-              Recommended Providers
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Hero Pro tile */}
-              {heroProTile && (
-                <div className="md:col-span-1">
-                  <ListingCard listing={heroProTile} />
-                </div>
-              )}
-              {/* Secondary Pro tiles */}
-              {secondaryProTiles.length > 0 && (
-                <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {secondaryProTiles.map((listing) => (
-                    <ListingCard key={listing.id} listing={listing} />
-                  ))}
-                </div>
-              )}
-            </div>
-          </section>
-        )}
-
-        {/* 14C: Smart Filters (placeholder for now - will be enhanced later) */}
-        <div className="mb-6 pb-4 border-b border-border-subtle">
-          <p className="text-sm text-text-muted italic">
-            Tip: Families often start with 2–3 providers and compare approach,
-            fit, and communication style.
-          </p>
-        </div>
-
-        {/* 14E: SEO Intro Text */}
-        <div className="mb-8">
-          <CategoryContent
-            categoryName={categoryName}
-            listingCount={allListings.length}
-          />
-        </div>
-
-        {/* 14D: All Listings - Paid first, then free */}
-        {allListings.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="max-w-md mx-auto">
-              <h3 className="text-xl font-semibold text-text-primary mb-4">
-                This category is growing
-              </h3>
-              <p className="text-text-secondary mb-4">
-                We're actively adding vetted professionals.
-              </p>
-              {relatedCategories.length > 0 && (
-                <div className="mt-6">
-                  <p className="text-sm text-text-muted mb-3">
-                    Explore related categories:
-                  </p>
-                  <div className="flex flex-wrap gap-3 justify-center">
-                    {relatedCategories.map((related) => {
-                      const relatedSlug = related.category_name
-                        .toLowerCase()
-                        .replace(/[^a-z0-9\s]/g, "")
-                        .replace(/\s+/g, "-")
-                        .replace(/-+/g, "-")
-                        .replace(/^-|-$/g, "");
-                      return (
-                        <Link
-                          key={related.id}
-                          href={`/category/${relatedSlug}`}
-                          className="text-sm text-accent-teal hover:text-accent-teal/80 transition-colors"
-                        >
-                          {related.category_name} →
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-              <div className="mt-6">
-                <Link
-                  href="/suggest-vendor"
-                  className="inline-block text-sm text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  Suggest a provider →
-                </Link>
-              </div>
-            </div>
+      <div className="flex flex-col bg-bg-dark min-h-screen">
+        {/* Category Header - Only context above the grid */}
+        <Container className="py-8">
+          <div className="mb-6">
+            <h1 className="text-4xl md:text-5xl font-semibold text-text-primary mb-3">
+              {categoryName} for Kids & Teens
+            </h1>
+            <p className="text-lg text-text-secondary max-w-2xl">
+              {getCategorySubtext(categoryName)}
+            </p>
+            <p className="text-sm text-text-muted mt-2">
+              {totalCount} verified {categoryName.toLowerCase()} serving young actors
+            </p>
           </div>
-        ) : (
-          <section>
-            {/* All Listings Grid - Shows ALL listings (Pro, Standard, Free) sorted by priority */}
-            {mainGridListings.length > 0 && (
-              <div className="mb-12">
-                <h2 className="text-2xl font-semibold text-text-primary mb-6">
-                  All {categoryName} ({allListings.length})
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {mainGridListings.map((listing) => {
-                    // Visual styling based on plan tier
-                    const plan = (listing.plan || "").toLowerCase();
-                    const isFree =
-                      !listing.plan ||
-                      listing.plan === "Free" ||
-                      listing.plan === null;
-                    const isPro =
-                      plan.includes("pro") ||
-                      plan.includes("premium") ||
-                      listing.comped ||
-                      listing.featured;
+        </Container>
 
-                    return (
-                      <div
-                        key={listing.id}
-                        className={isFree ? "opacity-75" : ""}
-                      >
-                        <ListingCard listing={listing} />
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+        {/* Listings Grid - EXACT SAME as directory page */}
+        <section className="max-w-7xl mx-auto px-4 py-8">
+          <div className="mb-6">
+            <h2 className="bauhaus-heading text-2xl text-white mb-4">
+              All {categoryName}
+              <span className="text-white/50 text-lg font-normal ml-2">
+                ({totalCount} results)
+              </span>
+            </h2>
+          </div>
 
-            {/* 14E: Related Categories Links */}
-            {relatedCategories.length > 0 && (
-              <div className="mt-12 pt-8 border-t border-border-subtle">
-                <p className="text-sm text-text-muted mb-4">
-                  Many families looking for {categoryName.toLowerCase()} also
-                  explore:
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  {relatedCategories.map((related) => {
-                    const relatedSlug = related.category_name
-                      .toLowerCase()
-                      .replace(/[^a-z0-9\s]/g, "")
-                      .replace(/\s+/g, "-")
-                      .replace(/-+/g, "-")
-                      .replace(/^-|-$/g, "");
-                    return (
-                      <Link
-                        key={related.id}
-                        href={`/category/${relatedSlug}`}
-                        className="text-sm text-text-secondary hover:text-accent-teal transition-colors"
-                      >
-                        {related.category_name} →
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </section>
-        )}
+          {/* when no items are found */}
+          {items?.length === 0 && <EmptyGrid />}
+
+          {/* when items are found - use client component for Load More (EXACT SAME as directory) */}
+          {items && items.length > 0 && (
+            <CategoryClient
+              initialItems={items}
+              initialTotalCount={totalCount}
+              initialTotalPages={totalPages}
+              categoryName={categoryName}
+            />
+          )}
+        </section>
       </div>
     );
   } catch (error) {

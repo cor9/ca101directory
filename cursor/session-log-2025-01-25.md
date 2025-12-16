@@ -659,3 +659,139 @@ Check these pages - should see:
 
 **Status:** ✅ Complete and pushed to production
 
+---
+
+## 🎯 Remove Yellow Corner Accent & Fix Badge Rendering
+
+### Date: January 25, 2025 (Evening Session)
+
+### Problem Statement
+Two issues identified:
+1. **Yellow crescent peeking out** - A leftover corner accent badge (amber-500) was partially visible in the top-right corner of listing cards, looking like a bug
+2. **Only Verified badges showing** - Featured and Pro badges weren't rendering because:
+   - Badge detection logic was checking fields that didn't exist or were inconsistent
+   - `listingToItem` was hardcoding `featured: false`
+   - Only `item.paid` was being checked for Verified badge
+
+**Why this matters:**
+- Yellow corner looked broken/unintentional
+- Missing badges mislead users (they assume nothing is Featured/Pro)
+- Hurts perceived value and upgrade pressure
+- Badge logic was fragile and failed silently
+
+### Solution: Remove Dead Code & Normalize Badge Detection
+
+#### 1. Removed Yellow Corner Badge
+**Before:**
+```typescript
+{tier !== "free" && (
+  <span className="absolute top-3 right-3 rounded-full bg-amber-500 px-3 py-1 text-[11px] font-semibold text-white">
+    {tier === "pro" || tier === "premium" ? "Pro" : "Standard"}
+  </span>
+)}
+```
+
+**After:**
+- Completely removed - no corner decorations
+- Badges now live inside card content area or as overlay on images
+
+#### 2. Fixed Badge Detection with Normalization
+**Before:**
+```typescript
+{item.paid && (
+  <span className="rounded-full bg-sky-600 px-2 py-0.5 text-[11px] font-semibold text-white">
+    Verified
+  </span>
+)}
+```
+
+**After:**
+```typescript
+// Normalize badge detection (handles missing/inconsistent fields)
+const isVerified = Boolean(
+  item.paid ||
+    (item as any).trust_level === "verified" ||
+    (item as any).trust_level === "background_checked" ||
+    (item as any).trust_level === "verified_safe" ||
+    (item as any).is_verified,
+);
+
+const isFeatured = Boolean(
+  item.featured ||
+    (item as any).is_featured ||
+    tier === "pro" ||
+    tier === "premium",
+);
+
+const isPro =
+  typeof item.pricePlan === "string" &&
+  (item.pricePlan.toLowerCase().includes("pro") ||
+    item.pricePlan.toLowerCase().includes("premium"));
+```
+
+#### 3. Replaced Inline Badges with BadgeStack
+**Before:**
+- Inline badge spans with custom styling
+- Only Verified badge showing
+
+**After:**
+- Uses `BadgeStack` component (same as ListingCard.tsx)
+- Shows Verified, Featured, and Pro badges
+- Consistent visual language across all cards
+- Badges overlay on images (top-left) or in content area
+
+#### 4. Fixed Root Cause in listingToItem
+**Before:**
+```typescript
+featured: false, // Will be determined by plan
+```
+
+**After:**
+```typescript
+featured: Boolean(listing.featured), // Map actual featured field from listing
+```
+
+### Files Modified
+- `src/components/directory/ListingCardClient.tsx`
+  - Removed yellow amber corner badge (lines 104-108)
+  - Added BadgeStack component import
+  - Added normalized badge detection logic
+  - Replaced inline badges with BadgeStack
+  - Badges now show on image overlay or in content area
+- `src/data/item-service.ts`
+  - Fixed `listingToItem` to properly map `featured` field
+  - Changed from hardcoded `false` to `Boolean(listing.featured)`
+
+### Git Commit
+```
+bdf399f8 - Remove yellow corner accent and fix badge rendering
+```
+
+### Key Changes
+1. ✅ Removed yellow amber corner badge entirely
+2. ✅ Added proper Featured badge detection
+3. ✅ Added proper Pro badge detection
+4. ✅ Normalized field checks to handle missing/inconsistent data
+5. ✅ Replaced inline badges with BadgeStack component
+6. ✅ Fixed root cause in listingToItem (featured field mapping)
+7. ✅ Badges now show Verified, Featured, and Pro based on actual data
+
+### Verification
+Check these pages - should see:
+- No yellow corner accents anywhere
+- Verified badges for paid/verified listings
+- Featured badges for featured listings
+- Pro badges for Pro/Premium plans
+- Consistent badge styling across all cards
+- Badges overlay on images (top-left) or in content area
+
+### Result
+- **Visual clarity** - No broken-looking corner accents
+- **Badge accuracy** - All badges show correctly based on data
+- **User trust** - Users see accurate Featured/Pro indicators
+- **Upgrade pressure** - Pro badges visible, encouraging upgrades
+- **Code quality** - Normalized logic handles edge cases gracefully
+- **Consistency** - Same BadgeStack component used everywhere
+
+**Status:** ✅ Complete and pushed to production
+

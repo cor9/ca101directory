@@ -486,6 +486,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
     // Prepare data for canonical layout
     const regions = Array.isArray(listing.region) ? listing.region : [];
+    const hasVirtualOption =
+      typeof listing.format === "string" &&
+      listing.format.toLowerCase().includes("online");
 
     return (
       <>

@@ -22,7 +22,7 @@ import {
   getPublicListings,
 } from "@/data/listings";
 import { getListingAverageRating, getListingReviews } from "@/data/reviews";
-import { getCategoryIconUrl } from "@/lib/image-urls";
+import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import { constructMetadata } from "@/lib/metadata";
 import { generateSlugFromListing } from "@/lib/slug-utils";
 import { createServerClient } from "@/lib/supabase";

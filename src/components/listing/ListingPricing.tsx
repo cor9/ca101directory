@@ -13,7 +13,7 @@ export function ListingPricing({ listing }: ListingPricingProps) {
   const hasStartingAt = listing.price_starting_at != null;
   const hasRange = listing.price_range_min != null && listing.price_range_max != null;
   const hasFreeConsult = listing.free_consult === true;
-  
+
   // Don't render if no pricing info
   if (!hasStartingAt && !hasRange && !hasFreeConsult) {
     return null;
@@ -34,7 +34,7 @@ export function ListingPricing({ listing }: ListingPricingProps) {
         <DollarSign className="w-5 h-5 text-emerald-400" />
         <h3 className="text-lg font-semibold text-text-primary">Pricing</h3>
       </div>
-      
+
       <div className="space-y-3">
         {hasStartingAt && (
           <div className="flex items-baseline gap-2">
@@ -44,7 +44,7 @@ export function ListingPricing({ listing }: ListingPricingProps) {
             </span>
           </div>
         )}
-        
+
         {hasRange && (
           <div className="flex items-baseline gap-2">
             <span className="text-sm text-text-muted">Typical range</span>
@@ -53,7 +53,7 @@ export function ListingPricing({ listing }: ListingPricingProps) {
             </span>
           </div>
         )}
-        
+
         {hasFreeConsult && (
           <div className="mt-4 pt-3 border-t border-white/10">
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-medium">

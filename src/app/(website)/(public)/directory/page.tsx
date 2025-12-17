@@ -6,6 +6,7 @@ import { SuggestVendorCTA } from "@/components/cta/SuggestVendorCTA";
 import DirectoryClient from "@/components/directory/DirectoryClient";
 import DirectoryHeroSearch from "@/components/directory/DirectoryHeroSearch";
 import { StatusPills } from "@/components/directory/StatusPills";
+import { CategoryTipCard } from "@/components/directory/CategoryTipCard";
 import WhyParentsTrust from "@/components/directory/WhyParentsTrust";
 import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import EmptyGrid from "@/components/shared/empty-grid";
@@ -135,9 +136,12 @@ export default async function DirectoryPage({
 
       {/* Listings Grid */}
       <section id="search-results" className="max-w-7xl mx-auto px-4 py-8">
+        {/* Category Tip Card - Micro-learning */}
+        {categoryName && <CategoryTipCard category={categoryName} />}
+
         <div className="mb-6">
           <h2 className="bauhaus-heading text-2xl text-white mb-4">
-            All Professionals
+            {categoryName || "All Professionals"}
             <span className="text-white/50 text-lg font-normal ml-2">
               ({totalCount} results)
             </span>

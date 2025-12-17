@@ -134,12 +134,17 @@ export type Listing = {
 
   // Age groups: tots, tweens, teens, young_adults
   age_groups: string[] | null;
-  
+
   // Pricing fields
   price_starting_at: number | null;
   price_range_min: number | null;
   price_range_max: number | null;
   free_consult: boolean | null;
+  
+  // Faceted taxonomy
+  technique_focus: string[] | null;
+  beginner_friendly: boolean | null;
+  union_status: string | null;
 };
 
 /**
@@ -231,6 +236,9 @@ const getPublicListingsInternal = async (params?: {
   online_available?: boolean;
   age_groups?: string[];
   price_max?: number;
+  technique_focus?: string[];
+  beginner_friendly?: boolean;
+  union_status?: string;
 }) => {
   console.log("getPublicListings: Starting fetch with params:", params);
 
@@ -271,8 +279,40 @@ const getPublicListingsInternal = async (params?: {
       `price_starting_at.lte.${params.price_max},price_range_min.lte.${params.price_max}`
     );
   }
+  if (params?.technique_focus && params.technique_focus.length > 0) {
+    query = query.overlaps("technique_focus", params.technique_focus);
+  }
+  if (params?.beginner_friendly) {
+    query = query.eq("beginner_friendly", true);
+  }
+  if (params?.union_status) {
+    query = query.eq("union_status", params.union_status);
+  }
 
-  if (params?.q)
+  // Search synonym mapping - expand search terms for better results
+  let searchTerms: string[] = [];
+  if (params?.q) {
+    const q = params.q.toLowerCase().trim();
+    searchTerms.push(params.q);
+    
+    // Synonym mappings
+    const synonyms: Record<string, string[]> = {
+      "rep": ["agent", "manager"],
+      "reps": ["agent", "manager"],
+      "pics": ["headshot", "photographer"],
+      "headshots": ["headshot", "photographer"],
+      "self tape help": ["self tape", "self-tape"],
+      "selftape": ["self tape", "self-tape"],
+    };
+    
+    for (const [key, values] of Object.entries(synonyms)) {
+      if (q.includes(key)) {
+        searchTerms.push(...values);
+      }
+    }
+  }
+
+  if (searchTerms.length > 0)
     query = query.or(
       [
         `listing_name.ilike.%${params.q}%`,

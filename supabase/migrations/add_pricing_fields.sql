@@ -1,6 +1,6 @@
 -- Add pricing fields to listings table
 
-ALTER TABLE listings 
+ALTER TABLE listings
 ADD COLUMN IF NOT EXISTS price_starting_at NUMERIC NULL,
 ADD COLUMN IF NOT EXISTS price_range_min NUMERIC NULL,
 ADD COLUMN IF NOT EXISTS price_range_max NUMERIC NULL,

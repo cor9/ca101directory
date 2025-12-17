@@ -34,6 +34,36 @@ Fixed critical email sending issues, implemented "Resend Claim Email" functional
 
 ---
 
+## 💰 PR 8 & 9: Pricing Fields + Display + Price Filter
+
+### Backend
+- **Migration:** `supabase/migrations/add_pricing_fields.sql`
+  - `price_starting_at` NUMERIC NULL
+  - `price_range_min` NUMERIC NULL
+  - `price_range_max` NUMERIC NULL
+  - `free_consult` BOOLEAN DEFAULT false
+
+### Frontend
+
+1. **ListingPricing Component** (`src/components/listing/ListingPricing.tsx`)
+   - Displays on listing detail page after About section
+   - Shows: Starting at $X, Typical range $X–$Y
+   - Free Consultation badge (emerald) when true
+   - Hidden if no pricing data
+
+2. **Price Filter** (`DirectoryHeroSearch.tsx`)
+   - Bucket filter: Any Price, Under $100, Under $250, Under $500
+   - Filters against `price_starting_at` OR `price_range_min`
+   - Emerald pills when selected
+
+3. **Query Logic** (`listings.ts`)
+   - Added `price_max` param
+   - Uses OR filter: `price_starting_at.lte OR price_range_min.lte`
+
+**Commit:** `9c072146` - feat: Add pricing fields + display + price filter (PR 8 & 9)
+
+---
+
 ## 🐛 Critical Fixes
 
 ### 1. Email Sending Failure - `RESEND_EMAIL_FROM` Invalid

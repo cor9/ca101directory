@@ -113,15 +113,27 @@ export default async function HomeFeaturedListings() {
       return 1;
     };
 
-    const featuredSource = supabaseListings.filter((l) => l.featured === true);
+    // Include explicitly featured OR PRO/comped listings
+    const isPro = (l: typeof supabaseListings[0]) => {
+      if (l.comped) return true;
+      const p = (l.plan || "").toLowerCase();
+      return p.includes("pro") || p.includes("premium");
+    };
+    const featuredSource = supabaseListings.filter(
+      (l) => l.featured === true || isPro(l)
+    );
     console.log(
       "[HomeFeatured] featured candidates:",
       featuredSource.map((l) => `${l.listing_name} (${l.id})`),
     );
 
     listings = featuredSource
-      // Sort by explicit priority desc, then plan weight desc, then name
+      // Sort: explicit featured first, then by plan weight, then name
       .sort((a, b) => {
+        // Explicit featured always first
+        const fa = a.featured === true ? 1 : 0;
+        const fb = b.featured === true ? 1 : 0;
+        if (fb !== fa) return fb - fa;
         const pa = (a.priority ?? 0) as number;
         const pb = (b.priority ?? 0) as number;
         if (pb !== pa) return pb - pa;

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ProfileVerifiedBadge } from "@/components/badges/ProfileVerifiedBadge";
 
 interface VendorCardSmallProps {
   vendor: {
@@ -13,6 +14,8 @@ interface VendorCardSmallProps {
     state?: string;
     location?: string;
     is_verified?: boolean;
+    profile_verified?: boolean;
+    profile_verified_at?: string | null;
     image_url?: string;
     logo_url?: string;
   };
@@ -60,11 +63,11 @@ export default function VendorCardSmall({ vendor }: VendorCardSmallProps) {
           <p className="text-xs text-text-muted">{vendorLocation}</p>
         )}
 
-        {/* Verified Badge */}
-        {vendor.is_verified && (
-          <span className="inline-flex items-center mt-2 text-xs bg-accent-blue/20 text-accent-blue px-2 py-0.5 rounded-md">
-            Verified
-          </span>
+        {/* Profile Verified Badge */}
+        {(vendor.profile_verified || vendor.is_verified) && (
+          <div className="mt-2">
+            <ProfileVerifiedBadge profileVerifiedAt={vendor.profile_verified_at} />
+          </div>
         )}
       </div>
     </Link>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ProfileVerifiedBadge } from "@/components/badges/ProfileVerifiedBadge";
 
 interface FeaturedVendorProps {
   vendor: {
@@ -13,6 +14,8 @@ interface FeaturedVendorProps {
     state?: string;
     location?: string;
     is_verified?: boolean;
+    profile_verified?: boolean;
+    profile_verified_at?: string | null;
     image_url?: string;
     logo_url?: string;
   } | null;
@@ -60,11 +63,11 @@ export default function FeaturedVendor({ vendor }: FeaturedVendorProps) {
         <p className="text-text-muted text-sm">{vendorLocation}</p>
       )}
 
-      {/* Verified Badge */}
-      {vendor.is_verified && (
-        <span className="inline-flex items-center mt-3 text-xs bg-accent-blue/20 text-accent-blue px-2 py-1 rounded-md font-medium">
-          Verified
-        </span>
+      {/* Profile Verified Badge */}
+      {(vendor.profile_verified || vendor.is_verified) && (
+        <div className="mt-3">
+          <ProfileVerifiedBadge profileVerifiedAt={vendor.profile_verified_at} />
+        </div>
       )}
 
       {/* View Profile CTA */}

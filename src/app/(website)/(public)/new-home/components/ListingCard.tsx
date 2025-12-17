@@ -2,7 +2,8 @@ import Image from "next/image";
 
 import Link from "next/link";
 
-import { CheckCircle, MapPin, Star } from "lucide-react";
+import { MapPin, Star } from "lucide-react";
+import { ProfileVerifiedBadge } from "@/components/badges/ProfileVerifiedBadge";
 
 interface ListingCardProps {
   listing: {
@@ -29,6 +30,10 @@ interface ListingCardProps {
     is_verified?: boolean;
 
     is_featured?: boolean;
+
+    profile_verified?: boolean;
+
+    profile_verified_at?: string | null;
 
     image_url?: string;
 
@@ -99,8 +104,8 @@ export default function ListingCard({
           <p className="text-xs text-text-muted truncate">{listingCategory}</p>
         </div>
 
-        {listing.is_verified && (
-          <CheckCircle className="w-4 h-4 text-accent-gold flex-shrink-0" />
+        {(listing.profile_verified || listing.is_verified) && (
+          <ProfileVerifiedBadge profileVerifiedAt={listing.profile_verified_at} />
         )}
       </Link>
     );
@@ -139,12 +144,11 @@ export default function ListingCard({
             </div>
           )}
 
-          {/* Verified Badge */}
+          {/* Profile Verified Badge */}
 
-          {listing.is_verified && (
-            <div className="absolute top-3 right-3 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold">
-              <CheckCircle className="w-3 h-3" />
-              Verified
+          {(listing.profile_verified || listing.is_verified) && (
+            <div className="absolute top-3 right-3">
+              <ProfileVerifiedBadge profileVerifiedAt={listing.profile_verified_at} />
             </div>
           )}
         </div>
@@ -237,12 +241,11 @@ export default function ListingCard({
           </div>
         )}
 
-        {/* Verified Badge */}
+        {/* Profile Verified Badge */}
 
-        {listing.is_verified && (
-          <div className="absolute top-2 right-2 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-accent-gold/20 text-accent-gold text-xs font-semibold">
-            <CheckCircle className="w-3 h-3" />
-            Verified
+        {(listing.profile_verified || listing.is_verified) && (
+          <div className="absolute top-2 right-2">
+            <ProfileVerifiedBadge profileVerifiedAt={listing.profile_verified_at} />
           </div>
         )}
       </div>

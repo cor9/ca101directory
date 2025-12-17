@@ -124,6 +124,10 @@ export type Listing = {
 
   created_at: string | null;
   updated_at: string | null;
+
+  // Profile verification fields
+  profile_verified: boolean | null;
+  profile_verified_at: string | null;
 };
 
 /**

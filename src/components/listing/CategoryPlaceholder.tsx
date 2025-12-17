@@ -8,29 +8,23 @@ interface CategoryPlaceholderProps {
   className?: string;
 }
 
-const sizeClasses = {
-  sm: {
-    container: "w-16 h-16",
-    iconWrapper: "h-6 w-6",
-    icon: "w-3 h-3",
-    text: "text-[10px]",
-    badge: "px-2 py-1 gap-1.5",
-  },
-  md: {
-    container: "w-full h-full min-h-[140px]",
-    iconWrapper: "h-7 w-7",
-    icon: "w-3.5 h-3.5",
-    text: "text-xs",
-    badge: "px-3 py-2 gap-2",
-  },
-  lg: {
-    container: "w-full h-full min-h-[200px]",
-    iconWrapper: "h-8 w-8",
-    icon: "w-4 h-4",
-    text: "text-sm",
-    badge: "px-4 py-2.5 gap-2",
-  },
+// Short labels for common categories (keeps badge compact)
+const shortLabels: Record<string, string> = {
+  "Headshot Photographers": "Headshots",
+  "Talent Managers": "Managers",
+  "Talent Agents": "Agents",
+  "Acting Classes & Coaches": "Coaches",
+  "Acting Coach": "Coaches",
+  "Self Tape Support": "Self Tape",
+  "Demo Reel Creators": "Reels",
+  "Career Consultation": "Consulting",
+  "Dialect Coach": "Dialect",
+  "Vocal Coaches": "Vocal",
 };
+
+function getShortLabel(category: string): string {
+  return shortLabels[category] || category;
+}
 
 export function CategoryPlaceholder({
   category,
@@ -39,35 +33,45 @@ export function CategoryPlaceholder({
   className,
 }: CategoryPlaceholderProps) {
   const Icon = getCategoryIcon(category);
-  const sizes = sizeClasses[size];
+  const shortLabel = category ? getShortLabel(category) : "";
 
+  // For sm size, just show icon in a small container
+  if (size === "sm") {
+    return (
+      <div
+        className={cn(
+          "relative w-16 h-16 bg-slate-100 rounded-lg",
+          className
+        )}
+      >
+        <div className="absolute top-1.5 left-1.5">
+          <div className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-slate-900 text-white">
+            <Icon className="w-2.5 h-2.5" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // For md/lg, position badge top-left (not centered)
   return (
     <div
       className={cn(
-        "flex items-center justify-center bg-slate-100 rounded-lg",
-        sizes.container,
+        "relative bg-slate-100 rounded-lg",
         className
       )}
     >
-      <div
-        className={cn(
-          "flex items-center rounded-full bg-white border border-slate-200 shadow-sm",
-          sizes.badge
-        )}
-      >
-        <span
-          className={cn(
-            "inline-flex items-center justify-center rounded-full bg-slate-900 text-white",
-            sizes.iconWrapper
-          )}
-        >
-          <Icon className={sizes.icon} />
-        </span>
-        {showLabel && category && (
-          <span className={cn("font-medium text-slate-800", sizes.text)}>
-            {category}
+      <div className="absolute top-3 left-3">
+        <div className="inline-flex items-center gap-1.5 rounded-full bg-white/90 border border-slate-200 px-2 py-1 shadow-sm">
+          <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-slate-900 text-white">
+            <Icon className="w-2.5 h-2.5" />
           </span>
-        )}
+          {showLabel && shortLabel && (
+            <span className="text-xs font-medium text-slate-700">
+              {shortLabel}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -135,31 +135,40 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
 
   const maxBadges = getMaxBadges();
 
+  // Shorter hero for no-image cards
+  const heroHeightClass = heroImage ? "h-40" : "h-24";
+
   return (
     <article className="rounded-2xl border border-slate-200 bg-[#FAFAF7] text-slate-900 shadow-sm hover:shadow-lg hover:border-slate-300 transition p-5 relative">
       {/* Hero block - always rendered */}
-      <div className="mb-4 h-40 w-full overflow-hidden rounded-xl relative bg-slate-100 border border-slate-200">
+      <div className={`mb-4 ${heroHeightClass} w-full overflow-hidden rounded-xl relative bg-slate-100 border border-slate-200`}>
         {heroImage ? (
-          <Image
-            src={heroImage}
-            alt={`${item.name} logo`}
-            fill
-            className="object-cover"
-          />
+          <>
+            <Image
+              src={heroImage}
+              alt={`${item.name} logo`}
+              fill
+              className="object-cover"
+            />
+            {/* Subtle gradient overlay at bottom for polish */}
+            <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/20 to-transparent" />
+          </>
         ) : (
-          /* Category icon placeholder when no image */
-          <CategoryPlaceholder category={firstCategory} size="md" className="h-40 rounded-xl" />
+          /* Category icon placeholder when no image - badge positioned top-left */
+          <CategoryPlaceholder category={firstCategory} size="md" className={`${heroHeightClass} rounded-xl`} />
         )}
 
-        {/* Badges Overlay - Top-left placement */}
-        <div className="absolute left-3 top-3 flex gap-2">
-          <BadgeStack
-            verified={isVerified}
-            featured={isFeatured}
-            pro={isPro}
-            maxBadges={maxBadges}
-          />
-        </div>
+        {/* Badges Overlay - Top-left placement (only show on image cards to avoid overlap with placeholder badge) */}
+        {heroImage && (
+          <div className="absolute left-3 top-3 flex gap-2">
+            <BadgeStack
+              verified={isVerified}
+              featured={isFeatured}
+              pro={isPro}
+              maxBadges={maxBadges}
+            />
+          </div>
+        )}
       </div>
 
       <div className="flex items-start justify-between gap-3">

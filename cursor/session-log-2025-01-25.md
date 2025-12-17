@@ -1388,3 +1388,36 @@ Parents stop wasting clicks — show target age groups upfront.
 **Commit:** `12d513e6` - feat: Add age_groups field + pills on listing cards
 **Status:** ✅ Pushed to main
 
+---
+
+## 🔍 PR 7: Age Filter in Sidebar (Multi-select)
+
+### Goal
+Find "my kid's age" in seconds.
+
+### Changes
+
+1. **`DirectoryHeroSearch.tsx`**
+   - Added age group toggle buttons: Tots / Tweens / Teens / 18+
+   - Multi-select with pink highlight when active
+   - Passes `age_groups` param as comma-separated string
+
+2. **`listings.ts`**
+   - Added `age_groups` param to `getPublicListingsInternal`
+   - Uses `.overlaps("age_groups", params.age_groups)` for array overlap filtering
+
+3. **`item-service.ts`**
+   - Added `ageGroups` param to `getItems`
+   - Passes to `getPublicListings`
+
+4. **`directory/page.tsx` + `search/page.tsx`**
+   - Extract `age_groups` from searchParams
+   - Pass to query functions
+
+### Behavior
+- Selecting Tweens shows only listings tagged with Tweens (or multi-tag matches)
+- Multi-select: selecting both Tots and Teens shows listings with either
+
+**Commit:** `7b4ea1e3` - feat: Add age group multi-select filter in sidebar
+**Status:** ✅ Pushed to main
+

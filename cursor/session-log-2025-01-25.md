@@ -1207,7 +1207,7 @@ Make the badge honest and specific — no implication of background checks.
 ### Backend (Migration)
 Created `supabase/migrations/add_profile_verified_columns.sql`:
 ```sql
-ALTER TABLE listings 
+ALTER TABLE listings
 ADD COLUMN IF NOT EXISTS profile_verified boolean DEFAULT false NOT NULL,
 ADD COLUMN IF NOT EXISTS profile_verified_at timestamptz NULL;
 ```

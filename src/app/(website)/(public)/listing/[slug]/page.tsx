@@ -435,15 +435,26 @@ export default async function ListingPage({ params }: ListingPageProps) {
     const locationLabel = [listing.city, listing.state]
       .filter(Boolean)
       .join(", ");
-    // Age ranges: filter out garbage values (UUIDs, location strings, etc.)
-    const ageRanges = getCleanArray(listing.age_range).filter((age) => {
-      // Additional age-specific filters
+    // Age ranges: prefer age_groups (new enum field), fallback to age_range (legacy)
+    // Map age_groups enum values to display labels
+    const ageGroupLabels: Record<string, string> = {
+      tots: "Tots (0-5)",
+      tweens: "Tweens (6-12)",
+      teens: "Teens (13-17)",
+      young_adults: "18+",
+    };
+    const cleanAgeGroups = getCleanArray(listing.age_groups).map(
+      (g) => ageGroupLabels[g.toLowerCase()] || g
+    );
+    const cleanAgeRange = getCleanArray(listing.age_range).filter((age) => {
       const lower = age.toLowerCase();
       if (lower.includes("age range")) return false;
       if (lower.includes("los-angeles")) return false;
       if (lower.includes("hybrid")) return false;
       return true;
     });
+    // Use age_groups if available, otherwise fall back to age_range
+    const ageRanges = cleanAgeGroups.length > 0 ? cleanAgeGroups : cleanAgeRange;
     // Services: use services_offered, fallback to categories
     // getCleanArray handles JSON strings, arrays, nulls, and filters out garbage
     // Additional filter to exclude age-range values that may have leaked into services

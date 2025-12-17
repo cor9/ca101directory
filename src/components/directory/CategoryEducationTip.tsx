@@ -38,10 +38,10 @@ export function CategoryEducationTip({ categorySlug }: CategoryEducationTipProps
 
   return (
     <div
-      className={`relative mb-6 rounded-2xl border px-6 py-5 shadow-sm ${
+      className={`relative mb-8 rounded-2xl border-2 px-6 py-6 shadow-md ${
         isSafetyTip
-          ? "border-amber-200/60 bg-amber-50/70"
-          : "border-sky-200/60 bg-sky-50/70"
+          ? "border-amber-300 bg-amber-50"
+          : "border-sky-300 bg-sky-50"
       }`}
     >
       <button
@@ -66,19 +66,16 @@ export function CategoryEducationTip({ categorySlug }: CategoryEducationTipProps
         </div>
 
         <div className="flex-1 pr-6">
-          <h3
-            className={`text-slate-900 font-semibold text-base md:text-lg ${
-              isSafetyTip ? "" : ""
-            }`}
-          >
+          <h3 className="text-slate-900 font-bold text-lg md:text-xl">
             {tip.title}
           </h3>
-          <p className="mt-2 text-slate-700 text-sm md:text-base leading-relaxed">{tip.body}</p>
+          <p className="mt-2 text-slate-800 text-base leading-relaxed">{tip.body}</p>
 
-          <ul className="mt-3 text-slate-700 text-sm md:text-base list-disc pl-5 space-y-1">
+          <ul className="mt-4 text-slate-800 text-sm md:text-base space-y-2">
             {tip.bullets.map((bullet, i) => (
-              <li key={i}>
-                {bullet}
+              <li key={i} className="flex items-start gap-2">
+                <span className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${isSafetyTip ? "bg-amber-500" : "bg-sky-500"}`} />
+                <span>{bullet}</span>
               </li>
             ))}
           </ul>

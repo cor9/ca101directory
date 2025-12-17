@@ -15,6 +15,20 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 /**
+ * Generate a URL-safe slug from a category name.
+ * Treats hyphens as word separators (so "Self-Tape" becomes "self-tape").
+ */
+function categoryNameToSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/-/g, " ") // Treat hyphens as spaces first
+    .replace(/[^a-z0-9\s]/g, "") // Remove other special characters
+    .replace(/\s+/g, "-") // Then replace spaces with dashes
+    .replace(/-+/g, "-") // Replace multiple dashes with single dash
+    .replace(/^-|-$/g, ""); // Remove leading/trailing dashes
+}
+
+/**
  * Generate static params for all category pages
  * This tells Next.js which category pages to pre-build
  */
@@ -24,12 +38,7 @@ export async function generateStaticParams() {
 
     // Convert category names to slugs
     return categories.map((category) => ({
-      slug: category.category_name
-        .toLowerCase()
-        .replace(/[^a-z0-9\s]/g, "") // Remove special characters first
-        .replace(/\s+/g, "-") // Then replace spaces with dashes
-        .replace(/-+/g, "-") // Replace multiple dashes with single dash
-        .replace(/^-|-$/g, ""), // Remove leading/trailing dashes
+      slug: categoryNameToSlug(category.category_name),
     }));
   } catch (error) {
     console.error("generateStaticParams error:", error);
@@ -46,15 +55,9 @@ export async function generateMetadata({
   try {
     const categories = await getCategories();
 
-    const category = categories.find((cat) => {
-      const generatedSlug = cat.category_name
-        .toLowerCase()
-        .replace(/[^a-z0-9\s]/g, "") // Remove special characters first
-        .replace(/\s+/g, "-") // Then replace spaces with dashes
-        .replace(/-+/g, "-") // Replace multiple dashes with single dash
-        .replace(/^-|-$/g, ""); // Remove leading/trailing dashes
-      return generatedSlug === params.slug;
-    });
+    const category = categories.find(
+      (cat) => categoryNameToSlug(cat.category_name) === params.slug
+    );
 
     if (!category) {
       return constructMetadata({
@@ -98,15 +101,9 @@ export default async function CategoryPage({
     // Get categories to validate the slug and find category name
     const categories = await getCategories();
 
-    const category = categories.find((cat) => {
-      const generatedSlug = cat.category_name
-        .toLowerCase()
-        .replace(/[^a-z0-9\s]/g, "") // Remove special characters first
-        .replace(/\s+/g, "-") // Then replace spaces with dashes
-        .replace(/-+/g, "-") // Replace multiple dashes with single dash
-        .replace(/^-|-$/g, ""); // Remove leading/trailing dashes
-      return generatedSlug === params.slug;
-    });
+    const category = categories.find(
+      (cat) => categoryNameToSlug(cat.category_name) === params.slug
+    );
 
     if (!category) {
       console.log("CategoryPage: No category found for slug:", params.slug);

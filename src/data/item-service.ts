@@ -194,6 +194,8 @@ export async function getItems({
   currentPage,
   hasSponsorItem,
   excludeFeatured,
+  onlineAvailable,
+  ageGroups,
 }: {
   collection?: string;
   category?: string;
@@ -207,6 +209,8 @@ export async function getItems({
   currentPage: number;
   hasSponsorItem?: boolean;
   excludeFeatured?: boolean;
+  onlineAvailable?: boolean;
+  ageGroups?: string[];
 }) {
   try {
     console.log(
@@ -228,6 +232,8 @@ export async function getItems({
       region,
       state,
       category,
+      online_available: onlineAvailable,
+      age_groups: ageGroups,
     });
 
     // Exclude featured listings when requested (to avoid repeating them on directory page)

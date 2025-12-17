@@ -69,6 +69,8 @@ export default async function DirectoryPage({
     bg_checked,
     repeat,
     high_rated,
+    online_available,
+    age_groups,
   } = searchParams as {
     [key: string]: string;
   };
@@ -102,6 +104,8 @@ export default async function DirectoryPage({
     query,
     currentPage,
     excludeFeatured: true, // avoid repeating featured listings shown above
+    onlineAvailable: online_available === "true",
+    ageGroups: age_groups ? age_groups.split(",") : undefined,
   });
 
   console.log("DirectoryPage: Received items:", {

@@ -134,6 +134,12 @@ export type Listing = {
 
   // Age groups: tots, tweens, teens, young_adults
   age_groups: string[] | null;
+  
+  // Pricing fields
+  price_starting_at: number | null;
+  price_range_min: number | null;
+  price_range_max: number | null;
+  free_consult: boolean | null;
 };
 
 /**
@@ -223,6 +229,8 @@ const getPublicListingsInternal = async (params?: {
   bg_checked?: boolean;
   repeat?: boolean;
   online_available?: boolean;
+  age_groups?: string[];
+  price_max?: number;
 }) => {
   console.log("getPublicListings: Starting fetch with params:", params);
 
@@ -252,6 +260,16 @@ const getPublicListingsInternal = async (params?: {
   if (params?.online_available) {
     // Include virtual and hybrid modalities
     query = query.in("service_modality", ["virtual", "hybrid"]);
+  }
+  if (params?.age_groups && params.age_groups.length > 0) {
+    // Filter listings that have overlap with requested age groups
+    query = query.overlaps("age_groups", params.age_groups);
+  }
+  if (params?.price_max) {
+    // Filter by price: price_starting_at OR price_range_min <= max
+    query = query.or(
+      `price_starting_at.lte.${params.price_max},price_range_min.lte.${params.price_max}`
+    );
   }
 
   if (params?.q)

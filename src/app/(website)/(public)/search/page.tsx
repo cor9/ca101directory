@@ -49,6 +49,8 @@ export default async function SearchPage({
     f: filter,
     state,
     region,
+    online_available,
+    age_groups,
   } = searchParams as { [key: string]: string };
 
   // Get all listings matching search query
@@ -57,6 +59,8 @@ export default async function SearchPage({
     category,
     state,
     region,
+    online_available: online_available === "true",
+    age_groups: age_groups ? age_groups.split(",") : undefined,
   });
 
   // Sort by search priority

@@ -5,6 +5,7 @@ import { ListingDetails } from "./ListingDetails";
 import { ListingDifferentiators } from "./ListingDifferentiators";
 import { ListingHeader } from "./ListingHeader";
 import { ListingMedia } from "./ListingMedia";
+import { ListingPricing } from "./ListingPricing";
 import Link from "next/link";
 
 interface ListingLayoutProps {
@@ -66,6 +67,9 @@ export default function ListingLayout({
             {/* Left column: Main content */}
             <div className="space-y-12">
               <ListingAbout listing={listing} />
+
+              {/* Pricing Section */}
+              <ListingPricing listing={listing} />
 
               {/* 4. Media Section (Video → Gallery) */}
               <ListingMedia listing={listing} />

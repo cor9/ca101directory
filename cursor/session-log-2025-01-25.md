@@ -1356,3 +1356,35 @@ One-click option to prioritize remote-friendly vendors in search results.
 **Commit:** `8bbcbfb0` - Add "Virtual first" sort option to prioritize remote-friendly vendors
 **Status:** ✅ Pushed to main
 
+---
+
+## 👶 PR 6: Age Groups Field + Pills on Cards
+
+### Goal
+Parents stop wasting clicks — show target age groups upfront.
+
+### Backend
+- **Migration:** `supabase/migrations/add_age_groups.sql`
+  - Added `age_groups text[] DEFAULT '{}'`
+  - Allowed values: `tots`, `tweens`, `teens`, `young_adults`
+
+### Frontend
+1. **`AgeGroupPills` component** (`src/components/listing/AgeGroupPills.tsx`)
+   - Labels: Tots / Tweens / Teens / 18+
+   - Colors: pink / orange / blue / purple
+   - Truncates with `+N` indicator when exceeding maxPills
+
+2. **Updated listing cards**:
+   - `src/components/directory/ListingCard.tsx`
+   - `src/app/(website)/(public)/new-home/components/ListingCard.tsx`
+
+3. **Types**: Added `age_groups` to `Listing` type
+
+### Behavior
+- Pills appear below category when present
+- Empty arrays display nothing (no backfill required)
+- No clutter — caps at 3 pills by default
+
+**Commit:** `12d513e6` - feat: Add age_groups field + pills on listing cards
+**Status:** ✅ Pushed to main
+

@@ -10,9 +10,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { stateNames, statesList } from "@/data/regions";
-import { LocateIcon, MapPinIcon, SearchIcon, VideoIcon } from "lucide-react";
+import { LocateIcon, MapPinIcon, SearchIcon, VideoIcon, Baby, DollarSign } from "lucide-react";
+
+const PRICE_BUCKET_OPTIONS = [
+  { value: "", label: "Any Price" },
+  { value: "100", label: "Under $100" },
+  { value: "250", label: "Under $250" },
+  { value: "500", label: "Under $500" },
+] as const;
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
+
+const AGE_GROUP_OPTIONS = [
+  { value: "tots", label: "Tots" },
+  { value: "tweens", label: "Tweens" },
+  { value: "teens", label: "Teens" },
+  { value: "young_adults", label: "18+" },
+] as const;
 
 interface DirectoryHeroSearchProps {
   categories: Array<{ id: string; category_name: string }>;
@@ -29,7 +43,17 @@ export default function DirectoryHeroSearch({
   const [state, setState] = useState(searchParams?.get("state") || "");
   const [city, setCity] = useState(searchParams?.get("city") || "");
   const [onlineAvailable, setOnlineAvailable] = useState(searchParams?.get("online_available") === "true");
+  const [ageGroups, setAgeGroups] = useState<string[]>(() => {
+    const param = searchParams?.get("age_groups");
+    return param ? param.split(",") : [];
+  });
   const [locating, setLocating] = useState(false);
+
+  const toggleAgeGroup = (value: string) => {
+    setAgeGroups((prev) =>
+      prev.includes(value) ? prev.filter((g) => g !== value) : [...prev, value]
+    );
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,6 +64,7 @@ export default function DirectoryHeroSearch({
     if (state && state !== "all") params.set("state", state);
     if (city.trim()) params.set("city", city.trim());
     if (onlineAvailable) params.set("online_available", "true");
+    if (ageGroups.length > 0) params.set("age_groups", ageGroups.join(","));
 
     const queryString = params.toString();
     router.push(`/directory${queryString ? `?${queryString}` : ""}`);
@@ -228,6 +253,30 @@ export default function DirectoryHeroSearch({
                 <VideoIcon className="w-4 h-4" />
                 <span className="text-sm font-medium">Online Available</span>
               </button>
+            </div>
+          </div>
+
+          {/* Age Groups Multi-select */}
+          <div className="mt-3">
+            <label className="text-xs font-medium text-white/60 mb-2 block flex items-center gap-1">
+              <Baby className="w-3 h-3" />
+              Age Groups
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {AGE_GROUP_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => toggleAgeGroup(opt.value)}
+                  className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors ${
+                    ageGroups.includes(opt.value)
+                      ? "bg-pink-500/90 border-pink-400 text-white"
+                      : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
             </div>
           </div>
 

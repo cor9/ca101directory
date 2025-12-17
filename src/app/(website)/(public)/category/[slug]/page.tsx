@@ -3,6 +3,7 @@ export const revalidate = 0;
 export const fetchCache = "force-no-store";
 import Container from "@/components/container";
 import CategoryClient from "@/components/directory/CategoryClient";
+import { CategoryEducationTip } from "@/components/directory/CategoryEducationTip";
 import EmptyGrid from "@/components/shared/empty-grid";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
@@ -163,6 +164,9 @@ export default async function CategoryPage({
 
         {/* Listings Grid - EXACT SAME as directory page */}
         <section className="max-w-7xl mx-auto px-4 py-8">
+          {/* Education Tip Card */}
+          <CategoryEducationTip categorySlug={params.slug} />
+
           <div className="mb-6">
             <h2 className="bauhaus-heading text-2xl text-white mb-4">
               All {categoryName}

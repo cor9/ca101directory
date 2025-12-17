@@ -105,10 +105,10 @@ for (const [key, icon] of Object.entries(categoryIcons)) {
  */
 export function getCategoryIcon(category: string | null | undefined): LucideIcon {
   if (!category) return DefaultCategoryIcon;
-  
+
   // Try exact match first
   if (categoryIcons[category]) return categoryIcons[category];
-  
+
   // Try normalized match
   const normalized = normalizeCategory(category);
   return normalizedCategoryIcons[normalized] || DefaultCategoryIcon;

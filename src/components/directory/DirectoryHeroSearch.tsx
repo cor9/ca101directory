@@ -10,7 +10,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { stateNames, statesList } from "@/data/regions";
-import { LocateIcon, MapPinIcon, SearchIcon, VideoIcon, Baby, DollarSign } from "lucide-react";
+import { LocateIcon, MapPinIcon, SearchIcon, VideoIcon, Baby, DollarSign, ChevronDown, SlidersHorizontal } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useState } from "react";
 
 const PRICE_BUCKET_OPTIONS = [
   { value: "", label: "Any Price" },
@@ -18,8 +20,6 @@ const PRICE_BUCKET_OPTIONS = [
   { value: "250", label: "Under $250" },
   { value: "500", label: "Under $500" },
 ] as const;
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useState } from "react";
 
 const AGE_GROUP_OPTIONS = [
   { value: "tots", label: "Tots" },
@@ -84,6 +84,16 @@ export default function DirectoryHeroSearch({
   });
   const [unionStatus, setUnionStatus] = useState(searchParams?.get("union_status") || "");
   const [locating, setLocating] = useState(false);
+  const [showMoreFilters, setShowMoreFilters] = useState(false);
+
+  // Count active advanced filters
+  const advancedFilterCount = [
+    ageGroups.length > 0,
+    priceMax !== "",
+    beginnerFriendly,
+    techniqueFocus.length > 0,
+    unionStatus !== "",
+  ].filter(Boolean).length;
 
   // Get selected category name for conditional filter display
   const selectedCategoryName = categories.find(c => c.id === category)?.category_name || "";
@@ -307,137 +317,170 @@ export default function DirectoryHeroSearch({
             </div>
           </div>
 
-          {/* Age Groups + Price Filters */}
-          <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-            {/* Age Groups Multi-select */}
-            <div>
-              <label className="text-xs font-medium text-white/60 mb-2 block flex items-center gap-1">
-                <Baby className="w-3 h-3" />
-                Age Groups
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {AGE_GROUP_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => toggleAgeGroup(opt.value)}
-                    className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors ${
-                      ageGroups.includes(opt.value)
-                        ? "bg-pink-500/90 border-pink-400 text-white"
-                        : "bg-white/10 border-white/30 text-white hover:bg-white/20"
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            </div>
+          {/* More Filters Accordion */}
+          <div className="mt-4">
+            <button
+              type="button"
+              onClick={() => setShowMoreFilters(!showMoreFilters)}
+              className={`flex items-center gap-2 text-sm font-medium transition-colors ${
+                advancedFilterCount > 0
+                  ? "text-amber-300"
+                  : "text-white/70 hover:text-white"
+              }`}
+            >
+              <SlidersHorizontal className="w-4 h-4" />
+              <span>
+                More Filters
+                {advancedFilterCount > 0 && (
+                  <span className="ml-1.5 inline-flex items-center justify-center h-5 w-5 rounded-full bg-amber-500 text-white text-xs font-bold">
+                    {advancedFilterCount}
+                  </span>
+                )}
+              </span>
+              <ChevronDown
+                className={`w-4 h-4 transition-transform ${
+                  showMoreFilters ? "rotate-180" : ""
+                }`}
+              />
+            </button>
 
-            {/* Price Filter */}
-            <div>
-              <label className="text-xs font-medium text-white/60 mb-2 block flex items-center gap-1">
-                <DollarSign className="w-3 h-3" />
-                Budget
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {PRICE_BUCKET_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => setPriceMax(opt.value)}
-                    className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors ${
-                      priceMax === opt.value
-                        ? "bg-emerald-500/90 border-emerald-400 text-white"
-                        : "bg-white/10 border-white/30 text-white hover:bg-white/20"
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
+            {/* Collapsible Advanced Filters */}
+            {showMoreFilters && (
+              <div className="mt-4 pt-4 border-t border-white/10 space-y-4">
+                {/* Age Groups + Price Filters */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                  {/* Age Groups Multi-select */}
+                  <div>
+                    <label className="text-xs font-medium text-white/60 mb-2 block flex items-center gap-1">
+                      <Baby className="w-3 h-3" />
+                      Age Groups
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {AGE_GROUP_OPTIONS.map((opt) => (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => toggleAgeGroup(opt.value)}
+                          className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors ${
+                            ageGroups.includes(opt.value)
+                              ? "bg-pink-500/90 border-pink-400 text-white"
+                              : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Price Filter */}
+                  <div>
+                    <label className="text-xs font-medium text-white/60 mb-2 block flex items-center gap-1">
+                      <DollarSign className="w-3 h-3" />
+                      Budget
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {PRICE_BUCKET_OPTIONS.map((opt) => (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => setPriceMax(opt.value)}
+                          className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors ${
+                            priceMax === opt.value
+                              ? "bg-emerald-500/90 border-emerald-400 text-white"
+                              : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Conditional Faceted Filters - only show when relevant category selected */}
+                {(showTechniqueFilter || showUnionFilter || (category && category !== "all")) && (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+                    {/* Beginner Friendly Toggle - always show when category selected */}
+                    {category && category !== "all" && (
+                      <div className="flex items-end">
+                        <button
+                          type="button"
+                          onClick={() => setBeginnerFriendly(!beginnerFriendly)}
+                          className={`h-10 w-full flex items-center justify-center gap-2 rounded-lg border transition-colors ${
+                            beginnerFriendly
+                              ? "bg-sky-500/90 border-sky-400 text-white"
+                              : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                          }`}
+                        >
+                          <span className="text-sm font-medium">Beginner Friendly</span>
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Technique Focus - only for acting/coaching categories */}
+                    {showTechniqueFilter && (
+                      <div>
+                        <label className="text-xs font-medium text-white/60 mb-2 block">
+                          Technique Focus
+                        </label>
+                        <div className="flex flex-wrap gap-2">
+                          {TECHNIQUE_OPTIONS.map((opt) => (
+                            <button
+                              key={opt.value}
+                              type="button"
+                              onClick={() => toggleTechnique(opt.value)}
+                              className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors ${
+                                techniqueFocus.includes(opt.value)
+                                  ? "bg-purple-500/90 border-purple-400 text-white"
+                                  : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                              }`}
+                            >
+                              {opt.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Union Status - only for talent rep categories */}
+                    {showUnionFilter && (
+                      <div>
+                        <label className="text-xs font-medium text-white/60 mb-2 block">
+                          Union Status
+                        </label>
+                        <div className="flex flex-wrap gap-2">
+                          {UNION_STATUS_OPTIONS.map((opt) => (
+                            <button
+                              key={opt.value}
+                              type="button"
+                              onClick={() => setUnionStatus(opt.value)}
+                              className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors ${
+                                unionStatus === opt.value
+                                  ? "bg-amber-500/90 border-amber-400 text-white"
+                                  : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                              }`}
+                            >
+                              {opt.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
-            </div>
+            )}
           </div>
 
-          {/* Conditional Faceted Filters - only show when relevant category selected */}
-          {(showTechniqueFilter || showUnionFilter || category) && (
-            <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
-              {/* Beginner Friendly Toggle - always show when category selected */}
-              {category && category !== "all" && (
-                <div className="flex items-end">
-                  <button
-                    type="button"
-                    onClick={() => setBeginnerFriendly(!beginnerFriendly)}
-                    className={`h-10 w-full flex items-center justify-center gap-2 rounded-lg border transition-colors ${
-                      beginnerFriendly
-                        ? "bg-sky-500/90 border-sky-400 text-white"
-                        : "bg-white/10 border-white/30 text-white hover:bg-white/20"
-                    }`}
-                  >
-                    <span className="text-sm font-medium">Beginner Friendly</span>
-                  </button>
-                </div>
-              )}
-
-              {/* Technique Focus - only for acting/coaching categories */}
-              {showTechniqueFilter && (
-                <div>
-                  <label className="text-xs font-medium text-white/60 mb-2 block">
-                    Technique Focus
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {TECHNIQUE_OPTIONS.map((opt) => (
-                      <button
-                        key={opt.value}
-                        type="button"
-                        onClick={() => toggleTechnique(opt.value)}
-                        className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors ${
-                          techniqueFocus.includes(opt.value)
-                            ? "bg-purple-500/90 border-purple-400 text-white"
-                            : "bg-white/10 border-white/30 text-white hover:bg-white/20"
-                        }`}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Union Status - only for talent rep categories */}
-              {showUnionFilter && (
-                <div>
-                  <label className="text-xs font-medium text-white/60 mb-2 block">
-                    Union Status
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {UNION_STATUS_OPTIONS.map((opt) => (
-                      <button
-                        key={opt.value}
-                        type="button"
-                        onClick={() => setUnionStatus(opt.value)}
-                        className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors ${
-                          unionStatus === opt.value
-                            ? "bg-amber-500/90 border-amber-400 text-white"
-                            : "bg-white/10 border-white/30 text-white hover:bg-white/20"
-                        }`}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
           {/* Search Button */}
-          <div className="mt-4 flex justify-center">
+          <div className="mt-6 flex justify-center">
             <Button
               type="submit"
               className="h-12 px-8 bg-[#FF6B35] hover:bg-[#E55F2F] text-white font-semibold rounded-full text-base"
             >
               <SearchIcon className="w-5 h-5 mr-2" />
-              Search Directory
+              Show Results
             </Button>
           </div>
         </form>

@@ -1244,3 +1244,23 @@ ADD COLUMN IF NOT EXISTS profile_verified_at timestamptz NULL;
 **Commit:** `825681a5` - feat: Rename Verified badge to Profile Verified with tooltip
 **Status:** ✅ Pushed to main
 
+---
+
+## 📋 PR 2: Admin Profile Verified Checklist
+
+### Goal
+Support internal verification process without building a full admin system.
+
+### Implementation
+Created `docs/PROFILE_VERIFICATION_CHECKLIST.md` with:
+- **4 verification criteria:**
+  1. Website or social link present
+  2. Business email matches domain (or explanation)
+  3. Bio not spam
+  4. Category/location sane
+- Clear "What This Is NOT" section (not a background check, not legal compliance)
+- Instructions for setting fields in Supabase
+
+**Commit:** `7dc17e7c` - docs: Add Profile Verification Checklist for admin review
+**Status:** ✅ Pushed to main
+

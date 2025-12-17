@@ -24,7 +24,7 @@ export const SUBMISSIONS_PER_PAGE = 3;
 export type SortFilterItem = {
   label: string;
   slug: string | null;
-  sortKey: "publishDate" | "name"; // | 'stars' | '_createdAt' | '_updatedAt'
+  sortKey: "publishDate" | "name" | "virtual-first"; // | 'stars' | '_createdAt' | '_updatedAt'
   reverse: boolean;
 };
 
@@ -37,6 +37,12 @@ export const DEFAULT_SORT: SortFilterItem = {
 
 export const SORT_FILTER_LIST: SortFilterItem[] = [
   DEFAULT_SORT,
+  {
+    label: "Virtual first",
+    slug: "virtual-first",
+    sortKey: "virtual-first",
+    reverse: false,
+  },
   {
     label: "Sort by Time (asc)",
     slug: "date-asc",

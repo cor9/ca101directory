@@ -128,6 +128,9 @@ export type Listing = {
   // Profile verification fields
   profile_verified: boolean | null;
   profile_verified_at: string | null;
+  
+  // Service modality: virtual, in_person, hybrid, unknown
+  service_modality: 'virtual' | 'in_person' | 'hybrid' | 'unknown';
 };
 
 /**
@@ -216,6 +219,7 @@ const getPublicListingsInternal = async (params?: {
   verified?: boolean;
   bg_checked?: boolean;
   repeat?: boolean;
+  online_available?: boolean;
 }) => {
   console.log("getPublicListings: Starting fetch with params:", params);
 
@@ -241,6 +245,10 @@ const getPublicListingsInternal = async (params?: {
   }
   if (params?.repeat) {
     query = query.gt("repeat_families_count", 0);
+  }
+  if (params?.online_available) {
+    // Include virtual and hybrid modalities
+    query = query.in("service_modality", ["virtual", "hybrid"]);
   }
 
   if (params?.q)

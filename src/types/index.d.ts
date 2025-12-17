@@ -96,6 +96,7 @@ export type ItemInfo = {
   city?: string | null;
   state?: string | null;
   logoUrl?: string | null;
+  serviceModality?: 'virtual' | 'in_person' | 'hybrid' | 'unknown';
 };
 
 // ItemFullInfo has more fields (eg. introduction and related items)

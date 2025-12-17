@@ -153,6 +153,7 @@ export async function listingToItem(listing: Listing): Promise<ItemInfo> {
     city: listing.city || null,
     state: listing.state || null,
     logoUrl: (listing as any).logo_url || null,
+    serviceModality: listing.service_modality || 'unknown',
   } as ItemInfo;
 }
 
@@ -353,8 +354,22 @@ export async function getItems({
     // Apply custom sorting for directory page when no explicit sort is requested
     // or when it's the default sort (publishDate desc)
     const isDefaultSort = !sortKey || (sortKey === "publishDate" && reverse);
+    const isVirtualFirst = sortKey === "virtual-first";
 
-    if (isDefaultSort) {
+    if (isVirtualFirst) {
+      // Virtual first: group virtual/hybrid first, then in_person/unknown
+      // Preserve original order within each group using stable sort
+      const virtualGroup: typeof filteredListings = [];
+      const otherGroup: typeof filteredListings = [];
+      for (const listing of filteredListings) {
+        if (listing.service_modality === "virtual" || listing.service_modality === "hybrid") {
+          virtualGroup.push(listing);
+        } else {
+          otherGroup.push(listing);
+        }
+      }
+      filteredListings = [...virtualGroup, ...otherGroup];
+    } else if (isDefaultSort) {
       // Custom sorting for directory page: Featured > Pro/Premium > Standard > Free
       filteredListings.sort((a, b) => {
         // 1. Featured listings first (featured = true)

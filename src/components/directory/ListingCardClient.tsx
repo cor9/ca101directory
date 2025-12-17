@@ -198,6 +198,22 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
         </p>
       )}
 
+      {/* Service Modality Pill */}
+      {(item as any).serviceModality && (item as any).serviceModality !== 'unknown' && (
+        <div className="mt-3">
+          <span className={cn(
+            "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold",
+            (item as any).serviceModality === 'virtual' && "bg-emerald-100 text-emerald-700",
+            (item as any).serviceModality === 'in_person' && "bg-blue-100 text-blue-700",
+            (item as any).serviceModality === 'hybrid' && "bg-purple-100 text-purple-700"
+          )}>
+            {(item as any).serviceModality === 'virtual' && "Virtual"}
+            {(item as any).serviceModality === 'in_person' && "In-Person"}
+            {(item as any).serviceModality === 'hybrid' && "Hybrid"}
+          </span>
+        </div>
+      )}
+
       {ageRanges.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-2">
           {ageRanges.slice(0, 4).map((age) => (

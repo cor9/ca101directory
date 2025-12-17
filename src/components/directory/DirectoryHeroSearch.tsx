@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { stateNames, statesList } from "@/data/regions";
-import { LocateIcon, MapPinIcon, SearchIcon } from "lucide-react";
+import { LocateIcon, MapPinIcon, SearchIcon, VideoIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 
@@ -28,6 +28,7 @@ export default function DirectoryHeroSearch({
   const [category, setCategory] = useState(searchParams?.get("category") || "");
   const [state, setState] = useState(searchParams?.get("state") || "");
   const [city, setCity] = useState(searchParams?.get("city") || "");
+  const [onlineAvailable, setOnlineAvailable] = useState(searchParams?.get("online_available") === "true");
   const [locating, setLocating] = useState(false);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -38,6 +39,7 @@ export default function DirectoryHeroSearch({
     if (category && category !== "all") params.set("category", category);
     if (state && state !== "all") params.set("state", state);
     if (city.trim()) params.set("city", city.trim());
+    if (onlineAvailable) params.set("online_available", "true");
 
     const queryString = params.toString();
     router.push(`/directory${queryString ? `?${queryString}` : ""}`);
@@ -200,17 +202,32 @@ export default function DirectoryHeroSearch({
                 />
               </div>
             </div>
-            <div className="md:col-span-2 flex items-end">
+            <div className="md:col-span-1 flex items-end">
               <Button
                 type="button"
                 variant="outline"
                 onClick={handleNearMe}
                 disabled={locating}
-                className="h-11 w-full md:w-auto bg-white/10 border-white/30 text-white hover:bg-white/20 rounded-lg"
+                className="h-11 w-full bg-white/10 border-white/30 text-white hover:bg-white/20 rounded-lg"
               >
                 <LocateIcon className="w-4 h-4 mr-2" />
                 {locating ? "Locating..." : "Near Me"}
               </Button>
+            </div>
+            {/* Online Available Toggle */}
+            <div className="md:col-span-1 flex items-end">
+              <button
+                type="button"
+                onClick={() => setOnlineAvailable(!onlineAvailable)}
+                className={`h-11 w-full flex items-center justify-center gap-2 rounded-lg border transition-colors ${
+                  onlineAvailable 
+                    ? "bg-emerald-500/90 border-emerald-400 text-white" 
+                    : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                }`}
+              >
+                <VideoIcon className="w-4 h-4" />
+                <span className="text-sm font-medium">Online Available</span>
+              </button>
             </div>
           </div>
 

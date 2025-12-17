@@ -445,9 +445,24 @@ export default async function ListingPage({ params }: ListingPageProps) {
     });
     // Services: use services_offered, fallback to categories
     // getCleanArray handles JSON strings, arrays, nulls, and filters out garbage
-    const services = getCleanArray(listing.services_offered).length > 0
+    // Additional filter to exclude age-range values that may have leaked into services
+    const isAgeRange = (val: string) => {
+      const lower = val.toLowerCase();
+      // Common age range patterns
+      if (/^\d+-\d+/.test(lower)) return true; // "4-12", "6-18"
+      if (/^\d+ ?-? ?\d* ?(years?|yrs?|yo)?$/i.test(lower)) return true; // "4-12 years"
+      if (lower.includes("toddler")) return true;
+      if (lower.includes("infant")) return true;
+      if (lower.includes("teen")) return true;
+      if (lower.includes("pre-k")) return true;
+      if (lower.includes("preschool")) return true;
+      if (/kids?|children/i.test(lower) && /only|\d/.test(lower)) return true;
+      return false;
+    };
+    const rawServices = getCleanArray(listing.services_offered).length > 0
       ? getCleanArray(listing.services_offered)
       : getCleanArray(listing.categories);
+    const services = rawServices.filter((s) => !isAgeRange(s));
     let reviews: Awaited<ReturnType<typeof getListingReviews>> = [];
     if (reviewsEnabled) {
       try {

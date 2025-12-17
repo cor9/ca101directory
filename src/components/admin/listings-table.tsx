@@ -221,10 +221,30 @@ export const ListingsTable = ({
             </tr>
           </thead>
           <tbody className="bg-card divide-y divide-border">
-            {sortedAndFilteredListings.map((listing) => (
+            {sortedAndFilteredListings.map((listing) => {
+              const title =
+                listing.listing_name ||
+                (listing as any).business_name ||
+                (listing as any).title ||
+                (listing as any).name ||
+                listing.slug ||
+                "Untitled listing";
+              const categoryName =
+                (listing as any).primary_category ||
+                (listing.categories?.[0]) ||
+                "Uncategorized";
+              const locationParts = [listing.city, listing.state].filter(Boolean);
+              const locationStr = locationParts.length > 0 ? locationParts.join(", ") : "";
+
+              return (
               <tr key={listing.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-ink">
-                  {listing.listing_name}
+                <td className="px-6 py-4">
+                  <h3 className="text-slate-100 font-semibold text-base md:text-lg leading-tight truncate max-w-xs">
+                    {title}
+                  </h3>
+                  <p className="text-slate-400 text-sm mt-0.5">
+                    {categoryName}{locationStr ? ` • ${locationStr}` : ""}
+                  </p>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-ink">
                   {getStatusBadge(listing.status)}
@@ -265,7 +285,8 @@ export const ListingsTable = ({
                   </div>
                 </td>
               </tr>
-            ))}
+              );
+            })}
           </tbody>
         </table>
       </div>

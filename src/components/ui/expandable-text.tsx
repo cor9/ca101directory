@@ -1,28 +1,39 @@
 "use client";
 
 import { useState } from "react";
-import { RichTextDisplay } from "@/components/ui/rich-text-display";
-import type { Listing } from "@/data/listings";
+import { RichTextDisplay } from "./rich-text-display";
 
-interface ListingAboutProps {
-  listing: Listing;
+interface ExpandableTextProps {
+  content: string;
+  title?: string;
+  maxLength?: number;
+  className?: string;
 }
 
-export function ListingAbout({ listing }: ListingAboutProps) {
+/**
+ * Expandable text block with clamp + "Read more" toggle.
+ * Uses <details> for accessibility and no JS dependencies.
+ */
+export function ExpandableText({
+  content,
+  title,
+  maxLength = 280,
+  className = "",
+}: ExpandableTextProps) {
   const [expanded, setExpanded] = useState(false);
-  const description =
-    listing.what_you_offer || listing.description || null;
+  const text = (content || "").trim();
 
-  if (!description) {
-    return null;
-  }
+  if (!text) return null;
 
-  const text = (description || "").trim();
-  const isLong = text.length > 280;
+  const isLong = text.length > maxLength;
 
   return (
-    <section className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6">
-      <h2 className="text-xl font-bold mb-3 text-text-primary">About</h2>
+    <div
+      className={`rounded-2xl border border-white/5 bg-bg-panel/60 backdrop-blur-sm p-5 ${className}`}
+    >
+      {title && (
+        <h3 className="text-text-primary font-semibold mb-2">{title}</h3>
+      )}
 
       {/* Clamped preview */}
       <div className={expanded ? "hidden" : "block"}>
@@ -49,7 +60,6 @@ export function ListingAbout({ listing }: ListingAboutProps) {
           {expanded ? "Show less" : "Read more"}
         </button>
       )}
-    </section>
+    </div>
   );
 }
-

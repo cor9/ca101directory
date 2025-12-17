@@ -25,6 +25,7 @@ import {
 import { getListingAverageRating, getListingReviews } from "@/data/reviews";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import { constructMetadata } from "@/lib/metadata";
+import { getCleanArray } from "@/lib/sanitizeFields";
 import { generateSlugFromListing } from "@/lib/slug-utils";
 import { createServerClient } from "@/lib/supabase";
 import type { Metadata } from "next";
@@ -433,33 +434,20 @@ export default async function ListingPage({ params }: ListingPageProps) {
     const locationLabel = [listing.city, listing.state]
       .filter(Boolean)
       .join(", ");
-    const ageRanges = (listing.age_range || [])
-      .map((age) => (age || "").trim())
-      .filter((age) => {
-        if (!age) return false;
-        if (age.includes("Age Range")) return false;
-        if (age.includes("los-angeles")) return false;
-        if (age.includes("hybrid")) return false;
-        const uuidLike =
-          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-        return !uuidLike.test(age);
-      });
-    // Services: use services_offered, fallback to categories, filter out invalid values
-    const rawServices = Array.isArray(listing.services_offered)
-      ? listing.services_offered
-      : Array.isArray(listing.categories)
-        ? listing.categories
-        : [];
-    const services = rawServices
-      .map((s) => (typeof s === "string" ? s.trim() : ""))
-      .filter((s) => {
-        // Filter out empty, placeholder, and invalid values
-        if (!s || s === "_" || s === "[]" || s === '[""]') return false;
-        // Filter out UUIDs
-        const uuidLike =
-          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-        return !uuidLike.test(s);
-      });
+    // Age ranges: filter out garbage values (UUIDs, location strings, etc.)
+    const ageRanges = getCleanArray(listing.age_range).filter((age) => {
+      // Additional age-specific filters
+      const lower = age.toLowerCase();
+      if (lower.includes("age range")) return false;
+      if (lower.includes("los-angeles")) return false;
+      if (lower.includes("hybrid")) return false;
+      return true;
+    });
+    // Services: use services_offered, fallback to categories
+    // getCleanArray handles JSON strings, arrays, nulls, and filters out garbage
+    const services = getCleanArray(listing.services_offered).length > 0
+      ? getCleanArray(listing.services_offered)
+      : getCleanArray(listing.categories);
     let reviews: Awaited<ReturnType<typeof getListingReviews>> = [];
     if (reviewsEnabled) {
       try {

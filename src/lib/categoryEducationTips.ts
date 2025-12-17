@@ -78,7 +78,7 @@ export const categoryEducationTips: Record<
     label: "Talent Agents",
     title: "Safety Tip: Agents do not charge upfront fees",
     body:
-      "Legit agents earn commission after your child books work. Upfront "signing fees" and vague promises are where families get burned.",
+      "Legit agents earn commission after your child books work. Upfront 'signing fees' and vague promises are where families get burned.",
     bullets: [
       "Look for: clear commission terms and professional communication",
       "Ask: what's your submission strategy and what roles are you targeting?",
@@ -190,7 +190,7 @@ export const categoryEducationTips: Record<
     bullets: [
       "Look for: clear policies and experience with minors on set",
       "Ask: how do you handle uncomfortable situations or red flags?",
-      "Red flag: minimizing safety concerns as "industry normal"",
+      "Red flag: minimizing safety concerns as 'industry normal'",
     ],
   },
 
@@ -210,7 +210,7 @@ export const categoryEducationTips: Record<
     label: "Improv Classes",
     title: "Quick Tip: Improv builds confidence fast",
     body:
-      "Great improv training helps kids listen, react, and stay playful under pressure. It's one of the best antidotes to "audition freeze."",
+      "Great improv training helps kids listen, react, and stay playful under pressure. It's one of the best antidotes to 'audition freeze.'",
     bullets: [
       "Look for: age-appropriate structure and supportive coaching",
       "Ask: do you teach listening and agreement, not just being loud?",

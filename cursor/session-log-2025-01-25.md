@@ -1264,3 +1264,37 @@ Created `docs/PROFILE_VERIFICATION_CHECKLIST.md` with:
 **Commit:** `7dc17e7c` - docs: Add Profile Verification Checklist for admin review
 **Status:** ✅ Pushed to main
 
+---
+
+## 🎨 Category-Based Branded Icons (Ghost Town Fix)
+
+### Goal
+Replace generic blank avatars with category icons + labels when no logo exists.
+
+### Implementation
+
+1. **`src/lib/categoryIcons.ts`** - Central mapping of category names to Lucide icons:
+   - Featured: Acting Coach → GraduationCap, Photographer → Camera, Talent Agent → Handshake, etc.
+   - Other: Acting Schools → School, Dialect Coach → Languages, Mental Health → Brain, etc.
+   - Default fallback: Briefcase
+
+2. **`src/components/listing/CategoryPlaceholder.tsx`** - Reusable component:
+   - Shows category icon in subtle badge container
+   - Category name beside it (optional)
+   - Three sizes: sm (64px), md (140px), lg (200px)
+
+3. **Updated listing cards**:
+   - `src/components/directory/ListingCard.tsx`
+   - `src/app/(website)/(public)/new-home/components/ListingCard.tsx`
+   - `src/app/(website)/(public)/new-home/components/VendorCardSmall.tsx`
+   - `src/app/(website)/(public)/new-home/components/VendorCardMedium.tsx`
+   - `src/app/(website)/(public)/new-home/components/FeaturedVendor.tsx`
+
+### Result
+- No listing card shows generic blank avatar anymore
+- Icons render reliably, no layout shift
+- Professional branded appearance for listings without photos
+
+**Commit:** `d97108e7` - feat: Replace generic avatars with category-based branded icons
+**Status:** ✅ Pushed to main
+

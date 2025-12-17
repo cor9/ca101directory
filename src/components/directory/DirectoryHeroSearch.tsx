@@ -47,6 +47,7 @@ export default function DirectoryHeroSearch({
     const param = searchParams?.get("age_groups");
     return param ? param.split(",") : [];
   });
+  const [priceMax, setPriceMax] = useState(searchParams?.get("price_max") || "");
   const [locating, setLocating] = useState(false);
 
   const toggleAgeGroup = (value: string) => {
@@ -65,6 +66,7 @@ export default function DirectoryHeroSearch({
     if (city.trim()) params.set("city", city.trim());
     if (onlineAvailable) params.set("online_available", "true");
     if (ageGroups.length > 0) params.set("age_groups", ageGroups.join(","));
+    if (priceMax) params.set("price_max", priceMax);
 
     const queryString = params.toString();
     router.push(`/directory${queryString ? `?${queryString}` : ""}`);
@@ -256,27 +258,54 @@ export default function DirectoryHeroSearch({
             </div>
           </div>
 
-          {/* Age Groups Multi-select */}
-          <div className="mt-3">
-            <label className="text-xs font-medium text-white/60 mb-2 block flex items-center gap-1">
-              <Baby className="w-3 h-3" />
-              Age Groups
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {AGE_GROUP_OPTIONS.map((opt) => (
-                <button
-                  key={opt.value}
-                  type="button"
-                  onClick={() => toggleAgeGroup(opt.value)}
-                  className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors ${
-                    ageGroups.includes(opt.value)
-                      ? "bg-pink-500/90 border-pink-400 text-white"
-                      : "bg-white/10 border-white/30 text-white hover:bg-white/20"
-                  }`}
-                >
-                  {opt.label}
-                </button>
-              ))}
+          {/* Age Groups + Price Filters */}
+          <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+            {/* Age Groups Multi-select */}
+            <div>
+              <label className="text-xs font-medium text-white/60 mb-2 block flex items-center gap-1">
+                <Baby className="w-3 h-3" />
+                Age Groups
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {AGE_GROUP_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => toggleAgeGroup(opt.value)}
+                    className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors ${
+                      ageGroups.includes(opt.value)
+                        ? "bg-pink-500/90 border-pink-400 text-white"
+                        : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Price Filter */}
+            <div>
+              <label className="text-xs font-medium text-white/60 mb-2 block flex items-center gap-1">
+                <DollarSign className="w-3 h-3" />
+                Budget
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {PRICE_BUCKET_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => setPriceMax(opt.value)}
+                    className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors ${
+                      priceMax === opt.value
+                        ? "bg-emerald-500/90 border-emerald-400 text-white"
+                        : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 

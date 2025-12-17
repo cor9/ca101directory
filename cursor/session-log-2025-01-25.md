@@ -1579,3 +1579,71 @@ Separate reps + regulated roles from normal service vendors so the directory doe
    - `INDUSTRY_PRO` hides pricing section and upgrade prompts
    - Contact is not paywalled for reps (website/email/phone clickable)
 
+**Commit:** `feat: Add listing_type to support reps vs vendors`
+**Status:** ✅ Pushed to main
+
+---
+
+## 🎯 Category Education Tips
+
+### Goal
+Add "Quick Tip" / "Safety Tip" cards to category pages to help parents make better decisions.
+
+### Implementation
+1. **Data file**: `src/lib/categoryEducationTips.ts` — 30 category-specific tips
+2. **Component**: `src/components/directory/CategoryEducationTip.tsx`
+   - Dismissible (persisted per category in localStorage)
+   - Safety tips (amber) vs Quick tips (blue) styling
+   - Bigger padding, bolder title, custom bullet dots
+3. **Integration**: Category pages show tip above listings grid
+
+**Commit:** `feat: Add category education tips`
+**Status:** ✅ Pushed to main
+
+---
+
+## 🏷️ Featured Section Fixes
+
+### Issues Fixed
+1. Featured cards looked like "floating art" (no card background)
+2. PRO listings weren't appearing in Featured
+
+### Changes
+1. **Card shell**: Featured cards now use `bg-[#1a2332] border border-white/10 rounded-2xl`
+2. **Badge position**: Moved "Featured" badge from image overlay to content area
+3. **PRO inclusion**: Featured query now includes `featured === true OR isPro(listing)`
+4. **Centralized helper**: Added `isFeaturedListing()` in `listingType.ts`
+
+**Commits:**
+- `feat: Include PRO/comped listings in Featured section`
+- `fix: Featured cards use proper card shell with bg/border/rounded`
+- `feat: Add centralized isFeaturedListing helper`
+
+**Status:** ✅ Pushed to main
+
+---
+
+## 🔧 Misc Fixes
+
+### Mkdirs Branding Removed
+- Deleted `src/components/shared/built-with-button.tsx`
+- Removed import/usage from footer
+
+**Commit:** `chore: Remove Mkdirs branding from footer`
+
+### Age Groups Preference
+- Listing detail now uses `age_groups` (tots/tweens/teens/young_adults) when available
+- Maps to friendly labels like "Tots (0-5)", "Tweens (6-12)", etc.
+- Falls back to legacy `age_range` field
+
+**Commit:** `fix: Make Quick Tip more prominent + prefer age_groups over age_range`
+
+### Category Slug Fix (Self-Tape Support 404)
+- Problem: "Self-Tape Support" generated slug "selftape-support" instead of "self-tape-support"
+- Fix: Treat hyphens as word separators before removing special characters
+- Created `categoryNameToSlug()` helper function
+
+**Commit:** `fix: Category slug generation treats hyphens as word separators`
+
+**Status:** ✅ All pushed to main
+

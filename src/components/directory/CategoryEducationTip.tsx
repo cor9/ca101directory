@@ -38,15 +38,15 @@ export function CategoryEducationTip({ categorySlug }: CategoryEducationTipProps
 
   return (
     <div
-      className={`relative mb-6 rounded-xl border p-4 shadow-sm ${
+      className={`relative mb-6 rounded-2xl border px-6 py-5 shadow-sm ${
         isSafetyTip
-          ? "border-amber-200 bg-amber-50"
-          : "border-blue-200 bg-blue-50"
+          ? "border-amber-200/60 bg-amber-50/70"
+          : "border-sky-200/60 bg-sky-50/70"
       }`}
     >
       <button
         onClick={handleDismiss}
-        className="absolute right-3 top-3 rounded-full p-1 text-slate-400 hover:bg-white hover:text-slate-600"
+        className="absolute right-4 top-4 rounded-full p-1.5 text-slate-400 hover:bg-black/5 hover:text-slate-600 transition-colors"
         aria-label="Dismiss tip"
       >
         <X className="h-4 w-4" />
@@ -54,35 +54,30 @@ export function CategoryEducationTip({ categorySlug }: CategoryEducationTipProps
 
       <div className="flex gap-3">
         <div
-          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
-            isSafetyTip ? "bg-amber-200 text-amber-700" : "bg-blue-200 text-blue-700"
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
+            isSafetyTip ? "bg-amber-100 text-amber-600" : "bg-sky-100 text-sky-600"
           }`}
         >
           {isSafetyTip ? (
-            <ShieldAlert className="h-4 w-4" />
+            <ShieldAlert className="h-5 w-5" />
           ) : (
-            <Lightbulb className="h-4 w-4" />
+            <Lightbulb className="h-5 w-5" />
           )}
         </div>
 
         <div className="flex-1 pr-6">
           <h3
-            className={`text-sm font-semibold ${
-              isSafetyTip ? "text-amber-800" : "text-blue-800"
+            className={`text-slate-900 font-semibold text-base md:text-lg ${
+              isSafetyTip ? "" : ""
             }`}
           >
             {tip.title}
           </h3>
-          <p className="mt-1 text-sm text-slate-700">{tip.body}</p>
+          <p className="mt-2 text-slate-700 text-sm md:text-base leading-relaxed">{tip.body}</p>
 
-          <ul className="mt-3 space-y-1.5">
+          <ul className="mt-3 text-slate-700 text-sm md:text-base list-disc pl-5 space-y-1">
             {tip.bullets.map((bullet, i) => (
-              <li key={i} className="flex items-start gap-2 text-xs text-slate-600">
-                <span
-                  className={`mt-1.5 h-1 w-1 shrink-0 rounded-full ${
-                    isSafetyTip ? "bg-amber-400" : "bg-blue-400"
-                  }`}
-                />
+              <li key={i}>
                 {bullet}
               </li>
             ))}

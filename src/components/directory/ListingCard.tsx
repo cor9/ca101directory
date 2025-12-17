@@ -104,7 +104,7 @@ export default function ListingCard({
         className="rounded-2xl overflow-hidden bg-bg-dark-2 border border-border-subtle hover-glow transition block group"
       >
         {/* Hero Image */}
-        <div className="relative h-56 w-full bg-bg-dark">
+        <div className="relative h-56 w-full bg-bg-dark overflow-hidden">
           {image ? (
             <Image
               src={image}
@@ -115,20 +115,20 @@ export default function ListingCard({
           ) : (
             <CategoryPlaceholder category={category} size="lg" className="h-56" />
           )}
-
-          {/* Status Badges - Bottom gradient strip (avoids covering faces) */}
-          <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-black/60 to-transparent">
-            <div className="absolute bottom-2 left-3 flex gap-2">
-              <BadgeStack
-                verified={!!listing.profile_verified || !!listing.is_verified}
-                featured={!!listing.is_featured}
-                pro={false}
-                maxBadges={2}
-                profileVerifiedAt={listing.profile_verified_at}
-              />
-            </div>
-          </div>
         </div>
+
+        {/* Badge Rail - Below image, never covers faces */}
+        {(listing.profile_verified || listing.is_verified || listing.is_featured) && (
+          <div className="px-5 pt-3 flex flex-wrap gap-2">
+            <BadgeStack
+              verified={!!listing.profile_verified || !!listing.is_verified}
+              featured={!!listing.is_featured}
+              pro={false}
+              maxBadges={2}
+              profileVerifiedAt={listing.profile_verified_at}
+            />
+          </div>
+        )}
 
         {/* Content */}
         <div className="p-5">
@@ -196,7 +196,7 @@ export default function ListingCard({
       <div className={`h-2 w-full bg-gradient-to-r ${headerGradient}`} />
 
       {/* Image */}
-      <div className="relative h-44 w-full bg-bg-dark">
+      <div className="relative h-44 w-full bg-bg-dark overflow-hidden">
         {image ? (
           <Image
             src={image}
@@ -207,16 +207,14 @@ export default function ListingCard({
         ) : (
           <CategoryPlaceholder category={category} size="md" className="h-44" />
         )}
-
-        {/* Verified badge - Bottom gradient strip (avoids covering faces) */}
-        {(listing.profile_verified || listing.is_verified) && (
-          <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/50 to-transparent">
-            <div className="absolute bottom-1.5 left-2">
-              <ProfileVerifiedBadge profileVerifiedAt={listing.profile_verified_at} />
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* Badge Rail - Below image, never covers faces */}
+      {(listing.profile_verified || listing.is_verified) && (
+        <div className="px-4 pt-2 flex flex-wrap gap-2">
+          <ProfileVerifiedBadge profileVerifiedAt={listing.profile_verified_at} />
+        </div>
+      )}
 
       {/* Content */}
       <div className="p-4 space-y-2">

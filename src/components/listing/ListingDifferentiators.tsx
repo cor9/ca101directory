@@ -1,8 +1,56 @@
+"use client";
+
+import { useState } from "react";
 import { RichTextDisplay } from "@/components/ui/rich-text-display";
 import type { Listing } from "@/data/listings";
 
 interface ListingDifferentiatorsProps {
   listing: Listing;
+}
+
+interface ExpandableBlockProps {
+  title: string;
+  content: string;
+}
+
+function ExpandableBlock({ title, content }: ExpandableBlockProps) {
+  const [expanded, setExpanded] = useState(false);
+  const text = (content || "").trim();
+  const isLong = text.length > 280;
+
+  return (
+    <div className="bg-bg-panel/40 backdrop-blur-sm border border-white/5 rounded-xl p-6">
+      <h3 className="text-base font-semibold text-text-primary mb-2">
+        {title}
+      </h3>
+
+      {/* Clamped preview */}
+      <div className={expanded ? "hidden" : "block"}>
+        <RichTextDisplay
+          content={text}
+          className="text-sm leading-relaxed text-text-secondary line-clamp-4"
+        />
+      </div>
+
+      {/* Full content when expanded */}
+      {expanded && (
+        <RichTextDisplay
+          content={text}
+          className="text-sm leading-relaxed text-text-secondary"
+        />
+      )}
+
+      {/* Read more / Read less toggle */}
+      {isLong && (
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="mt-3 text-sky-400 hover:text-sky-300 text-sm font-medium transition-colors"
+        >
+          {expanded ? "Show less" : "Read more"}
+        </button>
+      )}
+    </div>
+  );
 }
 
 export function ListingDifferentiators({
@@ -22,29 +70,12 @@ export function ListingDifferentiators({
       </h2>
 
       {unique && (
-        <div className="bg-bg-panel/40 backdrop-blur-sm border border-white/5 rounded-xl p-6">
-          <h3 className="text-base font-semibold text-text-primary mb-2">
-            What Makes Us Unique
-          </h3>
-          <RichTextDisplay
-            content={unique}
-            className="text-sm leading-relaxed text-text-secondary"
-          />
-        </div>
+        <ExpandableBlock title="What Makes Us Unique" content={unique} />
       )}
 
       {notes && (
-        <div className="bg-bg-panel/40 backdrop-blur-sm border border-white/5 rounded-xl p-6">
-          <h3 className="text-base font-semibold text-text-primary mb-2">
-            Additional Notes
-          </h3>
-          <RichTextDisplay
-            content={notes}
-            className="text-sm leading-relaxed text-text-secondary"
-          />
-        </div>
+        <ExpandableBlock title="Additional Notes" content={notes} />
       )}
     </section>
   );
 }
-

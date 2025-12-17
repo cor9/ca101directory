@@ -1,11 +1,13 @@
 "use client";
 
 import clsx from "clsx";
+import { Globe, Mail } from "lucide-react";
 import { useCallback } from "react";
 import {
   getListingCapabilities,
   normalizeListingTier,
   obfuscateEmail,
+  type ListingTier,
 } from "@/lib/listingCapabilities";
 
 type ContactActionsProps = {
@@ -19,6 +21,18 @@ type ContactActionsProps = {
   variant?: "hero" | "mobile";
   className?: string;
 };
+
+// Get the primary CTA label based on tier and available contact methods
+function getPrimaryCTALabel(tier: ListingTier, hasWebsite: boolean, hasEmail: boolean): string {
+  if (tier === "pro" || tier === "premium") {
+    return hasEmail ? "Contact" : hasWebsite ? "Visit Website" : "View Details";
+  }
+  if (tier === "standard") {
+    return hasWebsite ? "Visit Website" : "View Details";
+  }
+  // Free tier
+  return "View Details";
+}
 
 export function ContactActions({
   listingId,
@@ -46,51 +60,77 @@ export function ContactActions({
 
   const isHero = variant === "hero";
 
-  const websiteClass = clsx(
+  // Primary CTA (orange button) - tier determines what this does
+  const primaryClass = clsx(
+    "inline-flex items-center gap-2",
     isHero
-      ? "rounded-full bg-[#FF6B35] px-6 py-2 text-sm font-semibold text-white shadow hover:bg-[#E55F2F]"
-      : "rounded-full bg-[#FF6B35] px-3 py-1 text-xs font-semibold text-white",
+      ? "rounded-full bg-[#FF6B35] px-6 py-2 text-sm font-semibold text-white shadow hover:bg-[#E55F2F] transition-colors"
+      : "rounded-full bg-[#FF6B35] px-4 py-1.5 text-xs font-semibold text-white",
   );
 
-  const emailClass = clsx(
+  // Secondary CTA (outlined button)
+  const secondaryClass = clsx(
+    "inline-flex items-center gap-2",
     isHero
-      ? "rounded-full border border-slate-300 px-6 py-2 text-sm font-semibold text-slate-100 hover:bg-slate-800"
-      : "rounded-full border border-slate-500 px-3 py-1 text-xs font-semibold text-white",
+      ? "rounded-full border border-white/30 px-6 py-2 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
+      : "rounded-full border border-white/30 px-4 py-1.5 text-xs font-semibold text-white",
   );
 
-  const disabledClass = clsx(
+  // Muted text for non-clickable contact info
+  const mutedClass = clsx(
     isHero
-      ? "rounded-full border border-slate-500 px-6 py-2 text-sm font-semibold text-slate-400 cursor-default"
-      : "rounded-full border border-slate-600 px-3 py-1 text-xs font-semibold text-slate-400 cursor-default",
+      ? "text-sm text-slate-400"
+      : "text-xs text-slate-400",
   );
+
+  // Determine what to show based on tier
+  const isPro = listingTier === "pro" || listingTier === "premium";
+  const isStandard = listingTier === "standard" || isPro;
 
   return (
-    <div className={clsx("flex flex-wrap gap-3", className)}>
-      {website && capabilities.canClickWebsite && (
+    <div className={clsx("flex flex-wrap items-center gap-3", className)}>
+      {/* PRIMARY CTA */}
+      {isPro && email ? (
+        // Pro: Primary is Contact (mailto)
+        <a
+          href={`mailto:${email}`}
+          className={primaryClass}
+          onClick={trackContact}
+        >
+          <Mail className="w-4 h-4" />
+          Contact
+        </a>
+      ) : isStandard && website ? (
+        // Standard: Primary is Visit Website
         <a
           href={website}
           target="_blank"
           rel="noreferrer"
-          className={websiteClass}
+          className={primaryClass}
           onClick={trackContact}
         >
+          <Globe className="w-4 h-4" />
           Visit Website
         </a>
-      )}
+      ) : null}
 
-      {email && capabilities.canClickEmail && (
+      {/* SECONDARY CTA - only show if primary exists and this is different */}
+      {isPro && email && website && (
         <a
-          href={`mailto:${email}`}
-          className={emailClass}
+          href={website}
+          target="_blank"
+          rel="noreferrer"
+          className={secondaryClass}
           onClick={trackContact}
         >
-          Email
+          <Globe className="w-4 h-4" />
+          Website
         </a>
       )}
 
-      {/* Show non-clickable email for non-Pro tiers */}
+      {/* Non-clickable email for non-Pro tiers */}
       {email && !capabilities.canClickEmail && (
-        <span className={disabledClass} title="Upgrade to Pro to contact directly">
+        <span className={mutedClass} title="Contact info visible to all">
           {capabilities.obfuscateEmail ? obfuscateEmail(email) : email}
         </span>
       )}

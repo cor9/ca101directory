@@ -116,15 +116,17 @@ export default function ListingCard({
             <CategoryPlaceholder category={category} size="lg" className="h-56" />
           )}
 
-          {/* Status Badges - Top-left placement */}
-          <div className="absolute left-3 top-3 flex gap-2">
-            <BadgeStack
-              verified={!!listing.profile_verified || !!listing.is_verified}
-              featured={!!listing.is_featured}
-              pro={false}
-              maxBadges={2}
-              profileVerifiedAt={listing.profile_verified_at}
-            />
+          {/* Status Badges - Bottom gradient strip (avoids covering faces) */}
+          <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-black/60 to-transparent">
+            <div className="absolute bottom-2 left-3 flex gap-2">
+              <BadgeStack
+                verified={!!listing.profile_verified || !!listing.is_verified}
+                featured={!!listing.is_featured}
+                pro={false}
+                maxBadges={2}
+                profileVerifiedAt={listing.profile_verified_at}
+              />
+            </div>
           </div>
         </div>
 
@@ -206,9 +208,12 @@ export default function ListingCard({
           <CategoryPlaceholder category={category} size="md" className="h-44" />
         )}
 
+        {/* Verified badge - Bottom gradient strip (avoids covering faces) */}
         {(listing.profile_verified || listing.is_verified) && (
-          <div className="absolute top-2 right-2">
-            <ProfileVerifiedBadge profileVerifiedAt={listing.profile_verified_at} />
+          <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/50 to-transparent">
+            <div className="absolute bottom-1.5 left-2">
+              <ProfileVerifiedBadge profileVerifiedAt={listing.profile_verified_at} />
+            </div>
           </div>
         )}
       </div>

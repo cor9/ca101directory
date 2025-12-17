@@ -1197,3 +1197,50 @@ Check listing pages - should see:
 
 **Status:** ✅ Complete and pushed to production
 
+---
+
+## 🏷️ PR 1: Rename "Verified" to "Profile Verified" + Tooltip + Date
+
+### Goal
+Make the badge honest and specific — no implication of background checks.
+
+### Backend (Migration)
+Created `supabase/migrations/add_profile_verified_columns.sql`:
+```sql
+ALTER TABLE listings 
+ADD COLUMN IF NOT EXISTS profile_verified boolean DEFAULT false NOT NULL,
+ADD COLUMN IF NOT EXISTS profile_verified_at timestamptz NULL;
+```
+**Note:** Run manually on CA101 Directory Supabase project.
+
+### Frontend Changes
+
+1. **New `ProfileVerifiedBadge` component** (`src/components/badges/ProfileVerifiedBadge.tsx`)
+   - Shows "Profile Verified" with info icon
+   - Tooltip on hover (desktop) and tap (mobile)
+   - Displays "Verified: MMM YYYY" if `profile_verified_at` exists
+   - Tooltip copy: "Profile Verified means the provider has claimed this listing and it's been reviewed by Child Actor 101 for basic legitimacy and completeness. It is not a criminal background check."
+
+2. **Updated `StatusBadge`** (`src/components/badges/StatusBadge.tsx`)
+   - Renamed "Verified" → "Profile Verified"
+   - Added tooltip with exact copy
+   - `BadgeStack` now accepts `profileVerifiedAt` prop
+
+3. **Updated Listing type** (`src/data/listings.ts`)
+   - Added `profile_verified` and `profile_verified_at` fields
+
+4. **Updated all listing card components**:
+   - `src/components/directory/ListingCard.tsx`
+   - `src/app/(website)/(public)/new-home/components/ListingCard.tsx`
+   - `src/app/(website)/(public)/new-home/components/VendorCardSmall.tsx`
+   - `src/app/(website)/(public)/new-home/components/VendorCardMedium.tsx`
+   - `src/app/(website)/(public)/new-home/components/FeaturedVendor.tsx`
+
+### Behavior
+- Badge only shows when `profile_verified === true` (or legacy `is_verified`)
+- No layout shift — badge maintains fixed dimensions
+- Tooltip works on mobile (tap) + desktop (hover)
+
+**Commit:** `825681a5` - feat: Rename Verified badge to Profile Verified with tooltip
+**Status:** ✅ Pushed to main
+

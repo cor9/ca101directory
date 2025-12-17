@@ -2,6 +2,7 @@
 
 import { BadgeStack } from "@/components/badges/StatusBadge";
 import { ProfileVerifiedBadge } from "@/components/badges/ProfileVerifiedBadge";
+import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
 import { MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -74,9 +75,7 @@ export default function ListingCard({
               className="object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent-blue to-accent-purple text-text-muted font-bold text-lg">
-              {listingName.charAt(0)}
-            </div>
+            <CategoryPlaceholder category={category} size="sm" showLabel={false} />
           )}
         </div>
 
@@ -112,9 +111,7 @@ export default function ListingCard({
               className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
           ) : (
-            <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-accent-purple to-accent-blue text-5xl font-bold text-text-muted">
-              {listingName.charAt(0)}
-            </div>
+            <CategoryPlaceholder category={category} size="lg" className="h-56" />
           )}
 
           {/* Status Badges - Top-left placement */}
@@ -202,9 +199,7 @@ export default function ListingCard({
             className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
-          <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-accent-purple to-accent-blue text-4xl font-bold text-text-muted">
-            {listingName.charAt(0)}
-          </div>
+          <CategoryPlaceholder category={category} size="md" className="h-44" />
         )}
 
         {(listing.profile_verified || listing.is_verified) && (

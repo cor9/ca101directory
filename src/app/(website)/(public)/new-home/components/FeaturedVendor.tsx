@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ProfileVerifiedBadge } from "@/components/badges/ProfileVerifiedBadge";
+import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
 
 interface FeaturedVendorProps {
   vendor: {
@@ -40,20 +41,24 @@ export default function FeaturedVendor({ vendor }: FeaturedVendorProps) {
     vendor.city && vendor.state
       ? `${vendor.city}, ${vendor.state}`
       : vendor.location || "";
-  const vendorImage = vendor.image_url || vendor.logo_url || "/placeholder.svg";
+  const vendorImage = vendor.image_url || vendor.logo_url;
   const vendorSlug = vendor.slug || vendor.id;
 
   return (
     <div className="card-surface rounded-2xl p-6 shadow-card max-w-sm w-full hover-lift">
       {/* Vendor Image */}
       <div className="relative w-full h-52 bg-bg-dark-2 rounded-xl overflow-hidden">
-        <Image
-          src={vendorImage}
-          alt={vendorName}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 400px"
-        />
+        {vendorImage ? (
+          <Image
+            src={vendorImage}
+            alt={vendorName}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 400px"
+          />
+        ) : (
+          <CategoryPlaceholder category={vendorCategory} size="lg" className="h-52" />
+        )}
       </div>
 
       {/* Vendor Info */}

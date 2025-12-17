@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { MapPin, Star } from "lucide-react";
 import { ProfileVerifiedBadge } from "@/components/badges/ProfileVerifiedBadge";
+import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
 
 interface ListingCardProps {
   listing: {
@@ -86,11 +87,7 @@ export default function ListingCard({
               sizes="64px"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent-blue/30 to-accent-purple/30">
-              <span className="text-lg font-bold text-text-muted">
-                {listingName.charAt(0)}
-              </span>
-            </div>
+            <CategoryPlaceholder category={listingCategory} size="sm" showLabel={false} />
           )}
         </div>
 
@@ -129,11 +126,7 @@ export default function ListingCard({
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent-blue/30 to-accent-purple/30">
-              <span className="text-4xl font-bold text-text-muted">
-                {listingName.charAt(0)}
-              </span>
-            </div>
+            <CategoryPlaceholder category={listingCategory} size="lg" className="h-56" />
           )}
 
           {/* Featured Badge */}
@@ -234,11 +227,7 @@ export default function ListingCard({
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent-blue/30 to-accent-purple/30">
-            <span className="text-3xl font-bold text-text-muted">
-              {listingName.charAt(0)}
-            </span>
-          </div>
+          <CategoryPlaceholder category={listingCategory} size="md" className="h-40" />
         )}
 
         {/* Profile Verified Badge */}

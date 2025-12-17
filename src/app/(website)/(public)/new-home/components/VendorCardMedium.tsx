@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ProfileVerifiedBadge } from "@/components/badges/ProfileVerifiedBadge";
+import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
 
 interface VendorCardMediumProps {
   vendor: {
@@ -48,11 +49,7 @@ export default function VendorCardMedium({ vendor }: VendorCardMediumProps) {
               sizes="64px"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent-teal/30 to-accent-purple/30">
-              <span className="text-xl font-bold text-text-muted">
-                {vendorName.charAt(0)}
-              </span>
-            </div>
+            <CategoryPlaceholder category={vendorCategory} size="sm" showLabel={false} className="rounded-full" />
           )}
         </div>
 

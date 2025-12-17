@@ -1,6 +1,7 @@
 "use client";
 
 import { BadgeStack } from "@/components/badges/StatusBadge";
+import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
 import { urlForIcon, urlForImage } from "@/lib/image";
 import { getListingImageUrl } from "@/lib/image-urls";
 import { generateSlugFromItem } from "@/lib/slug-utils";
@@ -147,13 +148,7 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
           />
         ) : (
           /* Category icon placeholder when no image */
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 shadow-sm">
-              <span className="text-sm font-medium text-slate-600">
-                {firstCategory || "Provider"}
-              </span>
-            </div>
-          </div>
+          <CategoryPlaceholder category={firstCategory} size="md" className="h-40 rounded-xl" />
         )}
 
         {/* Badges Overlay - Top-left placement */}

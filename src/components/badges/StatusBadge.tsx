@@ -53,22 +53,22 @@ function VerifiedBadge({
     ? `Verified: ${formatVerifiedDate(profileVerifiedAt)}`
     : null;
 
-  return (
+      return (
     <div className="relative inline-flex" ref={badgeRef}>
-      <div
-        className={cn(
+        <div
+          className={cn(
           "flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium text-white border cursor-default",
           className
-        )}
-        style={{
-          backgroundColor: "#0F141B",
+          )}
+          style={{
+            backgroundColor: "#0F141B",
           borderColor: "#2DD4BF",
         }}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         onClick={() => setShowTooltip((prev) => !prev)}
-      >
-        <CheckCircle className="h-3 w-3" style={{ color: "#2DD4BF" }} />
+        >
+          <CheckCircle className="h-3 w-3" style={{ color: "#2DD4BF" }} />
         <span>Profile Verified</span>
         <Info className="h-3 w-3 text-gray-400" />
       </div>
@@ -86,8 +86,8 @@ function VerifiedBadge({
           )}
         </div>
       )}
-    </div>
-  );
+        </div>
+      );
 }
 
 export function StatusBadge({ type, className, profileVerifiedAt }: StatusBadgeProps) {

@@ -330,7 +330,7 @@ const getPublicListingsInternal = async (params?: {
       conditions.push(
         `city.ilike.%${params.q}%`,
         `state.ilike.%${params.q}%`,
-      );
+    );
     }
     query = query.or(conditions.join(","));
   }

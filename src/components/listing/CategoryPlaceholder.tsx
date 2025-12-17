@@ -22,8 +22,25 @@ const shortLabels: Record<string, string> = {
   "Vocal Coaches": "Vocal",
 };
 
+// Category-specific gradient tints (intentional design, not placeholder)
+const categoryGradients: Record<string, string> = {
+  "Headshot Photographers": "from-purple-100 to-indigo-100",
+  "Talent Managers": "from-emerald-100 to-teal-100",
+  "Talent Agents": "from-blue-100 to-cyan-100",
+  "Acting Classes & Coaches": "from-orange-100 to-amber-100",
+  "Acting Coach": "from-orange-100 to-amber-100",
+  "Self Tape Support": "from-rose-100 to-pink-100",
+  "Demo Reel Creators": "from-violet-100 to-purple-100",
+  "Vocal Coaches": "from-sky-100 to-blue-100",
+};
+
 function getShortLabel(category: string): string {
   return shortLabels[category] || category;
+}
+
+function getCategoryGradient(category: string | null | undefined): string {
+  if (!category) return "from-slate-100 to-slate-200";
+  return categoryGradients[category] || "from-slate-100 to-slate-200";
 }
 
 export function CategoryPlaceholder({
@@ -33,47 +50,46 @@ export function CategoryPlaceholder({
   className,
 }: CategoryPlaceholderProps) {
   const Icon = getCategoryIcon(category);
-  const shortLabel = category ? getShortLabel(category) : "";
+  const shortLabel = category ? getShortLabel(category) : "Professional";
+  const gradient = getCategoryGradient(category);
 
-  // For sm size, just show icon in a small container
+  // For sm size: centered icon in tinted container
   if (size === "sm") {
     return (
       <div
         className={cn(
-          "relative w-16 h-16 bg-slate-100 rounded-lg",
+          "relative w-16 h-16 rounded-lg bg-gradient-to-br flex items-center justify-center",
+          gradient,
           className
         )}
       >
-        <div className="absolute top-1.5 left-1.5">
-          <div className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-slate-900 text-white">
-            <Icon className="w-2.5 h-2.5" />
-          </div>
+        <div className="flex items-center justify-center h-8 w-8 rounded-full bg-white/80 shadow-sm">
+          <Icon className="w-4 h-4 text-slate-600" />
         </div>
       </div>
     );
   }
 
-  // For md/lg, position badge top-left (not centered)
+  // For md/lg: centered icon with category label - looks intentional, not abandoned
   return (
     <div
       className={cn(
-        "relative bg-slate-100 rounded-lg",
+        "relative rounded-lg bg-gradient-to-br flex flex-col items-center justify-center",
+        gradient,
         className
       )}
     >
-      <div className="absolute top-3 left-3">
-        <div className="inline-flex items-center gap-1.5 rounded-full bg-white/90 border border-slate-200 px-2 py-1 shadow-sm">
-          <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-slate-900 text-white">
-            <Icon className="w-2.5 h-2.5" />
-          </span>
-          {showLabel && shortLabel && (
-            <span className="text-xs font-medium text-slate-700">
-              {shortLabel}
-            </span>
-          )}
-        </div>
+      {/* Large centered icon */}
+      <div className="flex items-center justify-center h-16 w-16 rounded-full bg-white/70 shadow-md mb-3">
+        <Icon className="w-8 h-8 text-slate-600" />
       </div>
+
+      {/* Category label below icon */}
+      {showLabel && shortLabel && (
+        <span className="text-sm font-medium text-slate-600 px-3 py-1 bg-white/60 rounded-full">
+          {shortLabel}
+        </span>
+      )}
     </div>
   );
 }
-

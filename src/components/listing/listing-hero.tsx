@@ -3,6 +3,10 @@ import { ProfileImage } from "@/components/listing/listing-images";
 import { Button } from "@/components/ui/button";
 import { StarRating } from "@/components/ui/star-rating";
 import type { Listing } from "@/data/listings";
+import {
+  getListingCapabilities,
+  normalizeListingTier,
+} from "@/lib/listingCapabilities";
 import { EditIcon, GlobeIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,6 +29,11 @@ export function ListingHero({
   showReviews,
   categories,
 }: ListingHeroProps) {
+  // Get tier-based capabilities for contact display
+  // Gating is based on LISTING tier (what vendor pays), not viewer
+  const listingTier = normalizeListingTier(listing.plan, listing.comped);
+  const capabilities = getListingCapabilities(listingTier);
+
   return (
     <section className="listing-card-transparent">
       <div className="mb-6 flex items-center gap-2 text-sm text-[var(--ink)]">
@@ -92,7 +101,7 @@ export function ListingHero({
           </div>
 
           <div className="flex flex-wrap gap-3">
-            {listing.website && (
+            {listing.website && capabilities.canClickWebsite && (
               <Button size="default" asChild className="btn-primary">
                 <Link
                   href={listing.website}

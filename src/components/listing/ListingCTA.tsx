@@ -16,6 +16,8 @@ export function ListingCTA({ listing, slug }: ListingCTAProps) {
             listingId={listing.id}
             website={listing.website}
             email={listing.email}
+            plan={listing.plan}
+            comped={listing.comped}
             className="flex-1"
           />
           {/* Optional: View Gallery link if gallery exists */}

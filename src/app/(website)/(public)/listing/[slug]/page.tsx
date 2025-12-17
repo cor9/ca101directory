@@ -444,9 +444,22 @@ export default async function ListingPage({ params }: ListingPageProps) {
           /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
         return !uuidLike.test(age);
       });
-    const services = Array.isArray(listing.tags)
-      ? listing.tags.filter(Boolean)
-      : [];
+    // Services: use services_offered, fallback to categories, filter out invalid values
+    const rawServices = Array.isArray(listing.services_offered)
+      ? listing.services_offered
+      : Array.isArray(listing.categories)
+        ? listing.categories
+        : [];
+    const services = rawServices
+      .map((s) => (typeof s === "string" ? s.trim() : ""))
+      .filter((s) => {
+        // Filter out empty, placeholder, and invalid values
+        if (!s || s === "_" || s === "[]" || s === '[""]') return false;
+        // Filter out UUIDs
+        const uuidLike =
+          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        return !uuidLike.test(s);
+      });
     let reviews: Awaited<ReturnType<typeof getListingReviews>> = [];
     if (reviewsEnabled) {
       try {
@@ -710,6 +723,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
               listingId={listing.id}
               website={listing.website}
               email={listing.email}
+              plan={listing.plan}
+              comped={listing.comped}
               variant="mobile"
               className="flex gap-2"
             />

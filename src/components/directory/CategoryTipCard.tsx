@@ -8,20 +8,23 @@ interface CategoryTipCardProps {
   category: string | null | undefined;
 }
 
-const typeConfig: Record<CategoryTip["type"], { icon: typeof Shield; color: string; label: string }> = {
+const typeConfig: Record<CategoryTip["type"], { icon: typeof Shield; color: string; label: string; iconColor: string }> = {
   safety: {
     icon: Shield,
-    color: "border-red-500/30 bg-red-500/10",
+    color: "border-rose-200 bg-rose-50/80",
+    iconColor: "text-rose-600",
     label: "Safety Tip",
   },
   guide: {
     icon: BookOpen,
-    color: "border-blue-500/30 bg-blue-500/10",
+    color: "border-sky-200 bg-sky-50/80",
+    iconColor: "text-sky-600",
     label: "Quick Guide",
   },
   info: {
     icon: Info,
-    color: "border-amber-500/30 bg-amber-500/10",
+    color: "border-amber-200 bg-amber-50/80",
+    iconColor: "text-amber-600",
     label: "Good to Know",
   },
 };
@@ -55,32 +58,34 @@ export function CategoryTipCard({ category }: CategoryTipCardProps) {
 
   return (
     <div
-      className={`relative rounded-xl border p-4 mb-6 ${config.color}`}
+      className={`relative rounded-xl border-2 p-5 mb-6 shadow-sm ${config.color}`}
     >
       {/* Dismiss button */}
       <button
         onClick={handleDismiss}
-        className="absolute top-3 right-3 p-1 rounded-full hover:bg-white/10 transition-colors text-text-muted hover:text-text-primary"
+        className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-black/5 transition-colors text-slate-400 hover:text-slate-600"
         aria-label="Dismiss tip"
       >
         <X className="w-4 h-4" />
       </button>
 
       {/* Header */}
-      <div className="flex items-center gap-2 mb-2">
-        <Icon className="w-4 h-4 text-text-secondary" />
-        <span className="text-xs font-semibold uppercase tracking-wide text-text-muted">
+      <div className="flex items-center gap-2 mb-3">
+        <div className={`p-1.5 rounded-lg bg-white/60 ${config.iconColor}`}>
+          <Icon className="w-4 h-4" />
+        </div>
+        <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
           {config.label}
         </span>
       </div>
 
       {/* Title */}
-      <h3 className="text-base font-semibold text-text-primary mb-2">
+      <h3 className="text-lg font-semibold text-slate-900 mb-2">
         {tip.title}
       </h3>
 
       {/* Content */}
-      <p className="text-sm text-text-secondary leading-relaxed">
+      <p className="text-base text-slate-700 leading-relaxed">
         {tip.content}
       </p>
     </div>

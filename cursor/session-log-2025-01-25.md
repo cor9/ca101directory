@@ -1451,3 +1451,35 @@ Find "my kid's age" in seconds.
 **Commit:** `7b4ea1e3` - feat: Add age group multi-select filter in sidebar
 **Status:** ✅ Pushed to main
 
+---
+
+## 📚 PR 10: Micro-Learning Cards per Category
+
+### Goal
+Directory becomes mentor, not phone book.
+
+### Implementation
+
+1. **`src/lib/categoryTips.ts`** - Static mapping:
+   - Talent Managers: bonded/permit expectations + red flags
+   - Talent Agents: commissions + no upfront fees
+   - Headshots: commercial vs theatrical + update cadence under 14
+   - + Acting Coaches, Self Tape, Demo Reels, Casting Workshops, Set Sitters, Set Teachers, Mental Health
+
+2. **`CategoryTipCard` component** (`src/components/directory/CategoryTipCard.tsx`):
+   - Three types: safety (red), guide (blue), info (amber)
+   - Dismissible with X button
+   - Persists dismissal via localStorage per category
+
+3. **Directory page integration**:
+   - Shows tip card above results when category is filtered
+   - Hidden if no tip exists for category or if dismissed
+
+### Behavior
+- Tips appear only where relevant (mapped categories)
+- Dismiss sticks on page refresh
+- Different styling per tip type
+
+**Commit:** `7a5f9d1a` - feat: Add micro-learning tip cards per category
+**Status:** ✅ Pushed to main
+

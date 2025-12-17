@@ -3,6 +3,12 @@ import Link from "next/link";
 import { ClaimButton } from "@/components/claim/claim-button";
 import type { Listing } from "@/data/listings";
 import {
+  getListingCapabilities,
+  normalizeListingTier,
+  obfuscateEmail,
+} from "@/lib/listingCapabilities";
+import {
+  ExternalLinkIcon,
   GlobeIcon,
   MailIcon,
   MapPinIcon,
@@ -27,6 +33,11 @@ export function ListingContactSection({
     typeof listing.format === "string" &&
     listing.format.toLowerCase().includes("online");
 
+  // Get tier-based capabilities for contact display
+  // Gating is based on LISTING tier (what vendor pays), not viewer
+  const listingTier = normalizeListingTier(listing.plan, listing.comped);
+  const capabilities = getListingCapabilities(listingTier);
+
   return (
     <section className="flex flex-col gap-6">
       <div className="listing-card-blue">
@@ -50,24 +61,56 @@ export function ListingContactSection({
           {listing.phone && (
             <li className="flex items-start gap-3">
               <PhoneIcon className="mt-1 h-4 w-4 text-orange-400" />
-              <a
-                href={`tel:${listing.phone}`}
-                className="hover:text-orange-300 transition-colors"
-              >
-                {listing.phone}
-              </a>
+              {capabilities.canClickPhone ? (
+                <a
+                  href={`tel:${listing.phone}`}
+                  className="hover:text-orange-300 transition-colors"
+                >
+                  {listing.phone}
+                </a>
+              ) : (
+                <span className="select-text">{listing.phone}</span>
+              )}
             </li>
           )}
 
           {listing.email && (
             <li className="flex items-start gap-3">
               <MailIcon className="mt-1 h-4 w-4 text-orange-400" />
-              <a
-                href={`mailto:${listing.email}`}
-                className="hover:text-orange-300 transition-colors"
-              >
-                {listing.email}
-              </a>
+              {capabilities.canClickEmail ? (
+                <a
+                  href={`mailto:${listing.email}`}
+                  className="hover:text-orange-300 transition-colors"
+                >
+                  {listing.email}
+                </a>
+              ) : (
+                <span className="select-text">
+                  {capabilities.obfuscateEmail
+                    ? obfuscateEmail(listing.email)
+                    : listing.email}
+                </span>
+              )}
+            </li>
+          )}
+
+          {listing.website && (
+            <li className="flex items-start gap-3">
+              <ExternalLinkIcon className="mt-1 h-4 w-4 text-orange-400" />
+              {capabilities.canClickWebsite ? (
+                <a
+                  href={listing.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-orange-300 transition-colors"
+                >
+                  {listing.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+                </a>
+              ) : (
+                <span className="select-text">
+                  {listing.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+                </span>
+              )}
             </li>
           )}
 

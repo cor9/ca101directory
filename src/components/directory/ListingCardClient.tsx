@@ -2,6 +2,7 @@
 
 import { BadgeStack } from "@/components/badges/StatusBadge";
 import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
+import { isIndustryPro } from "@/lib/listings/listingType";
 import { urlForIcon, urlForImage } from "@/lib/image";
 import { getListingImageUrl } from "@/lib/image-urls";
 import { generateSlugFromItem } from "@/lib/slug-utils";
@@ -87,6 +88,7 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
 
   // Extract tier and generate slug
   const tier = getTierFromItem(item);
+  const industryPro = isIndustryPro((item as any).listingType ?? (item as any).listing_type);
   const slug =
     item.slug?.current ||
     generateSlugFromItem({ name: item.name, _id: item._id });
@@ -126,6 +128,9 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
     (item.pricePlan.toLowerCase().includes("pro") ||
       item.pricePlan.toLowerCase().includes("premium"));
 
+  // INDUSTRY_PRO should not show monetization badges (Pro/Featured)
+  const showPaidBadges = !industryPro;
+
   // Determine max badges based on tier
   const getMaxBadges = (): number => {
     if (tier === "pro" || tier === "premium") return 2; // Max 2 badges (Verified + Pro)
@@ -157,19 +162,19 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
           /* Category icon placeholder when no image - badge positioned top-left */
           <CategoryPlaceholder category={firstCategory} size="md" className={`${heroHeightClass} rounded-xl`} />
         )}
-
-        {/* Badges Overlay - Top-left placement (only show on image cards to avoid overlap with placeholder badge) */}
-        {heroImage && (
-          <div className="absolute left-3 top-3 flex gap-2">
-            <BadgeStack
-              verified={isVerified}
-              featured={isFeatured}
-              pro={isPro}
-              maxBadges={maxBadges}
-            />
-          </div>
-        )}
       </div>
+
+      {/* Badge row (never overlays image) */}
+      {(isVerified || (showPaidBadges && (isFeatured || isPro))) && (
+        <div className="mb-3 flex flex-wrap gap-2">
+          <BadgeStack
+            verified={isVerified}
+            featured={showPaidBadges ? isFeatured : false}
+            pro={showPaidBadges ? isPro : false}
+            maxBadges={maxBadges}
+          />
+        </div>
+      )}
 
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">

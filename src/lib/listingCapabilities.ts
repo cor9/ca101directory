@@ -52,10 +52,26 @@ export function normalizeListingTier(
  */
 export function getListingCapabilities(
   listingTier: ListingTier,
-  viewer: ViewerContext = {}
+  viewer: ViewerContext = {},
+  listingType?: string | null
 ): ListingCapabilities {
   const isPro = listingTier === "pro" || listingTier === "premium";
   const isStandard = listingTier === "standard" || isPro;
+
+  // INDUSTRY_PRO (agents/managers) should never feel paywalled.
+  // They can show website/email/phone normally, without lead-form friction.
+  if (listingType === "INDUSTRY_PRO") {
+    return {
+      canClickWebsite: true,
+      canClickSocials: true,
+      canClickEmail: true,
+      canClickPhone: true,
+      showLeadForm: false,
+      obfuscateEmail: false,
+      obfuscatePhone: false,
+      cta: "VISIT_WEBSITE",
+    };
+  }
 
   // Admins can see full interactivity for QA
   if (viewer.isAdmin) {

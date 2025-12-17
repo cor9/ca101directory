@@ -43,6 +43,10 @@ export async function listingToItem(listing: Listing): Promise<ItemInfo> {
       .replace(/\s+/g, " ")
       .trim(),
     link: listing.website || "",
+    website: listing.website || null,
+    email: listing.email || null,
+    phone: listing.phone || null,
+    listingType: listing.listing_type || null,
     affiliateLink: null,
     sponsor: false,
     sponsorStartDate: null,

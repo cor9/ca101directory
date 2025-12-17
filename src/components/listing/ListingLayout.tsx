@@ -6,6 +6,7 @@ import { ListingDifferentiators } from "./ListingDifferentiators";
 import { ListingHeader } from "./ListingHeader";
 import { ListingMedia } from "./ListingMedia";
 import { ListingPricing } from "./ListingPricing";
+import { isIndustryPro } from "@/lib/listings/listingType";
 import Link from "next/link";
 
 interface ListingLayoutProps {
@@ -46,6 +47,7 @@ export default function ListingLayout({
   hasVirtualOption,
   averageRating,
 }: ListingLayoutProps) {
+  const industryPro = isIndustryPro(listing.listing_type);
   return (
     <>
       {/* 1. Header Block */}
@@ -69,7 +71,7 @@ export default function ListingLayout({
               <ListingAbout listing={listing} />
 
               {/* Pricing Section */}
-              <ListingPricing listing={listing} />
+              {!industryPro && <ListingPricing listing={listing} />}
 
               {/* 4. Media Section (Video → Gallery) */}
               <ListingMedia listing={listing} />

@@ -14,6 +14,7 @@ import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import type { Listing } from "@/data/listings";
 import { getListingAverageRating } from "@/data/reviews";
 import { getListingImageUrl } from "@/lib/image-urls";
+import { isIndustryPro } from "@/lib/listings/listingType";
 import { generateSlugFromListing } from "@/lib/slug-utils";
 import { cn } from "@/lib/utils";
 import { CheckCircleIcon, GlobeIcon, MapPinIcon, StarIcon } from "lucide-react";
@@ -84,6 +85,8 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
   };
 
   const planPriority = getPlanPriority(listing.plan, listing.comped);
+  const industryPro = isIndustryPro(listing.listing_type);
+  const showPaidBadges = !industryPro;
 
   // NO FALLBACKS - Only use real uploaded images
   // If no profile_image, show nothing (no fake illustrations)
@@ -111,7 +114,8 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
     badgeColor = "bg-highlight";
   }
 
-  const isProFeatured = listing.featured || listing.comped || planPriority >= 3;
+  const isProFeatured =
+    showPaidBadges && (listing.featured || listing.comped || planPriority >= 3);
 
   // Determine if listing is paid/claimed for subtle contrast
   const isPaidClaimed =
@@ -129,8 +133,8 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
   // 16D: Badge Economy - limit badges by tier
   // Determine badge states (using canonical fields only)
   const isVerified = listing.trust_level === "verified";
-  const isFeatured = !!listing.featured;
-  const isProBadge = isPro || !!listing.comped;
+  const isFeatured = showPaidBadges && !!listing.featured;
+  const isProBadge = showPaidBadges && (isPro || !!listing.comped);
 
   const getMaxBadges = (): number => {
     if (isPro) return 2; // Max 2 badges (Verified + Pro)
@@ -164,33 +168,11 @@ export async function ListingCard({ listing, className }: ListingCardProps) {
             fill
             className="object-cover"
           />
-
-          {/* Badges Overlay - Top-left placement */}
-          <div className="absolute left-3 top-3 flex gap-2">
-            <BadgeStack
-              verified={isVerified}
-              featured={isFeatured}
-              pro={isProBadge}
-              maxBadges={maxBadges}
-            />
-          </div>
         </div>
       )}
 
-      {/* Badges for listings without images (shown in content area) */}
-      {!isFree && !listing.profile_image && (
-        <div className="p-4 pb-2">
-          <BadgeStack
-            verified={isVerified}
-            featured={isFeatured}
-            pro={isProBadge}
-            maxBadges={maxBadges}
-          />
-        </div>
-      )}
-
-      {/* 16A: Free listings - show badges in content area instead */}
-      {isFree && (isVerified || isFeatured || isProBadge) && (
+      {/* Badge row (never overlays image) */}
+      {(isVerified || isFeatured || isProBadge) && (
         <div className="p-4 pb-2">
           <BadgeStack
             verified={isVerified}

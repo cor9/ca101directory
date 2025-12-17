@@ -14,6 +14,7 @@ type ContactActionsProps = {
   listingId: string;
   website?: string | null;
   email?: string | null;
+  listingType?: string | null;
   /** Listing plan tier (e.g., "free", "standard", "pro") */
   plan?: string | null;
   /** Whether the listing is comped (treated as Pro) */
@@ -38,6 +39,7 @@ export function ContactActions({
   listingId,
   website,
   email,
+  listingType,
   plan,
   comped,
   variant = "hero",
@@ -46,7 +48,7 @@ export function ContactActions({
   // Get tier-based capabilities for contact display
   // Gating is based on LISTING tier (what vendor pays), not viewer
   const listingTier = normalizeListingTier(plan, comped);
-  const capabilities = getListingCapabilities(listingTier);
+  const capabilities = getListingCapabilities(listingTier, {}, listingType);
 
   const trackContact = useCallback(() => {
     void fetch("/api/listing/track-contact", {
@@ -84,13 +86,36 @@ export function ContactActions({
   );
 
   // Determine what to show based on tier
+  const isIndustryPro = listingType === "INDUSTRY_PRO";
   const isPro = listingTier === "pro" || listingTier === "premium";
   const isStandard = listingTier === "standard" || isPro;
 
   return (
     <div className={clsx("flex flex-wrap items-center gap-3", className)}>
       {/* PRIMARY CTA */}
-      {isPro && email ? (
+      {isIndustryPro && website ? (
+        // INDUSTRY_PRO: Primary is Visit Website
+        <a
+          href={website}
+          target="_blank"
+          rel="noreferrer"
+          className={primaryClass}
+          onClick={trackContact}
+        >
+          <Globe className="w-4 h-4" />
+          Visit Website
+        </a>
+      ) : isIndustryPro && email ? (
+        // INDUSTRY_PRO fallback: Email
+        <a
+          href={`mailto:${email}`}
+          className={primaryClass}
+          onClick={trackContact}
+        >
+          <Mail className="w-4 h-4" />
+          Email
+        </a>
+      ) : isPro && email ? (
         // Pro: Primary is Contact (mailto)
         <a
           href={`mailto:${email}`}
@@ -115,6 +140,18 @@ export function ContactActions({
       ) : null}
 
       {/* SECONDARY CTA - only show if primary exists and this is different */}
+      {isIndustryPro && email && website && (
+        // INDUSTRY_PRO: Secondary is Email
+        <a
+          href={`mailto:${email}`}
+          className={secondaryClass}
+          onClick={trackContact}
+        >
+          <Mail className="w-4 h-4" />
+          Email
+        </a>
+      )}
+
       {isPro && email && website && (
         <a
           href={website}

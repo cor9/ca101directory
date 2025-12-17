@@ -1552,3 +1552,30 @@ Keep the vibe, reduce harsh contrast and dense text.
 **Commit:** Dark-mode readability tune-up
 **Status:** ✅ Pushed to main
 
+---
+
+## 🧭 Listing Types (SERVICE_VENDOR / INDUSTRY_PRO / REGULATED_PRO)
+
+### Goal
+Separate reps + regulated roles from normal service vendors so the directory doesn’t apply “vendor monetization” patterns to agents/managers.
+
+### Backend
+- **Migration:** `supabase/migrations/add_listing_type.sql`
+  - Adds `public.listing_type` enum: `SERVICE_VENDOR`, `INDUSTRY_PRO`, `REGULATED_PRO`
+  - Adds `listings.listing_type` with default `SERVICE_VENDOR`
+  - Best-effort backfill based on categories (adapt if your schema uses slugs)
+  - Adds index `listings_listing_type_idx`
+
+### Frontend
+1. **Shared helpers**: `src/lib/listings/listingType.ts`
+2. **Types + mapping**:
+   - `Listing` now includes `listing_type`
+   - `ItemInfo` now includes `listingType`
+   - `listingToItem()` passes through `listing_type`
+3. **Card rules**:
+   - `INDUSTRY_PRO` hides **Pro/Featured** badges
+   - Badge rows do **not** overlay images (no covering faces)
+4. **Detail rules**:
+   - `INDUSTRY_PRO` hides pricing section and upgrade prompts
+   - Contact is not paywalled for reps (website/email/phone clickable)
+

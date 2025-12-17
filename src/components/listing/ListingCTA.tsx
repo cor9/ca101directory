@@ -26,6 +26,7 @@ export function ListingCTA({ listing, slug }: ListingCTAProps) {
             listingId={listing.id}
             website={listing.website}
             email={listing.email}
+            listingType={listing.listing_type}
             plan={listing.plan}
             comped={listing.comped}
           />

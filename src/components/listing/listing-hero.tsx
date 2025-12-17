@@ -32,7 +32,7 @@ export function ListingHero({
   // Get tier-based capabilities for contact display
   // Gating is based on LISTING tier (what vendor pays), not viewer
   const listingTier = normalizeListingTier(listing.plan, listing.comped);
-  const capabilities = getListingCapabilities(listingTier);
+  const capabilities = getListingCapabilities(listingTier, {}, listing.listing_type);
 
   return (
     <section className="listing-card-transparent">

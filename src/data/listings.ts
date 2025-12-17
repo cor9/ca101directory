@@ -141,6 +141,9 @@ export type Listing = {
   price_range_max: number | null;
   free_consult: boolean | null;
 
+  // Listing type: SERVICE_VENDOR, INDUSTRY_PRO, REGULATED_PRO
+  listing_type: "SERVICE_VENDOR" | "INDUSTRY_PRO" | "REGULATED_PRO" | null;
+
   // Faceted taxonomy
   technique_focus: string[] | null;
   beginner_friendly: boolean | null;

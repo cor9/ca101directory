@@ -366,14 +366,30 @@ export default async function AdminListingsPage({
 
                     {/* ZONE 1: Identity (left, dominant) */}
                     <div className="flex-1 min-w-0 pl-6">
-                      <h3 className="text-lg font-semibold text-paper line-clamp-1">
-                        {listing.listing_name || "Untitled Listing"}
-                      </h3>
-                      <p className="text-sm text-neutral-400 mt-0.5">
-                        {[listing.city, listing.state]
-                          .filter(Boolean)
-                          .join(", ") || "—"}
-                      </p>
+                      <Link
+                        href={`/listing/${
+                          listing.slug ||
+                          (
+                            listing.listing_name
+                              ?.toLowerCase()
+                              .replace(/\s+/g, "-")
+                              .replace(/[^a-z0-9-]/g, "")
+                          ) ||
+                          listing.id
+                        }`}
+                        className="block group"
+                      >
+                        <h3 className="text-lg font-semibold text-paper line-clamp-1 group-hover:underline underline-offset-4">
+                          {listing.listing_name || "Untitled Listing"}
+                        </h3>
+                        <p className="text-sm text-neutral-400 mt-0.5 line-clamp-1">
+                          {Array.isArray(listing.categories) && listing.categories[0]
+                            ? listing.categories[0]
+                            : "—"}
+                          <span className="mx-2 text-neutral-600">•</span>
+                          {[listing.city, listing.state].filter(Boolean).join(", ") || "—"}
+                        </p>
+                      </Link>
                       <p className="text-xs text-neutral-500 mt-0.5">
                         {listing.email || "No email"}
                       </p>

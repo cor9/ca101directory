@@ -424,7 +424,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
     const showFavorite = isFavoritesEnabled() && !isOwner;
     const hasPremiumAccess = (listing.plan || "").toLowerCase() !== "free";
-    const showUpgradePrompt = !hasPremiumAccess;
+    const isIndustryPro = listing.listing_type === "INDUSTRY_PRO";
+    const showUpgradePrompt = !hasPremiumAccess && !isIndustryPro;
     const showClaimCallout =
       !listing.is_claimed && !isOwner && !listing.owner_id;
     const displayPrimaryCategory =
@@ -658,10 +659,11 @@ export default async function ListingPage({ params }: ListingPageProps) {
               {/* ZONE 3: EXPLORATION - Related listings (full width, always last) */}
               <div className="mt-16 space-y-12">
 
-                {/* 16C: Competitive Context for Free listings */}
-                {(!listing.plan ||
-                  listing.plan === "Free" ||
-                  listing.plan === null) && (
+                {/* 16C: Competitive Context for Free listings (not for INDUSTRY_PRO) */}
+                {!isIndustryPro &&
+                  (!listing.plan ||
+                    listing.plan === "Free" ||
+                    listing.plan === null) && (
                   <section className="pt-10 border-t border-white/10">
                     <p className="text-sm text-text-secondary mb-6">
                       Families typically contact 2–3 providers before deciding.
@@ -701,7 +703,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                 )}
 
                 {/* Recommended Providers Module - for paid listings */}
-                {listing.plan &&
+                {!isIndustryPro &&
+                  listing.plan &&
                   listing.plan !== "Free" &&
                   listing.plan !== null &&
                   recommendedItems.length > 0 && (
@@ -726,6 +729,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
               listingId={listing.id}
               website={listing.website}
               email={listing.email}
+              listingType={listing.listing_type}
               plan={listing.plan}
               comped={listing.comped}
               variant="mobile"

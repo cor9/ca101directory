@@ -97,6 +97,10 @@ export type ItemInfo = {
   state?: string | null;
   logoUrl?: string | null;
   serviceModality?: 'virtual' | 'in_person' | 'hybrid' | 'unknown';
+  listingType?: "SERVICE_VENDOR" | "INDUSTRY_PRO" | "REGULATED_PRO" | null;
+  email?: string | null;
+  phone?: string | null;
+  website?: string | null;
 };
 
 // ItemFullInfo has more fields (eg. introduction and related items)

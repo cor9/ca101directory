@@ -28,6 +28,35 @@ const AGE_GROUP_OPTIONS = [
   { value: "young_adults", label: "18+" },
 ] as const;
 
+const TECHNIQUE_OPTIONS = [
+  { value: "meisner", label: "Meisner" },
+  { value: "method", label: "Method" },
+  { value: "improv", label: "Improv" },
+  { value: "classical", label: "Classical" },
+] as const;
+
+const UNION_STATUS_OPTIONS = [
+  { value: "", label: "Any" },
+  { value: "sag_aftra", label: "SAG-AFTRA" },
+  { value: "non_union", label: "Non-Union" },
+  { value: "both", label: "Both" },
+] as const;
+
+// Categories that support technique focus filter
+const TECHNIQUE_CATEGORIES = [
+  "Acting Classes & Coaches",
+  "Acting Schools",
+  "Acting Camps",
+  "Casting Workshops",
+];
+
+// Categories that support union status filter
+const UNION_CATEGORIES = [
+  "Talent Managers",
+  "Talent Agents",
+  "Casting Workshops",
+];
+
 interface DirectoryHeroSearchProps {
   categories: Array<{ id: string; category_name: string }>;
 }
@@ -48,7 +77,24 @@ export default function DirectoryHeroSearch({
     return param ? param.split(",") : [];
   });
   const [priceMax, setPriceMax] = useState(searchParams?.get("price_max") || "");
+  const [beginnerFriendly, setBeginnerFriendly] = useState(searchParams?.get("beginner_friendly") === "true");
+  const [techniqueFocus, setTechniqueFocus] = useState<string[]>(() => {
+    const param = searchParams?.get("technique_focus");
+    return param ? param.split(",") : [];
+  });
+  const [unionStatus, setUnionStatus] = useState(searchParams?.get("union_status") || "");
   const [locating, setLocating] = useState(false);
+
+  // Get selected category name for conditional filter display
+  const selectedCategoryName = categories.find(c => c.id === category)?.category_name || "";
+  const showTechniqueFilter = TECHNIQUE_CATEGORIES.some(tc => selectedCategoryName.includes(tc) || tc.includes(selectedCategoryName));
+  const showUnionFilter = UNION_CATEGORIES.some(uc => selectedCategoryName.includes(uc) || uc.includes(selectedCategoryName));
+
+  const toggleTechnique = (value: string) => {
+    setTechniqueFocus((prev) =>
+      prev.includes(value) ? prev.filter((t) => t !== value) : [...prev, value]
+    );
+  };
 
   const toggleAgeGroup = (value: string) => {
     setAgeGroups((prev) =>
@@ -67,6 +113,9 @@ export default function DirectoryHeroSearch({
     if (onlineAvailable) params.set("online_available", "true");
     if (ageGroups.length > 0) params.set("age_groups", ageGroups.join(","));
     if (priceMax) params.set("price_max", priceMax);
+    if (beginnerFriendly) params.set("beginner_friendly", "true");
+    if (techniqueFocus.length > 0) params.set("technique_focus", techniqueFocus.join(","));
+    if (unionStatus) params.set("union_status", unionStatus);
 
     const queryString = params.toString();
     router.push(`/directory${queryString ? `?${queryString}` : ""}`);
@@ -308,6 +357,78 @@ export default function DirectoryHeroSearch({
               </div>
             </div>
           </div>
+
+          {/* Conditional Faceted Filters - only show when relevant category selected */}
+          {(showTechniqueFilter || showUnionFilter || category) && (
+            <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+              {/* Beginner Friendly Toggle - always show when category selected */}
+              {category && category !== "all" && (
+                <div className="flex items-end">
+                  <button
+                    type="button"
+                    onClick={() => setBeginnerFriendly(!beginnerFriendly)}
+                    className={`h-10 w-full flex items-center justify-center gap-2 rounded-lg border transition-colors ${
+                      beginnerFriendly
+                        ? "bg-sky-500/90 border-sky-400 text-white"
+                        : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                    }`}
+                  >
+                    <span className="text-sm font-medium">Beginner Friendly</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Technique Focus - only for acting/coaching categories */}
+              {showTechniqueFilter && (
+                <div>
+                  <label className="text-xs font-medium text-white/60 mb-2 block">
+                    Technique Focus
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {TECHNIQUE_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => toggleTechnique(opt.value)}
+                        className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors ${
+                          techniqueFocus.includes(opt.value)
+                            ? "bg-purple-500/90 border-purple-400 text-white"
+                            : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Union Status - only for talent rep categories */}
+              {showUnionFilter && (
+                <div>
+                  <label className="text-xs font-medium text-white/60 mb-2 block">
+                    Union Status
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {UNION_STATUS_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => setUnionStatus(opt.value)}
+                        className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors ${
+                          unionStatus === opt.value
+                            ? "bg-amber-500/90 border-amber-400 text-white"
+                            : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Search Button */}
           <div className="mt-4 flex justify-center">

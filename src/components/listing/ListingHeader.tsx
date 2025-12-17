@@ -31,7 +31,7 @@ export function ListingHeader({
     : (listing as any).hero_image_url || (listing as any).logo_url || null;
 
   return (
-    <div className="bg-[#0C1A2B] text-white py-10 pb-14">
+    <div className="bg-bg-2 text-text-primary py-10 pb-14">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
           {/* Logo / Hero Image */}
@@ -55,7 +55,7 @@ export function ListingHeader({
               {listing.listing_name || "Listing"}
             </h1>
 
-            <p className="text-sm text-slate-200 mb-3">
+            <p className="text-sm text-text-secondary mb-3">
               {category}
               {location ? ` • ${location}` : ""}
               {hasVirtualOption ? " • Online" : ""}

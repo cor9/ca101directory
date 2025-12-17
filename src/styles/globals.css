@@ -10,6 +10,17 @@
   a {
     @apply text-text-secondary hover:text-text-primary transition-colors;
   }
+
+  /* Improved line-height for long-form text (bios, descriptions) */
+  p {
+    line-height: 1.7;
+  }
+
+  /* Use softer text defaults for better dark mode readability */
+  .prose {
+    --tw-prose-body: theme(colors.text.secondary);
+    --tw-prose-headings: theme(colors.text.primary);
+  }
 }
 
 @layer components {

@@ -135,9 +135,9 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
   const maxBadges = getMaxBadges();
 
   return (
-    <article className="bg-white rounded-xl p-5 shadow-md border hover:shadow-lg transition relative">
+    <article className="bg-bg-2 rounded-xl p-5 shadow-card border border-border-subtle hover:shadow-cardHover transition relative">
       {heroImage && (
-        <div className="mb-4 h-40 w-full overflow-hidden rounded-lg bg-slate-100 relative">
+        <div className="mb-4 h-40 w-full overflow-hidden rounded-lg bg-bg-3 relative">
           <Image
             src={heroImage}
             alt={`${item.name} logo`}
@@ -174,11 +174,11 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
           <p className="text-sm font-semibold text-orange-600 mb-1">
             {firstCategory || "Featured Provider"}
           </p>
-          <h3 className="font-bold text-slate-900 text-lg leading-tight line-clamp-2">
+          <h3 className="font-bold text-text-primary text-lg leading-tight line-clamp-2">
             {item.name}
           </h3>
           {locationLabel ? (
-            <p className="text-sm text-paper/70 mt-1">{locationLabel}</p>
+            <p className="text-sm text-text-muted mt-1">{locationLabel}</p>
           ) : null}
         </div>
 
@@ -193,7 +193,7 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
       </div>
 
       {item.description && (
-        <p className="mt-3 line-clamp-3 text-sm text-slate-700">
+        <p className="mt-3 line-clamp-3 text-sm text-text-secondary leading-relaxed">
           {item.description}
         </p>
       )}
@@ -219,7 +219,7 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
           {ageRanges.slice(0, 4).map((age) => (
             <span
               key={age}
-              className="rounded-full bg-[#7AB8CC]/20 px-2 py-0.5 text-[11px] font-semibold text-slate-800"
+              className="rounded-full bg-accent-aqua/20 px-2 py-0.5 text-[11px] font-semibold text-text-secondary"
             >
               {age}
             </span>
@@ -232,13 +232,13 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
           {item.categories.slice(1, 4).map((c) => (
             <span
               key={c._id}
-              className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-700"
+              className="rounded-full bg-white/10 px-2 py-0.5 text-[11px] font-medium text-text-secondary"
             >
               {c.name}
             </span>
           ))}
           {item.categories.length > 4 && (
-            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-500">
+            <span className="rounded-full bg-white/10 px-2 py-0.5 text-[11px] font-medium text-text-muted">
               +{item.categories.length - 4} more
             </span>
           )}

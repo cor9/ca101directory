@@ -36,11 +36,11 @@ const config: Config = {
           subtle: "rgba(255,255,255,0.08)",
         },
 
-        /* Text */
+        /* Text - softened for dark mode readability */
         text: {
-          primary: "#FFFFFF",
-          secondary: "#D1D5DB",
-          muted: "#A0A3A9",
+          primary: "#F5F5F5",    // off-white, easier on eyes
+          secondary: "#C4C8CE", // softer than pure gray
+          muted: "#9DA3AB",
         },
 
         /* Accents - ONE canonical system (Patreon-style) */

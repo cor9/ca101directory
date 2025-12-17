@@ -1,6 +1,6 @@
 -- Add faceted taxonomy fields to listings table
 
-ALTER TABLE listings 
+ALTER TABLE listings
 ADD COLUMN IF NOT EXISTS technique_focus TEXT[] DEFAULT '{}',
 ADD COLUMN IF NOT EXISTS beginner_friendly BOOLEAN DEFAULT false,
 ADD COLUMN IF NOT EXISTS union_status TEXT NULL;

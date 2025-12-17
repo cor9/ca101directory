@@ -312,15 +312,25 @@ const getPublicListingsInternal = async (params?: {
     }
   }
 
-  if (searchTerms.length > 0)
-    query = query.or(
-      [
-        `listing_name.ilike.%${params.q}%`,
-        `what_you_offer.ilike.%${params.q}%`,
+  if (searchTerms.length > 0) {
+    // Build OR conditions for all search terms (original + synonyms)
+    const conditions: string[] = [];
+    for (const term of searchTerms) {
+      conditions.push(
+        `listing_name.ilike.%${term}%`,
+        `what_you_offer.ilike.%${term}%`,
+        `categories.cs.{"${term}"}`,
+      );
+    }
+    // Add location search only for original query
+    if (params?.q) {
+      conditions.push(
         `city.ilike.%${params.q}%`,
         `state.ilike.%${params.q}%`,
-      ].join(","),
-    );
+      );
+    }
+    query = query.or(conditions.join(","));
+  }
 
   // Only show approved/active listings (using new boolean fields)
   // Accept legacy/new statuses and treat null is_active as public

@@ -1,7 +1,36 @@
 # Cursor Session Log - January 25, 2025
 
 ## Session Summary
-Fixed critical email sending issues, implemented "Resend Claim Email" functionality, and created vendor import templates for bulk free listing management.
+Fixed critical email sending issues, implemented "Resend Claim Email" functionality, created vendor import templates for bulk free listing management, and added Online Available filter with modality pills.
+
+---
+
+## 🌐 PR 4: Online Available Filter + Modality Pill
+
+### Backend
+- **Migration:** `supabase/migrations/add_service_modality.sql`
+  - Added `service_modality` column: `virtual`, `in_person`, `hybrid`, `unknown` (default)
+  - **Note:** Run manually on CA101 Supabase project
+
+### Frontend
+1. **Filter Toggle** (`DirectoryHeroSearch.tsx`)
+   - Added "Online Available" toggle button (emerald when active)
+   - Filters for `virtual` + `hybrid` modalities
+
+2. **Query Logic** (`listings.ts`)
+   - Added `online_available` param to `getPublicListingsInternal`
+   - Filters with `.in("service_modality", ["virtual", "hybrid"])`
+
+3. **Modality Pill** (`ListingCardClient.tsx`)
+   - Displays below header on listing cards
+   - Virtual = emerald, In-Person = blue, Hybrid = purple
+   - Hidden when `unknown`
+
+4. **Types**
+   - Added `service_modality` to `Listing` type
+   - Added `serviceModality` to `ItemInfo` type
+
+**Commit:** `1be1b080` - feat: Add Online Available filter + modality pill
 
 ---
 

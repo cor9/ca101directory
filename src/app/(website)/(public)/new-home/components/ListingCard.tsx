@@ -5,6 +5,7 @@ import Link from "next/link";
 import { MapPin, Star } from "lucide-react";
 import { ProfileVerifiedBadge } from "@/components/badges/ProfileVerifiedBadge";
 import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
+import { AgeGroupPills } from "@/components/listing/AgeGroupPills";
 
 interface ListingCardProps {
   listing: {
@@ -45,6 +46,8 @@ interface ListingCardProps {
     review_count?: number;
 
     tags?: string[];
+
+    age_groups?: string[] | null;
   };
 
   variant?: "default" | "compact" | "featured";
@@ -156,6 +159,7 @@ export default function ListingCard({
               </h3>
 
               <p className="text-sm text-accent-blue mt-1">{listingCategory}</p>
+              <AgeGroupPills ageGroups={listing.age_groups} maxPills={3} className="mt-2" />
             </div>
 
             {listing.rating && (
@@ -247,6 +251,8 @@ export default function ListingCard({
         </h3>
 
         <p className="text-sm text-accent-blue mt-0.5">{listingCategory}</p>
+
+        <AgeGroupPills ageGroups={listing.age_groups} maxPills={3} className="mt-1" />
 
         {listingLocation && (
           <div className="flex items-center gap-1 mt-2 text-xs text-text-muted">

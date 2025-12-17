@@ -3,6 +3,7 @@
 import { BadgeStack } from "@/components/badges/StatusBadge";
 import { ProfileVerifiedBadge } from "@/components/badges/ProfileVerifiedBadge";
 import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
+import { AgeGroupPills } from "@/components/listing/AgeGroupPills";
 import { MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -28,6 +29,7 @@ interface ListingCardProps {
     rating?: number;
     review_count?: number;
     tags?: string[];
+    age_groups?: string[] | null;
   };
   variant?: "default" | "compact" | "featured";
 }
@@ -133,6 +135,8 @@ export default function ListingCard({
           </h3>
           <p className="text-sm text-accent-blue mt-1">{category}</p>
 
+          <AgeGroupPills ageGroups={listing.age_groups} maxPills={3} className="mt-2" />
+
           {/* Rating */}
           {listing.rating && (
             <div className="flex items-center gap-1 mt-2">
@@ -216,6 +220,8 @@ export default function ListingCard({
         </h3>
 
         <p className="text-sm text-accent-blue font-medium">{category}</p>
+
+        <AgeGroupPills ageGroups={listing.age_groups} maxPills={3} />
 
         {location && (
           <div className="flex items-center gap-1 text-xs text-text-secondary">

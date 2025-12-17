@@ -131,6 +131,9 @@ export type Listing = {
 
   // Service modality: virtual, in_person, hybrid, unknown
   service_modality: 'virtual' | 'in_person' | 'hybrid' | 'unknown';
+
+  // Age groups: tots, tweens, teens, young_adults
+  age_groups: string[] | null;
 };
 
 /**

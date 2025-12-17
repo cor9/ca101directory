@@ -37,26 +37,24 @@ export default function FeaturedListingsClient({
             listing.isFallback ? listing.website : `/listing/${listing.slug}`
           }
           target={listing.isFallback ? "_blank" : undefined}
-          className="group card-surface rounded-xl overflow-hidden hover:shadow-cardHover transition-all duration-300 hover:-translate-y-1"
+          className="group block overflow-hidden rounded-2xl border border-white/10 bg-[#1a2332] shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
         >
-          <div className="relative aspect-[16/9] w-full bg-bg-2">
+          <div className="relative aspect-[16/9] w-full bg-slate-800">
             <Image
               src={listing.image}
               alt={listing.name}
               fill
               className="object-cover"
             />
-            {listing.featured && (
-              <div className="absolute top-3 left-3">
-                <span className="px-2 py-1 text-xs font-semibold rounded-md bg-accent-purple text-bg-dark">
-                  Featured
-                </span>
-              </div>
-            )}
           </div>
 
           <div className="p-4">
             <div className="flex items-center gap-2 mb-2">
+              {listing.featured && (
+                <span className="px-2 py-0.5 text-[10px] font-semibold rounded bg-amber-500 text-slate-900">
+                  Featured
+                </span>
+              )}
               <Icons.star className="h-3.5 w-3.5 text-text-muted" />
               <span className="text-xs text-text-muted font-medium">
                 {listing.category}

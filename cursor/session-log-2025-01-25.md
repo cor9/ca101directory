@@ -64,6 +64,37 @@ Fixed critical email sending issues, implemented "Resend Claim Email" functional
 
 ---
 
+## 🏷️ PR 8 & 9 (Part 2): Faceted Taxonomy + Search Synonyms
+
+### Backend
+- **Migration:** `supabase/migrations/add_faceted_taxonomy.sql`
+  - `technique_focus` TEXT[] DEFAULT '{}'
+  - `beginner_friendly` BOOLEAN DEFAULT false
+  - `union_status` TEXT NULL
+
+### Search Synonym Mapping
+```
+"rep" / "reps" → agent, manager
+"pics" / "headshots" → headshot, photographer
+"self tape help" / "selftape" → self tape, self-tape
+```
+
+### Frontend Filters (conditional by category)
+1. **Beginner Friendly** toggle (sky blue when active)
+   - Shows when any category is selected
+
+2. **Technique Focus** multi-select (purple)
+   - Meisner, Method, Improv, Classical
+   - Shows for: Acting Classes & Coaches, Acting Schools, Acting Camps, Casting Workshops
+
+3. **Union Status** select (amber)
+   - SAG-AFTRA, Non-Union, Both
+   - Shows for: Talent Managers, Talent Agents, Casting Workshops
+
+**Commit:** `e7c191af` - feat: Add faceted taxonomy filters + search synonyms
+
+---
+
 ## 🐛 Critical Fixes
 
 ### 1. Email Sending Failure - `RESEND_EMAIL_FROM` Invalid
@@ -1481,5 +1512,43 @@ Directory becomes mentor, not phone book.
 - Different styling per tip type
 
 **Commit:** `7a5f9d1a` - feat: Add micro-learning tip cards per category
+**Status:** ✅ Pushed to main
+
+---
+
+## 🌙 PR 10: Dark-mode readability tune-up
+
+### Goal
+Keep the vibe, reduce harsh contrast and dense text.
+
+### Changes
+
+1. **`tailwind.config.ts`** - Softened text colors:
+   - `text-primary`: `#FFFFFF` → `#F5F5F5` (off-white)
+   - `text-secondary`: `#D1D5DB` → `#C4C8CE` (softer gray)
+   - `text-muted`: `#A0A3A9` → `#9DA3AB`
+
+2. **`src/styles/globals.css`**:
+   - Added `line-height: 1.7` for `<p>` tags (better bio readability)
+   - Added prose text color variables for dark mode
+
+3. **`src/components/listing/ListingHeader.tsx`**:
+   - Changed `bg-[#0C1A2B]` → `bg-bg-2` (use tokens)
+   - Changed `text-white` → `text-text-primary`
+   - Changed `text-slate-200` → `text-text-secondary`
+
+4. **`src/components/directory/ListingCardClient.tsx`**:
+   - Changed `bg-white` → `bg-bg-2` (dark card)
+   - Changed `text-slate-900` → `text-text-primary`
+   - Changed `text-slate-700` → `text-text-secondary`
+   - Added `leading-relaxed` to description text
+   - Updated pills to use dark-mode-friendly tokens
+
+### Result
+- No color regressions (buttons/accents unchanged)
+- Text-heavy areas now easier on the eyes
+- Proper use of design tokens throughout
+
+**Commit:** Dark-mode readability tune-up
 **Status:** ✅ Pushed to main
 

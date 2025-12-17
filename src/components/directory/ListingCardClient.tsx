@@ -135,31 +135,29 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
   const maxBadges = getMaxBadges();
 
   return (
-    <article className="bg-bg-2 rounded-xl p-5 shadow-card border border-border-subtle hover:shadow-cardHover transition relative">
-      {heroImage && (
-        <div className="mb-4 h-40 w-full overflow-hidden rounded-lg bg-bg-3 relative">
+    <article className="rounded-2xl border border-slate-200 bg-[#FAFAF7] text-slate-900 shadow-sm hover:shadow-lg hover:border-slate-300 transition p-5 relative">
+      {/* Hero block - always rendered */}
+      <div className="mb-4 h-40 w-full overflow-hidden rounded-xl relative bg-slate-100 border border-slate-200">
+        {heroImage ? (
           <Image
             src={heroImage}
             alt={`${item.name} logo`}
             fill
             className="object-cover"
           />
-
-          {/* Badges Overlay - Top-left placement */}
-          <div className="absolute left-3 top-3 flex gap-2">
-            <BadgeStack
-              verified={isVerified}
-              featured={isFeatured}
-              pro={isPro}
-              maxBadges={maxBadges}
-            />
+        ) : (
+          /* Category icon placeholder when no image */
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 shadow-sm">
+              <span className="text-sm font-medium text-slate-600">
+                {firstCategory || "Provider"}
+              </span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Badges for listings without images (shown in content area) */}
-      {!heroImage && (isVerified || isFeatured || isPro) && (
-        <div className="mb-3">
+        {/* Badges Overlay - Top-left placement */}
+        <div className="absolute left-3 top-3 flex gap-2">
           <BadgeStack
             verified={isVerified}
             featured={isFeatured}
@@ -167,18 +165,18 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
             maxBadges={maxBadges}
           />
         </div>
-      )}
+      </div>
 
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-sm font-semibold text-orange-600 mb-1">
             {firstCategory || "Featured Provider"}
           </p>
-          <h3 className="font-bold text-text-primary text-lg leading-tight line-clamp-2">
+          <h3 className="font-bold text-slate-900 text-lg leading-tight line-clamp-2">
             {item.name}
           </h3>
           {locationLabel ? (
-            <p className="text-sm text-text-muted mt-1">{locationLabel}</p>
+            <p className="text-sm text-slate-500 mt-1">{locationLabel}</p>
           ) : null}
         </div>
 
@@ -193,7 +191,7 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
       </div>
 
       {item.description && (
-        <p className="mt-3 line-clamp-3 text-sm text-text-secondary leading-relaxed">
+        <p className="mt-3 line-clamp-3 text-sm text-slate-600 leading-relaxed">
           {item.description}
         </p>
       )}
@@ -219,7 +217,7 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
           {ageRanges.slice(0, 4).map((age) => (
             <span
               key={age}
-              className="rounded-full bg-accent-aqua/20 px-2 py-0.5 text-[11px] font-semibold text-text-secondary"
+              className="rounded-full bg-sky-100 px-2 py-0.5 text-[11px] font-semibold text-slate-700"
             >
               {age}
             </span>
@@ -232,13 +230,13 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
           {item.categories.slice(1, 4).map((c) => (
             <span
               key={c._id}
-              className="rounded-full bg-white/10 px-2 py-0.5 text-[11px] font-medium text-text-secondary"
+              className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-600"
             >
               {c.name}
             </span>
           ))}
           {item.categories.length > 4 && (
-            <span className="rounded-full bg-white/10 px-2 py-0.5 text-[11px] font-medium text-text-muted">
+            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-500">
               +{item.categories.length - 4} more
             </span>
           )}

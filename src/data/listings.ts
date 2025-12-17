@@ -140,7 +140,7 @@ export type Listing = {
   price_range_min: number | null;
   price_range_max: number | null;
   free_consult: boolean | null;
-  
+
   // Faceted taxonomy
   technique_focus: string[] | null;
   beginner_friendly: boolean | null;
@@ -294,7 +294,7 @@ const getPublicListingsInternal = async (params?: {
   if (params?.q) {
     const q = params.q.toLowerCase().trim();
     searchTerms.push(params.q);
-    
+
     // Synonym mappings
     const synonyms: Record<string, string[]> = {
       "rep": ["agent", "manager"],
@@ -304,7 +304,7 @@ const getPublicListingsInternal = async (params?: {
       "self tape help": ["self tape", "self-tape"],
       "selftape": ["self tape", "self-tape"],
     };
-    
+
     for (const [key, values] of Object.entries(synonyms)) {
       if (q.includes(key)) {
         searchTerms.push(...values);

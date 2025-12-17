@@ -128,7 +128,7 @@ export type Listing = {
   // Profile verification fields
   profile_verified: boolean | null;
   profile_verified_at: string | null;
-  
+
   // Service modality: virtual, in_person, hybrid, unknown
   service_modality: 'virtual' | 'in_person' | 'hybrid' | 'unknown';
 };

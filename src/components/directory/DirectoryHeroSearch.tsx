@@ -220,8 +220,8 @@ export default function DirectoryHeroSearch({
                 type="button"
                 onClick={() => setOnlineAvailable(!onlineAvailable)}
                 className={`h-11 w-full flex items-center justify-center gap-2 rounded-lg border transition-colors ${
-                  onlineAvailable 
-                    ? "bg-emerald-500/90 border-emerald-400 text-white" 
+                  onlineAvailable
+                    ? "bg-emerald-500/90 border-emerald-400 text-white"
                     : "bg-white/10 border-white/30 text-white hover:bg-white/20"
                 }`}
               >

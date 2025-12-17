@@ -1298,3 +1298,32 @@ Replace generic blank avatars with category icons + labels when no logo exists.
 **Commit:** `d97108e7` - feat: Replace generic avatars with category-based branded icons
 **Status:** ✅ Pushed to main
 
+---
+
+## PR 5 — Add "Virtual first" sort option
+
+### Goal
+One-click option to prioritize remote-friendly vendors in search results.
+
+### Changes
+
+1. **`src/lib/constants.ts`**:
+   - Added `"virtual-first"` to `sortKey` type
+   - Added "Virtual first" option to `SORT_FILTER_LIST` (second position after default)
+
+2. **`src/data/item-service.ts`**:
+   - Added `isVirtualFirst` handling in sort logic
+   - Groups `virtual` and `hybrid` listings first, then `in_person`/`unknown`
+   - Preserves original ordering within each group (stable grouping)
+   - Added `serviceModality` to `ItemInfo` mapping
+
+3. **`supabase/migrations/add_service_modality.sql`** - Migration for service_modality column
+
+### Behavior
+- Sort toggle appears in dropdown wherever `SORT_FILTER_LIST` is used
+- Selecting "Virtual first" prioritizes remote-friendly vendors
+- Default ranking unchanged
+
+**Commit:** `8bbcbfb0` - Add "Virtual first" sort option to prioritize remote-friendly vendors
+**Status:** ✅ Pushed to main
+

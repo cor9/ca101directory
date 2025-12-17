@@ -11,18 +11,24 @@ interface CategoryPlaceholderProps {
 const sizeClasses = {
   sm: {
     container: "w-16 h-16",
-    icon: "w-6 h-6",
-    text: "text-xs",
+    iconWrapper: "h-6 w-6",
+    icon: "w-3 h-3",
+    text: "text-[10px]",
+    badge: "px-2 py-1 gap-1.5",
   },
   md: {
     container: "w-full h-full min-h-[140px]",
-    icon: "w-10 h-10",
-    text: "text-sm",
+    iconWrapper: "h-7 w-7",
+    icon: "w-3.5 h-3.5",
+    text: "text-xs",
+    badge: "px-3 py-2 gap-2",
   },
   lg: {
     container: "w-full h-full min-h-[200px]",
-    icon: "w-14 h-14",
-    text: "text-base",
+    iconWrapper: "h-8 w-8",
+    icon: "w-4 h-4",
+    text: "text-sm",
+    badge: "px-4 py-2.5 gap-2",
   },
 };
 
@@ -38,19 +44,31 @@ export function CategoryPlaceholder({
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-accent-blue/20 to-accent-purple/20 rounded-lg",
+        "flex items-center justify-center bg-slate-100 rounded-lg",
         sizes.container,
         className
       )}
     >
-      <div className="p-3 rounded-full bg-white/5 border border-white/10">
-        <Icon className={cn("text-text-muted", sizes.icon)} />
-      </div>
-      {showLabel && category && (
-        <span className={cn("text-text-muted font-medium text-center px-2", sizes.text)}>
-          {category}
+      <div
+        className={cn(
+          "flex items-center rounded-full bg-white border border-slate-200 shadow-sm",
+          sizes.badge
+        )}
+      >
+        <span
+          className={cn(
+            "inline-flex items-center justify-center rounded-full bg-slate-900 text-white",
+            sizes.iconWrapper
+          )}
+        >
+          <Icon className={sizes.icon} />
         </span>
-      )}
+        {showLabel && category && (
+          <span className={cn("font-medium text-slate-800", sizes.text)}>
+            {category}
+          </span>
+        )}
+      </div>
     </div>
   );
 }

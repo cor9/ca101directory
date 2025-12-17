@@ -83,9 +83,33 @@ export const categoryIcons: Record<string, LucideIcon> = {
 export const DefaultCategoryIcon = Briefcase;
 
 /**
+ * Normalize category string for flexible matching
+ */
+function normalizeCategory(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+// Build normalized lookup map
+const normalizedCategoryIcons: Record<string, LucideIcon> = {};
+for (const [key, icon] of Object.entries(categoryIcons)) {
+  normalizedCategoryIcons[normalizeCategory(key)] = icon;
+}
+
+/**
  * Get the Lucide icon component for a category
+ * Handles variations in naming (slugs, display names, etc.)
  */
 export function getCategoryIcon(category: string | null | undefined): LucideIcon {
   if (!category) return DefaultCategoryIcon;
-  return categoryIcons[category] || DefaultCategoryIcon;
+  
+  // Try exact match first
+  if (categoryIcons[category]) return categoryIcons[category];
+  
+  // Try normalized match
+  const normalized = normalizeCategory(category);
+  return normalizedCategoryIcons[normalized] || DefaultCategoryIcon;
 }

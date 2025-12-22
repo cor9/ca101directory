@@ -9,7 +9,7 @@ import {
   CreateListingSchema,
   UpdateListingSchema,
 } from "@/lib/validations/listings";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import type { z } from "zod";
 
 /**
@@ -355,6 +355,8 @@ export async function updateListing(
     } else if (data?.id) {
       revalidatePath(`/listing/${data.id}`);
     }
+    // 4) Invalidate featured listings cache so image changes appear immediately
+    revalidateTag("featured-listings");
 
     return {
       status: "success",

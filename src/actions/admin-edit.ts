@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { createServerClient } from "@/lib/supabase";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export type AdminEditFormData = {
   listingId: string;
@@ -173,6 +173,8 @@ export async function adminUpdateListing(
     revalidatePath(`/listing/${data.id}`);
     revalidatePath("/");
     revalidatePath("/directory"); // Also revalidate directory page (shows featured listings)
+    // Invalidate featured listings cache so image changes appear immediately
+    revalidateTag("featured-listings");
 
     return {
       success: true,

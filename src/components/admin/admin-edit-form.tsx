@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 // Fix: Separated imports to pull `Listing` type from data layer and action/schema from the actions layer.
-import { updateListing } from "@/actions/listings";
+import { deleteListing, updateListing } from "@/actions/listings";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { getCategoriesClient } from "@/data/categories-client";
@@ -297,6 +297,40 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
     isSubmitting: form.formState.isSubmitting,
     isPending,
   });
+
+  const handleDelete = async () => {
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this listing? This action cannot be undone.",
+      )
+    ) {
+      return;
+    }
+
+    try {
+      startTransition(async () => {
+        const res = await deleteListing(listing.id);
+        if (res.status === "success") {
+          toast.success("Listing deleted successfully.");
+          if (onFinished) {
+            // Mock a successful update response to close the modal/refresh
+            onFinished({
+              status: "success",
+              message: "Listing deleted successfully.",
+              data: null,
+            });
+          } else {
+            router.push("/dashboard/admin/listings");
+          }
+        } else {
+          toast.error(res.message || "Failed to delete listing.");
+        }
+      });
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast.error("An unexpected error occurred.");
+    }
+  };
 
   const onSubmit = (values: FormInputType) => {
     setSubmitError(null);
@@ -1005,38 +1039,52 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
         </div>
       </div>
 
-      <div className="flex justify-end gap-2 pt-6 sticky bottom-0 bg-card py-4">
+      <div className="flex justify-between items-center pt-6 sticky bottom-0 bg-card py-4">
+        {/* Left Side: Delete */}
         <Button
           type="button"
-          variant="ghost"
-          onClick={() => {
-            if (onFinished) {
-              onFinished({ status: "error", message: "Update cancelled." });
-            } else {
-              router.push("/dashboard/admin/listings");
-            }
-          }}
+          variant="destructive"
+          onClick={handleDelete}
           disabled={isPending}
+          className="bg-red-600 hover:bg-red-700 text-white"
         >
-          Cancel
+          Delete Listing
         </Button>
-        <Button
-          type="submit"
-          disabled={
-            isPending ||
+
+        {/* Right Side: Cancel & Save */}
+        <div className="flex gap-2">
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => {
+              if (onFinished) {
+                onFinished({ status: "error", message: "Update cancelled." });
+              } else {
+                router.push("/dashboard/admin/listings");
+              }
+            }}
+            disabled={isPending}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            disabled={
+              isPending ||
+              isImageUploading ||
+              isLogoUploading ||
+              isGalleryUploading
+            }
+            onClick={() => console.log("Save Changes button clicked!")}
+          >
+            {isPending ||
             isImageUploading ||
             isLogoUploading ||
             isGalleryUploading
-          }
-          onClick={() => console.log("Save Changes button clicked!")}
-        >
-          {isPending ||
-          isImageUploading ||
-          isLogoUploading ||
-          isGalleryUploading
-            ? "Uploading..."
-            : "Save Changes"}
-        </Button>
+              ? "Uploading..."
+              : "Save Changes"}
+          </Button>
+        </div>
       </div>
     </form>
   );

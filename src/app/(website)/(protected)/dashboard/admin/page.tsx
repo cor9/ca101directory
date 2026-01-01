@@ -80,21 +80,29 @@ export default async function AdminDashboard() {
   const totalVendors = users?.filter((u) => u.role === "vendor").length || 0;
   const totalAdmins = users?.filter((u) => u.role === "admin").length || 0;
 
-  // Calculate revenue metrics
-  const proListings = allListings.filter(
+  // Filter listings for Analytics (Exclude Representation & Regulated)
+  const monetizationListings = allListings.filter((l) => {
+    const cats = l.categories || [];
+    const isExcluded = cats.some(
+      (c) =>
+        c.toLowerCase().includes("representation") ||
+        c.toLowerCase().includes("regulated"),
+    );
+    return !isExcluded;
+  });
+
+  // Calculate revenue metrics using filtered list
+  const proListings = monetizationListings.filter(
     (l) =>
       l.plan &&
       (l.plan.toLowerCase().includes("pro") ||
         l.plan.toLowerCase().includes("premium") ||
         l.comped),
   );
-  const standardListings = allListings.filter(
+  const standardListings = monetizationListings.filter(
     (l) =>
       l.plan?.toLowerCase().includes("standard") &&
       !proListings.some((p) => p.id === l.id),
-  );
-  const freeListings = allListings.filter(
-    (l) => !l.plan || l.plan === "Free" || l.plan === null,
   );
 
   // Calculate MRR (assuming $50/mo for Pro, $25/mo for Standard)
@@ -102,10 +110,11 @@ export default async function AdminDashboard() {
 
   // Calculate conversion rate
   const totalPaid = proListings.length + standardListings.length;
-  const totalListingsCount = allListings.length;
+  // Denominator for conversion rate should also be from monetizable listings only
+  const totalMonetizableListings = monetizationListings.length;
   const conversionRate =
-    totalListingsCount > 0
-      ? Math.round((totalPaid / totalListingsCount) * 100)
+    totalMonetizableListings > 0
+      ? Math.round((totalPaid / totalMonetizableListings) * 100)
       : 0;
 
   // Get flagged/reported listings (assuming status or a flag field)

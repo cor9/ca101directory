@@ -68,6 +68,16 @@ export const AdminDashboardClientNew = ({
         l.comped),
   );
 
+  // Filter for analytics (monetization only) - exclude Representation & Regulated
+  const monetizableProListings = proListings.filter((l) => {
+    const cats = l.categories || [];
+    return !cats.some(
+      (c) =>
+        c.toLowerCase().includes("representation") ||
+        c.toLowerCase().includes("regulated"),
+    );
+  });
+
   // Calculate high potential listings
   const highViewFreeListings = allListings.filter(
     (l) =>
@@ -222,7 +232,7 @@ export const AdminDashboardClientNew = ({
               {activeProListings}
             </p>
             <p className="text-[10px] text-text-muted mt-1">
-              {proListings.length} total pro accounts
+              {monetizableProListings.length} total pro accounts
             </p>
           </div>
 
@@ -577,7 +587,7 @@ export const AdminDashboardClientNew = ({
                         Churn Risk Monitor
                       </p>
                       <p className="text-xs text-text-muted mt-1">
-                        {proListings.length} active subscriptions
+                        {monetizableProListings.length} active subscriptions
                       </p>
                     </div>
                   </div>

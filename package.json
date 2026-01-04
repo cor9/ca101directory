@@ -132,7 +132,7 @@
     "lucide-react": "^0.414.0",
     "mailerlite": "^0.4.0",
     "mdast-util-toc": "^7.1.0",
-    "next": "14.2.17",
+    "next": "^14.2.35",
     "next-auth": "5.0.0-beta.18",
     "next-mdx-remote-client": "^1.0.3",
     "next-sanity": "^9.4.5",

@@ -147,11 +147,12 @@ export default function ImageUpload({
       if (
         file.type === "image/png" ||
         file.type === "image/jpeg" ||
-        file.type === "image/jpg"
+        file.type === "image/jpg" ||
+        file.type === "image/webp"
       ) {
         handleImageUploadRef.current(file);
       } else {
-        toast.error("Only PNG and JPEG images are allowed.");
+        toast.error("Only PNG, JPEG, and WebP images are allowed.");
       }
     }
   }, []);
@@ -226,7 +227,7 @@ export default function ImageUpload({
       <Input
         {...getInputProps()}
         id={`dropzone-file-${type}`}
-        accept="image/png, image/jpeg, image/jpg"
+        accept="image/png, image/jpeg, image/jpg, image/webp"
         type="file"
         className="hidden"
         disabled={uploading}

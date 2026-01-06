@@ -22,10 +22,10 @@ export async function uploadLogoToSupabase(
     }
 
     // Validate file type
-    if (!file.type.match(/^image\/(jpeg|jpg|png)$/)) {
+    if (!file.type.match(/^image\/(jpeg|jpg|png|webp)$/)) {
       return {
         success: false,
-        error: "Only JPEG and PNG images are allowed.",
+        error: "Only JPEG, PNG, and WebP images are allowed.",
       };
     }
 

@@ -268,7 +268,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
                 <input
                   type="file"
                   multiple
-                  accept=".pdf,.jpg,.jpeg,.png"
+                  accept=".pdf,.jpg,.jpeg,.png,.webp"
                   onChange={(e) => {
                     if (e.target.files) {
                       Array.from(e.target.files).forEach((file) =>
@@ -347,7 +347,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
                 <input
                   type="file"
                   multiple
-                  accept=".pdf,.jpg,.jpeg,.png"
+                  accept=".pdf,.jpg,.jpeg,.png,.webp"
                   onChange={(e) => {
                     if (e.target.files) {
                       Array.from(e.target.files).forEach((file) =>
@@ -427,7 +427,7 @@ export function BadgeApplicationForm({ userId }: BadgeApplicationFormProps) {
                 <input
                   type="file"
                   multiple
-                  accept=".pdf,.jpg,.jpeg,.png"
+                  accept=".pdf,.jpg,.jpeg,.png,.webp"
                   onChange={(e) => {
                     if (e.target.files) {
                       Array.from(e.target.files).forEach((file) =>

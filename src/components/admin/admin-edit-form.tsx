@@ -77,7 +77,6 @@ const FormInputSchema = z.object({
   format: z.string().optional(),
   extras_notes: z.string().optional(),
   // Images
-  logo_url: z.string().optional(),
   profile_image: z.string().optional(),
   gallery: z.string().optional(),
   // Badges/Compliance
@@ -184,11 +183,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       : [];
   });
   const [isImageUploading, setIsImageUploading] = useState(false);
-  const [isLogoUploading, setIsLogoUploading] = useState(false);
   const [isGalleryUploading, setIsGalleryUploading] = useState(false);
-  const [logoUrl, setLogoUrl] = useState<string>(
-    (listing as any).logo_url || "",
-  );
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Fetch categories and convert UUIDs to names
@@ -259,7 +254,6 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       format: listing.format || "",
       extras_notes: listing.extras_notes || "",
       // Images
-      logo_url: (listing as any).logo_url || "",
       profile_image: listing.profile_image || "",
       gallery:
         typeof listing.gallery === "string"
@@ -644,30 +638,14 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       <div>
         <h3 className="text-md font-semibold mb-2 text-ink">Images</h3>
         <div className="space-y-4">
-          {/* Logo */}
+          {/* Profile Image (Logo/Main Image) */}
           <div>
             <p className="block text-sm font-medium text-ink mb-2">
-              Logo (one image)
+              Profile Image (Logo/Main Image)
             </p>
-            <div className="h-32 border-2 border-dashed border-gray-300 rounded-lg">
-              <ImageUpload
-                currentImageUrl={logoUrl}
-                onUploadChange={(status) => {
-                  setIsLogoUploading(status.isUploading);
-                  if (status.imageId) {
-                    setLogoUrl(status.imageId);
-                    form.setValue("logo_url", status.imageId);
-                  }
-                }}
-                type="image"
-              />
-            </div>
-          </div>
-
-          {/* Profile Image */}
-          <div>
-            <p className="block text-sm font-medium text-ink mb-2">
-              Profile Image
+            <p className="text-sm text-text-muted mb-2">
+              This is the main image that appears on the listing card and profile page.
+              {form.watch("plan") !== "Free" && " Required for Standard/Pro plans."}
             </p>
             <div className="h-48 border-2 border-dashed border-gray-300 rounded-lg">
               <ImageUpload
@@ -1072,14 +1050,12 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             disabled={
               isPending ||
               isImageUploading ||
-              isLogoUploading ||
               isGalleryUploading
             }
             onClick={() => console.log("Save Changes button clicked!")}
           >
             {isPending ||
             isImageUploading ||
-            isLogoUploading ||
             isGalleryUploading
               ? "Uploading..."
               : "Save Changes"}

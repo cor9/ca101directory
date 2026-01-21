@@ -4,6 +4,7 @@ export const fetchCache = "force-no-store";
 import Container from "@/components/container";
 import CategoryClient from "@/components/directory/CategoryClient";
 import { CategoryEducationTip } from "@/components/directory/CategoryEducationTip";
+import { CategoryContent } from "@/components/seo/category-content";
 import EmptyGrid from "@/components/shared/empty-grid";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
@@ -161,6 +162,9 @@ export default async function CategoryPage({
 
         {/* Listings Grid - EXACT SAME as directory page */}
         <section className="max-w-7xl mx-auto px-4 py-8">
+          {/* Category Educational Content - Why You Need / What to Look For */}
+          <CategoryContent categoryName={categoryName} listingCount={totalCount} />
+
           {/* Education Tip Card */}
           <CategoryEducationTip categorySlug={params.slug} />
 

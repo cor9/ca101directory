@@ -2,19 +2,35 @@
 -- User ID: c794f6c8-17da-4e74-898c-3a3199a8efd6
 -- Email: marliesecarmona@gmail.com
 
--- Step 1: Update user role to vendor
--- Try profiles table first (production schema)
-UPDATE profiles
-SET role = 'vendor'
-WHERE id = 'c794f6c8-17da-4e74-898c-3a3199a8efd6'
-  AND email = 'marliesecarmona@gmail.com';
+-- Step 1: Update the users table constraint to allow VENDOR role
+DO $$
+BEGIN
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'users') THEN
+    -- Drop the old constraint
+    ALTER TABLE users DROP CONSTRAINT IF EXISTS users_role_check;
+    
+    -- Add new constraint that includes VENDOR
+    ALTER TABLE users ADD CONSTRAINT users_role_check 
+      CHECK (role IN ('USER', 'ADMIN', 'VENDOR'));
+  END IF;
+END $$;
 
--- Also try users table if it exists (legacy schema)
--- This will fail silently if users table doesn't exist
+-- Step 2: Update user role to VENDOR (uppercase to match constraint)
 DO $$
 BEGIN
   IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'users') THEN
     UPDATE users
+    SET role = 'VENDOR'
+    WHERE id = 'c794f6c8-17da-4e74-898c-3a3199a8efd6'
+      AND email = 'marliesecarmona@gmail.com';
+  END IF;
+END $$;
+
+-- Step 3: Also try profiles table if it exists (production schema)
+DO $$
+BEGIN
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'profiles') THEN
+    UPDATE profiles
     SET role = 'vendor'
     WHERE id = 'c794f6c8-17da-4e74-898c-3a3199a8efd6'
       AND email = 'marliesecarmona@gmail.com';

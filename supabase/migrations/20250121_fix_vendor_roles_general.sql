@@ -22,12 +22,12 @@ WHERE p.role IN ('guest', 'parent')
       AND l.is_claimed = true
   );
 
--- Link listings to users where email matches but owner_id is not set
+-- Step 3: Link listings to profiles where email matches but owner_id is not set
 UPDATE listings l
-SET owner_id = u.id,
+SET owner_id = p.id,
     is_claimed = true,
     date_claimed = COALESCE(l.date_claimed, NOW())
-FROM users u
-WHERE (l.email = u.email OR l.claimed_by_email = u.email)
+FROM profiles p
+WHERE (l.email = p.email OR l.claimed_by_email = p.email)
   AND l.is_claimed = true
-  AND (l.owner_id IS NULL OR l.owner_id != u.id);
+  AND (l.owner_id IS NULL OR l.owner_id != p.id);

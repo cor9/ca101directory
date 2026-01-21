@@ -196,7 +196,6 @@ export const CreateListingSchema = z.object({
     ),
   // Allow optional plan for admin-created listings
   plan: z.string().optional(),
-  logo_url: z.string().optional(),
   // New admin-create fields
   category: z.string().optional(), // single category name (admin free create)
   format: z.enum(["In-person", "Online", "Hybrid"]).optional(),

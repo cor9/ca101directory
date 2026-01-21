@@ -112,7 +112,6 @@ export async function createListing(
       city: normalizeString(validatedFields.data.city),
       state: normalizeString(validatedFields.data.state),
       what_you_offer: normalizeString(validatedFields.data.what_you_offer),
-      logo_url: normalizeString(validatedFields.data.logo_url),
       video_url: normalizeUrl(validatedFields.data.video_url),
       custom_link_url: normalizeUrl(validatedFields.data.custom_link_url),
       custom_link_name: normalizeString(validatedFields.data.custom_link_name),
@@ -308,7 +307,6 @@ export async function updateListing(
       instagram_url: normalizeUrl(v.instagram_url),
       video_url: normalizeUrl(v.video_url),
       // Optional media fields
-      logo_url: normalizeString(v.logo_url),
       profile_image: normalizeString(v.profile_image),
       // Gallery stored as text; empty string -> null
       gallery:

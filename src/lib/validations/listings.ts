@@ -103,15 +103,6 @@ export const UpdateListingSchema = z
       });
     }
 
-    // If 101 Approved, CA permit must be true
-    if (val.is_approved_101 && !val.ca_permit_required) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "CA Performer Permit must be enabled for 101 Approved.",
-        path: ["ca_permit_required"],
-      });
-    }
-
     // If going Live, enforce required fields
     if (val.status === "Live") {
       // active must be true

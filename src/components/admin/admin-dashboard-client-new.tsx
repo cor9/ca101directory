@@ -1,4 +1,4 @@
-gith"use client";
+"use client";
 
 import type { updateListing } from "@/actions/listings";
 import { AdminEditForm } from "@/components/admin/admin-edit-form";

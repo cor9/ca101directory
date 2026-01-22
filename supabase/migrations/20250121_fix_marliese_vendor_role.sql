@@ -7,6 +7,15 @@ UPDATE profiles
 SET role = 'vendor'
 WHERE id = 'c794f6c8-17da-4e74-898c-3a3199a8efd6';
 
+-- Step 1b: Ensure her listing has the correct Founding Pro plan
+UPDATE listings
+SET plan = 'Founding Pro',
+    status = 'Live',
+    is_active = true
+WHERE email = 'marliesecarmona@gmail.com'
+   OR claimed_by_email = 'marliesecarmona@gmail.com'
+   OR owner_id = 'c794f6c8-17da-4e74-898c-3a3199a8efd6';
+
 -- Step 2: Link any listings with her email to her user account
 UPDATE listings
 SET owner_id = 'c794f6c8-17da-4e74-898c-3a3199a8efd6',

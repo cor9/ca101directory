@@ -11,7 +11,7 @@ WHERE id = 'c794f6c8-17da-4e74-898c-3a3199a8efd6';
 UPDATE listings
 SET owner_id = 'c794f6c8-17da-4e74-898c-3a3199a8efd6',
     is_claimed = true,
-    date_claimed = COALESCE(date_claimed, NOW())
+    date_claimed = COALESCE(date_claimed, NOW()::text)
 WHERE email = 'marliesecarmona@gmail.com'
   AND (owner_id IS NULL OR owner_id != 'c794f6c8-17da-4e74-898c-3a3199a8efd6');
 
@@ -19,7 +19,7 @@ WHERE email = 'marliesecarmona@gmail.com'
 UPDATE listings
 SET owner_id = 'c794f6c8-17da-4e74-898c-3a3199a8efd6',
     is_claimed = true,
-    date_claimed = COALESCE(date_claimed, NOW())
+    date_claimed = COALESCE(date_claimed, NOW()::text)
 WHERE claimed_by_email = 'marliesecarmona@gmail.com'
   AND (owner_id IS NULL OR owner_id != 'c794f6c8-17da-4e74-898c-3a3199a8efd6');
 

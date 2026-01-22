@@ -26,7 +26,7 @@ WHERE p.role IN ('guest', 'parent')
 UPDATE listings l
 SET owner_id = p.id,
     is_claimed = true,
-    date_claimed = COALESCE(l.date_claimed, NOW())
+    date_claimed = COALESCE(l.date_claimed, NOW()::text)
 FROM profiles p
 WHERE (l.email = p.email OR l.claimed_by_email = p.email)
   AND l.is_claimed = true

@@ -1,3 +1,62 @@
+## Jan 21, 2026 — Fixed Vendor Dashboard Access & Role Issues
+
+### Problem
+Vendors who upgraded to Pro couldn't access their vendor dashboard or see their listings because:
+1. User role wasn't being updated from 'guest'/'parent' to 'vendor' after payment
+2. Listing `owner_id` wasn't being linked to user account
+3. Database had both `users` (legacy) and `profiles` (active) tables causing confusion
+
+### Root Cause
+- Payment webhook succeeded but didn't update user role in `profiles` table
+- Listings were created/claimed but `owner_id` field wasn't set
+- Vendor dashboard queries by `owner_id`, so unlinked listings didn't show
+
+### Solution Implemented
+
+#### 1. Created Two Migrations
+**`20250121_fix_marliese_vendor_role.sql`** - Fixes specific vendor (Marliese Marie)
+- Updates profile role from 'guest'/'parent' to 'vendor'
+- Sets listing plan to 'Founding Pro' (title case)
+- Links listing to user via `owner_id`
+- Sets listing to Live and active
+
+**`20250121_fix_vendor_roles_general.sql`** - Fixes all affected vendors
+- Updates any profiles with 'guest'/'parent' role who own listings to 'vendor'
+- Links listings to profiles where email matches but `owner_id` is missing
+- Handles both `email` and `claimed_by_email` fields
+
+#### 2. Key Technical Details
+- Use `profiles` table (not `users` - that's legacy)
+- Role values are lowercase enum: `'guest'`, `'parent'`, `'vendor'`, `'admin'`
+- Plan values are title case: `'Founding Pro'`, `'Pro'`, `'Standard'`, `'Free'`
+- `date_claimed` is text type, not timestamp (use `NOW()::text`)
+
+#### 3. Validation Requirements Removed
+- Removed CA Performer Permit requirement for 101 Approved badge
+- Allows out-of-state vendors to get approved without CA-specific permits
+
+#### 4. Image Field Consolidation
+- Removed confusing separate "Logo" field that saved to non-existent `logo_url` column
+- Consolidated to single "Profile Image (Logo/Main Image)" field
+- Migrated any existing `logo_url` data to `profile_image`
+- Gallery remains separate for additional images
+
+### Prevention
+Need to check payment success webhook (`/api/webhooks/stripe`) to ensure it:
+1. Updates user role to 'vendor' in profiles table
+2. Sets listing `owner_id` to user ID
+3. Handles both new listings and claimed listings
+
+### Files Changed
+- `supabase/migrations/20250121_fix_marliese_vendor_role.sql`
+- `supabase/migrations/20250121_fix_vendor_roles_general.sql`
+- `supabase/migrations/20250121_migrate_logo_to_profile_image.sql`
+- `src/lib/validations/listings.ts` - Removed CA permit requirement
+- `src/components/admin/admin-edit-form.tsx` - Consolidated image fields
+- `src/actions/listings.ts` - Removed logo_url references
+
+---
+
 ## Feb 7, 2026 — REMOVE CREAM FROM DIRECTORY UI: Complete Dark Surface System
 
 ### Problem

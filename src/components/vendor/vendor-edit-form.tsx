@@ -244,6 +244,23 @@ export function VendorEditForm({
   const isStandard = plan === "standard" || plan === "founding standard";
   const isPro = plan === "pro" || plan === "founding pro" || listing.comped;
 
+  // Determine if this is a Talent Rep (Agent or Manager)
+  // They get full access without needing paid plans
+  const listingCategoryNames = (listing.categories || [])
+    .map((c) => (typeof c === "string" ? c.toLowerCase() : ""))
+    .join(" ");
+  const isTalentRep =
+    listingCategoryNames.includes("agent") ||
+    listingCategoryNames.includes("manager") ||
+    listingCategoryNames.includes("representation") ||
+    listingCategoryNames.includes("agency") ||
+    listingCategoryNames.includes("management");
+
+  // Override gated access checks
+  // If Talent Rep, they effectively have "Pro" access for form features
+  const hasStandardAccess = isStandard || isPro || isTalentRep;
+  const hasProAccess = isPro || isTalentRep;
+
   const serviceOptions = [
     "Private Coaching",
     "Group Classes",
@@ -275,7 +292,7 @@ export function VendorEditForm({
       : [...currentArray, categoryName];
 
     // Free tier: limit to 1 category
-    if (isFree && newCategories.length > 1) {
+    if (!hasStandardAccess && newCategories.length > 1) {
       toast.error(
         "Free plan allows only 1 category. Upgrade to select multiple.",
       );
@@ -527,8 +544,8 @@ export function VendorEditForm({
         />
       </div>
 
-      {/* Premium Fields - Standard/Pro Only */}
-      {!isFree ? (
+      {/* Premium Fields - Standard/Pro Only (or Talent Rep) */}
+      {hasStandardAccess ? (
         <>
           <div className="space-y-1">
             <Label htmlFor="why_is_it_unique">Why Is It Unique</Label>
@@ -605,10 +622,10 @@ export function VendorEditForm({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <Label className="flex items-center gap-2">
-            {!isPro && <Lock className="w-4 h-4" />}
+            {!hasProAccess && <Lock className="w-4 h-4" />}
             Secondary Locations
           </Label>
-          {isPro && locationFields.length < 2 && (
+          {hasProAccess && locationFields.length < 2 && (
             <Button
               type="button"
               variant="outline"
@@ -621,7 +638,7 @@ export function VendorEditForm({
           )}
         </div>
 
-        {isPro ? (
+        {hasProAccess ? (
           <div className="space-y-4">
             {locationFields.map((field, index) => (
               <div
@@ -719,7 +736,7 @@ export function VendorEditForm({
       </div>
 
       {/* Profile Image */}
-      {!isFree ? (
+      {hasStandardAccess ? (
         <div className="space-y-2">
           <Label>Profile Image</Label>
           <div className="h-48 border-2 border-dashed border-gray-300 rounded-lg">
@@ -770,11 +787,11 @@ export function VendorEditForm({
       )}
 
       {/* Gallery Images - Standard/Pro */}
-      {isPro || isStandard ? (
+      {hasStandardAccess ? (
         <div className="space-y-2">
           <Label>Gallery Images</Label>
           <GalleryUpload
-            maxImages={isPro ? 12 : 6}
+            maxImages={hasProAccess ? 12 : 6}
             currentImages={galleryImages}
             onImagesChange={setGalleryImages}
             onUploadingChange={setIsGalleryUploading}
@@ -819,7 +836,7 @@ export function VendorEditForm({
             )}
           </div>
           <p className="text-xs text-gray-600">
-            {isPro
+            {hasProAccess
               ? "Pro plan can upload up to 12 gallery images."
               : "Standard plan can upload up to 6 gallery images."}
           </p>
@@ -857,7 +874,9 @@ export function VendorEditForm({
 
       {/* Categories */}
       <div className="space-y-2">
-        <Label>Categories {isFree && "(Select 1 - Free Plan)"}</Label>
+        <Label>
+          Categories {!hasStandardAccess && "(Select 1 - Free Plan)"}
+        </Label>
         <div className="grid grid-cols-2 gap-2">
           {categories.map((category) => (
             <label key={category.id} className="flex items-center space-x-2">
@@ -870,7 +889,7 @@ export function VendorEditForm({
                 }
                 disabled={
                   isPending ||
-                  (isFree &&
+                  (!hasStandardAccess &&
                     !String((form.watch("categories") as any) || "")
                       .split(", ")
                       .includes(category.category_name) &&
@@ -883,7 +902,7 @@ export function VendorEditForm({
             </label>
           ))}
         </div>
-        {isFree && (
+        {!hasStandardAccess && (
           <p className="text-xs text-gray-600">
             Free Plan: You can select 1 category. Upgrade to Standard or Pro to
             select multiple categories.

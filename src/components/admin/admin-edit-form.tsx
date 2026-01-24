@@ -3,11 +3,13 @@
 import ImageUpload from "@/components/shared/image-upload";
 import { GalleryUpload } from "@/components/submit/gallery-upload";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import {
   type FieldError,
   type UseFormRegister,
+  useFieldArray,
   useForm,
 } from "react-hook-form";
 import { toast } from "sonner";
@@ -29,6 +31,7 @@ type FormInputType = Omit<
   categories: string;
   age_range: string;
   region: string;
+  secondary_locations: { city: string; state: string; zip: string }[];
 };
 
 // Form schema that matches FormInputType (strings for array fields)
@@ -88,6 +91,15 @@ const FormInputSchema = z.object({
   categories: z.string().optional(),
   age_range: z.string().optional(),
   region: z.string().optional(),
+  secondary_locations: z
+    .array(
+      z.object({
+        city: z.string(),
+        state: z.string(),
+        zip: z.string().optional(),
+      }),
+    )
+    .optional(),
 });
 
 interface AdminEditFormProps {
@@ -270,7 +282,17 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
       categories: listing.categories?.join(", ") || "", // Start with UUIDs, will be updated
       age_range: listing.age_range?.join(", ") || "",
       region: listing.region?.join(", ") || "",
+      secondary_locations: listing.secondary_locations || [],
     },
+  });
+
+  const {
+    fields: locationFields,
+    append: appendLocation,
+    remove: removeLocation,
+  } = useFieldArray({
+    control: form.control,
+    name: "secondary_locations",
   });
 
   // Update form when category names are ready
@@ -381,6 +403,7 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               (processedValues.custom_link_url?.trim() || "").length > 0
                 ? "Promo Video"
                 : (processedValues as any).custom_link_name,
+            secondary_locations: processedValues.secondary_locations || [],
           };
 
           // Attach images and compliance fields
@@ -644,8 +667,10 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
               Profile Image (Logo/Main Image)
             </p>
             <p className="text-sm text-text-muted mb-2">
-              This is the main image that appears on the listing card and profile page.
-              {form.watch("plan") !== "Free" && " Required for Standard/Pro plans."}
+              This is the main image that appears on the listing card and
+              profile page.
+              {form.watch("plan") !== "Free" &&
+                " Required for Standard/Pro plans."}
             </p>
             <div className="h-48 border-2 border-dashed border-gray-300 rounded-lg">
               <ImageUpload
@@ -760,6 +785,101 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
             error={form.formState.errors.zip}
             disabled={isPending}
           />
+        </div>
+      </div>
+
+      {/* --- Secondary Locations --- */}
+      <div>
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="text-md font-semibold text-ink">
+            Secondary Locations
+          </h3>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => appendLocation({ city: "", state: "", zip: "" })}
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Add Location
+          </Button>
+        </div>
+
+        <div className="space-y-4">
+          {locationFields.map((field, index) => (
+            <div
+              key={field.id}
+              className="grid grid-cols-1 md:grid-cols-7 gap-4 items-end bg-surface border border-input p-4 rounded-lg"
+            >
+              <div className="space-y-1 md:col-span-2">
+                <label
+                  htmlFor={`loc-${index}-city`}
+                  className="block text-sm font-medium text-ink"
+                >
+                  City
+                </label>
+                <input
+                  id={`loc-${index}-city`}
+                  {...form.register(
+                    `secondary_locations.${index}.city` as const,
+                  )}
+                  placeholder="City"
+                  className="w-full bg-surface border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none text-ink"
+                  disabled={isPending}
+                />
+              </div>
+              <div className="space-y-1 md:col-span-2">
+                <label
+                  htmlFor={`loc-${index}-state`}
+                  className="block text-sm font-medium text-ink"
+                >
+                  State
+                </label>
+                <input
+                  id={`loc-${index}-state`}
+                  {...form.register(
+                    `secondary_locations.${index}.state` as const,
+                  )}
+                  placeholder="State"
+                  className="w-full bg-surface border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none text-ink"
+                  disabled={isPending}
+                />
+              </div>
+              <div className="space-y-1 md:col-span-2">
+                <label
+                  htmlFor={`loc-${index}-zip`}
+                  className="block text-sm font-medium text-ink"
+                >
+                  ZIP
+                </label>
+                <input
+                  id={`loc-${index}-zip`}
+                  {...form.register(
+                    `secondary_locations.${index}.zip` as const,
+                  )}
+                  placeholder="ZIP"
+                  className="w-full bg-surface border border-input rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none text-ink"
+                  disabled={isPending}
+                />
+              </div>
+              <div className="md:col-span-1">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                  onClick={() => removeLocation(index)}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          ))}
+          {locationFields.length === 0 && (
+            <p className="text-sm text-text-muted italic">
+              No secondary locations added.
+            </p>
+          )}
         </div>
       </div>
 
@@ -1047,16 +1167,10 @@ export function AdminEditForm({ listing, onFinished }: AdminEditFormProps) {
           </Button>
           <Button
             type="submit"
-            disabled={
-              isPending ||
-              isImageUploading ||
-              isGalleryUploading
-            }
+            disabled={isPending || isImageUploading || isGalleryUploading}
             onClick={() => console.log("Save Changes button clicked!")}
           >
-            {isPending ||
-            isImageUploading ||
-            isGalleryUploading
+            {isPending || isImageUploading || isGalleryUploading
               ? "Uploading..."
               : "Save Changes"}
           </Button>

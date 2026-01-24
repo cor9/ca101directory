@@ -61,6 +61,7 @@ export type Listing = {
   city: string | null;
   state: string | null;
   zip: number | null; // INTEGER with ZIP constraint (10000-99999)
+  secondary_locations: { city: string; state: string; zip: string }[] | null;
   age_range: string[] | null; // TEXT[] array
   age_tags?: string[] | null;
   categories: string[] | null; // TEXT[] array
@@ -130,7 +131,7 @@ export type Listing = {
   profile_verified_at: string | null;
 
   // Service modality: virtual, in_person, hybrid, unknown
-  service_modality: 'virtual' | 'in_person' | 'hybrid' | 'unknown';
+  service_modality: "virtual" | "in_person" | "hybrid" | "unknown";
 
   // Age groups: tots, tweens, teens, young_adults
   age_groups: string[] | null;
@@ -253,7 +254,13 @@ const getPublicListingsInternal = async (params?: {
     // Region is now an array - check if it contains the requested region
     query = query.contains("region", [params.region]);
   }
-  if (params?.city) query = query.eq("city", params.city);
+  if (params?.city) {
+    // Check primary city OR secondary_locations containing the city
+    // Note: This requires the secondary_locations column to be created in DB
+    query = query.or(
+      `city.eq.${params.city},secondary_locations.cs.[{"city":"${params.city}"}]`,
+    );
+  }
   if (params?.category) {
     console.log("getPublicListings: Filtering by category:", params.category);
     // Match by exact category name present in categories[] (TEXT[] array)
@@ -279,7 +286,7 @@ const getPublicListingsInternal = async (params?: {
   if (params?.price_max) {
     // Filter by price: price_starting_at OR price_range_min <= max
     query = query.or(
-      `price_starting_at.lte.${params.price_max},price_range_min.lte.${params.price_max}`
+      `price_starting_at.lte.${params.price_max},price_range_min.lte.${params.price_max}`,
     );
   }
   if (params?.technique_focus && params.technique_focus.length > 0) {
@@ -293,19 +300,19 @@ const getPublicListingsInternal = async (params?: {
   }
 
   // Search synonym mapping - expand search terms for better results
-  let searchTerms: string[] = [];
+  const searchTerms: string[] = [];
   if (params?.q) {
     const q = params.q.toLowerCase().trim();
     searchTerms.push(params.q);
 
     // Synonym mappings
     const synonyms: Record<string, string[]> = {
-      "rep": ["agent", "manager"],
-      "reps": ["agent", "manager"],
-      "pics": ["headshot", "photographer"],
-      "headshots": ["headshot", "photographer"],
+      rep: ["agent", "manager"],
+      reps: ["agent", "manager"],
+      pics: ["headshot", "photographer"],
+      headshots: ["headshot", "photographer"],
       "self tape help": ["self tape", "self-tape"],
-      "selftape": ["self tape", "self-tape"],
+      selftape: ["self tape", "self-tape"],
     };
 
     for (const [key, values] of Object.entries(synonyms)) {
@@ -330,7 +337,9 @@ const getPublicListingsInternal = async (params?: {
       conditions.push(
         `city.ilike.%${params.q}%`,
         `state.ilike.%${params.q}%`,
-    );
+        // We can't easily ILIKE inside JSONB array without a Postgres function or complex query
+        // For now, rely on strict city match above if they search for exact city name
+      );
     }
     query = query.or(conditions.join(","));
   }
@@ -773,14 +782,19 @@ export function sortSearchResultsByPriority(
 
   const matchesName = (listing: Listing): boolean => {
     const name = (listing.listing_name || "").toLowerCase();
-    return name.includes(queryLower) || queryWords.some((w) => name.includes(w));
+    return (
+      name.includes(queryLower) || queryWords.some((w) => name.includes(w))
+    );
   };
 
   const matchesCategory = (listing: Listing): boolean => {
     if (!listing.categories) return false;
     return listing.categories.some((cat) => {
       const catStr = (typeof cat === "string" ? cat : "").toLowerCase();
-      return catStr.includes(queryLower) || queryWords.some((w) => catStr.includes(w));
+      return (
+        catStr.includes(queryLower) ||
+        queryWords.some((w) => catStr.includes(w))
+      );
     });
   };
 

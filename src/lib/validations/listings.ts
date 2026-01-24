@@ -91,6 +91,15 @@ export const UpdateListingSchema = z
     specialties: commaSeparatedStringToArray,
     region: commaSeparatedStringToArray,
     logo_url: z.string().optional(),
+    secondary_locations: z
+      .array(
+        z.object({
+          city: z.string(),
+          state: z.string(),
+          zip: z.string().optional(),
+        }),
+      )
+      .optional(),
   })
   .superRefine((val, ctx) => {
     // If bonded, bond_number required

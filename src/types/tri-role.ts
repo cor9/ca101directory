@@ -65,6 +65,7 @@ export interface Listing {
   city?: string;
   state?: string;
   zip?: string;
+  secondary_locations?: { city: string; state: string; zip: string }[];
   age_range?: string;
   categories?: string;
   approved_101_badge?: boolean;

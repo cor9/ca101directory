@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 
@@ -19,7 +19,7 @@ import { getCategoriesClient } from "@/data/categories-client";
 import type { Listing } from "@/data/listings";
 import { regionsList } from "@/data/regions";
 import { UpdateListingSchema } from "@/lib/validations/listings";
-import { Lock } from "lucide-react";
+import { Lock, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 interface VendorEditFormProps {
@@ -143,7 +143,10 @@ export function VendorEditForm({
     // Handle comma-separated values or single value
     const normalized = format.toLowerCase().trim();
     if (normalized.includes(",")) {
-      return normalized.split(",").map((f) => f.trim()).filter(Boolean);
+      return normalized
+        .split(",")
+        .map((f) => f.trim())
+        .filter(Boolean);
     }
     // Map single values to tag format
     if (normalized === "in-person" || normalized === "in person") {
@@ -215,7 +218,17 @@ export function VendorEditForm({
       is_claimed: !!listing.is_claimed,
       is_active: listing.is_active ?? true,
       plan: listing.plan || "Free",
+      secondary_locations: listing.secondary_locations || [],
     },
+  });
+
+  const {
+    fields: locationFields,
+    append: appendLocation,
+    remove: removeLocation,
+  } = useFieldArray({
+    control: form.control,
+    name: "secondary_locations",
   });
 
   // Update categories after conversion completes
@@ -572,7 +585,6 @@ export function VendorEditForm({
         </>
       )}
 
-
       {/* Location */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="space-y-1">
@@ -587,6 +599,101 @@ export function VendorEditForm({
           <Label htmlFor="zip">ZIP Code</Label>
           <Input id="zip" {...form.register("zip")} disabled={isPending} />
         </div>
+      </div>
+
+      {/* Secondary Locations - Pro Only */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <Label className="flex items-center gap-2">
+            {!isPro && <Lock className="w-4 h-4" />}
+            Secondary Locations
+          </Label>
+          {isPro && locationFields.length < 2 && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => appendLocation({ city: "", state: "", zip: "" })}
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add Location
+            </Button>
+          )}
+        </div>
+
+        {isPro ? (
+          <div className="space-y-4">
+            {locationFields.map((field, index) => (
+              <div
+                key={field.id}
+                className="grid grid-cols-1 md:grid-cols-7 gap-4 items-end bg-gray-50 p-4 rounded-lg"
+              >
+                <div className="space-y-1 md:col-span-2">
+                  <Label htmlFor={`loc-${index}-city`}>City</Label>
+                  <Input
+                    id={`loc-${index}-city`}
+                    {...form.register(
+                      `secondary_locations.${index}.city` as const,
+                    )}
+                    placeholder="City"
+                    disabled={isPending}
+                  />
+                </div>
+                <div className="space-y-1 md:col-span-2">
+                  <Label htmlFor={`loc-${index}-state`}>State</Label>
+                  <Input
+                    id={`loc-${index}-state`}
+                    {...form.register(
+                      `secondary_locations.${index}.state` as const,
+                    )}
+                    placeholder="State"
+                    disabled={isPending}
+                  />
+                </div>
+                <div className="space-y-1 md:col-span-2">
+                  <Label htmlFor={`loc-${index}-zip`}>ZIP</Label>
+                  <Input
+                    id={`loc-${index}-zip`}
+                    {...form.register(
+                      `secondary_locations.${index}.zip` as const,
+                    )}
+                    placeholder="ZIP"
+                    disabled={isPending}
+                  />
+                </div>
+                <div className="md:col-span-1">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                    onClick={() => removeLocation(index)}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            ))}
+            {locationFields.length === 0 && (
+              <p className="text-sm text-gray-500 italic">
+                No secondary locations added. Pro users can add up to 2
+                additional locations.
+              </p>
+            )}
+          </div>
+        ) : (
+          <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-md p-4 mt-2">
+            <p className="text-sm text-purple-900">
+              <strong>📍 Be Visible in Multiple Cities</strong>
+              <br />
+              Upgrade to Pro ($50/mo) to add 2 additional searchable locations
+              to this listing! This eliminates the need for duplicate listings.{" "}
+              <Link href="/pricing" className="underline font-semibold">
+                Upgrade to Pro →
+              </Link>
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Logo - available for all plans */}

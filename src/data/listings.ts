@@ -2,7 +2,8 @@ import { createServerClient } from "@/lib/supabase";
 import { unstable_cache } from "next/cache";
 
 /**
- *// PublicListing: Enhanced listing type for directory cards with computed fields
+ * PublicListing: Enhanced listing type for directory cards with computed fields
+ */
 export interface PublicListing {
   id: string;
   slug: string | null;

@@ -1,8 +1,8 @@
 import { getCategoriesByIds } from "@/actions/categories";
 import { auth } from "@/auth";
-import { ContactActions } from "@/components/listing/contact-actions";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import ListingLayout from "@/components/listing/ListingLayout";
+import { ContactActions } from "@/components/listing/contact-actions";
 import { ListingCarousel } from "@/components/listing/listing-carousel";
 import { ListingContactSection } from "@/components/listing/listing-contact-section";
 import type { DisplayCategory } from "@/components/listing/types";
@@ -443,8 +443,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
       teens: "Teens (13-17)",
       young_adults: "18+",
     };
-    const cleanAgeGroups = getCleanArray(listing.age_groups).map(
-      (g) => ageGroupLabels[g.toLowerCase()] || g
+    const cleanAgeGroups = getCleanArray(listing.age_range).map(
+      (g) => ageGroupLabels[g.toLowerCase()] || g,
     );
     const cleanAgeRange = getCleanArray(listing.age_range).filter((age) => {
       const lower = age.toLowerCase();
@@ -454,7 +454,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
       return true;
     });
     // Use age_groups if available, otherwise fall back to age_range
-    const ageRanges = cleanAgeGroups.length > 0 ? cleanAgeGroups : cleanAgeRange;
+    const ageRanges =
+      cleanAgeGroups.length > 0 ? cleanAgeGroups : cleanAgeRange;
     // Services: use services_offered, fallback to categories
     // getCleanArray handles JSON strings, arrays, nulls, and filters out garbage
     // Additional filter to exclude age-range values that may have leaked into services
@@ -471,9 +472,10 @@ export default async function ListingPage({ params }: ListingPageProps) {
       if (/kids?|children/i.test(lower) && /only|\d/.test(lower)) return true;
       return false;
     };
-    const rawServices = getCleanArray(listing.services_offered).length > 0
-      ? getCleanArray(listing.services_offered)
-      : getCleanArray(listing.categories);
+    const rawServices =
+      getCleanArray(listing.services_offered).length > 0
+        ? getCleanArray(listing.services_offered)
+        : getCleanArray(listing.categories);
     const services = rawServices.filter((s) => !isAgeRange(s));
     let reviews: Awaited<ReturnType<typeof getListingReviews>> = [];
     if (reviewsEnabled) {
@@ -669,49 +671,51 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
               {/* ZONE 3: EXPLORATION - Related listings (full width, always last) */}
               <div className="mt-16 space-y-12">
-
                 {/* 16C: Competitive Context for Free listings (not for INDUSTRY_PRO) */}
                 {!isIndustryPro &&
                   (!listing.plan ||
                     listing.plan === "Free" ||
                     listing.plan === null) && (
-                  <section className="pt-10 border-t border-white/10">
-                    <p className="text-sm text-text-secondary mb-6">
-                      Families typically contact 2–3 providers before deciding.
-                    </p>
-                    {/* 18G: The One Sentence */}
-                    <p className="text-xs text-text-muted italic mb-4">
-                      Providers with Pro features receive 3–5× more parent
-                      contact.
-                    </p>
-                    <h2 className="text-xl font-bold mb-6 text-text-primary">
-                      Similar providers families also viewed
-                    </h2>
-                    {allPublicListingsForComparison.length > 0 ? (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {allPublicListingsForComparison
-                          .filter((l) => {
-                            // Show only Standard/Pro listings with images, different from current
-                            return (
-                              l.id !== listing.id &&
-                              l.plan &&
-                              l.plan !== "Free" &&
-                              l.profile_image
-                            );
-                          })
-                          .slice(0, 2)
-                          .map((itemListing) => (
-                            <ListingCard
-                              key={itemListing.id}
-                              listing={itemListing}
-                            />
-                          ))}
-                      </div>
-                    ) : recommendedItems.length > 0 ? (
-                      <ListingCarousel listings={recommendedItems.slice(0, 2)} />
-                    ) : null}
-                  </section>
-                )}
+                    <section className="pt-10 border-t border-white/10">
+                      <p className="text-sm text-text-secondary mb-6">
+                        Families typically contact 2–3 providers before
+                        deciding.
+                      </p>
+                      {/* 18G: The One Sentence */}
+                      <p className="text-xs text-text-muted italic mb-4">
+                        Providers with Pro features receive 3–5× more parent
+                        contact.
+                      </p>
+                      <h2 className="text-xl font-bold mb-6 text-text-primary">
+                        Similar providers families also viewed
+                      </h2>
+                      {allPublicListingsForComparison.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          {allPublicListingsForComparison
+                            .filter((l) => {
+                              // Show only Standard/Pro listings with images, different from current
+                              return (
+                                l.id !== listing.id &&
+                                l.plan &&
+                                l.plan !== "Free" &&
+                                l.profile_image
+                              );
+                            })
+                            .slice(0, 2)
+                            .map((itemListing) => (
+                              <ListingCard
+                                key={itemListing.id}
+                                listing={itemListing}
+                              />
+                            ))}
+                        </div>
+                      ) : recommendedItems.length > 0 ? (
+                        <ListingCarousel
+                          listings={recommendedItems.slice(0, 2)}
+                        />
+                      ) : null}
+                    </section>
+                  )}
 
                 {/* Recommended Providers Module - for paid listings */}
                 {!isIndustryPro &&
@@ -721,7 +725,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
                   recommendedItems.length > 0 && (
                     <section className="pt-10 border-t border-white/10">
                       <h2 className="text-xl font-bold mb-6 text-text-primary">
-                        Other Trusted Providers in {listing.state || "Your Area"}
+                        Other Trusted Providers in{" "}
+                        {listing.state || "Your Area"}
                       </h2>
                       <ListingCarousel listings={recommendedItems} />
                     </section>

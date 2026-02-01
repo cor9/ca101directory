@@ -7,18 +7,24 @@ interface ListingMediaProps {
 
 function convertToEmbed(url: string): string {
   if (!url) return "";
-  if (url.includes("watch?v=")) {
-    return url.replace("watch?v=", "embed/");
+
+  // YouTube: handle standard watch URLs, short URLs, and embed URLs
+  const youtubeRegex =
+    /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+  const youtubeMatch = url.match(youtubeRegex);
+  if (youtubeMatch && youtubeMatch[1]) {
+    return `https://www.youtube.com/embed/${youtubeMatch[1]}`;
   }
-  if (url.includes("youtu.be")) {
-    return url.replace("youtu.be/", "www.youtube.com/embed/");
+
+  // Vimeo: handle standard URLs, channels, and "manage" dashboard URLs
+  // Extracts the numeric video ID
+  const vimeoRegex =
+    /(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(?:.*\/)?([0-9]+)/;
+  const vimeoMatch = url.match(vimeoRegex);
+  if (vimeoMatch && vimeoMatch[1]) {
+    return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
   }
-  if (url.includes("youtube.com")) {
-    return url.replace("youtube.com/", "youtube.com/embed/");
-  }
-  if (url.includes("vimeo.com")) {
-    return url.replace("vimeo.com", "player.vimeo.com/video");
-  }
+
   return url;
 }
 
@@ -54,4 +60,3 @@ export function ListingMedia({ listing }: ListingMediaProps) {
     </section>
   );
 }
-

@@ -185,15 +185,14 @@ export function VendorEditForm({
         : typeof listing.age_range === "string"
           ? listing.age_range
           : "") as any,
-      age_tags: (Array.isArray((listing as any).age_tags)
-        ? (listing as any).age_tags.join(", ")
-        : ((listing as any).age_tags as any) || "") as any,
+      age_tags: (Array.isArray(listing.age_tags)
+        ? listing.age_tags.join(", ")
+        : typeof listing.age_tags === "string"
+          ? listing.age_tags
+          : "") as any,
       services_offered: (Array.isArray((listing as any).services_offered)
         ? (listing as any).services_offered.join(", ")
         : ((listing as any).services_offered as any) || "") as any,
-      techniques: (Array.isArray((listing as any).techniques)
-        ? (listing as any).techniques.join(", ")
-        : ((listing as any).techniques as any) || "") as any,
       specialties: (Array.isArray((listing as any).specialties)
         ? (listing as any).specialties.join(", ")
         : ((listing as any).specialties as any) || "") as any,
@@ -267,11 +266,6 @@ export function VendorEditForm({
     "On-Set Coaching",
     "Zoom/Remote",
   ];
-  const techniqueOptions = [
-    "Meisner",
-    "Method",
-    "Improv",
-    "On-Camera",
     "Commercial",
     "Theatrical",
   ];
@@ -307,10 +301,9 @@ export function VendorEditForm({
     field:
       | "format"
       | "age_range"
-      | "region"
       | "age_tags"
+      | "region"
       | "services_offered"
-      | "techniques"
       | "specialties",
   ) => {
     const currentStr = (form.getValues(field) as any) || "";
@@ -361,22 +354,16 @@ export function VendorEditForm({
             ? values.age_range.join(", ")
             : "";
       const ageTagsStr =
-        typeof (values as any).age_tags === "string"
-          ? (values as any).age_tags
-          : Array.isArray((values as any).age_tags)
-            ? (values as any).age_tags.join(", ")
+        typeof values.age_tags === "string"
+          ? values.age_tags
+          : Array.isArray(values.age_tags)
+            ? values.age_tags.join(", ")
             : "";
       const servicesStr =
         typeof (values as any).services_offered === "string"
           ? (values as any).services_offered
           : Array.isArray((values as any).services_offered)
             ? (values as any).services_offered.join(", ")
-            : "";
-      const techniquesStr =
-        typeof (values as any).techniques === "string"
-          ? (values as any).techniques
-          : Array.isArray((values as any).techniques)
-            ? (values as any).techniques.join(", ")
             : "";
       const specialtiesStr =
         typeof (values as any).specialties === "string"
@@ -405,13 +392,12 @@ export function VendorEditForm({
         // Ensure these are strings (schema expects strings)
         categories: categoriesStr,
         age_range: ageRangeStr,
-        age_tags: ageTagsStr,
         services_offered: servicesStr,
-        techniques: techniquesStr,
         specialties: specialtiesStr,
         region: regionStr,
         profile_image: profileImageId || "",
         gallery: galleryString,
+        age_tags: ageTagsStr,
         status: "Pending" as const, // Always set to Pending for vendor edits
         is_claimed: !!listing.is_claimed,
         is_active: listing.is_active ?? true,
@@ -910,7 +896,7 @@ export function VendorEditForm({
         )}
       </div>
 
-      {/* Service Format Tags */}
+      /* Service Format Tags */
       <div className="space-y-2">
         <Label>Service Format Tags</Label>
         <div className="space-y-2">
@@ -945,7 +931,7 @@ export function VendorEditForm({
         <Label>Age Tags</Label>
         <div className="flex flex-wrap gap-2">
           {["Ages 5–8", "Ages 9–12", "Ages 13–17", "Ages 18+"].map((tag) => (
-            <label key={tag} className="flex items-center space-x-2">
+            <label key={tag} className="flex items-center space-x-2 bg-gray-50 px-3 py-1.5 rounded-full border">
               <Checkbox
                 checked={String((form.watch("age_tags") as any) || "")
                   .split(", ")
@@ -957,9 +943,6 @@ export function VendorEditForm({
             </label>
           ))}
         </div>
-        <p className="text-xs text-gray-600">
-          Pick one or more age bands you serve.
-        </p>
       </div>
 
       {/* Structured Taxonomy */}
@@ -984,23 +967,7 @@ export function VendorEditForm({
           </div>
         </div>
 
-        <div className="space-y-2">
-          <Label>Techniques</Label>
-          <div className="space-y-2">
-            {techniqueOptions.map((opt) => (
-              <label key={opt} className="flex items-center space-x-2">
-                <Checkbox
-                  checked={String((form.watch("techniques") as any) || "")
-                    .split(", ")
-                    .includes(opt)}
-                  onCheckedChange={() => handleTagToggle(opt, "techniques")}
-                  disabled={isPending}
-                />
-                <span className="text-sm">{opt}</span>
-              </label>
-            ))}
-          </div>
-        </div>
+
 
         <div className="space-y-2">
           <Label>Specialties</Label>

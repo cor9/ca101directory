@@ -138,8 +138,8 @@ export function ListingCardClient({
               }
               featured={!!listing.featured}
               pro={
-                (listing.plan || "").toLowerCase() === "pro" ||
-                (listing.plan || "").toLowerCase() === "founding pro" ||
+                (listing.plan || "").toLowerCase().includes("pro") ||
+                (listing.plan || "").toLowerCase().includes("premium") ||
                 !!listing.comped
               }
               maxBadges={2}

@@ -87,7 +87,6 @@ export const UpdateListingSchema = z
     age_range: commaSeparatedStringToArray,
     age_tags: commaSeparatedStringToArray,
     services_offered: commaSeparatedStringToArray,
-    techniques: commaSeparatedStringToArray,
     specialties: commaSeparatedStringToArray,
     region: commaSeparatedStringToArray,
     logo_url: z.string().optional(),
@@ -211,8 +210,7 @@ export const CreateListingSchema = z.object({
   city: z.string().optional(),
   state: z.string().optional(),
   region: z.string().optional(), // comma-separated or a single region label
-  age_tags: z.string().optional(),
   services_offered: z.string().optional(),
-  techniques: z.string().optional(),
   specialties: z.string().optional(),
+  age_tags: z.string().optional(),
 });

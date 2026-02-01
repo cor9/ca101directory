@@ -2,8 +2,7 @@ import { createServerClient } from "@/lib/supabase";
 import { unstable_cache } from "next/cache";
 
 /**
- * PublicListing: Enhanced listing type for directory cards with computed fields
- */
+ *// PublicListing: Enhanced listing type for directory cards with computed fields
 export interface PublicListing {
   id: string;
   slug: string | null;
@@ -15,7 +14,6 @@ export interface PublicListing {
   age_tags?: string[] | null;
   key_services?: string[];
   services_offered?: string[] | null;
-  techniques?: string[] | null;
   specialties?: string[] | null;
   short_description?: string | null;
   plan_tier: "free" | "standard" | "pro" | "premium";
@@ -63,10 +61,9 @@ export type Listing = {
   zip: number | null; // INTEGER with ZIP constraint (10000-99999)
   secondary_locations: { city: string; state: string; zip: string }[] | null;
   age_range: string[] | null; // TEXT[] array
-  age_tags?: string[] | null;
+  age_tags: string[] | null;
   categories: string[] | null; // TEXT[] array
   services_offered?: string[] | null;
-  techniques?: string[] | null;
   specialties?: string[] | null;
   profile_image: string | null;
   logo_url: string | null;
@@ -132,9 +129,6 @@ export type Listing = {
 
   // Service modality: virtual, in_person, hybrid, unknown
   service_modality: "virtual" | "in_person" | "hybrid" | "unknown";
-
-  // Age groups: tots, tweens, teens, young_adults
-  age_groups: string[] | null;
 
   // Pricing fields
   price_starting_at: number | null;
@@ -281,7 +275,8 @@ const getPublicListingsInternal = async (params?: {
   }
   if (params?.age_groups && params.age_groups.length > 0) {
     // Filter listings that have overlap with requested age groups
-    query = query.overlaps("age_groups", params.age_groups);
+    // Use age_range column for filtering
+    query = query.overlaps("age_range", params.age_groups);
   }
   if (params?.price_max) {
     // Filter by price: price_starting_at OR price_range_min <= max
@@ -419,9 +414,8 @@ function listingToPublicListing(
     state: listing.state,
     primary_category: primaryCategory,
     age_ranges: listing.age_range || [],
-    age_tags: (listing as any).age_tags || [],
+    age_tags: listing.age_tags || [],
     services_offered: (listing as any).services_offered || [],
-    techniques: (listing as any).techniques || [],
     specialties: (listing as any).specialties || [],
     key_services: listing.categories?.slice(0, 3),
     short_description: shortDescription || null,

@@ -1,6 +1,7 @@
 "use server";
 
 import { auth } from "@/auth";
+import { LISTINGS_CACHE_TAG } from "@/data/listings";
 import { sendListingLiveEmail } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
@@ -229,6 +230,7 @@ export async function createListing(
 
     // Revalidate the path to show the new listing in the table
     revalidatePath("/dashboard/admin");
+    revalidateTag(LISTINGS_CACHE_TAG);
 
     return { status: "success", message: "Listing created successfully." };
   } catch (e) {
@@ -355,6 +357,7 @@ export async function updateListing(
     }
     // 4) Invalidate featured listings cache so image changes appear immediately
     revalidateTag("featured-listings");
+    revalidateTag(LISTINGS_CACHE_TAG);
 
     return {
       status: "success",
@@ -388,6 +391,7 @@ export async function deleteListing(id: string) {
     // Revalidate affected paths
     revalidatePath("/dashboard/admin");
     revalidatePath("/dashboard/admin/listings");
+    revalidateTag(LISTINGS_CACHE_TAG);
     return { status: "success" };
   } catch (e) {
     console.error("Unexpected error in deleteListing:", e);
@@ -453,6 +457,7 @@ export async function claimListing(listingId: string) {
     // 3. Revalidate paths to reflect changes
     revalidatePath("/dashboard/admin"); // For admin view
     revalidatePath("/dashboard/vendor/claim"); // For other vendors
+    revalidateTag(LISTINGS_CACHE_TAG);
 
     return {
       status: "success",

@@ -17,6 +17,7 @@ interface FeaturedListing {
   categorySlug: string;
   tags: string[];
   featured?: boolean;
+  isPro?: boolean;
   isFallback?: boolean;
   slug: string;
 }
@@ -53,6 +54,11 @@ export default function FeaturedListingsClient({
               {listing.featured && (
                 <span className="px-2 py-0.5 text-[10px] font-semibold rounded bg-amber-500 text-slate-900">
                   Featured
+                </span>
+              )}
+              {listing.isPro && !listing.featured && (
+                <span className="px-2 py-0.5 text-[10px] font-semibold rounded bg-purple-500 text-white">
+                  Pro
                 </span>
               )}
               <Icons.star className="h-3.5 w-3.5 text-text-muted" />

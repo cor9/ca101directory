@@ -14,6 +14,7 @@ interface FeaturedListing {
   categorySlug: string;
   tags: string[];
   featured?: boolean;
+  isPro?: boolean;
   isFallback?: boolean;
   slug: string;
 }
@@ -114,13 +115,13 @@ export default async function HomeFeaturedListings() {
     };
 
     // Include explicitly featured OR PRO/comped listings
-    const isPro = (l: typeof supabaseListings[0]) => {
+    const isPro = (l: (typeof supabaseListings)[0]) => {
       if (l.comped) return true;
       const p = (l.plan || "").toLowerCase();
       return p.includes("pro") || p.includes("premium");
     };
     const featuredSource = supabaseListings.filter(
-      (l) => l.featured === true || isPro(l)
+      (l) => l.featured === true || isPro(l),
     );
     console.log(
       "[HomeFeatured] featured candidates:",
@@ -163,7 +164,8 @@ export default async function HomeFeaturedListings() {
         // Sanitize slug: trim whitespace and strip any leading slashes
         const rawSlug =
           listing.slug || generateSlug(listing.listing_name || "", listing.id);
-        const safeSlug = typeof rawSlug === "string" ? rawSlug.trim().replace(/^\/+/, "") : "";
+        const safeSlug =
+          typeof rawSlug === "string" ? rawSlug.trim().replace(/^\/+/, "") : "";
 
         return {
           id: listing.id,
@@ -182,6 +184,7 @@ export default async function HomeFeaturedListings() {
           categorySlug: generateCategorySlug(primaryCategory),
           tags: listing.age_range || [], // age_range is now an array
           featured: listing.featured || false,
+          isPro: isPro(listing),
           slug: safeSlug, // Use sanitized database slug or sanitized fallback
         };
       });

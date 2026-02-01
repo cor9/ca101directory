@@ -1,9 +1,9 @@
 "use client";
 
-import { BadgeStack } from "@/components/badges/StatusBadge";
 import { ProfileVerifiedBadge } from "@/components/badges/ProfileVerifiedBadge";
-import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
+import { BadgeStack } from "@/components/badges/StatusBadge";
 import { AgeGroupPills } from "@/components/listing/AgeGroupPills";
+import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
 import { MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,6 +22,7 @@ interface ListingCardProps {
     location?: string;
     is_verified?: boolean;
     is_featured?: boolean;
+    is_pro?: boolean;
     profile_verified?: boolean;
     profile_verified_at?: string | null;
     image_url?: string;
@@ -77,7 +78,11 @@ export default function ListingCard({
               className="object-cover"
             />
           ) : (
-            <CategoryPlaceholder category={category} size="sm" showLabel={false} />
+            <CategoryPlaceholder
+              category={category}
+              size="sm"
+              showLabel={false}
+            />
           )}
         </div>
 
@@ -90,7 +95,9 @@ export default function ListingCard({
         </div>
 
         {(listing.profile_verified || listing.is_verified) && (
-          <ProfileVerifiedBadge profileVerifiedAt={listing.profile_verified_at} />
+          <ProfileVerifiedBadge
+            profileVerifiedAt={listing.profile_verified_at}
+          />
         )}
       </Link>
     );
@@ -113,17 +120,24 @@ export default function ListingCard({
               className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
           ) : (
-            <CategoryPlaceholder category={category} size="lg" className="h-56" />
+            <CategoryPlaceholder
+              category={category}
+              size="lg"
+              className="h-56"
+            />
           )}
         </div>
 
         {/* Badge Rail - Below image, never covers faces */}
-        {(listing.profile_verified || listing.is_verified || listing.is_featured) && (
+        {(listing.profile_verified ||
+          listing.is_verified ||
+          listing.is_featured ||
+          listing.is_pro) && (
           <div className="px-5 pt-3 flex flex-wrap gap-2">
             <BadgeStack
               verified={!!listing.profile_verified || !!listing.is_verified}
               featured={!!listing.is_featured}
-              pro={false}
+              pro={!!listing.is_pro}
               maxBadges={2}
               profileVerifiedAt={listing.profile_verified_at}
             />
@@ -137,7 +151,11 @@ export default function ListingCard({
           </h3>
           <p className="text-sm text-accent-blue mt-1">{category}</p>
 
-          <AgeGroupPills ageGroups={listing.age_groups} maxPills={3} className="mt-2" />
+          <AgeGroupPills
+            ageGroups={listing.age_groups}
+            maxPills={3}
+            className="mt-2"
+          />
 
           {/* Rating */}
           {listing.rating && (
@@ -210,9 +228,18 @@ export default function ListingCard({
       </div>
 
       {/* Badge Rail - Below image, never covers faces */}
-      {(listing.profile_verified || listing.is_verified) && (
+      {(listing.profile_verified ||
+        listing.is_verified ||
+        listing.is_featured ||
+        listing.is_pro) && (
         <div className="px-4 pt-2 flex flex-wrap gap-2">
-          <ProfileVerifiedBadge profileVerifiedAt={listing.profile_verified_at} />
+          <BadgeStack
+            verified={!!listing.profile_verified || !!listing.is_verified}
+            featured={!!listing.is_featured}
+            pro={!!listing.is_pro}
+            maxBadges={2}
+            profileVerifiedAt={listing.profile_verified_at}
+          />
         </div>
       )}
 

@@ -265,7 +265,6 @@ export function VendorEditForm({
     "Group Classes",
     "On-Set Coaching",
     "Zoom/Remote",
-  ];
     "Commercial",
     "Theatrical",
   ];
@@ -518,7 +517,6 @@ export function VendorEditForm({
           <Input id="phone" {...form.register("phone")} disabled={isPending} />
         </div>
       </div>
-
       {/* What You Offer */}
       <div className="space-y-1">
         <Label htmlFor="what_you_offer">What You Offer</Label>
@@ -529,7 +527,6 @@ export function VendorEditForm({
           disabled={isPending}
         />
       </div>
-
       {/* Premium Fields - Standard/Pro Only (or Talent Rep) */}
       {hasStandardAccess ? (
         <>
@@ -587,7 +584,6 @@ export function VendorEditForm({
           </div>
         </>
       )}
-
       {/* Location */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="space-y-1">
@@ -603,7 +599,6 @@ export function VendorEditForm({
           <Input id="zip" {...form.register("zip")} disabled={isPending} />
         </div>
       </div>
-
       {/* Secondary Locations - Pro Only */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
@@ -698,7 +693,6 @@ export function VendorEditForm({
           </div>
         )}
       </div>
-
       {/* Logo - available for all plans */}
       <div className="space-y-2">
         <Label>Logo (one image)</Label>
@@ -720,7 +714,6 @@ export function VendorEditForm({
           and gallery.
         </p>
       </div>
-
       {/* Profile Image */}
       {hasStandardAccess ? (
         <div className="space-y-2">
@@ -771,7 +764,6 @@ export function VendorEditForm({
           </div>
         </div>
       )}
-
       {/* Gallery Images - Standard/Pro */}
       {hasStandardAccess ? (
         <div className="space-y-2">
@@ -857,7 +849,6 @@ export function VendorEditForm({
           </div>
         </div>
       )}
-
       {/* Categories */}
       <div className="space-y-2">
         <Label>
@@ -895,7 +886,6 @@ export function VendorEditForm({
           </p>
         )}
       </div>
-
       /* Service Format Tags */
       <div className="space-y-2">
         <Label>Service Format Tags</Label>
@@ -925,13 +915,15 @@ export function VendorEditForm({
           Select all that apply. These tags help families find your service.
         </p>
       </div>
-
       {/* Age Tags */}
       <div className="space-y-2">
         <Label>Age Tags</Label>
         <div className="flex flex-wrap gap-2">
           {["Ages 5–8", "Ages 9–12", "Ages 13–17", "Ages 18+"].map((tag) => (
-            <label key={tag} className="flex items-center space-x-2 bg-gray-50 px-3 py-1.5 rounded-full border">
+            <label
+              key={tag}
+              className="flex items-center space-x-2 bg-gray-50 px-3 py-1.5 rounded-full border"
+            >
               <Checkbox
                 checked={String((form.watch("age_tags") as any) || "")
                   .split(", ")
@@ -944,7 +936,6 @@ export function VendorEditForm({
           ))}
         </div>
       </div>
-
       {/* Structured Taxonomy */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="space-y-2">
@@ -967,8 +958,6 @@ export function VendorEditForm({
           </div>
         </div>
 
-
-
         <div className="space-y-2">
           <Label>Specialties</Label>
           <div className="space-y-2">
@@ -987,7 +976,6 @@ export function VendorEditForm({
           </div>
         </div>
       </div>
-
       {/* Location/Region Tags */}
       <div className="space-y-2">
         <Label>Location/Region</Label>
@@ -1006,7 +994,6 @@ export function VendorEditForm({
           ))}
         </div>
       </div>
-
       {/* Legal Compliance */}
       <div className="space-y-4">
         <div className="flex items-center space-x-2">
@@ -1042,7 +1029,6 @@ export function VendorEditForm({
           </div>
         )}
       </div>
-
       {/* Submit Buttons */}
       <div className="flex justify-end gap-2 pt-4 border-t sticky bottom-0 bg-card/90 backdrop-blur supports-[backdrop-filter]:bg-card/70">
         <Button

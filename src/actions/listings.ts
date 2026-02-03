@@ -1,7 +1,11 @@
 "use server";
 
 import { auth } from "@/auth";
-import { LISTINGS_CACHE_TAG } from "@/data/listings";
+import {
+  FEATURED_LISTINGS_CACHE_TAG,
+  LISTINGS_CACHE_TAG,
+  listingCacheTag,
+} from "@/data/listings";
 import { sendListingLiveEmail } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
@@ -356,8 +360,9 @@ export async function updateListing(
       revalidatePath(`/listing/${data.id}`);
     }
     // 4) Invalidate featured listings cache so image changes appear immediately
-    revalidateTag("featured-listings");
+    revalidateTag(FEATURED_LISTINGS_CACHE_TAG);
     revalidateTag(LISTINGS_CACHE_TAG);
+    revalidateTag(listingCacheTag(id));
 
     return {
       status: "success",

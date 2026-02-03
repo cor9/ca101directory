@@ -693,12 +693,17 @@ async function getFeaturedListingsUncached(): Promise<Listing[]> {
 /**
  * Cached version of getFeaturedListings - rotates daily (24 hour cache)
  */
+/**
+ * Cached version of getFeaturedListings - rotates daily (24 hour cache)
+ */
+export const FEATURED_LISTINGS_CACHE_TAG = "featured-listings";
+
 export const getFeaturedListings = unstable_cache(
   getFeaturedListingsUncached,
   ["featured-listings-rotation"],
   {
     revalidate: 86400, // 24 hours
-    tags: ["featured-listings"],
+    tags: [FEATURED_LISTINGS_CACHE_TAG],
   },
 );
 

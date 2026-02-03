@@ -10,6 +10,7 @@ import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 
 interface ImageUploadProps {
+  id?: string;
   currentImageUrl?: string;
   onUploadChange: (status: { isUploading: boolean; imageId?: string }) => void;
   type: "icon" | "image";
@@ -19,6 +20,7 @@ interface ImageUploadProps {
  * image upload component
  */
 export default function ImageUpload({
+  id,
   currentImageUrl = null,
   onUploadChange,
   type = "image",
@@ -167,7 +169,7 @@ export default function ImageUpload({
   return (
     <div {...getRootProps()} className="h-full">
       <label
-        htmlFor={`dropzone-file-${type}`}
+        htmlFor={id || `dropzone-file-${type}`}
         className={cn(
           "w-full h-full visually-hidden-focusable rounded-lg cursor-pointer",
           "relative flex flex-col items-center justify-center",
@@ -226,7 +228,7 @@ export default function ImageUpload({
       {/* disabled={uploading || imageUrl !== null} */}
       <Input
         {...getInputProps()}
-        id={`dropzone-file-${type}`}
+        id={id || `dropzone-file-${type}`}
         accept="image/png, image/jpeg, image/jpg, image/webp"
         type="file"
         className="hidden"

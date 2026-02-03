@@ -397,7 +397,8 @@ export function VendorEditForm({
         profile_image: profileImageId || "",
         gallery: galleryString,
         age_tags: ageTagsStr,
-        status: "Pending" as const, // Always set to Pending for vendor edits
+        status:
+          listing.status === "Live" ? ("Live" as const) : ("Pending" as const),
         is_claimed: !!listing.is_claimed,
         is_active: listing.is_active ?? true,
       } as any;
@@ -707,6 +708,7 @@ export function VendorEditForm({
               }
             }}
             type="image"
+            id="logo-upload"
           />
         </div>
         <p className="text-xs text-gray-600">
@@ -729,6 +731,7 @@ export function VendorEditForm({
                 }
               }}
               type="image"
+              id="profile-upload"
             />
           </div>
         </div>

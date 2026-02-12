@@ -104,7 +104,7 @@ export const LoginForm = ({
       headerLabel="Welcome back"
       bottomButtonLabel="Don't have an account? Sign up"
       bottomButtonHref="/auth/register"
-      className={cn("border-none text-gray-900", className)}
+      className={cn("border-none text-text-primary", className)}
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -114,14 +114,14 @@ export const LoginForm = ({
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-900">Email</FormLabel>
+                  <FormLabel className="text-text-primary">Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
                       placeholder="name@example.com"
                       type="email"
-                      className="bg-paper border-secondary-denim text-gray-900 placeholder:text-gray-700"
+                      className="bg-bg-2 border-border-subtle text-text-primary placeholder:text-text-muted"
                     />
                   </FormControl>
                   <FormMessage />
@@ -136,17 +136,17 @@ export const LoginForm = ({
                   <FormControl>
                     <input
                       type="checkbox"
-                      className="h-4 w-4 rounded border-secondary-denim bg-paper text-primary-orange"
+                      className="h-4 w-4 rounded border-border-subtle bg-bg-2 text-primary-orange"
                       checked={field.value ?? false}
                       onChange={(event) => field.onChange(event.target.checked)}
                       disabled={isPending}
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel className="text-gray-900">
+                    <FormLabel className="text-text-primary">
                       Keep me logged in on this device
                     </FormLabel>
-                    <p className="text-xs text-gray-700">
+                    <p className="text-xs text-text-secondary">
                       Stay signed in for faster access. We'll automatically
                       adjust the session length based on your role.
                     </p>

@@ -108,7 +108,7 @@ export const RegisterForm = () => {
       headerLabel="Create an account"
       bottomButtonLabel="Already have an account? Sign in"
       bottomButtonHref="/auth/login"
-      className="border-none"
+      className="border-none text-text-primary"
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -118,7 +118,7 @@ export const RegisterForm = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-900">Name</FormLabel>
+                  <FormLabel className="text-text-primary">Name</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -136,7 +136,7 @@ export const RegisterForm = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-900">Email</FormLabel>
+                  <FormLabel className="text-text-primary">Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -165,10 +165,10 @@ export const RegisterForm = () => {
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel className="text-gray-900">
+                    <FormLabel className="text-text-primary">
                       Keep me logged in on this device
                     </FormLabel>
-                    <p className="text-xs text-gray-900">
+                    <p className="text-xs text-text-secondary">
                       Stay signed in for up to 30 days so you can return without
                       requesting another email.
                     </p>
@@ -181,7 +181,7 @@ export const RegisterForm = () => {
               name="role"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel className="text-gray-900">I am a...</FormLabel>
+                  <FormLabel className="text-text-primary">I am a...</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -193,7 +193,7 @@ export const RegisterForm = () => {
                           <RadioGroupItem value="parent" id="parent" />
                           <label
                             htmlFor="parent"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-text-primary"
                           >
                             Parent/Legal Guardian
                           </label>
@@ -204,7 +204,7 @@ export const RegisterForm = () => {
                           <RadioGroupItem value="vendor" id="vendor" />
                           <label
                             htmlFor="vendor"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-text-primary"
                           >
                             Professional/Vendor
                           </label>

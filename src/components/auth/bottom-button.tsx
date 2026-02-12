@@ -12,7 +12,7 @@ export const BottomButton = ({ href, label }: BottomButtonProps) => {
   return (
     <Button
       variant="link"
-      className="font-normal w-full text-secondary-denim hover:text-primary-orange"
+      className="font-normal w-full text-text-secondary hover:text-primary-orange"
       size="sm"
       asChild
     >

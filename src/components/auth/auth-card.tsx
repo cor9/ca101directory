@@ -33,7 +33,7 @@ export const AuthCard = ({
         <Link href="/" prefetch={false}>
           <Logo className="mb-2" />
         </Link>
-        <CardDescription className="text-gray-900">
+        <CardDescription className="text-text-secondary">
           {headerLabel}
         </CardDescription>
       </CardHeader>

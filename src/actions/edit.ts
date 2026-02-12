@@ -93,10 +93,6 @@ export async function edit(
       plan: pricePlan,
       // Free plan: update item leads to be unpublished and reviewed again
       // remain submitted if the plan status is submitted, otherwise set to pending
-      ...(pricePlan === PricePlans.FREE && {
-        status:
-          planStatus === FreePlanStatus.SUBMITTING ? "Pending" : "Pending",
-      }),
       updated_at: new Date().toISOString(),
     };
 

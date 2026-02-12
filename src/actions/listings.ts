@@ -106,7 +106,7 @@ export async function createListing(
     const listingData = {
       ...dataWithoutCategory,
       slug: finalSlug,
-      is_active: false, // Default to inactive for new listings
+      is_active: true, // Auto-approve new listings
       is_claimed: false, // Default to unclaimed
       categories: categories.length > 0 ? categories : null, // Convert to array or null
       region: regionArray, // Convert to array or null
@@ -447,7 +447,7 @@ export async function claimListing(listingId: string) {
         owner_id: user.id,
         claimed_by_email: user.email,
         date_claimed: new Date().toISOString(),
-        status: "Pending", // Set to pending for admin review
+        status: "Live", // Auto-approve claims
       })
       .eq("id", listingId);
 

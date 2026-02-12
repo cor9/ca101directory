@@ -199,7 +199,7 @@ export async function submitToSupabase(
       is_bonded: bonded,
       bond_number: bondNumber,
       // NEW submissions: Auto-approve paid plans, review free plans
-      status: formData.plan === "Free" ? "Pending" : "Live",
+      status: "Live",
       is_active: active ?? true,
       is_claimed: false,
       owner_id: user?.id || null, // Link to current user if authenticated
@@ -253,10 +253,7 @@ export async function submitToSupabase(
       const updateData = {
         ...listingData,
         // ALL EDITS require review (free and paid)
-        status:
-          currentListingStatus?.status === "Live"
-            ? "Pending"
-            : currentListingStatus?.status || "Pending",
+        status: "Live",
         // Preserve existing ownership - don't change on edit
         owner_id: currentListing?.owner_id,
         is_claimed: currentListing?.is_claimed,
@@ -420,13 +417,10 @@ export async function submitToSupabase(
     if (formData.isEdit) {
       // ALL EDITS require review (free and paid)
       successMessage =
-        "Successfully updated listing! Your listing remains visible with the current information while changes are reviewed (typically within 24-48 hours). You'll receive an email when changes go live.";
-    } else if (formData.plan === "Free") {
-      // NEW FREE submissions require review
       successMessage =
-        "Successfully submitted listing! Your listing will be reviewed within 24-48 hours. You'll receive an email confirmation when it goes live.";
+        "Successfully updated listing! Your changes are now live and visible in the directory.";
     } else {
-      // NEW PAID submissions go live immediately
+      // ALL submissions go live immediately
       successMessage =
         "Successfully submitted listing! Your listing is now live and visible in the directory.";
     }

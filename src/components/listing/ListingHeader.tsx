@@ -40,7 +40,7 @@ export function ListingHeader({
               <img
                 src={heroImageUrl}
                 alt={listing.listing_name || "Listing image"}
-                className="w-full rounded-xl shadow-lg object-cover max-h-64"
+                className="w-full rounded-xl shadow-lg object-cover object-center max-h-64"
               />
             ) : (
               <div className="h-40 w-40 flex items-center justify-center rounded-full bg-[#CC5A47] text-white text-3xl font-bold shadow-lg">

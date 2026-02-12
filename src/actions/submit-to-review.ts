@@ -47,7 +47,7 @@ export const submitToReview = async (
     const { data: result, error: updateError } = await supabase
       .from("listings")
       .update({
-        status: "Pending",
+        status: "Live",
         updated_at: new Date().toISOString(),
       })
       .eq("id", itemId)

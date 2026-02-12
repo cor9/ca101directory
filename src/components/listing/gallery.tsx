@@ -133,7 +133,7 @@ export function Gallery({ listing }: GalleryProps) {
                     loading="lazy"
                     sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                     fill
-                    className="border w-full shadow-lg object-cover"
+                    className="border w-full shadow-lg object-cover object-center"
                   />
                   {item.caption && (
                     <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white px-3 py-1 rounded-b-lg">

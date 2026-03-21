@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { trackVendorUpgradeClick } from "@/components/analytics/ga-events";
 
 const plans = [
   {
@@ -71,6 +72,7 @@ export function PlanSelectionCards() {
   );
 
   const handleSelectPlan = (planId: string) => {
+    trackVendorUpgradeClick({ plan_type: planId });
     if (planId === "free") {
       // Free plan - go to submit form
       router.push("/submit");

@@ -11,6 +11,7 @@ import {
   BreadcrumbSchema,
   ListingSchema,
 } from "@/components/seo/listing-schema";
+import { VendorProfileViewTracker } from "@/components/analytics/ga-events";
 import { RelatedLinks } from "@/components/seo/related-links";
 import { RichTextDisplay } from "@/components/ui/rich-text-display";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
@@ -526,6 +527,12 @@ export default async function ListingPage({ params }: ListingPageProps) {
         <div className="pb-20 sm:pb-0">
           {/* Schema.org Structured Data for SEO */}
           <ListingSchema listing={listing} averageRating={averageRating} />
+          <VendorProfileViewTracker 
+            vendor_id={listing.id}
+            category={displayPrimaryCategory}
+            listing_type={listing.listing_type || "standard"}
+            is_claimed={listing.is_claimed || false}
+          />
           <BreadcrumbSchema
             items={[
               { name: "Directory", url: `${siteConfig.url}/directory` },

@@ -8,6 +8,7 @@ import { Heart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { trackVendorFavorited } from "@/components/analytics/ga-events";
 
 interface FavoriteButtonProps {
   listingId: string;
@@ -18,6 +19,7 @@ interface FavoriteButtonProps {
   variant?: "default" | "outline" | "ghost";
   listingName?: string;
   listingOwnerId?: string;
+  category?: string;
 }
 
 export function FavoriteButton({
@@ -29,6 +31,7 @@ export function FavoriteButton({
   variant = "outline",
   listingName,
   listingOwnerId,
+  category,
 }: FavoriteButtonProps) {
   const { data: session } = useSession();
   const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
@@ -56,6 +59,10 @@ export function FavoriteButton({
       const newIsFavorited = await toggleFavorite(session.user.id, listingId);
       setIsFavorited(newIsFavorited);
       onToggle?.(newIsFavorited);
+
+      if (newIsFavorited) {
+        trackVendorFavorited({ vendor_id: listingId, category: category || "unknown" });
+      }
 
       toast.success(
         newIsFavorited ? "Added to favorites!" : "Removed from favorites",

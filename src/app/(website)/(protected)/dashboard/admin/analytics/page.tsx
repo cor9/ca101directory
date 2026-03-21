@@ -18,6 +18,12 @@ import {
   getUsersByRole,
   getUsersGrowth,
 } from "@/data/analytics";
+import {
+  getOverallTraffic,
+  getTopVendorPages,
+  getTrafficSources,
+  getTrafficTrend,
+} from "@/lib/analytics/google-analytics";
 import { currentUser } from "@/lib/auth";
 import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import { constructMetadata } from "@/lib/metadata";
@@ -62,6 +68,10 @@ export default async function AdminAnalyticsPage() {
     reviewRatings,
     usersByRole,
     topCategories,
+    gaTraffic,
+    gaTrend,
+    gaTopPages,
+    gaSources,
   ] = await Promise.all([
     getAnalyticsSummary(),
     getListingsGrowth(30),
@@ -72,6 +82,10 @@ export default async function AdminAnalyticsPage() {
     getReviewRatingDistribution(),
     getUsersByRole(),
     getTopCategories(10),
+    getOverallTraffic(30),
+    getTrafficTrend(30),
+    getTopVendorPages(30, 5),
+    getTrafficSources(30, 5),
   ]);
 
   return (
@@ -86,6 +100,77 @@ export default async function AdminAnalyticsPage() {
             Comprehensive insights into platform growth, engagement, and
             performance
           </p>
+        </div>
+
+        {/* Google Analytics Overview */}
+        <div>
+          <h2 className="text-2xl font-semibold text-foreground mb-4">
+            Directory Traffic (Last 30 Days)
+          </h2>
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-6">
+            <StatCard
+              title="Total Users"
+              value={gaTraffic.totalUsers.toLocaleString()}
+              subtitle="Unique visitors"
+              icon={<Users className="h-4 w-4" />}
+            />
+            <StatCard
+              title="Sessions"
+              value={gaTraffic.sessions.toLocaleString()}
+              subtitle="Total visits"
+              icon={<TrendingUp className="h-4 w-4" />}
+            />
+            <StatCard
+              title="Page Views"
+              value={gaTraffic.views.toLocaleString()}
+              subtitle="Screens viewed"
+              icon={<FileText className="h-4 w-4" />}
+            />
+            <StatCard
+              title="Engagement Rate"
+              value={`${gaTraffic.engagementRate.toFixed(1)}%`}
+              subtitle="Engaged sessions"
+              icon={<Target className="h-4 w-4" />}
+            />
+          </div>
+          <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
+            <GrowthLineChart
+              data={gaTrend as any}
+              title="Views Trend"
+              dataKey="views"
+              color="#06FFA5"
+            />
+            <GrowthLineChart
+              data={gaTrend as any}
+              title="Users Trend"
+              dataKey="users"
+              color="#A8DADC"
+            />
+          </div>
+        </div>
+
+        {/* Traffic Sources & Top Pages */}
+        <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
+           <div>
+             <h2 className="text-2xl font-semibold text-foreground mb-4">
+               Top Traffic Sources
+             </h2>
+             <DistributionBarChart
+               data={gaSources.map(s => ({ name: s.sourceMedium, value: s.sessions }))}
+               title="Sessions by Source / Medium"
+               color="#E63946"
+             />
+           </div>
+           <div>
+             <h2 className="text-2xl font-semibold text-foreground mb-4">
+               Top Viewed Vendor Pages
+             </h2>
+             <DistributionBarChart
+               data={gaTopPages.map(p => ({ name: p.title.replace(' - Child Actor 101 Directory', ''), value: p.views }))}
+               title="Page Views (Last 30 Days)"
+               color="#F7C548"
+             />
+           </div>
         </div>
 
         {/* Summary Stats Grid */}

@@ -353,6 +353,15 @@ export async function getTopCategories(
     const categoryCounts = (data || []).reduce(
       (acc, listing) => {
         (listing.categories || []).forEach((category: string) => {
+          const lowerCat = category.toLowerCase();
+          if (
+            lowerCat.includes("talent agent") ||
+            lowerCat.includes("talent manager") ||
+            lowerCat.includes("set teacher") ||
+            lowerCat.includes("tutor")
+          ) {
+            return;
+          }
           acc[category] = (acc[category] || 0) + 1;
         });
         return acc;

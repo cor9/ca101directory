@@ -3,12 +3,31 @@
 import { sendGAEvent } from "@next/third-parties/google";
 import { useEffect } from "react";
 
+// DO NOT track lead generation events for non-monetized vendor categories
+const NON_MONETIZED_CATEGORIES = [
+  "talent agent", 
+  "talent agents",
+  "talent manager",
+  "talent managers",
+  "set teacher",
+  "set teachers",
+  "on-set tutors"
+];
+
+function isNonMonetized(category: string) {
+  if (!category) return false;
+  const lowerCat = category.toLowerCase();
+  return NON_MONETIZED_CATEGORIES.some(c => lowerCat.includes(c));
+}
+
 export function trackVendorProfileView(params: {
   vendor_id: string;
   category: string;
   listing_type: string;
   is_claimed: boolean;
 }) {
+  if (isNonMonetized(params.category)) return;
+
   sendGAEvent({
     event: "vendor_profile_view",
     ...params,
@@ -39,6 +58,8 @@ export function trackVendorFavorited(params: {
   vendor_id: string;
   category: string;
 }) {
+  if (isNonMonetized(params.category)) return;
+
   sendGAEvent({
     event: "vendor_favorited",
     ...params,

@@ -75,6 +75,15 @@ export async function getOverallTraffic(
         { name: "screenPageViews" },
         { name: "engagementRate" },
       ],
+      dimensionFilter: {
+        filter: {
+          fieldName: "hostName",
+          stringFilter: {
+            matchType: "EXACT",
+            value: "directory.childactor101.com",
+          },
+        },
+      },
     },
     []
   );
@@ -105,12 +114,27 @@ export async function getTopVendorPages(
       dimensions: [{ name: "pagePath" }, { name: "pageTitle" }],
       metrics: [{ name: "screenPageViews" }, { name: "activeUsers" }],
       dimensionFilter: {
-        filter: {
-          fieldName: "pagePath",
-          stringFilter: {
-            matchType: "BEGINS_WITH",
-            value: "/item/", // Vendor listing pages start with /item/
-          },
+        andGroup: {
+          expressions: [
+            {
+              filter: {
+                fieldName: "hostName",
+                stringFilter: {
+                  matchType: "EXACT",
+                  value: "directory.childactor101.com",
+                },
+              },
+            },
+            {
+              filter: {
+                fieldName: "pagePath",
+                stringFilter: {
+                  matchType: "BEGINS_WITH",
+                  value: "/item/", // Vendor listing pages start with /item/
+                },
+              },
+            },
+          ],
         },
       },
       orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
@@ -145,12 +169,28 @@ export async function getTrafficSources(
   
   if (path) {
     request.dimensionFilter = {
+      andGroup: {
+        expressions: [
+          {
+            filter: {
+              fieldName: "hostName",
+              stringFilter: { matchType: "EXACT", value: "directory.childactor101.com" },
+            },
+          },
+          {
+            filter: {
+              fieldName: "pagePath",
+              stringFilter: { matchType: "EXACT", value: path },
+            },
+          },
+        ],
+      },
+    };
+  } else {
+    request.dimensionFilter = {
       filter: {
-        fieldName: "pagePath",
-        stringFilter: {
-          matchType: "EXACT",
-          value: path,
-        },
+        fieldName: "hostName",
+        stringFilter: { matchType: "EXACT", value: "directory.childactor101.com" },
       },
     };
   }
@@ -176,12 +216,28 @@ export async function getTrafficTrend(days: number = 30, path?: string): Promise
   
   if (path) {
     request.dimensionFilter = {
+      andGroup: {
+        expressions: [
+          {
+            filter: {
+              fieldName: "hostName",
+              stringFilter: { matchType: "EXACT", value: "directory.childactor101.com" },
+            },
+          },
+          {
+            filter: {
+              fieldName: "pagePath",
+              stringFilter: { matchType: "EXACT", value: path },
+            },
+          },
+        ],
+      },
+    };
+  } else {
+    request.dimensionFilter = {
       filter: {
-        fieldName: "pagePath",
-        stringFilter: {
-          matchType: "EXACT",
-          value: path,
-        },
+        fieldName: "hostName",
+        stringFilter: { matchType: "EXACT", value: "directory.childactor101.com" },
       },
     };
   }
@@ -217,12 +273,21 @@ export async function getVendorPageMetrics(
       dimensions: [{ name: "pagePath" }],
       metrics: [{ name: "screenPageViews" }, { name: "activeUsers" }],
       dimensionFilter: {
-        filter: {
-          fieldName: "pagePath",
-          stringFilter: {
-            matchType: "EXACT",
-            value: path,
-          },
+        andGroup: {
+          expressions: [
+            {
+              filter: {
+                fieldName: "hostName",
+                stringFilter: { matchType: "EXACT", value: "directory.childactor101.com" },
+              },
+            },
+            {
+              filter: {
+                fieldName: "pagePath",
+                stringFilter: { matchType: "EXACT", value: path },
+              },
+            },
+          ],
         },
       },
     },

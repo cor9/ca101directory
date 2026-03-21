@@ -8,6 +8,8 @@ import { getVendorPosition } from "@/data/vendor-position";
 import { currentUser } from "@/lib/auth";
 import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import { constructMetadata } from "@/lib/metadata";
+import { getVendorPageMetrics, getTrafficTrend, getTrafficSources } from "@/lib/analytics/google-analytics";
+import { GrowthLineChart, DistributionBarChart } from "@/components/analytics/analytics-charts";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -55,6 +57,9 @@ export default async function VendorDashboard({
 
   // 18A: Visibility Anxiety - Calculate relative position for primary listing
   let positionData = null;
+  let gaMetrics = { views: 0, users: 0 };
+  let gaTrend: any[] = [];
+  let gaSources: any[] = [];
   if (vendorListings.length > 0) {
     const primaryListing = vendorListings[0];
     const categoryName =
@@ -62,7 +67,21 @@ export default async function VendorDashboard({
       primaryListing.categories.length > 0
         ? primaryListing.categories[0]
         : undefined;
-    positionData = await getVendorPosition(primaryListing.id, categoryName);
+    
+    const path = primaryListing.slug ? `/item/${primaryListing.slug}` : undefined;
+    
+    // Run Supabase data and GA data checks in parallel
+    const [pos, ga, trend, sources] = await Promise.all([
+      getVendorPosition(primaryListing.id, categoryName),
+      path ? getVendorPageMetrics(path) : Promise.resolve({ views: 0, users: 0 }),
+      path ? getTrafficTrend(30, path) : Promise.resolve([]),
+      path ? getTrafficSources(30, 5, path) : Promise.resolve([])
+    ]);
+    
+    positionData = pos;
+    gaMetrics = ga;
+    gaTrend = trend;
+    gaSources = sources;
   }
 
   return (
@@ -187,11 +206,29 @@ export default async function VendorDashboard({
               Performance & Trust (Primary Listing)
             </h2>
 
-            <dl className="grid grid-cols-2 sm:grid-cols-3 gap-6 text-sm">
+            <dl className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-sm">
               <div>
-                <dt className="text-slate-400">Profile Views</dt>
-                <dd className="text-xl font-bold">
+                <dt className="text-slate-400">Total Views</dt>
+                <dd className="text-xl font-bold flex items-center gap-2">
                   {vendorListings[0].views_count}
+                </dd>
+              </div>
+              <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
+                <dt className="text-slate-400 text-xs uppercase tracking-wide flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
+                  GA4 Impressions (30d)
+                </dt>
+                <dd className="text-2xl font-bold text-blue-300 mt-1">
+                  {gaMetrics.views}
+                </dd>
+              </div>
+              <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
+                <dt className="text-slate-400 text-xs uppercase tracking-wide flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-purple-400 inline-block" />
+                  Unique Visitors (30d)
+                </dt>
+                <dd className="text-2xl font-bold text-purple-300 mt-1">
+                  {gaMetrics.users}
                 </dd>
               </div>
               <div>
@@ -225,7 +262,22 @@ export default async function VendorDashboard({
               </div>
             </dl>
 
-            <p className="mt-4 text-xs text-slate-300">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+              {gaTrend.length > 0 && (
+                <div className="bg-slate-800/20 p-4 rounded-lg">
+                   <h3 className="text-sm font-semibold text-slate-300 mb-4 tracking-wide">Listing Views Trend (30d)</h3>
+                   <GrowthLineChart data={gaTrend} title="" dataKey="views" color="#60A5FA" />
+                </div>
+              )}
+              {gaSources.length > 0 && (
+                <div className="bg-slate-800/20 p-4 rounded-lg">
+                   <h3 className="text-sm font-semibold text-slate-300 mb-4 tracking-wide">Where Families Found You</h3>
+                   <DistributionBarChart data={gaSources.map(s => ({ name: s.sourceMedium, value: s.sessions }))} title="" color="#A78BFA" />
+                </div>
+              )}
+            </div>
+
+            <p className="mt-6 text-xs text-slate-300">
               Improve your ranking by completing your profile, responding
               quickly, and collecting reviews from parents.
             </p>

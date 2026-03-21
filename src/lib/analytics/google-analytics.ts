@@ -132,18 +132,30 @@ export async function getTopVendorPages(
  */
 export async function getTrafficSources(
   days: number = 30,
-  limit: number = 5
+  limit: number = 5,
+  path?: string,
 ): Promise<TrafficSource[]> {
-  const rows = await queryGa4(
-    {
+  const request: any = {
       dateRanges: [{ startDate: `${days}daysAgo`, endDate: "today" }],
       dimensions: [{ name: "sessionSourceMedium" }],
       metrics: [{ name: "sessions" }],
       orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
       limit,
-    },
-    []
-  );
+  };
+  
+  if (path) {
+    request.dimensionFilter = {
+      filter: {
+        fieldName: "pagePath",
+        stringFilter: {
+          matchType: "EXACT",
+          value: path,
+        },
+      },
+    };
+  }
+
+  const rows = await queryGa4(request, []);
 
   return rows.map((row: any) => ({
     sourceMedium: row.dimensionValues?.[0]?.value || "direct / (none)",
@@ -154,16 +166,27 @@ export async function getTrafficSources(
 /**
  * Date-based trend data
  */
-export async function getTrafficTrend(days: number = 30): Promise<TrendData[]> {
-  const rows = await queryGa4(
-    {
+export async function getTrafficTrend(days: number = 30, path?: string): Promise<TrendData[]> {
+  const request: any = {
       dateRanges: [{ startDate: `${days}daysAgo`, endDate: "today" }],
       dimensions: [{ name: "date" }],
       metrics: [{ name: "screenPageViews" }, { name: "activeUsers" }],
       orderBys: [{ dimension: { dimensionName: "date" }, desc: false }],
-    },
-    []
-  );
+  };
+  
+  if (path) {
+    request.dimensionFilter = {
+      filter: {
+        fieldName: "pagePath",
+        stringFilter: {
+          matchType: "EXACT",
+          value: path,
+        },
+      },
+    };
+  }
+  
+  const rows = await queryGa4(request, []);
 
   return rows.map((row: any) => {
     // Format YYYYMMDD to YYYY-MM-DD

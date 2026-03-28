@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { CheckCircle, Star, Info } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { CheckCircle, Info, Star } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 export type BadgeType = "verified" | "featured" | "pro";
 
@@ -45,7 +45,8 @@ function VerifiedBadge({
 
     if (showTooltip) {
       document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
     }
   }, [showTooltip]);
 
@@ -53,22 +54,22 @@ function VerifiedBadge({
     ? `Verified: ${formatVerifiedDate(profileVerifiedAt)}`
     : null;
 
-      return (
+  return (
     <div className="relative inline-flex" ref={badgeRef}>
-        <div
-          className={cn(
+      <div
+        className={cn(
           "flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium text-white border cursor-default",
-          className
-          )}
-          style={{
-            backgroundColor: "#0F141B",
+          className,
+        )}
+        style={{
+          backgroundColor: "#0F141B",
           borderColor: "#2DD4BF",
         }}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         onClick={() => setShowTooltip((prev) => !prev)}
-        >
-          <CheckCircle className="h-3 w-3" style={{ color: "#2DD4BF" }} />
+      >
+        <CheckCircle className="h-3 w-3" style={{ color: "#2DD4BF" }} />
         <span>Profile Verified</span>
         <Info className="h-3 w-3 text-gray-400" />
       </div>
@@ -86,14 +87,23 @@ function VerifiedBadge({
           )}
         </div>
       )}
-        </div>
-      );
+    </div>
+  );
 }
 
-export function StatusBadge({ type, className, profileVerifiedAt }: StatusBadgeProps) {
+export function StatusBadge({
+  type,
+  className,
+  profileVerifiedAt,
+}: StatusBadgeProps) {
   switch (type) {
     case "verified":
-      return <VerifiedBadge className={className} profileVerifiedAt={profileVerifiedAt} />;
+      return (
+        <VerifiedBadge
+          className={className}
+          profileVerifiedAt={profileVerifiedAt}
+        />
+      );
 
     case "featured":
       return (
@@ -176,7 +186,9 @@ export function BadgeStack({
         <StatusBadge
           key={type}
           type={type}
-          profileVerifiedAt={type === "verified" ? profileVerifiedAt : undefined}
+          profileVerifiedAt={
+            type === "verified" ? profileVerifiedAt : undefined
+          }
         />
       ))}
     </div>

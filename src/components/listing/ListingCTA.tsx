@@ -45,4 +45,3 @@ export function ListingCTA({ listing, slug }: ListingCTAProps) {
     </div>
   );
 }
-

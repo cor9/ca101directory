@@ -213,14 +213,16 @@ export default async function SubmitPage({
           )}
         </header>
         {/* STEP 3: Form container - safe place to start */}
-        <div className="
+        <div
+          className="
           bg-card-surface
           border
           border-border-subtle
           rounded-xl
           p-6
           shadow-card
-        ">
+        "
+        >
           <SupabaseSubmitForm
             categories={freeFormCategories}
             existingListing={existingListing}

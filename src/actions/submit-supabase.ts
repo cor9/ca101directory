@@ -416,8 +416,7 @@ export async function submitToSupabase(
     let successMessage = "";
     if (formData.isEdit) {
       // ALL EDITS require review (free and paid)
-      successMessage =
-      successMessage =
+      successMessage = successMessage =
         "Successfully updated listing! Your changes are now live and visible in the directory.";
     } else {
       // ALL submissions go live immediately

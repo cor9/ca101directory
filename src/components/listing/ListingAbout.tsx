@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { RichTextDisplay } from "@/components/ui/rich-text-display";
 import type { Listing } from "@/data/listings";
+import { useState } from "react";
 
 interface ListingAboutProps {
   listing: Listing;
@@ -10,8 +10,7 @@ interface ListingAboutProps {
 
 export function ListingAbout({ listing }: ListingAboutProps) {
   const [expanded, setExpanded] = useState(false);
-  const description =
-    listing.what_you_offer || listing.description || null;
+  const description = listing.what_you_offer || listing.description || null;
 
   if (!description) {
     return null;
@@ -52,4 +51,3 @@ export function ListingAbout({ listing }: ListingAboutProps) {
     </section>
   );
 }
-

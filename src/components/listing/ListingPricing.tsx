@@ -12,7 +12,8 @@ interface ListingPricingProps {
  */
 export function ListingPricing({ listing }: ListingPricingProps) {
   const hasStartingAt = listing.price_starting_at != null;
-  const hasRange = listing.price_range_min != null && listing.price_range_max != null;
+  const hasRange =
+    listing.price_range_min != null && listing.price_range_max != null;
   const hasFreeConsult = listing.free_consult === true;
   const hasPricingInfo = hasStartingAt || hasRange || hasFreeConsult;
 
@@ -22,9 +23,9 @@ export function ListingPricing({ listing }: ListingPricingProps) {
   }
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(price);
@@ -51,7 +52,8 @@ export function ListingPricing({ listing }: ListingPricingProps) {
           <div className="flex items-baseline gap-2">
             <span className="text-sm text-text-muted">Typical range</span>
             <span className="text-lg font-semibold text-text-primary">
-              {formatPrice(listing.price_range_min!)}–{formatPrice(listing.price_range_max!)}
+              {formatPrice(listing.price_range_min!)}–
+              {formatPrice(listing.price_range_max!)}
             </span>
           </div>
         )}
@@ -71,4 +73,3 @@ export function ListingPricing({ listing }: ListingPricingProps) {
     </div>
   );
 }
-

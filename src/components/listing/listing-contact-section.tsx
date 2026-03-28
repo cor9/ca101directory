@@ -36,7 +36,11 @@ export function ListingContactSection({
   // Get tier-based capabilities for contact display
   // Gating is based on LISTING tier (what vendor pays), not viewer
   const listingTier = normalizeListingTier(listing.plan, listing.comped);
-  const capabilities = getListingCapabilities(listingTier, {}, listing.listing_type);
+  const capabilities = getListingCapabilities(
+    listingTier,
+    {},
+    listing.listing_type,
+  );
 
   return (
     <section className="flex flex-col gap-6">
@@ -104,11 +108,15 @@ export function ListingContactSection({
                   rel="noopener noreferrer"
                   className="hover:text-orange-300 transition-colors"
                 >
-                  {listing.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+                  {listing.website
+                    .replace(/^https?:\/\//, "")
+                    .replace(/\/$/, "")}
                 </a>
               ) : (
                 <span className="select-text">
-                  {listing.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+                  {listing.website
+                    .replace(/^https?:\/\//, "")
+                    .replace(/\/$/, "")}
                 </span>
               )}
             </li>

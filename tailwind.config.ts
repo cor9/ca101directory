@@ -38,20 +38,20 @@ const config: Config = {
 
         /* Text - softened for dark mode readability */
         text: {
-          primary: "#F5F5F5",    // off-white, easier on eyes
+          primary: "#F5F5F5", // off-white, easier on eyes
           secondary: "#C4C8CE", // softer than pure gray
           muted: "#9DA3AB",
         },
 
         /* Accents - ONE canonical system (Patreon-style) */
         accent: {
-          red: "#FF3333",       // urgency / submit / alerts
-          orange: "#FF8800",    // CTAs / revenue
-          rose: "#FF00CC",      // creative / demo reels
-          blue: "#6666FF",      // agents / trust
-          aqua: "#00E5FF",      // search / discovery
-          purple: "#B24BF3",    // premium / featured
-          gold: "#FFD700",      // verified / approved
+          red: "#FF3333", // urgency / submit / alerts
+          orange: "#FF8800", // CTAs / revenue
+          rose: "#FF00CC", // creative / demo reels
+          blue: "#6666FF", // agents / trust
+          aqua: "#00E5FF", // search / discovery
+          purple: "#B24BF3", // premium / featured
+          gold: "#FFD700", // verified / approved
         },
 
         /* Status / utility */

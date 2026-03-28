@@ -17,7 +17,9 @@ export function parseArrayField(val: unknown): string[] {
   if (!val) return [];
 
   if (Array.isArray(val)) {
-    return val.filter((item) => typeof item === "string" && item.trim()) as string[];
+    return val.filter(
+      (item) => typeof item === "string" && item.trim(),
+    ) as string[];
   }
 
   if (typeof val === "string") {
@@ -28,7 +30,9 @@ export function parseArrayField(val: unknown): string[] {
     try {
       const parsed = JSON.parse(s);
       if (Array.isArray(parsed)) {
-        return parsed.filter((item) => typeof item === "string" && item.trim()) as string[];
+        return parsed.filter(
+          (item) => typeof item === "string" && item.trim(),
+        ) as string[];
       }
       // If parsed is a string, treat as single value
       if (typeof parsed === "string" && parsed.trim()) {
@@ -51,8 +55,18 @@ export function parseArrayField(val: unknown): string[] {
  * - Removing UUIDs
  */
 export function cleanArray(arr: string[]): string[] {
-  const placeholders = new Set(["_", "unknown", "n/a", "na", "none", "[]", '[""]', ""]);
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const placeholders = new Set([
+    "_",
+    "unknown",
+    "n/a",
+    "na",
+    "none",
+    "[]",
+    '[""]',
+    "",
+  ]);
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
   return arr
     .map((x) => (typeof x === "string" ? x.trim() : ""))
@@ -83,7 +97,10 @@ export function hasValidArrayData(val: unknown): boolean {
  * Format array for display (joined with separator).
  * Returns null if no valid values.
  */
-export function formatArrayDisplay(val: unknown, separator = ", "): string | null {
+export function formatArrayDisplay(
+  val: unknown,
+  separator = ", ",
+): string | null {
   const clean = getCleanArray(val);
   return clean.length > 0 ? clean.join(separator) : null;
 }

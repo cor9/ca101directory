@@ -1,8 +1,8 @@
 "use client";
 
+import { trackVendorClaimClick } from "@/components/analytics/ga-events";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
-import { trackVendorClaimClick } from "@/components/analytics/ga-events";
 import Link from "next/link";
 
 interface ClaimButtonProps {
@@ -33,9 +33,11 @@ export function ClaimButton({
 
     return (
       <Button asChild variant="outline" className={className}>
-        <Link 
-          href={signUpUrl} 
-          onClick={() => trackVendorClaimClick({ vendor_id: listingId, source: "directory" })}
+        <Link
+          href={signUpUrl}
+          onClick={() =>
+            trackVendorClaimClick({ vendor_id: listingId, source: "directory" })
+          }
         >
           Sign Up to Claim This Listing
         </Link>
@@ -48,9 +50,11 @@ export function ClaimButton({
 
   return (
     <Button asChild variant="outline" className={className}>
-      <Link 
+      <Link
         href={claimUrl}
-        onClick={() => trackVendorClaimClick({ vendor_id: listingId, source: "directory" })}
+        onClick={() =>
+          trackVendorClaimClick({ vendor_id: listingId, source: "directory" })
+        }
       >
         Claim This Listing
       </Link>

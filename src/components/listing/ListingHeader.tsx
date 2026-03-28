@@ -11,12 +11,14 @@ interface ListingHeaderProps {
 }
 
 function initialsFromName(name: string): string {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .map((part) => part[0]?.toUpperCase())
-    .slice(0, 2)
-    .join("") || "CA";
+  return (
+    name
+      .split(" ")
+      .filter(Boolean)
+      .map((part) => part[0]?.toUpperCase())
+      .slice(0, 2)
+      .join("") || "CA"
+  );
 }
 
 export function ListingHeader({
@@ -68,4 +70,3 @@ export function ListingHeader({
     </div>
   );
 }
-

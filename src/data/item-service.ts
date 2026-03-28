@@ -157,7 +157,7 @@ export async function listingToItem(listing: Listing): Promise<ItemInfo> {
     city: listing.city || null,
     state: listing.state || null,
     logoUrl: (listing as any).logo_url || null,
-    serviceModality: listing.service_modality || 'unknown',
+    serviceModality: listing.service_modality || "unknown",
   } as ItemInfo;
 }
 
@@ -372,7 +372,10 @@ export async function getItems({
       const virtualGroup: typeof filteredListings = [];
       const otherGroup: typeof filteredListings = [];
       for (const listing of filteredListings) {
-        if (listing.service_modality === "virtual" || listing.service_modality === "hybrid") {
+        if (
+          listing.service_modality === "virtual" ||
+          listing.service_modality === "hybrid"
+        ) {
           virtualGroup.push(listing);
         } else {
           otherGroup.push(listing);

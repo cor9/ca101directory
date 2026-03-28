@@ -57,7 +57,7 @@ export async function generateMetadata({
     const categories = await getCategories();
 
     const category = categories.find(
-      (cat) => categoryNameToSlug(cat.category_name) === params.slug
+      (cat) => categoryNameToSlug(cat.category_name) === params.slug,
     );
 
     if (!category) {
@@ -103,7 +103,7 @@ export default async function CategoryPage({
     const categories = await getCategories();
 
     const category = categories.find(
-      (cat) => categoryNameToSlug(cat.category_name) === params.slug
+      (cat) => categoryNameToSlug(cat.category_name) === params.slug,
     );
 
     if (!category) {
@@ -124,9 +124,15 @@ export default async function CategoryPage({
     const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
     // DEBUG: Log raw query results
-    console.log(`[CategoryPage:${params.slug}] Total listings returned:`, totalCount);
+    console.log(
+      `[CategoryPage:${params.slug}] Total listings returned:`,
+      totalCount,
+    );
     console.log(`[CategoryPage:${params.slug}] Items on page 1:`, items.length);
-    console.log(`[CategoryPage:${params.slug}] Sample data:`, items.slice(0, 3));
+    console.log(
+      `[CategoryPage:${params.slug}] Sample data:`,
+      items.slice(0, 3),
+    );
 
     // Generate category subtext (1 line, factual)
     const getCategorySubtext = (name: string): string => {
@@ -155,7 +161,8 @@ export default async function CategoryPage({
               {getCategorySubtext(categoryName)}
             </p>
             <p className="text-sm text-text-muted mt-2">
-              {totalCount} verified {categoryName.toLowerCase()} serving young actors
+              {totalCount} verified {categoryName.toLowerCase()} serving young
+              actors
             </p>
           </div>
         </Container>
@@ -163,7 +170,10 @@ export default async function CategoryPage({
         {/* Listings Grid - EXACT SAME as directory page */}
         <section className="max-w-7xl mx-auto px-4 py-8">
           {/* Category Educational Content - Why You Need / What to Look For */}
-          <CategoryContent categoryName={categoryName} listingCount={totalCount} />
+          <CategoryContent
+            categoryName={categoryName}
+            listingCount={totalCount}
+          />
 
           {/* Education Tip Card */}
           <CategoryEducationTip categorySlug={params.slug} />

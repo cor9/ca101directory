@@ -151,26 +151,32 @@ export default async function AdminAnalyticsPage() {
 
         {/* Traffic Sources & Top Pages */}
         <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
-           <div>
-             <h2 className="text-2xl font-semibold text-foreground mb-4">
-               Top Traffic Sources
-             </h2>
-             <DistributionBarChart
-               data={gaSources.map(s => ({ name: s.sourceMedium, value: s.sessions }))}
-               title="Sessions by Source / Medium"
-               color="#E63946"
-             />
-           </div>
-           <div>
-             <h2 className="text-2xl font-semibold text-foreground mb-4">
-               Top Viewed Vendor Pages
-             </h2>
-             <DistributionBarChart
-               data={gaTopPages.map(p => ({ name: p.title.replace(' - Child Actor 101 Directory', ''), value: p.views }))}
-               title="Page Views (Last 30 Days)"
-               color="#F7C548"
-             />
-           </div>
+          <div>
+            <h2 className="text-2xl font-semibold text-foreground mb-4">
+              Top Traffic Sources
+            </h2>
+            <DistributionBarChart
+              data={gaSources.map((s) => ({
+                name: s.sourceMedium,
+                value: s.sessions,
+              }))}
+              title="Sessions by Source / Medium"
+              color="#E63946"
+            />
+          </div>
+          <div>
+            <h2 className="text-2xl font-semibold text-foreground mb-4">
+              Top Viewed Vendor Pages
+            </h2>
+            <DistributionBarChart
+              data={gaTopPages.map((p) => ({
+                name: p.title.replace(" - Child Actor 101 Directory", ""),
+                value: p.views,
+              }))}
+              title="Page Views (Last 30 Days)"
+              color="#F7C548"
+            />
+          </div>
         </div>
 
         {/* Summary Stats Grid */}

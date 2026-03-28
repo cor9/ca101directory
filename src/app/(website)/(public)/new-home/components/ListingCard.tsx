@@ -2,10 +2,10 @@ import Image from "next/image";
 
 import Link from "next/link";
 
-import { MapPin, Star } from "lucide-react";
 import { ProfileVerifiedBadge } from "@/components/badges/ProfileVerifiedBadge";
-import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
 import { AgeGroupPills } from "@/components/listing/AgeGroupPills";
+import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
+import { MapPin, Star } from "lucide-react";
 
 interface ListingCardProps {
   listing: {
@@ -90,7 +90,11 @@ export default function ListingCard({
               sizes="64px"
             />
           ) : (
-            <CategoryPlaceholder category={listingCategory} size="sm" showLabel={false} />
+            <CategoryPlaceholder
+              category={listingCategory}
+              size="sm"
+              showLabel={false}
+            />
           )}
         </div>
 
@@ -105,7 +109,9 @@ export default function ListingCard({
         </div>
 
         {(listing.profile_verified || listing.is_verified) && (
-          <ProfileVerifiedBadge profileVerifiedAt={listing.profile_verified_at} />
+          <ProfileVerifiedBadge
+            profileVerifiedAt={listing.profile_verified_at}
+          />
         )}
       </Link>
     );
@@ -129,7 +135,11 @@ export default function ListingCard({
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           ) : (
-            <CategoryPlaceholder category={listingCategory} size="lg" className="h-56" />
+            <CategoryPlaceholder
+              category={listingCategory}
+              size="lg"
+              className="h-56"
+            />
           )}
 
           {/* Featured Badge */}
@@ -144,7 +154,9 @@ export default function ListingCard({
 
           {(listing.profile_verified || listing.is_verified) && (
             <div className="absolute top-3 right-3">
-              <ProfileVerifiedBadge profileVerifiedAt={listing.profile_verified_at} />
+              <ProfileVerifiedBadge
+                profileVerifiedAt={listing.profile_verified_at}
+              />
             </div>
           )}
         </div>
@@ -159,7 +171,11 @@ export default function ListingCard({
               </h3>
 
               <p className="text-sm text-accent-blue mt-1">{listingCategory}</p>
-              <AgeGroupPills ageGroups={listing.age_groups} maxPills={3} className="mt-2" />
+              <AgeGroupPills
+                ageGroups={listing.age_groups}
+                maxPills={3}
+                className="mt-2"
+              />
             </div>
 
             {listing.rating && (
@@ -231,14 +247,20 @@ export default function ListingCard({
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         ) : (
-          <CategoryPlaceholder category={listingCategory} size="md" className="h-40" />
+          <CategoryPlaceholder
+            category={listingCategory}
+            size="md"
+            className="h-40"
+          />
         )}
 
         {/* Profile Verified Badge */}
 
         {(listing.profile_verified || listing.is_verified) && (
           <div className="absolute top-2 right-2">
-            <ProfileVerifiedBadge profileVerifiedAt={listing.profile_verified_at} />
+            <ProfileVerifiedBadge
+              profileVerifiedAt={listing.profile_verified_at}
+            />
           </div>
         )}
       </div>
@@ -252,7 +274,11 @@ export default function ListingCard({
 
         <p className="text-sm text-accent-blue mt-0.5">{listingCategory}</p>
 
-        <AgeGroupPills ageGroups={listing.age_groups} maxPills={3} className="mt-1" />
+        <AgeGroupPills
+          ageGroups={listing.age_groups}
+          maxPills={3}
+          className="mt-1"
+        />
 
         {listingLocation && (
           <div className="flex items-center gap-1 mt-2 text-xs text-text-muted">

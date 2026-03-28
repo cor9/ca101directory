@@ -1,12 +1,12 @@
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
 import { getItems } from "@/data/item-service";
-import { constructMetadata } from "@/lib/metadata";
 import { DEFAULT_SORT } from "@/lib/constants";
-import Hero from "./components/Hero";
-import FeaturedVendor from "./components/FeaturedVendor";
-import PopularVendors from "./components/PopularVendors";
+import { constructMetadata } from "@/lib/metadata";
 import CategoryGrid from "./components/CategoryGrid";
+import FeaturedVendor from "./components/FeaturedVendor";
+import Hero from "./components/Hero";
+import PopularVendors from "./components/PopularVendors";
 
 // Ensure homepage is always fresh
 export const dynamic = "force-dynamic";

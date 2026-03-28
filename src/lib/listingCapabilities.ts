@@ -34,7 +34,7 @@ export type ListingCapabilities = {
  */
 export function normalizeListingTier(
   plan: string | null,
-  comped?: boolean | null
+  comped?: boolean | null,
 ): ListingTier {
   if (comped) return "pro"; // Comped listings treated as Pro
 
@@ -53,7 +53,7 @@ export function normalizeListingTier(
 export function getListingCapabilities(
   listingTier: ListingTier,
   viewer: ViewerContext = {},
-  listingType?: string | null
+  listingType?: string | null,
 ): ListingCapabilities {
   const isPro = listingTier === "pro" || listingTier === "premium";
   const isStandard = listingTier === "standard" || isPro;
@@ -95,7 +95,11 @@ export function getListingCapabilities(
     showLeadForm: isPro && (viewer.isLoggedIn ?? true), // decide if login required
     obfuscateEmail: !isPro, // [at]/[dot] for free+standard
     obfuscatePhone: false, // phones are already less scrapable
-    cta: isPro ? "CONTACT_MODAL" : isStandard ? "VISIT_WEBSITE" : "VIEW_PROFILE",
+    cta: isPro
+      ? "CONTACT_MODAL"
+      : isStandard
+        ? "VISIT_WEBSITE"
+        : "VIEW_PROFILE",
   };
 }
 

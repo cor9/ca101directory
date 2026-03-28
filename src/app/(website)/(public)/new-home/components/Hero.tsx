@@ -23,8 +23,9 @@ export default function Hero() {
       </h1>
 
       <p className="mt-4 text-text-secondary max-w-xl leading-relaxed text-lg">
-        Over 12,000 families rely on Child Actor 101 to discover verified coaches, photographers,
-        agents, and industry pros who understand the youth entertainment world.
+        Over 12,000 families rely on Child Actor 101 to discover verified
+        coaches, photographers, agents, and industry pros who understand the
+        youth entertainment world.
       </p>
 
       {/* Search Bar */}

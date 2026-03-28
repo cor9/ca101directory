@@ -1,12 +1,5 @@
 import type { Listing } from "@/data/listings";
-import {
-  CheckCircle,
-  Clock,
-  Globe,
-  MapPin,
-  Shield,
-  Users,
-} from "lucide-react";
+import { CheckCircle, Clock, Globe, MapPin, Shield, Users } from "lucide-react";
 
 interface ListingDetailsProps {
   listing: Listing;
@@ -23,7 +16,9 @@ function formatLastActive(dateStr: string | null): string | null {
   if (!dateStr) return null;
   const date = new Date(dateStr);
   const now = new Date();
-  const diffDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+  const diffDays = Math.floor(
+    (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
+  );
 
   if (diffDays === 0) return "Active today";
   if (diffDays === 1) return "Active yesterday";
@@ -46,11 +41,20 @@ export function ListingDetails({
   const responseTime = (listing as any).response_time_label;
   const lastActive = formatLastActive((listing as any).last_active_at);
 
-  const isVerified = trustLevel === "verified" || trustLevel === "background_checked" || trustLevel === "verified_safe";
-  const isBackgroundChecked = trustLevel === "background_checked" || trustLevel === "verified_safe";
+  const isVerified =
+    trustLevel === "verified" ||
+    trustLevel === "background_checked" ||
+    trustLevel === "verified_safe";
+  const isBackgroundChecked =
+    trustLevel === "background_checked" || trustLevel === "verified_safe";
 
   // Trust signals to show
-  const showTrustSignals = isVerified || isBackgroundChecked || repeatFamilies > 0 || responseTime || lastActive;
+  const showTrustSignals =
+    isVerified ||
+    isBackgroundChecked ||
+    repeatFamilies > 0 ||
+    responseTime ||
+    lastActive;
 
   return (
     <section className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6">
@@ -74,7 +78,8 @@ export function ListingDetails({
           {repeatFamilies > 0 && (
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 text-xs font-medium">
               <Users className="w-3 h-3" />
-              {repeatFamilies} repeat {repeatFamilies === 1 ? "family" : "families"}
+              {repeatFamilies} repeat{" "}
+              {repeatFamilies === 1 ? "family" : "families"}
             </span>
           )}
           {responseTime && (
@@ -97,7 +102,9 @@ export function ListingDetails({
           <MapPin className="w-4 h-4 text-text-muted mt-0.5 flex-shrink-0" />
           <div>
             <dt className="font-medium text-text-primary">Location</dt>
-            <dd className="text-text-secondary">{location || "Not specified"}</dd>
+            <dd className="text-text-secondary">
+              {location || "Not specified"}
+            </dd>
           </div>
         </div>
 
@@ -113,8 +120,13 @@ export function ListingDetails({
 
         {regions.length > 0 && (
           <div className="col-span-2 sm:col-span-1">
-            <dt className="font-medium text-text-primary mb-1">Service Areas</dt>
-            <dd className="text-text-secondary text-xs">{regions.slice(0, 3).join(", ")}{regions.length > 3 ? ` +${regions.length - 3} more` : ""}</dd>
+            <dt className="font-medium text-text-primary mb-1">
+              Service Areas
+            </dt>
+            <dd className="text-text-secondary text-xs">
+              {regions.slice(0, 3).join(", ")}
+              {regions.length > 3 ? ` +${regions.length - 3} more` : ""}
+            </dd>
           </div>
         )}
       </dl>
@@ -123,7 +135,9 @@ export function ListingDetails({
       <div className="mt-5 pt-4 border-t border-white/10 space-y-4">
         {ageRanges.length > 0 && (
           <div>
-            <dt className="font-medium text-text-primary text-sm mb-2">Ages Served</dt>
+            <dt className="font-medium text-text-primary text-sm mb-2">
+              Ages Served
+            </dt>
             <dd className="flex flex-wrap gap-2">
               {ageRanges.map((age) => (
                 <span
@@ -139,7 +153,9 @@ export function ListingDetails({
 
         {services.length > 0 && (
           <div>
-            <dt className="font-medium text-text-primary text-sm mb-2">Services</dt>
+            <dt className="font-medium text-text-primary text-sm mb-2">
+              Services
+            </dt>
             <dd className="flex flex-wrap gap-2">
               {services.slice(0, 6).map((service) => (
                 <span
@@ -161,4 +177,3 @@ export function ListingDetails({
     </section>
   );
 }
-

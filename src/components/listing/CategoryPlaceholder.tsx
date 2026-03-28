@@ -60,7 +60,7 @@ export function CategoryPlaceholder({
         className={cn(
           "relative w-16 h-16 rounded-lg bg-gradient-to-br flex items-center justify-center",
           gradient,
-          className
+          className,
         )}
       >
         <div className="flex items-center justify-center h-8 w-8 rounded-full bg-white/80 shadow-sm">
@@ -76,7 +76,7 @@ export function CategoryPlaceholder({
       className={cn(
         "relative rounded-lg bg-gradient-to-br flex flex-col items-center justify-center",
         gradient,
-        className
+        className,
       )}
     >
       {/* Large centered icon */}

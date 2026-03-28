@@ -1,7 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
 import { ProfileVerifiedBadge } from "@/components/badges/ProfileVerifiedBadge";
 import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
+import Image from "next/image";
+import Link from "next/link";
 
 interface VendorCardSmallProps {
   vendor: {
@@ -24,7 +24,8 @@ interface VendorCardSmallProps {
 
 export default function VendorCardSmall({ vendor }: VendorCardSmallProps) {
   const vendorName = vendor.title || vendor.name || "Vendor";
-  const vendorCategory = vendor.category || vendor.category_name || "Professional";
+  const vendorCategory =
+    vendor.category || vendor.category_name || "Professional";
   const vendorLocation =
     vendor.city && vendor.state
       ? `${vendor.city}, ${vendor.state}`
@@ -48,7 +49,11 @@ export default function VendorCardSmall({ vendor }: VendorCardSmallProps) {
             sizes="240px"
           />
         ) : (
-          <CategoryPlaceholder category={vendorCategory} size="md" className="h-32" />
+          <CategoryPlaceholder
+            category={vendorCategory}
+            size="md"
+            className="h-32"
+          />
         )}
       </div>
 
@@ -63,7 +68,9 @@ export default function VendorCardSmall({ vendor }: VendorCardSmallProps) {
         {/* Profile Verified Badge */}
         {(vendor.profile_verified || vendor.is_verified) && (
           <div className="mt-2">
-            <ProfileVerifiedBadge profileVerifiedAt={vendor.profile_verified_at} />
+            <ProfileVerifiedBadge
+              profileVerifiedAt={vendor.profile_verified_at}
+            />
           </div>
         )}
       </div>

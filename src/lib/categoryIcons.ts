@@ -5,37 +5,37 @@
  */
 
 import {
-  GraduationCap,
-  Clapperboard,
-  Compass,
-  Film,
-  Camera,
-  Video,
-  Handshake,
-  Briefcase,
-  School,
-  Globe,
-  Users,
-  Megaphone,
-  TrendingUp,
-  ClipboardList,
-  UsersRound,
-  ShieldCheck,
-  Languages,
-  Wand2,
-  Hash,
-  Brain,
-  Newspaper,
-  Scissors,
-  Baby,
   Apple,
+  Baby,
+  Brain,
+  Briefcase,
+  Building,
+  Camera,
+  Clapperboard,
+  ClipboardList,
+  Compass,
+  Drama,
+  Film,
+  Globe,
+  GraduationCap,
+  Handshake,
+  Hash,
+  Headphones,
+  Languages,
+  type LucideIcon,
+  Megaphone,
+  Mic,
+  Newspaper,
+  School,
+  Scissors,
+  ShieldCheck,
   Shirt,
   Star,
-  Drama,
-  Mic,
-  Headphones,
-  Building,
-  type LucideIcon,
+  TrendingUp,
+  Users,
+  UsersRound,
+  Video,
+  Wand2,
 } from "lucide-react";
 
 export const categoryIcons: Record<string, LucideIcon> = {
@@ -46,7 +46,7 @@ export const categoryIcons: Record<string, LucideIcon> = {
   "Career Consultation": Compass,
   "Demo Reel Creators": Film,
   "Headshot Photographers": Camera,
-  "Photographer": Camera,
+  Photographer: Camera,
   "Self Tape Support": Video,
   "Talent Agents": Handshake,
   "Talent Agent": Handshake,
@@ -66,17 +66,17 @@ export const categoryIcons: Record<string, LucideIcon> = {
   "Improv Classes": Wand2,
   "Influencer Agents": Hash,
   "Mental Health for Performers": Brain,
-  "Publicists": Newspaper,
+  Publicists: Newspaper,
   "Reel Editors": Scissors,
-  "Editor": Scissors,
+  Editor: Scissors,
   "Set Sitters": Baby,
   "Set Teachers": Apple,
-  "Stylists": Shirt,
+  Stylists: Shirt,
   "Talent Showcases": Star,
   "Theatre Training": Drama,
   "Vocal Coaches": Mic,
   "Voiceover Support": Headphones,
-  "Studio": Building,
+  Studio: Building,
 };
 
 /** Default icon for unknown categories */
@@ -103,7 +103,9 @@ for (const [key, icon] of Object.entries(categoryIcons)) {
  * Get the Lucide icon component for a category
  * Handles variations in naming (slugs, display names, etc.)
  */
-export function getCategoryIcon(category: string | null | undefined): LucideIcon {
+export function getCategoryIcon(
+  category: string | null | undefined,
+): LucideIcon {
   if (!category) return DefaultCategoryIcon;
 
   // Try exact match first

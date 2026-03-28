@@ -1,5 +1,6 @@
 import { getCategoriesByIds } from "@/actions/categories";
 import { auth } from "@/auth";
+import { VendorProfileViewTracker } from "@/components/analytics/ga-events";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import ListingLayout from "@/components/listing/ListingLayout";
 import { ContactActions } from "@/components/listing/contact-actions";
@@ -11,7 +12,6 @@ import {
   BreadcrumbSchema,
   ListingSchema,
 } from "@/components/seo/listing-schema";
-import { VendorProfileViewTracker } from "@/components/analytics/ga-events";
 import { RelatedLinks } from "@/components/seo/related-links";
 import { RichTextDisplay } from "@/components/ui/rich-text-display";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
@@ -527,7 +527,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
         <div className="pb-20 sm:pb-0">
           {/* Schema.org Structured Data for SEO */}
           <ListingSchema listing={listing} averageRating={averageRating} />
-          <VendorProfileViewTracker 
+          <VendorProfileViewTracker
             vendor_id={listing.id}
             category={displayPrimaryCategory}
             listing_type={listing.listing_type || "standard"}

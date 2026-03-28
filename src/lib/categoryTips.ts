@@ -41,7 +41,7 @@ export const categoryTips: Record<string, CategoryTip> = {
       "Kids under 14 should update headshots every 6-12 months as they change quickly. You need two types: commercial (warm, approachable smile) and theatrical (neutral, serious). Natural lighting and minimal retouching work best for young actors.",
     type: "guide",
   },
-  "Photographer": {
+  Photographer: {
     title: "Headshot Basics for Young Actors",
     content:
       "Kids under 14 should update headshots every 6-12 months as they change quickly. You need two types: commercial (warm, approachable smile) and theatrical (neutral, serious). Natural lighting and minimal retouching work best for young actors.",
@@ -102,12 +102,9 @@ export const categoryTips: Record<string, CategoryTip> = {
 /**
  * Get the tip for a category (handles variations in naming)
  */
-export function getCategoryTip(category: string | null | undefined): CategoryTip | null {
+export function getCategoryTip(
+  category: string | null | undefined,
+): CategoryTip | null {
   if (!category) return null;
   return categoryTips[category] || null;
 }
-
-
-
-
-

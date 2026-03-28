@@ -1,5 +1,5 @@
-import { getFeaturedListings } from "@/data/listings";
 import { ListingCardClient } from "@/components/listings/ListingCardClient";
+import { getFeaturedListings } from "@/data/listings";
 
 export default async function FeaturedListingsGrid() {
   let featuredListings = [];

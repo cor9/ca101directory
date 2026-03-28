@@ -80,7 +80,6 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                 </Link>
               )}
             </div>
-
           </div>
         </div>
 

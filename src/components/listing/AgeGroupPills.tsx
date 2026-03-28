@@ -30,7 +30,7 @@ export function AgeGroupPills({
   if (!ageGroups || ageGroups.length === 0) return null;
 
   const validGroups = ageGroups.filter(
-    (g): g is AgeGroup => g in ageGroupLabels
+    (g): g is AgeGroup => g in ageGroupLabels,
   );
 
   if (validGroups.length === 0) return null;
@@ -45,7 +45,7 @@ export function AgeGroupPills({
           key={group}
           className={cn(
             "px-2 py-0.5 text-[10px] font-medium rounded-full border",
-            ageGroupColors[group]
+            ageGroupColors[group],
           )}
         >
           {ageGroupLabels[group]}
@@ -59,4 +59,3 @@ export function AgeGroupPills({
     </div>
   );
 }
-

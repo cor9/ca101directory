@@ -1,14 +1,23 @@
 "use client";
 
-import { getCategoryTip, type CategoryTip } from "@/lib/categoryTips";
-import { X, Shield, BookOpen, Info } from "lucide-react";
-import { useState, useEffect } from "react";
+import { type CategoryTip, getCategoryTip } from "@/lib/categoryTips";
+import { BookOpen, Info, Shield, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface CategoryTipCardProps {
   category: string | null | undefined;
 }
 
-const typeConfig: Record<CategoryTip["type"], { icon: typeof Shield; color: string; label: string; iconColor: string; bgIcon: string }> = {
+const typeConfig: Record<
+  CategoryTip["type"],
+  {
+    icon: typeof Shield;
+    color: string;
+    label: string;
+    iconColor: string;
+    bgIcon: string;
+  }
+> = {
   safety: {
     icon: Shield,
     color: "border-rose-200/60 bg-rose-50/70",
@@ -94,8 +103,3 @@ export function CategoryTipCard({ category }: CategoryTipCardProps) {
     </div>
   );
 }
-
-
-
-
-

@@ -1,14 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { X, Lightbulb, ShieldAlert } from "lucide-react";
 import { getCategoryTip } from "@/lib/categoryEducationTips";
+import { Lightbulb, ShieldAlert, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface CategoryEducationTipProps {
   categorySlug?: string;
 }
 
-export function CategoryEducationTip({ categorySlug }: CategoryEducationTipProps) {
+export function CategoryEducationTip({
+  categorySlug,
+}: CategoryEducationTipProps) {
   const [isDismissed, setIsDismissed] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
 
@@ -55,7 +57,9 @@ export function CategoryEducationTip({ categorySlug }: CategoryEducationTipProps
       <div className="flex gap-3">
         <div
           className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
-            isSafetyTip ? "bg-amber-100 text-amber-600" : "bg-sky-100 text-sky-600"
+            isSafetyTip
+              ? "bg-amber-100 text-amber-600"
+              : "bg-sky-100 text-sky-600"
           }`}
         >
           {isSafetyTip ? (
@@ -69,12 +73,16 @@ export function CategoryEducationTip({ categorySlug }: CategoryEducationTipProps
           <h3 className="text-slate-900 font-bold text-lg md:text-xl">
             {tip.title}
           </h3>
-          <p className="mt-2 text-slate-800 text-base leading-relaxed">{tip.body}</p>
+          <p className="mt-2 text-slate-800 text-base leading-relaxed">
+            {tip.body}
+          </p>
 
           <ul className="mt-4 text-slate-800 text-sm md:text-base space-y-2">
             {tip.bullets.map((bullet, i) => (
               <li key={i} className="flex items-start gap-2">
-                <span className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${isSafetyTip ? "bg-amber-500" : "bg-sky-500"}`} />
+                <span
+                  className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${isSafetyTip ? "bg-amber-500" : "bg-sky-500"}`}
+                />
                 <span>{bullet}</span>
               </li>
             ))}
@@ -84,4 +92,3 @@ export function CategoryEducationTip({ categorySlug }: CategoryEducationTipProps
     </div>
   );
 }
-

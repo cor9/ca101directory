@@ -341,13 +341,22 @@ export async function createListing(data: FormData): Promise<string | null> {
         "Format (In-person/Online/Hybrid)": (() => {
           // Handle both legacy single values and new comma-separated tags
           const formatStr = (data.format || "").toLowerCase();
-          if (formatStr.includes("hybrid") || formatStr.includes("online") && formatStr.includes("in-person")) {
+          if (
+            formatStr.includes("hybrid") ||
+            (formatStr.includes("online") && formatStr.includes("in-person"))
+          ) {
             return "Hybrid (Online & In-Person)";
           }
-          if (formatStr.includes("online") && !formatStr.includes("in-person")) {
+          if (
+            formatStr.includes("online") &&
+            !formatStr.includes("in-person")
+          ) {
             return "Online Only";
           }
-          if (formatStr.includes("in-person") || formatStr.includes("in person")) {
+          if (
+            formatStr.includes("in-person") ||
+            formatStr.includes("in person")
+          ) {
             return "In-Person Only";
           }
           // Legacy fallback

@@ -383,11 +383,14 @@ export default async function AdminListingsPage({
                           {listing.listing_name || "Untitled Listing"}
                         </h3>
                         <p className="text-sm text-neutral-400 mt-0.5 line-clamp-1">
-                          {Array.isArray(listing.categories) && listing.categories[0]
+                          {Array.isArray(listing.categories) &&
+                          listing.categories[0]
                             ? listing.categories[0]
                             : "—"}
                           <span className="mx-2 text-neutral-600">•</span>
-                          {[listing.city, listing.state].filter(Boolean).join(", ") || "—"}
+                          {[listing.city, listing.state]
+                            .filter(Boolean)
+                            .join(", ") || "—"}
                         </p>
                       </Link>
                       <p className="text-xs text-neutral-500 mt-0.5">

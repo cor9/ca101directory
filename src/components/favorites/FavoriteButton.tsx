@@ -1,5 +1,6 @@
 "use client";
 
+import { trackVendorFavorited } from "@/components/analytics/ga-events";
 import { GuestActionModal } from "@/components/auth/guest-action-modal";
 import { Button } from "@/components/ui/button";
 import { toggleFavorite } from "@/data/favorites";
@@ -8,7 +9,6 @@ import { Heart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { trackVendorFavorited } from "@/components/analytics/ga-events";
 
 interface FavoriteButtonProps {
   listingId: string;
@@ -61,7 +61,10 @@ export function FavoriteButton({
       onToggle?.(newIsFavorited);
 
       if (newIsFavorited) {
-        trackVendorFavorited({ vendor_id: listingId, category: category || "unknown" });
+        trackVendorFavorited({
+          vendor_id: listingId,
+          category: category || "unknown",
+        });
       }
 
       toast.success(

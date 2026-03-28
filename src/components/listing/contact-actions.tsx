@@ -1,14 +1,14 @@
 "use client";
 
-import clsx from "clsx";
-import { Globe, Mail } from "lucide-react";
-import { useCallback } from "react";
 import {
+  type ListingTier,
   getListingCapabilities,
   normalizeListingTier,
   obfuscateEmail,
-  type ListingTier,
 } from "@/lib/listingCapabilities";
+import clsx from "clsx";
+import { Globe, Mail } from "lucide-react";
+import { useCallback } from "react";
 
 type ContactActionsProps = {
   listingId: string;
@@ -24,7 +24,11 @@ type ContactActionsProps = {
 };
 
 // Get the primary CTA label based on tier and available contact methods
-function getPrimaryCTALabel(tier: ListingTier, hasWebsite: boolean, hasEmail: boolean): string {
+function getPrimaryCTALabel(
+  tier: ListingTier,
+  hasWebsite: boolean,
+  hasEmail: boolean,
+): string {
   if (tier === "pro" || tier === "premium") {
     return hasEmail ? "Contact" : hasWebsite ? "Visit Website" : "View Details";
   }
@@ -80,9 +84,7 @@ export function ContactActions({
 
   // Muted text for non-clickable contact info
   const mutedClass = clsx(
-    isHero
-      ? "text-sm text-slate-400"
-      : "text-xs text-slate-400",
+    isHero ? "text-sm text-slate-400" : "text-xs text-slate-400",
   );
 
   // Determine what to show based on tier

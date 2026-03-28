@@ -10,7 +10,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { stateNames, statesList } from "@/data/regions";
-import { LocateIcon, MapPinIcon, SearchIcon, VideoIcon, Baby, DollarSign, ChevronDown, SlidersHorizontal } from "lucide-react";
+import {
+  Baby,
+  ChevronDown,
+  DollarSign,
+  LocateIcon,
+  MapPinIcon,
+  SearchIcon,
+  SlidersHorizontal,
+  VideoIcon,
+} from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 
@@ -71,18 +80,26 @@ export default function DirectoryHeroSearch({
   const [category, setCategory] = useState(searchParams?.get("category") || "");
   const [state, setState] = useState(searchParams?.get("state") || "");
   const [city, setCity] = useState(searchParams?.get("city") || "");
-  const [onlineAvailable, setOnlineAvailable] = useState(searchParams?.get("online_available") === "true");
+  const [onlineAvailable, setOnlineAvailable] = useState(
+    searchParams?.get("online_available") === "true",
+  );
   const [ageGroups, setAgeGroups] = useState<string[]>(() => {
     const param = searchParams?.get("age_groups");
     return param ? param.split(",") : [];
   });
-  const [priceMax, setPriceMax] = useState(searchParams?.get("price_max") || "");
-  const [beginnerFriendly, setBeginnerFriendly] = useState(searchParams?.get("beginner_friendly") === "true");
+  const [priceMax, setPriceMax] = useState(
+    searchParams?.get("price_max") || "",
+  );
+  const [beginnerFriendly, setBeginnerFriendly] = useState(
+    searchParams?.get("beginner_friendly") === "true",
+  );
   const [techniqueFocus, setTechniqueFocus] = useState<string[]>(() => {
     const param = searchParams?.get("technique_focus");
     return param ? param.split(",") : [];
   });
-  const [unionStatus, setUnionStatus] = useState(searchParams?.get("union_status") || "");
+  const [unionStatus, setUnionStatus] = useState(
+    searchParams?.get("union_status") || "",
+  );
   const [locating, setLocating] = useState(false);
   const [showMoreFilters, setShowMoreFilters] = useState(false);
 
@@ -96,19 +113,26 @@ export default function DirectoryHeroSearch({
   ].filter(Boolean).length;
 
   // Get selected category name for conditional filter display
-  const selectedCategoryName = categories.find(c => c.id === category)?.category_name || "";
-  const showTechniqueFilter = TECHNIQUE_CATEGORIES.some(tc => selectedCategoryName.includes(tc) || tc.includes(selectedCategoryName));
-  const showUnionFilter = UNION_CATEGORIES.some(uc => selectedCategoryName.includes(uc) || uc.includes(selectedCategoryName));
+  const selectedCategoryName =
+    categories.find((c) => c.id === category)?.category_name || "";
+  const showTechniqueFilter = TECHNIQUE_CATEGORIES.some(
+    (tc) =>
+      selectedCategoryName.includes(tc) || tc.includes(selectedCategoryName),
+  );
+  const showUnionFilter = UNION_CATEGORIES.some(
+    (uc) =>
+      selectedCategoryName.includes(uc) || uc.includes(selectedCategoryName),
+  );
 
   const toggleTechnique = (value: string) => {
     setTechniqueFocus((prev) =>
-      prev.includes(value) ? prev.filter((t) => t !== value) : [...prev, value]
+      prev.includes(value) ? prev.filter((t) => t !== value) : [...prev, value],
     );
   };
 
   const toggleAgeGroup = (value: string) => {
     setAgeGroups((prev) =>
-      prev.includes(value) ? prev.filter((g) => g !== value) : [...prev, value]
+      prev.includes(value) ? prev.filter((g) => g !== value) : [...prev, value],
     );
   };
 
@@ -124,7 +148,8 @@ export default function DirectoryHeroSearch({
     if (ageGroups.length > 0) params.set("age_groups", ageGroups.join(","));
     if (priceMax) params.set("price_max", priceMax);
     if (beginnerFriendly) params.set("beginner_friendly", "true");
-    if (techniqueFocus.length > 0) params.set("technique_focus", techniqueFocus.join(","));
+    if (techniqueFocus.length > 0)
+      params.set("technique_focus", techniqueFocus.join(","));
     if (unionStatus) params.set("union_status", unionStatus);
 
     const queryString = params.toString();
@@ -399,7 +424,9 @@ export default function DirectoryHeroSearch({
                 </div>
 
                 {/* Conditional Faceted Filters - only show when relevant category selected */}
-                {(showTechniqueFilter || showUnionFilter || (category && category !== "all")) && (
+                {(showTechniqueFilter ||
+                  showUnionFilter ||
+                  (category && category !== "all")) && (
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
                     {/* Beginner Friendly Toggle - always show when category selected */}
                     {category && category !== "all" && (
@@ -413,7 +440,9 @@ export default function DirectoryHeroSearch({
                               : "bg-white/10 border-white/30 text-white hover:bg-white/20"
                           }`}
                         >
-                          <span className="text-sm font-medium">Beginner Friendly</span>
+                          <span className="text-sm font-medium">
+                            Beginner Friendly
+                          </span>
                         </button>
                       </div>
                     )}

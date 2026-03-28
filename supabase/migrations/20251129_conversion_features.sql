@@ -7,6 +7,7 @@
 -- ========================================
 -- Track automated drip email campaigns for unclaimed/free listings
 
+DROP TABLE IF EXISTS email_campaigns CASCADE;
 CREATE TABLE IF NOT EXISTS email_campaigns (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   listing_id UUID NOT NULL REFERENCES listings(id) ON DELETE CASCADE,

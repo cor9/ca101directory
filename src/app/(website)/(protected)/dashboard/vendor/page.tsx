@@ -1,3 +1,7 @@
+import {
+  DistributionBarChart,
+  GrowthLineChart,
+} from "@/components/analytics/analytics-charts";
 import { VendorDashboardLayout } from "@/components/layouts/VendorDashboardLayout";
 import { Button } from "@/components/ui/button";
 import { VendorListingsTable } from "@/components/vendor/vendor-listings-table";
@@ -5,11 +9,14 @@ import { VendorROIStats } from "@/components/vendor/vendor-roi-stats";
 import { siteConfig } from "@/config/site";
 import { getVendorListings } from "@/data/listings";
 import { getVendorPosition } from "@/data/vendor-position";
+import {
+  getTrafficSources,
+  getTrafficTrend,
+  getVendorPageMetrics,
+} from "@/lib/analytics/google-analytics";
 import { currentUser } from "@/lib/auth";
 import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import { constructMetadata } from "@/lib/metadata";
-import { getVendorPageMetrics, getTrafficTrend, getTrafficSources } from "@/lib/analytics/google-analytics";
-import { GrowthLineChart, DistributionBarChart } from "@/components/analytics/analytics-charts";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -67,17 +74,21 @@ export default async function VendorDashboard({
       primaryListing.categories.length > 0
         ? primaryListing.categories[0]
         : undefined;
-    
-    const path = primaryListing.slug ? `/item/${primaryListing.slug}` : undefined;
-    
+
+    const path = primaryListing.slug
+      ? `/listing/${primaryListing.slug}`
+      : undefined;
+
     // Run Supabase data and GA data checks in parallel
     const [pos, ga, trend, sources] = await Promise.all([
       getVendorPosition(primaryListing.id, categoryName),
-      path ? getVendorPageMetrics(path) : Promise.resolve({ views: 0, users: 0 }),
+      path
+        ? getVendorPageMetrics(path)
+        : Promise.resolve({ views: 0, users: 0 }),
       path ? getTrafficTrend(30, path) : Promise.resolve([]),
-      path ? getTrafficSources(30, 5, path) : Promise.resolve([])
+      path ? getTrafficSources(30, 5, path) : Promise.resolve([]),
     ]);
-    
+
     positionData = pos;
     gaMetrics = ga;
     gaTrend = trend;
@@ -265,14 +276,30 @@ export default async function VendorDashboard({
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
               {gaTrend.length > 0 && (
                 <div className="bg-slate-800/20 p-4 rounded-lg">
-                   <h3 className="text-sm font-semibold text-slate-300 mb-4 tracking-wide">Listing Views Trend (30d)</h3>
-                   <GrowthLineChart data={gaTrend} title="" dataKey="views" color="#60A5FA" />
+                  <h3 className="text-sm font-semibold text-slate-300 mb-4 tracking-wide">
+                    Listing Views Trend (30d)
+                  </h3>
+                  <GrowthLineChart
+                    data={gaTrend}
+                    title=""
+                    dataKey="views"
+                    color="#60A5FA"
+                  />
                 </div>
               )}
               {gaSources.length > 0 && (
                 <div className="bg-slate-800/20 p-4 rounded-lg">
-                   <h3 className="text-sm font-semibold text-slate-300 mb-4 tracking-wide">Where Families Found You</h3>
-                   <DistributionBarChart data={gaSources.map(s => ({ name: s.sourceMedium, value: s.sessions }))} title="" color="#A78BFA" />
+                  <h3 className="text-sm font-semibold text-slate-300 mb-4 tracking-wide">
+                    Where Families Found You
+                  </h3>
+                  <DistributionBarChart
+                    data={gaSources.map((s) => ({
+                      name: s.sourceMedium,
+                      value: s.sessions,
+                    }))}
+                    title=""
+                    color="#A78BFA"
+                  />
                 </div>
               )}
             </div>

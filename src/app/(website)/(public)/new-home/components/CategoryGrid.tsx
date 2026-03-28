@@ -1,15 +1,15 @@
 import {
-  Camera,
-  Video,
-  Users,
-  Mic,
   BookOpen,
-  Palette,
   Building2,
-  HelpCircle,
+  Camera,
   Heart,
-  Sparkles,
+  HelpCircle,
   type LucideIcon,
+  Mic,
+  Palette,
+  Sparkles,
+  Users,
+  Video,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -41,10 +41,10 @@ const categoryIcons: Record<string, LucideIcon> = {
   resources: HelpCircle,
   "vocal coaches": Mic,
   stylists: Palette,
-  "branding": Palette,
-  "voice": Mic,
-  "advocacy": Heart,
-  "workshops": Sparkles,
+  branding: Palette,
+  voice: Mic,
+  advocacy: Heart,
+  workshops: Sparkles,
   default: HelpCircle,
 };
 

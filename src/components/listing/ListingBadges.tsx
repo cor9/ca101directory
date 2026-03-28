@@ -57,4 +57,3 @@ export function ListingBadges({ listing, averageRating }: ListingBadgesProps) {
     </div>
   );
 }
-

@@ -10,6 +10,7 @@ import {
   Settings,
   Shield,
   Star,
+  TrendingUp,
   Users,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -44,6 +45,12 @@ const adminNavItems = [
     href: "/dashboard/admin/analytics",
     icon: BarChart3,
     description: "View platform metrics",
+  },
+  {
+    label: "Vendor CRM",
+    href: "/dashboard/admin/crm",
+    icon: TrendingUp,
+    description: "Track upgrade outreach",
   },
   {
     label: "System Settings",

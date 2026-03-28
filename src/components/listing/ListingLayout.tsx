@@ -1,4 +1,6 @@
 import type { Listing } from "@/data/listings";
+import { isIndustryPro } from "@/lib/listings/listingType";
+import Link from "next/link";
 import { ListingAbout } from "./ListingAbout";
 import { ListingCTA } from "./ListingCTA";
 import { ListingDetails } from "./ListingDetails";
@@ -6,8 +8,6 @@ import { ListingDifferentiators } from "./ListingDifferentiators";
 import { ListingHeader } from "./ListingHeader";
 import { ListingMedia } from "./ListingMedia";
 import { ListingPricing } from "./ListingPricing";
-import { isIndustryPro } from "@/lib/listings/listingType";
-import Link from "next/link";
 
 interface ListingLayoutProps {
   listing: Listing;
@@ -109,4 +109,3 @@ export default function ListingLayout({
     </>
   );
 }
-

@@ -231,60 +231,67 @@ export const ListingsTable = ({
                 "Untitled listing";
               const categoryName =
                 (listing as any).primary_category ||
-                (listing.categories?.[0]) ||
+                listing.categories?.[0] ||
                 "Uncategorized";
-              const locationParts = [listing.city, listing.state].filter(Boolean);
-              const locationStr = locationParts.length > 0 ? locationParts.join(", ") : "";
+              const locationParts = [listing.city, listing.state].filter(
+                Boolean,
+              );
+              const locationStr =
+                locationParts.length > 0 ? locationParts.join(", ") : "";
 
               return (
-              <tr key={listing.id}>
-                <td className="px-6 py-4">
-                  <h3 className="text-slate-100 font-semibold text-base md:text-lg leading-tight truncate max-w-xs">
-                    {title}
-                  </h3>
-                  <p className="text-slate-400 text-sm mt-0.5">
-                    {categoryName}{locationStr ? ` • ${locationStr}` : ""}
-                  </p>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-ink">
-                  {getStatusBadge(listing.status)}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-ink">
-                  {listing.is_claimed ? "Yes" : "No"}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-ink">
-                  {listing.created_at
-                    ? new Date(listing.created_at).toLocaleDateString()
-                    : "N/A"}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => onEdit(listing)}
-                      aria-label={`Edit ${listing.listing_name}`}
-                    >
-                      <Pencil className="mr-2 h-4 w-4" aria-hidden="true" />
-                      Edit
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      asChild
-                      className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
-                    >
-                      <Link
-                        href={`/dashboard/admin/mockup/${listing.id}`}
-                        aria-label={`View Pro mockup for ${listing.listing_name}`}
+                <tr key={listing.id}>
+                  <td className="px-6 py-4">
+                    <h3 className="text-slate-100 font-semibold text-base md:text-lg leading-tight truncate max-w-xs">
+                      {title}
+                    </h3>
+                    <p className="text-slate-400 text-sm mt-0.5">
+                      {categoryName}
+                      {locationStr ? ` • ${locationStr}` : ""}
+                    </p>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-ink">
+                    {getStatusBadge(listing.status)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-ink">
+                    {listing.is_claimed ? "Yes" : "No"}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-ink">
+                    {listing.created_at
+                      ? new Date(listing.created_at).toLocaleDateString()
+                      : "N/A"}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => onEdit(listing)}
+                        aria-label={`Edit ${listing.listing_name}`}
                       >
-                        <Sparkles className="mr-2 h-4 w-4" aria-hidden="true" />
-                        Mockup
-                      </Link>
-                    </Button>
-                  </div>
-                </td>
-              </tr>
+                        <Pencil className="mr-2 h-4 w-4" aria-hidden="true" />
+                        Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        asChild
+                        className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                      >
+                        <Link
+                          href={`/dashboard/admin/mockup/${listing.id}`}
+                          aria-label={`View Pro mockup for ${listing.listing_name}`}
+                        >
+                          <Sparkles
+                            className="mr-2 h-4 w-4"
+                            aria-hidden="true"
+                          />
+                          Mockup
+                        </Link>
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
               );
             })}
           </tbody>

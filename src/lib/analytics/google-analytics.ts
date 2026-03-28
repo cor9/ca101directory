@@ -63,9 +63,7 @@ async function queryGa4(request: any, fallback: any) {
 /**
  * Overall directory traffic (past N days)
  */
-export async function getOverallTraffic(
-  days: number = 30
-): Promise<TrafficMetrics> {
+export async function getOverallTraffic(days = 30): Promise<TrafficMetrics> {
   const rows = await queryGa4(
     {
       dateRanges: [{ startDate: `${days}daysAgo`, endDate: "today" }],
@@ -85,7 +83,7 @@ export async function getOverallTraffic(
         },
       },
     },
-    []
+    [],
   );
 
   if (!rows || rows.length === 0) {
@@ -93,10 +91,10 @@ export async function getOverallTraffic(
   }
 
   const row = rows[0];
-  const totalUsers = parseInt(row.metricValues?.[0]?.value || "0", 10);
-  const sessions = parseInt(row.metricValues?.[1]?.value || "0", 10);
-  const views = parseInt(row.metricValues?.[2]?.value || "0", 10);
-  const engagementRate = parseFloat(row.metricValues?.[3]?.value || "0");
+  const totalUsers = Number.parseInt(row.metricValues?.[0]?.value || "0", 10);
+  const sessions = Number.parseInt(row.metricValues?.[1]?.value || "0", 10);
+  const views = Number.parseInt(row.metricValues?.[2]?.value || "0", 10);
+  const engagementRate = Number.parseFloat(row.metricValues?.[3]?.value || "0");
 
   return { totalUsers, sessions, views, engagementRate };
 }
@@ -105,8 +103,8 @@ export async function getOverallTraffic(
  * Top viewed vendor pages
  */
 export async function getTopVendorPages(
-  days: number = 30,
-  limit: number = 5
+  days = 30,
+  limit = 5,
 ): Promise<PageMetrics[]> {
   const rows = await queryGa4(
     {
@@ -130,7 +128,7 @@ export async function getTopVendorPages(
                 fieldName: "pagePath",
                 stringFilter: {
                   matchType: "BEGINS_WITH",
-                  value: "/item/", // Vendor listing pages start with /item/
+                  value: "/listing/", // Vendor listing pages start with /listing/
                 },
               },
             },
@@ -140,14 +138,14 @@ export async function getTopVendorPages(
       orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
       limit,
     },
-    []
+    [],
   );
 
   return rows.map((row: any) => ({
     path: row.dimensionValues?.[0]?.value || "",
     title: row.dimensionValues?.[1]?.value || "Unknown",
-    views: parseInt(row.metricValues?.[0]?.value || "0", 10),
-    activeUsers: parseInt(row.metricValues?.[1]?.value || "0", 10),
+    views: Number.parseInt(row.metricValues?.[0]?.value || "0", 10),
+    activeUsers: Number.parseInt(row.metricValues?.[1]?.value || "0", 10),
   }));
 }
 
@@ -155,18 +153,18 @@ export async function getTopVendorPages(
  * Traffic Sources Summary
  */
 export async function getTrafficSources(
-  days: number = 30,
-  limit: number = 5,
+  days = 30,
+  limit = 5,
   path?: string,
 ): Promise<TrafficSource[]> {
   const request: any = {
-      dateRanges: [{ startDate: `${days}daysAgo`, endDate: "today" }],
-      dimensions: [{ name: "sessionSourceMedium" }],
-      metrics: [{ name: "sessions" }],
-      orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
-      limit,
+    dateRanges: [{ startDate: `${days}daysAgo`, endDate: "today" }],
+    dimensions: [{ name: "sessionSourceMedium" }],
+    metrics: [{ name: "sessions" }],
+    orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
+    limit,
   };
-  
+
   if (path) {
     request.dimensionFilter = {
       andGroup: {
@@ -174,7 +172,10 @@ export async function getTrafficSources(
           {
             filter: {
               fieldName: "hostName",
-              stringFilter: { matchType: "EXACT", value: "directory.childactor101.com" },
+              stringFilter: {
+                matchType: "EXACT",
+                value: "directory.childactor101.com",
+              },
             },
           },
           {
@@ -190,7 +191,10 @@ export async function getTrafficSources(
     request.dimensionFilter = {
       filter: {
         fieldName: "hostName",
-        stringFilter: { matchType: "EXACT", value: "directory.childactor101.com" },
+        stringFilter: {
+          matchType: "EXACT",
+          value: "directory.childactor101.com",
+        },
       },
     };
   }
@@ -199,21 +203,24 @@ export async function getTrafficSources(
 
   return rows.map((row: any) => ({
     sourceMedium: row.dimensionValues?.[0]?.value || "direct / (none)",
-    sessions: parseInt(row.metricValues?.[0]?.value || "0", 10),
+    sessions: Number.parseInt(row.metricValues?.[0]?.value || "0", 10),
   }));
 }
 
 /**
  * Date-based trend data
  */
-export async function getTrafficTrend(days: number = 30, path?: string): Promise<TrendData[]> {
+export async function getTrafficTrend(
+  days = 30,
+  path?: string,
+): Promise<TrendData[]> {
   const request: any = {
-      dateRanges: [{ startDate: `${days}daysAgo`, endDate: "today" }],
-      dimensions: [{ name: "date" }],
-      metrics: [{ name: "screenPageViews" }, { name: "activeUsers" }],
-      orderBys: [{ dimension: { dimensionName: "date" }, desc: false }],
+    dateRanges: [{ startDate: `${days}daysAgo`, endDate: "today" }],
+    dimensions: [{ name: "date" }],
+    metrics: [{ name: "screenPageViews" }, { name: "activeUsers" }],
+    orderBys: [{ dimension: { dimensionName: "date" }, desc: false }],
   };
-  
+
   if (path) {
     request.dimensionFilter = {
       andGroup: {
@@ -221,7 +228,10 @@ export async function getTrafficTrend(days: number = 30, path?: string): Promise
           {
             filter: {
               fieldName: "hostName",
-              stringFilter: { matchType: "EXACT", value: "directory.childactor101.com" },
+              stringFilter: {
+                matchType: "EXACT",
+                value: "directory.childactor101.com",
+              },
             },
           },
           {
@@ -237,11 +247,14 @@ export async function getTrafficTrend(days: number = 30, path?: string): Promise
     request.dimensionFilter = {
       filter: {
         fieldName: "hostName",
-        stringFilter: { matchType: "EXACT", value: "directory.childactor101.com" },
+        stringFilter: {
+          matchType: "EXACT",
+          value: "directory.childactor101.com",
+        },
       },
     };
   }
-  
+
   const rows = await queryGa4(request, []);
 
   return rows.map((row: any) => {
@@ -254,8 +267,8 @@ export async function getTrafficTrend(days: number = 30, path?: string): Promise
 
     return {
       date: formattedDate,
-      views: parseInt(row.metricValues?.[0]?.value || "0", 10),
-      users: parseInt(row.metricValues?.[1]?.value || "0", 10),
+      views: Number.parseInt(row.metricValues?.[0]?.value || "0", 10),
+      users: Number.parseInt(row.metricValues?.[1]?.value || "0", 10),
     };
   });
 }
@@ -265,7 +278,7 @@ export async function getTrafficTrend(days: number = 30, path?: string): Promise
  */
 export async function getVendorPageMetrics(
   path: string,
-  days: number = 30
+  days = 30,
 ): Promise<{ views: number; users: number }> {
   const rows = await queryGa4(
     {
@@ -278,7 +291,10 @@ export async function getVendorPageMetrics(
             {
               filter: {
                 fieldName: "hostName",
-                stringFilter: { matchType: "EXACT", value: "directory.childactor101.com" },
+                stringFilter: {
+                  matchType: "EXACT",
+                  value: "directory.childactor101.com",
+                },
               },
             },
             {
@@ -291,7 +307,7 @@ export async function getVendorPageMetrics(
         },
       },
     },
-    []
+    [],
   );
 
   if (!rows || rows.length === 0) {
@@ -300,7 +316,7 @@ export async function getVendorPageMetrics(
 
   const row = rows[0];
   return {
-    views: parseInt(row.metricValues?.[0]?.value || "0", 10),
-    users: parseInt(row.metricValues?.[1]?.value || "0", 10),
+    views: Number.parseInt(row.metricValues?.[0]?.value || "0", 10),
+    users: Number.parseInt(row.metricValues?.[1]?.value || "0", 10),
   };
 }

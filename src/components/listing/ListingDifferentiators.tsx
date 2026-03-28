@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { RichTextDisplay } from "@/components/ui/rich-text-display";
 import type { Listing } from "@/data/listings";
+import { useState } from "react";
 
 interface ListingDifferentiatorsProps {
   listing: Listing;
@@ -73,9 +73,7 @@ export function ListingDifferentiators({
         <ExpandableBlock title="What Makes Us Unique" content={unique} />
       )}
 
-      {notes && (
-        <ExpandableBlock title="Additional Notes" content={notes} />
-      )}
+      {notes && <ExpandableBlock title="Additional Notes" content={notes} />}
     </section>
   );
 }

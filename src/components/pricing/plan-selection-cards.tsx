@@ -1,11 +1,11 @@
 "use client";
 
+import { trackVendorUpgradeClick } from "@/components/analytics/ga-events";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { trackVendorUpgradeClick } from "@/components/analytics/ga-events";
 
 const plans = [
   {

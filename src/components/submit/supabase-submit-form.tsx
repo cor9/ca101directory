@@ -114,7 +114,10 @@ export function SupabaseSubmitForm({
     // Handle comma-separated values or single value
     const normalized = format.toLowerCase().trim();
     if (normalized.includes(",")) {
-      return normalized.split(",").map((f) => f.trim()).filter(Boolean);
+      return normalized
+        .split(",")
+        .map((f) => f.trim())
+        .filter(Boolean);
     }
     // Map single values to tag format
     if (normalized === "in-person" || normalized === "in person") {
@@ -384,14 +387,14 @@ export function SupabaseSubmitForm({
   return (
     <>
       <form onSubmit={handleSubmit} className="space-y-8">
-      {/* STEP 9: Remove upgrade callouts - plan selection hidden for new submissions */}
-      {isClaimFlow && (
-        <div className="space-y-4">
-          {/* STEP 4: Field grouping */}
-          <h2 className="text-lg font-semibold text-text-primary mb-4">
-            Plan Selection
-          </h2>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {/* STEP 9: Remove upgrade callouts - plan selection hidden for new submissions */}
+        {isClaimFlow && (
+          <div className="space-y-4">
+            {/* STEP 4: Field grouping */}
+            <h2 className="text-lg font-semibold text-text-primary mb-4">
+              Plan Selection
+            </h2>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {/* Free Plan */}
               <Card
                 className={`cursor-pointer transition-all hover:shadow-lg ${
@@ -689,540 +692,101 @@ export function SupabaseSubmitForm({
                   </div>
                 </div>
               </div>
-          )}
-        </div>
-      )}
-
-      {/* STEP 4: Field grouping - Basic Information */}
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-text-primary mb-4">
-              Basic information
-            </h2>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between gap-2">
-                <Label htmlFor="name" className="text-text-primary">
-                  Business Name *
-                </Label>
-                <FieldTooltip message="Use the exact name parents will search for. Avoid abbreviations unless they appear on your signage and marketing." />
-              </div>
-              {/* STEP 5: Input styling */}
-              <Input
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={(e) => handleInputChange("name", e.target.value)}
-                placeholder="e.g., Bright Lights Talent Coaching"
-                maxLength={100}
-                required
-                className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("name") ? "border-red-500 border-2" : ""}`}
-              />
-              {getFieldError("name") && (
-                <p className="text-red-600 text-sm font-semibold">
-                  ⚠️ {getFieldError("name")}
-                </p>
-              )}
-              <p className="text-text-muted text-xs">
-                {formData.name.length}/100 characters
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between gap-2">
-                <Label htmlFor="description" className="text-text-primary">
-                  What You Offer *
-                </Label>
-                <FieldTooltip message="List your signature services and what makes them valuable. Aim for one punchy sentence with an outcome." />
-              </div>
-              {/* STEP 5: Input styling */}
-              <Textarea
-                id="description"
-                name="description"
-                value={formData.description}
-                onChange={(e) =>
-                  handleInputChange("description", e.target.value)
-                }
-                placeholder="Example: 'On-set tutoring, permit processing, and audition coaching for young performers in LA.'"
-                maxLength={256}
-                required
-                className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("description") ? "border-red-500 border-2" : ""}`}
-              />
-              {getFieldError("description") && (
-                <p className="text-red-600 text-sm font-semibold">
-                  ⚠️ {getFieldError("description")}
-                </p>
-              )}
-              <p className="text-text-muted text-xs">
-                {formData.description.length}/256 characters
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Label htmlFor="introduction" className="text-text-primary">
-                  Who Is It For {canEditEnhancedFields && "*"}
-                </Label>
-                <FieldTooltip
-                  message="Describe the ages or experience levels you serve. Example: 'Families with kids 8-14 who need on-set tutoring in Atlanta or via Zoom.'"
-                  plan={currentPlanLevel}
-                  showUpgradeIcon={true}
-                />
-              </div>
-              {canEditEnhancedFields ? (
-                <Textarea
-                  id="introduction"
-                  value={formData.introduction}
-                  onChange={(e) =>
-                    handleInputChange("introduction", e.target.value)
-                  }
-                  placeholder="Share who you support and any specialties (ex: 'LA-based child actors needing weekly coaching')."
-                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
-                />
-              ) : (
-                /* STEP 9: Remove upgrade callouts - just disable field */
-                <Textarea
-                  id="introduction"
-                  value={formData.introduction}
-                  onChange={(e) =>
-                    handleInputChange("introduction", e.target.value)
-                  }
-                  placeholder="Optional field"
-                  disabled
-                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted opacity-50 cursor-not-allowed"
-                />
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Label htmlFor="unique" className="text-text-primary">
-                  What Makes You Unique {canEditEnhancedFields && "*"}
-                </Label>
-                <FieldTooltip
-                  message="Highlight your differentiators—certifications, success stories, or signature process."
-                  plan={currentPlanLevel}
-                  showUpgradeIcon={true}
-                />
-              </div>
-              {canEditEnhancedFields ? (
-                <Textarea
-                  id="unique"
-                  value={formData.unique}
-                  onChange={(e) => handleInputChange("unique", e.target.value)}
-                  placeholder="Example: 'Only bilingual SAG-AFTRA accredited coaching studio with on-set former child stars as mentors.'"
-                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
-                />
-              ) : (
-                /* STEP 9: Remove upgrade callouts - just disable field */
-                <Textarea
-                  id="unique"
-                  value={formData.unique}
-                  onChange={(e) => handleInputChange("unique", e.target.value)}
-                  placeholder="Optional field"
-                  disabled
-                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted opacity-50 cursor-not-allowed"
-                />
-              )}
-            </div>
-          </div>
-
-          {/* Service Format Tags */}
-          <div className="space-y-4">
-            {/* STEP 4: Field grouping - Services (already has h2 above) */}
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between gap-2">
-                <Label className="text-text-primary">Service Format *</Label>
-                <FieldTooltip message="Select all that apply. These tags help families find your service." />
-              </div>
-              <div className="space-y-2">
-                {["online", "in-person", "hybrid"].map((formatTag) => {
-                  const formatArray = Array.isArray(formData.format)
-                    ? formData.format
-                    : [];
-                  const isChecked = formatArray.includes(formatTag);
-
-                  return (
-                    <label
-                      key={formatTag}
-                      className="flex items-center space-x-2 cursor-pointer"
-                    >
-                      <Checkbox
-                        checked={isChecked}
-                        onCheckedChange={() => handleFormatToggle(formatTag)}
-                        required={formatArray.length === 0}
-                      />
-                      <span className="text-sm text-text-primary capitalize">
-                        {formatTag.replace("-", " ")}
-                      </span>
-                    </label>
-                  );
-                })}
-              </div>
-              {getFieldError("format") && (
-                <p className="text-red-600 text-sm font-semibold">
-                  ⚠️ {getFieldError("format")}
-                </p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-text-primary">Age Ranges</Label>
-              <div className="grid grid-cols-2 gap-2">
-                {/* STEP 6: Checkboxes - visible, legible */}
-                {["5-8", "9-12", "13-17", "18+"].map((age) => (
-                  <div key={age} className="flex items-start gap-2 text-text-secondary">
-                    <Checkbox
-                      id={`age-${age}`}
-                      checked={formData.tags.includes(age)}
-                      onCheckedChange={() => handleTagToggle(age)}
-                      className="mt-1 accent-accent-blue"
-                    />
-                    <Label
-                      htmlFor={`age-${age}`}
-                      className="text-sm cursor-pointer"
-                    >
-                      {age}
-                    </Label>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Categories */}
-          <div className="space-y-4">
-            <div className="flex flex-wrap items-center gap-2">
-              <h2 className="text-lg font-semibold text-text-primary mb-4">
-                Categories *
-              </h2>
-              <FieldTooltip message="Pick the categories that mirror your services. They power search filters and appear on your profile." />
-            </div>
-            {/* STEP 9: Remove upgrade callouts */}
-            <div
-              className={`grid grid-cols-2 gap-2 p-3 border rounded-lg ${getFieldError("categories") ? "border-red-500 border-2 bg-red-50" : ""}`}
-            >
-              {categories.map((category) => {
-                const isDisabled =
-                  formData.plan === "Free" &&
-                  formData.categories.length >= 1 &&
-                  !formData.categories.includes(category.id);
-
-                return (
-                  <div
-                    key={category.id}
-                    className="flex items-start gap-2 text-text-secondary"
-                  >
-                    <Checkbox
-                      id={`category-${category.id}`}
-                      checked={formData.categories.includes(category.id)}
-                      onCheckedChange={() => handleCategoryToggle(category.id)}
-                      disabled={isDisabled}
-                      className="mt-1 accent-accent-blue"
-                    />
-                    <Label
-                      htmlFor={`category-${category.id}`}
-                      className={`text-sm cursor-pointer ${isDisabled ? "opacity-50" : ""}`}
-                    >
-                      {category.name}
-                    </Label>
-                  </div>
-                );
-              })}
-            </div>
-            {getFieldError("categories") && (
-              <p className="text-red-600 text-sm font-semibold">
-                ⚠️ {getFieldError("categories")}
-              </p>
             )}
           </div>
+        )}
 
-          {/* Contact Information */}
-          <div className="space-y-4">
-            <div className="flex flex-wrap items-center gap-2">
-              {/* STEP 4: Field grouping - Contact */}
-              <h2 className="text-lg font-semibold text-text-primary mb-4">
-                Contact
-              </h2>
-              <Link
-                href="/help/getting-started"
-                className="text-sm font-medium text-primary underline underline-offset-2"
-              >
-                Contact info checklist
-              </Link>
-            </div>
+        {/* STEP 4: Field grouping - Basic Information */}
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold text-text-primary mb-4">
+            Basic information
+          </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between gap-2">
-                  <Label htmlFor="email" className="text-text-primary">
-                    Email *
-                  </Label>
-                  <FieldTooltip message="Add the inbox you or your team checks daily. We'll send new lead alerts here." />
-                </div>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  placeholder="hello@brightlightstalent.com"
-                  required
-                  className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("email") ? "border-red-500 border-2" : ""}`}
-                />
-                {getFieldError("email") && (
-                  <p className="text-red-600 text-sm font-semibold">
-                    ⚠️ {getFieldError("email")}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="phone" className="text-text-primary">
-                  Phone
-                </Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => handleInputChange("phone", e.target.value)}
-                  placeholder="(555) 123-4567"
-                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between gap-2">
-                <Label htmlFor="link" className="text-text-primary">
-                  Website *
-                </Label>
-                <FieldTooltip message="Link to the page families should land on—your main site, booking page, or dedicated listing." />
-              </div>
-              <Input
-                id="link"
-                name="link"
-                type="url"
-                value={formData.link}
-                onChange={(e) => handleInputChange("link", e.target.value)}
-                placeholder="brightlightstalent.com (we'll add https://)"
-                className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-surface placeholder:text-surface/60 ${getFieldError("link") ? "border-red-500 border-2" : ""}`}
-              />
-              {getFieldError("link") && (
-                <p className="text-red-600 text-sm font-semibold">
-                  ⚠️ {getFieldError("link")}
-                </p>
-              )}
-              <p className="text-text-muted text-xs">
-                You can enter just "yoursite.com" - we'll automatically add
-                "https://"
-              </p>
-            </div>
-
-            {/* STEP 4: Field grouping - Location */}
-            <h2 className="text-lg font-semibold text-text-primary mb-4">
-              Location
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between gap-2">
-                  <Label htmlFor="city" className="text-text-primary">
-                    City *
-                  </Label>
-                  <FieldTooltip message="Families search by metro. Add the city where you operate or coordinate services." />
-                </div>
-                <Input
-                  id="city"
-                  name="city"
-                  value={formData.city}
-                  onChange={(e) => handleInputChange("city", e.target.value)}
-                  placeholder="Los Angeles"
-                  required
-                  className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("city") ? "border-red-500 border-2" : ""}`}
-                />
-                {getFieldError("city") && (
-                  <p className="text-red-600 text-sm font-semibold">
-                    ⚠️ {getFieldError("city")}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between gap-2">
-                  <Label htmlFor="state" className="text-text-primary">
-                    State / Region *
-                  </Label>
-                  <FieldTooltip message="Share the state, province, or region you cover so we can display the correct badge." />
-                </div>
-                <Input
-                  id="state"
-                  name="state"
-                  value={formData.state}
-                  onChange={(e) => handleInputChange("state", e.target.value)}
-                  placeholder="e.g., CA, NY, or Ontario"
-                  required
-                  className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("state") ? "border-red-500 border-2" : ""}`}
-                />
-                {getFieldError("state") && (
-                  <p className="text-red-600 text-sm font-semibold">
-                    ⚠️ {getFieldError("state")}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="zip" className="text-text-primary">
-                  ZIP Code
-                </Label>
-                <Input
-                  id="zip"
-                  value={formData.zip}
-                  onChange={(e) => handleInputChange("zip", e.target.value)}
-                  placeholder="90210"
-                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-text-primary">
-                Service Areas (Select all that apply) *
-              </Label>
-              <p className="text-text-secondary text-sm">
-                Where do you serve clients? Select all regions that apply.
-              </p>
-              <div
-                className={`grid grid-cols-1 md:grid-cols-2 gap-3 p-4 border border-border-subtle rounded-lg bg-bg-dark-3 ${getFieldError("region") ? "border-red-500 border-2" : ""}`}
-              >
-                {[
-                  "West Coast",
-                  "Southwest",
-                  "Southeast",
-                  "Midwest",
-                  "Northeast",
-                  "Mid-Atlantic",
-                  "Pacific Northwest",
-                  "Rocky Mountain",
-                  "Canada",
-                  "Global (Online Only)",
-                ].map((regionOption) => (
-                  <div
-                    key={regionOption}
-                    className="flex items-start gap-2 text-text-secondary"
-                  >
-                    <Checkbox
-                      id={`region-${regionOption}`}
-                      checked={(formData.region || []).includes(regionOption)}
-                      onCheckedChange={(checked) => {
-                        const currentRegions = formData.region || [];
-                        const newRegions = checked
-                          ? [...currentRegions, regionOption]
-                          : currentRegions.filter((r) => r !== regionOption);
-                        handleInputChange("region", newRegions);
-                      }}
-                      className="mt-1 accent-accent-blue"
-                    />
-                    <Label
-                      htmlFor={`region-${regionOption}`}
-                      className="text-sm cursor-pointer"
-                    >
-                      {regionOption}
-                    </Label>
-                  </div>
-                ))}
-              </div>
-              {getFieldError("region") && (
-                <p className="text-red-600 text-sm font-semibold">
-                  ⚠️ {getFieldError("region")}
-                </p>
-              )}
-            </div>
-          </div>
-
-          {/* STEP 4: Field grouping - Legal Compliance */}
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-text-primary mb-4">
-              Legal Compliance
-            </h2>
-
-            <div className="space-y-4">
-              {/* STEP 6: Checkboxes - visible, legible */}
-              <div className="flex items-start gap-2 text-text-secondary">
-                <Checkbox
-                  id="performerPermit"
-                  checked={formData.performerPermit}
-                  onCheckedChange={(checked) =>
-                    handleInputChange("performerPermit", checked)
-                  }
-                  className="mt-1 accent-accent-blue"
-                />
-                <Label
-                  htmlFor="performerPermit"
-                  className="text-sm cursor-pointer"
-                >
-                  California Child Performer Services Permit
-                </Label>
-              </div>
-
-              <div className="flex items-start gap-2 text-text-secondary">
-                <Checkbox
-                  id="bonded"
-                  checked={formData.bonded}
-                  onCheckedChange={(checked) =>
-                    handleInputChange("bonded", checked)
-                  }
-                  className="mt-1 accent-accent-blue"
-                />
-                <Label htmlFor="bonded" className="text-sm cursor-pointer">
-                  Bonded for Advanced Fees
-                </Label>
-              </div>
-
-              {formData.bonded && (
-                <div className="space-y-2">
-                  <Label htmlFor="bondNumber" className="text-text-primary">
-                    Bond Number
-                  </Label>
-                  <Input
-                    id="bondNumber"
-                    value={formData.bondNumber}
-                    onChange={(e) =>
-                      handleInputChange("bondNumber", e.target.value)
-                    }
-                    placeholder="Bond number"
-                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Additional Notes */}
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
-              <Label htmlFor="notes" className="text-text-primary">
-                Additional Notes {canEditNotes && "(Optional)"}
+              <Label htmlFor="name" className="text-text-primary">
+                Business Name *
+              </Label>
+              <FieldTooltip message="Use the exact name parents will search for. Avoid abbreviations unless they appear on your signage and marketing." />
+            </div>
+            {/* STEP 5: Input styling */}
+            <Input
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={(e) => handleInputChange("name", e.target.value)}
+              placeholder="e.g., Bright Lights Talent Coaching"
+              maxLength={100}
+              required
+              className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("name") ? "border-red-500 border-2" : ""}`}
+            />
+            {getFieldError("name") && (
+              <p className="text-red-600 text-sm font-semibold">
+                ⚠️ {getFieldError("name")}
+              </p>
+            )}
+            <p className="text-text-muted text-xs">
+              {formData.name.length}/100 characters
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <Label htmlFor="description" className="text-text-primary">
+                What You Offer *
+              </Label>
+              <FieldTooltip message="List your signature services and what makes them valuable. Aim for one punchy sentence with an outcome." />
+            </div>
+            {/* STEP 5: Input styling */}
+            <Textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={(e) => handleInputChange("description", e.target.value)}
+              placeholder="Example: 'On-set tutoring, permit processing, and audition coaching for young performers in LA.'"
+              maxLength={256}
+              required
+              className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("description") ? "border-red-500 border-2" : ""}`}
+            />
+            {getFieldError("description") && (
+              <p className="text-red-600 text-sm font-semibold">
+                ⚠️ {getFieldError("description")}
+              </p>
+            )}
+            <p className="text-text-muted text-xs">
+              {formData.description.length}/256 characters
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <Label htmlFor="introduction" className="text-text-primary">
+                Who Is It For {canEditEnhancedFields && "*"}
               </Label>
               <FieldTooltip
-                message="Share booking policies, onboarding steps, or quick FAQ answers so families know what to expect."
+                message="Describe the ages or experience levels you serve. Example: 'Families with kids 8-14 who need on-set tutoring in Atlanta or via Zoom.'"
                 plan={currentPlanLevel}
-                showUpgradeIcon
+                showUpgradeIcon={true}
               />
             </div>
-            {canEditNotes ? (
+            {canEditEnhancedFields ? (
               <Textarea
-                id="notes"
-                value={formData.notes}
-                onChange={(e) => handleInputChange("notes", e.target.value)}
-                placeholder="Example: 'We respond within 24 hours. Sessions held in Burbank studio with on-set coaching available.'"
+                id="introduction"
+                value={formData.introduction}
+                onChange={(e) =>
+                  handleInputChange("introduction", e.target.value)
+                }
+                placeholder="Share who you support and any specialties (ex: 'LA-based child actors needing weekly coaching')."
                 className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
               />
             ) : (
               /* STEP 9: Remove upgrade callouts - just disable field */
               <Textarea
-                id="notes"
-                value={formData.notes}
-                onChange={(e) => handleInputChange("notes", e.target.value)}
+                id="introduction"
+                value={formData.introduction}
+                onChange={(e) =>
+                  handleInputChange("introduction", e.target.value)
+                }
                 placeholder="Optional field"
                 disabled
                 className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted opacity-50 cursor-not-allowed"
@@ -1230,277 +794,725 @@ export function SupabaseSubmitForm({
             )}
           </div>
 
-          {/* Image Upload */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between gap-2">
-              <Label className="text-text-primary">
-                Profile Image {canEditProfileImage && "(Recommended)"}
+            <div className="flex items-center gap-2">
+              <Label htmlFor="unique" className="text-text-primary">
+                What Makes You Unique {canEditEnhancedFields && "*"}
               </Label>
               <FieldTooltip
-                message="Listings with clear, friendly imagery get more clicks. Use a 1200x1200px square image when possible."
+                message="Highlight your differentiators—certifications, success stories, or signature process."
                 plan={currentPlanLevel}
-                showUpgradeIcon
+                showUpgradeIcon={true}
               />
             </div>
-            {canEditProfileImage ? (
-              <>
-                <div className="h-48 rounded-lg border-2 border-dashed border-border-subtle bg-bg-dark-3">
-                  <ImageUpload
-                    currentImageUrl={formData.imageId}
-                    onUploadChange={(status) => {
-                      setIsImageUploading(status.isUploading);
-                      if (status.imageId) {
-                        handleInputChange("imageId", status.imageId);
-                      }
-                    }}
-                    type="image"
+            {canEditEnhancedFields ? (
+              <Textarea
+                id="unique"
+                value={formData.unique}
+                onChange={(e) => handleInputChange("unique", e.target.value)}
+                placeholder="Example: 'Only bilingual SAG-AFTRA accredited coaching studio with on-set former child stars as mentors.'"
+                className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+              />
+            ) : (
+              /* STEP 9: Remove upgrade callouts - just disable field */
+              <Textarea
+                id="unique"
+                value={formData.unique}
+                onChange={(e) => handleInputChange("unique", e.target.value)}
+                placeholder="Optional field"
+                disabled
+                className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted opacity-50 cursor-not-allowed"
+              />
+            )}
+          </div>
+        </div>
+
+        {/* Service Format Tags */}
+        <div className="space-y-4">
+          {/* STEP 4: Field grouping - Services (already has h2 above) */}
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <Label className="text-text-primary">Service Format *</Label>
+              <FieldTooltip message="Select all that apply. These tags help families find your service." />
+            </div>
+            <div className="space-y-2">
+              {["online", "in-person", "hybrid"].map((formatTag) => {
+                const formatArray = Array.isArray(formData.format)
+                  ? formData.format
+                  : [];
+                const isChecked = formatArray.includes(formatTag);
+
+                return (
+                  <label
+                    key={formatTag}
+                    className="flex items-center space-x-2 cursor-pointer"
+                  >
+                    <Checkbox
+                      checked={isChecked}
+                      onCheckedChange={() => handleFormatToggle(formatTag)}
+                      required={formatArray.length === 0}
+                    />
+                    <span className="text-sm text-text-primary capitalize">
+                      {formatTag.replace("-", " ")}
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+            {getFieldError("format") && (
+              <p className="text-red-600 text-sm font-semibold">
+                ⚠️ {getFieldError("format")}
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label className="text-text-primary">Age Ranges</Label>
+            <div className="grid grid-cols-2 gap-2">
+              {/* STEP 6: Checkboxes - visible, legible */}
+              {["5-8", "9-12", "13-17", "18+"].map((age) => (
+                <div
+                  key={age}
+                  className="flex items-start gap-2 text-text-secondary"
+                >
+                  <Checkbox
+                    id={`age-${age}`}
+                    checked={formData.tags.includes(age)}
+                    onCheckedChange={() => handleTagToggle(age)}
+                    className="mt-1 accent-accent-blue"
                   />
-                </div>
-                <p className="text-text-secondary text-sm">
-                  Upload a professional photo or logo for your listing.{" "}
-                  <Link
-                    href="/help/image-guidelines"
-                    className="font-medium text-accent-blue hover:text-accent-blue/80 underline underline-offset-2"
+                  <Label
+                    htmlFor={`age-${age}`}
+                    className="text-sm cursor-pointer"
                   >
-                    Review image guidelines
-                  </Link>
-                </p>
-              </>
-            ) : (
-              /* STEP 9: Remove upgrade callouts - just show disabled state */
-              <div className="h-48 rounded-lg border-2 border-dashed border-border-subtle bg-bg-dark-3 flex items-center justify-center">
-                <p className="text-text-muted text-sm">Profile image available with paid plans</p>
-              </div>
-            )}
+                    {age}
+                  </Label>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Categories */}
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <h2 className="text-lg font-semibold text-text-primary mb-4">
+              Categories *
+            </h2>
+            <FieldTooltip message="Pick the categories that mirror your services. They power search filters and appear on your profile." />
+          </div>
+          {/* STEP 9: Remove upgrade callouts */}
+          <div
+            className={`grid grid-cols-2 gap-2 p-3 border rounded-lg ${getFieldError("categories") ? "border-red-500 border-2 bg-red-50" : ""}`}
+          >
+            {categories.map((category) => {
+              const isDisabled =
+                formData.plan === "Free" &&
+                formData.categories.length >= 1 &&
+                !formData.categories.includes(category.id);
+
+              return (
+                <div
+                  key={category.id}
+                  className="flex items-start gap-2 text-text-secondary"
+                >
+                  <Checkbox
+                    id={`category-${category.id}`}
+                    checked={formData.categories.includes(category.id)}
+                    onCheckedChange={() => handleCategoryToggle(category.id)}
+                    disabled={isDisabled}
+                    className="mt-1 accent-accent-blue"
+                  />
+                  <Label
+                    htmlFor={`category-${category.id}`}
+                    className={`text-sm cursor-pointer ${isDisabled ? "opacity-50" : ""}`}
+                  >
+                    {category.name}
+                  </Label>
+                </div>
+              );
+            })}
+          </div>
+          {getFieldError("categories") && (
+            <p className="text-red-600 text-sm font-semibold">
+              ⚠️ {getFieldError("categories")}
+            </p>
+          )}
+        </div>
+
+        {/* Contact Information */}
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-center gap-2">
+            {/* STEP 4: Field grouping - Contact */}
+            <h2 className="text-lg font-semibold text-text-primary mb-4">
+              Contact
+            </h2>
+            <Link
+              href="/help/getting-started"
+              className="text-sm font-medium text-primary underline underline-offset-2"
+            >
+              Contact info checklist
+            </Link>
           </div>
 
-          {/* Gallery Upload */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between gap-2">
-              <Label className="text-text-primary">
-                Gallery Images {canEditGallery && "(Up to 12)"}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <Label htmlFor="email" className="text-text-primary">
+                  Email *
+                </Label>
+                <FieldTooltip message="Add the inbox you or your team checks daily. We'll send new lead alerts here." />
+              </div>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => handleInputChange("email", e.target.value)}
+                placeholder="hello@brightlightstalent.com"
+                required
+                className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("email") ? "border-red-500 border-2" : ""}`}
+              />
+              {getFieldError("email") && (
+                <p className="text-red-600 text-sm font-semibold">
+                  ⚠️ {getFieldError("email")}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="phone" className="text-text-primary">
+                Phone
               </Label>
-              <FieldTooltip
-                message="Use high-quality photos of your studio, classes, or happy clients to build trust."
-                plan={currentPlanLevel}
-                showUpgradeIcon
+              <Input
+                id="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={(e) => handleInputChange("phone", e.target.value)}
+                placeholder="(555) 123-4567"
+                className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
               />
             </div>
-            {canEditGallery ? (
-              <>
-                <GalleryUpload
-                  maxImages={getMaxGalleryImages()}
-                  currentImages={galleryImages}
-                  onImagesChange={setGalleryImages}
-                  onUploadingChange={setIsGalleryUploading}
-                />
-                <p className="text-text-secondary text-sm">
-                  Upload up to {getMaxGalleryImages()} detail shots of your
-                  work.{" "}
-                  <Link
-                    href="/help/image-guidelines"
-                    className="font-medium text-accent-blue hover:text-accent-blue/80 underline underline-offset-2"
-                  >
-                    See photo examples
-                  </Link>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <Label htmlFor="link" className="text-text-primary">
+                Website *
+              </Label>
+              <FieldTooltip message="Link to the page families should land on—your main site, booking page, or dedicated listing." />
+            </div>
+            <Input
+              id="link"
+              name="link"
+              type="url"
+              value={formData.link}
+              onChange={(e) => handleInputChange("link", e.target.value)}
+              placeholder="brightlightstalent.com (we'll add https://)"
+              className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-surface placeholder:text-surface/60 ${getFieldError("link") ? "border-red-500 border-2" : ""}`}
+            />
+            {getFieldError("link") && (
+              <p className="text-red-600 text-sm font-semibold">
+                ⚠️ {getFieldError("link")}
+              </p>
+            )}
+            <p className="text-text-muted text-xs">
+              You can enter just "yoursite.com" - we'll automatically add
+              "https://"
+            </p>
+          </div>
+
+          {/* STEP 4: Field grouping - Location */}
+          <h2 className="text-lg font-semibold text-text-primary mb-4">
+            Location
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <Label htmlFor="city" className="text-text-primary">
+                  City *
+                </Label>
+                <FieldTooltip message="Families search by metro. Add the city where you operate or coordinate services." />
+              </div>
+              <Input
+                id="city"
+                name="city"
+                value={formData.city}
+                onChange={(e) => handleInputChange("city", e.target.value)}
+                placeholder="Los Angeles"
+                required
+                className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("city") ? "border-red-500 border-2" : ""}`}
+              />
+              {getFieldError("city") && (
+                <p className="text-red-600 text-sm font-semibold">
+                  ⚠️ {getFieldError("city")}
                 </p>
-              </>
-            ) : (
-              /* STEP 9: Remove upgrade callouts - just show disabled state */
-              <div className="h-48 rounded-lg border-2 border-dashed border-border-subtle bg-bg-dark-3 flex items-center justify-center">
-                <p className="text-text-muted text-sm">Gallery images available with Pro plan</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <Label htmlFor="state" className="text-text-primary">
+                  State / Region *
+                </Label>
+                <FieldTooltip message="Share the state, province, or region you cover so we can display the correct badge." />
+              </div>
+              <Input
+                id="state"
+                name="state"
+                value={formData.state}
+                onChange={(e) => handleInputChange("state", e.target.value)}
+                placeholder="e.g., CA, NY, or Ontario"
+                required
+                className={`bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue ${getFieldError("state") ? "border-red-500 border-2" : ""}`}
+              />
+              {getFieldError("state") && (
+                <p className="text-red-600 text-sm font-semibold">
+                  ⚠️ {getFieldError("state")}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="zip" className="text-text-primary">
+                ZIP Code
+              </Label>
+              <Input
+                id="zip"
+                value={formData.zip}
+                onChange={(e) => handleInputChange("zip", e.target.value)}
+                placeholder="90210"
+                className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label className="text-text-primary">
+              Service Areas (Select all that apply) *
+            </Label>
+            <p className="text-text-secondary text-sm">
+              Where do you serve clients? Select all regions that apply.
+            </p>
+            <div
+              className={`grid grid-cols-1 md:grid-cols-2 gap-3 p-4 border border-border-subtle rounded-lg bg-bg-dark-3 ${getFieldError("region") ? "border-red-500 border-2" : ""}`}
+            >
+              {[
+                "West Coast",
+                "Southwest",
+                "Southeast",
+                "Midwest",
+                "Northeast",
+                "Mid-Atlantic",
+                "Pacific Northwest",
+                "Rocky Mountain",
+                "Canada",
+                "Global (Online Only)",
+              ].map((regionOption) => (
+                <div
+                  key={regionOption}
+                  className="flex items-start gap-2 text-text-secondary"
+                >
+                  <Checkbox
+                    id={`region-${regionOption}`}
+                    checked={(formData.region || []).includes(regionOption)}
+                    onCheckedChange={(checked) => {
+                      const currentRegions = formData.region || [];
+                      const newRegions = checked
+                        ? [...currentRegions, regionOption]
+                        : currentRegions.filter((r) => r !== regionOption);
+                      handleInputChange("region", newRegions);
+                    }}
+                    className="mt-1 accent-accent-blue"
+                  />
+                  <Label
+                    htmlFor={`region-${regionOption}`}
+                    className="text-sm cursor-pointer"
+                  >
+                    {regionOption}
+                  </Label>
+                </div>
+              ))}
+            </div>
+            {getFieldError("region") && (
+              <p className="text-red-600 text-sm font-semibold">
+                ⚠️ {getFieldError("region")}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* STEP 4: Field grouping - Legal Compliance */}
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold text-text-primary mb-4">
+            Legal Compliance
+          </h2>
+
+          <div className="space-y-4">
+            {/* STEP 6: Checkboxes - visible, legible */}
+            <div className="flex items-start gap-2 text-text-secondary">
+              <Checkbox
+                id="performerPermit"
+                checked={formData.performerPermit}
+                onCheckedChange={(checked) =>
+                  handleInputChange("performerPermit", checked)
+                }
+                className="mt-1 accent-accent-blue"
+              />
+              <Label
+                htmlFor="performerPermit"
+                className="text-sm cursor-pointer"
+              >
+                California Child Performer Services Permit
+              </Label>
+            </div>
+
+            <div className="flex items-start gap-2 text-text-secondary">
+              <Checkbox
+                id="bonded"
+                checked={formData.bonded}
+                onCheckedChange={(checked) =>
+                  handleInputChange("bonded", checked)
+                }
+                className="mt-1 accent-accent-blue"
+              />
+              <Label htmlFor="bonded" className="text-sm cursor-pointer">
+                Bonded for Advanced Fees
+              </Label>
+            </div>
+
+            {formData.bonded && (
+              <div className="space-y-2">
+                <Label htmlFor="bondNumber" className="text-text-primary">
+                  Bond Number
+                </Label>
+                <Input
+                  id="bondNumber"
+                  value={formData.bondNumber}
+                  onChange={(e) =>
+                    handleInputChange("bondNumber", e.target.value)
+                  }
+                  placeholder="Bond number"
+                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+                />
               </div>
             )}
           </div>
+        </div>
 
-          {/* Social Media Section */}
-          {canEditSocial ? (
-            <div
-              className="space-y-4 rounded-lg border p-4"
-              style={{ backgroundColor: "#f8f9fa" }}
-            >
-              <div className="flex items-center justify-between gap-2">
-                <h3 className="text-lg font-semibold text-surface">
-                  Social Media Links
-                </h3>
-                <FieldTooltip
-                  message="Drop the profiles you're most active on so parents can preview your vibe."
-                  plan={currentPlanLevel}
+        {/* Additional Notes */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <Label htmlFor="notes" className="text-text-primary">
+              Additional Notes {canEditNotes && "(Optional)"}
+            </Label>
+            <FieldTooltip
+              message="Share booking policies, onboarding steps, or quick FAQ answers so families know what to expect."
+              plan={currentPlanLevel}
+              showUpgradeIcon
+            />
+          </div>
+          {canEditNotes ? (
+            <Textarea
+              id="notes"
+              value={formData.notes}
+              onChange={(e) => handleInputChange("notes", e.target.value)}
+              placeholder="Example: 'We respond within 24 hours. Sessions held in Burbank studio with on-set coaching available.'"
+              className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+            />
+          ) : (
+            /* STEP 9: Remove upgrade callouts - just disable field */
+            <Textarea
+              id="notes"
+              value={formData.notes}
+              onChange={(e) => handleInputChange("notes", e.target.value)}
+              placeholder="Optional field"
+              disabled
+              className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted opacity-50 cursor-not-allowed"
+            />
+          )}
+        </div>
+
+        {/* Image Upload */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <Label className="text-text-primary">
+              Profile Image {canEditProfileImage && "(Recommended)"}
+            </Label>
+            <FieldTooltip
+              message="Listings with clear, friendly imagery get more clicks. Use a 1200x1200px square image when possible."
+              plan={currentPlanLevel}
+              showUpgradeIcon
+            />
+          </div>
+          {canEditProfileImage ? (
+            <>
+              <div className="h-48 rounded-lg border-2 border-dashed border-border-subtle bg-bg-dark-3">
+                <ImageUpload
+                  currentImageUrl={formData.imageId}
+                  onUploadChange={(status) => {
+                    setIsImageUploading(status.isUploading);
+                    if (status.imageId) {
+                      handleInputChange("imageId", status.imageId);
+                    }
+                  }}
+                  type="image"
                 />
               </div>
               <p className="text-text-secondary text-sm">
-                Add your social media profiles to increase engagement and give
-                families a behind-the-scenes look.
+                Upload a professional photo or logo for your listing.{" "}
+                <Link
+                  href="/help/image-guidelines"
+                  className="font-medium text-accent-blue hover:text-accent-blue/80 underline underline-offset-2"
+                >
+                  Review image guidelines
+                </Link>
               </p>
-
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
-                  <Label htmlFor="facebook_url" className="text-text-primary">
-                    Facebook URL
-                  </Label>
-                  <Input
-                    id="facebook_url"
-                    type="url"
-                    value={formData.facebook_url}
-                    onChange={(e) =>
-                      handleInputChange("facebook_url", e.target.value)
-                    }
-                    placeholder="https://facebook.com/yourpage"
-                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="instagram_url" className="text-text-primary">
-                    Instagram URL
-                  </Label>
-                  <Input
-                    id="instagram_url"
-                    type="url"
-                    value={formData.instagram_url}
-                    onChange={(e) =>
-                      handleInputChange("instagram_url", e.target.value)
-                    }
-                    placeholder="https://instagram.com/youraccount"
-                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="tiktok_url" className="text-text-primary">
-                    TikTok URL
-                  </Label>
-                  <Input
-                    id="tiktok_url"
-                    type="url"
-                    value={formData.tiktok_url}
-                    onChange={(e) =>
-                      handleInputChange("tiktok_url", e.target.value)
-                    }
-                    placeholder="https://tiktok.com/@youraccount"
-                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="youtube_url" className="text-text-primary">
-                    YouTube URL
-                  </Label>
-                  <Input
-                    id="youtube_url"
-                    type="url"
-                    value={formData.youtube_url}
-                    onChange={(e) =>
-                      handleInputChange("youtube_url", e.target.value)
-                    }
-                    placeholder="https://youtube.com/@yourchannel"
-                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="linkedin_url" className="text-text-primary">
-                    LinkedIn URL
-                  </Label>
-                  <Input
-                    id="linkedin_url"
-                    type="url"
-                    value={formData.linkedin_url}
-                    onChange={(e) =>
-                      handleInputChange("linkedin_url", e.target.value)
-                    }
-                    placeholder="https://linkedin.com/in/yourprofile"
-                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="blog_url" className="text-text-primary">
-                    📝 Blog URL
-                  </Label>
-                  <Input
-                    id="blog_url"
-                    type="url"
-                    value={formData.blog_url}
-                    onChange={(e) =>
-                      handleInputChange("blog_url", e.target.value)
-                    }
-                    placeholder="https://yourblog.com"
-                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
-                  />
-                </div>
-              </div>
-
-              <div className="border-t pt-4">
-                <h4 className="text-text-primary">Custom Link</h4>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <div>
-                    <Label htmlFor="custom_link_name" className="text-text-primary">
-                      Link Name
-                    </Label>
-                    <Input
-                      id="custom_link_name"
-                      value={formData.custom_link_name}
-                      onChange={(e) =>
-                        handleInputChange("custom_link_name", e.target.value)
-                      }
-                      placeholder="e.g., 'Book Now'"
-                      className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="custom_link_url" className="text-text-primary">
-                      Link URL
-                    </Label>
-                    <Input
-                      id="custom_link_url"
-                      type="url"
-                      value={formData.custom_link_url}
-                      onChange={(e) =>
-                        handleInputChange("custom_link_url", e.target.value)
-                      }
-                      placeholder="https://your-custom-link.com"
-                      className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+            </>
           ) : (
             /* STEP 9: Remove upgrade callouts - just show disabled state */
-            <div className="space-y-4 rounded-lg border border-border-subtle p-4 opacity-60 bg-bg-dark-3">
-              <h3 className="text-lg font-semibold text-text-primary">
-                Social Media Links
-              </h3>
+            <div className="h-48 rounded-lg border-2 border-dashed border-border-subtle bg-bg-dark-3 flex items-center justify-center">
               <p className="text-text-muted text-sm">
-                Available with paid plans
+                Profile image available with paid plans
               </p>
             </div>
           )}
+        </div>
 
-          {/* STEP 7: Trust microcopy - remove fear */}
-          <p className="mt-6 text-sm text-text-muted">
-            Free listings are reviewed before going live. Upgrades are optional and can be added later.
-          </p>
+        {/* Gallery Upload */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <Label className="text-text-primary">
+              Gallery Images {canEditGallery && "(Up to 12)"}
+            </Label>
+            <FieldTooltip
+              message="Use high-quality photos of your studio, classes, or happy clients to build trust."
+              plan={currentPlanLevel}
+              showUpgradeIcon
+            />
+          </div>
+          {canEditGallery ? (
+            <>
+              <GalleryUpload
+                maxImages={getMaxGalleryImages()}
+                currentImages={galleryImages}
+                onImagesChange={setGalleryImages}
+                onUploadingChange={setIsGalleryUploading}
+              />
+              <p className="text-text-secondary text-sm">
+                Upload up to {getMaxGalleryImages()} detail shots of your work.{" "}
+                <Link
+                  href="/help/image-guidelines"
+                  className="font-medium text-accent-blue hover:text-accent-blue/80 underline underline-offset-2"
+                >
+                  See photo examples
+                </Link>
+              </p>
+            </>
+          ) : (
+            /* STEP 9: Remove upgrade callouts - just show disabled state */
+            <div className="h-48 rounded-lg border-2 border-dashed border-border-subtle bg-bg-dark-3 flex items-center justify-center">
+              <p className="text-text-muted text-sm">
+                Gallery images available with Pro plan
+              </p>
+            </div>
+          )}
+        </div>
 
-          {/* STEP 8: Submit CTA - frictionless */}
-          <Button
-            type="submit"
-            disabled={isSubmitting || isImageUploading || isGalleryUploading}
-            className="
+        {/* Social Media Section */}
+        {canEditSocial ? (
+          <div
+            className="space-y-4 rounded-lg border p-4"
+            style={{ backgroundColor: "#f8f9fa" }}
+          >
+            <div className="flex items-center justify-between gap-2">
+              <h3 className="text-lg font-semibold text-surface">
+                Social Media Links
+              </h3>
+              <FieldTooltip
+                message="Drop the profiles you're most active on so parents can preview your vibe."
+                plan={currentPlanLevel}
+              />
+            </div>
+            <p className="text-text-secondary text-sm">
+              Add your social media profiles to increase engagement and give
+              families a behind-the-scenes look.
+            </p>
+
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div>
+                <Label htmlFor="facebook_url" className="text-text-primary">
+                  Facebook URL
+                </Label>
+                <Input
+                  id="facebook_url"
+                  type="url"
+                  value={formData.facebook_url}
+                  onChange={(e) =>
+                    handleInputChange("facebook_url", e.target.value)
+                  }
+                  placeholder="https://facebook.com/yourpage"
+                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="instagram_url" className="text-text-primary">
+                  Instagram URL
+                </Label>
+                <Input
+                  id="instagram_url"
+                  type="url"
+                  value={formData.instagram_url}
+                  onChange={(e) =>
+                    handleInputChange("instagram_url", e.target.value)
+                  }
+                  placeholder="https://instagram.com/youraccount"
+                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="tiktok_url" className="text-text-primary">
+                  TikTok URL
+                </Label>
+                <Input
+                  id="tiktok_url"
+                  type="url"
+                  value={formData.tiktok_url}
+                  onChange={(e) =>
+                    handleInputChange("tiktok_url", e.target.value)
+                  }
+                  placeholder="https://tiktok.com/@youraccount"
+                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="youtube_url" className="text-text-primary">
+                  YouTube URL
+                </Label>
+                <Input
+                  id="youtube_url"
+                  type="url"
+                  value={formData.youtube_url}
+                  onChange={(e) =>
+                    handleInputChange("youtube_url", e.target.value)
+                  }
+                  placeholder="https://youtube.com/@yourchannel"
+                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="linkedin_url" className="text-text-primary">
+                  LinkedIn URL
+                </Label>
+                <Input
+                  id="linkedin_url"
+                  type="url"
+                  value={formData.linkedin_url}
+                  onChange={(e) =>
+                    handleInputChange("linkedin_url", e.target.value)
+                  }
+                  placeholder="https://linkedin.com/in/yourprofile"
+                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="blog_url" className="text-text-primary">
+                  📝 Blog URL
+                </Label>
+                <Input
+                  id="blog_url"
+                  type="url"
+                  value={formData.blog_url}
+                  onChange={(e) =>
+                    handleInputChange("blog_url", e.target.value)
+                  }
+                  placeholder="https://yourblog.com"
+                  className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+                />
+              </div>
+            </div>
+
+            <div className="border-t pt-4">
+              <h4 className="text-text-primary">Custom Link</h4>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <Label
+                    htmlFor="custom_link_name"
+                    className="text-text-primary"
+                  >
+                    Link Name
+                  </Label>
+                  <Input
+                    id="custom_link_name"
+                    value={formData.custom_link_name}
+                    onChange={(e) =>
+                      handleInputChange("custom_link_name", e.target.value)
+                    }
+                    placeholder="e.g., 'Book Now'"
+                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+                  />
+                </div>
+                <div>
+                  <Label
+                    htmlFor="custom_link_url"
+                    className="text-text-primary"
+                  >
+                    Link URL
+                  </Label>
+                  <Input
+                    id="custom_link_url"
+                    type="url"
+                    value={formData.custom_link_url}
+                    onChange={(e) =>
+                      handleInputChange("custom_link_url", e.target.value)
+                    }
+                    placeholder="https://your-custom-link.com"
+                    className="bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-blue"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* STEP 9: Remove upgrade callouts - just show disabled state */
+          <div className="space-y-4 rounded-lg border border-border-subtle p-4 opacity-60 bg-bg-dark-3">
+            <h3 className="text-lg font-semibold text-text-primary">
+              Social Media Links
+            </h3>
+            <p className="text-text-muted text-sm">Available with paid plans</p>
+          </div>
+        )}
+
+        {/* STEP 7: Trust microcopy - remove fear */}
+        <p className="mt-6 text-sm text-text-muted">
+          Free listings are reviewed before going live. Upgrades are optional
+          and can be added later.
+        </p>
+
+        {/* STEP 8: Submit CTA - frictionless */}
+        <Button
+          type="submit"
+          disabled={isSubmitting || isImageUploading || isGalleryUploading}
+          className="
               mt-6
               w-full
               bg-accent-orange
               text-black
               hover:bg-accent-orange/90
             "
-          >
-            {isSubmitting
-              ? "Submitting..."
-              : isImageUploading || isGalleryUploading
-                ? "Uploading Images..."
-                : "Create free listing"}
-          </Button>
+        >
+          {isSubmitting
+            ? "Submitting..."
+            : isImageUploading || isGalleryUploading
+              ? "Uploading Images..."
+              : "Create free listing"}
+        </Button>
       </form>
     </>
   );

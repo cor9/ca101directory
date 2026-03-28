@@ -35,7 +35,11 @@ export default async function OldHomePage() {
   let categories = [];
   try {
     categories = await getCategories();
-    console.log("OldHomePage: Fetched categories:", categories.length, categories);
+    console.log(
+      "OldHomePage: Fetched categories:",
+      categories.length,
+      categories,
+    );
   } catch (error) {
     console.error("Error fetching categories:", error);
   }

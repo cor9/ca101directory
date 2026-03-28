@@ -5,19 +5,19 @@ import { useEffect } from "react";
 
 // DO NOT track lead generation events for non-monetized vendor categories
 const NON_MONETIZED_CATEGORIES = [
-  "talent agent", 
+  "talent agent",
   "talent agents",
   "talent manager",
   "talent managers",
   "set teacher",
   "set teachers",
-  "on-set tutors"
+  "on-set tutors",
 ];
 
 function isNonMonetized(category: string) {
   if (!category) return false;
   const lowerCat = category.toLowerCase();
-  return NON_MONETIZED_CATEGORIES.some(c => lowerCat.includes(c));
+  return NON_MONETIZED_CATEGORIES.some((c) => lowerCat.includes(c));
 }
 
 export function trackVendorProfileView(params: {
@@ -79,7 +79,9 @@ export function trackDirectorySearch(params: {
 /**
  * Client component to fire the page view event once when the page loads
  */
-export function VendorProfileViewTracker(params: Parameters<typeof trackVendorProfileView>[0]) {
+export function VendorProfileViewTracker(
+  params: Parameters<typeof trackVendorProfileView>[0],
+) {
   useEffect(() => {
     trackVendorProfileView(params);
     // eslint-disable-next-line react-hooks/exhaustive-deps

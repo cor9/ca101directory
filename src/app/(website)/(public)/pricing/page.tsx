@@ -32,14 +32,16 @@ export default async function PricingPage() {
               Simple pricing. Real visibility.
             </h1>
             <p className="mt-3 text-text-secondary max-w-2xl mx-auto">
-              List your business where parents are actively searching for trusted child-acting professionals.
+              List your business where parents are actively searching for
+              trusted child-acting professionals.
             </p>
           </header>
 
           {/* STEP 3: Pricing grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Free Plan Card */}
-            <div className="
+            <div
+              className="
               relative
               bg-card-surface
               border
@@ -48,18 +50,15 @@ export default async function PricingPage() {
               p-6
               shadow-card
               transition
-            ">
+            "
+            >
               {/* STEP 5: Plan name + price */}
               <h3 className="text-lg font-semibold text-text-primary">
                 Free Plan
               </h3>
               <div className="mt-2 flex items-end gap-1">
-                <span className="text-3xl font-bold text-text-primary">
-                  $0
-                </span>
-                <span className="text-sm text-text-muted">
-                  / forever
-                </span>
+                <span className="text-3xl font-bold text-text-primary">$0</span>
+                <span className="text-sm text-text-muted">/ forever</span>
               </div>
 
               {/* STEP 6: Feature list - scannable */}

@@ -17,21 +17,23 @@ export default function HelpPage() {
             How can we help?
           </h1>
           <p className="mt-3 text-text-secondary max-w-2xl">
-            Quick answers for parents and professionals using the Child Actor 101
-            Directory.
+            Quick answers for parents and professionals using the Child Actor
+            101 Directory.
           </p>
         </header>
 
         {/* STEP 3: Primary help tiles */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
-          <div className="
+          <div
+            className="
             bg-card-surface
             border border-border-subtle
             rounded-xl
             p-6
             hover:bg-bg-dark-3
             transition
-          ">
+          "
+          >
             <h3 className="text-lg font-semibold text-text-primary mb-2">
               For Parents
             </h3>
@@ -41,14 +43,16 @@ export default function HelpPage() {
             </p>
           </div>
 
-          <div className="
+          <div
+            className="
             bg-card-surface
             border border-border-subtle
             rounded-xl
             p-6
             hover:bg-bg-dark-3
             transition
-          ">
+          "
+          >
             <h3 className="text-lg font-semibold text-text-primary mb-2">
               For Vendors
             </h3>
@@ -57,14 +61,16 @@ export default function HelpPage() {
             </p>
           </div>
 
-          <div className="
+          <div
+            className="
             bg-card-surface
             border border-border-subtle
             rounded-xl
             p-6
             hover:bg-bg-dark-3
             transition
-          ">
+          "
+          >
             <h3 className="text-lg font-semibold text-text-primary mb-2">
               Listings & Reviews
             </h3>
@@ -73,14 +79,16 @@ export default function HelpPage() {
             </p>
           </div>
 
-          <div className="
+          <div
+            className="
             bg-card-surface
             border border-border-subtle
             rounded-xl
             p-6
             hover:bg-bg-dark-3
             transition
-          ">
+          "
+          >
             <h3 className="text-lg font-semibold text-text-primary mb-2">
               Safety & Trust
             </h3>
@@ -107,9 +115,10 @@ export default function HelpPage() {
                 How do I know who's legit?
               </h4>
               <p className="mt-2 text-text-secondary text-sm max-w-3xl">
-                Listings are reviewed before going live. Some providers go through
-                additional verification, which is clearly marked on their profile.
-                Look for the "101 Approved" badge for extra peace of mind.
+                Listings are reviewed before going live. Some providers go
+                through additional verification, which is clearly marked on
+                their profile. Look for the "101 Approved" badge for extra peace
+                of mind.
               </p>
             </div>
 
@@ -128,8 +137,8 @@ export default function HelpPage() {
                 Do you take commissions?
               </h4>
               <p className="mt-2 text-text-secondary text-sm max-w-3xl">
-                No. We don't take any commission from bookings. Contact providers
-                directly and work out terms with them.
+                No. We don't take any commission from bookings. Contact
+                providers directly and work out terms with them.
               </p>
             </div>
           </div>
@@ -145,9 +154,9 @@ export default function HelpPage() {
                 Is there a free listing?
               </h4>
               <p className="mt-2 text-text-secondary text-sm max-w-3xl">
-                Yes. Free listings include basic information and appear in search
-                results. You can upgrade anytime to add photos, featured placement,
-                and more.
+                Yes. Free listings include basic information and appear in
+                search results. You can upgrade anytime to add photos, featured
+                placement, and more.
               </p>
             </div>
 
@@ -156,8 +165,8 @@ export default function HelpPage() {
                 Can I upgrade later?
               </h4>
               <p className="mt-2 text-text-secondary text-sm max-w-3xl">
-                Absolutely. Start with a free listing and upgrade when you're ready.
-                Changes take effect immediately.
+                Absolutely. Start with a free listing and upgrade when you're
+                ready. Changes take effect immediately.
               </p>
             </div>
 
@@ -166,8 +175,9 @@ export default function HelpPage() {
                 How do parents contact me?
               </h4>
               <p className="mt-2 text-text-secondary text-sm max-w-3xl">
-                Parents use the contact information on your listing—email, phone, or
-                website. You'll receive inquiries directly, no middleman.
+                Parents use the contact information on your listing—email,
+                phone, or website. You'll receive inquiries directly, no
+                middleman.
               </p>
             </div>
           </div>
@@ -184,8 +194,8 @@ export default function HelpPage() {
               </h4>
               <p className="mt-2 text-text-secondary text-sm max-w-3xl">
                 The 101 Approved badge means a professional has met our highest
-                standards: proper certifications, background checks, experience with
-                children, and positive references. We personally vet each
+                standards: proper certifications, background checks, experience
+                with children, and positive references. We personally vet each
                 application.
               </p>
             </div>
@@ -195,20 +205,22 @@ export default function HelpPage() {
                 Are background checks required?
               </h4>
               <p className="mt-2 text-text-secondary text-sm max-w-3xl">
-                Background checks are required for 101 Approved professionals. For
-                other listings, we review credentials and references. Always do your
-                own due diligence when choosing a provider.
+                Background checks are required for 101 Approved professionals.
+                For other listings, we review credentials and references. Always
+                do your own due diligence when choosing a provider.
               </p>
             </div>
           </div>
         </section>
 
         {/* STEP 5: Contact without inviting chaos */}
-        <div className="
+        <div
+          className="
           mt-16
           border-t border-border-subtle
           pt-8
-        ">
+        "
+        >
           <p className="text-text-secondary text-sm">
             Still stuck? Email us at{" "}
             <a

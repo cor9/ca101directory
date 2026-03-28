@@ -63,9 +63,11 @@ export const baseSubmitSchema = {
   unique: z.string().optional(), // Optional for free listings, validated in form based on plan
   format: z.union([
     z.enum(["In-person", "Online", "Hybrid"]), // Legacy single value
-    z.array(z.enum(["online", "in-person", "hybrid"])).min(1, {
-      message: "Please select at least one service format",
-    }), // New tags format
+    z
+      .array(z.enum(["online", "in-person", "hybrid"]))
+      .min(1, {
+        message: "Please select at least one service format",
+      }), // New tags format
   ]),
   notes: z.string().optional(),
   email: z.string().email({ message: "Please enter a valid email address" }),

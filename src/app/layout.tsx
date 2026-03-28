@@ -37,7 +37,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-
         {/* ✅ GOOGLE ANALYTICS */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-ZKY15F9Z96"
@@ -63,7 +62,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         <Script id="impact-stat" strategy="afterInteractive">
           {`(function(i,m,p,a,c,t){c.ire_o=p;c[p]=c[p]||function(){(c[p].a=c[p].a||[]).push(arguments)};t=a.createElement(m);var z=a.getElementsByTagName(m)[0];t.async=1;t.src=i;z.parentNode.insertBefore(t,z)})('https://utt.impactcdn.com/P-A4798761-60ea-47a3-9269-a8e8a25503651.js','script','impactStat',document,window);impactStat('transformLinks');impactStat('trackImpression');`}
         </Script>
-
       </head>
 
       <body
@@ -94,7 +92,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <Analytics />
             <FacebookSDK />
             <AhrefsAnalytics />
-
           </ThemeProvider>
         </SessionProvider>
       </body>

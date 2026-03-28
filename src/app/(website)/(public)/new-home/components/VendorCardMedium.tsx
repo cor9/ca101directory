@@ -1,7 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
 import { ProfileVerifiedBadge } from "@/components/badges/ProfileVerifiedBadge";
 import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
+import Image from "next/image";
+import Link from "next/link";
 
 interface VendorCardMediumProps {
   vendor: {
@@ -24,7 +24,8 @@ interface VendorCardMediumProps {
 
 export default function VendorCardMedium({ vendor }: VendorCardMediumProps) {
   const vendorName = vendor.title || vendor.name || "Vendor";
-  const vendorCategory = vendor.category || vendor.category_name || "Professional";
+  const vendorCategory =
+    vendor.category || vendor.category_name || "Professional";
   const vendorLocation =
     vendor.city && vendor.state
       ? `${vendor.city}, ${vendor.state}`
@@ -49,7 +50,12 @@ export default function VendorCardMedium({ vendor }: VendorCardMediumProps) {
               sizes="64px"
             />
           ) : (
-            <CategoryPlaceholder category={vendorCategory} size="sm" showLabel={false} className="rounded-full" />
+            <CategoryPlaceholder
+              category={vendorCategory}
+              size="sm"
+              showLabel={false}
+              className="rounded-full"
+            />
           )}
         </div>
 
@@ -65,7 +71,9 @@ export default function VendorCardMedium({ vendor }: VendorCardMediumProps) {
           {/* Profile Verified Badge */}
           {(vendor.profile_verified || vendor.is_verified) && (
             <div className="mt-2">
-              <ProfileVerifiedBadge profileVerifiedAt={vendor.profile_verified_at} />
+              <ProfileVerifiedBadge
+                profileVerifiedAt={vendor.profile_verified_at}
+              />
             </div>
           )}
         </div>

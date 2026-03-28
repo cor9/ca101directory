@@ -1,7 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
 import { ProfileVerifiedBadge } from "@/components/badges/ProfileVerifiedBadge";
 import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
+import Image from "next/image";
+import Link from "next/link";
 
 interface FeaturedVendorProps {
   vendor: {
@@ -36,7 +36,8 @@ export default function FeaturedVendor({ vendor }: FeaturedVendorProps) {
   }
 
   const vendorName = vendor.title || vendor.name || "Featured Vendor";
-  const vendorCategory = vendor.category || vendor.category_name || "Professional";
+  const vendorCategory =
+    vendor.category || vendor.category_name || "Professional";
   const vendorLocation =
     vendor.city && vendor.state
       ? `${vendor.city}, ${vendor.state}`
@@ -57,12 +58,18 @@ export default function FeaturedVendor({ vendor }: FeaturedVendorProps) {
             sizes="(max-width: 768px) 100vw, 400px"
           />
         ) : (
-          <CategoryPlaceholder category={vendorCategory} size="lg" className="h-52" />
+          <CategoryPlaceholder
+            category={vendorCategory}
+            size="lg"
+            className="h-52"
+          />
         )}
       </div>
 
       {/* Vendor Info */}
-      <h3 className="mt-4 text-xl font-semibold text-text-primary">{vendorName}</h3>
+      <h3 className="mt-4 text-xl font-semibold text-text-primary">
+        {vendorName}
+      </h3>
       <p className="text-text-muted text-sm">{vendorCategory}</p>
       {vendorLocation && (
         <p className="text-text-muted text-sm">{vendorLocation}</p>
@@ -71,7 +78,9 @@ export default function FeaturedVendor({ vendor }: FeaturedVendorProps) {
       {/* Profile Verified Badge */}
       {(vendor.profile_verified || vendor.is_verified) && (
         <div className="mt-3">
-          <ProfileVerifiedBadge profileVerifiedAt={vendor.profile_verified_at} />
+          <ProfileVerifiedBadge
+            profileVerifiedAt={vendor.profile_verified_at}
+          />
         </div>
       )}
 

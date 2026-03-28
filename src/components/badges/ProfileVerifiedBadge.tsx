@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { CheckCircle, Info } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ProfileVerifiedBadgeProps {
   profileVerifiedAt?: string | null;
@@ -40,7 +40,8 @@ export function ProfileVerifiedBadge({
 
     if (showTooltip) {
       document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
     }
   }, [showTooltip]);
 
@@ -53,7 +54,7 @@ export function ProfileVerifiedBadge({
       <div
         className={cn(
           "flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium text-white border cursor-default",
-          className
+          className,
         )}
         style={{
           backgroundColor: "#0F141B",
@@ -85,4 +86,3 @@ export function ProfileVerifiedBadge({
     </div>
   );
 }
-

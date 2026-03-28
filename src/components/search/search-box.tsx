@@ -1,5 +1,6 @@
 "use client";
 
+import { trackDirectorySearch } from "@/components/analytics/ga-events";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createUrl } from "@/lib/utils";
@@ -8,7 +9,6 @@ import { SearchIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
-import { trackDirectorySearch } from "@/components/analytics/ga-events";
 
 interface SearchBoxProps {
   urlPrefix: string;
@@ -45,14 +45,14 @@ export default function SearchBox({ urlPrefix }: SearchBoxProps) {
       const newUrl = createUrl(`${urlPrefix}`, newParams);
       console.log(`useEffect, newUrl: ${newUrl}`);
       lastExecutedQuery.current = debouncedQuery;
-      
+
       if (debouncedQuery) {
         trackDirectorySearch({
           query: debouncedQuery,
           category: searchParams?.get("category") || "all",
         });
       }
-      
+
       router.push(newUrl, { scroll: false });
 
       // Smooth scroll to results after a short delay to allow the page to update

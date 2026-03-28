@@ -94,10 +94,12 @@ function EditDialog({
   listing,
   open,
   onClose,
+  onSave,
 }: {
   listing: CrmListing;
   open: boolean;
   onClose: () => void;
+  onSave: (listingId: string, status: OutreachStatus, notes: string) => void;
 }) {
   const outreach = listing.vendor_outreach?.[0];
   const [status, setStatus] = useState<OutreachStatus>(
@@ -133,6 +135,7 @@ function EditDialog({
   const handleSave = () => {
     startTransition(async () => {
       await updateCrmStatus(listing.id, status, notes);
+      onSave(listing.id, status, notes);
       onClose();
     });
   };
@@ -279,15 +282,46 @@ export function CrmTable({ initialListings }: { initialListings: CrmListing[] })
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [editingListing, setEditingListing] = useState<CrmListing | null>(null);
 
-  // Derive outreach status for each listing
+  // Local outreach map — updated immediately on save so filters/counts reflect changes without a reload
+  const [outreachMap, setOutreachMap] = useState<
+    Map<string, { status: OutreachStatus; notes: string; last_contacted_at: string }>
+  >(() => {
+    const m = new Map<string, { status: OutreachStatus; notes: string; last_contacted_at: string }>();
+    for (const l of initialListings) {
+      const o = l.vendor_outreach?.[0];
+      if (o) {
+        m.set(l.id, {
+          status: o.status as OutreachStatus,
+          notes: o.notes ?? "",
+          last_contacted_at: o.last_contacted_at ?? new Date().toISOString(),
+        });
+      }
+    }
+    return m;
+  });
+
+  const handleSaveOutreach = (listingId: string, status: OutreachStatus, notes: string) => {
+    setOutreachMap((prev) => {
+      const next = new Map(prev);
+      next.set(listingId, { status, notes, last_contacted_at: new Date().toISOString() });
+      return next;
+    });
+  };
+
+  // Derive outreach status for each listing — use local outreachMap first, fall back to server data
   const listings = useMemo(
     () =>
-      initialListings.map((l) => ({
-        ...l,
-        outreach_status:
-          (l.vendor_outreach?.[0]?.status as OutreachStatus) ?? "not_contacted",
-      })),
-    [initialListings]
+      initialListings.map((l) => {
+        const local = outreachMap.get(l.id);
+        return {
+          ...l,
+          outreach_status: (local?.status ?? l.vendor_outreach?.[0]?.status ?? "not_contacted") as OutreachStatus,
+          vendor_outreach: local
+            ? [{ status: local.status, notes: local.notes, last_contacted_at: local.last_contacted_at }]
+            : l.vendor_outreach,
+        };
+      }),
+    [initialListings, outreachMap]
   );
 
   const filtered = useMemo(() => {
@@ -554,6 +588,7 @@ export function CrmTable({ initialListings }: { initialListings: CrmListing[] })
         <EditDialog
           listing={editingListing}
           open={!!editingListing}
+          onSave={handleSaveOutreach}
           onClose={() => setEditingListing(null)}
         />
       )}

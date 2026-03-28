@@ -3,6 +3,8 @@ import { getCategories } from "@/data/categories";
 import { getItems } from "@/data/item-service";
 import { DEFAULT_SORT } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
+import { ActivityBar } from "@/components/home/ActivityBar";
+import { QuickFindBlock } from "@/components/home/QuickFindBlock";
 import CategoryGrid from "./components/CategoryGrid";
 import FeaturedVendor from "./components/FeaturedVendor";
 import Hero from "./components/Hero";
@@ -52,6 +54,12 @@ export default async function NewHomePage() {
     <div className="min-h-screen bg-bg-dark">
       {/* Hero Section */}
       <Hero />
+
+      {/* Proof of Life Strip */}
+      <ActivityBar />
+
+      {/* Quick Find Shortcut Block */}
+      <QuickFindBlock />
 
       {/* Featured Vendor + Popular Section */}
       <section className="section grid grid-cols-1 lg:grid-cols-3 gap-10">

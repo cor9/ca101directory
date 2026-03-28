@@ -2,6 +2,7 @@ import { getCategoriesByIds } from "@/actions/categories";
 import { auth } from "@/auth";
 import { VendorProfileViewTracker } from "@/components/analytics/ga-events";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
+import { ClaimBanner } from "@/components/listing/ClaimBanner";
 import ListingLayout from "@/components/listing/ListingLayout";
 import { ContactActions } from "@/components/listing/contact-actions";
 import { ListingCarousel } from "@/components/listing/listing-carousel";
@@ -546,6 +547,9 @@ export default async function ListingPage({ params }: ListingPageProps) {
               },
             ]}
           />
+
+          {/* Claim Banner — only for unclaimed listings */}
+          {!listing.is_claimed && <ClaimBanner listingId={listing.id} />}
 
           {/* Breadcrumb Navigation */}
           <div className="bg-[#0C1A2B] text-white py-4">

@@ -4,6 +4,7 @@ export const fetchCache = "force-no-store";
 import Container from "@/components/container";
 import CategoryClient from "@/components/directory/CategoryClient";
 import { CategoryEducationTip } from "@/components/directory/CategoryEducationTip";
+import { ActivityBar } from "@/components/home/ActivityBar";
 import { CategoryContent } from "@/components/seo/category-content";
 import EmptyGrid from "@/components/shared/empty-grid";
 import { siteConfig } from "@/config/site";
@@ -166,6 +167,9 @@ export default async function CategoryPage({
             </p>
           </div>
         </Container>
+
+        {/* Proof of Life Strip */}
+        <ActivityBar />
 
         {/* Listings Grid - EXACT SAME as directory page */}
         <section className="max-w-7xl mx-auto px-4 py-8">

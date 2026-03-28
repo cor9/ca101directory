@@ -8,6 +8,8 @@ import DirectoryClient from "@/components/directory/DirectoryClient";
 import DirectoryHeroSearch from "@/components/directory/DirectoryHeroSearch";
 import { StatusPills } from "@/components/directory/StatusPills";
 import WhyParentsTrust from "@/components/directory/WhyParentsTrust";
+import { ActivityBar } from "@/components/home/ActivityBar";
+import { QuickFindBlock } from "@/components/home/QuickFindBlock";
 import HomeFeaturedListings from "@/components/home/home-featured-listings";
 import EmptyGrid from "@/components/shared/empty-grid";
 import { siteConfig } from "@/config/site";
@@ -121,6 +123,12 @@ export default async function DirectoryPage({
     <div className="flex flex-col bg-bg-dark min-h-screen">
       {/* Search-First Hero */}
       <DirectoryHeroSearch categories={categories} />
+
+      {/* Proof of Life Strip */}
+      <ActivityBar />
+
+      {/* Quick Find Shortcut Block */}
+      <QuickFindBlock />
 
       {/* Optional helper text */}
       <Container className="py-4">

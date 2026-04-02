@@ -15,7 +15,7 @@ export function ClaimBanner({ listingId }: ClaimBannerProps) {
         <strong>This listing is unclaimed.</strong>
         <span>You&apos;re already listed — but parents can&apos;t contact you yet.</span>
       </div>
-      <Link href={`/claim-listing?lid=${listingId}`} className="claim-banner__btn">
+      <Link href={`/claim/listing/${listingId}`} className="claim-banner__btn">
         Claim this listing →
       </Link>
 

@@ -75,9 +75,10 @@ export default function DirectoryClient({
       {canLoadMore && (
         <div className="mt-8 flex justify-center">
           <button
+            type="button"
             onClick={handleLoadMore}
             disabled={loading}
-            className="rounded-full bg-[#004E89] px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-[#003d6d] disabled:opacity-60 disabled:cursor-not-allowed"
+            className="cursor-pointer rounded-full bg-[#004E89] px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-[#003d6d] active:bg-[#003d6d] disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? "Loading…" : "Load More"}
           </button>

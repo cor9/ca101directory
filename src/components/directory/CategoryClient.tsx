@@ -36,7 +36,8 @@ export default function CategoryClient({
       params.set("page", String(nextPage));
       params.set("category", categoryName);
 
-      const response = await fetch(`/api/public-listings?${params.toString()}`);
+      params.set("_t", Date.now().toString());
+      const response = await fetch(`/api/public-listings?${params.toString()}`, { cache: 'no-store' });
 
       if (!response.ok) {
         throw new Error("Failed to fetch more listings");
@@ -69,6 +70,7 @@ export default function CategoryClient({
             type="button"
             onClick={handleLoadMore}
             disabled={loading}
+            style={{ touchAction: "manipulation" }}
             className="cursor-pointer rounded-full bg-[#004E89] px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-[#003d6d] active:bg-[#003d6d] disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? "Loading…" : "Load More"}

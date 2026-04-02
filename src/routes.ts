@@ -91,6 +91,9 @@ export const publicRoutes = [
 
   // admin user diagnostics
   "/api/admin/check-user",
+
+  // directory load more
+  "/api/public-listings",
 ];
 
 /**

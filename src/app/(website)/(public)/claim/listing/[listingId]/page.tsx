@@ -231,10 +231,7 @@ export default async function ClaimListingPage({
         {/* Claim form */}
         <ClaimForm
           listingId={listing.id}
-          listingName={listing.listing_name}
-          onSuccess={() => {
-            // Redirect handled by ClaimForm action
-          }}
+          listingName={listing.listing_name || "Unknown Business"}
         />
       </div>
     </div>

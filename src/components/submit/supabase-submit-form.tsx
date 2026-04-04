@@ -323,6 +323,8 @@ export function SupabaseSubmitForm({
       const formDataWithGallery = {
         ...formData,
         gallery: galleryImages.filter((img) => img), // Remove empty strings
+        listingId: existingListing?.id,
+        isEdit: !!existingListing,
       };
 
       const result = await submitToSupabase(formDataWithGallery);
@@ -1511,7 +1513,9 @@ export function SupabaseSubmitForm({
             ? "Submitting..."
             : isImageUploading || isGalleryUploading
               ? "Uploading Images..."
-              : "Create free listing"}
+              : existingListing
+                ? "Save Changes"
+                : "Create free listing"}
         </Button>
       </form>
     </>

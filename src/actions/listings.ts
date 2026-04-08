@@ -73,54 +73,54 @@ export async function createListing(
       }
     }
 
+    // Convert single category string to categories array or use existing categories array
+    const categoriesFromInput = validatedFields.data.categories || (validatedFields.data.category ? [validatedFields.data.category.trim()] : []);
+    const categories = categoriesFromInput.filter(Boolean);
+
     // Normalize empty strings to null for optional fields
     const normalizeString = (s?: string) =>
       typeof s === "string" && s.trim() === "" ? null : (s ?? null);
     const normalizeUrl = (s?: string) => normalizeString(s);
-
-    // Helper to convert comma-separated strings to arrays
-    const stringToArray = (
-      value: string | string[] | undefined | null,
-    ): string[] | null => {
-      if (Array.isArray(value)) return value.length > 0 ? value : null;
-      if (!value || typeof value !== "string" || value.trim() === "")
-        return null;
-      const array = value
-        .split(",")
-        .map((item) => item.trim())
-        .filter(Boolean);
-      return array.length > 0 ? array : null;
+    const normalizeZip = (s?: string) => {
+      if (!s || s.trim() === "") return null;
+      const parsed = Number.parseInt(s.trim(), 10);
+      return Number.isNaN(parsed) ? null : parsed;
     };
 
-    // Convert single category string to categories array
-    const categories = validatedFields.data.category
-      ? [validatedFields.data.category.trim()].filter(Boolean)
-      : [];
-
-    // Convert region string to array
-    const regionArray = stringToArray(validatedFields.data.region);
-
     // Prepare listing data with required fields
-    // Remove 'category' field and use 'categories' array instead
-    const { category, ...dataWithoutCategory } = validatedFields.data;
+    const { category, categories: _, ...dataWithoutCategory } = validatedFields.data;
+    
     const listingData = {
       ...dataWithoutCategory,
       slug: finalSlug,
-      is_active: true, // Auto-approve new listings
+      is_active: validatedFields.data.status === "Live", // Use status to determine active
       is_claimed: false, // Default to unclaimed
-      categories: categories.length > 0 ? categories : null, // Convert to array or null
-      region: regionArray, // Convert to array or null
+      categories: categories.length > 0 ? categories : null,
       // Normalize optional string fields
       website: normalizeUrl(validatedFields.data.website),
       email: normalizeString(validatedFields.data.email),
       phone: normalizeString(validatedFields.data.phone),
       city: normalizeString(validatedFields.data.city),
       state: normalizeString(validatedFields.data.state),
+      zip: normalizeZip(validatedFields.data.zip),
       what_you_offer: normalizeString(validatedFields.data.what_you_offer),
       video_url: normalizeUrl(validatedFields.data.video_url),
       custom_link_url: normalizeUrl(validatedFields.data.custom_link_url),
       custom_link_name: normalizeString(validatedFields.data.custom_link_name),
       plan: normalizeString(validatedFields.data.plan),
+      format: normalizeString(validatedFields.data.format),
+      why_is_it_unique: normalizeString(validatedFields.data.why_is_it_unique),
+      extras_notes: normalizeString(validatedFields.data.extras_notes),
+      profile_image: normalizeString(validatedFields.data.profile_image),
+      gallery: normalizeString(validatedFields.data.gallery),
+      bond_number: normalizeString(validatedFields.data.bond_number),
+      // Array fields are already transformed by Zod (commaSeparatedStringToArray)
+      // but let's ensure they are handled properly
+      region: validatedFields.data.region?.length ? validatedFields.data.region : null,
+      services_offered: validatedFields.data.services_offered?.length ? validatedFields.data.services_offered : null,
+      specialties: validatedFields.data.specialties?.length ? validatedFields.data.specialties : null,
+      age_tags: validatedFields.data.age_tags?.length ? validatedFields.data.age_tags : null,
+      age_range: validatedFields.data.age_range?.length ? validatedFields.data.age_range : null,
     };
 
     console.log(
@@ -136,12 +136,6 @@ export async function createListing(
 
     if (error) {
       console.error("Create Listing Error:", JSON.stringify(error, null, 2));
-      console.error("Error details:", {
-        message: error.message,
-        details: error.details,
-        hint: error.hint,
-        code: error.code,
-      });
       return {
         status: "error",
         message: `Database Error: ${error.message || "Failed to create listing."}`,
@@ -150,7 +144,7 @@ export async function createListing(
 
     // Insert admin notification (non-blocking)
     try {
-      await supabaseAdmin.from("notifications").insert({
+      await (supabaseAdmin.from("notifications").insert as any)({
         type: "new_listing",
         title: "New Listing Submission",
         message: `${validatedFields.data.listing_name || "Untitled"} (${validatedFields.data.plan || "Free"}) submitted`,
@@ -160,7 +154,7 @@ export async function createListing(
           plan: validatedFields.data.plan,
           email: validatedFields.data.email,
         },
-      } as any);
+      });
     } catch (notifyErr) {
       console.warn("createListing: failed to insert notification:", notifyErr);
     }

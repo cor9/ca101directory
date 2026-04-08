@@ -206,11 +206,23 @@ export const CreateListingSchema = z.object({
   plan: z.string().optional(),
   // New admin-create fields
   category: z.string().optional(), // single category name (admin free create)
-  format: z.enum(["In-person", "Online", "Hybrid"]).optional(),
+  categories: commaSeparatedStringToArray,
+  format: z.string().optional(),
   city: z.string().optional(),
   state: z.string().optional(),
-  region: z.string().optional(), // comma-separated or a single region label
-  services_offered: z.string().optional(),
-  specialties: z.string().optional(),
-  age_tags: z.string().optional(),
+  zip: z.string().optional(),
+  region: commaSeparatedStringToArray,
+  services_offered: commaSeparatedStringToArray,
+  specialties: commaSeparatedStringToArray,
+  age_tags: commaSeparatedStringToArray,
+  age_range: commaSeparatedStringToArray,
+  why_is_it_unique: z.string().optional(),
+  extras_notes: z.string().optional(),
+  profile_image: z.string().optional(),
+  gallery: z.union([z.string(), z.literal("")]).optional(),
+  is_approved_101: z.boolean().optional(),
+  ca_permit_required: z.boolean().optional(),
+  is_bonded: z.boolean().optional(),
+  bond_number: z.string().optional(),
+  featured: z.boolean().optional(),
 });

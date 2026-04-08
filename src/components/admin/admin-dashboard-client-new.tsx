@@ -1,6 +1,7 @@
 "use client";
 
 import type { updateListing } from "@/actions/listings";
+import { AdminCreateForm } from "@/components/admin/admin-create-form";
 import { AdminEditForm } from "@/components/admin/admin-edit-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,6 +45,7 @@ export const AdminDashboardClientNew = ({
 }: AdminDashboardProps) => {
   const router = useRouter();
   const [editingListing, setEditingListing] = useState<Listing | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(12);
@@ -194,7 +196,7 @@ export const AdminDashboardClientNew = ({
             <Button
               type="button"
               className="h-9 text-xs bg-accent-blue hover:bg-accent-blue/90 text-white"
-              onClick={() => toast.info("Create listing modal coming soon")}
+              onClick={() => setIsCreating(true)}
             >
               + New Listing
             </Button>
@@ -713,6 +715,28 @@ export const AdminDashboardClientNew = ({
               />
             </>
           )}
+        </DialogContent>
+      </Dialog>
+      {/* Create Dialog */}
+      <Dialog
+        open={isCreating}
+        onOpenChange={(isOpen) => setIsCreating(isOpen)}
+      >
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Create New Listing</DialogTitle>
+            <DialogDescription>
+              Fill out the details below to add a new listing to the directory.
+            </DialogDescription>
+          </DialogHeader>
+          <AdminCreateForm
+            onFinished={(result) => {
+              if (result.status === "success") {
+                setIsCreating(false);
+                router.refresh();
+              }
+            }}
+          />
         </DialogContent>
       </Dialog>
     </div>

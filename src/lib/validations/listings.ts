@@ -1,10 +1,15 @@
 import { z } from "zod";
 
 const commaSeparatedStringToArray = z
-  .union([z.string(), z.undefined(), z.null()])
+  .union([z.string(), z.array(z.string()), z.undefined(), z.null()])
   .optional()
   .transform((val) => {
     if (!val || val === "") return [];
+    if (Array.isArray(val)) {
+      return val
+        .map((s) => (typeof s === "string" ? s.trim() : ""))
+        .filter(Boolean);
+    }
     if (typeof val === "string") {
       return val
         .split(",")

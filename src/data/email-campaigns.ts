@@ -1,4 +1,7 @@
 import {
+  sendClaimedVendorUpgrade48hEmail,
+  sendClaimedVendorUpgradeDay5Email,
+  sendClaimedVendorUpgradeImmediateEmail,
   sendDay3CompleteProfileEmail,
   sendDay7TrafficUpdateEmail,
   sendDay14UpgradeOfferEmail,
@@ -24,6 +27,47 @@ export type EmailCampaign = {
   updated_at: string;
 };
 
+export async function startClaimedVendorUpgradeSequence(payload: {
+  listingId: string;
+  vendorEmail: string;
+  vendorName: string;
+  listingName: string;
+}) {
+  const supabase = createServerClient();
+  const upgradeUrl = `${process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com"}/dashboard/vendor?upgrade=true`;
+
+  await sendClaimedVendorUpgradeImmediateEmail({
+    vendorName: payload.vendorName,
+    vendorEmail: payload.vendorEmail,
+    listingName: payload.listingName,
+    upgradeUrl,
+  });
+
+  const nextEmailDueAt = new Date(
+    Date.now() + 48 * 60 * 60 * 1000,
+  ).toISOString();
+
+  const { error } = await supabase.from("email_campaigns").upsert(
+    {
+      listing_id: payload.listingId,
+      email_address: payload.vendorEmail,
+      campaign_type: "claimed_upgrade",
+      current_step: 1,
+      emails_sent: 1,
+      status: "active",
+      opted_out: false,
+      last_email_sent_at: new Date().toISOString(),
+      next_email_due_at: nextEmailDueAt,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "listing_id,campaign_type" },
+  );
+
+  if (error) {
+    console.error("Failed to create claimed upgrade campaign:", error);
+  }
+}
+
 /**
  * Get campaigns that are due to send next email
  */
@@ -40,6 +84,7 @@ export async function getCampaignsDueForEmail() {
         listing_name,
         email,
         is_claimed,
+        owner_id,
         plan,
         status
       )
@@ -69,13 +114,22 @@ export async function processCampaignStep(campaign: any) {
     return false;
   }
 
-  // Double-check listing is still unclaimed and live
-  if (
+  const campaignType = campaign.campaign_type || "unclaimed_nurture";
+
+  // Campaign guardrails
+  if (campaignType === "claimed_upgrade") {
+    if (!listing.is_claimed || !listing.owner_id || listing.status !== "Live") {
+      await supabase
+        .from("email_campaigns")
+        .update({ status: "completed", updated_at: new Date().toISOString() })
+        .eq("id", campaign.id);
+      return false;
+    }
+  } else if (
     listing.is_claimed ||
     listing.status !== "Live" ||
-    listing.plan !== "free"
+    (listing.plan || "").toLowerCase() !== "free"
   ) {
-    // Mark campaign as completed
     await supabase
       .from("email_campaigns")
       .update({ status: "completed", updated_at: new Date().toISOString() })
@@ -105,26 +159,59 @@ export async function processCampaignStep(campaign: any) {
   try {
     // Determine which email to send based on current step
     const nextStep = campaign.current_step + 1;
+    const upgradeUrl = `${process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com"}/dashboard/vendor?upgrade=true`;
 
-    switch (nextStep) {
-      case 2: // Day 3
-        await sendDay3CompleteProfileEmail(emailPayload);
-        await updateCampaignAfterSend(campaign.id, 2, 4); // Next email in 4 days (Day 7)
-        break;
+    if (campaignType === "claimed_upgrade") {
+      switch (nextStep) {
+        case 2:
+          await sendClaimedVendorUpgrade48hEmail({
+            vendorName,
+            vendorEmail: listing.email,
+            listingName: listing.listing_name,
+            upgradeUrl,
+          });
+          await updateCampaignAfterSend(campaign.id, 2, 3);
+          break;
+        case 3:
+          await sendClaimedVendorUpgradeDay5Email({
+            vendorName,
+            vendorEmail: listing.email,
+            listingName: listing.listing_name,
+            upgradeUrl,
+          });
+          await updateCampaignAfterSend(campaign.id, 3, null);
+          break;
+        default:
+          await supabase
+            .from("email_campaigns")
+            .update({
+              status: "completed",
+              updated_at: new Date().toISOString(),
+            })
+            .eq("id", campaign.id);
+          return false;
+      }
+    } else {
+      switch (nextStep) {
+        case 2: // Day 3
+          await sendDay3CompleteProfileEmail(emailPayload);
+          await updateCampaignAfterSend(campaign.id, 2, 4); // Next email in 4 days (Day 7)
+          break;
 
-      case 3: // Day 7
-        await sendDay7TrafficUpdateEmail(emailPayload);
-        await updateCampaignAfterSend(campaign.id, 3, 7); // Next email in 7 days (Day 14)
-        break;
+        case 3: // Day 7
+          await sendDay7TrafficUpdateEmail(emailPayload);
+          await updateCampaignAfterSend(campaign.id, 3, 7); // Next email in 7 days (Day 14)
+          break;
 
-      case 4: // Day 14
-        await sendDay14UpgradeOfferEmail(emailPayload);
-        await updateCampaignAfterSend(campaign.id, 4, null); // No more emails, mark completed
-        break;
+        case 4: // Day 14
+          await sendDay14UpgradeOfferEmail(emailPayload);
+          await updateCampaignAfterSend(campaign.id, 4, null); // No more emails, mark completed
+          break;
 
-      default:
-        console.warn(`Unknown campaign step: ${nextStep}`);
-        return false;
+        default:
+          console.warn(`Unknown campaign step: ${nextStep}`);
+          return false;
+      }
     }
 
     return true;

@@ -1,5 +1,5 @@
-import { updateListingClaim } from "@/lib/airtable";
 import { sendDiscordNotification } from "@/lib/discord";
+import { createServerClient } from "@/lib/supabase";
 import { headers } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -40,68 +40,64 @@ export async function POST(req: NextRequest) {
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
-
-        // Extract metadata
-        const listingSlug = session.metadata?.listingSlug;
-        const businessName = session.metadata?.businessName;
+        const listingId = session.metadata?.listing_id;
+        const userId = session.metadata?.user_id || session.metadata?.vendor_id;
         const plan = session.metadata?.plan;
 
-        if (!listingSlug || !businessName || !session.customer_email) {
-          console.error("Missing required metadata in checkout session");
+        if (!listingId || !plan || !userId) {
+          console.error("Missing required metadata in checkout session", {
+            listingId,
+            plan,
+            userId,
+          });
           return NextResponse.json(
             { error: "Missing metadata" },
             { status: 400 },
           );
         }
 
-        // Find the listing by business name
-        const { getListingById } = await import("@/lib/airtable");
-        const businessNameFromSlug = listingSlug
-          .split("-")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" ");
+        const planMap: Record<string, string> = {
+          standard: "Standard",
+          pro: "Pro",
+          "founding-standard": "Founding Standard",
+          "founding-pro": "Founding Pro",
+        };
 
-        const listing = await getListingById(businessNameFromSlug);
+        const normalizedPlan = planMap[plan] || plan;
+        const supabase = createServerClient();
 
-        if (!listing) {
-          console.error("Listing not found:", businessNameFromSlug);
-          return NextResponse.json(
-            { error: "Listing not found" },
-            { status: 404 },
+        const { error: updateError } = await supabase
+          .from("listings")
+          .update({
+            plan: normalizedPlan,
+            is_active: true,
+            is_claimed: true,
+            owner_id: userId,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", listingId);
+
+        if (updateError) {
+          console.error(
+            "Failed to update listing after checkout:",
+            updateError,
           );
-        }
-
-        // Update the listing with claim information
-        const claimDate = new Date().toISOString();
-        const success = await updateListingClaim(listing.id, {
-          claimed: true,
-          claimedByEmail: session.customer_email,
-          claimDate: claimDate,
-          verificationStatus: "Pending",
-          plan: plan || "Free",
-        });
-
-        if (!success) {
-          console.error("Failed to update listing claim status");
           return NextResponse.json(
             { error: "Failed to update listing" },
             { status: 500 },
           );
         }
 
-        // Discord notification (non-blocking)
-        sendDiscordNotification("🏷️ Listing Claimed", [
-          { name: "Listing", value: listing.businessName, inline: true },
-          { name: "Plan", value: plan || "Free", inline: true },
-          {
-            name: "Claimer",
-            value: session.customer_email || "Unknown",
-            inline: true,
-          },
-        ]).catch((e) => console.warn("Discord claim notification failed:", e));
+        sendDiscordNotification("💳 Listing Upgraded", [
+          { name: "Listing ID", value: listingId, inline: true },
+          { name: "Plan", value: normalizedPlan, inline: true },
+          { name: "User", value: userId, inline: true },
+        ]).catch((e) =>
+          console.warn("Discord upgrade notification failed:", e),
+        );
 
         console.log(
-          `Successfully processed claim for listing: ${listing.businessName}`,
+          `Successfully processed upgrade for listing ${listingId} to ${normalizedPlan}`,
         );
         break;
       }

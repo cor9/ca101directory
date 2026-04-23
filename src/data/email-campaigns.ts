@@ -1,10 +1,8 @@
 import {
-  sendClaimedVendorUpgrade48hEmail,
-  sendClaimedVendorUpgradeDay5Email,
-  sendClaimedVendorUpgradeImmediateEmail,
   sendDay3CompleteProfileEmail,
   sendDay7TrafficUpdateEmail,
   sendDay14UpgradeOfferEmail,
+  sendManualClaimedVendorEmailReminder,
 } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
 
@@ -36,10 +34,12 @@ export async function startClaimedVendorUpgradeSequence(payload: {
   const supabase = createServerClient();
   const upgradeUrl = `${process.env.NEXT_PUBLIC_APP_URL || "https://directory.childactor101.com"}/dashboard/vendor?upgrade=true`;
 
-  await sendClaimedVendorUpgradeImmediateEmail({
+  await sendManualClaimedVendorEmailReminder({
+    step: "immediate",
     vendorName: payload.vendorName,
     vendorEmail: payload.vendorEmail,
     listingName: payload.listingName,
+    listingId: payload.listingId,
     upgradeUrl,
   });
 
@@ -164,19 +164,23 @@ export async function processCampaignStep(campaign: any) {
     if (campaignType === "claimed_upgrade") {
       switch (nextStep) {
         case 2:
-          await sendClaimedVendorUpgrade48hEmail({
+          await sendManualClaimedVendorEmailReminder({
+            step: "48h",
             vendorName,
             vendorEmail: listing.email,
             listingName: listing.listing_name,
+            listingId: listing.id,
             upgradeUrl,
           });
           await updateCampaignAfterSend(campaign.id, 2, 3);
           break;
         case 3:
-          await sendClaimedVendorUpgradeDay5Email({
+          await sendManualClaimedVendorEmailReminder({
+            step: "day5",
             vendorName,
             vendorEmail: listing.email,
             listingName: listing.listing_name,
+            listingId: listing.id,
             upgradeUrl,
           });
           await updateCampaignAfterSend(campaign.id, 3, null);

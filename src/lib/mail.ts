@@ -454,3 +454,55 @@ export const sendClaimedVendorUpgradeDay5Email = async (payload: {
     react: VendorUpgradeDay5Email(payload),
   });
 };
+
+
+export const sendManualClaimedVendorEmailReminder = async (payload: {
+  step: "immediate" | "48h" | "day5";
+  vendorName: string;
+  vendorEmail: string;
+  listingName: string;
+  listingId: string;
+  upgradeUrl: string;
+}) => {
+  const reminderRecipient =
+    process.env.APPLE_MAIL_REMINDER_TO ||
+    process.env.RESEND_EMAIL_ADMIN ||
+    getReplyTo();
+
+  const subjectMap = {
+    immediate: "Manual Send Needed: Vendor Email 1 (Immediate)",
+    "48h": "Manual Send Needed: Vendor Email 2 (+48h)",
+    day5: "Manual Send Needed: Vendor Email 3 (+5d)",
+  } as const;
+
+  const recommendedSendMap = {
+    immediate: "Now",
+    "48h": "48 hours after submission",
+    day5: "5 days after submission",
+  } as const;
+
+  const html = `
+    <div style="font-family: Arial, sans-serif;">
+      <h2>Manual Vendor Email Reminder</h2>
+      <p>Please send the vendor upgrade email manually from Apple Mail.</p>
+      <ul>
+        <li><strong>Step:</strong> ${payload.step}</li>
+        <li><strong>Recommended send time:</strong> ${recommendedSendMap[payload.step]}</li>
+        <li><strong>Vendor:</strong> ${payload.vendorName}</li>
+        <li><strong>Vendor email:</strong> ${payload.vendorEmail}</li>
+        <li><strong>Listing name:</strong> ${payload.listingName}</li>
+        <li><strong>Listing ID:</strong> ${payload.listingId}</li>
+        <li><strong>Upgrade link:</strong> <a href="${payload.upgradeUrl}" target="_blank" rel="noopener noreferrer">${payload.upgradeUrl}</a></li>
+      </ul>
+      <p>This is a reminder notification only. No vendor-facing email was sent automatically.</p>
+    </div>
+  `;
+
+  await resend.emails.send({
+    from: getFrom(),
+    to: getToAddress(reminderRecipient),
+    reply_to: getReplyTo(),
+    subject: subjectMap[payload.step],
+    html,
+  });
+};

@@ -9,6 +9,7 @@ import { ListingCarousel } from "@/components/listing/listing-carousel";
 import { ListingContactSection } from "@/components/listing/listing-contact-section";
 import type { DisplayCategory } from "@/components/listing/types";
 import { ListingCard } from "@/components/listings/ListingCard";
+import { ReviewForm as SubmitReviewForm } from "@/components/reviews/review-form";
 import {
   BreadcrumbSchema,
   ListingSchema,
@@ -644,6 +645,13 @@ export default async function ListingPage({ params }: ListingPageProps) {
                         ))}
                       </div>
                     )}
+
+                    <div className="mt-6">
+                      <SubmitReviewForm
+                        vendorId={listing.id}
+                        vendorName={listing.listing_name || "this provider"}
+                      />
+                    </div>
 
                     <div className="mt-6">
                       <RelatedLinks

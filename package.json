@@ -19,7 +19,7 @@
     "url": "https://github.com/childactor101/directory"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "postbuild": "node scripts/ensure-default-stylesheet.js",
     "start": "next start",

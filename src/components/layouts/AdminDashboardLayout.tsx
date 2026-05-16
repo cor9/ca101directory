@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import {
   AlertTriangle,
   BarChart3,
+  CalendarDays,
   FileText,
   HelpCircle,
   Settings,
@@ -39,6 +40,12 @@ const adminNavItems = [
     href: "/dashboard/admin/reviews",
     icon: Star,
     description: "Moderate user reviews",
+  },
+  {
+    label: "Events",
+    href: "/dashboard/admin/events",
+    icon: CalendarDays,
+    description: "Moderate industry calendar events",
   },
   {
     label: "Platform Analytics",

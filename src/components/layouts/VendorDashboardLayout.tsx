@@ -3,6 +3,7 @@ import type React from "react";
 const navItems = [
   // This is a placeholder for where a future link might go.
   // { name: "My Listing", href: "/dashboard/vendor/listing" },
+  { name: "Events", href: "/dashboard/vendor/events" },
   { name: "Resource Kit", href: "/dashboard/vendor/resources" },
   // { name: "Analytics", href: "/dashboard/vendor/analytics" },
 ];

@@ -1,6 +1,7 @@
 import { getCategoriesByIds } from "@/actions/categories";
 import { auth } from "@/auth";
 import { VendorProfileViewTracker } from "@/components/analytics/ga-events";
+import { EventCard } from "@/components/events/event-card";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { ClaimBanner } from "@/components/listing/ClaimBanner";
 import ListingLayout from "@/components/listing/ListingLayout";
@@ -26,6 +27,8 @@ import {
   getPublicListings,
 } from "@/data/listings";
 import { getListingAverageRating, getListingReviews } from "@/data/reviews";
+import { getPublicEventsForListing } from "@/lib/events/queries";
+import type { DirectoryEventWithListing } from "@/lib/events/types";
 import { getCategoryIconUrl, getListingImageUrl } from "@/lib/image-urls";
 import { constructMetadata } from "@/lib/metadata";
 import { getCleanArray } from "@/lib/sanitizeFields";
@@ -409,8 +412,8 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
           // 3. Trust Level
           const getTrustScore = (l: Listing) => {
-            if ((l as any).trust_level === "background_checked") return 2;
-            if ((l as any).trust_level === "verified") return 1;
+            if (l.trust_level === "background_checked") return 2;
+            if (l.trust_level === "verified") return 1;
             return 0;
           };
           return getTrustScore(b) - getTrustScore(a);
@@ -489,10 +492,22 @@ export default async function ListingPage({ params }: ListingPageProps) {
         reviews = [];
       }
     }
+    let upcomingEvents: Awaited<ReturnType<typeof getPublicEventsForListing>> =
+      [];
+    try {
+      upcomingEvents = await getPublicEventsForListing(
+        createServerClient(),
+        listing.id,
+        3,
+      );
+    } catch (err) {
+      console.error("ListingPage: getPublicEventsForListing failed", err);
+      upcomingEvents = [];
+    }
 
     // Increment views_count if column exists (Phase 3 feature)
     try {
-      const currentViews = (listing as any).views_count ?? 0;
+      const currentViews = listing.views_count ?? 0;
       await createServerClient()
         .from("listings")
         .update({
@@ -591,81 +606,111 @@ export default async function ListingPage({ params }: ListingPageProps) {
           <div className="bg-bg-dark py-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 lg:gap-12 items-start">
-                {/* Left column: Reviews */}
-                {reviewsEnabled && (
-                  <section
-                    id="reviews"
-                    className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6"
-                  >
-                    <h2 className="text-xl font-bold mb-4 text-text-primary">
-                      Reviews from Parents
-                    </h2>
-
-                    {/* 17F: Review Gating Message */}
-                    {averageRating.count === 0 && reviews.length === 0 && (
-                      <div className="mb-4 p-4 bg-bg-dark-2 border border-border-subtle rounded-lg">
-                        <p className="text-sm text-text-secondary mb-2">
-                          This provider does not have reviews yet.
-                        </p>
-                        <p className="text-xs text-text-muted italic">
-                          Profiles with reviews get 4× more contact requests.
-                        </p>
-                      </div>
-                    )}
-
-                    {reviews.length > 0 && (
-                      <div className="space-y-6">
-                        <div className="flex items-center gap-2 mb-3">
-                          <span className="text-2xl">★</span>
-                          <span className="text-xl font-semibold text-text-primary">
-                            {averageRating.average.toFixed(1)}
-                          </span>
-                          <span className="text-sm text-text-muted">
-                            based on {averageRating.count} review
-                            {averageRating.count === 1 ? "" : "s"}
-                          </span>
-                        </div>
-
-                        {reviews.map((review) => (
-                          <div
-                            key={review.id}
-                            className="rounded-lg border border-white/10 p-4 bg-bg-dark-2"
-                          >
-                            <p className="text-sm leading-relaxed text-text-secondary">
-                              {review.text}
-                            </p>
-                            <p className="mt-2 text-xs text-text-muted">
-                              —{" "}
-                              {review.user?.name ||
-                                review.user?.email ||
-                                "Anonymous"}
-                              , {formatDate(review.created_at)}
-                            </p>
-                          </div>
+                {/* Left column: Events and Reviews */}
+                <div className="space-y-6">
+                  {upcomingEvents.length > 0 && (
+                    <section className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6">
+                      <h2 className="text-xl font-bold mb-4 text-text-primary">
+                        Upcoming Events from {listing.listing_name}
+                      </h2>
+                      <div className="space-y-4">
+                        {upcomingEvents.map((event) => (
+                          <EventCard
+                            key={event.id}
+                            event={
+                              {
+                                ...event,
+                                listing: {
+                                  id: listing.id,
+                                  slug: listing.slug,
+                                  listing_name: listing.listing_name,
+                                  plan: listing.plan,
+                                },
+                              } as DirectoryEventWithListing
+                            }
+                          />
                         ))}
                       </div>
-                    )}
+                    </section>
+                  )}
 
-                    <div className="mt-6">
-                      <SubmitReviewForm
-                        vendorId={listing.id}
-                        vendorName={listing.listing_name || "this provider"}
-                      />
-                    </div>
+                  {reviewsEnabled && (
+                    <section
+                      id="reviews"
+                      className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6"
+                    >
+                      <h2 className="text-xl font-bold mb-4 text-text-primary">
+                        Reviews from Parents
+                      </h2>
 
-                    <div className="mt-6">
-                      <RelatedLinks
-                        listing={listing}
-                        relatedListings={related}
-                        categoryNames={Array.from(
-                          new Set(
-                            displayCategories.map((c) => c.displayName.trim()),
-                          ),
-                        )}
-                      />
-                    </div>
-                  </section>
-                )}
+                      {/* 17F: Review Gating Message */}
+                      {averageRating.count === 0 && reviews.length === 0 && (
+                        <div className="mb-4 p-4 bg-bg-dark-2 border border-border-subtle rounded-lg">
+                          <p className="text-sm text-text-secondary mb-2">
+                            This provider does not have reviews yet.
+                          </p>
+                          <p className="text-xs text-text-muted italic">
+                            Profiles with reviews get 4× more contact requests.
+                          </p>
+                        </div>
+                      )}
+
+                      {reviews.length > 0 && (
+                        <div className="space-y-6">
+                          <div className="flex items-center gap-2 mb-3">
+                            <span className="text-2xl">★</span>
+                            <span className="text-xl font-semibold text-text-primary">
+                              {averageRating.average.toFixed(1)}
+                            </span>
+                            <span className="text-sm text-text-muted">
+                              based on {averageRating.count} review
+                              {averageRating.count === 1 ? "" : "s"}
+                            </span>
+                          </div>
+
+                          {reviews.map((review) => (
+                            <div
+                              key={review.id}
+                              className="rounded-lg border border-white/10 p-4 bg-bg-dark-2"
+                            >
+                              <p className="text-sm leading-relaxed text-text-secondary">
+                                {review.text}
+                              </p>
+                              <p className="mt-2 text-xs text-text-muted">
+                                —{" "}
+                                {review.user?.name ||
+                                  review.user?.email ||
+                                  "Anonymous"}
+                                , {formatDate(review.created_at)}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="mt-6">
+                        <SubmitReviewForm
+                          vendorId={listing.id}
+                          vendorName={listing.listing_name || "this provider"}
+                        />
+                      </div>
+
+                      <div className="mt-6">
+                        <RelatedLinks
+                          listing={listing}
+                          relatedListings={related}
+                          categoryNames={Array.from(
+                            new Set(
+                              displayCategories.map((c) =>
+                                c.displayName.trim(),
+                              ),
+                            ),
+                          )}
+                        />
+                      </div>
+                    </section>
+                  )}
+                </div>
 
                 {/* Right column: Sticky sidebar with Contact Info */}
                 <aside className="lg:sticky lg:top-24">

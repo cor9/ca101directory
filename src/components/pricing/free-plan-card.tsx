@@ -13,6 +13,7 @@ export function FreePlanCard() {
       "Public listing in our directory",
       "Searchable by parents",
       "Basic contact information",
+      "1 active event posting",
       "Reviewed and approved within 72 hours",
       "Standard customer support",
     ],

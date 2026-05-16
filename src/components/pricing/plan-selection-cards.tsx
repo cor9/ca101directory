@@ -18,6 +18,7 @@ const plans = [
       "Basic listing information",
       "Contact details displayed",
       "Searchable in directory",
+      "1 active event posting",
       "Quality review process",
       "1 logo or thumbnail image",
       "Age tags",
@@ -38,6 +39,7 @@ const plans = [
       "1 profile image",
       "Video embeds (YouTube/Vimeo)",
       "Enhanced listing layout",
+      "Up to 3 active event postings",
       "Better search ranking",
       "Edit anytime",
       "Email support",
@@ -57,6 +59,7 @@ const plans = [
       "YouTube/Vimeo embeds",
       "Priority placement",
       "Social media links",
+      "Unlimited active event postings",
       "101 Approved Badge eligible",
       "Priority support",
     ],
@@ -88,6 +91,7 @@ export function PlanSelectionCards() {
       <div className="flex justify-center mb-8">
         <div className="inline-flex bg-gray-100 rounded-lg p-1">
           <button
+            type="button"
             onClick={() => setBillingCycle("monthly")}
             className={`px-6 py-2 rounded-md font-medium transition-colors ${
               billingCycle === "monthly"
@@ -98,6 +102,7 @@ export function PlanSelectionCards() {
             Monthly
           </button>
           <button
+            type="button"
             onClick={() => setBillingCycle("yearly")}
             className={`px-6 py-2 rounded-md font-medium transition-colors ${
               billingCycle === "yearly"
@@ -156,8 +161,8 @@ export function PlanSelectionCards() {
 
             <CardContent className="flex-1 flex flex-col">
               <div className="flex-1 space-y-3 mb-6">
-                {plan.features.map((feature, index) => (
-                  <div key={index} className="flex items-start gap-2">
+                {plan.features.map((feature) => (
+                  <div key={feature} className="flex items-start gap-2">
                     <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                     <span className="text-sm text-paper">{feature}</span>
                   </div>

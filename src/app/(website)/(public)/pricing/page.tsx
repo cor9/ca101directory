@@ -77,6 +77,10 @@ export default async function PricingPage() {
                 </li>
                 <li className="flex gap-2 text-sm text-text-secondary">
                   <span className="text-accent-teal mt-0.5">✓</span>
+                  <span>1 active event posting</span>
+                </li>
+                <li className="flex gap-2 text-sm text-text-secondary">
+                  <span className="text-accent-teal mt-0.5">✓</span>
                   <span>Quality review process</span>
                 </li>
                 <li className="flex gap-2 text-sm text-text-secondary">
@@ -119,6 +123,36 @@ export default async function PricingPage() {
               />
             </div>
           </div>
+
+          <section className="mt-12 border-y border-border-subtle py-8">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-semibold text-text-primary">
+                Industry Calendar access by plan
+              </h2>
+              <p className="mt-2 text-sm text-text-secondary max-w-2xl mx-auto">
+                Post upcoming classes, workshops, camps, webinars, open calls,
+                and special events tied to your directory listing.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              {[
+                ["Free", "1 active event"],
+                ["Standard", "3 active events"],
+                ["Pro", "Unlimited active events"],
+                ["Boosts", "Optional promotional placement"],
+              ].map(([plan, detail]) => (
+                <div
+                  key={plan}
+                  className="rounded-lg border border-border-subtle bg-card-surface p-4"
+                >
+                  <p className="text-sm font-semibold text-text-primary">
+                    {plan}
+                  </p>
+                  <p className="mt-1 text-sm text-text-secondary">{detail}</p>
+                </div>
+              ))}
+            </div>
+          </section>
 
           {/* Second Stripe Pricing Table - 101 Approved Badge Add-on */}
           <div className="mt-12">

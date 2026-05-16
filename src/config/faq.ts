@@ -19,7 +19,7 @@ export const faqConfig: FAQConfig = {
       id: "item-3",
       question: "What's the difference between the plans?",
       answer:
-        "Standard ($25/month) gets you a public listing with basic contact info. Pro ($50/month) adds featured placement, logo display, and SEO boosting. The 101 Badge Add-on ($10) adds our trusted badge to Standard plans.",
+        "Free listings include 1 active event posting. Standard ($25/month) adds enhanced listing visibility and up to 3 active event postings. Pro ($50/month) adds featured placement, SEO boosting, and unlimited active event postings. Event boosts can be added separately for promotional placement.",
     },
     {
       id: "item-4",

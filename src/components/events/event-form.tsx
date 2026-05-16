@@ -62,7 +62,7 @@ export function EventForm({
             name="listing_id"
             required
             defaultValue={event?.listing_id || listings[0]?.id || ""}
-            className="h-10 w-full rounded-md border border-border-subtle bg-bg-dark-3 text-text-primary px-3 py-2 text-sm focus:outline-none focus:border-accent-blue"
+            className="h-10 w-full rounded-md border border-border-subtle bg-bg-3 text-text-primary px-3 py-2 text-sm focus:outline-none focus:border-accent-blue"
           >
             {listings.map((listing) => (
               <option key={listing.id} value={listing.id}>
@@ -76,7 +76,7 @@ export function EventForm({
           <select
             name="category"
             defaultValue={event?.category || ""}
-            className="h-10 w-full rounded-md border border-border-subtle bg-bg-dark-3 text-text-primary px-3 py-2 text-sm focus:outline-none focus:border-accent-blue"
+            className="h-10 w-full rounded-md border border-border-subtle bg-bg-3 text-text-primary px-3 py-2 text-sm focus:outline-none focus:border-accent-blue"
           >
             <option value="">Choose a category</option>
             {EVENT_CATEGORIES.map((category) => (
@@ -95,7 +95,7 @@ export function EventForm({
           <select
             name="audience"
             defaultValue={event?.audience || ""}
-            className="h-10 w-full rounded-md border border-border-subtle bg-bg-dark-3 text-text-primary px-3 py-2 text-sm focus:outline-none focus:border-accent-blue"
+            className="h-10 w-full rounded-md border border-border-subtle bg-bg-3 text-text-primary px-3 py-2 text-sm focus:outline-none focus:border-accent-blue"
           >
             <option value="">Choose an audience</option>
             {EVENT_AUDIENCES.map((audience) => (
@@ -110,7 +110,7 @@ export function EventForm({
           <select
             name="price_type"
             defaultValue={event?.price_type || "paid"}
-            className="h-10 w-full rounded-md border border-border-subtle bg-bg-dark-3 text-text-primary px-3 py-2 text-sm focus:outline-none focus:border-accent-blue"
+            className="h-10 w-full rounded-md border border-border-subtle bg-bg-3 text-text-primary px-3 py-2 text-sm focus:outline-none focus:border-accent-blue"
           >
             {PRICE_TYPES.map((priceType) => (
               <option key={priceType} value={priceType}>

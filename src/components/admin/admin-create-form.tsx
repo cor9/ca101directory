@@ -177,7 +177,7 @@ export function AdminCreateForm({ onFinished }: AdminCreateFormProps) {
       <input
         id={id}
         {...register(id)}
-        className="w-full bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-accent-blue focus:outline-none text-text-primary placeholder:text-text-muted"
+        className="w-full bg-bg-3 border border-border-subtle rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-accent-blue focus:outline-none text-text-primary placeholder:text-text-muted"
         disabled={disabled}
         {...props}
       />
@@ -200,7 +200,7 @@ export function AdminCreateForm({ onFinished }: AdminCreateFormProps) {
       <select
         id={id}
         {...register(id)}
-        className="w-full bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-accent-blue focus:outline-none text-text-primary"
+        className="w-full bg-bg-3 border border-border-subtle rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-accent-blue focus:outline-none text-text-primary"
         disabled={disabled}
       >
         {children}
@@ -219,7 +219,7 @@ export function AdminCreateForm({ onFinished }: AdminCreateFormProps) {
         type="checkbox"
         id={id}
         {...register(id)}
-        className="h-4 w-4 rounded border-border-subtle bg-bg-dark-3 text-accent-blue focus:ring-accent-blue"
+        className="h-4 w-4 rounded border-border-subtle bg-bg-3 text-accent-blue focus:ring-accent-blue"
         disabled={disabled}
       />
       <Label htmlFor={id} className="text-text-primary text-sm">
@@ -243,7 +243,7 @@ export function AdminCreateForm({ onFinished }: AdminCreateFormProps) {
         id={id}
         {...register(id)}
         rows={rows}
-        className="w-full bg-bg-dark-3 border border-border-subtle rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-accent-blue focus:outline-none text-text-primary placeholder:text-text-muted"
+        className="w-full bg-bg-3 border border-border-subtle rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-accent-blue focus:outline-none text-text-primary placeholder:text-text-muted"
         disabled={disabled}
       />
     </div>

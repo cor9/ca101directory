@@ -153,7 +153,7 @@ export default async function AdminEventDetailPage({
                   <input type="hidden" name="event_id" value={event.id} />
                   <select
                     name="rejection_reason"
-                    className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+                    className="h-10 w-full rounded-md border border-border-subtle bg-bg-3 text-text-primary px-3 text-sm focus:outline-none focus:border-accent-blue"
                     defaultValue={
                       event.rejection_reason || REJECTION_REASONS[0]
                     }
@@ -194,7 +194,7 @@ export default async function AdminEventDetailPage({
                     id="featured_until"
                     name="featured_until"
                     type="datetime-local"
-                    className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+                    className="h-10 w-full rounded-md border border-border-subtle bg-bg-3 text-text-primary px-3 text-sm focus:outline-none focus:border-accent-blue"
                   />
                   <Button type="submit" className="w-full" variant="outline">
                     Feature Event
@@ -218,7 +218,7 @@ export default async function AdminEventDetailPage({
                     id="boost_level"
                     name="boost_level"
                     defaultValue={event.boost_level || "none"}
-                    className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+                    className="h-10 w-full rounded-md border border-border-subtle bg-bg-3 text-text-primary px-3 text-sm focus:outline-none focus:border-accent-blue"
                   >
                     {BOOST_LEVELS.map((level) => (
                       <option key={level} value={level}>
@@ -236,7 +236,7 @@ export default async function AdminEventDetailPage({
                     id="boost_starts_at"
                     name="boost_starts_at"
                     type="datetime-local"
-                    className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+                    className="h-10 w-full rounded-md border border-border-subtle bg-bg-3 text-text-primary px-3 text-sm focus:outline-none focus:border-accent-blue"
                   />
                   <label
                     className="text-sm font-medium"
@@ -248,7 +248,7 @@ export default async function AdminEventDetailPage({
                     id="boost_ends_at"
                     name="boost_ends_at"
                     type="datetime-local"
-                    className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+                    className="h-10 w-full rounded-md border border-border-subtle bg-bg-3 text-text-primary px-3 text-sm focus:outline-none focus:border-accent-blue"
                   />
                   <Button type="submit" variant="outline" className="w-full">
                     Apply Boost

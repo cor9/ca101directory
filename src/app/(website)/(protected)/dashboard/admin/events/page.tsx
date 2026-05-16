@@ -170,7 +170,7 @@ export default async function AdminEventsPage({
                       <input type="hidden" name="event_id" value={event.id} />
                       <select
                         name="rejection_reason"
-                        className="h-9 rounded-md border border-input bg-background px-3 text-sm"
+                        className="h-9 rounded-md border border-border-subtle bg-bg-3 text-text-primary px-3 text-sm focus:outline-none focus:border-accent-blue"
                         defaultValue={REJECTION_REASONS[0]}
                       >
                         {REJECTION_REASONS.map((reason) => (

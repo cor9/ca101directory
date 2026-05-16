@@ -90,11 +90,13 @@ export default async function EventDetailPage({
       <section className="mx-auto grid max-w-5xl gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[2fr_1fr] lg:px-8">
         <article className="space-y-6">
           {event.image_url && (
-            <img
-              src={event.image_url}
-              alt=""
-              className="aspect-[16/9] w-full rounded-lg object-cover"
-            />
+            <div className="flex aspect-[16/9] w-full items-center justify-center overflow-hidden rounded-lg bg-black/5 dark:bg-white/5">
+              <img
+                src={event.image_url}
+                alt=""
+                className="max-h-full max-w-full object-contain"
+              />
+            </div>
           )}
 
           {event.short_description && (

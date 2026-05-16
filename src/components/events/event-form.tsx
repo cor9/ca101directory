@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+import ImageUpload from "@/components/shared/image-upload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -39,6 +43,9 @@ export function EventForm({
   submitLabel = "Submit Event",
   error,
 }: EventFormProps) {
+  const [imageUrl, setImageUrl] = useState(event?.image_url || "");
+  const [isUploading, setIsUploading] = useState(false);
+
   return (
     <form action={action} className="space-y-8">
       {error && (
@@ -269,13 +276,22 @@ export function EventForm({
             defaultValue={event?.event_url || ""}
           />
         </Field>
-        <Field label="Image URL">
-          <Input
-            name="image_url"
-            type="url"
-            defaultValue={event?.image_url || ""}
-          />
-        </Field>
+        <div className="space-y-2">
+          <Label>Event Image</Label>
+          <div className="h-48 border-2 border-dashed border-border-subtle rounded-lg overflow-hidden bg-bg-3">
+            <ImageUpload
+              currentImageUrl={imageUrl}
+              onUploadChange={(status) => {
+                setIsUploading(status.isUploading);
+                if (status.imageId) {
+                  setImageUrl(status.imageId);
+                }
+              }}
+              type="image"
+            />
+            <input type="hidden" name="image_url" value={imageUrl} />
+          </div>
+        </div>
       </section>
 
       <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
@@ -298,8 +314,8 @@ export function EventForm({
         </label>
       </div>
 
-      <Button type="submit" className="bauhaus-btn-primary">
-        {submitLabel}
+      <Button type="submit" className="bauhaus-btn-primary" disabled={isUploading}>
+        {isUploading ? "Uploading Image..." : submitLabel}
       </Button>
     </form>
   );

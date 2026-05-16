@@ -14,7 +14,7 @@ import { verifyDashboardAccess } from "@/lib/dashboard-safety";
 import { REJECTION_REASONS } from "@/lib/events/constants";
 import { getAdminEvents } from "@/lib/events/queries";
 import { createServerClient } from "@/lib/supabase";
-import { Check, Edit, ExternalLink, Star, X } from "lucide-react";
+import { CalendarPlus, Check, Edit, ExternalLink, Star, X } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -31,7 +31,7 @@ const tabs = [
 export default async function AdminEventsPage({
   searchParams,
 }: {
-  searchParams?: { status?: string };
+  searchParams?: { status?: string; created?: string };
 }) {
   const user = await currentUser();
   if (!user?.id) redirect("/auth/login?callbackUrl=/dashboard/admin/events");
@@ -57,7 +57,19 @@ export default async function AdminEventsPage({
               Public Calendar
             </Link>
           </Button>
+          <Button asChild>
+            <Link href="/dashboard/admin/events/new">
+              <CalendarPlus className="mr-2 h-4 w-4" />
+              Create Event
+            </Link>
+          </Button>
         </div>
+
+        {searchParams?.created && (
+          <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
+            Event created and approved.
+          </div>
+        )}
 
         <div className="flex flex-wrap gap-2">
           {tabs.map((tab) => (

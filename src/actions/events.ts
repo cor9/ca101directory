@@ -150,6 +150,46 @@ export async function createVendorEvent(formData: FormData) {
   redirect("/dashboard/vendor/events?submitted=1");
 }
 
+export async function createAdminEvent(formData: FormData) {
+  const user = await requireAdmin();
+
+  const parsed = eventFormSchema.safeParse(eventFormDataToObject(formData));
+  if (!parsed.success) {
+    failRedirect(
+      "/dashboard/admin/events/new",
+      eventValidationErrors(parsed.error),
+    );
+  }
+
+  const supabase = createServerClient();
+  await fetchListingForOwnership(supabase, parsed.data.listing_id);
+
+  const slug = await makeUniqueEventSlug(
+    supabase,
+    parsed.data.title,
+    parsed.data.start_date,
+  );
+
+  const { error } = await supabase.from("events").insert({
+    ...cleanEventPayload(parsed.data),
+    created_by: user.id,
+    slug,
+    status: "approved",
+    submitted_at: new Date().toISOString(),
+    approved_at: new Date().toISOString(),
+    approved_by: user.id,
+  });
+
+  if (error) {
+    console.error("createAdminEvent error:", error);
+    failRedirect("/dashboard/admin/events/new", "Could not create this event.");
+  }
+
+  revalidatePath("/events");
+  revalidatePath("/dashboard/admin/events");
+  redirect("/dashboard/admin/events?status=approved&created=1");
+}
+
 export async function updateVendorEvent(eventId: string, formData: FormData) {
   const user = await currentUser();
   if (!user?.id) redirect("/auth/login?callbackUrl=/dashboard/vendor/events");

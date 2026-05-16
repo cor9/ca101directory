@@ -1,6 +1,7 @@
 import {
   AlertTriangleIcon,
   ArrowRightIcon,
+  CalendarDaysIcon,
   CameraIcon,
   CheckIcon,
   CreditCardIcon,
@@ -52,6 +53,7 @@ export const Icons = {
   category: LayoutGridIcon,
   tag: TagsIcon,
   blog: FileTextIcon,
+  calendar: CalendarDaysIcon,
   pricing: CreditCardIcon,
   home: HomeIcon,
   dashboard: LayoutDashboardIcon,

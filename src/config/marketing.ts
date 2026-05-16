@@ -14,6 +14,11 @@ export const marketingConfig: MarketingConfig = {
       icon: "search",
     },
     {
+      title: "Events",
+      href: "/events",
+      icon: "calendar",
+    },
+    {
       title: "Category",
       href: "/category",
       icon: "category",

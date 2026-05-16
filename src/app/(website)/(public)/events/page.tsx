@@ -60,13 +60,13 @@ export default async function EventsPage({
               name="q"
               defaultValue={searchParams?.q || ""}
               placeholder="Search events"
-              className="h-10 w-full rounded-md border border-input bg-background pl-9 pr-3 text-sm"
+              className="h-10 w-full rounded-md border border-border-subtle bg-bg-3 text-text-primary pl-9 pr-3 text-sm focus:outline-none focus:border-accent-blue"
             />
           </div>
           <select
             name="category"
             defaultValue={searchParams?.category || ""}
-            className="h-10 rounded-md border border-input bg-background px-3 text-sm"
+            className="h-10 rounded-md border border-border-subtle bg-bg-3 text-text-primary px-3 text-sm focus:outline-none focus:border-accent-blue"
           >
             <option value="">All categories</option>
             {EVENT_CATEGORIES.map((category) => (
@@ -78,7 +78,7 @@ export default async function EventsPage({
           <select
             name="online"
             defaultValue={searchParams?.online || ""}
-            className="h-10 rounded-md border border-input bg-background px-3 text-sm"
+            className="h-10 rounded-md border border-border-subtle bg-bg-3 text-text-primary px-3 text-sm focus:outline-none focus:border-accent-blue"
           >
             <option value="">Online or in-person</option>
             <option value="true">Online</option>
@@ -87,7 +87,7 @@ export default async function EventsPage({
           <select
             name="price"
             defaultValue={searchParams?.price || ""}
-            className="h-10 rounded-md border border-input bg-background px-3 text-sm"
+            className="h-10 rounded-md border border-border-subtle bg-bg-3 text-text-primary px-3 text-sm focus:outline-none focus:border-accent-blue"
           >
             <option value="">Any price</option>
             {PRICE_TYPES.map((priceType) => (

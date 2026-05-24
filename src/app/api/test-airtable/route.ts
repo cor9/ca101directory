@@ -1,7 +1,9 @@
 import { createListing } from "@/lib/airtable";
 import type { NextRequest } from "next/server";
 
-export const runtime = "edge";
+// This route depends on Node APIs through the Airtable SDK, so it must run on
+// the Node.js runtime instead of the default Edge runtime.
+export const runtime = "nodejs";
 
 export async function GET(req: NextRequest) {
   try {

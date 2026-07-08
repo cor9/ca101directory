@@ -1,12 +1,12 @@
 "use server";
 
 import { auth } from "@/auth";
-import { requirePermission } from "@/lib/auth/guards";
 import {
   FEATURED_LISTINGS_CACHE_TAG,
   LISTINGS_CACHE_TAG,
   listingCacheTag,
 } from "@/data/listings";
+import { requirePermission } from "@/lib/auth/guards";
 import { sendListingLiveEmail } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
@@ -28,7 +28,10 @@ export async function createListing(
   try {
     const guard = await requirePermission("listing.create.admin");
     if (!guard.authorized) {
-      return { status: "error", message: "Unauthorized: Admin access required" };
+      return {
+        status: "error",
+        message: "Unauthorized: Admin access required",
+      };
     }
 
     const validatedFields = CreateListingSchema.safeParse(values);
@@ -408,7 +411,10 @@ export async function deleteListing(id: string) {
   try {
     const guard = await requirePermission("listing.delete.any");
     if (!guard.authorized) {
-      return { status: "error", message: "Unauthorized: Admin access required" };
+      return {
+        status: "error",
+        message: "Unauthorized: Admin access required",
+      };
     }
 
     const supabase = createServerClient();

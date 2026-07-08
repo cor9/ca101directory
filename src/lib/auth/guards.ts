@@ -15,7 +15,10 @@ export async function requirePermission(
 ): Promise<GuardResult> {
   const user = await currentUser();
   const role = (user?.role ?? "guest") as UserRole;
-  if (!user?.id || !(PERMISSIONS[permission] as readonly string[]).includes(role)) {
+  if (
+    !user?.id ||
+    !(PERMISSIONS[permission] as readonly string[]).includes(role)
+  ) {
     return { authorized: false, user: null };
   }
   return { authorized: true, user: user as GuardResult["user"] & object };

@@ -1,6 +1,7 @@
 "use server";
 
 import { auth } from "@/auth";
+import { requirePermission } from "@/lib/auth/guards";
 import { sendListingLiveEmail } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
 import { createClaimToken, createOptOutToken } from "@/lib/tokens";
@@ -59,17 +60,16 @@ export async function adminCreateListing(
   formData: AdminCreateFormData,
 ): Promise<ServerActionResponse> {
   try {
-    const session = await auth();
-
     // Check if user is authenticated and is admin
-    if (!session?.user?.id) {
-      return {
-        success: false,
-        error: "You must be logged in to perform this action",
-      };
-    }
-
-    if (session.user.role !== "admin") {
+    const guard = await requirePermission("listing.create.admin");
+    if (!guard.authorized) {
+      const session = await auth();
+      if (!session?.user?.id) {
+        return {
+          success: false,
+          error: "You must be logged in to perform this action",
+        };
+      }
       return {
         success: false,
         error: "You must be an admin to perform this action",
@@ -128,7 +128,7 @@ export async function adminCreateListing(
       custom_link_url: formData.custom_link_url || null,
       custom_link_name: formData.custom_link_name || null,
       // Set admin-created listing metadata
-      owner_id: session.user.id, // Link to admin user
+      owner_id: guard.user.id, // Link to admin user
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
@@ -231,8 +231,8 @@ export async function adminBulkCreateListings(
   items: AdminCreateFormData[],
 ): Promise<ServerActionResponse> {
   try {
-    const session = await auth();
-    if (!session?.user?.id || session.user.role !== "admin") {
+    const guard = await requirePermission("listing.create.admin");
+    if (!guard.authorized) {
       return {
         success: false,
         error: "Admin authentication required",
@@ -296,7 +296,7 @@ export async function adminBulkCreateListings(
         custom_link_url: formData.custom_link_url || null,
         custom_link_name: formData.custom_link_name || null,
         // metadata
-        owner_id: session.user.id,
+        owner_id: guard.user.id,
         created_at: now,
         updated_at: now,
       };

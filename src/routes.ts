@@ -36,7 +36,6 @@ export const publicRoutes = [
   "/api/webhook",
   "/api/webhooks/stripe",
   "/api/webhook/stripe-claim",
-  "/api/webhook/stripe",
 
   // send emails, like submission approval or rejection emails
   "/api/send-email",

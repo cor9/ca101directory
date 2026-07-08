@@ -13,15 +13,26 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2024-04-10",
 });
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET_MAIN || "";
+// Reuses the existing Stripe webhook signing secret already configured for
+// this endpoint (https://directory.childactor101.com/api/webhook) in the
+// Stripe Dashboard. Do not introduce a second endpoint/secret.
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
 
 /**
- * Canonical commission-attribution webhook. Handles ONLY
+ * Commission-recording webhook for this endpoint. Handles ONLY
  * checkout.session.completed (new-sale attribution) and charge.refunded
- * (clawback/adjustment). Every other event type — in particular
- * invoice.* and customer.subscription.* — is explicitly no-op'd: renewal
- * commissioning is deferred to Sprint 2b and must not be inferred from
- * this handler existing.
+ * (clawback/adjustment).
+ *
+ * Scope note: this sprint records commissions only. It does NOT restore
+ * the historical server-side checkout-completion / plan-update logic that
+ * used to live at this URL (deleted in commit 688e3f16, never restored).
+ * See follow-up: "Restore server-side Stripe checkout completion /
+ * plan-update logic for /api/webhook."
+ *
+ * Every other event type — in particular invoice.* and
+ * customer.subscription.* — is explicitly no-op'd: renewal commissioning
+ * is deferred to Sprint 2b and must not be inferred from this handler
+ * existing.
  */
 export async function POST(req: Request) {
   const body = await req.text();
@@ -31,7 +42,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "No signature" }, { status: 400 });
   }
   if (!webhookSecret) {
-    console.error("STRIPE_WEBHOOK_SECRET_MAIN is not configured");
+    console.error("STRIPE_WEBHOOK_SECRET is not configured");
     return NextResponse.json(
       { error: "Server misconfigured" },
       { status: 500 },
@@ -56,11 +67,11 @@ export async function POST(req: Request) {
         break;
       default:
         // Explicit no-op. Never 500 on business no-ops or Stripe retries forever.
-        console.log(`[webhook/stripe] ignoring event type: ${event.type}`);
+        console.log(`[webhook] ignoring event type: ${event.type}`);
     }
     return NextResponse.json({ received: true });
   } catch (error) {
-    console.error("[webhook/stripe] handler error:", error);
+    console.error("[webhook] handler error:", error);
     return NextResponse.json(
       { error: "Webhook handler failed" },
       { status: 500 },
@@ -73,7 +84,7 @@ async function handleCheckoutCompleted(event: Stripe.Event) {
 
   if (session.payment_status !== "paid") {
     console.log(
-      `[webhook/stripe] checkout.session.completed with payment_status=${session.payment_status}, skipping`,
+      `[webhook] checkout.session.completed with payment_status=${session.payment_status}, skipping`,
     );
     return;
   }
@@ -88,7 +99,7 @@ async function handleCheckoutCompleted(event: Stripe.Event) {
 
   if (!listingId) {
     console.log(
-      "[webhook/stripe] checkout.session.completed with no listing_id/client_reference_id — house sale, unattributable",
+      "[webhook] checkout.session.completed with no listing_id/client_reference_id — house sale, unattributable",
     );
     return;
   }
@@ -140,19 +151,19 @@ async function handleCheckoutCompleted(event: Stripe.Event) {
 
   if (attribution.attributed === false) {
     console.log(
-      `[webhook/stripe] no commission for listing ${listingId}: ${attribution.reason}`,
+      `[webhook] no commission for listing ${listingId}: ${attribution.reason}`,
     );
     return;
   }
 
   const commission = computeCommission(plan, saleAmountCents);
   if (!commission) {
-    console.log(`[webhook/stripe] plan "${plan}" not commissionable, skipping`);
+    console.log(`[webhook] plan "${plan}" not commissionable, skipping`);
     return;
   }
   if (commission.priceDrift) {
     console.warn(
-      `[webhook/stripe] price drift: sale_amount_cents=${saleAmountCents} for plan ${plan}`,
+      `[webhook] price drift: sale_amount_cents=${saleAmountCents} for plan ${plan}`,
     );
   }
 
@@ -176,12 +187,10 @@ async function handleCheckoutCompleted(event: Stripe.Event) {
   if (error) {
     // Unique violation on stripe_event_id = Stripe retry, already recorded. No-op.
     if (error.code === "23505") {
-      console.log(
-        `[webhook/stripe] duplicate event ${event.id}, already recorded`,
-      );
+      console.log(`[webhook] duplicate event ${event.id}, already recorded`);
       return;
     }
-    console.error("[webhook/stripe] failed to insert commission:", error);
+    console.error("[webhook] failed to insert commission:", error);
     throw error;
   }
 }
@@ -195,13 +204,13 @@ async function handleChargeRefunded(event: Stripe.Event) {
       const invoice = await stripe.invoices.retrieve(charge.invoice as string);
       subscriptionId = (invoice.subscription as string) || null;
     } catch (e) {
-      console.error("[webhook/stripe] failed to retrieve invoice:", e);
+      console.error("[webhook] failed to retrieve invoice:", e);
     }
   }
 
   if (!subscriptionId) {
     console.log(
-      "[webhook/stripe] charge.refunded with no linked subscription, skipping",
+      "[webhook] charge.refunded with no linked subscription, skipping",
     );
     return;
   }
@@ -216,7 +225,7 @@ async function handleChargeRefunded(event: Stripe.Event) {
 
   if (!commission) {
     console.log(
-      `[webhook/stripe] charge.refunded for subscription ${subscriptionId}, no matching commission row`,
+      `[webhook] charge.refunded for subscription ${subscriptionId}, no matching commission row`,
     );
     return;
   }
@@ -257,7 +266,7 @@ async function handleChargeRefunded(event: Stripe.Event) {
     });
 
     if (error && error.code !== "23505") {
-      console.error("[webhook/stripe] failed to insert adjustment:", error);
+      console.error("[webhook] failed to insert adjustment:", error);
       throw error;
     }
   }

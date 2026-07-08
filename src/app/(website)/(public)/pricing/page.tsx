@@ -1,18 +1,13 @@
-import Container from "@/components/container";
-import { FoundingMemberBanner } from "@/components/pricing/founding-member-banner";
-import { FoundingPlansSection } from "@/components/pricing/founding-plans-section";
 import { PricingFaq } from "@/components/pricing/pricing-faq";
-import { HeaderSection } from "@/components/shared/header-section";
 import { siteConfig } from "@/config/site";
 import { constructMetadata } from "@/lib/metadata";
-import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 
 export const metadata = constructMetadata({
   title: "Pricing Plans - List Your Business | Child Actor 101 Directory",
   description:
-    "Compare our Free, Standard, and Pro pricing plans for listing your child actor services. Get more visibility, enhanced features, and priority placement. Simple, transparent pricing with no hidden fees for acting coaches, photographers, and talent reps.",
+    "Compare our Free and Pro pricing plans for listing your child actor services. Get more visibility, enhanced features, and priority placement. Simple, transparent pricing with no hidden fees for acting coaches, photographers, and talent reps.",
   canonicalUrl: `${siteConfig.url}/pricing`,
 });
 
@@ -115,12 +110,79 @@ export default async function PricingPage() {
               </Link>
             </div>
 
-            {/* Stripe Pricing Table - Standard & Pro Plans */}
-            <div className="md:col-span-2">
-              <stripe-pricing-table
-                pricing-table-id="prctbl_1SCpyNBqTvwy9ZuSNiSGY03P"
-                publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
-              />
+            {/* Pro Plan Card */}
+            <div
+              className="
+              relative
+              md:col-span-2
+              bg-card-surface
+              border
+              border-accent-blue
+              rounded-xl
+              p-6
+              shadow-card
+              transition
+              flex flex-col justify-center
+            "
+            >
+              <h3 className="text-lg font-semibold text-text-primary">
+                Pro Plan
+              </h3>
+              <div className="mt-2 flex items-end gap-1">
+                <span className="text-3xl font-bold text-text-primary">
+                  $399
+                </span>
+                <span className="text-sm text-text-muted">/ year</span>
+              </div>
+
+              <ul className="mt-6 space-y-3 md:columns-2">
+                <li className="flex gap-2 text-sm text-text-secondary">
+                  <span className="text-accent-teal mt-0.5">✓</span>
+                  <span>Everything in Free</span>
+                </li>
+                <li className="flex gap-2 text-sm text-text-secondary">
+                  <span className="text-accent-teal mt-0.5">✓</span>
+                  <span>Featured placement at top of listings</span>
+                </li>
+                <li className="flex gap-2 text-sm text-text-secondary">
+                  <span className="text-accent-teal mt-0.5">✓</span>
+                  <span>SEO boosting features</span>
+                </li>
+                <li className="flex gap-2 text-sm text-text-secondary">
+                  <span className="text-accent-teal mt-0.5">✓</span>
+                  <span>Priority customer support</span>
+                </li>
+                <li className="flex gap-2 text-sm text-text-secondary">
+                  <span className="text-accent-teal mt-0.5">✓</span>
+                  <span>Unlimited active event postings</span>
+                </li>
+                <li className="flex gap-2 text-sm text-text-secondary">
+                  <span className="text-accent-teal mt-0.5">✓</span>
+                  <span>Advanced analytics</span>
+                </li>
+              </ul>
+
+              <Link
+                href="/submit"
+                className="
+                  mt-6
+                  w-full
+                  inline-flex
+                  items-center
+                  justify-center
+                  px-4
+                  py-2
+                  rounded-md
+                  text-sm
+                  font-medium
+                  bg-accent-blue
+                  text-white
+                  hover:opacity-90
+                  transition-colors
+                "
+              >
+                Get Started with Pro
+              </Link>
             </div>
           </div>
 
@@ -134,10 +196,9 @@ export default async function PricingPage() {
                 and special events tied to your directory listing.
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
                 ["Free", "1 active event"],
-                ["Standard", "3 active events"],
                 ["Pro", "Unlimited active events"],
                 ["Boosts", "Optional promotional placement"],
               ].map(([plan, detail]) => (

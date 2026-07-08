@@ -1,9 +1,15 @@
 "use server";
 
+import { requirePermission } from "@/lib/auth/guards";
 import { createServerClient } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 
 export async function getCrmListings() {
+  const guard = await requirePermission("crm.read.all");
+  if (!guard.authorized) {
+    return [];
+  }
+
   const supabase = createServerClient();
 
   const { data, error } = await supabase
@@ -28,6 +34,11 @@ export async function updateCrmStatus(
   status: string,
   notes: string = ""
 ) {
+  const guard = await requirePermission("crm.status.update");
+  if (!guard.authorized) {
+    return { error: "Unauthorized: Admin access required" };
+  }
+
   const supabase = createServerClient();
 
   const { error } = await supabase

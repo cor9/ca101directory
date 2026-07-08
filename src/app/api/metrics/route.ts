@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/auth/guards";
 import { monitoring } from "@/lib/monitoring";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -10,6 +11,14 @@ import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
+    const guard = await requireAdmin();
+    if (!guard.authorized) {
+      return NextResponse.json(
+        { error: "Unauthorized: Admin access required" },
+        { status: 401 },
+      );
+    }
+
     // Get recent metrics
     const recentMetrics = monitoring.performance.getRecentMetrics(100);
     const recentErrors = monitoring.error.getRecentErrors(50);

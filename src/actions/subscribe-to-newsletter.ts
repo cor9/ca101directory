@@ -1,7 +1,7 @@
 "use server";
 
 import { NewsletterWelcomeEmail } from "@/emails/newsletter-welcome";
-import { resend } from "@/lib/mail";
+import { sendEmail } from "@/lib/mail";
 import { addSubscriberToMailerLite } from "@/lib/mailerlite";
 import { type NewsletterFormData, NewsletterFormSchema } from "@/lib/schemas";
 
@@ -41,11 +41,10 @@ export async function subscribeToNewsletter(
       // Continue without failing the entire process
     }
 
-    // Send welcome email via Resend (with fallback)
+    // Send welcome email via SES (with fallback)
     let emailSent = false;
     try {
-      const emailSentResult = await resend.emails.send({
-        from: process.env.RESEND_EMAIL_FROM,
+      const emailSentResult = await sendEmail({
         to: validatedInput.data.email,
         subject: "Welcome to Child Actor 101 Directory Newsletter!",
         react: NewsletterWelcomeEmail({ email: validatedInput.data.email }),

@@ -1,21 +1,22 @@
+import { sendEmail } from "@/lib/mail";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
 
 // Force this route to be dynamic (not statically optimized)
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-// Lazy initialization for Resend client
-function getResendClient() {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    throw new Error("RESEND_API_KEY environment variable is not set");
-  }
-  return new Resend(apiKey);
-}
+type DigestNotification = {
+  id: string;
+  title: string;
+  message: string;
+  created_at: string;
+};
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "you@childactor101.com";
+const ADMIN_EMAIL =
+  process.env.SES_EMAIL_ADMIN ||
+  process.env.ADMIN_EMAIL ||
+  "you@childactor101.com";
 
 export async function GET(request: Request) {
   const userAgent = request.headers.get("user-agent") || "";
@@ -29,9 +30,8 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const resend = getResendClient();
   // 1) fetch notifications that haven't been emailed yet
-  const { data: notifications, error } = await supabaseAdmin
+  const { data, error } = await supabaseAdmin
     .from("notifications")
     .select("*")
     .eq("emailed", false)
@@ -45,23 +45,25 @@ export async function GET(request: Request) {
     );
   }
 
-  if (!notifications || notifications.length === 0) {
+  const notifications = (data || []) as DigestNotification[];
+
+  if (notifications.length === 0) {
     return NextResponse.json({ message: "No new notifications" });
   }
 
   // 2) build a simple text + HTML digest
-  const lines = notifications.map((n: any) => {
-    const created = new Date(n.created_at).toLocaleString("en-US", {
+  const lines = notifications.map((notification) => {
+    const created = new Date(notification.created_at).toLocaleString("en-US", {
       timeZone: "America/Los_Angeles",
     });
-    return `• [${created}] ${n.title} — ${n.message}`;
+    return `• [${created}] ${notification.title} — ${notification.message}`;
   });
 
   const textBody = [
-    `Daily Directory Summary`,
-    ``,
+    "Daily Directory Summary",
+    "",
     ...lines,
-    ``,
+    "",
     `Total: ${notifications.length} notification(s)`,
   ].join("\n");
 
@@ -69,21 +71,23 @@ export async function GET(request: Request) {
     <h2>Daily Directory Summary</h2>
     <ul>
       ${notifications
-        .map((n: any) => {
-          const created = new Date(n.created_at).toLocaleString("en-US", {
-            timeZone: "America/Los_Angeles",
-          });
-          return `<li><strong>[${created}] ${n.title}</strong><br/>${n.message}</li>`;
+        .map((notification) => {
+          const created = new Date(notification.created_at).toLocaleString(
+            "en-US",
+            {
+              timeZone: "America/Los_Angeles",
+            },
+          );
+          return `<li><strong>[${created}] ${notification.title}</strong><br/>${notification.message}</li>`;
         })
         .join("")}
     </ul>
     <p>Total: ${notifications.length} notification(s)</p>
   `;
 
-  // 3) send with Resend
+  // 3) send with SES
   try {
-    await resend.emails.send({
-      from: "Child Actor 101 Directory <no-reply@directory.childactor101.com>",
+    await sendEmail({
       to: ADMIN_EMAIL,
       subject: "Daily Directory Summary",
       text: textBody,
@@ -98,7 +102,7 @@ export async function GET(request: Request) {
   }
 
   // 4) mark notifications as emailed
-  const ids = notifications.map((n: any) => n.id);
+  const ids = notifications.map((notification) => notification.id);
   const { error: updateError } = await supabaseAdmin
     .from("notifications")
     .update({ emailed: true })

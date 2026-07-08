@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/auth/guards";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -24,6 +25,14 @@ function isValidOrigin(requestHeaders: Headers): boolean {
  */
 export async function POST(request: Request) {
   try {
+    const guard = await requireAdmin();
+    if (!guard.authorized) {
+      return NextResponse.json(
+        { error: "Unauthorized: Admin access required" },
+        { status: 401 },
+      );
+    }
+
     // check if the request is from a valid origin
     const headersList = headers();
     if (!isValidOrigin(headersList)) {

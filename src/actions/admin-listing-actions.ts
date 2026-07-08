@@ -1,5 +1,6 @@
 "use server";
 
+import { requirePermission } from "@/lib/auth/guards";
 import { sendDiscordNotification } from "@/lib/discord";
 import { sendApprovalEmail, sendRejectionEmail } from "@/lib/mail";
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
@@ -7,6 +8,11 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export async function approveListing(listingId: string) {
+  const guard = await requirePermission("listing.approve");
+  if (!guard.authorized) {
+    return { success: false, message: "Unauthorized: Admin access required" };
+  }
+
   try {
     const supabase = createServerActionClient({ cookies });
 
@@ -67,6 +73,11 @@ export async function approveListing(listingId: string) {
 }
 
 export async function rejectListing(listingId: string) {
+  const guard = await requirePermission("listing.reject");
+  if (!guard.authorized) {
+    return { success: false, message: "Unauthorized: Admin access required" };
+  }
+
   try {
     const supabase = createServerActionClient({ cookies });
 

@@ -1,21 +1,21 @@
 "use server";
 
 import { auth } from "@/auth";
+import { requirePermission } from "@/lib/auth/guards";
 import { createServerClient } from "@/lib/supabase";
 
 export async function adminVerifyEmail(email: string) {
   try {
-    const session = await auth();
-
     // Check if user is authenticated and is admin
-    if (!session?.user?.id) {
-      return {
-        status: "error" as const,
-        message: "You must be logged in to perform this action.",
-      };
-    }
-
-    if (session.user.role !== "admin") {
+    const guard = await requirePermission("email.verify.admin");
+    if (!guard.authorized) {
+      const session = await auth();
+      if (!session?.user?.id) {
+        return {
+          status: "error" as const,
+          message: "You must be logged in to perform this action.",
+        };
+      }
       return {
         status: "error" as const,
         message: "Unauthorized. Admin access required.",

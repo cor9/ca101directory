@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/auth/guards";
 import { categoryMap, tagMap } from "@/lib/mappings";
 import { NextResponse } from "next/server";
 
@@ -45,6 +46,14 @@ function toAirtable(formData: any) {
 
 export async function POST(req: Request) {
   try {
+    const guard = await requireAdmin();
+    if (!guard.authorized) {
+      return NextResponse.json(
+        { error: "Unauthorized: Admin access required" },
+        { status: 401 },
+      );
+    }
+
     const formData = await req.json();
     const record = toAirtable(formData);
 

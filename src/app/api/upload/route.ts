@@ -7,6 +7,11 @@ export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const formData = await req.formData();
     const file = formData.get("file") as File;
     const businessSlug = formData.get("businessSlug") as string;
@@ -69,13 +74,6 @@ export async function POST(req: NextRequest) {
       .from("listing-images")
       .getPublicUrl(uploadData.path);
 
-    // Try to capture user context for server-side triage logs
-    try {
-      const session = await auth();
-      console.log("upload: user:", session?.user?.id, session?.user?.email);
-    } catch (e) {
-      console.log("upload: no session available");
-    }
     console.log("upload: file:", {
       name: (formData.get("file") as File)?.name,
       type: file.type,

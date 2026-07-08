@@ -1,6 +1,6 @@
 "use server";
 
-import { currentUser } from "@/lib/auth";
+import { requirePermission } from "@/lib/auth/guards";
 import { createServerClient } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 
@@ -12,13 +12,14 @@ export async function updateUserRole(
 ): Promise<{ status: "success" | "error"; message: string }> {
   try {
     // Verify admin access
-    const admin = await currentUser();
-    if (!admin?.id || admin.role !== "admin") {
+    const guard = await requirePermission("user.role.change");
+    if (!guard.authorized) {
       return {
         status: "error",
         message: "Unauthorized. Only admins can change user roles.",
       };
     }
+    const admin = guard.user;
 
     // Prevent admins from changing their own role
     if (admin.id === userId) {

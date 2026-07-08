@@ -1,13 +1,13 @@
 "use server";
 
-import { auth } from "@/auth";
+import { requirePermission } from "@/lib/auth/guards";
 import { sendListingLiveEmail } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
 import { createClaimToken, createOptOutToken } from "@/lib/tokens";
 
 export async function bulkResendEmailsToNewListings() {
-  const session = await auth();
-  if (!session?.user?.id || session.user.role !== "admin") {
+  const guard = await requirePermission("claim.resend");
+  if (!guard.authorized) {
     return { success: false, message: "Admin authentication required" };
   }
 

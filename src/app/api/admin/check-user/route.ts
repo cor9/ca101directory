@@ -1,8 +1,17 @@
+import { requireAdmin } from "@/lib/auth/guards";
 import { createServerClient } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
+  const guard = await requireAdmin();
+  if (!guard.authorized) {
+    return NextResponse.json(
+      { error: "Unauthorized: Admin access required" },
+      { status: 401 },
+    );
+  }
+
   const { searchParams } = new URL(request.url);
   const email = searchParams.get("email");
 

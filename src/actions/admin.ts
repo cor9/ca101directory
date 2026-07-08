@@ -1,7 +1,6 @@
 "use server";
 
-import { currentRole } from "@/lib/auth";
-import { UserRole } from "@/types/user-role";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export type ServerActionResponse = {
   status: "success" | "error";
@@ -9,13 +8,13 @@ export type ServerActionResponse = {
 };
 
 /**
- * demostrate how to use currentRole to check user's role,
+ * demostrate how to use requireAdmin to check user's role,
  * and return different responses according to different roles.
  */
 export async function admin(): Promise<ServerActionResponse> {
-  const role = await currentRole();
+  const guard = await requireAdmin();
 
-  if (role === UserRole.ADMIN) {
+  if (guard.authorized) {
     return { status: "success", message: "Allowed Server Action!" };
   }
 

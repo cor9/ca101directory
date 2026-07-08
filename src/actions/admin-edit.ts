@@ -1,6 +1,7 @@
 "use server";
 
 import { auth } from "@/auth";
+import { requirePermission } from "@/lib/auth/guards";
 import { createServerClient } from "@/lib/supabase";
 import { revalidatePath, revalidateTag } from "next/cache";
 
@@ -59,17 +60,16 @@ export async function adminUpdateListing(
   formData: AdminEditFormData,
 ): Promise<ServerActionResponse> {
   try {
-    const session = await auth();
-
     // Check if user is authenticated and is admin
-    if (!session?.user?.id) {
-      return {
-        success: false,
-        error: "You must be logged in to perform this action",
-      };
-    }
-
-    if (session.user.role !== "admin") {
+    const guard = await requirePermission("listing.edit.any");
+    if (!guard.authorized) {
+      const session = await auth();
+      if (!session?.user?.id) {
+        return {
+          success: false,
+          error: "You must be logged in to perform this action",
+        };
+      }
       return {
         success: false,
         error: "You must be an admin to perform this action",

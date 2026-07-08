@@ -17,7 +17,18 @@ function getResendClient() {
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "you@childactor101.com";
 
-export async function GET() {
+export async function GET(request: Request) {
+  const userAgent = request.headers.get("user-agent") || "";
+  const authHeader = request.headers.get("authorization");
+  const cronSecret = process.env.CRON_SECRET;
+
+  const isVercelCron = userAgent.includes("vercel-cron");
+  const hasValidAuth = cronSecret && authHeader === `Bearer ${cronSecret}`;
+
+  if (!isVercelCron && !hasValidAuth) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const resend = getResendClient();
   // 1) fetch notifications that haven't been emailed yet
   const { data: notifications, error } = await supabaseAdmin

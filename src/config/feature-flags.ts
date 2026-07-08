@@ -177,6 +177,7 @@ export const isVendorAuthEnabled = (): boolean =>
   isFeatureEnabled("enableVendorAuth");
 export const isAdminAuthEnabled = (): boolean =>
   isFeatureEnabled("enableAdminAuth");
+export const isRepAuthEnabled = (): boolean => false;
 
 export const isReviewsEnabled = (): boolean =>
   isFeatureEnabled("enableReviews");
@@ -222,6 +223,7 @@ export const getEnabledRoles = (): string[] => {
   if (isVendorAuthEnabled()) roles.push("vendor");
   if (isParentAuthEnabled()) roles.push("parent");
   if (isAdminAuthEnabled()) roles.push("admin");
+  if (isRepAuthEnabled()) roles.push("rep");
 
   return roles;
 };

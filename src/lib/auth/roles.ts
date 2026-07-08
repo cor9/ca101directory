@@ -1,12 +1,12 @@
 /**
  * Role-based authentication and permissions system
- * Supports three user types: guest, parent, vendor
+ * Supports four user types: guest, parent, vendor, admin
  */
 
 import { getEnabledRoles, isRoleEnabled } from "@/config/feature-flags";
 import type { ExtendedUser } from "@/types/next-auth";
 
-export type UserRole = "guest" | "parent" | "vendor" | "admin";
+export type UserRole = "guest" | "parent" | "vendor" | "admin" | "rep";
 
 /**
  * Get enabled roles based on feature flags

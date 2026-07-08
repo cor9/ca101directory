@@ -1,6 +1,7 @@
 "use server";
 
 import { auth } from "@/auth";
+import { requirePermission } from "@/lib/auth/guards";
 import {
   FEATURED_LISTINGS_CACHE_TAG,
   LISTINGS_CACHE_TAG,
@@ -25,6 +26,11 @@ export async function createListing(
   values: z.infer<typeof CreateListingSchema>,
 ) {
   try {
+    const guard = await requirePermission("listing.create.admin");
+    if (!guard.authorized) {
+      return { status: "error", message: "Unauthorized: Admin access required" };
+    }
+
     const validatedFields = CreateListingSchema.safeParse(values);
     if (!validatedFields.success) {
       console.error("Validation errors:", validatedFields.error.flatten());
@@ -250,6 +256,28 @@ export async function updateListing(
   values: z.infer<typeof UpdateListingSchema>,
 ) {
   try {
+    const guard = await requirePermission("listing.edit.own");
+    if (!guard.authorized) {
+      return { status: "error", message: "Unauthorized" };
+    }
+
+    const supabase = createServerClient();
+
+    if (guard.user.role !== "admin") {
+      const { data: existingListing } = await supabase
+        .from("listings")
+        .select("owner_id")
+        .eq("id", id)
+        .single();
+
+      if (!existingListing || existingListing.owner_id !== guard.user.id) {
+        return {
+          status: "error",
+          message: "Unauthorized: You can only edit your own listing.",
+        };
+      }
+    }
+
     console.log("=== UPDATE LISTING START ===");
     console.log("ID:", id);
     console.log("Raw values received:", JSON.stringify(values, null, 2));
@@ -278,9 +306,6 @@ export async function updateListing(
       "Validated fields:",
       JSON.stringify(validatedFields.data, null, 2),
     );
-
-    console.log("=== CREATING SUPABASE CLIENT ===");
-    const supabase = createServerClient();
 
     console.log("=== EXECUTING DATABASE UPDATE ===");
     // Normalize values to satisfy DB constraints (empty strings -> nulls, zip to integer)
@@ -381,6 +406,11 @@ export async function updateListing(
  */
 export async function deleteListing(id: string) {
   try {
+    const guard = await requirePermission("listing.delete.any");
+    if (!guard.authorized) {
+      return { status: "error", message: "Unauthorized: Admin access required" };
+    }
+
     const supabase = createServerClient();
     const { error } = await supabase.from("listings").delete().eq("id", id);
     if (error) {

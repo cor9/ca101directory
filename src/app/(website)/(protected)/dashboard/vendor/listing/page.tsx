@@ -20,13 +20,15 @@ export default async function VendorListingPage() {
   // Fetch user's listings
   const userListings = await fetchUserListings(user.id);
 
+  const freeListing = userListings.find((l) =>
+    l.comped ? false : (l.plan || "free").toLowerCase() === "free",
+  );
+
   return (
     <VendorDashboardLayout>
       <div className="space-y-6">
         {/* Upgrade Banner for Free plan vendors */}
-        {userListings.some((l) =>
-          l.comped ? false : (l.plan || "free").toLowerCase() === "free",
-        ) && (
+        {freeListing && (
           <div className="rounded-lg border border-orange-300 bg-orange-50 p-4">
             <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
               <div>
@@ -49,7 +51,9 @@ export default async function VendorListingPage() {
                 </div>
               </div>
               <Button asChild className="mt-3 md:mt-0">
-                <Link href="/pricing?from=vendor-dashboard-upgrade">
+                <Link
+                  href={`/plan-selection?listingId=${freeListing.id}&from=vendor-dashboard-upgrade`}
+                >
                   Upgrade to Pro
                 </Link>
               </Button>

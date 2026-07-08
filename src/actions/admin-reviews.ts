@@ -1,6 +1,6 @@
 "use server";
 
-import { currentUser } from "@/lib/auth";
+import { requirePermission } from "@/lib/auth/guards";
 import { createServerClient } from "@/lib/supabase";
 
 /**
@@ -12,10 +12,9 @@ export async function updateReviewStatus(
   status: "approved" | "rejected",
 ) {
   try {
-    const user = await currentUser();
-
     // Verify admin access
-    if (!user || user.role !== "admin") {
+    const guard = await requirePermission("review.moderate");
+    if (!guard.authorized) {
       return {
         success: false,
         error: "Unauthorized: Admin access required",
@@ -57,10 +56,9 @@ export async function updateReviewStatus(
  */
 export async function deleteReview(reviewId: string) {
   try {
-    const user = await currentUser();
-
     // Verify admin access
-    if (!user || user.role !== "admin") {
+    const guard = await requirePermission("review.moderate");
+    if (!guard.authorized) {
       return {
         success: false,
         error: "Unauthorized: Admin access required",
@@ -102,10 +100,9 @@ export async function deleteReview(reviewId: string) {
  */
 export async function getReviewStats() {
   try {
-    const user = await currentUser();
-
     // Verify admin access
-    if (!user || user.role !== "admin") {
+    const guard = await requirePermission("review.moderate");
+    if (!guard.authorized) {
       return {
         success: false,
         error: "Unauthorized: Admin access required",

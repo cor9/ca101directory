@@ -1,12 +1,12 @@
-import { auth } from "@/auth";
+import { requireAdmin } from "@/lib/auth/guards";
 import { createServerClient } from "@/lib/supabase";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
     // Check if user is admin
-    const session = await auth();
-    if (!session?.user || session.user.role !== "admin") {
+    const guard = await requireAdmin();
+    if (!guard.authorized) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

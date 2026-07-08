@@ -30,6 +30,8 @@ export const PERMISSIONS = {
   // Rep-specific (no consumers yet in this sprint; defined for Sprint 2)
   "commission.read.own": ["admin", "rep"],
   "commission.read.all": ["admin"],
+  "commission.approve": ["admin"],
+  "commission.mark_paid": ["admin"],
 
   // Vendor self-service (paired with ownership check in the action)
   "listing.edit.own": ["vendor", "admin"],

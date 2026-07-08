@@ -6,6 +6,7 @@ import { VendorDashboardLayout } from "@/components/layouts/VendorDashboardLayou
 import { Button } from "@/components/ui/button";
 import { VendorListingsTable } from "@/components/vendor/vendor-listings-table";
 import { VendorROIStats } from "@/components/vendor/vendor-roi-stats";
+import { VendorUpgradePanel } from "@/components/vendor/vendor-upgrade-panel";
 import { siteConfig } from "@/config/site";
 import { getVendorListings } from "@/data/listings";
 import { getVendorPosition } from "@/data/vendor-position";
@@ -45,6 +46,7 @@ export default async function VendorDashboard({
     claimed?: string;
     upgraded?: string;
     onboard?: string;
+    upgrade?: string;
   };
 }) {
   const user = await currentUser();
@@ -137,7 +139,34 @@ export default async function VendorDashboard({
           <p className="text-sm text-foreground/70 mt-2">
             Featured placement rotates among active paid listings.
           </p>
+          <p className="text-sm mt-3">
+            <Link
+              href="/dashboard/vendor?upgrade=true"
+              className="text-accent-teal hover:text-accent-teal/80 font-medium"
+            >
+              Upgrade Listing
+            </Link>
+          </p>
         </div>
+
+        {searchParams?.upgrade === "true" && vendorListings.length > 0 && (
+          <VendorUpgradePanel listing={vendorListings[0]} />
+        )}
+
+        {searchParams?.upgrade === "true" && vendorListings.length === 0 && (
+          <div className="bg-card rounded-lg p-6 border">
+            <p className="text-sm text-foreground">
+              You need a listing before upgrading. Temporary fallback:{" "}
+              <Link
+                href="/pricing"
+                className="text-accent-teal hover:text-accent-teal/80 font-medium"
+              >
+                Pricing
+              </Link>
+              .
+            </p>
+          </div>
+        )}
 
         {/* 18A: Visibility Anxiety - Show relative position */}
         {vendorListings.length > 0 &&

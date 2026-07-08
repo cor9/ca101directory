@@ -1,5 +1,6 @@
 "use server";
 
+import { startClaimedVendorUpgradeSequence } from "@/data/email-campaigns";
 import {
   LISTINGS_CACHE_TAG,
   getListingById,
@@ -201,7 +202,7 @@ export async function submitToSupabase(
       // NEW submissions: Auto-approve paid plans, review free plans
       status: "Live",
       is_active: active ?? true,
-      is_claimed: false,
+      is_claimed: Boolean(user?.id),
       owner_id: user?.id || null, // Link to current user if authenticated
       is_approved_101: false,
       // Social media fields: Pro tier only
@@ -367,6 +368,25 @@ export async function submitToSupabase(
 
     revalidateTag(LISTINGS_CACHE_TAG);
     revalidateTag(listingCacheTag(data.id));
+
+    // Trigger claimed-vendor upgrade automation for self-submitted listings
+    if (
+      !formData.isEdit &&
+      listingData.is_claimed === true &&
+      listingData.owner_id
+    ) {
+      startClaimedVendorUpgradeSequence({
+        listingId: data.id,
+        vendorEmail: email,
+        vendorName: user?.name || name,
+        listingName: name,
+      }).catch((campaignError) => {
+        console.error(
+          "Failed to start claimed vendor upgrade email campaign:",
+          campaignError,
+        );
+      });
+    }
 
     // Send confirmation email (non-blocking, don't fail if email fails)
     if (user?.email) {

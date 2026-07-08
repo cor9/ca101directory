@@ -8,6 +8,9 @@ import { NotifySubmissionEmail } from "@/emails/notify-submission-to-admin";
 import { NotifySubmissionToUserEmail } from "@/emails/notify-submission-to-user";
 import { PaymentSuccessEmail } from "@/emails/payment-success";
 import RejectionEmail from "@/emails/rejection-email";
+import VendorUpgrade48hEmail from "@/emails/vendor-upgrade-48h";
+import VendorUpgradeDay5Email from "@/emails/vendor-upgrade-day5";
+import VendorUpgradeImmediateEmail from "@/emails/vendor-upgrade-immediate";
 import VerifyEmail from "@/emails/verify-email";
 import { Resend } from "resend";
 
@@ -404,5 +407,102 @@ export const sendDay14UpgradeOfferEmail = async (payload: {
       upgradeUrl,
       siteUrl: SITE_URL,
     }),
+  });
+};
+
+export const sendClaimedVendorUpgradeImmediateEmail = async (payload: {
+  vendorName: string;
+  vendorEmail: string;
+  listingName: string;
+  upgradeUrl: string;
+}) => {
+  await resend.emails.send({
+    from: getFrom(),
+    to: getToAddress(payload.vendorEmail),
+    reply_to: getReplyTo(),
+    subject: "You’re live in the Directory",
+    react: VendorUpgradeImmediateEmail(payload),
+  });
+};
+
+export const sendClaimedVendorUpgrade48hEmail = async (payload: {
+  vendorName: string;
+  vendorEmail: string;
+  listingName: string;
+  upgradeUrl: string;
+}) => {
+  await resend.emails.send({
+    from: getFrom(),
+    to: getToAddress(payload.vendorEmail),
+    reply_to: getReplyTo(),
+    subject: "Here’s what parents actually see",
+    react: VendorUpgrade48hEmail(payload),
+  });
+};
+
+export const sendClaimedVendorUpgradeDay5Email = async (payload: {
+  vendorName: string;
+  vendorEmail: string;
+  listingName: string;
+  upgradeUrl: string;
+}) => {
+  await resend.emails.send({
+    from: getFrom(),
+    to: getToAddress(payload.vendorEmail),
+    reply_to: getReplyTo(),
+    subject: "Don’t let this sit unfinished",
+    react: VendorUpgradeDay5Email(payload),
+  });
+};
+
+
+export const sendManualClaimedVendorEmailReminder = async (payload: {
+  step: "immediate" | "48h" | "day5";
+  vendorName: string;
+  vendorEmail: string;
+  listingName: string;
+  listingId: string;
+  upgradeUrl: string;
+}) => {
+  const reminderRecipient =
+    process.env.APPLE_MAIL_REMINDER_TO ||
+    process.env.RESEND_EMAIL_ADMIN ||
+    getReplyTo();
+
+  const subjectMap = {
+    immediate: "Manual Send Needed: Vendor Email 1 (Immediate)",
+    "48h": "Manual Send Needed: Vendor Email 2 (+48h)",
+    day5: "Manual Send Needed: Vendor Email 3 (+5d)",
+  } as const;
+
+  const recommendedSendMap = {
+    immediate: "Now",
+    "48h": "48 hours after submission",
+    day5: "5 days after submission",
+  } as const;
+
+  const html = `
+    <div style="font-family: Arial, sans-serif;">
+      <h2>Manual Vendor Email Reminder</h2>
+      <p>Please send the vendor upgrade email manually from Apple Mail.</p>
+      <ul>
+        <li><strong>Step:</strong> ${payload.step}</li>
+        <li><strong>Recommended send time:</strong> ${recommendedSendMap[payload.step]}</li>
+        <li><strong>Vendor:</strong> ${payload.vendorName}</li>
+        <li><strong>Vendor email:</strong> ${payload.vendorEmail}</li>
+        <li><strong>Listing name:</strong> ${payload.listingName}</li>
+        <li><strong>Listing ID:</strong> ${payload.listingId}</li>
+        <li><strong>Upgrade link:</strong> <a href="${payload.upgradeUrl}" target="_blank" rel="noopener noreferrer">${payload.upgradeUrl}</a></li>
+      </ul>
+      <p>This is a reminder notification only. No vendor-facing email was sent automatically.</p>
+    </div>
+  `;
+
+  await resend.emails.send({
+    from: getFrom(),
+    to: getToAddress(reminderRecipient),
+    reply_to: getReplyTo(),
+    subject: subjectMap[payload.step],
+    html,
   });
 };

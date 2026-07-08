@@ -9,6 +9,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
 });
 
 // Plan pricing (in cents)
+const STRIPE_PRODUCT_IDS = {
+  standard: "prod_T97UwQNWLmnlay",
+  pro: "prod_T97nFsGLkxfRxB",
+  "founding-standard": "prod_T97zPhO5FmuWdj",
+  "founding-pro": "prod_T987vSSXcnn6oU",
+};
+
 const PLAN_PRICES = {
   standard: {
     monthly: 2500, // $25.00
@@ -157,10 +164,10 @@ export async function POST(request: NextRequest) {
               {
                 price_data: {
                   currency: "usd",
-                  product_data: {
-                    name: productName,
-                    description: "Founding vendor special (6 months)",
-                  },
+                  product:
+                    STRIPE_PRODUCT_IDS[
+                      planId as keyof typeof STRIPE_PRODUCT_IDS
+                    ],
                   unit_amount: amountCents,
                 },
                 quantity: 1,
@@ -171,10 +178,11 @@ export async function POST(request: NextRequest) {
         success_url: successUrl,
         cancel_url: cancelUrl,
         metadata: {
-          vendor_id: session.user.id,
+          user_id: session.user.id,
           listing_id: listingId,
           plan: planId,
           billing_cycle: billingCycle,
+          selected_plan: planId,
           ...(flow ? { flow } : {}),
           ...(token ? { claim_token: token } : {}),
         },
@@ -188,10 +196,8 @@ export async function POST(request: NextRequest) {
           {
             price_data: {
               currency: "usd",
-              product_data: {
-                name: `${planId.charAt(0).toUpperCase() + planId.slice(1)} Plan - Claim Listing`,
-                description: `Claim and upgrade your business listing with ${planId} plan`,
-              },
+              product:
+                STRIPE_PRODUCT_IDS[planId as keyof typeof STRIPE_PRODUCT_IDS],
               unit_amount: price,
               recurring:
                 billingCycle === "yearly"
@@ -206,10 +212,11 @@ export async function POST(request: NextRequest) {
         success_url: successUrl,
         cancel_url: cancelUrl,
         metadata: {
-          vendor_id: session.user.id,
+          user_id: session.user.id,
           listing_id: listingId,
           plan: planId,
           billing_cycle: billingCycle,
+          selected_plan: planId,
           ...(flow ? { flow } : {}),
           ...(token ? { claim_token: token } : {}),
         },

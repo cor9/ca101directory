@@ -8,17 +8,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2024-04-10",
 });
 
-// Plan pricing (in cents)
-const PLAN_PRICES = {
-  standard: {
-    monthly: 2500, // $25.00
-    yearly: 25000, // $250.00
-  },
-  pro: {
-    monthly: 5000, // $50.00
-    yearly: 50000, // $500.00
-  },
-};
+// Only paid plan: Pro, $399/year, subscription mode.
+// Legacy plans (Standard, Founding Standard, Founding Pro) are grandfathered
+// for existing subscribers only and must never be purchasable here.
+const PRO_ANNUAL_PRICE_ID = process.env.STRIPE_PRICE_ID_PRO_ANNUAL;
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,39 +22,25 @@ export async function POST(request: NextRequest) {
         { status: 500 },
       );
     }
-    console.log("Starting checkout session creation...");
+
+    if (!PRO_ANNUAL_PRICE_ID) {
+      console.error("STRIPE_PRICE_ID_PRO_ANNUAL is not configured");
+      return NextResponse.json(
+        { error: "Stripe is not configured (missing Pro price)" },
+        { status: 500 },
+      );
+    }
 
     const session = await auth();
-    console.log("Auth session:", {
-      userId: session?.user?.id,
-      email: session?.user?.email,
-    });
 
     if (!session?.user?.id) {
-      console.log("No user session found");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await request.json();
-    console.log("Request body:", body);
-    const {
-      listingId,
-      planId,
-      billingCycle,
-      successUrl,
-      cancelUrl,
-      flow,
-      token,
-    } = body;
+    const { listingId, successUrl, cancelUrl, flow, token, repCode } = body;
 
-    if (!listingId || !planId || !billingCycle || !successUrl || !cancelUrl) {
-      console.log("Missing required parameters:", {
-        listingId,
-        planId,
-        billingCycle,
-        successUrl,
-        cancelUrl,
-      });
+    if (!listingId || !successUrl || !cancelUrl) {
       return NextResponse.json(
         { error: "Missing required parameters" },
         { status: 400 },
@@ -88,34 +67,6 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Handle Founding specials via predefined Price IDs (one-time 6-month special)
-    const FOUNDING_STANDARD = process.env.STRIPE_PRICE_FOUNDING_STANDARD;
-    const FOUNDING_PRO = process.env.STRIPE_PRICE_FOUNDING_PRO;
-
-    const isFoundingStandard = planId === "founding-standard";
-    const isFoundingPro = planId === "founding-pro";
-    const isFounding = isFoundingStandard || isFoundingPro;
-
-    let price = 0;
-    if (!isFounding) {
-      if (!PLAN_PRICES[planId as keyof typeof PLAN_PRICES]) {
-        console.log("Invalid plan ID:", planId);
-        return NextResponse.json({ error: "Invalid plan ID" }, { status: 400 });
-      }
-      price =
-        PLAN_PRICES[planId as keyof typeof PLAN_PRICES][
-          billingCycle as keyof typeof PLAN_PRICES.standard
-        ];
-      if (!price) {
-        console.log("Invalid billing cycle:", billingCycle);
-        return NextResponse.json(
-          { error: "Invalid billing cycle" },
-          { status: 400 },
-        );
-      }
-      console.log("Calculated price (cents):", price);
-    }
-
     // Optional: look up an existing customer by email, but do not fail if not found.
     // Checkout can create a customer implicitly using customer_email.
     let customerId: string | undefined = undefined;
@@ -127,7 +78,6 @@ export async function POST(request: NextRequest) {
         });
         if (existingCustomers.data.length > 0) {
           customerId = existingCustomers.data[0].id;
-          console.log("Using existing customer:", customerId);
         }
       } catch (error) {
         console.warn(
@@ -137,86 +87,26 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    console.log("Creating Stripe checkout session...");
-    let checkoutSession: Stripe.Checkout.Session;
-    if (isFounding) {
-      const priceId = isFoundingStandard ? FOUNDING_STANDARD : FOUNDING_PRO;
-      const productName = isFoundingStandard
-        ? "Founding Standard (6 months)"
-        : "Founding Pro (6 months)";
-      const amountCents = isFoundingStandard ? 10100 : 19900;
+    const checkoutSession = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      ...(customerId ? { customer: customerId } : {}),
+      ...(session.user.email ? { customer_email: session.user.email } : {}),
+      line_items: [{ price: PRO_ANNUAL_PRICE_ID, quantity: 1 }],
+      mode: "subscription",
+      allow_promotion_codes: true,
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+      client_reference_id: listingId,
+      metadata: {
+        vendor_id: session.user.id,
+        listing_id: listingId,
+        plan: "pro",
+        ...(flow ? { flow } : {}),
+        ...(token ? { claim_token: token } : {}),
+        ...(repCode ? { rep_code: repCode } : {}),
+      },
+    });
 
-      // Prefer configured Stripe Price IDs; otherwise fall back to inline price_data
-      checkoutSession = await stripe.checkout.sessions.create({
-        payment_method_types: ["card"],
-        ...(customerId ? { customer: customerId } : {}),
-        ...(session.user.email ? { customer_email: session.user.email } : {}),
-        line_items: priceId
-          ? [{ price: priceId, quantity: 1 }]
-          : [
-              {
-                price_data: {
-                  currency: "usd",
-                  product_data: {
-                    name: productName,
-                    description: "Founding vendor special (6 months)",
-                  },
-                  unit_amount: amountCents,
-                },
-                quantity: 1,
-              },
-            ],
-        mode: "payment",
-        allow_promotion_codes: true,
-        success_url: successUrl,
-        cancel_url: cancelUrl,
-        metadata: {
-          vendor_id: session.user.id,
-          listing_id: listingId,
-          plan: planId,
-          billing_cycle: billingCycle,
-          ...(flow ? { flow } : {}),
-          ...(token ? { claim_token: token } : {}),
-        },
-      });
-    } else {
-      checkoutSession = await stripe.checkout.sessions.create({
-        payment_method_types: ["card"],
-        ...(customerId ? { customer: customerId } : {}),
-        ...(session.user.email ? { customer_email: session.user.email } : {}),
-        line_items: [
-          {
-            price_data: {
-              currency: "usd",
-              product_data: {
-                name: `${planId.charAt(0).toUpperCase() + planId.slice(1)} Plan - Claim Listing`,
-                description: `Claim and upgrade your business listing with ${planId} plan`,
-              },
-              unit_amount: price,
-              recurring:
-                billingCycle === "yearly"
-                  ? { interval: "year" }
-                  : { interval: "month" },
-            },
-            quantity: 1,
-          },
-        ],
-        mode: "subscription",
-        allow_promotion_codes: true,
-        success_url: successUrl,
-        cancel_url: cancelUrl,
-        metadata: {
-          vendor_id: session.user.id,
-          listing_id: listingId,
-          plan: planId,
-          billing_cycle: billingCycle,
-          ...(flow ? { flow } : {}),
-          ...(token ? { claim_token: token } : {}),
-        },
-      });
-    }
-
-    console.log("Checkout session created successfully:", checkoutSession.id);
     return NextResponse.json({ url: checkoutSession.url });
   } catch (error) {
     const details = {

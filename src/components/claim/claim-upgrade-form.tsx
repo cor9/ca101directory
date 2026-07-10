@@ -11,7 +11,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import type { Listing } from "@/data/listings";
-import { cn } from "@/lib/utils";
 import { Check, Star } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -22,132 +21,26 @@ interface ClaimUpgradeFormProps {
   listing: Listing;
 }
 
-type PlanDef = {
-  id: string;
-  name: string;
-  description: string;
-  features: string[];
-  popular?: boolean;
-  monthlyPrice?: number;
-  yearlyPrice?: number;
-  checkoutLink?: string; // if present, use direct link instead of API checkout
-  badge?: string;
-  monthlyLink?: string;
-  yearlyLink?: string;
+const PRO_PLAN = {
+  name: "Pro",
+  price: 399,
+  description: "Best for growing businesses",
+  features: [
+    "Featured placement",
+    "Priority support",
+    "Advanced analytics",
+    "Multiple categories",
+    "Unlimited active event postings",
+    "Social media integration",
+  ],
 };
-
-function getPlans(): PlanDef[] {
-  const env = process.env as Record<string, string | undefined>;
-  const foundingStandard = env.NEXT_PUBLIC_FOUNDING_STANDARD_URL;
-  const foundingPro = env.NEXT_PUBLIC_FOUNDING_PRO_URL;
-  const stdMonthly = env.NEXT_PUBLIC_STANDARD_MONTHLY_URL;
-  const stdYearly = env.NEXT_PUBLIC_STANDARD_YEARLY_URL;
-  const proMonthly = env.NEXT_PUBLIC_PRO_MONTHLY_URL;
-  const proYearly = env.NEXT_PUBLIC_PRO_YEARLY_URL;
-  const badgeMonthly = env.NEXT_PUBLIC_BADGE_MONTHLY_URL;
-  const badgeYearly = env.NEXT_PUBLIC_BADGE_YEARLY_URL;
-
-  const result: PlanDef[] = [];
-
-  // Founding Vendor specials (surface these first if links provided)
-  if (foundingStandard) {
-    result.push({
-      id: "founding-standard",
-      name: "Founding Standard",
-      description: "Limited-time founding vendor rate (6 months)",
-      features: [
-        "Logo/Image display",
-        "Enhanced placement above Free vendors",
-        "SEO boost for increased visibility",
-        "Advanced business description",
-        "Multi-category listing",
-      ],
-      popular: false,
-      checkoutLink: foundingStandard,
-      badge: "Founding Special",
-    });
-  }
-  if (foundingPro) {
-    result.push({
-      id: "founding-pro",
-      name: "Founding Pro",
-      description: "Top placement + badge (6 months)",
-      features: [
-        "Everything in Standard",
-        "Featured placement at top of categories",
-        "101 Approved badge eligibility",
-        "Gallery images (up to 4)",
-        "Social links & promo opportunities",
-      ],
-      popular: true,
-      checkoutLink: foundingPro,
-      badge: "Founding Special",
-    });
-  }
-  // Removed combo card per request: no dedicated "Founding Standard + 101 Badge" plan card
-
-  // Regular plans (fallback to Stripe checkout session if direct links not supplied)
-  result.push(
-    {
-      id: "standard",
-      name: "Standard",
-      monthlyPrice: 25,
-      yearlyPrice: 250,
-      description: "Perfect for established businesses",
-      features: [
-        "Full listing control",
-        "Edit business information",
-        "Upload photos & logo",
-        "Respond to reviews",
-        "Basic analytics",
-        "Email support",
-      ],
-      popular: false,
-      monthlyLink: stdMonthly,
-      yearlyLink: stdYearly,
-    },
-    {
-      id: "pro",
-      name: "Pro",
-      monthlyPrice: 50,
-      yearlyPrice: 500,
-      description: "Best for growing businesses",
-      features: [
-        "Everything in Standard",
-        "Featured placement",
-        "Priority support",
-        "Advanced analytics",
-        "Multiple categories",
-        "101 Approved Badge",
-        "Social media integration",
-      ],
-      popular: true,
-      monthlyLink: proMonthly,
-      yearlyLink: proYearly,
-    },
-  );
-
-  return result;
-}
 
 export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const claimToken = searchParams.get("token") || undefined;
-  const [selectedPlan, setSelectedPlan] = useState<string>(
-    process.env.NEXT_PUBLIC_FOUNDING_STANDARD_URL ||
-      process.env.NEXT_PUBLIC_FOUNDING_PRO_URL
-      ? process.env.NEXT_PUBLIC_FOUNDING_PRO_URL
-        ? "founding-pro"
-        : "founding-standard"
-      : "standard",
-  );
-  // Bauhaus-ish minimalist: default emphasis on monthly. Annual shown as a subtle alternate.
-  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
-    "monthly",
-  );
+  const repCode = searchParams.get("rep") || undefined;
   const [isLoading, setIsLoading] = useState(false);
-  const plans = getPlans();
   const badgeMonthly = process.env.NEXT_PUBLIC_BADGE_MONTHLY_URL;
   const badgeYearly = process.env.NEXT_PUBLIC_BADGE_YEARLY_URL;
   const hasBadgeAddOns = Boolean(badgeMonthly || badgeYearly);
@@ -172,10 +65,7 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
     }
   };
 
-  const handleSelectPlan = async (
-    planId: string,
-    cycle: "monthly" | "yearly" = billingCycle,
-  ) => {
+  const handleUpgradeToPro = async () => {
     setIsLoading(true);
 
     try {
@@ -186,14 +76,13 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
         },
         body: JSON.stringify({
           listingId: listing.id,
-          planId,
-          billingCycle: cycle,
           // Use unified success URL and include fallback context
           successUrl: `${window.location.origin}/payment-success?session_id={CHECKOUT_SESSION_ID}&flow=claim_upgrade&lid=${encodeURIComponent(listing.id)}`,
           cancelUrl: window.location.href,
           // Flag this as a claim-upgrade flow
           flow: "claim_upgrade",
           token: claimToken,
+          repCode,
         }),
       });
 
@@ -254,24 +143,6 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
         </p>
       </div>
 
-      {/* Founding Vendor banner if enabled */}
-      {(process.env.NEXT_PUBLIC_FOUNDING_STANDARD_URL ||
-        process.env.NEXT_PUBLIC_FOUNDING_PRO_URL) && (
-        <div className="mb-6 text-center">
-          <Badge className="bg-brand-orange text-white">
-            Founding Vendor Special
-          </Badge>
-          <div className="mt-2">
-            <Badge variant="secondary" className="text-xs">
-              First 100 vendors only
-            </Badge>
-          </div>
-          <p className="mt-2 text-paper">
-            Lock lifetime pricing and get special placement.
-          </p>
-        </div>
-      )}
-
       {/* Optional upgrades */}
       <div className="text-center mb-3">
         <h2 className="bauhaus-heading text-2xl text-paper">
@@ -286,149 +157,44 @@ export function ClaimUpgradeForm({ listing }: ClaimUpgradeFormProps) {
         </p>
       </div>
 
-      {/* Founding specials as two primary cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        {plans
-          .filter(
-            (p) => p.id === "founding-pro" || p.id === "founding-standard",
-          )
-          .map((plan) => (
-            <Card key={plan.id} className="bauhaus-card">
-              <CardHeader className="text-center">
-                <CardTitle className="bauhaus-heading text-2xl text-gray-900">
-                  {plan.name}
-                </CardTitle>
-                <CardDescription className="bauhaus-body text-gray-900">
-                  {plan.description}
-                </CardDescription>
-                {/* Price highlight for Founding specials */}
-                <div className="mt-2">
-                  {plan.id === "founding-standard" && (
-                    <>
-                      <div className="bauhaus-heading text-xl text-gray-900">
-                        $101{" "}
-                        <span className="bauhaus-body text-sm">
-                          for 6 months
-                        </span>
-                      </div>
-                      <div className="text-green-600 text-sm mt-1">
-                        Save $49
-                      </div>
-                    </>
-                  )}
-                  {plan.id === "founding-pro" && (
-                    <>
-                      <div className="bauhaus-heading text-xl text-gray-900">
-                        $199{" "}
-                        <span className="bauhaus-body text-sm">
-                          for 6 months
-                        </span>
-                      </div>
-                      <div className="text-green-600 text-sm mt-1">
-                        Save $101
-                      </div>
-                    </>
-                  )}
-                </div>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  {plan.features.slice(0, 4).map((f) => (
-                    <li
-                      key={f}
-                      className="flex items-center gap-3 text-gray-900"
-                    >
-                      <Check className="w-4 h-4 text-green-600" />
-                      <span className="bauhaus-body">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-6 flex items-center justify-center gap-3">
-                  <BauhausButton
-                    onClick={() => handleSelectPlan(plan.id, "monthly")}
-                  >
-                    Upgrade to {plan.name}
-                  </BauhausButton>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-      </div>
+      {/* Pro plan */}
+      <div className="grid grid-cols-1 max-w-md mx-auto gap-6">
+        <Card className="relative border-primary">
+          <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+            <Badge className="bg-primary text-primary-foreground">
+              <Star className="w-3 h-3 mr-1" />
+              Most Popular
+            </Badge>
+          </div>
 
-      {/* Standard/Pro Plans */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {plans
-          .filter((p) => p.id === "standard" || p.id === "pro")
-          .map((plan) => (
-            <Card
-              key={plan.id}
-              className={cn(
-                "relative cursor-pointer transition-all hover:shadow-lg",
-                selectedPlan === plan.id && "ring-2 ring-primary",
-                plan.popular && "border-primary",
-              )}
-              onClick={() => setSelectedPlan(plan.id)}
-            >
-              {(plan.popular || plan.badge) && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <Badge className="bg-primary text-primary-foreground">
-                    <Star className="w-3 h-3 mr-1" />
-                    {plan.badge || "Most Popular"}
-                  </Badge>
-                </div>
-              )}
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl">{PRO_PLAN.name}</CardTitle>
+            <CardDescription>{PRO_PLAN.description}</CardDescription>
+            <div className="mt-4 text-center">
+              <div className="text-2xl font-semibold">
+                ${PRO_PLAN.price}
+                <span className="text-sm font-normal text-paper">/year</span>
+              </div>
+            </div>
+          </CardHeader>
 
-              <CardHeader className="text-center">
-                <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                <CardDescription>{plan.description}</CardDescription>
-                {/* Minimal pricing emphasis: default monthly; show annual as subtle alternative */}
-                {!plan.checkoutLink && (
-                  <div className="mt-4 text-center">
-                    {plan.monthlyPrice ? (
-                      <div className="text-2xl font-semibold">
-                        ${plan.monthlyPrice}
-                        <span className="text-sm font-normal text-paper">
-                          /mo
-                        </span>
-                      </div>
-                    ) : null}
-                    {plan.yearlyPrice ? (
-                      <div className="text-xs text-paper mt-1">
-                        or ${plan.yearlyPrice}/yr
-                      </div>
-                    ) : null}
-                  </div>
-                )}
-              </CardHeader>
+          <CardContent>
+            <ul className="space-y-2">
+              {PRO_PLAN.features.map((feature) => (
+                <li key={feature} className="flex items-center gap-3">
+                  <Check className="w-4 h-4 text-green-600 flex-shrink-0" />
+                  <span className="text-sm">{feature}</span>
+                </li>
+              ))}
+            </ul>
 
-              <CardContent>
-                <ul className="space-y-2">
-                  {plan.features.slice(0, 5).map((feature) => (
-                    <li key={feature} className="flex items-center gap-3">
-                      <Check className="w-4 h-4 text-green-600 flex-shrink-0" />
-                      <span className="text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-6 flex items-center justify-center gap-3">
-                  <BauhausButton
-                    onClick={() => handleSelectPlan(plan.id, "monthly")}
-                  >
-                    {plan.name} Monthly
-                  </BauhausButton>
-                  {(plan.yearlyLink || plan.yearlyPrice) && (
-                    <BauhausButton
-                      variant="secondary"
-                      onClick={() => handleSelectPlan(plan.id, "yearly")}
-                    >
-                      {plan.name} Annual
-                    </BauhausButton>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+            <div className="mt-6 flex items-center justify-center">
+              <BauhausButton onClick={handleUpgradeToPro} disabled={isLoading}>
+                Upgrade to Pro — $399/year
+              </BauhausButton>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* 101 Badge Add-ons (optional) */}

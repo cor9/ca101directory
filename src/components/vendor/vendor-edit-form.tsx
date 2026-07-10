@@ -567,7 +567,7 @@ export function VendorEditForm({
               id="why_is_it_unique"
               rows={3}
               disabled
-              placeholder="🔒 Upgrade to Standard or Pro to use this field"
+              placeholder="🔒 Upgrade to Pro to use this field"
             />
           </div>
 
@@ -580,7 +580,7 @@ export function VendorEditForm({
               id="extras_notes"
               rows={3}
               disabled
-              placeholder="🔒 Upgrade to Standard or Pro to use this field"
+              placeholder="🔒 Upgrade to Pro to use this field"
             />
           </div>
         </>
@@ -685,9 +685,13 @@ export function VendorEditForm({
             <p className="text-sm text-purple-900">
               <strong>📍 Be Visible in Multiple Cities</strong>
               <br />
-              Upgrade to Pro ($50/mo) to add 2 additional searchable locations
-              to this listing! This eliminates the need for duplicate listings.{" "}
-              <Link href="/pricing" className="underline font-semibold">
+              Upgrade to Pro ($399/year) to add 2 additional searchable
+              locations to this listing! This eliminates the need for duplicate
+              listings.{" "}
+              <Link
+                href={`/plan-selection?listingId=${listing.id}`}
+                className="underline font-semibold"
+              >
                 Upgrade to Pro →
               </Link>
             </p>
@@ -748,8 +752,7 @@ export function VendorEditForm({
                 Free plan includes one logo image
               </p>
               <p className="text-xs text-gray-500 mt-1">
-                Upgrade to Standard ($25/mo) or Pro ($50/mo) to add a profile
-                photo
+                Upgrade to Pro ($399/year) to add a profile photo
               </p>
             </div>
           </div>
@@ -757,10 +760,13 @@ export function VendorEditForm({
             <p className="text-sm text-blue-900">
               <strong>📸 Stand Out with a Professional Image</strong>
               <br />
-              Free plan includes one logo. Upgrade to Standard ($25/mo) or Pro
-              ($50/mo) to add a professional profile photo that makes your
-              listing 3x more likely to be clicked!{" "}
-              <Link href="/pricing" className="underline font-semibold">
+              Free plan includes one logo. Upgrade to Pro ($399/year) to add a
+              professional profile photo that makes your listing 3x more likely
+              to be clicked!{" "}
+              <Link
+                href={`/plan-selection?listingId=${listing.id}`}
+                className="underline font-semibold"
+              >
                 View Upgrade Options →
               </Link>
             </p>
@@ -843,9 +849,12 @@ export function VendorEditForm({
             <p className="text-sm text-purple-900">
               <strong>🖼️ Showcase Your Work with Gallery Images</strong>
               <br />
-              Upgrade to Pro ($50/mo) to showcase up to 12 photos of your work,
-              studio, or team!{" "}
-              <Link href="/pricing" className="underline font-semibold">
+              Upgrade to Pro ($399/year) to showcase up to 12 photos of your
+              work, studio, or team!{" "}
+              <Link
+                href={`/plan-selection?listingId=${listing.id}`}
+                className="underline font-semibold"
+              >
                 Upgrade to Pro →
               </Link>
             </p>
@@ -884,8 +893,8 @@ export function VendorEditForm({
         </div>
         {!hasStandardAccess && (
           <p className="text-xs text-gray-600">
-            Free Plan: You can select 1 category. Upgrade to Standard or Pro to
-            select multiple categories.
+            Free Plan: You can select 1 category. Upgrade to Pro to select
+            multiple categories.
           </p>
         )}
       </div>

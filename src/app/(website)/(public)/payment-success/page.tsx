@@ -60,88 +60,58 @@ export default async function PaymentSuccessPage({
         );
       }
 
-      // If user IS logged in and has a listing ID, complete the claim
+      // If user IS logged in and has a listing ID: /api/webhook is the
+      // source of truth for plan/ownership completion now (fires
+      // server-side on checkout.session.completed, independent of whether
+      // the customer ever reaches this page). This is UX confirmation only.
+      //
+      // TEMPORARY FALLBACK: webhook delivery can race the browser redirect,
+      // so if fulfillment hasn't landed yet, complete ownership linking
+      // here too — idempotent, and uses the authenticated session's own id
+      // (never email inference), matching the webhook's own logic. Remove
+      // once webhook delivery is verified reliable in production.
       if (session?.user?.id && listingId) {
-        console.log(
-          "[Payment Success] User logged in, completing claim for listing:",
-          listingId,
-        );
+        const userId = session.user.id;
 
         try {
           const supabase = createServerClient();
-          const userId = session.user.id;
-          const userEmail = session.user.email;
-
-          // Check if this listing has a pending claim for this user's email
           const { data: listing } = await supabase
             .from("listings")
-            .select(
-              "id, pending_claim_email, plan, stripe_session_id, owner_id",
-            )
+            .select("owner_id")
             .eq("id", listingId)
             .single();
 
-          console.log("[Payment Success] Listing data:", listing);
-
-          // If pending claim matches this user's email, complete the claim
-          if (listing?.pending_claim_email === userEmail) {
+          if (listing && listing.owner_id !== userId) {
             console.log(
-              "[Payment Success] Matching pending claim found, completing claim...",
+              "[Payment Success] Webhook fulfillment not yet observed, applying fallback ownership write",
             );
-
-            // Update listing to complete the claim
-            const { error: updateError } = await supabase
+            const { error: fallbackError } = await supabase
               .from("listings")
               .update({
                 owner_id: userId,
                 is_claimed: true,
-                pending_claim_email: null, // Clear pending
-                stripe_session_id: null, // Clear session
+                pending_claim_email: null,
+                stripe_session_id: null,
                 updated_at: new Date().toISOString(),
               })
               .eq("id", listingId);
 
-            if (updateError) {
+            if (fallbackError) {
               console.error(
-                "[Payment Success] Error completing claim:",
-                updateError,
+                "[Payment Success] Fallback ownership write failed:",
+                fallbackError,
               );
-            } else {
-              console.log("[Payment Success] ✅ Claim completed successfully");
-
-              // Update user profile with plan from listing
-              if (listing.plan) {
-                await supabase
-                  .from("profiles")
-                  .update({
-                    subscription_plan: listing.plan,
-                    stripe_customer_id: checkoutSession.customer as string,
-                  })
-                  .eq("id", userId);
-              }
             }
-          } else if (!listing?.owner_id) {
-            // Listing exists but has no owner - claim it anyway
-            console.log("[Payment Success] Unclaimed listing, claiming now...");
-
-            await supabase
-              .from("listings")
-              .update({
-                owner_id: userId,
-                is_claimed: true,
-                updated_at: new Date().toISOString(),
-              })
-              .eq("id", listingId);
           }
         } catch (err) {
           console.error(
-            "[Payment Success] Error during claim completion:",
+            "[Payment Success] Error checking/applying fallback ownership:",
             err,
           );
         }
 
         console.log("[Payment Success] Redirecting to vendor dashboard");
-        return redirect(`/dashboard/vendor?upgraded=1`);
+        return redirect("/dashboard/vendor?upgraded=1");
       }
     } catch (e) {
       console.error("[Payment Success] Error retrieving Stripe session:", e);

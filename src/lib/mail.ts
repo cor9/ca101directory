@@ -9,27 +9,55 @@ import { NotifySubmissionToUserEmail } from "@/emails/notify-submission-to-user"
 import { PaymentSuccessEmail } from "@/emails/payment-success";
 import RejectionEmail from "@/emails/rejection-email";
 import VerifyEmail from "@/emails/verify-email";
+import { SESv2Client, SendEmailCommand } from "@aws-sdk/client-sesv2";
+import { render, toPlainText } from "@react-email/render";
+import type { ReactNode } from "react";
 import { Resend } from "resend";
 
-// Lazy-load Resend to avoid errors if API key is missing
+let sesClient: SESv2Client | null = null;
 let resendInstance: Resend | null = null;
 
-function getResend(): Resend {
+function getSesClient(): SESv2Client {
+  if (!sesClient) {
+    const region = process.env.AWS_REGION;
+    const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+    const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+
+    if (!region || !accessKeyId || !secretAccessKey) {
+      throw new Error(
+        "AWS SES is not configured. Transactional email sending is disabled.",
+      );
+    }
+
+    sesClient = new SESv2Client({
+      region,
+      credentials: {
+        accessKeyId,
+        secretAccessKey,
+      },
+    });
+  }
+
+  return sesClient;
+}
+
+function getResendClient(): Resend {
   if (!resendInstance) {
     if (!process.env.RESEND_API_KEY) {
       throw new Error(
-        "RESEND_API_KEY is not configured. Email sending is disabled.",
+        "RESEND_API_KEY is not configured. Newsletter contact operations are disabled.",
       );
     }
     resendInstance = new Resend(process.env.RESEND_API_KEY);
   }
+
   return resendInstance;
 }
 
-// Export a proxy that lazy-loads all Resend properties
+// Keep the Resend client available for newsletter contact operations.
 export const resend = new Proxy({} as Resend, {
-  get(target, prop) {
-    const instance = getResend();
+  get(_target, prop) {
+    const instance = getResendClient();
     const value = instance[prop as keyof Resend];
     return typeof value === "function" ? value.bind(instance) : value;
   },
@@ -37,27 +65,107 @@ export const resend = new Proxy({} as Resend, {
 
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL;
 
-// Standardize From/Reply-To and allow forcing a single recipient during testing
 function getFrom() {
   return (
-    process.env.RESEND_EMAIL_FROM || "Corey Ralston <corey@childactor101.com>"
+    process.env.SES_EMAIL_FROM || "Corey Ralston <corey@childactor101.com>"
   );
 }
 function getReplyTo() {
-  return process.env.RESEND_REPLY_TO || "corey@childactor101.com";
+  return process.env.SES_REPLY_TO || "corey@childactor101.com";
 }
-function getToAddress(original: string) {
+function getAdminAddress() {
+  return process.env.SES_EMAIL_ADMIN || getReplyTo();
+}
+function getToAddresses(original: string | string[]) {
   const override = process.env.RESEND_FORCE_TO;
-  return override && override.length > 0 ? override : original;
+  const recipients =
+    override && override.length > 0
+      ? [override]
+      : Array.isArray(original)
+        ? original
+        : [original];
+  return recipients.filter(Boolean);
+}
+
+type SendEmailOptions = {
+  from?: string;
+  to: string | string[];
+  replyTo?: string | string[];
+  subject: string;
+  react?: ReactNode;
+  html?: string;
+  text?: string;
+};
+
+export async function sendEmail({
+  from = getFrom(),
+  to,
+  replyTo = getReplyTo(),
+  subject,
+  react,
+  html,
+  text,
+}: SendEmailOptions) {
+  let resolvedHtml = html;
+  let resolvedText = text;
+
+  if (react) {
+    resolvedHtml = await render(react);
+    resolvedText = toPlainText(resolvedHtml);
+  } else if (resolvedHtml && !resolvedText) {
+    resolvedText = toPlainText(resolvedHtml);
+  }
+
+  if (!resolvedHtml && !resolvedText) {
+    throw new Error("Email content is missing. Provide react, html, or text.");
+  }
+
+  await getSesClient().send(
+    new SendEmailCommand({
+      FromEmailAddress: from,
+      Destination: {
+        ToAddresses: getToAddresses(to),
+      },
+      ReplyToAddresses: (Array.isArray(replyTo) ? replyTo : [replyTo]).filter(
+        Boolean,
+      ),
+      Content: {
+        Simple: {
+          Subject: {
+            Data: subject,
+            Charset: "UTF-8",
+          },
+          Body: {
+            ...(resolvedHtml
+              ? {
+                  Html: {
+                    Data: resolvedHtml,
+                    Charset: "UTF-8",
+                  },
+                }
+              : {}),
+            ...(resolvedText
+              ? {
+                  Text: {
+                    Data: resolvedText,
+                    Charset: "UTF-8",
+                  },
+                }
+              : {}),
+          },
+        },
+      },
+    }),
+  );
+
+  return { error: null as null };
 }
 
 export const sendVerificationEmail = async (email: string, token: string) => {
   const confirmLink = `${SITE_URL}/auth/new-verification?token=${token}`;
 
-  await resend.emails.send({
-    from: getFrom(),
-    to: getToAddress(email),
-    reply_to: getReplyTo(),
+  await sendEmail({
+    to: email,
     subject: "Confirm your email",
     react: VerifyEmail({ confirmLink }),
   });
@@ -70,17 +178,8 @@ export const sendNotifySubmissionEmail = async (
   statusLink: string,
   reviewLink: string,
 ) => {
-  // console.log(`sendNotifySubmissionEmail,
-  //   userName: ${userName},
-  //   userEmail: ${userEmail},
-  //   itemName: ${itemName},
-  //   reviewLink: ${reviewLink},
-  //   statusLink: ${statusLink}`);
-
-  await resend.emails.send({
-    from: getFrom(),
-    to: getToAddress(userEmail),
-    reply_to: getReplyTo(),
+  await sendEmail({
+    to: userEmail,
     subject: "Thank you for your submission",
     react: NotifySubmissionToUserEmail({
       userName,
@@ -89,10 +188,8 @@ export const sendNotifySubmissionEmail = async (
     }),
   });
 
-  await resend.emails.send({
-    from: getFrom(),
-    to: getToAddress(process.env.RESEND_EMAIL_ADMIN || getReplyTo()),
-    reply_to: getReplyTo(),
+  await sendEmail({
+    to: getAdminAddress(),
     subject: "New submission",
     react: NotifySubmissionEmail({ itemName, reviewLink }),
   });
@@ -103,15 +200,8 @@ export const sendPaymentSuccessEmail = async (
   email: string,
   itemLink: string,
 ) => {
-  // console.log(`sendPaymentSuccessEmail,
-  //   email: ${email},
-  //   userName: ${userName},
-  //   itemLink: ${itemLink}`);
-
-  await resend.emails.send({
-    from: getFrom(),
-    to: getToAddress(email),
-    reply_to: getReplyTo(),
+  await sendEmail({
+    to: email,
     subject: "Thank your for your submission",
     react: PaymentSuccessEmail({ userName, itemLink }),
   });
@@ -122,10 +212,8 @@ export const sendApprovalEmail = async (
   email: string,
   itemLink: string,
 ) => {
-  await resend.emails.send({
-    from: getFrom(),
-    to: getToAddress(email),
-    reply_to: getReplyTo(),
+  await sendEmail({
+    to: email,
     subject: "Your submission has been approved",
     react: ApprovalEmail({ userName, itemLink }),
   });
@@ -136,10 +224,8 @@ export const sendRejectionEmail = async (
   email: string,
   dashboardLink: string,
 ) => {
-  await resend.emails.send({
-    from: getFrom(),
-    to: getToAddress(email),
-    reply_to: getReplyTo(),
+  await sendEmail({
+    to: email,
     subject: "Please check your submission",
     react: RejectionEmail({ userName, dashboardLink }),
   });
@@ -157,10 +243,8 @@ export const sendListingSubmittedEmail = async (
     ? `Listing Updated: ${listingName}`
     : `Listing Submitted: ${listingName}`;
 
-  await resend.emails.send({
-    from: getFrom(),
-    to: getToAddress(vendorEmail),
-    reply_to: getReplyTo(),
+  await sendEmail({
+    to: vendorEmail,
     subject,
     react: ListingSubmittedEmail({
       vendorName,
@@ -183,10 +267,8 @@ export const sendListingLiveEmail = async (payload: {
   manageUrl: string;
   optOutUrl: string;
 }) => {
-  await resend.emails.send({
-    from: getFrom(),
-    to: getToAddress(payload.vendorEmail),
-    reply_to: getReplyTo(),
+  await sendEmail({
+    to: payload.vendorEmail,
     subject: `Your listing is live: ${payload.listingName}`,
     react: ListingLiveEmail({
       vendorName: payload.vendorName,
@@ -215,10 +297,8 @@ export const sendAdminSubmissionNotification = async (
     ? `Listing Updated (Review): ${listingName}`
     : `New Listing Submission: ${listingName}`;
 
-  await resend.emails.send({
-    from: getFrom(),
-    to: getToAddress(process.env.RESEND_EMAIL_ADMIN || getReplyTo()),
-    reply_to: getReplyTo(),
+  await sendEmail({
+    to: getAdminAddress(),
     subject,
     react: NotifySubmissionEmail({ itemName: listingName, reviewLink }),
   });
@@ -242,10 +322,8 @@ export const sendAdminClaimNotification = async (
     </div>
   `;
 
-  await resend.emails.send({
-    from: getFrom(),
-    to: getToAddress(process.env.RESEND_EMAIL_ADMIN || getReplyTo()),
-    reply_to: getReplyTo(),
+  await sendEmail({
+    to: getAdminAddress(),
     subject,
     html,
   });
@@ -271,10 +349,8 @@ export const sendAdminUpgradeNotification = async (
     </div>
   `;
 
-  await resend.emails.send({
-    from: getFrom(),
-    to: getToAddress(process.env.RESEND_EMAIL_ADMIN || getReplyTo()),
-    reply_to: getReplyTo(),
+  await sendEmail({
+    to: getAdminAddress(),
     subject,
     html,
   });
@@ -307,17 +383,12 @@ export const sendAdminVendorSuggestionNotification = async (payload: {
     </div>
   `;
 
-  await resend.emails.send({
-    from: process.env.RESEND_EMAIL_FROM,
-    to: process.env.RESEND_EMAIL_ADMIN,
+  await sendEmail({
+    to: getAdminAddress(),
     subject,
     html,
   });
 };
-
-/**
- * Drip Campaign Emails: Send automated follow-up emails to unclaimed listings
- */
 
 /**
  * Drip Campaign Emails: Send automated follow-up emails to unclaimed listings
@@ -333,10 +404,8 @@ export const sendDay3CompleteProfileEmail = async (payload: {
   const claimUrl = `${SITE_URL}/claim-upgrade/${payload.slug}`;
   const manageUrl = `${SITE_URL}/dashboard/vendor`;
 
-  await resend.emails.send({
-    from: getFrom(),
-    to: getToAddress(payload.vendorEmail),
-    reply_to: getReplyTo(),
+  await sendEmail({
+    to: payload.vendorEmail,
     subject: "Complete your profile to appear higher in search results",
     react: ListingDay3CompleteProfileEmail({
       vendorName: payload.vendorName,
@@ -365,10 +434,8 @@ export const sendDay7TrafficUpdateEmail = async (payload: {
       ? `${count} parents viewed your listing this week`
       : "See how parents are finding you in the Child Actor 101 Directory";
 
-  await resend.emails.send({
-    from: getFrom(),
-    to: getToAddress(payload.vendorEmail),
-    reply_to: getReplyTo(),
+  await sendEmail({
+    to: payload.vendorEmail,
     subject,
     react: ListingDay7TrafficUpdateEmail({
       vendorName: payload.vendorName,
@@ -392,10 +459,8 @@ export const sendDay14UpgradeOfferEmail = async (payload: {
   const upgradeUrl = `${SITE_URL}/claim-upgrade/${payload.slug}#pricing`;
   const count = payload.viewCount ?? 0;
 
-  await resend.emails.send({
-    from: getFrom(),
-    to: getToAddress(payload.vendorEmail),
-    reply_to: getReplyTo(),
+  await sendEmail({
+    to: payload.vendorEmail,
     subject: "Is it time to move your listing to the top?",
     react: ListingDay14UpgradeOfferEmail({
       vendorName: payload.vendorName,

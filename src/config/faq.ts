@@ -7,25 +7,25 @@ export const faqConfig: FAQConfig = {
       id: "item-1",
       question: "How do I get listed in the Child Actor 101 Directory?",
       answer:
-        "Getting listed is easy! Simply choose a plan that fits your needs (Standard $25/month, Pro $50/month, or 101 Badge Add-on $10 for Standard plans), complete payment, and fill out our submission form. Our team will review your application within 72 hours.",
+        "Getting listed is straightforward. Choose either a Free Listing or a Pro Listing, submit your business details, and complete checkout if you want Pro visibility. Our team reviews new listings before they appear in the directory.",
     },
     {
       id: "item-2",
-      question: "What makes a professional '101 Approved'?",
+      question: "What is the difference between Free and Pro?",
       answer:
-        "Our 101 Approved badge is given to professionals who meet our high standards for working with young actors. This includes proper certifications, background checks, experience with children, and positive references from families. We personally vet each application.",
+        "A Free Listing gives you a searchable directory profile with your basic business information and 1 active event posting. Pro is our premium annual plan at $399/year and adds stronger visibility, enhanced profile presentation, unlimited active event postings, and premium placement benefits for established vendors.",
     },
     {
       id: "item-3",
-      question: "What's the difference between the plans?",
+      question: "Can I start free and upgrade later?",
       answer:
-        "Free listings include 1 active event posting. Standard ($25/month) adds enhanced listing visibility and up to 3 active event postings. Pro ($50/month) adds featured placement, SEO boosting, and unlimited active event postings. Event boosts can be added separately for promotional placement.",
+        "Yes. You can start with a Free Listing and upgrade to Pro later if you want more exposure in the directory. Existing subscriptions and listing entitlements stay on their current logic; this page simply reflects the current live offers for new upgrades.",
     },
     {
       id: "item-4",
       question: "How do parents find professionals in the directory?",
       answer:
-        "Parents can browse by category (Acting Coaches, Headshot Photographers, Demo Reel Editors, etc.), filter by location, age range, virtual services, and more. Featured professionals appear at the top, and 101 Approved professionals have special badges for easy identification.",
+        "Parents browse by category, location, and service type to find the right fit for their child. Pro listings receive stronger placement and visibility advantages, which can help more families discover your business.",
     },
   ],
 };

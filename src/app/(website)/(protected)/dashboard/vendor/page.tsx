@@ -169,7 +169,7 @@ export default async function VendorDashboard({
                     contact.
                   </p>
                   <Link
-                    href="/pricing?from=visibility-anxiety"
+                    href={`/plan-selection?listingId=${onboardingLid}&from=visibility-anxiety`}
                     className="text-sm text-accent-teal hover:text-accent-teal/80 font-medium transition-colors"
                   >
                     Improve visibility →
@@ -197,7 +197,7 @@ export default async function VendorDashboard({
                     contact.
                   </p>
                   <Link
-                    href="/pricing?from=dashboard-nudge"
+                    href={`/plan-selection?listingId=${onboardingLid}&from=dashboard-nudge`}
                     className="text-sm text-accent-teal hover:text-accent-teal/80 font-medium transition-colors"
                   >
                     Improve visibility →

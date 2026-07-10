@@ -1,5 +1,5 @@
 import { requireAdmin } from "@/lib/auth/guards";
-import { resend } from "@/lib/mail";
+import { sendEmail } from "@/lib/mail";
 import {
   generateMockup,
   generateMockupEmailHTML,
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     const {
       listingId,
       tier = "pro",
-      sendEmail = false,
+      sendEmail: shouldSendEmail = false,
     } = body as {
       listingId: string;
       tier?: "standard" | "pro";
@@ -46,13 +46,9 @@ export async function POST(request: Request) {
     const mockup = await generateMockup(listing, tier);
 
     let emailSent = false;
-    if (sendEmail && listing.email) {
-      await resend.emails.send({
-        from:
-          process.env.RESEND_EMAIL_FROM ||
-          "Corey Ralston <corey@childactor101.com>",
+    if (shouldSendEmail && listing.email) {
+      await sendEmail({
         to: listing.email,
-        reply_to: process.env.RESEND_REPLY_TO || "corey@childactor101.com",
         subject: `${listing.listing_name || "Your"} listing makeover (${tier === "pro" ? "Pro" : "Standard"})`,
         html: generateMockupEmailHTML(
           mockup,

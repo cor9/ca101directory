@@ -1,6 +1,7 @@
+import { auth } from "@/auth";
 import { PricingFaq } from "@/components/pricing/pricing-faq";
-import { STRIPE_PAYMENT_LINKS } from "@/config/price";
 import { siteConfig } from "@/config/site";
+import { getVendorListings } from "@/data/listings";
 import { constructMetadata } from "@/lib/metadata";
 import Link from "next/link";
 
@@ -30,6 +31,21 @@ const proFeatures = [
 ];
 
 export default async function PricingPage() {
+  const session = await auth();
+  let existingListingId: string | null = null;
+  if (session?.user?.id) {
+    const listings = await getVendorListings(session.user.id);
+    existingListingId = listings[0]?.id ?? null;
+  }
+
+  // Route the Pro CTA through the in-app checkout flow so the purchase
+  // carries listing attribution. A visitor with an existing listing goes
+  // straight to checkout; anyone else creates/claims a listing first, then
+  // upgrades from their dashboard — same path every Free vendor already uses.
+  const proHref = existingListingId
+    ? `/plan-selection?listingId=${existingListingId}`
+    : "/submit";
+
   return (
     <div className="min-h-screen bg-bg-dark">
       <section className="mx-auto max-w-5xl px-4 py-12 md:py-16">
@@ -121,16 +137,13 @@ export default async function PricingPage() {
             </ul>
 
             <Link
-              href={STRIPE_PAYMENT_LINKS.PRO_ANNUAL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={proHref}
               className="mt-8 inline-flex w-full items-center justify-center rounded-md bg-accent-blue px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-blue/90"
             >
-              Checkout Pro Listing
+              {existingListingId
+                ? "Checkout Pro Listing"
+                : "Get Started with Pro"}
             </Link>
-            <p className="mt-3 text-center text-xs text-text-muted">
-              Uses the current direct Pro checkout flow.
-            </p>
           </section>
         </div>
 

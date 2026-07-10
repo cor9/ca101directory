@@ -1,13 +1,41 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import Script from "next/script";
 import { useEffect, useState } from "react";
 
 export default function PlanSelectionPage() {
   const searchParams = useSearchParams();
   const listingId = searchParams.get("listingId");
+  const repCode = searchParams.get("rep") || undefined;
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleUpgradeToPro = async () => {
+    if (!listingId) return;
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          listingId,
+          successUrl: `${window.location.origin}/payment-success?session_id={CHECKOUT_SESSION_ID}&flow=plan_selection&lid=${encodeURIComponent(listingId)}`,
+          cancelUrl: window.location.href,
+          flow: "plan_selection",
+          repCode,
+        }),
+      });
+      const json = await response.json();
+      if (response.ok && json?.url) {
+        window.location.href = json.url as string;
+      } else {
+        throw new Error(json?.error || "No checkout URL received");
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to start checkout");
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     // Log for debugging
@@ -83,11 +111,6 @@ export default function PlanSelectionPage() {
       </div>
 
       <div className="max-w-4xl mx-auto space-y-8">
-        <Script
-          src="https://js.stripe.com/v3/pricing-table.js"
-          strategy="afterInteractive"
-        />
-
         {/* Free Plan - No Payment Required */}
         <div className="border-2 border-gray-300 rounded-lg p-8 bg-white shadow-lg">
           <h3 className="text-2xl font-bold mb-4 text-paper">Free Listing</h3>
@@ -111,15 +134,22 @@ export default function PlanSelectionPage() {
           </a>
         </div>
 
-        {/* Paid Plans */}
-        <div className="text-center">
-          <h3 className="text-xl font-semibold mb-4">Paid Plans</h3>
-          <stripe-pricing-table
-            pricing-table-id="prctbl_1SCpyNBqTvwy9ZuSNiSGY03P"
-            publishable-key="pk_live_51RCXSKBqTvwy9ZuSvBCc8cWJuw8xYvOZs0XoNM6zqecXU9mVQnDWzOvPpOCF7XFTrqB84lB7hti3Jm8baXqZbhcV00DMDRweve"
-            client-reference-id={listingId}
-            metadata-listing-id={listingId}
-          />
+        {/* Pro Plan */}
+        <div className="border-2 border-primary rounded-lg p-8 bg-white shadow-lg text-center">
+          <h3 className="text-2xl font-bold mb-4 text-paper">Pro Listing</h3>
+          <p className="text-lg mb-2 font-semibold">$399 / year</p>
+          <p className="text-sm text-paper mb-6">
+            Featured placement, priority support, advanced analytics, and
+            unlimited active event postings.
+          </p>
+          <button
+            type="button"
+            onClick={handleUpgradeToPro}
+            disabled={isLoading}
+            className="inline-block w-full bg-primary hover:opacity-90 disabled:opacity-50 text-primary-foreground font-bold py-3 px-6 rounded-lg transition-colors"
+          >
+            {isLoading ? "Redirecting to checkout..." : "Upgrade to Pro →"}
+          </button>
         </div>
       </div>
     </div>

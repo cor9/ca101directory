@@ -28,6 +28,7 @@
     "format": "biome format --write .",
     "typegen": "sanity schema extract && sanity typegen generate",
     "email": "email dev --dir emails --port 3333",
+    "test:commission": "tsx scripts/test-commission.ts",
     "export-user-emails": "tsx scripts/export-user-emails.ts",
     "find-listing-emails": "tsx scripts/find-listing-emails.ts",
     "resend-emails-to-new-listings": "tsx scripts/resend-emails-to-new-listings.ts",

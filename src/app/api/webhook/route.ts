@@ -19,15 +19,15 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
 
 /**
- * Commission-recording webhook for this endpoint. Handles ONLY
- * checkout.session.completed (new-sale attribution) and charge.refunded
- * (clawback/adjustment).
+ * Canonical Stripe webhook for this endpoint. Handles:
+ * - checkout.session.completed: Pro fulfillment (plan flip, ownership/claim
+ *   completion, profile update) followed by commission attribution.
+ * - charge.refunded: commission clawback/adjustment.
  *
- * Scope note: this sprint records commissions only. It does NOT restore
- * the historical server-side checkout-completion / plan-update logic that
- * used to live at this URL (deleted in commit 688e3f16, never restored).
- * See follow-up: "Restore server-side Stripe checkout completion /
- * plan-update logic for /api/webhook."
+ * Fulfillment restores the server-side checkout-completion logic that used
+ * to live at this URL (deleted in commit 688e3f16, never restored) — this
+ * is the source of truth for granting Pro access now; payment-success is
+ * UX confirmation only.
  *
  * Every other event type — in particular invoice.* and
  * customer.subscription.* — is explicitly no-op'd: renewal commissioning
@@ -94,6 +94,10 @@ async function handleCheckoutCompleted(event: Stripe.Event) {
     session.client_reference_id ||
     undefined;
   const plan = (session.metadata?.plan as string | undefined) || "pro";
+  // Set server-side by create-checkout-session from the authenticated
+  // user's own session — never client-supplied, never inferred from email.
+  // Reliable enough to assign ownership directly.
+  const vendorId = session.metadata?.vendor_id as string | undefined;
   const repCode = session.metadata?.rep_code as string | undefined;
   const saleAmountCents = session.amount_total ?? 0;
 
@@ -108,9 +112,67 @@ async function handleCheckoutCompleted(event: Stripe.Event) {
 
   const { data: listing } = await supabase
     .from("listings")
-    .select("comped")
+    .select("comped, owner_id")
     .eq("id", listingId)
     .single();
+
+  // --- Pro fulfillment: idempotent, runs before commission attribution so
+  // even an unattributed house sale still grants Pro access. ---
+  if (plan === "pro") {
+    const existingOwnerId = listing?.owner_id ?? null;
+
+    if (vendorId && existingOwnerId && existingOwnerId !== vendorId) {
+      // Genuine data-identity conflict: this listing already belongs to a
+      // different account than the one that paid. create-checkout-session
+      // doesn't verify listing ownership before creating a session, so
+      // this can happen on misuse. Do not reassign ownership or flip plan
+      // automatically — surface for manual review instead.
+      console.error(
+        `[webhook] OWNERSHIP CONFLICT: listing ${listingId} is owned by ${existingOwnerId}, but checkout session ${session.id} was paid by ${vendorId}. Skipping plan/ownership fulfillment.`,
+      );
+    } else {
+      const fulfillmentUpdate: Record<string, unknown> = {
+        plan: "Pro",
+        updated_at: new Date().toISOString(),
+      };
+      if (vendorId) {
+        fulfillmentUpdate.owner_id = vendorId;
+        fulfillmentUpdate.is_claimed = true;
+        fulfillmentUpdate.pending_claim_email = null;
+        fulfillmentUpdate.stripe_session_id = null;
+      }
+
+      const { error: fulfillError } = await supabase
+        .from("listings")
+        .update(fulfillmentUpdate)
+        .eq("id", listingId);
+
+      if (fulfillError) {
+        console.error("[webhook] failed to fulfill Pro upgrade:", fulfillError);
+        throw fulfillError; // Stripe retries
+      }
+
+      if (vendorId) {
+        const { error: profileError } = await supabase
+          .from("profiles")
+          .update({
+            subscription_plan: "Pro",
+            stripe_customer_id: (session.customer as string) || null,
+          })
+          .eq("id", vendorId);
+
+        if (profileError) {
+          console.error(
+            "[webhook] failed to update profile after fulfillment:",
+            profileError,
+          );
+          throw profileError; // Stripe retries
+        }
+      }
+
+      console.log(`[webhook] fulfilled Pro upgrade for listing ${listingId}`);
+    }
+  }
 
   const { data: activeAssignmentRow } = await supabase
     .from("rep_assignments")

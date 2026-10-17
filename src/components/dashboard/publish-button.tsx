@@ -24,7 +24,11 @@ export function PublishButton({ item }: PublishButtonProps) {
     if (publishable) {
       await publishAction();
     } else {
-      router.push(`/payment/${item._id}`);
+      // Legacy payment-link redirect retired (Phase 1C Task 8) — route
+      // through the real checkout flow instead. Note: this whole
+      // component is only rendered from the orphaned, pre-Supabase
+      // /dashboard/submissions page, which nothing in the app links to.
+      router.push(`/plan-selection?listingId=${item._id}`);
     }
   };
 

@@ -347,8 +347,14 @@ export function SupabaseSubmitForm({
           // Free plan - go to success page
           router.push(`/submit/success?id=${result.listingId}`);
         } else {
-          // Paid plan (Standard/Pro) - go to payment
-          router.push(`/payment/${result.listingId}`);
+          // Paid plan selected in the form, but the server always
+          // creates new listings as Free now (submit-supabase.ts's
+          // trustedPlan — see Phase 1C Task 7) and this branch is
+          // unreachable from any live link (the plan picker that would
+          // set formData.plan away from "Free" only renders for
+          // isClaimFlow, which nothing links to anymore — Phase 1B Task
+          // 5). Route through the real checkout flow regardless.
+          router.push(`/plan-selection?listingId=${result.listingId}`);
         }
       } else {
         // Show field-level errors if available

@@ -1,56 +1,33 @@
-import { Button } from "@/components/ui/button";
-import { CheckCircleIcon, CreditCardIcon } from "lucide-react";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 
 interface PaymentPageProps {
   params: { id: string };
 }
 
+/**
+ * LEGACY PURCHASE PATH RETIRED (recovery audit, Phase 1C Task 8): this
+ * page linked directly to Stripe Payment Links
+ * (NEXT_PUBLIC_STRIPE_BASIC/PRO/PREMIUM — $25/mo, $50/mo, and older
+ * $101/$199-for-6-months tiers), bypassing /api/create-checkout-session
+ * entirely. A Payment Link checkout carries none of the
+ * listing_id/vendor_id metadata the webhook's Pro-fulfillment logic
+ * requires, so a purchase made here would never actually flip the
+ * listing to Pro — it would just take the customer's money and leave
+ * them on Free. It also displayed the listing's raw database UUID on
+ * screen for no reason.
+ *
+ * Both call sites that used to send a vendor here
+ * (components/submit/supabase-submit-form.tsx's isEdit=false branch and
+ * components/dashboard/publish-button.tsx, the latter on the orphaned,
+ * pre-Supabase-migration /dashboard/submissions page) were already
+ * unreachable from any live, linked UI before this fix — new listings
+ * are always created Free now (see submit-supabase.ts's trustedPlan),
+ * and nothing links to /dashboard/submissions. This redirect exists
+ * only so an old bookmarked/emailed /payment/<id> link lands on the
+ * real, current checkout flow (/plan-selection -> real Stripe Checkout
+ * Session -> /api/webhook) instead of a dead-end purchase that silently
+ * doesn't work.
+ */
 export default function PaymentPage({ params }: PaymentPageProps) {
-  const listingId = params.id;
-
-  if (!listingId) {
-    return notFound();
-  }
-
-  return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6">
-      <div className="flex items-center justify-center w-16 h-16 bg-brand-blue/10 rounded-full">
-        <CreditCardIcon className="w-8 h-8 text-brand-blue" />
-      </div>
-
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-paper">
-          Complete Your Listing Payment
-        </h1>
-        <p className="text-lg text-paper max-w-md">
-          Your listing has been submitted successfully. Complete payment to
-          activate your listing.
-        </p>
-        <p className="text-sm text-paper">Listing ID: {listingId}</p>
-      </div>
-
-      <div className="flex flex-col sm:flex-row gap-4 pt-4">
-        <Button asChild className="flex items-center gap-2">
-          <Link href={process.env.NEXT_PUBLIC_STRIPE_BASIC} target="_blank">
-            <CreditCardIcon className="w-4 h-4" />
-            Pay for Basic Plan
-          </Link>
-        </Button>
-        <Button asChild className="flex items-center gap-2">
-          <Link href={process.env.NEXT_PUBLIC_STRIPE_PRO} target="_blank">
-            <CreditCardIcon className="w-4 h-4" />
-            Pay for Pro Plan
-          </Link>
-        </Button>
-        <Button asChild className="flex items-center gap-2">
-          <Link href={process.env.NEXT_PUBLIC_STRIPE_PREMIUM} target="_blank">
-            <CreditCardIcon className="w-4 h-4" />
-            Pay for Premium Plan
-          </Link>
-        </Button>
-      </div>
-    </div>
-  );
+  redirect(`/plan-selection?listingId=${encodeURIComponent(params.id)}`);
 }

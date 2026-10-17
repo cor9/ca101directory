@@ -1,4 +1,19 @@
-import { supabase } from "@/lib/supabase";
+import { createServerClient } from "@/lib/supabase";
+
+// SECURITY FIX (recovery audit, Phase 1B Task 6): this module used the
+// anonymous Supabase client, which always runs as Postgres role `anon`
+// regardless of the signed-in NextAuth session. RLS on `profiles`
+// restricts SELECT/UPDATE to `auth.uid() = id`, which is never true for
+// an anon-role request, so getUserById/getUserByEmail always returned
+// null and updateUser always failed — e.g. settings()/updateUserName()
+// in actions/settings.ts and actions/update-name.ts always reported
+// "User not found" for every vendor and parent trying to update their
+// display name. Every call site in this module scopes its own query by
+// an ID or email it already has (the current session's own id, or an
+// email supplied for a pre-auth duplicate/token check in
+// register.ts/new-verification.ts) — none of it is arbitrary
+// client-controlled access to another user's row.
+const supabase = createServerClient();
 
 export interface User {
   id: string;

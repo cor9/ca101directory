@@ -12,7 +12,7 @@ import {
   sendListingSubmittedEmail,
 } from "@/lib/mail";
 import { SubmitSchema } from "@/lib/schemas";
-import { supabase } from "@/lib/supabase";
+import { createServerClient } from "@/lib/supabase";
 import { revalidatePath, revalidateTag } from "next/cache";
 
 type BaseSubmitFormData = {
@@ -60,6 +60,19 @@ export async function submitToSupabase(
   try {
     // Get current user for owner_id
     const user = await currentUser();
+
+    // SECURITY FIX (recovery audit, Phase 1B Task 6): this action used the
+    // anonymous Supabase client, which runs every query as Postgres role
+    // `anon` regardless of the signed-in NextAuth/Supabase session. Live
+    // RLS on `listings` has no anon INSERT policy and restricts UPDATE to
+    // `owner_id = auth.uid()`, which is never true for an anon-role
+    // request — every create/edit through this form was failing (insert
+    // denied, update affecting zero rows) or, for an edit on a non-Live
+    // listing, failing the ownership check below because the anon SELECT
+    // policy only exposes Live/Published rows. The ownership check in code
+    // immediately below is what actually gates who may write; the service
+    // role here is what lets a verified write take effect at all.
+    const supabase = createServerClient();
 
     console.log("submitToSupabase, data:", formData);
 
@@ -223,13 +236,6 @@ export async function submitToSupabase(
     if (formData.isEdit && formData.listingId) {
       // Update existing listing
       console.log("Updating existing listing:", formData.listingId);
-
-      // Get current listing status and plan first
-      const { data: currentListingStatus } = await supabase
-        .from("listings")
-        .select("status, plan")
-        .eq("id", formData.listingId)
-        .single();
 
       // Get current listing to preserve ownership and claimed status
       const { data: currentListing } = await supabase

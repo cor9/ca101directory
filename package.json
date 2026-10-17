@@ -30,6 +30,7 @@
     "email": "email dev --dir emails --port 3333",
     "test:commission": "tsx scripts/test-commission.ts",
     "test:vendor-authorization": "tsx scripts/test-vendor-authorization.ts",
+    "test:webhook-and-ownership": "tsx scripts/test-webhook-and-ownership.ts",
     "export-user-emails": "tsx scripts/export-user-emails.ts",
     "find-listing-emails": "tsx scripts/find-listing-emails.ts",
     "resend-emails-to-new-listings": "tsx scripts/resend-emails-to-new-listings.ts",

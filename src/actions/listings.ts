@@ -6,8 +6,10 @@ import {
   listingCacheTag,
 } from "@/data/listings";
 import { requirePermission } from "@/lib/auth/guards";
-import { canUpdateListing } from "@/lib/listings/listing-ownership";
-import { pickVendorEditableFields } from "@/lib/listings/vendor-editable-fields";
+import {
+  type SupabaseQueryClient,
+  performListingUpdate,
+} from "@/lib/listings/update-listing-core";
 import { sendListingLiveEmail } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
@@ -267,27 +269,6 @@ export async function updateListing(
 
     const supabase = createServerClient();
 
-    if (guard.user.role !== "admin") {
-      const { data: existingListing } = await supabase
-        .from("listings")
-        .select("owner_id")
-        .eq("id", id)
-        .single();
-
-      if (
-        !canUpdateListing({
-          isAdmin: false,
-          listingOwnerId: existingListing?.owner_id ?? null,
-          currentUserId: guard.user.id,
-        })
-      ) {
-        return {
-          status: "error",
-          message: "Unauthorized: You can only edit your own listing.",
-        };
-      }
-    }
-
     console.log("=== UPDATE LISTING START ===");
     console.log("ID:", id);
     console.log("Raw values received:", JSON.stringify(values, null, 2));
@@ -352,36 +333,30 @@ export async function updateListing(
       zip: normalizeZip(v.zip),
     };
 
-    // Privilege-escalation guard: a non-admin owner only ever writes the
-    // vendor-editable subset of fields, however the request was shaped.
-    // Admins (already verified above) keep full field access.
-    const payloadToWrite =
-      guard.user.role === "admin"
-        ? normalizedPayload
-        : pickVendorEditableFields(normalizedPayload);
-
-    console.log("Update query:", {
-      table: "listings",
+    // Full authorization + write path (ownership check, atomic
+    // owner_id re-check on the write itself, vendor-field allowlist) —
+    // extracted to lib/listings/update-listing-core.ts so it can be unit
+    // tested with a fake Supabase client; see
+    // scripts/test-vendor-authorization.ts and the independent audit
+    // notes there on the TOCTOU this closes.
+    // Cast: the real supabase-js client's generics are far deeper than
+    // this test-seam interface needs (see update-listing-core.ts) and
+    // TypeScript gives up trying to structurally match them ("Type
+    // instantiation is excessively deep"). Runtime shape is identical —
+    // this is the same object, not a different client.
+    const result = await performListingUpdate(
+      supabase as unknown as SupabaseQueryClient,
+      { id: guard.user.id, role: guard.user.role },
       id,
-      data: payloadToWrite,
-    });
+      normalizedPayload,
+    );
 
-    const { data, error } = await supabase
-      .from("listings")
-      .update(payloadToWrite)
-      .eq("id", id)
-      .select()
-      .single();
-
-    if (error) {
-      console.error("=== DATABASE ERROR ===");
-      console.error("Database error:", JSON.stringify(error, null, 2));
-      return {
-        status: "error",
-        message: `Database Error: Failed to update listing.${error?.message ? ` (${error.message})` : ""}`,
-      };
+    if (result.status === "error") {
+      console.error("=== DATABASE ERROR ===", result.message);
+      return result;
     }
 
+    const { data } = result;
     console.log("=== UPDATE SUCCESS ===");
     console.log("Updated data:", JSON.stringify(data, null, 2));
 

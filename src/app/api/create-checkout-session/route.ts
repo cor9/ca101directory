@@ -1,4 +1,6 @@
 import { auth } from "@/auth";
+import { canPurchaseProForListing } from "@/lib/listings/listing-ownership";
+import { createServerClient } from "@/lib/supabase";
 import { verifyClaimToken } from "@/lib/tokens";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
@@ -48,6 +50,7 @@ export async function POST(request: NextRequest) {
     }
 
     // If a claim token is provided (email-claim flow), verify it matches the listing
+    let hasValidClaimToken = false;
     if (token) {
       try {
         const parsed = verifyClaimToken(token);
@@ -58,6 +61,7 @@ export async function POST(request: NextRequest) {
             { status: 400 },
           );
         }
+        hasValidClaimToken = true;
       } catch (e) {
         console.error("Claim token verification failed", e);
         return NextResponse.json(
@@ -65,6 +69,40 @@ export async function POST(request: NextRequest) {
           { status: 400 },
         );
       }
+    }
+
+    // SECURITY FIX (independent follow-up audit, Task 2): verify the
+    // caller is actually allowed to purchase Pro for THIS listing —
+    // either they already own it, or they presented a valid claim token
+    // for it above. Without this, any signed-in user could POST an
+    // arbitrary listingId with no token at all and pay for a listing
+    // that was never theirs — see canPurchaseProForListing's doc comment.
+    const supabase = createServerClient();
+    const { data: listing, error: listingLookupError } = await supabase
+      .from("listings")
+      .select("owner_id")
+      .eq("id", listingId)
+      .single();
+
+    if (listingLookupError || !listing) {
+      return NextResponse.json({ error: "Listing not found" }, { status: 404 });
+    }
+
+    if (
+      !canPurchaseProForListing({
+        listingOwnerId: listing.owner_id,
+        currentUserId: session.user.id,
+        hasValidClaimToken,
+      })
+    ) {
+      return NextResponse.json(
+        {
+          error: listing.owner_id
+            ? "This listing has already been claimed by another account."
+            : "You can only purchase Pro for a listing you own, or one you're claiming with a valid claim link.",
+        },
+        { status: 403 },
+      );
     }
 
     // Optional: look up an existing customer by email, but do not fail if not found.

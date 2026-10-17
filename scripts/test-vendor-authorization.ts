@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { pickUserUpdatableFields } from "@/lib/auth/user-updatable-fields";
 import { shouldPromoteToVendor } from "@/lib/auth/vendor-promotion";
 import {
+  canPurchaseProForListing,
   canSubmitEditToListing,
   canUpdateListing,
 } from "@/lib/listings/listing-ownership";
@@ -229,6 +230,52 @@ test("pickUserUpdatableFields: strips role from the update payload", () => {
 test("pickUserUpdatableFields: fields absent from the payload stay absent", () => {
   const out = pickUserUpdatableFields({});
   assert.ok(!("full_name" in out));
+});
+
+// canPurchaseProForListing — the /api/create-checkout-session gate
+// closing the IDOR found during Task 2's audit: paying for Pro on an
+// arbitrary listing with no ownership or claim-token check.
+test("canPurchaseProForListing: a vendor may purchase Pro for their own listing with no token", () => {
+  assert.equal(
+    canPurchaseProForListing({
+      listingOwnerId: "vendor-A",
+      currentUserId: "vendor-A",
+      hasValidClaimToken: false,
+    }),
+    true,
+  );
+});
+
+test("canPurchaseProForListing: Vendor A cannot purchase Pro for Vendor B's already-claimed listing, even with a token", () => {
+  assert.equal(
+    canPurchaseProForListing({
+      listingOwnerId: "vendor-B",
+      currentUserId: "vendor-A",
+      hasValidClaimToken: true,
+    }),
+    false,
+  );
+});
+
+test("canPurchaseProForListing: an unclaimed listing requires a valid claim token", () => {
+  assert.equal(
+    canPurchaseProForListing({
+      listingOwnerId: null,
+      currentUserId: "vendor-A",
+      hasValidClaimToken: false,
+    }),
+    false,
+    "no token, no ownership -> rejected",
+  );
+  assert.equal(
+    canPurchaseProForListing({
+      listingOwnerId: null,
+      currentUserId: "vendor-A",
+      hasValidClaimToken: true,
+    }),
+    true,
+    "a valid matching token unlocks an unclaimed listing",
+  );
 });
 
 console.log(`\n${passed} passed`);

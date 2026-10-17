@@ -22,6 +22,15 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
  * Canonical Stripe webhook for this endpoint. Handles:
  * - checkout.session.completed: Pro fulfillment (plan flip, ownership/claim
  *   completion, profile update) followed by commission attribution.
+ *   Accepts payment_status "paid" or "no_payment_required" (a 100%-off
+ *   promo code checkout).
+ * - customer.subscription.deleted: the subscription's final end (always
+ *   terminal) — downgrades every listing it funded back to Free.
+ * - customer.subscription.updated: downgrades on a move into a terminal,
+ *   non-paying status (canceled/unpaid/incomplete_expired) only.
+ *   cancel_at_period_end and payment-retry states (past_due) are
+ *   deliberately left alone so Pro access survives until the paid
+ *   period actually ends — see TERMINAL_SUBSCRIPTION_STATUSES.
  * - charge.refunded: commission clawback/adjustment.
  *
  * Fulfillment restores the server-side checkout-completion logic that used
@@ -29,10 +38,17 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
  * is the source of truth for granting Pro access now; payment-success is
  * UX confirmation only.
  *
- * Every other event type — in particular invoice.* and
- * customer.subscription.* — is explicitly no-op'd: renewal commissioning
- * is deferred to Sprint 2b and must not be inferred from this handler
- * existing.
+ * NOTE: Stripe only sends event types this endpoint is subscribed to in
+ * the Stripe Dashboard. customer.subscription.deleted/updated must be
+ * added there (Developers → Webhooks → this endpoint) for the handlers
+ * below to ever run — this cannot be done from application code. See the
+ * recovery report for this and the companion
+ * supabase/migrations/20261017_add_stripe_subscription_tracking.sql
+ * migration, neither of which has been applied yet.
+ *
+ * Every other event type — in particular invoice.* — is explicitly
+ * no-op'd: renewal commissioning is deferred to Sprint 2b and must not
+ * be inferred from this handler existing.
  */
 export async function POST(req: Request) {
   const body = await req.text();
@@ -65,6 +81,12 @@ export async function POST(req: Request) {
       case "charge.refunded":
         await handleChargeRefunded(event);
         break;
+      case "customer.subscription.deleted":
+        await handleSubscriptionEnded(event);
+        break;
+      case "customer.subscription.updated":
+        await handleSubscriptionUpdated(event);
+        break;
       default:
         // Explicit no-op. Never 500 on business no-ops or Stripe retries forever.
         console.log(`[webhook] ignoring event type: ${event.type}`);
@@ -82,7 +104,15 @@ export async function POST(req: Request) {
 async function handleCheckoutCompleted(event: Stripe.Event) {
   const session = event.data.object as Stripe.Checkout.Session;
 
-  if (session.payment_status !== "paid") {
+  // A fully-discounted checkout (100%-off promo code) never has a charge
+  // to collect, so Stripe reports payment_status as "no_payment_required"
+  // instead of "paid" — the redeemed subscription is otherwise completely
+  // real and should still fulfill Pro. Only "unpaid" (checkout opened but
+  // payment didn't go through) skips fulfillment.
+  if (
+    session.payment_status !== "paid" &&
+    session.payment_status !== "no_payment_required"
+  ) {
     console.log(
       `[webhook] checkout.session.completed with payment_status=${session.payment_status}, skipping`,
     );
@@ -171,6 +201,28 @@ async function handleCheckoutCompleted(event: Stripe.Event) {
       }
 
       console.log(`[webhook] fulfilled Pro upgrade for listing ${listingId}`);
+
+      // Record which subscription granted this Pro status, so a later
+      // customer.subscription.deleted/updated event (which carries a
+      // subscription id, not a listing id) can find its way back to this
+      // listing and downgrade it — see handleSubscriptionEnded below.
+      // Isolated from the fulfillment update above and never thrown: the
+      // supabase/migrations/20261017_add_stripe_subscription_tracking.sql
+      // migration may not have been applied yet, and a missing column
+      // here must never block granting Pro access itself.
+      const subscriptionId = (session.subscription as string) || null;
+      if (subscriptionId) {
+        const { error: subIdError } = await supabase
+          .from("listings")
+          .update({ stripe_subscription_id: subscriptionId })
+          .eq("id", listingId);
+        if (subIdError) {
+          console.warn(
+            "[webhook] could not record stripe_subscription_id (has supabase/migrations/20261017_add_stripe_subscription_tracking.sql been applied?) — subscription cancellation/renewal handling will no-op for this listing until it is:",
+            subIdError,
+          );
+        }
+      }
     }
   }
 
@@ -255,6 +307,134 @@ async function handleCheckoutCompleted(event: Stripe.Event) {
     console.error("[webhook] failed to insert commission:", error);
     throw error;
   }
+}
+
+/**
+ * Terminal, non-paying Stripe subscription statuses. "past_due" is
+ * deliberately excluded: Stripe is still retrying the payment and the
+ * subscriber's current entitlement period hasn't ended, so Pro access
+ * must not be pulled yet (see recovery audit, Phase 1C Task 7 — "A
+ * cancellation request should not automatically remove paid benefits
+ * before the subscription's actual entitlement period ends"). A
+ * cancel-at-period-end request keeps status "active" (with
+ * cancel_at_period_end: true) until the period actually ends, at which
+ * point Stripe sends customer.subscription.deleted — handled separately
+ * below and always treated as terminal regardless of status.
+ */
+const TERMINAL_SUBSCRIPTION_STATUSES: ReadonlySet<Stripe.Subscription.Status> =
+  new Set<Stripe.Subscription.Status>([
+    "canceled",
+    "unpaid",
+    "incomplete_expired",
+  ]);
+
+/**
+ * Downgrades every listing whose stripe_subscription_id matches, and the
+ * owning profile if it's still linked to that listing. No-ops (logs and
+ * returns) rather than throwing if the tracking column from
+ * supabase/migrations/20261017_add_stripe_subscription_tracking.sql
+ * hasn't been applied yet, or if no listing is tracking this
+ * subscription (e.g. it predates that migration) — there's nothing
+ * Stripe retrying this event will fix in either case.
+ */
+async function downgradeListingsForSubscription(
+  subscriptionId: string,
+  reason: string,
+) {
+  const supabase = createServerClient();
+
+  const { data: listings, error: lookupError } = await supabase
+    .from("listings")
+    .select("id, owner_id, comped")
+    .eq("stripe_subscription_id", subscriptionId);
+
+  if (lookupError) {
+    console.warn(
+      `[webhook] could not look up listings for subscription ${subscriptionId} (has the stripe_subscription_id migration been applied?), skipping ${reason}:`,
+      lookupError,
+    );
+    return;
+  }
+
+  if (!listings || listings.length === 0) {
+    console.log(
+      `[webhook] ${reason} for subscription ${subscriptionId}, no listing is tracking it (predates the tracking migration, or already downgraded)`,
+    );
+    return;
+  }
+
+  for (const listing of listings) {
+    // A comped listing is treated as Pro by the commission logic but was
+    // never actually backed by this (or any) Stripe subscription; never
+    // let a subscription event touch it.
+    if (listing.comped) continue;
+
+    const { error: downgradeError } = await supabase
+      .from("listings")
+      .update({
+        plan: "Free",
+        stripe_subscription_id: null,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", listing.id);
+
+    if (downgradeError) {
+      console.error(
+        `[webhook] failed to downgrade listing ${listing.id} after ${reason}:`,
+        downgradeError,
+      );
+      throw downgradeError; // Stripe retries
+    }
+
+    console.log(
+      `[webhook] downgraded listing ${listing.id} to Free (${reason})`,
+    );
+
+    if (listing.owner_id) {
+      const { error: profileError } = await supabase
+        .from("profiles")
+        .update({ subscription_plan: "Free" })
+        .eq("id", listing.owner_id);
+
+      if (profileError) {
+        console.error(
+          `[webhook] failed to update profile ${listing.owner_id} after ${reason}:`,
+          profileError,
+        );
+        throw profileError; // Stripe retries
+      }
+    }
+  }
+}
+
+/**
+ * The subscription's final end (whether it ran its course after
+ * cancel_at_period_end, or was canceled immediately). Always terminal,
+ * regardless of the status Stripe reports on the deleted object.
+ */
+async function handleSubscriptionEnded(event: Stripe.Event) {
+  const subscription = event.data.object as Stripe.Subscription;
+  await downgradeListingsForSubscription(subscription.id, "subscription ended");
+}
+
+/**
+ * Fires on every subscription change, not just problems — plan changes,
+ * cancel_at_period_end being toggled, and (what we act on here) a move
+ * into a terminal non-paying status such as a payment that finally
+ * failed for good. See TERMINAL_SUBSCRIPTION_STATUSES for what counts.
+ */
+async function handleSubscriptionUpdated(event: Stripe.Event) {
+  const subscription = event.data.object as Stripe.Subscription;
+  if (!TERMINAL_SUBSCRIPTION_STATUSES.has(subscription.status)) {
+    console.log(
+      `[webhook] customer.subscription.updated for ${subscription.id} with non-terminal status=${subscription.status}, no-op`,
+    );
+    return;
+  }
+  await downgradeListingsForSubscription(
+    subscription.id,
+    `subscription status=${subscription.status}`,
+  );
 }
 
 async function handleChargeRefunded(event: Stripe.Event) {

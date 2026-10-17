@@ -156,16 +156,63 @@ export async function submitToSupabase(
       name,
       "link:",
       link,
-      "plan:",
+      "plan (client-submitted, not trusted — see trustedPlan below):",
       plan,
       "region:",
       region,
     );
 
+    // SECURITY FIX (recovery audit, Phase 1C Task 7): this action used to
+    // write the client-submitted `plan` straight to the database
+    // (`plan: plan, // Keep plan as-is since forms already send correct
+    // values`) and derive every tier-gated field (category count, gallery
+    // size, social links) from that same untrusted value. A vendor could
+    // select "Pro" in the form and submit directly — no Stripe checkout,
+    // no payment — and the listing would be created (or an edit saved)
+    // with Pro features and Pro billing status. The only legitimate way
+    // to grant Pro is a verified Stripe payment via /api/webhook. For a
+    // new listing, the plan is always "Free"; for an edit, it's locked to
+    // whatever plan the listing already has in the database — fetched
+    // below, before any ownership check, so it's available regardless of
+    // which branch runs.
+    let currentListing: {
+      owner_id: string | null;
+      is_claimed: boolean | null;
+      plan: string | null;
+      is_approved_101: boolean | null;
+    } | null = null;
+
+    if (formData.isEdit && formData.listingId) {
+      const { data: existing } = await supabase
+        .from("listings")
+        .select("owner_id, is_claimed, plan, is_approved_101")
+        .eq("id", formData.listingId)
+        .single();
+      currentListing = existing ?? null;
+
+      // Verify user owns this listing OR it's unclaimed (claiming flow)
+      const isClaimingListing =
+        currentListing?.owner_id === null && !currentListing?.is_claimed;
+      const ownsListing = currentListing?.owner_id === user?.id;
+
+      if (!isClaimingListing && !ownsListing) {
+        return {
+          status: "error",
+          message: "You don't have permission to edit this listing",
+        };
+      }
+    }
+
+    const trustedPlan = formData.isEdit
+      ? currentListing?.plan || "Free"
+      : "Free";
+    const trustedPlanLower = trustedPlan.toLowerCase();
+
     // Determine if this is a Free tier listing
-    const isFree = plan === "Free";
-    const isStandard = plan === "Standard" || plan === "Founding Standard";
-    const isPro = plan === "Pro" || plan === "Founding Pro";
+    const isFree = trustedPlanLower === "free";
+    const isStandard =
+      trustedPlanLower === "standard" || trustedPlanLower === "founding standard";
+    const isPro = trustedPlanLower === "pro" || trustedPlanLower === "founding pro";
 
     // TIER RESTRICTIONS ENFORCEMENT (Server-side validation)
     // Free tier: Strip premium content to prevent abuse
@@ -207,7 +254,7 @@ export async function submitToSupabase(
       age_range: tags,
       profile_image: imageId,
       gallery: enforcedGallery,
-      plan: plan, // Keep plan as-is since forms already send correct values
+      plan: trustedPlan, // Never the client-submitted `plan` — see note above.
       ca_permit_required: performerPermit,
       is_bonded: bonded,
       bond_number: bondNumber,
@@ -216,7 +263,12 @@ export async function submitToSupabase(
       is_active: active ?? true,
       is_claimed: false,
       owner_id: user?.id || null, // Link to current user if authenticated
-      is_approved_101: false,
+      // New listings start unapproved; an edit must not silently wipe an
+      // admin-granted 101 Approved badge (this field is admin-only to
+      // *set*, same as plan/featured — see Phase 1A Task 2).
+      is_approved_101: formData.isEdit
+        ? currentListing?.is_approved_101 ?? false
+        : false,
       // Social media fields: Pro tier only
       facebook_url: isPro ? facebook_url || null : null,
       instagram_url: isPro ? instagram_url || null : null,
@@ -234,27 +286,9 @@ export async function submitToSupabase(
     let error: { message: string } | null;
 
     if (formData.isEdit && formData.listingId) {
-      // Update existing listing
+      // Update existing listing. Ownership was already verified above,
+      // before listingData/trustedPlan were computed.
       console.log("Updating existing listing:", formData.listingId);
-
-      // Get current listing to preserve ownership and claimed status
-      const { data: currentListing } = await supabase
-        .from("listings")
-        .select("owner_id, is_claimed, plan")
-        .eq("id", formData.listingId)
-        .single();
-
-      // Verify user owns this listing OR it's unclaimed (claiming flow)
-      const isClaimingListing =
-        currentListing?.owner_id === null && !currentListing?.is_claimed;
-      const ownsListing = currentListing?.owner_id === user?.id;
-
-      if (!isClaimingListing && !ownsListing) {
-        return {
-          status: "error",
-          message: "You don't have permission to edit this listing",
-        };
-      }
 
       const updateData = {
         ...listingData,
@@ -382,7 +416,7 @@ export async function submitToSupabase(
         user.email,
         name,
         data.id,
-        plan,
+        trustedPlan,
         !!formData.isEdit,
       )
         .then(() => {
@@ -409,7 +443,7 @@ export async function submitToSupabase(
       [
         { name: "Listing", value: name, inline: true },
         { name: "Listing ID", value: `\`${data.id}\``, inline: true },
-        { name: "Plan", value: plan, inline: true },
+        { name: "Plan", value: trustedPlan, inline: true },
         {
           name: "Submitted By",
           value: user?.email || "Unknown",

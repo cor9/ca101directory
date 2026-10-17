@@ -19,6 +19,18 @@ export default async function EnhanceListingPage({
   const listing = await getListingById(params.id).catch(() => null);
   if (!listing) return notFound();
 
+  // SECURITY FIX (recovery audit, Phase 1A Task 3): DashboardGuard below
+  // only redirects client-side after the page (and this listing's own
+  // data: email, phone, notes, gallery) has already rendered server-side.
+  // Without an ownership check here, any logged-in vendor who knew or
+  // guessed another vendor's listing ID could view (though not, thanks
+  // to updateListing's own ownership check, successfully save) that
+  // listing's full editable detail. Admins keep their own dedicated
+  // admin-edit route and are not exempted here.
+  if (listing.owner_id !== session.user.id) {
+    redirect("/dashboard/vendor/listing");
+  }
+
   return (
     <DashboardGuard allowedRoles={["vendor", "admin"]}>
       <AdminDashboardLayout>

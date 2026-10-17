@@ -1,26 +1,27 @@
 import { auth } from "@/auth";
-import { EditForm } from "@/components/submit/edit-form";
-import { siteConfig } from "@/config/site";
-import { getCategories } from "@/data/categories";
 import { getListingById } from "@/data/listings";
-import { constructMetadata } from "@/lib/metadata";
-import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
-}): Promise<Metadata | undefined> {
-  return constructMetadata({
-    title: "Edit Listing",
-    description: "Edit your professional listing",
-    canonicalUrl: `${siteConfig.url}/edit/${params.id}`,
-  });
-}
 
 /**
  * Edit page - Edit existing listing
+ *
+ * CONSOLIDATION (recovery audit, Phase 1B Task 5): this page used to
+ * render `EditForm` (components/submit/edit-form.tsx), a third,
+ * less-complete vendor-edit implementation on the same submitToSupabase
+ * write path as the main /submit form, duplicating a form that already
+ * exists in VendorEditForm (video embed link, logo, plan-aware gallery
+ * limits, Pro upsell messaging — see components/vendor/vendor-edit-form.tsx)
+ * without having those fields. Several places in the app still link
+ * here (claimed-listing-actions.tsx, free-plan-button.tsx,
+ * submission-card.tsx, dashboard/submissions page, and the vendor
+ * listing dashboard's own EDIT button), so rather than touching every
+ * caller, this page keeps its existing auth + ownership check and then
+ * forwards straight to the richer, already-hardened enhance route
+ * (updateListing(), with the vendor-field allowlist from Phase 1A).
+ * EditForm/submitToSupabase's edit branch are left in place, unused by
+ * any live route now, until this redirect has been verified in
+ * production — see the audit note on EditForm/submitToSupabase for why
+ * they are not yet deleted outright.
  */
 export default async function EditPage({ params }: { params: { id: string } }) {
   const session = await auth();
@@ -31,7 +32,6 @@ export default async function EditPage({ params }: { params: { id: string } }) {
     );
   }
 
-  // Get the listing
   const listing = await getListingById(params.id);
 
   if (!listing) {
@@ -43,25 +43,5 @@ export default async function EditPage({ params }: { params: { id: string } }) {
     redirect("/dashboard/vendor");
   }
 
-  // Get categories for the form
-  const categories = await getCategories();
-  const formCategories = categories
-    .filter((cat) => cat.category_name)
-    .map((cat) => ({
-      id: cat.id,
-      name: cat.category_name,
-    }));
-
-  return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold mb-4">Edit Your Listing</h1>
-        <p className="text-lg text-paper">
-          Update your listing information and images
-        </p>
-      </div>
-
-      <EditForm listing={listing} categories={formCategories} />
-    </div>
-  );
+  redirect(`/dashboard/vendor/listing/${params.id}/enhance`);
 }

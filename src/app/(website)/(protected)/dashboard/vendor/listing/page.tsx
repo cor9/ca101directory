@@ -167,7 +167,11 @@ export default async function VendorListingPage() {
                       </Link>
                     </Button>
                     <Button asChild variant="outline" size="sm">
-                      <Link href={`/submit?claim=true&listingId=${listing.id}`}>
+                      {/* Routed through /edit/[id], which forwards to the
+                          richer VendorEditForm (video link, gallery, Pro
+                          gating) rather than the general submit form —
+                          see recovery audit, Phase 1B Task 5. */}
+                      <Link href={`/edit/${listing.id}`}>
                         <Edit className="mr-2 h-4 w-4" />
                         EDIT
                       </Link>

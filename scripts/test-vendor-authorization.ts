@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
+import { pickUserUpdatableFields } from "@/lib/auth/user-updatable-fields";
 import { shouldPromoteToVendor } from "@/lib/auth/vendor-promotion";
-import { canUpdateListing } from "@/lib/listings/listing-ownership";
+import {
+  canSubmitEditToListing,
+  canUpdateListing,
+} from "@/lib/listings/listing-ownership";
 import {
   VENDOR_EDITABLE_LISTING_FIELDS,
   pickVendorEditableFields,
@@ -150,6 +154,81 @@ test("canUpdateListing: admins may edit any listing regardless of owner", () => 
     }),
     true,
   );
+});
+
+// canSubmitEditToListing — submitToSupabase's ownership gate, the one
+// found to have NO authentication requirement at all for its "editing an
+// unclaimed listing" allowance (independent follow-up audit, Task 1: an
+// anonymous visitor who knew an unclaimed listing's id could edit its
+// content with zero login).
+test("canSubmitEditToListing: a signed-out visitor is rejected even for an unclaimed listing", () => {
+  assert.equal(
+    canSubmitEditToListing({
+      listingOwnerId: null,
+      listingIsClaimed: false,
+      currentUserId: null,
+    }),
+    false,
+  );
+  assert.equal(
+    canSubmitEditToListing({
+      listingOwnerId: null,
+      listingIsClaimed: false,
+      currentUserId: undefined,
+    }),
+    false,
+  );
+});
+
+test("canSubmitEditToListing: a logged-in user may edit an unclaimed listing", () => {
+  assert.equal(
+    canSubmitEditToListing({
+      listingOwnerId: null,
+      listingIsClaimed: false,
+      currentUserId: "user-1",
+    }),
+    true,
+  );
+});
+
+test("canSubmitEditToListing: a logged-in user may edit their own listing", () => {
+  assert.equal(
+    canSubmitEditToListing({
+      listingOwnerId: "user-1",
+      listingIsClaimed: true,
+      currentUserId: "user-1",
+    }),
+    true,
+  );
+});
+
+test("canSubmitEditToListing: Vendor A may not edit Vendor B's already-claimed listing", () => {
+  assert.equal(
+    canSubmitEditToListing({
+      listingOwnerId: "vendor-B",
+      listingIsClaimed: true,
+      currentUserId: "vendor-A",
+    }),
+    false,
+  );
+});
+
+// pickUserUpdatableFields — defense in depth so updateUser() (settings /
+// display name) can never be used to change `role` or any other field
+// beyond full_name, regardless of what a caller passes (independent
+// follow-up audit, Task 1).
+test("pickUserUpdatableFields: strips role from the update payload", () => {
+  const out = pickUserUpdatableFields({
+    full_name: "New Name",
+    role: "admin",
+  });
+  assert.equal(out.full_name, "New Name");
+  assert.ok(!("role" in out), "role must not survive the allowlist");
+});
+
+test("pickUserUpdatableFields: fields absent from the payload stay absent", () => {
+  const out = pickUserUpdatableFields({});
+  assert.ok(!("full_name" in out));
 });
 
 console.log(`\n${passed} passed`);

@@ -7,6 +7,7 @@ import {
 } from "@/data/listings";
 import { currentUser } from "@/lib/auth";
 import { sendDiscordNotification } from "@/lib/discord";
+import { canSubmitEditToListing } from "@/lib/listings/listing-ownership";
 import {
   sendAdminSubmissionNotification,
   sendListingSubmittedEmail,
@@ -190,15 +191,27 @@ export async function submitToSupabase(
         .single();
       currentListing = existing ?? null;
 
-      // Verify user owns this listing OR it's unclaimed (claiming flow)
-      const isClaimingListing =
-        currentListing?.owner_id === null && !currentListing?.is_claimed;
-      const ownsListing = currentListing?.owner_id === user?.id;
-
-      if (!isClaimingListing && !ownsListing) {
+      // SECURITY FIX (independent follow-up audit, Task 1): this used to
+      // allow the "claiming flow" branch (edit an unclaimed listing) with
+      // no authentication check at all — see canSubmitEditToListing's doc
+      // comment. A signed-out visitor who merely knew an unclaimed
+      // listing's id (the majority of listings) could edit its content
+      // fields (name, description, contact email/phone, categories, ...)
+      // with zero login. Ownership itself didn't transfer (the write
+      // below preserves the existing owner_id), but the content was
+      // fully writable — an unauthenticated defacement/tampering path.
+      if (
+        !canSubmitEditToListing({
+          listingOwnerId: currentListing?.owner_id ?? null,
+          listingIsClaimed: currentListing?.is_claimed ?? null,
+          currentUserId: user?.id,
+        })
+      ) {
         return {
           status: "error",
-          message: "You don't have permission to edit this listing",
+          message: user?.id
+            ? "You don't have permission to edit this listing"
+            : "You must be logged in to edit this listing",
         };
       }
     }
@@ -211,8 +224,10 @@ export async function submitToSupabase(
     // Determine if this is a Free tier listing
     const isFree = trustedPlanLower === "free";
     const isStandard =
-      trustedPlanLower === "standard" || trustedPlanLower === "founding standard";
-    const isPro = trustedPlanLower === "pro" || trustedPlanLower === "founding pro";
+      trustedPlanLower === "standard" ||
+      trustedPlanLower === "founding standard";
+    const isPro =
+      trustedPlanLower === "pro" || trustedPlanLower === "founding pro";
 
     // TIER RESTRICTIONS ENFORCEMENT (Server-side validation)
     // Free tier: Strip premium content to prevent abuse
@@ -267,7 +282,7 @@ export async function submitToSupabase(
       // admin-granted 101 Approved badge (this field is admin-only to
       // *set*, same as plan/featured — see Phase 1A Task 2).
       is_approved_101: formData.isEdit
-        ? currentListing?.is_approved_101 ?? false
+        ? (currentListing?.is_approved_101 ?? false)
         : false,
       // Social media fields: Pro tier only
       facebook_url: isPro ? facebook_url || null : null,

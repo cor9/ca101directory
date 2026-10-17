@@ -1,3 +1,4 @@
+import { pickUserUpdatableFields } from "@/lib/auth/user-updatable-fields";
 import { createServerClient } from "@/lib/supabase";
 
 // SECURITY FIX (recovery audit, Phase 1B Task 6): this module used the
@@ -102,15 +103,28 @@ export const createUser = async (userData: {
   }
 };
 
+// Independent follow-up audit, Task 1: updateUser() took an arbitrary
+// `updates: Partial<User>` with no field allowlist of its own — it fully
+// trusted every caller to never pass `role` (a privilege field also
+// present on the `User` type this function is typed against) or an id
+// belonging to someone other than the session's own user. Both of
+// today's callers (actions/settings.ts, actions/update-name.ts) already
+// only ever pass {full_name} for the current session's own id, so this
+// is defense in depth, not a fix for an exploited path — but the
+// function itself should not rely on every future caller getting that
+// right by convention. See lib/auth/user-updatable-fields.ts for the
+// allowlist itself (extracted so it's unit-testable).
 export const updateUser = async (
   userId: string,
   updates: Partial<User>,
 ): Promise<User | null> => {
   try {
+    const allowedUpdates = pickUserUpdatableFields(updates);
+
     const { data, error } = await supabase
       .from("profiles")
       .update({
-        ...updates,
+        ...allowedUpdates,
         updated_at: new Date().toISOString(),
       })
       .eq("id", userId)

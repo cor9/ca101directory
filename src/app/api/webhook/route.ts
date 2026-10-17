@@ -1,9 +1,11 @@
-import { ATTRIBUTION_WINDOW_DAYS } from "@/config/commission";
 import {
-  computeCommission,
-  computeRefundAdjustment,
-  resolveAttribution,
-} from "@/lib/commission";
+  type WebhookSupabaseClient,
+  isTerminalSubscriptionStatus,
+  performProFulfillment,
+  performSubscriptionDowngrade,
+  recordCommissionAttribution,
+} from "@/lib/billing/webhook-core";
+import { computeRefundAdjustment } from "@/lib/commission";
 import { createServerClient } from "@/lib/supabase";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -19,6 +21,18 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
 
 /**
+ * Casts the real supabase-js client to the loose test-seam interface
+ * lib/billing/webhook-core.ts's functions are typed against — see
+ * update-listing-core.ts for why TypeScript can't structurally match
+ * supabase-js's own generics here. Runtime shape is identical; the fake
+ * client in scripts/test-helpers/fake-supabase.ts satisfies the same
+ * interface for scripts/test-webhook-and-ownership.ts.
+ */
+function dbClient(): WebhookSupabaseClient {
+  return createServerClient() as unknown as WebhookSupabaseClient;
+}
+
+/**
  * Canonical Stripe webhook for this endpoint. Handles:
  * - checkout.session.completed: Pro fulfillment (plan flip, ownership/claim
  *   completion, profile update) followed by commission attribution.
@@ -30,7 +44,8 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
  *   non-paying status (canceled/unpaid/incomplete_expired) only.
  *   cancel_at_period_end and payment-retry states (past_due) are
  *   deliberately left alone so Pro access survives until the paid
- *   period actually ends — see TERMINAL_SUBSCRIPTION_STATUSES.
+ *   period actually ends — see lib/billing/webhook-core.ts's
+ *   isTerminalSubscriptionStatus.
  * - charge.refunded: commission clawback/adjustment.
  *
  * Fulfillment restores the server-side checkout-completion logic that used
@@ -49,6 +64,13 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
  * Every other event type — in particular invoice.* — is explicitly
  * no-op'd: renewal commissioning is deferred to Sprint 2b and must not
  * be inferred from this handler existing.
+ *
+ * The authorization/idempotency/targeting logic itself lives in
+ * lib/billing/webhook-core.ts, independent of the real Supabase client
+ * and the Stripe SDK's event types, so it's unit tested directly — see
+ * scripts/test-webhook-and-ownership.ts and the recovery report's Task 2
+ * notes on subscription-to-listing association, idempotency, and
+ * before/after migration behavior.
  */
 export async function POST(req: Request) {
   const body = await req.text();
@@ -138,93 +160,44 @@ async function handleCheckoutCompleted(event: Stripe.Event) {
     return;
   }
 
-  const supabase = createServerClient();
-
-  const { data: listing } = await supabase
-    .from("listings")
-    .select("comped, owner_id")
-    .eq("id", listingId)
-    .single();
+  const supabase = dbClient();
 
   // --- Pro fulfillment: idempotent, runs before commission attribution so
   // even an unattributed house sale still grants Pro access. ---
   if (plan === "pro") {
-    const existingOwnerId = listing?.owner_id ?? null;
+    const result = await performProFulfillment(supabase, {
+      listingId,
+      vendorId,
+      stripeSubscriptionId: (session.subscription as string) || null,
+      stripeCustomerId: (session.customer as string) || null,
+    });
 
-    if (vendorId && existingOwnerId && existingOwnerId !== vendorId) {
-      // Genuine data-identity conflict: this listing already belongs to a
-      // different account than the one that paid. create-checkout-session
-      // doesn't verify listing ownership before creating a session, so
-      // this can happen on misuse. Do not reassign ownership or flip plan
-      // automatically — surface for manual review instead.
+    if (result.outcome === "ownership_conflict") {
+      // create-checkout-session now verifies listing ownership/claim
+      // tokens before a session can even be created (see
+      // lib/listings/listing-ownership.ts's canPurchaseProForListing),
+      // so this should be unreachable going forward; kept as a
+      // defense-in-depth backstop for sessions created before that fix
+      // or by any other path. Never reassign ownership automatically —
+      // surface for manual review instead.
       console.error(
-        `[webhook] OWNERSHIP CONFLICT: listing ${listingId} is owned by ${existingOwnerId}, but checkout session ${session.id} was paid by ${vendorId}. Skipping plan/ownership fulfillment.`,
+        `[webhook] OWNERSHIP CONFLICT: listing ${listingId} is owned by ${result.existingOwnerId}, but checkout session ${session.id} was paid by ${vendorId}. Skipping plan/ownership fulfillment.`,
       );
+    } else if (result.outcome === "error") {
+      console.error("[webhook] failed to fulfill Pro upgrade:", result.message);
+      throw new Error(result.message); // Stripe retries
     } else {
-      const fulfillmentUpdate: Record<string, unknown> = {
-        plan: "Pro",
-        updated_at: new Date().toISOString(),
-      };
-      if (vendorId) {
-        fulfillmentUpdate.owner_id = vendorId;
-        fulfillmentUpdate.is_claimed = true;
-        fulfillmentUpdate.pending_claim_email = null;
-        fulfillmentUpdate.stripe_session_id = null;
-      }
-
-      const { error: fulfillError } = await supabase
-        .from("listings")
-        .update(fulfillmentUpdate)
-        .eq("id", listingId);
-
-      if (fulfillError) {
-        console.error("[webhook] failed to fulfill Pro upgrade:", fulfillError);
-        throw fulfillError; // Stripe retries
-      }
-
-      if (vendorId) {
-        const { error: profileError } = await supabase
-          .from("profiles")
-          .update({
-            subscription_plan: "Pro",
-            stripe_customer_id: (session.customer as string) || null,
-          })
-          .eq("id", vendorId);
-
-        if (profileError) {
-          console.error(
-            "[webhook] failed to update profile after fulfillment:",
-            profileError,
-          );
-          throw profileError; // Stripe retries
-        }
-      }
-
       console.log(`[webhook] fulfilled Pro upgrade for listing ${listingId}`);
-
-      // Record which subscription granted this Pro status, so a later
-      // customer.subscription.deleted/updated event (which carries a
-      // subscription id, not a listing id) can find its way back to this
-      // listing and downgrade it — see handleSubscriptionEnded below.
-      // Isolated from the fulfillment update above and never thrown: the
-      // supabase/migrations/20261017_add_stripe_subscription_tracking.sql
-      // migration may not have been applied yet, and a missing column
-      // here must never block granting Pro access itself.
-      const subscriptionId = (session.subscription as string) || null;
-      if (subscriptionId) {
-        const { error: subIdError } = await supabase
-          .from("listings")
-          .update({ stripe_subscription_id: subscriptionId })
-          .eq("id", listingId);
-        if (subIdError) {
-          console.warn(
-            "[webhook] could not record stripe_subscription_id (has supabase/migrations/20261017_add_stripe_subscription_tracking.sql been applied?) — subscription cancellation/renewal handling will no-op for this listing until it is:",
-            subIdError,
-          );
-        }
-      }
     }
   }
+
+  // Comped status is read fresh for commission attribution; fulfillment
+  // above doesn't touch it.
+  const { data: listingForAttribution } = await supabase
+    .from("listings")
+    .select("comped")
+    .eq("id", listingId)
+    .single();
 
   const { data: activeAssignmentRow } = await supabase
     .from("rep_assignments")
@@ -245,196 +218,87 @@ async function handleCheckoutCompleted(event: Stripe.Event) {
     }
   }
 
-  const attribution = resolveAttribution({
+  const attributionResult = await recordCommissionAttribution(supabase, {
+    listingId,
     plan,
-    comped: Boolean(listing?.comped),
-    // Admin-initiated upgrades go through direct DB writes (adminUpdateListing),
-    // never through this checkout session — structurally never true here.
-    isAdminInitiated: false,
+    comped: Boolean(listingForAttribution?.comped),
     activeAssignment: activeAssignmentRow
       ? {
           repId: activeAssignmentRow.rep_id,
           assignedAt: new Date(activeAssignmentRow.assigned_at),
         }
       : null,
-    attributionWindowDays: ATTRIBUTION_WINDOW_DAYS,
-    now: new Date(),
     repCode,
     repCodeLookup,
+    saleAmountCents,
+    stripeEventId: event.id,
+    stripeSessionId: session.id,
+    stripeSubscriptionId: (session.subscription as string) || null,
+    now: new Date(),
   });
 
-  if (attribution.attributed === false) {
-    console.log(
-      `[webhook] no commission for listing ${listingId}: ${attribution.reason}`,
-    );
-    return;
-  }
-
-  const commission = computeCommission(plan, saleAmountCents);
-  if (!commission) {
-    console.log(`[webhook] plan "${plan}" not commissionable, skipping`);
-    return;
-  }
-  if (commission.priceDrift) {
-    console.warn(
-      `[webhook] price drift: sale_amount_cents=${saleAmountCents} for plan ${plan}`,
-    );
-  }
-
-  const { error } = await supabase.from("rep_commissions").insert({
-    rep_id: attribution.repId,
-    listing_id: listingId,
-    stripe_event_id: event.id,
-    stripe_session_id: session.id,
-    stripe_subscription_id: (session.subscription as string) || null,
-    plan,
-    sale_type: "new_sale",
-    sale_amount_cents: saleAmountCents,
-    tier_rate: commission.tierRate,
-    amount_cents: commission.amountCents,
-    kind: "commission",
-    status: "pending",
-    attribution_source: attribution.source,
-    attribution_note: attribution.note || null,
-  });
-
-  if (error) {
-    // Unique violation on stripe_event_id = Stripe retry, already recorded. No-op.
-    if (error.code === "23505") {
+  if (attributionResult.recorded === false) {
+    if ("duplicate" in attributionResult) {
       console.log(`[webhook] duplicate event ${event.id}, already recorded`);
-      return;
-    }
-    console.error("[webhook] failed to insert commission:", error);
-    throw error;
-  }
-}
-
-/**
- * Terminal, non-paying Stripe subscription statuses. "past_due" is
- * deliberately excluded: Stripe is still retrying the payment and the
- * subscriber's current entitlement period hasn't ended, so Pro access
- * must not be pulled yet (see recovery audit, Phase 1C Task 7 — "A
- * cancellation request should not automatically remove paid benefits
- * before the subscription's actual entitlement period ends"). A
- * cancel-at-period-end request keeps status "active" (with
- * cancel_at_period_end: true) until the period actually ends, at which
- * point Stripe sends customer.subscription.deleted — handled separately
- * below and always treated as terminal regardless of status.
- */
-const TERMINAL_SUBSCRIPTION_STATUSES: ReadonlySet<Stripe.Subscription.Status> =
-  new Set<Stripe.Subscription.Status>([
-    "canceled",
-    "unpaid",
-    "incomplete_expired",
-  ]);
-
-/**
- * Downgrades every listing whose stripe_subscription_id matches, and the
- * owning profile if it's still linked to that listing. No-ops (logs and
- * returns) rather than throwing if the tracking column from
- * supabase/migrations/20261017_add_stripe_subscription_tracking.sql
- * hasn't been applied yet, or if no listing is tracking this
- * subscription (e.g. it predates that migration) — there's nothing
- * Stripe retrying this event will fix in either case.
- */
-async function downgradeListingsForSubscription(
-  subscriptionId: string,
-  reason: string,
-) {
-  const supabase = createServerClient();
-
-  const { data: listings, error: lookupError } = await supabase
-    .from("listings")
-    .select("id, owner_id, comped")
-    .eq("stripe_subscription_id", subscriptionId);
-
-  if (lookupError) {
-    console.warn(
-      `[webhook] could not look up listings for subscription ${subscriptionId} (has the stripe_subscription_id migration been applied?), skipping ${reason}:`,
-      lookupError,
-    );
-    return;
-  }
-
-  if (!listings || listings.length === 0) {
-    console.log(
-      `[webhook] ${reason} for subscription ${subscriptionId}, no listing is tracking it (predates the tracking migration, or already downgraded)`,
-    );
-    return;
-  }
-
-  for (const listing of listings) {
-    // A comped listing is treated as Pro by the commission logic but was
-    // never actually backed by this (or any) Stripe subscription; never
-    // let a subscription event touch it.
-    if (listing.comped) continue;
-
-    const { error: downgradeError } = await supabase
-      .from("listings")
-      .update({
-        plan: "Free",
-        stripe_subscription_id: null,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", listing.id);
-
-    if (downgradeError) {
-      console.error(
-        `[webhook] failed to downgrade listing ${listing.id} after ${reason}:`,
-        downgradeError,
+    } else {
+      console.log(
+        `[webhook] no commission for listing ${listingId}: ${attributionResult.reason}`,
       );
-      throw downgradeError; // Stripe retries
-    }
-
-    console.log(
-      `[webhook] downgraded listing ${listing.id} to Free (${reason})`,
-    );
-
-    if (listing.owner_id) {
-      const { error: profileError } = await supabase
-        .from("profiles")
-        .update({ subscription_plan: "Free" })
-        .eq("id", listing.owner_id);
-
-      if (profileError) {
-        console.error(
-          `[webhook] failed to update profile ${listing.owner_id} after ${reason}:`,
-          profileError,
-        );
-        throw profileError; // Stripe retries
-      }
     }
   }
 }
 
-/**
- * The subscription's final end (whether it ran its course after
- * cancel_at_period_end, or was canceled immediately). Always terminal,
- * regardless of the status Stripe reports on the deleted object.
- */
 async function handleSubscriptionEnded(event: Stripe.Event) {
   const subscription = event.data.object as Stripe.Subscription;
-  await downgradeListingsForSubscription(subscription.id, "subscription ended");
+  const result = await performSubscriptionDowngrade(
+    dbClient(),
+    subscription.id,
+  );
+  logDowngradeResult(subscription.id, "subscription ended", result);
 }
 
-/**
- * Fires on every subscription change, not just problems — plan changes,
- * cancel_at_period_end being toggled, and (what we act on here) a move
- * into a terminal non-paying status such as a payment that finally
- * failed for good. See TERMINAL_SUBSCRIPTION_STATUSES for what counts.
- */
 async function handleSubscriptionUpdated(event: Stripe.Event) {
   const subscription = event.data.object as Stripe.Subscription;
-  if (!TERMINAL_SUBSCRIPTION_STATUSES.has(subscription.status)) {
+  if (!isTerminalSubscriptionStatus(subscription.status)) {
     console.log(
       `[webhook] customer.subscription.updated for ${subscription.id} with non-terminal status=${subscription.status}, no-op`,
     );
     return;
   }
-  await downgradeListingsForSubscription(
+  const result = await performSubscriptionDowngrade(
+    dbClient(),
+    subscription.id,
+  );
+  logDowngradeResult(
     subscription.id,
     `subscription status=${subscription.status}`,
+    result,
   );
+}
+
+function logDowngradeResult(
+  subscriptionId: string,
+  reason: string,
+  result: Awaited<ReturnType<typeof performSubscriptionDowngrade>>,
+) {
+  if (!result.migrationApplied) {
+    console.warn(
+      `[webhook] could not look up listings for subscription ${subscriptionId} (has supabase/migrations/20261017_add_stripe_subscription_tracking.sql been applied?), skipping ${reason}`,
+    );
+    return;
+  }
+  if (
+    result.listingsDowngraded.length === 0 &&
+    result.listingsSkippedAsComped.length === 0
+  ) {
+    console.log(
+      `[webhook] ${reason} for subscription ${subscriptionId}, no listing is tracking it (predates the tracking migration, or already downgraded)`,
+    );
+    return;
+  }
+  for (const id of result.listingsDowngraded) {
+    console.log(`[webhook] downgraded listing ${id} to Free (${reason})`);
+  }
 }
 
 async function handleChargeRefunded(event: Stripe.Event) {

@@ -9,11 +9,14 @@ import { pickVendorEditableFields } from "@/lib/listings/vendor-editable-fields"
  * scripts/test-helpers/fake-supabase.ts satisfy it — this is a test seam,
  * not a schema.
  */
-export interface SupabaseFilterBuilder {
+// biome-ignore lint/suspicious/noExplicitAny: a loose test-seam type (see module doc comment below), deliberately not the real row shape.
+type SupabaseResult = { data: any; error: any };
+
+export interface SupabaseFilterBuilder extends PromiseLike<SupabaseResult> {
   eq(col: string, val: unknown): SupabaseFilterBuilder;
   select(cols?: string): SupabaseFilterBuilder;
-  // biome-ignore lint/suspicious/noExplicitAny: a loose test-seam type (see module doc comment above), deliberately not the real row shape.
-  single(): Promise<{ data: any; error: any }>;
+  single(): Promise<SupabaseResult>;
+  maybeSingle(): Promise<SupabaseResult>;
 }
 
 export interface SupabaseQueryClient {

@@ -107,13 +107,23 @@ class FakeQueryBuilder {
   // Makes the builder itself awaitable (`await supabase.from(t).select(...).eq(...)`
   // with no terminal .single()/.maybeSingle() call), matching how the real
   // supabase-js client behaves and how this codebase sometimes uses it
-  // (e.g. the webhook's listings-by-subscription-id lookup).
+  // (e.g. the webhook's listings-by-subscription-id lookup). Generic
+  // signature matches lib.es5's PromiseLike<T> exactly (not just "close
+  // enough") so this satisfies SupabaseFilterBuilder's `extends
+  // PromiseLike<SupabaseResult>` in update-listing-core.ts.
   // biome-ignore lint/suspicious/noThenProperty: deliberately thenable, to mirror supabase-js's own PostgrestFilterBuilder.
-  then(
-    resolve: (value: { data: unknown; error: PgError | null }) => unknown,
-    reject?: (reason: unknown) => unknown,
-  ) {
-    return this.execute().then(resolve, reject);
+  then<TResult1 = { data: unknown; error: PgError | null }, TResult2 = never>(
+    onfulfilled?:
+      | ((value: { data: unknown; error: PgError | null }) =>
+          | TResult1
+          | PromiseLike<TResult1>)
+      | null,
+    onrejected?: ((reason: unknown) => TResult2 | PromiseLike<TResult2>) | null,
+  ): PromiseLike<TResult1 | TResult2> {
+    return this.execute().then(
+      onfulfilled ?? undefined,
+      onrejected ?? undefined,
+    );
   }
 
   private matches(row: FakeRow) {

@@ -1,4 +1,10 @@
 import assert from "node:assert/strict";
+import {
+  isTerminalSubscriptionStatus,
+  performProFulfillment,
+  performSubscriptionDowngrade,
+  recordCommissionAttribution,
+} from "@/lib/billing/webhook-core";
 import { performListingClaim } from "@/lib/listings/claim-listing-core";
 import { performListingUpdate } from "@/lib/listings/update-listing-core";
 import { createFakeSupabase } from "./test-helpers/fake-supabase";
@@ -292,6 +298,230 @@ async function run() {
       winner,
       "the row's owner must match whichever claim actually won",
     );
+  });
+
+  // =========================================================================
+  // Task 2: webhook subscription-to-listing association, idempotency,
+  // cancellation timing, and before/after migration behavior.
+  // =========================================================================
+
+  await test("performProFulfillment: a vendor upgrading one of their two listings only upgrades that one", async () => {
+    const db = createFakeSupabase();
+    db.seed("listings", [
+      { id: "listing-1", owner_id: "vendor-A", plan: "Free" },
+      { id: "listing-2", owner_id: "vendor-A", plan: "Free" },
+    ]);
+    db.seed("profiles", [{ id: "vendor-A", subscription_plan: "Free" }]);
+
+    await performProFulfillment(db, {
+      listingId: "listing-1",
+      vendorId: "vendor-A",
+      stripeSubscriptionId: "sub_111",
+      stripeCustomerId: "cus_A",
+    });
+
+    const [l1, l2] = db.rows("listings");
+    assert.equal(l1.plan, "Pro");
+    assert.equal(l1.stripe_subscription_id, "sub_111");
+    assert.equal(l2.plan, "Free", "the OTHER listing must be untouched");
+    assert.equal(l2.stripe_subscription_id, undefined);
+  });
+
+  await test("performSubscriptionDowngrade: canceling one listing's subscription leaves the vendor's other Pro listing alone", async () => {
+    const db = createFakeSupabase();
+    db.seed("listings", [
+      {
+        id: "listing-1",
+        owner_id: "vendor-A",
+        plan: "Pro",
+        stripe_subscription_id: "sub_111",
+        comped: false,
+      },
+      {
+        id: "listing-2",
+        owner_id: "vendor-A",
+        plan: "Pro",
+        stripe_subscription_id: "sub_222",
+        comped: false,
+      },
+    ]);
+    db.seed("profiles", [{ id: "vendor-A", subscription_plan: "Pro" }]);
+
+    const result = await performSubscriptionDowngrade(db, "sub_111");
+
+    assert.deepEqual(result.listingsDowngraded, ["listing-1"]);
+    const [l1, l2] = db.rows("listings");
+    assert.equal(l1.plan, "Free");
+    assert.equal(l1.stripe_subscription_id, null);
+    assert.equal(
+      l2.plan,
+      "Pro",
+      "listing-2's own subscription was never canceled",
+    );
+    assert.equal(l2.stripe_subscription_id, "sub_222");
+  });
+
+  await test("performProFulfillment: Vendor A paying for a listing Vendor B already owns is an ownership conflict, not a transfer", async () => {
+    const db = createFakeSupabase();
+    db.seed("listings", [
+      { id: "listing-1", owner_id: "vendor-B", plan: "Free" },
+    ]);
+
+    const result = await performProFulfillment(db, {
+      listingId: "listing-1",
+      vendorId: "vendor-A",
+      stripeSubscriptionId: "sub_999",
+      stripeCustomerId: "cus_A",
+    });
+
+    assert.equal(result.outcome, "ownership_conflict");
+    if (result.outcome === "ownership_conflict") {
+      assert.equal(result.existingOwnerId, "vendor-B");
+    }
+    const row = db.rows("listings")[0];
+    assert.equal(row.plan, "Free", "plan must not change on a conflict");
+    assert.equal(row.owner_id, "vendor-B", "ownership must not transfer");
+  });
+
+  await test("performProFulfillment: idempotent — running the same fulfillment twice converges, doesn't compound", async () => {
+    const db = createFakeSupabase();
+    db.seed("listings", [
+      { id: "listing-1", owner_id: "vendor-A", plan: "Free" },
+    ]);
+    db.seed("profiles", [{ id: "vendor-A", subscription_plan: "Free" }]);
+
+    const params = {
+      listingId: "listing-1",
+      vendorId: "vendor-A",
+      stripeSubscriptionId: "sub_111",
+      stripeCustomerId: "cus_A",
+    };
+    await performProFulfillment(db, params);
+    await performProFulfillment(db, params); // Stripe retry of the same event
+
+    assert.equal(db.rows("listings").length, 1, "no duplicate row created");
+    assert.equal(db.rows("listings")[0].plan, "Pro");
+  });
+
+  await test("recordCommissionAttribution: a retried Stripe event is reported as a duplicate, not inserted twice", async () => {
+    const db = createFakeSupabase();
+    db.seed("rep_commissions", [], { uniqueColumns: ["stripe_event_id"] });
+
+    const attributionParams = {
+      listingId: "listing-1",
+      plan: "pro",
+      comped: false,
+      activeAssignment: {
+        repId: "rep-1",
+        assignedAt: new Date(Date.now() - 1000),
+      },
+      repCode: undefined,
+      repCodeLookup: null,
+      saleAmountCents: 39900,
+      stripeEventId: "evt_abc123",
+      stripeSessionId: "cs_1",
+      stripeSubscriptionId: "sub_111",
+      now: new Date(),
+    };
+
+    const first = await recordCommissionAttribution(db, attributionParams);
+    const second = await recordCommissionAttribution(db, attributionParams);
+
+    assert.equal(first.recorded, true);
+    assert.equal(second.recorded, false);
+    if (!second.recorded) {
+      assert.equal("duplicate" in second, true);
+    }
+    assert.equal(
+      db.rows("rep_commissions").length,
+      1,
+      "exactly one commission row, not two, for the retried event",
+    );
+  });
+
+  await test("isTerminalSubscriptionStatus: cancellation timing matches Stripe's lifecycle", () => {
+    // Pro access must survive: still-active states, including a
+    // cancellation scheduled for period end (status stays \"active\"
+    // with cancel_at_period_end: true — not modeled as its own status
+    // here since Stripe doesn't expose it as one).
+    assert.equal(isTerminalSubscriptionStatus("active"), false);
+    assert.equal(isTerminalSubscriptionStatus("trialing"), false);
+    assert.equal(
+      isTerminalSubscriptionStatus("past_due"),
+      false,
+      "a payment retry in progress must not pull Pro access early",
+    );
+    // Pro access must end: genuinely terminal, non-paying states.
+    assert.equal(isTerminalSubscriptionStatus("canceled"), true);
+    assert.equal(isTerminalSubscriptionStatus("unpaid"), true);
+    assert.equal(isTerminalSubscriptionStatus("incomplete_expired"), true);
+  });
+
+  await test("performProFulfillment: BEFORE the stripe_subscription_id migration, Pro is still granted (the tracking write no-ops)", async () => {
+    const db = createFakeSupabase();
+    db.seed(
+      "listings",
+      [{ id: "listing-1", owner_id: "vendor-A", plan: "Free" }],
+      { missingColumns: ["stripe_subscription_id"] },
+    );
+    db.seed("profiles", [{ id: "vendor-A", subscription_plan: "Free" }]);
+
+    const result = await performProFulfillment(db, {
+      listingId: "listing-1",
+      vendorId: "vendor-A",
+      stripeSubscriptionId: "sub_111",
+      stripeCustomerId: "cus_A",
+    });
+
+    assert.equal(
+      result.outcome,
+      "fulfilled",
+      "a missing tracking column must never block granting Pro",
+    );
+    assert.equal(db.rows("listings")[0].plan, "Pro");
+    assert.equal(
+      db.rows("listings")[0].stripe_subscription_id,
+      undefined,
+      "the tracking write silently did not land, as expected pre-migration",
+    );
+  });
+
+  await test("performSubscriptionDowngrade: BEFORE the migration, it no-ops instead of throwing", async () => {
+    const db = createFakeSupabase();
+    db.seed(
+      "listings",
+      [{ id: "listing-1", owner_id: "vendor-A", plan: "Pro" }],
+      { missingColumns: ["stripe_subscription_id"] },
+    );
+
+    const result = await performSubscriptionDowngrade(db, "sub_111");
+
+    assert.equal(result.migrationApplied, false);
+    assert.deepEqual(result.listingsDowngraded, []);
+    assert.equal(
+      db.rows("listings")[0].plan,
+      "Pro",
+      "nothing was touched — there's no column to look up by yet",
+    );
+  });
+
+  await test("performSubscriptionDowngrade: a comped listing is never touched by a subscription event", async () => {
+    const db = createFakeSupabase();
+    db.seed("listings", [
+      {
+        id: "listing-1",
+        owner_id: "vendor-A",
+        plan: "Pro",
+        stripe_subscription_id: "sub_111",
+        comped: true,
+      },
+    ]);
+
+    const result = await performSubscriptionDowngrade(db, "sub_111");
+
+    assert.deepEqual(result.listingsDowngraded, []);
+    assert.deepEqual(result.listingsSkippedAsComped, ["listing-1"]);
+    assert.equal(db.rows("listings")[0].plan, "Pro");
   });
 
   console.log(`\n${passed} passed`);

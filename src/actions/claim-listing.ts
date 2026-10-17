@@ -6,20 +6,11 @@ import {
   getListingById,
   listingCacheTag,
 } from "@/data/listings";
+import { shouldPromoteToVendor } from "@/lib/auth/vendor-promotion";
 import { sendAdminClaimNotification } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
 import type { UserRole } from "@/types/user-role";
 import { revalidatePath, revalidateTag } from "next/cache";
-
-// Roles that already have (or are deliberately excluded from) vendor
-// listing-management access. Any other role is promoted to "vendor" the
-// moment a claim succeeds, since claiming a specific listing is an
-// explicit, verified intent to manage that business — see STEP 7.
-const ROLES_EXEMPT_FROM_VENDOR_PROMOTION: ReadonlyArray<string> = [
-  "vendor",
-  "admin",
-  "rep",
-];
 
 export async function claimListing(listingId: string, message?: string) {
   // STEP 1: Verify authentication
@@ -158,7 +149,7 @@ export async function claimListing(listingId: string, message?: string) {
     // becomes a vendor now rather than being left unable to edit what it
     // just claimed. Admin/rep accounts are left untouched. Only the role
     // field changes — name, email, and every other profile field survive.
-    if (!ROLES_EXEMPT_FROM_VENDOR_PROMOTION.includes(profile.role)) {
+    if (shouldPromoteToVendor(profile.role)) {
       const { error: roleError } = await supabase
         .from("profiles")
         .update({ role: "vendor", updated_at: new Date().toISOString() })

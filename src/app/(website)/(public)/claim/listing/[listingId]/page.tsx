@@ -65,37 +65,10 @@ export default async function ClaimListingPage({
     );
   }
 
-  if (userRole === "parent") {
-    return (
-      <div className="container mx-auto px-4 py-16">
-        <Card className="max-w-2xl mx-auto">
-          <CardHeader>
-            <h1 className="text-2xl font-bold text-center">
-              Switch to a Vendor Account First
-            </h1>
-          </CardHeader>
-          <CardContent className="space-y-4 text-center">
-            <p className="text-muted-foreground">
-              This claim flow is for professionals managing listings. Update
-              your account type to <strong>Professional/Vendor</strong> before
-              continuing so you can edit and publish this listing.
-            </p>
-            <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-              <p className="font-semibold">How to switch:</p>
-              <p>
-                Go to <em>Settings → Account</em> and use the role switcher to
-                change to a vendor profile. Then return to this page to submit
-                your claim.
-              </p>
-            </div>
-            <Button asChild className="bauhaus-btn-primary">
-              <Link href="/settings?showRoleSwitcher=1">Open Settings</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  // Parent/guest accounts are no longer blocked here: submitting the claim
+  // below promotes the account to vendor automatically (see
+  // actions/claim-listing.ts), so they land on a claimed listing they can
+  // actually manage instead of a dead-end "switch roles first" screen.
 
   // Admins should not claim listings directly; guide them to admin dashboard
   if (userRole === "admin") {

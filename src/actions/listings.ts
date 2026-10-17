@@ -1,6 +1,5 @@
 "use server";
 
-import { auth } from "@/auth";
 import {
   FEATURED_LISTINGS_CACHE_TAG,
   LISTINGS_CACHE_TAG,
@@ -17,6 +16,64 @@ import {
 } from "@/lib/validations/listings";
 import { revalidatePath, revalidateTag } from "next/cache";
 import type { z } from "zod";
+
+/**
+ * Fields a vendor (non-admin owner) may change through `updateListing`.
+ *
+ * Everything in `UpdateListingSchema` that is NOT in this list is
+ * privileged: `status` / `is_active` (moderation/publish state — vendors
+ * use the dedicated `publish`/`unpublish` actions instead), `is_claimed`
+ * (ownership, set only by the claim flow), and `plan` / `featured` /
+ * `is_approved_101` (billing-derived and admin-curated trust signals).
+ * A vendor's own form submission is filtered down to this list before it
+ * ever reaches the database — see `pickVendorEditableFields` below — so
+ * no client payload can grant Pro, Featured, Approved, or change
+ * publish/ownership state. Admins bypass this allowlist entirely and may
+ * set any field the schema validates.
+ */
+const VENDOR_EDITABLE_LISTING_FIELDS = [
+  "listing_name",
+  "website",
+  "email",
+  "phone",
+  "what_you_offer",
+  "city",
+  "state",
+  "zip",
+  "facebook_url",
+  "instagram_url",
+  "custom_link_url",
+  "custom_link_name",
+  "video_url",
+  "why_is_it_unique",
+  "format",
+  "extras_notes",
+  "profile_image",
+  "gallery",
+  "categories",
+  "age_range",
+  "age_tags",
+  "services_offered",
+  "specialties",
+  "region",
+  "logo_url",
+  "secondary_locations",
+  "ca_permit_required",
+  "is_bonded",
+  "bond_number",
+] as const satisfies readonly (keyof z.infer<typeof UpdateListingSchema>)[];
+
+function pickVendorEditableFields<T extends Record<string, unknown>>(
+  payload: T,
+): Partial<T> {
+  const picked: Partial<T> = {};
+  for (const field of VENDOR_EDITABLE_LISTING_FIELDS) {
+    if (field in payload) {
+      picked[field as keyof T] = payload[field as keyof T];
+    }
+  }
+  return picked;
+}
 
 /**
  * Server action to create a new listing.
@@ -344,15 +401,24 @@ export async function updateListing(
       // Zip must be integer
       zip: normalizeZip(v.zip),
     };
+
+    // Privilege-escalation guard: a non-admin owner only ever writes the
+    // vendor-editable subset of fields, however the request was shaped.
+    // Admins (already verified above) keep full field access.
+    const payloadToWrite =
+      guard.user.role === "admin"
+        ? normalizedPayload
+        : pickVendorEditableFields(normalizedPayload);
+
     console.log("Update query:", {
       table: "listings",
       id,
-      data: normalizedPayload,
+      data: payloadToWrite,
     });
 
     const { data, error } = await supabase
       .from("listings")
-      .update(normalizedPayload)
+      .update(payloadToWrite)
       .eq("id", id)
       .select()
       .single();
@@ -434,72 +500,10 @@ export async function deleteListing(id: string) {
   }
 }
 
-/**
- * Server action for a vendor to claim an existing, unclaimed listing.
- */
-export async function claimListing(listingId: string) {
-  try {
-    const session = await auth();
-    const user = session?.user;
-
-    if (!user || !user.id) {
-      return {
-        status: "error",
-        message: "You must be logged in to claim a listing.",
-      };
-    }
-
-    const supabase = createServerClient();
-
-    // 1. Check if the listing is already claimed
-    const { data: existingListing, error: fetchError } = await supabase
-      .from("listings")
-      .select("is_claimed, status")
-      .eq("id", listingId)
-      .single();
-
-    if (fetchError || !existingListing) {
-      return { status: "error", message: "Listing not found." };
-    }
-
-    if (existingListing.is_claimed) {
-      return {
-        status: "error",
-        message: "This listing has already been claimed.",
-      };
-    }
-
-    // 2. Update the listing to mark it as claimed by the current user
-    const { error: updateError } = await supabase
-      .from("listings")
-      .update({
-        is_claimed: true,
-        owner_id: user.id,
-        claimed_by_email: user.email,
-        date_claimed: new Date().toISOString(),
-        status: "Live", // Auto-approve claims
-      })
-      .eq("id", listingId);
-
-    if (updateError) {
-      console.error("Claim Listing Error:", updateError);
-      return {
-        status: "error",
-        message: "Database Error: Failed to claim listing.",
-      };
-    }
-
-    // 3. Revalidate paths to reflect changes
-    revalidatePath("/dashboard/admin"); // For admin view
-    revalidatePath("/dashboard/vendor/claim"); // For other vendors
-    revalidateTag(LISTINGS_CACHE_TAG);
-
-    return {
-      status: "success",
-      message: "Listing claim submitted! An admin will review it shortly.",
-    };
-  } catch (e) {
-    console.error("Unexpected error in claimListing:", e);
-    return { status: "error", message: "An unexpected server error occurred." };
-  }
-}
+// NOTE: Claiming a listing is handled exclusively by
+// `claimListing` in `@/actions/claim-listing.ts`. That implementation
+// enforces role/ownership/duplicate-claim checks, records the claim in the
+// `claims` table, and notifies admins; a second, weaker implementation
+// used to live here with none of those checks (see recovery audit item
+// 4/5) and is now removed to avoid two code paths disagreeing on who can
+// own a listing.

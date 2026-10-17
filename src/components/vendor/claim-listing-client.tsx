@@ -1,6 +1,6 @@
 "use client";
 
-import { claimListing } from "@/actions/listings";
+import { claimListing } from "@/actions/claim-listing";
 import { Button } from "@/components/ui/button";
 import { Building, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -38,12 +38,17 @@ export function ClaimListingClient({ listings }: ClaimListingClientProps) {
     setClaimingId(listingId);
     startTransition(() => {
       claimListing(listingId).then((res) => {
-        if (res.status === "success") {
-          toast.success(res.message);
-          // Redirect to the main vendor dashboard after successful claim
-          router.push("/dashboard/vendor");
+        if (res.success) {
+          toast.success(res.title || "Success!", { description: res.message });
+          // Redirect to the vendor listing dashboard after successful claim
+          router.push(res.redirectTo || "/dashboard/vendor/listing");
         } else {
-          toast.error(res.message);
+          toast.error(res.title || "Claim Failed", {
+            description: res.message,
+          });
+          if (res.redirectTo) {
+            router.push(res.redirectTo);
+          }
         }
         setClaimingId(null);
       });

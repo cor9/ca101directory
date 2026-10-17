@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/auth";
+import { auth, unstable_update } from "@/auth";
 import {
   LISTINGS_CACHE_TAG,
   getListingById,
@@ -8,7 +8,18 @@ import {
 } from "@/data/listings";
 import { sendAdminClaimNotification } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
+import type { UserRole } from "@/types/user-role";
 import { revalidatePath, revalidateTag } from "next/cache";
+
+// Roles that already have (or are deliberately excluded from) vendor
+// listing-management access. Any other role is promoted to "vendor" the
+// moment a claim succeeds, since claiming a specific listing is an
+// explicit, verified intent to manage that business — see STEP 7.
+const ROLES_EXEMPT_FROM_VENDOR_PROMOTION: ReadonlyArray<string> = [
+  "vendor",
+  "admin",
+  "rep",
+];
 
 export async function claimListing(listingId: string, message?: string) {
   // STEP 1: Verify authentication
@@ -21,7 +32,7 @@ export async function claimListing(listingId: string, message?: string) {
       title: "Login Required",
       message: "You must be logged in to claim a listing.",
       action: "Please register or login to continue.",
-      redirectTo: `/auth/register?callbackUrl=/listing/${listingId}`,
+      redirectTo: `/auth/register?callbackUrl=${encodeURIComponent(`/claim/listing/${listingId}`)}`,
       showLoginButton: true,
     };
   }
@@ -51,20 +62,9 @@ export async function claimListing(listingId: string, message?: string) {
     };
   }
 
-  if (profile.role === "parent") {
-    return {
-      success: false,
-      error: "WRONG_ROLE",
-      title: "Switch to a Vendor Account",
-      message:
-        "Your account is currently set up for Parents. Only Vendor accounts can claim and manage listings.",
-      action:
-        "Open Settings and switch to a Professional/Vendor account to continue your claim.",
-      hint: "You'll find the role switcher on the Account tab in Settings.",
-      redirectTo: "/settings?showRoleSwitcher=1",
-      redirectLabel: "Open Settings",
-    };
-  }
+  // Parent/guest accounts are no longer blocked here: a successful claim
+  // below (STEP 7) promotes them to "vendor" automatically so they land
+  // in an account that can actually manage the listing they just claimed.
 
   // STEP 4: Fetch and verify listing
   const { data: listing, error: listingError } = await supabase
@@ -80,7 +80,7 @@ export async function claimListing(listingId: string, message?: string) {
       title: "Listing Not Found",
       message: "We couldn't find this listing. It may have been removed.",
       action: "Try searching for other listings in the directory.",
-      redirectTo: "/listings",
+      redirectTo: "/directory",
     };
   }
 
@@ -151,6 +151,41 @@ export async function claimListing(listingId: string, message?: string) {
         action: "If the problem persists, contact support.",
         details: updateError.message,
       };
+    }
+
+    // Self-service vendor promotion: the claim above just verified this
+    // account's right to manage the listing, so a parent/guest account
+    // becomes a vendor now rather than being left unable to edit what it
+    // just claimed. Admin/rep accounts are left untouched. Only the role
+    // field changes — name, email, and every other profile field survive.
+    if (!ROLES_EXEMPT_FROM_VENDOR_PROMOTION.includes(profile.role)) {
+      const { error: roleError } = await supabase
+        .from("profiles")
+        .update({ role: "vendor", updated_at: new Date().toISOString() })
+        .eq("id", session.user.id);
+
+      if (roleError) {
+        // Ownership is already set; log and continue rather than failing
+        // a claim that otherwise succeeded. The JWT callback in auth.ts
+        // re-checks the DB role on the next request, so this is retried
+        // implicitly even if the write below also failed.
+        console.error(
+          "Claim: failed to promote account to vendor role:",
+          roleError,
+        );
+      } else {
+        try {
+          await unstable_update({
+            user: { ...session.user, role: "vendor" as UserRole },
+          });
+        } catch (sessionError) {
+          // Non-fatal: the next auth() call refetches role from profiles.
+          console.error(
+            "Claim: failed to refresh session after role promotion:",
+            sessionError,
+          );
+        }
+      }
     }
 
     // Record the claim in claims table

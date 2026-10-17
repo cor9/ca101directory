@@ -10,6 +10,10 @@ import {
   VENDOR_EDITABLE_LISTING_FIELDS,
   pickVendorEditableFields,
 } from "@/lib/listings/vendor-editable-fields";
+import {
+  MAX_UPLOAD_BYTES,
+  validateImageUpload,
+} from "@/lib/uploads/image-validation";
 
 let passed = 0;
 function test(name: string, fn: () => void) {
@@ -276,6 +280,48 @@ test("canPurchaseProForListing: an unclaimed listing requires a valid claim toke
     true,
     "a valid matching token unlocks an unclaimed listing",
   );
+});
+
+// validateImageUpload — the one pure, independently-verifiable piece of
+// /api/upload (Task 3's "Profile Edit & Image Upload" step; the actual
+// Supabase Storage call isn't exercised in this environment — see the
+// e2e harness's doc comment for why).
+test("validateImageUpload: accepts a normal JPEG under the size limit", () => {
+  const result = validateImageUpload({
+    size: 2 * 1024 * 1024,
+    type: "image/jpeg",
+    name: "headshot.jpg",
+  });
+  assert.equal(result.valid, true);
+});
+
+test("validateImageUpload: rejects a file over the 10MB limit", () => {
+  const result = validateImageUpload({
+    size: MAX_UPLOAD_BYTES + 1,
+    type: "image/jpeg",
+    name: "huge.jpg",
+  });
+  assert.equal(result.valid, false);
+  if (!result.valid) assert.equal(result.reason, "too_large");
+});
+
+test("validateImageUpload: rejects an unsupported type", () => {
+  const result = validateImageUpload({
+    size: 1000,
+    type: "application/pdf",
+    name: "resume.pdf",
+  });
+  assert.equal(result.valid, false);
+  if (!result.valid) assert.equal(result.reason, "unsupported_type");
+});
+
+test("validateImageUpload: accepts HEIC by extension even with a generic MIME type", () => {
+  const result = validateImageUpload({
+    size: 1000,
+    type: "application/octet-stream",
+    name: "IMG_1234.HEIC",
+  });
+  assert.equal(result.valid, true);
 });
 
 console.log(`\n${passed} passed`);

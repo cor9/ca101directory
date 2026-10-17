@@ -61,15 +61,8 @@ export const publicRoutes = [
   // vendor landing page (public)
   "/list-your-business",
 
-  // test pages
-  "/shadcn(/.*)?",
-  "/loading(/.*)?",
-  "/home2(/.*)?",
-  "/home3(/.*)?",
-  // discord test + support logging
-  "/api/test/discord",
+  // support logging
   "/api/support/log",
-  "/api/test/signup",
 
   // image upload endpoint (used by authenticated forms)
   "/api/upload",

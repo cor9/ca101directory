@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { shouldPromoteToVendor } from "@/lib/auth/vendor-promotion";
+import { canUpdateListing } from "@/lib/listings/listing-ownership";
 import {
   VENDOR_EDITABLE_LISTING_FIELDS,
   pickVendorEditableFields,
@@ -102,6 +103,53 @@ test("shouldPromoteToVendor: vendor accounts are left alone (not re-promoted)", 
 test("shouldPromoteToVendor: admin and rep accounts are never demoted to vendor", () => {
   assert.equal(shouldPromoteToVendor("admin"), false);
   assert.equal(shouldPromoteToVendor("rep"), false);
+});
+
+// canUpdateListing — the ownership gate in updateListing() that stops a
+// vendor from editing someone else's listing (required test-matrix row:
+// "Vendor edits another listing -> Rejected").
+test("canUpdateListing: owner may edit their own listing", () => {
+  assert.equal(
+    canUpdateListing({
+      isAdmin: false,
+      listingOwnerId: "user-1",
+      currentUserId: "user-1",
+    }),
+    true,
+  );
+});
+
+test("canUpdateListing: a vendor editing another vendor's listing is rejected", () => {
+  assert.equal(
+    canUpdateListing({
+      isAdmin: false,
+      listingOwnerId: "user-1",
+      currentUserId: "user-2",
+    }),
+    false,
+  );
+});
+
+test("canUpdateListing: an unclaimed listing (owner_id null) may not be edited by a non-owner", () => {
+  assert.equal(
+    canUpdateListing({
+      isAdmin: false,
+      listingOwnerId: null,
+      currentUserId: "user-2",
+    }),
+    false,
+  );
+});
+
+test("canUpdateListing: admins may edit any listing regardless of owner", () => {
+  assert.equal(
+    canUpdateListing({
+      isAdmin: true,
+      listingOwnerId: "someone-else",
+      currentUserId: "admin-1",
+    }),
+    true,
+  );
 });
 
 console.log(`\n${passed} passed`);

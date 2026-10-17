@@ -6,6 +6,7 @@ import {
   listingCacheTag,
 } from "@/data/listings";
 import { requirePermission } from "@/lib/auth/guards";
+import { canUpdateListing } from "@/lib/listings/listing-ownership";
 import { pickVendorEditableFields } from "@/lib/listings/vendor-editable-fields";
 import { sendListingLiveEmail } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
@@ -273,7 +274,13 @@ export async function updateListing(
         .eq("id", id)
         .single();
 
-      if (!existingListing || existingListing.owner_id !== guard.user.id) {
+      if (
+        !canUpdateListing({
+          isAdmin: false,
+          listingOwnerId: existingListing?.owner_id ?? null,
+          currentUserId: guard.user.id,
+        })
+      ) {
         return {
           status: "error",
           message: "Unauthorized: You can only edit your own listing.",

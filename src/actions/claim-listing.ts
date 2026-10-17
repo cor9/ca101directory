@@ -6,14 +6,40 @@ import {
   getListingById,
   listingCacheTag,
 } from "@/data/listings";
-import { shouldPromoteToVendor } from "@/lib/auth/vendor-promotion";
+import {
+  type ClaimListingCoreResult,
+  type ClaimSupabaseClient,
+  performListingClaim,
+} from "@/lib/listings/claim-listing-core";
 import { sendAdminClaimNotification } from "@/lib/mail";
 import { createServerClient } from "@/lib/supabase";
 import type { UserRole } from "@/types/user-role";
 import { revalidatePath, revalidateTag } from "next/cache";
 
-export async function claimListing(listingId: string, message?: string) {
-  // STEP 1: Verify authentication
+// Explicit, single return type for every branch below (login-required,
+// unexpected error, and every variant performListingClaim can return) —
+// without it, TypeScript infers a loose union from the scattered return
+// statements that doesn't narrow cleanly on `result.success` for
+// callers (see components/claim/claim-form.tsx).
+export type ClaimListingResponse =
+  | ClaimListingCoreResult
+  | {
+      success: false;
+      error: "AUTH_REQUIRED" | "UNEXPECTED_ERROR";
+      title: string;
+      message: string;
+      action?: string;
+      redirectTo?: string;
+      showLoginButton?: boolean;
+      details?: string;
+    };
+
+export async function claimListing(
+  listingId: string,
+  message?: string,
+): Promise<ClaimListingResponse> {
+  // STEP 1: Verify authentication. Not a database call, so it stays here
+  // rather than in the DB-focused core (lib/listings/claim-listing-core.ts).
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -28,178 +54,50 @@ export async function claimListing(listingId: string, message?: string) {
     };
   }
 
-  const supabase = createServerClient();
-
   // STEP 2: REMOVED - Email confirmation check
   // Magic link authentication already proves email ownership
   // No separate confirmation step needed
 
-  // STEP 3: Get user profile and verify role
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("role, full_name")
-    .eq("id", session.user.id)
-    .single();
-
-  if (profileError || !profile) {
-    return {
-      success: false,
-      error: "NO_PROFILE",
-      title: "Profile Not Found",
-      message: "Your user profile is missing. This shouldn't happen!",
-      action:
-        "Please contact support at support@childactor101.com with your email address.",
-      details: profileError?.message,
-    };
-  }
-
   // Parent/guest accounts are no longer blocked here: a successful claim
-  // below (STEP 7) promotes them to "vendor" automatically so they land
-  // in an account that can actually manage the listing they just claimed.
-
-  // STEP 4: Fetch and verify listing
-  const { data: listing, error: listingError } = await supabase
-    .from("listings")
-    .select("*")
-    .eq("id", listingId)
-    .single();
-
-  if (listingError || !listing) {
-    return {
-      success: false,
-      error: "LISTING_NOT_FOUND",
-      title: "Listing Not Found",
-      message: "We couldn't find this listing. It may have been removed.",
-      action: "Try searching for other listings in the directory.",
-      redirectTo: "/directory",
-    };
-  }
-
-  // STEP 5: Check if already claimed by someone
-  if (listing.is_claimed && listing.owner_id) {
-    // Check if claimed by THIS user
-    if (listing.owner_id === session.user.id) {
-      return {
-        success: false,
-        error: "ALREADY_OWN",
-        title: "You Already Own This Listing",
-        message: "This listing is already claimed by you!",
-        action: "Go to your dashboard to edit your listing.",
-        redirectTo: "/dashboard/vendor/listing",
-        showDashboardButton: true,
-      };
-    }
-    return {
-      success: false,
-      error: "ALREADY_CLAIMED",
-      title: "Already Claimed",
-      message: "This listing has already been claimed by another user.",
-      action: "If you believe this is your business, please contact support.",
-      hint: "Support email: support@childactor101.com",
-    };
-  }
-
-  // STEP 6: Check for duplicate claim attempts
-  const { data: existingClaim } = await supabase
-    .from("claims")
-    .select("*")
-    .eq("listing_id", listingId)
-    .eq("vendor_id", session.user.id)
-    .single();
-
-  if (existingClaim) {
-    return {
-      success: false,
-      error: "DUPLICATE_CLAIM",
-      title: "Claim Already Submitted",
-      message: "You've already submitted a claim for this listing.",
-      action:
-        "Your claim is being processed. Check your dashboard for updates.",
-      redirectTo: "/dashboard/vendor/listing",
-    };
-  }
-
-  // STEP 7: ALL CHECKS PASSED - Claim the listing!
+  // promotes them to "vendor" automatically (see claim-listing-core.ts)
+  // so they land in an account that can actually manage the listing they
+  // just claimed.
   try {
-    // Update listing with ownership
-    const { error: updateError } = await supabase
-      .from("listings")
-      .update({
-        owner_id: session.user.id,
-        is_claimed: true,
-        date_claimed: new Date().toISOString(),
-        claimed_by_email: session.user.email,
-      })
-      .eq("id", listingId);
+    // Cast: the real supabase-js client's generics are far deeper than
+    // this test-seam interface needs (see update-listing-core.ts for the
+    // same situation) and TypeScript gives up trying to structurally
+    // match them. Runtime shape is identical.
+    const supabase = createServerClient() as unknown as ClaimSupabaseClient;
+    const result = await performListingClaim(
+      supabase,
+      { id: session.user.id, email: session.user.email },
+      listingId,
+      message,
+    );
 
-    if (updateError) {
-      console.error("Claim update error:", updateError);
-      return {
-        success: false,
-        error: "UPDATE_FAILED",
-        title: "Claim Failed",
-        message: "Failed to claim the listing. Please try again.",
-        action: "If the problem persists, contact support.",
-        details: updateError.message,
-      };
+    if (!result.success) {
+      return result;
     }
 
-    // Self-service vendor promotion: the claim above just verified this
-    // account's right to manage the listing, so a parent/guest account
-    // becomes a vendor now rather than being left unable to edit what it
-    // just claimed. Admin/rep accounts are left untouched. Only the role
-    // field changes — name, email, and every other profile field survive.
-    if (shouldPromoteToVendor(profile.role)) {
-      const { error: roleError } = await supabase
-        .from("profiles")
-        .update({ role: "vendor", updated_at: new Date().toISOString() })
-        .eq("id", session.user.id);
-
-      if (roleError) {
-        // Ownership is already set; log and continue rather than failing
-        // a claim that otherwise succeeded. The JWT callback in auth.ts
-        // re-checks the DB role on the next request, so this is retried
-        // implicitly even if the write below also failed.
+    if (result.promotedToVendor) {
+      try {
+        await unstable_update({
+          user: { ...session.user, role: "vendor" as UserRole },
+        });
+      } catch (sessionError) {
+        // Non-fatal: the next auth() call refetches role from profiles.
         console.error(
-          "Claim: failed to promote account to vendor role:",
-          roleError,
+          "Claim: failed to refresh session after role promotion:",
+          sessionError,
         );
-      } else {
-        try {
-          await unstable_update({
-            user: { ...session.user, role: "vendor" as UserRole },
-          });
-        } catch (sessionError) {
-          // Non-fatal: the next auth() call refetches role from profiles.
-          console.error(
-            "Claim: failed to refresh session after role promotion:",
-            sessionError,
-          );
-        }
       }
-    }
-
-    // Record the claim in claims table
-    const { error: claimError } = await supabase.from("claims").insert({
-      listing_id: listingId,
-      vendor_id: session.user.id,
-      message: message || "Listing claimed via instant claim",
-      approved: true, // Auto-approved
-      created_at: new Date().toISOString(),
-    });
-
-    if (claimError) {
-      console.error("Claim record error:", claimError);
-      // Don't fail - listing is already claimed, this is just record-keeping
     }
 
     // Revalidate relevant pages
-    let slugToRevalidate = listing.slug ?? null;
+    let slugToRevalidate: string | null = null;
     try {
       const canonical = await getListingById(listingId);
-      if (canonical?.slug) {
-        slugToRevalidate = canonical.slug;
-      }
+      slugToRevalidate = canonical?.slug ?? null;
     } catch (slugError) {
       console.error(
         "Failed to resolve listing slug during claim revalidation:",
@@ -216,7 +114,8 @@ export async function claimListing(listingId: string, message?: string) {
 
     // Notify admin (non-blocking)
     try {
-      const listingName = listing?.listing_name || listingId;
+      const listingName =
+        (result.listing?.listing_name as string | undefined) || listingId;
       await sendAdminClaimNotification(
         listingName,
         listingId,
@@ -226,14 +125,7 @@ export async function claimListing(listingId: string, message?: string) {
       console.error("Failed to notify admin of claim:", notifyError);
     }
 
-    return {
-      success: true,
-      title: "Success! 🎉",
-      message: "You now own this listing and can edit it immediately.",
-      details: "Changes will be reviewed before going live on the directory.",
-      redirectTo: "/dashboard/vendor/listing",
-      listingId: listingId,
-    };
+    return result;
   } catch (error) {
     console.error("Unexpected claim error:", error);
     return {

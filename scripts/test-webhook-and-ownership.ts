@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { performListingClaim } from "@/lib/listings/claim-listing-core";
 import { performListingUpdate } from "@/lib/listings/update-listing-core";
 import { createFakeSupabase } from "./test-helpers/fake-supabase";
 
@@ -178,6 +179,119 @@ async function run() {
     const row = db.rows("listings")[0];
     assert.equal(row.plan, "Pro");
     assert.equal(row.featured, true);
+  });
+
+  // =========================================================================
+  // performListingClaim — the same class of issue, for the claim flow:
+  // Task 1's "Vendor A cannot modify Vendor B's records" extended to "two
+  // vendors cannot both successfully claim the same listing."
+  // =========================================================================
+
+  function seedClaimDb() {
+    const db = createFakeSupabase();
+    db.seed("profiles", [
+      { id: "vendor-A", role: "parent" },
+      { id: "vendor-B", role: "vendor" },
+    ]);
+    db.seed("listings", [
+      {
+        id: "listing-1",
+        owner_id: null,
+        is_claimed: false,
+        listing_name: "Unclaimed Shop",
+      },
+    ]);
+    db.seed("claims", []);
+    return db;
+  }
+
+  await test("performListingClaim: claiming an unclaimed listing succeeds and promotes a parent to vendor", async () => {
+    const db = seedClaimDb();
+    const result = await performListingClaim(
+      db,
+      { id: "vendor-A", email: "a@example.com" },
+      "listing-1",
+    );
+    assert.equal(result.success, true);
+    if (result.success) {
+      assert.equal(result.promotedToVendor, true);
+    }
+    assert.equal(db.rows("listings")[0].owner_id, "vendor-A");
+    assert.equal(db.rows("profiles")[0].role, "vendor");
+  });
+
+  await test("performListingClaim: vendor (not parent) claiming is NOT re-promoted", async () => {
+    const db = seedClaimDb();
+    const result = await performListingClaim(
+      db,
+      { id: "vendor-B", email: "b@example.com" },
+      "listing-1",
+    );
+    assert.equal(result.success, true);
+    if (result.success) {
+      assert.equal(result.promotedToVendor, false);
+    }
+  });
+
+  await test("performListingClaim: Vendor A cannot claim a listing already owned by Vendor B", async () => {
+    const db = createFakeSupabase();
+    db.seed("profiles", [{ id: "vendor-A", role: "vendor" }]);
+    db.seed("listings", [
+      { id: "listing-1", owner_id: "vendor-B", is_claimed: true },
+    ]);
+    db.seed("claims", []);
+
+    const result = await performListingClaim(
+      db,
+      { id: "vendor-A", email: "a@example.com" },
+      "listing-1",
+    );
+
+    assert.equal(result.success, false);
+    if (!result.success) assert.equal(result.error, "ALREADY_CLAIMED");
+    assert.equal(
+      db.rows("listings")[0].owner_id,
+      "vendor-B",
+      "ownership must not change",
+    );
+  });
+
+  await test("performListingClaim: double-claim race — the second concurrent claim loses, not both", async () => {
+    // Simulates two requests that both read is_claimed=false before
+    // either writes (the exact race the atomic .eq(\"is_claimed\", false)
+    // fix closes): read, read, write, write — rather than the
+    // sequential read/write/read/write the single-threaded helper
+    // below runs by default.
+    const db = seedClaimDb();
+
+    const claimA = performListingClaim(
+      db,
+      { id: "vendor-A", email: "a@example.com" },
+      "listing-1",
+    );
+    // Both claims read the pre-write state before either's write lands,
+    // since performListingClaim's reads all happen before its one write
+    // and this fake resolves synchronously within each await.
+    const claimB = performListingClaim(
+      db,
+      { id: "vendor-B", email: "b@example.com" },
+      "listing-1",
+    );
+
+    const [resultA, resultB] = await Promise.all([claimA, claimB]);
+    const outcomes = [resultA.success, resultB.success];
+
+    assert.deepEqual(
+      outcomes.filter(Boolean).length,
+      1,
+      "exactly one of the two concurrent claims must succeed",
+    );
+    const winner = resultA.success ? "vendor-A" : "vendor-B";
+    assert.equal(
+      db.rows("listings")[0].owner_id,
+      winner,
+      "the row's owner must match whichever claim actually won",
+    );
   });
 
   console.log(`\n${passed} passed`);

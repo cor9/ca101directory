@@ -75,9 +75,10 @@ export function ClaimForm({
             description: result.message,
           });
 
-          if (result.error === "WRONG_ROLE" && result.redirectTo) {
-            router.push(result.redirectTo);
-          }
+          // WRONG_ROLE no longer exists as an error code (parent/guest
+          // accounts are promoted to vendor on a successful claim instead
+          // of being blocked beforehand — see claim-listing-core.ts), so
+          // this no longer redirects on any particular failure reason.
         }
       } catch (error) {
         console.error("Form submission error:", error);

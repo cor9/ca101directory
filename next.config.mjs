@@ -117,7 +117,20 @@ const nextConfig = {
 
   // Experimental features for production
   experimental: {
-    serverComponentsExternalPackages: ["@supabase/supabase-js"],
+    // jsdom (pulled in by isomorphic-dompurify, used by RichTextDisplay on
+    // /listing/[slug]) loads its UA stylesheet via
+    // fs.readFileSync(path.resolve(__dirname, "../../browser/default-stylesheet.css")).
+    // If webpack inlines that code into a shared server chunk, __dirname no
+    // longer points at jsdom's real install path, so the lookup resolves to
+    // a nonexistent .next/browser/default-stylesheet.css and crashes the
+    // whole page render. Marking both packages external keeps them as real
+    // require() calls at runtime, where __dirname (and Vercel's file
+    // tracing) resolves correctly.
+    serverComponentsExternalPackages: [
+      "@supabase/supabase-js",
+      "jsdom",
+      "isomorphic-dompurify",
+    ],
   },
 };
 

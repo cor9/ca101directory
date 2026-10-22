@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { isAuthConfigured } from "@/lib/auth-config";
 import {
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
@@ -12,15 +13,22 @@ import type { NextRequest } from "next/server";
  * Next Auth V5 - Advanced Guide (2024)
  */
 
-// Check if required environment variables are available
-// Only require NEXTAUTH_SECRET for basic auth (OAuth providers temporarily disabled)
-const hasAuthConfig = process.env.NEXTAUTH_SECRET;
+// Auth is "configured" when the same secret Auth.js uses is present
+// (AUTH_SECRET, or NEXTAUTH_SECRET as the fallback). Checking only
+// NEXTAUTH_SECRET here made the site treat itself as signed-out-only whenever
+// the secret was supplied as AUTH_SECRET.
+const hasAuthConfig = isAuthConfigured();
 
 console.log("Middleware Debug:", {
-  hasAuthConfig: !!hasAuthConfig,
-  nextAuthSecret: hasAuthConfig ? "***" : "missing",
+  hasAuthConfig,
+  authSecret: hasAuthConfig ? "***" : "missing",
   nodeEnv: process.env.NODE_ENV,
 });
+if (!hasAuthConfig) {
+  console.error(
+    "AUTH SECRET MISSING: set AUTH_SECRET (or NEXTAUTH_SECRET) for this environment. Sign-in and protected pages are unavailable until it is set.",
+  );
+}
 
 // since we have put role in user session, so we can know the role of the user
 export default async function middleware(req: NextRequest) {

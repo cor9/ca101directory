@@ -16,6 +16,7 @@ import {
   type ProfileKind,
   nameToSlug,
   resolveCategoryRef,
+  resolveSpecialty,
 } from "@/lib/category-taxonomy";
 import { DIRECTORY_ITEMS_PER_PAGE } from "@/lib/constants";
 import { categoryCopyData } from "@/data/category-copy";
@@ -181,6 +182,11 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
       (stateFilter && stateFilter !== "all") || cityFilter || specialtyFilter,
     );
 
+    // "Audition Prep" in the URL highlights the one approved chip, Audition Coaching
+    const activeSpecialty =
+      (primary && specialtyFilter
+        ? resolveSpecialty(primary.slug, specialtyFilter)
+        : null) ?? specialtyFilter;
     const chipHref = (name?: string) => {
       const qs = new URLSearchParams();
       if (stateFilter && stateFilter !== "all") qs.set("state", stateFilter);
@@ -277,8 +283,8 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
             >
               <Link
                 href={chipHref(undefined)}
-                aria-current={!specialtyFilter ? "true" : undefined}
-                className={chipClass(!specialtyFilter)}
+                aria-current={!activeSpecialty ? "true" : undefined}
+                className={chipClass(!activeSpecialty)}
               >
                 All
               </Link>
@@ -286,8 +292,8 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
                 <Link
                   key={f.name}
                   href={chipHref(f.name)}
-                  aria-current={specialtyFilter?.toLowerCase() === f.name.toLowerCase() ? "true" : undefined}
-                  className={chipClass(specialtyFilter?.toLowerCase() === f.name.toLowerCase())}
+                  aria-current={activeSpecialty === f.name ? "true" : undefined}
+                  className={chipClass(activeSpecialty === f.name)}
                 >
                   {f.name} <span className="opacity-70">({f.count})</span>
                 </Link>

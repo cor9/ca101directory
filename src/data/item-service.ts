@@ -7,6 +7,9 @@ import {
 import {
   normKey,
   primariesForListing,
+  primaryCategoryOf,
+  resolveCategoryRef,
+  resolveSpecialty,
   specialtiesForListing,
   specialtyCounts,
   unmappedValues,
@@ -49,6 +52,8 @@ const isUuidValue = (v: string) =>
 export async function listingToItem(
   listing: Listing,
   preloadedCategories?: Array<{ id: string; category_name: string }>,
+  /** Primary category the card is shown under (curated specialties for it) */
+  contextSlug?: string | null,
 ): Promise<ItemInfo> {
   return {
     _id: listing.id,
@@ -165,8 +170,12 @@ export async function listingToItem(
     galleryUrls: parseGalleryItems(listing.gallery)
       .slice(0, 4)
       .map((g) => g.url),
-    // saved specialties (preserved) + those directly implied by legacy categories
-    specialties: specialtiesForListing(listing).slice(0, 8),
+    // Approved-vocabulary specialties for the category this card is shown under
+    // (the listing's own primary when there is no category context)
+    specialties: specialtiesForListing(
+      listing,
+      contextSlug ?? primaryCategoryOf(listing)?.slug,
+    ).slice(0, 8),
     serviceModality: listing.service_modality || "unknown",
   } as ItemInfo;
 }
@@ -296,14 +305,29 @@ export async function getItems({
 
     // Facets for the category page: specialty tags (with counts) across every
     // listing in the category, computed BEFORE the specialty filter is applied.
-    const specialtyFacets = categoryMatcher
-      ? specialtyCounts(filteredListings)
+    // Specialties are curated per primary category: facets and the filter use the
+    // SAME approved-vocabulary lookup, so a chip's count equals its result count.
+    const catRef = category && category !== "all" ? resolveCategoryRef(category) : null;
+    const contextSlug =
+      catRef && (catRef.kind === "primary" || catRef.kind === "legacy")
+        ? catRef.primary.slug
+        : null;
+    const specialtyFacets = contextSlug
+      ? specialtyCounts(filteredListings, contextSlug)
       : [];
     if (specialty?.trim()) {
-      const want = normKey(specialty);
-      filteredListings = filteredListings.filter((l) =>
-        specialtiesForListing(l).some((sp) => normKey(sp) === want),
-      );
+      if (contextSlug) {
+        const label = resolveSpecialty(contextSlug, specialty);
+        // a specialty outside this category's vocabulary matches nothing
+        filteredListings = filteredListings.filter(
+          (l) => label !== null && specialtiesForListing(l, contextSlug).includes(label),
+        );
+      } else {
+        // no category chosen: match the approved label in any of the listing's categories
+        filteredListings = filteredListings.filter((l) =>
+          specialtiesForListing(l).some((sp) => normKey(sp) === normKey(specialty)),
+        );
+      }
     }
 
     // Same business listed under several category spellings -> keep the best one
@@ -434,7 +458,7 @@ export async function getItems({
 
     // Convert to ItemInfo format
     const items = await Promise.all(
-      paginatedListings.map((l) => listingToItem(l, categories)),
+      paginatedListings.map((l) => listingToItem(l, categories, contextSlug)),
     );
 
     return { items, totalCount, itemsPerPage, specialtyFacets };

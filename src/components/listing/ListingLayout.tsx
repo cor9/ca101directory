@@ -10,6 +10,7 @@ import { StickyContactBar } from "@/components/listing/StickyContactBar";
 import { ProfileHeader } from "@/components/listing/ProfileHeader";
 import { ProfileSection } from "@/components/listing/ProfileSection";
 import type { Listing } from "@/data/listings";
+import { specialtiesForListing } from "@/lib/category-taxonomy";
 import { dedupeLabels } from "@/lib/labels";
 import { getProfileContactProps } from "@/lib/listing-contact";
 import { type ProfileCopy, profileCopyFor } from "@/lib/profile-kind";
@@ -69,7 +70,7 @@ export default function ListingLayout({
   children,
 }: ListingLayoutProps) {
   // Show each tag once: header specialties, then remaining services, never the category itself
-  const headerSpecialties = dedupeLabels(listing.specialties, [category]).slice(
+  const headerSpecialties = dedupeLabels(specialtiesForListing(listing), [category]).slice(
     0,
     5,
   );

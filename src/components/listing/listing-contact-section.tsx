@@ -164,10 +164,11 @@ export function ListingContactSection({
           <div className="flex items-start gap-4">
             <ShieldIcon className="mt-0.5 h-7 w-7 shrink-0 text-[#C2441F]" />
             <div className="flex-1 text-zinc-900">
-              <h2 className="text-lg font-bold">Own This Business?</h2>
+              <h2 className="text-lg font-bold">Claim This Listing</h2>
               <p className="mt-1 text-sm text-zinc-700">
-                Claim your listing to manage details, add photos and video, and
-                connect with families.
+                Represent this company or professional? Claim this listing to update
+                information, add photos and media, and manage your Directory
+                presence.
               </p>
               <div className="mt-4">
                 <ClaimButton

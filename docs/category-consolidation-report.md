@@ -71,7 +71,7 @@ UUIDs) onto 13 primary categories at read time.
 |---|---|---|
 | Actor Websites | `a84faa6e-3deb-44c6-b415-051f73268d10` | Actor Websites |
 | Publicists | `d0bf79f8-5c44-4a8e-9867-45f79fae887c` | Public Relations |
-| Stylists | `7a6327b8-3de1-4c68-93ad-8927477cb9b3` | Personal Styling |
+| Stylists | `7a6327b8-3de1-4c68-93ad-8927477cb9b3` | Styling |
 
 **Self-Tape Services** — `/category/self-tape-services` — profile kind: service
 
@@ -230,7 +230,7 @@ Workshops).
 
 | Item | Decision made | Why / risk |
 |---|---|---|
-| Stylists (48 listings) | Actor Marketing Services, derived tag "Personal Styling" | The brief lists Stylists there. Fits publicists/websites loosely; many are wardrobe/hair styling. Tag is flagged ambiguous. |
+| Stylists (48 listings) | Actor Marketing Services, neutral derived tag "Styling" | The brief lists Stylists there. Fits publicists/websites loosely; many are wardrobe/hair styling. Tag is flagged ambiguous. |
 | Comedy Coaches (2: Actorsite, Gloria Garayua Coaching) | Left **unmapped** (value kept) | Not in the brief. Both listings are covered by other categories. Could become an Acting Training specialty "Comedy". |
 | Aircheck (5 listings) | Left **unmapped** (value kept) | Not in the brief and not an obvious fit. See manual review list. |
 | Theatre Training | Acting Training, derived tag "Theatre Training" | Brief says Acting Training; the tag was added so the distinction is not lost. |
@@ -286,3 +286,48 @@ Only if you later want the database itself to match the new taxonomy:
 4. Remove the compatibility layer only after the backfill is verified.
 
 None of this is required for the current behavior.
+
+## Specialty filters: curated vocabulary (added after preview review)
+
+Specialty chips are no longer generated from whatever tags listings carry. Each
+primary category has an **approved vocabulary** (`specialties` + `aliases` in
+`src/lib/category-taxonomy.ts`). A chip appears only if its label is in that
+category's vocabulary and at least one listing in the (location-filtered) result
+set has it; with fewer than two such labels, no chips are shown.
+
+Rules enforced in code and tests:
+
+- Specialties are evaluated **per primary category**. A listing that sits in
+  Acting Training and also in Career Coaching is judged in Acting Training
+  against Acting Training's vocabulary only, so "Career Strategy" can never show
+  up on `/category/acting-training`. It stays discoverable in Career Coaching.
+- Synonyms fold into one label (e.g. Audition Prep / Audition Preparation /
+  Audition Coaching -> **Audition Coaching**).
+- Ages, locations, online/in-person, "Private Coaching", "Group Classes",
+  "Pre-Readers" etc. are attributes, not specialties; they are in no vocabulary.
+- Stored tags are never modified or deleted. Tags outside a category's vocabulary
+  are simply not shown as filters/pills; the edit form still lists every saved tag
+  so owners can keep or remove it.
+- The chip count and the filter use the same function, so count == results.
+
+Approved vocabularies:
+
+| Category | Approved specialties |
+|---|---|
+| Acting Training | Audition Coaching, Improv, Scene Study, On-Camera Acting, Voiceover Training, Vocal Training, Dialect Coaching, Theatre Training, Memorization |
+| Career Coaching & Consulting | Career Strategy, Personal Branding, Business of Acting, Parent Consultations, Industry Guidance |
+| Demo Reels & Editing | Demo Reel Production, Scene Filming, Reel Editing, Reel Updates, Video Production |
+| Actor Marketing Services | Public Relations, Actor Websites, Styling, Marketing Materials |
+| Headshot Photographers | Studio Headshots, Natural Light, Outdoor Sessions, Character Looks, Hair & Makeup |
+| Self-Tape Services | Self-Tape Studio, Professional Reader, Self-Tape Feedback, Audition Recording |
+| Set Sitters, Talent Agents, Talent Managers, Influencer Agents, Background Casting, Child Advocacy, Set Teachers | none (no meaningful specialty data; no filters shown) |
+
+Live chips on production data (snapshot of 1,042 listings, `npm run test:specialty-audit`):
+
+| Category | Chips (count) |
+|---|---|
+| Acting Training (77) | Dialect Coaching 13, Voiceover Training 9, Audition Coaching 8, Theatre Training 4, Memorization 2, Improv 1, Vocal Training 1 |
+| Career Coaching & Consulting (27) | Career Strategy 15, Personal Branding 10, Business of Acting 8 |
+| Demo Reels & Editing (43) | Demo Reel Production 24, Reel Editing 21 |
+| Actor Marketing Services (68) | Styling 48, Public Relations 16, Actor Websites 5 |
+| All other 9 | no specialty filters |

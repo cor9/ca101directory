@@ -9,6 +9,8 @@ import {
   UNMAPPED_LEGACY_NAMES,
   countByPrimary,
   derivedSpecialties,
+  editableSpecialties,
+  resolveSpecialty,
   listingInPrimary,
   matchSetsFor,
   primariesForListing,
@@ -166,8 +168,10 @@ test("derived specialties come only from directly-supported legacy names", () =>
 
 test("stored specialties are preserved, canonicalised and de-duplicated with derived ones", () => {
   const l = L(["Improv Classes", "Audition Prep"], ["improv", "Private Coaching", "audition coaching", "Pre-Readers", "Totally Custom Tag"]);
-  assert.deepEqual(specialtiesForListing(l), ["Improv", "Private Coaching", "Audition Coaching", "Pre-Readers", "Totally Custom Tag"]);
-  assert.equal(new Set(specialtiesForListing(l).map((s) => s.toLowerCase())).size, specialtiesForListing(l).length);
+  assert.deepEqual(editableSpecialties(l), ["Improv", "Private Coaching", "Audition Coaching", "Pre-Readers", "Totally Custom Tag"]);
+  assert.equal(new Set(editableSpecialties(l).map((s) => s.toLowerCase())).size, editableSpecialties(l).length);
+  // ...but the PUBLIC view only exposes the approved vocabulary of the category
+  assert.deepEqual(specialtiesForListing(l, "acting-training"), ["Audition Coaching", "Improv"]);
 });
 
 test("specialty options depend on the selected category", () => {
@@ -199,9 +203,69 @@ test("counts: distinct listings per primary; multi-category listings count in ea
   assert.equal(total, 1 + 5 + 2 + 1);
 });
 
-test("specialty counts for facets", () => {
-  const sc = specialtyCounts([L(["Improv Classes"]), L(["Improv Classes", "Audition Prep"]), L(["Acting Schools"], ["Private Coaching"])]);
-  assert.deepEqual(sc, [{ name: "Improv", count: 2 }, { name: "Audition Coaching", count: 1 }, { name: "Private Coaching", count: 1 }]);
+test("specialty counts for facets: approved labels only, counted in the category's own context", () => {
+  const sc = specialtyCounts([L(["Improv Classes"]), L(["Improv Classes", "Audition Prep"]), L(["Acting Schools"], ["Private Coaching"])], "acting-training");
+  assert.deepEqual(sc, [{ name: "Improv", count: 2 }, { name: "Audition Coaching", count: 1 }]); // Private Coaching is not approved
+  // a lone label is not a useful filter
+  assert.deepEqual(specialtyCounts([L(["Improv Classes"]), L(["Acting Schools"])], "acting-training"), []);
+});
+
+test("synonyms fold into ONE filter (Audition Prep + Audition Coaching)", () => {
+  const a = L(["Audition Prep"]);
+  const b = L(["Acting Classes & Coaches"], ["Audition Coaching"]);
+  const c = L(["Acting Classes & Coaches"], ["audition preparation", "Audition Prep"]);
+  for (const l of [a, b, c]) assert.deepEqual(specialtiesForListing(l, "acting-training"), ["Audition Coaching"]);
+  assert.deepEqual(specialtyCounts([a, b, c, L(["Improv Classes"]), L(["Improv Classes"])], "acting-training"), [{ name: "Audition Coaching", count: 3 }, { name: "Improv", count: 2 }]);
+  assert.equal(resolveSpecialty("acting-training", "Audition Prep"), "Audition Coaching");
+  assert.equal(resolveSpecialty("acting-training", "Career Strategy"), null);
+});
+
+test("NO LEAKAGE: another category's tags never appear as filters of this one", () => {
+  const actorsite = L(["Acting Classes & Coaches", "Audition Prep", "Career Consulting", "Business of Acting", "Actor Websites", "Stylists", "Improv Classes", "Comedy Coaches", "Self-Tape Support"], ["5-8", "Los Angeles", "Online", "Self-Tapes"]);
+  assert.deepEqual(specialtiesForListing(actorsite, "acting-training"), ["Audition Coaching", "Improv"]);
+  assert.deepEqual(specialtiesForListing(actorsite, "career-coaching-consulting"), ["Career Strategy", "Business of Acting"]);
+  assert.deepEqual(specialtiesForListing(actorsite, "actor-marketing-services"), ["Actor Websites", "Styling"]);
+  const facets = specialtyCounts([actorsite, L(["Improv Classes"]), L(["Audition Prep"])], "acting-training").map((f) => f.name);
+  for (const bad of ["Career Strategy", "Business of Acting", "Actor Websites", "Personal Branding", "Personal Styling", "5-8", "Online", "Los Angeles", "Self-Tapes"]) {
+    assert.ok(!facets.includes(bad), bad);
+  }
+  // not a member of the primary -> nothing
+  assert.deepEqual(specialtiesForListing(L(["Headshot Photographers"], ["Improv"]), "acting-training"), []);
+});
+
+test("attributes are not specialties: ages, places, formats are never in any vocabulary", () => {
+  const attr = /^(ages?\b|\d|online|in-person|in person|virtual|hybrid|remote|los angeles|new york|pre-readers|private coaching|group classes)/i;
+  for (const p of PRIMARY_CATEGORIES) {
+    for (const label of p.specialties) assert.ok(!attr.test(label), `${p.slug}: ${label}`);
+    for (const alts of Object.values(p.aliases ?? {})) for (const a of alts) assert.ok(!attr.test(a), `${p.slug}: ${a}`);
+    // every alias target and derive target is an approved label
+    for (const label of Object.keys(p.aliases ?? {})) assert.ok(p.specialties.includes(label), `${p.slug} alias ${label}`);
+    for (const label of Object.values(p.derive)) assert.ok(p.specialties.includes(label), `${p.slug} derive ${label}`);
+  }
+});
+
+test("categories without meaningful specialty data show no filters", () => {
+  for (const slug of ["talent-agents", "talent-managers", "influencer-agents", "background-casting", "child-advocacy", "set-teachers", "set-sitters"]) {
+    const p = getPrimaryBySlug(slug)!;
+    assert.deepEqual(p.specialties, [], slug);
+    assert.deepEqual(specialtyCounts([L([p.legacyNames[0]], ["Improv", "Audition Coaching"]), L([p.legacyNames[0]])], slug), [], slug);
+  }
+  // vocab exists but nothing stored -> no chips (headshots, self-tape)
+  assert.deepEqual(specialtyCounts([L(["Headshot Photographers"]), L(["Headshot Photographers"])], "headshot-photographers"), []);
+  assert.deepEqual(specialtyCounts([L(["Self-Tape Support"], ["Self-Tapes"]), L(["Self-Tape Support"])], "self-tape-services"), []);
+});
+
+test("chip count == filtered result count (same lookup powers both)", () => {
+  const pool = [
+    L(["Audition Prep"]), L(["Acting Classes & Coaches"], ["Audition Coaching"]), L(["Improv Classes", "Audition Prep"]),
+    L(["Dialect Coach"]), L(["Dialect Coach", "Career Consulting"]), L(["Theatre Training"]), L(["Acting Schools"]),
+  ];
+  const facets = specialtyCounts(pool, "acting-training");
+  assert.ok(facets.length >= 2);
+  for (const f of facets) {
+    const results = pool.filter((l) => specialtiesForListing(l, "acting-training").includes(f.name));
+    assert.equal(results.length, f.count, f.name);
+  }
 });
 
 test("picker: toggling never touches retired/unmapped values; off removes only that primary's values", () => {

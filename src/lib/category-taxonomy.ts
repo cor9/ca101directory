@@ -37,8 +37,15 @@ export interface PrimaryCategory {
   legacyNames: string[];
   /** UUIDs of those legacy rows in the `categories` table */
   legacyIds: string[];
-  /** Specialty tags a professional in this category may select */
+  /**
+   * APPROVED specialty vocabulary for this category: the only labels ever
+   * offered as filters, card pills or picker options for it. Subject-matter
+   * only: ages, locations and online / in-person availability are separate
+   * listing attributes and never belong here.
+   */
   specialties: string[];
+  /** label -> other stored spellings that mean the same thing (one filter) */
+  aliases?: Record<string, string[]>;
   /**
    * Legacy category name -> specialty it directly implies. Only categories whose
    * name unambiguously states the specialty appear here.
@@ -90,7 +97,6 @@ export const PRIMARY_CATEGORIES: PrimaryCategory[] = [
       "Outdoor Sessions",
       "Character Looks",
       "Hair & Makeup",
-      "Youth Headshots",
     ],
     derive: {},
   },
@@ -132,14 +138,29 @@ export const PRIMARY_CATEGORIES: PrimaryCategory[] = [
       "Vocal Training",
       "Dialect Coaching",
       "Theatre Training",
-      "Online Classes",
-      "In-Person Classes",
-      "Private Coaching",
-      "Group Classes",
-      // tags already offered by the previous edit form; kept so no one loses them
-      "Pre-Readers",
       "Memorization",
     ],
+    aliases: {
+      "Audition Coaching": [
+        "Audition Prep",
+        "Audition Preparation",
+        "Audition Technique",
+        "Audition Classes",
+      ],
+      Improv: ["Improvisation", "Improv Classes"],
+      "Scene Study": ["Scene Work", "Scene Classes"],
+      "On-Camera Acting": [
+        "On-Camera",
+        "On Camera",
+        "Camera Acting",
+        "Camera Technique",
+      ],
+      "Voiceover Training": ["Voiceover", "Voice Over", "Voiceover Support"],
+      "Vocal Training": ["Voice Lessons", "Singing", "Vocal Coaching", "Vocal Coaches"],
+      "Dialect Coaching": ["Dialect", "Dialects", "Accent Coaching", "Dialect Coach"],
+      "Theatre Training": ["Theater Training", "Theatre", "Theater"],
+      Memorization: ["Line Memorization", "Memorizing Lines"],
+    },
     derive: {
       "Audition Prep": "Audition Coaching",
       "Improv Classes": "Improv",
@@ -168,6 +189,10 @@ export const PRIMARY_CATEGORIES: PrimaryCategory[] = [
       "Parent Consultations",
       "Industry Guidance",
     ],
+    aliases: {
+      "Career Strategy": ["Career Consulting", "Career Consultation"],
+      "Personal Branding": ["Branding", "Branding Coaching"],
+    },
     derive: {
       "Career Consulting": "Career Strategy",
       "Branding Coaches": "Personal Branding",
@@ -192,6 +217,10 @@ export const PRIMARY_CATEGORIES: PrimaryCategory[] = [
       "Reel Updates",
       "Video Production",
     ],
+    aliases: {
+      "Reel Editing": ["Demo Reel Editing", "Video Editing"],
+      "Demo Reel Production": ["Demo Reel Creation", "Reel Creation"],
+    },
     derive: {
       "Demo Reel Creators": "Demo Reel Production",
       "Reel Editors": "Reel Editing",
@@ -213,17 +242,20 @@ export const PRIMARY_CATEGORIES: PrimaryCategory[] = [
     specialties: [
       "Public Relations",
       "Actor Websites",
-      "Website Design",
-      "Wardrobe Styling",
-      "Personal Styling",
+      "Styling",
       "Marketing Materials",
     ],
+    aliases: {
+      "Actor Websites": ["Website Design", "Actor Website", "Websites"],
+      Styling: ["Personal Styling", "Wardrobe Styling", "Wardrobe", "Stylist"],
+      "Public Relations": ["PR", "Publicity"],
+    },
     derive: {
       Publicists: "Public Relations",
       "Actor Websites": "Actor Websites",
-      // "Stylists" is ambiguous between wardrobe and personal styling.
-      // "Personal Styling" is used and flagged in the report for review.
-      Stylists: "Personal Styling",
+      // "Stylists" does not say wardrobe vs personal vs hair/makeup, so only the
+      // neutral label "Styling" is derived (flagged in the report).
+      Stylists: "Styling",
     },
   },
   {
@@ -398,6 +430,7 @@ const BY_LEGACY_KEY = new Map<string, PrimaryCategory>();
 const BY_ID = new Map<string, PrimaryCategory>();
 const LEGACY_SLUG = new Map<string, { primary: PrimaryCategory; legacy: string }>();
 const SPECIALTY_CANON = new Map<string, string>();
+const VOCAB_BY_SLUG = new Map<string, Map<string, string>>();
 
 for (const c of PRIMARY_CATEGORIES) {
   BY_NAME_KEY.set(normKey(c.name), c);
@@ -409,7 +442,15 @@ for (const c of PRIMARY_CATEGORIES) {
     }
   }
   for (const id of c.legacyIds) BY_ID.set(id.toLowerCase(), c);
-  for (const sp of c.specialties) SPECIALTY_CANON.set(normKey(sp), sp);
+  const vocab = new Map<string, string>();
+  for (const sp of c.specialties) vocab.set(normKey(sp), sp);
+  for (const [label, alts] of Object.entries(c.aliases ?? {})) {
+    for (const alt of alts) vocab.set(normKey(alt), label);
+  }
+  VOCAB_BY_SLUG.set(c.slug, vocab);
+  vocab.forEach((label, k) => {
+    if (!SPECIALTY_CANON.has(k)) SPECIALTY_CANON.set(k, label);
+  });
 }
 
 const RETIRED_BY_KEY = new Map<string, RetiredCategory>();
@@ -555,11 +596,11 @@ export function derivedSpecialties(listing: ListingCategoryFields): string[] {
 }
 
 /**
- * All specialty tags to display / filter on: what the owner saved explicitly
- * (preserved as-is) plus what the legacy categories directly imply. Never
- * assumes a provider offers anything its data doesn't say.
+ * EDITING view: everything the owner saved (kept verbatim, synonyms folded to
+ * one spelling) plus what legacy categories directly imply. Used by the picker
+ * so no saved tag is ever hidden or lost. NOT for public filters or pills.
  */
-export function specialtiesForListing(listing: ListingCategoryFields): string[] {
+export function editableSpecialties(listing: ListingCategoryFields): string[] {
   return dedupe([
     ...(listing.specialties || []).filter(
       (s): s is string => typeof s === "string",
@@ -568,9 +609,65 @@ export function specialtiesForListing(listing: ListingCategoryFields): string[] 
   ]);
 }
 
+/**
+ * PUBLIC view: the listing's specialties as seen from one primary category,
+ * restricted to that category's approved vocabulary (synonyms folded to one
+ * label). Stored tags outside the vocabulary (ages, places, formats, tags of
+ * another category) are ignored here, never deleted.
+ *
+ * Without a slug, the union over every primary the listing belongs to, each
+ * judged in its own context.
+ */
+export function specialtiesForListing(
+  listing: ListingCategoryFields,
+  slug?: string,
+): string[] {
+  if (!slug) {
+    return dedupe(
+      primariesForListing(listing).flatMap((p) =>
+        specialtiesForListing(listing, p.slug),
+      ),
+    );
+  }
+  const primary = BY_SLUG.get(slug);
+  const vocab = VOCAB_BY_SLUG.get(slug);
+  if (!primary || !vocab || primary.specialties.length === 0) return [];
+  if (!primariesForListing(listing).includes(primary)) return [];
+
+  const found = new Set<string>();
+  for (const s of listing.specialties || []) {
+    if (typeof s !== "string") continue;
+    const label = vocab.get(normKey(s));
+    if (label) found.add(label);
+  }
+  // Derived tags count only for legacy categories that roll up into THIS primary
+  for (const v of listing.categories || []) {
+    if (typeof v !== "string" || primaryForValue(v) !== primary) continue;
+    const legacy = legacyNameForValue(v);
+    const hit = legacy
+      ? Object.entries(primary.derive).find(
+          ([k]) => normKey(k) === normKey(legacy),
+        )
+      : null;
+    if (hit) found.add(hit[1]);
+  }
+  return primary.specialties.filter((label) => found.has(label));
+}
+
 /** Specialty options offered for the given primary slugs (picker). */
 export function specialtyOptionsFor(slugs: string[]): string[] {
-  return dedupe(slugs.flatMap((s) => BY_SLUG.get(s)?.specialties ?? []));
+  const out: string[] = [];
+  for (const s of slugs) {
+    for (const label of BY_SLUG.get(s)?.specialties ?? []) {
+      if (!out.includes(label)) out.push(label);
+    }
+  }
+  return out;
+}
+
+/** Resolve a typed / URL specialty to the approved label of a category (or null). */
+export function resolveSpecialty(slug: string, input: string): string | null {
+  return VOCAB_BY_SLUG.get(slug)?.get(normKey(input)) ?? null;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -661,19 +758,29 @@ export function countByPrimary(
   return counts;
 }
 
-/** Listings in a primary, with how many carry each specialty tag. */
+/**
+ * Specialty filter chips for a category page: approved labels only, each with
+ * the number of the GIVEN listings that carry it (so the chip count always
+ * equals the number of results when selected). Empty when fewer than two
+ * labels have any listings: a lone chip filters nothing useful.
+ */
 export function specialtyCounts(
   listings: ReadonlyArray<ListingCategoryFields>,
+  slug: string,
 ): Array<{ name: string; count: number }> {
+  const primary = BY_SLUG.get(slug);
+  if (!primary) return [];
   const counts = new Map<string, number>();
   for (const l of listings) {
-    for (const s of specialtiesForListing(l)) {
+    for (const s of specialtiesForListing(l, slug)) {
       counts.set(s, (counts.get(s) ?? 0) + 1);
     }
   }
-  return Array.from(counts, ([name, count]) => ({ name, count })).sort(
-    (a, b) => b.count - a.count || a.name.localeCompare(b.name),
-  );
+  const out = primary.specialties
+    .filter((label) => (counts.get(label) ?? 0) > 0)
+    .map((name) => ({ name, count: counts.get(name) as number }))
+    .sort((a, b) => b.count - a.count);
+  return out.length >= 2 ? out : [];
 }
 
 /* -------------------------------------------------------------------------- */

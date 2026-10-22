@@ -6,7 +6,7 @@ import {
   removeStoredValue,
   sectionPrimaries,
   selectedPrimarySlugs,
-  specialtiesForListing,
+  editableSpecialties,
   specialtyOptionsFor,
   togglePrimaryInNames,
   unmappedValues,
@@ -70,7 +70,7 @@ export function CategoryPicker({
 
   const selected = selectedPrimarySlugs(categories);
   const leftovers = unmappedValues({ categories });
-  const effective = specialtiesForListing({ categories, specialties });
+  const effective = editableSpecialties({ categories, specialties });
   const options = specialtyOptionsFor(selected);
   const optionKeys = new Set(options.map(normKey));
   const otherTags = effective.filter((s) => !optionKeys.has(normKey(s)));

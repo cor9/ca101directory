@@ -1,6 +1,7 @@
 import type { Listing } from "@/data/listings";
 import {
   primariesForListing,
+  primaryCategoryOf,
   specialtiesForListing,
 } from "@/lib/category-taxonomy";
 import { parseGalleryItems } from "@/lib/gallery";
@@ -153,7 +154,7 @@ export function listingToCardData(
     photoLed: isPhotoCategory(category),
     pills: tags(
       category,
-      listing.specialties,
+      specialtiesForListing(listing, primaryCategoryOf(listing)?.slug),
       listing.age_range,
       cats.slice(1),
     ),

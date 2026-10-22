@@ -9,6 +9,8 @@ import { categoryCopyData } from "@/data/category-copy";
 interface CategoryContentProps {
   categoryName: string;
   listingCount: number;
+  /** Name to look the prewritten copy up under (defaults to categoryName) */
+  copyName?: string;
 }
 
 interface CategoryCopy {
@@ -43,8 +45,9 @@ function formatBullets(text: string): string[] {
 export function CategoryContent({
   categoryName,
   listingCount,
+  copyName,
 }: CategoryContentProps) {
-  const content = getCategoryContent(categoryName, listingCount);
+  const content = getCategoryContent(copyName ?? categoryName, listingCount);
 
   if (!content) return null;
 

@@ -1,4 +1,5 @@
 import { stateNames } from "@/data/regions";
+import { matchSetsFor, resolveCategoryRef } from "@/lib/category-taxonomy";
 
 /**
  * Pure helpers for strict directory filtering (category AND location AND ...).
@@ -19,13 +20,6 @@ export const normalizeToken = (v: unknown): string =>
 /* Categories                                                                  */
 /* -------------------------------------------------------------------------- */
 
-/** Groups of category names that refer to the same thing (normalized). */
-const CATEGORY_SYNONYM_GROUPS: string[][] = [
-  ["Headshot Photographers", "Headshot Photographer"],
-  ["Self Tape Support", "Self-Tape Support"],
-  ["Demo Reel Editors", "Reel Editors"],
-];
-
 export type CategoryMatcher = {
   /** normalized names (and slugs) that count as a match */
   names: Set<string>;
@@ -34,42 +28,36 @@ export type CategoryMatcher = {
 };
 
 /**
- * Build a matcher from a category UUID, name or slug. Listings store a mix of
- * category names and UUIDs in `categories[]`, so we match on both.
+ * Build a matcher from a category slug, name or UUID.
+ *
+ * The taxonomy (src/lib/category-taxonomy.ts) is the single source of truth:
+ * a consolidated category matches EVERY legacy name and UUID that rolls up to
+ * it, a retired category still matches its own legacy values (so its page and
+ * listings keep working), and standalone categories match as before.
+ * Only values the taxonomy does not know fall back to an exact match against
+ * the legacy `categories` table rows.
  */
 export function buildCategoryMatcher(
   input: string,
-  allCategories: Array<{ id: string; category_name: string }>,
+  allCategories: Array<{ id: string; category_name: string }> = [],
 ): CategoryMatcher {
+  const known = matchSetsFor(resolveCategoryRef(input));
+  if (known) return known;
+
   const names = new Set<string>();
   const ids = new Set<string>();
   const raw = input.trim();
-
   const found = isUuid(raw)
     ? allCategories.find((c) => c.id.toLowerCase() === raw.toLowerCase())
     : allCategories.find(
         (c) => normalizeToken(c.category_name) === normalizeToken(raw),
       );
-
   if (isUuid(raw)) ids.add(raw.toLowerCase());
   if (found) {
     ids.add(found.id.toLowerCase());
     names.add(normalizeToken(found.category_name));
   } else if (!isUuid(raw)) {
     names.add(normalizeToken(raw));
-  }
-
-  for (const group of CATEGORY_SYNONYM_GROUPS) {
-    const norm = group.map(normalizeToken);
-    if (norm.some((n) => names.has(n))) {
-      for (const n of norm) names.add(n);
-      // pull in the UUIDs of every synonym category too
-      for (const c of allCategories) {
-        if (norm.includes(normalizeToken(c.category_name))) {
-          ids.add(c.id.toLowerCase());
-        }
-      }
-    }
   }
   return { names, ids };
 }

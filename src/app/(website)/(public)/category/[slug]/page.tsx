@@ -9,129 +9,143 @@ import { ActivityBar } from "@/components/home/ActivityBar";
 import { CategoryContent } from "@/components/seo/category-content";
 import EmptyGrid from "@/components/shared/empty-grid";
 import { siteConfig } from "@/config/site";
-import { getCategories } from "@/data/categories";
 import { getItems } from "@/data/item-service";
 import { stateNames, statesList } from "@/data/regions";
+import {
+  PRIMARY_CATEGORIES,
+  type ProfileKind,
+  nameToSlug,
+  resolveCategoryRef,
+} from "@/lib/category-taxonomy";
 import { DIRECTORY_ITEMS_PER_PAGE } from "@/lib/constants";
+import { categoryCopyData } from "@/data/category-copy";
 import { constructMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 /**
- * Generate a URL-safe slug from a category name.
- * Treats hyphens as word separators (so "Self-Tape" becomes "self-tape").
+ * Category URLs resolve through the taxonomy compatibility layer:
+ *  - a primary slug renders the page
+ *  - a consolidated legacy slug permanently redirects to its parent (keeping
+ *    the specialty as ?specialty= and any other params)
+ *  - a retired slug still renders (noindex, not promoted) so old links work
+ *  - anything else is a 404
  */
-function categoryNameToSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/-/g, " ") // Treat hyphens as spaces first
-    .replace(/[^a-z0-9\s]/g, "") // Remove other special characters
-    .replace(/\s+/g, "-") // Then replace spaces with dashes
-    .replace(/-+/g, "-") // Replace multiple dashes with single dash
-    .replace(/^-|-$/g, ""); // Remove leading/trailing dashes
+type PageProps = {
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+};
+
+const first = (v: string | string[] | undefined) =>
+  (Array.isArray(v) ? v[0] : v)?.trim() || undefined;
+
+export async function generateStaticParams() {
+  return PRIMARY_CATEGORIES.map((c) => ({ slug: c.slug }));
 }
 
-/**
- * Generate static params for all category pages
- * This tells Next.js which category pages to pre-build
- */
-export async function generateStaticParams() {
-  try {
-    const categories = await getCategories();
+const SUBTEXT: Record<ProfileKind, string> = {
+  service:
+    "Professionals experienced with young performers in TV, film, and commercial work.",
+  representation:
+    "Listings for research. Agencies and managers set their own submission policies, so check each company's website before reaching out.",
+  background_casting:
+    "Companies that cast background performers. Research each company's registration process and policies on its own website.",
+  child_advocacy:
+    "Professionals who support the wellbeing and rights of young performers on set.",
+  set_teacher:
+    "Studio teachers and on-set educators for young performers. Families can ask the production which teacher is assigned.",
+};
 
-    // Convert category names to slugs
-    return categories.map((category) => ({
-      slug: categoryNameToSlug(category.category_name),
-    }));
-  } catch (error) {
-    console.error("generateStaticParams error:", error);
-    // Return empty array if Supabase is not configured
-    return [];
+function subtextFor(kind: ProfileKind, slug: string): string {
+  if (slug === "headshot-photographers") {
+    return "Professional headshot photographers specializing in child and teen actors.";
   }
+  return SUBTEXT[kind];
 }
 
 export async function generateMetadata({
   params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata | undefined> {
+}: PageProps): Promise<Metadata | undefined> {
+  const ref = resolveCategoryRef(params.slug);
+  if (ref.kind === "unknown") {
+    return constructMetadata({
+      title: "Category Not Found - Child Actor 101 Vendor Directory",
+      description: "The requested category could not be found",
+      canonicalUrl: `${siteConfig.url}/category/${params.slug}`,
+      noIndex: true,
+    });
+  }
+  if (ref.kind === "legacy") {
+    return constructMetadata({
+      title: `${ref.primary.name} - Child Actor 101 Vendor Directory`,
+      canonicalUrl: `${siteConfig.url}/category/${ref.primary.slug}`,
+    });
+  }
+  if (ref.kind === "retired") {
+    return constructMetadata({
+      title: `${ref.retired.name} - Child Actor 101 Vendor Directory`,
+      description: `Listings previously filed under ${ref.retired.name}.`,
+      canonicalUrl: `${siteConfig.url}/category/${ref.retired.slug}`,
+      noIndex: true,
+    });
+  }
   try {
-    const categories = await getCategories();
-
-    const category = categories.find(
-      (cat) => categoryNameToSlug(cat.category_name) === params.slug,
-    );
-
-    if (!category) {
-      return constructMetadata({
-        title: "Category Not Found - Child Actor 101 Vendor Directory",
-        description: "The requested category could not be found",
-        canonicalUrl: `${siteConfig.url}/category/${params.slug}`,
-      });
-    }
-
-    // Get listing count for this category
     const { totalCount } = await getItems({
-      category: category.category_name,
+      category: ref.primary.slug,
       currentPage: 1,
       excludeFeatured: false,
     });
-    const count = totalCount;
-
     return constructMetadata({
-      title: `${category.category_name} for Child Actors - ${count}+ Professionals | Child Actor 101`,
-      description: `Compare ${count} professional ${category.category_name.toLowerCase()} specializing in child actors. Read reviews, compare services, and find the perfect match in Los Angeles, New York & nationwide.`,
-      canonicalUrl: `${siteConfig.url}/category/${params.slug}`,
+      title: `${ref.primary.name} for Child Actors - ${totalCount} Listings | Child Actor 101`,
+      description: `${ref.primary.blurb} Read reviews and compare ${totalCount} listings for child actors, in Los Angeles, New York & nationwide.`,
+      canonicalUrl: `${siteConfig.url}/category/${ref.primary.slug}`,
     });
   } catch (error) {
     console.error("generateMetadata error:", error);
     return constructMetadata({
-      title: "Category - Child Actor 101 Vendor Directory",
-      description: "Find acting professionals for your child",
-      canonicalUrl: `${siteConfig.url}/category/${params.slug}`,
+      title: `${ref.primary.name} - Child Actor 101 Vendor Directory`,
+      description: ref.primary.blurb,
+      canonicalUrl: `${siteConfig.url}/category/${ref.primary.slug}`,
     });
   }
 }
 
-export default async function CategoryPage({
-  params,
-  searchParams,
-}: {
-  params: { slug: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
-  try {
-    // Get categories to validate the slug and find category name
-    const categories = await getCategories();
+export default async function CategoryPage({ params, searchParams }: PageProps) {
+  const ref = resolveCategoryRef(params.slug);
+  if (ref.kind === "unknown") return notFound();
 
-    const category = categories.find(
-      (cat) => categoryNameToSlug(cat.category_name) === params.slug,
-    );
-
-    if (!category) {
-      console.log("CategoryPage: No category found for slug:", params.slug);
-      return notFound();
+  if (ref.kind === "legacy") {
+    const qs = new URLSearchParams();
+    for (const [k, v] of Object.entries(searchParams ?? {})) {
+      if (v === undefined || k === "page") continue;
+      qs.set(k, Array.isArray(v) ? v.join(",") : v);
     }
+    if (ref.specialty && !qs.has("specialty")) {
+      qs.set("specialty", ref.specialty);
+    }
+    const query = qs.toString();
+    permanentRedirect(`/category/${ref.primary.slug}${query ? `?${query}` : ""}`);
+  }
 
-    const categoryName = category.category_name;
+  const primary = ref.kind === "primary" ? ref.primary : null;
+  const categoryName = primary ? primary.name : ref.kind === "retired" ? ref.retired.name : "";
+  const basePath = `/category/${primary ? primary.slug : ref.kind === "retired" ? ref.retired.slug : params.slug}`;
 
-    // Get listings for this category using the same method as directory page
+  try {
     const rawPage = searchParams?.page;
     const currentPage = Math.max(
       1,
       Number.parseInt(Array.isArray(rawPage) ? rawPage[0] : rawPage || "1", 10) || 1,
     );
-    const rawState = searchParams?.state;
-    const rawCity = searchParams?.city;
-    const stateFilter =
-      (Array.isArray(rawState) ? rawState[0] : rawState)?.trim() || undefined;
-    const cityFilter =
-      (Array.isArray(rawCity) ? rawCity[0] : rawCity)?.trim() || undefined;
-    const { items, totalCount, itemsPerPage } = await getItems({
-      category: categoryName,
+    const stateFilter = first(searchParams?.state);
+    const cityFilter = first(searchParams?.city);
+    const specialtyFilter = first(searchParams?.specialty);
+    const { items, totalCount, itemsPerPage, specialtyFacets } = await getItems({
+      category: primary ? primary.slug : ref.kind === "retired" ? ref.retired.slug : params.slug,
       state: stateFilter && stateFilter !== "all" ? stateFilter : undefined,
       city: cityFilter,
+      specialty: specialtyFilter,
       currentPage,
       itemsPerPage: DIRECTORY_ITEMS_PER_PAGE,
       excludeFeatured: false, // Show featured listings on category pages
@@ -150,24 +164,37 @@ export default async function CategoryPage({
       items.slice(0, 3),
     );
 
-    // Generate category subtext (1 line, factual)
-    const getCategorySubtext = (name: string): string => {
-      const lower = name.toLowerCase();
-      if (lower.includes("coach") || lower.includes("class")) {
-        return "Professionals experienced with young performers in TV, film, and commercial work.";
-      }
-      if (lower.includes("photographer")) {
-        return "Professional headshot photographers specializing in child and teen actors.";
-      }
-      if (lower.includes("agent") || lower.includes("manager")) {
-        return "Talent representation for young actors in television, film, and commercial work.";
-      }
-      return "Professionals experienced with young performers in TV, film, and commercial work.";
-    };
+    const subtext = primary
+      ? subtextFor(primary.kind, primary.slug)
+      : "This category is no longer part of the main directory navigation. Its listings remain available.";
+
+    // Prewritten guide copy lives under the legacy names; use the first one that has copy.
+    const copyName = primary
+      ? [primary.name, ...primary.legacyNames].find((n) =>
+          categoryCopyData.some(
+            (c) => c.category_name?.toLowerCase() === n.toLowerCase(),
+          ),
+        )
+      : categoryName;
 
     const filtersActive = Boolean(
-      (stateFilter && stateFilter !== "all") || cityFilter,
+      (stateFilter && stateFilter !== "all") || cityFilter || specialtyFilter,
     );
+
+    const chipHref = (name?: string) => {
+      const qs = new URLSearchParams();
+      if (stateFilter && stateFilter !== "all") qs.set("state", stateFilter);
+      if (cityFilter) qs.set("city", cityFilter);
+      if (name) qs.set("specialty", name);
+      const q = qs.toString();
+      return `${basePath}${q ? `?${q}` : ""}#category-results`;
+    };
+    const chipClass = (active: boolean) =>
+      `rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+        active
+          ? "border-white bg-white !text-zinc-900"
+          : "border-white/25 bg-white/5 !text-white hover:border-white/60"
+      }`;
 
     return (
       <div className="flex min-h-screen flex-col bg-bg-dark">
@@ -186,7 +213,7 @@ export default async function CategoryPage({
                 {categoryName} for Kids &amp; Teens
               </h1>
               <p className="mt-3 text-lg text-slate-300">
-                {getCategorySubtext(categoryName)}{" "}
+                {subtext}{" "}
                 <span className="text-slate-400">
                   {totalCount} listed
                   {filtersActive ? " for this search" : ""}.
@@ -195,10 +222,13 @@ export default async function CategoryPage({
             </div>
 
             <form
-              action={`/category/${params.slug}`}
+              action={basePath}
               method="get"
               className="flex flex-wrap items-end gap-3"
             >
+              {specialtyFilter && (
+                <input type="hidden" name="specialty" value={specialtyFilter} />
+              )}
               <label className="flex flex-col text-xs font-semibold uppercase tracking-wide text-slate-300">
                 State
                 <select
@@ -231,7 +261,7 @@ export default async function CategoryPage({
               </button>
               {filtersActive && (
                 <Link
-                  href={`/category/${params.slug}`}
+                  href={basePath}
                   className="flex h-11 items-center px-2 text-sm font-semibold text-slate-200 underline hover:text-white"
                 >
                   Clear
@@ -239,6 +269,31 @@ export default async function CategoryPage({
               )}
             </form>
           </div>
+
+          {specialtyFacets.length > 0 && (
+            <div
+              className="mt-6 flex flex-wrap items-center gap-2"
+              aria-label="Filter by specialty"
+            >
+              <Link
+                href={chipHref(undefined)}
+                aria-current={!specialtyFilter ? "true" : undefined}
+                className={chipClass(!specialtyFilter)}
+              >
+                All
+              </Link>
+              {specialtyFacets.slice(0, 14).map((f) => (
+                <Link
+                  key={f.name}
+                  href={chipHref(f.name)}
+                  aria-current={specialtyFilter?.toLowerCase() === f.name.toLowerCase() ? "true" : undefined}
+                  className={chipClass(specialtyFilter?.toLowerCase() === f.name.toLowerCase())}
+                >
+                  {f.name} <span className="opacity-70">({f.count})</span>
+                </Link>
+              ))}
+            </div>
+          )}
         </section>
 
         {/* RESULTS FIRST */}
@@ -258,7 +313,7 @@ export default async function CategoryPage({
           )}
 
           <ResultsPagination
-            basePath={`/category/${params.slug}`}
+            basePath={basePath}
             currentPage={currentPage}
             totalPages={totalPages}
             searchParams={searchParams}
@@ -287,9 +342,12 @@ export default async function CategoryPage({
             <div className="px-6 pb-6">
               <CategoryContent
                 categoryName={categoryName}
+                copyName={copyName}
                 listingCount={totalCount}
               />
-              <CategoryEducationTip categorySlug={params.slug} />
+              <CategoryEducationTip
+                categorySlug={nameToSlug(copyName ?? categoryName)}
+              />
             </div>
           </details>
         </section>

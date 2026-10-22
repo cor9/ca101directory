@@ -1,4 +1,8 @@
 import type { Listing } from "@/data/listings";
+import {
+  primariesForListing,
+  specialtiesForListing,
+} from "@/lib/category-taxonomy";
 import { parseGalleryItems } from "@/lib/gallery";
 import { getListingImageUrl } from "@/lib/image-urls";
 import { dedupeLabels } from "@/lib/labels";
@@ -118,7 +122,10 @@ export function listingToCardData(
   categoryNames?: Map<string, string>,
 ): CardData {
   const cats = resolveCategories(listing.categories, categoryNames);
-  const category = cats[0] || "";
+  // Same rule as directory cards: the taxonomy's primary category first, then
+  // (only if the listing maps to none) whatever legacy value it is filed under.
+  const primaries = primariesForListing(listing).map((p) => p.name);
+  const category = primaries[0] || cats[0] || "";
   const pro = isProPlan(listing.plan, listing.comped);
   const industryPro = listing.listing_type === "INDUSTRY_PRO";
   const img = pickCardImage({

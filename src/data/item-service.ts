@@ -4,6 +4,13 @@ import {
   getListingById,
   getPublicListings,
 } from "@/data/listings";
+import {
+  normKey,
+  primariesForListing,
+  specialtiesForListing,
+  specialtyCounts,
+  unmappedValues,
+} from "@/lib/category-taxonomy";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
 import { parseGalleryItems } from "@/lib/gallery";
 import { getListingImageUrl } from "@/lib/image-urls";
@@ -36,6 +43,9 @@ function generateSlug(listingName: string, id: string): string {
 /**
  * Convert Airtable Listing to MkDirs Item format
  */
+const isUuidValue = (v: string) =>
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v.trim());
+
 export async function listingToItem(
   listing: Listing,
   preloadedCategories?: Array<{ id: string; category_name: string }>,
@@ -96,58 +106,38 @@ export async function listingToItem(
     sponsorPlanStatus: null,
     rejectionReason: null,
     collections: [],
-    categories: listing.categories
-      ? await Promise.all(
-          listing.categories.map(async (categoryValue) => {
-            // Check if it's a UUID (category ID) or a category name
-            const isUuid =
-              /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
-                categoryValue,
-              );
-
-            let categoryName =
-              typeof categoryValue === "string" ? categoryValue.trim() : "";
-
-            if (isUuid) {
-              // Resolve UUID to category name
-              try {
-                const categories = preloadedCategories ?? (await getCategories());
-                const category = categories.find(
-                  (cat) => cat.id === categoryValue,
-                );
-                if (category) {
-                  categoryName = category.category_name;
-                } else {
-                  console.warn(
-                    `Category UUID ${categoryValue} not found, using UUID as name`,
-                  );
-                }
-              } catch (error) {
-                console.error(
-                  `Error resolving category UUID ${categoryValue}:`,
-                  error,
-                );
-              }
-            }
-
-            return {
-              _id: categoryName.toLowerCase().replace(/\s+/g, "-"),
-              _type: "category" as const,
-              _createdAt: new Date().toISOString(),
-              _updatedAt: new Date().toISOString(),
-              _rev: "",
-              name: categoryName,
-              slug: {
-                _type: "slug" as const,
-                current: categoryName.toLowerCase().replace(/\s+/g, "-"),
-              },
-              description: null,
-              group: null,
-              priority: null,
-            };
-          }),
-        )
-      : [],
+    // Primary categories from the taxonomy first (consolidated names), then any
+    // stored value the taxonomy does not map (retired/unmapped legacy names),
+    // so nothing a listing is filed under is hidden from its own card.
+    categories: Array.from(
+      new Set([
+        ...primariesForListing(listing).map((p) => p.name),
+        ...unmappedValues(listing)
+          .map((v) => {
+            if (!isUuidValue(v)) return v.trim();
+            return (
+              preloadedCategories?.find(
+                (c) => c.id.toLowerCase() === v.toLowerCase(),
+              )?.category_name ?? ""
+            );
+          })
+          .filter(Boolean),
+      ]),
+    ).map((categoryName) => ({
+      _id: categoryName.toLowerCase().replace(/\s+/g, "-"),
+      _type: "category" as const,
+      _createdAt: new Date().toISOString(),
+      _updatedAt: new Date().toISOString(),
+      _rev: "",
+      name: categoryName,
+      slug: {
+        _type: "slug" as const,
+        current: categoryName.toLowerCase().replace(/\s+/g, "-"),
+      },
+      description: null,
+      group: null,
+      priority: null,
+    })),
     tags: listing.age_range
       ? listing.age_range.map((tag) => ({
           _id: tag.toLowerCase().replace(/\s+/g, "-"),
@@ -175,9 +165,8 @@ export async function listingToItem(
     galleryUrls: parseGalleryItems(listing.gallery)
       .slice(0, 4)
       .map((g) => g.url),
-    specialties: Array.isArray(listing.specialties)
-      ? listing.specialties.filter(Boolean).slice(0, 6)
-      : [],
+    // saved specialties (preserved) + those directly implied by legacy categories
+    specialties: specialtiesForListing(listing).slice(0, 8),
     serviceModality: listing.service_modality || "unknown",
   } as ItemInfo;
 }
@@ -215,6 +204,7 @@ export async function getItemInfoById(id: string): Promise<ItemInfo | null> {
 export async function getItems({
   collection,
   category,
+  specialty,
   tag,
   region,
   state,
@@ -237,6 +227,8 @@ export async function getItems({
 }: {
   collection?: string;
   category?: string;
+  /** Specialty tag filter (e.g. "Improv"); matches saved + derived specialties */
+  specialty?: string;
   tag?: string;
   region?: string;
   state?: string;
@@ -301,6 +293,18 @@ export async function getItems({
       if (excludeFeatured && l.featured) return false;
       return true;
     });
+
+    // Facets for the category page: specialty tags (with counts) across every
+    // listing in the category, computed BEFORE the specialty filter is applied.
+    const specialtyFacets = categoryMatcher
+      ? specialtyCounts(filteredListings)
+      : [];
+    if (specialty?.trim()) {
+      const want = normKey(specialty);
+      filteredListings = filteredListings.filter((l) =>
+        specialtiesForListing(l).some((sp) => normKey(sp) === want),
+      );
+    }
 
     // Same business listed under several category spellings -> keep the best one
     if (categoryMatcher && categoryMatcher.names.has("headshotphotographers")) {
@@ -433,9 +437,14 @@ export async function getItems({
       paginatedListings.map((l) => listingToItem(l, categories)),
     );
 
-    return { items, totalCount, itemsPerPage };
+    return { items, totalCount, itemsPerPage, specialtyFacets };
   } catch (error) {
     console.error("getItems (Supabase), error:", error);
-    return { items: [], totalCount: 0, itemsPerPage: itemsPerPageOverride ?? ITEMS_PER_PAGE };
+    return {
+      items: [],
+      totalCount: 0,
+      itemsPerPage: itemsPerPageOverride ?? ITEMS_PER_PAGE,
+      specialtyFacets: [] as Array<{ name: string; count: number }>,
+    };
   }
 }

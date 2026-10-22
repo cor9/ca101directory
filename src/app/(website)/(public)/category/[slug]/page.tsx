@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 import Container from "@/components/container";
+import ResultsPagination from "@/components/directory/ResultsPagination";
 import CategoryClient from "@/components/directory/CategoryClient";
 import { CategoryEducationTip } from "@/components/directory/CategoryEducationTip";
 import { ActivityBar } from "@/components/home/ActivityBar";
@@ -10,7 +11,7 @@ import EmptyGrid from "@/components/shared/empty-grid";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
 import { getItems } from "@/data/item-service";
-import { ITEMS_PER_PAGE } from "@/lib/constants";
+import { DIRECTORY_ITEMS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -115,14 +116,19 @@ export default async function CategoryPage({
     const categoryName = category.category_name;
 
     // Get listings for this category using the same method as directory page
-    const currentPage = 1;
-    const { items, totalCount } = await getItems({
+    const rawPage = searchParams?.page;
+    const currentPage = Math.max(
+      1,
+      Number.parseInt(Array.isArray(rawPage) ? rawPage[0] : rawPage || "1", 10) || 1,
+    );
+    const { items, totalCount, itemsPerPage } = await getItems({
       category: categoryName,
       currentPage,
+      itemsPerPage: DIRECTORY_ITEMS_PER_PAGE,
       excludeFeatured: false, // Show featured listings on category pages
     });
 
-    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+    const totalPages = Math.max(1, Math.ceil(totalCount / itemsPerPage));
 
     // DEBUG: Log raw query results
     console.log(
@@ -172,7 +178,7 @@ export default async function CategoryPage({
         <ActivityBar />
 
         {/* Listings Grid - EXACT SAME as directory page */}
-        <section className="max-w-7xl mx-auto px-4 py-8">
+        <section id="category-results" className="max-w-7xl mx-auto px-4 py-8">
           {/* Category Educational Content - Why You Need / What to Look For */}
           <CategoryContent
             categoryName={categoryName}
@@ -203,6 +209,14 @@ export default async function CategoryPage({
               categoryName={categoryName}
             />
           )}
+
+          <ResultsPagination
+            basePath={`/category/${params.slug}`}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            searchParams={searchParams}
+            anchor="category-results"
+          />
         </section>
       </div>
     );

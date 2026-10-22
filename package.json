@@ -30,6 +30,7 @@
     "test:commission": "tsx scripts/test-commission.ts",
     "test:vendor-authorization": "tsx scripts/test-vendor-authorization.ts",
     "test:webhook-and-ownership": "tsx scripts/test-webhook-and-ownership.ts",
+    "test:directory-filters": "tsx scripts/test-directory-filters.ts",
     "test:e2e-commercial-loop": "tsx scripts/test-e2e-commercial-loop.ts",
     "export-user-emails": "tsx scripts/export-user-emails.ts",
     "find-listing-emails": "tsx scripts/find-listing-emails.ts",

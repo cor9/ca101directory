@@ -142,32 +142,23 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
 
   const maxBadges = getMaxBadges();
 
-  // Shorter hero for no-image cards
-  const heroHeightClass = heroImage ? "h-40" : "h-24";
-
   return (
-    <article className="rounded-2xl border border-slate-200 bg-[#FAFAF7] text-slate-900 shadow-sm hover:shadow-lg hover:border-slate-300 transition p-5 relative">
-      {/* Hero block - always rendered */}
-      <div
-        className={`mb-4 ${heroHeightClass} w-full overflow-hidden rounded-xl relative bg-slate-100 border border-slate-200`}
-      >
+    <article className="relative flex h-full flex-col rounded-2xl border border-[#E6DFC3] bg-[#FFFDD0] p-5 text-[#1F2327] shadow-sm transition hover:border-[#E4572E]/60 hover:shadow-lg">
+      {/* Hero block: one fixed ratio so every card lines up, image never cropped */}
+      <div className="relative mb-4 aspect-[4/3] w-full shrink-0 overflow-hidden rounded-xl border border-[#E6DFC3] bg-[#FAFAF4]">
         {heroImage ? (
-          <>
-            <Image
-              src={heroImage}
-              alt={`${item.name} logo`}
-              fill
-              className="object-contain p-2"
-            />
-            {/* Subtle gradient overlay at bottom for polish */}
-            <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/20 to-transparent" />
-          </>
+          <Image
+            src={heroImage}
+            alt={`${item.name} logo`}
+            fill
+            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-contain p-3"
+          />
         ) : (
-          /* Category icon placeholder when no image - badge positioned top-left */
           <CategoryPlaceholder
             category={firstCategory}
             size="md"
-            className={`${heroHeightClass} rounded-xl`}
+            className="h-full w-full rounded-xl"
           />
         )}
       </div>
@@ -186,29 +177,26 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
 
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-sm font-semibold text-orange-600 mb-1">
+          <p className="mb-1 text-sm font-semibold text-[#CC4E2A]">
             {firstCategory || "Featured Provider"}
           </p>
-          <h3 className="font-bold text-slate-900 text-lg leading-tight line-clamp-2">
+          <h3 className="line-clamp-2 text-lg font-bold leading-tight text-[#0D1B2A]">
             {item.name}
           </h3>
           {locationLabel ? (
-            <p className="text-sm text-slate-500 mt-1">{locationLabel}</p>
+            <p className="mt-1 text-sm text-[#4A4F57]">{locationLabel}</p>
           ) : null}
         </div>
 
-        {/* Legacy 101 Approved badge - keep for now but will be replaced by BadgeStack */}
         {is101Approved && (
-          <div className="flex flex-wrap gap-1">
-            <span className="rounded-full bg-[#CC5A47] px-2 py-0.5 text-[11px] font-semibold text-white">
-              101 Approved
-            </span>
-          </div>
+          <span className="shrink-0 rounded-full bg-[#CC5A47] px-2.5 py-0.5 text-xs font-semibold text-white">
+            101 Approved
+          </span>
         )}
       </div>
 
       {item.description && (
-        <p className="mt-3 line-clamp-3 text-sm text-slate-600 leading-relaxed">
+        <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-[#33383F]">
           {item.description}
         </p>
       )}
@@ -219,13 +207,13 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
           <div className="mt-3">
             <span
               className={cn(
-                "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold",
+                "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold",
                 (item as any).serviceModality === "virtual" &&
-                  "bg-emerald-100 text-emerald-700",
+                  "bg-emerald-100 text-emerald-800",
                 (item as any).serviceModality === "in_person" &&
-                  "bg-blue-100 text-blue-700",
+                  "bg-[#3A76A6]/15 text-[#2E5E85]",
                 (item as any).serviceModality === "hybrid" &&
-                  "bg-purple-100 text-purple-700",
+                  "bg-purple-100 text-purple-800",
               )}
             >
               {(item as any).serviceModality === "virtual" && "Virtual"}
@@ -240,7 +228,7 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
           {ageRanges.slice(0, 4).map((age) => (
             <span
               key={age}
-              className="rounded-full bg-sky-100 px-2 py-0.5 text-[11px] font-semibold text-slate-700"
+              className="rounded-full bg-[#3A76A6]/15 px-2.5 py-0.5 text-xs font-semibold text-[#2E5E85]"
             >
               {age}
             </span>
@@ -253,23 +241,24 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
           {item.categories.slice(1, 4).map((c) => (
             <span
               key={c._id}
-              className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-600"
+              className="rounded-full bg-[#F7F1D8] px-2.5 py-0.5 text-xs font-medium text-[#4A4F57]"
             >
               {c.name}
             </span>
           ))}
           {item.categories.length > 4 && (
-            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-500">
+            <span className="rounded-full bg-[#F7F1D8] px-2.5 py-0.5 text-xs font-medium text-[#4A4F57]">
               +{item.categories.length - 4} more
             </span>
           )}
         </div>
       )}
 
-      <div className="mt-5 flex items-center gap-3">
+      {/* mt-auto pins the button to the bottom edge of every card, never clipped */}
+      <div className="mt-auto pt-5">
         <Link
           href={`/listing/${slug}`}
-          className="inline-flex items-center justify-center px-4 py-2.5 rounded-md text-sm font-medium bg-accent-blue text-white hover:opacity-90 transition-colors"
+          className="inline-flex w-full items-center justify-center rounded-md bg-[#E4572E] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#CC4E2A]"
         >
           View Details
         </Link>

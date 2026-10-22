@@ -32,16 +32,16 @@ export function ListingPricing({ listing }: ListingPricingProps) {
   };
 
   return (
-    <div className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6">
+    <div className="border border-white/10 bg-[#142B3B] rounded-xl p-6">
       <div className="flex items-center gap-2 mb-4">
         <DollarSign className="w-5 h-5 text-emerald-400" />
-        <h3 className="text-lg font-semibold text-text-primary">Pricing</h3>
+        <h3 className="text-lg font-semibold text-white">Pricing</h3>
       </div>
 
       <div className="space-y-3">
         {hasStartingAt && (
           <div className="flex items-baseline gap-2">
-            <span className="text-sm text-text-muted">Starting at</span>
+            <span className="text-sm text-slate-300">Starting at</span>
             <span className="text-xl font-bold text-emerald-400">
               {formatPrice(listing.price_starting_at!)}
             </span>
@@ -50,8 +50,8 @@ export function ListingPricing({ listing }: ListingPricingProps) {
 
         {hasRange && (
           <div className="flex items-baseline gap-2">
-            <span className="text-sm text-text-muted">Typical range</span>
-            <span className="text-lg font-semibold text-text-primary">
+            <span className="text-sm text-slate-300">Typical range</span>
+            <span className="text-lg font-semibold text-white">
               {formatPrice(listing.price_range_min!)}–
               {formatPrice(listing.price_range_max!)}
             </span>
@@ -66,7 +66,7 @@ export function ListingPricing({ listing }: ListingPricingProps) {
           </div>
         )}
 
-        <p className="text-xs text-text-muted pt-2">
+        <p className="text-xs text-slate-300 pt-2">
           Pricing is self-reported and may vary
         </p>
       </div>

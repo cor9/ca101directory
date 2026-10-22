@@ -1,6 +1,7 @@
 import type { Listing } from "@/data/listings";
 import { isIndustryPro } from "@/lib/listings/listingType";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { ListingAbout } from "./ListingAbout";
 import { ListingCTA } from "./ListingCTA";
 import { ListingDetails } from "./ListingDetails";
@@ -19,6 +20,12 @@ interface ListingLayoutProps {
   regions: string[];
   hasVirtualOption: boolean;
   averageRating?: { average: number; count: number };
+  /** Right-hand sticky column (contact info, favorite button, ...). */
+  sidebar?: ReactNode;
+  /** Rendered in the main column after the profile sections (events, reviews). */
+  mainFooter?: ReactNode;
+  /** Full-width content under the two-column grid (recommendations). */
+  children?: ReactNode;
 }
 
 /**
@@ -30,10 +37,9 @@ interface ListingLayoutProps {
  * Structure:
  * 1. Header Block (Logo, Name, Badges, Category, Location)
  * 2. Primary CTA Row (Website, Contact, View Gallery)
- * 3. About / Description
- * 4. Media Section (Video → Gallery)
- * 5. Differentiators Section (What Makes Us Unique, Additional Notes)
- * 6. Details Grid
+ * 3. Two-column body (lg: 2/3 main + 1/3 sticky sidebar)
+ *    main: About, Pricing, Media (Video → Gallery), Differentiators, events/reviews
+ *    sidebar: Contact Information, Details
  * 7. Back to Directory
  */
 export default function ListingLayout({
@@ -46,6 +52,9 @@ export default function ListingLayout({
   regions,
   hasVirtualOption,
   averageRating,
+  sidebar,
+  mainFooter,
+  children,
 }: ListingLayoutProps) {
   const industryPro = isIndustryPro(listing.listing_type);
   return (
@@ -62,12 +71,11 @@ export default function ListingLayout({
       {/* 2. Primary CTA Row */}
       <ListingCTA listing={listing} slug={slug} />
 
-      {/* 3. About / Description */}
+      {/* 3. Two-column body: main content (2/3) + sticky sidebar (1/3) */}
       <div className="bg-bg-dark py-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 lg:gap-12 items-start">
-            {/* Left column: Main content */}
-            <div className="space-y-12">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-3">
+            <div className="min-w-0 space-y-8 lg:col-span-2">
               <ListingAbout listing={listing} />
 
               {/* Pricing Section */}
@@ -79,7 +87,13 @@ export default function ListingLayout({
               {/* 5. Differentiators Section (What Makes Us Unique, Additional Notes) */}
               <ListingDifferentiators listing={listing} />
 
-              {/* 6. Details Grid */}
+              {mainFooter}
+            </div>
+
+            {/* Sticky sidebar: contact info + details sit beside the gallery */}
+            <aside className="space-y-6 lg:sticky lg:top-24 lg:col-span-1 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
+              {sidebar}
+              {/* 6. Details */}
               <ListingDetails
                 listing={listing}
                 category={category}
@@ -89,17 +103,16 @@ export default function ListingLayout({
                 regions={regions}
                 hasVirtualOption={hasVirtualOption}
               />
-            </div>
-
-            {/* Right column: Sticky sidebar (ContactInfo) */}
-            {/* This is handled by the page component */}
+            </aside>
           </div>
 
+          {children}
+
           {/* 7. Back to Directory */}
-          <div className="mt-12 pt-8 border-t border-white/10">
+          <div className="mt-12 border-t border-white/10 pt-8">
             <Link
               href="/directory"
-              className="text-sm text-neutral-300 hover:text-white underline-offset-4 hover:underline transition-colors"
+              className="text-sm text-neutral-300 underline-offset-4 transition-colors hover:text-white hover:underline"
             >
               ← Back to Directory
             </Link>

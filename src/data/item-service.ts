@@ -5,6 +5,13 @@ import {
   getPublicListings,
 } from "@/data/listings";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
+import {
+  buildCategoryMatcher,
+  listingHasPhoto,
+  listingMatchesCategory,
+  listingMatchesLocation,
+  resolveLocationFilter,
+} from "@/lib/directory-search";
 import type { ItemInfo } from "@/types";
 
 /**
@@ -27,7 +34,10 @@ function generateSlug(listingName: string, id: string): string {
 /**
  * Convert Airtable Listing to MkDirs Item format
  */
-export async function listingToItem(listing: Listing): Promise<ItemInfo> {
+export async function listingToItem(
+  listing: Listing,
+  preloadedCategories?: Array<{ id: string; category_name: string }>,
+): Promise<ItemInfo> {
   return {
     _id: listing.id,
     _createdAt: new Date().toISOString(),
@@ -99,7 +109,7 @@ export async function listingToItem(listing: Listing): Promise<ItemInfo> {
             if (isUuid) {
               // Resolve UUID to category name
               try {
-                const categories = await getCategories();
+                const categories = preloadedCategories ?? (await getCategories());
                 const category = categories.find(
                   (cat) => cat.id === categoryValue,
                 );
@@ -183,7 +193,13 @@ export async function getItemInfoById(id: string): Promise<ItemInfo | null> {
 }
 
 /**
- * Get items from Supabase with filtering and pagination
+ * Get items from Supabase with strict filtering and pagination.
+ *
+ * Every active filter is ANDed: a listing is returned only if it matches the
+ * category AND the location (state/city/metro) AND the rest. Unfiltered
+ * featured/pro listings are never injected into a filtered result set.
+ *
+ * `category` may be a category UUID, name or slug.
  */
 export async function getItems({
   collection,
@@ -191,6 +207,7 @@ export async function getItems({
   tag,
   region,
   state,
+  city,
   sortKey,
   reverse,
   query,
@@ -200,12 +217,19 @@ export async function getItems({
   excludeFeatured,
   onlineAvailable,
   ageGroups,
+  verified,
+  priceMax,
+  techniqueFocus,
+  beginnerFriendly,
+  unionStatus,
+  itemsPerPage: itemsPerPageOverride,
 }: {
   collection?: string;
   category?: string;
   tag?: string;
   region?: string;
   state?: string;
+  city?: string;
   sortKey?: string;
   reverse?: boolean;
   query?: string;
@@ -215,132 +239,79 @@ export async function getItems({
   excludeFeatured?: boolean;
   onlineAvailable?: boolean;
   ageGroups?: string[];
+  verified?: boolean;
+  priceMax?: number;
+  techniqueFocus?: string[];
+  beginnerFriendly?: boolean;
+  unionStatus?: string;
+  itemsPerPage?: number;
 }) {
   try {
-    console.log(
-      "getItems (Supabase), category:",
-      category,
-      "tag:",
-      tag,
-      "region:",
-      region,
-      "state:",
-      state,
-      "query:",
-      query,
-    );
+    const categories = await getCategories();
 
-    // Get all listings from Supabase
-    let allListings = await getPublicListings({
-      q: query,
-      region,
+    // A `q` that is only a place ("TX", "Dallas", "LA") becomes a location filter
+    const { location, textQuery } = resolveLocationFilter({
       state,
-      category,
-      online_available: onlineAvailable,
+      city,
+      q: query,
+    });
+    const categoryMatcher =
+      category && category !== "all"
+        ? buildCategoryMatcher(category, categories)
+        : null;
+
+    // State and category are enforced below in JS (tolerant of "TX"/"Texas",
+    // category names vs UUIDs). Everything else narrows at the DB.
+    const rawListings = await getPublicListings({
+      q: textQuery,
+      region,
+      verified,
       age_groups: ageGroups,
+      price_max: priceMax,
+      technique_focus: techniqueFocus,
+      beginner_friendly: beginnerFriendly,
+      union_status: unionStatus,
     });
 
-    // Exclude featured listings when requested (to avoid repeating them on directory page)
-    if (excludeFeatured) {
-      allListings = allListings.filter((l) => !l.featured);
-    }
-
-    // Category synonym handling (fixes page count for categories with naming variants)
-    // Example: "Headshot Photographers" vs "Headshot Photographer"
-    if (category) {
-      const normalize = (v: string) =>
-        v.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
-      const catNorm = normalize(category);
-      const synonymsMap: Record<string, string[]> = {
-        headshotphotographers: [
-          "Headshot Photographers",
-          "Headshot Photographer",
-        ],
-        headshotphotographer: [
-          "Headshot Photographers",
-          "Headshot Photographer",
-        ],
-        selftapesupport: ["Self Tape Support", "Self-Tape Support"],
-        selftapesupportdash: ["Self Tape Support", "Self-Tape Support"],
-        demoreeleditors: ["Demo Reel Editors", "Reel Editors"],
-        reeleditors: ["Demo Reel Editors", "Reel Editors"],
-      };
-      // Support multiple keys pointing to same synonym set
-      const synonymKey =
-        catNorm in synonymsMap
-          ? catNorm
-          : ((): string | null => {
-              if (catNorm === "selftapesupport") return "selftapesupport";
-              if (catNorm === "selftapeSupport") return "selftapesupport";
-              if (catNorm === "selftapesupport") return "selftapesupport";
-              if (catNorm === "selftapesupport") return "selftapesupport";
-              return null;
-            })();
-
-      const synonyms =
-        synonymsMap[catNorm] ||
-        (catNorm === "selftapeSupport"
-          ? synonymsMap["selftapesupport"]
-          : undefined);
-
-      if (synonyms && synonyms.length > 0) {
-        // Merge listings for all synonyms, then de-duplicate by id
-        const results = await Promise.all(
-          synonyms.map((c) =>
-            getPublicListings({
-              q: query,
-              region,
-              state,
-              category: c,
-            }),
-          ),
-        );
-        const merged = new Map<string, (typeof allListings)[number]>();
-        for (const list of results) {
-          for (const l of list) merged.set(l.id, l);
-        }
-        allListings = Array.from(merged.values());
-
-        // For Headshot Photographers, dedup strictly by listing_name to avoid doubles
-        const isHeadshotCategory =
-          synonyms.includes("Headshot Photographers") ||
-          synonyms.includes("Headshot Photographer");
-        if (isHeadshotCategory) {
-          const nameKey = (n?: string | null) => (n || "").trim().toLowerCase();
-          const planScore = (plan?: string | null, comped?: boolean | null) => {
-            const p = (plan || "Free").toLowerCase();
-            if (p === "premium" || p === "pro" || p === "founding pro")
-              return 3;
-            if (p === "standard" || p === "founding standard") return 2;
-            return 1;
-          };
-          const score = (l: (typeof allListings)[number]) =>
-            (l.featured ? 1000 : 0) +
-            planScore(l.plan, l.comped) * 10 +
-            (l.comped ? 5 : 0) +
-            (l.owner_id ? 2 : 0);
-
-          const byName = new Map<string, (typeof allListings)[number]>();
-          for (const l of allListings) {
-            const key = nameKey(l.listing_name);
-            if (!key) {
-              // Keep entries without a name as-is under unique key
-              byName.set(`${l.id}`, l);
-              continue;
-            }
-            const existing = byName.get(key);
-            if (!existing || score(l) > score(existing)) {
-              byName.set(key, l);
-            }
-          }
-          // Keep only the values
-          allListings = Array.from(byName.values());
-        }
+    let filteredListings = rawListings.filter((l) => {
+      if (categoryMatcher && !listingMatchesCategory(l, categoryMatcher)) {
+        return false;
       }
-    }
+      const isOnline =
+        l.service_modality === "virtual" || l.service_modality === "hybrid";
+      if (location) {
+        // "Online Available" explicitly opts virtual providers into a place search
+        if (!listingMatchesLocation(l, location) && !(onlineAvailable && isOnline)) {
+          return false;
+        }
+      } else if (onlineAvailable && !isOnline) {
+        return false;
+      }
+      if (excludeFeatured && l.featured) return false;
+      return true;
+    });
 
-    // Apply additional filters
-    let filteredListings = allListings;
+    // Same business listed under several category spellings -> keep the best one
+    if (categoryMatcher && categoryMatcher.names.has("headshotphotographers")) {
+      const nameKey = (n?: string | null) => (n || "").trim().toLowerCase();
+      const score = (l: Listing) => {
+        const p = (l.plan || "free").toLowerCase();
+        const planScore = /pro|premium/.test(p) ? 3 : /standard/.test(p) ? 2 : 1;
+        return (
+          (l.featured ? 1000 : 0) +
+          planScore * 10 +
+          (l.comped ? 5 : 0) +
+          (l.owner_id ? 2 : 0)
+        );
+      };
+      const byName = new Map<string, Listing>();
+      for (const l of filteredListings) {
+        const key = nameKey(l.listing_name) || l.id;
+        const existing = byName.get(key);
+        if (!existing || score(l) > score(existing)) byName.set(key, l);
+      }
+      filteredListings = Array.from(byName.values());
+    }
 
     // Tag filter (age range)
     if (tag) {
@@ -352,7 +323,7 @@ export async function getItems({
       );
     }
 
-    // Location filter
+    // Free-text location filter
     if (filter) {
       filteredListings = filteredListings.filter(
         (listing) =>
@@ -383,40 +354,29 @@ export async function getItems({
       }
       filteredListings = [...virtualGroup, ...otherGroup];
     } else if (isDefaultSort) {
-      // Custom sorting for directory page: Featured > Pro/Premium > Standard > Free
+      // Photo listings > placeholder cards, then Featured > Pro > Standard > Free
+      const getPlanPriority = (l: Listing) => {
+        if (l.comped) return 3; // Comped listings are treated as Pro
+        const planLower = (l.plan || "free").toLowerCase();
+        if (planLower === "pro" || planLower === "founding pro") return 3;
+        if (planLower === "standard" || planLower === "founding standard")
+          return 2;
+        return 1;
+      };
       filteredListings.sort((a, b) => {
-        // 1. Featured listings first (featured = true)
-        const aFeatured = a.featured || false;
-        const bFeatured = b.featured || false;
+        const aPhoto = listingHasPhoto(a);
+        const bPhoto = listingHasPhoto(b);
+        if (aPhoto !== bPhoto) return aPhoto ? -1 : 1;
 
-        if (aFeatured && !bFeatured) return -1;
-        if (!aFeatured && bFeatured) return 1;
+        const aFeatured = Boolean(a.featured);
+        const bFeatured = Boolean(b.featured);
+        if (aFeatured !== bFeatured) return aFeatured ? -1 : 1;
 
-        // Helper function to get plan priority (higher = better)
-        const getPlanPriority = (
-          plan: string | null | undefined,
-          comped: boolean | null | undefined,
-          featured: boolean,
-        ) => {
-          if (featured) return 4; // Featured already sorted above, but maintain hierarchy
-          if (comped) return 3; // Comped listings are treated as Pro
-          const planLower = (plan || "free").toLowerCase();
-          if (planLower === "pro" || planLower === "founding pro") return 3;
-          if (planLower === "standard" || planLower === "founding standard")
-            return 2;
-          return 1; // Free or unknown
-        };
-
-        // 2. Sort by plan priority (Pro > Standard > Free)
-        const aPriority = getPlanPriority(a.plan, a.comped, aFeatured);
-        const bPriority = getPlanPriority(b.plan, b.comped, bFeatured);
-
+        const aPriority = getPlanPriority(a);
+        const bPriority = getPlanPriority(b);
         if (aPriority !== bPriority) return bPriority - aPriority;
 
-        // 3. Within same plan tier, sort alphabetically by name
-        const aName = a.listing_name || "";
-        const bName = b.listing_name || "";
-        return aName.localeCompare(bName);
+        return (a.listing_name || "").localeCompare(b.listing_name || "");
       });
     } else {
       // Apply requested sorting
@@ -446,19 +406,25 @@ export async function getItems({
     }
 
     const totalCount = filteredListings.length;
-    const itemsPerPage = hasSponsorItem ? ITEMS_PER_PAGE - 1 : ITEMS_PER_PAGE;
+    const perPage = itemsPerPageOverride ?? ITEMS_PER_PAGE;
+    const itemsPerPage = hasSponsorItem ? perPage - 1 : perPage;
+    const page = Math.max(1, Number.isFinite(currentPage) ? currentPage : 1);
 
     // Pagination
-    const offsetStart = (currentPage - 1) * itemsPerPage;
-    const offsetEnd = offsetStart + itemsPerPage;
-    const paginatedListings = filteredListings.slice(offsetStart, offsetEnd);
+    const offsetStart = (page - 1) * itemsPerPage;
+    const paginatedListings = filteredListings.slice(
+      offsetStart,
+      offsetStart + itemsPerPage,
+    );
 
     // Convert to ItemInfo format
-    const items = await Promise.all(paginatedListings.map(listingToItem));
+    const items = await Promise.all(
+      paginatedListings.map((l) => listingToItem(l, categories)),
+    );
 
-    return { items, totalCount };
+    return { items, totalCount, itemsPerPage };
   } catch (error) {
     console.error("getItems (Supabase), error:", error);
-    return { items: [], totalCount: 0 };
+    return { items: [], totalCount: 0, itemsPerPage: itemsPerPageOverride ?? ITEMS_PER_PAGE };
   }
 }

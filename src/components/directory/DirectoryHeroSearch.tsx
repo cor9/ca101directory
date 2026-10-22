@@ -153,7 +153,7 @@ export default function DirectoryHeroSearch({
     if (unionStatus) params.set("union_status", unionStatus);
 
     const queryString = params.toString();
-    router.push(`/directory${queryString ? `?${queryString}` : ""}`);
+    router.push(`/directory${queryString ? `?${queryString}` : ""}#search-results`);
   };
 
   // Near Me: Use browser geolocation to get user's city/state

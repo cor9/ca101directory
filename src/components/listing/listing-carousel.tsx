@@ -16,7 +16,7 @@ export function ListingCarousel({ listings }: ListingCarouselProps) {
       <ScrollArea>
         <div className="flex space-x-4 pb-4">
           {listings.map((item) => (
-            <div key={item._id} className="w-[300px] shrink-0">
+            <div key={item._id} className="flex w-[300px] shrink-0">
               <ListingCardClient item={item} />
             </div>
           ))}

@@ -20,14 +20,14 @@ export function ListingAbout({ listing }: ListingAboutProps) {
   const isLong = text.length > 280;
 
   return (
-    <section className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6">
-      <h2 className="text-xl font-bold mb-3 text-text-primary">About</h2>
+    <section className="border border-white/10 bg-[#142B3B] rounded-xl p-6">
+      <h2 className="text-xl font-bold mb-3 text-white">About</h2>
 
       {/* Clamped preview */}
       <div className={expanded ? "hidden" : "block"}>
         <RichTextDisplay
           content={text}
-          className="text-sm leading-relaxed text-text-secondary line-clamp-4"
+          className="text-sm leading-relaxed text-slate-100 line-clamp-4"
         />
       </div>
 
@@ -35,7 +35,7 @@ export function ListingAbout({ listing }: ListingAboutProps) {
       {expanded && (
         <RichTextDisplay
           content={text}
-          className="text-sm leading-relaxed text-text-secondary"
+          className="text-sm leading-relaxed text-slate-100"
         />
       )}
 
@@ -43,7 +43,7 @@ export function ListingAbout({ listing }: ListingAboutProps) {
       {isLong && (
         <button
           onClick={() => setExpanded(!expanded)}
-          className="mt-3 text-sky-400 hover:text-sky-300 text-sm font-medium transition-colors"
+          className="mt-3 text-sky-300 hover:text-white text-sm font-medium transition-colors"
         >
           {expanded ? "Show less" : "Read more"}
         </button>

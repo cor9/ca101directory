@@ -57,8 +57,8 @@ export function ListingDetails({
     lastActive;
 
   return (
-    <section className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6">
-      <h2 className="text-xl font-bold mb-4 text-text-primary">Details</h2>
+    <section className="border border-white/10 bg-[#142B3B] rounded-xl p-6">
+      <h2 className="mb-4 text-lg font-bold text-white">Details</h2>
 
       {/* Trust Signals Bar */}
       {showTrustSignals && (
@@ -89,7 +89,7 @@ export function ListingDetails({
             </span>
           )}
           {lastActive && (
-            <span className="inline-flex items-center gap-1.5 text-xs text-text-muted">
+            <span className="inline-flex items-center gap-1.5 text-xs text-slate-300">
               {lastActive}
             </span>
           )}
@@ -97,33 +97,33 @@ export function ListingDetails({
       )}
 
       {/* Details Grid */}
-      <dl className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+      <dl className="grid grid-cols-1 gap-4 text-sm">
         <div className="flex items-start gap-2">
-          <MapPin className="w-4 h-4 text-text-muted mt-0.5 flex-shrink-0" />
+          <MapPin className="w-4 h-4 text-slate-300 mt-0.5 flex-shrink-0" />
           <div>
-            <dt className="font-medium text-text-primary">Location</dt>
-            <dd className="text-text-secondary">
+            <dt className="font-medium text-white">Location</dt>
+            <dd className="text-slate-100">
               {location || "Not specified"}
             </dd>
           </div>
         </div>
 
         <div className="flex items-start gap-2">
-          <Globe className="w-4 h-4 text-text-muted mt-0.5 flex-shrink-0" />
+          <Globe className="w-4 h-4 text-slate-300 mt-0.5 flex-shrink-0" />
           <div>
-            <dt className="font-medium text-text-primary">Format</dt>
-            <dd className="text-text-secondary">
+            <dt className="font-medium text-white">Format</dt>
+            <dd className="text-slate-100">
               {hasVirtualOption ? "Virtual / Online" : "In-Person"}
             </dd>
           </div>
         </div>
 
         {regions.length > 0 && (
-          <div className="col-span-2 sm:col-span-1">
-            <dt className="font-medium text-text-primary mb-1">
+          <div>
+            <dt className="font-medium text-white mb-1">
               Service Areas
             </dt>
-            <dd className="text-text-secondary text-xs">
+            <dd className="text-slate-100 text-sm">
               {regions.slice(0, 3).join(", ")}
               {regions.length > 3 ? ` +${regions.length - 3} more` : ""}
             </dd>
@@ -135,14 +135,14 @@ export function ListingDetails({
       <div className="mt-5 pt-4 border-t border-white/10 space-y-4">
         {ageRanges.length > 0 && (
           <div>
-            <dt className="font-medium text-text-primary text-sm mb-2">
+            <dt className="font-medium text-white text-sm mb-2">
               Ages Served
             </dt>
             <dd className="flex flex-wrap gap-2">
               {ageRanges.map((age) => (
                 <span
                   key={age}
-                  className="px-2.5 py-1 rounded-full bg-blue-500/15 text-blue-300 text-xs font-medium border border-blue-500/20"
+                  className="px-2.5 py-1 rounded-full bg-blue-500/15 text-sky-200 text-xs font-medium border border-blue-500/20"
                 >
                   {age}
                 </span>
@@ -153,20 +153,20 @@ export function ListingDetails({
 
         {services.length > 0 && (
           <div>
-            <dt className="font-medium text-text-primary text-sm mb-2">
+            <dt className="font-medium text-white text-sm mb-2">
               Services
             </dt>
             <dd className="flex flex-wrap gap-2">
               {services.slice(0, 6).map((service) => (
                 <span
                   key={service}
-                  className="px-2.5 py-1 rounded-full bg-white/5 text-text-secondary text-xs border border-white/10"
+                  className="px-2.5 py-1 rounded-full bg-white/10 text-slate-100 text-xs border border-white/15"
                 >
                   {service}
                 </span>
               ))}
               {services.length > 6 && (
-                <span className="text-xs text-text-muted self-center">
+                <span className="text-xs text-slate-300 self-center">
                   +{services.length - 6} more
                 </span>
               )}

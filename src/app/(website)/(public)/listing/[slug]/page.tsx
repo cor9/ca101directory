@@ -9,7 +9,6 @@ import { ContactActions } from "@/components/listing/contact-actions";
 import { ListingCarousel } from "@/components/listing/listing-carousel";
 import { ListingContactSection } from "@/components/listing/listing-contact-section";
 import type { DisplayCategory } from "@/components/listing/types";
-import { ListingCard } from "@/components/listings/ListingCard";
 import { ReviewForm as SubmitReviewForm } from "@/components/reviews/review-form";
 import {
   BreadcrumbSchema,
@@ -20,6 +19,13 @@ import { RichTextDisplay } from "@/components/ui/rich-text-display";
 import { isFavoritesEnabled, isReviewsEnabled } from "@/config/feature-flags";
 import { siteConfig } from "@/config/site";
 import { getCategories, getCategoryIconsMap } from "@/data/categories";
+import { stateNames } from "@/data/regions";
+import {
+  buildCategoryMatcher,
+  listingHasPhoto,
+  listingMatchesCategory,
+  toStateAbbr,
+} from "@/lib/directory-search";
 import { listingToItem } from "@/data/item-service";
 import {
   type Listing,
@@ -378,52 +384,61 @@ export default async function ListingPage({ params }: ListingPageProps) {
       }
     }
 
-    // Get related listings (same category, different listing)
+    // Recommendations: same category AND same state, never the current listing.
+    // One list feeds one section so providers are never shown twice.
     console.log("ListingPage: About to fetch public listings for related");
     let recommendedItems: Awaited<ReturnType<typeof listingToItem>>[] = [];
-    let related: Listing[] = [];
-    let allPublicListingsForComparison: Listing[] = [];
     try {
-      allPublicListingsForComparison = await getPublicListings({
-        state: listing.state ?? undefined,
-        category: listing.categories?.[0],
-      });
-
-      // Sort by Trust Score logic (simplified here as we don't have all ratings)
-      // We prioritize Featured > Plan Tier > Trust Level
-      const recommendedListings = allPublicListingsForComparison
-        .filter((l) => l.id !== listing.id)
-        .sort((a, b) => {
-          // 1. Featured
-          if (a.featured !== b.featured)
-            return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
-
-          // 2. Plan Tier
-          const getTierScore = (plan: string | null) => {
-            const p = (plan || "free").toLowerCase();
-            if (p.includes("premium")) return 3;
-            if (p.includes("pro")) return 2;
-            if (p.includes("standard")) return 1;
-            return 0;
-          };
-          const tierA = getTierScore(a.plan);
-          const tierB = getTierScore(b.plan);
-          if (tierA !== tierB) return tierB - tierA;
-
-          // 3. Trust Level
-          const getTrustScore = (l: Listing) => {
-            if (l.trust_level === "background_checked") return 2;
-            if (l.trust_level === "verified") return 1;
-            return 0;
-          };
-          return getTrustScore(b) - getTrustScore(a);
-        })
-        .slice(0, 6);
-
-      recommendedItems = await Promise.all(
-        recommendedListings.map((l) => listingToItem(l)),
-      );
-      related = recommendedListings.slice(0, 3);
+      const primaryCategoryInput =
+        displayCategories[0]?.displayName || listing.categories?.[0];
+      const listingState = toStateAbbr(listing.state);
+      if (primaryCategoryInput && listingState) {
+        const [allPublic, allCategories] = await Promise.all([
+          getPublicListings({}),
+          getCategories(),
+        ]);
+        const matcher = buildCategoryMatcher(primaryCategoryInput, allCategories);
+        const planScore = (plan: string | null) => {
+          const p = (plan || "free").toLowerCase();
+          if (p.includes("premium")) return 3;
+          if (p.includes("pro")) return 2;
+          if (p.includes("standard")) return 1;
+          return 0;
+        };
+        const trustScore = (l: Listing) =>
+          l.trust_level === "background_checked"
+            ? 2
+            : l.trust_level === "verified"
+              ? 1
+              : 0;
+        const seenNames = new Set<string>([
+          (listing.listing_name || "").trim().toLowerCase(),
+        ]);
+        const recommendedListings = allPublic
+          .filter(
+            (l) =>
+              l.id !== listing.id &&
+              toStateAbbr(l.state) === listingState &&
+              listingMatchesCategory(l, matcher),
+          )
+          .sort(
+            (a, b) =>
+              Number(listingHasPhoto(b)) - Number(listingHasPhoto(a)) ||
+              Number(Boolean(b.featured)) - Number(Boolean(a.featured)) ||
+              planScore(b.plan) - planScore(a.plan) ||
+              trustScore(b) - trustScore(a),
+          )
+          .filter((l) => {
+            const key = (l.listing_name || "").trim().toLowerCase();
+            if (!key || seenNames.has(key)) return false;
+            seenNames.add(key);
+            return true;
+          })
+          .slice(0, 6);
+        recommendedItems = await Promise.all(
+          recommendedListings.map((l) => listingToItem(l, allCategories)),
+        );
+      }
     } catch (err) {
       console.warn("ListingPage: recommended listings fetch failed", err);
     }
@@ -530,7 +545,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
       claimed: listing.is_claimed === true,
       plan: listing.plan,
       badge_approved: listing.badge_approved === true,
-      relatedCount: related.length,
+      relatedCount: recommendedItems.length,
     });
 
     // Prepare data for canonical layout
@@ -589,7 +604,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
             </div>
           </div>
 
-          {/* Canonical Listing Layout */}
+          {/* Canonical Listing Layout: one grid, main (2/3) + sticky sidebar (1/3) */}
           <ListingLayout
             listing={listing}
             slug={params.slug}
@@ -600,204 +615,143 @@ export default async function ListingPage({ params }: ListingPageProps) {
             regions={regions}
             hasVirtualOption={hasVirtualOption}
             averageRating={averageRating}
-          />
+            sidebar={
+              <>
+                {showFavorite && (
+                  <FavoriteButton
+                    listingId={listing.id}
+                    listingName={listing.listing_name}
+                    listingOwnerId={listing.owner_id}
+                    size="default"
+                    variant="outline"
+                  />
+                )}
+                <ListingContactSection
+                  listing={listing}
+                  showClaimCallout={showClaimCallout}
+                  showUpgradePrompt={showUpgradePrompt}
+                />
+              </>
+            }
+            mainFooter={
+              <>
+                {upcomingEvents.length > 0 && (
+                  <section className="rounded-xl border border-white/10 bg-[#142B3B] p-6">
+                    <h2 className="mb-4 text-xl font-bold text-white">
+                      Upcoming Events from {listing.listing_name}
+                    </h2>
+                    <div className="space-y-4">
+                      {upcomingEvents.map((event) => (
+                        <EventCard
+                          key={event.id}
+                          event={
+                            {
+                              ...event,
+                              listing: {
+                                id: listing.id,
+                                slug: listing.slug,
+                                listing_name: listing.listing_name,
+                                plan: listing.plan,
+                              },
+                            } as DirectoryEventWithListing
+                          }
+                        />
+                      ))}
+                    </div>
+                  </section>
+                )}
 
-          {/* Additional Content: Reviews and Sidebar */}
-          <div className="bg-bg-dark py-10">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 lg:gap-12 items-start">
-                {/* Left column: Events and Reviews */}
-                <div className="space-y-6">
-                  {upcomingEvents.length > 0 && (
-                    <section className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6">
-                      <h2 className="text-xl font-bold mb-4 text-text-primary">
-                        Upcoming Events from {listing.listing_name}
-                      </h2>
-                      <div className="space-y-4">
-                        {upcomingEvents.map((event) => (
-                          <EventCard
-                            key={event.id}
-                            event={
-                              {
-                                ...event,
-                                listing: {
-                                  id: listing.id,
-                                  slug: listing.slug,
-                                  listing_name: listing.listing_name,
-                                  plan: listing.plan,
-                                },
-                              } as DirectoryEventWithListing
-                            }
-                          />
+                {reviewsEnabled && (
+                  <section
+                    id="reviews"
+                    className="rounded-xl border border-white/10 bg-[#142B3B] p-6"
+                  >
+                    <h2 className="mb-4 text-xl font-bold text-white">
+                      Reviews from Parents
+                    </h2>
+
+                    {/* 17F: Review Gating Message */}
+                    {averageRating.count === 0 && reviews.length === 0 && (
+                      <div className="mb-4 rounded-lg border border-white/10 bg-[#0D1B2A] p-4">
+                        <p className="mb-2 text-sm text-slate-100">
+                          This provider does not have reviews yet.
+                        </p>
+                        <p className="text-xs italic text-slate-300">
+                          Profiles with reviews get 4× more contact requests.
+                        </p>
+                      </div>
+                    )}
+
+                    {reviews.length > 0 && (
+                      <div className="space-y-6">
+                        <div className="mb-3 flex items-center gap-2">
+                          <span className="text-2xl text-amber-300">★</span>
+                          <span className="text-xl font-semibold text-white">
+                            {averageRating.average.toFixed(1)}
+                          </span>
+                          <span className="text-sm text-slate-300">
+                            based on {averageRating.count} review
+                            {averageRating.count === 1 ? "" : "s"}
+                          </span>
+                        </div>
+
+                        {reviews.map((review) => (
+                          <div
+                            key={review.id}
+                            className="rounded-lg border border-white/10 bg-[#0D1B2A] p-4"
+                          >
+                            <p className="text-sm leading-relaxed text-slate-100">
+                              {review.text}
+                            </p>
+                            <p className="mt-2 text-xs text-slate-300">
+                              —{" "}
+                              {review.user?.name ||
+                                review.user?.email ||
+                                "Anonymous"}
+                              , {formatDate(review.created_at)}
+                            </p>
+                          </div>
                         ))}
                       </div>
-                    </section>
-                  )}
+                    )}
 
-                  {reviewsEnabled && (
-                    <section
-                      id="reviews"
-                      className="bg-bg-panel/60 backdrop-blur-sm border border-white/5 rounded-xl p-6"
-                    >
-                      <h2 className="text-xl font-bold mb-4 text-text-primary">
-                        Reviews from Parents
-                      </h2>
-
-                      {/* 17F: Review Gating Message */}
-                      {averageRating.count === 0 && reviews.length === 0 && (
-                        <div className="mb-4 p-4 bg-bg-dark-2 border border-border-subtle rounded-lg">
-                          <p className="text-sm text-text-secondary mb-2">
-                            This provider does not have reviews yet.
-                          </p>
-                          <p className="text-xs text-text-muted italic">
-                            Profiles with reviews get 4× more contact requests.
-                          </p>
-                        </div>
-                      )}
-
-                      {reviews.length > 0 && (
-                        <div className="space-y-6">
-                          <div className="flex items-center gap-2 mb-3">
-                            <span className="text-2xl">★</span>
-                            <span className="text-xl font-semibold text-text-primary">
-                              {averageRating.average.toFixed(1)}
-                            </span>
-                            <span className="text-sm text-text-muted">
-                              based on {averageRating.count} review
-                              {averageRating.count === 1 ? "" : "s"}
-                            </span>
-                          </div>
-
-                          {reviews.map((review) => (
-                            <div
-                              key={review.id}
-                              className="rounded-lg border border-white/10 p-4 bg-bg-dark-2"
-                            >
-                              <p className="text-sm leading-relaxed text-text-secondary">
-                                {review.text}
-                              </p>
-                              <p className="mt-2 text-xs text-text-muted">
-                                —{" "}
-                                {review.user?.name ||
-                                  review.user?.email ||
-                                  "Anonymous"}
-                                , {formatDate(review.created_at)}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      <div className="mt-6">
-                        <SubmitReviewForm
-                          vendorId={listing.id}
-                          vendorName={listing.listing_name || "this provider"}
-                        />
-                      </div>
-
-                      <div className="mt-6">
-                        <RelatedLinks
-                          listing={listing}
-                          relatedListings={related}
-                          categoryNames={Array.from(
-                            new Set(
-                              displayCategories.map((c) =>
-                                c.displayName.trim(),
-                              ),
-                            ),
-                          )}
-                        />
-                      </div>
-                    </section>
-                  )}
-                </div>
-
-                {/* Right column: Sticky sidebar with Contact Info */}
-                <aside className="lg:sticky lg:top-24">
-                  {showFavorite && (
-                    <div className="mb-6">
-                      <FavoriteButton
-                        listingId={listing.id}
-                        listingName={listing.listing_name}
-                        listingOwnerId={listing.owner_id}
-                        size="default"
-                        variant="outline"
+                    <div className="mt-6">
+                      <SubmitReviewForm
+                        vendorId={listing.id}
+                        vendorName={listing.listing_name || "this provider"}
                       />
                     </div>
-                  )}
-                  <ListingContactSection
-                    listing={listing}
-                    showClaimCallout={showClaimCallout}
-                    showUpgradePrompt={showUpgradePrompt}
-                  />
-                </aside>
-              </div>
 
-              {/* ZONE 3: EXPLORATION - Related listings (full width, always last) */}
-              <div className="mt-16 space-y-12">
-                {/* 16C: Competitive Context for Free listings (not for INDUSTRY_PRO) */}
-                {!isIndustryPro &&
-                  (!listing.plan ||
-                    listing.plan === "Free" ||
-                    listing.plan === null) && (
-                    <section className="pt-10 border-t border-white/10">
-                      <p className="text-sm text-text-secondary mb-6">
-                        Families typically contact 2–3 providers before
-                        deciding.
-                      </p>
-                      {/* 18G: The One Sentence */}
-                      <p className="text-xs text-text-muted italic mb-4">
-                        Providers with Pro features receive 3–5× more parent
-                        contact.
-                      </p>
-                      <h2 className="text-xl font-bold mb-6 text-text-primary">
-                        Similar providers families also viewed
-                      </h2>
-                      {allPublicListingsForComparison.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          {allPublicListingsForComparison
-                            .filter((l) => {
-                              // Show only Standard/Pro listings with images, different from current
-                              return (
-                                l.id !== listing.id &&
-                                l.plan &&
-                                l.plan !== "Free" &&
-                                l.profile_image
-                              );
-                            })
-                            .slice(0, 2)
-                            .map((itemListing) => (
-                              <ListingCard
-                                key={itemListing.id}
-                                listing={itemListing}
-                              />
-                            ))}
-                        </div>
-                      ) : recommendedItems.length > 0 ? (
-                        <ListingCarousel
-                          listings={recommendedItems.slice(0, 2)}
-                        />
-                      ) : null}
-                    </section>
-                  )}
-
-                {/* Recommended Providers Module - for paid listings */}
-                {!isIndustryPro &&
-                  listing.plan &&
-                  listing.plan !== "Free" &&
-                  listing.plan !== null &&
-                  recommendedItems.length > 0 && (
-                    <section className="pt-10 border-t border-white/10">
-                      <h2 className="text-xl font-bold mb-6 text-text-primary">
-                        Other Trusted Providers in{" "}
-                        {listing.state || "Your Area"}
-                      </h2>
-                      <ListingCarousel listings={recommendedItems} />
-                    </section>
-                  )}
-              </div>
-            </div>
-          </div>
+                    <RelatedLinks
+                      categoryNames={Array.from(
+                        new Set(
+                          displayCategories.map((c) => c.displayName.trim()),
+                        ),
+                      )}
+                    />
+                  </section>
+                )}
+              </>
+            }
+          >
+            {/* Exploration: ONE recommendations section, same category + same state */}
+            {!isIndustryPro && recommendedItems.length > 0 && (
+              <section className="mt-16 border-t border-white/10 pt-10">
+                {!hasPremiumAccess && (
+                  <p className="mb-4 text-sm text-slate-200">
+                    Families typically contact 2–3 providers before deciding.
+                  </p>
+                )}
+                <h2 className="mb-6 text-xl font-bold text-white">
+                  Other {displayPrimaryCategory} in{" "}
+                  {(listing.state && stateNames[toStateAbbr(listing.state) ?? ""]) ||
+                    listing.state ||
+                    "Your Area"}
+                </h2>
+                <ListingCarousel listings={recommendedItems} />
+              </section>
+            )}
+          </ListingLayout>
         </div>
 
         {/* Mobile sticky contact bar */}

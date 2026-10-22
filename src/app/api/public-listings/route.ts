@@ -1,5 +1,5 @@
 import { getItems } from "@/data/item-service";
-import { ITEMS_PER_PAGE } from "@/lib/constants";
+import { DIRECTORY_ITEMS_PER_PAGE } from "@/lib/constants";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -7,44 +7,61 @@ export const dynamic = "force-dynamic";
 /**
  * GET /api/public-listings
  *
- * Fetches paginated public listings for the directory "Load More" feature.
+ * Paginated public listings. Honors the same filters as /directory, ANDed
+ * together (category AND state/city AND ...). `category` may be a name,
+ * slug or UUID.
  *
  * Query params:
  * - page: number (1-indexed, default 1)
- * - q: search query
- * - category: category name filter
- * - state: state filter
- * - region: region filter
+ * - q, category, state, city, region
+ * - online_available: "true"
+ * - age_groups: comma separated
  */
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
 
-    const page = Number.parseInt(searchParams.get("page") || "1", 10);
+    const page = Math.max(
+      1,
+      Number.parseInt(searchParams.get("page") || "1", 10) || 1,
+    );
     const q = searchParams.get("q") || undefined;
     const category = searchParams.get("category") || undefined;
     const state = searchParams.get("state") || undefined;
+    const city = searchParams.get("city") || undefined;
     const region = searchParams.get("region") || undefined;
+    const ageGroups = searchParams
+      .get("age_groups")
+      ?.split(",")
+      .filter(Boolean);
 
-    const { items, totalCount } = await getItems({
+    const filtered = Boolean(
+      q || (category && category !== "all") || state || city || region,
+    );
+
+    const { items, totalCount, itemsPerPage } = await getItems({
       query: q,
       category,
       state,
+      city,
       region,
       currentPage: page,
       hasSponsorItem: false,
-      excludeFeatured: true,
+      // Featured listings only get hoisted above the grid on unfiltered views
+      excludeFeatured: !filtered,
+      onlineAvailable: searchParams.get("online_available") === "true",
+      ageGroups: ageGroups?.length ? ageGroups : undefined,
+      itemsPerPage: DIRECTORY_ITEMS_PER_PAGE,
     });
 
-    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-    const hasMore = page < totalPages;
+    const totalPages = Math.ceil(totalCount / itemsPerPage);
 
     return NextResponse.json({
       items,
       totalCount,
       page,
       totalPages,
-      hasMore,
+      hasMore: page < totalPages,
     });
   } catch (error) {
     console.error("Error fetching public listings:", error);

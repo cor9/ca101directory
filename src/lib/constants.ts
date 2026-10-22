@@ -14,6 +14,8 @@ export const SUPPORT_CATEGORY_GROUP = true;
 export const SUPPORT_ITEM_ICON = true;
 // number of items per page
 export const ITEMS_PER_PAGE = 12;
+// number of listings per page on /directory and /category/[slug]
+export const DIRECTORY_ITEMS_PER_PAGE = 36;
 // number of collections per page
 export const COLLECTIONS_PER_PAGE = 12;
 // number of posts per page

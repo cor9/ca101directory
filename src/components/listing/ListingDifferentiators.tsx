@@ -19,8 +19,8 @@ function ExpandableBlock({ title, content }: ExpandableBlockProps) {
   const isLong = text.length > 280;
 
   return (
-    <div className="bg-bg-panel/40 backdrop-blur-sm border border-white/5 rounded-xl p-6">
-      <h3 className="text-base font-semibold text-text-primary mb-2">
+    <div className="border border-white/10 bg-[#1B3550] rounded-xl p-6">
+      <h3 className="text-base font-semibold text-white mb-2">
         {title}
       </h3>
 
@@ -28,7 +28,7 @@ function ExpandableBlock({ title, content }: ExpandableBlockProps) {
       <div className={expanded ? "hidden" : "block"}>
         <RichTextDisplay
           content={text}
-          className="text-sm leading-relaxed text-text-secondary line-clamp-4"
+          className="text-sm leading-relaxed text-slate-100 line-clamp-4"
         />
       </div>
 
@@ -36,7 +36,7 @@ function ExpandableBlock({ title, content }: ExpandableBlockProps) {
       {expanded && (
         <RichTextDisplay
           content={text}
-          className="text-sm leading-relaxed text-text-secondary"
+          className="text-sm leading-relaxed text-slate-100"
         />
       )}
 
@@ -44,7 +44,7 @@ function ExpandableBlock({ title, content }: ExpandableBlockProps) {
       {isLong && (
         <button
           onClick={() => setExpanded(!expanded)}
-          className="mt-3 text-sky-400 hover:text-sky-300 text-sm font-medium transition-colors"
+          className="mt-3 text-sky-300 hover:text-white text-sm font-medium transition-colors"
         >
           {expanded ? "Show less" : "Read more"}
         </button>
@@ -65,7 +65,7 @@ export function ListingDifferentiators({
 
   return (
     <section className="space-y-4">
-      <h2 className="text-xl font-bold text-text-primary">
+      <h2 className="text-xl font-bold text-white">
         What Sets This Provider Apart
       </h2>
 

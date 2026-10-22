@@ -14,11 +14,6 @@ export const marketingConfig: MarketingConfig = {
       icon: "search",
     },
     {
-      title: "Events",
-      href: "/events",
-      icon: "calendar",
-    },
-    {
       title: "Category",
       href: "/category",
       icon: "category",
@@ -32,11 +27,6 @@ export const marketingConfig: MarketingConfig = {
       title: "Submit",
       href: "/submit",
       icon: "plus",
-    },
-    {
-      title: "Blog",
-      href: "/blog",
-      icon: "blog",
     },
     {
       title: "Help",

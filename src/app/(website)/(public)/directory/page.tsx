@@ -5,6 +5,7 @@ import Container from "@/components/container";
 import { SuggestVendorCTA } from "@/components/cta/SuggestVendorCTA";
 import { CategoryTipCard } from "@/components/directory/CategoryTipCard";
 import DirectoryClient from "@/components/directory/DirectoryClient";
+import ResultsPagination from "@/components/directory/ResultsPagination";
 import DirectoryHeroSearch from "@/components/directory/DirectoryHeroSearch";
 import { StatusPills } from "@/components/directory/StatusPills";
 import WhyParentsTrust from "@/components/directory/WhyParentsTrust";
@@ -15,8 +16,8 @@ import EmptyGrid from "@/components/shared/empty-grid";
 import { siteConfig } from "@/config/site";
 import { getCategories } from "@/data/categories";
 import { getItems } from "@/data/item-service";
-import { regionsList } from "@/data/regions";
-import { ITEMS_PER_PAGE } from "@/lib/constants";
+import { regionsList, stateNames } from "@/data/regions";
+import { DIRECTORY_ITEMS_PER_PAGE } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
 import { createServerClient } from "@/lib/supabase";
 import type { Metadata } from "next";
@@ -61,6 +62,7 @@ export default async function DirectoryPage({
     console.error("Error fetching states:", error);
   }
 
+  const sp = (searchParams ?? {}) as { [key: string]: string | undefined };
   const {
     page,
     category,
@@ -69,55 +71,68 @@ export default async function DirectoryPage({
     city,
     q: query,
     verified,
-    bg_checked,
-    repeat,
-    high_rated,
     online_available,
     age_groups,
-  } = searchParams as {
-    [key: string]: string;
-  };
-  const currentPage = page ? Number(page) : 1;
+    price_max,
+    beginner_friendly,
+    technique_focus,
+    union_status,
+  } = sp;
+  const currentPage = Math.max(1, Number.parseInt(page || "1", 10) || 1);
 
-  // Convert category ID to category name
-  let categoryName: string | undefined = undefined;
-  if (category && category !== "all") {
-    const foundCategory = categories.find((cat) => cat.id === category);
-    categoryName = foundCategory?.category_name;
-    console.log("DirectoryPage: Category mapping:", {
-      categoryId: category,
-      categoryName,
-      foundCategory,
-    });
-  }
+  // Category arrives as a UUID from the filter UI; getItems resolves UUID,
+  // name or slug and enforces it strictly. The name is only used for display.
+  const categoryFilter = category && category !== "all" ? category : undefined;
+  const categoryName = categoryFilter
+    ? categories.find((cat) => cat.id === categoryFilter)?.category_name
+    : undefined;
+  const stateFilter = state && state !== "all" ? state : undefined;
 
-  console.log("DirectoryPage: Getting items with params:", {
-    category,
-    categoryName,
-    state,
+  // Any search/filter hides the global Featured/Pro showcase and lets
+  // matching featured listings rank first inside the results instead.
+  const filtersActive = Boolean(
+    query?.trim() ||
+      categoryFilter ||
+      stateFilter ||
+      city?.trim() ||
+      region ||
+      online_available === "true" ||
+      age_groups ||
+      verified === "true" ||
+      price_max ||
+      beginner_friendly === "true" ||
+      technique_focus ||
+      union_status,
+  );
+
+  const { items, totalCount, itemsPerPage } = await getItems({
+    category: categoryFilter,
+    state: stateFilter,
+    city: city?.trim() || undefined,
     region,
     query,
     currentPage,
-  });
-
-  const { items, totalCount } = await getItems({
-    category: categoryName, // Pass category name instead of ID
-    state,
-    region,
-    query,
-    currentPage,
-    excludeFeatured: true, // avoid repeating featured listings shown above
+    itemsPerPage: DIRECTORY_ITEMS_PER_PAGE,
+    excludeFeatured: !filtersActive, // featured block above already shows them
     onlineAvailable: online_available === "true",
     ageGroups: age_groups ? age_groups.split(",") : undefined,
+    verified: verified === "true",
+    priceMax: price_max ? Number(price_max) || undefined : undefined,
+    techniqueFocus: technique_focus ? technique_focus.split(",") : undefined,
+    beginnerFriendly: beginner_friendly === "true",
+    unionStatus: union_status || undefined,
   });
 
-  console.log("DirectoryPage: Received items:", {
-    itemsCount: items?.length || 0,
-    totalCount,
-    sampleItems: items?.slice(0, 2),
-  });
-
-  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+  const totalPages = Math.max(1, Math.ceil(totalCount / itemsPerPage));
+  const locationLabel = [city?.trim(), stateFilter ? stateNames[stateFilter.toUpperCase()] ?? stateFilter : null]
+    .filter(Boolean)
+    .join(", ");
+  const heading = [
+    categoryName || (filtersActive ? "Search Results" : "All Professionals"),
+    locationLabel ? `in ${locationLabel}` : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div className="flex flex-col bg-bg-dark min-h-screen">
@@ -137,10 +152,12 @@ export default async function DirectoryPage({
         </p>
       </Container>
 
-      {/* Featured Vendors */}
-      <Container className="py-8">
-        <HomeFeaturedListings />
-      </Container>
+      {/* Featured Vendors: only on the unfiltered directory */}
+      {!filtersActive && (
+        <Container className="py-8">
+          <HomeFeaturedListings />
+        </Container>
+      )}
 
       {/* Listings Grid */}
       <section id="search-results" className="max-w-7xl mx-auto px-4 py-8">
@@ -149,7 +166,7 @@ export default async function DirectoryPage({
 
         <div className="mb-6">
           <h2 className="bauhaus-heading text-2xl text-white mb-4">
-            {categoryName || "All Professionals"}
+            {heading}
             <span className="text-white/50 text-lg font-normal ml-2">
               ({totalCount} results)
             </span>
@@ -180,6 +197,13 @@ export default async function DirectoryPage({
             initialTotalPages={totalPages}
           />
         )}
+
+        <ResultsPagination
+          basePath="/directory"
+          currentPage={currentPage}
+          totalPages={totalPages}
+          searchParams={sp}
+        />
       </section>
 
       {/* Why Parents Trust Us (moved below listings) */}

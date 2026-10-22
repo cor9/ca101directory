@@ -1,132 +1,19 @@
 "use client";
 
-import type { Listing } from "@/data/listings";
-import { generateSlugFromListing } from "@/lib/slug-utils";
 import Link from "next/link";
 
 interface RelatedLinksProps {
-  listing: Listing;
-  relatedListings?: Listing[];
   categoryNames?: string[];
 }
 
 /**
  * Internal linking component for SEO
- * Bauhaus theme with varied accent colors: mustard, denim, orange
+ * Related category pills + a way back to the directory.
+ * (Provider recommendations live in a single section on the listing page.)
  */
-export function RelatedLinks({
-  listing,
-  relatedListings = [],
-  categoryNames = [],
-}: RelatedLinksProps) {
-  // Use the first category name from the provided array, or fall back to raw category ID
-  const primaryCategory = categoryNames[0] || listing.categories?.[0];
-  const location = listing.city || listing.region || listing.state;
-
-  // Create category slug
-  const categorySlug = primaryCategory
-    ?.toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9-]/g, "");
-
+export function RelatedLinks({ categoryNames = [] }: RelatedLinksProps) {
   return (
-    <div className="space-y-8 mt-12">
-      {/* Contextual Paragraph - DENIM BLUE BACKGROUND */}
-      {primaryCategory && (
-        <div className="rounded-lg p-6" style={{ backgroundColor: "#3a76a6" }}>
-          <p className="text-lg leading-relaxed" style={{ color: "#fafaf4" }}>
-            <strong style={{ color: "#fafaf4" }}>{listing.listing_name}</strong>{" "}
-            is a professional{" "}
-            {categorySlug ? (
-              <Link
-                href={`/category/${categorySlug}`}
-                className="font-medium underline"
-                style={{ color: "#e4a72e" }}
-              >
-                {primaryCategory.toLowerCase()}
-              </Link>
-            ) : (
-              <span style={{ color: "#fafaf4" }}>
-                {primaryCategory.toLowerCase()}
-              </span>
-            )}{" "}
-            {location && (
-              <>
-                serving <strong style={{ color: "#fafaf4" }}>{location}</strong>
-              </>
-            )}
-            .{" "}
-            {categorySlug && (
-              <>
-                View more{" "}
-                <Link
-                  href={`/category/${categorySlug}`}
-                  className="font-medium underline"
-                  style={{ color: "#e4a72e" }}
-                >
-                  {primaryCategory.toLowerCase()} professionals
-                </Link>
-              </>
-            )}{" "}
-            or{" "}
-            <Link
-              href="/directory"
-              className="font-medium underline"
-              style={{ color: "#e4a72e" }}
-            >
-              browse all categories
-            </Link>
-            .
-          </p>
-        </div>
-      )}
-
-      {/* Related Listings - "You Might Also Like" - MUSTARD BACKGROUND */}
-      {relatedListings.length > 0 && (
-        <div className="rounded-lg p-8" style={{ backgroundColor: "#e4a72e" }}>
-          <h2 className="text-3xl font-bold mb-6" style={{ color: "#0f1113" }}>
-            You Might Also Like
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {relatedListings.slice(0, 3).map((related) => {
-              return (
-                <Link
-                  key={related.id}
-                  href={`/listing/${generateSlugFromListing(related)}`}
-                  className="block rounded-lg p-5 transition-all hover:shadow-lg"
-                  style={{
-                    backgroundColor: "#fafaf4",
-                    border: "2px solid #0d1b2a",
-                  }}
-                >
-                  <h4
-                    className="font-bold mb-2 line-clamp-1 text-lg"
-                    style={{ color: "#0f1113" }}
-                  >
-                    {related.listing_name}
-                  </h4>
-                  <p
-                    className="text-sm line-clamp-3 mb-3 leading-relaxed"
-                    style={{ color: "#1f2327" }}
-                  >
-                    {related.what_you_offer
-                      ?.replace(/<[^>]*>/g, "")
-                      .slice(0, 120) ||
-                      "Professional services for child actors"}
-                  </p>
-                  <span
-                    className="text-sm font-bold inline-block"
-                    style={{ color: "#e4572e" }}
-                  >
-                    View Listing →
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
+    <div className="mt-8 space-y-8">
       {/* Category Navigation - NAVY BACKGROUND WITH VARIED ACCENT BUTTONS */}
       {categoryNames && categoryNames.length > 1 && (
         <div className="rounded-lg p-6" style={{ backgroundColor: "#0d1b2a" }}>

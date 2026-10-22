@@ -1,206 +1,151 @@
 "use client";
 
 import { CategoryPlaceholder } from "@/components/listing/CategoryPlaceholder";
-import { urlForIcon, urlForImage } from "@/lib/image";
+import { type CardData, classifyImage, itemToCardData } from "@/lib/card-data";
 import { getListingImageUrl } from "@/lib/image-urls";
-import { isIndustryPro } from "@/lib/listings/listingType";
-import { dedupeLabels } from "@/lib/labels";
 import { generateSlugFromItem } from "@/lib/slug-utils";
+import { cn } from "@/lib/utils";
 import type { ItemInfo } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 /**
- * Determine tier from item pricePlan
+ * THE listing card. Used for directory results, category results, related
+ * vendors, Featured Professionals and search, so one vendor looks like the
+ * same product everywhere.
+ *
+ * One image per card (never a collage). Photographs are shown edge-to-edge
+ * (cropped, face-friendly position); logos, graphics, posters and small or
+ * extreme-aspect images are contained on a neutral background so nothing is
+ * cut off. Uploaded files are never modified.
  */
-function getTierFromItem(
-  item: ItemInfo,
-): "free" | "standard" | "pro" | "premium" {
-  const plan = (item.pricePlan || "free").toLowerCase();
-  if (plan.includes("pro") || plan.includes("premium")) return "pro";
-  if (plan.includes("standard") || plan.includes("basic")) return "standard";
-  return "free";
-}
+export function ListingCardView({
+  card,
+  className,
+}: {
+  card: CardData;
+  className?: string;
+}) {
+  const mediaRef = useRef<HTMLDivElement>(null);
+  const [kind, setKind] = useState<"photo" | "graphic">(
+    card.imageIsLogo ? "graphic" : card.photoLed ? "photo" : "graphic",
+  );
+  const [portrait, setPortrait] = useState(true);
 
-interface ListingCardClientProps {
-  item: ItemInfo;
-}
+  const classify = (img: HTMLImageElement) => {
+    const r = classifyImage(
+      { width: img.naturalWidth, height: img.naturalHeight },
+      { isLogo: card.imageIsLogo, photoLed: card.photoLed },
+    );
+    setKind(r.kind);
+    setPortrait(r.portrait);
+  };
 
-export default function ListingCardClient({ item }: ListingCardClientProps) {
-  const imageProps = item?.image
-    ? urlForImage(item.image)
-    : item?.icon
-      ? urlForIcon(item.icon)
-      : null;
+  // Images that finished loading before hydration never fire onLoad
+  useEffect(() => {
+    const img = mediaRef.current?.querySelector("img");
+    if (img?.complete && img.naturalWidth > 0) classify(img);
+    // biome-ignore lint/correctness/useExhaustiveDependencies: classify is stable per card
+  }, [card.imageUrl]);
 
-  const iconRef = item?.icon?.asset?._ref;
-  const profileSrc =
-    item.profileImageUrl ||
-    (iconRef ? getListingImageUrl(iconRef) : null) ||
-    imageProps?.src ||
-    null;
-  const logoSrc = item.logoUrl || null;
-  const gallery = (item.galleryUrls || []).filter(Boolean);
-
-  const tier = getTierFromItem(item);
-  const industryPro = isIndustryPro(item.listingType);
-  const slug =
-    item.slug?.current ||
-    generateSlugFromItem({ name: item.name, _id: item._id });
-  const firstCategory = item.categories?.[0]?.name || "";
-
-  const is101Approved = Array.isArray(item.tags)
-    ? item.tags.some(
-        (t) =>
-          (t?.name && String(t.name).toLowerCase().includes("101")) ||
-          (t?.slug?.current &&
-            String(t.slug.current).toLowerCase().includes("101")) ||
-          (t?.name && String(t.name).toLowerCase().includes("approved")),
-      )
-    : false;
-
-  const ageRanges = (item.tags || [])
-    .filter((t) => t?.name && /^\d+-\d+|^\d+\+|^under|^over/i.test(t.name))
-    .map((t) => t.name);
-
-  const online =
-    item.serviceModality === "virtual" || item.serviceModality === "hybrid";
-  const locationLabel = [item.city, item.state].filter(Boolean).join(", ");
-
-  // Paid placement badge: Featured wins over Pro; INDUSTRY_PRO never shows paid badges
-  const isFeatured = Boolean(item.featured) && !industryPro;
-  const isPro = (tier === "pro" || tier === "premium") && !industryPro;
-
-  // 2-3 pills: specialties first, then ages, then other categories
-  const pills = dedupeLabels(
-    [
-      ...(item.specialties || []),
-      ...ageRanges,
-      ...(item.categories || []).slice(1).map((c) => c.name),
-    ],
-    [firstCategory],
-  ).slice(0, 3);
-
-  // Photography-led layouts: portfolio strip (with avatar) > single full-bleed photo
-  const strip = gallery.length >= 2 ? gallery.slice(0, 3) : null;
-  const photoLed =
-    Boolean(strip) ||
-    gallery.length === 1 ||
-    /photograph|headshot|portrait|video|reel/i.test(firstCategory);
-  const singleSrc = gallery[0] || profileSrc || logoSrc;
-  const showAvatar = Boolean(strip && profileSrc);
+  const badge =
+    "rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wide shadow";
 
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white text-zinc-900 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-xl">
-      {/* Media: edge-to-edge photography, faces anchored to the top */}
+    <article
+      className={cn(
+        "group relative flex h-full flex-col overflow-hidden rounded-xl border bg-white text-zinc-900 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-xl",
+        card.featured ? "border-[#E4A72E]" : "border-zinc-200",
+        className,
+      )}
+    >
       <Link
-        href={`/listing/${slug}`}
-        aria-label={`View ${item.name}`}
-        className="relative block aspect-[5/4] w-full shrink-0 overflow-hidden bg-zinc-100"
+        href={card.href}
+        target={card.external ? "_blank" : undefined}
+        rel={card.external ? "noopener noreferrer" : undefined}
+        aria-label={`View ${card.name}`}
+        className="block shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#2563EB]"
       >
-        {strip ? (
-          <div
-            className={`grid h-full w-full gap-px bg-white ${strip.length === 2 ? "grid-cols-2" : "grid-cols-3"}`}
-          >
-            {strip.map((src, i) => (
-              <div
-                key={`${i}-${src}`}
-                className="relative h-full overflow-hidden"
-              >
-                <Image
-                  src={src}
-                  alt={i === 0 ? `${item.name} portfolio preview` : ""}
-                  fill
-                  sizes="(min-width: 1280px) 9vw, (min-width: 1024px) 11vw, (min-width: 640px) 17vw, 33vw"
-                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-            ))}
-          </div>
-        ) : singleSrc ? (
-          <Image
-            src={singleSrc}
-            alt={`${item.name}`}
-            fill
-            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className={
-              photoLed
-                ? "object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                : "object-contain p-6"
-            }
-          />
-        ) : (
-          <CategoryPlaceholder
-            category={firstCategory}
-            size="md"
-            className="h-full w-full rounded-none"
-          />
-        )}
-
-        {(isFeatured || isPro || is101Approved) && (
-          <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
-            {isFeatured && (
-              <span
-                title="Paid featured placement"
-                className="rounded-full bg-[#E4A72E] px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-zinc-900 shadow"
-              >
-                Featured
-              </span>
-            )}
-            {!isFeatured && isPro && (
-              <span
-                title="Pro subscription (a paid plan)"
-                className="rounded-full bg-zinc-900/90 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white shadow"
-              >
-                Pro
-              </span>
-            )}
-            {is101Approved && (
-              <span
-                title="Awarded by Child Actor 101 after an application review"
-                className="rounded-full bg-[#CC5A47] px-2.5 py-1 text-xs font-bold text-white shadow"
-              >
-                101 Approved
-              </span>
-            )}
-          </div>
-        )}
-      </Link>
-
-      <div className="flex flex-1 flex-col px-6 pb-6">
-        {showAvatar && (
-          <div className="relative -mt-10 mb-3 h-20 w-20 shrink-0 overflow-hidden rounded-full bg-zinc-100 ring-4 ring-white shadow-md">
+        <div
+          ref={mediaRef}
+          className="relative aspect-[5/4] w-full overflow-hidden bg-zinc-100"
+        >
+          {card.imageUrl ? (
             <Image
-              src={profileSrc as string}
-              alt=""
+              src={card.imageUrl}
+              alt={card.name}
               fill
-              sizes="80px"
-              className="object-cover object-top"
+              sizes="(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw"
+              onLoad={(e) => classify(e.currentTarget)}
+              className={
+                kind === "photo"
+                  ? cn(
+                      "object-cover transition-transform duration-500 group-hover:scale-[1.03]",
+                      portrait ? "object-[50%_15%]" : "object-center",
+                    )
+                  : "object-contain p-6"
+              }
             />
-          </div>
-        )}
-
-        <div className={showAvatar ? "" : "pt-4"}>
-          {firstCategory && (
-            <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-[#B8431F]">
-              {firstCategory}
-            </p>
+          ) : (
+            <CategoryPlaceholder
+              category={card.category}
+              size="md"
+              className="h-full w-full rounded-none"
+            />
           )}
-          <h3 className="line-clamp-2 text-xl font-bold leading-snug text-zinc-900">
-            {item.name}
-          </h3>
-          {(locationLabel || online) && (
-            <p className="mt-1.5 text-[15px] text-zinc-600">
-              {locationLabel}
-              {locationLabel && online ? " · " : ""}
-              {online ? "Online available" : ""}
-            </p>
+
+          {(card.featured || card.pro || card.approved101) && (
+            <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
+              {card.featured && (
+                <span
+                  title="Paid featured placement"
+                  className={cn(badge, "bg-[#E4A72E] text-zinc-900")}
+                >
+                  Featured
+                </span>
+              )}
+              {!card.featured && card.pro && (
+                <span
+                  title="Pro subscription (a paid plan)"
+                  className={cn(badge, "bg-zinc-900 text-white")}
+                >
+                  Pro
+                </span>
+              )}
+              {card.approved101 && (
+                <span
+                  title="Awarded by Child Actor 101 after an application review"
+                  className={cn(badge, "bg-[#B8431F] text-white")}
+                >
+                  101 Approved
+                </span>
+              )}
+            </div>
           )}
         </div>
+      </Link>
 
-        {pills.length > 0 && (
+      <div className="flex flex-1 flex-col px-6 pb-6 pt-5">
+        {card.category && (
+          <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-[#B8431F]">
+            {card.category}
+          </p>
+        )}
+        <h3 className="line-clamp-2 text-xl font-bold leading-snug text-zinc-900">
+          {card.name}
+        </h3>
+        {(card.location || card.online) && (
+          <p className="mt-1.5 text-[15px] text-zinc-600">
+            {card.location}
+            {card.location && card.online ? " · " : ""}
+            {card.online ? "Online available" : ""}
+          </p>
+        )}
+
+        {card.pills.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-1.5">
-            {pills.map((p) => (
+            {card.pills.map((p) => (
               <span
                 key={p}
                 className="rounded-full bg-zinc-100 px-3 py-1 text-[13px] font-medium text-zinc-700"
@@ -214,8 +159,10 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
         {/* mt-auto pins the action to the bottom edge of every card */}
         <div className="mt-auto pt-5">
           <Link
-            href={`/listing/${slug}`}
-            className="inline-flex w-full items-center justify-center rounded-md bg-zinc-900 px-4 py-3 text-[15px] font-semibold !text-white transition-colors hover:bg-[#C2441F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2"
+            href={card.href}
+            target={card.external ? "_blank" : undefined}
+            rel={card.external ? "noopener noreferrer" : undefined}
+            className="inline-flex w-full items-center justify-center rounded-md border border-zinc-900 bg-zinc-900 px-4 py-3 text-[15px] font-semibold !text-white transition-colors hover:border-[#C2441F] hover:bg-[#C2441F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2"
           >
             View Profile
           </Link>
@@ -223,4 +170,28 @@ export default function ListingCardClient({ item }: ListingCardClientProps) {
       </div>
     </article>
   );
+}
+
+/** Directory item -> shared card (directory, category, related vendors). */
+export default function ListingCardClient({ item }: { item: ItemInfo }) {
+  const slug =
+    item.slug?.current ||
+    generateSlugFromItem({ name: item.name, _id: item._id });
+
+  const ageRanges = (item.tags || [])
+    .filter((t) => t?.name && /^\d+-\d+|^\d+\+|^under|^over/i.test(t.name))
+    .map((t) => t.name);
+
+  // Real flag from the listing (not inferred from tags, which are age ranges)
+  const approved101 = item.approved101 === true;
+
+  const iconRef = item.icon?.asset?._ref;
+  const card = itemToCardData(
+    item,
+    slug,
+    ageRanges,
+    approved101,
+    iconRef ? getListingImageUrl(iconRef) : null,
+  );
+  return <ListingCardView card={card} />;
 }

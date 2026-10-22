@@ -1,7 +1,10 @@
 import { getCategories } from "@/data/categories";
 import { getFeaturedListings } from "@/data/listings";
-import { getListingImageUrl } from "@/lib/image-urls";
-import { generateSlug } from "@/lib/slug-utils";
+import {
+  type CardData,
+  isPhotoCategory,
+  listingToCardData,
+} from "@/lib/card-data";
 import FeaturedListingsClient from "./featured-listings-client";
 
 interface FeaturedListing {
@@ -67,45 +70,21 @@ const fallbackListings: FeaturedListing[] = [
 ];
 
 export default async function HomeFeaturedListings() {
-  // Get real listings from Supabase
-  let listings: FeaturedListing[] = [];
-
-  // Helper function to check if a value looks like a UUID
-  const isUuidLike = (value: unknown): boolean => {
-    if (typeof value !== "string") return false;
-    return /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(
-      value.trim(),
-    );
-  };
-
-  // Helper function to generate category slug
-  const generateCategorySlug = (categoryName: string): string => {
-    return categoryName
-      .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, "") // Remove special characters first
-      .replace(/\s+/g, "-") // Then replace spaces with dashes
-      .replace(/-+/g, "-") // Replace multiple dashes with single dash
-      .replace(/^-|-$/g, ""); // Remove leading/trailing dashes
-  };
+  let cards: CardData[] = [];
 
   try {
     const [supabaseListings, categories] = await Promise.all([
       getFeaturedListings(),
       getCategories(),
     ]);
-    // Debug: log count of public listings and featured subset
-    console.log(
-      "[HomeFeatured] featured fetch count:",
-      supabaseListings.length,
-    );
 
-    // Create a map of category IDs to names for UUID resolution
-    const categoryMap = new Map<string, string>();
+    // category UUID -> name, so cards never show or depend on raw UUIDs
+    const categoryNames = new Map<string, string>();
     for (const category of categories) {
-      categoryMap.set(category.id, category.category_name);
+      categoryNames.set(category.id.toLowerCase(), category.category_name);
     }
 
-    // Weight plans for featured ordering
+    // Weight plans for featured ordering (ranking unchanged)
     const planWeight = (plan?: string | null) => {
       const p = (plan || "").toLowerCase();
       if (p.includes("premium")) return 4;
@@ -120,18 +99,11 @@ export default async function HomeFeaturedListings() {
       const p = (l.plan || "").toLowerCase();
       return p.includes("pro") || p.includes("premium");
     };
-    const featuredSource = supabaseListings.filter(
-      (l) => l.featured === true || isPro(l),
-    );
-    console.log(
-      "[HomeFeatured] featured candidates:",
-      featuredSource.map((l) => `${l.listing_name} (${l.id})`),
-    );
 
-    listings = featuredSource
-      // Sort: explicit featured first, then by plan weight, then name
+    cards = supabaseListings
+      .filter((l) => l.featured === true || isPro(l))
+      // Sort: explicit featured first, then priority, then plan weight, then name
       .sort((a, b) => {
-        // Explicit featured always first
         const fa = a.featured === true ? 1 : 0;
         const fb = b.featured === true ? 1 : 0;
         if (fb !== fa) return fb - fa;
@@ -144,64 +116,29 @@ export default async function HomeFeaturedListings() {
         return (a.listing_name || "").localeCompare(b.listing_name || "");
       })
       .slice(0, 12) // Show up to 12 items to reduce accidental trimming
-      .map((listing) => {
-        // Normalize categories to string[] first
-        const normalizedCategories = (listing.categories || []).filter(
-          (cat): cat is string => typeof cat === "string",
-        );
-
-        // Resolve category UUIDs to names
-        const resolvedCategories = normalizedCategories
-          .map((cat) => {
-            if (isUuidLike(cat)) {
-              return categoryMap.get(cat) || cat;
-            }
-            return cat;
-          })
-          .filter((cat) => !isUuidLike(cat)); // Filter out any remaining UUIDs
-
-        const primaryCategory = resolvedCategories[0] || "Acting Professional";
-        // Sanitize slug: trim whitespace and strip any leading slashes
-        const rawSlug =
-          listing.slug || generateSlug(listing.listing_name || "", listing.id);
-        const safeSlug =
-          typeof rawSlug === "string" ? rawSlug.trim().replace(/^\/+/, "") : "";
-
-        return {
-          id: listing.id,
-          name: listing.listing_name || "Untitled Listing",
-          description: (
-            listing.what_you_offer || "Professional acting services"
-          )
-            .replace(/<[^>]*>/g, " ")
-            .replace(/\s+/g, " ")
-            .trim(),
-          image: listing.profile_image
-            ? getListingImageUrl(listing.profile_image)
-            : "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop",
-          website: listing.website || "#",
-          category: primaryCategory,
-          categorySlug: generateCategorySlug(primaryCategory),
-          tags: listing.age_range || [], // age_range is now an array
-          featured: listing.featured || false,
-          isPro: isPro(listing),
-          slug: safeSlug, // Use sanitized database slug or sanitized fallback
-        };
-      });
-    console.log(
-      "[HomeFeatured] final featured ids:",
-      listings.map((l) => l.id),
-    );
+      .map((listing) => listingToCardData(listing, categoryNames));
   } catch (error) {
     console.error("Error fetching featured listings:", error);
   }
 
   // Use fallback if no Supabase listings
-  if (listings.length === 0) {
-    listings = fallbackListings.map((listing) => ({
-      ...listing,
-      categorySlug: generateCategorySlug(listing.category),
+  if (cards.length === 0) {
+    cards = fallbackListings.map((l) => ({
+      id: l.id,
+      name: l.name,
+      href: l.website,
+      external: true,
+      category: l.category,
+      location: "",
+      online: false,
+      imageUrl: l.image,
+      imageIsLogo: false,
+      photoLed: isPhotoCategory(l.category),
+      pills: l.tags.slice(0, 2),
+      featured: Boolean(l.featured),
+      pro: false,
+      approved101: false,
     }));
   }
-  return <FeaturedListingsClient listings={listings} />;
+  return <FeaturedListingsClient listings={cards} />;
 }

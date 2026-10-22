@@ -99,6 +99,8 @@ export type ItemInfo = {
   /** Portfolio image URLs (first few used for card previews) */
   galleryUrls?: string[];
   specialties?: string[];
+  /** Admin-granted 101 Approved (listing.badge_approved / is_approved_101) */
+  approved101?: boolean;
   profileImageUrl?: string | null;
   serviceModality?: "virtual" | "in_person" | "hybrid" | "unknown";
   listingType?: "SERVICE_VENDOR" | "INDUSTRY_PRO" | "REGULATED_PRO" | null;

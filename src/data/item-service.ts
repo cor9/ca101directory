@@ -169,6 +169,8 @@ export async function listingToItem(
     city: listing.city || null,
     state: listing.state || null,
     logoUrl: (listing as any).logo_url || null,
+    approved101:
+      listing.badge_approved === true || listing.is_approved_101 === true,
     profileImageUrl: listing.profile_image
       ? getListingImageUrl(listing.profile_image)
       : null,

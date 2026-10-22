@@ -11,7 +11,11 @@ import { ProfileHeader } from "@/components/listing/ProfileHeader";
 import { ProfileSection } from "@/components/listing/ProfileSection";
 import type { Listing } from "@/data/listings";
 import { dedupeLabels } from "@/lib/labels";
-import { hasPrimaryContactAction } from "@/lib/listingCapabilities";
+import { getProfileContactProps } from "@/lib/listing-contact";
+import {
+  hasPrimaryContactAction,
+  normalizeListingTier,
+} from "@/lib/listingCapabilities";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -59,9 +63,23 @@ export default function ListingLayout({
   children,
 }: ListingLayoutProps) {
   // Show each tag once: header specialties, then remaining services, never the category itself
-  const headerSpecialties = dedupeLabels(listing.specialties, [category]).slice(0, 5);
-  const detailServices = dedupeLabels(services, [category, ...headerSpecialties]);
+  const headerSpecialties = dedupeLabels(listing.specialties, [category]).slice(
+    0,
+    5,
+  );
+  const detailServices = dedupeLabels(services, [
+    category,
+    ...headerSpecialties,
+  ]);
   const hasCta = hasPrimaryContactAction(listing);
+  const contactProps = getProfileContactProps(listing);
+  // Closing CTA in the contact card is only the Book / Contact modal button
+  // (Pro with an email). The website already has its own button in the header.
+  const tier = normalizeListingTier(listing.plan, listing.comped);
+  const showClosingCta =
+    (tier === "pro" || tier === "premium") &&
+    listing.listing_type !== "INDUSTRY_PRO" &&
+    Boolean(listing.email?.trim());
   const isPhotographer = /photograph|headshot/i.test(category);
   const hasAbout = Boolean(listing.what_you_offer || listing.description);
 
@@ -88,7 +106,9 @@ export default function ListingLayout({
 
           <ListingVideo
             listing={listing}
-            heading={isPhotographer ? "Meet Your Photographer" : "Meet Your Provider"}
+            heading={
+              isPhotographer ? "Meet Your Photographer" : "Meet Your Provider"
+            }
           />
 
           {(listing.why_is_it_unique || listing.extras_notes) && (
@@ -113,7 +133,7 @@ export default function ListingLayout({
               </div>
               <div className="flex flex-col rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
                 <div className="flex-1">{sidebar}</div>
-                {hasCta && (
+                {showClosingCta && (
                   <div className="mt-8 border-t border-zinc-200 pt-6">
                     <ContactActions
                       listingId={listing.id}
@@ -123,7 +143,9 @@ export default function ListingLayout({
                       plan={listing.plan}
                       comped={listing.comped}
                       variant="profile"
-                      className="flex-col items-stretch [&>a]:justify-center"
+                      className="flex-col items-stretch [&>a]:justify-center [&>button]:justify-center"
+                      hideWebsiteLink
+                      {...contactProps}
                     />
                   </div>
                 )}
@@ -146,6 +168,7 @@ export default function ListingLayout({
               plan={listing.plan}
               comped={listing.comped}
               variant="profile"
+              {...contactProps}
             />
           </StickyContactBar>
         )}

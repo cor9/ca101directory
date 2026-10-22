@@ -9,7 +9,8 @@ import {
 import { safeExternalUrl } from "@/lib/url";
 import clsx from "clsx";
 import { Globe, Mail } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import { ContactModal } from "./ContactModal";
 
 type ContactActionsProps = {
   listingId: string;
@@ -22,6 +23,13 @@ type ContactActionsProps = {
   comped?: boolean | null;
   variant?: "hero" | "mobile" | "profile";
   className?: string;
+  /** Profile variant: data for the Book / Contact modal (real values only) */
+  listingName?: string;
+  imageUrl?: string;
+  phone?: string | null;
+  bookingUrl?: string | null;
+  /** Suppress standalone website links (the modal still lists the website) */
+  hideWebsiteLink?: boolean;
 };
 
 // Get the primary CTA label based on tier and available contact methods
@@ -49,8 +57,15 @@ export function ContactActions({
   comped,
   variant = "hero",
   className,
+  listingName,
+  imageUrl,
+  phone,
+  bookingUrl,
+  hideWebsiteLink,
 }: ContactActionsProps) {
   const website = safeExternalUrl(websiteRaw);
+  const websiteLink = hideWebsiteLink ? null : website;
+  const [modalOpen, setModalOpen] = useState(false);
   // Get tier-based capabilities for contact display
   // Gating is based on LISTING tier (what vendor pays), not viewer
   const listingTier = normalizeListingTier(plan, comped);
@@ -75,8 +90,8 @@ export function ContactActions({
     isProfile
       ? "rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#E4572E]"
       : isHero
-      ? "rounded-full bg-[#FF6B35] px-6 py-2 text-sm font-semibold text-white shadow hover:bg-[#E55F2F] transition-colors"
-      : "rounded-full bg-[#FF6B35] px-4 py-1.5 text-xs font-semibold text-white",
+        ? "rounded-full bg-[#FF6B35] px-6 py-2 text-sm font-semibold text-white shadow hover:bg-[#E55F2F] transition-colors"
+        : "rounded-full bg-[#FF6B35] px-4 py-1.5 text-xs font-semibold text-white",
   );
 
   // Secondary CTA (outlined button)
@@ -85,8 +100,8 @@ export function ContactActions({
     isProfile
       ? "rounded-full border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-800 transition-colors hover:bg-zinc-100"
       : isHero
-      ? "rounded-full border border-white/30 px-6 py-2 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
-      : "rounded-full border border-white/30 px-4 py-1.5 text-xs font-semibold text-white",
+        ? "rounded-full border border-white/30 px-6 py-2 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
+        : "rounded-full border border-white/30 px-4 py-1.5 text-xs font-semibold text-white",
   );
 
   // Muted text for non-clickable contact info
@@ -106,10 +121,10 @@ export function ContactActions({
   return (
     <div className={clsx("flex flex-wrap items-center gap-3", className)}>
       {/* PRIMARY CTA */}
-      {isIndustryPro && website ? (
+      {isIndustryPro && websiteLink ? (
         // INDUSTRY_PRO: Primary is Visit Website
         <a
-          href={website}
+          href={websiteLink as string}
           target="_blank"
           rel="noreferrer"
           className={primaryClass}
@@ -128,6 +143,35 @@ export function ContactActions({
           <Mail className="w-4 h-4" />
           Email
         </a>
+      ) : isPro && email && isProfile ? (
+        // Pro profile: opens the contact modal (mailto alone did nothing
+        // visible on machines without a mail client)
+        <>
+          <button
+            type="button"
+            className={primaryClass}
+            aria-haspopup="dialog"
+            aria-expanded={modalOpen}
+            onClick={() => {
+              trackContact();
+              setModalOpen(true);
+            }}
+          >
+            <Mail className="w-4 h-4" />
+            Book / Contact
+          </button>
+          <ContactModal
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+            name={listingName || "this provider"}
+            imageUrl={imageUrl}
+            email={email}
+            phone={phone}
+            website={website}
+            bookingUrl={bookingUrl}
+            onAction={trackContact}
+          />
+        </>
       ) : isPro && email ? (
         // Pro: Primary is Contact (mailto)
         <a
@@ -138,10 +182,10 @@ export function ContactActions({
           <Mail className="w-4 h-4" />
           {isProfile ? "Book / Contact" : "Contact"}
         </a>
-      ) : isStandard && website ? (
+      ) : isStandard && websiteLink ? (
         // Standard: Primary is Visit Website
         <a
-          href={website}
+          href={websiteLink as string}
           target="_blank"
           rel="noreferrer"
           className={primaryClass}
@@ -153,7 +197,7 @@ export function ContactActions({
       ) : null}
 
       {/* SECONDARY CTA - only show if primary exists and this is different */}
-      {isIndustryPro && email && website && (
+      {isIndustryPro && email && websiteLink && (
         // INDUSTRY_PRO: Secondary is Email
         <a
           href={`mailto:${email}`}
@@ -165,9 +209,9 @@ export function ContactActions({
         </a>
       )}
 
-      {isPro && email && website && (
+      {isPro && email && websiteLink && (
         <a
-          href={website}
+          href={websiteLink as string}
           target="_blank"
           rel="noreferrer"
           className={secondaryClass}

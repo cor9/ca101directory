@@ -5,8 +5,9 @@ import {
   getListingCapabilities,
   normalizeListingTier,
 } from "@/lib/listingCapabilities";
+import { getProfileContactProps } from "@/lib/listing-contact";
 import { safeExternalUrl } from "@/lib/url";
-import { Facebook, Globe, Instagram, Linkedin, Youtube } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 import Image from "next/image";
 
 interface ProfileHeaderProps {
@@ -57,14 +58,10 @@ export function ProfileHeader({
   const approved101 =
     listing.badge_approved === true || listing.is_approved_101 === true;
 
-  // Socials/website are only clickable on Standard+ (see listingCapabilities)
+  // Genuine social links only (the website has its own button in this header);
+  // clickable on Standard+ (see listingCapabilities)
   const socials = caps.canClickSocials
     ? [
-        {
-          label: "Website",
-          href: safeExternalUrl(listing.website),
-          Icon: Globe,
-        },
         {
           label: "Instagram",
           href: safeExternalUrl(listing.instagram_url),
@@ -232,6 +229,7 @@ export function ProfileHeader({
           comped={listing.comped}
           variant="profile"
           className="flex-col items-stretch md:items-end"
+          {...getProfileContactProps(listing)}
         />
         {bookingUrl && (
           <a

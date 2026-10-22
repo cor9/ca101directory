@@ -99,7 +99,8 @@ export function ListingContactSection({
             </li>
           )}
 
-          {listing.website && (
+          {/* Website is a prominent button in the profile header when clickable; only repeat it here for listings where it is plain text */}
+          {listing.website && !capabilities.canClickWebsite && (
             <li className="flex items-start gap-3">
               <ExternalLinkIcon className="mt-1 h-4 w-4 text-[#B8431F]" />
               {capabilities.canClickWebsite ? (
